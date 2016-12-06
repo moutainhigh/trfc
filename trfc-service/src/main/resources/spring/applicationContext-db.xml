@@ -58,7 +58,6 @@
 	     <property name="mapperLocations">
 			<list>
 				<value>classpath*:com/tianrui/service/mapper/*.xml</value>
-				<value>classpath*:com/tianrui/service/admin/mapper/*.xml</value>
 			</list>
 		</property>
      </bean> 
@@ -66,7 +65,7 @@
      <!-- controller 配置注解时无需 单个配置  bean 即是: mysbatispringtest.java 测试-->
      
      <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-       <property name="basePackage" value="com.tianrui.service.mapper,com.tianrui.service.admin.mapper" />  
+       <property name="basePackage" value="com.tianrui.service.mapper" />  
        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory" />   
      </bean>
 	
