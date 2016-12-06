@@ -136,11 +136,11 @@
 		
 		
 		<!-- mongo end -->
-		<dependency>
+	<!-- 	<dependency>
 		  <groupId>com.tianrui</groupId>
 		  <artifactId>tianrui-push-service</artifactId>
 		  <version>0.0.1-SNAPSHOT</version>
-		</dependency>
+		</dependency> -->
 		<!-- quartz -->
 		<dependency>
 			<groupId>org.quartz-scheduler</groupId>
