@@ -133,14 +133,14 @@
 			<artifactId>spring-data-mongodb</artifactId>
 			<version>${ver.mongodb-spring}</version>
 		</dependency>
-		
-		
 		<!-- mongo end -->
-	<!-- 	<dependency>
+		
+		<dependency>
 		  <groupId>com.tianrui</groupId>
 		  <artifactId>tianrui-push-service</artifactId>
-		  <version>0.0.1-SNAPSHOT</version>
-		</dependency> -->
+		  <version>1.0.0</version>
+		</dependency>
+		
 		<!-- quartz -->
 		<dependency>
 			<groupId>org.quartz-scheduler</groupId>
