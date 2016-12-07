@@ -34,37 +34,22 @@
     	</mvc:message-converters>
 	</mvc:annotation-driven>  
 	
-	
-   <bean id="resourcePathExposer" class="com.tianrui.web.util.ResourcePathExposer"
-		init-method="init" >
-		<property name="localScripts" value="/resources/js" />
-		<property name="imagesRoot" value="http://img.tmkrewuliu.cn:777/resources/images" />
-		<property name="scriptsRoot" value="http://img.tmkrewuliu.cn:777/resources/js" />
-		<property name="stylesRoot" value="http://img.tmkrewuliu.cn:777/resources/css" />
-		<property name="mhImagesRoot" value="http://img.tmkrewuliu.cn:777/resources/images/trxxkj" />
-		<property name="mhScriptsRoot" value="http://img.tmkrewuliu.cn:777/resources/js/trxxkj" />
-		<property name="mhStylesRoot" value="http://img.tmkrewuliu.cn:777/resources/css/trxxkj" />
-		<property name="trRoot" value="http://img.tmkrewuliu.cn:777/resources" />
-		<property name="newsUpload" value="/news/upload" />
-		<property name="nginxRoot" value="http://file.tmkrewuliu.cn/" />
-	</bean>
-	
 	<!-- 资源文件路径 css js images -->
 	<mvc:resources location="/resources/" mapping="/resources/**"/>
 	
 	<!-- interceptors -->
-	<mvc:interceptors>
-		<!-- 拦截所有APP接口请求，处理公共ApiParam参数，及拦截非法请求 -->
+	<!-- <mvc:interceptors>
+		拦截所有APP接口请求，处理公共ApiParam参数，及拦截非法请求
 		<mvc:interceptor>
 			<mvc:mapping path="/app/**"/>
 			<bean class="com.tianrui.web.smvc.ApiParamInterceptor" />
 		</mvc:interceptor>
-		<!-- 拦截所有Web端需要拦截的路径,做日志以及权限验证-->
+		拦截所有Web端需要拦截的路径,做日志以及权限验证
 		<mvc:interceptor>
 			<mvc:mapping path="/trwuliu/**"/>
 			<bean class="com.tianrui.web.smvc.WebAuthInterceptor" />
 		</mvc:interceptor>
-	</mvc:interceptors>	
+	</mvc:interceptors>	 -->
 	
 	
 	<aop:aspectj-autoproxy/>

@@ -1,4 +1,4 @@
-package com.tianrui.service.util;
+/*package com.tianrui.service.util;
 
 
 import org.slf4j.Logger;
@@ -68,3 +68,4 @@ public class AndroidPushUtils {
 		}
 	}
 }
+*/

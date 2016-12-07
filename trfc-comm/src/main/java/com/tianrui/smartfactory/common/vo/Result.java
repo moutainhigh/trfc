@@ -2,7 +2,6 @@ package com.tianrui.smartfactory.common.vo;
 
 import java.io.Serializable;
 
-import com.alibaba.fastjson.JSON;
 import com.tianrui.smartfactory.common.constants.ErrorCode;
 
 public class Result implements Serializable{
