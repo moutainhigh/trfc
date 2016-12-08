@@ -289,9 +289,8 @@ input[readOnly="true"]{
 }
 /*分页效果*/
 .page{
-    width: 1000px;
-    margin: 50px auto;
     font-size: 12px;
+    float: right;
 }
 .page_date{
     display: inline-block;

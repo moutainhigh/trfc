@@ -3,7 +3,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>index</title>
+<title>物料管理</title>
 <meta name="keywords" content=" 天瑞" />
 <meta name="description" content="">
 <meta name="author" content="">
@@ -93,8 +93,7 @@
 
 		<!--tab切换的内容-->
 		<div class="intel_tabbox">
-			<!--采购申请单begin-->
-			<div class="intel_tabcont">
+			<div id="test" class="intel_tabcont">
 				<div class="intel_search">
 					<div class="intel_bggray">
 						<div class="intel_bgblue"></div>
@@ -190,23 +189,6 @@
 				</div>
 				<!--分页效果结束-->
 			</div>
-			<!--采购申请单end-->
-
-			<!--到货通知单begin-->
-			<div class="intel_tabcont hide">2</div>
-			<!--到货通知单end-->
-
-			<!--退货通知单begin-->
-			<div class="intel_tabcont hide">3</div>
-			<!--退货通知单end-->
-
-			<!--到货通知单begin-->
-			<div class="intel_tabcont hide">4</div>
-			<!--到货通知单end-->
-			<!--到货通知单begin-->
-			<div class="intel_tabcont hide">5</div>
-			<!--到货通知单end-->
-			<!--tab切换的内容end-->
 		</div>
 	</div>
 	<!--编辑begin-->
@@ -306,56 +288,7 @@
 	<script type="text/javascript" src="/resources/js/jquery-1.11.1.js"></script>
 	<script type="text/javascript" src="/resources/js/jquery.pagination.js"></script>
 	<script type="text/javascript" src="/resources/js/bootstrap.js"></script>
-	<script type="text/javascript"
-		src="/resources/js/basicFile/nc/materiel.js"></script>
-	<script type="text/javascript">
-		// 顶部tab切换菜单
-		var $tab_li = $('.intel_menu li');
-		$tab_li.click(function() {
-			$(this).addClass('select').siblings().removeClass('select');
-			var index = $tab_li.index(this);
-			$('.intel_tabbox > .intel_tabcont').eq(index).show().siblings()
-					.hide();
-		});
-		// 表格内容每行单击出来下面的详细信息
-		var tabledata = $('.intel_table table tbody tr');
-		tabledata.on("click", function() {
-			$(".intel_result").css("display", "block");
-		})
-		// 表格内容每行双击出来下面的详细信息
-		tabledata.on("dblclick", function() {
-			$('#caigoubill').modal('show');
-		})
-		// 左侧宽度改变 右边改变
-		var leftall = $(".left");
-		var leftmini = $(".leftmini");
-		leftall.on("click", function() {
-			$(this).css("display", "none");
-			leftmini.css("display", "block");
-			$(".right").css("margin-left", "100px");
-		});
-		leftmini.on("click", function() {
-			$(this).css("display", "none");
-			leftall.css("display", "block");
-			$(".right").css("margin-left", "200px");
-		});
-		// 首页底部的tab切换菜单
-		var ind_li = $('#ind_tab ul li');
-		ind_li.click(function() {
-			$(this).addClass('select').siblings().removeClass('select');
-			var index_li = cg_li.index(this);
-			$('#ind_tab .cg_tabbox > .cg_tabcont').eq(index_li).show()
-					.siblings().hide();
-		});
-
-		// 弹出信息的tab切换菜单
-		var alt_li = $('#alt_tab ul li');
-		alt_li.click(function() {
-			$(this).addClass('select').siblings().removeClass('select');
-			var index_alt = alt_li.index(this);
-			$('#alt_tab .cg_tabbox > .cg_tabcont').eq(index_alt).show()
-					.siblings().hide();
-		});
-	</script>
+	<script type="text/javascript" src="/resources/js/layer/layer.js"></script>
+	<script type="text/javascript" src="/resources/js/basicFile/nc/materiel.js"></script>
 </body>
 </html>

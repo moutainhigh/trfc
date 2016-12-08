@@ -12,60 +12,7 @@
 			queryData(1);
 		});
 		$('#updateMarter').off('click').on('click',function(){
-			if($('#editMater').is(':visible')){
-				var id = $('#materId').val();
-				var name = $('#name').val();
-				var abbrname = $('#abbrname').val();
-				var pinyincode = $('#pinyincode').val();
-				var effective = '0';
-				if($('#effective')[0].checked){
-					effective = '1';
-				}
-				var remarks = $('#remarks').val();
-				var businesstype = $('#businesstype').val();
-				var packagetype = $('#packagetype').val();
-				var queuingprefix = $('#queuingprefix').val();
-				var receiptstatus = '0';
-				if($('#receiptstatus')[0].checked){
-					receiptstatus = '1'
-				}
-				var factorycode = '0';
-				if($('#factorycode')[0].checked){
-					factorycode = '1';
-				}
-				var bulkwritecard = '0';
-				if($('#bulkwritecard')[0].checked){
-					bulkwritecard = '1';
-				}
-				$.ajax({
-					url:'/materiel/updateMater',
-					data:{
-						id:id,
-						name:name,
-						abbrname:abbrname,
-						pinyincode:pinyincode,
-						effective:effective,
-						remarks:remarks,
-						businesstype:businesstype,
-						packagetype:packagetype,
-						queuingprefix:queuingprefix,
-						receiptstatus:receiptstatus,
-						factorycode:factorycode,
-						bulkwritecard:bulkwritecard
-					},
-					async:true,
-					cache:false,
-					dataType:'json',
-					type:'post',
-					success:function(result){
-						if(result.code == '000000'){
-							win.location.reload();
-						}else{
-							alert(result.error);
-						}
-					}
-				});
-			}
+			editData();
 		});
 		$('#jumpPageNoBtn').off('click').on('click',function(){
 			var pageNo = $('input#jumpPageNo').val();pageNo = $.trim(pageNo);pageNo = parseInt(pageNo);
@@ -97,7 +44,7 @@
 		params.orgid = orgid;
 		params.businesstype = businesstype;
 		var pageSize = $('#pageSize').val();pageSize = $.trim(pageSize);
-		params.pageSize = pageSize;
+		params.pageSize = 1;
 		return params;
 	}
 	
@@ -106,6 +53,9 @@
 	}
 	
 	function queryData(pageNo){
+		var index = layer.load(2, {
+		  shade: [0.3,'#fff'] //0.1透明度的白色背景
+		});
 		var params = getParams();
 		params.pageNo = pageNo;
 		$.ajax({
@@ -137,6 +87,7 @@
 				}else{
 					alert(result.error);
 				}
+				layer.close(index);
 			}
 		});
 	}
@@ -245,7 +196,62 @@
 		}
 	}
 	
-	
+	function editData(){
+		if($('#editMater').is(':visible')){
+			var id = $('#materId').val();
+			var name = $('#name').val();
+			var abbrname = $('#abbrname').val();
+			var pinyincode = $('#pinyincode').val();
+			var effective = '0';
+			if($('#effective')[0].checked){
+				effective = '1';
+			}
+			var remarks = $('#remarks').val();
+			var businesstype = $('#businesstype').val();
+			var packagetype = $('#packagetype').val();
+			var queuingprefix = $('#queuingprefix').val();
+			var receiptstatus = '0';
+			if($('#receiptstatus')[0].checked){
+				receiptstatus = '1'
+			}
+			var factorycode = '0';
+			if($('#factorycode')[0].checked){
+				factorycode = '1';
+			}
+			var bulkwritecard = '0';
+			if($('#bulkwritecard')[0].checked){
+				bulkwritecard = '1';
+			}
+			$.ajax({
+				url:'/materiel/updateMater',
+				data:{
+					id:id,
+					name:name,
+					abbrname:abbrname,
+					pinyincode:pinyincode,
+					effective:effective,
+					remarks:remarks,
+					businesstype:businesstype,
+					packagetype:packagetype,
+					queuingprefix:queuingprefix,
+					receiptstatus:receiptstatus,
+					factorycode:factorycode,
+					bulkwritecard:bulkwritecard
+				},
+				async:true,
+				cache:false,
+				dataType:'json',
+				type:'post',
+				success:function(result){
+					if(result.code == '000000'){
+						win.location.reload();
+					}else{
+						alert(result.error);
+					}
+				}
+			});
+		}
+	}
 	
 	
 	
