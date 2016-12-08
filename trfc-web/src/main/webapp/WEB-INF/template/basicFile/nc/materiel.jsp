@@ -10,8 +10,8 @@
 <link href="/resources/css/bootstrap.css" rel="stylesheet">
 <link href="/resources/css/base.css" rel="stylesheet">
 <link href="/resources/css/style.css" rel="stylesheet">
-<script language="javascript" type="text/javascript"
-	src="/resources/js/My97DatePicker/WdatePicker.js"></script>
+<link href="/resources/css/pagination.css" rel="stylesheet">
+<script language="javascript" type="text/javascript" src="/resources/js/My97DatePicker/WdatePicker.js"></script>
 </head>
 <body>
 	<div class="left ">
@@ -169,26 +169,24 @@
 					<!--用户表格end-->
 				</div>
 				<!--分页效果开始-->
-				<div class=" row fr">
+				<div class="page">
 					<div class="page_date">
-						<label>数据共：</label><i class="colorred">100</i><label>条</label>
+						<label>数据共：</label><i id="total" class="colorred">100</i><label>条</label>
 					</div>
 					<div class="page_date">
-						<label>跳到第：</label> <input type="text"> <label>页</label>
-						<button class="btn btn-default">确定</button>
+						<label>跳到第：</label> 
+						<input id="jumpPageNo" type="text"> <label>页</label>
+						<button id="jumpPageNoBtn" class="btn btn-default">确定</button>
 					</div>
-					<div class="page_btn">
-						<ul class="pagination">
-							<li><a href="#">&laquo;上一页</a></li>
-							<li><a href="#">1</a></li>
-							<li><a href="#">2</a></li>
-							<li><a href="#">3</a></li>
-							<li><a href="#">...</a></li>
-							<li><a href="#">4</a></li>
-							<li><a href="#">5</a></li>
-							<li><a href="#">下一页&raquo;</a></li>
-						</ul>
+					<div class="page_date">
+						<label>每页记录：</label>
+						<select id="pageSize" class="form-control">
+							<option value="10">10</option>
+							<option value="20">20</option>
+							<option value="30">30</option>
+						</select>
 					</div>
+					<div class="page_btn" id="pagination"></div>
 				</div>
 				<!--分页效果结束-->
 			</div>
@@ -306,6 +304,7 @@
 	</div>
 	<!--编辑end-->
 	<script type="text/javascript" src="/resources/js/jquery-1.11.1.js"></script>
+	<script type="text/javascript" src="/resources/js/jquery.pagination.js"></script>
 	<script type="text/javascript" src="/resources/js/bootstrap.js"></script>
 	<script type="text/javascript"
 		src="/resources/js/basicFile/nc/materiel.js"></script>

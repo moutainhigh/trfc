@@ -41,6 +41,7 @@ public class MaterielManageService implements IMaterielManageService {
 			}
 			page.setTotal(count);
 			page.setPageNo(req.getPageNo());
+			page.setPageSize(req.getPageSize());
 		}
 		return page;
 	}

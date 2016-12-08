@@ -2,14 +2,14 @@
 	init();
 	function init(){
 		bindEvent();
-		queryData();
+		queryData(1);
 	}
 	function bindEvent(){
 		$('#refreshMater').off('click').on('click',function(){
-			queryData();
+			queryData(1);
 		});
 		$('#searchMater').off('click').on('click',function(){
-			queryData();
+			queryData(1);
 		});
 		$('#updateMarter').off('click').on('click',function(){
 			if($('#editMater').is(':visible')){
@@ -67,6 +67,17 @@
 				});
 			}
 		});
+		$('#jumpPageNoBtn').off('click').on('click',function(){
+			var pageNo = $('input#jumpPageNo').val();pageNo = $.trim(pageNo);pageNo = parseInt(pageNo);
+			var pageMaxNo = $('input#jumpPageNo').attr('maxpageno');pageMaxNo = $.trim(pageMaxNo);pageMaxNo = parseInt(pageMaxNo);
+			if(!pageNo || !$.isNumeric(pageNo) || pageNo < 0 || pageNo > pageMaxNo){
+				alert('此处必须为1-'+pageMaxNo+'的数字');
+				$('input#jumpPageNo').val('');
+			}else{
+				$('input#jumpPageNo').val(pageNo);
+				queryData(pageNo);
+			}
+		});
 	}
 	function getParams(){
 		var params = {};
@@ -85,11 +96,18 @@
 		}
 		params.orgid = orgid;
 		params.businesstype = businesstype;
+		var pageSize = $('#pageSize').val();pageSize = $.trim(pageSize);
+		params.pageSize = pageSize;
 		return params;
 	}
 	
-	function queryData(){
+	function pageCallback(pageNo){
+		queryData(pageNo+1);
+	}
+	
+	function queryData(pageNo){
 		var params = getParams();
+		params.pageNo = pageNo;
 		$.ajax({
 			url:'/materiel/page',
 			data:params,
@@ -100,6 +118,22 @@
 			success:function(result){
 				if(result.code == '000000'){
 					renderHtml(result.data);
+					var total = result.data.total;
+					var pageNo = result.data.pageNo;
+					var pageSize = result.data.pageSize;
+					$('#total').html(total);
+					$('#jumpPageNo').attr('maxPageNo',parseInt((total+pageSize-1)/pageSize));
+					$("#pagination").pagination(total, {
+					    callback: pageCallback,
+					    prev_text: '上一页',
+					    next_text: '下一页',
+					    items_per_page:pageSize,
+					    num_display_entries:4,
+					    current_page:pageNo-1,
+					    num_edge_entries:1,
+					    maxentries:total,
+					    link_to:"javascript:void(0)"
+					});
 				}else{
 					alert(result.error);
 				}

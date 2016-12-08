@@ -13,12 +13,21 @@
 .colorgray{
     color: #c9cad2;
 }
+.btn,.btn:focus,.btn:hover,.btn:active{
+    outline: none;
+}
 .btnyello{background: #fb841b;color: #ffffff;}
 .btnyello:hover{background: #e3710d;color: #ffffff;}
 .btnblue{background: #0574c6;color: #ffffff;}
 .btnblue:hover{background: #166aa8;color: #ffffff;}
-.btngray{background: #eeeeee;color: #434e8d;}
+.btnblue:focus{
+    color: #ffffff;
+}
+.btngray{background: #e1e1e1;color: #434e8d;}
 .btngray:hover{background: #d1d1d1;color: #434e8d;}
+.btngray:focus{
+    color: #434e8d;
+}
 .bghui{
     background: #f5f6fb;
 }
@@ -29,13 +38,18 @@
 }
 .wrapreg{
     width: 1000px;
+
     padding: 0;
     margin: 0 auto;
 }
 .form-control{
-    border: 1px solid #ecedf3;
+    border: 1px solid #e3e4ea;
+    display: inline-block;
+    padding: 0px 12px;
 }
-
+input[readOnly="true"]{
+    background: #f5f6fb;
+}
 .it_admin{
     min-width: 1300px;
 }
@@ -52,9 +66,7 @@
     float: left;
 }
 .right{
-    border-left: 1px solid #ecedf3;
     color: #434e8d;
-
 }
 .user{
     height: 60px;
@@ -120,9 +132,10 @@
     border-left: 4px solid #0573c7;
     color: #0573c7;
 }
-.typelist li label{
-    margin: 0;
+.typelist li.active a,.typelist li:focus a,.typelist li:hover a{
+   margin-left: -4px;
 }
+
 /*标题切换*/
 
 .intel_tab{
@@ -161,6 +174,7 @@
     border-left: 1px solid #dbe7f3;
     padding:0 10px;
     overflow: hidden;
+    min-height: 700px;
 }
 .intel_search{
     border-left: 1px solid #ecedf3;
@@ -218,8 +232,10 @@
 }
 .intel_search .intel_solo .intel_sbtn button{
     margin-left:15px;
-    padding: 5px 20px;
+    line-height: 28px;
+    padding: 0px 18px;
 }
+
 .intel_search .intel_solo .intel_sbtn input[type="checkbox"]{
     width: 15px;
     line-height: 30px;
@@ -273,8 +289,9 @@
 }
 /*分页效果*/
 .page{
-    width: 700px;
+    width: 1000px;
     margin: 50px auto;
+    font-size: 12px;
 }
 .page_date{
     display: inline-block;
@@ -301,6 +318,10 @@
     margin-left: 10px;
     background: #ffffff;
     border: 1px solid #cccccc;
+}
+.page_date .form-control{
+    width: 65px;
+    height: 26px;
 }
 /*登录*/
 .header{
@@ -860,7 +881,6 @@
 .alt_edit_textarea  textarea{
     display: inline-block;
     width: 500px;
-    height: 70px;
     vertical-align: top;
 }
 
@@ -875,14 +895,28 @@
     line-height: 80px;
 }
 .daohuo_add .daohuo_add_div{
-    width: 30%;
+}
+.daohuo_add .daohuo_add_div .daohuo_add_solo{
     float: left;
+    width: 33.3%;
+    height: 30px;
+    overflow: hidden;
+    margin-bottom:20px;
 }
 .daohuo_add .daohuo_add_div label{
     width: 120px;
     text-align: right;
-    margin-bottom:20px;
+
 }
+.daohuo_add .daohuo_add_div select{
+    width: 180px;
+    height: 30px;
+    padding: 0 10px;
+}
+.daohuo_add .daohuo_add_div select option{
+    max-height: 50px;
+}
+
 .daohuo_add .daohuo_add_div i{
     font-size: 20px;
     color: #90c900;
@@ -907,4 +941,16 @@
     line-height: 30px;
     margin: 0 0 0 10px;
     font-size: 15px;
+}
+.menu_collap{
+    margin-top: 15px;
+
+}
+.menu_collap a.menu_collap_tit{
+    font-size: 16px;
+    padding: 20px 20px;
+    display: block;
+}
+.menu_collap a.menu_collap_tit span{
+    margin-left: 50px;
 }
