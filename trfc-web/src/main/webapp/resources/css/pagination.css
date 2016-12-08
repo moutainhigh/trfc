@@ -1,0 +1,92 @@
+.pagination {
+            font-size: 80%;
+        }
+        
+.pagination a {
+    text-decoration: none;
+	border: solid 1px #e4e4e4;
+	color: #999;
+}
+
+.pagination a, .pagination span {
+    display: block;
+    float: left;
+	text-align:center;
+    color: #757575;
+    padding: 3px 8px;
+    font-size: 12px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    line-height: 1.42857;
+    margin-left: -1px;
+    position: relative;
+    text-decoration: none;
+}
+
+.pagination .current {
+    background: #72bfe6;
+    color: #fff;
+	border: solid 1px #e4e4e4;
+}
+
+.pagination .current.prev, .pagination .current.next{
+	color:#999;
+	background:none;
+}
+
+.page_date{
+    display: inline-block;
+    margin-right:30px;
+    outline: none;
+}
+.page_date i{
+    color: red;
+    margin-right: 2px;
+}
+.page_date input[type='text']{
+    height: 26px;
+    line-height: 20px;
+    padding:0px 8px;
+    width: 40px;
+    text-align: center;
+}
+.page_date button{
+    height: 26px;
+    line-height: 20px;
+    padding:0px 8px;
+    text-align: center;
+    font-size: 12px;
+    vertical-align: top;
+    margin-left: 10px;
+    background: #ffffff;
+    border: 1px solid #cccccc;
+}
+.page_btn{
+    display: inline-block;
+    margin-right: 80px;
+}
+.page_date .btn:focus, .page_date  .btn:hover,.page_date  .btn:focus, .page_date  .btn:active{
+    background: #72bee5;
+    outline: none;
+    color: #ffffff;
+}
+
+.page_btn .pagination{
+    margin: 0;
+    vertical-align: middle;
+}
+.page_date input[type='text']{
+    height: 26px;
+    line-height: 20px;
+    padding:0px 8px;
+    width: 40px;
+    text-align: center;
+}
+.pagination a:focus, .pagination  a:hover, .pagination  span:focus, .pagination span:hover {
+    background-color: #72bee5;
+    border-color: #ddd;
+    color: #ffffff;
+}
+
+
+
