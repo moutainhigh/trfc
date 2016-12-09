@@ -44,7 +44,7 @@
 		params.orgid = orgid;
 		params.businesstype = businesstype;
 		var pageSize = $('#pageSize').val();pageSize = $.trim(pageSize);
-		params.pageSize = 1;
+		params.pageSize = pageSize;
 		return params;
 	}
 	
