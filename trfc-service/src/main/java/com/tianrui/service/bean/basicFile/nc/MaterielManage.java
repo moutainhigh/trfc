@@ -36,6 +36,8 @@ public class MaterielManage {
     private String bulkwritecard;
 
     private String orgid;
+    
+    private String orgname;
 
     private String queuingprefix;
 
@@ -167,6 +169,14 @@ public class MaterielManage {
 
     public void setOrgid(String orgid) {
         this.orgid = orgid == null ? null : orgid.trim();
+    }
+
+    public String getOrgname() {
+        return orgname;
+    }
+    
+    public void setOrgname(String orgname) {
+    	this.orgname = orgname == null ? null : orgname.trim();
     }
 
     public String getQueuingprefix() {

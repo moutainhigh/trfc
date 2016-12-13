@@ -13,7 +13,7 @@ import com.tianrui.smartfactory.common.vo.PaginationVO;
 public interface IMaterielManageService {
 	
 	/**
-	 * 查询分页物料管理
+	 * 查询分页
 	 * @param req
 	 * @return
 	 * @throws Exception

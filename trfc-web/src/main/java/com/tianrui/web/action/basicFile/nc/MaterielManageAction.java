@@ -8,9 +8,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.tianrui.api.intf.basicFile.nc.IMaterielManageService;
 import com.tianrui.api.req.basicFile.nc.MaterielManageReq;
 import com.tianrui.api.resp.basicFile.nc.MaterielManageResp;
-import com.tianrui.service.impl.basicFile.nc.MaterielManageService;
 import com.tianrui.smartfactory.common.vo.PaginationVO;
 import com.tianrui.smartfactory.common.vo.Result;
 
@@ -27,7 +27,7 @@ public class MaterielManageAction {
 	private Logger log = LoggerFactory.getLogger(MaterielManageAction.class);
 	
 	@Autowired
-	private MaterielManageService materielManageService;
+	private IMaterielManageService materielManageService;
 	
 	@RequestMapping("main")
 	public ModelAndView main(){

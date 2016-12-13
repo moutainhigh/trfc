@@ -35,6 +35,8 @@ public class MaterielManageReq extends BaseReq {
     private String bulkwritecard;
 
     private String orgid;
+    
+    private String orgname;
 
     private String queuingprefix;
 
@@ -141,6 +143,12 @@ public class MaterielManageReq extends BaseReq {
 	}
 	public void setOrgid(String orgid) {
 		this.orgid = orgid;
+	}
+	public String getOrgname() {
+		return orgname;
+	}
+	public void setOrgname(String orgname) {
+		this.orgname = orgname;
 	}
 	public String getQueuingprefix() {
 		return queuingprefix;

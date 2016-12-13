@@ -7,6 +7,7 @@ import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.tianrui.api.intf.basicFile.nc.IMaterielManageService;
 import com.tianrui.api.req.basicFile.nc.MaterielManageReq;
@@ -58,6 +59,7 @@ public class MaterielManageService implements IMaterielManageService {
 	}
 
 	@Override
+	@Transactional
 	public int deleteMateriel(String id) {
 		int count = 0;
 		if(StringUtils.isNotBlank(id)){
@@ -67,6 +69,7 @@ public class MaterielManageService implements IMaterielManageService {
 	}
 
 	@Override
+	@Transactional
 	public int updateMateriel(MaterielManageReq req) throws Exception {
 		int count = 0;
 		if(req != null){
@@ -78,6 +81,7 @@ public class MaterielManageService implements IMaterielManageService {
 	}
 	
 	@Override
+	@Transactional
 	public int addMateriel(MaterielManageReq req) throws Exception {
 		int count = 0;
 		if(req != null){
