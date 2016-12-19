@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tianrui.service.mapper.businessManage.purchaseManage.PurchaseApplicationDetailMapper" >
+  <resultMap id="BaseResultMap" type="com.tianrui.service.bean.businessManage.purchaseManage.PurchaseApplicationDetail" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="purchaseid" property="purchaseid" jdbcType="VARCHAR" />
+    <result column="orgid" property="orgid" jdbcType="VARCHAR" />
+    <result column="orgname" property="orgname" jdbcType="VARCHAR" />
+    <result column="materielid" property="materielid" jdbcType="VARCHAR" />
+    <result column="materielname" property="materielname" jdbcType="VARCHAR" />
+    <result column="materielspec" property="materielspec" jdbcType="VARCHAR" />
+    <result column="materieltype" property="materieltype" jdbcType="VARCHAR" />
+    <result column="checkprogramid" property="checkprogramid" jdbcType="VARCHAR" />
+    <result column="purchasesum" property="purchasesum" jdbcType="DOUBLE" />
+    <result column="receiptsum" property="receiptsum" jdbcType="DOUBLE" />
+    <result column="unreceiptsum" property="unreceiptsum" jdbcType="DOUBLE" />
+    <result column="advancesum" property="advancesum" jdbcType="DOUBLE" />
+    <result column="remainsum" property="remainsum" jdbcType="DOUBLE" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, purchaseid, orgid, orgname, materielid, materielname, materielspec, materieltype, 
+    checkprogramid, purchasesum, receiptsum, unreceiptsum, advancesum, remainsum, remark
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from tr_purchase_bd_application_detail
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from tr_purchase_bd_application_detail
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.tianrui.service.bean.businessManage.purchaseManage.PurchaseApplicationDetail" >
+    insert into tr_purchase_bd_application_detail (id, purchaseid, orgid, 
+      orgname, materielid, materielname, 
+      materielspec, materieltype, checkprogramid, 
+      purchasesum, receiptsum, unreceiptsum, 
+      advancesum, remainsum, remark
+      )
+    values (#{id,jdbcType=VARCHAR}, #{purchaseid,jdbcType=VARCHAR}, #{orgid,jdbcType=VARCHAR}, 
+      #{orgname,jdbcType=VARCHAR}, #{materielid,jdbcType=VARCHAR}, #{materielname,jdbcType=VARCHAR}, 
+      #{materielspec,jdbcType=VARCHAR}, #{materieltype,jdbcType=VARCHAR}, #{checkprogramid,jdbcType=VARCHAR}, 
+      #{purchasesum,jdbcType=DOUBLE}, #{receiptsum,jdbcType=DOUBLE}, #{unreceiptsum,jdbcType=DOUBLE}, 
+      #{advancesum,jdbcType=DOUBLE}, #{remainsum,jdbcType=DOUBLE}, #{remark,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.tianrui.service.bean.businessManage.purchaseManage.PurchaseApplicationDetail" >
+    insert into tr_purchase_bd_application_detail
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="purchaseid != null" >
+        purchaseid,
+      </if>
+      <if test="orgid != null" >
+        orgid,
+      </if>
+      <if test="orgname != null" >
+        orgname,
+      </if>
+      <if test="materielid != null" >
+        materielid,
+      </if>
+      <if test="materielname != null" >
+        materielname,
+      </if>
+      <if test="materielspec != null" >
+        materielspec,
+      </if>
+      <if test="materieltype != null" >
+        materieltype,
+      </if>
+      <if test="checkprogramid != null" >
+        checkprogramid,
+      </if>
+      <if test="purchasesum != null" >
+        purchasesum,
+      </if>
+      <if test="receiptsum != null" >
+        receiptsum,
+      </if>
+      <if test="unreceiptsum != null" >
+        unreceiptsum,
+      </if>
+      <if test="advancesum != null" >
+        advancesum,
+      </if>
+      <if test="remainsum != null" >
+        remainsum,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="purchaseid != null" >
+        #{purchaseid,jdbcType=VARCHAR},
+      </if>
+      <if test="orgid != null" >
+        #{orgid,jdbcType=VARCHAR},
+      </if>
+      <if test="orgname != null" >
+        #{orgname,jdbcType=VARCHAR},
+      </if>
+      <if test="materielid != null" >
+        #{materielid,jdbcType=VARCHAR},
+      </if>
+      <if test="materielname != null" >
+        #{materielname,jdbcType=VARCHAR},
+      </if>
+      <if test="materielspec != null" >
+        #{materielspec,jdbcType=VARCHAR},
+      </if>
+      <if test="materieltype != null" >
+        #{materieltype,jdbcType=VARCHAR},
+      </if>
+      <if test="checkprogramid != null" >
+        #{checkprogramid,jdbcType=VARCHAR},
+      </if>
+      <if test="purchasesum != null" >
+        #{purchasesum,jdbcType=DOUBLE},
+      </if>
+      <if test="receiptsum != null" >
+        #{receiptsum,jdbcType=DOUBLE},
+      </if>
+      <if test="unreceiptsum != null" >
+        #{unreceiptsum,jdbcType=DOUBLE},
+      </if>
+      <if test="advancesum != null" >
+        #{advancesum,jdbcType=DOUBLE},
+      </if>
+      <if test="remainsum != null" >
+        #{remainsum,jdbcType=DOUBLE},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tianrui.service.bean.businessManage.purchaseManage.PurchaseApplicationDetail" >
+    update tr_purchase_bd_application_detail
+    <set >
+      <if test="purchaseid != null" >
+        purchaseid = #{purchaseid,jdbcType=VARCHAR},
+      </if>
+      <if test="orgid != null" >
+        orgid = #{orgid,jdbcType=VARCHAR},
+      </if>
+      <if test="orgname != null" >
+        orgname = #{orgname,jdbcType=VARCHAR},
+      </if>
+      <if test="materielid != null" >
+        materielid = #{materielid,jdbcType=VARCHAR},
+      </if>
+      <if test="materielname != null" >
+        materielname = #{materielname,jdbcType=VARCHAR},
+      </if>
+      <if test="materielspec != null" >
+        materielspec = #{materielspec,jdbcType=VARCHAR},
+      </if>
+      <if test="materieltype != null" >
+        materieltype = #{materieltype,jdbcType=VARCHAR},
+      </if>
+      <if test="checkprogramid != null" >
+        checkprogramid = #{checkprogramid,jdbcType=VARCHAR},
+      </if>
+      <if test="purchasesum != null" >
+        purchasesum = #{purchasesum,jdbcType=DOUBLE},
+      </if>
+      <if test="receiptsum != null" >
+        receiptsum = #{receiptsum,jdbcType=DOUBLE},
+      </if>
+      <if test="unreceiptsum != null" >
+        unreceiptsum = #{unreceiptsum,jdbcType=DOUBLE},
+      </if>
+      <if test="advancesum != null" >
+        advancesum = #{advancesum,jdbcType=DOUBLE},
+      </if>
+      <if test="remainsum != null" >
+        remainsum = #{remainsum,jdbcType=DOUBLE},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tianrui.service.bean.businessManage.purchaseManage.PurchaseApplicationDetail" >
+    update tr_purchase_bd_application_detail
+    set purchaseid = #{purchaseid,jdbcType=VARCHAR},
+      orgid = #{orgid,jdbcType=VARCHAR},
+      orgname = #{orgname,jdbcType=VARCHAR},
+      materielid = #{materielid,jdbcType=VARCHAR},
+      materielname = #{materielname,jdbcType=VARCHAR},
+      materielspec = #{materielspec,jdbcType=VARCHAR},
+      materieltype = #{materieltype,jdbcType=VARCHAR},
+      checkprogramid = #{checkprogramid,jdbcType=VARCHAR},
+      purchasesum = #{purchasesum,jdbcType=DOUBLE},
+      receiptsum = #{receiptsum,jdbcType=DOUBLE},
+      unreceiptsum = #{unreceiptsum,jdbcType=DOUBLE},
+      advancesum = #{advancesum,jdbcType=DOUBLE},
+      remainsum = #{remainsum,jdbcType=DOUBLE},
+      remark = #{remark,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <select id="findPurchaseApplicationDetail" parameterType="java.lang.String" resultMap="BaseResultMap">
+ 	select 
+	<include refid="Base_Column_List" />
+	from tr_purchase_bd_application_detail 
+	where purchaseid = #{purchaseid,jdbcType=VARCHAR}
+  </select>
+</mapper>
