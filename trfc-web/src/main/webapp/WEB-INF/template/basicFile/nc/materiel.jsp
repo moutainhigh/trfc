@@ -128,14 +128,14 @@
 							</div>
 							<div class="intel_solo">
 								<div class="intel_sbtn">
-									<button id="searchMater" class="btn btnblue">搜索</button>
+									<button id="searchBtn" class="btn btnblue">搜索</button>
 								</div>
 							</div>
 						</div>
 					</div>
 				</div>
 				<div class="intel_opera">
-					<div id="refreshMater" class="intel_operasolo">
+					<div id="refreshBtn" class="intel_operasolo">
 						<i class="iconfont colorlv">&#xe61b;</i>
 						<span>刷新</span>
 					</div>
@@ -278,7 +278,7 @@
 					</div>
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-primary" id="updateMarter">确定</button>
+					<button type="button" class="btn btn-primary" id="updateBtn">确定</button>
 					<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
 				</div>
 			</div>

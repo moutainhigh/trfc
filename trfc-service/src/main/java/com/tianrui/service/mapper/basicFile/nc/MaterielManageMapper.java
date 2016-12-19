@@ -24,7 +24,7 @@ public interface MaterielManageMapper {
 
     int updateByPrimaryKey(MaterielManage record);
     
-   	int findMaterielManagePageCount(MaterielManageReq req);
+    long findMaterielManagePageCount(MaterielManageReq req);
     
     List<MaterielManage> findMaterielManagePage(MaterielManageReq req);
     

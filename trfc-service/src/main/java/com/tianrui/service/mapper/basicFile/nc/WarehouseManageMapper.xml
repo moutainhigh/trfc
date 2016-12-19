@@ -167,16 +167,16 @@
   	from tr_warehouse_bd_manage
   	<where>
   		<if test="internalcode != null and internalcode != ''">
-  			internalcode like '%${internalcode}%'
+  			and internalcode like '%${internalcode}%'
   		</if>
   		<if test="name != null and name != ''">
-  			name like '%${name}%'
+  			and name like '%${name}%'
   		</if>
   		<if test="orgid != null and orgid != ''">
-  			orgid = #{orgid,jdbcType=VARCHAR}
+  			and orgid = #{orgid,jdbcType=VARCHAR}
   		</if>
   		<if test="orgname != null and orgname != ''">
-  			orgname = #{orgname,jdbcType=VARCHAR}
+  			and orgname = #{orgname,jdbcType=VARCHAR}
   		</if>
   	</where>
   	<if test="start != null and start >= 0">
@@ -185,22 +185,22 @@
   		</if>
   	</if>
   </select>
-  <select id="findWarehouseManagePageCount" resultType="java.lang.Integer" parameterType="com.tianrui.api.req.basicFile.nc.WarehouseManageReq">
+  <select id="findWarehouseManagePageCount" resultType="java.lang.Long" parameterType="com.tianrui.api.req.basicFile.nc.WarehouseManageReq">
   	select 
   		count(1)
   	from tr_warehouse_bd_manage
   	<where>
   		<if test="internalcode != null and internalcode != ''">
-  			internalcode like '%${internalcode}%'
+  			and internalcode like '%${internalcode}%'
   		</if>
   		<if test="name != null and name != ''">
-  			name like '%${name}%'
+  			and name like '%${name}%'
   		</if>
   		<if test="orgid != null and orgid != ''">
-  			orgid = #{orgid,jdbcType=VARCHAR}
+  			and orgid = #{orgid,jdbcType=VARCHAR}
   		</if>
   		<if test="orgname != null and orgname != ''">
-  			orgname = #{orgname,jdbcType=VARCHAR}
+  			and orgname = #{orgname,jdbcType=VARCHAR}
   		</if>
   	</where>
   </select>

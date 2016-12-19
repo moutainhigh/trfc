@@ -1,5 +1,10 @@
 package com.tianrui.service.bean.basicFile.nc;
-
+/**
+ * 仓库管理bean
+ * @author zhanggaohao
+ * @createtime 2016年12月16日 上午10:21:07
+ * @classname WarehouseManage.java
+ */
 public class WarehouseManage {
     private String id;
 

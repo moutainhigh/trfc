@@ -68,4 +68,17 @@ public class DateUtil {
 		}
 		return time;
 	}
+	
+	/**
+	 * 
+	 * @param time 时间戳
+	 * @param format 格式化模型 yyyy-MM-dd HH:mm:ss
+	 * @return 日期字符串
+	 */
+	public static String parse(Long time, String format){
+		if(time != null){
+			return new SimpleDateFormat(format).format(new Date(time));
+		}
+		return null;
+	}
 }

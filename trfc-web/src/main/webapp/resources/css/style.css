@@ -880,6 +880,7 @@ input[readOnly="true"]{
 .alt_edit_textarea  textarea{
     display: inline-block;
     width: 500px;
+    min-height: 62px;
     vertical-align: top;
 }
 

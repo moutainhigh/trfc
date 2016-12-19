@@ -5,13 +5,13 @@
 		queryData(1);
 	}
 	function bindEvent(){
-		$('#refreshMater').off('click').on('click',function(){
+		$('#refreshBtn').off('click').on('click',function(){
 			queryData(1);
 		});
-		$('#searchMater').off('click').on('click',function(){
+		$('#searchBtn').off('click').on('click',function(){
 			queryData(1);
 		});
-		$('#updateMarter').off('click').on('click',function(){
+		$('#updateBtn').off('click').on('click',function(){
 			editData();
 		});
 		$('#jumpPageNoBtn').off('click').on('click',function(){
@@ -24,6 +24,9 @@
 				$('input#jumpPageNo').val(pageNo);
 				queryData(pageNo);
 			}
+		});
+		$('#pageSize').change(function(){
+			queryData(1);
 		});
 	}
 	function getParams(){
@@ -252,30 +255,4 @@
 			});
 		}
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 })(jQuery, window);

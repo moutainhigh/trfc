@@ -22,6 +22,9 @@
 				queryData(pageNo);
 			}
 		});
+		$('#pageSize').change(function(){
+			queryData(1);
+		});
 	}
 	function getParams(){
 		var params = {};

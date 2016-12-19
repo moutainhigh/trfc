@@ -23,7 +23,7 @@ public interface WarehouseManageMapper {
 
     int updateByPrimaryKey(WarehouseManage record);
 
-    int findWarehouseManagePageCount(WarehouseManageReq req);
+    long findWarehouseManagePageCount(WarehouseManageReq req);
 
 	List<WarehouseManage> findWarehouseManagePage(WarehouseManageReq req);
 }
