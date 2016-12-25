@@ -58,7 +58,7 @@ public class DemoService implements IDemoService {
 			demo.setModifytime(System.currentTimeMillis());
 			demoMapper.insert(demo);
 		}else{
-			rs.setErrorCode(ErrorCode.PARAM_NULL_ERROR);
+			rs.setErrorCode(ErrorCode.PARAM_ERROR);
 		}
 		return rs;
 	}
@@ -73,7 +73,7 @@ public class DemoService implements IDemoService {
 			
 			demoMapper.deleteByPrimaryKey(req.getId());
 		}else{
-			rs.setErrorCode(ErrorCode.PARAM_NULL_ERROR);
+			rs.setErrorCode(ErrorCode.PARAM_ERROR);
 		}
 		return rs;
 	}

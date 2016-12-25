@@ -11,6 +11,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.tianrui.api.intf.basicFile.nc.ISupplierManageService;
 import com.tianrui.api.req.basicFile.nc.SupplierManageReq;
 import com.tianrui.api.resp.basicFile.nc.SupplierManageResp;
+import com.tianrui.smartfactory.common.constants.ErrorCode;
 import com.tianrui.smartfactory.common.vo.PaginationVO;
 import com.tianrui.smartfactory.common.vo.Result;
 
@@ -38,8 +39,7 @@ public class SupplierManageAction {
 			result.setData(page);
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
-			result.setCode("-1");
-			result.setError("系统异常，请联系管理员！");
+			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
 			return result;
 		}
 		return result;
@@ -50,17 +50,15 @@ public class SupplierManageAction {
 	public Result updateSupplier(SupplierManageReq req){
 		Result result = Result.getSuccessResult();
 		try {
-			int count = supplierManageService.updateSupplier(req);
-			if(count > 0){
-				result.setData("修改成功！");
+			int n = supplierManageService.updateSupplier(req);
+			if(n > 0){
+				result.setData(n);
 			}else{
-				result.setCode("-2");
-				result.setError("修改失败，请稍后重试！");
+				result.setErrorCode(ErrorCode.OPERATE_ERROR);
 			}
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
-			result.setCode("-1");
-			result.setError("系统异常，请联系管理员！");
+			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
 			return result;
 		}
 		return result;

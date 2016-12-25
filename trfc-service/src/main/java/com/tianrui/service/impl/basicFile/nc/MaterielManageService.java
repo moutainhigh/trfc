@@ -14,6 +14,7 @@ import com.tianrui.api.req.basicFile.nc.MaterielManageReq;
 import com.tianrui.api.resp.basicFile.nc.MaterielManageResp;
 import com.tianrui.service.bean.basicFile.nc.MaterielManage;
 import com.tianrui.service.mapper.basicFile.nc.MaterielManageMapper;
+import com.tianrui.smartfactory.common.utils.UUIDUtil;
 import com.tianrui.smartfactory.common.vo.PaginationVO;
 
 /**
@@ -87,6 +88,8 @@ public class MaterielManageService implements IMaterielManageService {
 		if(req != null){
 			MaterielManage mater = new MaterielManage();
 			PropertyUtils.copyProperties(mater, req);
+			mater.setId(UUIDUtil.getId());
+			mater.setCreatetime(System.currentTimeMillis());
 			count = materielManageMapper.insert(mater);
 		}
 		return count;

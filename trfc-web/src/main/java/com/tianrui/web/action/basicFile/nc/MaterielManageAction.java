@@ -11,6 +11,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.tianrui.api.intf.basicFile.nc.IMaterielManageService;
 import com.tianrui.api.req.basicFile.nc.MaterielManageReq;
 import com.tianrui.api.resp.basicFile.nc.MaterielManageResp;
+import com.tianrui.smartfactory.common.constants.ErrorCode;
 import com.tianrui.smartfactory.common.vo.PaginationVO;
 import com.tianrui.smartfactory.common.vo.Result;
 
@@ -44,8 +45,7 @@ public class MaterielManageAction {
 			result.setData(page);
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
-			result.setCode("-1");
-			result.setError("系统异常，请联系管理员！");
+			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
 			return result;
 		}
 		return result;
@@ -56,17 +56,15 @@ public class MaterielManageAction {
 	public Result updateMater(MaterielManageReq req){
 		Result result = Result.getSuccessResult();
 		try {
-			int count = materielManageService.updateMateriel(req);
-			if(count == 1){
-				result.setData(count);
+			int n = materielManageService.updateMateriel(req);
+			if(n == 1){
+				result.setData(n);
 			}else{
-				result.setCode("-2");
-				result.setError("修改失败，请稍后重试！");
+				result.setErrorCode(ErrorCode.OPERATE_ERROR);
 			}
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
-			result.setCode("-1");
-			result.setError("系统异常，请联系管理员！");
+			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
 			return result;
 		}
 		return result;

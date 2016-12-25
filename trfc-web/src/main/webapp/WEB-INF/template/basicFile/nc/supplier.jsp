@@ -230,7 +230,6 @@
 	<script type="text/javascript" src="/resources/js/jquery.pagination.js"></script>
 	<script type="text/javascript" src="/resources/js/bootstrap.js"></script>
 	<script type="text/javascript" src="/resources/js/layer/layer.js"></script>
-	<script type="text/javascript"
-		src="/resources/js/basicFile/nc/supplier.js"></script>
+	<script type="text/javascript" src="/resources/js/basicFile/nc/supplier.js"></script>
 </body>
 </html>

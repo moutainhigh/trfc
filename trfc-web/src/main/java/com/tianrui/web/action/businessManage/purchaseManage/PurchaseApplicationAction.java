@@ -11,6 +11,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.tianrui.api.intf.businessManage.purchaseManage.IPurchaseApplicationService;
 import com.tianrui.api.req.businessManage.purchaseManage.PurchaseApplicationReq;
 import com.tianrui.api.resp.businessManage.purchaseManage.PurchaseApplicationResp;
+import com.tianrui.smartfactory.common.constants.ErrorCode;
 import com.tianrui.smartfactory.common.vo.PaginationVO;
 import com.tianrui.smartfactory.common.vo.Result;
 
@@ -38,8 +39,7 @@ public class PurchaseApplicationAction {
 			result.setData(page);
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
-			result.setCode("-1");
-			result.setError("系统异常，请联系管理员！");
+			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
 			return result;
 		}
 		return result;

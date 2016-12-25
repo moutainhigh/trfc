@@ -14,6 +14,7 @@ import com.tianrui.api.req.basicFile.nc.WarehouseManageReq;
 import com.tianrui.api.resp.basicFile.nc.WarehouseManageResp;
 import com.tianrui.service.bean.basicFile.nc.WarehouseManage;
 import com.tianrui.service.mapper.basicFile.nc.WarehouseManageMapper;
+import com.tianrui.smartfactory.common.utils.UUIDUtil;
 import com.tianrui.smartfactory.common.vo.PaginationVO;
 /**
  * 仓库管理Service
@@ -86,6 +87,8 @@ public class WarehouseManageService implements IWarehouseManageService {
 		if(req != null){
 			WarehouseManage wm = new WarehouseManage();
 			PropertyUtils.copyProperties(wm, req);
+			wm.setId(UUIDUtil.getId());
+			wm.setCreatetime(System.currentTimeMillis());
 			count = warehouseManageMapper.insert(wm);
 		}
 		return count;
