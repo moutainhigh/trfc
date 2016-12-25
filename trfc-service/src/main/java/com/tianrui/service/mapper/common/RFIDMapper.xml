@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tianrui.service.mapper.common.RFIDMapper" >
+  <resultMap id="BaseResultMap" type="com.tianrui.service.bean.common.RFID" >
+    <id column="RFID" property="rfid" jdbcType="VARCHAR" />
+    <result column="state" property="state" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    RFID, state
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from tr_RFID
+    where RFID = #{rfid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from tr_RFID
+    where RFID = #{rfid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.tianrui.service.bean.common.RFID" >
+    insert into tr_RFID (RFID, state)
+    values (#{rfid,jdbcType=VARCHAR}, #{state,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.tianrui.service.bean.common.RFID" >
+    insert into tr_RFID
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="rfid != null" >
+        RFID,
+      </if>
+      <if test="state != null" >
+        state,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="rfid != null" >
+        #{rfid,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null" >
+        #{state,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tianrui.service.bean.common.RFID" >
+    update tr_RFID
+    <set >
+      <if test="state != null" >
+        state = #{state,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where RFID = #{rfid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tianrui.service.bean.common.RFID" >
+    update tr_RFID
+    set state = #{state,jdbcType=VARCHAR}
+    where RFID = #{rfid,jdbcType=VARCHAR}
+  </update>
+  <insert id="saveList" parameterType="com.tianrui.api.req.common.RFIDReq" >
+    insert into tr_RFID (RFID, state)
+    values 
+    <foreach collection="list" item="item" index="index" separator="," >  
+        (#{item.rfid},#{item.state})  
+    </foreach> 
+  </insert>
+</mapper>
