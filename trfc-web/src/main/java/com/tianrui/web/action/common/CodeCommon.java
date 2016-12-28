@@ -1,5 +1,8 @@
 package com.tianrui.web.action.common;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -24,6 +27,22 @@ public class CodeCommon {
 			String code = "CL"+(int)(Math.random()*1000000);
 			
 			result.setData(code);
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
+			return result;
+		}
+		return result;
+	}
+	@RequestMapping("/cardCode")
+	@ResponseBody
+	public Result cardCode() throws Exception{
+		Result result = Result.getSuccessResult();
+		try {
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("nowtime", System.currentTimeMillis());
+			map.put("code", "IC"+(int)(Math.random()*1000000));
+			result.setData(map);
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 			result.setErrorCode(ErrorCode.SYSTEM_ERROR);

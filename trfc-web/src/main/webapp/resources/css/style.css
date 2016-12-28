@@ -954,3 +954,6 @@ input[readOnly="true"]{
 .menu_collap a.menu_collap_tit span{
     margin-left: 50px;
 }
+input[type='text'][readOnly] {
+    background: #efefef;
+}
