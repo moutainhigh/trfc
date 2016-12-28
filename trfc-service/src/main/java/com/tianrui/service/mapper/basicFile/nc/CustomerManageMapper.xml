@@ -1,0 +1,272 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tianrui.service.mapper.basicFile.nc.CustomerManageMapper" >
+  <resultMap id="BaseResultMap" type="com.tianrui.service.bean.basicFile.nc.CustomerManage" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="code" property="code" jdbcType="VARCHAR" />
+    <result column="internalcode" property="internalcode" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="abbrname" property="abbrname" jdbcType="VARCHAR" />
+    <result column="orgid" property="orgid" jdbcType="VARCHAR" />
+    <result column="orgname" property="orgname" jdbcType="VARCHAR" />
+    <result column="channeltype" property="channeltype" jdbcType="VARCHAR" />
+    <result column="channelcode" property="channelcode" jdbcType="VARCHAR" />
+    <result column="pinyincode" property="pinyincode" jdbcType="VARCHAR" />
+    <result column="customertype" property="customertype" jdbcType="VARCHAR" />
+    <result column="remarks" property="remarks" jdbcType="VARCHAR" />
+    <result column="creator" property="creator" jdbcType="VARCHAR" />
+    <result column="createtime" property="createtime" jdbcType="BIGINT" />
+    <result column="modifier" property="modifier" jdbcType="VARCHAR" />
+    <result column="modifytime" property="modifytime" jdbcType="BIGINT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, code, internalcode, name, abbrname, orgid, orgname, channeltype, channelcode, 
+    pinyincode, customertype, remarks, creator, createtime, modifier, modifytime
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from tr_customer_db_manage
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from tr_customer_db_manage
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.tianrui.service.bean.basicFile.nc.CustomerManage" >
+    insert into tr_customer_db_manage (id, code, internalcode, 
+      name, abbrname, orgid, 
+      orgname, channeltype, channelcode, 
+      pinyincode, customertype, remarks, 
+      creator, createtime, modifier, 
+      modifytime)
+    values (#{id,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR}, #{internalcode,jdbcType=VARCHAR}, 
+      #{name,jdbcType=VARCHAR}, #{abbrname,jdbcType=VARCHAR}, #{orgid,jdbcType=VARCHAR}, 
+      #{orgname,jdbcType=VARCHAR}, #{channeltype,jdbcType=VARCHAR}, #{channelcode,jdbcType=VARCHAR}, 
+      #{pinyincode,jdbcType=VARCHAR}, #{customertype,jdbcType=VARCHAR}, #{remarks,jdbcType=VARCHAR}, 
+      #{creator,jdbcType=VARCHAR}, #{createtime,jdbcType=BIGINT}, #{modifier,jdbcType=VARCHAR}, 
+      #{modifytime,jdbcType=BIGINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.tianrui.service.bean.basicFile.nc.CustomerManage" >
+    insert into tr_customer_db_manage
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="code != null" >
+        code,
+      </if>
+      <if test="internalcode != null" >
+        internalcode,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="abbrname != null" >
+        abbrname,
+      </if>
+      <if test="orgid != null" >
+        orgid,
+      </if>
+      <if test="orgname != null" >
+        orgname,
+      </if>
+      <if test="channeltype != null" >
+        channeltype,
+      </if>
+      <if test="channelcode != null" >
+        channelcode,
+      </if>
+      <if test="pinyincode != null" >
+        pinyincode,
+      </if>
+      <if test="customertype != null" >
+        customertype,
+      </if>
+      <if test="remarks != null" >
+        remarks,
+      </if>
+      <if test="creator != null" >
+        creator,
+      </if>
+      <if test="createtime != null" >
+        createtime,
+      </if>
+      <if test="modifier != null" >
+        modifier,
+      </if>
+      <if test="modifytime != null" >
+        modifytime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="code != null" >
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="internalcode != null" >
+        #{internalcode,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="abbrname != null" >
+        #{abbrname,jdbcType=VARCHAR},
+      </if>
+      <if test="orgid != null" >
+        #{orgid,jdbcType=VARCHAR},
+      </if>
+      <if test="orgname != null" >
+        #{orgname,jdbcType=VARCHAR},
+      </if>
+      <if test="channeltype != null" >
+        #{channeltype,jdbcType=VARCHAR},
+      </if>
+      <if test="channelcode != null" >
+        #{channelcode,jdbcType=VARCHAR},
+      </if>
+      <if test="pinyincode != null" >
+        #{pinyincode,jdbcType=VARCHAR},
+      </if>
+      <if test="customertype != null" >
+        #{customertype,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null" >
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="creator != null" >
+        #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=BIGINT},
+      </if>
+      <if test="modifier != null" >
+        #{modifier,jdbcType=VARCHAR},
+      </if>
+      <if test="modifytime != null" >
+        #{modifytime,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tianrui.service.bean.basicFile.nc.CustomerManage" >
+    update tr_customer_db_manage
+    <set >
+      <if test="code != null" >
+        code = #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="internalcode != null" >
+        internalcode = #{internalcode,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="abbrname != null" >
+        abbrname = #{abbrname,jdbcType=VARCHAR},
+      </if>
+      <if test="orgid != null" >
+        orgid = #{orgid,jdbcType=VARCHAR},
+      </if>
+      <if test="orgname != null" >
+        orgname = #{orgname,jdbcType=VARCHAR},
+      </if>
+      <if test="channeltype != null" >
+        channeltype = #{channeltype,jdbcType=VARCHAR},
+      </if>
+      <if test="channelcode != null" >
+        channelcode = #{channelcode,jdbcType=VARCHAR},
+      </if>
+      <if test="pinyincode != null" >
+        pinyincode = #{pinyincode,jdbcType=VARCHAR},
+      </if>
+      <if test="customertype != null" >
+        customertype = #{customertype,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null" >
+        remarks = #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="creator != null" >
+        creator = #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        createtime = #{createtime,jdbcType=BIGINT},
+      </if>
+      <if test="modifier != null" >
+        modifier = #{modifier,jdbcType=VARCHAR},
+      </if>
+      <if test="modifytime != null" >
+        modifytime = #{modifytime,jdbcType=BIGINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tianrui.service.bean.basicFile.nc.CustomerManage" >
+    update tr_customer_db_manage
+    set code = #{code,jdbcType=VARCHAR},
+      internalcode = #{internalcode,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      abbrname = #{abbrname,jdbcType=VARCHAR},
+      orgid = #{orgid,jdbcType=VARCHAR},
+      orgname = #{orgname,jdbcType=VARCHAR},
+      channeltype = #{channeltype,jdbcType=VARCHAR},
+      channelcode = #{channelcode,jdbcType=VARCHAR},
+      pinyincode = #{pinyincode,jdbcType=VARCHAR},
+      customertype = #{customertype,jdbcType=VARCHAR},
+      remarks = #{remarks,jdbcType=VARCHAR},
+      creator = #{creator,jdbcType=VARCHAR},
+      createtime = #{createtime,jdbcType=BIGINT},
+      modifier = #{modifier,jdbcType=VARCHAR},
+      modifytime = #{modifytime,jdbcType=BIGINT}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <select id="findCustomerPage" resultMap="BaseResultMap" parameterType="com.tianrui.api.req.basicFile.nc.CustomerManageReq">
+  	select
+  	<include refid="Base_Column_List" />
+  	from tr_customer_db_manage
+  	<where>
+  		<if test="name != null and name != ''">
+  			and name like '%${name}%'
+  		</if>
+  		<if test="internalcode != null and internalcode != ''">
+  			and internalcode like '%${internalcode}%'
+  		</if>
+  		<if test="pinyincode != null and pinyincode != ''">
+  			and pinyincode like '%${pinyincode}%'
+  		</if>
+  		<if test="orgid != null and orgid != ''">
+  			and orgid = #{orgid,jdbcType=VARCHAR}
+  		</if>
+  		<if test="orgname != null and orgname != ''">
+  			and orgname = #{orgname,jdbcType=VARCHAR}
+  		</if>
+  	</where>
+  	order by createtime desc
+  	<if test="start != null and start >= 0">
+  		<if test="limit != null">
+			limit #{start,jdbcType=INTEGER},#{limit,jdbcType=INTEGER}
+  		</if>
+  	</if>
+  </select>
+  <select id="findCustomerPageCount" resultType="java.lang.Long" parameterType="com.tianrui.api.req.basicFile.nc.CustomerManageReq">
+  	select count(0)
+  	from tr_customer_db_manage
+  	<where>
+  		<if test="name != null and name != ''">
+  			and name like '%${name}%'
+  		</if>
+  		<if test="internalcode != null and internalcode != ''">
+  			and internalcode like '%${internalcode}%'
+  		</if>
+  		<if test="pinyincode != null and pinyincode != ''">
+  			and pinyincode like '%${pinyincode}%'
+  		</if>
+  		<if test="orgid != null and orgid != ''">
+  			and orgid = #{orgid,jdbcType=VARCHAR}
+  		</if>
+  		<if test="orgname != null and orgname != ''">
+  			and orgname = #{orgname,jdbcType=VARCHAR}
+  		</if>
+  	</where>
+  </select>
+</mapper>
