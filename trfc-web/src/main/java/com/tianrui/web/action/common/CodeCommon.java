@@ -50,4 +50,21 @@ public class CodeCommon {
 		}
 		return result;
 	}
+	@RequestMapping("/driverCode")
+	@ResponseBody
+	public Result driverCode() throws Exception{
+		Result result = Result.getSuccessResult();
+		try {
+			Map<String, Object> map = new HashMap<String, Object>();
+			String code = (int)(Math.random()*100000000)+"";
+			map.put("code", "DR"+code);
+			map.put("internalcode", "DR"+code.substring(2));
+			result.setData(map);
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
+			return result;
+		}
+		return result;
+	}
 }

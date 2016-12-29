@@ -1,5 +1,11 @@
 package com.tianrui.service.bean.basicFile.measure;
 
+/**
+ * 车辆管理Bean
+ * @author zhanggaohao
+ * @createtime 2016年12月28日 下午3:26:40
+ * @classname VehicleManage.java
+ */
 public class VehicleManage {
     private String id;
 

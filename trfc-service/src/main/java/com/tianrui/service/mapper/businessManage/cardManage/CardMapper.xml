@@ -26,7 +26,7 @@
     from tr_card_db_manage
     where id = #{id,jdbcType=VARCHAR}
   </select>
-  <select id="selectSelective" resultMap="BaseResultMap" parameterType="com.tianrui.api.req.businessManage.cardManage.CardReq">
+  <select id="selectSelective" resultMap="BaseResultMap" parameterType="com.tianrui.service.bean.businessManage.cardManage.Card">
   	select
   	<include refid="Base_Column_List" />
     from tr_card_db_manage

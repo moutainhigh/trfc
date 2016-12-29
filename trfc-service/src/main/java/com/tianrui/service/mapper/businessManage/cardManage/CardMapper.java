@@ -27,5 +27,5 @@ public interface CardMapper {
 
 	List<Card> findCardPage(CardReq req);
 
-	List<Card> selectSelective(CardReq cr);
+	List<Card> selectSelective(Card card);
 }

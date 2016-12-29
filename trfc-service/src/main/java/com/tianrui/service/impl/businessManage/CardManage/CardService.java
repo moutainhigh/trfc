@@ -52,18 +52,17 @@ public class CardService implements ICardService {
 	@Override
 	public int addCard(CardReq req) throws Exception {
 		if(req != null){
-			CardReq cr = new CardReq();
-			cr.setCardcode(req.getCardcode());
-			if(cardMapper.selectSelective(cr).size() > 0){
+			Card card = new Card();
+			card.setCardcode(req.getCardcode());
+			if(cardMapper.selectSelective(card).size() > 0){
 				return -1;
 			}
-			Card card = new Card();
 			PropertyUtils.copyProperties(card, req);
 			card.setId(UUIDUtil.getId());
 			card.setState("1");
-			card.setCreator("");
+//			card.setCreator("");
 			card.setCreatetime(System.currentTimeMillis());
-			card.setModifier("");
+//			card.setModifier("");
 			card.setModifytime(System.currentTimeMillis());
 			return cardMapper.insert(card);
 		}
@@ -76,7 +75,7 @@ public class CardService implements ICardService {
 		if(req != null){
 			Card card = new Card();
 			PropertyUtils.copyProperties(card, req);
-			card.setModifier("");
+//			card.setModifier("");
 			card.setModifytime(System.currentTimeMillis());
 			return cardMapper.updateByPrimaryKeySelective(card);
 		}
@@ -90,7 +89,7 @@ public class CardService implements ICardService {
 			Card card = new Card();
 			PropertyUtils.copyProperties(card, req);
 			card.setState("0");
-			card.setModifier("");
+//			card.setModifier("");
 			card.setModifytime(System.currentTimeMillis());
 			return cardMapper.updateByPrimaryKeySelective(card);
 		}

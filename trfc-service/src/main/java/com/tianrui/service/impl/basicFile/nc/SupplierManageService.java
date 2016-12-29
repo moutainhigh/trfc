@@ -46,12 +46,15 @@ public class SupplierManageService implements ISupplierManageService {
 	
 	@Override
 	public int updateSupplier(SupplierManageReq req) throws Exception {
+		int n = 0;
 		if(req != null){
 			SupplierManage sm = new SupplierManage();
 			PropertyUtils.copyProperties(sm, req);
-			return supplierManageMapper.updateByPrimaryKeySelective(sm);
+//			sm.setModifier("");
+			sm.setModifytime(System.currentTimeMillis());
+			n =  supplierManageMapper.updateByPrimaryKeySelective(sm);
 		}
-		return 0;
+		return n;
 	}
 	
 	private List<SupplierManageResp> copyBeanList2RespList(List<SupplierManage> list) throws Exception {

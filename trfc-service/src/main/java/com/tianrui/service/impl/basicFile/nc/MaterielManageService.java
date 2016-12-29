@@ -62,37 +62,39 @@ public class MaterielManageService implements IMaterielManageService {
 	@Override
 	@Transactional
 	public int deleteMateriel(String id) {
-		int count = 0;
+		int n = 0;
 		if(StringUtils.isNotBlank(id)){
-			count = materielManageMapper.deleteByPrimaryKey(id);
+			n = materielManageMapper.deleteByPrimaryKey(id);
 		}
-		return count;
+		return n;
 	}
 
 	@Override
 	@Transactional
 	public int updateMateriel(MaterielManageReq req) throws Exception {
-		int count = 0;
+		int n = 0;
 		if(req != null){
 			MaterielManage mater = new MaterielManage();
 			PropertyUtils.copyProperties(mater, req);
-			count = materielManageMapper.updateByPrimaryKeySelective(mater);
+//			mater.setModifier("");
+			mater.setModifytime(System.currentTimeMillis());
+			n = materielManageMapper.updateByPrimaryKeySelective(mater);
 		}
-		return count;
+		return n;
 	}
 	
 	@Override
 	@Transactional
 	public int addMateriel(MaterielManageReq req) throws Exception {
-		int count = 0;
+		int n = 0;
 		if(req != null){
 			MaterielManage mater = new MaterielManage();
 			PropertyUtils.copyProperties(mater, req);
 			mater.setId(UUIDUtil.getId());
 			mater.setCreatetime(System.currentTimeMillis());
-			count = materielManageMapper.insert(mater);
+			n = materielManageMapper.insert(mater);
 		}
-		return count;
+		return n;
 	}
 	
 	private List<MaterielManageResp> copyBeanList2RespList(List<MaterielManage> list) throws Exception {

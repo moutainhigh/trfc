@@ -58,17 +58,18 @@ public class VehicleManageService implements IVehicleManageService {
 	public int addVehicle(VehicleManageReq req) throws Exception {
 		int n = 0;
 		if(req != null){
-			VehicleManage record = new VehicleManage();
-			record.setVehicleno(req.getVehicleno());
-			List<VehicleManage> list = this.vehicleManageMapper.selectSelective(record);
+			VehicleManage vehicle = new VehicleManage();
+			vehicle.setVehicleno(req.getVehicleno());
+			List<VehicleManage> list = this.vehicleManageMapper.selectSelective(vehicle);
 			if(list != null && list.size() > 0){
 				return -1;
 			}
-			VehicleManage vehicle = new VehicleManage();
 			PropertyUtils.copyProperties(vehicle, req);
 			vehicle.setId(UUIDUtil.getId());
 			vehicle.setIsblacklist("0");
+//			vehicle.setCreator("");
 			vehicle.setCreatetime(System.currentTimeMillis());
+//			vehicle.setModifier("");
 			vehicle.setModifytime(System.currentTimeMillis());
 			n = this.vehicleManageMapper.insert(vehicle);
 		}
@@ -82,6 +83,7 @@ public class VehicleManageService implements IVehicleManageService {
 		if(req != null){
 			VehicleManage vehicle = new VehicleManage();
 			PropertyUtils.copyProperties(vehicle, req);
+//			vehicle.setModifier("");
 			vehicle.setModifytime(System.currentTimeMillis());
 			n = this.vehicleManageMapper.updateByPrimaryKeySelective(vehicle);
 		}
@@ -92,26 +94,6 @@ public class VehicleManageService implements IVehicleManageService {
 	@Override
 	public int deleteVehicle(String id){
 		return this.vehicleManageMapper.deleteByPrimaryKey(id);
-	}
-	
-	private List<VehicleManageResp> copyBeanList2RespList(List<VehicleManage> list) throws Exception {
-		List<VehicleManageResp> listResp = null;
-		if(list != null && list.size() > 0){
-			listResp = new ArrayList<VehicleManageResp>();
-			for(VehicleManage vehicle : list){
-				listResp.add(copyBean2Resp(vehicle));
-			}
-		}
-		return listResp;
-	}
-	
-	private VehicleManageResp copyBean2Resp(VehicleManage bean) throws Exception {
-		VehicleManageResp resp = null;
-		if(bean != null){
-			resp = new VehicleManageResp();
-			PropertyUtils.copyProperties(resp, bean);
-		}
-		return resp;
 	}
 
 	@Transactional
@@ -153,6 +135,26 @@ public class VehicleManageService implements IVehicleManageService {
 			}
 		}
 		return false;
+	}
+	
+	private List<VehicleManageResp> copyBeanList2RespList(List<VehicleManage> list) throws Exception {
+		List<VehicleManageResp> listResp = null;
+		if(list != null && list.size() > 0){
+			listResp = new ArrayList<VehicleManageResp>();
+			for(VehicleManage vehicle : list){
+				listResp.add(copyBean2Resp(vehicle));
+			}
+		}
+		return listResp;
+	}
+	
+	private VehicleManageResp copyBean2Resp(VehicleManage bean) throws Exception {
+		VehicleManageResp resp = null;
+		if(bean != null){
+			resp = new VehicleManageResp();
+			PropertyUtils.copyProperties(resp, bean);
+		}
+		return resp;
 	}
 
 }

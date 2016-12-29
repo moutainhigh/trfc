@@ -33,16 +33,17 @@ public class BlacklistManageService implements IBlacklistManageService {
 	public int addBlacklist(BlacklistManageReq req) throws Exception {
 		int n = 0;
 		if(req != null){
-			BlacklistManage record = new BlacklistManage();
-			record.setVehicleno(req.getVehicleno());
-			List<VehicleManage> list = this.blacklistManageMapper.selectSelective(record);
+			BlacklistManage blacklist = new BlacklistManage();
+			blacklist.setVehicleno(req.getVehicleno());
+			List<VehicleManage> list = this.blacklistManageMapper.selectSelective(blacklist);
 			if(list != null && list.size() > 0){
 				return -1;
 			}
-			BlacklistManage blacklist = new BlacklistManage();
 			PropertyUtils.copyProperties(blacklist, req);
 			blacklist.setId(UUIDUtil.getId());
+//			blacklist.setCreator("");
 			blacklist.setCreatetime(System.currentTimeMillis());
+//			blacklist.setModifier("");
 			blacklist.setModifytime(System.currentTimeMillis());
 			n = this.blacklistManageMapper.insert(blacklist);
 		}

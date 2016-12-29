@@ -61,37 +61,39 @@ public class WarehouseManageService implements IWarehouseManageService {
 	@Override
 	@Transactional
 	public int deleteWarehouse(String id) {
-		int count = 0;
+		int n = 0;
 		if(StringUtils.isNotBlank(id)){
-			count = warehouseManageMapper.deleteByPrimaryKey(id);
+			n = warehouseManageMapper.deleteByPrimaryKey(id);
 		}
-		return count;
+		return n;
 	}
 
 	@Override
 	@Transactional
 	public int updateWarehouse(WarehouseManageReq req) throws Exception {
-		int count = 0;
+		int n = 0;
 		if(req != null){
 			WarehouseManage wm = new WarehouseManage();
 			PropertyUtils.copyProperties(wm, req);
-			count = warehouseManageMapper.updateByPrimaryKeySelective(wm);
+//			wm.setModifier("");
+			wm.setModifytime(System.currentTimeMillis());
+			n = warehouseManageMapper.updateByPrimaryKeySelective(wm);
 		}
-		return count;
+		return n;
 	}
 	
 	@Override
 	@Transactional
 	public int addWarehouse(WarehouseManageReq req) throws Exception {
-		int count = 0;
+		int n = 0;
 		if(req != null){
 			WarehouseManage wm = new WarehouseManage();
 			PropertyUtils.copyProperties(wm, req);
 			wm.setId(UUIDUtil.getId());
 			wm.setCreatetime(System.currentTimeMillis());
-			count = warehouseManageMapper.insert(wm);
+			n = warehouseManageMapper.insert(wm);
 		}
-		return count;
+		return n;
 	}
 	
 	private List<WarehouseManageResp> copyBeanList2RespList(List<WarehouseManage> list) throws Exception {
