@@ -1,4 +1,4 @@
-package com.tianrui.service.mapper;
+package com.tianrui.service.mapper.basicFile.other;
 
 import com.tianrui.service.bean.dossier.OtherBdSupplier;
 

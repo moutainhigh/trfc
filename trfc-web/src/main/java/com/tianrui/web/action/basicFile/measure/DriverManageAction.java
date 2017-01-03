@@ -40,7 +40,6 @@ public class DriverManageAction {
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
-			return result;
 		}
 		return result;
 	}
@@ -61,7 +60,6 @@ public class DriverManageAction {
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
-			return result;
 		}
 		return result;
 	}
@@ -80,7 +78,6 @@ public class DriverManageAction {
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
-			return result;
 		}
 		return result;
 	}
@@ -99,7 +96,6 @@ public class DriverManageAction {
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
-			return result;
 		}
 		return result;
 	}

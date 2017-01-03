@@ -7,7 +7,7 @@ package com.tianrui.service.bean.basicFile.measure;
  */
 public class BlacklistManage {
     private String id;
-
+    //
     private String vehicleid;
 
     private String vehicleno;
