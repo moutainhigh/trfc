@@ -32,7 +32,7 @@ public class JsonUtil {
 	public static boolean validateKey(String keyValue, String time, String authKey) {
 		boolean result = false;
 		try {
-			result = (keyValue.equalsIgnoreCase( Md5Utils.MD5(time+authKey)));
+			result = (keyValue.equalsIgnoreCase( Md5Utils.MD5(authKey+time)));
 		} catch (Exception e) {
 			logger.warn(e.getMessage(),e);
 		}

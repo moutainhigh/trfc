@@ -13,11 +13,14 @@ import com.tianrui.api.intf.basicFile.measure.IBlacklistManageService;
 import com.tianrui.api.intf.basicFile.measure.IVehicleManageService;
 import com.tianrui.api.req.basicFile.measure.BlacklistManageReq;
 import com.tianrui.api.req.basicFile.measure.VehicleManageReq;
+import com.tianrui.api.req.basicFile.measure.VehicleSaveReq;
 import com.tianrui.api.resp.basicFile.measure.VehicleManageResp;
 import com.tianrui.service.bean.basicFile.measure.VehicleManage;
 import com.tianrui.service.mapper.basicFile.measure.VehicleManageMapper;
+import com.tianrui.service.vo.VehicleDriverVO;
 import com.tianrui.smartfactory.common.utils.UUIDUtil;
 import com.tianrui.smartfactory.common.vo.PaginationVO;
+import com.tianrui.smartfactory.common.vo.Result;
 
 /**
  * 车辆管理Service
@@ -55,25 +58,25 @@ public class VehicleManageService implements IVehicleManageService {
 	
 	@Transactional
 	@Override
-	public int addVehicle(VehicleManageReq req) throws Exception {
-		int n = 0;
-		if(req != null){
-			VehicleManage vehicle = new VehicleManage();
-			vehicle.setVehicleno(req.getVehicleno());
-			List<VehicleManage> list = this.vehicleManageMapper.selectSelective(vehicle);
-			if(list != null && list.size() > 0){
-				return -1;
-			}
-			PropertyUtils.copyProperties(vehicle, req);
-			vehicle.setId(UUIDUtil.getId());
-			vehicle.setIsblacklist("0");
-//			vehicle.setCreator("");
-			vehicle.setCreatetime(System.currentTimeMillis());
-//			vehicle.setModifier("");
-			vehicle.setModifytime(System.currentTimeMillis());
-			n = this.vehicleManageMapper.insert(vehicle);
-		}
-		return n;
+	public Result addVehicle(VehicleSaveReq saveReq) throws Exception {
+		Result rs =Result.getParamErrorResult();
+//		if(req != null){
+//			VehicleManage vehicle = new VehicleManage();
+//			vehicle.setVehicleno(req.getVehicleno());
+//			List<VehicleManage> list = this.vehicleManageMapper.selectSelective(vehicle);
+//			if(list != null && list.size() > 0){
+//				return -1;
+//			}
+//			PropertyUtils.copyProperties(vehicle, req);
+//			vehicle.setId(UUIDUtil.getId());
+//			vehicle.setIsblacklist("0");
+////			vehicle.setCreator("");
+//			vehicle.setCreatetime(System.currentTimeMillis());
+////			vehicle.setModifier("");
+//			vehicle.setModifytime(System.currentTimeMillis());
+//			n = this.vehicleManageMapper.insert(vehicle);
+//		}
+		return Result.getSuccessResult();
 	}
 	
 	@Transactional

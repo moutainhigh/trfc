@@ -7,7 +7,7 @@ public class ApiResult {
 
 	private String code="";
 	
-	private String message="";
+	private String error="";
 	
 	private Object returnData;
 	
@@ -18,11 +18,11 @@ public class ApiResult {
 	public void setCode(String code) {
 		this.code = code;
 	}
-	public String getMessage() {
-		return message;
+	public String getError() {
+		return error;
 	}
-	public void setMessage(String message) {
-		this.message = message;
+	public void setError(String error) {
+		this.error = error;
 	}
 	public Object getReturnData() {
 		return returnData;
@@ -44,7 +44,7 @@ public class ApiResult {
 	public ApiResult(String code, String message) {
 		super();
 		this.code = code;
-		this.message = message;
+		this.error = message;
 	}
 	public static ApiResult valueOf(Result rs){
 		ApiResult appResult = null;
@@ -52,7 +52,7 @@ public class ApiResult {
 			appResult=new ApiResult();
 			appResult.setCode(rs.getCode());
 			appResult.setReturnData(rs.getData());
-			appResult.setMessage(rs.getError());
+			appResult.setError(rs.getError());
 		}
 		return appResult;
 	}
@@ -62,7 +62,7 @@ public class ApiResult {
 		if( errorCode !=null ){
 			appResult = new ApiResult();
 			appResult.setCode(errorCode.getCode());
-			appResult.setMessage(errorCode.getMsg());
+			appResult.setError(errorCode.getMsg());
 		}
 		return appResult;
 	}

@@ -84,11 +84,13 @@ public class ApiTest {
 	    return sb.toString();
 	}
 	public static void main(String[] args) {
-		ApiParam<UserReq> req =getParam();
-		setkey(req);
-		setMd5(req);
-		String param =JSON.toJSONString(req);
-		System.out.println(httpPost(domin+uri,"p="+param));
+//		ApiParam<UserReq> req =getParam();
+//		setkey(req);
+//		setMd5(req);
+//		String param =JSON.toJSONString(req);
+//		System.out.println(httpPost(domin+uri,"p="+param));
+		
+		System.out.println(Md5Utils.MD5("1"));
 	}
 	
 	

@@ -11,9 +11,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.tianrui.api.intf.businessManage.cardManage.ICardService;
 import com.tianrui.api.req.businessManage.cardManage.CardReq;
+import com.tianrui.api.req.businessManage.cardManage.CardSaveReq;
 import com.tianrui.api.resp.businessManage.cardManage.CardResp;
 import com.tianrui.service.bean.businessManage.cardManage.Card;
 import com.tianrui.service.mapper.businessManage.cardManage.CardMapper;
+import com.tianrui.smartfactory.common.constants.ErrorCode;
 import com.tianrui.smartfactory.common.utils.UUIDUtil;
 /**
  * 卡务管理Service
@@ -22,6 +24,7 @@ import com.tianrui.smartfactory.common.utils.UUIDUtil;
  * @classname CardService.java
  */
 import com.tianrui.smartfactory.common.vo.PaginationVO;
+import com.tianrui.smartfactory.common.vo.Result;
 @Service
 public class CardService implements ICardService {
 	
@@ -48,26 +51,6 @@ public class CardService implements ICardService {
 		return page;
 	}
 	
-	@Transactional
-	@Override
-	public int addCard(CardReq req) throws Exception {
-		if(req != null){
-			Card card = new Card();
-			card.setCardcode(req.getCardcode());
-			if(cardMapper.selectSelective(card).size() > 0){
-				return -1;
-			}
-			PropertyUtils.copyProperties(card, req);
-			card.setId(UUIDUtil.getId());
-			card.setState("1");
-//			card.setCreator("");
-			card.setCreatetime(System.currentTimeMillis());
-//			card.setModifier("");
-			card.setModifytime(System.currentTimeMillis());
-			return cardMapper.insert(card);
-		}
-		return 0;
-	}
 	
 	@Transactional
 	@Override
@@ -132,5 +115,30 @@ public class CardService implements ICardService {
 			PropertyUtils.copyProperties(resp, bean);
 		}
 		return resp;
+	}
+
+	@Override
+	public Result addCard(CardSaveReq req) throws Exception {
+		Result rs =Result.getParamErrorResult();
+		if(req != null && StringUtils.isNotEmpty(req.getCardcode())
+				&& StringUtils.isNotEmpty(req.getCardno())&& StringUtils.isNotEmpty(req.getCardtype())){
+			Card query = new Card();
+			query.setCardcode(req.getCardcode());
+			if(cardMapper.selectSelective(query).size() > 0){
+				rs.setErrorCode(ErrorCode.PARAM_REPEAT_ERROR);
+			}else{
+				Card save = new Card();
+				PropertyUtils.copyProperties(save, req);
+				save.setId(UUIDUtil.getId());
+				save.setState("1");
+				save.setCreator(req.getCurrUid());
+				save.setCreatetime(System.currentTimeMillis());
+				save.setModifytime(System.currentTimeMillis());
+				save.setModifier(req.getCurrUid());
+				cardMapper.insert(save);
+				rs.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+			}
+		}
+		return rs;
 	}
 }

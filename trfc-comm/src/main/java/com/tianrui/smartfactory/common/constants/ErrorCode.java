@@ -14,7 +14,7 @@ public enum ErrorCode {
 	 */
 	PARAM_ERROR("E10000","参数异常."),
 	PARAM_NULL_ERROR("E10002","参数异常,参数不能为空."),
-	PARAM_TOKEN_ERROR("E10003","TOKEN验证失败."),
+	PARAM_TOKEN_ERROR("E10003","KEY验证失败."),
 	PARAM_CHECK_CODE_ERROR("E10004","校验码异常."),
 	PARAM_REPEAT_ERROR("E10005","数据重复."),
 	

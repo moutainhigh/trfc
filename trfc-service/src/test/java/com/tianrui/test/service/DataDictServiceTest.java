@@ -43,9 +43,9 @@ public class DataDictServiceTest {
 //		bean.setCreatetime(System.currentTimeMillis());
 //		bean.setModifier("我是修改人id");
 //		bean.setModifytime(System.currentTimeMillis());
-		int n =vehicleManageService.addVehicle(bean);
-		System.out.println(n);
-		logger.info("{}",JSON.toJSON(n));
+//		int n =vehicleManageService.addVehicle(bean);
+//		System.out.println(n);
+//		logger.info("{}",JSON.toJSON(n));
 	}
 	
 }

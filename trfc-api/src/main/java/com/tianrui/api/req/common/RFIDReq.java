@@ -7,8 +7,8 @@ public class RFIDReq extends BaseReq{
 	private static final long serialVersionUID = -7424498211061351171L;
 	
 	private String rfid;
-
-    private String state;
+    
+    private String currUid;
 
     public String getRfid() {
         return rfid;
@@ -18,11 +18,12 @@ public class RFIDReq extends BaseReq{
         this.rfid = rfid == null ? null : rfid.trim();
     }
 
-    public String getState() {
-        return state;
-    }
+	public String getCurrUid() {
+		return currUid;
+	}
 
-    public void setState(String state) {
-        this.state = state == null ? null : state.trim();
-    }
+	public void setCurrUid(String currUid) {
+		this.currUid = currUid;
+	}
+    
 }

@@ -5,44 +5,38 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.tianrui.api.intf.system.auth.ISystemUserService;
-import com.tianrui.api.req.system.auth.UserReq;
+import com.tianrui.api.intf.basicFile.measure.IVehicleManageService;
+import com.tianrui.api.req.basicFile.measure.VehicleSaveReq;
 import com.tianrui.smartfactory.common.api.ApiParam;
 import com.tianrui.smartfactory.common.api.ApiResult;
 import com.tianrui.smartfactory.common.constants.ErrorCode;
 import com.tianrui.smartfactory.common.vo.Result;
+import com.tianrui.web.action.basicFile.measure.VehicleManageAction;
 import com.tianrui.web.smvc.ApiParamRawType;
 
-
-/**
- * 用户验证相关
- * @author lixp 2017年1月7日 09:24:36
- *
- */
 @Controller
-@RequestMapping("api/system")
-public class ApiSystemAuth {
+@RequestMapping("api/vehicle")
+public class ApiVehicleAction {
 
-	private Logger log = LoggerFactory.getLogger(ApiSystemAuth.class);
+	private Logger log = LoggerFactory.getLogger(VehicleManageAction.class);
 	
 	@Autowired
-	ISystemUserService systemUserService;
+	private IVehicleManageService vehicleManageService;
 	
-	@RequestMapping(value="/login",method=RequestMethod.POST)
-	@ApiParamRawType(UserReq.class)
-	//@ApiTokenValidation
+	@RequestMapping("addVehicle")
+	@ApiParamRawType(VehicleSaveReq.class)
 	@ResponseBody
-	public ApiResult login(ApiParam<UserReq> req){
-		UserReq userReq =req.getBody();
+	public ApiResult addVehicle(ApiParam<VehicleSaveReq> req){
 		Result rs=Result.getErrorResult();
+		VehicleSaveReq vehicleSaveReq =req.getBody();
+		vehicleSaveReq.setCurrUid(req.getHead().getUserId());
 		try {
-			rs = systemUserService.apiLogin(userReq);
+			vehicleManageService.addVehicle(vehicleSaveReq);
 		} catch (Exception e) {
+			log.error(e.getMessage(), e);
 			rs.setErrorCode(ErrorCode.SYSTEM_ERROR);
-			log.error(e.getMessage(),e);
 		}
 		return ApiResult.valueOf(rs);
 	}

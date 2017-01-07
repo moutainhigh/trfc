@@ -11,6 +11,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.tianrui.api.intf.basicFile.measure.IVehicleManageService;
 import com.tianrui.api.req.basicFile.measure.VehicleManageReq;
+import com.tianrui.api.req.basicFile.measure.VehicleSaveReq;
 import com.tianrui.api.resp.basicFile.measure.VehicleManageResp;
 import com.tianrui.smartfactory.common.constants.ErrorCode;
 import com.tianrui.smartfactory.common.vo.PaginationVO;
@@ -50,21 +51,14 @@ public class VehicleManageAction {
 				
 	@RequestMapping("addVehicle")
 	@ResponseBody
-	public Result addVehicle(VehicleManageReq req){
-		Result result = Result.getSuccessResult();
+	public Result addVehicle(VehicleSaveReq req){
+		Result result = Result.getErrorResult();
 		try {
-			int n = vehicleManageService.addVehicle(req);
-			if(n > 0){
-				result.setData(n);
-			}else if(n == -1){
-				result.setErrorCode(ErrorCode.PARAM_REPEAT_ERROR);
-			}else{
-				result.setErrorCode(ErrorCode.OPERATE_ERROR);
-			}
+			result = vehicleManageService.addVehicle(req);
+			
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
-			return result;
 		}
 		return result;
 	}
@@ -83,7 +77,6 @@ public class VehicleManageAction {
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
-			return result;
 		}
 		return result;
 	}

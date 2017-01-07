@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.beanutils.PropertyUtils;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,6 +16,8 @@ import com.tianrui.api.resp.businessManage.cardManage.CardResp;
 import com.tianrui.service.bean.businessManage.cardManage.Card;
 import com.tianrui.service.bean.common.RFID;
 import com.tianrui.service.mapper.common.RFIDMapper;
+import com.tianrui.smartfactory.common.constants.ErrorCode;
+import com.tianrui.smartfactory.common.vo.Result;
 
 /**
  * 卡务管理Service
@@ -30,45 +33,26 @@ public class RFIDService implements IRFIDService {
 	
 	@Transactional
 	@Override
-	public int save(RFIDReq req) throws Exception {
-		if(req != null){
-			RFID rfid = new RFID();
-			PropertyUtils.copyProperties(rfid, req);
-			rfid.setState("1");
-			return rfidMapper.insert(rfid);
+	public Result save(RFIDReq req) throws Exception {
+		Result rs =Result.getParamErrorResult();
+		if(req != null && StringUtils.isNotBlank(req.getRfid())){
+			RFID db =rfidMapper.selectByPrimaryKey(req.getRfid());
+			if(db !=null){
+				RFID save = new RFID();
+				save.setRfid(req.getRfid());
+				save.setState(true);
+				save.setCreatetime(System.currentTimeMillis());
+				save.setModifytime(System.currentTimeMillis());
+				save.setModifier(req.getCurrUid());
+				save.setCreator(req.getCurrUid());
+				rfidMapper.insert(save);
+				rs.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+			}else{
+				rs.setErrorCode(ErrorCode.PARAM_REPEAT_ERROR);
+			}
 		}
-		return 0;
+		return rs;
 	}
 	
-	@Transactional
-	@Override
-	public int saveList(List<RFIDReq> list) throws Exception {
-		if(list != null && list.size() > 0){
-			for(RFIDReq req : list){
-				req.setState("1");
-			}
-			return rfidMapper.saveList(list);
-		}
-		return 0;
-	}
 
-//	private List<CardResp> copyBeanList2RespList(List<Card> list) throws Exception {
-//		List<CardResp> listResp = null;
-//		if(list != null && list.size() > 0){
-//			listResp = new ArrayList<CardResp>();
-//			for(Card card : list){
-//				listResp.add(copyBean2Resp(card));
-//			}
-//		}
-//		return listResp;
-//	}
-//	
-//	private CardResp copyBean2Resp(Card bean) throws Exception {
-//		CardResp resp = null;
-//		if(bean != null){
-//			resp = new CardResp();
-//			PropertyUtils.copyProperties(resp, bean);
-//		}
-//		return resp;
-//	}
 }
