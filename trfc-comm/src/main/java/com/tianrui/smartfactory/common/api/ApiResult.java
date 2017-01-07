@@ -1,17 +1,17 @@
-package com.tianrui.smartfactory.common.vo;
+package com.tianrui.smartfactory.common.api;
 
 import com.tianrui.smartfactory.common.constants.ErrorCode;
+import com.tianrui.smartfactory.common.vo.Result;
 
-public class AppResult {
+public class ApiResult {
 
-	private String code;
+	private String code="";
 	
-	private String message;
+	private String message="";
 	
 	private Object returnData;
 	
-	private Integer total;
-	private long serviceTime=System.currentTimeMillis();
+	private String serviceTime=String.valueOf(System.currentTimeMillis());
 	public String getCode() {
 		return code;
 	}
@@ -30,42 +30,37 @@ public class AppResult {
 	public void setReturnData(Object returnData) {
 		this.returnData = returnData;
 	}
-	public Integer getTotal() {
-		return total;
-	}
-	public void setTotal(Integer total) {
-		this.total = total;
-	}
-	public long getServiceTime() {
+
+	
+	public String getServiceTime() {
 		return serviceTime;
 	}
-	public void setServiceTime(long serviceTime) {
+	public void setServiceTime(String serviceTime) {
 		this.serviceTime = serviceTime;
 	}
-	
-	public AppResult() {
+	public ApiResult() {
 		super();
 	}
-	public AppResult(String code, String message) {
+	public ApiResult(String code, String message) {
 		super();
 		this.code = code;
 		this.message = message;
 	}
-	public static AppResult valueOf(Result rs){
-		AppResult appResult = null;
+	public static ApiResult valueOf(Result rs){
+		ApiResult appResult = null;
 		if( rs !=null ){
-			appResult = new AppResult();
+			appResult=new ApiResult();
 			appResult.setCode(rs.getCode());
-			appResult.setMessage(rs.getError());
 			appResult.setReturnData(rs.getData());
+			appResult.setMessage(rs.getError());
 		}
 		return appResult;
 	}
 	
-	public static AppResult valueOf(ErrorCode errorCode){
-		AppResult appResult = null;
+	public static ApiResult valueOf(ErrorCode errorCode){
+		ApiResult appResult = null;
 		if( errorCode !=null ){
-			appResult = new AppResult();
+			appResult = new ApiResult();
 			appResult.setCode(errorCode.getCode());
 			appResult.setMessage(errorCode.getMsg());
 		}

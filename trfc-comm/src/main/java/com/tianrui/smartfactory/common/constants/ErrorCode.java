@@ -2,20 +2,31 @@ package com.tianrui.smartfactory.common.constants;
 
 public enum ErrorCode {
 
+	//操作成功
+	SYSTEM_SUCCESS("000000","操作成功"),
 	//系统异常
 	SYSTEM_ERROR("E00000","服务器异常,请联系管理员."),
 	//操作失败
 	OPERATE_ERROR("E00001","服务器繁忙,请稍后重试."),
-	//参数异常
+	
+	/**
+	 * 参数相关
+	 */
 	PARAM_ERROR("E10000","参数异常."),
-	//参数为空异常
 	PARAM_NULL_ERROR("E10002","参数异常,参数不能为空."),
-	//TOKEN验证失败
 	PARAM_TOKEN_ERROR("E10003","TOKEN验证失败."),
-	//校验码异常
 	PARAM_CHECK_CODE_ERROR("E10004","校验码异常."),
-	//数据重复
 	PARAM_REPEAT_ERROR("E10005","数据重复."),
+	
+	
+	/**
+	 * 用户相关
+	 */
+	SYSTEM_USER_ERROR1("E200001","账户不存在."),
+	SYSTEM_USER_ERROR2("E200002","密码错误."),
+	SYSTEM_USER_ERROR3("E200003","用户被锁定."),
+	SYSTEM_USER_ERROR4("E200004","用户被禁用."),
+	SYSTEM_USER_ERROR5("E200005","用户无效."),
 	;
 	
 	private String code;

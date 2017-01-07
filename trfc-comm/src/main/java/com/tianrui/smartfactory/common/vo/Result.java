@@ -47,12 +47,27 @@ public class Result implements Serializable{
 		this.error = error;
 	}
 	public static Result getSuccessResult(){
-		return new Result("000000");
+		Result rs = new Result();
+		rs.setCode(ErrorCode.SYSTEM_SUCCESS.getCode());
+		rs.setError(ErrorCode.SYSTEM_SUCCESS.getMsg());
+		return rs;
 	}
-	
+	public static Result getErrorResult(){
+		Result rs = new Result();
+		rs.setCode(ErrorCode.OPERATE_ERROR.getCode());
+		rs.setError(ErrorCode.OPERATE_ERROR.getMsg());
+		return rs;
+	}
+
 	public void setErrorCode(ErrorCode errorCode ){
 		this.code=errorCode.getCode();
 		this.error=errorCode.getMsg();
+	}
+	public static Result getParamErrorResult(){
+		Result rs = new Result();
+		rs.setCode(ErrorCode.PARAM_NULL_ERROR.getCode());
+		rs.setError(ErrorCode.PARAM_NULL_ERROR.getMsg());
+		return rs;
 	}
 	
 }

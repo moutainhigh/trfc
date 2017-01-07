@@ -1,4 +1,4 @@
-package com.tianrui.web.api;
+package com.tianrui.web.api.action;
 
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;

@@ -19,7 +19,10 @@ public class Constant {
     
     public final static String FILE_URL_PRE="http://www.trwl.com/img/";
     
-    public final static String apiAuthKey ="!&@#2016#";
+    // 用户验证key
+    public final static String apiAuthKey ="@#!tr2017!#$";
+    // md5篡改
+    public final static String apiAuthSign ="trapi20170107";
     
     
     //redis 缓存的前缀

@@ -38,30 +38,25 @@
 	<mvc:resources location="/resources/" mapping="/resources/**"/>
 	
 	<!-- interceptors -->
-	<!-- <mvc:interceptors>
-		拦截所有APP接口请求，处理公共ApiParam参数，及拦截非法请求
+	 <mvc:interceptors>
+		<!-- 拦截所有APP接口请求，处理公共ApiParam参数，及拦截非法请求 -->
 		<mvc:interceptor>
-			<mvc:mapping path="/app/**"/>
+			<mvc:mapping path="/api/**"/>
 			<bean class="com.tianrui.web.smvc.ApiParamInterceptor" />
 		</mvc:interceptor>
-		拦截所有Web端需要拦截的路径,做日志以及权限验证
-		<mvc:interceptor>
-			<mvc:mapping path="/trwuliu/**"/>
-			<bean class="com.tianrui.web.smvc.WebAuthInterceptor" />
-		</mvc:interceptor>
-	</mvc:interceptors>	 -->
+	</mvc:interceptors>	
 	
 	
-	<aop:aspectj-autoproxy/>
+ 	<aop:aspectj-autoproxy/>
 		
 	<aop:config>
 		<aop:aspect ref="apiParamPointcut">
-			<aop:pointcut id="apiPointcut" expression="execution(* com.tianrui.web.app.action..*(..))"/>
+			<aop:pointcut id="apiPointcut" expression="execution(* com.tianrui.web.api.action..*(..))"/>
 			<aop:around pointcut-ref="apiPointcut" method="forAround"/>
 		</aop:aspect>
 	</aop:config>	
 			
 	<bean id="apiParamPointcut" 
-		class="com.tianrui.web.smvc.ApiParamInterceptor.ApiParamHandlerPointcut"/>	
+		class="com.tianrui.web.smvc.ApiParamInterceptor.ApiParamHandlerPointcut"/>	 
  </beans>
 

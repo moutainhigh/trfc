@@ -1,11 +1,10 @@
-package com.tianrui.smartfactory.common.vo;
+package com.tianrui.smartfactory.common.api;
 
-public class AppParam<T> {
+public class ApiParam<T> {
 
 	private Head head;
 	private T body;
 	private String sign;
-	
 	
 	
 	public Head getHead() {

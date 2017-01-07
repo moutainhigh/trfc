@@ -1,4 +1,4 @@
-package com.tianrui.web.api;
+package com.tianrui.web.api.action;
 
 import java.util.List;
 
