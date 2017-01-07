@@ -27,4 +27,6 @@ public interface CustomerManageMapper {
 	List<CustomerManage> findCustomerPage(CustomerManageReq req);
 
 	long findCustomerPageCount(CustomerManageReq req);
+	
+	List<CustomerManage> selectSelective(CustomerManage record);
 }

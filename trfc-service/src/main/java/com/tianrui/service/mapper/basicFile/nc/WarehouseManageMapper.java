@@ -26,4 +26,6 @@ public interface WarehouseManageMapper {
     long findWarehouseManagePageCount(WarehouseManageReq req);
 
 	List<WarehouseManage> findWarehouseManagePage(WarehouseManageReq req);
+
+	List<WarehouseManage> selectSelective(WarehouseManage w);
 }

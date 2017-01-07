@@ -345,4 +345,77 @@
   		</if>
   	</where>
   </select>
+  <select id="selectSelective" resultMap="BaseResultMap" parameterType="com.tianrui.service.bean.basicFile.nc.MaterielManage">
+  	select 
+  	<include refid="Base_Column_List"/>
+  	from tr_materiel_bd_manage
+  	<where>
+  	  <if test="id != null and id != ''" >
+        and id = #{id,jdbcType=VARCHAR}
+      </if>
+  	  <if test="code != null and code != ''" >
+        and code = #{code,jdbcType=VARCHAR}
+      </if>
+      <if test="internalcode != null and internalcode != ''" >
+        and internalcode = #{internalcode,jdbcType=VARCHAR}
+      </if>
+      <if test="name != null and name != ''" >
+        and name = #{name,jdbcType=VARCHAR}
+      </if>
+      <if test="abbrname != null and abbrname != ''" >
+        and abbrname = #{abbrname,jdbcType=VARCHAR}
+      </if>
+      <if test="spec != null and spec != ''" >
+        and spec = #{spec,jdbcType=VARCHAR}
+      </if>
+      <if test="model != null and model != ''" >
+        and model = #{model,jdbcType=VARCHAR}
+      </if>
+      <if test="pinyincode != null and pinyincode != ''" >
+        and pinyincode = #{pinyincode,jdbcType=VARCHAR}
+      </if>
+      <if test="receiptstatus != null and receiptstatus != ''" >
+        and receiptstatus = #{receiptstatus,jdbcType=VARCHAR}
+      </if>
+      <if test="factorycode != null and factorycode != ''" >
+        and factorycode = #{factorycode,jdbcType=VARCHAR}
+      </if>
+      <if test="packagetype != null and packagetype != ''" >
+        and packagetype = #{packagetype,jdbcType=VARCHAR}
+      </if>
+      <if test="businesstype != null and businesstype != ''" >
+        and businesstype = #{businesstype,jdbcType=VARCHAR}
+      </if>
+      <if test="effective != null and effective != ''" >
+        and effective = #{effective,jdbcType=VARCHAR}
+      </if>
+      <if test="bulkwritecard != null and bulkwritecard != ''" >
+        and bulkwritecard = #{bulkwritecard,jdbcType=VARCHAR}
+      </if>
+      <if test="orgid != null and orgid != ''" >
+        and orgid = #{orgid,jdbcType=VARCHAR}
+      </if>
+      <if test="orgname != null and orgname != ''" >
+        and orgname = #{orgname,jdbcType=VARCHAR}
+      </if>
+      <if test="queuingprefix != null and queuingprefix != ''" >
+        and queuingprefix = #{queuingprefix,jdbcType=VARCHAR}
+      </if>
+      <if test="remarks != null and remarks != ''" >
+        and remarks = #{remarks,jdbcType=VARCHAR}
+      </if>
+      <if test="creator != null and creator != ''" >
+        and creator = #{creator,jdbcType=VARCHAR}
+      </if>
+      <if test="createtime != null and createtime != ''" >
+        and createtime = #{createtime,jdbcType=BIGINT}
+      </if>
+      <if test="modifier != null and modifier != ''" >
+        and modifier = #{modifier,jdbcType=VARCHAR}
+      </if>
+      <if test="modifytime != null and modifytime != ''" >
+        and modifytime = #{modifytime,jdbcType=BIGINT}
+      </if>
+  	</where>
+  </select>
 </mapper>

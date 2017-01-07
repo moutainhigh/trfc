@@ -239,4 +239,43 @@
       modifytime = #{modifytime,jdbcType=BIGINT}
     where id = #{id,jdbcType=VARCHAR}
   </update>
+  <select id="findVehiclePageCount" resultType="java.lang.Long" parameterType="com.tianrui.api.req.basicFile.other.OtherBdVehicleReq">
+  	select
+  	count(0)
+  	from tr_other_bd_vehice
+  	<where>
+  		<if test="name != null and name != ''">
+  			and name like '%${name}%'
+		</if>
+  		<if test="orgname != null and orgname != ''">
+  			and orgname like '%${orgname}%'
+		</if>
+		<if test="innercode != null and innercode != ''">
+  			and innercode like '%${innercode}%'
+		</if>
+  	</where>
+  </select>
+  <select id="findVehiclePage" resultMap="BaseResultMap" parameterType="com.tianrui.api.req.basicFile.other.OtherBdVehicleReq">
+  	select
+  	<include refid="Base_Column_List" />
+  	from tr_other_bd_vehice
+  	<where>
+  		<if test="name != null and name != ''">
+  			and name like '%${name}%'
+		</if>
+  		<if test="orgname != null and orgname != ''">
+  			and orgname like '%${orgname}%'
+		</if>
+		<if test="innercode != null and innercode != ''">
+  			and innercode like '%${innercode}%'
+		</if>
+  	</where>
+  	order by createtime desc
+  	<if test="start != null and start >= 0">
+  		<if test="limit != null">
+			limit #{start,jdbcType=INTEGER},#{limit,jdbcType=INTEGER}
+  		</if>
+  	</if>
+  </select>
+  
 </mapper>

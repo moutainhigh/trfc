@@ -46,7 +46,6 @@ public class WarehouseManageAction {
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
-			return result;
 		}
 		return result;
 	}
@@ -65,7 +64,19 @@ public class WarehouseManageAction {
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
-			return result;
+		}
+		return result;
+	}
+	
+	@RequestMapping("findAll")
+	@ResponseBody
+	public Result findAll(WarehouseManageReq req){
+		Result result = Result.getSuccessResult();
+		try {
+			result.setData(warehouseManageService.findAll());
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
 		}
 		return result;
 	}

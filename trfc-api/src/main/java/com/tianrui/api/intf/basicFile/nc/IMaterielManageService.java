@@ -1,5 +1,7 @@
 package com.tianrui.api.intf.basicFile.nc;
 
+import java.util.List;
+
 import com.tianrui.api.req.basicFile.nc.MaterielManageReq;
 import com.tianrui.api.resp.basicFile.nc.MaterielManageResp;
 import com.tianrui.smartfactory.common.vo.PaginationVO;
@@ -46,5 +48,19 @@ public interface IMaterielManageService {
 	 * @throws Exception
 	 */
 	public int updateMateriel(MaterielManageReq req) throws Exception;
+	/**
+	 * 查询全部物料
+	 * @param 
+	 * @return
+	 * @throws Exception
+	 */
+	public List<MaterielManageResp> findAll() throws Exception;
+	/**
+	 * 查询物料
+	 * @param 
+	 * @return
+	 * @throws Exception
+	 */
+	List<MaterielManageResp> selectSelective(MaterielManageReq req) throws Exception;
 
 }

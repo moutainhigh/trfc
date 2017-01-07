@@ -56,7 +56,21 @@ public class CustomerManageService implements ICustomerManageService {
 		}
 		return n;
 	}
-
+	
+	@Override
+	public List<CustomerManageResp> selectSelective(CustomerManageReq req) throws Exception {
+		CustomerManage c = new CustomerManage();
+		PropertyUtils.copyProperties(c, req);
+		List<CustomerManage> list = customerManageMapper.selectSelective(c);
+		return copyBeanList2RespList(list);
+	}
+	
+	@Override
+	public List<CustomerManageResp> findAll() throws Exception {
+		List<CustomerManage> list = customerManageMapper.selectSelective(null);
+		return copyBeanList2RespList(list);
+	}
+	
 	private List<CustomerManageResp> copyBeanList2RespList(List<CustomerManage> list) throws Exception {
 		List<CustomerManageResp> listResp = null;
 		if(list != null && list.size() > 0){
@@ -76,4 +90,5 @@ public class CustomerManageService implements ICustomerManageService {
 		}
 		return resp;
 	}
+
 }

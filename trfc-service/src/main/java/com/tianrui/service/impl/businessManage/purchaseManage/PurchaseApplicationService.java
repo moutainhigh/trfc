@@ -32,10 +32,10 @@ public class PurchaseApplicationService implements IPurchaseApplicationService {
 		PaginationVO<PurchaseApplicationResp> page = null;
 		if(req != null){
 			page = new PaginationVO<PurchaseApplicationResp>();
-			req.setStart((req.getPageNo()-1)*req.getPageSize());
-			req.setLimit(req.getPageSize());
 			long count = purchaseApplicationMapper.findPurchaseApplicationPageCount(req);
 			if(count > 0){
+				req.setStart((req.getPageNo()-1)*req.getPageSize());
+				req.setLimit(req.getPageSize());
 				List<PurchaseApplication> list = purchaseApplicationMapper.findPurchaseApplicationPage(req);
 				page.setList(copyBeanList2RespList(list));
 			}

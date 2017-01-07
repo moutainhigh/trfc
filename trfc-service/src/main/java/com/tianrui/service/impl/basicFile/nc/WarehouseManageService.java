@@ -33,10 +33,10 @@ public class WarehouseManageService implements IWarehouseManageService {
 		PaginationVO<WarehouseManageResp> page = null;
 		if(req != null){
 			page = new PaginationVO<WarehouseManageResp>();
-			req.setStart((req.getPageNo()-1)*req.getPageSize());
-			req.setLimit(req.getPageSize());
 			long count = warehouseManageMapper.findWarehouseManagePageCount(req);
 			if(count > 0){
+				req.setStart((req.getPageNo()-1)*req.getPageSize());
+				req.setLimit(req.getPageSize());
 				List<WarehouseManage> list = warehouseManageMapper.findWarehouseManagePage(req);
 				page.setList(copyBeanList2RespList(list));
 			}
@@ -94,6 +94,20 @@ public class WarehouseManageService implements IWarehouseManageService {
 			n = warehouseManageMapper.insert(wm);
 		}
 		return n;
+	}
+
+	@Override
+	public List<WarehouseManageResp> selectSelective(WarehouseManageReq req) throws Exception {
+		WarehouseManage w = new WarehouseManage();
+		PropertyUtils.copyProperties(w, req);
+		List<WarehouseManage> list = warehouseManageMapper.selectSelective(w);
+		return copyBeanList2RespList(list);
+	}
+	
+	@Override
+	public List<WarehouseManageResp> findAll() throws Exception {
+		List<WarehouseManage> list = warehouseManageMapper.selectSelective(null);
+		return copyBeanList2RespList(list);
 	}
 	
 	private List<WarehouseManageResp> copyBeanList2RespList(List<WarehouseManage> list) throws Exception {
