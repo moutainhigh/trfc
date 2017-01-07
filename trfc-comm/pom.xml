@@ -10,6 +10,7 @@
 	<description>智能工厂通用模块</description>
 	<packaging>jar</packaging>
 	
+	
 	<dependencies>	
 		<!-- json -->
 		<dependency>

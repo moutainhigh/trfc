@@ -9,7 +9,7 @@
 	<name>trfc-api</name>
 	<description>智能工厂接口</description>
 	<packaging>jar</packaging>
-  
+
 	<dependencies>	
 		<dependency>
 			<groupId>com.tianrui</groupId>

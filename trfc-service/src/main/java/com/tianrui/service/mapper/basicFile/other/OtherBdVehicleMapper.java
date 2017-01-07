@@ -1,5 +1,8 @@
 package com.tianrui.service.mapper.basicFile.other;
 
+import java.util.List;
+
+import com.tianrui.api.req.basicFile.other.OtherBdVehicleReq;
 import com.tianrui.service.bean.basicFile.other.OtherBdVehicle;
 
 public interface OtherBdVehicleMapper {
@@ -50,4 +53,9 @@ public interface OtherBdVehicleMapper {
      * @mbggenerated
      */
     int updateByPrimaryKey(OtherBdVehicle record);
+    
+    
+    long findVehiclePageCount(OtherBdVehicleReq req);
+
+	List<OtherBdVehicle> findVehiclePage(OtherBdVehicleReq req);
 }
