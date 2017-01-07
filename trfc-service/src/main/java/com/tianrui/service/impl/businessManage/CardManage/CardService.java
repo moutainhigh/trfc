@@ -33,11 +33,11 @@ public class CardService implements ICardService {
 		PaginationVO<CardResp> page = null;
 		if(req != null){
 			page = new PaginationVO<CardResp>();
-			req.setStart((req.getPageNo()-1)*req.getPageSize());
-			req.setLimit(req.getPageSize());
 			req.setState("1");
 			long count = cardMapper.findCardPageCount(req);
 			if(count > 0){
+				req.setStart((req.getPageNo()-1)*req.getPageSize());
+				req.setLimit(req.getPageSize());
 				List<Card> list = cardMapper.findCardPage(req);
 				page.setList(copyBeanList2RespList(list));
 			}

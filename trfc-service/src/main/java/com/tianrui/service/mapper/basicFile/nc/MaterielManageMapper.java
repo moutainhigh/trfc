@@ -28,4 +28,6 @@ public interface MaterielManageMapper {
     
     List<MaterielManage> findMaterielManagePage(MaterielManageReq req);
     
+    List<MaterielManage> selectSelective(MaterielManage record);
+    
 }

@@ -120,10 +120,10 @@
 				var source = obj.source || '';
 				switch (source) {
 				case '0':
-					source = '脱机';
+					source = '联机';
 					break;
 				case '1':
-					source = '联机';
+					source = '脱机';
 					break;
 				default:
 					source = '';

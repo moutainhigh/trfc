@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tianrui.service.mapper.businessManage.salesManage.SalesApplicationDetailMapper" >
+  <resultMap id="BaseResultMap" type="com.tianrui.service.bean.businessManage.salesManage.SalesApplicationDetail" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="salesid" property="salesid" jdbcType="VARCHAR" />
+    <result column="materielid" property="materielid" jdbcType="VARCHAR" />
+    <result column="materielname" property="materielname" jdbcType="VARCHAR" />
+    <result column="warehouseid" property="warehouseid" jdbcType="VARCHAR" />
+    <result column="warehousename" property="warehousename" jdbcType="VARCHAR" />
+    <result column="salessum" property="salessum" jdbcType="DOUBLE" />
+    <result column="taxprice" property="taxprice" jdbcType="DOUBLE" />
+    <result column="untaxprice" property="untaxprice" jdbcType="DOUBLE" />
+    <result column="taxrate" property="taxrate" jdbcType="DOUBLE" />
+    <result column="remarks" property="remarks" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, salesid, materielid, materielname, warehouseid, warehousename, salessum, taxprice, 
+    untaxprice, taxrate, remarks
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from tr_sales_db_application_detail
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from tr_sales_db_application_detail
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.tianrui.service.bean.businessManage.salesManage.SalesApplicationDetail" >
+    insert into tr_sales_db_application_detail (id, salesid, materielid, 
+      materielname, warehouseid, warehousename, 
+      salessum, taxprice, untaxprice, 
+      taxrate, remarks)
+    values (#{id,jdbcType=VARCHAR}, #{salesid,jdbcType=VARCHAR}, #{materielid,jdbcType=VARCHAR}, 
+      #{materielname,jdbcType=VARCHAR}, #{warehouseid,jdbcType=VARCHAR}, #{warehousename,jdbcType=VARCHAR}, 
+      #{salessum,jdbcType=DOUBLE}, #{taxprice,jdbcType=DOUBLE}, #{untaxprice,jdbcType=DOUBLE}, 
+      #{taxrate,jdbcType=DOUBLE}, #{remarks,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.tianrui.service.bean.businessManage.salesManage.SalesApplicationDetail" >
+    insert into tr_sales_db_application_detail
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="salesid != null" >
+        salesid,
+      </if>
+      <if test="materielid != null" >
+        materielid,
+      </if>
+      <if test="materielname != null" >
+        materielname,
+      </if>
+      <if test="warehouseid != null" >
+        warehouseid,
+      </if>
+      <if test="warehousename != null" >
+        warehousename,
+      </if>
+      <if test="salessum != null" >
+        salessum,
+      </if>
+      <if test="taxprice != null" >
+        taxprice,
+      </if>
+      <if test="untaxprice != null" >
+        untaxprice,
+      </if>
+      <if test="taxrate != null" >
+        taxrate,
+      </if>
+      <if test="remarks != null" >
+        remarks,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="salesid != null" >
+        #{salesid,jdbcType=VARCHAR},
+      </if>
+      <if test="materielid != null" >
+        #{materielid,jdbcType=VARCHAR},
+      </if>
+      <if test="materielname != null" >
+        #{materielname,jdbcType=VARCHAR},
+      </if>
+      <if test="warehouseid != null" >
+        #{warehouseid,jdbcType=VARCHAR},
+      </if>
+      <if test="warehousename != null" >
+        #{warehousename,jdbcType=VARCHAR},
+      </if>
+      <if test="salessum != null" >
+        #{salessum,jdbcType=DOUBLE},
+      </if>
+      <if test="taxprice != null" >
+        #{taxprice,jdbcType=DOUBLE},
+      </if>
+      <if test="untaxprice != null" >
+        #{untaxprice,jdbcType=DOUBLE},
+      </if>
+      <if test="taxrate != null" >
+        #{taxrate,jdbcType=DOUBLE},
+      </if>
+      <if test="remarks != null" >
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tianrui.service.bean.businessManage.salesManage.SalesApplicationDetail" >
+    update tr_sales_db_application_detail
+    <set >
+      <if test="salesid != null" >
+        salesid = #{salesid,jdbcType=VARCHAR},
+      </if>
+      <if test="materielid != null" >
+        materielid = #{materielid,jdbcType=VARCHAR},
+      </if>
+      <if test="materielname != null" >
+        materielname = #{materielname,jdbcType=VARCHAR},
+      </if>
+      <if test="warehouseid != null" >
+        warehouseid = #{warehouseid,jdbcType=VARCHAR},
+      </if>
+      <if test="warehousename != null" >
+        warehousename = #{warehousename,jdbcType=VARCHAR},
+      </if>
+      <if test="salessum != null" >
+        salessum = #{salessum,jdbcType=DOUBLE},
+      </if>
+      <if test="taxprice != null" >
+        taxprice = #{taxprice,jdbcType=DOUBLE},
+      </if>
+      <if test="untaxprice != null" >
+        untaxprice = #{untaxprice,jdbcType=DOUBLE},
+      </if>
+      <if test="taxrate != null" >
+        taxrate = #{taxrate,jdbcType=DOUBLE},
+      </if>
+      <if test="remarks != null" >
+        remarks = #{remarks,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tianrui.service.bean.businessManage.salesManage.SalesApplicationDetail" >
+    update tr_sales_db_application_detail
+    set salesid = #{salesid,jdbcType=VARCHAR},
+      materielid = #{materielid,jdbcType=VARCHAR},
+      materielname = #{materielname,jdbcType=VARCHAR},
+      warehouseid = #{warehouseid,jdbcType=VARCHAR},
+      warehousename = #{warehousename,jdbcType=VARCHAR},
+      salessum = #{salessum,jdbcType=DOUBLE},
+      taxprice = #{taxprice,jdbcType=DOUBLE},
+      untaxprice = #{untaxprice,jdbcType=DOUBLE},
+      taxrate = #{taxrate,jdbcType=DOUBLE},
+      remarks = #{remarks,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <select id="selectBySalesId" resultMap="BaseResultMap" parameterType="java.lang.String">
+  	select 
+  	<include refid="Base_Column_List" /> 
+  	from tr_sales_db_application_detail
+  	where salesid = #{salesid,jdbcType=VARCHAR}
+  </select>
+</mapper>

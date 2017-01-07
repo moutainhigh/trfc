@@ -40,7 +40,6 @@ public class PurchaseApplicationAction {
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
-			return result;
 		}
 		return result;
 	}

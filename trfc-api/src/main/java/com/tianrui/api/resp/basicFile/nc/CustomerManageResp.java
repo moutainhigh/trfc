@@ -27,6 +27,12 @@ public class CustomerManageResp extends BaseResp {
     private String pinyincode;
 
     private String customertype;
+    
+    private String salesmanid;
+    
+    private String salesmanname;
+    
+    private String transportationcompany;
 
     private String remarks;
 
@@ -126,7 +132,31 @@ public class CustomerManageResp extends BaseResp {
         this.customertype = customertype == null ? null : customertype.trim();
     }
 
-    public String getRemarks() {
+    public String getSalesmanid() {
+		return salesmanid;
+	}
+
+	public void setSalesmanid(String salesmanid) {
+		this.salesmanid = salesmanid == null ? null : salesmanid.trim();
+	}
+
+	public String getSalesmanname() {
+		return salesmanname;
+	}
+
+	public void setSalesmanname(String salesmanname) {
+		this.salesmanname = salesmanname == null ? null : salesmanname.trim();
+	}
+
+    public String getTransportationcompany() {
+		return transportationcompany;
+	}
+
+	public void setTransportationcompany(String transportationcompany) {
+		this.transportationcompany = transportationcompany == null ? null : transportationcompany.trim();
+	}
+
+	public String getRemarks() {
         return remarks;
     }
 

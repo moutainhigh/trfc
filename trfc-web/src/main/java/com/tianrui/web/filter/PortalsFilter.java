@@ -22,7 +22,7 @@ public class PortalsFilter implements Filter {
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
 			HttpServletRequest req = (HttpServletRequest) request;
-			req.setAttribute("basePath", "/");
+			req.setAttribute("basePath", "/resources");
 			chain.doFilter(request, response);
 	}
 

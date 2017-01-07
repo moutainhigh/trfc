@@ -136,8 +136,8 @@
 							<div class="intel_solo">
 								<label>单据来源：</label> <select id="source" class="form-control">
 									<option value="">全部</option>
-									<option value="0">脱机</option>
-									<option value="1">联机</option>
+									<option value="0">联机</option>
+									<option value="1">脱机</option>
 								</select>
 							</div>
 							<div class="intel_solo">

@@ -34,10 +34,10 @@ public class MaterielManageService implements IMaterielManageService {
 		PaginationVO<MaterielManageResp> page = null;
 		if(req != null){
 			page = new PaginationVO<MaterielManageResp>();
-			req.setStart((req.getPageNo()-1)*req.getPageSize());
-			req.setLimit(req.getPageSize());
 			long count = materielManageMapper.findMaterielManagePageCount(req);
 			if(count > 0){
+				req.setStart((req.getPageNo()-1)*req.getPageSize());
+				req.setLimit(req.getPageSize());
 				List<MaterielManage> list = materielManageMapper.findMaterielManagePage(req);
 				page.setList(copyBeanList2RespList(list));
 			}
@@ -95,6 +95,20 @@ public class MaterielManageService implements IMaterielManageService {
 			n = materielManageMapper.insert(mater);
 		}
 		return n;
+	}
+	
+	@Override
+	public List<MaterielManageResp> selectSelective(MaterielManageReq req) throws Exception {
+		MaterielManage m = new MaterielManage();
+		PropertyUtils.copyProperties(m, req);
+		List<MaterielManage> list = materielManageMapper.selectSelective(m);
+		return copyBeanList2RespList(list);
+	}
+	
+	@Override
+	public List<MaterielManageResp> findAll() throws Exception {
+		List<MaterielManage> list = materielManageMapper.selectSelective(null);
+		return copyBeanList2RespList(list);
 	}
 	
 	private List<MaterielManageResp> copyBeanList2RespList(List<MaterielManage> list) throws Exception {

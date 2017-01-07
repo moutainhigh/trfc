@@ -1,5 +1,7 @@
 package com.tianrui.api.intf.basicFile.nc;
 
+import java.util.List;
+
 import com.tianrui.api.req.basicFile.nc.WarehouseManageReq;
 import com.tianrui.api.resp.basicFile.nc.WarehouseManageResp;
 import com.tianrui.smartfactory.common.vo.PaginationVO;
@@ -45,6 +47,20 @@ public interface IWarehouseManageService {
 	 * @throws Exception
 	 */
 	int addWarehouse(WarehouseManageReq req) throws Exception;
+	/**
+	 * 查询仓库
+	 * @param req
+	 * @return
+	 * @throws Exception
+	 */
+	List<WarehouseManageResp> selectSelective(WarehouseManageReq req) throws Exception;
+	/**
+	 * 查询全部仓库
+	 * @param 
+	 * @return
+	 * @throws Exception
+	 */
+	List<WarehouseManageResp> findAll() throws Exception;
 	
 }
 

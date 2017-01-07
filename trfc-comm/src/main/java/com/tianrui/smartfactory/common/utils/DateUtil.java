@@ -18,14 +18,14 @@ import java.util.Date;
 public class DateUtil {
 	/**
 	 * 
-	 * @描述:获取当前日期格式字符串yyyy-MM-dd HH:mm:ss
+	 * @描述:获取指定日期格式字符串
 	 * @return
-	 * @返回类型 String
+	 * @返回类型 String test：yyyy-MM-dd HH:mm:ss
 	 * @创建人 tank
 	 * @创建时间 2016年1月17日下午5:02:55
 	 */
-	public static String getDateString(){
-		return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format( new Date());
+	public static String getNowDateString(String format){
+		return new SimpleDateFormat(format).format(new Date());
 	}
 	/**
 	 * 
