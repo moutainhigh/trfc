@@ -17,6 +17,7 @@ public enum ErrorCode {
 	PARAM_TOKEN_ERROR("E10003","KEY验证失败."),
 	PARAM_CHECK_CODE_ERROR("E10004","校验码异常."),
 	PARAM_REPEAT_ERROR("E10005","数据重复."),
+	PARAM_NULL_USER_ERROR("E10006","参数异常,参数用户信息不能为空."),
 	
 	
 	/**
@@ -27,6 +28,7 @@ public enum ErrorCode {
 	SYSTEM_USER_ERROR3("E200003","用户被锁定."),
 	SYSTEM_USER_ERROR4("E200004","用户被禁用."),
 	SYSTEM_USER_ERROR5("E200005","用户无效."),
+	SYSTEM_AUTH_API_ERROR6("E200006","系统访问接口与子系统类型不匹配."),
 	;
 	
 	private String code;

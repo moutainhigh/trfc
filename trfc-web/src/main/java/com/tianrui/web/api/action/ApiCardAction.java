@@ -1,5 +1,4 @@
 package com.tianrui.web.api.action;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,14 +9,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.tianrui.api.intf.businessManage.cardManage.ICardService;
 import com.tianrui.api.intf.common.IRFIDService;
-import com.tianrui.api.intf.system.auth.ISystemUserService;
 import com.tianrui.api.req.businessManage.cardManage.CardSaveReq;
 import com.tianrui.api.req.common.RFIDReq;
-import com.tianrui.api.req.system.auth.UserReq;
 import com.tianrui.smartfactory.common.api.ApiParam;
 import com.tianrui.smartfactory.common.api.ApiResult;
 import com.tianrui.smartfactory.common.constants.ErrorCode;
 import com.tianrui.smartfactory.common.vo.Result;
+import com.tianrui.web.smvc.ApiAuthValidation;
 import com.tianrui.web.smvc.ApiParamRawType;
 
 
@@ -45,6 +43,7 @@ public class ApiCardAction {
 	 */
 	@RequestMapping(value="/icCardReg",method=RequestMethod.POST)
 	@ApiParamRawType(CardSaveReq.class)
+	@ApiAuthValidation(callType="2")
 	@ResponseBody
 	public ApiResult icCardReg(ApiParam<CardSaveReq> req){
 		CardSaveReq cardSaveReq =req.getBody();
@@ -66,7 +65,7 @@ public class ApiCardAction {
 	 */
 	@RequestMapping(value="/rfidReg",method=RequestMethod.POST)
 	@ApiParamRawType(RFIDReq.class)
-	//@ApiTokenValidation
+	@ApiAuthValidation(callType="2")
 	@ResponseBody
 	public ApiResult rfidReg(ApiParam<RFIDReq> req){
 		RFIDReq rfidReq=req.getBody();

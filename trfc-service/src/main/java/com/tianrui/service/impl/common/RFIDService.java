@@ -1,10 +1,5 @@
 package com.tianrui.service.impl.common;
 
-import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
-import java.util.List;
-
-import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,8 +7,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.tianrui.api.intf.common.IRFIDService;
 import com.tianrui.api.req.common.RFIDReq;
-import com.tianrui.api.resp.businessManage.cardManage.CardResp;
-import com.tianrui.service.bean.businessManage.cardManage.Card;
 import com.tianrui.service.bean.common.RFID;
 import com.tianrui.service.mapper.common.RFIDMapper;
 import com.tianrui.smartfactory.common.constants.ErrorCode;
@@ -37,7 +30,7 @@ public class RFIDService implements IRFIDService {
 		Result rs =Result.getParamErrorResult();
 		if(req != null && StringUtils.isNotBlank(req.getRfid())){
 			RFID db =rfidMapper.selectByPrimaryKey(req.getRfid());
-			if(db !=null){
+			if(db ==null){
 				RFID save = new RFID();
 				save.setRfid(req.getRfid());
 				save.setState(true);

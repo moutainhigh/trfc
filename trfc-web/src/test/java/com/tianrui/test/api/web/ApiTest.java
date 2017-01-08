@@ -7,6 +7,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 import com.alibaba.fastjson.JSON;
+import com.tianrui.api.req.common.RFIDReq;
 import com.tianrui.api.req.system.auth.UserReq;
 import com.tianrui.smartfactory.common.api.ApiParam;
 import com.tianrui.smartfactory.common.api.Head;
@@ -15,8 +16,10 @@ import com.tianrui.smartfactory.common.utils.Md5Utils;
 
 public class ApiTest {
 
+	//private static String domin="http://172.19.4.73:8080/";
 	private static String domin="http://127.0.0.1/";
-	private static String uri="api/system/login";
+	private static String uri_login="api/system/login";
+	private static String uri_rfid="api/card/rfidReg";
 	
 	
 	static ApiParam<UserReq> getParam(){
@@ -28,20 +31,37 @@ public class ApiTest {
 		
 		Head head =new Head();
 		head.setCallSource("1");
-		head.setCallType("1");
+		head.setCallType("2");
 		head.setCallTime("2017-01-07 11:01:00");
+		head.setUserId("111111");
 		
 		api.setBody(userReq);
 		api.setHead(head);
 		return api;
 	}
-	
-	
-	static void setkey( ApiParam<UserReq> api){
-		api.getHead().setKey(Md5Utils.MD5(api.getHead().getCallTime()+Constant.apiAuthKey));
+	static ApiParam<RFIDReq> getParam1(){
+		ApiParam<RFIDReq> api =new ApiParam<RFIDReq>();
+		
+		RFIDReq req =new RFIDReq();
+		req.setRfid("1234533");
+		
+		Head head =new Head();
+		head.setCallSource("1");
+		head.setCallType("2");
+		head.setCallTime("2017-01-07 11:01:00");
+		head.setUserId("111111");
+		
+		api.setBody(req);
+		api.setHead(head);
+		return api;
 	}
 	
-	static void setMd5( ApiParam<UserReq> api){
+	
+	static void setkey( ApiParam api){
+		api.getHead().setKey(Md5Utils.MD5(Constant.apiAuthKey+api.getHead().getCallTime()));
+	}
+	
+	static void setMd5( ApiParam api){
 		api.setSign(Constant.apiAuthSign);
 		api.setSign(Md5Utils.MD5(JSON.toJSONString(api)));
 	}
@@ -90,7 +110,13 @@ public class ApiTest {
 //		String param =JSON.toJSONString(req);
 //		System.out.println(httpPost(domin+uri,"p="+param));
 		
-		System.out.println(Md5Utils.MD5("1"));
+		ApiParam<RFIDReq> req =getParam1();
+		setkey(req);
+		setMd5(req);
+		String param =JSON.toJSONString(req);
+		System.out.println(httpPost(domin+uri_rfid,"p="+param));
+		
+//		System.out.println(Md5Utils.MD5("1"));
 	}
 	
 	

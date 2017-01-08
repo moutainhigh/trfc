@@ -11,5 +11,9 @@ import java.lang.annotation.Target;
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
-public @interface ApiTokenValidation {
+public @interface ApiAuthValidation {
+	
+	//子系统分类  1:门岗 2:卡务
+	String callType();
+	
 }

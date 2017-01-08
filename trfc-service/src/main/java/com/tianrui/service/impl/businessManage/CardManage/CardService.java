@@ -122,9 +122,17 @@ public class CardService implements ICardService {
 		Result rs =Result.getParamErrorResult();
 		if(req != null && StringUtils.isNotEmpty(req.getCardcode())
 				&& StringUtils.isNotEmpty(req.getCardno())&& StringUtils.isNotEmpty(req.getCardtype())){
-			Card query = new Card();
+			//卡编码不能重复
+			CardReq query = new CardReq();
 			query.setCardcode(req.getCardcode());
-			if(cardMapper.selectSelective(query).size() > 0){
+			long dbCodeSize =cardMapper.findCardPageCount(query) ;
+			//卡序号也不能重复
+			query = new CardReq();
+			query.setCardno(req.getCardno());
+			long dbNoSize =cardMapper.findCardPageCount(query) ;
+			if(dbCodeSize>0){
+				rs.setErrorCode(ErrorCode.PARAM_REPEAT_ERROR);
+			}else if(dbNoSize>0){
 				rs.setErrorCode(ErrorCode.PARAM_REPEAT_ERROR);
 			}else{
 				Card save = new Card();
