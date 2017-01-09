@@ -58,4 +58,6 @@ public interface OtherBdVehicleMapper {
     long findVehiclePageCount(OtherBdVehicleReq req);
 
 	List<OtherBdVehicle> findVehiclePage(OtherBdVehicleReq req);
+	
+	int findVehicleByName(String name);
 }

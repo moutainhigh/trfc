@@ -20,4 +20,6 @@ public interface IOtherBdVehicleService {
 	String getVehicleCode();
 
 	String getVehicleInnercode();
+	
+	boolean checkName(String name) throws Exception;
 }
