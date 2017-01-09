@@ -277,5 +277,9 @@
   		</if>
   	</if>
   </select>
-  
+  <select id="findVehicleByName" resultType="int" parameterType="java.lang.String">
+		select count(1)
+		from tr_other_bd_vehice
+		where name = #{name,jdbcType=VARCHAR}
+	</select>
 </mapper>

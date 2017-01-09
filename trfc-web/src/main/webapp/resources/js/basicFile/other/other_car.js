@@ -6,7 +6,7 @@ $(function(){
 	//绑定新增按钮点击事件
 	$('#showAddVehicle').click(addVehicleAction);
 	//绑定新增页面确认按钮点击事件
-	$('#add_vehicle').click(addVehicle);
+	$('#add_vehicle').click(checkNameAction);
 	//绑定搜索按钮点击事件
 	$('.btnblue').click(searchAction);
 	//绑定跳转按钮点击事件
@@ -23,10 +23,15 @@ $(function(){
 	$('#vehicles').on('click','tr .delete_vehicle',deleteVehicleAction);
 	//绑定删除页面确认按钮点击事件
 	$('#dele .btn-primary').click(deleteVehicle);
+	//绑定新增页面输入名称时,键盘按钮按下事件
+	$('#vehicle_name').keyup(keyUpAction);
 });
 
 //显示数据列表
 function listOtherVehicleAction(pageNo){
+	var index = layer.load(2, {
+		  shade: [0.3,'#fff'] //0.1透明度的白色背景
+		});
 	var url='page';
 	//获取当前页面记录数
 	var pageSize=$('#pageSize').val();
@@ -89,8 +94,9 @@ function listOtherVehicleAction(pageNo){
 			}
 			
 		}else{
-			console.log(result.error);
+			layer.msg(result.error, {icon: 5});
 		}
+		layer.close(index);
 	});
 }
 
@@ -119,7 +125,7 @@ function addVehicleAction(){
 			$('#vehicle_isvalid').removeAttr('checked');
 			$('#vehicle_remark').val('');
 		}else{
-			console.log(result.error);
+			layer.msg(result.error, {icon: 5});
 		}
 	});
 }
@@ -128,10 +134,6 @@ function addVehicle(){
 	console.log('addOtherVehicle');
 	var name=$('#vehicle_name').val();name=$.trim(name);
 	var orgname=$('#vehicle_orgname').val();orgname=$.trim(orgname);
-	if(!name || !orgname){
-		$('#add .btn-primary').attr('data-dismiss','modal');
-		return;
-	}
 	var code=$('#vehicle_code').val();code=$.trim(code);
 	var innercode=$('#vehicle_innercode').val();innercode=$.trim(innercode);
 	var info=$('#vehicle_info').val();info=$.trim(info);
@@ -159,13 +161,14 @@ function addVehicle(){
 			console.log(data);
 			listOtherVehicleAction(1);
 		}else{
-			console.log(result.error);
+			layer.msg(result.error, {icon: 5});
 		}
 	});
 }
 //刷新页面
 function refreshPage(){
-	location.href='main';
+//	location.href='main';
+	listOtherVehicleAction(1);
 }
 
 //根据条件查询数据
@@ -197,8 +200,10 @@ function updateVehicleAction() {
 	$('#update_vehicle_code').val(vehicle.code);
 	$('#update_vehicle_orgname').val(vehicle.orgname);
 	$('#update_vehicle_remark').val(vehicle.remark);
+	$('#update_vehicle_isvalid').removeAttr('checked');
+	$('#update_vehicle_isvalid')[0].checked=false;
 	if(vehicle.isvalid==1){
-		$('#update_vehicle_isvalid').attr('checked','checked');
+		$('#update_vehicle_isvalid')[0].checked=true;
 	}
 	vehicleData.id=vehicle.id;
 }
@@ -231,7 +236,7 @@ function updateVehicle() {
 			console.log(result.data);
 			listOtherVehicleAction();
 		}else{
-			console.log(result.error);
+			layer.msg(result.error, {icon: 5});
 		}
 	});
 }
@@ -256,12 +261,54 @@ function deleteVehicle() {
 			console.log(result.data);
 			listOtherVehicleAction();
 		}else{
-			console.log(result.error);
+			layer.msg(result.error, {icon: 5});
 		}
 	});
 }
 
+//实现新增时简称和名称同步
+function keyUpAction() {
+	$('#vehicle_info').val($(this).val());
+}
 
-
-
-
+//检测名称是否存在
+function checkNameAction(){
+	if(toCheckName()){
+		if(confirm("确定要保存吗!")){
+			addVehicle();
+		}
+	}else{
+		//console.log(321);
+	}
+}
+//提交新增信息前 检测信息
+function toCheckName(){
+	url = "checkName";
+	var name = $('#vehicle_name').val();name=$.trim(name);
+	if(!name){
+		alert('名称不能为空');
+		return false;
+	}
+	param={name:name};
+	var bl = false;
+	$.ajax({
+		url:url,
+		data:param,
+		async:false,
+		cache:false,
+		dataType:'json',
+		type:'post',
+		success:function(result){
+			if(result.code=='000000'){
+				if(eval(result.data)){
+					bl =  true;
+				}else{
+					alert("名称已存在");
+				}
+			}else{
+				layer.msg(result.error, {icon: 5});
+			}
+		}
+	});
+	return bl;
+}

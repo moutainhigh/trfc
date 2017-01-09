@@ -116,4 +116,18 @@ public class OtherBdVehicleService implements IOtherBdVehicleService{
 		return "ICD"+(int)(Math.random()*10000);
 	}
 
+
+
+	@Override
+	public boolean checkName(String name) throws Exception {
+		if(name==null || name.trim().isEmpty()){
+			throw new RuntimeException("检测name不可为空");
+		}
+		int count = this.otherBdVehicleMapper.findVehicleByName(name);
+		if(count==0){
+			return true;
+		}
+		return false;
+	}
+
 }

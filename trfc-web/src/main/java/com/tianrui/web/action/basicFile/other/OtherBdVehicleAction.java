@@ -123,5 +123,19 @@ public class OtherBdVehicleAction {
 		return result;
 	}
 	
+	@RequestMapping("checkName")
+	@ResponseBody
+	public Result checkName(String name){
+		Result result = Result.getSuccessResult();
+		try {
+			boolean bl = otherBdVehicleService.checkName(name);
+			result.setData(bl);
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
+			return result;
+		}
+		return result;
+	}
 	
 }

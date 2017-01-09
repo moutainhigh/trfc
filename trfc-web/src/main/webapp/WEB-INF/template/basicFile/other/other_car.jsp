@@ -425,6 +425,7 @@
 <script type="text/javascript" src="/trfc-web/resources/js/jquery-1.11.1.js"></script>
 <script type="text/javascript" src="/trfc-web/resources/js/bootstrap.js"></script>
 <script type="text/javascript" src="/trfc-web/resources/js/jquery.pagination.js"></script>
+<script type="text/javascript" src="/trfc-web/resources/js/layer/layer.js"></script>
 <script type="text/javascript" src="/trfc-web/resources/js/basicFile/other/other_car.js"></script>
 
 
