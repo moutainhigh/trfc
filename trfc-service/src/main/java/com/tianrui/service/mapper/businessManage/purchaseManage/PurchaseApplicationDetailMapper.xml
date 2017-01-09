@@ -25,15 +25,15 @@
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
     <include refid="Base_Column_List" />
-    from tr_purchase_bd_application_detail
+    from tr_purchase_db_application_detail
     where id = #{id,jdbcType=VARCHAR}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
-    delete from tr_purchase_bd_application_detail
+    delete from tr_purchase_db_application_detail
     where id = #{id,jdbcType=VARCHAR}
   </delete>
   <insert id="insert" parameterType="com.tianrui.service.bean.businessManage.purchaseManage.PurchaseApplicationDetail" >
-    insert into tr_purchase_bd_application_detail (id, purchaseid, orgid, 
+    insert into tr_purchase_db_application_detail (id, purchaseid, orgid, 
       orgname, materielid, materielname, 
       materielspec, materieltype, checkprogramid, 
       purchasesum, receiptsum, unreceiptsum, 
@@ -47,7 +47,7 @@
       )
   </insert>
   <insert id="insertSelective" parameterType="com.tianrui.service.bean.businessManage.purchaseManage.PurchaseApplicationDetail" >
-    insert into tr_purchase_bd_application_detail
+    insert into tr_purchase_db_application_detail
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         id,
@@ -144,7 +144,7 @@
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.tianrui.service.bean.businessManage.purchaseManage.PurchaseApplicationDetail" >
-    update tr_purchase_bd_application_detail
+    update tr_purchase_db_application_detail
     <set >
       <if test="purchaseid != null" >
         purchaseid = #{purchaseid,jdbcType=VARCHAR},
@@ -192,7 +192,7 @@
     where id = #{id,jdbcType=VARCHAR}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.tianrui.service.bean.businessManage.purchaseManage.PurchaseApplicationDetail" >
-    update tr_purchase_bd_application_detail
+    update tr_purchase_db_application_detail
     set purchaseid = #{purchaseid,jdbcType=VARCHAR},
       orgid = #{orgid,jdbcType=VARCHAR},
       orgname = #{orgname,jdbcType=VARCHAR},
@@ -212,7 +212,7 @@
   <select id="findPurchaseApplicationDetail" parameterType="java.lang.String" resultMap="BaseResultMap">
  	select 
 	<include refid="Base_Column_List" />
-	from tr_purchase_bd_application_detail 
+	from tr_purchase_db_application_detail 
 	where purchaseid = #{purchaseid,jdbcType=VARCHAR}
   </select>
 </mapper>

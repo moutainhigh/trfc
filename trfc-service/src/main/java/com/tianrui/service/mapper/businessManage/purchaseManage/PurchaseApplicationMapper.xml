@@ -33,15 +33,15 @@
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
     <include refid="Base_Column_List" />
-    from tr_purchase_bd_application
+    from tr_purchase_db_application
     where id = #{id,jdbcType=VARCHAR}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
-    delete from tr_purchase_bd_application
+    delete from tr_purchase_db_application
     where id = #{id,jdbcType=VARCHAR}
   </delete>
   <insert id="insert" parameterType="com.tianrui.service.bean.businessManage.purchaseManage.PurchaseApplication" >
-    insert into tr_purchase_bd_application (id, billno, status, 
+    insert into tr_purchase_db_application (id, billno, status, 
       source, typecode, typename, supplierid, 
       suppliername, sumnum, applytime, deptid, 
       deptname, buyerid, buyername, 
@@ -57,7 +57,7 @@
       #{modifier,jdbcType=VARCHAR}, #{modifytime,jdbcType=BIGINT})
   </insert>
   <insert id="insertSelective" parameterType="com.tianrui.service.bean.businessManage.purchaseManage.PurchaseApplication" >
-    insert into tr_purchase_bd_application
+    insert into tr_purchase_db_application
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         id,
@@ -196,7 +196,7 @@
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.tianrui.service.bean.businessManage.purchaseManage.PurchaseApplication" >
-    update tr_purchase_bd_application
+    update tr_purchase_db_application
     <set >
       <if test="billno != null" >
         billno = #{billno,jdbcType=VARCHAR},
@@ -265,7 +265,7 @@
     where id = #{id,jdbcType=VARCHAR}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.tianrui.service.bean.businessManage.purchaseManage.PurchaseApplication" >
-    update tr_purchase_bd_application
+    update tr_purchase_db_application
     set billno = #{billno,jdbcType=VARCHAR},
       status = #{status,jdbcType=VARCHAR},
       source = #{source,jdbcType=VARCHAR},
@@ -291,7 +291,7 @@
   </update>
   <select id="findPurchaseApplicationPageCount" parameterType="com.tianrui.api.req.businessManage.purchaseManage.PurchaseApplicationReq" resultType="java.lang.Long">
   	select count(1)
-  	from tr_purchase_bd_application
+  	from tr_purchase_db_application
   	<where>
   		<if test="billno != null and billno != ''">
   			and billno like '%${billno}%'
@@ -313,7 +313,7 @@
   <select id="findPurchaseApplicationPage" parameterType="com.tianrui.api.req.businessManage.purchaseManage.PurchaseApplicationReq" resultType="com.tianrui.service.bean.businessManage.purchaseManage.PurchaseApplication">
   	select 
   	<include refid="Base_Column_List" />
-  	from tr_purchase_bd_application
+  	from tr_purchase_db_application
   	<where>
   		<if test="billno != null and billno != ''">
   			and billno like '%${billno}%'
