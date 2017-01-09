@@ -33,15 +33,15 @@
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
     <include refid="Base_Column_List" />
-    from tr_materiel_bd_manage
+    from tr_materiel_db_manage
     where id = #{id,jdbcType=VARCHAR}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
-    delete from tr_materiel_bd_manage
+    delete from tr_materiel_db_manage
     where id = #{id,jdbcType=VARCHAR}
   </delete>
   <insert id="insert" parameterType="com.tianrui.service.bean.basicFile.nc.MaterielManage" >
-    insert into tr_materiel_bd_manage (id, code, internalcode, 
+    insert into tr_materiel_db_manage (id, code, internalcode, 
       name, abbrname, spec, model, 
       pinyincode, receiptstatus, factorycode, 
       packagetype, businesstype, effective, 
@@ -57,7 +57,7 @@
       #{modifier,jdbcType=VARCHAR}, #{modifytime,jdbcType=BIGINT})
   </insert>
   <insert id="insertSelective" parameterType="com.tianrui.service.bean.basicFile.nc.MaterielManage" >
-    insert into tr_materiel_bd_manage
+    insert into tr_materiel_db_manage
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         id,
@@ -196,7 +196,7 @@
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.tianrui.service.bean.basicFile.nc.MaterielManage" >
-    update tr_materiel_bd_manage
+    update tr_materiel_db_manage
     <set >
       <if test="code != null" >
         code = #{code,jdbcType=VARCHAR},
@@ -265,7 +265,7 @@
     where id = #{id,jdbcType=VARCHAR}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.tianrui.service.bean.basicFile.nc.MaterielManage" >
-    update tr_materiel_bd_manage
+    update tr_materiel_db_manage
     set code = #{code,jdbcType=VARCHAR},
       internalcode = #{internalcode,jdbcType=VARCHAR},
       name = #{name,jdbcType=VARCHAR},
@@ -292,7 +292,7 @@
   <select id="findMaterielManagePage" resultMap="BaseResultMap" parameterType="com.tianrui.api.req.basicFile.nc.MaterielManageReq">
   	select 
   	<include refid="Base_Column_List"/>
-  	from tr_materiel_bd_manage
+  	from tr_materiel_db_manage
   	<where>
   		<if test="internalcode != null and internalcode != ''">
   			and internalcode like '%${internalcode}%'
@@ -323,7 +323,7 @@
   <select id="findMaterielManagePageCount" resultType="java.lang.Long" parameterType="com.tianrui.api.req.basicFile.nc.MaterielManageReq">
   	select 
   		count(1)
-  	from tr_materiel_bd_manage
+  	from tr_materiel_db_manage
   	<where>
   		<if test="internalcode != null and internalcode != ''">
   			and internalcode like '%${internalcode}%'
@@ -348,7 +348,7 @@
   <select id="selectSelective" resultMap="BaseResultMap" parameterType="com.tianrui.service.bean.basicFile.nc.MaterielManage">
   	select 
   	<include refid="Base_Column_List"/>
-  	from tr_materiel_bd_manage
+  	from tr_materiel_db_manage
   	<where>
   	  <if test="id != null and id != ''" >
         and id = #{id,jdbcType=VARCHAR}

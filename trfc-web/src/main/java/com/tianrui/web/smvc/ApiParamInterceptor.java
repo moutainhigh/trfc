@@ -27,8 +27,6 @@ public class ApiParamInterceptor implements HandlerInterceptor{
 	public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception arg3)
 			throws Exception {
 		if (handler != null && HandlerMethod.class.isAssignableFrom(handler.getClass())) {
-
-
 			// 记录性能日志
 			Object[] logParams = { System.currentTimeMillis() - PerformanceCache.get(),
 					request.getRequestURI(), request.getRemoteAddr(), WebUtils.getIpAddr(request),
@@ -58,6 +56,7 @@ public class ApiParamInterceptor implements HandlerInterceptor{
 			HandlerMethod handlerMethod = (HandlerMethod) handler;
 
 			ApiParamRawType apiRawType = handlerMethod.getMethodAnnotation(ApiParamRawType.class);
+			ApiAuthValidation apiAuth = handlerMethod.getMethodAnnotation(ApiAuthValidation.class);
 			
 			//日志初始化
 			LoggerFactory.getLogger("access").info("APP Access[{}] - {} ", request.getRequestURL(),
@@ -68,18 +67,30 @@ public class ApiParamInterceptor implements HandlerInterceptor{
 				ApiParam<?> appParamObj =  JsonUtil.getApiParam(jsonParam, apiRawType.value());
 				// 将转换后的ApiParam对象临时存储在线程缓存内
 				AppParamCache.set(appParamObj);
-				
 				//验证签名串
 				if( !JsonUtil.validateSign(jsonParam.trim(), appParamObj.getSign(), Constant.apiAuthSign) ){
 					// 防篡改失败 验证失败
 					LoggerFactory.getLogger(Constant.ACCESS).warn("拦截到非法的API请求[apiSign校验失败] - {}", jsonParam);
 					writeJsonResponse(response,ApiResult.valueOf(ErrorCode.PARAM_CHECK_CODE_ERROR));
-					//验证key
+				//验证key
 				}else if( !JsonUtil.validateKey(appParamObj.getHead().getKey(), appParamObj.getHead().getCallTime(), Constant.apiAuthKey)  ){
-					//  token 验证失败
+					// key验证失败
 					writeJsonResponse(response,ApiResult.valueOf(ErrorCode.PARAM_TOKEN_ERROR));
 				}else{
-					flag=true;
+					if( apiAuth !=null ){
+						String allowcallType =apiAuth.callType();
+						if( StringUtils.isBlank(appParamObj.getHead().getUserId())  ){
+							// TODO 用户 权限验证.  用户存在验证
+							writeJsonResponse(response,ApiResult.valueOf(ErrorCode.PARAM_NULL_USER_ERROR));
+						}else if(!allowcallType.equals(appParamObj.getHead().getCallType())){
+							writeJsonResponse(response,ApiResult.valueOf(ErrorCode.SYSTEM_AUTH_API_ERROR6));
+						}else{
+							flag=true;
+						}
+					//访问用户登录接口	
+					}else{
+					    flag=true;
+					}
 				}
 			}
 		}else{
