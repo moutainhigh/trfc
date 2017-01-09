@@ -14,6 +14,7 @@ import com.tianrui.smartfactory.common.api.ApiResult;
 import com.tianrui.smartfactory.common.constants.ErrorCode;
 import com.tianrui.smartfactory.common.vo.Result;
 import com.tianrui.web.action.basicFile.measure.VehicleManageAction;
+import com.tianrui.web.smvc.ApiAuthValidation;
 import com.tianrui.web.smvc.ApiParamRawType;
 
 @Controller
@@ -25,15 +26,16 @@ public class ApiVehicleAction {
 	@Autowired
 	private IVehicleManageService vehicleManageService;
 	
-	@RequestMapping("addVehicle")
+	@RequestMapping("vehicleCard")
 	@ApiParamRawType(VehicleSaveReq.class)
+	@ApiAuthValidation(callType="2")
 	@ResponseBody
-	public ApiResult addVehicle(ApiParam<VehicleSaveReq> req){
+	public ApiResult vehicleCard(ApiParam<VehicleSaveReq> req){
 		Result rs=Result.getErrorResult();
 		VehicleSaveReq vehicleSaveReq =req.getBody();
 		vehicleSaveReq.setCurrUid(req.getHead().getUserId());
 		try {
-			vehicleManageService.addVehicle(vehicleSaveReq);
+			rs=vehicleManageService.addVehicle(vehicleSaveReq);
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 			rs.setErrorCode(ErrorCode.SYSTEM_ERROR);
