@@ -408,6 +408,7 @@
 <script type="text/javascript" src="/trfc-web/resources/js/bootstrap.js"></script>
 <script type="text/javascript" src="/trfc-web/resources/js/basicFile/other/other-client.js"></script>
 <script type="text/javascript" src="/trfc-web/resources/js/jquery.pagination.js"></script>
+<script type="text/javascript" src="/trfc-web/resources/js/layer/layer.js"></script>
 
 <script type="text/javascript">
     // 顶部tab切换菜单

@@ -58,7 +58,6 @@ function toCheckName(){
 		success:function(result){
 			if(result.code=='000000'){
 				if(eval(result.data)){
-					console.log(123123);
 					bl =  true;
 				}else{
 					alert("名称已存在");
@@ -225,7 +224,9 @@ function pageCallback(pageNo){
 
 // 展示数据列表
 function CustomersShowAction(pageNo){
-	
+	var index = layer.load(2, {
+		  shade: [0.3,'#fff'] //0.1透明度的白色背景
+		});
 	var url = "/trfc-web/other/page";
 	//获取当前页面记录数
 	var pageSize = $('#pageSize').val();
@@ -273,10 +274,12 @@ function CustomersShowAction(pageNo){
 			if(list){
 				showPageData(list,pageSize,pageNo);
 			}
+			layer.close(index);
 		}else{
 			alert(result.error);
 		}
 	});
+	//layer.close(index);
 }
 //展示列表
 function showPageData(list,pageSize,pageNo){
