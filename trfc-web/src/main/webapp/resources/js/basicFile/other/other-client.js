@@ -28,7 +28,7 @@ $(function(){
 //提交修改信息,-->检测名字-->提交
 function modifyCustomerAction(){
 	var name = $('#customer_modify_name').val().trim();
-	if(toCheckName(name)){
+	if(name==pageData.obj.name||toCheckName(name)){
         $('#customer_modify_cancel').click();      
 		modifyAction();
 	}
@@ -114,6 +114,8 @@ function modifyAction(){
 	if($('#customer_modify_isvalid').prop('checked')){
 		isvalid = 1;
 	}
+	
+	var obj = pageData.obj;
 	var params = {
 			id:id,
 			name:name,
@@ -122,6 +124,9 @@ function modifyAction(){
 			remark:remark,
 			isvalid:isvalid
 	};
+	if(name==obj.name&&info==obj.info&&orgname==obj.orgname&&remark==obj.remark&&isvalid==obj.isvalid){
+		return;
+	}
 	$.post(url,params,function(result){
 		if(result.code=='000000'){
 			CustomersShowAction(1);
@@ -140,6 +145,7 @@ function toModify(){
 	$.post(url,param,function(result){
 		if(result.code=='000000'){
 			var obj = result.data;
+			pageData.obj = obj;
 			$('#customer_modify_code').val(obj.code);
 			$('#customer_modify_innercode').val(obj.innercode);
 			$('#customer_modify_name').val(obj.name);
@@ -172,9 +178,9 @@ function jumpPageAction(){
 		CustomersShowAction(pageno);
 	}
 }
-//提交需要添加的数据
-function insert(){
-	var url = "insert";
+//获取需要提交的数据
+function getInsertData(){
+	var params = {};
 	var code = $('#customer_code').val().trim();
 	var innercode = $('#customer_innercode').val().trim();
 	var name = $('#customer_name').val().trim();
@@ -185,7 +191,8 @@ function insert(){
 		isvalid = 1;
 	};
 	var remark = $("#customer_remark").val().trim();
-	var params = {
+	var obj = pageData.obj;
+	params = {
 			code:code,
 			innercode:innercode,
 			name:name,
@@ -194,6 +201,12 @@ function insert(){
 			isvalid:isvalid,
 			remark:remark
 	};
+	return params;
+}
+//提交需要添加的数据
+function insert(){
+	var url = "insert";
+	var params = getInsertData();
 	$.post(url,params,function(result){
 		if(result.code=='000000'){
 			CustomersShowAction(1);
@@ -285,6 +298,8 @@ function CustomersShowAction(pageNo){
 }
 //展示列表
 function showPageData(list,pageSize,pageNo){
+	//加载时清空列表和跳转值
+	$('#jumpPageNo').empty();
 	var tbody = $('#customer_list').empty();
 	for(var i=0;i<list.length;i++){
 		var tr = '<tr>'
