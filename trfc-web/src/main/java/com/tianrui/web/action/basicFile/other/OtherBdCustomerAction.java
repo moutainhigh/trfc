@@ -11,81 +11,45 @@ import org.springframework.web.servlet.ModelAndView;
 import com.tianrui.api.intf.basicFile.other.IOtherBdCustomerService;
 import com.tianrui.api.req.basicFile.other.OtherBdCustomerReq;
 import com.tianrui.api.resp.basicFile.other.OtherBdCustomerResp;
-import com.tianrui.smartfactory.common.constants.ErrorCode;
-import com.tianrui.smartfactory.common.vo.PaginationVO;
 import com.tianrui.smartfactory.common.vo.Result;
 
 @Controller
-@RequestMapping("other")
+@RequestMapping("other/customer")
 public class OtherBdCustomerAction {
 	@Resource
 	private IOtherBdCustomerService otherBdCustomerService;
-
+	//加载 显示页
 	@RequestMapping("main")
 	public ModelAndView list(){
 		ModelAndView view = new ModelAndView("basicFile/other/client");
 		return view;
 	}
+	//获取列表数据
 	@RequestMapping("page")
 	@ResponseBody
 	public Result page(OtherBdCustomerReq req){
-
-		PaginationVO<OtherBdCustomerResp> page;
-		Result result = Result.getSuccessResult();
-		try {
-			page = otherBdCustomerService.findCustomerByPage(req);
-			result.setData(page);
-		} catch (Exception e) {
-			e.printStackTrace();
-			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
-		}
-		//System.out.println(page.getPageNo()+","+page.getPageSize()+","+page.getTotal());
-		return result;
+		return otherBdCustomerService.findCustomerByPage(req);
 	}
+	//删除数据
 	@RequestMapping("delete")
 	@ResponseBody
-	public Result delete(String id){
-
-		Result result = Result.getSuccessResult();
-		try {
-			Boolean bl = otherBdCustomerService.deleteCustomer(id);
-			if(!bl){
-				result.setErrorCode(ErrorCode.OPERATE_ERROR);
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
-		}
-		return result;
+	public Result delete(OtherBdCustomerReq req){
+		return otherBdCustomerService.deleteCustomer(req);
 	}
+	//更新前,获取原数据
 	@RequestMapping("toupdate")
 	@ResponseBody
-	public Result toUpdate(String id){
-		Result result = Result.getSuccessResult();
-		try {
-			OtherBdCustomerReq req = otherBdCustomerService.findByPrimaryKey(id);
-			result.setData(req);
-		} catch (Exception e) {
-			e.printStackTrace();
-			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
-		}
-		return result;
+	public Result toUpdate(OtherBdCustomerReq req){
+		return otherBdCustomerService.findByPrimaryKey(req);
 	}
+	//更新数据
 	@RequestMapping("update")
 	@ResponseBody
 	public Result update(OtherBdCustomerReq req){
-		Result result = Result.getSuccessResult();
-		try {
-			Boolean bl = otherBdCustomerService.updateCustomer(req);
-			if(!bl){
-				result.setErrorCode(ErrorCode.OPERATE_ERROR);
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
-		}
-		return result;
+	
+		return otherBdCustomerService.updateCustomer(req);
 	}
+	//新增前,获取数据
 	@RequestMapping("toinsert")
 	@ResponseBody
 	public Result toInsert(){
@@ -96,32 +60,16 @@ public class OtherBdCustomerAction {
 		result.setData(resp);
 		return result;
 	}
+	//提交新增数据
 	@RequestMapping("insert")
 	@ResponseBody
 	public Result insert(OtherBdCustomerReq req){
-		Result result = Result.getSuccessResult();
-		try {
-			Boolean bl = otherBdCustomerService.insertCustomer(req);
-			if(!bl){
-				result.setErrorCode(ErrorCode.OPERATE_ERROR);
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
-		}
-		return result;
+		return otherBdCustomerService.insertCustomer(req);
 	}
+	//检测名称
 	@RequestMapping("checkName")
 	@ResponseBody
-	public Result checkName(String name){
-		Result result = Result.getSuccessResult();
-		try {
-			Boolean bl = otherBdCustomerService.checkName(name);
-			result.setData(bl);
-		} catch (Exception e) {
-			e.printStackTrace();
-			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
-		}
-		return result;
+	public Result checkName(OtherBdCustomerReq req){
+		return otherBdCustomerService.checkName(req);
 	}
 }
