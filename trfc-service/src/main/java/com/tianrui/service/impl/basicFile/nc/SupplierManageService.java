@@ -66,14 +66,13 @@ public class SupplierManageService implements ISupplierManageService {
 	
 	@Override
 	public Result findListByParmas(SupplierManageQuery query) throws Exception {
-		Result result = Result.getParamErrorResult();
+		Result result = Result.getSuccessResult();
+		SupplierManage sm = new SupplierManage();
 		if(query != null){
-			SupplierManage sm = new SupplierManage();
 			PropertyUtils.copyProperties(sm, query);
-			List<SupplierManage> list = supplierManageMapper.selectSelective(sm);
-			result.setData(copyBeanList2RespList(list));
-			result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
 		}
+		List<SupplierManage> list = supplierManageMapper.selectSelective(sm);
+		result.setData(copyBeanList2RespList(list));
 		return result;
 	}
 	

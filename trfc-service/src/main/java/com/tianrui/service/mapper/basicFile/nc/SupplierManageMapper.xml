@@ -209,7 +209,7 @@
       modifytime = #{modifytime,jdbcType=BIGINT}
     where id = #{id,jdbcType=VARCHAR}
   </update>
-  <select id="findSupplierPageCount" parameterType="com.tianrui.api.req.basicFile.nc.SupplierManageReq" resultType="java.lang.Long">
+  <select id="findSupplierPageCount" parameterType="com.tianrui.api.req.basicFile.nc.SupplierManageQuery" resultType="java.lang.Long">
   	select
   	count(0)
   	from tr_supplier_db_manage
@@ -231,7 +231,7 @@
   		</if>
   	</where>
   </select>
-  <select id="findSupplierPage" parameterType="com.tianrui.api.req.basicFile.nc.SupplierManageReq" resultMap="BaseResultMap">
+  <select id="findSupplierPage" parameterType="com.tianrui.api.req.basicFile.nc.SupplierManageQuery" resultMap="BaseResultMap">
   	select
   	<include refid="Base_Column_List"/>
   	from tr_supplier_db_manage
