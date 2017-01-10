@@ -1,0 +1,457 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tianrui.service.mapper.businessManage.salesManage.SalesArriveMapper" >
+  <resultMap id="BaseResultMap" type="com.tianrui.service.bean.businessManage.salesManage.SalesArrive" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="code" property="code" jdbcType="VARCHAR" />
+    <result column="auditstatus" property="auditstatus" jdbcType="VARCHAR" />
+    <result column="source" property="source" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="vehicleid" property="vehicleid" jdbcType="VARCHAR" />
+    <result column="driverid" property="driverid" jdbcType="VARCHAR" />
+    <result column="billid" property="billid" jdbcType="VARCHAR" />
+    <result column="billcode" property="billcode" jdbcType="VARCHAR" />
+    <result column="abnormalperson" property="abnormalperson" jdbcType="VARCHAR" />
+    <result column="abnormaltime" property="abnormaltime" jdbcType="BIGINT" />
+    <result column="unit" property="unit" jdbcType="VARCHAR" />
+    <result column="takeamount" property="takeamount" jdbcType="DOUBLE" />
+    <result column="spraycode" property="spraycode" jdbcType="VARCHAR" />
+    <result column="serialnumber" property="serialnumber" jdbcType="VARCHAR" />
+    <result column="icardid" property="icardid" jdbcType="VARCHAR" />
+    <result column="state" property="state" jdbcType="VARCHAR" />
+    <result column="remarks" property="remarks" jdbcType="VARCHAR" />
+    <result column="creator" property="creator" jdbcType="VARCHAR" />
+    <result column="createtime" property="createtime" jdbcType="BIGINT" />
+    <result column="modifier" property="modifier" jdbcType="VARCHAR" />
+    <result column="modifytime" property="modifytime" jdbcType="BIGINT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, code, auditstatus, source, status, vehicleid, driverid, billid, billcode, abnormalperson, 
+    abnormaltime, unit, takeamount, spraycode, serialnumber, icardid, state, remarks, 
+    creator, createtime, modifier, modifytime
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from tr_sales_db_arrive
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from tr_sales_db_arrive
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.tianrui.service.bean.businessManage.salesManage.SalesArrive" >
+    insert into tr_sales_db_arrive (id, code, auditstatus, 
+      source, status, vehicleid, 
+      driverid, billid, billcode, 
+      abnormalperson, abnormaltime, unit, 
+      takeamount, spraycode, serialnumber, 
+      icardid, state, remarks, 
+      creator, createtime, modifier, 
+      modifytime)
+    values (#{id,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR}, #{auditstatus,jdbcType=VARCHAR}, 
+      #{source,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, #{vehicleid,jdbcType=VARCHAR}, 
+      #{driverid,jdbcType=VARCHAR}, #{billid,jdbcType=VARCHAR}, #{billcode,jdbcType=VARCHAR}, 
+      #{abnormalperson,jdbcType=VARCHAR}, #{abnormaltime,jdbcType=BIGINT}, #{unit,jdbcType=VARCHAR}, 
+      #{takeamount,jdbcType=DOUBLE}, #{spraycode,jdbcType=VARCHAR}, #{serialnumber,jdbcType=VARCHAR}, 
+      #{icardid,jdbcType=VARCHAR}, #{state,jdbcType=VARCHAR}, #{remarks,jdbcType=VARCHAR}, 
+      #{creator,jdbcType=VARCHAR}, #{createtime,jdbcType=BIGINT}, #{modifier,jdbcType=VARCHAR}, 
+      #{modifytime,jdbcType=BIGINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.tianrui.service.bean.businessManage.salesManage.SalesArrive" >
+    insert into tr_sales_db_arrive
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="code != null" >
+        code,
+      </if>
+      <if test="auditstatus != null" >
+        auditstatus,
+      </if>
+      <if test="source != null" >
+        source,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="vehicleid != null" >
+        vehicleid,
+      </if>
+      <if test="driverid != null" >
+        driverid,
+      </if>
+      <if test="billid != null" >
+        billid,
+      </if>
+      <if test="billcode != null" >
+        billcode,
+      </if>
+      <if test="abnormalperson != null" >
+        abnormalperson,
+      </if>
+      <if test="abnormaltime != null" >
+        abnormaltime,
+      </if>
+      <if test="unit != null" >
+        unit,
+      </if>
+      <if test="takeamount != null" >
+        takeamount,
+      </if>
+      <if test="spraycode != null" >
+        spraycode,
+      </if>
+      <if test="serialnumber != null" >
+        serialnumber,
+      </if>
+      <if test="icardid != null" >
+        icardid,
+      </if>
+      <if test="state != null" >
+        state,
+      </if>
+      <if test="remarks != null" >
+        remarks,
+      </if>
+      <if test="creator != null" >
+        creator,
+      </if>
+      <if test="createtime != null" >
+        createtime,
+      </if>
+      <if test="modifier != null" >
+        modifier,
+      </if>
+      <if test="modifytime != null" >
+        modifytime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="code != null" >
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="auditstatus != null" >
+        #{auditstatus,jdbcType=VARCHAR},
+      </if>
+      <if test="source != null" >
+        #{source,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="vehicleid != null" >
+        #{vehicleid,jdbcType=VARCHAR},
+      </if>
+      <if test="driverid != null" >
+        #{driverid,jdbcType=VARCHAR},
+      </if>
+      <if test="billid != null" >
+        #{billid,jdbcType=VARCHAR},
+      </if>
+      <if test="billcode != null" >
+        #{billcode,jdbcType=VARCHAR},
+      </if>
+      <if test="abnormalperson != null" >
+        #{abnormalperson,jdbcType=VARCHAR},
+      </if>
+      <if test="abnormaltime != null" >
+        #{abnormaltime,jdbcType=BIGINT},
+      </if>
+      <if test="unit != null" >
+        #{unit,jdbcType=VARCHAR},
+      </if>
+      <if test="takeamount != null" >
+        #{takeamount,jdbcType=DOUBLE},
+      </if>
+      <if test="spraycode != null" >
+        #{spraycode,jdbcType=VARCHAR},
+      </if>
+      <if test="serialnumber != null" >
+        #{serialnumber,jdbcType=VARCHAR},
+      </if>
+      <if test="icardid != null" >
+        #{icardid,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null" >
+        #{state,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null" >
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="creator != null" >
+        #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=BIGINT},
+      </if>
+      <if test="modifier != null" >
+        #{modifier,jdbcType=VARCHAR},
+      </if>
+      <if test="modifytime != null" >
+        #{modifytime,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tianrui.service.bean.businessManage.salesManage.SalesArrive" >
+    update tr_sales_db_arrive
+    <set >
+      <if test="code != null" >
+        code = #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="auditstatus != null" >
+        auditstatus = #{auditstatus,jdbcType=VARCHAR},
+      </if>
+      <if test="source != null" >
+        source = #{source,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="vehicleid != null" >
+        vehicleid = #{vehicleid,jdbcType=VARCHAR},
+      </if>
+      <if test="driverid != null" >
+        driverid = #{driverid,jdbcType=VARCHAR},
+      </if>
+      <if test="billid != null" >
+        billid = #{billid,jdbcType=VARCHAR},
+      </if>
+      <if test="billcode != null" >
+        billcode = #{billcode,jdbcType=VARCHAR},
+      </if>
+      <if test="abnormalperson != null" >
+        abnormalperson = #{abnormalperson,jdbcType=VARCHAR},
+      </if>
+      <if test="abnormaltime != null" >
+        abnormaltime = #{abnormaltime,jdbcType=BIGINT},
+      </if>
+      <if test="unit != null" >
+        unit = #{unit,jdbcType=VARCHAR},
+      </if>
+      <if test="takeamount != null" >
+        takeamount = #{takeamount,jdbcType=DOUBLE},
+      </if>
+      <if test="spraycode != null" >
+        spraycode = #{spraycode,jdbcType=VARCHAR},
+      </if>
+      <if test="serialnumber != null" >
+        serialnumber = #{serialnumber,jdbcType=VARCHAR},
+      </if>
+      <if test="icardid != null" >
+        icardid = #{icardid,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null" >
+        state = #{state,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null" >
+        remarks = #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="creator != null" >
+        creator = #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        createtime = #{createtime,jdbcType=BIGINT},
+      </if>
+      <if test="modifier != null" >
+        modifier = #{modifier,jdbcType=VARCHAR},
+      </if>
+      <if test="modifytime != null" >
+        modifytime = #{modifytime,jdbcType=BIGINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tianrui.service.bean.businessManage.salesManage.SalesArrive" >
+    update tr_sales_db_arrive
+    set code = #{code,jdbcType=VARCHAR},
+      auditstatus = #{auditstatus,jdbcType=VARCHAR},
+      source = #{source,jdbcType=VARCHAR},
+      status = #{status,jdbcType=VARCHAR},
+      vehicleid = #{vehicleid,jdbcType=VARCHAR},
+      driverid = #{driverid,jdbcType=VARCHAR},
+      billid = #{billid,jdbcType=VARCHAR},
+      billcode = #{billcode,jdbcType=VARCHAR},
+      abnormalperson = #{abnormalperson,jdbcType=VARCHAR},
+      abnormaltime = #{abnormaltime,jdbcType=BIGINT},
+      unit = #{unit,jdbcType=VARCHAR},
+      takeamount = #{takeamount,jdbcType=DOUBLE},
+      spraycode = #{spraycode,jdbcType=VARCHAR},
+      serialnumber = #{serialnumber,jdbcType=VARCHAR},
+      icardid = #{icardid,jdbcType=VARCHAR},
+      state = #{state,jdbcType=VARCHAR},
+      remarks = #{remarks,jdbcType=VARCHAR},
+      creator = #{creator,jdbcType=VARCHAR},
+      createtime = #{createtime,jdbcType=BIGINT},
+      modifier = #{modifier,jdbcType=VARCHAR},
+      modifytime = #{modifytime,jdbcType=BIGINT}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <select id="selectSelective" resultMap="BaseResultMap" parameterType="com.tianrui.service.bean.businessManage.salesManage.SalesArrive">
+  	select
+  	<include refid="Base_Column_List" />
+  	from tr_sales_db_arrive
+  	<where>
+  	  <if test="id != null and id != ''" >
+        and id = #{id,jdbcType=VARCHAR}
+      </if>
+  	  <if test="code != null and code != ''" >
+        and code = #{code,jdbcType=VARCHAR}
+      </if>
+      <if test="auditstatus != null and auditstatus != '' ">
+        and auditstatus = #{auditstatus,jdbcType=VARCHAR}
+      </if>
+      <if test="source != null and source != '' ">
+        and source = #{source,jdbcType=VARCHAR}
+      </if>
+      <if test="status != null and status != '' ">
+        and status = #{status,jdbcType=VARCHAR}
+      </if>
+      <if test="vehicleid != null and vehicleid != '' ">
+        and vehicleid = #{vehicleid,jdbcType=VARCHAR}
+      </if>
+      <if test="driverid != null and driverid != '' ">
+        and driverid = #{driverid,jdbcType=VARCHAR}
+      </if>
+      <if test="billid != null and billid != '' ">
+        and billid = #{billid,jdbcType=VARCHAR}
+      </if>
+      <if test="billcode != null and billcode != '' ">
+        and billcode = #{billcode,jdbcType=VARCHAR}
+      </if>
+      <if test="abnormalperson != null and abnormalperson != '' ">
+        and abnormalperson = #{abnormalperson,jdbcType=VARCHAR}
+      </if>
+      <if test="abnormaltime != null and abnormaltime != '' ">
+        and abnormaltime = #{abnormaltime,jdbcType=BIGINT}
+      </if>
+      <if test="unit != null and unit != '' ">
+        and unit = #{unit,jdbcType=VARCHAR}
+      </if>
+      <if test="takeamount != null and takeamount != '' ">
+        and takeamount = #{takeamount,jdbcType=DOUBLE}
+      </if>
+      <if test="spraycode != null and spraycode != '' ">
+        and spraycode = #{spraycode,jdbcType=VARCHAR}
+      </if>
+      <if test="serialnumber != null and serialnumber != '' ">
+        and serialnumber = #{serialnumber,jdbcType=VARCHAR}
+      </if>
+      <if test="icardid != null and icardid != '' ">
+        and icardid = #{icardid,jdbcType=VARCHAR}
+      </if>
+      <if test="state != null and state != '' ">
+        and state = #{state,jdbcType=VARCHAR}
+      </if>
+      <if test="remarks != null and remarks != '' ">
+        and remarks = #{remarks,jdbcType=VARCHAR}
+      </if>
+      <if test="creator != null and creator != '' ">
+        and creator = #{creator,jdbcType=VARCHAR}
+      </if>
+      <if test="createtime != null and createtime != '' ">
+        and createtime = #{createtime,jdbcType=BIGINT}
+      </if>
+      <if test="modifier != null and modifier != '' ">
+        and modifier = #{modifier,jdbcType=VARCHAR}
+      </if>
+      <if test="modifytime != null and modifytime != '' ">
+        and modifytime = #{modifytime,jdbcType=BIGINT}
+      </if>
+  	</where>
+  </select>
+  <select id="findSalesArrivePage" resultMap="BaseResultMap" parameterType="com.tianrui.api.req.businessManage.salesManage.SalesArriveQuery">
+  	select s1.*
+  	from tr_sales_db_arrive s1 left join tr_sales_db_application s2 
+  	on s1.billid = s2.id
+  	left join tr_sales_db_application_detail t3
+  	on s2.id = s3.salesid
+  	<where>
+      <if test="code != null and code != '' ">
+        and s1.code = #{code,jdbcType=VARCHAR}
+      </if>
+  	  <if test="auditstatus != null and auditstatus != '' ">
+        and s1.auditstatus = #{auditstatus,jdbcType=VARCHAR}
+      </if>
+      <if test="source != null and source != '' ">
+        and s1.source = #{source,jdbcType=VARCHAR}
+      </if>
+      <if test="status != null and status != '' ">
+        and s1.status = #{status,jdbcType=VARCHAR}
+      </if>
+      <if test="vehicleid != null and vehicleid != '' ">
+        and s1.vehicleid = #{vehicleid,jdbcType=VARCHAR}
+      </if>
+      <if test="driverid != null and driverid != '' ">
+        and s1.driverid = #{driverid,jdbcType=VARCHAR}
+      </if>
+      <if test="customerid != null and customerid != '' ">
+        and s2.customerid = #{customerid,jdbcType=VARCHAR}
+      </if>
+      <if test="billcode != null and billcode != '' ">
+        and s2.code = #{billcode,jdbcType=VARCHAR}
+      </if>
+      <if test="materielid != null and materielid != '' ">
+        and s3.materielid = #{materielid,jdbcType=VARCHAR}
+      </if>
+      <if test="starttime != null and starttime != ''">
+		and s1.createtime <![CDATA[>=]]> #{starttime,jdbcType=BIGINT}
+	  </if>
+	  <if test="endtime != null and endtime != ''">
+		and s1.createtime <![CDATA[<]]> #{endtime,jdbcType=BIGINT}
+	  </if>
+  	</where>
+  	order by createtime desc
+  	<if test="start != null and start >= 0">
+  		<if test="limit != null">
+			limit #{start,jdbcType=INTEGER},#{limit,jdbcType=INTEGER}
+  		</if>
+  	</if>
+  </select>
+  <select id="findSalesArrivePageCount" resultType="java.lang.Long" parameterType="com.tianrui.api.req.businessManage.salesManage.SalesArriveQuery">
+  	select count(0)
+  	from tr_sales_db_arrive s1 left join tr_sales_db_application s2 
+  	on s1.billid = s2.id
+  	left join tr_sales_db_application_detail t3
+  	on s2.id = s3.salesid
+  	<where>
+      <if test="code != null and code != '' ">
+        and s1.code = #{code,jdbcType=VARCHAR}
+      </if>
+  	  <if test="auditstatus != null and auditstatus != '' ">
+        and s1.auditstatus = #{auditstatus,jdbcType=VARCHAR}
+      </if>
+      <if test="source != null and source != '' ">
+        and s1.source = #{source,jdbcType=VARCHAR}
+      </if>
+      <if test="status != null and status != '' ">
+        and s1.status = #{status,jdbcType=VARCHAR}
+      </if>
+      <if test="vehicleid != null and vehicleid != '' ">
+        and s1.vehicleid = #{vehicleid,jdbcType=VARCHAR}
+      </if>
+      <if test="driverid != null and driverid != '' ">
+        and s1.driverid = #{driverid,jdbcType=VARCHAR}
+      </if>
+      <if test="customerid != null and customerid != '' ">
+        and s2.customerid = #{customerid,jdbcType=VARCHAR}
+      </if>
+      <if test="billcode != null and billcode != '' ">
+        and s2.code = #{billcode,jdbcType=VARCHAR}
+      </if>
+      <if test="materielid != null and materielid != '' ">
+        and s3.materielid = #{materielid,jdbcType=VARCHAR}
+      </if>
+      <if test="starttime != null and starttime != ''">
+		and s1.createtime <![CDATA[>=]]> #{starttime,jdbcType=BIGINT}
+	  </if>
+	  <if test="endtime != null and endtime != ''">
+		and s1.createtime <![CDATA[<]]> #{endtime,jdbcType=BIGINT}
+	  </if>
+  	</where>
+  </select>
+</mapper>

@@ -209,7 +209,7 @@
       modifytime = #{modifytime,jdbcType=BIGINT}
     where id = #{id,jdbcType=VARCHAR}
   </update>
-  <select id="findSupplierPageCount" parameterType="com.tianrui.api.req.basicFile.nc.SupplierManageReq" resultType="java.lang.Long">
+  <select id="findSupplierPageCount" parameterType="com.tianrui.api.req.basicFile.nc.SupplierManageQuery" resultType="java.lang.Long">
   	select
   	count(0)
   	from tr_supplier_db_manage
@@ -231,7 +231,7 @@
   		</if>
   	</where>
   </select>
-  <select id="findSupplierPage" parameterType="com.tianrui.api.req.basicFile.nc.SupplierManageReq" resultMap="BaseResultMap">
+  <select id="findSupplierPage" parameterType="com.tianrui.api.req.basicFile.nc.SupplierManageQuery" resultMap="BaseResultMap">
   	select
   	<include refid="Base_Column_List"/>
   	from tr_supplier_db_manage
@@ -258,5 +258,57 @@
 			limit #{start,jdbcType=INTEGER},#{limit,jdbcType=INTEGER}
   		</if>
   	</if>
+  </select>
+  <select id="selectSelective" resultMap="BaseResultMap" parameterType="com.tianrui.service.bean.basicFile.nc.SupplierManage">
+  	select
+  	<include refid="Base_Column_List"/>
+  	from tr_supplier_db_manage
+  	<where>
+  	  <if test="id != null and id != ''" >
+        and id = #{id,jdbcType=VARCHAR}
+      </if>
+  	  <if test="code != null and code !=''" >
+        and code = #{code,jdbcType=VARCHAR}
+      </if>
+      <if test="internalcode != null and internalcode !=''" >
+        and internalcode = #{internalcode,jdbcType=VARCHAR}
+      </if>
+      <if test="name != null and name !=''" >
+        and name = #{name,jdbcType=VARCHAR}
+      </if>
+      <if test="abbrname != null and abbrname !=''" >
+        and abbrname = #{abbrname,jdbcType=VARCHAR}
+      </if>
+      <if test="pinyincode != null and pinyincode !=''" >
+        and pinyincode = #{pinyincode,jdbcType=VARCHAR}
+      </if>
+      <if test="orgid != null and orgid !=''" >
+        and orgid = #{orgid,jdbcType=VARCHAR}
+      </if>
+      <if test="orgname != null and orgname !=''" >
+        and orgname = #{orgname,jdbcType=VARCHAR}
+      </if>
+      <if test="minemouth != null and minemouth !=''" >
+        and minemouth = #{minemouth,jdbcType=VARCHAR}
+      </if>
+      <if test="drivercheck != null and drivercheck !=''" >
+        and drivercheck = #{drivercheck,jdbcType=VARCHAR}
+      </if>
+      <if test="remarks != null and remarks !=''" >
+        and remarks = #{remarks,jdbcType=VARCHAR}
+      </if>
+      <if test="creator != null and creator !=''" >
+        and creator = #{creator,jdbcType=VARCHAR}
+      </if>
+      <if test="createtime != null and createtime !=''" >
+        and createtime = #{createtime,jdbcType=BIGINT}
+      </if>
+      <if test="modifier != null and modifier !=''" >
+        and modifier = #{modifier,jdbcType=VARCHAR}
+      </if>
+      <if test="modifytime != null and modifytime !=''" >
+        and modifytime = #{modifytime,jdbcType=BIGINT}
+      </if>
+  	</where>
   </select>
 </mapper>
