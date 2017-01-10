@@ -8,11 +8,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.tianrui.api.intf.basicFile.nc.ISupplierManageService;
-import com.tianrui.api.req.basicFile.nc.SupplierManageReq;
+import com.tianrui.api.req.basicFile.nc.SupplierManageQuery;
+import com.tianrui.api.req.basicFile.nc.SupplierManageSave;
 import com.tianrui.api.resp.basicFile.nc.SupplierManageResp;
 import com.tianrui.service.bean.basicFile.nc.SupplierManage;
 import com.tianrui.service.mapper.basicFile.nc.SupplierManageMapper;
+import com.tianrui.smartfactory.common.constants.ErrorCode;
 import com.tianrui.smartfactory.common.vo.PaginationVO;
+import com.tianrui.smartfactory.common.vo.Result;
 /**
  * 供应商管理Service
  * @author zhanggaohao
@@ -26,35 +29,52 @@ public class SupplierManageService implements ISupplierManageService {
 	private SupplierManageMapper supplierManageMapper;
 
 	@Override
-	public PaginationVO<SupplierManageResp> page(SupplierManageReq req) throws Exception {
+	public PaginationVO<SupplierManageResp> page(SupplierManageQuery query) throws Exception {
 		PaginationVO<SupplierManageResp> page = null;
-		if(req != null){
+		if(query != null){
 			page = new PaginationVO<SupplierManageResp>();
-			long count = supplierManageMapper.findSupplierPageCount(req);
+			long count = supplierManageMapper.findSupplierPageCount(query);
 			if(count > 0){
-				req.setStart((req.getPageNo()-1)*req.getPageSize());
-				req.setLimit(req.getPageSize());
-				List<SupplierManage> list = supplierManageMapper.findSupplierPage(req);
+				query.setStart((query.getPageNo()-1)*query.getPageSize());
+				query.setLimit(query.getPageSize());
+				List<SupplierManage> list = supplierManageMapper.findSupplierPage(query);
 				page.setList(copyBeanList2RespList(list));
 			}
 			page.setTotal(count);
-			page.setPageNo(req.getPageNo());
-			page.setPageSize(req.getPageSize());
+			page.setPageNo(query.getPageNo());
+			page.setPageSize(query.getPageSize());
 		}
 		return page;
 	}
 	
 	@Override
-	public int updateSupplier(SupplierManageReq req) throws Exception {
-		int n = 0;
-		if(req != null){
+	public Result updateSupplier(SupplierManageSave save) throws Exception {
+		Result result = Result.getParamErrorResult();
+		if(save != null){
 			SupplierManage sm = new SupplierManage();
-			PropertyUtils.copyProperties(sm, req);
+			PropertyUtils.copyProperties(sm, save);
 //			sm.setModifier("");
 			sm.setModifytime(System.currentTimeMillis());
-			n =  supplierManageMapper.updateByPrimaryKeySelective(sm);
+			if(supplierManageMapper.updateByPrimaryKeySelective(sm) > 0){
+				result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+			}else{
+				result.setErrorCode(ErrorCode.OPERATE_ERROR);
+			}
 		}
-		return n;
+		return result;
+	}
+	
+	@Override
+	public Result findListByParmas(SupplierManageQuery query) throws Exception {
+		Result result = Result.getParamErrorResult();
+		if(query != null){
+			SupplierManage sm = new SupplierManage();
+			PropertyUtils.copyProperties(sm, query);
+			List<SupplierManage> list = supplierManageMapper.selectSelective(sm);
+			result.setData(copyBeanList2RespList(list));
+			result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+		}
+		return result;
 	}
 	
 	private List<SupplierManageResp> copyBeanList2RespList(List<SupplierManage> list) throws Exception {

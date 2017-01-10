@@ -2,7 +2,7 @@ package com.tianrui.service.mapper.basicFile.nc;
 
 import java.util.List;
 
-import com.tianrui.api.req.basicFile.nc.SupplierManageReq;
+import com.tianrui.api.req.basicFile.nc.SupplierManageQuery;
 import com.tianrui.service.bean.basicFile.nc.SupplierManage;
 /**
  * 供应商管理Mapper接口
@@ -23,8 +23,10 @@ public interface SupplierManageMapper {
 
     int updateByPrimaryKey(SupplierManage record);
     
-    long findSupplierPageCount(SupplierManageReq req);
+    List<SupplierManage> selectSelective(SupplierManage record);
     
-    List<SupplierManage> findSupplierPage(SupplierManageReq req);
+    List<SupplierManage> findSupplierPage(SupplierManageQuery query);
+    
+    long findSupplierPageCount(SupplierManageQuery query);
     
 }

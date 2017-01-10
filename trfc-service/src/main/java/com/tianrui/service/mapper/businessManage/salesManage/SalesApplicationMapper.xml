@@ -267,61 +267,6 @@
       modifytime = #{modifytime,jdbcType=BIGINT}
     where id = #{id,jdbcType=VARCHAR}
   </update>
-  <select id="findSalesApplicationPage" parameterType="com.tianrui.api.req.businessManage.salesManage.SalesApplicationQuery" resultMap="BaseResultMap">
-  	select
-  	<include refid="Base_Column_List" />
-  	from tr_sales_db_application
-  	<where>
-  		<if test="state != null and state != ''">
-  			and state = #{state,jdbcType=VARCHAR}
-  		</if>
-  		<if test="customerid != null and customerid != ''">
-  			and customerid = #{customerid,jdbcType=VARCHAR}
-  		</if>
-  		<if test="source != null and source != ''">
-  			and source = #{source,jdbcType=VARCHAR}
-  		</if>
-  		<if test="code != null and code != ''">
-  			and code = #{code,jdbcType=VARCHAR}
-  		</if>
-  		<if test="starttime != null and starttime != ''">
-  			and createtime <![CDATA[>=]]> #{starttime,jdbcType=BIGINT}
-  		</if>
-  		<if test="endtime != null and endtime != ''">
-  			and createtime <![CDATA[<]]> #{endtime,jdbcType=BIGINT}
-  		</if>
-  	</where>
-  	order by createtime desc
-  	<if test="start != null and start >= 0">
-  		<if test="limit != null">
-			limit #{start,jdbcType=INTEGER},#{limit,jdbcType=INTEGER}
-  		</if>
-  	</if>
-  </select>
-  <select id="findSalesApplicationPageCount" parameterType="com.tianrui.api.req.businessManage.salesManage.SalesApplicationQuery" resultType="java.lang.Long" >
-  	select count(0)
-  	from tr_sales_db_application
-  	<where>
-  		<if test="state != null and state != ''">
-  			and state = #{state,jdbcType=VARCHAR}
-  		</if>
-  		<if test="customerid != null and customerid != ''">
-  			and customerid = #{customerid,jdbcType=VARCHAR}
-  		</if>
-  		<if test="source != null and source != ''">
-  			and source = #{source,jdbcType=VARCHAR}
-  		</if>
-  		<if test="code != null and code != ''">
-  			and code = #{code,jdbcType=VARCHAR}
-  		</if>
-  		<if test="starttime != null and starttime != ''">
-  			and createtime <![CDATA[>=]]> #{starttime,jdbcType=BIGINT}
-  		</if>
-  		<if test="endtime != null and endtime != ''">
-  			and createtime <![CDATA[<]]> #{endtime,jdbcType=BIGINT}
-  		</if>
-  	</where>
-  </select>
   <select id="selectSelective" parameterType="com.tianrui.service.bean.businessManage.salesManage.SalesApplication" resultMap="BaseResultMap">
   	select
   	<include refid="Base_Column_List" />
@@ -387,6 +332,61 @@
       <if test="modifytime != null and modifytime != ''" >
         and modifytime = #{modifytime,jdbcType=BIGINT}
       </if>
+  	</where>
+  </select>
+  <select id="findSalesApplicationPage" parameterType="com.tianrui.api.req.businessManage.salesManage.SalesApplicationQuery" resultMap="BaseResultMap">
+  	select
+  	<include refid="Base_Column_List" />
+  	from tr_sales_db_application
+  	<where>
+  		<if test="state != null and state != ''">
+  			and state = #{state,jdbcType=VARCHAR}
+  		</if>
+  		<if test="customerid != null and customerid != ''">
+  			and customerid = #{customerid,jdbcType=VARCHAR}
+  		</if>
+  		<if test="source != null and source != ''">
+  			and source = #{source,jdbcType=VARCHAR}
+  		</if>
+  		<if test="code != null and code != ''">
+  			and code = #{code,jdbcType=VARCHAR}
+  		</if>
+  		<if test="starttime != null and starttime != ''">
+  			and createtime <![CDATA[>=]]> #{starttime,jdbcType=BIGINT}
+  		</if>
+  		<if test="endtime != null and endtime != ''">
+  			and createtime <![CDATA[<]]> #{endtime,jdbcType=BIGINT}
+  		</if>
+  	</where>
+  	order by createtime desc
+  	<if test="start != null and start >= 0">
+  		<if test="limit != null">
+			limit #{start,jdbcType=INTEGER},#{limit,jdbcType=INTEGER}
+  		</if>
+  	</if>
+  </select>
+  <select id="findSalesApplicationPageCount" parameterType="com.tianrui.api.req.businessManage.salesManage.SalesApplicationQuery" resultType="java.lang.Long" >
+  	select count(0)
+  	from tr_sales_db_application
+  	<where>
+  		<if test="state != null and state != ''">
+  			and state = #{state,jdbcType=VARCHAR}
+  		</if>
+  		<if test="customerid != null and customerid != ''">
+  			and customerid = #{customerid,jdbcType=VARCHAR}
+  		</if>
+  		<if test="source != null and source != ''">
+  			and source = #{source,jdbcType=VARCHAR}
+  		</if>
+  		<if test="code != null and code != ''">
+  			and code = #{code,jdbcType=VARCHAR}
+  		</if>
+  		<if test="starttime != null and starttime != ''">
+  			and createtime <![CDATA[>=]]> #{starttime,jdbcType=BIGINT}
+  		</if>
+  		<if test="endtime != null and endtime != ''">
+  			and createtime <![CDATA[<]]> #{endtime,jdbcType=BIGINT}
+  		</if>
   	</where>
   </select>
 </mapper>
