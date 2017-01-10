@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.tianrui.api.intf.basicFile.measure.IVehicleManageService;
+import com.tianrui.api.req.basicFile.measure.VehicleManageSave;
 import com.tianrui.api.req.basicFile.measure.VehicleSaveReq;
 import com.tianrui.smartfactory.common.api.ApiParam;
 import com.tianrui.smartfactory.common.api.ApiResult;
@@ -28,16 +29,14 @@ public class ApiVehicleAction {
 	
 
 	@RequestMapping("vehicleCard")
-	@ApiParamRawType(VehicleSaveReq.class)
+	@ApiParamRawType(VehicleManageSave.class)
 	@ApiAuthValidation(callType="2")
 	@ResponseBody
-	public ApiResult addVehicle(ApiParam<VehicleSaveReq> req){
-	public ApiResult vehicleCard(ApiParam<VehicleSaveReq> req){
+	public ApiResult vehicleCard(ApiParam<VehicleManageSave> req){
 		Result rs=Result.getErrorResult();
-		VehicleSaveReq vehicleSaveReq =req.getBody();
-		vehicleSaveReq.setCurrUid(req.getHead().getUserId());
+		VehicleManageSave vehicleSaveReq =req.getBody();
+		vehicleSaveReq.setCurrUId(req.getHead().getUserId());
 		try {
-			vehicleManageService.addVehicle(vehicleSaveReq);
 			rs=vehicleManageService.addVehicle(vehicleSaveReq);
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
