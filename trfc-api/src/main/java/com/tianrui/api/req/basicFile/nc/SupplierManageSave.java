@@ -1,10 +1,10 @@
-package com.tianrui.api.req.basicFile.measure;
+package com.tianrui.api.req.basicFile.nc;
 
 import com.tianrui.api.req.BaseReq;
 
-public class DriverManageReq extends BaseReq {
-
-	private static final long serialVersionUID = -8822895320443317534L;
+public class SupplierManageSave extends BaseReq {
+	
+	private static final long serialVersionUID = -153199259429342764L;
 
 	private String id;
 
@@ -16,20 +16,16 @@ public class DriverManageReq extends BaseReq {
 
     private String abbrname;
 
-    private String address;
-
-    private String telephone;
-
-    private String identityno;
-
-    private String isvalid;
+    private String pinyincode;
 
     private String orgid;
 
     private String orgname;
 
-    private String state;
-    
+    private String minemouth;
+
+    private String drivercheck;
+
     private String remarks;
 
     private String creator;
@@ -84,36 +80,12 @@ public class DriverManageReq extends BaseReq {
         this.abbrname = abbrname == null ? null : abbrname.trim();
     }
 
-    public String getAddress() {
-        return address;
+    public String getPinyincode() {
+        return pinyincode;
     }
 
-    public void setAddress(String address) {
-        this.address = address == null ? null : address.trim();
-    }
-
-    public String getTelephone() {
-        return telephone;
-    }
-
-    public void setTelephone(String telephone) {
-        this.telephone = telephone == null ? null : telephone.trim();
-    }
-
-    public String getIdentityno() {
-        return identityno;
-    }
-
-    public void setIdentityno(String identityno) {
-        this.identityno = identityno == null ? null : identityno.trim();
-    }
-
-    public String getIsvalid() {
-        return isvalid;
-    }
-
-    public void setIsvalid(String isvalid) {
-        this.isvalid = isvalid == null ? null : isvalid.trim();
+    public void setPinyincode(String pinyincode) {
+        this.pinyincode = pinyincode == null ? null : pinyincode.trim();
     }
 
     public String getOrgid() {
@@ -132,15 +104,23 @@ public class DriverManageReq extends BaseReq {
         this.orgname = orgname == null ? null : orgname.trim();
     }
 
-    public String getState() {
-		return state;
-	}
+    public String getMinemouth() {
+        return minemouth;
+    }
 
-	public void setState(String state) {
-		this.state = state == null ? null : state.trim();
-	}
+    public void setMinemouth(String minemouth) {
+        this.minemouth = minemouth == null ? null : minemouth.trim();
+    }
 
-	public String getRemarks() {
+    public String getDrivercheck() {
+        return drivercheck;
+    }
+
+    public void setDrivercheck(String drivercheck) {
+        this.drivercheck = drivercheck == null ? null : drivercheck.trim();
+    }
+
+    public String getRemarks() {
         return remarks;
     }
 

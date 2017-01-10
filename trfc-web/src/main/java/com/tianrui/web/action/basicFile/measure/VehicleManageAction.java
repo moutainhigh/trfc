@@ -1,6 +1,5 @@
 package com.tianrui.web.action.basicFile.measure;
 
-import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,8 +9,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.tianrui.api.intf.basicFile.measure.IVehicleManageService;
-import com.tianrui.api.req.basicFile.measure.VehicleManageReq;
-import com.tianrui.api.req.basicFile.measure.VehicleSaveReq;
+import com.tianrui.api.req.basicFile.measure.VehicleManageQuery;
+import com.tianrui.api.req.basicFile.measure.VehicleManageSave;
 import com.tianrui.api.resp.basicFile.measure.VehicleManageResp;
 import com.tianrui.smartfactory.common.constants.ErrorCode;
 import com.tianrui.smartfactory.common.vo.PaginationVO;
@@ -36,10 +35,10 @@ public class VehicleManageAction {
 
 	@RequestMapping("page")
 	@ResponseBody
-	public Result page(VehicleManageReq req){
+	public Result page(VehicleManageQuery query){
 		Result result = Result.getSuccessResult();
 		try {
-			PaginationVO<VehicleManageResp> page = vehicleManageService.page(req);
+			PaginationVO<VehicleManageResp> page = vehicleManageService.page(query);
 			result.setData(page);
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
@@ -50,11 +49,10 @@ public class VehicleManageAction {
 				
 	@RequestMapping("addVehicle")
 	@ResponseBody
-	public Result addVehicle(VehicleSaveReq req){
+	public Result addVehicle(VehicleManageSave save){
 		Result result = Result.getErrorResult();
 		try {
-			result = vehicleManageService.addVehicle(req);
-			
+			result = vehicleManageService.addVehicle(save);
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
@@ -64,15 +62,10 @@ public class VehicleManageAction {
 	
 	@RequestMapping("editVehicle")
 	@ResponseBody
-	public Result editVehicle(VehicleManageReq req){
+	public Result editVehicle(VehicleManageSave save){
 		Result result = Result.getSuccessResult();
 		try {
-			int n = vehicleManageService.editVehicle(req);
-			if(n > 0){
-				result.setData(n);
-			}else{
-				result.setErrorCode(ErrorCode.OPERATE_ERROR);
-			}
+			result = vehicleManageService.editVehicle(save);
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
@@ -82,19 +75,10 @@ public class VehicleManageAction {
 	
 	@RequestMapping("deleteVehicle")
 	@ResponseBody
-	public Result deleteVehicle(String id){
+	public Result deleteVehicle(VehicleManageQuery query){
 		Result result = Result.getSuccessResult();
 		try {
-			if(StringUtils.isNotBlank(id)){
-				int n = vehicleManageService.deleteVehicle(id);
-				if(n > 0){
-					result.setData(n);
-				}else{
-					result.setErrorCode(ErrorCode.OPERATE_ERROR);
-				}
-			}else{
-				result.setErrorCode(ErrorCode.PARAM_NULL_ERROR);
-			}
+			result = vehicleManageService.deleteVehicle(query);
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
@@ -104,15 +88,10 @@ public class VehicleManageAction {
 	
 	@RequestMapping("delblacklist")
 	@ResponseBody
-	public Result delblacklist(VehicleManageReq req){
+	public Result delblacklist(VehicleManageQuery query){
 		Result result = Result.getSuccessResult();
 		try {
-			boolean flag = vehicleManageService.delblacklist(req);
-			if(flag){
-				result.setData(flag);
-			}else{
-				result.setErrorCode(ErrorCode.OPERATE_ERROR);
-			}
+			result = vehicleManageService.delblacklist(query);
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
@@ -122,15 +101,10 @@ public class VehicleManageAction {
 	
 	@RequestMapping("addblacklist")
 	@ResponseBody
-	public Result addblacklist(VehicleManageReq req){
+	public Result addblacklist(VehicleManageQuery query){
 		Result result = Result.getSuccessResult();
 		try {
-			boolean flag = vehicleManageService.addblacklist(req);
-			if(flag){
-				result.setData(flag);
-			}else{
-				result.setErrorCode(ErrorCode.OPERATE_ERROR);
-			}
+			result = vehicleManageService.addblacklist(query);
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 			result.setErrorCode(ErrorCode.SYSTEM_ERROR);

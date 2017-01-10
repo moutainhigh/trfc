@@ -9,7 +9,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.tianrui.api.intf.basicFile.nc.IMaterielManageService;
-import com.tianrui.api.req.basicFile.nc.MaterielManageReq;
+import com.tianrui.api.req.basicFile.nc.MaterielManageQuery;
+import com.tianrui.api.req.basicFile.nc.MaterielManageSave;
 import com.tianrui.api.resp.basicFile.nc.MaterielManageResp;
 import com.tianrui.smartfactory.common.constants.ErrorCode;
 import com.tianrui.smartfactory.common.vo.PaginationVO;
@@ -38,7 +39,7 @@ public class MaterielManageAction {
 	
 	@RequestMapping("page")
 	@ResponseBody
-	public Result page(MaterielManageReq req){
+	public Result page(MaterielManageQuery req){
 		Result result = Result.getSuccessResult();
 		try {
 			PaginationVO<MaterielManageResp> page = materielManageService.page(req);
@@ -52,15 +53,10 @@ public class MaterielManageAction {
 	
 	@RequestMapping("updateMater")
 	@ResponseBody
-	public Result updateMater(MaterielManageReq req){
+	public Result updateMater(MaterielManageSave save){
 		Result result = Result.getSuccessResult();
 		try {
-			int n = materielManageService.updateMateriel(req);
-			if(n == 1){
-				result.setData(n);
-			}else{
-				result.setErrorCode(ErrorCode.OPERATE_ERROR);
-			}
+			result = materielManageService.updateMateriel(save);
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
@@ -73,7 +69,7 @@ public class MaterielManageAction {
 	public Result findAll(){
 		Result result = Result.getSuccessResult();
 		try {
-			result.setData(materielManageService.findAll());
+			result = materielManageService.findListByParmas(null);
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 			result.setErrorCode(ErrorCode.SYSTEM_ERROR);

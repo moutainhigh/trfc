@@ -33,7 +33,7 @@ public class ApiVehicleAction {
 		VehicleSaveReq vehicleSaveReq =req.getBody();
 		vehicleSaveReq.setCurrUid(req.getHead().getUserId());
 		try {
-			vehicleManageService.addVehicle(vehicleSaveReq);
+			vehicleManageService.addVehicleApi(vehicleSaveReq);
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 			rs.setErrorCode(ErrorCode.SYSTEM_ERROR);

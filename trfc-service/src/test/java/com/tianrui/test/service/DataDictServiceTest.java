@@ -14,7 +14,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import com.alibaba.fastjson.JSON;
 import com.tianrui.api.intf.basicFile.measure.IVehicleManageService;
 import com.tianrui.api.intf.basicFile.other.IOtherBdVehicleService;
-import com.tianrui.api.req.basicFile.measure.VehicleManageReq;
+import com.tianrui.api.req.basicFile.measure.VehicleManageSave;
 import com.tianrui.api.req.basicFile.other.OtherBdVehicleReq;
 import com.tianrui.api.resp.basicFile.other.OtherBdVehicleResp;
 import com.tianrui.smartfactory.common.vo.PaginationVO;
@@ -31,7 +31,7 @@ public class DataDictServiceTest {
 	
 	@Test
 	public void findDictListTest()throws Exception{
-		VehicleManageReq bean = new  VehicleManageReq();
+		VehicleManageSave bean = new  VehicleManageSave();
 //		bean.setCode("CL01003611");
 //		bean.setInternalcode("cl");
 		bean.setRfid("E152016050500000000000C3");

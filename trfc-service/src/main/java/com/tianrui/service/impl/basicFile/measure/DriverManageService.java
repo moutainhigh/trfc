@@ -9,12 +9,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.tianrui.api.intf.basicFile.measure.IDriverManageService;
-import com.tianrui.api.req.basicFile.measure.DriverManageReq;
+import com.tianrui.api.req.basicFile.measure.DriverManageQuery;
+import com.tianrui.api.req.basicFile.measure.DriverManageSave;
 import com.tianrui.api.resp.basicFile.measure.DriverManageResp;
 import com.tianrui.service.bean.basicFile.measure.DriverManage;
 import com.tianrui.service.mapper.basicFile.measure.DriverManageMapper;
+import com.tianrui.smartfactory.common.constants.ErrorCode;
 import com.tianrui.smartfactory.common.utils.UUIDUtil;
 import com.tianrui.smartfactory.common.vo.PaginationVO;
+import com.tianrui.smartfactory.common.vo.Result;
 
 @Service
 public class DriverManageService implements IDriverManageService {
@@ -23,81 +26,96 @@ public class DriverManageService implements IDriverManageService {
 	private DriverManageMapper driverManageMapper;
 
 	@Override
-	public PaginationVO<DriverManageResp> page(DriverManageReq req) throws Exception {
+	public PaginationVO<DriverManageResp> page(DriverManageQuery query) throws Exception {
 		PaginationVO<DriverManageResp> page = null;
-		if(req != null){
+		if(query != null){
 			page = new PaginationVO<DriverManageResp>();
-			long count = driverManageMapper.findDriverPageCount(req);
+			long count = driverManageMapper.findDriverPageCount(query);
 			if(count > 0){
-				req.setState("1");
-				req.setStart((req.getPageNo()-1)*req.getPageSize());
-				req.setLimit(req.getPageSize());
-				List<DriverManage> list = driverManageMapper.findDriverPage(req);
+				query.setState("1");
+				query.setStart((query.getPageNo()-1)*query.getPageSize());
+				query.setLimit(query.getPageSize());
+				List<DriverManage> list = driverManageMapper.findDriverPage(query);
 				page.setList(copyBeanList2RespList(list));
 			}
 			page.setTotal(count);
-			page.setPageNo(req.getPageNo());
-			page.setPageSize(req.getPageSize());
+			page.setPageNo(query.getPageNo());
+			page.setPageSize(query.getPageSize());
 		}
 		return page;
 	}
 
 	@Override
-	public int addDriver(DriverManageReq req) throws Exception {
-		int n = 0;
-		if(req != null){
+	public Result addDriver(DriverManageSave save) throws Exception {
+		Result result = Result.getParamErrorResult();
+		if(save != null){
 			DriverManage driver = new DriverManage();
-			driver.setIdentityno(req.getIdentityno());
+			driver.setIdentityno(save.getIdentityno());
 			List<DriverManage> list = driverManageMapper.selectSelective(driver);
 			if(list != null && list.size() > 0){
-				return -1;
+				result.setErrorCode(ErrorCode.PARAM_REPEAT_ERROR);
+			}else{
+				PropertyUtils.copyProperties(driver, save);
+				driver.setId(UUIDUtil.getId());
+//				driver.setCreator("");
+				driver.setCreatetime(System.currentTimeMillis());
+//				driver.setModifier("");
+				driver.setModifytime(System.currentTimeMillis());
+				if(driverManageMapper.insertSelective(driver) > 0){
+					result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+				}else{
+					result.setErrorCode(ErrorCode.OPERATE_ERROR);
+				}
 			}
-			PropertyUtils.copyProperties(driver, req);
-			driver.setId(UUIDUtil.getId());
-//			driver.setCreator("");
-			driver.setCreatetime(System.currentTimeMillis());
-//			driver.setModifier("");
-			driver.setModifytime(System.currentTimeMillis());
-			n = driverManageMapper.insertSelective(driver);
 		}
-		return n;
+		return result;
 	}
 
 	@Override
-	public int updateDriver(DriverManageReq req) throws Exception {
-		int n = 0;
-		if(req != null){
+	public Result updateDriver(DriverManageSave save) throws Exception {
+		Result result = Result.getParamErrorResult();
+		if(save != null){
 			DriverManage driver = new DriverManage();
-			PropertyUtils.copyProperties(driver, req);
-//			req.setModifier("");
-			req.setModifytime(System.currentTimeMillis());
-			n = driverManageMapper.updateByPrimaryKeySelective(driver);
+			PropertyUtils.copyProperties(driver, save);
+//			save.setModifier("");
+			save.setModifytime(System.currentTimeMillis());
+			if(driverManageMapper.updateByPrimaryKeySelective(driver) > 0){
+				result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+			}else{
+				result.setErrorCode(ErrorCode.OPERATE_ERROR);
+			}
 		}
-		return n;
+		return result;
 	}
 
 	@Override
-	public int deleteDriver(String id) {
-		if(StringUtils.isNotBlank(id)){
-			return driverManageMapper.deleteByPrimaryKey(id);
+	public Result deleteDriver(DriverManageQuery query) {
+		Result result = Result.getParamErrorResult();
+		if(query != null && StringUtils.isNotBlank(query.getId())){
+			DriverManage driver = new DriverManage();
+			driver.setId(query.getId());
+			driver.setState("0");
+			if(driverManageMapper.updateByPrimaryKeySelective(driver) > 0){
+				result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+			}else{
+				result.setErrorCode(ErrorCode.OPERATE_ERROR);
+			}
 		}
-		return 0;
+		return result;
+	}
+
+	@Override
+	public Result findListByParmas(DriverManageQuery query) throws Exception {
+		Result result = Result.getSuccessResult();
+		DriverManage driver = new DriverManage();
+		if(query != null){
+			PropertyUtils.copyProperties(driver, query);
+		}
+		List<DriverManage> list = driverManageMapper.selectSelective(driver);
+		result.setData(copyBeanList2RespList(list));
+		return result;
 	}
 	
-	@Override
-	public int delDriver(DriverManageReq req) throws Exception {
-		int n = 0;
-		if(req != null){
-			DriverManage driver = new DriverManage();
-			PropertyUtils.copyProperties(driver, req);
-			driver.setState("0");
-//			req.setModifier("");
-			req.setModifytime(System.currentTimeMillis());
-			n = driverManageMapper.updateByPrimaryKeySelective(driver);
-		}
-		return n;
-	}
-
 	private List<DriverManageResp> copyBeanList2RespList(List<DriverManage> list) throws Exception {
 		List<DriverManageResp> listResp = null;
 		if(list != null && list.size() > 0){
@@ -117,4 +135,5 @@ public class DriverManageService implements IDriverManageService {
 		}
 		return resp;
 	}
+
 }

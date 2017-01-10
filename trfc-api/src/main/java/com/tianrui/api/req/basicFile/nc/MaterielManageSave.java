@@ -2,7 +2,7 @@ package com.tianrui.api.req.basicFile.nc;
 
 import com.tianrui.api.req.BaseReq;
 
-public class MaterielManageReq extends BaseReq {
+public class MaterielManageSave extends BaseReq {
 	
 	private static final long serialVersionUID = 4548762412927981954L;
 
@@ -39,6 +39,8 @@ public class MaterielManageReq extends BaseReq {
     private String orgname;
 
     private String queuingprefix;
+    
+    private String state;
 
     private String remarks;
 
@@ -50,10 +52,6 @@ public class MaterielManageReq extends BaseReq {
 
     private Long modifytime;
     
-    private int start;
-    
-    private int limit;
-
 	public String getId() {
 		return id;
 	}
@@ -156,6 +154,12 @@ public class MaterielManageReq extends BaseReq {
 	public void setQueuingprefix(String queuingprefix) {
 		this.queuingprefix = queuingprefix;
 	}
+	public String getState() {
+		return state;
+	}
+	public void setState(String state) {
+		this.state = state;
+	}
 	public String getRemarks() {
 		return remarks;
 	}
@@ -185,18 +189,6 @@ public class MaterielManageReq extends BaseReq {
 	}
 	public void setModifytime(Long modifytime) {
 		this.modifytime = modifytime;
-	}
-	public int getStart() {
-		return start;
-	}
-	public void setStart(int start) {
-		this.start = start;
-	}
-	public int getLimit() {
-		return limit;
-	}
-	public void setLimit(int limit) {
-		this.limit = limit;
 	}
     
 }

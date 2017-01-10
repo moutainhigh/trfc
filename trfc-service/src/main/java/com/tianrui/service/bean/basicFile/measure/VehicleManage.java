@@ -7,6 +7,7 @@ package com.tianrui.service.bean.basicFile.measure;
  * @classname VehicleManage.java
  */
 public class VehicleManage {
+	
     private String id;
 
     private String code;
@@ -41,6 +42,8 @@ public class VehicleManage {
 
     private String isblacklist;
 
+    private String state;
+    
     private String remarks;
 
     private String creator;
@@ -187,7 +190,15 @@ public class VehicleManage {
         this.isblacklist = isblacklist == null ? null : isblacklist.trim();
     }
 
-    public String getRemarks() {
+    public String getState() {
+		return state;
+	}
+
+	public void setState(String state) {
+		this.state = state;
+	}
+
+	public String getRemarks() {
         return remarks;
     }
 

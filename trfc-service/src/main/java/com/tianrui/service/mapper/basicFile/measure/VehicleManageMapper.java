@@ -2,7 +2,7 @@ package com.tianrui.service.mapper.basicFile.measure;
 
 import java.util.List;
 
-import com.tianrui.api.req.basicFile.measure.VehicleManageReq;
+import com.tianrui.api.req.basicFile.measure.VehicleManageQuery;
 import com.tianrui.service.bean.basicFile.measure.VehicleManage;
 
 public interface VehicleManageMapper {
@@ -20,8 +20,8 @@ public interface VehicleManageMapper {
 
     int updateByPrimaryKey(VehicleManage record);
 
-	long findVehiclePageCount(VehicleManageReq req);
+	long findVehiclePageCount(VehicleManageQuery query);
 
-	List<VehicleManage> findVehiclePage(VehicleManageReq req);
+	List<VehicleManage> findVehiclePage(VehicleManageQuery query);
     
 }

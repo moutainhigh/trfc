@@ -289,7 +289,7 @@
       modifytime = #{modifytime,jdbcType=BIGINT}
     where id = #{id,jdbcType=VARCHAR}
   </update>
-  <select id="findDriverPageCount" parameterType="com.tianrui.api.req.basicFile.measure.DriverManageReq" resultType="java.lang.Long">
+  <select id="findDriverPageCount" parameterType="com.tianrui.api.req.basicFile.measure.DriverManageQuery" resultType="java.lang.Long">
   	select count(0)
   	from tr_driver_db_manage
 	<where>
@@ -310,7 +310,7 @@
 		</if>
 	</where>
   </select>
-  <select id="findDriverPage" parameterType="com.tianrui.api.req.basicFile.measure.DriverManageReq" resultMap="BaseResultMap">
+  <select id="findDriverPage" parameterType="com.tianrui.api.req.basicFile.measure.DriverManageQuery" resultMap="BaseResultMap">
   	select
   	<include refid="Base_Column_List" />
   	from tr_driver_db_manage

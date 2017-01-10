@@ -1,6 +1,6 @@
 package com.tianrui.api.intf.basicFile.other;
 
-import com.tianrui.api.req.basicFile.nc.MaterielManageReq;
+import com.tianrui.api.req.basicFile.nc.MaterielManageQuery;
 import com.tianrui.api.req.basicFile.other.OtherBdMaterialReq;
 import com.tianrui.api.resp.basicFile.nc.MaterielManageResp;
 import com.tianrui.api.resp.basicFile.other.OtherBdMaterialResp;

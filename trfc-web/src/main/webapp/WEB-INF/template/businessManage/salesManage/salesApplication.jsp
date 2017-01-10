@@ -620,6 +620,6 @@
 		src="${basePath }/js/jquery.pagination.js"></script>
 	<script type="text/javascript" src="${basePath }/js/layer/layer.js"></script>
 	<script type="text/javascript"
-		src="/resources/js/businessManage/salesManage/salesApplication.js"></script>
+		src="${basePath }/js/businessManage/salesManage/salesApplication.js"></script>
 </body>
 </html>

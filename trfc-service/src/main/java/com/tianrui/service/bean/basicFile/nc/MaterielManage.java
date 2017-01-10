@@ -40,6 +40,8 @@ public class MaterielManage {
     private String orgname;
 
     private String queuingprefix;
+    
+    private String state;
 
     private String remarks;
 
@@ -187,7 +189,15 @@ public class MaterielManage {
         this.queuingprefix = queuingprefix == null ? null : queuingprefix.trim();
     }
 
-    public String getRemarks() {
+    public String getState() {
+		return state;
+	}
+
+	public void setState(String state) {
+		this.state = state;
+	}
+
+	public String getRemarks() {
         return remarks;
     }
 

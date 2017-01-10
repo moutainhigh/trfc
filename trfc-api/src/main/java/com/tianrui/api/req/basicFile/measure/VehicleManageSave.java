@@ -2,7 +2,7 @@ package com.tianrui.api.req.basicFile.measure;
 
 import com.tianrui.api.req.BaseReq;
 
-public class VehicleManageReq extends BaseReq {
+public class VehicleManageSave extends BaseReq {
 
 	private static final long serialVersionUID = 2171660010873631914L;
 
@@ -40,6 +40,8 @@ public class VehicleManageReq extends BaseReq {
 
     private String isblacklist;
 
+    private String state;
+    
     private String remarks;
 
     private String creator;
@@ -49,10 +51,6 @@ public class VehicleManageReq extends BaseReq {
     private String modifier;
 
     private Long modifytime;
-    
-    private int start;
-    
-    private int limit;
     
     private String blackVno;
     
@@ -198,7 +196,15 @@ public class VehicleManageReq extends BaseReq {
         this.isblacklist = isblacklist == null ? null : isblacklist.trim();
     }
 
-    public String getRemarks() {
+    public String getState() {
+		return state;
+	}
+
+	public void setState(String state) {
+		this.state = state;
+	}
+
+	public String getRemarks() {
         return remarks;
     }
 
@@ -237,22 +243,6 @@ public class VehicleManageReq extends BaseReq {
     public void setModifytime(Long modifytime) {
         this.modifytime = modifytime;
     }
-
-	public int getStart() {
-		return start;
-	}
-
-	public void setStart(int start) {
-		this.start = start;
-	}
-
-	public int getLimit() {
-		return limit;
-	}
-
-	public void setLimit(int limit) {
-		this.limit = limit;
-	}
 
 	public String getBlackVno() {
 		return blackVno;

@@ -1,10 +1,10 @@
-package com.tianrui.api.req.basicFile.nc;
+package com.tianrui.api.req.basicFile.measure;
 
 import com.tianrui.api.req.BaseReq;
 
-public class SupplierManageReq extends BaseReq {
-	
-	private static final long serialVersionUID = -153199259429342764L;
+public class DriverManageSave extends BaseReq {
+
+	private static final long serialVersionUID = -8822895320443317534L;
 
 	private String id;
 
@@ -16,16 +16,20 @@ public class SupplierManageReq extends BaseReq {
 
     private String abbrname;
 
-    private String pinyincode;
+    private String address;
+
+    private String telephone;
+
+    private String identityno;
+
+    private String isvalid;
 
     private String orgid;
 
     private String orgname;
 
-    private String minemouth;
-
-    private String drivercheck;
-
+    private String state;
+    
     private String remarks;
 
     private String creator;
@@ -36,10 +40,6 @@ public class SupplierManageReq extends BaseReq {
 
     private Long modifytime;
     
-    private int start;
-    
-    private int limit;
-
     public String getId() {
         return id;
     }
@@ -80,12 +80,36 @@ public class SupplierManageReq extends BaseReq {
         this.abbrname = abbrname == null ? null : abbrname.trim();
     }
 
-    public String getPinyincode() {
-        return pinyincode;
+    public String getAddress() {
+        return address;
     }
 
-    public void setPinyincode(String pinyincode) {
-        this.pinyincode = pinyincode == null ? null : pinyincode.trim();
+    public void setAddress(String address) {
+        this.address = address == null ? null : address.trim();
+    }
+
+    public String getTelephone() {
+        return telephone;
+    }
+
+    public void setTelephone(String telephone) {
+        this.telephone = telephone == null ? null : telephone.trim();
+    }
+
+    public String getIdentityno() {
+        return identityno;
+    }
+
+    public void setIdentityno(String identityno) {
+        this.identityno = identityno == null ? null : identityno.trim();
+    }
+
+    public String getIsvalid() {
+        return isvalid;
+    }
+
+    public void setIsvalid(String isvalid) {
+        this.isvalid = isvalid == null ? null : isvalid.trim();
     }
 
     public String getOrgid() {
@@ -104,23 +128,15 @@ public class SupplierManageReq extends BaseReq {
         this.orgname = orgname == null ? null : orgname.trim();
     }
 
-    public String getMinemouth() {
-        return minemouth;
-    }
+    public String getState() {
+		return state;
+	}
 
-    public void setMinemouth(String minemouth) {
-        this.minemouth = minemouth == null ? null : minemouth.trim();
-    }
+	public void setState(String state) {
+		this.state = state == null ? null : state.trim();
+	}
 
-    public String getDrivercheck() {
-        return drivercheck;
-    }
-
-    public void setDrivercheck(String drivercheck) {
-        this.drivercheck = drivercheck == null ? null : drivercheck.trim();
-    }
-
-    public String getRemarks() {
+	public String getRemarks() {
         return remarks;
     }
 
@@ -159,20 +175,5 @@ public class SupplierManageReq extends BaseReq {
     public void setModifytime(Long modifytime) {
         this.modifytime = modifytime;
     }
-
-	public int getStart() {
-		return start;
-	}
-
-	public void setStart(int start) {
-		this.start = start;
-	}
-
-	public int getLimit() {
-		return limit;
-	}
-
-	public void setLimit(int limit) {
-		this.limit = limit;
-	}
+    
 }
