@@ -1,8 +1,10 @@
 package com.tianrui.api.intf.basicFile.nc;
 
-import com.tianrui.api.req.basicFile.nc.SupplierManageReq;
+import com.tianrui.api.req.basicFile.nc.SupplierManageQuery;
+import com.tianrui.api.req.basicFile.nc.SupplierManageSave;
 import com.tianrui.api.resp.basicFile.nc.SupplierManageResp;
 import com.tianrui.smartfactory.common.vo.PaginationVO;
+import com.tianrui.smartfactory.common.vo.Result;
 /**
  * 供应商管理ISupplierManageService接口
  * @author zhanggaohao
@@ -11,8 +13,9 @@ import com.tianrui.smartfactory.common.vo.PaginationVO;
  */
 public interface ISupplierManageService {
 
-	PaginationVO<SupplierManageResp> page(SupplierManageReq req) throws Exception;
+	PaginationVO<SupplierManageResp> page(SupplierManageQuery query) throws Exception;
 
-	int updateSupplier(SupplierManageReq req) throws Exception;
+	Result updateSupplier(SupplierManageSave save) throws Exception;
 	
+	Result findListByParmas(SupplierManageQuery query) throws Exception;
 }

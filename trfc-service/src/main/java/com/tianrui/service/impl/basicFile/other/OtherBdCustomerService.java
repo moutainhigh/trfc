@@ -14,42 +14,55 @@ import com.tianrui.api.req.basicFile.other.OtherBdCustomerReq;
 import com.tianrui.api.resp.basicFile.other.OtherBdCustomerResp;
 import com.tianrui.service.bean.basicFile.other.OtherBdCustomer;
 import com.tianrui.service.mapper.basicFile.other.OtherBdCustomerMapper;
+import com.tianrui.smartfactory.common.constants.ErrorCode;
 import com.tianrui.smartfactory.common.utils.UUIDUtil;
 import com.tianrui.smartfactory.common.vo.PaginationVO;
+import com.tianrui.smartfactory.common.vo.Result;
 
 @Service
 public class OtherBdCustomerService implements IOtherBdCustomerService {
+
+
 	@Resource
 	private OtherBdCustomerMapper otherBdCustomerMapper;
 	/**
 	 * 获取列表数据
 	 */
 	@Override
-	public PaginationVO<OtherBdCustomerResp> findCustomerByPage(OtherBdCustomerReq req) throws Exception {
-		PaginationVO<OtherBdCustomerResp> pageVO = new PaginationVO<OtherBdCustomerResp>();
-		//判断参数为空时
-		if(req==null){
-			throw new RuntimeException("参数异常");
+	public Result findCustomerByPage(OtherBdCustomerReq req) {
+		Result result = Result.getParamErrorResult();
+		if(req!=null){
+			PaginationVO<OtherBdCustomerResp> pageVO = new PaginationVO<OtherBdCustomerResp>();
+			int pageNo = req.getPageNo();
+			int pageSize = req.getPageSize();
+			req.setStart((pageNo-1)*pageSize);
+			req.setLimit(pageSize);
+			req.setOrdering("createtime");
+			req.setSorting("desc");
+			int count = otherBdCustomerMapper.count(req);
+			pageVO.setTotal(count);
+			//判断数据总数为>=0时
+			if(count>=0){
+				List<OtherBdCustomer> list = new ArrayList<OtherBdCustomer>();
+				//判断数据总数为大于0时,则通过page()获取数据,等于0是不获取 
+				if(count>0){
+					list = otherBdCustomerMapper.page(req);
+				}
+				try {
+					pageVO.setList(copyBeanList2RespList(list));
+				} catch (Exception e) {
+					e.printStackTrace();
+					result.setErrorCode(ErrorCode.PARAM_ERROR);
+					return result;
+				}
+				pageVO.setPageNo(req.getPageNo());
+				pageVO.setPageSize(req.getPageSize());
+				//成功后  重新赋值
+				result = Result.getSuccessResult();
+				result.setData(pageVO);
+			}
 		}
-		int pageOn = req.getPageNo();
-		int pageSize = req.getPageSize();
-		req.setStart((pageOn-1)*pageSize);
-		req.setLimit(pageSize);
-		int count = otherBdCustomerMapper.count(req);
-		pageVO.setTotal(count);
-		//判断数据总数为<0时
-		if(count<0){
-			throw new RuntimeException("获取数据异常");  
-		}
-		List<OtherBdCustomer> list = new ArrayList<OtherBdCustomer>();
-		//判断数据总数为大于0时,则通过page()获取数据,等于0是不获取 
-		if(count>0){
-			list = otherBdCustomerMapper.page(req);
-		}
-		pageVO.setList(copyBeanList2RespList(list));
-		pageVO.setPageNo(req.getPageNo());
-		pageVO.setPageSize(req.getPageSize());
-		return pageVO;
+		return result;
 	}
 	/**
 	 * 集合转换
@@ -59,78 +72,99 @@ public class OtherBdCustomerService implements IOtherBdCustomerService {
 	 */
 	private List<OtherBdCustomerResp> copyBeanList2RespList(List<OtherBdCustomer> list) throws Exception{
 		List<OtherBdCustomerResp> resp = new ArrayList<OtherBdCustomerResp>();
-		if(list==null){
-			throw new RuntimeException("需转换的集合不能为空");
-		}
-		for(OtherBdCustomer o:list){
-			OtherBdCustomerResp r = copyBean(o);
-			resp.add(r);
+		if(list!=null){
+			for(OtherBdCustomer o:list){
+				OtherBdCustomerResp r = copyBean(o);
+				resp.add(r);
+			}
 		}
 		return resp;
 	}
 	/**
 	 * 类型转换
-	 * @param OtherBdCustomer
-	 * @return OtherBdCustomerResp
 	 */
-	private OtherBdCustomerResp copyBean(OtherBdCustomer o){
+	private OtherBdCustomerResp copyBean(OtherBdCustomer o) throws Exception{
 
 		OtherBdCustomerResp resp = new OtherBdCustomerResp();
-		resp.setId(o.getId());
-		resp.setCode(o.getCode());
-		resp.setCreatetime(o.getCreatetime());
-		resp.setCreator(o.getCreator());
-		resp.setInfo(o.getInfo());
-		resp.setInnercode(o.getInnercode());
-		resp.setIsvalid(o.getIsvalid());
-		resp.setModifier(o.getModifier());
-		resp.setModifytime(o.getModifytime());
-		resp.setName(o.getName());
-		resp.setOrgid(o.getOrgid());
-		resp.setOrgname(o.getOrgname());
-		resp.setRemark(o.getRemark());
+		PropertyUtils.copyProperties(resp, o);
 		return resp;
 	}
+	//新增数据
 	@Transactional
 	@Override
-	public boolean insertCustomer(OtherBdCustomerReq req) throws Exception {
-		if(req==null){
-			throw new RuntimeException("增加数据时,参数不能为空");
+	public Result insertCustomer(OtherBdCustomerReq req){
+		Result result = Result.getParamErrorResult();
+		if(req!=null){
+			//添加创建时间
+			OtherBdCustomer tomer = new OtherBdCustomer();
+			try {
+				PropertyUtils.copyProperties(tomer, req);
+			} catch (Exception e) {
+				e.printStackTrace();
+				result.setErrorCode(ErrorCode.PARAM_ERROR);
+				return result;
+			}
+			tomer.setCreatetime(System.currentTimeMillis());
+			tomer.setId(getCustomerId());
+			//假设一个creator
+			tomer.setCreator("LXY");
+			int index = otherBdCustomerMapper.insertSelective(tomer);
+			if(index<0){
+				result.setErrorCode(ErrorCode.OPERATE_ERROR);
+				return result;
+			}
+			result = Result.getSuccessResult();
+			result.setData(index>0);
 		}
-		//添加创建时间
-		req.setCreatetime(System.currentTimeMillis());
-		req.setId(getCustomerId());
-		//假设一个creator
-		req.setCreator("LXY");
-		int index = otherBdCustomerMapper.insertSelective(req);
-		return index>0;
+		return result;
 	}
 	@Transactional
 	@Override
-	public boolean updateCustomer(OtherBdCustomerReq req) throws Exception {
-		if(req==null){
-			throw new RuntimeException("更新数据时,参数不能为空");
+	public Result updateCustomer(OtherBdCustomerReq req) {
+		Result result = Result.getParamErrorResult();
+		if(req!=null){
+			OtherBdCustomer tomer = new OtherBdCustomer();
+			//添加修改时间
+			try {
+				PropertyUtils.copyProperties(tomer, req);
+			} catch (Exception e) {
+				e.printStackTrace();
+				result.setErrorCode(ErrorCode.PARAM_ERROR);
+				return result;
+			}
+
+			tomer.setModifytime(System.currentTimeMillis());
+			int index = otherBdCustomerMapper.updateByPrimaryKeySelective(tomer);
+			if(index<0){
+				result.setErrorCode(ErrorCode.OPERATE_ERROR);
+				return result;
+			}
+			result = Result.getSuccessResult();
+			result.setData(index>0);
 		}
-		//添加修改时间
-		req.setModifytime(System.currentTimeMillis());
-		int index = otherBdCustomerMapper.updateByPrimaryKeySelective(req);
-		return index>0;
+		return result;
 	}
 	@Transactional
 	//删除一条数据
 	@Override
-	public boolean deleteCustomer(String id) throws Exception {
-		if(id==null||id==""){
-			throw new RuntimeException("id不能为空");
-
+	public Result deleteCustomer(OtherBdCustomerReq req){
+		Result result = Result.getParamErrorResult();
+		if(req!=null){
+			String id = req.getId();
+			OtherBdCustomer o = otherBdCustomerMapper.selectByPrimaryKey(id);
+			if(o==null){
+				result.setErrorCode(ErrorCode.PARAM_ERROR);
+				return result;
+			}
+			int index = otherBdCustomerMapper.deleteByPrimaryKey(id);
+			if(index<0){
+				result.setErrorCode(ErrorCode.OPERATE_ERROR);
+				return result;
+			}
+			result = Result.getSuccessResult();
+			result.setData(index>0);
 		}
-		OtherBdCustomer o = otherBdCustomerMapper.selectByPrimaryKey(id);
-		if(o==null){
-			throw new RuntimeException("id无效");
-		}
-		int index = otherBdCustomerMapper.deleteByPrimaryKey(id);
-
-		return index>0;
+		return result;
 	}
 	//获得id
 	public String getCustomerId(){
@@ -140,36 +174,53 @@ public class OtherBdCustomerService implements IOtherBdCustomerService {
 	public String getCustomerCode(){
 		return "CD"+(int)(Math.random()*10000);
 	}
-	
+
 	//获得innercode
 	public String getCustomerInnercode(){
 		return "ICD"+(int)(Math.random()*10000);
 	}
 	//通过主键(id)查找数据
-	public OtherBdCustomerReq findByPrimaryKey(String id) throws Exception{
-		OtherBdCustomerReq req = new OtherBdCustomerReq();
-		if(id==null||id==""){
-			throw new RuntimeException("查询数据时,参数不能为空");
+	public Result findByPrimaryKey(OtherBdCustomerReq req){
+		Result result = Result.getParamErrorResult();
+		if(req!=null){
+			String id = req.getId();
+			if(id==null||id.isEmpty()){
+				return result;
+			}
+			OtherBdCustomer o = otherBdCustomerMapper.selectByPrimaryKey(id);
+			if(o==null){
+				result.setErrorCode(ErrorCode.PARAM_ERROR);
+				return result;
+			}
+			//类型 转换
+			OtherBdCustomerResp resp = new OtherBdCustomerResp();
+			try {
+				PropertyUtils.copyProperties(resp, o);
+			} catch (Exception e) {
+				e.printStackTrace();
+				result.setErrorCode(ErrorCode.PARAM_ERROR);
+				return result;
+			}
+			result = Result.getSuccessResult();
+			result.setData(resp);
 		}
-		OtherBdCustomer o = otherBdCustomerMapper.selectByPrimaryKey(id);
-		if(o==null){
-			throw new RuntimeException("查询数据的ID无效");
-		}
-		//类型 转换
-		PropertyUtils.copyProperties(req, o);
-
-		return req;
+		return result;
 	}
 	//检测名字
 	@Override
-	public Boolean checkName(String name) throws Exception {
-		if(name==null||name==""){
-			throw new RuntimeException("检测name不可为空");
+	public Result checkName(OtherBdCustomerReq req) {
+		Result result = Result.getParamErrorResult();
+		if(req!=null){
+			int count = otherBdCustomerMapper.count(req);
+			if(count<0){
+				result.setErrorCode(ErrorCode.OPERATE_ERROR);
+				return result;
+			}
+			result = Result.getSuccessResult();
+			result.setData(count==0);
 		}
-		int count = otherBdCustomerMapper.findCustomerByName(name);
-		if(count==0){
-			return true;
-		}
-		return false;
+		return result;
 	}
+
+
 }

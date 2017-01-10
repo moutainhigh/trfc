@@ -4,7 +4,6 @@ $(function(){
 	//新增按钮 绑定点击事件
 	$('#showAddCustomer').click(toInsert);
 	//新增界面提交按钮 绑定点击事件
-//	$('#customer_add').attr('data-dismiss',"modal").click(insert);
 	$('#customer_add').click(addCustomerAction);
 	//每页记录绑定 监听改变事件
 	$('#pageSize').change(function(){CustomersShowAction(1);});
@@ -17,35 +16,40 @@ $(function(){
 	//绑定列表中的修改按钮点击事件
 	$('#customer_list').on('click','tr .customer_modify',toModify);
 	//绑定修改确认按钮 点击事件
-	$('#customer_modify').attr('data-dismiss','modal').click(modifyAction);
+	$('#customer_modify').click(modifyCustomerAction);
 	//绑定列表中删除按钮点击事件
 	$('#customer_list').on('click','tr .customer_delete',todelete);
 	//绑定 删除确认事件
 	$('#customer_delete').attr('data-dismiss','modal').click(deleteAction);
 	//绑定新增界面输入姓名时,简称和姓名同步
 	$('#customer_name').keyup(function(){$('#customer_info').val($(this).val());});
-	
+
 });
-//
+//提交修改信息,-->检测名字-->提交
+function modifyCustomerAction(){
+	var name = $('#customer_modify_name').val().trim();
+	if(toCheckName(name)){
+        $('#customer_modify_cancel').click();      
+		modifyAction();
+	}
+}
+//提交新增信息,-->检测名字-->提交
 function addCustomerAction(){
-	if(toCheckName()){
+	var name = $('#customer_name').val().trim();
+	if(toCheckName(name)){
 		if(confirm("确定要保存吗!")){
 			$('#customer_add_hide').click();
 			insert();
 		}
-	}else{
-		//console.log(321);
 	}
 }
-//提交新增信息前 检测信息
-function toCheckName(){
+//检测名字是否重复信息
+function toCheckName(name){
 	url = "checkName";
-	var name = $('#customer_name').val().trim();
 	if(!name){
 		alert('名称不能为空');
 		return false;
 	}
-	
 	param={name:name};
 	var bl = false;
 	$.ajax({
@@ -81,7 +85,7 @@ function todelete(){
 
 //执行删除操作
 function deleteAction(){
-	
+
 	var url = "delete";
 	var id = pageData.customerId;
 	var param = {id:id};
@@ -170,7 +174,7 @@ function jumpPageAction(){
 }
 //提交需要添加的数据
 function insert(){
-	var url = "/trfc-web/other/insert";
+	var url = "insert";
 	var code = $('#customer_code').val().trim();
 	var innercode = $('#customer_innercode').val().trim();
 	var name = $('#customer_name').val().trim();
@@ -190,7 +194,6 @@ function insert(){
 			isvalid:isvalid,
 			remark:remark
 	};
-	//console.log(params);
 	$.post(url,params,function(result){
 		if(result.code=='000000'){
 			CustomersShowAction(1);
@@ -199,9 +202,9 @@ function insert(){
 		}
 	});
 }
-// 获取新增 时所需展示的 数据
+//获取新增 时所需展示的 数据
 function toInsert(){
-	var url = "/trfc-web/other/toinsert";
+	var url = "toinsert";
 	$('#customer_name').val("");
 	$('#customer_info').val("");
 	$('#customer_isvalid')[0].checked=true;
@@ -212,7 +215,6 @@ function toInsert(){
 			var data = result.data;
 			$('#customer_code').val(data.code);
 			$('#customer_innercode').val(data.innercode);
-			//console.log(data);
 		}else{
 			alert(result.error);
 		}
@@ -222,30 +224,30 @@ function pageCallback(pageNo){
 	CustomersShowAction(pageNo+1);
 }
 
-// 展示数据列表
+//展示数据列表
 function CustomersShowAction(pageNo){
 	var index = layer.load(2, {
-		  shade: [0.3,'#fff'] //0.1透明度的白色背景
-		});
-	var url = "/trfc-web/other/page";
+		shade: [0.3,'#fff'] //0.1透明度的白色背景
+	});
+	var url = "page";
 	//获取当前页面记录数
 	var pageSize = $('#pageSize').val();
-	var name = '';
-	var innercode='';
+	var namelike = '';
+	var innercodelike='';
 	//获取查询条件
 	var keyword = $('#customer_keyword').val().trim();
 	if($('#customer_query').val()=='name'){
-		name=keyword;
+		namelike=keyword;
 	}else{
-		innercode=keyword;
+		innercodelike=keyword;
 	}
 	//获取所属组织
-	var orgname = $('#customer_orgname1').val().trim();
+	var orgnamelike = $('#customer_orgname1').val().trim();
 	var params = {
-		pageSize:pageSize,
-		name:name,
-		innercode:innercode,
-		orgname:orgname
+			pageSize:pageSize,
+			namelike:'%'+namelike+'%',
+			innercodelike:'%'+innercodelike+'%',
+			orgnamelike:'%'+orgnamelike+'%'
 	};
 	//获得当前页面标记
 	params.pageNo = pageNo;
@@ -261,15 +263,15 @@ function CustomersShowAction(pageNo){
 			$('#jumpPageNo').attr('maxPageNo',parseInt((total+pageSize-1)/pageSize));
 			//分页插件
 			$("#pagination").pagination(total, {
-			    callback: pageCallback,
-			    prev_text: '上一页',
-			    next_text: '下一页',
-			    items_per_page:pageSize,
-			    num_display_entries:4,
-			    current_page:pageNo-1,
-			    num_edge_entries:1,
-			    maxentries:total,
-			    link_to:"javascript:void(0)"
+				callback: pageCallback,
+				prev_text: '上一页',
+				next_text: '下一页',
+				items_per_page:pageSize,
+				num_display_entries:4,
+				current_page:pageNo-1,
+				num_edge_entries:1,
+				maxentries:total,
+				link_to:"javascript:void(0)"
 			});
 			if(list){
 				showPageData(list,pageSize,pageNo);

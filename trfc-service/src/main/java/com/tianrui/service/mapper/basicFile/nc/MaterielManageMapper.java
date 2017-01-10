@@ -2,7 +2,7 @@ package com.tianrui.service.mapper.basicFile.nc;
 
 import java.util.List;
 
-import com.tianrui.api.req.basicFile.nc.MaterielManageReq;
+import com.tianrui.api.req.basicFile.nc.MaterielManageQuery;
 import com.tianrui.service.bean.basicFile.nc.MaterielManage;
 
 /**
@@ -24,9 +24,9 @@ public interface MaterielManageMapper {
 
     int updateByPrimaryKey(MaterielManage record);
     
-    long findMaterielManagePageCount(MaterielManageReq req);
+    long findMaterielManagePageCount(MaterielManageQuery req);
     
-    List<MaterielManage> findMaterielManagePage(MaterielManageReq req);
+    List<MaterielManage> findMaterielManagePage(MaterielManageQuery req);
     
     List<MaterielManage> selectSelective(MaterielManage record);
     

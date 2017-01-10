@@ -39,6 +39,8 @@ public class MaterielManageResp extends BaseResp {
     private String orgname;
 
     private String queuingprefix;
+    
+    private String state;
 
     private String remarks;
 
@@ -151,6 +153,12 @@ public class MaterielManageResp extends BaseResp {
 	}
 	public void setQueuingprefix(String queuingprefix) {
 		this.queuingprefix = queuingprefix;
+	}
+	public String getState() {
+		return state;
+	}
+	public void setState(String state) {
+		this.state = state;
 	}
 	public String getRemarks() {
 		return remarks;

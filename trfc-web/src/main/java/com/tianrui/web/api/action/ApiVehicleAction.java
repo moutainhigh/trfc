@@ -26,15 +26,18 @@ public class ApiVehicleAction {
 	@Autowired
 	private IVehicleManageService vehicleManageService;
 	
+
 	@RequestMapping("vehicleCard")
 	@ApiParamRawType(VehicleSaveReq.class)
 	@ApiAuthValidation(callType="2")
 	@ResponseBody
+	public ApiResult addVehicle(ApiParam<VehicleSaveReq> req){
 	public ApiResult vehicleCard(ApiParam<VehicleSaveReq> req){
 		Result rs=Result.getErrorResult();
 		VehicleSaveReq vehicleSaveReq =req.getBody();
 		vehicleSaveReq.setCurrUid(req.getHead().getUserId());
 		try {
+			vehicleManageService.addVehicle(vehicleSaveReq);
 			rs=vehicleManageService.addVehicle(vehicleSaveReq);
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);

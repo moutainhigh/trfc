@@ -9,7 +9,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.tianrui.api.intf.basicFile.measure.IDriverManageService;
-import com.tianrui.api.req.basicFile.measure.DriverManageReq;
+import com.tianrui.api.req.basicFile.measure.DriverManageQuery;
+import com.tianrui.api.req.basicFile.measure.DriverManageSave;
 import com.tianrui.api.resp.basicFile.measure.DriverManageResp;
 import com.tianrui.smartfactory.common.constants.ErrorCode;
 import com.tianrui.smartfactory.common.vo.PaginationVO;
@@ -32,10 +33,10 @@ public class DriverManageAction {
 	
 	@RequestMapping("page")
 	@ResponseBody
-	public Result page(DriverManageReq req){
+	public Result page(DriverManageQuery query){
 		Result result = Result.getSuccessResult();
 		try {
-			PaginationVO<DriverManageResp> page = driverManageService.page(req);
+			PaginationVO<DriverManageResp> page = driverManageService.page(query);
 			result.setData(page);
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
@@ -46,17 +47,10 @@ public class DriverManageAction {
 
 	@RequestMapping("addDriver")
 	@ResponseBody
-	public Result addDriver(DriverManageReq req){
+	public Result addDriver(DriverManageSave save){
 		Result result = Result.getSuccessResult();
 		try {
-			int n = driverManageService.addDriver(req);
-			if(n > 0){
-				result.setData(n);
-			}else if(n == -1){
-				result.setErrorCode(ErrorCode.PARAM_REPEAT_ERROR);
-			}else{
-				result.setErrorCode(ErrorCode.OPERATE_ERROR);
-			}
+			result = driverManageService.addDriver(save);
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
@@ -66,15 +60,10 @@ public class DriverManageAction {
 	
 	@RequestMapping("updateDriver")
 	@ResponseBody
-	public Result updateDriver(DriverManageReq req){
+	public Result updateDriver(DriverManageSave save){
 		Result result = Result.getSuccessResult();
 		try {
-			int n = driverManageService.updateDriver(req);
-			if(n > 0){
-				result.setData(n);
-			}else{
-				result.setErrorCode(ErrorCode.OPERATE_ERROR);
-			}
+			result = driverManageService.updateDriver(save);
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
@@ -84,15 +73,10 @@ public class DriverManageAction {
 	
 	@RequestMapping("delDriver")
 	@ResponseBody
-	public Result delDriver(DriverManageReq req){
+	public Result deleteDriver(DriverManageQuery query){
 		Result result = Result.getSuccessResult();
 		try {
-			int n = driverManageService.delDriver(req);
-			if(n > 0){
-				result.setData(n);
-			}else{
-				result.setErrorCode(ErrorCode.OPERATE_ERROR);
-			}
+			result = driverManageService.deleteDriver(query);
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 			result.setErrorCode(ErrorCode.SYSTEM_ERROR);

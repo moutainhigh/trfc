@@ -1,6 +1,7 @@
 package com.tianrui.api.intf.basicFile.measure;
 
-import com.tianrui.api.req.basicFile.measure.VehicleManageReq;
+import com.tianrui.api.req.basicFile.measure.VehicleManageQuery;
+import com.tianrui.api.req.basicFile.measure.VehicleManageSave;
 import com.tianrui.api.req.basicFile.measure.VehicleSaveReq;
 import com.tianrui.api.resp.basicFile.measure.VehicleManageResp;
 import com.tianrui.smartfactory.common.vo.PaginationVO;
@@ -14,16 +15,20 @@ import com.tianrui.smartfactory.common.vo.Result;
  */
 public interface IVehicleManageService {
 
-	PaginationVO<VehicleManageResp> page(VehicleManageReq req) throws Exception;
+	PaginationVO<VehicleManageResp> page(VehicleManageQuery query) throws Exception;
 
-	Result addVehicle(VehicleSaveReq req) throws Exception;
+	Result addVehicle(VehicleManageSave save) throws Exception;
 
-	int editVehicle(VehicleManageReq req) throws Exception;
+	Result editVehicle(VehicleManageSave save) throws Exception;
 
-	int deleteVehicle(String id);
-
-	boolean delblacklist(VehicleManageReq req) throws Exception;
-
-	boolean addblacklist(VehicleManageReq req) throws Exception;
+	Result deleteVehicle(VehicleManageQuery query);
 	
+	Result delblacklist(VehicleManageQuery query) throws Exception;
+
+	Result addblacklist(VehicleManageQuery query) throws Exception;
+
+	Result findListByParmas(VehicleManageQuery query) throws Exception;
+
+	void addVehicleApi(VehicleSaveReq vehicleSaveReq);
+
 }

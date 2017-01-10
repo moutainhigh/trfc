@@ -2,7 +2,7 @@ package com.tianrui.service.mapper.basicFile.other;
 
 import java.util.List;
 
-import com.tianrui.api.req.basicFile.nc.MaterielManageReq;
+import com.tianrui.api.req.basicFile.nc.MaterielManageQuery;
 import com.tianrui.api.req.basicFile.other.OtherBdMaterialReq;
 import com.tianrui.service.bean.basicFile.nc.MaterielManage;
 import com.tianrui.service.bean.basicFile.other.OtherBdMaterial;

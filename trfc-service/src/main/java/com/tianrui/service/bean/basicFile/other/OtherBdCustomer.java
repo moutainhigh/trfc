@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 public class OtherBdCustomer implements Serializable{
     /**
-	 * 
+	 * 序列号
 	 */
 	private static final long serialVersionUID = 9083011762217382896L;
 

@@ -9,7 +9,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.tianrui.api.intf.basicFile.nc.ISupplierManageService;
-import com.tianrui.api.req.basicFile.nc.SupplierManageReq;
+import com.tianrui.api.req.basicFile.nc.SupplierManageQuery;
+import com.tianrui.api.req.basicFile.nc.SupplierManageSave;
 import com.tianrui.api.resp.basicFile.nc.SupplierManageResp;
 import com.tianrui.smartfactory.common.constants.ErrorCode;
 import com.tianrui.smartfactory.common.vo.PaginationVO;
@@ -32,10 +33,10 @@ public class SupplierManageAction {
 	
 	@RequestMapping("page")
 	@ResponseBody
-	public Result page(SupplierManageReq req){
+	public Result page(SupplierManageQuery query){
 		Result result = Result.getSuccessResult();
 		try {
-			PaginationVO<SupplierManageResp> page = supplierManageService.page(req);
+			PaginationVO<SupplierManageResp> page = supplierManageService.page(query);
 			result.setData(page);
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
@@ -46,15 +47,10 @@ public class SupplierManageAction {
 	
 	@RequestMapping("updateSupplier")
 	@ResponseBody
-	public Result updateSupplier(SupplierManageReq req){
+	public Result updateSupplier(SupplierManageSave req){
 		Result result = Result.getSuccessResult();
 		try {
-			int n = supplierManageService.updateSupplier(req);
-			if(n > 0){
-				result.setData(n);
-			}else{
-				result.setErrorCode(ErrorCode.OPERATE_ERROR);
-			}
+			result = supplierManageService.updateSupplier(req);
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 			result.setErrorCode(ErrorCode.SYSTEM_ERROR);

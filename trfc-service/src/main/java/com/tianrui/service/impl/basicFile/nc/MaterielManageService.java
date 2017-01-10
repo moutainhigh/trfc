@@ -7,15 +7,17 @@ import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.tianrui.api.intf.basicFile.nc.IMaterielManageService;
-import com.tianrui.api.req.basicFile.nc.MaterielManageReq;
+import com.tianrui.api.req.basicFile.nc.MaterielManageQuery;
+import com.tianrui.api.req.basicFile.nc.MaterielManageSave;
 import com.tianrui.api.resp.basicFile.nc.MaterielManageResp;
 import com.tianrui.service.bean.basicFile.nc.MaterielManage;
 import com.tianrui.service.mapper.basicFile.nc.MaterielManageMapper;
+import com.tianrui.smartfactory.common.constants.ErrorCode;
 import com.tianrui.smartfactory.common.utils.UUIDUtil;
 import com.tianrui.smartfactory.common.vo.PaginationVO;
+import com.tianrui.smartfactory.common.vo.Result;
 
 /**
  * 物料管理Service
@@ -30,7 +32,7 @@ public class MaterielManageService implements IMaterielManageService {
 	private MaterielManageMapper materielManageMapper;
 
 	@Override
-	public PaginationVO<MaterielManageResp> page(MaterielManageReq req) throws Exception {
+	public PaginationVO<MaterielManageResp> page(MaterielManageQuery req) throws Exception {
 		PaginationVO<MaterielManageResp> page = null;
 		if(req != null){
 			page = new PaginationVO<MaterielManageResp>();
@@ -49,66 +51,69 @@ public class MaterielManageService implements IMaterielManageService {
 	}
 
 	@Override
-	public MaterielManageResp findOne(String id) throws Exception {
-		MaterielManageResp resp = null;
-		if(StringUtils.isNotBlank(id)){
-			resp = new MaterielManageResp();
-			MaterielManage mater = materielManageMapper.selectByPrimaryKey(id);
-			resp = copyBean2Resp(mater);
-		}
-		return resp;
-	}
-
-	@Override
-	@Transactional
-	public int deleteMateriel(String id) {
-		int n = 0;
-		if(StringUtils.isNotBlank(id)){
-			n = materielManageMapper.deleteByPrimaryKey(id);
-		}
-		return n;
-	}
-
-	@Override
-	@Transactional
-	public int updateMateriel(MaterielManageReq req) throws Exception {
-		int n = 0;
-		if(req != null){
+	public Result deleteMateriel(MaterielManageQuery query) {
+		Result result = Result.getParamErrorResult();
+		if(query != null && StringUtils.isNotBlank(query.getId())){
 			MaterielManage mater = new MaterielManage();
-			PropertyUtils.copyProperties(mater, req);
+			mater.setId(query.getId());
+			mater.setState("0");
+			if(materielManageMapper.updateByPrimaryKeySelective(mater) > 0){
+				result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+			}else{
+				result.setErrorCode(ErrorCode.OPERATE_ERROR);
+			}
+		}
+		return result;
+	}
+
+	@Override
+	public Result updateMateriel(MaterielManageSave save) throws Exception {
+		Result result = Result.getParamErrorResult();
+		if(save != null){
+			MaterielManage mater = new MaterielManage();
+			PropertyUtils.copyProperties(mater, save);
 //			mater.setModifier("");
 			mater.setModifytime(System.currentTimeMillis());
-			n = materielManageMapper.updateByPrimaryKeySelective(mater);
+			if(materielManageMapper.updateByPrimaryKeySelective(mater) > 0){
+				result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+			}else{
+				result.setErrorCode(ErrorCode.OPERATE_ERROR);
+			}
 		}
-		return n;
+		return result;
 	}
 	
 	@Override
-	@Transactional
-	public int addMateriel(MaterielManageReq req) throws Exception {
-		int n = 0;
-		if(req != null){
+	public Result addMateriel(MaterielManageSave save) throws Exception {
+		Result result = Result.getParamErrorResult();
+		if(save != null){
 			MaterielManage mater = new MaterielManage();
-			PropertyUtils.copyProperties(mater, req);
+			PropertyUtils.copyProperties(mater, save);
 			mater.setId(UUIDUtil.getId());
+			mater.setState("1");
+//			mater.setCreator("");
 			mater.setCreatetime(System.currentTimeMillis());
-			n = materielManageMapper.insert(mater);
+//			mater.setModifier("");
+			mater.setModifytime(System.currentTimeMillis());
+			if(materielManageMapper.insertSelective(mater) > 0){
+				result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+			}else{
+				result.setErrorCode(ErrorCode.OPERATE_ERROR);
+			}
 		}
-		return n;
+		return result;
 	}
 	
 	@Override
-	public List<MaterielManageResp> selectSelective(MaterielManageReq req) throws Exception {
+	public Result findListByParmas(MaterielManageQuery query) throws Exception {
+		Result result = Result.getSuccessResult();
 		MaterielManage m = new MaterielManage();
-		PropertyUtils.copyProperties(m, req);
+		if(query != null){
+			PropertyUtils.copyProperties(m, query);
+		}
 		List<MaterielManage> list = materielManageMapper.selectSelective(m);
-		return copyBeanList2RespList(list);
-	}
-	
-	@Override
-	public List<MaterielManageResp> findAll() throws Exception {
-		List<MaterielManage> list = materielManageMapper.selectSelective(null);
-		return copyBeanList2RespList(list);
+		result.setData(copyBeanList2RespList(list));
+		return result;
 	}
 	
 	private List<MaterielManageResp> copyBeanList2RespList(List<MaterielManage> list) throws Exception {

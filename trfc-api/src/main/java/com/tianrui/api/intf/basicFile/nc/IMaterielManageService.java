@@ -1,10 +1,10 @@
 package com.tianrui.api.intf.basicFile.nc;
 
-import java.util.List;
-
-import com.tianrui.api.req.basicFile.nc.MaterielManageReq;
+import com.tianrui.api.req.basicFile.nc.MaterielManageQuery;
+import com.tianrui.api.req.basicFile.nc.MaterielManageSave;
 import com.tianrui.api.resp.basicFile.nc.MaterielManageResp;
 import com.tianrui.smartfactory.common.vo.PaginationVO;
+import com.tianrui.smartfactory.common.vo.Result;
 
 /**
  * 物料管理Service接口
@@ -20,47 +20,33 @@ public interface IMaterielManageService {
 	 * @return
 	 * @throws Exception
 	 */
-	public PaginationVO<MaterielManageResp> page(MaterielManageReq req) throws Exception;
+	public PaginationVO<MaterielManageResp> page(MaterielManageQuery query) throws Exception;
 	/**
 	 * 新增物料管理
 	 * @param req
 	 * @return
 	 * @throws Exception
 	 */
-	public int addMateriel(MaterielManageReq req) throws Exception;
-	/**
-	 * 查询物料管理
-	 * @param id
-	 * @return
-	 * @throws Exception
-	 */
-	public MaterielManageResp findOne(String id) throws Exception;
+	public Result addMateriel(MaterielManageSave save) throws Exception;
 	/**
 	 * 删除物料管理
 	 * @param id
 	 * @return
 	 */
-	public int deleteMateriel(String id);
+	public Result deleteMateriel(MaterielManageQuery query);
 	/**
 	 * 更新物料管理
 	 * @param req
 	 * @return
 	 * @throws Exception
 	 */
-	public int updateMateriel(MaterielManageReq req) throws Exception;
+	public Result updateMateriel(MaterielManageSave save) throws Exception;
 	/**
-	 * 查询全部物料
-	 * @param 
+	 * 根据条件查询物料
+	 * @param query
 	 * @return
 	 * @throws Exception
 	 */
-	public List<MaterielManageResp> findAll() throws Exception;
-	/**
-	 * 查询物料
-	 * @param 
-	 * @return
-	 * @throws Exception
-	 */
-	List<MaterielManageResp> selectSelective(MaterielManageReq req) throws Exception;
+	Result findListByParmas(MaterielManageQuery query) throws Exception;
 
 }

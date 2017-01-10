@@ -1,8 +1,10 @@
 package com.tianrui.api.intf.basicFile.measure;
 
-import com.tianrui.api.req.basicFile.measure.DriverManageReq;
+import com.tianrui.api.req.basicFile.measure.DriverManageSave;
+import com.tianrui.api.req.basicFile.measure.DriverManageQuery;
 import com.tianrui.api.resp.basicFile.measure.DriverManageResp;
 import com.tianrui.smartfactory.common.vo.PaginationVO;
+import com.tianrui.smartfactory.common.vo.Result;
 
 /**
  * 司机管理Service接口
@@ -12,14 +14,14 @@ import com.tianrui.smartfactory.common.vo.PaginationVO;
  */
 public interface IDriverManageService {
 
-	PaginationVO<DriverManageResp> page(DriverManageReq req) throws Exception;
+	PaginationVO<DriverManageResp> page(DriverManageQuery query) throws Exception;
 
-	int addDriver(DriverManageReq req) throws Exception;
+	Result addDriver(DriverManageSave save) throws Exception;
 
-	int updateDriver(DriverManageReq req) throws Exception;
+	Result updateDriver(DriverManageSave save) throws Exception;
 	
-	int deleteDriver(String id);
+	Result deleteDriver(DriverManageQuery query);
 
-	int delDriver(DriverManageReq req) throws Exception;
+	Result findListByParmas(DriverManageQuery query) throws Exception;
 
 }
