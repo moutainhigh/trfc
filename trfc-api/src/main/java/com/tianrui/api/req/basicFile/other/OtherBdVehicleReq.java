@@ -11,8 +11,12 @@ public class OtherBdVehicleReq extends BaseReq{
 	    private String code;
 	   
 	    private String innercode;
+	    
+	    private String innercodelike;
 
 	    private String name;
+	    
+	    private String namelike;
 
 	    private String info;
 
@@ -33,8 +37,6 @@ public class OtherBdVehicleReq extends BaseReq{
 	    private Long createtime;
 
 	    private String modifier;
-
-	    private Long modifytime;
 	    
 	    private int start;
 	    
@@ -152,14 +154,6 @@ public class OtherBdVehicleReq extends BaseReq{
 			this.modifier = modifier;
 		}
 
-		public Long getModifytime() {
-			return modifytime;
-		}
-
-		public void setModifytime(Long modifytime) {
-			this.modifytime = modifytime;
-		}
-
 		public int getStart() {
 			return start;
 		}
@@ -174,6 +168,22 @@ public class OtherBdVehicleReq extends BaseReq{
 
 		public void setLimit(int limit) {
 			this.limit = limit;
+		}
+
+		public String getInnercodelike() {
+			return innercodelike;
+		}
+
+		public void setInnercodelike(String innercodelike) {
+			this.innercodelike = innercodelike;
+		}
+
+		public String getNamelike() {
+			return namelike;
+		}
+
+		public void setNamelike(String namelike) {
+			this.namelike = namelike;
 		}
 	    
 }

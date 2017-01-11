@@ -54,10 +54,24 @@ public interface OtherBdVehicleMapper {
      */
     int updateByPrimaryKey(OtherBdVehicle record);
     
-    
+    /**
+     * 查询分页数据总数
+     * @param req
+     * @return
+     */
     long findVehiclePageCount(OtherBdVehicleReq req);
-
+    
+    /**
+     * 分页查询数据
+     * @param req
+     * @return
+     */
 	List<OtherBdVehicle> findVehiclePage(OtherBdVehicleReq req);
 	
+	/**
+	 * 根据名称查询数据
+	 * @param name
+	 * @return
+	 */
 	int findVehicleByName(String name);
 }

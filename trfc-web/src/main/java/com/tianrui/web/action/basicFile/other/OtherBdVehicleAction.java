@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -12,11 +13,10 @@ import com.tianrui.api.intf.basicFile.other.IOtherBdVehicleService;
 import com.tianrui.api.req.basicFile.other.OtherBdVehicleReq;
 import com.tianrui.api.resp.basicFile.other.OtherBdVehicleResp;
 import com.tianrui.smartfactory.common.constants.ErrorCode;
-import com.tianrui.smartfactory.common.vo.PaginationVO;
 import com.tianrui.smartfactory.common.vo.Result;
 
 @Controller
-@RequestMapping("otherVehicle")
+@RequestMapping("other/otherVehicle")
 public class OtherBdVehicleAction {
 	
 	private Logger log = LoggerFactory.getLogger(OtherBdVehicleAction.class);
@@ -30,23 +30,23 @@ public class OtherBdVehicleAction {
 		return view;
 	}
 	
-	@RequestMapping("page")
+	/**
+	 * 分页查询数据Action
+	 * @param req
+	 * @return
+	 */
+	@RequestMapping(value="page",method=RequestMethod.POST)
 	@ResponseBody
 	public Result page(OtherBdVehicleReq req){
-		Result result = Result.getSuccessResult();
-		try {
-			PaginationVO<OtherBdVehicleResp> page = otherBdVehicleService.page(req);
-			result.setData(page);
-		} catch (Exception e) {
-			log.error(e.getMessage(), e);
-			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
-			return result;
-		}
+		Result result = otherBdVehicleService.page(req);
 		return result;
 	}
 	
-	
-	@RequestMapping("toAddOtherVehicle")
+	/**
+	 * 获取新增时需要的编号和内码
+	 * @return
+	 */
+	@RequestMapping(value="toAddOtherVehicle",method=RequestMethod.POST)
 	@ResponseBody
 	public Result toAddOtherVehicle(){
 		Result result = Result.getSuccessResult();
@@ -63,78 +63,51 @@ public class OtherBdVehicleAction {
 		return result;
 	}
 	
-	
-	@RequestMapping("addOtherVehicle")
+	/**
+	 * 新增其他车辆信息Action
+	 * @param req
+	 * @return
+	 */
+	@RequestMapping(value="addOtherVehicle",method=RequestMethod.POST)
 	@ResponseBody
 	public Result addOtherVehicle(OtherBdVehicleReq req){
-		Result result = Result.getSuccessResult();
-		try {
-			int n = otherBdVehicleService.addVehicle(req);
-			if(n > 0){
-				result.setData(n);
-			}else if(n == -1){
-				result.setErrorCode(ErrorCode.PARAM_REPEAT_ERROR);
-			}else{
-				result.setErrorCode(ErrorCode.OPERATE_ERROR);
-			}
-		} catch (Exception e) {
-			log.error(e.getMessage(), e);
-			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
-			return result;
-		}
+		Result result = otherBdVehicleService.addVehicle(req);
 		return result;
 	}
 	
-	@RequestMapping("editOtherVehicle")
+	/**
+	 * 修改其他车辆信息Action
+	 * @param req
+	 * @return
+	 */
+	@RequestMapping(value="editOtherVehicle",method=RequestMethod.POST)
 	@ResponseBody
 	public Result editOtherVehicle(OtherBdVehicleReq req){
-		Result result = Result.getSuccessResult();
-		try {
-			int n = otherBdVehicleService.editVehicle(req);
-			if(n > 0){
-				result.setData(n);
-			}else{
-				result.setErrorCode(ErrorCode.OPERATE_ERROR);
-			}
-		} catch (Exception e) {
-			log.error(e.getMessage(), e);
-			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
-			return result;
-		}
+		Result result =otherBdVehicleService.editVehicle(req);
 		return result;
 	}
 	
-	@RequestMapping("deleteOtherVehicle")
+	/**
+	 * 删除其他车辆信息Action
+	 * @param id
+	 * @return
+	 */
+	@RequestMapping(value="deleteOtherVehicle",method=RequestMethod.POST)
 	@ResponseBody
 	public Result deleteOtherVehicle(String id){
-		Result result = Result.getSuccessResult();
-		try {
-			int n = otherBdVehicleService.deleteVehicle(id);
-			if(n > 0){
-				result.setData(n);
-			}else{
-				result.setErrorCode(ErrorCode.OPERATE_ERROR);
-			}
-		} catch (Exception e) {
-			log.error(e.getMessage(), e);
-			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
-			return result;
-		}
+		Result result = otherBdVehicleService.deleteVehicle(id);
 		return result;
 	}
 	
-	@RequestMapping("checkName")
+	/**
+	 * 名称重复检测Action
+	 * @param name
+	 * @return
+	 */
+	@RequestMapping(value="checkName",method=RequestMethod.POST)
 	@ResponseBody
 	public Result checkName(String name){
-		Result result = Result.getSuccessResult();
-		try {
-			boolean bl = otherBdVehicleService.checkName(name);
-			result.setData(bl);
-		} catch (Exception e) {
-			log.error(e.getMessage(), e);
-			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
-			return result;
-		}
+		Result result =  otherBdVehicleService.checkName(name);
 		return result;
 	}
 	

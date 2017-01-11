@@ -18,6 +18,7 @@ import com.tianrui.api.req.basicFile.measure.VehicleManageSave;
 import com.tianrui.api.req.basicFile.other.OtherBdVehicleReq;
 import com.tianrui.api.resp.basicFile.other.OtherBdVehicleResp;
 import com.tianrui.smartfactory.common.vo.PaginationVO;
+import com.tianrui.smartfactory.common.vo.Result;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath*:spring/appliactionContext-service.xml" })
@@ -59,11 +60,11 @@ public class DataDictServiceTest {
 	}
 	@Test
 	public void testOtherVehicle() throws Exception{
-//		OtherBdVehicleReq bean=new OtherBdVehicleReq();
+		OtherBdVehicleReq bean=new OtherBdVehicleReq();
 //		bean.setId("02");
 //		bean.setCode("CL99001333");
 //		bean.setInnercode("1");
-//		bean.setName("adf");
+		bean.setNamelike("a");
 //		bean.setInfo("Jack");
 //		bean.setAddr("纽约");
 //		bean.setTelphone("120");
@@ -75,11 +76,13 @@ public class DataDictServiceTest {
 //		bean.setCreatetime(System.currentTimeMillis());
 //		bean.setModifier("李四");
 //		bean.setModifytime(System.currentTimeMillis());
-//		bean.setStart(1);
-//		bean.setLimit(5);
-		int n=otherBdVehicleService.deleteVehicle("061da67a53f947d590766cf72aadd88e");
-		System.out.println(n);
-		logger.info("{}",JSON.toJSON(n));
+		bean.setStart(1);
+		bean.setLimit(5);
+		Result s=otherBdVehicleService.page(bean);
+		PaginationVO<OtherBdVehicleResp> page=(PaginationVO<OtherBdVehicleResp>) s.getData();
+		System.out.println(page.getTotal());
+		System.out.println(page.getList());
+//		logger.info("{}",JSON.toJSON(n));
 
 	}
 

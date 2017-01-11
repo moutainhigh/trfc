@@ -244,14 +244,14 @@
   	count(0)
   	from tr_other_bd_vehice
   	<where>
-  		<if test="name != null and name != ''">
-  			and name like '%${name}%'
+  		<if test="namelike != null and namelike != ''">
+  			and name like concat('%',#{namelike,jdbcType=VARCHAR},'%')
 		</if>
   		<if test="orgname != null and orgname != ''">
-  			and orgname like '%${orgname}%'
+  			and orgname = #{orgname,jdbcType=VARCHAR}
 		</if>
-		<if test="innercode != null and innercode != ''">
-  			and innercode like '%${innercode}%'
+		<if test="innercodelike != null and innercodelike != ''">
+  			and innercode like concat('%',#{innercodelike,jdbcType=VARCHAR},'%')
 		</if>
   	</where>
   </select>
@@ -260,14 +260,14 @@
   	<include refid="Base_Column_List" />
   	from tr_other_bd_vehice
   	<where>
-  		<if test="name != null and name != ''">
-  			and name like '%${name}%'
+  		<if test="namelike != null and namelike != ''">
+  			and name like concat('%',#{namelike,jdbcType=VARCHAR},'%')
 		</if>
   		<if test="orgname != null and orgname != ''">
-  			and orgname like '%${orgname}%'
+  			and orgname = #{orgname,jdbcType=VARCHAR}
 		</if>
-		<if test="innercode != null and innercode != ''">
-  			and innercode like '%${innercode}%'
+		<if test="innercodelike != null and innercodelike != ''">
+  			and innercode like concat('%',#{innercodelike,jdbcType=VARCHAR},'%')
 		</if>
   	</where>
   	order by createtime desc
@@ -281,5 +281,5 @@
 		select count(1)
 		from tr_other_bd_vehice
 		where name = #{name,jdbcType=VARCHAR}
-	</select>
+  </select>
 </mapper>

@@ -7,13 +7,13 @@
     <meta name="keywords" content=" 天瑞"/>
     <meta name="description" content="">
     <meta name="author" content="">
-    <link href="/trfc-web/resources/css/bootstrap.css" rel="stylesheet">
-    <link href="/trfc-web/resources/css/base.css" rel="stylesheet">
-    <link href="/trfc-web/resources/css/style.css" rel="stylesheet">
-    <link href="/trfc-web/resources/css/iconfont.css" rel="stylesheet">
-    <link href="/trfc-web/resources/css/pagination.css" rel="stylesheet">
+    <link href="${basePath }/css/bootstrap.css" rel="stylesheet">
+    <link href="${basePath }/css/base.css" rel="stylesheet">
+    <link href="${basePath }/css/style.css" rel="stylesheet">
+    <link href="${basePath }/css/iconfont.css" rel="stylesheet">
+    <link href="${basePath }/css/pagination.css" rel="stylesheet">
     <!--这个日历控件js必须放头部-->
-    <script language="javascript" type="text/javascript" src="/trfc-web/resources/js/My97DatePicker/WdatePicker.js"></script>
+    <script language="javascript" type="text/javascript" src="${basePath }/js/My97DatePicker/WdatePicker.js"></script>
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
@@ -25,7 +25,7 @@
 <div class="left ">
     <div class="user">
         <a href="#" data-toggle="dropdown" data-target="#menu-messages" class="dropdown-toggle">
-            <img src="/trfc-web/resources/images/tx.jpg" class="img-circle">
+            <img src="${basePath }/images/tx.jpg" class="img-circle">
             <label>超级管理员</label>
             <i class="iconfont">&#xe602;</i>
         </a>
@@ -101,7 +101,7 @@
 <div class="leftmini hide">
     <div class="user">
         <a href="#" data-toggle="dropdown" data-target="#menu-messages" class="dropdown-toggle">
-            <img src="/trfc-web/resources/images/tx.jpg" class="img-circle">
+            <img src="${basePath }/images/tx.jpg" class="img-circle">
         </a>
         <ul class="dropdown-menu">
             <li><a data-toggle="modal" data-target="#account"><i class="iconfont">&#xe60e;</i>个人资料</a></li>
@@ -340,7 +340,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary" id="add_vehicle">确定</button>
-                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-default" id="add_vehicle_hide" data-dismiss="modal">取消</button>
             </div>
         </div>
     </div>
@@ -411,7 +411,7 @@
             </div>
             <div class="modal-body">
                 <div class="alert_qf">
-                    <img src="/trfc-web/resources/images/tishi.png"><label>注：删除操作不可恢复，您确定要继续么？</label>
+                    <img src="${basePath }/images/tishi.png"><label>注：删除操作不可恢复，您确定要继续么？</label>
                 </div>
             </div>
             <div class="modal-footer">
@@ -422,11 +422,11 @@
     </div>
 </div>
 <!--删除end-->
-<script type="text/javascript" src="/trfc-web/resources/js/jquery-1.11.1.js"></script>
-<script type="text/javascript" src="/trfc-web/resources/js/bootstrap.js"></script>
-<script type="text/javascript" src="/trfc-web/resources/js/jquery.pagination.js"></script>
-<script type="text/javascript" src="/trfc-web/resources/js/layer/layer.js"></script>
-<script type="text/javascript" src="/trfc-web/resources/js/basicFile/other/other_car.js"></script>
+<script type="text/javascript" src="${basePath }/js/jquery-1.11.1.js"></script>
+<script type="text/javascript" src="${basePath }/js/bootstrap.js"></script>
+<script type="text/javascript" src="${basePath }/js/jquery.pagination.js"></script>
+<script type="text/javascript" src="${basePath }/js/layer/layer.js"></script>
+<script type="text/javascript" src="${basePath }/js/basicFile/other/other_car.js"></script>
 
 
 <script type="text/javascript">
