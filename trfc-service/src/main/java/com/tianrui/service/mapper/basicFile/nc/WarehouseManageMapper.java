@@ -2,7 +2,7 @@ package com.tianrui.service.mapper.basicFile.nc;
 
 import java.util.List;
 
-import com.tianrui.api.req.basicFile.nc.WarehouseManageReq;
+import com.tianrui.api.req.basicFile.nc.WarehouseManageQuery;
 import com.tianrui.service.bean.basicFile.nc.WarehouseManage;
 /**
  * 仓库管理Mapper接口
@@ -23,9 +23,9 @@ public interface WarehouseManageMapper {
 
     int updateByPrimaryKey(WarehouseManage record);
 
-    long findWarehouseManagePageCount(WarehouseManageReq req);
+    long findWarehouseManagePageCount(WarehouseManageQuery query);
 
-	List<WarehouseManage> findWarehouseManagePage(WarehouseManageReq req);
+	List<WarehouseManage> findWarehouseManagePage(WarehouseManageQuery query);
 
-	List<WarehouseManage> selectSelective(WarehouseManage w);
+	List<WarehouseManage> selectSelective(WarehouseManage record);
 }

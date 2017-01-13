@@ -2,7 +2,7 @@ package com.tianrui.api.req.businessManage.salesManage;
 
 import com.tianrui.api.req.BaseReq;
 
-public class SalesApplicationReq extends BaseReq {
+public class SalesApplicationSave extends BaseReq {
 	
 	private static final long serialVersionUID = -2559538852082320742L;
 
@@ -55,6 +55,8 @@ public class SalesApplicationReq extends BaseReq {
     private String warehouseid;
     
     private String warehousename;
+    
+    private String unit;
     
     private Double salessum;
 
@@ -262,6 +264,14 @@ public class SalesApplicationReq extends BaseReq {
 
 	public void setWarehousename(String warehousename) {
 		this.warehousename = warehousename;
+	}
+
+	public String getUnit() {
+		return unit;
+	}
+
+	public void setUnit(String unit) {
+		this.unit = unit;
 	}
 
 	public Double getSalessum() {

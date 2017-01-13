@@ -1,6 +1,8 @@
 package com.tianrui.api.resp.businessManage.salesManage;
 
 import com.tianrui.api.resp.BaseResp;
+import com.tianrui.api.resp.basicFile.nc.MaterielManageResp;
+import com.tianrui.api.resp.basicFile.nc.WarehouseManageResp;
 
 public class SalesApplicationDetailResp extends BaseResp {
 
@@ -18,6 +20,8 @@ public class SalesApplicationDetailResp extends BaseResp {
 
     private String warehousename;
 
+    private String unit;
+
     private Double salessum;
 
     private Double taxprice;
@@ -27,6 +31,10 @@ public class SalesApplicationDetailResp extends BaseResp {
     private Double taxrate;
 
     private String remarks;
+    
+    private MaterielManageResp materiel;
+    
+    private WarehouseManageResp warehouse;
 
     public String getId() {
         return id;
@@ -76,7 +84,15 @@ public class SalesApplicationDetailResp extends BaseResp {
         this.warehousename = warehousename == null ? null : warehousename.trim();
     }
 
-    public Double getSalessum() {
+    public String getUnit() {
+		return unit;
+	}
+
+	public void setUnit(String unit) {
+		this.unit = unit;
+	}
+
+	public Double getSalessum() {
         return salessum;
     }
 
@@ -115,4 +131,20 @@ public class SalesApplicationDetailResp extends BaseResp {
     public void setRemarks(String remarks) {
         this.remarks = remarks == null ? null : remarks.trim();
     }
+
+	public MaterielManageResp getMateriel() {
+		return materiel;
+	}
+
+	public void setMateriel(MaterielManageResp materiel) {
+		this.materiel = materiel;
+	}
+
+	public WarehouseManageResp getWarehouse() {
+		return warehouse;
+	}
+
+	public void setWarehouse(WarehouseManageResp warehouse) {
+		this.warehouse = warehouse;
+	}
 }

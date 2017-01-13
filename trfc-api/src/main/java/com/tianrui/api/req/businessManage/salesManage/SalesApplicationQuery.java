@@ -6,11 +6,17 @@ public class SalesApplicationQuery extends BaseReq {
 	
 	private static final long serialVersionUID = 8245980890986538662L;
 
+	private String id;
+	
 	private String code;
 
     private String source;
 
     private String customerid;
+    
+    private String materielid;
+    
+    private String warehouseid;
     
     private String state;
 
@@ -21,6 +27,14 @@ public class SalesApplicationQuery extends BaseReq {
     private int start;
     
     private int limit;
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
 
 	public String getCode() {
 		return code;
@@ -44,6 +58,22 @@ public class SalesApplicationQuery extends BaseReq {
 
 	public void setCustomerid(String customerid) {
 		this.customerid = customerid;
+	}
+
+	public String getMaterielid() {
+		return materielid;
+	}
+
+	public void setMaterielid(String materielid) {
+		this.materielid = materielid;
+	}
+
+	public String getWarehouseid() {
+		return warehouseid;
+	}
+
+	public void setWarehouseid(String warehouseid) {
+		this.warehouseid = warehouseid;
 	}
 
 	public String getState() {

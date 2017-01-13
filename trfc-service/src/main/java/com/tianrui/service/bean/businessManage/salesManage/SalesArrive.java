@@ -1,5 +1,10 @@
 package com.tianrui.service.bean.businessManage.salesManage;
-
+/**
+ * 销售提货通知单Bean
+ * @author zhanggaohao
+ * @createtime 2017年1月12日 上午10:53:56
+ * @classname SalesArrive.java
+ */
 public class SalesArrive {
     private String id;
 
@@ -35,6 +40,8 @@ public class SalesArrive {
 
     private String state;
 
+    private String maindeduction;
+    
     private String remarks;
 
     private String creator;
@@ -181,7 +188,15 @@ public class SalesArrive {
         this.state = state == null ? null : state.trim();
     }
 
-    public String getRemarks() {
+    public String getMaindeduction() {
+		return maindeduction;
+	}
+
+	public void setMaindeduction(String maindeduction) {
+		this.maindeduction = maindeduction;
+	}
+
+	public String getRemarks() {
         return remarks;
     }
 

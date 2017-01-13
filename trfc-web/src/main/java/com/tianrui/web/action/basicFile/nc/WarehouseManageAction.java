@@ -9,7 +9,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.tianrui.api.intf.basicFile.nc.IWarehouseManageService;
-import com.tianrui.api.req.basicFile.nc.WarehouseManageReq;
+import com.tianrui.api.req.basicFile.nc.WarehouseManageQuery;
+import com.tianrui.api.req.basicFile.nc.WarehouseManageSave;
 import com.tianrui.api.resp.basicFile.nc.WarehouseManageResp;
 import com.tianrui.smartfactory.common.constants.ErrorCode;
 import com.tianrui.smartfactory.common.vo.PaginationVO;
@@ -38,10 +39,10 @@ public class WarehouseManageAction {
 	
 	@RequestMapping("page")
 	@ResponseBody
-	public Result page(WarehouseManageReq req){
+	public Result page(WarehouseManageQuery query){
 		Result result = Result.getSuccessResult();
 		try {
-			PaginationVO<WarehouseManageResp> page = warehouseManageService.page(req);
+			PaginationVO<WarehouseManageResp> page = warehouseManageService.page(query);
 			result.setData(page);
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
@@ -52,15 +53,10 @@ public class WarehouseManageAction {
 	
 	@RequestMapping("updateWarehouse")
 	@ResponseBody
-	public Result updateMater(WarehouseManageReq req){
+	public Result updateMater(WarehouseManageSave req){
 		Result result = Result.getSuccessResult();
 		try {
-			int count = warehouseManageService.updateWarehouse(req);
-			if(count == 1){
-				result.setData(count);
-			}else{
-				result.setErrorCode(ErrorCode.OPERATE_ERROR);
-			}
+			result = warehouseManageService.updateWarehouse(req);
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
@@ -70,10 +66,10 @@ public class WarehouseManageAction {
 	
 	@RequestMapping("findAll")
 	@ResponseBody
-	public Result findAll(WarehouseManageReq req){
+	public Result findAll(WarehouseManageSave req){
 		Result result = Result.getSuccessResult();
 		try {
-			result.setData(warehouseManageService.findAll());
+			result = warehouseManageService.findListByParmas(null);
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 			result.setErrorCode(ErrorCode.SYSTEM_ERROR);

@@ -64,7 +64,7 @@
 						});
 					}
 				}else{
-					alert(result.error);
+					layer.msg(result.error, {icon: 5});
 				}
 			}
 		});
@@ -85,7 +85,7 @@
 						}
 					}
 				}else{
-					alert(result.error);
+					layer.msg(result.error, {icon: 5});
 				}
 			}
 		});
@@ -106,7 +106,7 @@
 						}
 					}
 				}else{
-					alert(result.error);
+					layer.msg(result.error, {icon: 5});
 				}
 			}
 		});
@@ -156,7 +156,7 @@
 							alert("初始化失败，请稍后重试！");
 						}
 					}else{
-						alert(result.error);
+						layer.msg(result.error, {icon: 5});
 					}
 				}
 			});
@@ -205,7 +205,7 @@
 						if(result.code == '000000'){
 							win.location.reload();
 						}else{
-							alert(result.error);
+							layer.msg(result.error, {icon: 5});
 						}
 					}
 				});
@@ -251,7 +251,7 @@
 						if(result.code == '000000'){
 							win.location.reload();
 						}else{
-							alert(result.error);
+							layer.msg(result.error, {icon: 5});
 						}
 					}
 				});
@@ -314,7 +314,7 @@
 					    link_to:"javascript:void(0)"
 					});
 				}else{
-					alert(result.error);
+					layer.msg(result.error, {icon: 5});
 				}
 				layer.close(index);
 			}
@@ -617,7 +617,7 @@
 						if(result.code == '000000'){
 							win.location.reload();
 						}else{
-							alert(result.error);
+							layer.msg(result.error, {icon: 5});
 						}
 						layer.close(index);
 					}

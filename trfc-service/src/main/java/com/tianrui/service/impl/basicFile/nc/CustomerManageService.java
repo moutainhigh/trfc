@@ -4,13 +4,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.beanutils.PropertyUtils;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.tianrui.api.intf.basicFile.nc.ICustomerManageService;
-import com.tianrui.api.req.basicFile.nc.CustomerManageReq;
+import com.tianrui.api.req.basicFile.nc.CustomerManageQuery;
+import com.tianrui.api.req.basicFile.nc.CustomerManageSave;
+import com.tianrui.api.req.basicFile.nc.WarehouseManageQuery;
 import com.tianrui.api.resp.basicFile.nc.CustomerManageResp;
 import com.tianrui.service.bean.basicFile.nc.CustomerManage;
+import com.tianrui.service.bean.basicFile.nc.WarehouseManage;
 /**
  * 客户管理Service
  * @author zhanggaohao
@@ -18,7 +22,9 @@ import com.tianrui.service.bean.basicFile.nc.CustomerManage;
  * @classname CustomerManageService.java
  */
 import com.tianrui.service.mapper.basicFile.nc.CustomerManageMapper;
+import com.tianrui.smartfactory.common.constants.ErrorCode;
 import com.tianrui.smartfactory.common.vo.PaginationVO;
+import com.tianrui.smartfactory.common.vo.Result;
 @Service
 public class CustomerManageService implements ICustomerManageService {
 
@@ -26,49 +32,59 @@ public class CustomerManageService implements ICustomerManageService {
 	private CustomerManageMapper customerManageMapper;
 	
 	@Override
-	public PaginationVO<CustomerManageResp> page(CustomerManageReq req) throws Exception {
+	public PaginationVO<CustomerManageResp> page(CustomerManageQuery query) throws Exception {
 		PaginationVO<CustomerManageResp> page = null;
-		if(req != null){
+		if(query != null){
 			page = new PaginationVO<CustomerManageResp>();
-			long count = customerManageMapper.findCustomerPageCount(req);
+			long count = customerManageMapper.findCustomerPageCount(query);
 			if(count > 0){
-				req.setStart((req.getPageNo()-1)*req.getPageSize());
-				req.setLimit(req.getPageSize());
-				List<CustomerManage> list = customerManageMapper.findCustomerPage(req);
+				query.setStart((query.getPageNo()-1)*query.getPageSize());
+				query.setLimit(query.getPageSize());
+				List<CustomerManage> list = customerManageMapper.findCustomerPage(query);
 				page.setList(copyBeanList2RespList(list));
 			}
 			page.setTotal(count);
-			page.setPageNo(req.getPageNo());
-			page.setPageSize(req.getPageSize());
+			page.setPageNo(query.getPageNo());
+			page.setPageSize(query.getPageSize());
 		}
 		return page;
 	}
 	
 	@Override
-	public int updateCustomer(CustomerManageReq req) throws Exception {
-		int n = 0;
-		if(req != null){
+	public Result updateCustomer(CustomerManageSave save) throws Exception {
+		Result result = Result.getParamErrorResult();
+		if(save != null){
 			CustomerManage c = new CustomerManage();
-			PropertyUtils.copyProperties(c, req);
+			PropertyUtils.copyProperties(c, save);
 			//c.setModifier("");
 			c.setModifytime(System.currentTimeMillis());
-			n = customerManageMapper.updateByPrimaryKeySelective(c);
+			if(customerManageMapper.updateByPrimaryKeySelective(c) > 0){
+				result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+			}else{
+				result.setErrorCode(ErrorCode.OPERATE_ERROR);
+			}
 		}
-		return n;
+		return result;
 	}
 	
 	@Override
-	public List<CustomerManageResp> selectSelective(CustomerManageReq req) throws Exception {
-		CustomerManage c = new CustomerManage();
-		PropertyUtils.copyProperties(c, req);
-		List<CustomerManage> list = customerManageMapper.selectSelective(c);
-		return copyBeanList2RespList(list);
+	public Result findListByParmas(CustomerManageQuery query) throws Exception {
+		Result result = Result.getSuccessResult();
+		CustomerManage cm = new CustomerManage();
+		if(query != null){
+			PropertyUtils.copyProperties(cm, query);
+		}
+		List<CustomerManage> list = customerManageMapper.selectSelective(cm);
+		result.setData(copyBeanList2RespList(list));
+		return result;
 	}
-	
+
 	@Override
-	public List<CustomerManageResp> findAll() throws Exception {
-		List<CustomerManage> list = customerManageMapper.selectSelective(null);
-		return copyBeanList2RespList(list);
+	public CustomerManageResp findOne(CustomerManageQuery query) throws Exception {
+		if(StringUtils.isNotBlank(query.getId())){
+			return copyBean2Resp(customerManageMapper.selectByPrimaryKey(query.getId()));
+		}
+		return null;
 	}
 	
 	private List<CustomerManageResp> copyBeanList2RespList(List<CustomerManage> list) throws Exception {

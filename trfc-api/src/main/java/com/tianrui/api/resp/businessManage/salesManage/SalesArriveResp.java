@@ -1,6 +1,8 @@
 package com.tianrui.api.resp.businessManage.salesManage;
 
 import com.tianrui.api.resp.BaseResp;
+import com.tianrui.api.resp.basicFile.measure.DriverManageResp;
+import com.tianrui.api.resp.basicFile.measure.VehicleManageResp;
 import com.tianrui.smartfactory.common.utils.DateUtil;
 
 public class SalesArriveResp extends BaseResp {
@@ -26,6 +28,8 @@ public class SalesArriveResp extends BaseResp {
     private String billcode;
 
     private String abnormalperson;
+    
+    private String abnormalpersonname;
 
     private Long abnormaltime;
     
@@ -42,21 +46,33 @@ public class SalesArriveResp extends BaseResp {
     private String icardid;
 
     private String state;
+    
+    private String maindeduction;
 
     private String remarks;
 
     private String creator;
+    
+    private String creatorname;
 
     private Long createtime;
     
     private String createtimeStr;
 
     private String modifier;
+    
+    private String modifiername;
 
     private Long modifytime;
     
     private String modifytimeStr;
-
+    
+    private DriverManageResp driver;
+    
+    private VehicleManageResp vehicle;
+    
+    private SalesApplicationResp salesApplication;
+    
 	public String getId() {
 		return id;
 	}
@@ -137,6 +153,14 @@ public class SalesArriveResp extends BaseResp {
 		this.abnormalperson = abnormalperson;
 	}
 
+	public String getAbnormalpersonname() {
+		return abnormalpersonname;
+	}
+
+	public void setAbnormalpersonname(String abnormalpersonname) {
+		this.abnormalpersonname = abnormalpersonname;
+	}
+
 	public Long getAbnormaltime() {
 		return abnormaltime;
 	}
@@ -202,6 +226,14 @@ public class SalesArriveResp extends BaseResp {
 		this.state = state;
 	}
 
+	public String getMaindeduction() {
+		return maindeduction;
+	}
+
+	public void setMaindeduction(String maindeduction) {
+		this.maindeduction = maindeduction;
+	}
+
 	public String getRemarks() {
 		return remarks;
 	}
@@ -216,6 +248,14 @@ public class SalesArriveResp extends BaseResp {
 
 	public void setCreator(String creator) {
 		this.creator = creator;
+	}
+
+	public String getCreatorname() {
+		return creatorname;
+	}
+
+	public void setCreatorname(String creatorname) {
+		this.creatorname = creatorname;
 	}
 
 	public Long getCreatetime() {
@@ -243,6 +283,14 @@ public class SalesArriveResp extends BaseResp {
 		this.modifier = modifier;
 	}
 
+	public String getModifiername() {
+		return modifiername;
+	}
+
+	public void setModifiername(String modifiername) {
+		this.modifiername = modifiername;
+	}
+
 	public Long getModifytime() {
 		return modifytime;
 	}
@@ -258,6 +306,30 @@ public class SalesArriveResp extends BaseResp {
 
 	public void setModifytimeStr(String modifytimeStr) {
 		this.modifytimeStr = modifytimeStr;
+	}
+
+	public DriverManageResp getDriver() {
+		return driver;
+	}
+
+	public void setDriver(DriverManageResp driver) {
+		this.driver = driver;
+	}
+
+	public VehicleManageResp getVehicle() {
+		return vehicle;
+	}
+
+	public void setVehicle(VehicleManageResp vehicle) {
+		this.vehicle = vehicle;
+	}
+
+	public SalesApplicationResp getSalesApplication() {
+		return salesApplication;
+	}
+
+	public void setSalesApplication(SalesApplicationResp salesApplication) {
+		this.salesApplication = salesApplication;
 	}
 
 }

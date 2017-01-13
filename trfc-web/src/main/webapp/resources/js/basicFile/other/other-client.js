@@ -299,7 +299,7 @@ function CustomersShowAction(pageNo){
 //展示列表
 function showPageData(list,pageSize,pageNo){
 	//加载时清空列表和跳转值
-	$('#jumpPageNo').empty();
+	$('#jumpPageNo').val('');
 	var tbody = $('#customer_list').empty();
 	for(var i=0;i<list.length;i++){
 		var tr = '<tr>'
