@@ -2,7 +2,7 @@ package com.tianrui.api.req.basicFile.nc;
 
 import com.tianrui.api.req.BaseReq;
 
-public class CustomerManageReq extends BaseReq {
+public class CustomerManageSave extends BaseReq {
 
 	private static final long serialVersionUID = -4974607063746897069L;
 
@@ -44,10 +44,6 @@ public class CustomerManageReq extends BaseReq {
 
     private Long modifytime;
     
-    private int start;
-    
-    private int limit;
-
     public String getId() {
         return id;
     }
@@ -200,19 +196,4 @@ public class CustomerManageReq extends BaseReq {
         this.modifytime = modifytime;
     }
 
-	public int getStart() {
-		return start;
-	}
-
-	public void setStart(int start) {
-		this.start = start;
-	}
-
-	public int getLimit() {
-		return limit;
-	}
-
-	public void setLimit(int limit) {
-		this.limit = limit;
-	}
 }

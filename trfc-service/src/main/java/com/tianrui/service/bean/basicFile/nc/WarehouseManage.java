@@ -18,6 +18,8 @@ public class WarehouseManage {
 
     private String orgname;
 
+    private String state;
+    
     private String remarks;
 
     private String creator;
@@ -76,7 +78,15 @@ public class WarehouseManage {
         this.orgname = orgname == null ? null : orgname.trim();
     }
 
-    public String getRemarks() {
+    public String getState() {
+		return state;
+	}
+
+	public void setState(String state) {
+		this.state = state;
+	}
+
+	public String getRemarks() {
         return remarks;
     }
 

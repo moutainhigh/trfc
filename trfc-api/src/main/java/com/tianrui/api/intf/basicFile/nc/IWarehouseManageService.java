@@ -1,10 +1,10 @@
 package com.tianrui.api.intf.basicFile.nc;
 
-import java.util.List;
-
-import com.tianrui.api.req.basicFile.nc.WarehouseManageReq;
+import com.tianrui.api.req.basicFile.nc.WarehouseManageQuery;
+import com.tianrui.api.req.basicFile.nc.WarehouseManageSave;
 import com.tianrui.api.resp.basicFile.nc.WarehouseManageResp;
 import com.tianrui.smartfactory.common.vo.PaginationVO;
+import com.tianrui.smartfactory.common.vo.Result;
 /**
  * 仓库管理Service接口
  * @author zhanggaohao
@@ -19,48 +19,42 @@ public interface IWarehouseManageService {
 	 * @return
 	 * @throws Exception
 	 */
-	PaginationVO<WarehouseManageResp> page(WarehouseManageReq req) throws Exception;
+	PaginationVO<WarehouseManageResp> page(WarehouseManageQuery query) throws Exception;
 	/**
-	 * 查询仓库详情
-	 * @param id
+	 * 根据id查询仓库
+	 * @param query
 	 * @return
 	 * @throws Exception
 	 */
-	WarehouseManageResp findOne(String id) throws Exception;
+	WarehouseManageResp findOne(WarehouseManageQuery query) throws Exception;
 	/**
 	 * 删除仓库
 	 * @param id
 	 * @return
+	 * @throws Exception 
 	 */
-	int deleteWarehouse(String id);
+	Result deleteWarehouse(WarehouseManageSave save) throws Exception;
 	/**
 	 * 修改仓库
 	 * @param req
 	 * @return
 	 * @throws Exception
 	 */
-	int updateWarehouse(WarehouseManageReq req) throws Exception;
+	Result updateWarehouse(WarehouseManageSave save) throws Exception;
 	/**
 	 * 新增仓库
 	 * @param req
 	 * @return
 	 * @throws Exception
 	 */
-	int addWarehouse(WarehouseManageReq req) throws Exception;
+	Result addWarehouse(WarehouseManageSave save) throws Exception;
 	/**
 	 * 查询仓库
-	 * @param req
+	 * @param query
 	 * @return
 	 * @throws Exception
 	 */
-	List<WarehouseManageResp> selectSelective(WarehouseManageReq req) throws Exception;
-	/**
-	 * 查询全部仓库
-	 * @param 
-	 * @return
-	 * @throws Exception
-	 */
-	List<WarehouseManageResp> findAll() throws Exception;
+	Result findListByParmas(WarehouseManageQuery query) throws Exception;
 	
 }
 

@@ -1,13 +1,10 @@
-package com.tianrui.api.resp.businessManage.salesManage;
+package com.tianrui.api.req.businessManage.salesManage;
 
-import com.tianrui.api.resp.BaseResp;
-import com.tianrui.api.resp.basicFile.measure.DriverManageResp;
-import com.tianrui.api.resp.basicFile.measure.VehicleManageResp;
-import com.tianrui.smartfactory.common.utils.DateUtil;
+import com.tianrui.api.req.BaseReq;
 
-public class SalesArriveResp extends BaseResp {
-	
-	private static final long serialVersionUID = 4625515863613381387L;
+public class SalesArriveSave extends BaseReq {
+
+	private static final long serialVersionUID = -1530450198922426215L;
 
 	private String id;
 
@@ -28,12 +25,8 @@ public class SalesArriveResp extends BaseResp {
     private String billcode;
 
     private String abnormalperson;
-    
-    private String abnormalpersonname;
 
     private Long abnormaltime;
-    
-    private String abnormaltimeStr;
 
     private String unit;
 
@@ -46,33 +39,17 @@ public class SalesArriveResp extends BaseResp {
     private String icardid;
 
     private String state;
-    
-    private String maindeduction;
 
     private String remarks;
 
     private String creator;
-    
-    private String creatorname;
 
     private Long createtime;
-    
-    private String createtimeStr;
 
     private String modifier;
-    
-    private String modifiername;
 
     private Long modifytime;
-    
-    private String modifytimeStr;
-    
-    private DriverManageResp driver;
-    
-    private VehicleManageResp vehicle;
-    
-    private SalesApplicationResp salesApplication;
-    
+
 	public String getId() {
 		return id;
 	}
@@ -153,29 +130,12 @@ public class SalesArriveResp extends BaseResp {
 		this.abnormalperson = abnormalperson;
 	}
 
-	public String getAbnormalpersonname() {
-		return abnormalpersonname;
-	}
-
-	public void setAbnormalpersonname(String abnormalpersonname) {
-		this.abnormalpersonname = abnormalpersonname;
-	}
-
 	public Long getAbnormaltime() {
 		return abnormaltime;
 	}
 
 	public void setAbnormaltime(Long abnormaltime) {
 		this.abnormaltime = abnormaltime;
-		this.abnormaltimeStr = DateUtil.parse(abnormaltime, "yyyy-MM-dd HH:mm:ss");
-	}
-
-	public String getAbnormaltimeStr() {
-		return abnormaltimeStr;
-	}
-
-	public void setAbnormaltimeStr(String abnormaltimeStr) {
-		this.abnormaltimeStr = abnormaltimeStr;
 	}
 
 	public String getUnit() {
@@ -226,14 +186,6 @@ public class SalesArriveResp extends BaseResp {
 		this.state = state;
 	}
 
-	public String getMaindeduction() {
-		return maindeduction;
-	}
-
-	public void setMaindeduction(String maindeduction) {
-		this.maindeduction = maindeduction;
-	}
-
 	public String getRemarks() {
 		return remarks;
 	}
@@ -250,29 +202,12 @@ public class SalesArriveResp extends BaseResp {
 		this.creator = creator;
 	}
 
-	public String getCreatorname() {
-		return creatorname;
-	}
-
-	public void setCreatorname(String creatorname) {
-		this.creatorname = creatorname;
-	}
-
 	public Long getCreatetime() {
 		return createtime;
 	}
 
 	public void setCreatetime(Long createtime) {
 		this.createtime = createtime;
-		this.createtimeStr = DateUtil.parse(createtime, "yyyy-MM-dd HH:mm:ss");
-	}
-
-	public String getCreatetimeStr() {
-		return createtimeStr;
-	}
-
-	public void setCreatetimeStr(String createtimeStr) {
-		this.createtimeStr = createtimeStr;
 	}
 
 	public String getModifier() {
@@ -283,53 +218,12 @@ public class SalesArriveResp extends BaseResp {
 		this.modifier = modifier;
 	}
 
-	public String getModifiername() {
-		return modifiername;
-	}
-
-	public void setModifiername(String modifiername) {
-		this.modifiername = modifiername;
-	}
-
 	public Long getModifytime() {
 		return modifytime;
 	}
 
 	public void setModifytime(Long modifytime) {
 		this.modifytime = modifytime;
-		this.modifytimeStr = DateUtil.parse(modifytime, "yyyy-MM-dd HH:mm:ss");
-	}
-
-	public String getModifytimeStr() {
-		return modifytimeStr;
-	}
-
-	public void setModifytimeStr(String modifytimeStr) {
-		this.modifytimeStr = modifytimeStr;
-	}
-
-	public DriverManageResp getDriver() {
-		return driver;
-	}
-
-	public void setDriver(DriverManageResp driver) {
-		this.driver = driver;
-	}
-
-	public VehicleManageResp getVehicle() {
-		return vehicle;
-	}
-
-	public void setVehicle(VehicleManageResp vehicle) {
-		this.vehicle = vehicle;
-	}
-
-	public SalesApplicationResp getSalesApplication() {
-		return salesApplication;
-	}
-
-	public void setSalesApplication(SalesApplicationResp salesApplication) {
-		this.salesApplication = salesApplication;
 	}
 
 }

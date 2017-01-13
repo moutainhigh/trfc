@@ -13,6 +13,8 @@ public class SalesApplicationDetail {
 
     private String warehousename;
 
+    private String unit;
+    
     private Double salessum;
 
     private Double taxprice;
@@ -71,7 +73,15 @@ public class SalesApplicationDetail {
         this.warehousename = warehousename == null ? null : warehousename.trim();
     }
 
-    public Double getSalessum() {
+    public String getUnit() {
+		return unit;
+	}
+
+	public void setUnit(String unit) {
+		this.unit = unit;
+	}
+
+	public Double getSalessum() {
         return salessum;
     }
 
@@ -110,4 +120,5 @@ public class SalesApplicationDetail {
     public void setRemarks(String remarks) {
         this.remarks = remarks == null ? null : remarks.trim();
     }
+
 }

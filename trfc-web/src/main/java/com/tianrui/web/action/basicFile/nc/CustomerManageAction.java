@@ -9,7 +9,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.tianrui.api.intf.basicFile.nc.ICustomerManageService;
-import com.tianrui.api.req.basicFile.nc.CustomerManageReq;
+import com.tianrui.api.req.basicFile.nc.CustomerManageQuery;
+import com.tianrui.api.req.basicFile.nc.CustomerManageSave;
 import com.tianrui.api.resp.basicFile.nc.CustomerManageResp;
 import com.tianrui.smartfactory.common.constants.ErrorCode;
 import com.tianrui.smartfactory.common.vo.PaginationVO;
@@ -32,10 +33,10 @@ public class CustomerManageAction {
 	
 	@RequestMapping("page")
 	@ResponseBody
-	public Result page(CustomerManageReq req){
+	public Result page(CustomerManageQuery query){
 		Result result = Result.getSuccessResult();
 		try {
-			PaginationVO<CustomerManageResp> page = customerManageService.page(req);
+			PaginationVO<CustomerManageResp> page = customerManageService.page(query);
 			result.setData(page);
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
@@ -46,15 +47,10 @@ public class CustomerManageAction {
 	
 	@RequestMapping("updateCustomer")
 	@ResponseBody
-	public Result updateCustomer(CustomerManageReq req){
+	public Result updateCustomer(CustomerManageSave req){
 		Result result = Result.getSuccessResult();
 		try {
-			int n = customerManageService.updateCustomer(req);
-			if(n > 0){
-				result.setData(n);
-			}else{
-				result.setErrorCode(ErrorCode.OPERATE_ERROR);
-			}
+			result = customerManageService.updateCustomer(req);
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
@@ -67,7 +63,7 @@ public class CustomerManageAction {
 	public Result findAll(){
 		Result result = Result.getSuccessResult();
 		try {
-			result.setData(customerManageService.findAll());
+			result = customerManageService.findListByParmas(null);
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 			result.setErrorCode(ErrorCode.SYSTEM_ERROR);

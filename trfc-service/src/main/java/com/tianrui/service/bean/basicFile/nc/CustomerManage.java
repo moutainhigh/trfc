@@ -34,6 +34,8 @@ public class CustomerManage {
     
     private String transportationcompany;
 
+    private String state;
+    
     private String remarks;
 
     private String creator;
@@ -154,6 +156,14 @@ public class CustomerManage {
 
 	public void setTransportationcompany(String transportationcompany) {
 		this.transportationcompany = transportationcompany == null ? null : transportationcompany.trim();
+	}
+
+	public String getState() {
+		return state;
+	}
+
+	public void setState(String state) {
+		this.state = state;
 	}
 
 	public String getRemarks() {

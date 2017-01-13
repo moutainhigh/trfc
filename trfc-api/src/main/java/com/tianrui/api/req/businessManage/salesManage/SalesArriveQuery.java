@@ -2,7 +2,7 @@ package com.tianrui.api.req.businessManage.salesManage;
 
 import com.tianrui.api.req.BaseReq;
 /**
- * 销售到货通知单查询专用对象
+ * 销售提货通知单查询专用对象
  * @author zhanggaohao
  * @createtime 2017年1月9日 下午4:24:40
  * @classname SalesArriveQuery.java
@@ -33,7 +33,7 @@ public class SalesArriveQuery extends BaseReq {
     //数据状态
     private String state;
     //开始时间
-    private Long strattime;
+    private Long starttime;
     //结束事件
     private Long endtime;
 
@@ -145,12 +145,12 @@ public class SalesArriveQuery extends BaseReq {
 		this.state = state;
 	}
 
-	public Long getStrattime() {
-		return strattime;
+	public Long getStarttime() {
+		return starttime;
 	}
 
-	public void setStrattime(Long strattime) {
-		this.strattime = strattime;
+	public void setStarttime(Long starttime) {
+		this.starttime = starttime;
 	}
 
 	public Long getEndtime() {

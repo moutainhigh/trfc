@@ -29,6 +29,8 @@ public interface IVehicleManageService {
 
 	Result findListByParmas(VehicleManageQuery query) throws Exception;
 
+	VehicleManageResp findOne(VehicleManageQuery query) throws Exception;
+	
 	void addVehicleApi(VehicleSaveReq vehicleSaveReq);
 
 }

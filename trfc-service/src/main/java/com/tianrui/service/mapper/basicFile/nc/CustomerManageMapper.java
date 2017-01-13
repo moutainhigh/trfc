@@ -2,7 +2,7 @@ package com.tianrui.service.mapper.basicFile.nc;
 
 import java.util.List;
 
-import com.tianrui.api.req.basicFile.nc.CustomerManageReq;
+import com.tianrui.api.req.basicFile.nc.CustomerManageQuery;
 import com.tianrui.service.bean.basicFile.nc.CustomerManage;
 
 /**
@@ -24,9 +24,9 @@ public interface CustomerManageMapper {
 
     int updateByPrimaryKey(CustomerManage record);
 
-	List<CustomerManage> findCustomerPage(CustomerManageReq req);
+	List<CustomerManage> findCustomerPage(CustomerManageQuery query);
 
-	long findCustomerPageCount(CustomerManageReq req);
+	long findCustomerPageCount(CustomerManageQuery query);
 	
 	List<CustomerManage> selectSelective(CustomerManage record);
 }
