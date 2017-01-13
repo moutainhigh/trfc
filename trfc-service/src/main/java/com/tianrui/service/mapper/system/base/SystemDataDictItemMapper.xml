@@ -193,4 +193,11 @@
       utc = #{utc,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=VARCHAR}
   </update>
+  <select id="selectByDictId" resultMap="BaseResultMap" parameterType="java.lang.String">
+  	select 
+  	<include refid="Base_Column_List" /> 
+  	from tr_system_data_dict_item
+  	where dictid = #{dictid,jdbcType=VARCHAR}
+  	order by createtime desc
+  </select>
 </mapper>

@@ -188,7 +188,7 @@ function jumpPageAction() {
 	}else{
 		listOtherVehicleAction(pageno);
 	}
-}
+} 
 //将原来的车辆信息显示到编辑页面
 function updateVehicleAction() {
 //	console.log($(this));

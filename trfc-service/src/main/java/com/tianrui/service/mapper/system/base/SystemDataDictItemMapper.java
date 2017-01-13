@@ -1,5 +1,7 @@
 package com.tianrui.service.mapper.system.base;
 
+import java.util.List;
+
 import com.tianrui.service.bean.system.base.SystemDataDictItem;
 
 public interface SystemDataDictItemMapper {
@@ -50,4 +52,10 @@ public interface SystemDataDictItemMapper {
      * @mbggenerated
      */
     int updateByPrimaryKey(SystemDataDictItem record);
+    /**
+     * 根据数据字典主键ID查找所有的数据字典明细
+     * @param dictid
+     * @return
+     */
+    List<SystemDataDictItem> selectByDictId(String dictid);
 }

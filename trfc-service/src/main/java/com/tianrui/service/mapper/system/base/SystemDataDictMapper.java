@@ -1,5 +1,8 @@
 package com.tianrui.service.mapper.system.base;
 
+import java.util.List;
+
+import com.tianrui.api.req.system.base.SystemDataDictReq;
 import com.tianrui.service.bean.system.base.SystemDataDict;
 
 public interface SystemDataDictMapper {
@@ -50,4 +53,11 @@ public interface SystemDataDictMapper {
      * @mbggenerated
      */
     int updateByPrimaryKey(SystemDataDict record);
+    /**
+     * 查找所有的数据字典类别
+     * @param req
+     * @return
+     */
+    List<SystemDataDict> findSystemDataDicts(SystemDataDictReq req);
+    
 }

@@ -193,4 +193,12 @@
       utc = #{utc,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=VARCHAR}
   </update>
+  <select id="findSystemDataDicts" parameterType="com.tianrui.api.req.system.base.SystemDataDictReq"
+  		  resultMap="BaseResultMap">
+  	select
+  	<include refid="Base_Column_List" />
+  	from tr_system_data_dict
+  	order by order_by desc
+  </select>
+  
 </mapper>

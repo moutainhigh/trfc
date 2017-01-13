@@ -1,6 +1,8 @@
 package com.tianrui.test.service;
 
 import java.security.PublicKey;
+import java.sql.Time;
+import java.sql.Timestamp;
 import java.util.List;
 
 import org.junit.Test;
@@ -14,9 +16,17 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import com.alibaba.fastjson.JSON;
 import com.tianrui.api.intf.basicFile.measure.IVehicleManageService;
 import com.tianrui.api.intf.basicFile.other.IOtherBdVehicleService;
+import com.tianrui.api.intf.system.base.ISystemDataDictService;
 import com.tianrui.api.req.basicFile.measure.VehicleManageSave;
 import com.tianrui.api.req.basicFile.other.OtherBdVehicleReq;
+import com.tianrui.api.req.system.base.SystemDataDictItemReq;
+import com.tianrui.api.req.system.base.SystemDataDictReq;
 import com.tianrui.api.resp.basicFile.other.OtherBdVehicleResp;
+import com.tianrui.api.resp.system.base.SystemDataDictItemResp;
+import com.tianrui.api.resp.system.base.SystemDataDictResp;
+import com.tianrui.service.bean.system.base.SystemDataDict;
+import com.tianrui.service.impl.system.base.SystemDataDictService;
+import com.tianrui.smartfactory.common.utils.UUIDUtil;
 import com.tianrui.smartfactory.common.vo.PaginationVO;
 import com.tianrui.smartfactory.common.vo.Result;
 
@@ -29,6 +39,9 @@ public class DataDictServiceTest {
 	
 	@Autowired
 	private IOtherBdVehicleService otherBdVehicleService;
+	
+	@Autowired
+	private ISystemDataDictService systemDataDictService;
 	
 	@Test
 	public void findDictListTest()throws Exception{
@@ -85,5 +98,49 @@ public class DataDictServiceTest {
 //		logger.info("{}",JSON.toJSON(n));
 
 	}
-
+	
+	@Test
+	public void testSystemDataDict(){
+		SystemDataDictReq bean=new SystemDataDictReq();
+//		bean.setId("9c4c2e491d4a4856a42c2c9a0577a8a3");
+		bean.setCode("6");
+		bean.setName("职称");
+		bean.setType("1");
+		bean.setOrderBy(2);
+		bean.setInfo("职称分类");
+//		bean.setCreator("YZF");
+//		bean.setCreatetime(System.currentTimeMillis());
+//		bean.setModifier("YZF");
+//		bean.setModifytime(System.currentTimeMillis());
+//		bean.setUtc(new Timestamp(System.currentTimeMillis()));
+//		String id="cdcc7fa15a7c4d5e80ef5fee19653c8f";
+		Result n=systemDataDictService.addSystemDataDict(bean);
+//		List<SystemDataDictResp> list=(List<SystemDataDictResp>) n.getData();
+//		for (SystemDataDictResp systemDataDictResp : list) {
+//			System.out.println(systemDataDictResp);
+//		}
+		System.out.println(n.getData());
+		logger.info("{}",JSON.toJSON(n));
+	}
+	@Test
+	public void testSystemDataDictItem(){
+		SystemDataDictItemReq bean=new SystemDataDictItemReq();
+//		bean.setId("5f42b1084f584be190c1abdc7c29c8c8");
+		bean.setDictid("9c4c2e491d4a4856a42c2c9a0577a8a3");
+//		bean.setCode("4");
+//		bean.setName("AAAA");
+//		bean.setInfo("第四等级");
+//		bean.setIsvalid(Byte.valueOf("1"));
+//		bean.setCreator("YZF");
+//		bean.setCreatetime(System.currentTimeMillis());
+//		bean.setModifier("YZF");
+//		bean.setUtc(new Timestamp(System.currentTimeMillis()));
+		Result n=systemDataDictService.findSystemDataDictItems(bean);
+//		List<SystemDataDictItemResp> list=(List<SystemDataDictItemResp>) n.getData();
+//		for (SystemDataDictItemResp systemDataDictItemResp : list) {
+//			System.out.println(systemDataDictItemResp);
+//		}
+		System.out.println(n.getData());
+		logger.info("{}",JSON.toJSON(n));
+	}
 }
