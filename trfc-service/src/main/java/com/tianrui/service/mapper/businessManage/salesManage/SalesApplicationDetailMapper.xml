@@ -8,6 +8,7 @@
     <result column="materielname" property="materielname" jdbcType="VARCHAR" />
     <result column="warehouseid" property="warehouseid" jdbcType="VARCHAR" />
     <result column="warehousename" property="warehousename" jdbcType="VARCHAR" />
+    <result column="unit" property="unit" jdbcType="VARCHAR" />
     <result column="salessum" property="salessum" jdbcType="DOUBLE" />
     <result column="taxprice" property="taxprice" jdbcType="DOUBLE" />
     <result column="untaxprice" property="untaxprice" jdbcType="DOUBLE" />
@@ -15,7 +16,7 @@
     <result column="remarks" property="remarks" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, salesid, materielid, materielname, warehouseid, warehousename, salessum, taxprice, 
+    id, salesid, materielid, materielname, warehouseid, warehousename, unit, salessum, taxprice, 
     untaxprice, taxrate, remarks
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
@@ -30,12 +31,12 @@
   </delete>
   <insert id="insert" parameterType="com.tianrui.service.bean.businessManage.salesManage.SalesApplicationDetail" >
     insert into tr_sales_db_application_detail (id, salesid, materielid, 
-      materielname, warehouseid, warehousename, 
+      materielname, warehouseid, warehousename, unit, 
       salessum, taxprice, untaxprice, 
       taxrate, remarks)
     values (#{id,jdbcType=VARCHAR}, #{salesid,jdbcType=VARCHAR}, #{materielid,jdbcType=VARCHAR}, 
       #{materielname,jdbcType=VARCHAR}, #{warehouseid,jdbcType=VARCHAR}, #{warehousename,jdbcType=VARCHAR}, 
-      #{salessum,jdbcType=DOUBLE}, #{taxprice,jdbcType=DOUBLE}, #{untaxprice,jdbcType=DOUBLE}, 
+      #{unit,jdbcType=VARCHAR}, #{salessum,jdbcType=DOUBLE}, #{taxprice,jdbcType=DOUBLE}, #{untaxprice,jdbcType=DOUBLE}, 
       #{taxrate,jdbcType=DOUBLE}, #{remarks,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.tianrui.service.bean.businessManage.salesManage.SalesApplicationDetail" >
@@ -58,6 +59,9 @@
       </if>
       <if test="warehousename != null" >
         warehousename,
+      </if>
+      <if test="unit != null" >
+        unit,
       </if>
       <if test="salessum != null" >
         salessum,
@@ -94,6 +98,9 @@
       <if test="warehousename != null" >
         #{warehousename,jdbcType=VARCHAR},
       </if>
+      <if test="unit != null" >
+        #{unit,jdbcType=VARCHAR},
+      </if>
       <if test="salessum != null" >
         #{salessum,jdbcType=DOUBLE},
       </if>
@@ -129,6 +136,9 @@
       <if test="warehousename != null" >
         warehousename = #{warehousename,jdbcType=VARCHAR},
       </if>
+      <if test="unit != null" >
+        unit = #{unit,jdbcType=VARCHAR},
+      </if>
       <if test="salessum != null" >
         salessum = #{salessum,jdbcType=DOUBLE},
       </if>
@@ -154,6 +164,7 @@
       materielname = #{materielname,jdbcType=VARCHAR},
       warehouseid = #{warehouseid,jdbcType=VARCHAR},
       warehousename = #{warehousename,jdbcType=VARCHAR},
+      unit = #{unit,jdbcType=VARCHAR},
       salessum = #{salessum,jdbcType=DOUBLE},
       taxprice = #{taxprice,jdbcType=DOUBLE},
       untaxprice = #{untaxprice,jdbcType=DOUBLE},

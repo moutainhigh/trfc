@@ -1,5 +1,5 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!Doctype html>
 <html>
 <head>
@@ -128,23 +128,21 @@
 					<div class="intel_sconditon">
 						<div class="intel_sline">
 							<div class="intel_solo">
-								<label>订单号：</label> <input id="billno" type="text">
+								<label>订单号：</label> <input id="billcode" type="text">
 							</div>
 							<div class="intel_solo">
 								<label>通知单号：</label> <input id="code" type="text">
 							</div>
 							<div class="intel_solo">
-								<label>供应商：</label> 
-								<select id="supplierid" class="form-control">
+								<label>客户：</label> <select id="customerid" class="form-control">
 									<option value="">请选择</option>
-									<c:forEach items="${supplier }" var="s">
-										<option value="${s.id }">${s.name }</option>
+									<c:forEach items="${customer }" var="c">
+										<option value="${c.id }">${c.name }</option>
 									</c:forEach>
 								</select>
 							</div>
 							<div class="intel_solo">
-								<label>车号：</label> 
-								<select id="vehicleid" class="form-control">
+								<label>车号：</label> <select id="vehicleid" class="form-control">
 									<option value="">请选择</option>
 									<c:forEach items="${vehicle }" var="v">
 										<option value="${v.id }">${v.vehicleno }</option>
@@ -152,16 +150,15 @@
 								</select>
 							</div>
 							<div class="intel_solo">
-								<label>审核状态：</label> 
-								<select id="auditstatus" class="form-control">
+								<label>审核状态：</label> <select id="auditstatus"
+									class="form-control">
 									<option value="">请选择</option>
 									<option value="0">未审核</option>
 									<option value="1">已审核</option>
 								</select>
 							</div>
 							<div class="intel_solo">
-								<label>物料：</label> 
-								<select id="materielid" class="form-control">
+								<label>物料：</label> <select id="materielid" class="form-control">
 									<option value="">请选择</option>
 									<c:forEach items="${materiel }" var="m">
 										<option value="${m.id }">${m.name }</option>
@@ -169,8 +166,7 @@
 								</select>
 							</div>
 							<div class="intel_solo">
-								<label>司机：</label> 
-								<select id="driverid" class="form-control">
+								<label>司机：</label> <select id="driverid" class="form-control">
 									<option value="">请选择</option>
 									<c:forEach items="${driver }" var="d">
 										<option value="${d.id }">${d.name }</option>
@@ -178,8 +174,7 @@
 								</select>
 							</div>
 							<div class="intel_solo">
-								<label>单据来源：</label> 
-								<select id="source" class="form-control">
+								<label>单据来源：</label> <select id="source" class="form-control">
 									<option value="">请选择</option>
 									<option value="0">业务平台</option>
 									<option value="1">客商平台</option>
@@ -187,8 +182,7 @@
 								</select>
 							</div>
 							<div class="intel_solo">
-								<label>状态：</label> 
-								<select id="status" class="form-control">
+								<label>状态：</label> <select id="status" class="form-control">
 									<option value="">请选择</option>
 									<option value="0">未入厂</option>
 									<option value="1">空车</option>
@@ -201,12 +195,12 @@
 								</select>
 							</div>
 							<div class="intel_solo">
-								<label>创建时间：</label> <input id="s_starttime" type="text"
-										onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})"
-										class="Wdate" style="width: 160px;" readonly /> <i>-</i> <input
-										id="s_endtime" type="text"
-										onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})"
-										class="Wdate" style="width: 160px;" readonly />
+								<label>创建时间：</label> <input id="starttime" type="text"
+									onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})"
+									class="Wdate" style="width: 160px;" readonly /> <i>-</i> <input
+									id="endtime" type="text"
+									onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})"
+									class="Wdate" style="width: 160px;" readonly />
 							</div>
 							<div class="intel_solo">
 								<div class="intel_sbtn">
@@ -221,12 +215,12 @@
 						<i class="iconfont colorlv">&#xe61b;</i>
 						<h5>刷新</h5>
 					</div>
-					<div class="intel_operasolo">
-						<a href="daohuo_add.html"> <i class="iconfont coloradd">&#xe627;</i>
+					<div class="intel_operasolo" id="addBtn">
+						<a href="addView"> <i class="iconfont coloradd">&#xe627;</i>
 							<h5>新增</h5>
 						</a>
 					</div>
-					<div class="intel_operasolo">
+					<div class="intel_operasolo" id="copyBtn">
 						<i class="iconfont coloradd">&#xe61c;</i>
 						<h5>复制</h5>
 					</div>
@@ -236,145 +230,40 @@
 					<table class="table table-hover">
 						<thead>
 							<tr>
+								<th>序号</th>
 								<th>到货单号</th>
 								<th>审核</th>
 								<th>来源</th>
 								<th>状态</th>
 								<th>车号</th>
 								<th>订单编号</th>
-								<th>供应商</th>
+								<th>客户</th>
 								<th>物料</th>
-								<th>制单日期</th>
 								<th>订单日期</th>
+								<th>渠道</th>
+								<th>制单日期</th>
+								<th>制单人</th>
+								<th>作废/强制出厂人</th>
+								<th>作废/强制出厂时间</th>
 								<th>备注</th>
-								<th>供应商备注</th>
 								<th>操作</th>
 							</tr>
 						</thead>
-						<tbody>
-							<tr>
-								<td>CD201601010138</td>
-								<td class="colorred">审核中</td>
-								<td>客商APP</td>
-								<td>未入厂</td>
-								<td>豫GA1783</td>
-								<td>CD201601010138</td>
-								<td>卫辉市润晨商贸有限公司</td>
-								<td>粉煤灰1</td>
-								<td>2016-01-01 07:59:39</td>
-								<td>2016-01-01 07:59:39</td>
-								<td>粉煤灰1</td>
-								<td>粉煤灰1</td>
-								<td><span> <i class="iconfont" data-toggle="tooltip"
-										data-placement="left" title="编辑">&#xe600;</i></span> <span> <i
-										class="iconfont " data-toggle="tooltip" data-placement="left"
-										title="审核">&#xe692;</i></span> <span> <i class="iconfont"
-										data-toggle="tooltip" data-placement="left" title=" 作废">&#xe60c;</i></span>
-									<span> <i class="iconfont" data-toggle="tooltip"
-										data-placement="left" title=" 反审">&#xe651;</i></span> <span> <i
-										class="iconfont" data-toggle="tooltip" data-placement="left"
-										title=" 出厂">&#xe63c;</i></span></td>
-							</tr>
-
+						<tbody id="dataBody">
 						</tbody>
 					</table>
 					<!--用户表格end-->
 				</div>
-				<div class="intel_result" id="ind_tab">
-					<div class="cg_tabtit">
-						<ul>
-							<li class="select">物料信息</li>
-							<li>订单信息</li>
-							<li>过磅信息</li>
-						</ul>
-					</div>
-					<div class="cg_tabbox">
-						<!--tab切换的内容-->
-						<div class="cg_tabcont">
-							<table class="table table-bordered">
-								<thead>
-									<tr>
-										<th>车号</th>
-										<th>到货数量</th>
-										<th>司机</th>
-										<th>身份证号</th>
-										<th>制单日期</th>
-										<th>制单人</th>
-									</tr>
-								</thead>
-								<tbody>
-									<tr>
-										<td>卫辉市天瑞水泥有限公司</td>
-										<td>粉煤炭</td>
-										<td>方案2</td>
-										<td>1000</td>
-										<td>豫GA1783</td>
-										<td>豫GA1783</td>
-									</tr>
-								</tbody>
-							</table>
-						</div>
-						<div class="cg_tabcont hide">
-							<table class="table table-bordered">
-								<thead>
-									<tr>
-										<th>订单编号</th>
-										<th>供应商</th>
-										<th>物料</th>
-										<th>组织机构</th>
-										<th>订单量</th>
-										<th>订单日期</th>
-									</tr>
-								</thead>
-								<tbody>
-									<tr>
-										<td>卫辉市天瑞水泥有限公司</td>
-										<td>粉煤炭</td>
-										<td>方案2</td>
-										<td>1000</td>
-										<td>豫GA1783</td>
-										<td>豫GA1783</td>
-									</tr>
-								</tbody>
-							</table>
-						</div>
-						<div class="cg_tabcont hide">
-							<table class="table table-bordered">
-								<thead>
-									<tr>
-										<th>磅单号</th>
-										<th>车号</th>
-										<th>毛重</th>
-										<th>皮重</th>
-										<th>净重</th>
-										<th>轻车时间</th>
-										<th>重车时间</th>
-									</tr>
-								</thead>
-								<tbody>
-									<tr>
-										<td>卫辉市天瑞水泥有限公司</td>
-										<td>粉煤炭</td>
-										<td>方案2</td>
-										<td>1000</td>
-										<td>豫GA1783</td>
-										<td>豫GA1783</td>
-										<td>豫GA1783</td>
-									</tr>
-								</tbody>
-							</table>
-						</div>
-						<!--tab切换的内容end-->
-					</div>
+				<div class="intel_result" id="dataMore">
 				</div>
-
 				<!--分页效果开始-->
 				<div class="page">
 					<div class="page_date">
 						<label>数据共：</label><i id="total" class="colorred">100</i><label>条</label>
 					</div>
 					<div class="page_date">
-						<label>跳到第：</label> <input id="jumpPageNo" type="text" value="asd"> <label>页</label>
+						<label>跳到第：</label> <input id="jumpPageNo" type="text" value="1">
+						<label>页</label>
 						<button id="jumpPageNoBtn" class="btn btn-default">确定</button>
 					</div>
 					<div class="page_date">

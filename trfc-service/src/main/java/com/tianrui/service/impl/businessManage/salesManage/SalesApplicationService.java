@@ -9,17 +9,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.tianrui.api.intf.basicFile.nc.ICustomerManageService;
+import com.tianrui.api.intf.businessManage.salesManage.ISalesApplicationDetailService;
 import com.tianrui.api.intf.businessManage.salesManage.ISalesApplicationService;
+import com.tianrui.api.req.basicFile.nc.CustomerManageQuery;
+import com.tianrui.api.req.businessManage.salesManage.SalesApplicationDetailQuery;
+import com.tianrui.api.req.businessManage.salesManage.SalesApplicationDetailSave;
 import com.tianrui.api.req.businessManage.salesManage.SalesApplicationQuery;
-import com.tianrui.api.req.businessManage.salesManage.SalesApplicationReq;
-import com.tianrui.api.resp.basicFile.nc.CustomerManageResp;
-import com.tianrui.api.resp.businessManage.salesManage.SalesApplicationDetailResp;
+import com.tianrui.api.req.businessManage.salesManage.SalesApplicationSave;
 import com.tianrui.api.resp.businessManage.salesManage.SalesApplicationResp;
-import com.tianrui.service.bean.basicFile.nc.CustomerManage;
 import com.tianrui.service.bean.businessManage.salesManage.SalesApplication;
-import com.tianrui.service.bean.businessManage.salesManage.SalesApplicationDetail;
-import com.tianrui.service.mapper.basicFile.nc.CustomerManageMapper;
-import com.tianrui.service.mapper.businessManage.salesManage.SalesApplicationDetailMapper;
 import com.tianrui.service.mapper.businessManage.salesManage.SalesApplicationMapper;
 import com.tianrui.smartfactory.common.constants.ErrorCode;
 import com.tianrui.smartfactory.common.utils.UUIDUtil;
@@ -33,10 +32,10 @@ public class SalesApplicationService implements ISalesApplicationService {
 	private SalesApplicationMapper salesApplicationMapper;
 	
 	@Autowired
-	private SalesApplicationDetailMapper salesApplicationDetailMapper;
+	private ISalesApplicationDetailService salesApplicationDetailService;
 	
 	@Autowired
-	private CustomerManageMapper customerManageMapper;
+	private ICustomerManageService customerManageService;
 	
 	@Override
 	public PaginationVO<SalesApplicationResp> page(SalesApplicationQuery query) throws Exception{
@@ -60,44 +59,43 @@ public class SalesApplicationService implements ISalesApplicationService {
 	
 	@Transactional
 	@Override
-	public Result add(SalesApplicationReq req) throws Exception {
+	public Result add(SalesApplicationSave save) throws Exception {
 		Result result = Result.getSuccessResult();
-		if(req != null){
+		if(save != null){
 			SalesApplication sa = new SalesApplication();
-			sa.setCode(req.getCode());
+			sa.setCode(save.getCode());
 			List<SalesApplication> list = salesApplicationMapper.selectSelective(sa);
 			if(list != null && list.size() > 0){
 				result.setErrorCode(ErrorCode.PARAM_REPEAT_ERROR);
 				return result;
 			}
-			PropertyUtils.copyProperties(sa, req);
+			PropertyUtils.copyProperties(sa, save);
 			sa.setId(UUIDUtil.getId());
 			sa.setStatus("0");
 			sa.setSource("1");
 			sa.setState("1");
-			sa.setCreator(req.getCreator());
+			sa.setCreator(save.getCreator());
 			sa.setCreatetime(System.currentTimeMillis());
-			sa.setModifier(req.getCreator());
+			sa.setModifier(save.getCreator());
 			sa.setModifytime(System.currentTimeMillis());
-			if(salesApplicationMapper.insert(sa) > 0){
-				SalesApplicationDetail sd = new SalesApplicationDetail();
+			if(salesApplicationMapper.insertSelective(sa) > 0){
+				SalesApplicationDetailSave sd = new SalesApplicationDetailSave();
 				sd.setId(UUIDUtil.getId());
 				sd.setSalesid(sa.getId());
-				sd.setMaterielid(req.getMaterielid());
-				sd.setMaterielname(req.getMaterielname());
-				sd.setWarehouseid(req.getWarehouseid());
-				sd.setWarehousename(req.getWarehousename());
-				sd.setSalessum(req.getSalessum());
-				sd.setTaxprice(req.getTaxprice());
-				sd.setTaxrate(req.getTaxrate());
-				sd.setUntaxprice(req.getUntaxprice());
-				sa.setCreator(req.getCreator());
+				sd.setMaterielid(save.getMaterielid());
+				sd.setMaterielname(save.getMaterielname());
+				sd.setWarehouseid(save.getWarehouseid());
+				sd.setWarehousename(save.getWarehousename());
+				sd.setUnit(save.getUnit());
+				sd.setSalessum(save.getSalessum());
+				sd.setTaxprice(save.getTaxprice());
+				sd.setTaxrate(save.getTaxrate());
+				sd.setUntaxprice(save.getUntaxprice());
+				sa.setCreator(save.getCreator());
 				sa.setCreatetime(System.currentTimeMillis());
-				sa.setModifier(req.getCreator());
+				sa.setModifier(save.getCreator());
 				sa.setModifytime(System.currentTimeMillis());
-				if(salesApplicationDetailMapper.insertSelective(sd) > 0){
-					result.setData("添加成功！");
-				}
+				result = salesApplicationDetailService.add(sd);
 			}else{
 				result.setErrorCode(ErrorCode.OPERATE_ERROR);
 			}
@@ -107,27 +105,25 @@ public class SalesApplicationService implements ISalesApplicationService {
 	
 	@Transactional
 	@Override
-	public Result update(SalesApplicationReq req) throws Exception {
+	public Result update(SalesApplicationSave save) throws Exception {
 		Result result = Result.getSuccessResult();
-		if(req != null){
+		if(save != null){
 			SalesApplication sa = new SalesApplication();
-			PropertyUtils.copyProperties(sa, req);
+			PropertyUtils.copyProperties(sa, save);
 //			sa.setModifier("");
 			sa.setModifytime(System.currentTimeMillis());
 			if(salesApplicationMapper.updateByPrimaryKeySelective(sa) > 0){
-				SalesApplicationDetail sd = new SalesApplicationDetail();
-				sd.setId(req.getDetailid());
-				sd.setMaterielid(req.getMaterielid());
-				sd.setMaterielname(req.getMaterielname());
-				sd.setWarehouseid(req.getWarehouseid());
-				sd.setWarehousename(req.getWarehousename());
-				sd.setSalessum(req.getSalessum());
-				sd.setTaxprice(req.getTaxprice());
-				sd.setTaxrate(req.getTaxrate());
-				sd.setUntaxprice(req.getUntaxprice());
-				if(salesApplicationDetailMapper.updateByPrimaryKeySelective(sd) > 0){
-					result.setData("修改成功！");
-				}
+				SalesApplicationDetailSave sd = new SalesApplicationDetailSave();
+				sd.setId(save.getDetailid());
+				sd.setMaterielid(save.getMaterielid());
+				sd.setMaterielname(save.getMaterielname());
+				sd.setWarehouseid(save.getWarehouseid());
+				sd.setWarehousename(save.getWarehousename());
+				sd.setSalessum(save.getSalessum());
+				sd.setTaxprice(save.getTaxprice());
+				sd.setTaxrate(save.getTaxrate());
+				sd.setUntaxprice(save.getUntaxprice());
+				result = salesApplicationDetailService.update(sd);
 			}else{
 				result.setErrorCode(ErrorCode.OPERATE_ERROR);
 			}
@@ -192,6 +188,14 @@ public class SalesApplicationService implements ISalesApplicationService {
 		return result;
 	}
 	
+	@Override
+	public SalesApplicationResp findOne(SalesApplicationQuery query) throws Exception {
+		if(query != null && StringUtils.isNotBlank(query.getId())){
+			return copyBean2Resp(salesApplicationMapper.selectByPrimaryKey(query.getId()));
+		}
+		return null;
+	}
+	
 	private List<SalesApplicationResp> copyBeanList2RespList(List<SalesApplication> list) throws Exception {
 		List<SalesApplicationResp> listResp = null;
 		if(list != null && list.size() > 0){
@@ -208,25 +212,16 @@ public class SalesApplicationService implements ISalesApplicationService {
 		if(bean != null){
 			resp = new SalesApplicationResp();
 			PropertyUtils.copyProperties(resp, bean);
-			CustomerManage cm = customerManageMapper.selectByPrimaryKey(resp.getCustomerid());
-			if(cm != null){
-				CustomerManageResp cmResp = new CustomerManageResp();
-				PropertyUtils.copyProperties(cmResp, cm);
-				resp.setCustomerManageResp(cmResp);
+			if(StringUtils.isNotBlank(bean.getCustomerid())){
+				CustomerManageQuery query = new CustomerManageQuery();
+				query.setId(bean.getCustomerid());
+				resp.setCustomerManageResp(customerManageService.findOne(query));
 			}
-			SalesApplicationDetail detail = salesApplicationDetailMapper.selectBySalesId(bean.getId()).get(0);
-			resp.setDetailResp(copyBean2Resp(detail));
+			SalesApplicationDetailQuery query = new SalesApplicationDetailQuery();
+			query.setSalesid(bean.getId());
+			resp.setDetailResp(salesApplicationDetailService.findListBySalesApplicationId(query).get(0));
 		}
 		return resp;
 	}
 	
-	private SalesApplicationDetailResp copyBean2Resp(SalesApplicationDetail bean) throws Exception {
-		SalesApplicationDetailResp resp = null;
-		if(bean != null){
-			resp = new SalesApplicationDetailResp();
-			PropertyUtils.copyProperties(resp, bean);
-		}
-		return resp;
-	}
-
 }

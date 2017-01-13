@@ -47,6 +47,13 @@ public interface IMaterielManageService {
 	 * @return
 	 * @throws Exception
 	 */
-	Result findListByParmas(MaterielManageQuery query) throws Exception;
+	public Result findListByParmas(MaterielManageQuery query) throws Exception;
+	/**
+	 * 根据id查询物料
+	 * @param query
+	 * @return
+	 * @throws Exception 
+	 */
+	public MaterielManageResp findOne(MaterielManageQuery query) throws Exception;
 
 }

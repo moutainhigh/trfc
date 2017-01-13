@@ -28,6 +28,11 @@
     departmentname, auditid, auditname, audittime, state, remarks, creator, createtime, 
     modifier, modifytime
   </sql>
+  <sql id="Base_Column_List_S1" >
+    s1.id, s1.code, s1.status, s1.source, s1.billtype, s1.customerid, s1.billtime, s1.orgid, s1.orgname, s1.departmentid, 
+    s1.departmentname, s1.auditid, s1.auditname, s1.audittime, s1.state, s1.remarks, s1.creator, s1.createtime, 
+    s1.modifier, s1.modifytime
+  </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
     <include refid="Base_Column_List" />
@@ -336,29 +341,36 @@
   </select>
   <select id="findSalesApplicationPage" parameterType="com.tianrui.api.req.businessManage.salesManage.SalesApplicationQuery" resultMap="BaseResultMap">
   	select
-  	<include refid="Base_Column_List" />
-  	from tr_sales_db_application
+  	<include refid="Base_Column_List_S1" />
+  	from tr_sales_db_application s1 left join tr_sales_db_application_detail s2 
+  	on s1.id = s2.salesid
   	<where>
   		<if test="state != null and state != ''">
-  			and state = #{state,jdbcType=VARCHAR}
+  			and s1.state = #{state,jdbcType=VARCHAR}
   		</if>
   		<if test="customerid != null and customerid != ''">
-  			and customerid = #{customerid,jdbcType=VARCHAR}
+  			and s1.customerid = #{customerid,jdbcType=VARCHAR}
   		</if>
   		<if test="source != null and source != ''">
-  			and source = #{source,jdbcType=VARCHAR}
+  			and s1.source = #{source,jdbcType=VARCHAR}
   		</if>
   		<if test="code != null and code != ''">
-  			and code = #{code,jdbcType=VARCHAR}
+  			and s1.code = #{code,jdbcType=VARCHAR}
+  		</if>
+  		<if test="materielid != null and materielid != ''">
+  			and s2.materielid = #{materielid,jdbcType=VARCHAR}
+  		</if>
+  		<if test="warehouseid != null and warehouseid != ''">
+  			and s2.warehouseid = #{warehouseid,jdbcType=VARCHAR}
   		</if>
   		<if test="starttime != null and starttime != ''">
-  			and createtime <![CDATA[>=]]> #{starttime,jdbcType=BIGINT}
+  			and s1.createtime <![CDATA[>=]]> #{starttime,jdbcType=BIGINT}
   		</if>
   		<if test="endtime != null and endtime != ''">
-  			and createtime <![CDATA[<]]> #{endtime,jdbcType=BIGINT}
+  			and s1.createtime <![CDATA[<]]> #{endtime,jdbcType=BIGINT}
   		</if>
   	</where>
-  	order by createtime desc
+  	order by s1.createtime desc
   	<if test="start != null and start >= 0">
   		<if test="limit != null">
 			limit #{start,jdbcType=INTEGER},#{limit,jdbcType=INTEGER}
@@ -367,25 +379,32 @@
   </select>
   <select id="findSalesApplicationPageCount" parameterType="com.tianrui.api.req.businessManage.salesManage.SalesApplicationQuery" resultType="java.lang.Long" >
   	select count(0)
-  	from tr_sales_db_application
+  	from tr_sales_db_application s1 left join tr_sales_db_application_detail s2 
+  	on s1.id = s2.salesid
   	<where>
   		<if test="state != null and state != ''">
-  			and state = #{state,jdbcType=VARCHAR}
+  			and s1.state = #{state,jdbcType=VARCHAR}
   		</if>
   		<if test="customerid != null and customerid != ''">
-  			and customerid = #{customerid,jdbcType=VARCHAR}
+  			and s1.customerid = #{customerid,jdbcType=VARCHAR}
   		</if>
   		<if test="source != null and source != ''">
-  			and source = #{source,jdbcType=VARCHAR}
+  			and s1.source = #{source,jdbcType=VARCHAR}
   		</if>
   		<if test="code != null and code != ''">
-  			and code = #{code,jdbcType=VARCHAR}
+  			and s1.code = #{code,jdbcType=VARCHAR}
+  		</if>
+  		<if test="materielid != null and materielid != ''">
+  			and s2.materielid = #{materielid,jdbcType=VARCHAR}
+  		</if>
+  		<if test="warehouseid != null and warehouseid != ''">
+  			and s2.warehouseid = #{warehouseid,jdbcType=VARCHAR}
   		</if>
   		<if test="starttime != null and starttime != ''">
-  			and createtime <![CDATA[>=]]> #{starttime,jdbcType=BIGINT}
+  			and s1.createtime <![CDATA[>=]]> #{starttime,jdbcType=BIGINT}
   		</if>
   		<if test="endtime != null and endtime != ''">
-  			and createtime <![CDATA[<]]> #{endtime,jdbcType=BIGINT}
+  			and s1.createtime <![CDATA[<]]> #{endtime,jdbcType=BIGINT}
   		</if>
   	</where>
   </select>

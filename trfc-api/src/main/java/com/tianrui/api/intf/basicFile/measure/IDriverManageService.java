@@ -24,4 +24,6 @@ public interface IDriverManageService {
 
 	Result findListByParmas(DriverManageQuery query) throws Exception;
 
+	DriverManageResp findOne(DriverManageQuery query) throws Exception;
+
 }

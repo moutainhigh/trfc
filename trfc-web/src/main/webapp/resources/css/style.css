@@ -48,7 +48,7 @@
     border: 1px solid #e3e4ea;
     display: inline-block;
 }
-input[readOnly="true"].readOnlyText{
+input[readOnly].readOnlyText{
     background: #f5f6fb;
 }
 .it_admin{
@@ -959,9 +959,6 @@ width: 180px;
 .daohuo_add .daohuo_add_div label{
     width: 120px;
     text-align: right;
-}
-.daohuo_add  .daohuo_add_div .daohuo_add_solo input{
-    width: 180px;
 }
 .daohuo_add .daohuo_add_div select{
     width: 180px;

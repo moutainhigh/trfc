@@ -135,5 +135,13 @@ public class MaterielManageService implements IMaterielManageService {
 		}
 		return resp;
 	}
+
+	@Override
+	public MaterielManageResp findOne(MaterielManageQuery query) throws Exception {
+		if(query != null && StringUtils.isNotBlank(query.getId())){
+			return copyBean2Resp(materielManageMapper.selectByPrimaryKey(query.getId()));
+		}
+		return null;
+	}
 	
 }

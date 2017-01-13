@@ -62,6 +62,7 @@ public class DriverManageService implements IDriverManageService {
 //				driver.setModifier("");
 				driver.setModifytime(System.currentTimeMillis());
 				if(driverManageMapper.insertSelective(driver) > 0){
+					result.setData(driver);
 					result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
 				}else{
 					result.setErrorCode(ErrorCode.OPERATE_ERROR);
@@ -114,6 +115,14 @@ public class DriverManageService implements IDriverManageService {
 		List<DriverManage> list = driverManageMapper.selectSelective(driver);
 		result.setData(copyBeanList2RespList(list));
 		return result;
+	}
+	
+	@Override
+	public DriverManageResp findOne(DriverManageQuery query) throws Exception{
+		if(query != null && StringUtils.isNotBlank(query.getId())){
+			return copyBean2Resp(driverManageMapper.selectByPrimaryKey(query.getId()));
+		}
+		return null;
 	}
 	
 	private List<DriverManageResp> copyBeanList2RespList(List<DriverManage> list) throws Exception {

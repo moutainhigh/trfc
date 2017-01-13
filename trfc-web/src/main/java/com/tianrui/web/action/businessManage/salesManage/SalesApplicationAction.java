@@ -13,7 +13,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.tianrui.api.intf.businessManage.salesManage.ISalesApplicationService;
 import com.tianrui.api.req.businessManage.salesManage.SalesApplicationQuery;
-import com.tianrui.api.req.businessManage.salesManage.SalesApplicationReq;
+import com.tianrui.api.req.businessManage.salesManage.SalesApplicationSave;
 import com.tianrui.api.resp.businessManage.salesManage.SalesApplicationResp;
 import com.tianrui.smartfactory.common.constants.ErrorCode;
 import com.tianrui.smartfactory.common.utils.DateUtil;
@@ -51,7 +51,7 @@ public class SalesApplicationAction {
 	
 	@RequestMapping("initAdd")
 	@ResponseBody
-	public Result initAdd(SalesApplicationReq req){
+	public Result initAdd(SalesApplicationSave req){
 		Result result = Result.getSuccessResult();
 		try {
 			Map<String, Object> map = new HashMap<String, Object>();
@@ -71,7 +71,7 @@ public class SalesApplicationAction {
 	
 	@RequestMapping("add")
 	@ResponseBody
-	public Result add(SalesApplicationReq req){
+	public Result add(SalesApplicationSave req){
 		Result result = Result.getSuccessResult();
 		try {
 			result = salesApplicationService.add(req);
@@ -84,7 +84,7 @@ public class SalesApplicationAction {
 	
 	@RequestMapping("update")
 	@ResponseBody
-	public Result update(SalesApplicationReq req){
+	public Result update(SalesApplicationSave req){
 		Result result = Result.getSuccessResult();
 		try {
 			result = salesApplicationService.update(req);

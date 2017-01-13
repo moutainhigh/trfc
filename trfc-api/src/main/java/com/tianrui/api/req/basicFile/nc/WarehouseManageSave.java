@@ -2,7 +2,7 @@ package com.tianrui.api.req.basicFile.nc;
 
 import com.tianrui.api.req.BaseReq;
 
-public class WarehouseManageReq extends BaseReq {
+public class WarehouseManageSave extends BaseReq {
 	
 	private static final long serialVersionUID = -4680154907497229849L;
 
@@ -18,6 +18,8 @@ public class WarehouseManageReq extends BaseReq {
 
     private String orgname;
 
+    private String state;
+    
     private String remarks;
 
     private String creator;
@@ -27,10 +29,6 @@ public class WarehouseManageReq extends BaseReq {
     private String modifier;
 
     private Long modifytime;
-    
-    private int start;
-    
-    private int limit;
 
 	public String getId() {
 		return id;
@@ -80,6 +78,14 @@ public class WarehouseManageReq extends BaseReq {
 		this.orgname = orgname;
 	}
 
+	public String getState() {
+		return state;
+	}
+
+	public void setState(String state) {
+		this.state = state;
+	}
+
 	public String getRemarks() {
 		return remarks;
 	}
@@ -118,22 +124,6 @@ public class WarehouseManageReq extends BaseReq {
 
 	public void setModifytime(Long modifytime) {
 		this.modifytime = modifytime;
-	}
-
-	public int getStart() {
-		return start;
-	}
-
-	public void setStart(int start) {
-		this.start = start;
-	}
-
-	public int getLimit() {
-		return limit;
-	}
-
-	public void setLimit(int limit) {
-		this.limit = limit;
 	}
 
 }

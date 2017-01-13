@@ -1,10 +1,10 @@
 package com.tianrui.api.intf.basicFile.nc;
 
-import java.util.List;
-
-import com.tianrui.api.req.basicFile.nc.CustomerManageReq;
+import com.tianrui.api.req.basicFile.nc.CustomerManageQuery;
+import com.tianrui.api.req.basicFile.nc.CustomerManageSave;
 import com.tianrui.api.resp.basicFile.nc.CustomerManageResp;
 import com.tianrui.smartfactory.common.vo.PaginationVO;
+import com.tianrui.smartfactory.common.vo.Result;
 
 /**
  * 客户管理Service接口
@@ -14,12 +14,12 @@ import com.tianrui.smartfactory.common.vo.PaginationVO;
  */
 public interface ICustomerManageService {
 
-	PaginationVO<CustomerManageResp> page(CustomerManageReq req) throws Exception;
+	PaginationVO<CustomerManageResp> page(CustomerManageQuery query) throws Exception;
 
-	int updateCustomer(CustomerManageReq req) throws Exception;
+	Result updateCustomer(CustomerManageSave req) throws Exception;
 
-	List<CustomerManageResp> selectSelective(CustomerManageReq req) throws Exception;
+	Result findListByParmas(CustomerManageQuery query) throws Exception;
 
-	List<CustomerManageResp> findAll() throws Exception;
+	CustomerManageResp findOne(CustomerManageQuery query) throws Exception;
 
 }

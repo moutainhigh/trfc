@@ -76,6 +76,7 @@ public class VehicleManageService implements IVehicleManageService {
 //				vehicle.setModifier("");
 				vehicle.setModifytime(System.currentTimeMillis());
 				if(this.vehicleManageMapper.insert(vehicle) > 0){
+					result.setData(vehicle);
 					result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
 				}else{
 					result.setErrorCode(ErrorCode.OPERATE_ERROR);
@@ -185,6 +186,14 @@ public class VehicleManageService implements IVehicleManageService {
 		List<VehicleManage> list = vehicleManageMapper.selectSelective(vehicle);
 		result.setData(copyBeanList2RespList(list));
 		return result;
+	}
+	
+	@Override
+	public VehicleManageResp findOne(VehicleManageQuery query) throws Exception {
+		if(query != null && StringUtils.isNotBlank(query.getId())){
+			return copyBean2Resp(vehicleManageMapper.selectByPrimaryKey(query.getId()));
+		}
+		return null;
 	}
 	
 	private List<VehicleManageResp> copyBeanList2RespList(List<VehicleManage> list) throws Exception {
