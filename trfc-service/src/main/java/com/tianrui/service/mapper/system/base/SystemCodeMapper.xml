@@ -232,13 +232,12 @@
  	select
  	<include refid="Base_Column_List"></include>
  	from tr_system_code
-<!--  	根据条件查询
-		<where>
- 		<if></if>
- 		<if></if>
- 		<if></if>
- 		<if></if>
- 	</where> -->
+
+	<where>
+ 		<if test="code!=null and code!=''">
+ 			code = #{code,jdbcType=VARCHAR}
+ 		</if>
+ 	</where> 
  	<if test="ordering!=null and sorting!=null">
 	 	order by ${ordering} ${sorting}
  	</if>

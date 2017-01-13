@@ -45,4 +45,10 @@ public class SystemCodeAction {
 	public Result delete(SystemCodeReq req){
 		return systemCodeService.delete(req);
 	}
+	//检测单据代号
+	@RequestMapping("checkCode")
+	@ResponseBody
+	public Result checkCode(SystemCodeReq req){
+		return systemCodeService.checkCode(req);
+	}
 }

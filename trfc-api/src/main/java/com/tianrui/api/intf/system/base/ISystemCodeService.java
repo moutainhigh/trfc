@@ -29,4 +29,8 @@ public interface ISystemCodeService {
 	 * 获取编号
 	 */
 	Result getCode(SystemCodeReq req);
+	/**
+	 * 检测单据代号是否重复
+	 */
+	Result checkCode(SystemCodeReq req);
 }

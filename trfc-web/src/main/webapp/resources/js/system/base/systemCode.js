@@ -12,17 +12,63 @@
 		//修改按钮 绑定点击事件
 		$('#systemCode_tbody').on('click','tr .systemCode_edit_button',editCode);
 		//修改界面确定按钮 绑定点击事件
-		$('#systemCode_edit_ensure').click(editCodeAction);
+		$('#systemCode_edit_ensure').click(toModifyCode);
 		//刷新按钮 绑定点击事件
 		$('#systemCode_refresh').click(function(){jqueryData();});
 		//新增按钮 绑定点击事件
 		$('#systemCode_add').click(addCode);
 		//新增界面 确定按钮 绑定点击事件
-		$('#systemCode_add_ensure').click(addCodeAction);
+		$('#systemCode_add_ensure').click(toAddCode);
 		//删除按钮 绑定点击事件
 		$('#systemCode_tbody').on('click','tr [title="删除"]',deleteCode);
 		//删除页面 确定按钮 绑定事件
 		$('#systemCode_delete_ensure').attr('data-dismiss','modal').click(deleteCodeAction);
+	}
+
+	//检测后修改
+	function toModifyCode(){
+		var code = $('#systemCode_edit_code').val();
+		var rawData = $('#systemCode_edit_id').data("code");
+		if( code==rawData || checkCode(code) ){
+			editCodeAction();
+			$('#systemCode_edit_cancle').click();
+		}
+	}
+	//检测后新增
+	function toAddCode(){
+		var code = $('#systemCode_add_code').val();
+		if(checkCode(code)){
+			addCodeAction();
+			$('#systemCode_add_cancle').click();
+		}
+	}
+	//检测key值是否重复
+	function checkCode(code){
+		if(!code || code == ""){
+			alert("单据代号不可为空!");
+			return false;
+		}
+		var url = "checkCode";
+		var param = {code:code};
+		var bl = false;
+		$.ajax({url:url,
+				data:param,
+				async:false,
+				cache:false,
+				dataType:'json',
+				type:'post',
+				success:function(result){
+					if(result.code=='000000'){
+						if(result.data){
+							bl=true;
+						}else{
+							alert("单据代号重复!");
+						}
+					}else{
+						layer.msg(result.error,{icon:5});
+					}
+				}});
+		return bl;
 	}
 	//删除时 提交删除信息
 	function deleteCodeAction(){
@@ -111,7 +157,7 @@
 	//修改 获取原数据
 	function editCode(){
 		var codeData = $(this).closest('tr').data('codeData');
-		$('#systemCode_edit_id').val(codeData.id);
+		$('#systemCode_edit_id').val(codeData.id).data("code",codeData.code);
 		$('#systemCode_edit_key').val(codeData.key);
 		$('#systemCode_edit_code').val(codeData.code);
 		$('#systemCode_edit_codeType').val(codeData.codeType);
@@ -138,7 +184,7 @@
 	}
 	//展示列表 
 	function showData(list){
-		
+
 		//编码/内码初始值列表
 		var codeSelector = new Array('001','0001','00001','000001',
 				'0000001','00000001','000000001');
@@ -146,7 +192,7 @@
 		var splitSelector = new Array('','-','.');
 		//编码类型列表
 		var typeSelector = new Array('','yyyy','yyyyMM','yyyyMMdd');
-		
+
 		var tbody = $('#systemCode_tbody').empty();
 		if(list && !list.length>0){
 			layer.msg('暂无数据...');
@@ -160,31 +206,27 @@
 			var codeBegin = codeSelector[(list[i].codeBegin)] || "";
 			var innerCodeBegin = codeSelector[(list[i].innerCodeBegin)] || "";
 			var tr = '<tr>'
-	          +'<td>'+(i+1)+'</td>'
-	          +'<td>'+key+'</td>'
-	          +'<td>'+code+'</td>'
-	          +'<td>'+codeType+'</td>'
-	          +'<td>'+splitType+'</td>'
-	          +'<td>'+codeBegin+'</td>'
-	          +'<td>'+innerCodeBegin+'</td>'
-	          +'<td>'+(list[i].example || "")+'</td>'
-	          +'<td><span >'
-	          +'<a data-toggle="modal" data-target="#edit" class="systemCode_edit_button"><i class="iconfont" data-toggle="tooltip" data-placement="left" title="编辑">&#xe600;</i></a>'
-	          +'</span>'
-	          +'<span>'
-              +'<a data-toggle="modal" data-target="#dele"><i class="iconfont" data-toggle="tooltip"'
-              +'data-placement="left" title="删除">&#xe63d;</i></a>'
-              +'</span>'	
-	          +'</td>'
-	          +'</tr>';
+				+'<td>'+(i+1)+'</td>'
+				+'<td>'+key+'</td>'
+				+'<td>'+code+'</td>'
+				+'<td>'+codeType+'</td>'
+				+'<td>'+splitType+'</td>'
+				+'<td>'+codeBegin+'</td>'
+				+'<td>'+innerCodeBegin+'</td>'
+				+'<td>'+(list[i].example || "")+'</td>'
+				+'<td><span >'
+				+'<a data-toggle="modal" data-target="#edit" class="systemCode_edit_button"><i class="iconfont" data-toggle="tooltip" data-placement="left" title="编辑">&#xe600;</i></a>'
+				+'</span>'
+				+'<span>'
+				+'<a data-toggle="modal" data-target="#dele"><i class="iconfont" data-toggle="tooltip"'
+				+'data-placement="left" title="删除">&#xe63d;</i></a>'
+				+'</span>'	
+				+'</td>'
+				+'</tr>';
 			tr = $(tr);
 			tbody.append(tr);
 			tr.data('codeData',list[i]);
 		}
 	}
-	
-	
-	
-	
-	
+
 })(jQuery, window);

@@ -139,8 +139,8 @@ public class SystemCodeService implements ISystemCodeService{
 	public Result getCode(SystemCodeReq req){
 		Result result = Result.getParamErrorResult();
 		if(req!=null && StringUtils.isNotBlank(req.getId())){
-			req.setTypeValue(req.getKey());
-			//通过id获取item对象,判断item对象是否存在
+			req.setTypeValue(req.getCodeType()+"");
+			//通过id,typeValue获取item对象,判断item对象是否存在
 			SystemCodeItem item = systemCodeItemMapper.selectByReq(req);
 			if(item==null){
 				//初始化
@@ -178,7 +178,7 @@ public class SystemCodeService implements ISystemCodeService{
 		SystemCodeItem sci = new SystemCodeItem();
 		sci.setId(UUIDUtil.getId());
 		sci.setCodeId(req.getId());
-		sci.setTypeValue(req.getKey());
+		sci.setTypeValue(req.getCodeType()+"");
 		sci.setItemType(req.getItemType());
 		//假设一个创建者和创建者
 		sci.setCreator("LXY");
@@ -318,6 +318,23 @@ public class SystemCodeService implements ISystemCodeService{
 		StringBuilder sb = new StringBuilder(str);
 		sb.replace(str.length()-digit.length(),str.length(), digit);
 		return sb.toString();
+	}
+	/**
+	 * 检测单据代号是否重复
+	 */
+	@Override
+	public Result checkCode(SystemCodeReq req) {
+		Result result = Result.getParamErrorResult();
+		if(req!=null && StringUtils.isNotBlank(req.getCode())){
+			List<SystemCode> list = systemCodeMapper.selectByReq(req);
+			result = Result.getSuccessResult();
+			if(list==null || list.size()<=0){
+				result.setData(true);
+			}else{
+				result.setData(false);
+			}
+		}
+		return result;
 	}
 
 }
