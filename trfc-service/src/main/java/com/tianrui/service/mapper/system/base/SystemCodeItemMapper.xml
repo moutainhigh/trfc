@@ -182,4 +182,13 @@
       utc = #{utc,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=VARCHAR}
   </update>
+  <select id="selectByReq" parameterType="com.tianrui.api.req.system.base.SystemCodeReq" resultMap="BaseResultMap">
+ 	select
+ 		<include refid="Base_Column_List"></include>
+ 	from tr_system_code_item
+ 	where
+ 		type_value = #{typeValue,jdbcType=VARCHAR}
+ 		and item_type = #{itemType,jdbcType=BIT}
+ 		and code_id = #{id,jdbcType=VARCHAR}
+  </select>
 </mapper>
