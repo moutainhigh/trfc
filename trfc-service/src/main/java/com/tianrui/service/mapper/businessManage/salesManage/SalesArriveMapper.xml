@@ -468,4 +468,9 @@
 	  </if>
   	</where>
   </select>
+  <select id="checkICUse" resultType="java.lang.Integer" parameterType="com.tianrui.api.req.businessManage.salesManage.SalesArriveQuery">
+  	select count(0) 
+  	from tr_sales_db_arrive
+  	where icardid = #{icardid,jdbcType=VARCHAR} and state = #{state,jdbcType=VARCHAR} and status != '5'
+  </select>
 </mapper>

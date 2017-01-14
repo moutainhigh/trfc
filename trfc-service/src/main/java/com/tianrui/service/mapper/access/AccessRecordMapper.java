@@ -1,5 +1,7 @@
 package com.tianrui.service.mapper.access;
 
+import java.util.List;
+
 import com.tianrui.service.bean.access.AccessRecord;
 
 public interface AccessRecordMapper {
@@ -27,4 +29,10 @@ public interface AccessRecordMapper {
      * 更新数据
      */
     int updateByPrimaryKey(AccessRecord record);
+    /**
+     * 查询门禁记录
+     * @param access
+     * @return
+     */
+	List<AccessRecord> selectSelective(AccessRecord access);
 }

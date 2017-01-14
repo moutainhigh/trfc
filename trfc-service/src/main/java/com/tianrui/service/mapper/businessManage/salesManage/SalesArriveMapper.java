@@ -23,4 +23,6 @@ public interface SalesArriveMapper {
 	long findSalesArrivePageCount(SalesArriveQuery query);
 
 	List<SalesArrive> findSalesArrivePage(SalesArriveQuery query);
+	
+	int checkICUse(SalesArriveQuery query);
 }

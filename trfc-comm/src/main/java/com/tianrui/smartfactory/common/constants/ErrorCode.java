@@ -28,6 +28,11 @@ public enum ErrorCode {
 	RFID_VEHICLE_NOT_EXIST("E10010","该车辆于RFID未绑定，请先绑定."),
 	
 	/**
+	 * IC卡
+	 */
+	CARD_NOT_EXIST("E10011","IC卡不存在，请先注册."),
+	CARD_IN_USE("E10012","IC卡正在使用中，请更换IC卡."),
+	/**
 	 * 车辆
 	 */
 	VEHICLE_EXIST("E10011","车辆已经存在."),
