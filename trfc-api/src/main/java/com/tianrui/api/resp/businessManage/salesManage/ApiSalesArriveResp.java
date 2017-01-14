@@ -1,7 +1,6 @@
 package com.tianrui.api.resp.businessManage.salesManage;
 
 import com.tianrui.api.resp.BaseResp;
-import com.tianrui.smartfactory.common.utils.DateUtil;
 
 /**
  * api销售通知单详情
