@@ -14,12 +14,23 @@ import com.tianrui.api.intf.businessManage.salesManage.ISalesApplicationService;
 import com.tianrui.api.intf.businessManage.salesManage.ISalesArriveService;
 import com.tianrui.api.req.basicFile.measure.DriverManageQuery;
 import com.tianrui.api.req.basicFile.measure.VehicleManageQuery;
+import com.tianrui.api.req.businessManage.salesManage.ApiSalesArriveQuery;
 import com.tianrui.api.req.businessManage.salesManage.SalesApplicationQuery;
 import com.tianrui.api.req.businessManage.salesManage.SalesArriveQuery;
 import com.tianrui.api.req.businessManage.salesManage.SalesArriveSave;
+import com.tianrui.api.resp.basicFile.measure.VehicleManageResp;
+import com.tianrui.api.resp.basicFile.nc.CustomerManageResp;
+import com.tianrui.api.resp.basicFile.nc.MaterielManageResp;
+import com.tianrui.api.resp.businessManage.salesManage.ApiSalesArriveResp;
+import com.tianrui.api.resp.businessManage.salesManage.SalesApplicationDetailResp;
+import com.tianrui.api.resp.businessManage.salesManage.SalesApplicationResp;
 import com.tianrui.api.resp.businessManage.salesManage.SalesArriveResp;
+import com.tianrui.service.bean.basicFile.measure.VehicleManage;
 import com.tianrui.service.bean.businessManage.salesManage.SalesArrive;
+import com.tianrui.service.bean.common.RFID;
+import com.tianrui.service.mapper.basicFile.measure.VehicleManageMapper;
 import com.tianrui.service.mapper.businessManage.salesManage.SalesArriveMapper;
+import com.tianrui.service.mapper.common.RFIDMapper;
 import com.tianrui.smartfactory.common.constants.ErrorCode;
 import com.tianrui.smartfactory.common.utils.UUIDUtil;
 import com.tianrui.smartfactory.common.vo.PaginationVO;
@@ -45,6 +56,12 @@ public class SalesArriveService implements ISalesArriveService {
 	
 	@Autowired
 	private ISalesApplicationService salesApplicationService;
+	
+	@Autowired
+	private VehicleManageMapper vehicleManageMapper;
+	
+	@Autowired
+	private RFIDMapper rfidMapper;
 	
 	@Override
 	public PaginationVO<SalesArriveResp> page(SalesArriveQuery query) throws Exception {
@@ -258,6 +275,87 @@ public class SalesArriveService implements ISalesArriveService {
 				result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
 			}else{
 				result.setErrorCode(ErrorCode.OPERATE_ERROR);
+			}
+		}
+		return result;
+	}
+	
+	@Override
+	public Result detailApi(ApiSalesArriveQuery query) throws Exception {
+		Result result = Result.getParamErrorResult();
+		if (query != null) {
+			if (StringUtils.isNotBlank(query.getVehicleno())) {
+				VehicleManage vehicle = new VehicleManage();
+				vehicle.setState("1");
+				vehicle.setVehicleno(query.getVehicleno());
+				List<VehicleManage> list = vehicleManageMapper.selectSelective(vehicle);
+				if (list == null || list.size() == 0) {
+					result.setErrorCode(ErrorCode.VEHICLE_NOT_EXIST);
+					return result;
+				}
+				if (StringUtils.isNotBlank(query.getRfid())) {
+					RFID rfid = new RFID();
+					rfid.setRfid(query.getRfid());
+					rfid.setState(true);
+					long count = rfidMapper.selectSelectiveCount(rfid);
+					if(count == 0){
+						result.setErrorCode(ErrorCode.RFID_NOT_EXIST);
+						return result;
+					}
+				}
+				vehicle.setRfid(query.getRfid());
+				List<VehicleManage> list2 = vehicleManageMapper.selectSelective(vehicle);
+				if(list2 == null || list2.size() == 0){
+					result.setErrorCode(ErrorCode.RFID_VEHICLE_NOT_EXIST);
+					return result;
+				}
+				SalesArrive sa = new SalesArrive();
+				sa.setState("1");
+				sa.setVehicleid(list2.get(0).getId());
+				List<SalesArrive> listSales = salesArriveMapper.selectSelective(sa);
+				if(listSales == null || listSales.size() == 0){
+					result.setErrorCode(ErrorCode.VEHICLE_NOT_ARRIVE);
+					return result;
+				}else if(listSales.size() > 1){
+					result.setErrorCode(ErrorCode.VEHICLE_ARRIVE_NOT_ONLY);
+					String code = ",";
+					for(SalesArrive s : listSales){
+						code += s.getCode();
+					}
+					result.setData(code.substring(1, code.length()));
+					return result;
+				}else if(StringUtils.equals(listSales.get(0).getStatus(), "0")){
+					result.setErrorCode(ErrorCode.VEHICLE_ARRIVE_NOT_ENTER);
+					result.setData(listSales.get(0).getCode());
+					return result;
+				}else{
+					SalesArriveResp resp = copyBean2Resp(listSales.get(0));
+					//DriverManageResp driverResp = resp.getDriver();
+					VehicleManageResp vehicleResp = resp.getVehicle();
+					SalesApplicationResp salesApplicationResp = resp.getSalesApplication();
+					CustomerManageResp customerResp = salesApplicationResp.getCustomerManageResp();
+					SalesApplicationDetailResp salesApplicationDetailResp = salesApplicationResp.getDetailResp();
+					MaterielManageResp materielResp = salesApplicationDetailResp.getMateriel();
+					//WarehouseManageResp warehouseResp = salesApplicationDetailResp.getWarehouse();
+					ApiSalesArriveResp api = new ApiSalesArriveResp();
+					api.setVehicleno(vehicleResp.getVehicleno());
+					api.setCustomerid(customerResp.getId());
+					api.setMateriel(materielResp.getId());
+					if(StringUtils.equals(materielResp.getPackagetype(), "0")){
+						api.setCementtype("1");
+						api.setBatchnumber(resp.getSerialnumber());
+					}else{
+						api.setCementtype("2");
+					}
+					api.setServicetype("2");
+					api.setNotionformcode(resp.getCode());
+					api.setPrimary("");
+					api.setVehicleid(vehicleResp.getId());
+					api.setMinemouth("");
+					api.setNumber(resp.getTakeamount().toString());
+					result.setData(api);
+					return result;
+				}
 			}
 		}
 		return result;

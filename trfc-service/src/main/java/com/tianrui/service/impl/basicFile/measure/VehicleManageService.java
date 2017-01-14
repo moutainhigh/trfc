@@ -312,10 +312,11 @@ public class VehicleManageService implements IVehicleManageService {
 					return result;
 				}
 				SalesArrive sa = new SalesArrive();
+				sa.setState("1");
 				sa.setVehicleid(list2.get(0).getId());
 				List<SalesArrive> listSales = salesArriveMapper.selectSelective(sa);
 				if(listSales == null || listSales.size() == 0){
-					result.setErrorCode(ErrorCode.RFID_VEHICLE_NOT_EXIST);
+					result.setErrorCode(ErrorCode.VEHICLE_NOT_ARRIVE);
 					return result;
 				}else if(listSales.size() > 1){
 					result.setErrorCode(ErrorCode.VEHICLE_ARRIVE_NOT_ONLY);
@@ -325,12 +326,12 @@ public class VehicleManageService implements IVehicleManageService {
 					}
 					result.setData(code.substring(1, code.length()));
 					return result;
+				}else if(!StringUtils.equals(listSales.get(0).getStatus(), "0")){
+					result.setErrorCode(ErrorCode.VEHICLE_ARRIVE_ALREADY_ENTER);
+					result.setData(listSales.get(0).getCode());
+					return result;
 				}else{
-					if(!StringUtils.equals(listSales.get(0).getStatus(), "0")){
-						result.setErrorCode(ErrorCode.VEHICLE_ARRIVE_ALREADY_ENTER);
-						result.setData(listSales.get(0).getCode());
-						return result;
-					}
+					result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
 				}
 			}
 		}
