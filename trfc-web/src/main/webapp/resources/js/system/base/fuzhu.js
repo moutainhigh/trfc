@@ -1,6 +1,6 @@
 $(function(){
 //	console.log('OK');
-	//加载页面，显示数据字典列表
+	//加载页面，显示数据字典列表(默认第一条数据字典被选中)
 	listSystemDataDicts();
 	//绑定数据字典类别增加按钮点击事件
 	$('#showAddDict').click(showAddDictAction);
@@ -40,7 +40,7 @@ function listSystemDataDicts() {
 	$.post(url,param,function(result){
 		if(result.code == '000000'){
 			var data=result.data;
-			console.log(result.data);
+//			console.log(result.data);
 			var total=data.length;
 //			console.log(total);
 			dictData.total=total;
@@ -127,7 +127,7 @@ function showSystemDataDictItems() {
 	var dictid=dict.id;
 	var name=dict.name;
 	var code=dict.code;
-	console.log(dictid);
+//	console.log(dictid);
 	//更改辅助资料明细标题
 	$('#fuzhu_dtile_name').html('辅助资料明细 - '+name);
 	
@@ -215,9 +215,16 @@ function deleteDataDict() {
 //获取新增数据字典明细时需要的编号
 function showAddItemAction() {
 //	console.log('showAddItemAction');
-	var total=itemData.total;
+	var tr=$('#items tr').first();
+//	console.log(tr);
+	var item_code=tr.children().eq(1).html();
+//	console.log(item_code);
+	if(!item_code){
+		item_code=0;
+	}
+//	var total=itemData.total;
 //	console.log(total);
-	$('#item_code').val(total+1);
+	$('#item_code').val(parseInt(item_code)+1);
 	$('#item_name').val('');
 	$('#item_addisvalid').removeAttr('checked');
 	$('#item_info').val('');
@@ -247,7 +254,7 @@ function addItemAction() {
 			isvalid:isvalid,
 			info:info
 	};
-	console.log(params);
+//	console.log(params);
 	
 	$('#additem .btn-primary').attr('data-dismiss','modal');
 	$.post(url,params,function(result){
