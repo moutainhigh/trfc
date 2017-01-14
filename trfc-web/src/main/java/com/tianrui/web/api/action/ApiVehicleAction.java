@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.tianrui.api.intf.basicFile.measure.IVehicleManageService;
 import com.tianrui.api.req.basicFile.measure.VehicleManageApi;
-import com.tianrui.api.req.basicFile.measure.VehicleManageSave;
 import com.tianrui.smartfactory.common.api.ApiParam;
 import com.tianrui.smartfactory.common.api.ApiResult;
 import com.tianrui.smartfactory.common.constants.ErrorCode;

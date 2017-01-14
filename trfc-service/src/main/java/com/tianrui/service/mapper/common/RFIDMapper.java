@@ -1,5 +1,7 @@
 package com.tianrui.service.mapper.common;
 
+import java.util.List;
+
 import com.tianrui.service.bean.common.RFID;
 
 public interface RFIDMapper {
@@ -50,4 +52,8 @@ public interface RFIDMapper {
      * @mbggenerated
      */
     int updateByPrimaryKey(RFID record);
+    
+    long selectSelectiveCount(RFID record);
+    
+    List<RFID> selectSelective(RFID record);
 }

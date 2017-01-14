@@ -25,6 +25,16 @@ public enum ErrorCode {
 	RFID_EXIST("E10007","FRID已存在，不能重复添加"),
 	RFID_NOT_EXIST("E10008","RFID不存在，请先注册RFID！"),
 	RFID_VEHICLE_EXIST("E10009","该车辆于RFID已绑定，不能重复绑定"),
+	RFID_VEHICLE_NOT_EXIST("E10009","该车辆于RFID未绑定，请先绑定."),
+	
+	/**
+	 * 车辆
+	 */
+	VEHICLE_EXIST("E10010","车辆已经存在."),
+	VEHICLE_NOT_EXIST("E10011","车辆不存在."),
+	VEHICLE_ARRIVE_NOT_ONLY("E10012","该车辆有多个通知单."),
+	VEHICLE_ARRIVE_ALREADY_ENTER("E10012","该通知单绑定的车辆已经入场."),
+	
 	/**
 	 * 用户相关
 	 */
