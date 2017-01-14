@@ -14,10 +14,13 @@ import com.tianrui.api.intf.basicFile.measure.IVehicleManageService;
 import com.tianrui.api.req.basicFile.measure.BlacklistManageReq;
 import com.tianrui.api.req.basicFile.measure.VehicleManageQuery;
 import com.tianrui.api.req.basicFile.measure.VehicleManageSave;
-import com.tianrui.api.req.basicFile.measure.VehicleSaveReq;
+import com.tianrui.api.req.basicFile.measure.VehicleManageApi;
 import com.tianrui.api.resp.basicFile.measure.VehicleManageResp;
 import com.tianrui.service.bean.basicFile.measure.VehicleManage;
+import com.tianrui.service.bean.common.RFID;
+import com.tianrui.service.impl.common.RFIDService;
 import com.tianrui.service.mapper.basicFile.measure.VehicleManageMapper;
+import com.tianrui.service.mapper.common.RFIDMapper;
 import com.tianrui.smartfactory.common.constants.ErrorCode;
 import com.tianrui.smartfactory.common.utils.UUIDUtil;
 import com.tianrui.smartfactory.common.vo.PaginationVO;
@@ -37,6 +40,11 @@ public class VehicleManageService implements IVehicleManageService {
 	
 	@Autowired
 	private IBlacklistManageService blacklistManageService;
+	
+	@Autowired
+	private RFIDService rfidService;
+	@Autowired
+	private RFIDMapper rfidMapper;
 	
 	@Override
 	public PaginationVO<VehicleManageResp> page(VehicleManageQuery query) throws Exception{
@@ -217,9 +225,55 @@ public class VehicleManageService implements IVehicleManageService {
 	}
 
 	@Override
-	public void addVehicleApi(VehicleSaveReq vehicleSaveReq) {
-		// TODO Auto-generated method stub
-		
+	public Result addVehicleApi(VehicleManageApi vehicleManageApi) {
+		Result result = Result.getParamErrorResult();
+		if(vehicleManageApi != null){
+			if(StringUtils.isNotBlank(vehicleManageApi.getRfid())){
+				RFID rfid = rfidMapper.selectByPrimaryKey(vehicleManageApi.getRfid());
+				if(rfid == null){
+					result.setErrorCode(ErrorCode.RFID_NOT_EXIST);
+					return result;
+				}
+			}else if(StringUtils.isNotBlank(vehicleManageApi.getVehicleNo())){
+				VehicleManage vehicle = new VehicleManage();
+				vehicle.setVehicleno(vehicleManageApi.getVehicleNo());
+				vehicle.setState("1");
+				List<VehicleManage> list = vehicleManageMapper.selectSelective(vehicle);
+				if(list != null && list.size() > 0){
+					VehicleManage v = list.get(0);
+					if(StringUtils.equals(v.getRfid(), vehicleManageApi.getRfid())){
+						//已绑定rfid
+						result.setErrorCode(ErrorCode.RFID_VEHICLE_EXIST);
+						return result;
+					}else{
+						//绑定rfid
+						vehicle.setId(v.getId());
+						vehicle.setModifier("");
+						vehicle.setModifytime(System.currentTimeMillis());
+						if(vehicleManageMapper.updateByPrimaryKeySelective(vehicle) > 0){
+							result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+						}else{
+							result.setErrorCode(ErrorCode.OPERATE_ERROR);
+						}
+					}
+				}else{
+					//新增
+					vehicle.setId(UUIDUtil.getId());
+					vehicle.setRfid(vehicleManageApi.getRfid());
+					vehicle.setCode("CL"+(int)(Math.random()*1000000));
+					vehicle.setCreator("");
+					vehicle.setCreatetime(System.currentTimeMillis());
+					vehicle.setModifier("");
+					vehicle.setModifytime(System.currentTimeMillis());
+					if(vehicleManageMapper.insertSelective(vehicle) > 0){
+						result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+					}else{
+						result.setErrorCode(ErrorCode.OPERATE_ERROR);
+					}
+				}
+			}
+		}
+		return result;
 	}
 
 }

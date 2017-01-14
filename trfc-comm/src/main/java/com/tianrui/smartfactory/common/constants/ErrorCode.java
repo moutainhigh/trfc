@@ -19,7 +19,12 @@ public enum ErrorCode {
 	PARAM_REPEAT_ERROR("E10005","数据重复."),
 	PARAM_NULL_USER_ERROR("E10006","参数异常,参数用户信息不能为空."),
 	
-	
+	/**
+	 * FRID
+	 */
+	RFID_EXIST("E10007","FRID已存在，不能重复添加"),
+	RFID_NOT_EXIST("E10008","RFID不存在，请先注册RFID！"),
+	RFID_VEHICLE_EXIST("E10009","该车辆于RFID已绑定，不能重复绑定"),
 	/**
 	 * 用户相关
 	 */

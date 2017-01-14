@@ -2,7 +2,7 @@ package com.tianrui.api.intf.basicFile.measure;
 
 import com.tianrui.api.req.basicFile.measure.VehicleManageQuery;
 import com.tianrui.api.req.basicFile.measure.VehicleManageSave;
-import com.tianrui.api.req.basicFile.measure.VehicleSaveReq;
+import com.tianrui.api.req.basicFile.measure.VehicleManageApi;
 import com.tianrui.api.resp.basicFile.measure.VehicleManageResp;
 import com.tianrui.smartfactory.common.vo.PaginationVO;
 import com.tianrui.smartfactory.common.vo.Result;
@@ -31,6 +31,6 @@ public interface IVehicleManageService {
 
 	VehicleManageResp findOne(VehicleManageQuery query) throws Exception;
 	
-	void addVehicleApi(VehicleSaveReq vehicleSaveReq);
+	Result addVehicleApi(VehicleManageApi vehicleSaveReq);
 
 }

@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.tianrui.api.intf.basicFile.measure.IVehicleManageService;
+import com.tianrui.api.req.basicFile.measure.VehicleManageApi;
 import com.tianrui.api.req.basicFile.measure.VehicleManageSave;
 import com.tianrui.api.req.businessManage.cardManage.VehicleCheckReq;
 import com.tianrui.smartfactory.common.api.ApiParam;
@@ -33,15 +34,15 @@ public class ApiVehicleAction {
 	
 	//车辆 ic卡绑定
 	@RequestMapping("vehicleCard")
-	@ApiParamRawType(VehicleManageSave.class)
+	@ApiParamRawType(VehicleManageApi.class)
 	@ApiAuthValidation(callType="2")
 	@ResponseBody
-	public ApiResult vehicleCard(ApiParam<VehicleManageSave> req){
+	public ApiResult vehicleCard(ApiParam<VehicleManageApi> req){
 		Result rs=Result.getErrorResult();
-		VehicleManageSave vehicleSaveReq =req.getBody();
-		vehicleSaveReq.setCurrUId(req.getHead().getUserId());
+		VehicleManageApi vehicleManageApi =req.getBody();
+		vehicleManageApi.setCurrUid(req.getHead().getUserId());
 		try {
-			rs=vehicleManageService.addVehicle(vehicleSaveReq);
+			rs=vehicleManageService.addVehicleApi(vehicleManageApi);
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 			rs.setErrorCode(ErrorCode.SYSTEM_ERROR);
