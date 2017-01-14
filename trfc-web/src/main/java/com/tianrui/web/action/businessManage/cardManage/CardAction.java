@@ -11,7 +11,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.tianrui.api.intf.businessManage.cardManage.ICardService;
 import com.tianrui.api.req.businessManage.cardManage.CardReq;
-import com.tianrui.api.req.businessManage.cardManage.CardSaveReq;
+import com.tianrui.api.req.businessManage.cardManage.CardSave;
 import com.tianrui.api.resp.businessManage.cardManage.CardResp;
 import com.tianrui.smartfactory.common.constants.ErrorCode;
 import com.tianrui.smartfactory.common.vo.PaginationVO;
@@ -48,7 +48,7 @@ public class CardAction {
 	
 	@RequestMapping("addCard")
 	@ResponseBody
-	public Result addCard(CardSaveReq req){
+	public Result addCard(CardSave req){
 		Result result = Result.getSuccessResult();
 		try {
 			result = cardService.addCard(req);

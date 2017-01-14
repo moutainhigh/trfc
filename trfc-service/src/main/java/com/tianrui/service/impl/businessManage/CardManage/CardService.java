@@ -13,7 +13,6 @@ import com.tianrui.api.intf.businessManage.cardManage.ICardService;
 import com.tianrui.api.req.businessManage.cardManage.CardApi;
 import com.tianrui.api.req.businessManage.cardManage.CardReq;
 import com.tianrui.api.req.businessManage.cardManage.CardSave;
-import com.tianrui.api.req.businessManage.cardManage.CardSaveReq;
 import com.tianrui.api.resp.businessManage.cardManage.CardResp;
 import com.tianrui.service.bean.businessManage.cardManage.Card;
 import com.tianrui.service.mapper.businessManage.cardManage.CardMapper;

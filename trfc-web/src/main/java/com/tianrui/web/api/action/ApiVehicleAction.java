@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.tianrui.api.intf.basicFile.measure.IVehicleManageService;
 import com.tianrui.api.req.basicFile.measure.VehicleManageApi;
 import com.tianrui.api.req.basicFile.measure.VehicleManageSave;
-import com.tianrui.api.req.businessManage.cardManage.VehicleCheckReq;
 import com.tianrui.smartfactory.common.api.ApiParam;
 import com.tianrui.smartfactory.common.api.ApiResult;
 import com.tianrui.smartfactory.common.constants.ErrorCode;
@@ -39,7 +38,7 @@ public class ApiVehicleAction {
 	@ResponseBody
 	public ApiResult vehicleCard(ApiParam<VehicleManageApi> req){
 		Result rs=Result.getErrorResult();
-		VehicleManageApi vehicleManageApi =req.getBody();
+		VehicleManageApi vehicleManageApi = req.getBody();
 		vehicleManageApi.setCurrUid(req.getHead().getUserId());
 		try {
 			rs=vehicleManageService.addVehicleApi(vehicleManageApi);
@@ -52,19 +51,17 @@ public class ApiVehicleAction {
 	
 	//车辆验证 
 	@RequestMapping("vehicleCheck")
-	@ApiParamRawType(VehicleCheckReq.class)
+	@ApiParamRawType(VehicleManageApi.class)
 	@ApiAuthValidation(callType="2")
 	@ResponseBody
-	public ApiResult vehicleCheck(ApiParam<VehicleCheckReq> req){
+	public ApiResult vehicleCheck(ApiParam<VehicleManageApi> req){
 		//车辆是否绑定rfid 且已经注册
 		//是否有通知单
 		Result rs=Result.getErrorResult();
-		VehicleCheckReq  vehicleCheckReq=req.getBody();
-		vehicleCheckReq.setCurrUid(req.getHead().getUserId());
+		VehicleManageApi vehicleManageApi = req.getBody();
+		vehicleManageApi.setCurrUid(req.getHead().getUserId());
 		try {
-			//rs=vehicleManageService.addVehicle(vehicleSaveReq);
-			
-			rs.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+			rs=vehicleManageService.vehicleCheck(vehicleManageApi);
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 			rs.setErrorCode(ErrorCode.SYSTEM_ERROR);

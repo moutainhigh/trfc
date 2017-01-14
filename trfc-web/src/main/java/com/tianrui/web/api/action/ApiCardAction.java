@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.tianrui.api.intf.businessManage.cardManage.ICardService;
 import com.tianrui.api.intf.common.IRFIDService;
 import com.tianrui.api.req.businessManage.cardManage.CardApi;
-import com.tianrui.api.req.businessManage.cardManage.CardSaveReq;
 import com.tianrui.api.req.common.RFIDReq;
 import com.tianrui.smartfactory.common.api.ApiParam;
 import com.tianrui.smartfactory.common.api.ApiResult;

@@ -6,12 +6,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.tianrui.api.req.businessManage.cardManage.VehicleCheckReq;
+import com.tianrui.api.req.basicFile.measure.VehicleCheckApi;
 import com.tianrui.api.req.businessManage.salesManage.ApiDoorQueueQuery;
 import com.tianrui.api.req.businessManage.salesManage.ApiDoorSystemSave;
-import com.tianrui.api.req.common.RFIDReq;
 import com.tianrui.api.resp.businessManage.salesManage.ApiDoorQueueResp;
-import com.tianrui.api.resp.businessManage.salesManage.ApiSalesArriveResp;
 import com.tianrui.smartfactory.common.api.ApiParam;
 import com.tianrui.smartfactory.common.api.ApiResult;
 import com.tianrui.smartfactory.common.vo.Result;
@@ -52,10 +50,10 @@ public class ApiDoorSystemAction {
 	 * @return
 	 */
 	@RequestMapping(value="/leaveFactoryCheck",method=RequestMethod.POST)
-	@ApiParamRawType(VehicleCheckReq.class)
+	@ApiParamRawType(VehicleCheckApi.class)
 	@ApiAuthValidation(callType="2")
 	@ResponseBody
-	public ApiResult leaveFactoryCheck(ApiParam<VehicleCheckReq> req){
+	public ApiResult leaveFactoryCheck(ApiParam<VehicleCheckApi> req){
 		Result rs=Result.getSuccessResult();
 		return ApiResult.valueOf(rs);
 	}

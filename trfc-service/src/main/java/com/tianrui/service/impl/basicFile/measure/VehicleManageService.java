@@ -18,7 +18,6 @@ import com.tianrui.api.req.basicFile.measure.VehicleManageApi;
 import com.tianrui.api.resp.basicFile.measure.VehicleManageResp;
 import com.tianrui.service.bean.basicFile.measure.VehicleManage;
 import com.tianrui.service.bean.common.RFID;
-import com.tianrui.service.impl.common.RFIDService;
 import com.tianrui.service.mapper.basicFile.measure.VehicleManageMapper;
 import com.tianrui.service.mapper.common.RFIDMapper;
 import com.tianrui.smartfactory.common.constants.ErrorCode;
@@ -41,8 +40,6 @@ public class VehicleManageService implements IVehicleManageService {
 	@Autowired
 	private IBlacklistManageService blacklistManageService;
 	
-	@Autowired
-	private RFIDService rfidService;
 	@Autowired
 	private RFIDMapper rfidMapper;
 	
@@ -274,6 +271,11 @@ public class VehicleManageService implements IVehicleManageService {
 			}
 		}
 		return result;
+	}
+
+	@Override
+	public Result vehicleCheck(VehicleManageApi vehicleManageApi) {
+		return null;
 	}
 
 }

@@ -33,4 +33,6 @@ public interface IVehicleManageService {
 	
 	Result addVehicleApi(VehicleManageApi vehicleSaveReq);
 
+	Result vehicleCheck(VehicleManageApi vehicleManageApi);
+
 }
