@@ -10,7 +10,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.tianrui.api.intf.businessManage.cardManage.ICardService;
+import com.tianrui.api.req.businessManage.cardManage.CardApi;
 import com.tianrui.api.req.businessManage.cardManage.CardReq;
+import com.tianrui.api.req.businessManage.cardManage.CardSave;
 import com.tianrui.api.req.businessManage.cardManage.CardSaveReq;
 import com.tianrui.api.resp.businessManage.cardManage.CardResp;
 import com.tianrui.service.bean.businessManage.cardManage.Card;
@@ -118,32 +120,65 @@ public class CardService implements ICardService {
 	}
 
 	@Override
-	public Result addCard(CardSaveReq req) throws Exception {
+	public Result addCard(CardSave save) throws Exception {
 		Result rs =Result.getParamErrorResult();
-		if(req != null && StringUtils.isNotEmpty(req.getCardcode())
-				&& StringUtils.isNotEmpty(req.getCardno())&& StringUtils.isNotEmpty(req.getCardtype())){
+		if(save != null && StringUtils.isNotEmpty(save.getCardcode())
+				&& StringUtils.isNotEmpty(save.getCardno())&& StringUtils.isNotEmpty(save.getCardtype())){
 			//卡编码不能重复
 			CardReq query = new CardReq();
-			query.setCardcode(req.getCardcode());
+			query.setCardcode(save.getCardcode());
 			long dbCodeSize =cardMapper.findCardPageCount(query) ;
 			//卡序号也不能重复
 			query = new CardReq();
-			query.setCardno(req.getCardno());
+			query.setCardno(save.getCardno());
 			long dbNoSize =cardMapper.findCardPageCount(query) ;
 			if(dbCodeSize>0){
 				rs.setErrorCode(ErrorCode.PARAM_REPEAT_ERROR);
 			}else if(dbNoSize>0){
 				rs.setErrorCode(ErrorCode.PARAM_REPEAT_ERROR);
 			}else{
-				Card save = new Card();
-				PropertyUtils.copyProperties(save, req);
-				save.setId(UUIDUtil.getId());
-				save.setState("1");
-				save.setCreator(req.getCurrUid());
-				save.setCreatetime(System.currentTimeMillis());
-				save.setModifytime(System.currentTimeMillis());
-				save.setModifier(req.getCurrUid());
-				cardMapper.insert(save);
+				Card card = new Card();
+				PropertyUtils.copyProperties(card, save);
+				card.setId(UUIDUtil.getId());
+				card.setState("1");
+				card.setCreator(save.getCurrUid());
+				card.setCreatetime(System.currentTimeMillis());
+				card.setModifytime(System.currentTimeMillis());
+				card.setModifier(save.getCurrUid());
+				cardMapper.insert(card);
+				rs.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+			}
+		}
+		return rs;
+	}
+	
+	@Override
+	public Result addCardApi(CardApi cardApi) throws Exception {
+		Result rs =Result.getParamErrorResult();
+		if(cardApi != null && StringUtils.isNotEmpty(cardApi.getCardcode())
+				&& StringUtils.isNotEmpty(cardApi.getCardno())&& StringUtils.isNotEmpty(cardApi.getCardtype())){
+			//卡编码不能重复
+			CardReq query = new CardReq();
+			query.setCardcode(cardApi.getCardcode());
+			long dbCodeSize =cardMapper.findCardPageCount(query) ;
+			//卡序号也不能重复
+			query = new CardReq();
+			query.setCardno(cardApi.getCardno());
+			long dbNoSize =cardMapper.findCardPageCount(query) ;
+			if(dbCodeSize>0){
+				rs.setErrorCode(ErrorCode.PARAM_REPEAT_ERROR);
+			}else if(dbNoSize>0){
+				rs.setErrorCode(ErrorCode.PARAM_REPEAT_ERROR);
+			}else{
+				Card card = new Card();
+				PropertyUtils.copyProperties(card, cardApi);
+				card.setId(UUIDUtil.getId());
+				card.setState("1");
+				card.setCreator(cardApi.getCurrUid());
+				card.setCreatetime(System.currentTimeMillis());
+				card.setModifytime(System.currentTimeMillis());
+				card.setModifier(cardApi.getCurrUid());
+				cardMapper.insert(card);
 				rs.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
 			}
 		}

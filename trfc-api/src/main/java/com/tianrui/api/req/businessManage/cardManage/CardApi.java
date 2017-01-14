@@ -2,7 +2,7 @@ package com.tianrui.api.req.businessManage.cardManage;
 
 import com.tianrui.api.req.BaseReq;
 
-public class CardSaveReq extends BaseReq {
+public class CardApi extends BaseReq {
 
 	private static final long serialVersionUID = -5312655966933356188L;
 	//卡序号
