@@ -17,7 +17,11 @@ public class Constant {
     
     public final static int MAX_PAGESIZE = 200;
     
+    //初始密码
+    public final static String PASSWORD_INIT="123456";
+    
     public final static String FILE_URL_PRE="http://www.trwl.com/img/";
+    
     
     // 用户验证key
     public final static String apiAuthKey ="@#!tr2017!#$";

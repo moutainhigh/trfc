@@ -22,9 +22,9 @@ public class BaseReq implements Serializable {
 	
 	
 	//分页参数
-	protected int pageNo =1;
+	protected Integer pageNo;
 	
-	protected int pageSize=10;
+	protected Integer pageSize=10;
 
 	public String getCallSource() {
 		return callSource;

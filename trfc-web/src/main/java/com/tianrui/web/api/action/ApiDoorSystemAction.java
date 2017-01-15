@@ -75,7 +75,7 @@ public class ApiDoorSystemAction {
 		return ApiResult.valueOf(rs);
 	}
 	
-	private ApiDoorQueueResp getData(){
+	private ApiDoorQueueResp getData(){ 
 		ApiDoorQueueResp resp =new ApiDoorQueueResp();
 		resp.setQueuenumber("1");
 		resp.setSmallticket("0");
