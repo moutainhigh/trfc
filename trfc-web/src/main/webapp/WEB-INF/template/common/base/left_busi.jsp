@@ -47,13 +47,13 @@
 			</a>
 
 			<div class="in" id="sys">
-				<li class="active"><a href="../file_nc/client.html"> <i
+<!-- 				<li class="active"><a href="../file_nc/client.html"> <i
 						class="iconfont">&#xe617;</i> <label>菜单管理</label>
 				</a></li>
 				<li><a href="../file_jil/car.html"> <i class="iconfont">&#xe617;</i>
 						<label>角色管理</label>
-				</a></li>
-				<li><a href="../file-other/car.html"> <i class="iconfont">&#xe617;</i>
+				</a></li> -->
+				<li><a href="/system/auth/user/main"> <i class="iconfont">&#xe617;</i>
 						<label>用户权限</label>
 				</a></li>
 			</div>
