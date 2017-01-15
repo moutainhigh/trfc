@@ -236,46 +236,48 @@ public class VehicleManageService implements IVehicleManageService {
 				rfid.setRfid(vehicleManageApi.getRfid());
 				rfid.setState(true);
 				long count = rfidMapper.selectSelectiveCount(rfid);
-				if (count == 0) {
-					result.setErrorCode(ErrorCode.RFID_NOT_EXIST);
-					return result;
-				}
-			} else if (StringUtils.isNotBlank(vehicleManageApi.getVehicleNo())) {
-				VehicleManage vehicle = new VehicleManage();
-				vehicle.setVehicleno(vehicleManageApi.getVehicleNo());
-				vehicle.setState("1");
-				List<VehicleManage> list = vehicleManageMapper.selectSelective(vehicle);
-				if (list != null && list.size() > 0) {
-					VehicleManage v = list.get(0);
-					if (StringUtils.equals(v.getRfid(), vehicleManageApi.getRfid())) {
-						// 已绑定rfid
-						result.setErrorCode(ErrorCode.RFID_VEHICLE_EXIST);
-						return result;
-					} else {
-						// 绑定rfid
-						vehicle.setId(v.getId());
-						vehicle.setModifier("");
-						vehicle.setModifytime(System.currentTimeMillis());
-						if (vehicleManageMapper.updateByPrimaryKeySelective(vehicle) > 0) {
-							result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+				if (count == 1) {
+					if (StringUtils.isNotBlank(vehicleManageApi.getVehicleNo())) {
+						VehicleManage vehicle = new VehicleManage();
+						vehicle.setVehicleno(vehicleManageApi.getVehicleNo());
+						vehicle.setState("1");
+						List<VehicleManage> list = vehicleManageMapper.selectSelective(vehicle);
+						if (list != null && list.size() > 0) {
+							VehicleManage v = list.get(0);
+							if (StringUtils.equals(v.getRfid(), vehicleManageApi.getRfid())) {
+								// 已绑定rfid
+								result.setErrorCode(ErrorCode.RFID_VEHICLE_EXIST);
+								return result;
+							} else {
+								// 绑定rfid
+								vehicle.setId(v.getId());
+								vehicle.setModifier("");
+								vehicle.setModifytime(System.currentTimeMillis());
+								if (vehicleManageMapper.updateByPrimaryKeySelective(vehicle) > 0) {
+									result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+								} else {
+									result.setErrorCode(ErrorCode.OPERATE_ERROR);
+								}
+							}
 						} else {
-							result.setErrorCode(ErrorCode.OPERATE_ERROR);
+							// 新增
+							vehicle.setId(UUIDUtil.getId());
+							vehicle.setRfid(vehicleManageApi.getRfid());
+							vehicle.setCode("CL" + (int) (Math.random() * 1000000));
+							vehicle.setCreator("");
+							vehicle.setCreatetime(System.currentTimeMillis());
+							vehicle.setModifier("");
+							vehicle.setModifytime(System.currentTimeMillis());
+							if (vehicleManageMapper.insertSelective(vehicle) > 0) {
+								result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+							} else {
+								result.setErrorCode(ErrorCode.OPERATE_ERROR);
+							}
 						}
 					}
-				} else {
-					// 新增
-					vehicle.setId(UUIDUtil.getId());
-					vehicle.setRfid(vehicleManageApi.getRfid());
-					vehicle.setCode("CL" + (int) (Math.random() * 1000000));
-					vehicle.setCreator("");
-					vehicle.setCreatetime(System.currentTimeMillis());
-					vehicle.setModifier("");
-					vehicle.setModifytime(System.currentTimeMillis());
-					if (vehicleManageMapper.insertSelective(vehicle) > 0) {
-						result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
-					} else {
-						result.setErrorCode(ErrorCode.OPERATE_ERROR);
-					}
+				}else  {
+					result.setErrorCode(ErrorCode.RFID_NOT_EXIST);
+					return result;
 				}
 			}
 		}

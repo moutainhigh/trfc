@@ -7,6 +7,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 import com.alibaba.fastjson.JSON;
+import com.tianrui.api.req.basicFile.measure.VehicleManageApi;
 import com.tianrui.api.req.common.RFIDReq;
 import com.tianrui.api.req.system.auth.UserReq;
 import com.tianrui.smartfactory.common.api.ApiParam;
@@ -20,6 +21,7 @@ public class ApiTest {
 	private static String domin="http://127.0.0.1/";
 	private static String uri_login="api/system/login";
 	private static String uri_rfid="api/card/rfidReg";
+	private static String url = "api/vehicle/vehicleCard";
 	
 	
 	static ApiParam<UserReq> getParam(){
@@ -39,23 +41,6 @@ public class ApiTest {
 		api.setHead(head);
 		return api;
 	}
-	static ApiParam<RFIDReq> getParam1(){
-		ApiParam<RFIDReq> api =new ApiParam<RFIDReq>();
-		
-		RFIDReq req =new RFIDReq();
-		req.setRfid("1234533");
-		
-		Head head =new Head();
-		head.setCallSource("1");
-		head.setCallType("2");
-		head.setCallTime("2017-01-07 11:01:00");
-		head.setUserId("111111");
-		
-		api.setBody(req);
-		api.setHead(head);
-		return api;
-	}
-	
 	
 	static void setkey( ApiParam api){
 		api.getHead().setKey(Md5Utils.MD5(Constant.apiAuthKey+api.getHead().getCallTime()));
@@ -110,14 +95,30 @@ public class ApiTest {
 //		String param =JSON.toJSONString(req);
 //		System.out.println(httpPost(domin+uri,"p="+param));
 		
-		ApiParam<RFIDReq> req =getParam1();
+		ApiParam<VehicleManageApi> req =getParam1();
 		setkey(req);
 		setMd5(req);
 		String param =JSON.toJSONString(req);
-		System.out.println(httpPost(domin+uri_rfid,"p="+param));
+		System.out.println(httpPost(domin+url,"p="+param));
 		
 //		System.out.println(Md5Utils.MD5("1"));
 	}
-	
+	static ApiParam<VehicleManageApi> getParam1(){
+		ApiParam<VehicleManageApi> api =new ApiParam<VehicleManageApi>();
+		
+		VehicleManageApi req =new VehicleManageApi();
+		req.setRfid("06D4A539303738202020AB01");
+		req.setVehicleNo("豫GA2571");
+		
+		Head head =new Head();
+		head.setCallSource("1");
+		head.setCallType("2");
+		head.setCallTime("2017-01-07 11:01:00");
+		head.setUserId("111111");
+		
+		api.setBody(req);
+		api.setHead(head);
+		return api;
+	}
 	
 }
