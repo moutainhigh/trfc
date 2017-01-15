@@ -8,6 +8,7 @@
 	<jsp:include page="../../common/base/header_busi.jsp"></jsp:include>
 </head>
 <body>
+<div class="it_admin">
 <!-- 引用公共left部分 -->
 <jsp:include page="../../common/base/left_busi.jsp"></jsp:include>
 <div class="right">
@@ -372,7 +373,6 @@
     </div>
 </div>
 <!--删除end-->
-	<!-- 引用公共footer部分 -->
-	<jsp:include page="../../common/base/footer_busi.jsp"></jsp:include>
+</div>
 </body>
 </html>

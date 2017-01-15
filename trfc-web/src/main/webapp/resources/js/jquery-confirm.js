@@ -390,8 +390,8 @@ var jconfirm, Jconfirm;
         contentLoaded: function () {
         },
         icon: '',
-        confirmButton: 'Okay',
-        cancelButton: 'Cancel',
+        confirmButton: '确定',
+        cancelButton: '取消',
         confirmButtonClass: 'btn-default',
         cancelButtonClass: 'btn-default',
         theme: 'white',

@@ -123,7 +123,7 @@ input[type=text]::-webkit-input-placeholder {
 .w600{width:600px;}
 .w700{width:700px;}
 .w800{width:800px;}
-.w100{width:100%}
+.wpert100{width:100%}
 .wleft{width: 16%;}
 .wright{width:84%;}
 .h50{height:50px;}
@@ -194,17 +194,7 @@ input[type=text]::-webkit-input-placeholder {
 .pr30{padding-right:30px;}
 .pr50{padding-right:50px;}
 .pr100{padding-right:100px;}
-@font-face {
-    font-family: 'iconfont';  /* project id 142861 */
-    src: url('//at.alicdn.com/t/font_nfb8pjj5075019k9.eot');
-    src: url('//at.alicdn.com/t/font_nfb8pjj5075019k9.eot?#iefix') format('embedded-opentype'),
-    url('//at.alicdn.com/t/font_nfb8pjj5075019k9.woff') format('woff'),
-    url('//at.alicdn.com/t/font_nfb8pjj5075019k9.ttf') format('truetype'),
-    url('//at.alicdn.com/t/font_nfb8pjj5075019k9.svg#iconfont') format('svg');
-}
-.iconfont{
-    font-family:"iconfont";
-    font-style:normal;
-}
+
 .iconfont{-webkit-font-smoothing: antialiased;}
+
 
