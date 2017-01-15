@@ -132,7 +132,7 @@ function showSystemDataDictItems() {
 	$('#fuzhu_dtile_name').html('辅助资料明细 - '+name);
 	
 	var url='listItem';
-	var param={dictid,dictid};
+	var param={dictid:dictid};
 	$.post(url,param,function(result){
 		if(result.code == '000000'){
 			var data=result.data;
