@@ -50,23 +50,24 @@ public class BaseReq implements Serializable {
 		this.callId = callId;
 	}
 
-	public int getPageNo() {
+	public Integer getPageNo() {
 		return pageNo;
 	}
 
-	public void setPageNo(int pageNo) {
+	public void setPageNo(Integer pageNo) {
 		this.pageNo = pageNo;
 	}
 
-	public int getPageSize() {
+	public Integer getPageSize() {
 		if( this.pageSize > Constant.MAX_PAGESIZE ){
 			pageSize =Constant.MAX_PAGESIZE;
 		}
 		return pageSize;
 	}
 
-	public void setPageSize(int pageSize) {
+	public void setPageSize(Integer pageSize) {
 		this.pageSize = pageSize;
 	}
-	
+
+
 }
