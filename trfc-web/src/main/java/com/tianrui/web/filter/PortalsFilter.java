@@ -14,7 +14,6 @@ public class PortalsFilter implements Filter {
 
 	@Override
 	public void destroy() {
-		// TODO Auto-generated method stub
 		
 	}
 
@@ -23,12 +22,12 @@ public class PortalsFilter implements Filter {
 			throws IOException, ServletException {
 			HttpServletRequest req = (HttpServletRequest) request;
 			req.setAttribute("basePath", "/resources");
+			req.setAttribute("staticBasePath", "/resources");
 			chain.doFilter(request, response);
 	}
 
 	@Override
 	public void init(FilterConfig arg0) throws ServletException {
-		// TODO Auto-generated method stub
 		
 	}
 

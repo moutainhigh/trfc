@@ -1,0 +1,18 @@
+<%@ page language="java"  pageEncoding="UTF-8"%>
+<meta name="keywords" content=" 天瑞"/>
+<meta name="description" content="">
+<meta name="author" content="">
+<link href="${staticBasePath}/css/bootstrap.css" rel="stylesheet">
+<link href="${staticBasePath}/css/base.css" rel="stylesheet">
+<link href="${staticBasePath}/css/style.css" rel="stylesheet">
+<link href="${staticBasePath}/css/iconfont.css" rel="stylesheet">
+<link href="${staticBasePath}/css/mycollapse.css" rel="stylesheet">
+<!--这个日历控件js必须放头部-->
+<script language="javascript" type="text/javascript" src="${staticBasePath}/js/My97DatePicker/WdatePicker.js"></script>
+<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!--[if lt IE 9]>
+<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
+<script type="text/javascript" src="${staticBasePath}/js/jquery-1.11.1.js"></script>
+<script type="text/javascript" src="${staticBasePath}/js/bootstrap.js"></script>
