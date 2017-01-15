@@ -1,12 +1,13 @@
 $(function(){
 	//访问的url
 	var URL={
-		saveUrl:"/system/auth/user/addUser"
+		saveUrl:"/system/auth/user/addUser",
+		pageUrl:"/system/auth/user/page",
 	}
 	//列表数据加载
 	initData(1);
 	//查询操作
-	$(".intel_search").on("click",".searchBtn",initData(1));
+	$(".intel_search").on("click",".searchBtn",initData);
 	//分页操作
 	
 	//新增绑定
@@ -25,26 +26,64 @@ $(function(){
 	 * 分页方法
 	 */
 	function initData(pageNo,pageSize){
-		if(pageNo ==1){$(".intel_table").find("tbody").empty();}
+		$(".intel_table").find("tbody").empty();
 		var key=$(".intel_search .keySelect").val();
+		var param ={
+				"pageNo" : (pageNo||1),
+				"pageSize":(pageSize||10)
+		};
+		param[key]=$(".intel_search .keyInput").val();
     	$.ajax({
 			url : URL.pageUrl,
-			data : {
-				key : $(".intel_search .keyInput").val(),
-				"pageNo" : pageNo,
-				"pageSize":(pageSize||10)
-			},
+			data : param,
 			type : "post",
 			dataType:"json",
 			success:function(rs){
-				cosole.info(rs);
-//				if( rs && rs.code =="000000" ){
-//					renderDate(rs.data.list || [],pageNo);
-//				}else{
-//					alert(rs.error);
-//				}
+				if( rs && rs.code =="000000" ){
+					renderDate(rs.data.list);
+				}else{
+					alert(rs.error);
+				}
 			}
 		})
+	}
+	
+	
+	
+	/**
+	 * 渲染数据
+	 */
+	function renderDate(list){
+		var dataArr=[]; 
+		$(list).each(function(i,item){
+			dataArr.push(' <tr>');
+			dataArr.push('<td>'+(i+1)+'</td>');
+			dataArr.push('<td>'+item.code+'</td>');
+			dataArr.push('<td>'+item.account+'</td>');
+			dataArr.push('<td>'+item.name+'</td>');
+			dataArr.push('<td>'+(item.orgName||"汝州天瑞水泥")+'</td>');
+			if( item.isvalid ==1){
+				dataArr.push('<td>有效</td>');
+			}else{
+				dataArr.push('<td>无效</td>');
+			}
+			
+			//来源
+			dataArr.push('<td>'+item.source+'</td>');
+			//登录次数
+			dataArr.push('<td>'+(item.logincount||0)+'</td>');
+			dataArr.push('<td>'+(item.lastLogintimeStr||"")+'</td>');
+			dataArr.push('<td>'+(item.remark||"")+'</td>');
+			//操作
+			dataArr.push('<td>');
+			//修改操作
+			//dataArr.push('<span><a data-toggle="modal" data-target="#edit"><i class="iconfont" data-toggle="tooltip" data-placement="left" title="编辑">&#xe600;</i></a></span>');
+			//dataArr.push('<span><a data-toggle="modal" data-target="#dele"><i class="iconfont" data-toggle="tooltip" data-placement="left" title="删除">&#xe63d;</i></a></span>');
+			dataArr.push('</td>');
+			dataArr.push('</tr>');
+			
+		})
+		$(".intel_table").find("tbody").append(dataArr.join(" "));
 	}
 	/**
 	 * 打开新增弹出框
