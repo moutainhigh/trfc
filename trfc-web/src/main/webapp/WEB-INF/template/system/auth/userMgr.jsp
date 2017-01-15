@@ -99,10 +99,11 @@
             <td>22</td>
             <td>2016-10-12</td>
             <td></td>
-            <td><span >
+            <td>
+            <span>
                 <a data-toggle="modal" data-target="#edit"><i class="iconfont" data-toggle="tooltip" data-placement="left" title="编辑">&#xe600;</i></a>
             </span>
-                        <span >
+            <span>
                 <a data-toggle="modal" data-target="#dele"><i class="iconfont" data-toggle="tooltip" data-placement="left" title="删除">&#xe63d;</i></a>
             </span>
             </td>
