@@ -118,6 +118,7 @@ public class SystemUserService implements ISystemUserService {
 					}else{
 						save.setIsvalid(BusinessConstants.USER_INVALID_BYTE);
 					}
+					save.setSource("脱机");
 					save.setPassword(req.getPassword());
 					save.setCreatetime(System.currentTimeMillis());
 					save.setModifier(req.getCurrUId());

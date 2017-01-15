@@ -36,6 +36,7 @@
 	
 	<!-- 资源文件路径 css js images -->
 	<mvc:resources location="/resources/" mapping="/resources/**"/>
+	<mvc:resources location="/javascript/" mapping="/javascript/**"/>
 	
 	<!-- interceptors -->
 	 <mvc:interceptors>

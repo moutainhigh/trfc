@@ -23,7 +23,7 @@
 </div>
 <!--tab切换的内容-->
 <div class="intel_tabbox">
-<!--采购申请单begin-->
+<!--页面begin-->
 <div class="intel_tabcont">
 <div class="intel_search">
     <div class="intel_bggray">
@@ -33,37 +33,33 @@
         <div class="intel_sline">
         <div class="intel_solo">
             <label>查询条件：</label>
-            <select class="form-control">
-                <option>用户编号</option>
-                <option>登陆账号</option>
-                <option>用户名称</option>
+            <select class="form-control keySelect" >
+                <option value="codeLike">用户编号</option>
+                <option value="accountLike">登陆账号</option>
+                <option value="nameLike">用户名称</option>
             </select>
         </div>
-
-            <div class="intel_solo">
-                <label>关键字：</label>
-                <input type="text">
+        <div class="intel_solo">
+            <label>关键字：</label>
+            <input type="text" class="keyInput" mexlength=20 />
+        </div>
+        <div class="intel_solo">
+            <div class="intel_sbtn">
+                <button class="btn btnblue searchBtn">搜索</button>
             </div>
-            <div class="intel_solo">
-                <label>所属组织：</label>
-                <input type="text">
-            </div>
-
-            <div class="intel_solo">
-                <div class="intel_sbtn">
-                    <button class="btn btnblue ">搜索</button>
-                </div>
-            </div>
+        </div>
         </div>
     </div>
 </div>
 <div class="intel_opera">
     <div class="intel_operasolo">
-        <i class="iconfont colorlv">&#xe61b;</i>
-        <h5>刷新</h5>
+    	<a class="refreshButton">
+	        <i class="iconfont colorlv">&#xe61b;</i>
+	        <h5>刷新</h5>
+        </a>
     </div>
     <div class="intel_operasolo">
-        <a data-toggle="modal" data-target="#add">
+        <a class="addButton">
             <i class="iconfont coloradd">&#xe627;</i>
             <h5>新增</h5>
         </a>
@@ -144,18 +140,6 @@
     </div>
     <!--分页效果结束-->
 </div>
-<!--采购申请单end-->
-
-<!--到货通知单begin-->
-<div class="intel_tabcont hide">
-</div>
-<div class="intel_tabcont hide">
-</div>
-<div class="intel_tabcont hide">
-</div>
-<div class="intel_tabcont hide">
-</div>
-<!--到货通知单end-->
 <!--tab切换的内容end-->
 </div>
 </div>
@@ -242,7 +226,7 @@
 </div>
 <!--查看详情end-->
 <!--新增begin-->
-<div class="modal fade" id="add" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+<div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document" style="width: 750px;">
         <div class="modal-content">
             <div class="modal-header">
@@ -256,38 +240,38 @@
                 <div class="alt_edit">
                     <div class="alt_edit_div">
                         <label>用户编号：</label>
-                        <input type="text">
+                        <input type="text" class="formele"   name="code" maxlength="20">
                     </div>
                     <div class="alt_edit_div">
                         <label>登录账户：</label>
-                        <input type="text">
+                        <input type="text" class="formele" name="account" maxlength="20">
                     </div>
                     <div class="alt_edit_div">
                         <label>用户名称：</label>
-                        <input type="text">
+                        <input type="text" class="formele" name="name" maxlength="20">
                     </div>
                     <div class="alt_edit_div">
                         <label>登录密码：</label>
-                        <input type="password">
+                        <input type="password" class="formele" name="password" maxlength="20">
                     </div>
                     <div class="alt_edit_div">
-                        <label>所属组织：</label>
-                        <input type="text">
+                        <label>所属组织：</label>${orgName}
+                       <!--  <input type="text" class="formele" maxlength="20"> -->
+                       <input type="hidden" name="orgId" value="${orgId}" class="formele" maxlength="20">
                     </div>
                     <div class="alt_edit_div">
                         <label>说明：</label>
-                        <input type="text">
+                        <input type="text" class="formele" name="remark" maxlength="20">
                     </div>
                     <div class="alt_edit_div">
                         <label>选项：</label>
-                        <input type="checkbox"><span>有效</span>
+                        <input type="checkbox" class="formele" name="isvalid" value="1" checked><span>有效</span>
                         <em class="colorred">注：无效用户不能登录。</em>
                     </div>
-
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary">确定</button>
+                <button type="button" class="btn btn-primary submitBtn">确定</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
             </div>
         </div>
@@ -370,12 +354,10 @@
 </div>
 <!--删除end-->
 </div>
+<script type="text/javascript" src="${staticBasePath}/js/md5.js"></script>
+<script type="text/javascript" src="/javascript/system/auth/userMgr.js"></script>
 <script type="text/javascript">
-$(function(){
-	
-	
-	
-});
+
 </script>
 </body>
 </html>

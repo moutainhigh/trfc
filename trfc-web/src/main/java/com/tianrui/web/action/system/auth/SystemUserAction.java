@@ -1,6 +1,7 @@
 package com.tianrui.web.action.system.auth;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,8 +12,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.tianrui.api.req.system.auth.SystemUserQueryReq;
+import com.tianrui.api.req.system.auth.SystemUserSaveReq;
 import com.tianrui.service.impl.system.auth.SystemUserService;
 import com.tianrui.smartfactory.common.vo.Result;
+import com.tianrui.web.util.CurrUserUtils;
 @Controller
 @RequestMapping("system/auth/user")
 public class SystemUserAction {
@@ -24,8 +27,10 @@ public class SystemUserAction {
 	
 	//显示当前页
 	@RequestMapping("main")
-	public ModelAndView main(){
+	public ModelAndView main(HttpServletRequest request){
 		ModelAndView view = new ModelAndView("system/auth/userMgr");
+		view.addObject("orgId",CurrUserUtils.getCurrOrgid(request));
+		view.addObject("orgName",CurrUserUtils.getCurrOrgName(request));
 		return view;
 	}
 	
@@ -45,10 +50,11 @@ public class SystemUserAction {
 	//新增数据
 	@RequestMapping(value="/addUser",method=RequestMethod.POST)
 	@ResponseBody
-	public Result addUser(SystemUserQueryReq req){
+	public Result addUser(HttpServletRequest request,SystemUserSaveReq req){
 		Result rs= Result.getErrorResult();
 		try {
-			rs = systemUserService.page(req);
+			req.setCurrUId(CurrUserUtils.getCurrid(request));
+			rs = systemUserService.addUser(req);
 		} catch (Exception e) {
 			log.error(e.getMessage(),e);
 		}

@@ -23,7 +23,7 @@ public class SystemUserSaveReq extends BaseReq {
 	//说明
 	private String remark;
     //是否有效 0 无效  1有效
-    private String isvalid;
+    private String isvalid="0";
 	//当前用户
 	private String currUId;
 	public String getId() {
