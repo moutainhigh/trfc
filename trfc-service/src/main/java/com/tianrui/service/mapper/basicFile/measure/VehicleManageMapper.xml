@@ -401,6 +401,9 @@
   		<if test="isblacklist != null and isblacklist != ''">
   			and isblacklist = #{isblacklist,jdbcType=VARCHAR}
 		</if>
+  		<if test="state != null and state != ''">
+  			and state = #{state,jdbcType=VARCHAR}
+		</if>
   	</where>
   </select>
   <select id="findVehiclePage" resultMap="BaseResultMap" parameterType="com.tianrui.api.req.basicFile.measure.VehicleManageQuery">
@@ -425,6 +428,9 @@
 		</if>
   		<if test="isblacklist != null and isblacklist != ''">
   			and isblacklist = #{isblacklist,jdbcType=VARCHAR}
+		</if>
+  		<if test="state != null and state != ''">
+  			and state = #{state,jdbcType=VARCHAR}
 		</if>
   	</where>
   	order by createtime desc

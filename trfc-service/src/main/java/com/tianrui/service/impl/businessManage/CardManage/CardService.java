@@ -173,6 +173,7 @@ public class CardService implements ICardService {
 				PropertyUtils.copyProperties(card, cardApi);
 				card.setId(UUIDUtil.getId());
 				card.setState("1");
+				card.setCode("");//IC卡单据编号
 				card.setCreator(cardApi.getCurrUid());
 				card.setCreatetime(System.currentTimeMillis());
 				card.setModifytime(System.currentTimeMillis());

@@ -283,82 +283,62 @@ public class SalesArriveService implements ISalesArriveService {
 	@Override
 	public Result detailApi(ApiSalesArriveQuery query) throws Exception {
 		Result result = Result.getParamErrorResult();
-		if (query != null) {
-			if (StringUtils.isNotBlank(query.getVehicleno())) {
-				VehicleManage vehicle = new VehicleManage();
-				vehicle.setState("1");
-				vehicle.setVehicleno(query.getVehicleno());
-				List<VehicleManage> list = vehicleManageMapper.selectSelective(vehicle);
-				if (list == null || list.size() == 0) {
-					result.setErrorCode(ErrorCode.VEHICLE_NOT_EXIST);
-					return result;
-				}
-				if (StringUtils.isNotBlank(query.getRfid())) {
-					RFID rfid = new RFID();
-					rfid.setRfid(query.getRfid());
-					rfid.setState(true);
-					long count = rfidMapper.selectSelectiveCount(rfid);
-					if(count == 0){
-						result.setErrorCode(ErrorCode.RFID_NOT_EXIST);
-						return result;
-					}
-				}
-				vehicle.setRfid(query.getRfid());
-				List<VehicleManage> list2 = vehicleManageMapper.selectSelective(vehicle);
-				if(list2 == null || list2.size() == 0){
-					result.setErrorCode(ErrorCode.RFID_VEHICLE_NOT_EXIST);
-					return result;
-				}
-				SalesArrive sa = new SalesArrive();
-				sa.setState("1");
-				sa.setVehicleid(list2.get(0).getId());
-				List<SalesArrive> listSales = salesArriveMapper.selectSelective(sa);
-				if(listSales == null || listSales.size() == 0){
-					result.setErrorCode(ErrorCode.VEHICLE_NOT_ARRIVE);
-					return result;
-				}else if(listSales.size() > 1){
-					result.setErrorCode(ErrorCode.VEHICLE_ARRIVE_NOT_ONLY);
-					String code = ",";
-					for(SalesArrive s : listSales){
-						code += s.getCode();
-					}
-					result.setData(code.substring(1, code.length()));
-					return result;
-				}else if(StringUtils.equals(listSales.get(0).getStatus(), "0")){
-					result.setErrorCode(ErrorCode.VEHICLE_ARRIVE_NOT_ENTER);
-					result.setData(listSales.get(0).getCode());
-					return result;
-				}else{
-					SalesArriveResp resp = copyBean2Resp(listSales.get(0));
-					//DriverManageResp driverResp = resp.getDriver();
-					VehicleManageResp vehicleResp = resp.getVehicle();
-					SalesApplicationResp salesApplicationResp = resp.getSalesApplication();
-					CustomerManageResp customerResp = salesApplicationResp.getCustomerManageResp();
-					SalesApplicationDetailResp salesApplicationDetailResp = salesApplicationResp.getDetailResp();
-					MaterielManageResp materielResp = salesApplicationDetailResp.getMateriel();
-					//WarehouseManageResp warehouseResp = salesApplicationDetailResp.getWarehouse();
-					ApiSalesArriveResp api = new ApiSalesArriveResp();
-					api.setVehicleno(vehicleResp.getVehicleno());
-					api.setCustomerid(customerResp.getId());
-					api.setCustomer(customerResp.getName());
-					api.setMaterielid(materielResp.getId());
-					api.setMateriel(materielResp.getName());
-					if(StringUtils.equals(materielResp.getPackagetype(), "0")){
-						api.setCementtype("1");
-						api.setBatchnumber(resp.getSerialnumber());
+		if (query != null && StringUtils.isNotBlank(query.getVehicleno()) && StringUtils.isNotBlank(query.getRfid())) {
+			VehicleManage vehicle = new VehicleManage();
+			vehicle.setState("1");
+			vehicle.setVehicleno(query.getVehicleno());
+			List<VehicleManage> list = vehicleManageMapper.selectSelective(vehicle);
+			//判断车牌号是否存在且唯一
+			if (list != null && list.size() == 1) {
+				RFID rfid = new RFID();
+				rfid.setRfid(query.getRfid());
+				rfid.setState(true);
+				long count = rfidMapper.selectSelectiveCount(rfid);
+				//判断RFID是否已注册且唯一
+				if(count == 1){
+					if(StringUtils.equals(query.getRfid(), list.get(0).getRfid())){
+						SalesArrive sa = new SalesArrive();
+						sa.setState("1");
+						sa.setVehicleid(list.get(0).getId());
+						List<SalesArrive> listSales = salesArriveMapper.selectSelective(sa);
+						if(listSales == null || listSales.size() == 0){
+							result.setErrorCode(ErrorCode.VEHICLE_NOT_ARRIVE);
+						}else{
+							SalesArriveResp resp = copyBean2Resp(listSales.get(0));
+							VehicleManageResp vehicleResp = resp.getVehicle();
+							SalesApplicationResp salesApplicationResp = resp.getSalesApplication();
+							CustomerManageResp customerResp = salesApplicationResp.getCustomerManageResp();
+							SalesApplicationDetailResp salesApplicationDetailResp = salesApplicationResp.getDetailResp();
+							MaterielManageResp materielResp = salesApplicationDetailResp.getMateriel();
+							ApiSalesArriveResp api = new ApiSalesArriveResp();
+							api.setVehicleno(vehicleResp.getVehicleno());
+							api.setCustomerid(customerResp.getId());
+							api.setCustomer(customerResp.getName());
+							api.setMaterielid(materielResp.getId());
+							api.setMateriel(materielResp.getName());
+							if(StringUtils.equals(materielResp.getPackagetype(), "0")){
+								api.setCementtype("1");
+								api.setBatchnumber(resp.getSerialnumber());
+							}else{
+								api.setCementtype("2");
+							}
+							api.setServicetype("2");
+							api.setNotionformcode(resp.getCode());
+							api.setPrimary("");
+							api.setVehicleid(vehicleResp.getId());
+							api.setMinemouth("");
+							api.setNumber(resp.getTakeamount().toString());
+							result.setData(api);
+							result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+						}
 					}else{
-						api.setCementtype("2");
+						result.setErrorCode(ErrorCode.RFID_VEHICLE_NOT_EXIST);
 					}
-					api.setServicetype("2");
-					api.setNotionformcode(resp.getCode());
-					api.setPrimary("");
-					api.setVehicleid(vehicleResp.getId());
-					api.setMinemouth("");
-					api.setNumber(resp.getTakeamount().toString());
-					result.setData(api);
-					result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
-					return result;
+				}else{
+					result.setErrorCode(ErrorCode.RFID_NOT_EXIST);
 				}
+			}else{
+				result.setErrorCode(ErrorCode.VEHICLE_NOT_EXIST);
 			}
 		}
 		return result;

@@ -54,6 +54,7 @@ public class VehicleManageService implements IVehicleManageService {
 		PaginationVO<VehicleManageResp> page = null;
 		if (query != null) {
 			page = new PaginationVO<VehicleManageResp>();
+			query.setState("1");
 			long count = vehicleManageMapper.findVehiclePageCount(query);
 			if (count > 0) {
 				query.setStart((query.getPageNo() - 1) * query.getPageSize());
@@ -287,54 +288,51 @@ public class VehicleManageService implements IVehicleManageService {
 	@Override
 	public Result vehicleCheck(VehicleManageApi vehicleManageApi) {
 		Result result = Result.getParamErrorResult();
-		if (vehicleManageApi != null) {
-			if (StringUtils.isNotBlank(vehicleManageApi.getVehicleNo())) {
-				VehicleManage vehicle = new VehicleManage();
-				vehicle.setState("1");
-				vehicle.setVehicleno(vehicleManageApi.getVehicleNo());
-				List<VehicleManage> list = vehicleManageMapper.selectSelective(vehicle);
-				if (list == null || list.size() == 0) {
-					result.setErrorCode(ErrorCode.VEHICLE_NOT_EXIST);
-					return result;
-				}
-				if (StringUtils.isNotBlank(vehicleManageApi.getRfid())) {
-					RFID rfid = new RFID();
-					rfid.setRfid(vehicleManageApi.getRfid());
-					rfid.setState(true);
-					long count = rfidMapper.selectSelectiveCount(rfid);
-					if(count == 0){
-						result.setErrorCode(ErrorCode.RFID_NOT_EXIST);
-						return result;
+		if (vehicleManageApi != null && StringUtils.isNotBlank(vehicleManageApi.getVehicleNo()) && StringUtils.isNotBlank(vehicleManageApi.getRfid())) {
+			VehicleManage vehicle = new VehicleManage();
+			vehicle.setState("1");
+			vehicle.setVehicleno(vehicleManageApi.getVehicleNo());
+			List<VehicleManage> list = vehicleManageMapper.selectSelective(vehicle);
+			//判断车牌号是否存在且唯一
+			if (list != null && list.size() == 1) {
+				RFID rfid = new RFID();
+				rfid.setRfid(vehicleManageApi.getRfid());
+				rfid.setState(true);
+				long count = rfidMapper.selectSelectiveCount(rfid);
+				//判断RFID是否已注册且唯一
+				if(count == 1){
+					if(StringUtils.equals(vehicleManageApi.getRfid(), list.get(0).getRfid())){
+						SalesArrive sa = new SalesArrive();
+						sa.setState("1");
+						sa.setVehicleid(list.get(0).getId());
+						List<SalesArrive> listSales = salesArriveMapper.selectSelective(sa);
+						if(listSales == null || listSales.size() == 0){
+							//判断是否有通知单
+							result.setErrorCode(ErrorCode.VEHICLE_NOT_ARRIVE);
+						}else if(listSales.size() > 1){
+							//判断是否有多个通知单
+							result.setErrorCode(ErrorCode.VEHICLE_ARRIVE_NOT_ONLY);
+							String code = ",";
+							for(SalesArrive s : listSales){
+								code += s.getCode();
+							}
+							result.setData(code.substring(1, code.length()));
+						}else if(!StringUtils.equals(listSales.get(0).getStatus(), "0")){
+							//判断是否已经入场
+							result.setErrorCode(ErrorCode.VEHICLE_ARRIVE_ALREADY_ENTER);
+							result.setData(listSales.get(0).getCode());
+						}else{
+							//合法
+							result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+						}
+					}else{
+						result.setErrorCode(ErrorCode.RFID_VEHICLE_NOT_EXIST);
 					}
-				}
-				vehicle.setRfid(vehicleManageApi.getRfid());
-				List<VehicleManage> list2 = vehicleManageMapper.selectSelective(vehicle);
-				if(list2 == null || list2.size() == 0){
-					result.setErrorCode(ErrorCode.RFID_VEHICLE_NOT_EXIST);
-					return result;
-				}
-				SalesArrive sa = new SalesArrive();
-				sa.setState("1");
-				sa.setVehicleid(list2.get(0).getId());
-				List<SalesArrive> listSales = salesArriveMapper.selectSelective(sa);
-				if(listSales == null || listSales.size() == 0){
-					result.setErrorCode(ErrorCode.VEHICLE_NOT_ARRIVE);
-					return result;
-				}else if(listSales.size() > 1){
-					result.setErrorCode(ErrorCode.VEHICLE_ARRIVE_NOT_ONLY);
-					String code = ",";
-					for(SalesArrive s : listSales){
-						code += s.getCode();
-					}
-					result.setData(code.substring(1, code.length()));
-					return result;
-				}else if(!StringUtils.equals(listSales.get(0).getStatus(), "0")){
-					result.setErrorCode(ErrorCode.VEHICLE_ARRIVE_ALREADY_ENTER);
-					result.setData(listSales.get(0).getCode());
-					return result;
 				}else{
-					result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+					result.setErrorCode(ErrorCode.RFID_NOT_EXIST);
 				}
+			}else{
+				result.setErrorCode(ErrorCode.VEHICLE_NOT_EXIST);
 			}
 		}
 		return result;
