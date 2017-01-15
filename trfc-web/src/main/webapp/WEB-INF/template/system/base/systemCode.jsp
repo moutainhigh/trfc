@@ -1,129 +1,17 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
-<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!Doctype html>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>index</title>
-<meta name="keywords" content=" 天瑞" />
-<meta name="description" content="">
-<meta name="author" content="">
-<link href="${basePath }/css/bootstrap.css" rel="stylesheet">
-<link href="${basePath }/css/base.css" rel="stylesheet">
-<link href="${basePath }/css/style.css" rel="stylesheet">
-<link href="${basePath }/css/iconfont.css" rel="stylesheet">
-<link href="${basePath }/css/pagination.css" rel="stylesheet">
-<link href="${basePath }/css/jquery-confirm.css" rel="stylesheet">
-<!--这个日历控件js必须放头部-->
-<script language="javascript" type="text/javascript"
-	src="${basePath }/js/My97DatePicker/WdatePicker.js"></script>
-<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
-<!--[if lt IE 9]>
-    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
-
+<title>无人值守-系统业务-自定义编号</title>
+<!-- 引用公共header部分 -->
+<jsp:include page="../../common/base/header_busi.jsp"></jsp:include>
 </head>
 <body>
-	<div class="left ">
-		<div class="user">
-			<a href="#" data-toggle="dropdown" data-target="#menu-messages"
-				class="dropdown-toggle"> <img src="${basePath }/images/tx.jpg"
-				class="img-circle"> <label>超级管理员</label> <i class="iconfont">&#xe602;</i>
-			</a>
-			<ul class="dropdown-menu">
-				<li><a data-toggle="modal" data-target="#account"><i
-						class="iconfont">&#xe60e;</i>个人资料</a></li>
-				<li class="divider"></li>
-				<li><a data-toggle="modal" data-target="#password"><i
-						class="iconfont">&#xe60d;</i> 设置</a></li>
-			</ul>
-		</div>
-		<div class="menu">
-			<label>菜单</label> <i class="iconfont fr">&#xe61a;</i>
-		</div>
-		<div class="menu_collap">
-			<ul class="typelist ">
-				<a href="#ityewu" data-toggle="collapse" class="menu_collap_tit"
-					onclick=""> <label>业务管理</label> <span><i
-						class="iconfont">&#xe604;</i></span>
-				</a>
+<div class="it_admin">
+	<!-- 引用公共left部分 -->
+	<jsp:include page="../../common/base/left_busi.jsp"></jsp:include>
 
-				<div class="in" id="ityewu">
-					<li><a href="${basePath }/cg/cg_index.html"> <i
-							class="iconfont">&#xe617;</i> <label>采购管理</label>
-					</a></li>
-					<li><a href="${basePath }/sell/sell_apply.html"> <i
-							class="iconfont">&#xe615;</i> <label>销售管理</label>
-					</a></li>
-					<li><a> <i class="iconfont">&#xe614;</i> <label>其他业务</label>
-					</a></li>
-					<li><a> <i class="iconfont">&#xe618;</i> <label>质控管理</label>
-					</a></li>
-				</div>
-				<a href="#itdangan" data-toggle="collapse" class="menu_collap_tit">
-					<label>基础档案</label> <span><i class="iconfont">&#xe604;</i></span>
-				</a>
-
-				<div class="in" id="itdangan">
-					<li><a href="${basePath }/file_nc/client.html"> <i
-							class="iconfont">&#xe617;</i> <label>NC档案</label>
-					</a></li>
-					<li><a href="${basePath }/file_jil/car.html"> <i
-							class="iconfont">&#xe617;</i> <label>计量档案</label>
-					</a></li>
-					<li><a href="${basePath }/file-other/car.html"> <i
-							class="iconfont">&#xe617;</i> <label>其他档案</label>
-					</a></li>
-				</div>
-				<a href="#sys" data-toggle="collapse" class="menu_collap_tit"> <label>系统设置</label>
-					<span><i class="iconfont">&#xe604;</i></span>
-				</a>
-
-				<div class="in" id="sys">
-					<li><a href="#"> <i class="iconfont">&#xe617;</i> <label>系统权限</label>
-					</a></li>
-					<li class="active"><a
-						href="${basePath }/system-yewu/bianhao.html"> <i
-							class="iconfont">&#xe617;</i> <label>系统业务</label>
-					</a></li>
-				</div>
-			</ul>
-		</div>
-	</div>
-	<div class="leftmini hide">
-		<div class="user">
-			<a href="#" data-toggle="dropdown" data-target="#menu-messages"
-				class="dropdown-toggle"> <img src="${basePath }/images/tx.jpg"
-				class="img-circle">
-			</a>
-			<ul class="dropdown-menu">
-				<li><a data-toggle="modal" data-target="#account"><i
-						class="iconfont">&#xe60e;</i>个人资料</a></li>
-				<li class="divider"></li>
-				<li><a data-toggle="modal" data-target="#password"><i
-						class="iconfont">&#xe60d;</i> 设置</a></li>
-			</ul>
-		</div>
-		<div class="menu2">
-			<i class="iconfont">&#xe635;</i>
-		</div>
-		<ul class="typelist">
-			<li class="active" data-toggle="tooltip" data-placement="right"
-				title="采购管理"><i class="iconfont">&#xe617;</i></li>
-			<li data-toggle="tooltip" data-placement="right" title="销售管理"><i
-				class="iconfont">&#xe615;</i></li>
-			<li data-toggle="tooltip" data-placement="right" title=" 其他"><i
-				class="iconfont">&#xe614;</i></li>
-			<li><i class="iconfont">&#xe618;</i></li>
-			<li><i class="iconfont">&#xe619;</i></li>
-			<li><i class="iconfont">&#xe613;</i></li>
-			<li><i class="iconfont">&#xe612;</i></li>
-			<li><i class="iconfont">&#xe610;</i></li>
-			<li><i class="iconfont">&#xe60f;</i></li>
-			<li><i class="iconfont">&#xe611;</i></li>
-		</ul>
-	</div>
 	<div class="right">
 		<div class="intel_tab">
 			<ul class="intel_menu">
@@ -149,8 +37,8 @@
 						<h5>刷新</h5>
 					</div>
 					<div class="intel_operasolo" id="systemCode_add">
-						<a data-toggle="modal" data-target="#add"> 
-						<i class="iconfont coloradd">&#xe627;</i>
+						<a data-toggle="modal" data-target="#add"> <i
+							class="iconfont coloradd">&#xe627;</i>
 							<h5>新增</h5>
 						</a>
 					</div>
@@ -269,29 +157,33 @@
 					</div>
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-primary" 
+					<button type="button" class="btn btn-primary"
 						id="systemCode_edit_ensure">确定</button>
-					<button type="button" class="btn btn-default" data-dismiss="modal" id="systemCode_edit_cancle">取消</button>
+					<button type="button" class="btn btn-default" data-dismiss="modal"
+						id="systemCode_edit_cancle">取消</button>
 				</div>
 			</div>
 		</div>
 	</div>
 	<!--编辑end-->
 	<!--新增begin-->
-<div class="modal fade" id="add" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-    <div class="modal-dialog" role="document" style="width: 750px;">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                        aria-hidden="true">&times;</span></button>
-                <div class="alt_head">
-                    <h5>自定义编号信息新增</h5>
-                </div>
-            </div>
-            <input type="hidden" id="systemCode_add_id" value="0">
-            <div class="modal-body">
-                <div class="alt_edit">
-                    <div class="alt_edit_div">
+	<div class="modal fade" id="add" tabindex="-1" role="dialog"
+		aria-labelledby="myModalLabel">
+		<div class="modal-dialog" role="document" style="width: 750px;">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<div class="alt_head">
+						<h5>自定义编号信息新增</h5>
+					</div>
+				</div>
+				<input type="hidden" id="systemCode_add_id" value="0">
+				<div class="modal-body">
+					<div class="alt_edit">
+						<div class="alt_edit_div">
 							<label>单据类型：</label> <input type="text" value=" 000"
 								id="systemCode_add_key">
 						</div>
@@ -344,46 +236,47 @@
 							<label>例子：</label> <input type="text" value=" 000"
 								id="systemCode_add_example">
 						</div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary" id="systemCode_add_ensure">确定</button>
-                <button type="button" class="btn btn-default" data-dismiss="modal" id="systemCode_add_cancle">取消</button>
-            </div>
-        </div>
-    </div>
-</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary"
+						id="systemCode_add_ensure">确定</button>
+					<button type="button" class="btn btn-default" data-dismiss="modal"
+						id="systemCode_add_cancle">取消</button>
+				</div>
+			</div>
+		</div>
+	</div>
 	<!-- 新增end -->
-<!--删除begin-->
-<div class="modal fade" id="dele" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-    <div class="modal-dialog" role="document" style="width: 400px;">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                        aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">提示</h4>
-            </div>
-            <div class="modal-body">
-                <div class="alert_qf">
-                    <img src="${basePath }/images/tishi.png"><label>注：删除操作不可恢复，您确定要继续么？</label>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary" id="systemCode_delete_ensure">确定</button>
-                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-            </div>
-        </div>
-    </div>
+	<!--删除begin-->
+	<div class="modal fade" id="dele" tabindex="-1" role="dialog"
+		aria-labelledby="myModalLabel">
+		<div class="modal-dialog" role="document" style="width: 400px;">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title">提示</h4>
+				</div>
+				<div class="modal-body">
+					<div class="alert_qf">
+						<img src="${staticBasePath }/images/tishi.png"><label>注：删除操作不可恢复，您确定要继续么？</label>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary"
+						id="systemCode_delete_ensure">确定</button>
+					<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
-<!--删除end-->
-	<script type="text/javascript" src="${basePath }/js/jquery-1.11.1.js"></script>
-	<script type="text/javascript" src="${basePath }/js/bootstrap.js"></script>
-	<%-- <script type="text/javascript" src="${basePath }/js/myself.js"></script> --%>
-	<script type="text/javascript" src="${basePath }/js/layer/layer.js"></script>
-	<script type="text/javascript"
-		src="${basePath }/js/system/base/systemCode.js"></script>
-	<script type="text/javascript">
-		
-	</script>
+	<!--删除end-->
+	<script type="text/javascript" src="${staticBasePath }/js/layer/layer.js"></script>
+	<script type="text/javascript" src="/javascript/system/base/systemCode.js"></script>
+	
 </body>
 </html>

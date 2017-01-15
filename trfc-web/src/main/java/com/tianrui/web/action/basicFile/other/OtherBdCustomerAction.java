@@ -14,7 +14,7 @@ import com.tianrui.api.resp.basicFile.other.OtherBdCustomerResp;
 import com.tianrui.smartfactory.common.vo.Result;
 
 @Controller
-@RequestMapping("other/customer")
+@RequestMapping("basicFile/other/customer")
 public class OtherBdCustomerAction {
 	@Resource
 	private IOtherBdCustomerService otherBdCustomerService;
