@@ -42,22 +42,28 @@ public class SystemDataDictService implements ISystemDataDictService{
 	@Override
 	public Result findSystemDataDicts(SystemDataDictReq req){
 		Result result=Result.getSuccessResult();
+		//参数不能为空校验
 		if(req!=null){
 			List<SystemDataDictResp> page=new ArrayList<SystemDataDictResp>();
 			SystemDataDict dataDict=new SystemDataDict();
 			try {
+				//拷贝SystemDataDictReq中的属性到数据字典实体bean中
 				PropertyUtils.copyProperties(dataDict, req);
 			} catch (Exception e) {
+				//抓取异常
 				e.printStackTrace();
 				result.setErrorCode(ErrorCode.PARAM_ERROR);
 			} 
+			//查询数据
 			List<SystemDataDict> list=this.systemDataDictMapper.findSystemDataDicts(req);
 			try {
+				//集合转换
 				page=copyBeanListRespList(list);
 			} catch (Exception e) {
 				e.printStackTrace();
 				result.setErrorCode(ErrorCode.OPERATE_ERROR);
 			}
+			//查询成功时保存数据
 			result.setData(page);
 		}
 		return result;
@@ -71,21 +77,28 @@ public class SystemDataDictService implements ISystemDataDictService{
 	@Override
 	public Result addSystemDataDict(SystemDataDictReq req) {
 		Result result = Result.getSuccessResult();
+		//参数不能为空校验
 		if(req != null){
 			SystemDataDict dataDict=new SystemDataDict();
 			try {
+				//拷贝SystemDataDictReq中的属性到数据字典实体bean中
 				PropertyUtils.copyProperties(dataDict, req);
 			} catch (Exception e) {
+				//抓取异常
 				e.printStackTrace();
 				result.setErrorCode(ErrorCode.PARAM_ERROR);
 			} 
+			//生成Id
 			dataDict.setId(UUIDUtil.getId());
+			//假设一个创建者/修改者   (实际:用userId获取)
 			dataDict.setCreator("YZF");
 			dataDict.setCreatetime(System.currentTimeMillis());
 			dataDict.setModifier("YZF");
 			dataDict.setModifytime(System.currentTimeMillis());
 			dataDict.setUtc(new Timestamp(System.currentTimeMillis()));
+			//插入数据
 			int n=this.systemDataDictMapper.insert(dataDict);
+			//插入成功时保存数据，失败时抓取异常
 			if(n > 0){
 				result.setData(n);
 			}else if(n == -1){
@@ -104,17 +117,22 @@ public class SystemDataDictService implements ISystemDataDictService{
 	@Override
 	public Result editSystemDataDict(SystemDataDictReq req) {
 		Result result=Result.getSuccessResult();
+		//参数不能为空校验
 		if(req != null){
 			SystemDataDict dataDict=new SystemDataDict();
 			try {
+				//拷贝SystemDataDictReq中的属性到数据字典实体bean中
 				PropertyUtils.copyProperties(dataDict, req);
 			} catch (Exception e) {
+				//抓取异常
 				e.printStackTrace();
 				result.setErrorCode(ErrorCode.PARAM_ERROR);
 			} 
 			dataDict.setModifytime(System.currentTimeMillis());
 			dataDict.setUtc(new Timestamp(System.currentTimeMillis()));
+			//修改数据
 			int n=this.systemDataDictMapper.updateByPrimaryKeySelective(dataDict);
+			//修改成功时保存数据，失败时抓取异常
 			if(n > 0){
 				result.setData(n);
 			}else{
@@ -131,12 +149,17 @@ public class SystemDataDictService implements ISystemDataDictService{
 	@Override
 	public Result deleteSystemDataDict(String id) {
 		Result result=Result.getSuccessResult();
+		//参数不能为空校验
 		if(id!=null && !id.trim().isEmpty()){
+			//是否能查到数据
 			SystemDataDict dataDict=this.systemDataDictMapper.selectByPrimaryKey(id);
 			if(dataDict!=null){
+				//根据Id查询数据字典子表里的数据
 				List<SystemDataDictItem> list=this.systemDataDictItemMapper.selectByDictId(id);
+				//子表里有其对应的数据则不能被删除，没有则执行删除操作
 				if(list.isEmpty()){
 					int n=this.systemDataDictMapper.deleteByPrimaryKey(id);
+					//删除成功时保存数据
 					if(n>0){
 						result.setData(n); 	
 					}
@@ -190,23 +213,29 @@ public class SystemDataDictService implements ISystemDataDictService{
 	@Override
 	public Result findSystemDataDictItems(SystemDataDictItemReq req) {
 		Result result=Result.getSuccessResult();
+		//参数不能为空校验
 		if(req!=null){
 			List<SystemDataDictItemResp> page=new ArrayList<SystemDataDictItemResp>();
 			SystemDataDictItem dictItem=new SystemDataDictItem();
 			try {
+				//拷贝SystemDataDictItemReq中的属性到数据字典子表实体bean中
 				PropertyUtils.copyProperties(dictItem, req);
 			} catch (Exception e) {
+				//抓取异常
 				e.printStackTrace();
 				result.setErrorCode(ErrorCode.PARAM_ERROR);
 			} 
 			String dictId=dictItem.getDictid();
+			//查询数据
 			List<SystemDataDictItem> list=this.systemDataDictItemMapper.selectByDictId(dictId);
 			try {
+				//集合转换
 				page=copyBeanList2RespList(list);
 			} catch (Exception e) {
 				e.printStackTrace();
 				result.setErrorCode(ErrorCode.OPERATE_ERROR);
 			}
+			//查询成功时保存数据
 			result.setData(page);
 		}
 		return result;
@@ -219,21 +248,27 @@ public class SystemDataDictService implements ISystemDataDictService{
 	@Override
 	public Result addSystemDataDictItem(SystemDataDictItemReq req) {
 		Result result = Result.getSuccessResult();
+		//参数不能为空校验
 		if(req != null){ 
 			SystemDataDictItem dictItem=new SystemDataDictItem();
 			try {
+				//拷贝SystemDataDictItemReq中的属性到数据字典子表实体bean中
 				PropertyUtils.copyProperties(dictItem, req);
 			} catch (Exception e) {
 				e.printStackTrace();
 				result.setErrorCode(ErrorCode.PARAM_ERROR);
 			} 
+			//生成Id
 			dictItem.setId(UUIDUtil.getId());
+			//假设一个创建者/修改者   (实际:用userId获取)
 			dictItem.setCreator("YZF");
 			dictItem.setCreatetime(System.currentTimeMillis());
 			dictItem.setModifier("YZF");
 			dictItem.setModifytime(System.currentTimeMillis());
 			dictItem.setUtc(new Timestamp(System.currentTimeMillis()));
+			//插入数据
 			int n=this.systemDataDictItemMapper.insert(dictItem);
+			//插入成功时保存数据，失败时抓取异常
 			if(n > 0){
 				result.setData(n);
 			}else if(n == -1){
@@ -252,17 +287,22 @@ public class SystemDataDictService implements ISystemDataDictService{
 	@Override
 	public Result editSystemDataDictItem(SystemDataDictItemReq req) {
 		Result result=Result.getSuccessResult();
+		//参数不能为空校验
 		if(req != null){
 			SystemDataDictItem dictItem=new SystemDataDictItem();
 			try {
+				//拷贝SystemDataDictItemReq中的属性到数据字典子表实体bean中
 				PropertyUtils.copyProperties(dictItem, req);
 			} catch (Exception e) {
+				//抓取异常
 				e.printStackTrace();
 				result.setErrorCode(ErrorCode.PARAM_ERROR);
 			} 
 			dictItem.setModifytime(System.currentTimeMillis());
 			dictItem.setUtc(new Timestamp(System.currentTimeMillis()));
+			//修改数据
 			int n=this.systemDataDictItemMapper.updateByPrimaryKeySelective(dictItem);
+			//修改成功时保存数据，失败时抓取异常
 			if(n > 0){
 				result.setData(n);
 			}else{
@@ -279,10 +319,14 @@ public class SystemDataDictService implements ISystemDataDictService{
 	@Override
 	public Result deleteSystemDataDictItem(String id) {
 		Result result=Result.getSuccessResult();
+		//参数不能为空校验
 		if(id!=null && !id.trim().isEmpty()){
+			//此条数据是否存在
 			SystemDataDictItem dictItem=this.systemDataDictItemMapper.selectByPrimaryKey(id);
+			//数据存在则执行删除，失败则抓取异常
 			if(dictItem!=null){
 				int n=this.systemDataDictItemMapper.deleteByPrimaryKey(id);
+				//删除成功时保存数据，失败时抓取异常
 				if(n > 0){
 					result.setData(n);
 				}else{

@@ -139,6 +139,24 @@ collap_bg(menu_li);
 var juese_li = $('.sys_collap ul li');
 collap_bg(juese_li);
 
+//layer删除
+$('.delete').on('click', function(){
+    layer.open({
+        content: '您确定要删除吗？',
+        area: '600px',
+        closeBtn:1,
+        shadeClose:true,
+        btn: ['确定', '取消'],
+        yes: function(index, layero){
+            //按钮【确定】的回调
+        },btn2: function(index, layero){
+            //按钮【取消】的回调
+        }
+        ,cancel: function(){
+            //右上角关闭回调
+        }
+    });
+});
 
 
 
