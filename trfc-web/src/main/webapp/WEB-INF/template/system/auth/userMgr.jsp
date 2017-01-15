@@ -12,8 +12,15 @@
 <!-- 引用公共left部分 -->
 <jsp:include page="../../common/base/left_busi.jsp"></jsp:include>
 <div class="right">
-	<!-- 引用公共right_head部分 -->
-	<jsp:include page="../../common/base/right_head_busi.jsp"></jsp:include>
+<div class="intel_tab">
+    <!--tab切换标题-->
+    <ul class="intel_menu">
+     <!--    <li>菜单管理</li>
+        <li>角色管理</li>
+        <li>角色权限</li> -->
+        <li class="select">用户管理</li>
+    </ul>
+</div>
 <!--tab切换的内容-->
 <div class="intel_tabbox">
 <!--采购申请单begin-->
@@ -140,24 +147,12 @@
 
 <!--到货通知单begin-->
 <div class="intel_tabcont hide">
-    2
 </div>
-<!--到货通知单end-->
-
-<!--退货通知单begin-->
 <div class="intel_tabcont hide">
-    3
 </div>
-<!--退货通知单end-->
-
-<!--到货通知单begin-->
 <div class="intel_tabcont hide">
-    4
 </div>
-<!--到货通知单end-->
-<!--到货通知单begin-->
 <div class="intel_tabcont hide">
-    5
 </div>
 <!--到货通知单end-->
 <!--tab切换的内容end-->
@@ -374,5 +369,12 @@
 </div>
 <!--删除end-->
 </div>
+<script type="text/javascript">
+$(function(){
+	
+	
+	
+});
+</script>
 </body>
 </html>
