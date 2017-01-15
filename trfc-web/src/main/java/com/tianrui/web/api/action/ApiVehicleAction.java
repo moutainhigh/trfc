@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.tianrui.api.intf.basicFile.measure.IVehicleManageService;
@@ -31,7 +32,7 @@ public class ApiVehicleAction {
 	private IVehicleManageService vehicleManageService;
 	
 	//车辆 ic卡绑定
-	@RequestMapping("vehicleCard")
+	@RequestMapping(value="vehicleCard",method=RequestMethod.POST)
 	@ApiParamRawType(VehicleManageApi.class)
 	@ApiAuthValidation(callType="2")
 	@ResponseBody

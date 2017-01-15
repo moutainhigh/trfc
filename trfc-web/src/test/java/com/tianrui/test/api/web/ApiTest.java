@@ -51,36 +51,24 @@ public class ApiTest {
 		api.setSign(Md5Utils.MD5(JSON.toJSONString(api)));
 	}
 	static String  httpPost(String url,String param){
-		StringBuffer sb = new StringBuffer("");
+		String sb = null;
 	    try {
 			URL realUrl = new URL(url);
 	        // 打开和URL之间的连接
 			HttpURLConnection conn = (HttpURLConnection)realUrl.openConnection();
 	        // 设置通用的请求属性
 			conn.setRequestMethod("POST");
-			conn.setUseCaches(false);
-			conn.setInstanceFollowRedirects(true);
-			//conn.setRequestProperty("Content-Type","aplication/json");
-			//conn.setRequestProperty("Content-Type","aplication/x-www-form-urlencoded");
-	        // 发送POST请求必须设置如下两行
-	        conn.setDoOutput(true);
-	        conn.setDoInput(true);
+			
+		    // 表单参数与get形式一样
+			conn.setDoOutput(true);// 是否输入参数
+			
 	        //连接
-	        conn.connect();
+	        //conn.connect();
 	        // 获取URLConnection对象对应的输出流
-	        DataOutputStream out = new DataOutputStream(conn.getOutputStream());
-	        out.writeBytes(param);
-	        // flush输出流的缓冲
-	        out.flush();
-            out.close();
+	        conn.getOutputStream().write(param.toString().getBytes());// 输入参数
 	        // 定义BufferedReader输入流来读取URL的响应
-            BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-            String lines="";
-            while ((lines = reader.readLine()) != null) {
-                lines = new String(lines.getBytes(), "utf-8");
-                sb.append(lines);
-            }
-            reader.close();
+    		BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+    		sb = in.readLine();
             // 断开连接
             conn.disconnect();
 	    }catch(Exception e){
@@ -93,7 +81,7 @@ public class ApiTest {
 //		setkey(req);
 //		setMd5(req);
 //		String param =JSON.toJSONString(req);
-//		System.out.println(httpPost(domin+uri,"p="+param));
+//		System.out.println(httpPost(domin+uri_login,"p="+param));
 		
 		ApiParam<VehicleManageApi> req =getParam1();
 		setkey(req);
