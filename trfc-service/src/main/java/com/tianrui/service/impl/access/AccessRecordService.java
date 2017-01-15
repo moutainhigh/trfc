@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.tianrui.api.intf.access.IAccessRecordService;
 import com.tianrui.api.req.basicFile.measure.VehicleCheckApi;
@@ -37,47 +38,83 @@ public class AccessRecordService implements IAccessRecordService {
 	/**
 	 * 新增数据
 	 */
+	@Transactional
 	@Override
 	public Result add(ApiDoorSystemSave api) {
 		Result result = Result.getParamErrorResult();
-		if(api!=null && StringUtils.isNotBlank(api.getNotionformcode()) && StringUtils.isNotBlank(api.getIccode())){
+		if(api!=null && StringUtils.isNotBlank(api.getNotionformcode()) && StringUtils.isNotBlank(api.getIccode())
+				&& StringUtils.isNotBlank(api.getType()) && StringUtils.isNotBlank(api.getTime())){
 			Card card = new Card();
 			card.setState("1");
 			card.setCardstatus("1");
-			card.setCardcode(api.getIccode());
+			card.setCardno(api.getIccode());
 			List<Card> listCard = cardMapper.selectSelective(card);
-			if(listCard == null || listCard.size() == 0){
+			if(listCard != null && listCard.size() == 1){
+				SalesArrive sa = new SalesArrive();
+				sa.setCode(api.getNotionformcode());
+				List<SalesArrive> list = salesArriveMapper.selectSelective(sa);
+				if(list != null && list.size() == 1){
+					//入厂
+					if(StringUtils.equals(api.getType(), "1")){
+						SalesArriveQuery query = new SalesArriveQuery();
+						query.setIcardid(listCard.get(0).getId());
+						query.setState("1");
+						//检测IC卡有没有被使用
+						int count = salesArriveMapper.checkICUse(query);
+						if(count > 0){
+							result.setErrorCode(ErrorCode.CARD_IN_USE);
+							return result;
+						}
+					}else{
+						//出厂
+						AccessRecord access = new AccessRecord();
+						access.setSalesarrivecode(api.getNotionformcode());
+						access.setIcardcode(api.getIccode());
+						access.setAccesstype("1");
+						List<AccessRecord> listAccess = accessRecordMapper.selectSelective(access);
+						if(listAccess == null || listAccess.size() == 0){
+							result.setErrorCode(ErrorCode.VEHICLE_ARRIVE_NOT_ENTER);
+							return result;
+						}
+					}
+					AccessRecord record = new AccessRecord();
+					record.setId(UUIDUtil.getId());
+					record.setSalesarrivecode(api.getNotionformcode());
+					record.setIcardcode(api.getIccode());
+					record.setAccesstype(api.getType());
+					record.setIntotime(api.getTime());
+					//此处添加 创建者 创建时间 修改者 修改时间
+					record.setCreator(api.getCurrUid());
+					record.setCreatetime(System.currentTimeMillis());
+					record.setModifier(api.getCurrUid());
+					record.setModifytime(System.currentTimeMillis());
+					int index = accessRecordMapper.insertSelective(record);
+					if(index == 1){
+						//操作成功
+						//修改通知单状态
+						sa.setId(list.get(0).getId());
+						sa.setCode(null);
+						if(StringUtils.equals(api.getType(), "1")){
+							sa.setStatus("6");
+							sa.setIcardid(listCard.get(0).getId());
+						}else{
+							sa.setStatus("5");
+						}
+						if(salesArriveMapper.updateByPrimaryKeySelective(sa) > 0){
+							result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+							result.setData(true);
+						}else{
+							result.setErrorCode(ErrorCode.OPERATE_ERROR);
+						}
+					}else{
+						result.setErrorCode(ErrorCode.OPERATE_ERROR);
+					}
+				}else{
+					result.setErrorCode(ErrorCode.SALESARRIVE_NOT_EXIST);
+				}
+			}else{
 				result.setErrorCode(ErrorCode.CARD_NOT_EXIST);
-				return result;
 			}
-			SalesArriveQuery query = new SalesArriveQuery();
-			query.setIcardid(listCard.get(0).getId());
-			query.setState("1");
-			int count = salesArriveMapper.checkICUse(query);
-			if(count > 0){
-				result.setErrorCode(ErrorCode.CARD_IN_USE);
-				return result;
-			}
-			AccessRecord record = new AccessRecord();
-			record.setId(UUIDUtil.getId());
-			record.setSalesarrivecode(api.getNotionformcode());
-			record.setIcardcode(api.getIccode());
-			record.setAccesstype(api.getType());
-			record.setIntotime(api.getTime());
-			//此处添加 创建者 创建时间 修改者 修改时间
-			record.setCreator(api.getCurrUid());
-			record.setCreatetime(System.currentTimeMillis());
-			record.setModifier(api.getCurrUid());
-			record.setModifytime(System.currentTimeMillis());
-			int index = accessRecordMapper.insertSelective(record);
-			//判断操作失败
-			if(index<=0){
-				result.setErrorCode(ErrorCode.OPERATE_ERROR);
-				return result;
-			}
-			//操作成功
-			result = Result.getSuccessResult();
-			result.setData(index>0);
 		}
 		return result;
 	}

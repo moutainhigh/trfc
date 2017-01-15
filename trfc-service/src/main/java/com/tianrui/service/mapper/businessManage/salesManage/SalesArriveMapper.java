@@ -25,4 +25,6 @@ public interface SalesArriveMapper {
 	List<SalesArrive> findSalesArrivePage(SalesArriveQuery query);
 	
 	int checkICUse(SalesArriveQuery query);
+
+	int selectWaitingNumber(SalesArriveQuery query);
 }

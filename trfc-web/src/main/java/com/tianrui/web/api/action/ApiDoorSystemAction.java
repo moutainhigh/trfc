@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.tianrui.api.intf.access.IAccessRecordService;
+import com.tianrui.api.intf.businessManage.salesManage.ISalesArriveService;
 import com.tianrui.api.req.basicFile.measure.VehicleCheckApi;
 import com.tianrui.api.req.businessManage.salesManage.ApiDoorQueueQuery;
 import com.tianrui.api.req.businessManage.salesManage.ApiDoorSystemSave;
@@ -32,7 +34,10 @@ public class ApiDoorSystemAction {
 	private Logger log = LoggerFactory.getLogger(ApiDoorSystemAction.class);
 	
 	@Autowired
-	private AccessRecordService accessRecordService;
+	private IAccessRecordService accessRecordService;
+	
+	@Autowired
+	private ISalesArriveService salesArriveService;
 	/**
 	 * 门禁记录
 	 * @param req
@@ -88,16 +93,16 @@ public class ApiDoorSystemAction {
 	@ApiAuthValidation(callType="2")
 	@ResponseBody
 	public ApiResult queueNumber(ApiParam<ApiDoorQueueQuery> req){
+		ApiDoorQueueQuery queue = req.getBody();
+		queue.setCurrUid(req.getHead().getUserId());
 		Result rs=Result.getErrorResult();
-		rs.setData(getData());
+		try {
+			rs = salesArriveService.selectWaitingNumber(queue);
+		} catch (Exception e) {
+			rs.setErrorCode(ErrorCode.SYSTEM_ERROR);
+			log.error(e.getMessage(),e);
+		}
 		return ApiResult.valueOf(rs);
-	}
-	
-	private ApiDoorQueueResp getData(){ 
-		ApiDoorQueueResp resp =new ApiDoorQueueResp();
-		resp.setQueuenumber("1");
-		resp.setSmallticket("0");
-		return resp;
 	}
 	
 }
