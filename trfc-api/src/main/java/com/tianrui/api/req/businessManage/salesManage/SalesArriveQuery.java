@@ -1,6 +1,7 @@
 package com.tianrui.api.req.businessManage.salesManage;
 
 import com.tianrui.api.req.BaseReq;
+
 /**
  * 销售提货通知单查询专用对象
  * @author zhanggaohao
@@ -28,6 +29,8 @@ public class SalesArriveQuery extends BaseReq {
     private String customerid;
     //物料id
     private String materielid;
+    //物料包装类型
+    private String packagetype;
     //销售申请单编号
     private String billcode;
     //数据状态
@@ -113,6 +116,14 @@ public class SalesArriveQuery extends BaseReq {
 
 	public void setMaterielid(String materielid) {
 		this.materielid = materielid;
+	}
+
+	public String getPackagetype() {
+		return packagetype;
+	}
+
+	public void setPackagetype(String packagetype) {
+		this.packagetype = packagetype;
 	}
 
 	public String getBillcode() {
