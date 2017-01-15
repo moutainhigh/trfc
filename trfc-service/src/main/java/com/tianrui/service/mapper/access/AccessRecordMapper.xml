@@ -3,10 +3,12 @@
 <mapper namespace="com.tianrui.service.mapper.access.AccessRecordMapper" >
   <resultMap id="BaseResultMap" type="com.tianrui.service.bean.access.AccessRecord" >
     <id column="id" property="id" jdbcType="VARCHAR" />
-    <result column="salesarriveid" property="salesarriveid" jdbcType="VARCHAR" />
-    <result column="icardid" property="icardid" jdbcType="VARCHAR" />
-    <result column="accesstype" property="accesstype" jdbcType="BIT" />
-    <result column="businesstype" property="businesstype" jdbcType="BIT" />
+    <result column="salesarrivecode" property="salesarrivecode" jdbcType="VARCHAR" />
+    <result column="icardcode" property="icardcode" jdbcType="VARCHAR" />
+    <result column="intotime" property="intotime" jdbcType="VARCHAR" />
+    <result column="rfid" property="rfid" jdbcType="VARCHAR" />
+    <result column="accesstype" property="accesstype" jdbcType="VARCHAR" />
+    <result column="businesstype" property="businesstype" jdbcType="VARCHAR" />
     <result column="source" property="source" jdbcType="VARCHAR" />
     <result column="state" property="state" jdbcType="VARCHAR" />
     <result column="creator" property="creator" jdbcType="VARCHAR" />
@@ -15,7 +17,7 @@
     <result column="modifytime" property="modifytime" jdbcType="BIGINT" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, salesarriveid, icardid, accesstype, businesstype, source, state, creator, createtime, 
+    id, salesarrivecode, icardcode, intotime, rfid, accesstype, businesstype, source, state, creator, createtime, 
     modifier, modifytime
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
@@ -29,12 +31,12 @@
     where id = #{id,jdbcType=VARCHAR}
   </delete>
   <insert id="insert" parameterType="com.tianrui.service.bean.access.AccessRecord" >
-    insert into tr_access_db_record (id, salesarriveid, icardid, 
+    insert into tr_access_db_record (id, salesarrivecode, icardcode, intotime, rfid,
       accesstype, businesstype, source, 
       state, creator, createtime, 
       modifier, modifytime)
-    values (#{id,jdbcType=VARCHAR}, #{salesarriveid,jdbcType=VARCHAR}, #{icardid,jdbcType=VARCHAR}, 
-      #{accesstype,jdbcType=BIT}, #{businesstype,jdbcType=BIT}, #{source,jdbcType=VARCHAR}, 
+    values (#{id,jdbcType=VARCHAR}, #{salesarrivecode,jdbcType=VARCHAR}, #{icardcode,jdbcType=VARCHAR}, #{intotime,jdbcType=VARCHAR}, #{rfid,jdbcType=VARCHAR}, 
+      #{accesstype,jdbcType=VARCHAR}, #{businesstype,jdbcType=VARCHAR}, #{source,jdbcType=VARCHAR}, 
       #{state,jdbcType=VARCHAR}, #{creator,jdbcType=VARCHAR}, #{createtime,jdbcType=BIGINT}, 
       #{modifier,jdbcType=VARCHAR}, #{modifytime,jdbcType=BIGINT})
   </insert>
@@ -44,11 +46,17 @@
       <if test="id != null" >
         id,
       </if>
-      <if test="salesarriveid != null" >
-        salesarriveid,
+      <if test="salesarrivecode != null" >
+        salesarrivecode,
       </if>
-      <if test="icardid != null" >
-        icardid,
+      <if test="icardcode != null" >
+        icardcode,
+      </if>
+      <if test="intotime != null" >
+        intotime,
+      </if>
+      <if test="rfid != null" >
+        rfid,
       </if>
       <if test="accesstype != null" >
         accesstype,
@@ -79,17 +87,23 @@
       <if test="id != null" >
         #{id,jdbcType=VARCHAR},
       </if>
-      <if test="salesarriveid != null" >
-        #{salesarriveid,jdbcType=VARCHAR},
+      <if test="salesarrivecode != null" >
+        #{salesarrivecode,jdbcType=VARCHAR},
       </if>
-      <if test="icardid != null" >
-        #{icardid,jdbcType=VARCHAR},
+      <if test="icardcode != null" >
+        #{icardcode,jdbcType=VARCHAR},
+      </if>
+      <if test="intotime != null" >
+        #{intotime,jdbcType=VARCHAR},
+      </if>
+      <if test="rfid != null" >
+        #{rfid,jdbcType=VARCHAR},
       </if>
       <if test="accesstype != null" >
-        #{accesstype,jdbcType=BIT},
+        #{accesstype,jdbcType=VARCHAR},
       </if>
       <if test="businesstype != null" >
-        #{businesstype,jdbcType=BIT},
+        #{businesstype,jdbcType=VARCHAR},
       </if>
       <if test="source != null" >
         #{source,jdbcType=VARCHAR},
@@ -114,17 +128,23 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.tianrui.service.bean.access.AccessRecord" >
     update tr_access_db_record
     <set >
-      <if test="salesarriveid != null" >
-        salesarriveid = #{salesarriveid,jdbcType=VARCHAR},
+      <if test="salesarrivecode != null" >
+        salesarrivecode = #{salesarrivecode,jdbcType=VARCHAR},
       </if>
-      <if test="icardid != null" >
-        icardid = #{icardid,jdbcType=VARCHAR},
+      <if test="icardcode != null" >
+        icardcode = #{icardcode,jdbcType=VARCHAR},
+      </if>
+      <if test="intotime != null" >
+        intotime = #{intotime,jdbcType=VARCHAR},
+      </if>
+      <if test="rfid != null" >
+        rfid = #{rfid,jdbcType=VARCHAR},
       </if>
       <if test="accesstype != null" >
-        accesstype = #{accesstype,jdbcType=BIT},
+        accesstype = #{accesstype,jdbcType=VARCHAR},
       </if>
       <if test="businesstype != null" >
-        businesstype = #{businesstype,jdbcType=BIT},
+        businesstype = #{businesstype,jdbcType=VARCHAR},
       </if>
       <if test="source != null" >
         source = #{source,jdbcType=VARCHAR},
@@ -149,10 +169,12 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.tianrui.service.bean.access.AccessRecord" >
     update tr_access_db_record
-    set salesarriveid = #{salesarriveid,jdbcType=VARCHAR},
-      icardid = #{icardid,jdbcType=VARCHAR},
-      accesstype = #{accesstype,jdbcType=BIT},
-      businesstype = #{businesstype,jdbcType=BIT},
+    set salesarrivecode = #{salesarrivecode,jdbcType=VARCHAR},
+      icardcode = #{icardcode,jdbcType=VARCHAR},
+      intotime = #{intotime,jdbcType=VARCHAR},
+      rfid = #{rfid,jdbcType=VARCHAR},
+      accesstype = #{accesstype,jdbcType=VARCHAR},
+      businesstype = #{businesstype,jdbcType=VARCHAR},
       source = #{source,jdbcType=VARCHAR},
       state = #{state,jdbcType=VARCHAR},
       creator = #{creator,jdbcType=VARCHAR},
@@ -161,4 +183,50 @@
       modifytime = #{modifytime,jdbcType=BIGINT}
     where id = #{id,jdbcType=VARCHAR}
   </update>
+  <select id="selectSelective" resultMap="BaseResultMap" parameterType="com.tianrui.service.bean.access.AccessRecord" >
+  	select 
+  	<include refid="Base_Column_List" />
+  	from tr_access_db_record
+  	<where>
+  	  <if test="id != null and id != ''" >
+        and id = #{id,jdbcType=VARCHAR}
+      </if>
+  	  <if test="salesarrivecode != null and salesarrivecode != ''" >
+        and salesarrivecode = #{salesarrivecode,jdbcType=VARCHAR}
+      </if>
+      <if test="icardcode != null and icardcode != ''" >
+        and icardcode = #{icardcode,jdbcType=VARCHAR}
+      </if>
+      <if test="intotime != null and intotime != ''" >
+        and intotime = #{intotime,jdbcType=VARCHAR}
+      </if>
+      <if test="rfid != null and rfid != ''" >
+        and rfid = #{rfid,jdbcType=VARCHAR}
+      </if>
+      <if test="accesstype != null and accesstype != ''" >
+        and accesstype = #{accesstype,jdbcType=VARCHAR}
+      </if>
+      <if test="businesstype != null and businesstype != ''" >
+        and businesstype = #{businesstype,jdbcType=VARCHAR}
+      </if>
+      <if test="source != null and source != ''" >
+        and source = #{source,jdbcType=VARCHAR}
+      </if>
+      <if test="state != null and state != ''" >
+        and state = #{state,jdbcType=VARCHAR}
+      </if>
+      <if test="creator != null and creator != ''" >
+        and creator = #{creator,jdbcType=VARCHAR}
+      </if>
+      <if test="createtime != null and createtime != ''" >
+        and createtime = #{createtime,jdbcType=BIGINT}
+      </if>
+      <if test="modifier != null and modifier != ''" >
+        and modifier = #{modifier,jdbcType=VARCHAR}
+      </if>
+      <if test="modifytime != null and modifytime != ''" >
+        and modifytime = #{modifytime,jdbcType=BIGINT}
+      </if>
+  	</where>
+  </select>
 </mapper>

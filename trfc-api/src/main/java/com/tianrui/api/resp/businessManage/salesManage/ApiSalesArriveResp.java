@@ -12,8 +12,12 @@ public class ApiSalesArriveResp extends BaseResp {
 	private static final long serialVersionUID = 4625515863613381387L;
 	//车牌号
 	private String vehicleno="";
-	//供应商/客户
+	//供应商/客户id
 	private String customerid="";
+	//供应商/客户
+	private String customer="";
+	//物料id
+	private String materielid="";
 	//物料
 	private String materiel="";
 	//水泥类型 1袋装2散装
@@ -107,6 +111,18 @@ public class ApiSalesArriveResp extends BaseResp {
 	}
 	public void setNumber(String number) {
 		this.number = number;
+	}
+	public String getCustomer() {
+		return customer;
+	}
+	public void setCustomer(String customer) {
+		this.customer = customer;
+	}
+	public String getMaterielid() {
+		return materielid;
+	}
+	public void setMaterielid(String materielid) {
+		this.materielid = materielid;
 	}
 
 }

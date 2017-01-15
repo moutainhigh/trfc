@@ -8,19 +8,27 @@ public class AccessRecord {
 	/**
 	 * 通告单号
 	 */
-    private String salesarriveid;
+    private String salesarrivecode;
     /**
      * ic卡号
      */
-    private String icardid;
+    private String icardcode;
     /**
-     * 门禁类型(0:入厂,1:出厂)
+     * 记录时间
      */
-    private Boolean accesstype;
+    private String intotime;
     /**
-     * 业务类型(0:采购,1:销售)
+     * RFID
      */
-    private Boolean businesstype;
+    private String rfid;
+    /**
+     * 门禁类型(1:入厂,2:出厂)
+     */
+    private String accesstype;
+    /**
+     * 业务类型(1:采购,2:销售)
+     */
+    private String businesstype;
     /**
      * 来源
      */
@@ -54,35 +62,51 @@ public class AccessRecord {
         this.id = id == null ? null : id.trim();
     }
 
-    public String getSalesarriveid() {
-        return salesarriveid;
+    public String getSalesarrivecode() {
+        return salesarrivecode;
     }
 
-    public void setSalesarriveid(String salesarriveid) {
-        this.salesarriveid = salesarriveid == null ? null : salesarriveid.trim();
+    public void setSalesarrivecode(String salesarrivecode) {
+        this.salesarrivecode = salesarrivecode == null ? null : salesarrivecode.trim();
     }
 
-    public String getIcardid() {
-        return icardid;
+    public String getIcardcode() {
+        return icardcode;
     }
 
-    public void setIcardid(String icardid) {
-        this.icardid = icardid == null ? null : icardid.trim();
+    public void setIcardcode(String icardcode) {
+        this.icardcode = icardcode == null ? null : icardcode.trim();
     }
 
-    public Boolean getAccesstype() {
+    public String getIntotime() {
+		return intotime;
+	}
+
+	public void setIntotime(String intotime) {
+		this.intotime = intotime;
+	}
+
+	public String getRfid() {
+		return rfid;
+	}
+
+	public void setRfid(String rfid) {
+		this.rfid = rfid;
+	}
+
+	public String getAccesstype() {
         return accesstype;
     }
 
-    public void setAccesstype(Boolean accesstype) {
+    public void setAccesstype(String accesstype) {
         this.accesstype = accesstype;
     }
 
-    public Boolean getBusinesstype() {
+    public String getBusinesstype() {
         return businesstype;
     }
 
-    public void setBusinesstype(Boolean businesstype) {
+    public void setBusinesstype(String businesstype) {
         this.businesstype = businesstype;
     }
 

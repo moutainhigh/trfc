@@ -340,7 +340,9 @@ public class SalesArriveService implements ISalesArriveService {
 					ApiSalesArriveResp api = new ApiSalesArriveResp();
 					api.setVehicleno(vehicleResp.getVehicleno());
 					api.setCustomerid(customerResp.getId());
-					api.setMateriel(materielResp.getId());
+					api.setCustomer(customerResp.getName());
+					api.setMaterielid(materielResp.getId());
+					api.setMateriel(materielResp.getName());
 					if(StringUtils.equals(materielResp.getPackagetype(), "0")){
 						api.setCementtype("1");
 						api.setBatchnumber(resp.getSerialnumber());
@@ -354,6 +356,7 @@ public class SalesArriveService implements ISalesArriveService {
 					api.setMinemouth("");
 					api.setNumber(resp.getTakeamount().toString());
 					result.setData(api);
+					result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
 					return result;
 				}
 			}

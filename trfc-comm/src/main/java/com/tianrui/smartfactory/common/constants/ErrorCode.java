@@ -28,6 +28,11 @@ public enum ErrorCode {
 	RFID_VEHICLE_NOT_EXIST("E10010","该车辆于RFID未绑定，请先绑定."),
 	
 	/**
+	 * IC卡
+	 */
+	CARD_NOT_EXIST("E10011","IC卡不存在，请先注册."),
+	CARD_IN_USE("E10012","IC卡正在使用中，请更换IC卡."),
+	/**
 	 * 车辆
 	 */
 	VEHICLE_EXIST("E10011","车辆已经存在."),
@@ -45,7 +50,12 @@ public enum ErrorCode {
 	SYSTEM_USER_ERROR3("E200003","用户被锁定."),
 	SYSTEM_USER_ERROR4("E200004","用户被禁用."),
 	SYSTEM_USER_ERROR5("E200005","用户无效."),
-	SYSTEM_AUTH_API_ERROR6("E200006","系统访问接口与子系统类型不匹配."),
+	SYSTEM_USER_ERROR6("E200006","找不到相关用户记录."),
+	SYSTEM_USER_ERROR7("E200007","该登录账户已经存在."),
+	SYSTEM_USER_ERROR8("E200008","该用户编码已经存在."),
+	SYSTEM_USER_ERROR9("E200009","原密码错误."),
+	
+	SYSTEM_AUTH_API_ERROR6("E200101","系统访问接口与子系统类型不匹配."),
 	;
 	
 	private String code;
