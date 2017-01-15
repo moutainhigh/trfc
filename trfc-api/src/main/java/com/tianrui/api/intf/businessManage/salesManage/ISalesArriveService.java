@@ -1,5 +1,6 @@
 package com.tianrui.api.intf.businessManage.salesManage;
 
+import com.tianrui.api.req.businessManage.salesManage.ApiSalesArriveQuery;
 import com.tianrui.api.req.businessManage.salesManage.SalesArriveQuery;
 import com.tianrui.api.req.businessManage.salesManage.SalesArriveSave;
 import com.tianrui.api.resp.businessManage.salesManage.SalesArriveResp;
@@ -66,5 +67,12 @@ public interface ISalesArriveService {
 	 * @return
 	 */
 	Result outfactory(SalesArriveQuery query);
+	/**
+	 * 查询提货单详情api接口
+	 * @param query
+	 * @return
+	 * @throws Exception 
+	 */
+	Result detailApi(ApiSalesArriveQuery query) throws Exception;
 
 }

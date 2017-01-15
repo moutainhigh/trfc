@@ -19,6 +19,28 @@ public enum ErrorCode {
 	PARAM_REPEAT_ERROR("E10005","数据重复."),
 	PARAM_NULL_USER_ERROR("E10006","参数异常,参数用户信息不能为空."),
 	
+	/**
+	 * FRID
+	 */
+	RFID_EXIST("E10007","FRID已存在，不能重复添加"),
+	RFID_NOT_EXIST("E10008","RFID不存在，请先注册RFID！"),
+	RFID_VEHICLE_EXIST("E10009","该车辆于RFID已绑定，不能重复绑定"),
+	RFID_VEHICLE_NOT_EXIST("E10010","该车辆于RFID未绑定，请先绑定."),
+	
+	/**
+	 * IC卡
+	 */
+	CARD_NOT_EXIST("E10011","IC卡不存在，请先注册."),
+	CARD_IN_USE("E10012","IC卡正在使用中，请更换IC卡."),
+	/**
+	 * 车辆
+	 */
+	VEHICLE_EXIST("E10011","车辆已经存在."),
+	VEHICLE_NOT_EXIST("E10012","车辆不存在."),
+	VEHICLE_NOT_ARRIVE("E10013","该车辆没有通知单."),
+	VEHICLE_ARRIVE_NOT_ONLY("E10014","该车辆有多个通知单."),
+	VEHICLE_ARRIVE_ALREADY_ENTER("E10015","该通知单绑定的车辆已经入场."),
+	VEHICLE_ARRIVE_NOT_ENTER("E10016","该通知单绑定的车辆未入场."),
 	
 	/**
 	 * 用户相关

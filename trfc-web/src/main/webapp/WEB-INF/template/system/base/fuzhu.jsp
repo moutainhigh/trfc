@@ -314,8 +314,8 @@
                         <input type="text" id="dict_name">
                     </div>
                     <div class="alt_edit_div">
-                        <label>分类：</label>
-                        <select style="width: 220px;height: 30px" id="dict_type">
+                        <label style="font-size: 14px;">分类：</label>
+                        <select style="width: 220px;height: 30px;font-size: 14px;border: 1px solid #e3e4ea;border-radius: 4px;" id="dict_type">
                         	<option value="1">系统资料</option>
                         	<option value="2">业务资料</option>
                         </select>
@@ -362,8 +362,8 @@
                         <input type="text" id="update_dict_name">
                     </div>
                     <div class="alt_edit_div">
-                        <label>分类：</label>
-                        <select style="width: 220px;height: 30px" id="update_dict_type">
+                        <label style="font-size: 14px;">分类：</label>
+                        <select style="width: 220px;height: 30px;font-size: 14px;border: 1px solid #e3e4ea;border-radius: 4px;" id="update_dict_type">
                         	<option value="1">系统资料</option>
                         	<option value="2">业务资料</option>
                         </select>

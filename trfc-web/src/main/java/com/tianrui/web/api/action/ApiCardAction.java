@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.tianrui.api.intf.businessManage.cardManage.ICardService;
 import com.tianrui.api.intf.common.IRFIDService;
-import com.tianrui.api.req.businessManage.cardManage.CardSaveReq;
+import com.tianrui.api.req.businessManage.cardManage.CardApi;
 import com.tianrui.api.req.common.RFIDReq;
 import com.tianrui.smartfactory.common.api.ApiParam;
 import com.tianrui.smartfactory.common.api.ApiResult;
@@ -42,15 +42,15 @@ public class ApiCardAction {
 	 * @return
 	 */
 	@RequestMapping(value="/icCardReg",method=RequestMethod.POST)
-	@ApiParamRawType(CardSaveReq.class)
+	@ApiParamRawType(CardApi.class)
 	@ApiAuthValidation(callType="2")
 	@ResponseBody
-	public ApiResult icCardReg(ApiParam<CardSaveReq> req){
-		CardSaveReq cardSaveReq =req.getBody();
-		cardSaveReq.setCurrUid(req.getHead().getUserId());
+	public ApiResult icCardReg(ApiParam<CardApi> req){
+		CardApi cardApi =req.getBody();
+		cardApi.setCurrUid(req.getHead().getUserId());
 		Result rs=Result.getErrorResult();
 		try {
-			rs = cardService.addCard(cardSaveReq);
+			rs = cardService.addCardApi(cardApi);
 		} catch (Exception e) {
 			rs.setErrorCode(ErrorCode.SYSTEM_ERROR);
 			log.error(e.getMessage(),e);

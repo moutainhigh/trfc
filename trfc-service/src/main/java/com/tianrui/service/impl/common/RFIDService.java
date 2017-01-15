@@ -47,5 +47,4 @@ public class RFIDService implements IRFIDService {
 		return rs;
 	}
 	
-
 }

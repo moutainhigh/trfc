@@ -2,7 +2,7 @@ package com.tianrui.api.req.basicFile.measure;
 
 import com.tianrui.api.req.BaseReq;
 
-public class VehicleSaveReq extends BaseReq {
+public class VehicleCheckApi extends BaseReq {
 
 	private static final long serialVersionUID = 2171660010873631914L;
 

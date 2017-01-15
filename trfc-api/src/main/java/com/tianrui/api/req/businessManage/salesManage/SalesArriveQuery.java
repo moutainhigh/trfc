@@ -36,6 +36,8 @@ public class SalesArriveQuery extends BaseReq {
     private Long starttime;
     //结束事件
     private Long endtime;
+    //结束事件
+    private String icardid;
 
     private int start;
     
@@ -159,6 +161,14 @@ public class SalesArriveQuery extends BaseReq {
 
 	public void setEndtime(Long endtime) {
 		this.endtime = endtime;
+	}
+
+	public String getIcardid() {
+		return icardid;
+	}
+
+	public void setIcardid(String icardid) {
+		this.icardid = icardid;
 	}
 	
 }
