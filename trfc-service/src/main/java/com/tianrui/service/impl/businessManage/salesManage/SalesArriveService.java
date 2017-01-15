@@ -14,6 +14,7 @@ import com.tianrui.api.intf.businessManage.salesManage.ISalesApplicationService;
 import com.tianrui.api.intf.businessManage.salesManage.ISalesArriveService;
 import com.tianrui.api.req.basicFile.measure.DriverManageQuery;
 import com.tianrui.api.req.basicFile.measure.VehicleManageQuery;
+import com.tianrui.api.req.businessManage.salesManage.ApiDoorQueueQuery;
 import com.tianrui.api.req.businessManage.salesManage.ApiSalesArriveQuery;
 import com.tianrui.api.req.businessManage.salesManage.SalesApplicationQuery;
 import com.tianrui.api.req.businessManage.salesManage.SalesArriveQuery;
@@ -21,6 +22,7 @@ import com.tianrui.api.req.businessManage.salesManage.SalesArriveSave;
 import com.tianrui.api.resp.basicFile.measure.VehicleManageResp;
 import com.tianrui.api.resp.basicFile.nc.CustomerManageResp;
 import com.tianrui.api.resp.basicFile.nc.MaterielManageResp;
+import com.tianrui.api.resp.businessManage.salesManage.ApiDoorQueueResp;
 import com.tianrui.api.resp.businessManage.salesManage.ApiSalesArriveResp;
 import com.tianrui.api.resp.businessManage.salesManage.SalesApplicationDetailResp;
 import com.tianrui.api.resp.businessManage.salesManage.SalesApplicationResp;
@@ -31,6 +33,7 @@ import com.tianrui.service.bean.common.RFID;
 import com.tianrui.service.mapper.basicFile.measure.VehicleManageMapper;
 import com.tianrui.service.mapper.businessManage.salesManage.SalesArriveMapper;
 import com.tianrui.service.mapper.common.RFIDMapper;
+import com.tianrui.service.mongo.impl.CodeGenDaoImpl;
 import com.tianrui.smartfactory.common.constants.ErrorCode;
 import com.tianrui.smartfactory.common.utils.UUIDUtil;
 import com.tianrui.smartfactory.common.vo.PaginationVO;
@@ -62,6 +65,9 @@ public class SalesArriveService implements ISalesArriveService {
 	
 	@Autowired
 	private RFIDMapper rfidMapper;
+	
+	@Autowired
+	private CodeGenDaoImpl codeGenDaoImpl;
 	
 	@Override
 	public PaginationVO<SalesArriveResp> page(SalesArriveQuery query) throws Exception {
@@ -341,6 +347,21 @@ public class SalesArriveService implements ISalesArriveService {
 				result.setErrorCode(ErrorCode.VEHICLE_NOT_EXIST);
 			}
 		}
+		return result;
+	}
+	
+	@Override
+	public Result selectWaitingNumber(ApiDoorQueueQuery api){
+		Result result = Result.getSuccessResult();
+		SalesArriveQuery query = new SalesArriveQuery();
+		query.setMaterielid(api.getMateriel());
+		query.setPackagetype(api.getPackagetype());
+		int waitingnumber = salesArriveMapper.selectWaitingNumber(query);
+		ApiDoorQueueResp resp =new ApiDoorQueueResp();
+		resp.setQueuenumber(String.valueOf(waitingnumber));
+		//序号。。。
+		resp.setSmallticket(codeGenDaoImpl.codeGen(1));
+		result.setData(resp);
 		return result;
 	}
 
