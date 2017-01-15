@@ -3,149 +3,16 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <title>index</title>
-    <meta name="keywords" content=" 天瑞"/>
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <link href="${basePath }/css/bootstrap.css" rel="stylesheet">
-    <link href="${basePath }/css/base.css" rel="stylesheet">
-    <link href="${basePath }/css/style.css" rel="stylesheet">
-    <link href="${basePath }/css/pagination.css" rel="stylesheet">
-    <!--这个日历控件js必须放头部-->
-    <script language="javascript" type="text/javascript" src="${basePath }/js/My97DatePicker/WdatePicker.js"></script>
-    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!--[if lt IE 9]>
-    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
+    <title>无人值守-其他档案-其他客户</title>
+ <!-- 引用公共header部分 -->
+<jsp:include page="../../common/base/header_busi.jsp"></jsp:include>
+<link href="${staticBasePath}/css/pagination.css" rel="stylesheet">
 
 </head>
 <body>
 <div class="it_admin">
-<div class="left ">
-    <div class="user">
-        <a href="#" data-toggle="dropdown" data-target="#menu-messages" class="dropdown-toggle">
-            <img src="${basePath }/images/tx.jpg" class="img-circle">
-            <label>超级管理员</label>
-            <i class="iconfont">&#xe602;</i>
-        </a>
-        <ul class="dropdown-menu">
-            <li><a data-toggle="modal" data-target="#account"><i class="iconfont">&#xe60e;</i>个人资料</a></li>
-            <li class="divider"></li>
-            <li><a data-toggle="modal" data-target="#password"><i class="iconfont">&#xe60d;</i> 设置</a></li>
-        </ul>
-    </div>
-    <div class="menu">
-        <label>菜单</label>
-        <i class="iconfont fr">&#xe61a;</i>
-    </div>
-    <div class="menu_collap">
-        <ul class="typelist ">
-        <a href="#ityewu" data-toggle="collapse" class="menu_collap_tit">
-            <label>业务管理</label>
-            <span><i class="iconfont">&#xe604;</i></span>
-        </a>
-        <div class="in" id="ityewu">
-            <li>
-                <a href="../cg/cg_index.html">
-                    <i class="iconfont">&#xe617;</i>
-                    <label>采购管理</label>
-                </a>
-            </li>
-            <li>
-                <a href="../sell/sell_apply.html">
-                    <i class="iconfont">&#xe615;</i>
-                    <label>销售管理</label>
-                </a>
-            </li>
-            <li>
-                <a>
-                    <i class="iconfont">&#xe614;</i>
-                    <label>其他业务</label>
-                </a>
-            </li>
-            <li>
-                <a>
-                    <i class="iconfont">&#xe618;</i>
-                    <label>质控管理</label>
-                </a>
-            </li>
-        </div>
-        <a href="#itdangan" data-toggle="collapse" class="menu_collap_tit">
-            <label>基础档案</label>
-            <span><i class="iconfont">&#xe604;</i></span>
-        </a>
-        <div class="in" id="itdangan">
-            <li>
-                <a href="../file_nc/client.html">
-                    <i class="iconfont">&#xe617;</i>
-                    <label>NC档案</label>
-                </a>
-            </li>
-            <li>
-                <a href="../file_jil/car.html">
-                    <i class="iconfont">&#xe617;</i>
-                    <label>计量档案</label>
-                </a>
-            </li>
-            <li class="active">
-                <a href="../file-other/car.html">
-                    <i class="iconfont">&#xe617;</i>
-                    <label>其他档案</label>
-                </a>
-            </li>
-         </div>
-        </ul>
-    </div>
-
-</div>
-<div class="leftmini hide">
-    <div class="user">
-        <a href="#" data-toggle="dropdown" data-target="#menu-messages" class="dropdown-toggle">
-            <img src="${basePath }/images/tx.jpg" class="img-circle">
-        </a>
-        <ul class="dropdown-menu">
-            <li><a data-toggle="modal" data-target="#account"><i class="iconfont">&#xe60e;</i>个人资料</a></li>
-            <li class="divider"></li>
-            <li><a data-toggle="modal" data-target="#password"><i class="iconfont">&#xe60d;</i> 设置</a></li>
-        </ul>
-    </div>
-    <div class="menu2">
-        <i class="iconfont">&#xe635;</i>
-    </div>
-    <ul class="typelist">
-        <li class="active" data-toggle="tooltip" data-placement="right" title="采购管理">
-            <i class="iconfont">&#xe617;</i>
-        </li>
-        <li data-toggle="tooltip" data-placement="right" title="销售管理">
-            <i class="iconfont">&#xe615;</i>
-        </li>
-        <li data-toggle="tooltip" data-placement="right" title=" 其他">
-            <i class="iconfont">&#xe614;</i>
-        </li>
-        <li>
-            <i class="iconfont">&#xe618;</i>
-        </li>
-        <li>
-            <i class="iconfont">&#xe619;</i>
-        </li>
-        <li>
-            <i class="iconfont">&#xe613;</i>
-        </li>
-        <li>
-            <i class="iconfont">&#xe612;</i>
-        </li>
-        <li>
-            <i class="iconfont">&#xe610;</i>
-        </li>
-        <li>
-            <i class="iconfont">&#xe60f;</i>
-        </li>
-        <li>
-            <i class="iconfont">&#xe611;</i>
-        </li>
-    </ul>
-</div>
+<!-- 引用公共left部分 -->
+<jsp:include page="../../common/base/left_busi.jsp"></jsp:include>
 <div class="right">
     <div class="intel_tab">
         <!--tab切换标题-->
@@ -393,7 +260,7 @@
             </div>
             <div class="modal-body">
                 <div class="alert_qf">
-                    <img src="${basePath }/images/tishi.png"><label>注：删除操作不可恢复，您确定要继续么？</label>
+                    <img src="${staticBasePath }/images/tishi.png"><label>注：删除操作不可恢复，您确定要继续么？</label>
                 </div>
             </div>
             <div class="modal-footer">
@@ -404,79 +271,10 @@
     </div>
 </div>
 <!--删除end-->
-<script type="text/javascript" src="${basePath }/js/jquery-1.11.1.js"></script>
-<script type="text/javascript" src="${basePath }/js/bootstrap.js"></script>
-<script type="text/javascript" src="${basePath }/js/basicFile/other/other-client.js"></script>
-<script type="text/javascript" src="${basePath }/js/jquery.pagination.js"></script>
-<script type="text/javascript" src="${basePath }/js/layer/layer.js"></script>
-
-<script type="text/javascript">
-    // 顶部tab切换菜单
-    var $tab_li = $('.intel_menu li');
-    $tab_li.click(function () {
-        $(this).addClass('select').siblings().removeClass('select');
-        var index = $tab_li.index(this);
-        $('.intel_tabbox > .intel_tabcont').eq(index).show().siblings().hide();
-    });
-    // 二级折叠菜单的加减号显示隐藏
-    var menu_a = $('.left .menu_collap a');
-    var menu_i = $('.left .menu_collap i');
-    menu_a.on("click", function () {
-        if ($(this).hasClass("collapsed")) {
-            $(this).find("span i").html("&#xe604;")
-        }
-        else {
-            $(this).find("span i").html("&#xe61f;")
-        }
-    });
-    //二级折叠菜单内容选中添加背景,未被选中的除去背景
-    var menu_li = $('.left .menu_collap ul li');
-    menu_li.on("click", function () {
-        $(this).parent().parent("ul").find("li").removeClass("active");
-        $(this).addClass("active");
-    });
-    
-    // 表格内容每行单击出来下面的详细信息
-    var tabledata = $('.intel_table table tbody tr');
-    tabledata.on("click", function () {
-        $(".intel_result").css("display", "block");
-    })
-    // 表格内容每行双击出来下面的详细信息
-    tabledata.on("dblclick", function () {
-        $('#caigoubill').modal('show');
-    })
-    // 左侧宽度改变 右边改变
-    var menu_ctrl = $(".left .menu");
-    var menu_ctrlmini = $(".leftmini .menu2");
-    var leftall = $(".left");
-    var leftmini = $(".leftmini");
-    menu_ctrl.on("click", function () {
-        $(leftall).css("display", "none");
-        leftmini.css("display", "block");
-        $(".right").css("margin-left", "100px");
-    });
-    menu_ctrlmini.on("click", function () {
-        $(leftmini).css("display", "none");
-        leftall.css("display", "block");
-        $(".right").css("margin-left", "200px");
-    });
-    // 首页底部的tab切换菜单
-    var ind_li = $('#ind_tab ul li');
-    ind_li.click(function () {
-        $(this).addClass('select').siblings().removeClass('select');
-        var index_li = cg_li.index(this);
-        $('#ind_tab .cg_tabbox > .cg_tabcont').eq(index_li).show().siblings().hide();
-    });
-
-    // 弹出信息的tab切换菜单
-    var alt_li = $('#alt_tab ul li');
-    alt_li.click(function () {
-        $(this).addClass('select').siblings().removeClass('select');
-        var index_alt = alt_li.index(this);
-        $('#alt_tab .cg_tabbox > .cg_tabcont').eq(index_alt).show().siblings().hide();
-    });
+<script type="text/javascript" src="${staticBasePath }/js/layer/layer.js"></script>
+<script type="text/javascript" src="${staticBasePath }/js/jquery.pagination.js"></script>
+<script type="text/javascript" src="/javascript/basicFile/other/other-client.js"></script>
 
 
-</script>
 </body>
 </html>
