@@ -14,23 +14,8 @@
 <!-- 引用公共left部分 -->
 <jsp:include page="../../common/base/left_busi.jsp"></jsp:include>
 <div class="right">
-<div class="intel_tab">
-    <!--tab切换标题-->
-    <ul class="intel_menu">
-        <li >其他供应商</li>
-        <li >其他客户</li>
-        <li >其他物料</li>
-        <li class="select">其他车辆</li>
-        <li >其他司机</li>
-    </ul>
-    <!--tab切换标题end-->
-    <div class="top_opera">
-        <a><i class="iconfont" data-toggle="tooltip" data-placement="left" title="首页">&#xe605;</i></a>
-        <a><i class="iconfont" data-toggle="tooltip" data-placement="left" title="控制面板">&#xe606;</i></a>
-        <a><i class="iconfont" data-toggle="tooltip" data-placement="left" title="退出">&#xe607;</i></a>
-    </div>
-</div>
-
+<!-- 引用公共right部分 -->
+<jsp:include page="../../common/base/right_head_busi.jsp"></jsp:include>
 <!--tab切换的内容-->
 <div class="intel_tabbox">
 <!--采购申请单begin-->
@@ -269,34 +254,12 @@
 </div>
 <!--编辑end-->
 <!--删除begin-->
-<div class="modal fade" id="dele" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-    <div class="modal-dialog" role="document" style="width: 400px;">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                        aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">提示</h4>
-            </div>
-            <div class="modal-body">
-                <div class="alert_qf">
-                    <img src="${staticBasePath }/images/tishi.png"><label>注：删除操作不可恢复，您确定要继续么？</label>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary" id="delete_vehicle">确定</button>
-                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-            </div>
-        </div>
-    </div>
-</div>
-</div>
+
 <!--删除end-->
 
-<script type="text/javascript" src="${staticBasePath }/js/jquery.pagination.js"></script>
-<script type="text/javascript" src="${staticBasePath }/js/layer/layer.js"></script>
 <script type="text/javascript" src="/javascript/basicFile/other/other_car.js"></script>
 
-
+<!--  
 <script type="text/javascript">
     // 顶部tab切换菜单
     var $tab_li = $('.intel_menu li');
@@ -344,6 +307,8 @@
     });
 
 
-</script>
+</script>-->
+<!-- 引用公共footer部分 -->
+<jsp:include page="../../common/base/footer_busi.jsp"></jsp:include>
 </body>
 </html>

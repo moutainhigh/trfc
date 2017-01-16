@@ -4,117 +4,20 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>采购管理</title>
-<meta name="keywords" content=" 天瑞" />
-<meta name="description" content="">
-<meta name="author" content="">
-<link href="/resources/css/bootstrap.css" rel="stylesheet">
-<link href="/resources/css/base.css" rel="stylesheet">
-<link href="/resources/css/style.css" rel="stylesheet">
-<link href="/resources/css/pagination.css" rel="stylesheet">
-<script language="javascript" type="text/javascript"
-	src="/resources/js/My97DatePicker/WdatePicker.js"></script>
+<!-- 引用公共header部分 -->
+<jsp:include page="../../common/base/header_busi.jsp"></jsp:include>
+
+<link href="${staticBasePath }/css/pagination.css" rel="stylesheet">
 </head>
 <body>
-	<div class="left ">
-		<div class="user">
-			<a href="#" data-toggle="dropdown" data-target="#menu-messages"
-				class="dropdown-toggle"> <img src="/resources/images/tx.jpg"
-				class="img-circle"> <label>超级管理员</label> <i class="iconfont">&#xe602;</i>
-			</a>
-			<ul class="dropdown-menu">
-				<li><a data-toggle="modal" data-target="#account"><i
-						class="iconfont">&#xe60e;</i>个人资料</a></li>
-				<li class="divider"></li>
-				<li><a data-toggle="modal" data-target="#password"><i
-						class="iconfont">&#xe60d;</i> 设置</a></li>
-			</ul>
-		</div>
-		<div class="menu">
-			<label>菜单</label> <i class="iconfont fr">&#xe61a;</i>
-		</div>
-		<div class="menu_collap">
-			<ul class="typelist ">
-				<a href="#ityewu" data-toggle="collapse" class="menu_collap_tit">
-					<label>业务管理</label> <span><i class="iconfont">&#xe604;</i></span>
-				</a>
-				<div class="in" id="ityewu">
-					<li class="active"><a href="../cg/cg_index.html"> <i
-							class="iconfont">&#xe617;</i> <label>采购管理</label>
-					</a></li>
-					<li><a href="../sell/sell_apply.html"> <i class="iconfont">&#xe615;</i>
-							<label>销售管理</label>
-					</a></li>
-					<li><a> <i class="iconfont">&#xe614;</i> <label>其他业务</label>
-					</a></li>
-					<li><a> <i class="iconfont">&#xe618;</i> <label>质控管理</label>
-					</a></li>
-				</div>
-				<a href="#itdangan" data-toggle="collapse" class="menu_collap_tit">
-					<label>基础档案</label> <span><i class="iconfont">&#xe604;</i></span>
-				</a>
-				<div class="in" id="itdangan">
-					<li><a href="../file_nc/client.html"> <i class="iconfont">&#xe617;</i>
-							<label>NC档案</label>
-					</a></li>
-					<li><a href="../file_jil/car.html"> <i class="iconfont">&#xe617;</i>
-							<label>计量档案</label>
-					</a></li>
-					<li><a href="../file-other/car.html"> <i class="iconfont">&#xe617;</i>
-							<label>其他档案</label>
-					</a></li>
-				</div>
-			</ul>
-		</div>
-	</div>
-	<div class="leftmini hide">
-		<div class="user">
-			<a href="#" data-toggle="dropdown" data-target="#menu-messages"
-				class="dropdown-toggle"> <img src="/resources/images/tx.jpg"
-				class="img-circle">
-			</a>
-			<ul class="dropdown-menu">
-				<li><a data-toggle="modal" data-target="#account"><i
-						class="iconfont">&#xe60e;</i>个人资料</a></li>
-				<li class="divider"></li>
-				<li><a data-toggle="modal" data-target="#password"><i
-						class="iconfont">&#xe60d;</i> 设置</a></li>
-			</ul>
-		</div>
-		<div class="menu2">
-			<i class="iconfont">&#xe635;</i>
-		</div>
-		<ul class="typelist">
-			<li class="active" data-toggle="tooltip" data-placement="right"
-				title="采购管理"><i class="iconfont">&#xe617;</i></li>
-			<li data-toggle="tooltip" data-placement="right" title="销售管理"><i
-				class="iconfont">&#xe615;</i></li>
-			<li data-toggle="tooltip" data-placement="right" title=" 其他"><i
-				class="iconfont">&#xe614;</i></li>
-			<li><i class="iconfont">&#xe618;</i></li>
-			<li><i class="iconfont">&#xe619;</i></li>
-			<li><i class="iconfont">&#xe613;</i></li>
-			<li><i class="iconfont">&#xe612;</i></li>
-			<li><i class="iconfont">&#xe610;</i></li>
-			<li><i class="iconfont">&#xe60f;</i></li>
-			<li><i class="iconfont">&#xe611;</i></li>
-		</ul>
-	</div>
+<div class="it_admin">
+<!-- 引用公共left部分 -->
+<jsp:include page="../../common/base/left_busi.jsp"></jsp:include>
 	<div class="right">
-		<div class="intel_tab">
-			<!--tab切换标题-->
-			<ul class="intel_menu">
-				<li>采购申请单</li>
-				<li>到货通知单</li>
-				<li>退货通知单</li>
-				<li class="select">采购车辆状态</li>
-				<li>采购划价单</li>
-			</ul>
-			<!--tab切换标题end-->
-			<div class="top_opera">
-				<a><i class="iconfont">&#xe605;</i></a> <a><i class="iconfont">&#xe606;</i></a>
-				<a><i class="iconfont">&#xe607;</i></a>
-			</div>
-		</div>
+		
+		<!-- 引用公共right部分 -->
+		<jsp:include page="../../common/base/right_head_busi.jsp"></jsp:include>
+		
 		<!--tab切换的内容-->
 		<div class="intel_tabbox">
 			<!--采购申请单begin-->
@@ -339,12 +242,9 @@
 				</div>
 			</div>
 		</div>
+	</div>
 		<!--查看详情end-->
-		<script type="text/javascript" src="/resources/js/jquery-1.11.1.js"></script>
-		<script type="text/javascript" src="/resources/js/jquery.pagination.js"></script>
-		<script type="text/javascript" src="/resources/js/bootstrap.js"></script>
-		<script type="text/javascript" src="/resources/js/layer/layer.js"></script>
-		<script type="text/javascript" src="/resources/js/businessManage/purchaseManage/purchaseApplication.js"></script>
+		<script type="text/javascript" src="/javascript/businessManage/purchaseManage/purchaseApplication.js"></script>
 		<script type="text/javascript">
 			// 弹出信息的tab切换菜单
 		    var alt_li = $('#alt_tab .cg_tabtit ul li');
@@ -354,5 +254,8 @@
 		        $('#alt_tab .cg_tabbox > .cg_tabcont').eq(index_alt).show().siblings().hide();
 		    });
 		</script>
+		
+	<!-- 引用公共footer部分 -->
+	<jsp:include page="../../common/base/footer_busi.jsp"></jsp:include>
 </body>
 </html>

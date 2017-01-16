@@ -22,7 +22,7 @@ $(function(){
 	//绑定删除按钮点击事件
 	$('#vehicles').on('click','tr .delete_vehicle',deleteVehicleAction);
 	//绑定删除页面确认按钮点击事件
-	$('#dele .btn-primary').click(deleteVehicle);
+//	$('#dele .btn-primary').click(deleteVehicle);
 	//绑定新增页面输入名称时,键盘按钮按下事件
 	$('#vehicle_name').keyup(addkeyUpAction);
 	//绑定修改页面输入名称时,键盘按钮按下事件
@@ -98,7 +98,6 @@ function listOtherVehicleAction(pageNo){
 		}else{
 			layer.msg(result.error, {icon: 5});
 		}
-		layer.close(index);
 	});
 		layer.close(index);
 }
@@ -249,6 +248,24 @@ function deleteVehicleAction() {
 	var tr=$(this).parent().parent();
 	var vehicle=tr.data(vehicle);
 	vehicleData.id=vehicle.id;
+	
+	var bn=layer.open({
+        content: '您确定要删除吗？',
+        area: '600px',
+        closeBtn:1,
+        shadeClose:true,
+        btn: ['确定', '取消'],
+        yes: function(index, layero){
+            //按钮【确定】的回调
+			deleteVehicle();
+			layer.close(bn);
+        },btn2: function(index, layero){
+            //按钮【取消】的回调
+        }
+        ,cancel: function(){
+            //右上角关闭回调
+        }
+    });
 }
 
 
