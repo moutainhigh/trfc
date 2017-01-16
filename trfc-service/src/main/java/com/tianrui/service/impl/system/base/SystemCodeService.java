@@ -75,14 +75,16 @@ public class SystemCodeService implements ISystemCodeService{
 		if(req!=null && StringUtils.isNotBlank(req.getId())){
 			String id = req.getId();
 			//删除数据
-			int index = systemCodeMapper.deleteByPrimaryKey(id);
+			int index1 = systemCodeMapper.deleteByPrimaryKey(id);
+			//删除子表数据
+			int index2 = systemCodeItemMapper.deleteByCodeId(id);
 			//判断小于0的情况
-			if(index<0){
+			if(index1<0){
 				result.setErrorCode(ErrorCode.OPERATE_ERROR);
 			}else{
 				//操作成功
 				result = Result.getSuccessResult();
-				result.setData(index>0);
+				result.setData(index1>0);
 			}
 		}
 		return result;

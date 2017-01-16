@@ -21,8 +21,6 @@
 		$('#systemCode_add_ensure').click(toAddCode);
 		//删除按钮 绑定点击事件
 		$('#systemCode_tbody').on('click','tr [title="删除"]',deleteCode);
-		//删除页面 确定按钮 绑定事件
-		$('#systemCode_delete_ensure').attr('data-dismiss','modal').click(deleteCodeAction);
 	}
 
 	//检测后修改
@@ -52,22 +50,22 @@
 		var param = {code:code};
 		var bl = false;
 		$.ajax({url:url,
-				data:param,
-				async:false,
-				cache:false,
-				dataType:'json',
-				type:'post',
-				success:function(result){
-					if(result.code=='000000'){
-						if(result.data){
-							bl=true;
-						}else{
-							alert("单据代号重复!");
-						}
+			data:param,
+			async:false,
+			cache:false,
+			dataType:'json',
+			type:'post',
+			success:function(result){
+				if(result.code=='000000'){
+					if(result.data){
+						bl=true;
 					}else{
-						layer.msg(result.error,{icon:5});
+						alert("单据代号重复!");
 					}
-				}});
+				}else{
+					layer.msg(result.error,{icon:5});
+				}
+			}});
 		return bl;
 	}
 	//删除时 提交删除信息
@@ -86,6 +84,15 @@
 	function deleteCode(){
 		var data = $(this).closest('tr').data('codeData');
 		param.codeId = data.id;
+
+		var index = layer.confirm('你确定要删除吗?', {
+			area: '600px', 
+			btn: ['确定','取消'] //按钮
+		}, function(){
+			deleteCodeAction();
+			layer.close(index);
+		}, function(){
+		});
 	}
 	var param = {};
 	//重置新增页面

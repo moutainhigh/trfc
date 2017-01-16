@@ -145,6 +145,7 @@ function toModify(){
 	$.post(url,param,function(result){
 		if(result.code=='000000'){
 			var obj = result.data;
+			//将数据添加到公共变量上
 			pageData.obj = obj;
 			$('#customer_modify_code').val(obj.code);
 			$('#customer_modify_innercode').val(obj.innercode);

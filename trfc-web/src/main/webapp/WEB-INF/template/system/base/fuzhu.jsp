@@ -2,134 +2,23 @@
 <!DOCTYPE html >
 <html>
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <title>index</title>
-    <meta name="keywords" content=" 天瑞"/>
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <link href="${basePath }/css/bootstrap.css" rel="stylesheet">
-    <link href="${basePath }/css/base.css" rel="stylesheet">
-    <link href="${basePath }/css/style.css" rel="stylesheet">
-    <link href="${basePath }/css/simpleTree.css" rel="stylesheet">
-    <link href="${basePath }/css/iconfont.css" rel="stylesheet">
-    <link href="${basePath }/css/mycollapse.css" rel="stylesheet">
-    <!--这个日历控件js必须放头部-->
-    <script language="javascript" type="text/javascript" src="${basePath }/js/My97DatePicker/WdatePicker.js"></script>
-    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!--[if lt IE 9]>
-    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
-
+<style type="text/css">
+	.data_selected{
+	background: #ffffff;	
+}
+</style>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>index</title>
+<!-- 引用公共header部分 -->
+<jsp:include page="../../common/base/header_busi.jsp"></jsp:include>
 </head>
 <body>
 <div class="it_admin">
-   <div class="left ">
-    <div class="user">
-        <a href="#" data-toggle="dropdown" data-target="#menu-messages" class="dropdown-toggle">
-            <img src="${basePath }/images/tx.jpg" class="img-circle">
-            <label>超级管理员</label>
-        </a>
-    </div>
-    <div class="menu">
-        <label>菜单</label>
-        <i class="iconfont fr">&#xe61a;</i>
-    </div>
-    <div class="menu_collap">
-        <ul class="typelist ">
-            <a href="#ityewu" data-toggle="collapse" class="menu_collap_tit">
-                <label>业务管理</label>
-                <span><i class="iconfont">&#xe61f;</i></span>
-            </a>
-
-            <div class="collapse" id="ityewu">
-                <li>
-                    <a href="../cg/cg_index.html">
-                        <i class="iconfont">&#xe617;</i>
-                        <label>采购管理</label>
-                    </a>
-                </li>
-                <li>
-                    <a href="../sell/sell_apply.html">
-                        <i class="iconfont">&#xe615;</i>
-                        <label>销售管理</label>
-                    </a>
-                </li>
-                <li>
-                    <a>
-                        <i class="iconfont">&#xe614;</i>
-                        <label>其他业务</label>
-                    </a>
-                </li>
-                <li>
-                    <a>
-                        <i class="iconfont">&#xe618;</i>
-                        <label>质控管理</label>
-                    </a>
-                </li>
-            </div>
-            <a href="#itdangan" data-toggle="collapse" class="menu_collap_tit">
-                <label>基础档案</label>
-                <span><i class="iconfont">&#xe61f;</i></span>
-            </a>
-
-            <div class="collapse" id="itdangan">
-                <li>
-                    <a href="../file_nc/client.html">
-                        <i class="iconfont">&#xe617;</i>
-                        <label>NC档案</label>
-                    </a>
-                </li>
-                <li>
-                    <a href="../file_jil/car.html">
-                        <i class="iconfont">&#xe617;</i>
-                        <label>计量档案</label>
-                    </a>
-                </li>
-                <li>
-                    <a href="../file-other/car.html">
-                        <i class="iconfont">&#xe617;</i>
-                        <label>其他档案</label>
-                    </a>
-                </li>
-            </div>
-            <a href="#sys" data-toggle="collapse" class="menu_collap_tit">
-                <label>系统设置</label>
-                <span><i class="iconfont">&#xe604;</i></span>
-            </a>
-
-            <div class="in" id="sys">
-                <li>
-                    <a href="#">
-                        <i class="iconfont">&#xe617;</i>
-                        <label>系统权限</label>
-                    </a>
-                </li>
-                <li class="active">
-                    <a href="../system-yewu/bianhao.html">
-                        <i class="iconfont">&#xe617;</i>
-                        <label>系统业务</label>
-                    </a>
-                </li>
-            </div>
-        </ul>
-    </div>
-
-</div>
+<!-- 引用公共left部分 -->
+<jsp:include page="../../common/base/left_busi.jsp"></jsp:include>
    <div class="right">
-       <div class="intel_tab">
-            <!--tab切换标题-->
-            <ul class="intel_menu">
-                <li><a href="bianhao.html">自定义编号</a></li>
-                <li class="select"><a href="bianhao.html">辅助资料</a></li>
-            </ul>
-            <!--tab切换标题end-->
-            <div class="top_opera">
-                <a><i class="iconfont" data-toggle="tooltip" data-placement="left" title="首页">&#xe605;</i></a>
-                <a><i class="iconfont" data-toggle="tooltip" data-placement="left" title="控制面板">&#xe606;</i></a>
-                <a><i class="iconfont" data-toggle="tooltip" data-placement="left" title="退出">&#xe607;</i></a>
-            </div>
-       </div>
+    <!-- 引用公共right部分 -->
+	<jsp:include page="../../common/base/right_head_busi.jsp"></jsp:include>
        <div class="intel_tabbox">
         <div class="intel_tabcont">
             <div class="fuzhu_list width_fuzhu">
@@ -493,35 +382,12 @@
 </div>
 <!--编辑end-->
 <!--删除begin-->
-<div class="modal fade" id="deleitem" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-    <div class="modal-dialog" role="document" style="width: 400px;">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                        aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">提示</h4>
-            </div>
-            <div class="modal-body">
-                <div class="alert_qf">
-                   <label>注：删除操作不可恢复，您确定要继续么？</label>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary">确定</button>
-                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-            </div>
-        </div>
-    </div>
-</div>
-<!--删除end-->
-<script type="text/javascript" src="${basePath }/js/jquery-1.11.1.js"></script>
-<script type="text/javascript" src="${basePath }/js/bootstrap.js"></script>
-<script type="text/javascript" src="${basePath }/js/treeTable.js"></script>
-<script type="text/javascript" src="${basePath }/js/simpleTree.js" charset="utf-8"></script>
-<script type="text/javascript" src="${basePath }/js/myself.js"></script>
-<script type="text/javascript" src="${basePath }/js/layer/layer.js"></script>
-<script type="text/javascript" src="${basePath }/js/system/base/fuzhu.js">
 
-</script>	
+<!--删除end-->
+
+<script type="text/javascript" src="/javascript/system/base/fuzhu.js"></script>
+
+<!-- 引用公共footer部分 -->
+<jsp:include page="../../common/base/footer_busi.jsp"></jsp:include>
 </body>
 </html>
