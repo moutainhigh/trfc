@@ -25,7 +25,7 @@ $(function(){
 	//绑定数据字典明细删除按钮点击事件
 	$('#items').on('click','tr .dele_item',deleteItemAction);
 	//绑定数据字典明细删除页面确认按钮点击事件
-	$('#deleitem .btn-primary').click(deleteItem);
+//	$('.delete').click(deleteItem);
 	//绑定刷新按钮点击事件
 	$('#refresh').click(refreshPage);
 });
@@ -34,6 +34,10 @@ var dictData={};
 var itemData={};
 //显示数据字典类别列表
 function listSystemDataDicts() {
+	var index = layer.load(2, {
+		  shade: [0.3,'#fff'] //0.1透明度的白色背景
+		});
+	
 	var url='listDict';
 	var param={};
 	var tbody=$('#items').empty();
@@ -64,6 +68,7 @@ function listSystemDataDicts() {
 			layer.msg(result.error, {icon: 5});
 		}
 	});
+			layer.close(index);
 }
 //获取新增时需要的编号
 function showAddDictAction() {
@@ -117,6 +122,9 @@ function showEditDictAction() {
 //显示数据字典明细列表
 function showSystemDataDictItems() {
 //	console.log('showSystemDataDictItems');
+	var index = layer.load(2, {
+		  shade: [0.3,'#fff'] //0.1透明度的白色背景
+		});
 	
 	//设置选中数据字典的显示效果
 	$('#dicts li').removeClass('data_selected');
@@ -165,7 +173,7 @@ function showSystemDataDictItems() {
 		   layer.msg(result.error, {icon: 5});
 		}
 	});
-	
+	layer.close(index);
 }
 //修改数据字典类别
 function editDataDict() {
@@ -319,6 +327,24 @@ function deleteItemAction() {
 	var item=tr.data(item);
 	itemData.id=item.id;
 //	console.log(item.id);
+	
+	var bn=layer.open({
+        content: '您确定要删除吗？',
+        area: '600px',
+        closeBtn:1,
+        shadeClose:true,
+        btn: ['确定', '取消'],
+        yes: function(index, layero){
+            //按钮【确定】的回调
+			deleteItem();
+			layer.close(bn);
+        },btn2: function(index, layero){
+            //按钮【取消】的回调
+        }
+        ,cancel: function(){
+            //右上角关闭回调
+        }
+    });
 }
 //删除选中的数据字典明细
 function deleteItem() {
@@ -326,7 +352,8 @@ function deleteItem() {
 	var url='deleteItem';
 	var param={id:itemData.id};
 //	console.log(param);
-	$('#deleitem .btn-primary').attr('data-dismiss','modal');
+//	$('#deleitem .btn-primary').attr('data-dismiss','modal');
+//	layer.closeAll();
 	$.post(url,param,function(result){
 		if(result.code == '000000'){
 			$('.data_selected').click();
