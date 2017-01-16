@@ -8,6 +8,7 @@
 <link href="${staticBasePath}/css/mycollapse.css" rel="stylesheet">
 <link href="${staticBasePath}/css/iconfont.css" rel="stylesheet">
 <link href="${staticBasePath}/css/jquery-confirm.css" rel="stylesheet">
+<link href="${staticBasePath}/css/pagination.css" rel="stylesheet">
 <!--这个日历控件js必须放头部-->
 <script language="javascript" type="text/javascript"
 	src="${staticBasePath}/js/My97DatePicker/WdatePicker.js"></script>
@@ -21,4 +22,6 @@
 <script type="text/javascript" src="${staticBasePath}/js/treeTable.js"></script>
 <script type="text/javascript" src="${staticBasePath}/js/bootstrap-treeview.js"></script>
 <script type="text/javascript" src="${staticBasePath}/js/jquery-confirm.js"></script>
+<script type="text/javascript" src="${staticBasePath}/js/layer/layer.js"></script>
+<script type="text/javascript" src="${staticBasePath}/js/jquery.pagination.js"></script>
 <script type="text/javascript" src="${staticBasePath}/js/myself.js"></script>

@@ -7,12 +7,16 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 import com.alibaba.fastjson.JSON;
+import com.tianrui.api.req.basicFile.measure.VehicleCheckApi;
 import com.tianrui.api.req.basicFile.measure.VehicleManageApi;
+import com.tianrui.api.req.businessManage.salesManage.ApiDoorQueueQuery;
+import com.tianrui.api.req.businessManage.salesManage.ApiDoorSystemSave;
 import com.tianrui.api.req.common.RFIDReq;
 import com.tianrui.api.req.system.auth.UserReq;
 import com.tianrui.smartfactory.common.api.ApiParam;
 import com.tianrui.smartfactory.common.api.Head;
 import com.tianrui.smartfactory.common.constants.Constant;
+import com.tianrui.smartfactory.common.utils.DateUtil;
 import com.tianrui.smartfactory.common.utils.Md5Utils;
 
 public class ApiTest {
@@ -21,7 +25,7 @@ public class ApiTest {
 	private static String domin="http://127.0.0.1/";
 	private static String uri_login="api/system/login";
 	private static String uri_rfid="api/card/rfidReg";
-	private static String url = "api/vehicle/vehicleCard";
+	private static String url = "api/doorSystem/leaveFactoryCheck";
 	
 	
 	static ApiParam<UserReq> getParam(){
@@ -83,7 +87,7 @@ public class ApiTest {
 //		String param =JSON.toJSONString(req);
 //		System.out.println(httpPost(domin+uri_login,"p="+param));
 		
-		ApiParam<VehicleManageApi> req =getParam1();
+		ApiParam<VehicleCheckApi> req =getParam1();
 		setkey(req);
 		setMd5(req);
 		String param =JSON.toJSONString(req);
@@ -91,12 +95,16 @@ public class ApiTest {
 		
 //		System.out.println(Md5Utils.MD5("1"));
 	}
-	static ApiParam<VehicleManageApi> getParam1(){
-		ApiParam<VehicleManageApi> api =new ApiParam<VehicleManageApi>();
+	static ApiParam<VehicleCheckApi> getParam1(){
+		ApiParam<VehicleCheckApi> api =new ApiParam<VehicleCheckApi>();
 		
-		VehicleManageApi req =new VehicleManageApi();
-		req.setRfid("06D4A539303738202020AB01");
-		req.setVehicleNo("豫GA2571");
+		VehicleCheckApi req =new VehicleCheckApi();
+		req.setVehicleNo("豫Q98765");
+		req.setRfid("E2004145291401971830563B");
+//		req.setNotionformcode("TH259378");
+//		req.setIccode("AB0D8F93BA080400015C61242F23081D");
+//		req.setType("1");
+//		req.setTime(DateUtil.getNowDateString("yyyy-MM-dd HH:mm:ss"));
 		
 		Head head =new Head();
 		head.setCallSource("1");

@@ -7,10 +7,9 @@
 <!-- 引用公共header部分 -->
 <jsp:include page="../../common/base/header_busi.jsp"></jsp:include>
 
-<link href="${staticBasePath }/css/pagination.css" rel="stylesheet">
 </head>
 <body>
-
+<div class="it_admin">
 	<!-- 引用公共left部分 -->
 	<jsp:include page="../../common/base/left_busi.jsp"></jsp:include>
 	<div class="right">
@@ -90,14 +89,11 @@
 			</div>
 		</div>
 	</div>
-	<script type="text/javascript"
-		src="${staticBasePath }/js/jquery.pagination.js"></script>
-	<script type="text/javascript"
-		src="${staticBasePath }/js/layer/layer.js"></script>
-	<script type="text/javascript"
-		src="/javascript/basicFile/nc/warehouse.js"></script>
 
 	<!-- 引用公共footer部分 -->
 	<jsp:include page="../../common/base/footer_busi.jsp"></jsp:include>
+</div>
+	<script type="text/javascript"
+		src="/javascript/basicFile/nc/warehouse.js"></script>
 </body>
 </html>

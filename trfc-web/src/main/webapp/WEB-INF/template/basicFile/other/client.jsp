@@ -6,7 +6,6 @@
 <title>无人值守-其他档案-其他客户</title>
 <!-- 引用公共header部分 -->
 <jsp:include page="../../common/base/header_busi.jsp"></jsp:include>
-<link href="${staticBasePath}/css/pagination.css" rel="stylesheet">
 
 </head>
 <body>
@@ -249,18 +248,12 @@
 				</div>
 			</div>
 		</div>
+		<!--删除end-->
+		<!-- 引用公共footer部分 -->
+		<jsp:include page="../../common/base/footer_busi.jsp"></jsp:include>
 	</div>
-	<!--删除end-->
-	<script type="text/javascript"
-		src="${staticBasePath }/js/layer/layer.js"></script>
-	<script type="text/javascript"
-		src="${staticBasePath }/js/jquery.pagination.js"></script>
-	<script type="text/javascript"
-		src="/javascript/basicFile/other/other-client.js"></script>
-
-
+		<script type="text/javascript"
+			src="/javascript/basicFile/other/other-client.js"></script>
 </body>
-<!-- 引用公共footer部分 -->
-<jsp:include page="../../common/base/footer_busi.jsp"></jsp:include>
 
 </html>

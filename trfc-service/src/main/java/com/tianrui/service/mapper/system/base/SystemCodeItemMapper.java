@@ -56,4 +56,8 @@ public interface SystemCodeItemMapper {
      * 查询数据(通过req)
      */
     SystemCodeItem selectByReq(SystemCodeReq req);
+    /**
+     * 通过编号Id删除
+     */
+    int deleteByCodeId(String codeId);
 }

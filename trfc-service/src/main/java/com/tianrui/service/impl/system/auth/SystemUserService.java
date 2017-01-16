@@ -232,6 +232,7 @@ public class SystemUserService implements ISystemUserService {
 			query.setAccount(req.getAccount());
 			List<SystemUser> list =userMapper.selectByCondition(query);
 			if( CollectionUtils.isNotEmpty(list) ){
+				//验证密码
 				if(StringUtils.equals(list.get(0).getPassword(),req.getPswd() )){
 					if( list.get(0).getIsvalid()==BusinessConstants.USER_VALID_BYTE ){
 						rs.setErrorCode(ErrorCode.SYSTEM_SUCCESS);

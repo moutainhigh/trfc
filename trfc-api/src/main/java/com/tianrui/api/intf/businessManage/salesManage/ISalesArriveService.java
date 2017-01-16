@@ -1,5 +1,6 @@
 package com.tianrui.api.intf.businessManage.salesManage;
 
+import com.tianrui.api.req.businessManage.salesManage.ApiDoorQueueQuery;
 import com.tianrui.api.req.businessManage.salesManage.ApiSalesArriveQuery;
 import com.tianrui.api.req.businessManage.salesManage.SalesArriveQuery;
 import com.tianrui.api.req.businessManage.salesManage.SalesArriveSave;
@@ -74,5 +75,11 @@ public interface ISalesArriveService {
 	 * @throws Exception 
 	 */
 	Result detailApi(ApiSalesArriveQuery query) throws Exception;
+	/**
+	 * 查询等待出厂的数量
+	 * @param query
+	 * @return
+	 */
+	Result selectWaitingNumber(ApiDoorQueueQuery query);
 
 }

@@ -9,8 +9,10 @@ import com.tianrui.api.req.BaseReq;
 public class ApiDoorQueueQuery extends BaseReq {
 
 	private static final long serialVersionUID = 2459911624693685605L;
-	//物料
+	//物料id
 	private String materiel;
+	//物料包装类型（1：袋装，2：散装）
+	private String packagetype;
 	
 	private String currUid;
 
@@ -22,6 +24,14 @@ public class ApiDoorQueueQuery extends BaseReq {
 		this.materiel = materiel;
 	}
 
+	public String getPackagetype() {
+		return packagetype;
+	}
+
+	public void setPackagetype(String packagetype) {
+		this.packagetype = packagetype;
+	}
+
 	public String getCurrUid() {
 		return currUid;
 	}
@@ -30,8 +40,4 @@ public class ApiDoorQueueQuery extends BaseReq {
 		this.currUid = currUid;
 	}
 
-	
-	
-	
-	
 }

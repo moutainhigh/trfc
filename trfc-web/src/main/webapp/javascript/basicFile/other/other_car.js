@@ -161,7 +161,7 @@ function addVehicle(){
 //		console.log(result);
 		if(result.code=='000000'){
 			var data = result.data;
-			console.log(data);
+//			console.log(data);
 			listOtherVehicleAction(1);
 		}else{
 			layer.msg(result.error, {icon: 5});
@@ -238,7 +238,7 @@ function updateVehicle() {
 	$.post(url,params,function(result){
 		if(result.code == '000000'){
 //			console.log(result.data);
-			listOtherVehicleAction();
+			listOtherVehicleAction(1);
 		}else{
 			layer.msg(result.error, {icon: 5});
 		}
@@ -263,7 +263,7 @@ function deleteVehicle() {
 	$.post(url,param,function(result){
 		if(result.code == '000000'){
 //			console.log(result.data);
-			listOtherVehicleAction();
+			listOtherVehicleAction(1);
 		}else{
 			layer.msg(result.error, {icon: 5});
 		}

@@ -13,7 +13,7 @@ import com.tianrui.api.req.system.base.SystemDataDictReq;
 import com.tianrui.smartfactory.common.vo.Result;
 
 @Controller
-@RequestMapping("base/dataDict")
+@RequestMapping("system/base/dataDict")
 public class SystemDataDictAction {
 	@Autowired
 	private ISystemDataDictService systemDataDictService;

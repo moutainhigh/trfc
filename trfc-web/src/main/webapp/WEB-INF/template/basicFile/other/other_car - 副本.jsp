@@ -2,10 +2,12 @@
 <!DOCTYPE html >
 <html>
 <head>
+<<<<<<< HEAD
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>index</title>
 <!-- 引用公共header部分 -->
 <jsp:include page="../../common/base/header_busi.jsp"></jsp:include>
+<link href="${staticBasePath}/css/pagination.css" rel="stylesheet">
 
 </head>
 <body>
@@ -15,6 +17,36 @@
 		<div class="right">
 			<!-- 引用公共right部分 -->
 			<jsp:include page="../../common/base/right_head_busi.jsp"></jsp:include>
+=======
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>index</title>
+	<!-- 引用公共header部分 -->
+	<jsp:include page="../../common/base/header_busi.jsp"></jsp:include>
+    <link href="${staticBasePath }/css/pagination.css" rel="stylesheet">
+    
+</head>
+<body>
+<div class="it_admin">
+<!-- 引用公共left部分 -->
+<jsp:include page="../../common/base/left_busi.jsp"></jsp:include>
+<div class="right">
+<div class="intel_tab">
+    <!--tab切换标题-->
+    <ul class="intel_menu">
+        <li >其他供应商</li>
+        <li >其他客户</li>
+        <li >其他物料</li>
+        <li class="select">其他车辆</li>
+        <li >其他司机</li>
+    </ul>
+    <!--tab切换标题end-->
+    <div class="top_opera">
+        <a><i class="iconfont" data-toggle="tooltip" data-placement="left" title="首页">&#xe605;</i></a>
+        <a><i class="iconfont" data-toggle="tooltip" data-placement="left" title="控制面板">&#xe606;</i></a>
+        <a><i class="iconfont" data-toggle="tooltip" data-placement="left" title="退出">&#xe607;</i></a>
+    </div>
+</div>
+>>>>>>> 76a5a42a25ea6087b2fcbe8d765884ccc5a2ae5b
 
 			<!--tab切换的内容-->
 			<div class="intel_tabbox">
@@ -175,6 +207,87 @@
 		<!-- 新增end -->
 
 
+<<<<<<< HEAD
+=======
+<!--编辑begin-->
+<div class="modal fade" id="edit" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document" style="width: 750px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <div class="alt_head">
+                    <h5>其他车辆信息-编辑</h5>
+                </div>
+            </div>
+            <div class="modal-body">
+                <div class="alt_edit">
+                    <div class="alt_edit_div">
+                        <label>编号：</label>
+                        <input type="text"  readonly="readonly"  id="update_vehicle_code">
+                    </div>
+                    <div class="alt_edit_div">
+                        <label>内码：</label>
+                        <input type="text"  readonly="readonly"  id="update_vehicle_innercode">
+                    </div>
+                    <div class="alt_edit_div">
+                        <label>名称：</label>
+                        <input type="text" id="update_vehicle_name">
+                    </div>
+                    <div class="alt_edit_div">
+                        <label>简称：</label>
+                        <input type="text" id="update_vehicle_info">
+                    </div>
+                    <div class="alt_edit_div">
+                        <label>所属组织：</label>
+                        <input type="text" id="update_vehicle_orgname">
+                    </div>
+                    <div class="alt_edit_div">
+                        <label>有效性：</label>
+                        <input type="checkbox" id="update_vehicle_isvalid"><span>有效</span>
+                    </div>
+                    <div class="alt_edit_textarea">
+                        <label>备注： </label>
+                        <textarea class="form-control" rows="1" id="update_vehicle_remark"></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="update_vehicle">确定</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--编辑end-->
+<!--删除begin-->
+<div class="modal fade" id="dele" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document" style="width: 400px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">提示</h4>
+            </div>
+            <div class="modal-body">
+                <div class="alert_qf">
+                    <img src="${staticBasePath }/images/tishi.png"><label>注：删除操作不可恢复，您确定要继续么？</label>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="delete_vehicle">确定</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+<!--删除end-->
+
+<script type="text/javascript" src="${staticBasePath }/js/jquery.pagination.js"></script>
+<script type="text/javascript" src="${staticBasePath }/js/layer/layer.js"></script>
+<script type="text/javascript" src="/javascript/basicFile/other/other_car.js"></script>
+>>>>>>> 76a5a42a25ea6087b2fcbe8d765884ccc5a2ae5b
 
 		<!--编辑begin-->
 		<div class="modal fade" id="edit" tabindex="-1" role="dialog"
@@ -255,6 +368,10 @@
 		</div>
 		</div>
 		<!--删除end-->
+		<script type="text/javascript"
+			src="${staticBasePath }/js/jquery.pagination.js"></script>
+		<script type="text/javascript"
+			src="${staticBasePath }/js/layer/layer.js"></script>
 		<script type="text/javascript"
 			src="/javascript/basicFile/other/other_car.js"></script>
 

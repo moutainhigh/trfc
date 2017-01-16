@@ -96,12 +96,7 @@
             <td>2016-10-12</td>
             <td></td>
             <td>
-            <span>
-                <a data-toggle="modal" data-target="#edit"><i class="iconfont" data-toggle="tooltip" data-placement="left" title="编辑">&#xe600;</i></a>
-            </span>
-            <span>
-                <a data-toggle="modal" data-target="#dele"><i class="iconfont" data-toggle="tooltip" data-placement="left" title="删除">&#xe63d;</i></a>
-            </span>
+
             </td>
         </tr>
         </tbody>
@@ -109,7 +104,7 @@
     <!--用户表格end-->
 </div>
 
-    <!--分页效果开始-->
+    <!--分页效果开始
     <div class="row">
         <div class="col-md-12">
             <div class="page_middle">
@@ -138,7 +133,7 @@
 
         </div>
     </div>
-    <!--分页效果结束-->
+    	分页效果结束-->
 </div>
 <!--tab切换的内容end-->
 </div>
@@ -252,7 +247,7 @@
                     </div>
                     <div class="alt_edit_div">
                         <label>登录密码：</label>
-                        <input type="password" class="formele" name="password" maxlength="20">
+                        <input type="password" class="formele password" name="password" maxlength="20">
                     </div>
                     <div class="alt_edit_div">
                         <label>所属组织：</label>${orgName}

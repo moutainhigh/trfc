@@ -224,41 +224,13 @@
 			</div>
 		</div>
 		<!-- 新增end -->
-		<!--删除begin-->
-		<div class="modal fade" id="dele" tabindex="-1" role="dialog"
-			aria-labelledby="myModalLabel">
-			<div class="modal-dialog" role="document" style="width: 400px;">
-				<div class="modal-content">
-					<div class="modal-header">
-						<button type="button" class="close" data-dismiss="modal"
-							aria-label="Close">
-							<span aria-hidden="true">&times;</span>
-						</button>
-						<h4 class="modal-title">提示</h4>
-					</div>
-					<div class="modal-body">
-						<div class="alert_qf">
-							<img src="${staticBasePath }/images/tishi.png"><label>注：删除操作不可恢复，您确定要继续么？</label>
-						</div>
-					</div>
-					<div class="modal-footer">
-						<button type="button" class="btn btn-primary"
-							id="systemCode_delete_ensure">确定</button>
-						<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-					</div>
-				</div>
-			</div>
-		</div>
+
+
+		<!-- 引用公共footer部分 -->
+		<jsp:include page="../../common/base/footer_busi.jsp"></jsp:include>
 	</div>
-	<!--删除end-->
-	<script type="text/javascript"
-		src="${staticBasePath }/js/layer/layer.js"></script>
 	<script type="text/javascript"
 		src="/javascript/system/base/systemCode.js"></script>
-
-
-	<!-- 引用公共footer部分 -->
-	<jsp:include page="../../common/base/footer_busi.jsp"></jsp:include>
 
 </body>
 </html>
