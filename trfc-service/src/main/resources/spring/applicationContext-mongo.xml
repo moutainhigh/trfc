@@ -31,7 +31,7 @@
  	
  	</mongo:mongo>
     
-	<mongo:db-factory dbname="${mongo.dbname}"  username="${mongo.username}" password="${mongo.password}" mongo-ref="mongo"/>
+	<mongo:db-factory dbname="${mongo.dbname}" mongo-ref="mongo"/> <!-- username="${mongo.username}" password="${mongo.password}" --> 
    
 	
 	<bean id="mappingContext" class="org.springframework.data.mongodb.core.mapping.MongoMappingContext" />
