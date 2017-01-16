@@ -21,4 +21,6 @@
 <script type="text/javascript" src="${staticBasePath}/js/treeTable.js"></script>
 <script type="text/javascript" src="${staticBasePath}/js/bootstrap-treeview.js"></script>
 <script type="text/javascript" src="${staticBasePath}/js/jquery-confirm.js"></script>
+<script type="text/javascript" src="${staticBasePath}/js/layer/layer.js"></script>
+<script type="text/javascript" src="${staticBasePath}/js/jquery.pagination.js"></script>
 <script type="text/javascript" src="${staticBasePath}/js/myself.js"></script>
