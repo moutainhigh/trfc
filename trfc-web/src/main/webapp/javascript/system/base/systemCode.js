@@ -1,4 +1,13 @@
 ;(function($,win){
+	//请求路径
+	var URL = {
+			checkCodeUrl:"/trfc/system/base/code/checkCode",
+			deleteUrl:"/trfc/system/base/code/delete",
+			addUrl:"/trfc/system/base/code/add",
+			editUrl:"/trfc/system/base/code/edit",
+			pageUrl:"/trfc/system/base/code/page"
+	};
+	
 	init();
 
 	//初始化
@@ -46,7 +55,7 @@
 			alert("单据代号不可为空!");
 			return false;
 		}
-		var url = "checkCode";
+		var url = URL.checkCodeUrl;
 		var param = {code:code};
 		var bl = false;
 		$.ajax({url:url,
@@ -70,7 +79,7 @@
 	}
 	//删除时 提交删除信息
 	function deleteCodeAction(){
-		var url = "delete";
+		var url = URL.deleteUrl;
 		var params = {id:param.codeId};
 		$.post(url,params,function(result){
 			if(result.code=='000000'){
@@ -123,7 +132,7 @@
 				innerCodeBegin:innerCodeBegin,
 				example:example
 		};
-		var url = "add";
+		var url = URL.addUrl;
 		$.post(url,params,function(result){
 			if(result.code=='000000'){
 				jqueryData();
@@ -152,7 +161,7 @@
 				innerCodeBegin:innerCodeBegin,
 				example:example
 		};
-		var url = "edit";
+		var url = URL.editUrl;
 		$.post(url,params,function(result){
 			if(result.code=='000000'){
 				jqueryData();
@@ -178,7 +187,7 @@
 		var index = layer.load(2, {
 			shade: [0.3,'#fff'] //0.1透明度的白色背景
 		});
-		var url = "page";
+		var url = URL.pageUrl;
 		var params = {};
 		$.post(url,params,function(result){
 			if(result.code=='000000'){

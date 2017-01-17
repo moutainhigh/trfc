@@ -13,12 +13,12 @@ import com.tianrui.api.req.system.base.SystemDataDictReq;
 import com.tianrui.smartfactory.common.vo.Result;
 
 @Controller
-@RequestMapping("system/base/dataDict")
+@RequestMapping("/trfc/system/base/dataDict")
 public class SystemDataDictAction {
 	@Autowired
 	private ISystemDataDictService systemDataDictService;
 	
-	@RequestMapping("main")
+	@RequestMapping("/main")
 	public ModelAndView main(){
 		ModelAndView view = new ModelAndView("system/base/fuzhu");
 		return view;
@@ -29,7 +29,7 @@ public class SystemDataDictAction {
 	 * @param req
 	 * @return
 	 */
-	@RequestMapping(value="listDict",method=RequestMethod.POST)
+	@RequestMapping(value="/listDict",method=RequestMethod.POST)
 	@ResponseBody
 	public Result listDataDict(SystemDataDictReq req){
 		Result result = systemDataDictService.findSystemDataDicts(req);
@@ -41,7 +41,7 @@ public class SystemDataDictAction {
 	 * @param req
 	 * @return
 	 */
-	@RequestMapping(value="addDict",method=RequestMethod.POST)
+	@RequestMapping(value="/addDict",method=RequestMethod.POST)
 	@ResponseBody
 	public Result addDataDict(SystemDataDictReq req){
 		Result result = systemDataDictService.addSystemDataDict(req);
@@ -53,7 +53,7 @@ public class SystemDataDictAction {
 	 * @param req
 	 * @return
 	 */
-	@RequestMapping(value="editDict",method=RequestMethod.POST)
+	@RequestMapping(value="/editDict",method=RequestMethod.POST)
 	@ResponseBody
 	public Result editDataDict(SystemDataDictReq req){
 		Result result = systemDataDictService.editSystemDataDict(req);
@@ -65,7 +65,7 @@ public class SystemDataDictAction {
 	 * @param id
 	 * @return
 	 */
-	@RequestMapping(value="deleteDict",method=RequestMethod.POST)
+	@RequestMapping(value="/deleteDict",method=RequestMethod.POST)
 	@ResponseBody
 	public Result deleteDataDict(String id){
 		Result result = systemDataDictService.deleteSystemDataDict(id);
@@ -77,7 +77,7 @@ public class SystemDataDictAction {
 	 * @param req
 	 * @return
 	 */
-	@RequestMapping(value="listItem",method=RequestMethod.POST)
+	@RequestMapping(value="/listItem",method=RequestMethod.POST)
 	@ResponseBody
 	public Result listItem(SystemDataDictItemReq req){
 		Result result = systemDataDictService.findSystemDataDictItems(req);
@@ -89,7 +89,7 @@ public class SystemDataDictAction {
 	 * @param req
 	 * @return
 	 */
-	@RequestMapping(value="addItem",method=RequestMethod.POST)
+	@RequestMapping(value="/addItem",method=RequestMethod.POST)
 	@ResponseBody
 	public Result addItem(SystemDataDictItemReq req){
 		Result result = systemDataDictService.addSystemDataDictItem(req);
@@ -101,7 +101,7 @@ public class SystemDataDictAction {
 	 * @param req
 	 * @return
 	 */
-	@RequestMapping(value="editItem",method=RequestMethod.POST)
+	@RequestMapping(value="/editItem",method=RequestMethod.POST)
 	@ResponseBody
 	public Result editItem(SystemDataDictItemReq req){
 		Result result = systemDataDictService.editSystemDataDictItem(req);
@@ -113,7 +113,7 @@ public class SystemDataDictAction {
 	 * @param id
 	 * @return
 	 */
-	@RequestMapping(value="deleteItem",method=RequestMethod.POST)
+	@RequestMapping(value="/deleteItem",method=RequestMethod.POST)
 	@ResponseBody
 	public Result deleteItem(String id){
 		Result result = systemDataDictService.deleteSystemDataDictItem(id);

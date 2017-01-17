@@ -1,4 +1,14 @@
 ;(function($, win){
+	//请求路径
+	var URL = {
+			addCodeUrl:"/trfc/card/addCard",
+			addBtnUrl:"/trfc/common/code/driverCode",
+			pageUrl:"/trfc/card/page",
+			updateCodeUrl:"/trfc/card/updateCard",
+			findOneUrl:"/trfc/card/findOne",
+			deleteCodeUrl:"/trfc/card/delCard",
+			cardCodeUrl:"/trfc/common/code/cardCode"
+	};
 	init();
 	function init(){
 		bindEvent();
@@ -31,7 +41,7 @@
 				  shade: [0.3,'#fff'] //0.1透明度的白色背景
 				});
 				$.ajax({
-					url:'/card/findOne',
+					url:URL.findOneUrl,
 					data:{
 						id:$('#update_id').val()
 					},
@@ -65,7 +75,7 @@
 				}
 				var remarks = $('#update_remarks').val() || '';
 				$.ajax({
-					url:'/card/updateCard',
+					url:URL.updateCodeUrl,
 					data:{
 						id:id,
 						cardcode:cardcode,
@@ -97,7 +107,7 @@
 			if($('#delCardView').is(':visible')){
 				var id = $(this).attr('cardid') || '';
 				$.ajax({
-					url:'/card/delCard',
+					url:URL.deleteCodeUrl,
 					data:{
 						id:$.trim(id)
 					},
@@ -158,7 +168,7 @@
 					layer.msg('卡类型不能为空值 .', {icon: 5});return;
 				}
 				$.ajax({
-					url:'/card/addCard',
+					url:URL.addCodeUrl,
 					data:{
 						code:code,
 						cardno:cardno,
@@ -216,7 +226,7 @@
 		var params = getParams();
 		params.pageNo = pageNo;
 		$.ajax({
-			url:'/card/page',
+			url:URL.pageUrl,
 			data:params,
 			async:true,
 			cache:false,
@@ -341,7 +351,7 @@
 	
 	function setAddValue(){
 		$.ajax({
-			url:'/common/code/cardCode',
+			url:URL.cardCodeUrl,
 			data:{},
 			async:true,
 			cache:false,

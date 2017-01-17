@@ -16,7 +16,7 @@ import com.tianrui.smartfactory.common.constants.ErrorCode;
 import com.tianrui.smartfactory.common.vo.PaginationVO;
 import com.tianrui.smartfactory.common.vo.Result;
 
-@RequestMapping("driver")
+@RequestMapping("/trfc/driver")
 @Controller
 public class DriverManageAction {
 	
@@ -25,13 +25,13 @@ public class DriverManageAction {
 	@Autowired
 	private IDriverManageService driverManageService;
 	
-	@RequestMapping("main")
+	@RequestMapping("/main")
 	public ModelAndView main(){
 		ModelAndView view = new ModelAndView("basicFile/measure/driver");
 		return view;
 	}
 	
-	@RequestMapping("page")
+	@RequestMapping("/page")
 	@ResponseBody
 	public Result page(DriverManageQuery query){
 		Result result = Result.getSuccessResult();
@@ -45,7 +45,7 @@ public class DriverManageAction {
 		return result;
 	}
 
-	@RequestMapping("addDriver")
+	@RequestMapping("/addDriver")
 	@ResponseBody
 	public Result addDriver(DriverManageSave save){
 		Result result = Result.getSuccessResult();
@@ -58,7 +58,7 @@ public class DriverManageAction {
 		return result;
 	}
 	
-	@RequestMapping("updateDriver")
+	@RequestMapping("/updateDriver")
 	@ResponseBody
 	public Result updateDriver(DriverManageSave save){
 		Result result = Result.getSuccessResult();
@@ -71,7 +71,7 @@ public class DriverManageAction {
 		return result;
 	}
 	
-	@RequestMapping("delDriver")
+	@RequestMapping("/delDriver")
 	@ResponseBody
 	public Result deleteDriver(DriverManageQuery query){
 		Result result = Result.getSuccessResult();

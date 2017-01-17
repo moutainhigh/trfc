@@ -1,4 +1,9 @@
 ;(function($, win){
+	//请求路径
+	var URL = {
+			pageUrl:"/trfc/supplier/page",
+			updateSupplierUrl:"/trfc/supplier/updateSupplier"
+	};
 	init();
 	function init(){
 		bindEvent();
@@ -60,7 +65,7 @@
 		var params = getParams();
 		params.pageNo = pageNo;
 		$.ajax({
-			url:'/supplier/page',
+			url:URL.pageUrl,
 			data:params,
 			async:true,
 			cache:false,
@@ -161,7 +166,7 @@
 			}
 			var remarks = $('#remarks').val();
 			$.ajax({
-				url:'/supplier/updateSupplier',
+				url:URL.updateSupplierUrl,
 				data:{
 					id:id,
 					name:name,

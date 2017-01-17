@@ -1,4 +1,8 @@
 ;(function($, win){
+	//请求路径
+	var URL = {
+			pageUrl:"/trfc/purchaseApplication/page",
+	};
 	init();
 	function init(){
 		bindEvent();
@@ -65,7 +69,7 @@
 		var params = getParams();
 		params.pageNo = pageNo;
 		$.ajax({
-			url:'/purchaseApplication/page',
+			url:URL.pageUrl,
 			data:params,
 			async:true,
 			cache:false,

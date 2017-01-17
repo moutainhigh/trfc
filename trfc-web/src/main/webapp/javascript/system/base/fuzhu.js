@@ -1,5 +1,15 @@
 $(function(){
-//	console.log('OK');
+	//请求路径
+	var URL = {
+			listDictUrl:"/trfc/system/base/dataDict/listDict",
+			addDictUrl:"/trfc/system/base/dataDict/addDict",
+			listItemUrl:"/trfc/system/base/dataDict/listItem",
+			editDictUrl:"/trfc/system/base/dataDict/editDict",
+			deleteDictUrl:"/trfc/system/base/dataDict/deleteDict",
+			addItemUrl:"/trfc/system/base/dataDict/addItem",
+			editItemUrl:"/trfc/system/base/dataDict/editItem",
+			deleteItemUrl:"/trfc/system/base/dataDict/deleteItem"
+	};
 	//加载页面，显示数据字典列表(默认第一条数据字典被选中)
 	listSystemDataDicts();
 	//绑定数据字典类别增加按钮点击事件
@@ -38,7 +48,7 @@ function listSystemDataDicts() {
 		  shade: [0.3,'#fff'] //0.1透明度的白色背景
 		});
 	
-	var url='listDict';
+	var url=URL.listDictUrl;
 	var param={};
 	var tbody=$('#items').empty();
 	$.post(url,param,function(result){
@@ -84,7 +94,7 @@ function showAddDictAction() {
 function addDictAction() {
 //	console.log('addDictAction');
 	
-	var url="addDict";
+	var url=URL.addDictUrl;
 	var code=$('#dict_code').val().trim();
 	var name=$('#dict_name').val().trim();
 	if(!name){
@@ -139,7 +149,7 @@ function showSystemDataDictItems() {
 	//更改辅助资料明细标题
 	$('#fuzhu_dtile_name').html('辅助资料明细 - '+name);
 	
-	var url='listItem';
+	var url=URL.listItemUrl;
 	var param={dictid:dictid};
 	$.post(url,param,function(result){
 		if(result.code == '000000'){
@@ -179,7 +189,7 @@ function showSystemDataDictItems() {
 function editDataDict() {
 //	console.log('editDataDict');
 	
-	var url="editDict";
+	var url=URL.editDictUrl;
 	var code=$('#update_dict_code').val().trim();
 	var name=$('#update_dict_name').val().trim();
 	if(!name){
@@ -208,7 +218,7 @@ function editDataDict() {
 //删除数据字典类别
 function deleteDataDict() {
 //	console.log('deleteDataDict');
-	var url='deleteDict';
+	var url=URL.deleteDictUrl;
 	var param={id:dictData.dict.id};
 //	console.log(param);
 	$('#deledict .btn-primary').attr('data-dismiss','modal');
@@ -242,7 +252,7 @@ function showAddItemAction() {
 function addItemAction() {
 //	console.log('addItemAction');
 	
-	var url="addItem";
+	var url=URL.addItemUrl;
 	var code=$('#item_code').val().trim();
 	var name=$('#item_name').val().trim();
 	if(!name){
@@ -291,7 +301,7 @@ function updateItemAction() {
 //修改数据字典明细
 function updateItem() {
 //	console.log('updateItem');
-	var url="editItem";
+	var url=URL.editItemUrl;
 	var code=$('#update_item_code').val().trim();
 	var name=$('#update_item_name').val().trim();
 	if(!name){
@@ -349,7 +359,7 @@ function deleteItemAction() {
 //删除选中的数据字典明细
 function deleteItem() {
 //	console.log('deleteItem');
-	var url='deleteItem';
+	var url=URL.deleteItemUrl;
 	var param={id:itemData.id};
 //	console.log(param);
 //	$('#deleitem .btn-primary').attr('data-dismiss','modal');

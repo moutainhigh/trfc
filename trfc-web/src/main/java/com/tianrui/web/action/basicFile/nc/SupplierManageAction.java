@@ -16,7 +16,7 @@ import com.tianrui.smartfactory.common.constants.ErrorCode;
 import com.tianrui.smartfactory.common.vo.PaginationVO;
 import com.tianrui.smartfactory.common.vo.Result;
 
-@RequestMapping("supplier")
+@RequestMapping("/trfc/supplier")
 @Controller
 public class SupplierManageAction {
 	
@@ -25,13 +25,13 @@ public class SupplierManageAction {
 	@Autowired
 	private ISupplierManageService supplierManageService;
 	
-	@RequestMapping("main")
+	@RequestMapping("/main")
 	public ModelAndView main(){
 		ModelAndView view = new ModelAndView("basicFile/nc/supplier");
 		return view;
 	}
 	
-	@RequestMapping("page")
+	@RequestMapping("/page")
 	@ResponseBody
 	public Result page(SupplierManageQuery query){
 		Result result = Result.getSuccessResult();
@@ -45,7 +45,7 @@ public class SupplierManageAction {
 		return result;
 	}
 	
-	@RequestMapping("updateSupplier")
+	@RequestMapping("/updateSupplier")
 	@ResponseBody
 	public Result updateSupplier(SupplierManageSave req){
 		Result result = Result.getSuccessResult();

@@ -1,3 +1,12 @@
+	//请求路径
+	var URL = {
+			pageUrl:"/trfc/salesArrive/page",
+			updateViewUrl:"/trfc/salesArrive/updateView",
+			auditUrl:"/trfc/salesArrive/audit",
+			unauditUrl:"/trfc/salesArrive/unaudit",
+			invalidUrl:"/trfc/salesArrive/invalid",
+			outfactoryUrl:"/trfc/salesArrive/outfactory"
+	};
 var PAGE;
 if(PAGE){
 	PAGE = null;
@@ -85,7 +94,7 @@ PAGE.mod.main = {
 			var params = _this.getParams();
 			params.pageNo = pageNo;
 			$.ajax({
-				url:'/salesArrive/page',
+				url:URL.pageUrl,
 				data:params,
 				async:true,
 				cache:false,
@@ -196,7 +205,7 @@ PAGE.mod.main = {
 				}
 				$('#dataBody').find('i.update').off('click').on('click',function(){
 					var obj = $(this).closest('tr').data();
-					window.location.href = '/salesArrive/updateView?id='+obj.id;
+					window.location.href = URL.updateViewUrl+'?id='+obj.id;
 				});
 				$('#dataBody').find('i.audit').off('click').on('click',function(){
 					var obj = $(this).closest('tr').data();
@@ -296,7 +305,7 @@ PAGE.mod.main = {
 				layer.msg('此单据已过重车，无法审核操作！', {icon: 5});
 				return;
 			}
-			_this.confirmOperation('您确定要审核么？', '/salesArrive/audit', {id: obj.id});
+			_this.confirmOperation('您确定要审核么？', URL.auditUrl, {id: obj.id});
 		},
 		unaudit:function(obj){
 			var _this = this;
@@ -332,7 +341,7 @@ PAGE.mod.main = {
 				layer.msg('此单据已过重车,无法反审操作!', {icon: 5});
 				return;
 			}
-			_this.confirmOperation('您确定要反审么？', '/salesArrive/unaudit', {id: obj.id});
+			_this.confirmOperation('您确定要反审么？', Url.unauditUrl, {id: obj.id});
 		},
 		invalid:function(obj){
 			var _this = this;
@@ -352,7 +361,7 @@ PAGE.mod.main = {
 				layer.msg('数据已入厂，不能进行作废操作！', {icon: 5});
 				return;
 			}
-			_this.confirmOperation('您确定要作废么？', '/salesArrive/invalid', {id: obj.id});
+			_this.confirmOperation('您确定要作废么？', URL.invalidUrl, {id: obj.id});
 		},
 		outfactory:function(obj){
 			var _this = this;
@@ -368,7 +377,7 @@ PAGE.mod.main = {
 				layer.msg('数据未过重车，不能进行出厂操作！', {icon: 5});
 				return;
 			}
-			_this.confirmOperation('您确定要出厂么？', '/salesArrive/outfactory', {id: obj.id});
+			_this.confirmOperation('您确定要出厂么？', URL.outfactoryUrl, {id: obj.id});
 		},
 		confirmOperation: function(confirmContent, url, params){
 			layer.confirm(confirmContent, {

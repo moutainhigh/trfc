@@ -17,7 +17,7 @@ import com.tianrui.smartfactory.common.constants.ErrorCode;
 import com.tianrui.smartfactory.common.vo.PaginationVO;
 import com.tianrui.smartfactory.common.vo.Result;
 
-@RequestMapping("card")
+@RequestMapping("/trfc/card")
 @Controller
 public class CardAction {
 	
@@ -26,13 +26,13 @@ public class CardAction {
 	@Autowired
 	private ICardService cardService;
 	
-	@RequestMapping("main")
+	@RequestMapping("/main")
 	public ModelAndView main(){
 		ModelAndView view = new ModelAndView("businessManage/cardManage/card");
 		return view;
 	}
 	
-	@RequestMapping("page")
+	@RequestMapping("/page")
 	@ResponseBody
 	public Result page(CardReq req){
 		Result result = Result.getSuccessResult();
@@ -46,7 +46,7 @@ public class CardAction {
 		return result;
 	}
 	
-	@RequestMapping("addCard")
+	@RequestMapping("/addCard")
 	@ResponseBody
 	public Result addCard(CardSave req){
 		Result result = Result.getSuccessResult();
@@ -60,7 +60,7 @@ public class CardAction {
 		return result;
 	}
 	
-	@RequestMapping("updateCard")
+	@RequestMapping("/updateCard")
 	@ResponseBody
 	public Result updateCard(CardReq req){
 		Result result = Result.getSuccessResult();
@@ -78,7 +78,7 @@ public class CardAction {
 		return result;
 	}
 	
-	@RequestMapping("delCard")
+	@RequestMapping("/delCard")
 	@ResponseBody
 	public Result delCard(CardReq req){
 		Result result = Result.getSuccessResult();
@@ -96,7 +96,7 @@ public class CardAction {
 		return result;
 	}
 	
-	@RequestMapping("findOne")
+	@RequestMapping("/findOne")
 	@ResponseBody
 	public Result findOne(String id){
 		Result result = Result.getSuccessResult();

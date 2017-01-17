@@ -1,4 +1,13 @@
 ;(function($, win){
+	//请求路径
+	var URL = {
+			addVehicleUrl:"/trfc/common/code/vehicleCode",
+			addBtnUrl:"/trfc/vehicle/addVehicle",
+			pageUrl:"/trfc/vehicle/page",
+			updateVehicleUrl:"/trfc/vehicle/editVehicle",
+			addblacklistUrl:"/trfc/vehicle/delblacklist",
+			deleteVehicleUrl:"/trfc/vehicle/deleteVehicle",
+	};
 	init();
 	function init(){
 		bindEvent();
@@ -28,7 +37,7 @@
 					isvalid = '1';
 				}
 				var remarks = $('#_remarks').val();remarks = $.trim(remarks);
-				operation('/vehicle/editVehicle', {
+				operation(URL.updateVehicleUrl, {
 					id:id,
 					transporttype:transporttype,
 					vehicleno:vehicleno,
@@ -46,7 +55,7 @@
 		});
 		$('#addvehicle').off('click').on('click',function(){
 			$.ajax({
-				url:'/common/code/vehicleCode',
+				url:URL.addVehicleUrl,
 				data:{},
 				async:true,
 				cache:false,
@@ -81,7 +90,7 @@
 					isvalid = '1';
 				}
 				var remarks = $('#add_remarks').val();remarks = $.trim(remarks);
-				operation('/vehicle/addVehicle', {
+				operation(URL.addBtnUrl, {
 					code:code,
 					transporttype:transporttype,
 					vehicleno:vehicleno,
@@ -103,7 +112,7 @@
 			if($('#vehicleBody tr.active').length == 1){
 				vConfirm('提示', '注：删除操作不可恢复，您确定要继续么？', function(){
 					var id = $('#vehicleBody tr.active').attr('vid'); id = $.trim(id);
-					operation('/vehicle/deleteVehicle', {id:id});
+					operation(URL.deleteVehicleUrl, {id:id});
 				});
 			}else{
 				layer.msg('必须选中一行才行哦！');
@@ -128,7 +137,7 @@
 				var remarks = $('#b_remarks').val();remarks = $.trim(remarks);
 				var creator = $('#b_creator').val();creator = $.trim(creator);
 				var createtime = $('#b_createtime').attr('b_createtime');createtime = $.trim(createtime);
-				operation('/vehicle/addblacklist', {
+				operation(URL.addblacklistUrl, {
 					id:id,
 					blackVno:vehicleno,
 					blackRemarks:remarks,
@@ -141,7 +150,7 @@
 			if($('#vehicleBody tr.active').length == 1){
 				vConfirm('提示', '注：确定要从黑名单中删除吗？', function(){
 					var id = $('#vehicleBody tr.active').attr('vid'); id = $.trim(id);
-					operation('/vehicle/delblacklist', {id:id});
+					operation(URL.addblacklistUrl, {id:id});
 				});
 			}else{
 				layer.msg('必须选中一行才行哦！');
@@ -194,7 +203,7 @@
 		var params = getParams();
 		params.pageNo = pageNo;
 		$.ajax({
-			url:'/vehicle/page',
+			url:URL.pageUrl,
 			data:params,
 			async:true,
 			cache:false,

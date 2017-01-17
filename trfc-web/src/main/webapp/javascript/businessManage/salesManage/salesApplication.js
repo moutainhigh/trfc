@@ -1,5 +1,18 @@
 ;(function($,win){
-	
+	//请求路径
+	var URL = {
+			findCAllUrl:"/trfc/customer/findAll",
+			findMAllUrl:"/trfc/materiel/findAll",
+			findWAllUrl:"/trfc/warehouse/findAll",
+			initAddUrl:"/trfc/salesApplication/initAdd",
+			
+			addBtnUrl:"/trfc/salesApplication/add",
+			updateBtnUrl:"/trfc/salesApplication/update",
+			pageUrl:"/trfc/salesApplication/page",
+			auditUrl:"/trfc/salesApplication/audit",
+			unauditUrl:"/trfc/salesApplication/unaudit",
+			deleteUrl:"/trfc/salesApplication/delete",
+	};
 	var customer = null;
 	var materiel = null;
 	var warehouse = null;
@@ -30,7 +43,7 @@
 	}
 	function initSelect(){
 		$.ajax({
-			url:'/customer/findAll',
+			url:URL.findAllUrl,
 			data:null,
 			async:true,
 			cache:false,
@@ -69,7 +82,7 @@
 			}
 		});
 		$.ajax({
-			url:'/materiel/findAll',
+			url:URL.findMAllUrl,
 			data:null,
 			async:true,
 			cache:false,
@@ -90,7 +103,7 @@
 			}
 		});
 		$.ajax({
-			url:'/warehouse/findAll',
+			url:URL.findWAllUrl,
 			data:null,
 			async:true,
 			cache:false,
@@ -134,7 +147,7 @@
 		});
 		$('#addBtn').off('click').on('click', function(){
 			$.ajax({
-				url:'/salesApplication/initAdd',
+				url:URL.initAddUrl,
 				data:null,
 				async:true,
 				cache:false,
@@ -179,7 +192,7 @@
 				var taxrate = $('#a_taxrate').val();taxrate = $.trim(taxrate);
 				var untaxprice = $('#a_untaxprice').val();untaxprice = $.trim(untaxprice);
 				$.ajax({
-					url:'/salesApplication/add',
+					url:URL.addBtnUrl,
 					data:{
 						code:code,
 						billtype:billtype,
@@ -227,7 +240,7 @@
 				var taxrate = $('#u_taxrate').val();taxrate = $.trim(taxrate);
 				var untaxprice = $('#u_untaxprice').val();untaxprice = $.trim(untaxprice);
 				$.ajax({
-					url:'/salesApplication/update',
+					url:URL.updateBtnUrl,
 					data:{
 						id:id,
 						billtype:billtype,
@@ -288,7 +301,7 @@
 		var params = getParams();
 		params.pageNo = pageNo;
 		$.ajax({
-			url:'/salesApplication/page',
+			url:URL.pageUrl,
 			data:params,
 			async:true,
 			cache:false,
@@ -497,13 +510,13 @@
 			layer.msg('已审核的单据，不能继续审核！', {icon: 5});
 			return;
 		}
-		confirmOperation('您确定要审核么？', '/salesApplication/audit', {
+		confirmOperation('您确定要审核么？', URL.auditUrl, {
 			id:obj.id
 		});
 	}
 	//反审
 	function unaudit(obj){
-		confirmOperation('您确定要反审么？', '/salesApplication/unaudit', {
+		confirmOperation('您确定要反审么？', URL.unauditUrl, {
 			id:obj.id
 		});
 	}
@@ -513,7 +526,7 @@
 			layer.msg('已审核的单据，不能刪除！', {icon: 5});
 			return;
 		}
-		confirmOperation('删除操作不可恢复，您确定要继续么？', '/salesApplication/delete', {
+		confirmOperation('删除操作不可恢复，您确定要继续么？', URL.deleteUrl, {
 			id:obj.id
 		});
 	}

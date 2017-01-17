@@ -21,7 +21,7 @@ import com.tianrui.smartfactory.common.utils.DateUtil;
 import com.tianrui.smartfactory.common.vo.PaginationVO;
 import com.tianrui.smartfactory.common.vo.Result;
 
-@RequestMapping("salesArrive")
+@RequestMapping("/trfc/salesArrive")
 @Controller
 public class SalesArriveAction {
 
@@ -38,7 +38,7 @@ public class SalesArriveAction {
 	@Autowired
 	private ICustomerManageService customerManageService; 
 	
-	@RequestMapping("main")
+	@RequestMapping("/main")
 	public ModelAndView main(){
 		ModelAndView view = new ModelAndView("businessManage/salesManage/salesArrive");
 		try {
@@ -52,7 +52,7 @@ public class SalesArriveAction {
 		return view;
 	}
 	
-	@RequestMapping("page")
+	@RequestMapping("/page")
 	@ResponseBody
 	public Result page(SalesArriveQuery query){
 		Result result = Result.getSuccessResult();
@@ -66,7 +66,7 @@ public class SalesArriveAction {
 		return result;
 	}
 	
-	@RequestMapping("addView")
+	@RequestMapping("/addView")
 	public ModelAndView addView(){
 		ModelAndView view = new ModelAndView("businessManage/salesManage/salesArriveAdd");
 		try {
@@ -87,7 +87,7 @@ public class SalesArriveAction {
 		return view;
 	}
 
-	@RequestMapping("add")
+	@RequestMapping("/add")
 	@ResponseBody
 	public Result add(SalesArriveSave save){
 		Result result = Result.getSuccessResult();
@@ -100,7 +100,7 @@ public class SalesArriveAction {
 		return result;
 	}
 	
-	@RequestMapping("updateView")
+	@RequestMapping("/updateView")
 	public ModelAndView updateView(String id){
 		ModelAndView view = new ModelAndView("businessManage/salesManage/salesArriveUpdate");
 		try {
@@ -122,7 +122,7 @@ public class SalesArriveAction {
 		return view;
 	}
 
-	@RequestMapping("update")
+	@RequestMapping("/update")
 	@ResponseBody
 	public Result update(SalesArriveSave save){
 		Result result = Result.getSuccessResult();
@@ -135,7 +135,7 @@ public class SalesArriveAction {
 		return result;
 	}
 	
-	@RequestMapping("audit")
+	@RequestMapping("/audit")
 	@ResponseBody
 	public Result audit(SalesArriveQuery query){
 		Result result = Result.getSuccessResult();
@@ -148,7 +148,7 @@ public class SalesArriveAction {
 		return result;
 	}
 	
-	@RequestMapping("unaudit")
+	@RequestMapping("/unaudit")
 	@ResponseBody
 	public Result unaudit(SalesArriveQuery query){
 		Result result = Result.getSuccessResult();
@@ -161,7 +161,7 @@ public class SalesArriveAction {
 		return result;
 	}
 	
-	@RequestMapping("invalid")
+	@RequestMapping("/invalid")
 	@ResponseBody
 	public Result invalid(SalesArriveQuery query){
 		Result result = Result.getSuccessResult();
@@ -174,7 +174,7 @@ public class SalesArriveAction {
 		return result;
 	}
 	
-	@RequestMapping("outfactory")
+	@RequestMapping("/outfactory")
 	@ResponseBody
 	public Result outfactory(SalesArriveQuery query){
 		Result result = Result.getSuccessResult();
@@ -187,7 +187,7 @@ public class SalesArriveAction {
 		return result;
 	}
 
-	@RequestMapping("detailView")
+	@RequestMapping("/detailView")
 	public ModelAndView detailView(String id){
 		ModelAndView view = new ModelAndView("businessManage/salesManage/salesArriveDetail");
 		try {

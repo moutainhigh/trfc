@@ -1,9 +1,19 @@
 ;(function($, win){
+	//请求路径
+	var URL = {
+			addDriverUrl:"/trfc/driver/addDriver",
+			addBtnUrl:"/trfc/common/code/driverCode",
+			pageUrl:"/trfc/driver/page",
+			updateDriverUrl:"/trfc/driver/updateDriver"
+	};
+	
 	init();
 	function init(){
 		bindEvent();
 		queryData(1);
 	}
+
+	console.log(URL);
 	function bindEvent(){
 		$('#refreshBtn').off('click').on('click',function(){
 			queryData(1);
@@ -16,7 +26,7 @@
 		});
 		$('#addBtn').off('click').on('click',function(){
 			$.ajax({
-				url:'/common/code/driverCode',
+				url:URL.addBtnUrl,
 				data:{},
 				async:true,
 				cache:false,
@@ -50,7 +60,7 @@
 				var orgname = $('#add_orgname').val();orgname = $.trim(orgname);
 				var remarks = $('#add_remarks').val();remarks = $.trim(remarks);
 				$.ajax({
-					url:'/driver/addDriver',
+					url:URL.addDriverUrl,
 					data:{
 						code:code,
 						internalcode:internalcode,
@@ -121,7 +131,7 @@
 		var params = getParams();
 		params.pageNo = pageNo;
 		$.ajax({
-			url:'/driver/page',
+			url : URL.pageUrl,
 			data:params,
 			async:true,
 			cache:false,
@@ -225,7 +235,7 @@
 			}
 			var remarks = $('#update_remarks').val();remarks = $.trim(remarks);
 			$.ajax({
-				url:'/driver/updateDriver',
+				url:URL.updateDriverUrl,
 				data:{
 					id:id,
 					name:name,

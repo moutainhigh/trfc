@@ -1,3 +1,12 @@
+	//请求路径
+	var URL = {
+			addUrl:"/trfc/salesArrive/add",
+			pageUrl:"/trfc/salesApplication/page",
+			mainUrl:"/trfc/salesArrive/main",
+			addDriverUrl:"/trfc/vehicle/addVehicle",
+			addVehicleUrl:"/trfc/driver/addDriver"
+	};
+
 var PAGE;
 if(PAGE){
 	PAGE = null;
@@ -69,7 +78,7 @@ PAGE.mod.main = {
 				
 			});
 			$('#backBtn').off('click').on('click',function(){
-				window.location.href = '/salesArrive/main';
+				window.location.href = URL.mainUrl;
 			});
 			$('#addVehicleCommitBtn').off('click').on('click',function(){
 				if($('#vehicleAddView').is(':visible')){
@@ -110,7 +119,7 @@ PAGE.mod.main = {
 			var params = _this.getSarelApplicationParams();
 			params.pageNo = pageNo;
 			$.ajax({
-				url:'/salesApplication/page',
+				url:URL.pageUrl,
 				data:params,
 				async:true,
 				cache:false,
@@ -244,7 +253,7 @@ PAGE.mod.main = {
 			var serialnumber = $('#serialnumber').val(); serialnumber = $.trim(serialnumber);
 			var icardid = $('#icardid').attr('icardid'); icardid = $.trim(icardid);
 			$.ajax({
-				url:'/salesArrive/add',
+				url:URL.addUrl,
 				data:{
 					billid:billid,
 					billcode:billcode,
@@ -265,7 +274,7 @@ PAGE.mod.main = {
 				type:'post',
 				success:function(result){
 					if(result.code == '000000'){
-						window.location.href = '/salesArrive/main';
+						window.location.href = URL.mainUrl;
 					}else{
 						layer.msg(result.error, {icon: 5});
 					}
@@ -291,7 +300,7 @@ PAGE.mod.main = {
 			}
 			var remarks = $('#v_remarks').val(); remarks = $.trim(remarks);
 			$.ajax({
-				url:'/vehicle/addVehicle',
+				url:URL.addVehicleUrl,
 				data:{
 					code:code,
 					transporttype:transporttype,
@@ -340,7 +349,7 @@ PAGE.mod.main = {
 			}
 			var remarks = $('#d_remarks').val(); remarks = $.trim(remarks);
 			$.ajax({
-				url:'/driver/addDriver',
+				url:URL.addDriverUrl,
 				data:{
 					code:code,
 					internalcode:internalcode,

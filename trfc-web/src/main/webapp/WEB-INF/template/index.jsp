@@ -47,22 +47,22 @@
                     </div>
                     <div class="lgline3">
                         <i class="iconfont">&#xe622;</i>
-                        <input type="text" placeholder="请输入手机号">
+                        <input type="text" placeholder="请输入手机号" id="user_account">
                     </div>
                     <div class="lgline3">
                         <i class="iconfont">&#xe622;</i>
-                        <input type="password" placeholder="请输入密码">
+                        <input type="password" placeholder="请输入密码" id="user_password">
                     </div>
                     <div class="lgline4">
                         <input type="text" placeholder="验证码">
                         <div class="yanz">
-                            <img src="images/yanz.png">
+                            <img src="/resources/images/yanz.png">
                         </div>
                     </div>
                     <div>
                         <a><h5 class="tr mt20">忘记密码？</h5></a>
                     </div>
-                    <button class="btn">立即登录</button>
+                    <button class="btn" id="login_button">立即登录</button>
                 </div>
             </div>
         </div>
@@ -71,5 +71,7 @@
 
 <script type="text/javascript" src="${staticBasePath}/js/jquery-1.11.1.js"></script>
 <script type="text/javascript" src="${staticBasePath}/js/bootstrap.js"></script>
+<script type="text/javascript" src="${staticBasePath}/js/cookie_util.js"></script>
+<script type="text/javascript" src="/javascript/index.js"></script>
 </body>
 </html>

@@ -18,7 +18,7 @@ import com.tianrui.smartfactory.common.vo.Result;
 
 
 @Controller
-@RequestMapping("vehicle")
+@RequestMapping("/trfc/vehicle")
 public class VehicleManageAction {
 	
 	private Logger log = LoggerFactory.getLogger(VehicleManageAction.class);
@@ -26,14 +26,14 @@ public class VehicleManageAction {
 	@Autowired
 	private IVehicleManageService vehicleManageService;
 	
-	@RequestMapping("main")
+	@RequestMapping("/main")
 	public ModelAndView main(){
 		ModelAndView view = new ModelAndView("basicFile/measure/vehicle");
 		return view;
 	}
 	
 
-	@RequestMapping("page")
+	@RequestMapping("/page")
 	@ResponseBody
 	public Result page(VehicleManageQuery query){
 		Result result = Result.getSuccessResult();
@@ -47,7 +47,7 @@ public class VehicleManageAction {
 		return result;
 	}
 				
-	@RequestMapping("addVehicle")
+	@RequestMapping("/addVehicle")
 	@ResponseBody
 	public Result addVehicle(VehicleManageSave save){
 		Result result = Result.getErrorResult();
@@ -60,7 +60,7 @@ public class VehicleManageAction {
 		return result;
 	}
 	
-	@RequestMapping("editVehicle")
+	@RequestMapping("/editVehicle")
 	@ResponseBody
 	public Result editVehicle(VehicleManageSave save){
 		Result result = Result.getSuccessResult();
@@ -73,7 +73,7 @@ public class VehicleManageAction {
 		return result;
 	}
 	
-	@RequestMapping("deleteVehicle")
+	@RequestMapping("/deleteVehicle")
 	@ResponseBody
 	public Result deleteVehicle(VehicleManageQuery query){
 		Result result = Result.getSuccessResult();
@@ -86,7 +86,7 @@ public class VehicleManageAction {
 		return result;
 	}
 	
-	@RequestMapping("delblacklist")
+	@RequestMapping("/delblacklist")
 	@ResponseBody
 	public Result delblacklist(VehicleManageQuery query){
 		Result result = Result.getSuccessResult();
@@ -99,7 +99,7 @@ public class VehicleManageAction {
 		return result;
 	}
 	
-	@RequestMapping("addblacklist")
+	@RequestMapping("/addblacklist")
 	@ResponseBody
 	public Result addblacklist(VehicleManageQuery query){
 		Result result = Result.getSuccessResult();

@@ -15,7 +15,7 @@ import com.tianrui.smartfactory.common.constants.ErrorCode;
 import com.tianrui.smartfactory.common.vo.PaginationVO;
 import com.tianrui.smartfactory.common.vo.Result;
 
-@RequestMapping("purchaseApplication")
+@RequestMapping("/trfc/purchaseApplication")
 @Controller
 public class PurchaseApplicationAction {
 	
@@ -24,13 +24,13 @@ public class PurchaseApplicationAction {
 	@Autowired
 	private IPurchaseApplicationService purchaseApplicationService;
 	
-	@RequestMapping("main")
+	@RequestMapping("/main")
 	public ModelAndView main(){
 		ModelAndView view = new ModelAndView("businessManage/purchaseManage/purchaseApplication");
 		return view;
 	}
 	
-	@RequestMapping("page")
+	@RequestMapping("/page")
 	@ResponseBody
 	public Result page(PurchaseApplicationReq req){
 		Result result = Result.getSuccessResult();

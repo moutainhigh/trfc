@@ -16,7 +16,7 @@ import com.tianrui.smartfactory.common.constants.ErrorCode;
 import com.tianrui.smartfactory.common.vo.PaginationVO;
 import com.tianrui.smartfactory.common.vo.Result;
 
-@RequestMapping("customer")
+@RequestMapping("/trfc/customer")
 @Controller
 public class CustomerManageAction {
 
@@ -25,13 +25,13 @@ public class CustomerManageAction {
 	@Autowired
 	private ICustomerManageService customerManageService;
 	
-	@RequestMapping("main")
+	@RequestMapping("/main")
 	public ModelAndView main(){
 		ModelAndView view = new ModelAndView("basicFile/nc/customer");
 		return view;
 	}
 	
-	@RequestMapping("page")
+	@RequestMapping("/page")
 	@ResponseBody
 	public Result page(CustomerManageQuery query){
 		Result result = Result.getSuccessResult();
@@ -45,7 +45,7 @@ public class CustomerManageAction {
 		return result;
 	}
 	
-	@RequestMapping("updateCustomer")
+	@RequestMapping("/updateCustomer")
 	@ResponseBody
 	public Result updateCustomer(CustomerManageSave req){
 		Result result = Result.getSuccessResult();
@@ -58,7 +58,7 @@ public class CustomerManageAction {
 		return result;
 	}
 	
-	@RequestMapping("findAll")
+	@RequestMapping("/findAll")
 	@ResponseBody
 	public Result findAll(){
 		Result result = Result.getSuccessResult();

@@ -13,7 +13,7 @@ import com.tianrui.smartfactory.common.constants.ErrorCode;
 import com.tianrui.smartfactory.common.vo.Result;
 
 @Controller
-@RequestMapping("/common/code")
+@RequestMapping("/trfc/common/code")
 public class CodeCommon {
 
 	

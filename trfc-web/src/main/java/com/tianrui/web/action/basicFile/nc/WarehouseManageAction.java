@@ -23,7 +23,7 @@ import com.tianrui.smartfactory.common.vo.Result;
  * @classname WarehouseManageAction.java
  */
 @Controller
-@RequestMapping("warehouse")
+@RequestMapping("/trfc/warehouse")
 public class WarehouseManageAction {
 	
 	private Logger log = LoggerFactory.getLogger(WarehouseManageAction.class);
@@ -31,13 +31,13 @@ public class WarehouseManageAction {
 	@Autowired
 	private IWarehouseManageService warehouseManageService;
 	
-	@RequestMapping("main")
+	@RequestMapping("/main")
 	public ModelAndView main(){
 		ModelAndView view = new ModelAndView("basicFile/nc/warehouse");
 		return view;
 	}
 	
-	@RequestMapping("page")
+	@RequestMapping("/page")
 	@ResponseBody
 	public Result page(WarehouseManageQuery query){
 		Result result = Result.getSuccessResult();
@@ -51,7 +51,7 @@ public class WarehouseManageAction {
 		return result;
 	}
 	
-	@RequestMapping("updateWarehouse")
+	@RequestMapping("/updateWarehouse")
 	@ResponseBody
 	public Result updateMater(WarehouseManageSave req){
 		Result result = Result.getSuccessResult();
@@ -64,7 +64,7 @@ public class WarehouseManageAction {
 		return result;
 	}
 	
-	@RequestMapping("findAll")
+	@RequestMapping("/findAll")
 	@ResponseBody
 	public Result findAll(WarehouseManageSave req){
 		Result result = Result.getSuccessResult();

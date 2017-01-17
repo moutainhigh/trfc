@@ -1,4 +1,9 @@
 ;(function($, win){
+	//请求路径
+	var URL = {
+			pageUrl:"/trfc/customer/page",
+			updateCustomerUrl:"/trfc/customer/updateCustomer"
+	};
 	init();
 	function init(){
 		bindEvent();
@@ -60,7 +65,7 @@
 		var params = getParams();
 		params.pageNo = pageNo;
 		$.ajax({
-			url:'/customer/page',
+			url:URL.pageUrl,
 			data:params,
 			async:true,
 			cache:false,
@@ -147,7 +152,7 @@
 			var customertype = $('#update_customertype').val() || '';customertype = $.trim(customertype);
 			var remarks = $('#update_remarks').val() || '';
 			$.ajax({
-				url:'/customer/updateCustomer',
+				url:URL.updateCustomerUrl,
 				data:{
 					id:id,
 					name:name,

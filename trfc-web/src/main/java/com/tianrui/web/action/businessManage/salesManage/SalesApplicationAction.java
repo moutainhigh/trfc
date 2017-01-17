@@ -20,7 +20,7 @@ import com.tianrui.smartfactory.common.utils.DateUtil;
 import com.tianrui.smartfactory.common.vo.PaginationVO;
 import com.tianrui.smartfactory.common.vo.Result;
 
-@RequestMapping("salesApplication")
+@RequestMapping("/trfc/salesApplication")
 @Controller
 public class SalesApplicationAction {
 
@@ -29,13 +29,13 @@ public class SalesApplicationAction {
 	@Autowired
 	private ISalesApplicationService salesApplicationService;
 	
-	@RequestMapping("main")
+	@RequestMapping("/main")
 	public ModelAndView main(){
 		ModelAndView view = new ModelAndView("businessManage/salesManage/salesApplication");
 		return view;
 	}
 	
-	@RequestMapping("page")
+	@RequestMapping("/page")
 	@ResponseBody
 	public Result page(SalesApplicationQuery query){
 		Result result = Result.getSuccessResult();
@@ -49,7 +49,7 @@ public class SalesApplicationAction {
 		return result;
 	}
 	
-	@RequestMapping("initAdd")
+	@RequestMapping("/initAdd")
 	@ResponseBody
 	public Result initAdd(SalesApplicationSave req){
 		Result result = Result.getSuccessResult();
@@ -69,7 +69,7 @@ public class SalesApplicationAction {
 		return result;
 	}
 	
-	@RequestMapping("add")
+	@RequestMapping("/add")
 	@ResponseBody
 	public Result add(SalesApplicationSave req){
 		Result result = Result.getSuccessResult();
@@ -82,7 +82,7 @@ public class SalesApplicationAction {
 		return result;
 	}
 	
-	@RequestMapping("update")
+	@RequestMapping("/update")
 	@ResponseBody
 	public Result update(SalesApplicationSave req){
 		Result result = Result.getSuccessResult();
@@ -95,7 +95,7 @@ public class SalesApplicationAction {
 		return result;
 	}
 	
-	@RequestMapping("audit")
+	@RequestMapping("/audit")
 	@ResponseBody
 	public Result audit(String id){
 		Result result = Result.getSuccessResult();
@@ -108,7 +108,7 @@ public class SalesApplicationAction {
 		return result;
 	}
 	
-	@RequestMapping("unaudit")
+	@RequestMapping("/unaudit")
 	@ResponseBody
 	public Result unaudit(String id){
 		Result result = Result.getSuccessResult();
@@ -121,7 +121,7 @@ public class SalesApplicationAction {
 		return result;
 	}
 	
-	@RequestMapping("delete")
+	@RequestMapping("/delete")
 	@ResponseBody
 	public Result delete(String id){
 		Result result = Result.getSuccessResult();

@@ -9,26 +9,50 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 public class PortalsFilter implements Filter {
 
 	@Override
 	public void destroy() {
-		
+
 	}
 
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
-			HttpServletRequest req = (HttpServletRequest) request;
-			req.setAttribute("basePath", "/resources");
-			req.setAttribute("staticBasePath", "/resources");
+		HttpServletRequest req = (HttpServletRequest) request;
+		HttpServletResponse resp = (HttpServletResponse)response;
+		req.setAttribute("basePath", "/resources");
+		req.setAttribute("staticBasePath", "/resources");
+
+		//获取路径
+		String p = req.getServletPath();
+		System.out.println(p);
+		//过滤所有'/trfc'开头的路径
+		if(p.length()<=4|| !"/trfc".equals(p.substring(0,4))) {
 			chain.doFilter(request, response);
+			return;
+		}
+		//从session中获取账号
+		HttpSession session = req.getSession();
+		String userId = (String)
+				session.getAttribute("userId");
+		//根据账号判断用户是否登录
+		if(userId == null) {
+			//没登录,重定向到登录页
+			resp.sendRedirect(
+					"/index");
+		} else {
+			//已登录,请求继续执行
+			chain.doFilter(request, response);
+		}
 	}
 
 	@Override
 	public void init(FilterConfig arg0) throws ServletException {
-		
+
 	}
 
 }

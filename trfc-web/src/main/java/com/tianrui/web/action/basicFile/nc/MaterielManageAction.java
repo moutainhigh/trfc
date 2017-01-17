@@ -23,7 +23,7 @@ import com.tianrui.smartfactory.common.vo.Result;
  * @classname MaterielManageAction.java
  */
 @Controller
-@RequestMapping("materiel")
+@RequestMapping("/trfc/materiel")
 public class MaterielManageAction {
 	
 	private Logger log = LoggerFactory.getLogger(MaterielManageAction.class);
@@ -31,13 +31,13 @@ public class MaterielManageAction {
 	@Autowired
 	private IMaterielManageService materielManageService;
 	
-	@RequestMapping("main")
+	@RequestMapping("/main")
 	public ModelAndView main(){
 		ModelAndView view = new ModelAndView("basicFile/nc/materiel");
 		return view;
 	}
 	
-	@RequestMapping("page")
+	@RequestMapping("/page")
 	@ResponseBody
 	public Result page(MaterielManageQuery req){
 		Result result = Result.getSuccessResult();
@@ -51,7 +51,7 @@ public class MaterielManageAction {
 		return result;
 	}
 	
-	@RequestMapping("updateMater")
+	@RequestMapping("/updateMater")
 	@ResponseBody
 	public Result updateMater(MaterielManageSave save){
 		Result result = Result.getSuccessResult();
@@ -64,7 +64,7 @@ public class MaterielManageAction {
 		return result;
 	}
 	
-	@RequestMapping("findAll")
+	@RequestMapping("/findAll")
 	@ResponseBody
 	public Result findAll(){
 		Result result = Result.getSuccessResult();

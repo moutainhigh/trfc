@@ -1,4 +1,9 @@
 ;(function($, win){
+	//请求路径
+	var URL = {
+			pageUrl:"/trfc/materiel/page",
+			updateMaterUrl:"/trfc/materiel/updateMater"
+	};
 	init();
 	function init(){
 		bindEvent();
@@ -62,7 +67,7 @@
 		var params = getParams();
 		params.pageNo = pageNo;
 		$.ajax({
-			url:'/materiel/page',
+			url:URL.pageUrl,
 			data:params,
 			async:true,
 			cache:false,
@@ -226,7 +231,7 @@
 				bulkwritecard = '1';
 			}
 			$.ajax({
-				url:'/materiel/updateMater',
+				url:URL.updateMaterUrl,
 				data:{
 					id:id,
 					name:name,

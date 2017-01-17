@@ -1,3 +1,7 @@
+	//请求路径
+	var URL = {
+			mainUrl:"/trfc/salesArrive/main",
+	};
 var PAGE;
 if(PAGE){
 	PAGE = null;
@@ -24,7 +28,7 @@ PAGE.mod.main = {
 				layer.msg('待开发.');
 			});
 			$('#backBtn').off('click').on('click',function(){
-				window.location.href = '/salesArrive/main';
+				window.location.href = URL.mainUrl;
 			});
 		}
 }
