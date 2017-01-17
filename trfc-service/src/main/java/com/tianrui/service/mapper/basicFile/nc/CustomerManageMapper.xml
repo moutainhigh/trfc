@@ -34,6 +34,11 @@
     from tr_customer_db_manage
     where id = #{id,jdbcType=VARCHAR}
   </select>
+  <select id="findMaxUtc" resultType="Long"  >
+    select 
+   		max(utc)
+    from tr_customer_db_manage
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from tr_customer_db_manage
     where id = #{id,jdbcType=VARCHAR}
@@ -388,6 +393,9 @@
       </if>
       <if test="modifytime != null and modifytime != ''" >
         and modifytime = #{modifytime,jdbcType=BIGINT}
+      </if>
+      <if test="utc != null" >
+        and utc &gt; #{utc,jdbcType=BIGINT}
       </if>
   	</where>
   </select>

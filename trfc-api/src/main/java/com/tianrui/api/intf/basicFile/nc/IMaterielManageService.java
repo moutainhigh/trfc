@@ -1,5 +1,6 @@
 package com.tianrui.api.intf.basicFile.nc;
 
+import com.tianrui.api.req.basicFile.nc.CustomerManageQuery;
 import com.tianrui.api.req.basicFile.nc.MaterielManageQuery;
 import com.tianrui.api.req.basicFile.nc.MaterielManageSave;
 import com.tianrui.api.resp.basicFile.nc.MaterielManageResp;
@@ -55,5 +56,7 @@ public interface IMaterielManageService {
 	 * @throws Exception 
 	 */
 	public MaterielManageResp findOne(MaterielManageQuery query) throws Exception;
+	
+	Result findMaxUtc(MaterielManageQuery query) throws Exception;
 
 }

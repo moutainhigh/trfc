@@ -30,4 +30,6 @@ public interface MaterielManageMapper {
     
     List<MaterielManage> selectSelective(MaterielManage record);
     
+    Long findMaxUtc();
+    
 }

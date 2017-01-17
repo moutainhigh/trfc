@@ -14,6 +14,8 @@ public interface WarehouseManageMapper {
     int deleteByPrimaryKey(String id);
 
     int insert(WarehouseManage record);
+    
+    int insertBatch(List<WarehouseManage> list);
 
     int insertSelective(WarehouseManage record);
 
@@ -28,4 +30,6 @@ public interface WarehouseManageMapper {
 	List<WarehouseManage> findWarehouseManagePage(WarehouseManageQuery query);
 
 	List<WarehouseManage> selectSelective(WarehouseManage record);
+	
+	Long findMaxUtc();
 }

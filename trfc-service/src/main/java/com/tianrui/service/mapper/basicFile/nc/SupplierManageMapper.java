@@ -29,4 +29,6 @@ public interface SupplierManageMapper {
     
     long findSupplierPageCount(SupplierManageQuery query);
     
+    Long findMaxUtc();
+    
 }
