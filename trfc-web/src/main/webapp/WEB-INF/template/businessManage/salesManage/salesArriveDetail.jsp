@@ -12,6 +12,13 @@
 		<jsp:include page="../../common/base/left_busi.jsp"></jsp:include>
 		<div class="right">
 			<jsp:include page="../../common/base/right_head_busi.jsp"></jsp:include>
+			<div class="intel_tab">
+				<!--tab切换标题-->
+				<ul class="intel_menu">
+					<li><a href="/trfc/salesApplication/main">销售申请单</a></li>
+					<li class="select"><a href="/trfc/salesArrive/main">提货通知单</a></li>
+				</ul>
+			</div>
 			<!--tab切换的内容-->
 			<div class="intel_tabbox">
 				<!--采购申请单begin-->
@@ -184,7 +191,7 @@
 	</div>
 	<jsp:include page="../../common/base/footer_busi.jsp"></jsp:include>
 	<script type="text/javascript"
-		src="${basePath }/js/businessManage/salesManage/salesArriveDetail.js"></script>
+		src="/javascript/businessManage/salesManage/salesArriveDetail.js"></script>
 	<script type="text/javascript">
 		// 录入、参照tab切换菜单
 		var cg_li = $('.cg_tabtit ul li');

@@ -7,10 +7,7 @@
 <title>销售申请单</title>
 <!-- 引用公共header部分 -->
 <jsp:include page="../../common/base/header_busi.jsp"></jsp:include>
-
-<link href="${staticBasePath }/css/pagination.css" rel="stylesheet">
-<link href="${staticBasePath }/css/bootstrap-select.css" rel="stylesheet">
-
+<!-- 
 <style type="text/css">
 .bootstrap-select>.dropdown-toggle {
 	padding: 5px 12px !important;
@@ -48,17 +45,22 @@
 	bottom: 100%;
 	margin-bottom: 2px;
 }
-</style>
+</style> -->
 </head>
 <body>
 	<div class="it_admin">
-	<!-- 引用公共left部分 -->
-	<jsp:include page="../../common/base/left_busi.jsp"></jsp:include>
-	
+		<!-- 引用公共left部分 -->
+		<jsp:include page="../../common/base/left_busi.jsp"></jsp:include>
 		<div class="right">
-		<!-- 引用公共right部分 -->
-		<jsp:include page="../../common/base/right_head_busi.jsp"></jsp:include>
-
+			<!-- 引用公共right部分 -->
+			<jsp:include page="../../common/base/right_head_busi.jsp"></jsp:include>
+			<div class="intel_tab">
+				<!--tab切换标题-->
+				<ul class="intel_menu">
+					<li class="select"><a href="/trfc/salesApplication/main">销售申请单</a></li>
+					<li><a href="/trfc/salesArrive/main">提货通知单</a></li>
+				</ul>
+			</div>
 			<!--tab切换的内容-->
 			<div class="intel_tabbox">
 				<!--销售申请单begin-->
@@ -510,12 +512,11 @@
 		</div>
 		<!--编辑end-->
 	</div>
-	<script type="text/javascript"
-		src="${staticBasePath }/js/bootstrap-select.js"></script>
-	<script type="text/javascript"
-		src="/javascript/businessManage/salesManage/salesApplication.js"></script>
-		
 	<!-- 引用公共footer部分 -->
 	<jsp:include page="../../common/base/footer_busi.jsp"></jsp:include>
+	<script type="text/javascript"
+		src="/javascript/bootstrap-select.js"></script>
+	<script type="text/javascript"
+		src="/javascript/businessManage/salesManage/salesApplication.js"></script>
 </body>
 </html>

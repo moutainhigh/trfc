@@ -12,6 +12,13 @@
 		<jsp:include page="../../common/base/left_busi.jsp"></jsp:include>
 		<div class="right">
 			<jsp:include page="../../common/base/right_head_busi.jsp"></jsp:include>
+			<div class="intel_tab">
+				<!--tab切换标题-->
+				<ul class="intel_menu">
+					<li><a href="/trfc/salesApplication/main">销售申请单</a></li>
+					<li class="select"><a href="/trfc/salesArrive/main">提货通知单</a></li>
+				</ul>
+			</div>
 			<!--tab切换的内容-->
 			<div class="intel_tabbox">
 				<div class="intel_tabcont ">
@@ -413,7 +420,6 @@
 							<label class="colorred"> *电话：</label> <input id="d_telephone"
 								type="text">
 						</div>
-
 						<div class="alt_edit_div">
 							<label class="colorred"> *身份证号：</label> <input id="d_identityno"
 								type="text">
@@ -422,14 +428,12 @@
 							<label>有效性： </label> <input id="d_isvalid" type="checkbox"
 								checked>
 						</div>
-
 						<div class="alt_edit_textarea">
 							<label>备注： </label>
 							<textarea id="d_remarks" class="form-control" rows="1"
 								style="height: 60px;"></textarea>
 						</div>
 					</div>
-
 				</div>
 				<div class="modal-footer">
 					<button id="addDriverCommitBtn" type="button"
@@ -441,7 +445,8 @@
 	</div>
 	<!--司机新增end-->
 	<jsp:include page="../../common/base/footer_busi.jsp"></jsp:include>
-	<script type="text/javascript" src="${basePath }/js/businessManage/salesManage/salesArriveAdd.js"></script>
+	<script type="text/javascript"
+		src="/javascript/businessManage/salesManage/salesArriveAdd.js"></script>
 	<script type="text/javascript">
 		// 录入、参照tab切换菜单
 		var cg_li = $('.cg_tabtit ul li');

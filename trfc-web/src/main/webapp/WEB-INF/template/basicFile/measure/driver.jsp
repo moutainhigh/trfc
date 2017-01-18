@@ -17,8 +17,8 @@
 			<div class="intel_tab">
 				<!--tab切换标题-->
 				<ul class="intel_menu">
-					<li><a href="/vehicle/main">车辆管理</a></li>
-					<li class="select"><a href="/driver/main">司机管理</a></li>
+					<li><a href="/trfc/vehicle/main">车辆管理</a></li>
+					<li class="select"><a href="/trfc/driver/main">司机管理</a></li>
 				</ul>
 			</div>
 			<!--tab切换的内容-->

@@ -25,6 +25,8 @@ public class SupplierManage {
     private String minemouth;
 
     private String drivercheck;
+    
+    private String state;
 
     private String remarks;
 
@@ -117,7 +119,15 @@ public class SupplierManage {
         this.drivercheck = drivercheck == null ? null : drivercheck.trim();
     }
 
-    public String getRemarks() {
+    public String getState() {
+		return state;
+	}
+
+	public void setState(String state) {
+		this.state = state;
+	}
+
+	public String getRemarks() {
         return remarks;
     }
 
