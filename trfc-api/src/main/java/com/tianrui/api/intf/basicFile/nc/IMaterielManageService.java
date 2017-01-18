@@ -1,5 +1,8 @@
 package com.tianrui.api.intf.basicFile.nc;
 
+import java.util.List;
+
+import com.alibaba.fastjson.JSONObject;
 import com.tianrui.api.req.basicFile.nc.CustomerManageQuery;
 import com.tianrui.api.req.basicFile.nc.MaterielManageQuery;
 import com.tianrui.api.req.basicFile.nc.MaterielManageSave;
@@ -58,5 +61,6 @@ public interface IMaterielManageService {
 	public MaterielManageResp findOne(MaterielManageQuery query) throws Exception;
 	
 	Result findMaxUtc(MaterielManageQuery query) throws Exception;
-
+	
+	Result updateDataWithDC(List<JSONObject> list )throws Exception;
 }

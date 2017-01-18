@@ -3,6 +3,7 @@ package com.tianrui.service.mapper.basicFile.nc;
 import java.util.List;
 
 import com.tianrui.api.req.basicFile.nc.MaterielManageQuery;
+import com.tianrui.service.bean.basicFile.nc.CustomerManage;
 import com.tianrui.service.bean.basicFile.nc.MaterielManage;
 
 /**
@@ -15,6 +16,8 @@ public interface MaterielManageMapper {
     int deleteByPrimaryKey(String id);
 
     int insert(MaterielManage record);
+    
+    int insertBatch(List<MaterielManage> list);
 
     int insertSelective(MaterielManage record);
 
