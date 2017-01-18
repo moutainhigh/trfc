@@ -26,13 +26,19 @@ public class SalesApplicationQuery extends BaseReq {
     
     private Long endtime;
     
-    private int start;
+    private Integer start;
     
-    private int limit;
+    private Integer limit;
     
     private String currid;
     
     private String currname;
+
+    private String auditid;
+
+    private String auditname;
+
+    private Long audittime;
 
 	public String getId() {
 		return id;
@@ -114,22 +120,6 @@ public class SalesApplicationQuery extends BaseReq {
 		this.endtime = endtime;
 	}
 
-	public int getStart() {
-		return start;
-	}
-
-	public void setStart(int start) {
-		this.start = start;
-	}
-
-	public int getLimit() {
-		return limit;
-	}
-
-	public void setLimit(int limit) {
-		this.limit = limit;
-	}
-
 	public String getCurrid() {
 		return currid;
 	}
@@ -144,6 +134,46 @@ public class SalesApplicationQuery extends BaseReq {
 
 	public void setCurrname(String currname) {
 		this.currname = currname;
+	}
+
+	public Integer getStart() {
+		return start;
+	}
+
+	public void setStart(Integer start) {
+		this.start = start;
+	}
+
+	public Integer getLimit() {
+		return limit;
+	}
+
+	public void setLimit(Integer limit) {
+		this.limit = limit;
+	}
+
+	public String getAuditid() {
+		return auditid;
+	}
+
+	public void setAuditid(String auditid) {
+		this.auditid = auditid;
+	}
+
+	public String getAuditname() {
+		return auditname;
+	}
+
+	public void setAuditname(String auditname) {
+		this.auditname = auditname;
+	}
+
+	public Long getAudittime() {
+		return audittime;
+	}
+
+	public void setAudittime(Long audittime) {
+		this.audittime = audittime;
 	}
 
 }

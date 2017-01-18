@@ -119,12 +119,12 @@ public class SalesApplicationAction {
 	
 	@RequestMapping("/audit")
 	@ResponseBody
-	public Result audit(SalesApplicationSave save, HttpSession session){
+	public Result audit(SalesApplicationQuery query, HttpSession session){
 		Result result = Result.getSuccessResult();
 		try {
-			save.setAuditid((String) session.getAttribute("userId"));
-			save.setAuditname((String) session.getAttribute("userName"));
-			result = salesApplicationService.audit(save);
+			query.setAuditid((String) session.getAttribute("userId"));
+			query.setAuditname((String) session.getAttribute("userName"));
+			result = salesApplicationService.audit(query);
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
@@ -134,12 +134,12 @@ public class SalesApplicationAction {
 	
 	@RequestMapping("/unaudit")
 	@ResponseBody
-	public Result unaudit(SalesApplicationSave save, HttpSession session){
+	public Result unaudit(SalesApplicationQuery query, HttpSession session){
 		Result result = Result.getSuccessResult();
 		try {
-			save.setAuditid((String) session.getAttribute("userId"));
-			save.setAuditname((String) session.getAttribute("userName"));
-			result = salesApplicationService.unaudit(save);
+			query.setAuditid((String) session.getAttribute("userId"));
+			query.setAuditname((String) session.getAttribute("userName"));
+			result = salesApplicationService.unaudit(query);
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 			result.setErrorCode(ErrorCode.SYSTEM_ERROR);

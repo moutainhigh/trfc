@@ -17,9 +17,9 @@ public interface ISalesApplicationService {
 
 	Result update(SalesApplicationSave save) throws Exception;
 
-	Result audit(SalesApplicationSave save);
+	Result audit(SalesApplicationQuery query);
 
-	Result unaudit(SalesApplicationSave save);
+	Result unaudit(SalesApplicationQuery query);
 
 	Result delete(SalesApplicationQuery query);
 

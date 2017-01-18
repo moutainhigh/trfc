@@ -3,7 +3,6 @@ package com.tianrui.service.impl.common;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 
-import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +10,6 @@ import org.springframework.data.mongodb.gridfs.GridFsTemplate;
 import org.springframework.stereotype.Service;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.util.Base64;
 import com.tianrui.api.intf.common.IFileService;
 import com.tianrui.api.req.common.FileUploadReq;
 import com.tianrui.smartfactory.common.constants.Constant;
@@ -25,27 +23,21 @@ public class FileUploadService implements IFileService{
 	@Autowired
 	private GridFsTemplate gridFsTemplate;
 
-
-	//data:image/png;base64,
 	/**
 	 * 保存图片数据到mongo
 	 * TODO 图片的上传记录信息
 	 */
 	public Result uploadImg(FileUploadReq fileUploadReq) throws Exception {
 		Result result=Result.getSuccessResult();
-		if( fileUploadReq !=null && StringUtils.isNotBlank(fileUploadReq.getImgStr()) ){
+		if(fileUploadReq !=null){
 			//验证图片格式
-			if( fileUploadReq.getImgStr().startsWith("data:image/png;base64,")  ){
+			if(fileUploadReq.getFileByte() != null && fileUploadReq.getFileByte().length > 0){
 				try {
 					String imgURI = UUIDUtil.getId()+".png";
-					fileUploadReq.getImgStr();
-					byte[] out = Base64.decodeFast(fileUploadReq.getImgStr().substring(22));
-					
-					InputStream input = new ByteArrayInputStream(out);
+					InputStream input = new ByteArrayInputStream(fileUploadReq.getFileByte());
 					gridFsTemplate.store(input, imgURI);
 					String imgURL = Constant.FILE_URL_PRE+imgURI;
 					result.setData(imgURL);
-					
 				} catch (Exception e) {
 					logger.error("{}",e.getMessage(),e);
 					result =new Result("error","上传图片服务异常" );
