@@ -26,7 +26,6 @@
         <div class="header">
             <label>欢迎来到天瑞物流！</label>
             <a href="" ><label class="colorred">【请登录】</label></a>
-            <a href="register.html" class="colorblue "><label>【免费注册】</label></a>
         </div>
         <!--登录头部行end-->
     </div>
@@ -43,7 +42,6 @@
                 <div class="lgright">
                     <div class="lgline1">
                         <label>登录</label>
-                        <span class="fr">没有账户？免费注册</span>
                     </div>
                     <div class="lgline3">
                         <i class="iconfont">&#xe622;</i>
@@ -53,15 +51,8 @@
                         <i class="iconfont">&#xe622;</i>
                         <input type="password" placeholder="请输入密码" id="user_password">
                     </div>
-                    <div class="lgline4">
-                        <input type="text" placeholder="验证码">
-                        <div class="yanz">
-                            <img src="/resources/images/yanz.png">
-                        </div>
-                    </div>
-                    <div>
-                        <a><h5 class="tr mt20">忘记密码？</h5></a>
-                    </div>
+                 
+                    
                     <button class="btn" id="login_button">立即登录</button>
                 </div>
             </div>
