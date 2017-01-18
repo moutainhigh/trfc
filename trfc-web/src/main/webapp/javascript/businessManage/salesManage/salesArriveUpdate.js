@@ -108,6 +108,7 @@ PAGE.mod.main = {
 				materielid:materielid,
 				starttime:_this.top.util.parseStr2Long(starttime),
 				endtime:_this.top.util.parseStr2Long(endtime),
+				status:1,
 				pageSize:pageSize
 			}
 		},

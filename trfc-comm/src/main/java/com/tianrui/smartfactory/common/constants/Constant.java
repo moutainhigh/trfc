@@ -43,5 +43,8 @@ public class Constant {
     
     
     
+    public final static String ORG_ID ="0001PP1000000000BSF6";
+    public final static String ORG_NAME ="天瑞集团汝州水泥有限公司";
+    
     
 }

@@ -399,6 +399,9 @@
   		<if test="code != null and code != ''">
   			and s1.code = #{code,jdbcType=VARCHAR}
   		</if>
+  		<if test="status != null and status != ''">
+  			and s1.status = #{status,jdbcType=VARCHAR}
+  		</if>
   		<if test="materielid != null and materielid != ''">
   			and s2.materielid = #{materielid,jdbcType=VARCHAR}
   		</if>
@@ -435,6 +438,9 @@
   		</if>
   		<if test="code != null and code != ''">
   			and s1.code = #{code,jdbcType=VARCHAR}
+  		</if>
+  		<if test="status != null and status != ''">
+  			and s1.status = #{status,jdbcType=VARCHAR}
   		</if>
   		<if test="materielid != null and materielid != ''">
   			and s2.materielid = #{materielid,jdbcType=VARCHAR}

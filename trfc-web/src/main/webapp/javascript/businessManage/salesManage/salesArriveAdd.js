@@ -3,8 +3,8 @@
 			addUrl:"/trfc/salesArrive/add",
 			pageUrl:"/trfc/salesApplication/page",
 			mainUrl:"/trfc/salesArrive/main",
-			addDriverUrl:"/trfc/vehicle/addVehicle",
-			addVehicleUrl:"/trfc/driver/addDriver"
+			addVehicleUrl:"/trfc/vehicle/addVehicle",
+			addDriverUrl:"/trfc/driver/addDriver"
 	};
 
 var PAGE;
@@ -108,6 +108,7 @@ PAGE.mod.main = {
 				materielid:materielid,
 				starttime:_this.top.util.parseStr2Long(starttime),
 				endtime:_this.top.util.parseStr2Long(endtime),
+				status:1,
 				pageSize:pageSize
 			}
 		},
@@ -252,7 +253,6 @@ PAGE.mod.main = {
 			var spraycode = $('#spraycode').val(); spraycode = $.trim(spraycode);
 			var serialnumber = $('#serialnumber').val(); serialnumber = $.trim(serialnumber);
 			var icardid = $('#icardid').attr('icardid'); icardid = $.trim(icardid);
-			valid
 			$.ajax({
 				url:URL.addUrl,
 				data:{

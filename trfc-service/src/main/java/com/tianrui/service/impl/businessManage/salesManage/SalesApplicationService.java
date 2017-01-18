@@ -16,6 +16,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.tianrui.api.intf.basicFile.nc.ICustomerManageService;
 import com.tianrui.api.intf.businessManage.salesManage.ISalesApplicationDetailService;
 import com.tianrui.api.intf.businessManage.salesManage.ISalesApplicationService;
+import com.tianrui.api.intf.system.auth.ISystemUserService;
 import com.tianrui.api.req.basicFile.nc.CustomerManageQuery;
 import com.tianrui.api.req.businessManage.salesManage.SalesApplicationDetailQuery;
 import com.tianrui.api.req.businessManage.salesManage.SalesApplicationDetailSave;
@@ -45,6 +46,9 @@ public class SalesApplicationService implements ISalesApplicationService {
 	
 	@Autowired
 	private ICustomerManageService customerManageService;
+	
+	@Autowired
+	private ISystemUserService systemUserService;
 	
 	@Override
 	public PaginationVO<SalesApplicationResp> page(SalesApplicationQuery query) throws Exception{
@@ -83,6 +87,7 @@ public class SalesApplicationService implements ISalesApplicationService {
 			sa.setStatus("0");
 			sa.setSource("1");
 			sa.setState("1");
+			sa.setBilltime(System.currentTimeMillis());
 			sa.setCreator(save.getCreator());
 			sa.setCreatetime(System.currentTimeMillis());
 			sa.setModifier(save.getCreator());
@@ -142,12 +147,15 @@ public class SalesApplicationService implements ISalesApplicationService {
 	
 	@Transactional
 	@Override
-	public Result audit(String id) {
+	public Result audit(SalesApplicationSave save) {
 		Result result = Result.getSuccessResult();
-		if(StringUtils.isNotBlank(id)){
+		if(save != null && StringUtils.isNotBlank(save.getId())){
 			SalesApplication sa = new SalesApplication();
-			sa.setId(id);
+			sa.setId(save.getId());
 			sa.setStatus("1");
+			sa.setAuditid(save.getAuditid());
+			sa.setAuditname(save.getAuditname());
+			sa.setAudittime(System.currentTimeMillis());
 			if(salesApplicationMapper.updateByPrimaryKeySelective(sa) > 0){
 				result.setData("操作成功！");
 			}else{
@@ -161,12 +169,15 @@ public class SalesApplicationService implements ISalesApplicationService {
 	
 	@Transactional
 	@Override
-	public Result unaudit(String id) {
+	public Result unaudit(SalesApplicationSave save) {
 		Result result = Result.getSuccessResult();
-		if(StringUtils.isNotBlank(id)){
+		if(save != null && StringUtils.isNotBlank(save.getId())){
 			SalesApplication sa = new SalesApplication();
-			sa.setId(id);
+			sa.setId(save.getId());
 			sa.setStatus("0");
+			sa.setAuditid(save.getAuditid());
+			sa.setAuditname(save.getAuditname());
+			sa.setAudittime(System.currentTimeMillis());
 			if(salesApplicationMapper.updateByPrimaryKeySelective(sa) > 0){
 				result.setData("操作成功！");
 			}else{
@@ -180,12 +191,14 @@ public class SalesApplicationService implements ISalesApplicationService {
 	
 	@Transactional
 	@Override
-	public Result delete(String id) {
+	public Result delete(SalesApplicationQuery query) {
 		Result result = Result.getSuccessResult();
-		if(StringUtils.isNotBlank(id)){
+		if(query != null && StringUtils.isNotBlank(query.getId())){
 			SalesApplication sa = new SalesApplication();
-			sa.setId(id);
+			sa.setId(query.getId());
 			sa.setState("0");
+			sa.setModifier(query.getCurrid());
+			sa.setModifytime(System.currentTimeMillis());
 			if(salesApplicationMapper.updateByPrimaryKeySelective(sa) > 0){
 				result.setData("操作成功！");
 			}else{
@@ -229,6 +242,9 @@ public class SalesApplicationService implements ISalesApplicationService {
 			SalesApplicationDetailQuery query = new SalesApplicationDetailQuery();
 			query.setSalesid(bean.getId());
 			resp.setDetailResp(salesApplicationDetailService.findListBySalesApplicationId(query).get(0));
+			if(StringUtils.isNotBlank(resp.getCreator())){
+				resp.setCreatorname(systemUserService.getUser(resp.getCreator()).getName());
+			}
 		}
 		return resp;
 	}
