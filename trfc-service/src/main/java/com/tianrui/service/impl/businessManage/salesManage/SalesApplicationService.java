@@ -17,16 +17,15 @@ import com.alibaba.fastjson.JSONObject;
 import com.tianrui.api.intf.basicFile.nc.ICustomerManageService;
 import com.tianrui.api.intf.businessManage.salesManage.ISalesApplicationDetailService;
 import com.tianrui.api.intf.businessManage.salesManage.ISalesApplicationService;
+import com.tianrui.api.intf.system.auth.ISystemUserService;
 import com.tianrui.api.req.basicFile.nc.CustomerManageQuery;
 import com.tianrui.api.req.businessManage.salesManage.SalesApplicationDetailQuery;
 import com.tianrui.api.req.businessManage.salesManage.SalesApplicationDetailSave;
 import com.tianrui.api.req.businessManage.salesManage.SalesApplicationQuery;
 import com.tianrui.api.req.businessManage.salesManage.SalesApplicationSave;
 import com.tianrui.api.resp.businessManage.salesManage.SalesApplicationResp;
-import com.tianrui.service.bean.basicFile.nc.WarehouseManage;
 import com.tianrui.service.bean.businessManage.salesManage.SalesApplication;
 import com.tianrui.service.bean.businessManage.salesManage.SalesApplicationDetail;
-import com.tianrui.service.mapper.businessManage.salesManage.SalesApplicationDetailMapper;
 import com.tianrui.service.mapper.businessManage.salesManage.SalesApplicationMapper;
 import com.tianrui.smartfactory.common.constants.Constant;
 import com.tianrui.smartfactory.common.constants.ErrorCode;
@@ -40,14 +39,15 @@ public class SalesApplicationService implements ISalesApplicationService {
 	
 	@Autowired
 	private SalesApplicationMapper salesApplicationMapper;
-	@Autowired
-	private SalesApplicationDetailMapper salesApplicationDetailMapper;
 	
 	@Autowired
 	private ISalesApplicationDetailService salesApplicationDetailService;
 	
 	@Autowired
 	private ICustomerManageService customerManageService;
+	
+	@Autowired
+	private ISystemUserService systemUserService;
 	
 	@Override
 	public PaginationVO<SalesApplicationResp> page(SalesApplicationQuery query) throws Exception{
@@ -86,6 +86,7 @@ public class SalesApplicationService implements ISalesApplicationService {
 			sa.setStatus("0");
 			sa.setSource("1");
 			sa.setState("1");
+			sa.setBilltime(System.currentTimeMillis());
 			sa.setCreator(save.getCreator());
 			sa.setCreatetime(System.currentTimeMillis());
 			sa.setModifier(save.getCreator());
@@ -145,12 +146,15 @@ public class SalesApplicationService implements ISalesApplicationService {
 	
 	@Transactional
 	@Override
-	public Result audit(String id) {
+	public Result audit(SalesApplicationQuery query) {
 		Result result = Result.getSuccessResult();
-		if(StringUtils.isNotBlank(id)){
+		if(query != null && StringUtils.isNotBlank(query.getId())){
 			SalesApplication sa = new SalesApplication();
-			sa.setId(id);
+			sa.setId(query.getId());
 			sa.setStatus("1");
+			sa.setAuditid(query.getAuditid());
+			sa.setAuditname(query.getAuditname());
+			sa.setAudittime(System.currentTimeMillis());
 			if(salesApplicationMapper.updateByPrimaryKeySelective(sa) > 0){
 				result.setData("操作成功！");
 			}else{
@@ -164,12 +168,15 @@ public class SalesApplicationService implements ISalesApplicationService {
 	
 	@Transactional
 	@Override
-	public Result unaudit(String id) {
+	public Result unaudit(SalesApplicationQuery query) {
 		Result result = Result.getSuccessResult();
-		if(StringUtils.isNotBlank(id)){
+		if(query != null && StringUtils.isNotBlank(query.getId())){
 			SalesApplication sa = new SalesApplication();
-			sa.setId(id);
+			sa.setId(query.getId());
 			sa.setStatus("0");
+			sa.setAuditid(query.getAuditid());
+			sa.setAuditname(query.getAuditname());
+			sa.setAudittime(System.currentTimeMillis());
 			if(salesApplicationMapper.updateByPrimaryKeySelective(sa) > 0){
 				result.setData("操作成功！");
 			}else{
@@ -183,12 +190,14 @@ public class SalesApplicationService implements ISalesApplicationService {
 	
 	@Transactional
 	@Override
-	public Result delete(String id) {
+	public Result delete(SalesApplicationQuery query) {
 		Result result = Result.getSuccessResult();
-		if(StringUtils.isNotBlank(id)){
+		if(query != null && StringUtils.isNotBlank(query.getId())){
 			SalesApplication sa = new SalesApplication();
-			sa.setId(id);
+			sa.setId(query.getId());
 			sa.setState("0");
+			sa.setModifier(query.getCurrid());
+			sa.setModifytime(System.currentTimeMillis());
 			if(salesApplicationMapper.updateByPrimaryKeySelective(sa) > 0){
 				result.setData("操作成功！");
 			}else{
@@ -232,6 +241,9 @@ public class SalesApplicationService implements ISalesApplicationService {
 			SalesApplicationDetailQuery query = new SalesApplicationDetailQuery();
 			query.setSalesid(bean.getId());
 			resp.setDetailResp(salesApplicationDetailService.findListBySalesApplicationId(query).get(0));
+			if(StringUtils.isNotBlank(resp.getCreator())){
+				resp.setCreatorname(systemUserService.getUser(resp.getCreator()).getName());
+			}
 		}
 		return resp;
 	}
