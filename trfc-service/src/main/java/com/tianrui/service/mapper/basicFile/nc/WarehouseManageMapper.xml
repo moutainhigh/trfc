@@ -26,7 +26,7 @@
     from tr_warehouse_db_manage
     where id = #{id,jdbcType=VARCHAR}
   </select>
-  <select id="findMaxUtc" resultType="Long"  >
+  <select id="findMaxUtc" resultType="Long" >
     select 
    		max(utc)
     from tr_warehouse_db_manage

@@ -1,5 +1,7 @@
 package com.tianrui.service.mapper.basicFile.other;
 
+import java.util.List;
+
 import com.tianrui.service.bean.basicFile.other.OtherBdSupplier;
 
 public interface OtherBdSupplierMapper {
@@ -39,4 +41,14 @@ public interface OtherBdSupplierMapper {
 	 * @mbggenerated
 	 */
 	int updateByPrimaryKey(OtherBdSupplier record);
+	/**
+	 * 查询信息通过 orgId
+	 * @param supplier
+	 * @return
+	 */
+	List<OtherBdSupplier> selectSelective(OtherBdSupplier supplier);
+	/**
+	 * 查询最大时间戳
+	 */
+	Long getMaxUtc();
 }

@@ -3,8 +3,7 @@
 			addUrl:"/trfc/salesArrive/add",
 			pageUrl:"/trfc/salesApplication/page",
 			mainUrl:"/trfc/salesArrive/main",
-			addDriverUrl:"/trfc/vehicle/addVehicle",
-			addVehicleUrl:"/trfc/driver/addDriver"
+			addVehicleUrl:"/trfc/vehicle/addVehicle",
 	};
 
 var PAGE;
