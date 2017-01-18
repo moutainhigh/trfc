@@ -12,7 +12,7 @@
 		http://www.springframework.org/schema/mvc 
 		http://www.springframework.org/schema/mvc/spring-mvc.xsd">
     
-	<context:component-scan base-package="com.tianrui.web.action,com.tianrui.web.api.action" />
+	<context:component-scan base-package="com.tianrui.web.action,com.tianrui.web.api" />
         
 	<bean
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
@@ -52,7 +52,8 @@
 		
 	<aop:config>
 		<aop:aspect ref="apiParamPointcut">
-			<aop:pointcut id="apiPointcut" expression="execution(* com.tianrui.web.api.action..*(..))"/>
+			<aop:pointcut id="apiPointcut" expression="execution(* com.tianrui.web.api.datacenter.action..*(..))"/>
+			<aop:pointcut id="apiPointcut2" expression="execution(* com.tianrui.web.api.subsystem.action..*(..))"/>
 			<aop:around pointcut-ref="apiPointcut" method="forAround"/>
 		</aop:aspect>
 	</aop:config>	

@@ -19,6 +19,8 @@ public interface ICustomerManageService {
 	Result updateCustomer(CustomerManageSave req) throws Exception;
 
 	Result findListByParmas(CustomerManageQuery query) throws Exception;
+	
+	Result findMaxUtc(CustomerManageQuery query) throws Exception;
 
 	CustomerManageResp findOne(CustomerManageQuery query) throws Exception;
 

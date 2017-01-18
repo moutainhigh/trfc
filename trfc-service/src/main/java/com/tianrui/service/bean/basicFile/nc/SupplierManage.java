@@ -35,6 +35,7 @@ public class SupplierManage {
     private String modifier;
 
     private Long modifytime;
+    private long utc;
 
     public String getId() {
         return id;
@@ -155,4 +156,13 @@ public class SupplierManage {
     public void setModifytime(Long modifytime) {
         this.modifytime = modifytime;
     }
+
+	public long getUtc() {
+		return utc;
+	}
+
+	public void setUtc(long utc) {
+		this.utc = utc;
+	}
+    
 }

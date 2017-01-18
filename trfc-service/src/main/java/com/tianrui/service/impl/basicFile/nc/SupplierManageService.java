@@ -96,4 +96,15 @@ public class SupplierManageService implements ISupplierManageService {
 		return resp;
 	}
 
+	@Override
+	public Result findMaxUtc(SupplierManageQuery query) throws Exception {
+		Result rs =Result.getParamErrorResult();
+		if(query !=null  ){
+			Long max =supplierManageMapper.findMaxUtc();
+			rs.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+			rs.setData(max);
+		}
+		return rs;
+	}
+
 }

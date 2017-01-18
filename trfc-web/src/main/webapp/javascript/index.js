@@ -15,7 +15,6 @@ $(function(){
 		var params = {account:account,pswd:pswd};
 		
 		
-		console.log(params);
 		$.post(url,params,function(result){
 			if(result.code=='000000'){
 				location.href=URL.redirectUrl;
@@ -24,8 +23,6 @@ $(function(){
 			}
 		});
 	}
-	
-	
 	
 	
 	

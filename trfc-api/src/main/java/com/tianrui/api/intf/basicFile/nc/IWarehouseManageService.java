@@ -1,5 +1,10 @@
 package com.tianrui.api.intf.basicFile.nc;
 
+import java.util.List;
+
+import com.alibaba.fastjson.JSONObject;
+import com.tianrui.api.req.basicFile.nc.NcBatchUpdateReq;
+import com.tianrui.api.req.basicFile.nc.SupplierManageQuery;
 import com.tianrui.api.req.basicFile.nc.WarehouseManageQuery;
 import com.tianrui.api.req.basicFile.nc.WarehouseManageSave;
 import com.tianrui.api.resp.basicFile.nc.WarehouseManageResp;
@@ -55,6 +60,12 @@ public interface IWarehouseManageService {
 	 * @throws Exception
 	 */
 	Result findListByParmas(WarehouseManageQuery query) throws Exception;
+	
+	Result findMaxUtc(WarehouseManageQuery query) throws Exception;
+	
+	Result updateDataWithDC(List<JSONObject> list )throws Exception;
+	
+	
 	
 }
 

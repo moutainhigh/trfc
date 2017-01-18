@@ -70,9 +70,8 @@ public class ApiParamInterceptor implements HandlerInterceptor{
 				//验证签名串
 				if( !JsonUtil.validateSign(jsonParam.trim(), appParamObj.getSign(), Constant.apiAuthSign) ){
 					// 防篡改失败 验证失败
-//					LoggerFactory.getLogger(Constant.ACCESS).warn("拦截到非法的API请求[apiSign校验失败] - {}", jsonParam);
-//					writeJsonResponse(response,ApiResult.valueOf(ErrorCode.PARAM_CHECK_CODE_ERROR));
-					return true;
+					LoggerFactory.getLogger(Constant.ACCESS).warn("拦截到非法的API请求[apiSign校验失败] - {}", jsonParam);
+					writeJsonResponse(response,ApiResult.valueOf(ErrorCode.PARAM_CHECK_CODE_ERROR));
 				//验证key
 				}else if( !JsonUtil.validateKey(appParamObj.getHead().getKey(), appParamObj.getHead().getCallTime(), Constant.apiAuthKey)  ){
 					// key验证失败

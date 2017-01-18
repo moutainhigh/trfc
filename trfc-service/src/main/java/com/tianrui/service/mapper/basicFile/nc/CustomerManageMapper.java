@@ -29,4 +29,6 @@ public interface CustomerManageMapper {
 	long findCustomerPageCount(CustomerManageQuery query);
 	
 	List<CustomerManage> selectSelective(CustomerManage record);
+	
+	Long findMaxUtc();
 }

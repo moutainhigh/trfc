@@ -143,5 +143,16 @@ public class MaterielManageService implements IMaterielManageService {
 		}
 		return null;
 	}
+
+	@Override
+	public Result findMaxUtc(MaterielManageQuery query) throws Exception {
+		Result rs =Result.getParamErrorResult();
+		if(query !=null  ){
+			Long max =materielManageMapper.findMaxUtc();
+			rs.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+			rs.setData(max);
+		}
+		return rs;
+	}
 	
 }

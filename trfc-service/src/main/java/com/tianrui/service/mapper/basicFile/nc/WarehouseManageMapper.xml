@@ -14,16 +14,22 @@
     <result column="createtime" property="createtime" jdbcType="BIGINT" />
     <result column="modifier" property="modifier" jdbcType="VARCHAR" />
     <result column="modifytime" property="modifytime" jdbcType="BIGINT" />
+     <result column="utc" property="utc" jdbcType="BIGINT" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, code, internalcode, name, orgid, orgname, state, remarks, creator, createtime, modifier, 
-    modifytime
+    modifytime,utc
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
     <include refid="Base_Column_List" />
     from tr_warehouse_db_manage
     where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <select id="findMaxUtc" resultType="Long"  >
+    select 
+   		max(utc)
+    from tr_warehouse_db_manage
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from tr_warehouse_db_manage
@@ -33,12 +39,28 @@
     insert into tr_warehouse_db_manage (id, code, internalcode, 
       name, orgid, orgname, state,
       remarks, creator, createtime, 
-      modifier, modifytime)
+      modifier, modifytime,utc)
     values (#{id,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR}, #{internalcode,jdbcType=VARCHAR}, 
       #{name,jdbcType=VARCHAR}, #{orgid,jdbcType=VARCHAR}, #{orgname,jdbcType=VARCHAR}, #{state,jdbcType=VARCHAR}, 
       #{remarks,jdbcType=VARCHAR}, #{creator,jdbcType=VARCHAR}, #{createtime,jdbcType=BIGINT}, 
-      #{modifier,jdbcType=VARCHAR}, #{modifytime,jdbcType=BIGINT})
+      #{modifier,jdbcType=VARCHAR}, #{modifytime,jdbcType=BIGINT}, #{utc,jdbcType=BIGINT})
   </insert>
+  
+  <insert id ="insertBatch" parameterType="java.util.List" >
+        insert into tr_warehouse_db_manage
+        (id, code, internalcode,name, orgid, orgname, state, createtime, modifytime,utc)
+        values 
+         <foreach collection ="list" item="item" index= "index" separator =",">
+          (   #{item.id}, #{item.code},
+             #{item.internalcode},#{item.name},
+             #{item.orgid},
+             #{item.orgname},#{item.state},
+             #{item.createtime},#{item.modifytime},
+             #{item.utc}
+           )
+         </foreach >
+    </insert>  
+  
   <insert id="insertSelective" parameterType="com.tianrui.service.bean.basicFile.nc.WarehouseManage" >
     insert into tr_warehouse_db_manage
     <trim prefix="(" suffix=")" suffixOverrides="," >
@@ -78,6 +100,9 @@
       <if test="modifytime != null" >
         modifytime,
       </if>
+      <if test="utc != null" >
+        utc,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -115,6 +140,9 @@
       </if>
       <if test="modifytime != null" >
         #{modifytime,jdbcType=BIGINT},
+      </if>
+      <if test="utc != null" >
+        #{utc,jdbcType=BIGINT},
       </if>
     </trim>
   </insert>
@@ -154,6 +182,9 @@
       <if test="modifytime != null" >
         modifytime = #{modifytime,jdbcType=BIGINT},
       </if>
+      <if test="utc != null" >
+        utc = #{utc,jdbcType=BIGINT},
+      </if>
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
@@ -170,6 +201,7 @@
       createtime = #{createtime,jdbcType=BIGINT},
       modifier = #{modifier,jdbcType=VARCHAR},
       modifytime = #{modifytime,jdbcType=BIGINT}
+      utc = #{utc,jdbcType=BIGINT},
     where id = #{id,jdbcType=VARCHAR}
   </update>
   <select id="findWarehouseManagePage" resultMap="BaseResultMap" parameterType="com.tianrui.api.req.basicFile.nc.WarehouseManageQuery">
@@ -256,6 +288,9 @@
       </if>
       <if test="modifytime != null and modifytime != ''" >
         and modifytime = #{modifytime,jdbcType=BIGINT}
+      </if>
+      <if test="utc != null" >
+        and utc &gt; #{utc,jdbcType=BIGINT}
       </if>
   	</where>
   </select>

@@ -25,6 +25,7 @@ public class MaterielManageQuery extends BaseReq {
     private Integer start;
     
     private Integer limit;
+    private Long utc;
 
 	public String getId() {
 		return id;
@@ -105,5 +106,14 @@ public class MaterielManageQuery extends BaseReq {
 	public void setLimit(Integer limit) {
 		this.limit = limit;
 	}
+
+	public Long getUtc() {
+		return utc;
+	}
+
+	public void setUtc(Long utc) {
+		this.utc = utc;
+	}
+	
 
 }

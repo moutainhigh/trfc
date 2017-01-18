@@ -107,4 +107,15 @@ public class CustomerManageService implements ICustomerManageService {
 		return resp;
 	}
 
+	@Override
+	public Result findMaxUtc(CustomerManageQuery query) throws Exception {
+		Result rs =Result.getParamErrorResult();
+		if(query !=null  ){
+			Long max =customerManageMapper.findMaxUtc();
+			rs.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+			rs.setData(max);
+		}
+		return rs;
+	}
+
 }
