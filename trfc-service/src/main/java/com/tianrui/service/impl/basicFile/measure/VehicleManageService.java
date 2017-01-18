@@ -195,6 +195,7 @@ public class VehicleManageService implements IVehicleManageService {
 		if (query != null) {
 			PropertyUtils.copyProperties(vehicle, query);
 		}
+		vehicle.setState("1");
 		List<VehicleManage> list = vehicleManageMapper.selectSelective(vehicle);
 		result.setData(copyBeanList2RespList(list));
 		return result;

@@ -112,6 +112,7 @@ public class DriverManageService implements IDriverManageService {
 		if(query != null){
 			PropertyUtils.copyProperties(driver, query);
 		}
+		driver.setState("1");
 		List<DriverManage> list = driverManageMapper.selectSelective(driver);
 		result.setData(copyBeanList2RespList(list));
 		return result;

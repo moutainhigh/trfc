@@ -8,6 +8,7 @@ import java.net.URL;
 import com.alibaba.fastjson.JSON;
 import com.tianrui.api.req.basicFile.measure.VehicleManageApi;
 import com.tianrui.api.req.basicFile.nc.WarehouseManageQuery;
+import com.tianrui.api.req.businessManage.salesManage.ApiDoorQueueQuery;
 import com.tianrui.smartfactory.common.api.ApiParam;
 import com.tianrui.smartfactory.common.api.Head;
 import com.tianrui.smartfactory.common.constants.Constant;
@@ -17,7 +18,7 @@ import com.tianrui.smartfactory.common.vo.Result;
 public class TestApiWarehouse {
 
 	private static String domin="http://127.0.0.1/";
-	private static String uri="api/dc/warehouse/getLastUTC";
+	private static String uri="api/doorSystem/queueNumber";
 	
 	public static void main(String[] args) throws Exception {
 		URL url = new URL(domin+uri);
@@ -47,9 +48,9 @@ public class TestApiWarehouse {
 		
 		
 	}
-	static ApiParam<WarehouseManageQuery> getParam1(){
-		ApiParam<WarehouseManageQuery> api =new ApiParam<WarehouseManageQuery>();
-		WarehouseManageQuery query = new WarehouseManageQuery();
+	static ApiParam<ApiDoorQueueQuery> getParam1(){
+		ApiParam<ApiDoorQueueQuery> api =new ApiParam<ApiDoorQueueQuery>();
+		ApiDoorQueueQuery query = new ApiDoorQueueQuery();
 		
 		Head head =new Head();
 		head.setCallSource("1");

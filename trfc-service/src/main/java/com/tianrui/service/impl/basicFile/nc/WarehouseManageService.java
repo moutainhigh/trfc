@@ -129,6 +129,7 @@ public class WarehouseManageService implements IWarehouseManageService {
 		if(query != null){
 			PropertyUtils.copyProperties(w, query);
 		}
+		w.setState("1");
 		List<WarehouseManage> list = warehouseManageMapper.selectSelective(w);
 		result.setData(copyBeanList2RespList(list));
 		return result;

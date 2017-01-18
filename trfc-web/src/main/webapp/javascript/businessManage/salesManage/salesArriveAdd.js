@@ -74,7 +74,7 @@ PAGE.mod.main = {
 				_this.saveSalesArrive();
 			});
 			$('#addAndAddCardBtn').off('click').on('click',function(){
-				
+				alert('待开发.');
 			});
 			$('#backBtn').off('click').on('click',function(){
 				window.location.href = URL.mainUrl;
@@ -251,6 +251,7 @@ PAGE.mod.main = {
 			var spraycode = $('#spraycode').val(); spraycode = $.trim(spraycode);
 			var serialnumber = $('#serialnumber').val(); serialnumber = $.trim(serialnumber);
 			var icardid = $('#icardid').attr('icardid'); icardid = $.trim(icardid);
+			valid
 			$.ajax({
 				url:URL.addUrl,
 				data:{

@@ -77,6 +77,7 @@ public class CustomerManageService implements ICustomerManageService {
 		if(query != null){
 			PropertyUtils.copyProperties(cm, query);
 		}
+		cm.setState("1");
 		List<CustomerManage> list = customerManageMapper.selectSelective(cm);
 		result.setData(copyBeanList2RespList(list));
 		return result;
