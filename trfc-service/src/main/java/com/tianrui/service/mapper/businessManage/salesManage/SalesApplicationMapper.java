@@ -9,6 +9,8 @@ public interface SalesApplicationMapper {
     int deleteByPrimaryKey(String id);
 
     int insert(SalesApplication record);
+    
+    int insertBatch(List<SalesApplication> list);
 
     int insertSelective(SalesApplication record);
 
@@ -23,4 +25,6 @@ public interface SalesApplicationMapper {
 	List<SalesApplication> findSalesApplicationPage(SalesApplicationQuery query);
 
 	List<SalesApplication> selectSelective(SalesApplication record);
+	
+	Long  findMaxUtc();
 }

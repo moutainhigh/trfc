@@ -4,6 +4,7 @@ import com.tianrui.api.req.system.auth.SystemUserPswdReq;
 import com.tianrui.api.req.system.auth.SystemUserQueryReq;
 import com.tianrui.api.req.system.auth.SystemUserSaveReq;
 import com.tianrui.api.req.system.auth.UserReq;
+import com.tianrui.api.resp.system.auth.SystemUserResp;
 import com.tianrui.smartfactory.common.vo.Result;
 
 public interface ISystemUserService {
@@ -78,6 +79,13 @@ public interface ISystemUserService {
 	 * @throws Exception
 	 */
 	Result login(UserReq  req) throws Exception;
+	/**
+	 * 查询用户
+	 * @param id
+	 * @return
+	 * @throws Exception 
+	 */
+	SystemUserResp getUser(String id) throws Exception;
 	
 	
 }

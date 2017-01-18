@@ -8,18 +8,18 @@ public class FileUploadReq extends BaseReq{
 	/**
 	 * Base64编码字符串
 	 */
-	private String imgStr;
+	private byte[] fileByte;
 	/**
 	 * 上传者id
 	 */
 	private String uId;
 
-	public String getImgStr() {
-		return imgStr;
+	public byte[] getFileByte() {
+		return fileByte;
 	}
 
-	public void setImgStr(String imgStr) {
-		this.imgStr = imgStr;
+	public void setFileByte(byte[] fileByte) {
+		this.fileByte = fileByte;
 	}
 
 	public String getuId() {

@@ -2,7 +2,6 @@ package com.tianrui.service.impl.system.auth;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.collections.CollectionUtils;
@@ -328,6 +327,15 @@ public class SystemUserService implements ISystemUserService {
 		}
 		return rs;
 	}
-
+	
+	@Override
+	public SystemUserResp getUser(String id) throws Exception{
+		SystemUser db = null;
+		//主键不能为空
+		if(StringUtils.isNotBlank(id)){
+			db = userMapper.selectByPrimaryKey(id);
+		}
+		return copySystemUserBean2Resp(db);
+	}
 
 }

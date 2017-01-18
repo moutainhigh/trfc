@@ -217,4 +217,60 @@
       modifytime = #{modifytime,jdbcType=BIGINT}
     where id = #{id,jdbcType=VARCHAR}
   </update>
+    <select id="getMaxUtc" resultType="Long"  >
+    select 
+   		max(utc)
+    from tr_other_bd_supplier
+  </select>
+  
+    <select id="selectSelective" resultMap="BaseResultMap" parameterType="com.tianrui.service.bean.basicFile.other.OtherBdSupplier">
+    select 
+  	<include refid="Base_Column_List"/>
+  	from tr_other_bd_supplier
+  	<where>
+  	  <if test="id != null and id != ''" >
+        and id = #{id,jdbcType=VARCHAR}
+      </if>
+  	  <if test="code != null and code != ''" >
+        and code = #{code,jdbcType=VARCHAR}
+      </if>
+      <if test="innercode != null and innercode != ''" >
+        and innercode = #{innercode,jdbcType=VARCHAR}
+      </if>
+      <if test="name != null and name != ''" >
+        and name = #{name,jdbcType=VARCHAR}
+      </if>
+      <if test="info != null and info != ''" >
+        and info = #{info,jdbcType=VARCHAR}
+      </if>
+      <if test="isvalid != null and isvalid != ''" >
+        and isvalid = #{isvalid,jdbcType=TINYINT}
+      </if>
+      <if test="orgid != null and orgid != ''" >
+        and orgid = #{orgid,jdbcType=VARCHAR}
+      </if>
+      <if test="orgname != null and orgname != ''" >
+        and orgname = #{orgname,jdbcType=VARCHAR}
+      </if>
+      <if test="remark != null and remark != ''" >
+        and remark = #{remark,jdbcType=VARCHAR}
+      </if>
+      <if test="creator != null and creator != ''" >
+        and creator = #{creator,jdbcType=VARCHAR}
+      </if>
+      <if test="createtime != null and createtime != ''" >
+        and createtime = #{createtime,jdbcType=BIGINT}
+      </if>
+      <if test="modifier != null and modifier != ''" >
+        and modifier = #{modifier,jdbcType=VARCHAR}
+      </if>
+      <if test="modifytime != null and modifytime != ''" >
+        and modifytime = #{modifytime,jdbcType=BIGINT}
+      </if>
+      <if test="utc != null" >
+        and utc &gt; #{utc,jdbcType=BIGINT}
+      </if>
+  	</where>
+  </select>
+  
 </mapper>
