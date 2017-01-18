@@ -32,7 +32,7 @@ public class TestApiWarehouse2 {
 		
 	    // 表单参数与get形式一样
 		connection.setDoOutput(true);// 是否输入参数
-        params.append("p").append("=").append(JSON.toJSONString(getParam1()));
+        //params.append("p").append("=").append(JSON.toJSONString(getParam1()));
         
         String aa =params.toString();
         System.out.println(aa);

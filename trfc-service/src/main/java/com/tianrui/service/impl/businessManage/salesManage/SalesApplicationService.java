@@ -1,14 +1,18 @@
 package com.tianrui.service.impl.businessManage.salesManage;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.commons.beanutils.PropertyUtils;
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.alibaba.fastjson.JSONObject;
 import com.tianrui.api.intf.basicFile.nc.ICustomerManageService;
 import com.tianrui.api.intf.businessManage.salesManage.ISalesApplicationDetailService;
 import com.tianrui.api.intf.businessManage.salesManage.ISalesApplicationService;
@@ -18,7 +22,10 @@ import com.tianrui.api.req.businessManage.salesManage.SalesApplicationDetailSave
 import com.tianrui.api.req.businessManage.salesManage.SalesApplicationQuery;
 import com.tianrui.api.req.businessManage.salesManage.SalesApplicationSave;
 import com.tianrui.api.resp.businessManage.salesManage.SalesApplicationResp;
+import com.tianrui.service.bean.basicFile.nc.WarehouseManage;
 import com.tianrui.service.bean.businessManage.salesManage.SalesApplication;
+import com.tianrui.service.bean.businessManage.salesManage.SalesApplicationDetail;
+import com.tianrui.service.mapper.businessManage.salesManage.SalesApplicationDetailMapper;
 import com.tianrui.service.mapper.businessManage.salesManage.SalesApplicationMapper;
 import com.tianrui.smartfactory.common.constants.ErrorCode;
 import com.tianrui.smartfactory.common.utils.UUIDUtil;
@@ -30,6 +37,8 @@ public class SalesApplicationService implements ISalesApplicationService {
 	
 	@Autowired
 	private SalesApplicationMapper salesApplicationMapper;
+	@Autowired
+	private SalesApplicationDetailMapper salesApplicationDetailMapper;
 	
 	@Autowired
 	private ISalesApplicationDetailService salesApplicationDetailService;
@@ -223,5 +232,101 @@ public class SalesApplicationService implements ISalesApplicationService {
 		}
 		return resp;
 	}
+
+	@Override
+	public Result findMaxUtc(SalesApplicationQuery req) throws Exception {
+		Result rs = Result.getErrorResult();
+		if(req !=null  ){
+			Long utc =salesApplicationMapper.findMaxUtc();
+			rs.setData(utc);
+			rs.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+		}
+		return rs;
+	}
+
+	@Override
+	public Result updateDataWithDC(List<JSONObject> list) throws Exception {
+		Result rs = Result.getErrorResult();
+		if(CollectionUtils.isNotEmpty(list) ){
+			Set<String> ids =getAllIds();
+			List<SalesApplication> toUpdate =new ArrayList<SalesApplication>();
+			List<SalesApplication> toSave =new ArrayList<SalesApplication>();
+			List<SalesApplicationDetail> toSaveItem =new ArrayList<SalesApplicationDetail>();
+			
+			for( JSONObject jsonObject:list ){
+				String id =jsonObject.getString("id");
+				if( ids.contains(jsonObject) ){
+					toUpdate.add(converJson2Bean(jsonObject));
+				}else{
+					toSave.add(converJson2Bean(jsonObject));
+					toSaveItem.addAll(converJson2ItemList(jsonObject));
+				}
+			}
+			
+			if( CollectionUtils.isNotEmpty(toSave) ){
+				salesApplicationMapper.insertBatch(toSave);
+				//salesApplicationDetailMapper.insertBatch(toSaveItem);
+			}
+			
+			if( CollectionUtils.isNotEmpty(toUpdate) ){
+				for( SalesApplication item :toUpdate){
+					salesApplicationMapper.updateByPrimaryKeySelective(item);
+				}
+			}
+		}
+		return rs;
+	}
+
 	
+	private Set<String> getAllIds(){
+		Set<String> rs = new HashSet<String>();
+		List<SalesApplication> list=salesApplicationMapper.selectSelective(null);
+		for(SalesApplication item:list){
+			rs.add(item.getId());
+		}
+		return rs;
+	}
+	private SalesApplication converJson2Bean(JSONObject jsonItem){
+		SalesApplication item  =new SalesApplication();
+		item.setId(jsonItem.getString("id"));
+		//编码
+		item.setCode(jsonItem.getString("code"));
+		//状态
+		item.setStatus("1");
+		item.setState("1");
+		//来源
+		item.setSource("0");
+		//类型
+		item.setBilltype(jsonItem.getString("sourceType"));
+		//客户
+		item.setCustomerid(jsonItem.getString("customerId"));
+		//订单日期
+		item.setBilltime(jsonItem.getString("orderData"));
+		//业务员 TODO
+		//销售组织
+		item.setOrgid(jsonItem.getString("orgId"));
+		item.setOrgname(jsonItem.getString("orgName"));
+		//部门名称
+		item.setDepartmentid(jsonItem.getString("deptId"));
+		item.setDepartmentname(jsonItem.getString("deptName"));
+		//运输公司 //TODO transComp
+		//制单人
+		item.setCreator(jsonItem.getString("singleId"));
+		//制单日期
+		item.setCreatetime(jsonItem.getString("singleData"));
+		//审核人
+		item.setAuditid(jsonItem.getString("auditPerson"));
+		item.setAuditname(jsonItem.getString("auditData"));
+		//审核日期
+		item.setAudittime(0L);
+		//区域码 //TODO areaCode
+		//TS
+		item.setUtc(Long.valueOf(jsonItem.getString("ts")));
+		return item;
+	}
+	private List<SalesApplicationDetail> converJson2ItemList(JSONObject jsonItem){
+		List<SalesApplicationDetail> itemList = new ArrayList<SalesApplicationDetail>();
+		System.out.println(jsonItem.getJSONArray("list"));
+		return itemList;
+	}
 }

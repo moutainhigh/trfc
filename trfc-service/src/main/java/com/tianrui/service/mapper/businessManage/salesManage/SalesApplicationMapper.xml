@@ -22,11 +22,12 @@
     <result column="createtime" property="createtime" jdbcType="BIGINT" />
     <result column="modifier" property="modifier" jdbcType="VARCHAR" />
     <result column="modifytime" property="modifytime" jdbcType="BIGINT" />
+    <result column="utc" property="utc" jdbcType="BIGINT" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, code, status, source, billtype, customerid, billtime, orgid, orgname, departmentid, 
     departmentname, auditid, auditname, audittime, state, remarks, creator, createtime, 
-    modifier, modifytime
+    modifier, modifytime,utc
   </sql>
   <sql id="Base_Column_List_S1" >
     s1.id, s1.code, s1.status, s1.source, s1.billtype, s1.customerid, s1.billtime, s1.orgid, s1.orgname, s1.departmentid, 
@@ -39,10 +40,41 @@
     from tr_sales_db_application
     where id = #{id,jdbcType=VARCHAR}
   </select>
+  <select id="findMaxUtc" resultType="Long"  >
+    select 
+   		max(utc)
+    from tr_sales_db_application
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from tr_sales_db_application
     where id = #{id,jdbcType=VARCHAR}
   </delete>
+
+<insert id="insertBatch" parameterType="java.util.List">
+	insert into tr_sales_db_application (id, code, status,
+	source, billtype, customerid,
+	billtime, orgid, orgname,
+	departmentid, departmentname, auditid,
+	auditname, audittime, state,
+	creator, createtime,
+	modifytime,utc)
+	values
+	<foreach collection="list" item="item" index="index"
+		separator=",">
+		( #{id,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR},
+		#{status,jdbcType=VARCHAR},
+		#{source,jdbcType=VARCHAR}, #{billtype,jdbcType=VARCHAR}, #{customerid,jdbcType=VARCHAR},
+		#{billtime,jdbcType=BIGINT}, #{orgid,jdbcType=VARCHAR},
+		#{orgname,jdbcType=VARCHAR},
+		#{departmentid,jdbcType=VARCHAR}, #{departmentname,jdbcType=VARCHAR}, #{auditid,jdbcType=VARCHAR},
+		#{auditname,jdbcType=VARCHAR}, #{audittime,jdbcType=BIGINT},
+		#{state,jdbcType=VARCHAR},
+		#{creator,jdbcType=VARCHAR}, #{createtime,jdbcType=BIGINT},
+		#{modifytime,jdbcType=BIGINT}, #{utc,jdbcType=BIGINT}
+		)
+	</foreach>
+</insert>  
+  
   <insert id="insert" parameterType="com.tianrui.service.bean.businessManage.salesManage.SalesApplication" >
     insert into tr_sales_db_application (id, code, status, 
       source, billtype, customerid, 
@@ -50,14 +82,14 @@
       departmentid, departmentname, auditid, 
       auditname, audittime, state, 
       remarks, creator, createtime, 
-      modifier, modifytime)
+      modifier, modifytime,utc)
     values (#{id,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, 
       #{source,jdbcType=VARCHAR}, #{billtype,jdbcType=VARCHAR}, #{customerid,jdbcType=VARCHAR}, 
       #{billtime,jdbcType=BIGINT}, #{orgid,jdbcType=VARCHAR}, #{orgname,jdbcType=VARCHAR}, 
       #{departmentid,jdbcType=VARCHAR}, #{departmentname,jdbcType=VARCHAR}, #{auditid,jdbcType=VARCHAR}, 
       #{auditname,jdbcType=VARCHAR}, #{audittime,jdbcType=BIGINT}, #{state,jdbcType=VARCHAR}, 
       #{remarks,jdbcType=VARCHAR}, #{creator,jdbcType=VARCHAR}, #{createtime,jdbcType=BIGINT}, 
-      #{modifier,jdbcType=VARCHAR}, #{modifytime,jdbcType=BIGINT})
+      #{modifier,jdbcType=VARCHAR}, #{modifytime,jdbcType=BIGINT}, #{utc,jdbcType=BIGINT})
   </insert>
   <insert id="insertSelective" parameterType="com.tianrui.service.bean.businessManage.salesManage.SalesApplication" >
     insert into tr_sales_db_application
@@ -122,6 +154,9 @@
       <if test="modifytime != null" >
         modifytime,
       </if>
+      <if test="utc != null" >
+        utc,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -183,6 +218,9 @@
       </if>
       <if test="modifytime != null" >
         #{modifytime,jdbcType=BIGINT},
+      </if>
+      <if test="utc != null" >
+        #{utc,jdbcType=BIGINT},
       </if>
     </trim>
   </insert>
@@ -246,6 +284,9 @@
       <if test="modifytime != null" >
         modifytime = #{modifytime,jdbcType=BIGINT},
       </if>
+      <if test="utc != null" >
+        utc = #{utc,jdbcType=BIGINT},
+      </if>
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
@@ -269,7 +310,8 @@
       creator = #{creator,jdbcType=VARCHAR},
       createtime = #{createtime,jdbcType=BIGINT},
       modifier = #{modifier,jdbcType=VARCHAR},
-      modifytime = #{modifytime,jdbcType=BIGINT}
+      modifytime = #{modifytime,jdbcType=BIGINT},
+      utc = #{utc,jdbcType=BIGINT}
     where id = #{id,jdbcType=VARCHAR}
   </update>
   <select id="selectSelective" parameterType="com.tianrui.service.bean.businessManage.salesManage.SalesApplication" resultMap="BaseResultMap">

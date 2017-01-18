@@ -19,7 +19,11 @@ import com.tianrui.smartfactory.common.constants.ErrorCode;
 import com.tianrui.smartfactory.common.utils.DateUtil;
 import com.tianrui.smartfactory.common.vo.PaginationVO;
 import com.tianrui.smartfactory.common.vo.Result;
-
+/**
+ * 销售订单
+ * @author Administrator
+ *
+ */
 @RequestMapping("/trfc/salesApplication")
 @Controller
 public class SalesApplicationAction {
