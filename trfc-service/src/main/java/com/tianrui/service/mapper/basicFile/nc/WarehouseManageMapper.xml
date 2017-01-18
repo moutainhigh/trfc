@@ -290,7 +290,7 @@
         and modifytime = #{modifytime,jdbcType=BIGINT}
       </if>
       <if test="utc != null" >
-        and utc &gt; #{utc,jdbcType=BIGINT}
+        and utc <![CDATA[>]]> #{utc,jdbcType=BIGINT}
       </if>
   	</where>
   </select>

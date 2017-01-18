@@ -43,7 +43,7 @@
 	}
 	function initSelect(){
 		$.ajax({
-			url:URL.findAllUrl,
+			url:URL.findCAllUrl,
 			data:null,
 			async:true,
 			cache:false,
@@ -535,14 +535,14 @@
 		$('#moreBody').empty();
 		var detailResp = obj.detailResp;
 		if(detailResp){
-			$('<tr>').append('<td>'+detailResp.materielname+'</td>')
-			.append('<td>'+detailResp.salessum+'</td>')
-			.append('<td>'+detailResp.taxprice+'</td>')
+			$('<tr>').append('<td>'+(detailResp.materielname || '')+'</td>')
+			.append('<td>'+(detailResp.salessum || '')+'</td>')
+			.append('<td>'+(detailResp.taxprice || '')+'</td>')
 			.append('<td></td>')
 			.append('<td></td>')
 			.append('<td></td>')
 			.append('<td></td>')
-			.append('<td>'+detailResp.remarks+'</td>')
+			.append('<td>'+(detailResp.remarks || '')+'</td>')
 			.appendTo('#moreBody');
 		}else{
 			$('#moreBody').append('<tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>');

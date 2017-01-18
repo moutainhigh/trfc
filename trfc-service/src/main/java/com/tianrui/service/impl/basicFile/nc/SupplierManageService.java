@@ -72,6 +72,7 @@ public class SupplierManageService implements ISupplierManageService {
 		if(query != null){
 			PropertyUtils.copyProperties(sm, query);
 		}
+		sm.setState("1");
 		List<SupplierManage> list = supplierManageMapper.selectSelective(sm);
 		result.setData(copyBeanList2RespList(list));
 		return result;

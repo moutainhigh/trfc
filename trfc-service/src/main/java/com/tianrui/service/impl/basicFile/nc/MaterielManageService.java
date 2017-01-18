@@ -111,6 +111,7 @@ public class MaterielManageService implements IMaterielManageService {
 		if(query != null){
 			PropertyUtils.copyProperties(m, query);
 		}
+		m.setState("1");
 		List<MaterielManage> list = materielManageMapper.selectSelective(m);
 		result.setData(copyBeanList2RespList(list));
 		return result;
