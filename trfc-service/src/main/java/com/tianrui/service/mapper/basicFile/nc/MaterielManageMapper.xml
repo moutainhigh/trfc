@@ -63,6 +63,20 @@
       #{state,jdbcType=VARCHAR}, #{remarks,jdbcType=VARCHAR}, #{creator,jdbcType=VARCHAR}, #{createtime,jdbcType=BIGINT}, 
       #{modifier,jdbcType=VARCHAR}, #{modifytime,jdbcType=BIGINT},#{utc,jdbcType=BIGINT})
   </insert>
+  <insert id ="insertBatch" parameterType="java.util.List" >
+        insert into tr_materiel_db_manage
+        (id, code, internalcode,name,abbrname,spec,model,pinyincode,receiptstatus,factorycode,packagetype,
+        businesstype,effective,bulkwritecard, orgid, orgname, queuingprefix,state, createtime, modifytime,utc)
+        values 
+         <foreach collection ="list" item="item" index= "index" separator =",">
+          (   #{item.id}, #{item.code},#{item.internalcode},#{item.name}, #{item.abbrname}, #{item.spec}, #{item.model}, #{item.pinyincode},
+          	 #{item.receiptstatus}, #{item.factorycode}, #{item.packagetype}, #{item.businesstype}, #{item.effective},#{item.bulkwritecard} ,
+           	 #{item.orgid},#{item.orgname},#{item.queuingprefix},#{item.state},
+             #{item.createtime},#{item.modifytime},
+             #{item.utc}
+           )
+         </foreach >
+    </insert>  
   <insert id="insertSelective" parameterType="com.tianrui.service.bean.basicFile.nc.MaterielManage" >
     insert into tr_materiel_db_manage
     <trim prefix="(" suffix=")" suffixOverrides="," >

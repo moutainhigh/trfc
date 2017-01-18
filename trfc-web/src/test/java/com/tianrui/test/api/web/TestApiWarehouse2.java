@@ -32,7 +32,11 @@ public class TestApiWarehouse2 {
 		
 	    // 表单参数与get形式一样
 		connection.setDoOutput(true);// 是否输入参数
+<<<<<<< HEAD
+//        params.append("p").append("=").append(JSON.toJSONString(getParam1()));
+=======
         //params.append("p").append("=").append(JSON.toJSONString(getParam1()));
+>>>>>>> 7caad9394e8992396c96e29f65ae112289d5e2c6
         
         String aa =params.toString();
         System.out.println(aa);
