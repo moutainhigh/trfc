@@ -7,45 +7,6 @@
 <title>销售申请单</title>
 <!-- 引用公共header部分 -->
 <jsp:include page="../../common/base/header_busi.jsp"></jsp:include>
-<!-- 
-<style type="text/css">
-.bootstrap-select>.dropdown-toggle {
-	padding: 5px 12px !important;
-	border-radius: 0px !important;
-	border: 0px !important;
-}
-
-.bootstrap-select:not ([class*="col-"] ):not ([class*="form-control"] ):not
-	(.input-group-btn ) {
-	width: 100% !important;
-}
-
-.bootstrap-select.btn-group .dropdown-toggle .filter-option {
-	text-align: center !important;
-}
-
-.bootstrap-select.btn-group .dropdown-toggle .caret {
-	display: none !important;
-}
-
-.btn-default.active, .btn-default.focus, .btn-default:active,
-	.btn-default:focus, .btn-default:hover, .open>.dropdown-toggle.btn-default
-	{
-	color: #333 !important;
-	background-color: #f3f3f3 !important;
-	border-color: #adadad !important;
-}
-
-.bootstrap-select.btn-group .dropdown-menu.inner {
-	max-height: 200px !important;
-}
-
-.bootstrap-select.btn-group .dropdown-menu {
-	top: auto;
-	bottom: 100%;
-	margin-bottom: 2px;
-}
-</style> -->
 </head>
 <body>
 	<div class="it_admin">
@@ -82,7 +43,13 @@
 									</select>
 								</div>
 								<div class="intel_solo">
-									<label>客户：</label> <input id="s_customerid" type="text">
+									<label>客户：</label>
+									<select id="s_customerid" class="form-control">
+										<option value="">请选择</option>	
+										<c:forEach items="${customer }" var="c">
+											<option value="${c.id }">${c.name }</option>
+										</c:forEach>
+									</select>
 								</div>
 								<div class="intel_solo">
 									<label>开始时间：</label> <input id="s_starttime" type="text"
@@ -217,7 +184,13 @@
 									class="readOnlyText" readonly="true">
 							</div>
 							<div class="alt_edit_div">
-								<label>订单类型：</label> <input id="a_billtype" type="text">
+								<label>订单类型：</label>
+								<select id="a_billtype" class="form-control">
+									<option value="">请选择</option>
+									<c:forEach items="${billType }" var="b">
+										<option value="${b.id }">${b.name }</option>
+									</c:forEach>
+								</select>
 							</div>
 							<div class="alt_edit_div">
 								<label>业务日期：</label> <input id="a_billtimeStr" type="text"
@@ -235,7 +208,7 @@
 									class="readOnlyText" class="readOnlyText" readonly="true">
 							</div>
 							<div class="alt_edit_div">
-								<label>销售组织：</label> <input id="a_orgname" type="text"
+								<label>销售组织：</label> <input id="a_orgname" type="text" value="${orgname }" orgid="${orgid }"
 									class="readOnlyText" class="readOnlyText" readonly="true">
 							</div>
 							<div class="alt_edit_div">
@@ -248,7 +221,7 @@
 									readonly="true">
 							</div>
 							<div class="alt_edit_div">
-								<label>制单人：</label> <input id="a_creatorname" type="text"
+								<label>制单人：</label> <input id="a_creatorname" type="text" value="${currname }" creator="${currid }"
 									class="readOnlyText" class="readOnlyText" readonly="true">
 							</div>
 						</div>
@@ -421,7 +394,12 @@
 									class="readOnlyText" readonly="true">
 							</div>
 							<div class="alt_edit_div">
-								<label>订单类型：</label> <input id="u_billtype" type="text" readonly>
+								<label>订单类型：</label>
+								<select id="u_billtype" class="form-control">
+									<c:forEach items="${billType }" var="b">
+										<option value="${b.id }">${b.name }</option>
+									</c:forEach>
+								</select>
 							</div>
 							<div class="alt_edit_div">
 								<label>业务日期：</label> <input id="u_billtimeStr" type="text"
@@ -514,8 +492,7 @@
 	</div>
 	<!-- 引用公共footer部分 -->
 	<jsp:include page="../../common/base/footer_busi.jsp"></jsp:include>
-	
-	<script type="text/javascript" src="/javascript/bootstrap-select.js"></script>
-	<script type="text/javascript" src="/javascript/businessManage/salesManage/salesApplication.js"></script>
+	<script type="text/javascript"
+		src="/javascript/businessManage/salesManage/salesApplication.js"></script>
 </body>
 </html>
