@@ -4,123 +4,16 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>index</title>
-
-<!-- 引用公共header部分 -->
+<title>新增提货通知单</title>
 <jsp:include page="../../common/base/header_busi.jsp"></jsp:include>
-<script type="text/javascript" src="${staticBasePath }/js/dateutil.js"></script>
-
 </head>
 <body>
 	<div class="it_admin">
-		<div class="left ">
-			<div class="user">
-				<a href="#" data-toggle="dropdown" data-target="#menu-messages"
-					class="dropdown-toggle"> <img src="${basePath }/images/tx.jpg"
-					class="img-circle"> <label>超级管理员</label> <i class="iconfont">&#xe602;</i>
-				</a>
-				<ul class="dropdown-menu">
-					<li><a data-toggle="modal" data-target="#account"><i
-							class="iconfont">&#xe60e;</i>个人资料</a></li>
-					<li class="divider"></li>
-					<li><a data-toggle="modal" data-target="#password"><i
-							class="iconfont">&#xe60d;</i> 设置</a></li>
-				</ul>
-			</div>
-			<div class="menu">
-				<label>菜单</label> <i class="iconfont fr">&#xe61a;</i>
-			</div>
-			<div class="menu_collap">
-				<ul class="typelist ">
-					<a href="#ityewu" data-toggle="collapse" class="menu_collap_tit">
-						<label>业务管理</label> <span><i class="iconfont">&#xe604;</i></span>
-					</a>
-
-					<div class="in" id="ityewu">
-						<li class="active"><a href="../cg/cg_index.html"> <i
-								class="iconfont">&#xe617;</i> <label>采购管理</label>
-						</a></li>
-						<li><a href="../sell/sell_apply.html"> <i
-								class="iconfont">&#xe615;</i> <label>销售管理</label>
-						</a></li>
-						<li><a> <i class="iconfont">&#xe614;</i> <label>其他业务</label>
-						</a></li>
-						<li><a> <i class="iconfont">&#xe618;</i> <label>质控管理</label>
-						</a></li>
-					</div>
-					<a href="#itdangan" data-toggle="collapse" class="menu_collap_tit">
-						<label>基础档案</label> <span><i class="iconfont">&#xe604;</i></span>
-					</a>
-
-					<div class="in" id="itdangan">
-						<li><a href="../file_nc/client.html"> <i class="iconfont">&#xe617;</i>
-								<label>NC档案</label>
-						</a></li>
-						<li><a href="../file_jil/car.html"> <i class="iconfont">&#xe617;</i>
-								<label>计量档案</label>
-						</a></li>
-						<li><a href="../file-other/car.html"> <i class="iconfont">&#xe617;</i>
-								<label>其他档案</label>
-						</a></li>
-					</div>
-				</ul>
-			</div>
-		</div>
-		<div class="leftmini hide">
-			<div class="user">
-				<a href="#" data-toggle="dropdown" data-target="#menu-messages"
-					class="dropdown-toggle"> <img src="${basePath }/images/tx.jpg"
-					class="img-circle">
-				</a>
-				<ul class="dropdown-menu">
-					<li><a data-toggle="modal" data-target="#account"><i
-							class="iconfont">&#xe60e;</i>个人资料</a></li>
-					<li class="divider"></li>
-					<li><a data-toggle="modal" data-target="#password"><i
-							class="iconfont">&#xe60d;</i> 设置</a></li>
-				</ul>
-			</div>
-			<div class="menu2">
-				<i class="iconfont">&#xe635;</i>
-			</div>
-			<ul class="typelist">
-				<li class="active" data-toggle="tooltip" data-placement="right"
-					title="Tooltip on left"><i class="iconfont">&#xe617;</i></li>
-				<li><i class="iconfont">&#xe615;</i></li>
-				<li><i class="iconfont">&#xe614;</i></li>
-				<li><i class="iconfont">&#xe618;</i></li>
-				<li><i class="iconfont">&#xe619;</i></li>
-				<li><i class="iconfont">&#xe613;</i></li>
-				<li><i class="iconfont">&#xe612;</i></li>
-				<li><i class="iconfont">&#xe610;</i></li>
-				<li><i class="iconfont">&#xe60f;</i></li>
-				<li><i class="iconfont">&#xe611;</i></li>
-			</ul>
-		</div>
+		<jsp:include page="../../common/base/left_busi.jsp"></jsp:include>
 		<div class="right">
-			<div class="intel_tab">
-				<!--tab切换标题-->
-				<ul class="intel_menu">
-					<li class="select">销售申请单</li>
-					<li>提货通知单</li>
-					<li>销售车辆状态</li>
-				</ul>
-				<!--tab切换标题end-->
-				<div class="top_opera">
-					<a><i class="iconfont" data-toggle="tooltip"
-						data-placement="left" title="首页">&#xe605;</i></a> <a><i
-						class="iconfont" data-toggle="tooltip" data-placement="left"
-						title="控制面板">&#xe606;</i></a> <a><i class="iconfont"
-						data-toggle="tooltip" data-placement="left" title="退出">&#xe607;</i></a>
-				</div>
-			</div>
+			<jsp:include page="../../common/base/right_head_busi.jsp"></jsp:include>
 			<!--tab切换的内容-->
 			<div class="intel_tabbox">
-				<!--采购申请单begin-->
-				<div class="intel_tabcont hide"></div>
-				<!--采购申请单end-->
-
-				<!--到货通知单begin-->
 				<div class="intel_tabcont ">
 					<div class="intel_search">
 						<div class="intel_bggray">
@@ -157,8 +50,8 @@
 									value="${code }" readonly class="readOnlyText">
 							</div>
 							<div class="daohuo_add_solo">
-								<label>制单日期：</label> <input id="createtimeStr" type="text" value="${createtimeStr }" readonly
-									class="readOnlyText">
+								<label>制单日期：</label> <input id="createtimeStr" type="text"
+									value="${createtimeStr }" readonly class="readOnlyText">
 							</div>
 							<div class="daohuo_add_solo">
 								<label>客户：</label> <input id="customername" type="text" readonly
@@ -169,8 +62,8 @@
 									class="readOnlyText">
 							</div>
 							<div class="daohuo_add_solo">
-								<label>销售组织：</label> <input id="orgname" orgid="${orgid }" value="${orgname }" type="text" readonly
-									class="readOnlyText">
+								<label>销售组织：</label> <input id="orgname" orgid="${orgid }"
+									value="${orgname }" type="text" readonly class="readOnlyText">
 							</div>
 							<div class="daohuo_add_solo">
 								<label>物料：</label> <input id="materielname" type="text" readonly
@@ -181,8 +74,8 @@
 									readonly class="readOnlyText">
 							</div>
 							<div class="daohuo_add_solo">
-								<label>单位：</label> <input id="unit" type="text" value="吨" readonly
-									class="readOnlyText">
+								<label>单位：</label> <input id="unit" type="text" value="吨"
+									readonly class="readOnlyText">
 							</div>
 							<div class="daohuo_add_solo">
 								<label>订单数量：</label> <input id="salessum" type="text" readonly
@@ -233,8 +126,8 @@
 												class="iconfont">&#xe680;</i></a>
 										</div>
 										<div class="daohuo_add_solo">
-											<label>身份证号：</label> <input id="identityno" type="text" readonly
-												class="readOnlyText">
+											<label>身份证号：</label> <input id="identityno" type="text"
+												readonly class="readOnlyText">
 										</div>
 										<div class="daohuo_add_solo">
 											<label>RFID：</label> <input id="rfid" type="text" readonly
@@ -242,7 +135,8 @@
 										</div>
 
 										<div class="daohuo_add_solo">
-											<label>提货量：</label> <input id="takeamount" type="text"> <span>吨</span>
+											<label>提货量：</label> <input id="takeamount" type="text">
+											<span>吨</span>
 
 										</div>
 										<div class="daohuo_add_solo">
@@ -253,8 +147,8 @@
 												class="readOnlyText">
 										</div>
 										<div class="daohuo_add_solo">
-											<label>出厂编号：</label> <input id="serialnumber" type="text" readonly
-												class="readOnlyText">
+											<label>出厂编号：</label> <input id="serialnumber" type="text"
+												readonly class="readOnlyText">
 										</div>
 										<div class="daohuo_add_solo">
 											<label>IC卡号：</label> <input type="text" readonly
@@ -416,10 +310,12 @@
 				<div class="modal-body">
 					<div class="alt_edit">
 						<div class="alt_edit_div">
-							<label>车辆编号：</label> <input id="v_code" type="text" value="${v_code }" class="readOnlyText" readonly>
+							<label>车辆编号：</label> <input id="v_code" type="text"
+								value="${v_code }" class="readOnlyText" readonly>
 						</div>
 						<div class="alt_edit_div">
-							<label>运输类型：</label> <select id="v_transporttype" class="form-control">
+							<label>运输类型：</label> <select id="v_transporttype"
+								class="form-control">
 								<option value="">请选择</option>
 								<option value="0">非倒运</option>
 								<option value="1">倒运</option>
@@ -451,20 +347,24 @@
 							<label>地址： </label> <input id="v_address" type="text">
 						</div>
 						<div class="alt_edit_div">
-							<label>所属组织：</label> <input id="v_orgname" orgid="${orgid }" value="${orgname }" type="text" class="readOnlyText" readonly>
+							<label>所属组织：</label> <input id="v_orgname" orgid="${orgid }"
+								value="${orgname }" type="text" class="readOnlyText" readonly>
 						</div>
 						<div class="alt_edit_div">
-							<label>有效性： </label> <input id="v_isvalid" type="checkbox" checked>
+							<label>有效性： </label> <input id="v_isvalid" type="checkbox"
+								checked>
 						</div>
 						<div class="alt_edit_textarea">
 							<label>备注： </label>
-							<textarea id="v_remarks" class="form-control" rows="1" style="height: 60px;"></textarea>
+							<textarea id="v_remarks" class="form-control" rows="1"
+								style="height: 60px;"></textarea>
 						</div>
 					</div>
 
 				</div>
 				<div class="modal-footer">
-					<button id="addVehicleCommitBtn" type="button" class="btn btn-primary">确定</button>
+					<button id="addVehicleCommitBtn" type="button"
+						class="btn btn-primary">确定</button>
 					<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
 				</div>
 			</div>
@@ -488,13 +388,16 @@
 				<div class="modal-body">
 					<div class="alt_caradd">
 						<div class="alt_edit_div">
-							<label>司机编号：</label> <input id="d_code" type="text" value="${d_code }" class="readOnlyText" readonly>
+							<label>司机编号：</label> <input id="d_code" type="text"
+								value="${d_code }" class="readOnlyText" readonly>
 						</div>
 						<div class="alt_edit_div">
-							<label>司机内码：</label> <input id="d_internalcode" type="text" value="${d_internalcode }" class="readOnlyText" readonly>
+							<label>司机内码：</label> <input id="d_internalcode" type="text"
+								value="${d_internalcode }" class="readOnlyText" readonly>
 						</div>
 						<div class="alt_edit_div">
-							<label class="colorred"> *司机名称：</label> <input id="d_name" type="text">
+							<label class="colorred"> *司机名称：</label> <input id="d_name"
+								type="text">
 						</div>
 						<div class="alt_edit_div">
 							<label>司机简称：</label> <input id="d_abbrname" type="text">
@@ -503,43 +406,42 @@
 							<label>地址：</label> <input id="d_address" type="text">
 						</div>
 						<div class="alt_edit_div">
-							<label>所属组织：</label> <input id="d_orgname" orgid="${orgid }" value="${orgname }" type="text">
+							<label>所属组织：</label> <input id="d_orgname" orgid="${orgid }"
+								value="${orgname }" type="text">
 						</div>
 						<div class="alt_edit_div">
-							<label class="colorred"> *电话：</label> <input id="d_telephone" type="text">
+							<label class="colorred"> *电话：</label> <input id="d_telephone"
+								type="text">
 						</div>
 
 						<div class="alt_edit_div">
-							<label class="colorred"> *身份证号：</label> <input id="d_identityno" type="text">
+							<label class="colorred"> *身份证号：</label> <input id="d_identityno"
+								type="text">
 						</div>
 						<div class="alt_edit_div">
-							<label>有效性： </label> <input id="d_isvalid" type="checkbox" checked>
+							<label>有效性： </label> <input id="d_isvalid" type="checkbox"
+								checked>
 						</div>
 
 						<div class="alt_edit_textarea">
 							<label>备注： </label>
-							<textarea id="d_remarks" class="form-control" rows="1" style="height: 60px;"></textarea>
+							<textarea id="d_remarks" class="form-control" rows="1"
+								style="height: 60px;"></textarea>
 						</div>
 					</div>
 
 				</div>
 				<div class="modal-footer">
-					<button id="addDriverCommitBtn" type="button" class="btn btn-primary">确定</button>
+					<button id="addDriverCommitBtn" type="button"
+						class="btn btn-primary">确定</button>
 					<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
 				</div>
 			</div>
 		</div>
 	</div>
 	<!--司机新增end-->
-	<script type="text/javascript" src="${basePath }/js/jquery-1.11.1.js"></script>
-	<script type="text/javascript" src="${basePath }/js/bootstrap.min.js"></script>
-	<script type="text/javascript"
-		src="${basePath }/js/bootstrap-treeview.js"></script>
-	<script type="text/javascript"
-		src="${basePath }/js/jquery.pagination.js"></script>
-	<script type="text/javascript" src="${basePath }/js/layer/layer.js"></script>
-	<script type="text/javascript"
-		src="${basePath }/js/businessManage/salesManage/salesArriveAdd.js"></script>
+	<jsp:include page="../../common/base/footer_busi.jsp"></jsp:include>
+	<script type="text/javascript" src="${basePath }/js/businessManage/salesManage/salesArriveAdd.js"></script>
 	<script type="text/javascript">
 		// 录入、参照tab切换菜单
 		var cg_li = $('.cg_tabtit ul li');
