@@ -10,6 +10,7 @@ $(function(){
 			editItemUrl:"/trfc/system/base/dataDict/editItem",
 			deleteItemUrl:"/trfc/system/base/dataDict/deleteItem"
 	};
+//	console.log('OK');
 	//加载页面，显示数据字典列表(默认第一条数据字典被选中)
 	listSystemDataDicts();
 	//绑定数据字典类别增加按钮点击事件

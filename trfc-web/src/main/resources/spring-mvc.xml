@@ -52,8 +52,7 @@
 		
 	<aop:config>
 		<aop:aspect ref="apiParamPointcut">
-			<aop:pointcut id="apiPointcut" expression="execution(* com.tianrui.web.api.datacenter.action..*(..))"/>
-			<aop:pointcut id="apiPointcut2" expression="execution(* com.tianrui.web.api.subsystem.action..*(..))"/>
+			<aop:pointcut id="apiPointcut" expression="execution(* com.tianrui.web.api.datacenter.action..*(..)) or execution(* com.tianrui.web.api.subsystem.action..*(..))"/>
 			<aop:around pointcut-ref="apiPointcut" method="forAround"/>
 		</aop:aspect>
 	</aop:config>	

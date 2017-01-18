@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.tianrui.api.req.basicFile.nc.CustomerManageQuery;
 import com.tianrui.service.bean.basicFile.nc.CustomerManage;
+import com.tianrui.service.bean.basicFile.nc.WarehouseManage;
 
 /**
  * 客户管理Mapper接口
@@ -15,6 +16,8 @@ public interface CustomerManageMapper {
     int deleteByPrimaryKey(String id);
 
     int insert(CustomerManage record);
+    
+    int insertBatch(List<CustomerManage> list);
 
     int insertSelective(CustomerManage record);
 

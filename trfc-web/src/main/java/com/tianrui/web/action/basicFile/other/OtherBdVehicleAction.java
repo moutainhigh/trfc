@@ -16,7 +16,7 @@ import com.tianrui.smartfactory.common.constants.ErrorCode;
 import com.tianrui.smartfactory.common.vo.Result;
 
 @Controller
-@RequestMapping("other/otherVehicle")
+@RequestMapping("/trfc/other/otherVehicle")
 public class OtherBdVehicleAction {
 	
 	private Logger log = LoggerFactory.getLogger(OtherBdVehicleAction.class);

@@ -1,5 +1,8 @@
 package com.tianrui.api.intf.basicFile.nc;
 
+import java.util.List;
+
+import com.alibaba.fastjson.JSONObject;
 import com.tianrui.api.req.basicFile.nc.CustomerManageQuery;
 import com.tianrui.api.req.basicFile.nc.CustomerManageSave;
 import com.tianrui.api.resp.basicFile.nc.CustomerManageResp;
@@ -23,5 +26,7 @@ public interface ICustomerManageService {
 	Result findMaxUtc(CustomerManageQuery query) throws Exception;
 
 	CustomerManageResp findOne(CustomerManageQuery query) throws Exception;
+	
+	Result updateDataWithDC(List<JSONObject> list )throws Exception;
 
 }

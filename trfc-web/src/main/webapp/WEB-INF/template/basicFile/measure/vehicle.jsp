@@ -6,9 +6,6 @@
 <title>index</title>
 <!-- 引用公共header部分 -->
 <jsp:include page="../../common/base/header_busi.jsp"></jsp:include>
-
-<link href="${staticBasePath }/css/pagination.css" rel="stylesheet">
-<script type="text/javascript" src="${staticBasePath }/js/dateutil.js"></script>
 </head>
 <body>
 <div class="it_admin">
@@ -17,7 +14,13 @@
 	<div class="right">
 		<!-- 引用公共right部分 -->
 		<jsp:include page="../../common/base/right_head_busi.jsp"></jsp:include>
-
+		<div class="intel_tab">
+			<!--tab切换标题-->
+			<ul class="intel_menu">
+				<li class="select"><a href="/trfc/vehicle/main">车辆管理</a></li>
+				<li><a href="/trfc/driver/main">司机管理</a></li>
+			</ul>
+		</div>
 		<!--tab切换的内容-->
 		<div class="intel_tabbox">
 			<!--采购申请单begin-->
@@ -323,35 +326,35 @@
 	</div>
 	<!--编辑end-->
 	<!--删除begin-->
-	<div class="modal fade" id="delView" tabindex="-1" role="dialog"
-		aria-labelledby="myModalLabel">
-		<div class="modal-dialog" role="document" style="width: 400px;">
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal"
-						aria-label="Close">
-						<span aria-hidden="true">&times;</span>
-					</button>
-					<h4 class="modal-title" id="modal-title">删除</h4>
-				</div>
-				<div class="modal-body">
-					<div class="alert_qf">
-						<img src="/resources/images/tishi.png" style="width: 20px;margin-top: -3px;">
-						    <label id="modal-content">删除操作不可恢复，您确定要继续么？</label>
+		<div class="modal fade" id="delView" tabindex="-1" role="dialog"
+			aria-labelledby="myModalLabel">
+			<div class="modal-dialog" role="document" style="width: 400px;">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal"
+							aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+						<h4 class="modal-title" id="modal-title">删除</h4>
 					</div>
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-primary" id="deleteBtn">确定</button>
-					<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+					<div class="modal-body">
+						<div class="alert_qf">
+							<img src="/resources/images/tishi.png"
+								style="width: 20px; margin-top: -3px;"> <label
+								id="modal-content">删除操作不可恢复，您确定要继续么？</label>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-primary" id="deleteBtn">确定</button>
+						<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-</div>
-	<!--删除end-->
-	<script type="text/javascript" src="/javascript/basicFile/measure/vehicle.js"></script>
-	
 	<!-- 引用公共footer部分 -->
 	<jsp:include page="../../common/base/footer_busi.jsp"></jsp:include>
+	<!--删除end-->
+	<script type="text/javascript" src="/javascript/basicFile/measure/vehicle.js"></script>
 </body>
 </html>

@@ -89,7 +89,7 @@ function listOtherVehicleAction(pageNo){
 				var vehicle=list[i];
 				var tr=$('<tr><td>'+((pageNo-1)*pageSize+i+1)+'</td><td>'+vehicle.code+'</td><td>'+vehicle.innercode+'</td><td>'+vehicle.name+'</td><td>'+vehicle.orgname+
 						'</td><td>'+vehicle.remark+'</td><td>'+'<span class="update_vehicle"><a data-toggle="modal" data-target="#edit" ><i class="iconfont" data-toggle="tooltip" data-placement="left" title="编辑">&#xe600;</i></a>'+
-						'</span><span class="delete_vehicle">'+'<a data-toggle="modal" data-target="#dele" ><i class="iconfont" data-toggle="tooltip" data-placement="left" title="删除">&#xe63d;</i></a>'+'</span></td></tr>');
+						'</span><span class="delete_vehicle">'+'<a><i class="iconfont" data-toggle="tooltip" data-placement="left" title="删除">&#xe63d;</i></a>'+'</span></td></tr>');
 				tr.data(vehicle);
 //				$('.edit').closest('tr').data();
 				tbody.append(tr);

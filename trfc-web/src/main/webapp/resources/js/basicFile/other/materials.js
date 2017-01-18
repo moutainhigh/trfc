@@ -1,4 +1,17 @@
 $(function(){
+	
+	
+	//请求路径
+	var URL = {
+			toInsertUrl:"/trfc/other/otherVehicle/toInsert",
+			addOtherBdMaterialUrl:"/trfc/other/otherVehicle/addOtherBdMaterial",
+			toUpdateUrl:"/trfc/other/otherVehicle/toUpdate",
+			updateOtherBdMaterialUrl:"/trfc/other/otherVehicle/updateOtherBdMaterial",
+			deleteOtherBdMaterialUrl:"/trfc/other/otherVehicle/deleteOtherBdMaterial",
+			pageUrl:"/trfc/other/otherVehicle/page",
+	};
+	
+	
 	//1加载数据显示列表	
 	MaterialShowAction(1);
 	
@@ -52,7 +65,7 @@ function searchAction(){
 
 //4获取新增 时所需展示的 数据
 function toInsert(){
-	var url = "toInsert";
+	var url = URL.toInsertUrl;
 	var params = {};
 	$.post(url,params,function(result){
 		if(result.code=='000000'){
@@ -67,7 +80,7 @@ function toInsert(){
 }
 //提交需要添加的数据
 function insertAction(){
-	var url = "addOtherBdMaterial";
+	var url = URL.addOtherBdMaterialUrl;
 	var code = $('#material_code').val();
 	var innercode = $('#material_innercode').val();
 	var name = $('#material_name').val();
@@ -103,7 +116,7 @@ function insertAction(){
 function toModify(){
 	var tr = $(this).parent().parent();
 	var id = tr.data('material_id');
-	var url = "toUpdate";
+	var url = URL.toUpdateUrl;
 	var param = {"id":id};
 	pageData.materialId=id;
 	$.post(url,param,function(result){
@@ -131,7 +144,7 @@ function toModify(){
 
 //提交修改
 function modifyAction(){
-	var url = "updateOtherBdMaterial";
+	var url = URL.updateOtherBdMaterialUrl;
 	//通过公共对象获得id
 	var id = pageData.materialId;
 	var name = $('#material_modify_name').val();
@@ -175,7 +188,7 @@ function toDelete(){
 
 //2执行删除操作
 function deleteAction(){	
-	var url = "deleteOtherBdMaterial";
+	var url = URL.deleteOtherBdMaterialUrl;
 	var id = pageData.materialId;
 	var param = {id:id};
 	$.post(url,param,function(result){
@@ -200,7 +213,7 @@ function pageCallback(pageNo){
 }
 //1加载并显示数据
 function MaterialShowAction(pageNo){
-	var url='page';
+	var url=URL.pageUrl;
 	//var url = "/trfc-web/Other/page";
 	//获取当前页面记录数	
 	var pageSize=$('#pageSize').val();
