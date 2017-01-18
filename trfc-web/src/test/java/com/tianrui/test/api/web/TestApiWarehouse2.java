@@ -50,36 +50,7 @@ public class TestApiWarehouse2 {
 		
 		
 	}
-	static ApiParam<List<LocalBdStordoc>> getParam1(){
-		ApiParam<List<LocalBdStordoc>> api =new ApiParam<List<LocalBdStordoc>>();
-		
-		
-		List<LocalBdStordoc> list =new ArrayList<LocalBdStordoc>();
-		LocalBdStordoc bean1 =new LocalBdStordoc();
-		bean1.setId("AAAAS");
-		bean1.setTs(new Date());
-		bean1.setCreateTime(System.currentTimeMillis());
-		list.add(bean1);
-		LocalBdStordoc bean2 =new LocalBdStordoc();
-		bean2.setId("AAAAS2");
-		bean2.setTs(new Date());
-		bean2.setCreateTime(System.currentTimeMillis());
-		list.add(bean1);
-		list.add(bean2);
-		api.setBody(list);
- 		
-		Head head =new Head();
-		head.setCallSource("1");
-		head.setCallType("2");
-		head.setCallTime("2017-01-07 11:01:00");
-		head.setUserId("111111");
-		
-		api.setHead(head);
-		
-		setkey(api);
-		setMd5(api);
-		return api;
-	}
+	
 	static void setkey( ApiParam api){
 		api.getHead().setKey(Md5Utils.MD5(Constant.apiAuthKey+api.getHead().getCallTime()));
 	}
