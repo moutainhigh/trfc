@@ -1,6 +1,7 @@
 package com.tianrui.service.impl.businessManage.salesManage;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -16,7 +17,6 @@ import com.alibaba.fastjson.JSONObject;
 import com.tianrui.api.intf.basicFile.nc.ICustomerManageService;
 import com.tianrui.api.intf.businessManage.salesManage.ISalesApplicationDetailService;
 import com.tianrui.api.intf.businessManage.salesManage.ISalesApplicationService;
-import com.tianrui.api.intf.system.auth.ISystemUserService;
 import com.tianrui.api.req.basicFile.nc.CustomerManageQuery;
 import com.tianrui.api.req.businessManage.salesManage.SalesApplicationDetailQuery;
 import com.tianrui.api.req.businessManage.salesManage.SalesApplicationDetailSave;
@@ -28,7 +28,9 @@ import com.tianrui.service.bean.businessManage.salesManage.SalesApplication;
 import com.tianrui.service.bean.businessManage.salesManage.SalesApplicationDetail;
 import com.tianrui.service.mapper.businessManage.salesManage.SalesApplicationDetailMapper;
 import com.tianrui.service.mapper.businessManage.salesManage.SalesApplicationMapper;
+import com.tianrui.smartfactory.common.constants.Constant;
 import com.tianrui.smartfactory.common.constants.ErrorCode;
+import com.tianrui.smartfactory.common.utils.DateUtil;
 import com.tianrui.smartfactory.common.utils.UUIDUtil;
 import com.tianrui.smartfactory.common.vo.PaginationVO;
 import com.tianrui.smartfactory.common.vo.Result;
@@ -46,9 +48,6 @@ public class SalesApplicationService implements ISalesApplicationService {
 	
 	@Autowired
 	private ICustomerManageService customerManageService;
-	
-	@Autowired
-	private ISystemUserService systemUserService;
 	
 	@Override
 	public PaginationVO<SalesApplicationResp> page(SalesApplicationQuery query) throws Exception{
@@ -87,7 +86,6 @@ public class SalesApplicationService implements ISalesApplicationService {
 			sa.setStatus("0");
 			sa.setSource("1");
 			sa.setState("1");
-			sa.setBilltime(System.currentTimeMillis());
 			sa.setCreator(save.getCreator());
 			sa.setCreatetime(System.currentTimeMillis());
 			sa.setModifier(save.getCreator());
@@ -147,15 +145,12 @@ public class SalesApplicationService implements ISalesApplicationService {
 	
 	@Transactional
 	@Override
-	public Result audit(SalesApplicationSave save) {
+	public Result audit(String id) {
 		Result result = Result.getSuccessResult();
-		if(save != null && StringUtils.isNotBlank(save.getId())){
+		if(StringUtils.isNotBlank(id)){
 			SalesApplication sa = new SalesApplication();
-			sa.setId(save.getId());
+			sa.setId(id);
 			sa.setStatus("1");
-			sa.setAuditid(save.getAuditid());
-			sa.setAuditname(save.getAuditname());
-			sa.setAudittime(System.currentTimeMillis());
 			if(salesApplicationMapper.updateByPrimaryKeySelective(sa) > 0){
 				result.setData("操作成功！");
 			}else{
@@ -169,15 +164,12 @@ public class SalesApplicationService implements ISalesApplicationService {
 	
 	@Transactional
 	@Override
-	public Result unaudit(SalesApplicationSave save) {
+	public Result unaudit(String id) {
 		Result result = Result.getSuccessResult();
-		if(save != null && StringUtils.isNotBlank(save.getId())){
+		if(StringUtils.isNotBlank(id)){
 			SalesApplication sa = new SalesApplication();
-			sa.setId(save.getId());
+			sa.setId(id);
 			sa.setStatus("0");
-			sa.setAuditid(save.getAuditid());
-			sa.setAuditname(save.getAuditname());
-			sa.setAudittime(System.currentTimeMillis());
 			if(salesApplicationMapper.updateByPrimaryKeySelective(sa) > 0){
 				result.setData("操作成功！");
 			}else{
@@ -191,14 +183,12 @@ public class SalesApplicationService implements ISalesApplicationService {
 	
 	@Transactional
 	@Override
-	public Result delete(SalesApplicationQuery query) {
+	public Result delete(String id) {
 		Result result = Result.getSuccessResult();
-		if(query != null && StringUtils.isNotBlank(query.getId())){
+		if(StringUtils.isNotBlank(id)){
 			SalesApplication sa = new SalesApplication();
-			sa.setId(query.getId());
+			sa.setId(id);
 			sa.setState("0");
-			sa.setModifier(query.getCurrid());
-			sa.setModifytime(System.currentTimeMillis());
 			if(salesApplicationMapper.updateByPrimaryKeySelective(sa) > 0){
 				result.setData("操作成功！");
 			}else{
@@ -242,9 +232,6 @@ public class SalesApplicationService implements ISalesApplicationService {
 			SalesApplicationDetailQuery query = new SalesApplicationDetailQuery();
 			query.setSalesid(bean.getId());
 			resp.setDetailResp(salesApplicationDetailService.findListBySalesApplicationId(query).get(0));
-			if(StringUtils.isNotBlank(resp.getCreator())){
-				resp.setCreatorname(systemUserService.getUser(resp.getCreator()).getName());
-			}
 		}
 		return resp;
 	}
@@ -312,24 +299,25 @@ public class SalesApplicationService implements ISalesApplicationService {
 		item.setState("1");
 		//来源
 		item.setSource("0");
-		//类型
-		item.setBilltype(jsonItem.getString("sourceType"));
+		//类型jsonItem.getString("sourceType")
+		item.setBilltype("1002P11000000000SEKU");
 		//客户
 		item.setCustomerid(jsonItem.getString("customerId"));
 		//订单日期
-		item.setBilltime(jsonItem.getString("orderData"));
+		item.setBilltime(DateUtil.parse(jsonItem.getString("orderData"), "yyyy-MM-dd HH:mm:ss"));
 		//业务员 TODO
 		//销售组织
-		item.setOrgid(jsonItem.getString("orgId"));
-		item.setOrgname(jsonItem.getString("orgName"));
-		//部门名称
-		item.setDepartmentid(jsonItem.getString("deptId"));
-		item.setDepartmentname(jsonItem.getString("deptName"));
+		item.setOrgid(Constant.ORG_ID);
+		item.setOrgname(Constant.ORG_NAME);
+		//部门名称jsonItem.getString("deptId")
+		item.setDepartmentid("1111");
+		//jsonItem.getString("deptName")
+		item.setDepartmentname("工程部");
 		//运输公司 //TODO transComp
-		//制单人
-		item.setCreator(jsonItem.getString("singleId"));
+		//制单人 jsonItem.getString("singleId")
+		item.setCreator("0001P11000000002AB56");
 		//制单日期
-		item.setCreatetime(jsonItem.getString("singleData"));
+		item.setCreatetime(DateUtil.parse(jsonItem.getString("singleData"), "yyyy-MM-dd HH:mm:ss"));
 		//审核人
 		item.setAuditid(jsonItem.getString("auditPerson"));
 		item.setAuditname(jsonItem.getString("auditData"));
