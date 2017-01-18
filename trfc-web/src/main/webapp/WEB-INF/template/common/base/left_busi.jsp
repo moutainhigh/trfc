@@ -3,7 +3,7 @@
 	<div class="user">
 		<a href="#" data-toggle="dropdown" data-target="#menu-messages"
 			class="dropdown-toggle"> <img
-			src="${staticBasePath}/images/tx.jpg" class="img-circle"> <label>超级管理员</label>
+			src="${staticBasePath}/images/tx.jpg" class="img-circle"> <label>${sessionScope.userName }</label>
 		</a>
 	</div>
 	<div class="menu">

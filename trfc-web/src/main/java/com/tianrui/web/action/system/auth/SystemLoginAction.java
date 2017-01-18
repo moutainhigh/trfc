@@ -31,15 +31,12 @@ public class SystemLoginAction {
 	public Result login(UserReq req,HttpServletRequest request){
 		Result rs= Result.getErrorResult();
 		try {
-//			Cookie cookie = new Cookie("userId","");
-//			resp.addCookie(cookie);
-			//session.setAttribute("userId", "123456");
 			rs = systemUserService.login(req);
 			if(rs.getData()!=null){
 				SystemUserResp user = (SystemUserResp)rs.getData();
 				HttpSession session = request.getSession();
 				session.setAttribute("userId", user.getId());
-				
+				session.setAttribute("userName", user.getName());
 			}
 		} catch (Exception e) {
 			log.error(e.getMessage(),e);

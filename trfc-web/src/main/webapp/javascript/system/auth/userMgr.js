@@ -1,8 +1,8 @@
 $(function(){
 	//访问的url
 	var URL={
-		saveUrl:"/system/auth/user/addUser",
-		pageUrl:"/system/auth/user/page",
+		saveUrl:"/trfc/system/auth/user/addUser",
+		pageUrl:"/trfc/system/auth/user/page",
 	}
 	//列表数据加载
 	initData(1);
