@@ -158,10 +158,6 @@
 						var data = result.data;
 						if(data){
 							$('#a_code').val(data.code);
-							$('#a_orgname').attr('orgid', data.orgid);
-							$('#a_orgname').val(data.orgname);
-							$('#a_creatorname').attr('creator', data.creator);
-							$('#a_creatorname').val(data.creatname);
 							$('#a_billtimeStr').val(data.nowDate);
 							addChangeNum($('#a_salessum, #a_taxprice, #a_taxrate, #a_untaxprice'));
 							$('#addView').modal();
@@ -442,7 +438,6 @@
 		var customerid = obj.customerManageResp.id || '';
 		var customername = obj.customerManageResp.name || '';
 		var channelcode = obj.customerManageResp.channelcode || '';
-		var orgname = obj.orgname || '';
 		var salesmanname = obj.customerManageResp.salesmanname || '';
 		var transportationcompany = obj.customerManageResp.transportationcompany || '';
 		var creatorname = obj.creatorname || '';
@@ -453,7 +448,6 @@
 		$('#u_customer').val(customerid);
 		$('#u_customername').val(customername);
 		$('#u_channelcode').val(channelcode);
-		$('#u_orgname').val(orgname);
 		$('#u_salesmanname').val(salesmanname);
 		$('#u_transportationcompany').val(transportationcompany);
 		$('#u_creatorname').val(creatorname);

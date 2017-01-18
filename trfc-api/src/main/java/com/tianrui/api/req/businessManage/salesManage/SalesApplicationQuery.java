@@ -11,6 +11,8 @@ public class SalesApplicationQuery extends BaseReq {
 	private String code;
 
     private String source;
+    
+    private String status;
 
     private String customerid;
     
@@ -27,6 +29,10 @@ public class SalesApplicationQuery extends BaseReq {
     private int start;
     
     private int limit;
+    
+    private String currid;
+    
+    private String currname;
 
 	public String getId() {
 		return id;
@@ -50,6 +56,14 @@ public class SalesApplicationQuery extends BaseReq {
 
 	public void setSource(String source) {
 		this.source = source;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
 	}
 
 	public String getCustomerid() {
@@ -114,6 +128,22 @@ public class SalesApplicationQuery extends BaseReq {
 
 	public void setLimit(int limit) {
 		this.limit = limit;
+	}
+
+	public String getCurrid() {
+		return currid;
+	}
+
+	public void setCurrid(String currid) {
+		this.currid = currid;
+	}
+
+	public String getCurrname() {
+		return currname;
+	}
+
+	public void setCurrname(String currname) {
+		this.currname = currname;
 	}
 
 }

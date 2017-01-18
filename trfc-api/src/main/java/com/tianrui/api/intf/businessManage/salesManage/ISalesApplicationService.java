@@ -14,11 +14,11 @@ public interface ISalesApplicationService {
 
 	Result update(SalesApplicationSave save) throws Exception;
 
-	Result audit(String id);
+	Result audit(SalesApplicationSave save);
 
-	Result unaudit(String id);
+	Result unaudit(SalesApplicationSave save);
 
-	Result delete(String id);
+	Result delete(SalesApplicationQuery query);
 
 	SalesApplicationResp findOne(SalesApplicationQuery query) throws Exception;
 

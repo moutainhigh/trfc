@@ -66,6 +66,10 @@ public class SalesApplicationSave extends BaseReq {
 
     private Double taxrate;
     
+    private String currid;
+    
+    private String currname;
+    
     public String getId() {
         return id;
     }
@@ -304,6 +308,22 @@ public class SalesApplicationSave extends BaseReq {
 
 	public void setTaxrate(Double taxrate) {
 		this.taxrate = taxrate;
+	}
+
+	public String getCurrid() {
+		return currid;
+	}
+
+	public void setCurrid(String currid) {
+		this.currid = currid;
+	}
+
+	public String getCurrname() {
+		return currname;
+	}
+
+	public void setCurrname(String currname) {
+		this.currname = currname;
 	}
 
 }
