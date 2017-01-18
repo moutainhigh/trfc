@@ -122,10 +122,10 @@
 								<h5>新增</h5>
 							</a>
 						</div>
-						<div class="intel_operasolo" id="copyBtn">
+						<!-- <div class="intel_operasolo" id="copyBtn">
 							<i class="iconfont coloradd">&#xe61c;</i>
 							<h5>复制</h5>
-						</div>
+						</div> -->
 					</div>
 					<div class="intel_table">
 						<!--用户表格begin-->
