@@ -5,17 +5,10 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>index</title>
-<meta name="keywords" content=" 天瑞" />
-<meta name="description" content="">
-<meta name="author" content="">
-<link href="${basePath }/css/bootstrap.css" rel="stylesheet">
-<link href="${basePath }/css/base.css" rel="stylesheet">
-<link href="${basePath }/css/style.css" rel="stylesheet">
-<link href="${basePath }/css/pagination.css" rel="stylesheet">
-<!--这个日历控件js必须放头部-->
-<script language="javascript" type="text/javascript"
-	src="${basePath }/js/My97DatePicker/WdatePicker.js"></script>
-<script type="text/javascript" src="${basePath }/js/dateutil.js"></script>
+
+<!-- 引用公共header部分 -->
+<jsp:include page="../../common/base/header_busi.jsp"></jsp:include>
+<script type="text/javascript" src="${staticBasePath }/js/dateutil.js"></script>
 
 </head>
 <body>

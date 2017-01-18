@@ -9,7 +9,7 @@ $(function(){
 	
 	//登陆验证
 	function loginAction(){
-		var url = URl.loginUrl;
+		var url = URL.loginUrl;
 		var account = $('#user_account').val();
 		var pswd = $('#user_password').val();
 		var params = {account:account,pswd:pswd};
