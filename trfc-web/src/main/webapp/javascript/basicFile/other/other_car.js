@@ -28,13 +28,21 @@ $(function(){
 	//绑定修改页面输入名称时,键盘按钮按下事件
 	$('#update_vehicle_name').keyup(updatekeyUpAction);
 });
-
+//请求路径
+var URL = {
+		pageUrl:"/trfc/other/otherVehicle/page",
+		toAddOtherVehicleUrl:"/trfc/other/otherVehicle/toAddOtherVehicle",
+		addOtherVehicleUrl:"/trfc/other/otherVehicle/addOtherVehicle",
+		editOtherVehicleUrl:"/trfc/other/otherVehicle/editOtherVehicle",
+		deleteOtherVehicleUrl:"/trfc/other/otherVehicle/deleteOtherVehicle",
+		checkNameUrl:"/trfc/other/otherVehicle/checkName",
+};
 //显示数据列表
 function listOtherVehicleAction(pageNo){
 	var index = layer.load(2, {
 		  shade: [0.3,'#fff'] //0.1透明度的白色背景
 		});
-	var url='page';
+	var url=URL.pageUrl;
 	//获取当前页面记录数
 	var pageSize=$('#pageSize').val();
 	var name='';
@@ -113,7 +121,7 @@ function pageSizeChangeAction() {
 
 //获取新增时需要的编号和内码
 function addVehicleAction(){
-	var url="toAddOtherVehicle";
+	var url=URL.toAddOtherVehicleUrl;
 	var param={};
 	$.post(url,param,function(result){
 		if(result.code=='000000'){
@@ -144,7 +152,7 @@ function addVehicle(){
 	if($('#vehicle_isvalid').prop('checked')){
 		isvalid = 1;
 	};
-	var url='addOtherVehicle';
+	var url=URL.addOtherVehicleUrl;
 	var param={
 			code:code,
 			innercode:innercode,
@@ -216,8 +224,7 @@ var vehicleData={};
 
 //更改车辆信息
 function updateVehicle() {
-//	console.log('updateVehicle');
-	var url='editOtherVehicle';
+	var url=URL.editOtherVehicleUrl;
 	var isvalid = 0;
 	if($('#update_vehicle_isvalid').prop('checked')){
 		isvalid = 1;
@@ -273,7 +280,7 @@ function deleteVehicleAction() {
 //删除其他车辆信息
 function deleteVehicle() {
 //	console.log('deleteVehicle');
-	var url='deleteOtherVehicle';
+	var url=URL.deleteOtherVehicleUrl;
 	var param={id:vehicleData.id};
 //	console.log(param);
 	$('#delete_vehicle').attr('data-dismiss','modal');
@@ -310,7 +317,7 @@ function addCheckNameAction(){
 }
 //提交新增信息前 检测信息
 function addCheckName(){
-	url = "checkName";
+	url = URL.checkNameUrl;
 	var name = $('#vehicle_name').val();name=$.trim(name);
 	if(!name){
 		alert('名称不能为空');

@@ -13,7 +13,7 @@
 		queryData(1);
 	}
 
-	console.log(URL);
+	
 	function bindEvent(){
 		$('#refreshBtn').off('click').on('click',function(){
 			queryData(1);

@@ -1,15 +1,5 @@
 $(function(){
-	//请求路径
-	var URL = {
-			listDictUrl:"/trfc/system/base/dataDict/listDict",
-			addDictUrl:"/trfc/system/base/dataDict/addDict",
-			listItemUrl:"/trfc/system/base/dataDict/listItem",
-			editDictUrl:"/trfc/system/base/dataDict/editDict",
-			deleteDictUrl:"/trfc/system/base/dataDict/deleteDict",
-			addItemUrl:"/trfc/system/base/dataDict/addItem",
-			editItemUrl:"/trfc/system/base/dataDict/editItem",
-			deleteItemUrl:"/trfc/system/base/dataDict/deleteItem"
-	};
+
 //	console.log('OK');
 	//加载页面，显示数据字典列表(默认第一条数据字典被选中)
 	listSystemDataDicts();
@@ -40,6 +30,17 @@ $(function(){
 	//绑定刷新按钮点击事件
 	$('#refresh').click(refreshPage);
 });
+//请求路径
+var URL = {
+		listDictUrl:"/trfc/system/base/dataDict/listDict",
+		addDictUrl:"/trfc/system/base/dataDict/addDict",
+		listItemUrl:"/trfc/system/base/dataDict/listItem",
+		editDictUrl:"/trfc/system/base/dataDict/editDict",
+		deleteDictUrl:"/trfc/system/base/dataDict/deleteDict",
+		addItemUrl:"/trfc/system/base/dataDict/addItem",
+		editItemUrl:"/trfc/system/base/dataDict/editItem",
+		deleteItemUrl:"/trfc/system/base/dataDict/deleteItem"
+};
 //设置两个公用对象用来存储数据
 var dictData={};
 var itemData={};

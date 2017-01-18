@@ -1,4 +1,5 @@
 $(function(){
+	
 	//加载数据并展示列表
 	CustomersShowAction(1);
 	//新增按钮 绑定点击事件
@@ -25,6 +26,16 @@ $(function(){
 	$('#customer_name').keyup(function(){$('#customer_info').val($(this).val());});
 
 });
+//请求路径
+var URL = {
+		checkNameUrl:"/trfc/basicFile/other/customer/checkName",
+		deleteUrl:"/trfc/basicFile/other/customer/delete",
+		updateUrl:"/trfc/basicFile/other/customer/update",
+		toupdateUrl:"/trfc/basicFile/other/customer/toupdate",
+		insertUrl:"/trfc/basicFile/other/customer/insert",
+		toinsertUrl:"/trfc/basicFile/other/customer/toinsert",
+		pageUrl:"/trfc/basicFile/other/customer/page"
+};
 //提交修改信息,-->检测名字-->提交
 function modifyCustomerAction(){
 	var name = $('#customer_modify_name').val().trim();
@@ -45,7 +56,7 @@ function addCustomerAction(){
 }
 //检测名字是否重复信息
 function toCheckName(name){
-	url = "checkName";
+	url = URL.checkNameUrl;
 	if(!name){
 		alert('名称不能为空');
 		return false;
@@ -86,7 +97,7 @@ function todelete(){
 //执行删除操作
 function deleteAction(){
 
-	var url = "delete";
+	var url = URL.deleteUrl;
 	var id = pageData.customerId;
 	var param = {id:id};
 	$.post(url,param,function(result){
@@ -103,7 +114,7 @@ function deleteAction(){
 }
 //提交修改操作
 function modifyAction(){
-	var url = "update";
+	var url = URL.updateUrl;
 	//通过公共对象获得id
 	var id = pageData.customerId;
 	var name = $('#customer_modify_name').val();
@@ -139,7 +150,7 @@ function modifyAction(){
 function toModify(){
 	var tr = $(this).parent().parent();
 	var id = tr.data('customer_id');
-	var url = "toupdate";
+	var url = URL.toupdateUrl;
 	var param = {"id":id};
 	pageData.customerId=id;
 	$.post(url,param,function(result){
@@ -206,7 +217,7 @@ function getInsertData(){
 }
 //提交需要添加的数据
 function insert(){
-	var url = "insert";
+	var url = URL.insertUrl;
 	var params = getInsertData();
 	$.post(url,params,function(result){
 		if(result.code=='000000'){
@@ -218,7 +229,7 @@ function insert(){
 }
 //获取新增 时所需展示的 数据
 function toInsert(){
-	var url = "toinsert";
+	var url = URL.toinsertUrl;
 	$('#customer_name').val("");
 	$('#customer_info').val("");
 	$('#customer_isvalid')[0].checked=true;
@@ -243,7 +254,7 @@ function CustomersShowAction(pageNo){
 	var index = layer.load(2, {
 		shade: [0.3,'#fff'] //0.1透明度的白色背景
 	});
-	var url = "page";
+	var url = URL.pageUrl;
 	//获取当前页面记录数
 	var pageSize = $('#pageSize').val();
 	var namelike = '';

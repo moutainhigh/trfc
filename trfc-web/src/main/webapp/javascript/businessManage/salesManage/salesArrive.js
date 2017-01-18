@@ -136,7 +136,6 @@ PAGE.mod.main = {
 			if(list && list.length>0){
 				for(var i=0;i<list.length;i++){
 					var obj = list[i] || '';
-					console.info(obj);
 					var vehicle = obj.vehicle;
 					var driver = obj.driver;
 					var salesApplication = obj.salesApplication;
