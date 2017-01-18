@@ -11,11 +11,16 @@
 	<div class="it_admin">
 		<!-- 引用公共left部分 -->
 		<jsp:include page="../../common/base/left_busi.jsp"></jsp:include>
-
 		<div class="right">
 			<!-- 引用公共right部分 -->
 			<jsp:include page="../../common/base/right_head_busi.jsp"></jsp:include>
-
+			<div class="intel_tab">
+				<!--tab切换标题-->
+				<ul class="intel_menu">
+					<li class="select"><a href="/trfc/system/base/code/main">自定义编号</a></li>
+					<li><a href="/trfc/system/base/dataDict/main">辅助资料</a></li>
+				</ul>
+			</div>
 			<!--tab切换的内容-->
 			<div class="intel_tabbox">
 				<!--自定义编号begin-->
@@ -224,13 +229,10 @@
 			</div>
 		</div>
 		<!-- 新增end -->
-
-
-		<!-- 引用公共footer部分 -->
-		<jsp:include page="../../common/base/footer_busi.jsp"></jsp:include>
 	</div>
+	<!-- 引用公共footer部分 -->
+	<jsp:include page="../../common/base/footer_busi.jsp"></jsp:include>
 	<script type="text/javascript"
 		src="/javascript/system/base/systemCode.js"></script>
-
 </body>
 </html>

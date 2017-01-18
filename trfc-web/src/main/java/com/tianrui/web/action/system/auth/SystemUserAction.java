@@ -17,7 +17,7 @@ import com.tianrui.service.impl.system.auth.SystemUserService;
 import com.tianrui.smartfactory.common.vo.Result;
 import com.tianrui.web.util.CurrUserUtils;
 @Controller
-@RequestMapping("system/auth/user")
+@RequestMapping("trfc/system/auth/user")
 public class SystemUserAction {
 	
 	private Logger log = LoggerFactory.getLogger(SystemUserAction.class);

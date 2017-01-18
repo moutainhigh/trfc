@@ -29,9 +29,9 @@ public class PortalsFilter implements Filter {
 
 		//获取路径
 		String p = req.getServletPath();
-		System.out.println(p);
+		//System.out.println(p);
 		//过滤所有'/trfc'开头的路径
-		if(p.length()<=4|| !"/trfc".equals(p.substring(0,4))) {
+		if(p==null || p.length()<=4|| !"/trfc".equals(p.substring(0,4))) {
 			chain.doFilter(request, response);
 			return;
 		}

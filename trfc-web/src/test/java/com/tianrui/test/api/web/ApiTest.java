@@ -25,7 +25,7 @@ public class ApiTest {
 	private static String domin="http://127.0.0.1/";
 	private static String uri_login="api/system/login";
 	private static String uri_rfid="api/card/rfidReg";
-	private static String url = "api/doorSystem/leaveFactoryCheck";
+	private static String url = "api/doorSystem/queueNumber";
 	
 	
 	static ApiParam<UserReq> getParam(){
@@ -87,7 +87,7 @@ public class ApiTest {
 //		String param =JSON.toJSONString(req);
 //		System.out.println(httpPost(domin+uri_login,"p="+param));
 		
-		ApiParam<VehicleCheckApi> req =getParam1();
+		ApiParam<ApiDoorQueueQuery> req =getParam1();
 		setkey(req);
 		setMd5(req);
 		String param =JSON.toJSONString(req);
@@ -95,12 +95,10 @@ public class ApiTest {
 		
 //		System.out.println(Md5Utils.MD5("1"));
 	}
-	static ApiParam<VehicleCheckApi> getParam1(){
-		ApiParam<VehicleCheckApi> api =new ApiParam<VehicleCheckApi>();
+	static ApiParam<ApiDoorQueueQuery> getParam1(){
+		ApiParam<ApiDoorQueueQuery> api =new ApiParam<ApiDoorQueueQuery>();
 		
-		VehicleCheckApi req =new VehicleCheckApi();
-		req.setVehicleNo("豫Q98765");
-		req.setRfid("E2004145291401971830563B");
+		ApiDoorQueueQuery req =new ApiDoorQueueQuery();
 //		req.setNotionformcode("TH259378");
 //		req.setIccode("AB0D8F93BA080400015C61242F23081D");
 //		req.setType("1");

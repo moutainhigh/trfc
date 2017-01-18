@@ -18,6 +18,8 @@ public class SupplierManageQuery extends BaseReq {
 
     private String orgname;
     
+    private String state;
+    
     private Integer start;
     
     private Integer limit;
@@ -69,6 +71,14 @@ public class SupplierManageQuery extends BaseReq {
 
 	public void setOrgname(String orgname) {
 		this.orgname = orgname;
+	}
+
+	public String getState() {
+		return state;
+	}
+
+	public void setState(String state) {
+		this.state = state;
 	}
 
 	public Integer getStart() {

@@ -25,3 +25,4 @@
 <script type="text/javascript" src="${staticBasePath}/js/layer/layer.js"></script>
 <script type="text/javascript" src="${staticBasePath}/js/jquery.pagination.js"></script>
 <script type="text/javascript" src="${staticBasePath}/js/myself.js"></script>
+<script type="text/javascript" src="${staticBasePath }/js/dateutil.js"></script>

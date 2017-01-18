@@ -15,7 +15,13 @@
 		<div class="right">
 			<!-- 引用公共right部分 -->
 			<jsp:include page="../../common/base/right_head_busi.jsp"></jsp:include>
-
+			<div class="intel_tab">
+				<!--tab切换标题-->
+				<ul class="intel_menu">
+					<li class="select"><a href="/trfc/basicFile/other/customer/main">其他客戶</a></li>
+					<li><a href="/trfc/other/otherVehicle/main">其他车辆</a></li>
+				</ul>
+			</div>
 			<!--tab切换的内容-->
 			<div class="intel_tabbox">
 				<!--采购申请单begin-->

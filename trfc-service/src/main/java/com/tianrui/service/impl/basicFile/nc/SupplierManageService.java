@@ -33,6 +33,7 @@ public class SupplierManageService implements ISupplierManageService {
 		PaginationVO<SupplierManageResp> page = null;
 		if(query != null){
 			page = new PaginationVO<SupplierManageResp>();
+			query.setState("1");
 			long count = supplierManageMapper.findSupplierPageCount(query);
 			if(count > 0){
 				query.setStart((query.getPageNo()-1)*query.getPageSize());
