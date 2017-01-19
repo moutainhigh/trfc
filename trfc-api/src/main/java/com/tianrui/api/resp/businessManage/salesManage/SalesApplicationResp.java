@@ -17,6 +17,8 @@ public class SalesApplicationResp extends BaseResp {
     private String source;
 
     private String billtype;
+    
+    private String billtypename;
 
     private String customerid;
 
@@ -100,7 +102,15 @@ public class SalesApplicationResp extends BaseResp {
         return billtype;
     }
 
-    public void setBilltype(String billtype) {
+    public String getBilltypename() {
+		return billtypename;
+	}
+
+	public void setBilltypename(String billtypename) {
+		this.billtypename = billtypename;
+	}
+
+	public void setBilltype(String billtype) {
         this.billtype = billtype == null ? null : billtype.trim();
     }
 
