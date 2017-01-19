@@ -270,7 +270,7 @@ public class SalesApplicationService implements ISalesApplicationService {
 			
 			for( JSONObject jsonObject:list ){
 				String id =jsonObject.getString("id");
-				if( ids.contains(jsonObject) ){
+				if( ids.contains(id) ){
 					toUpdate.add(converJson2Bean(jsonObject));
 				}else{
 					toSave.add(converJson2Bean(jsonObject));

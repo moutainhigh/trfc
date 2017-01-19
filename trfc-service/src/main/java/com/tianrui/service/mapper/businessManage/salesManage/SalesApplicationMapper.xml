@@ -59,18 +59,17 @@
 	creator, createtime,
 	modifytime,utc)
 	values
-	<foreach collection="list" item="item" index="index"
-		separator=",">
-		( #{id,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR},
-		#{status,jdbcType=VARCHAR},
-		#{source,jdbcType=VARCHAR}, #{billtype,jdbcType=VARCHAR}, #{customerid,jdbcType=VARCHAR},
-		#{billtime,jdbcType=BIGINT}, #{orgid,jdbcType=VARCHAR},
-		#{orgname,jdbcType=VARCHAR},
-		#{departmentid,jdbcType=VARCHAR}, #{departmentname,jdbcType=VARCHAR}, #{auditid,jdbcType=VARCHAR},
-		#{auditname,jdbcType=VARCHAR}, #{audittime,jdbcType=BIGINT},
-		#{state,jdbcType=VARCHAR},
-		#{creator,jdbcType=VARCHAR}, #{createtime,jdbcType=BIGINT},
-		#{modifytime,jdbcType=BIGINT}, #{utc,jdbcType=BIGINT}
+	<foreach collection="list" item="item" index="index" separator=",">
+		( #{item.id,jdbcType=VARCHAR}, #{item.code,jdbcType=VARCHAR},
+		#{item.status,jdbcType=VARCHAR},
+		#{item.source,jdbcType=VARCHAR}, #{item.billtype,jdbcType=VARCHAR}, #{item.customerid,jdbcType=VARCHAR},
+		#{item.billtime,jdbcType=BIGINT}, #{item.orgid,jdbcType=VARCHAR},
+		#{item.orgname,jdbcType=VARCHAR},
+		#{item.departmentid,jdbcType=VARCHAR}, #{item.departmentname,jdbcType=VARCHAR}, #{item.auditid,jdbcType=VARCHAR},
+		#{item.auditname,jdbcType=VARCHAR}, #{item.audittime,jdbcType=BIGINT},
+		#{item.state,jdbcType=VARCHAR},
+		#{item.creator,jdbcType=VARCHAR}, #{item.createtime,jdbcType=BIGINT},
+		#{item.modifytime,jdbcType=BIGINT}, #{item.utc,jdbcType=BIGINT}
 		)
 	</foreach>
 </insert>  

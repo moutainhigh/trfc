@@ -22,6 +22,9 @@
 				<li><a href="/trfc/salesApplication/main"> <i
 						class="iconfont">&#xe615;</i> <label>销售管理</label>
 				</a></li>
+				<li><a href="/trfc/card/main"> <i
+						class="iconfont">&#xe615;</i> <label>卡务管理</label>
+				</a></li>
 				<!-- <li><a> <i class="iconfont">&#xe614;</i> <label>其他业务</label>
 				</a></li>
 				<li><a> <i class="iconfont">&#xe618;</i> <label>质控管理</label>

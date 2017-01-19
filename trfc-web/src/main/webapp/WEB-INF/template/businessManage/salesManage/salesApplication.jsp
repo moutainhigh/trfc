@@ -221,7 +221,7 @@
 									readonly="true">
 							</div>
 							<div class="alt_edit_div">
-								<label>制单人：</label> <input id="a_creatorname" type="text" value="${currname }" creator="${currid }"
+								<label>制单人：</label> <input id="a_creatorname" type="text" value="${user.name }" creator="${user.id }"
 									class="readOnlyText" class="readOnlyText" readonly="true">
 							</div>
 						</div>

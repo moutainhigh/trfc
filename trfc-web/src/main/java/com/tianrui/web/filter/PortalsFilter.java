@@ -12,6 +12,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.tianrui.api.resp.system.auth.SystemUserResp;
+
 public class PortalsFilter implements Filter {
 
 	@Override
@@ -31,21 +33,19 @@ public class PortalsFilter implements Filter {
 		String p = req.getServletPath();
 		//System.out.println(p);
 		//过滤所有'/trfc'开头的路径
-		if(p==null || p.length()<=4|| !"/trfc".equals(p.substring(0,4))) {
-			chain.doFilter(request, response);
-			return;
-		}
-		//从session中获取账号
-		HttpSession session = req.getSession();
-		String userId = (String)
-				session.getAttribute("userId");
-		//根据账号判断用户是否登录
-		if(userId == null) {
-			//没登录,重定向到登录页
-			resp.sendRedirect(
-					"/index");
-		} else {
-			//已登录,请求继续执行
+		if(p != null && p.startsWith("/trfc")) {
+			//从session中获取账号
+			HttpSession session = req.getSession();
+			SystemUserResp user = (SystemUserResp) session.getAttribute("systemUser");
+			//根据账号判断用户是否登录
+			if(user == null) {
+				//没登录,重定向到登录页
+				resp.sendRedirect("/index");
+			} else {
+				//已登录,请求继续执行
+				chain.doFilter(request, response);
+			}
+		}else{
 			chain.doFilter(request, response);
 		}
 	}
