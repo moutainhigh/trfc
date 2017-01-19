@@ -35,6 +35,16 @@ public class VehicleManageQuery extends BaseReq {
     private String blackCreator;
     
     private Long blackCreatetime;
+    
+    private String currUId;
+
+	public String getCurrUId() {
+		return currUId;
+	}
+
+	public void setCurrUId(String currUId) {
+		this.currUId = currUId;
+	}
 
 	public String getId() {
 		return id;

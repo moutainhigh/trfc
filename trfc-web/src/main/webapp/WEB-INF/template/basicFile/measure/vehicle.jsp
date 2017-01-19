@@ -234,7 +234,7 @@
 							<label>地址：</label> <input id="add_address" type="text">
 						</div>
 						<div class="alt_edit_div">
-							<label>所属组织：</label> <input id="add_orgname" type="text" readonly>
+							<label>所属组织：</label> <input id="add_orgname" type="text" value="${orgname }" orgid="${orgid }" readonly>
 						</div>
 						<div class="alt_edit_div">
 							<label>有效性：</label> <input id="add_isvalid" type="checkbox"><span>有效</span>

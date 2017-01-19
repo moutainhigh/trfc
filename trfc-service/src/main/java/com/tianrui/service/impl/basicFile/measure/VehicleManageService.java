@@ -83,9 +83,10 @@ public class VehicleManageService implements IVehicleManageService {
 				PropertyUtils.copyProperties(vehicle, save);
 				vehicle.setId(UUIDUtil.getId());
 				vehicle.setIsblacklist("0");
-				// vehicle.setCreator("");
+				vehicle.setState("1");
+				vehicle.setCreator(save.getCurrUId());
 				vehicle.setCreatetime(System.currentTimeMillis());
-				// vehicle.setModifier("");
+				vehicle.setModifier(save.getCurrUId());
 				vehicle.setModifytime(System.currentTimeMillis());
 				if (this.vehicleManageMapper.insert(vehicle) > 0) {
 					result.setData(vehicle);
@@ -105,7 +106,7 @@ public class VehicleManageService implements IVehicleManageService {
 		if (save != null) {
 			VehicleManage vehicle = new VehicleManage();
 			PropertyUtils.copyProperties(vehicle, save);
-			// vehicle.setModifier("");
+			vehicle.setModifier(save.getCurrUId());
 			vehicle.setModifytime(System.currentTimeMillis());
 			if (this.vehicleManageMapper.updateByPrimaryKeySelective(vehicle) > 0) {
 				result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
@@ -123,7 +124,7 @@ public class VehicleManageService implements IVehicleManageService {
 			VehicleManage vehicle = new VehicleManage();
 			vehicle.setId(query.getId());
 			vehicle.setState("0");
-			vehicle.setModifier("");
+			vehicle.setModifier(query.getCurrUId());
 			vehicle.setModifytime(System.currentTimeMillis());
 			if (this.vehicleManageMapper.updateByPrimaryKeySelective(vehicle) > 0) {
 				result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
@@ -141,7 +142,7 @@ public class VehicleManageService implements IVehicleManageService {
 			VehicleManage vehicle = new VehicleManage();
 			vehicle.setId(query.getId());
 			vehicle.setIsblacklist("0");
-			vehicle.setModifier("");
+			vehicle.setModifier(query.getCurrUId());
 			vehicle.setModifytime(System.currentTimeMillis());
 			if (this.vehicleManageMapper.updateByPrimaryKeySelective(vehicle) > 0) {
 				if (this.blacklistManageService.deleteBlacklist(query.getId()) > 0) {
@@ -164,7 +165,7 @@ public class VehicleManageService implements IVehicleManageService {
 			VehicleManage vehicle = new VehicleManage();
 			vehicle.setId(query.getId());
 			vehicle.setIsblacklist("1");
-			vehicle.setModifier("");
+			vehicle.setModifier(query.getCurrUId());
 			vehicle.setModifytime(System.currentTimeMillis());
 			if (this.vehicleManageMapper.updateByPrimaryKeySelective(vehicle) > 0) {
 				BlacklistManageReq breq = new BlacklistManageReq();
@@ -253,7 +254,7 @@ public class VehicleManageService implements IVehicleManageService {
 							} else {
 								// 绑定rfid
 								vehicle.setId(v.getId());
-								vehicle.setModifier("");
+								vehicle.setModifier(vehicleManageApi.getCurrUid());
 								vehicle.setModifytime(System.currentTimeMillis());
 								if (vehicleManageMapper.updateByPrimaryKeySelective(vehicle) > 0) {
 									result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
@@ -266,9 +267,9 @@ public class VehicleManageService implements IVehicleManageService {
 							vehicle.setId(UUIDUtil.getId());
 							vehicle.setRfid(vehicleManageApi.getRfid());
 							vehicle.setCode("CL" + (int) (Math.random() * 1000000));
-							vehicle.setCreator("");
+							vehicle.setCreator(vehicleManageApi.getCurrUid());
 							vehicle.setCreatetime(System.currentTimeMillis());
-							vehicle.setModifier("");
+							vehicle.setModifier(vehicleManageApi.getCurrUid());
 							vehicle.setModifytime(System.currentTimeMillis());
 							if (vehicleManageMapper.insertSelective(vehicle) > 0) {
 								result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
