@@ -58,7 +58,7 @@ public class SupplierManageService implements ISupplierManageService {
 		if(save != null){
 			SupplierManage sm = new SupplierManage();
 			PropertyUtils.copyProperties(sm, save);
-//			sm.setModifier("");
+			sm.setModifier(save.getCurrUId());
 			sm.setModifytime(System.currentTimeMillis());
 			if(supplierManageMapper.updateByPrimaryKeySelective(sm) > 0){
 				result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);

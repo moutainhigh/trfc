@@ -29,6 +29,16 @@ public class WarehouseManageSave extends BaseReq {
     private String modifier;
 
     private Long modifytime;
+    
+    private String currUId;
+
+	public String getCurrUId() {
+		return currUId;
+	}
+
+	public void setCurrUId(String currUId) {
+		this.currUId = currUId;
+	}
 
 	public String getId() {
 		return id;

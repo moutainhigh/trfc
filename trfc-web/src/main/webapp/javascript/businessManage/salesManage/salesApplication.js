@@ -145,7 +145,7 @@
 		$('#pageSize').change(function(){
 			queryData(1);
 		});
-		$('#addBtn').off('click').on('click', function(){
+		/*$('#addBtn').off('click').on('click', function(){
 			layer.closeAll();
 			$.ajax({
 				url:URL.initAddUrl,
@@ -170,8 +170,8 @@
 					}
 				}
 			});
-		})
-		$('#addCommitBtn').off('click').on('click', function(){
+		})*/
+		/*$('#addCommitBtn').off('click').on('click', function(){
 			if($('#addView').is(':visible')){
 				var code = $('#a_code').val();code = $.trim(code);
 				var billtype = $('#a_billtype').val();billtype = $.trim(billtype);
@@ -220,7 +220,7 @@
 					}
 				});
 			}
-		});
+		});*/
 		$('#updateCommitBtn').off('click').on('click',function(){
 			if($('#updateView').is(':visible')){
 				var id = $('#u_id').val();
@@ -365,16 +365,23 @@
 					break;
 				}
 				var billtypename = obj.billtypename || '';
-				var customername = customer.name || '';
+				var customername = '';
+				var salesmanname = '';
+				var transportationcompany = '';
+				var channelcode = '';
+				if(customer){
+					customername = customer.name || '';
+					salesmanname = customer.salesmanname || '';
+					transportationcompany = customer.transportationcompany || '';
+					channelcode = customer.channelcode || '';
+				}
 				var billtimeStr = obj.billtimeStr || '';
-				var salesmanname = customer.salesmanname || '';
 				var orgname = obj.orgname || '';
-				var transportationcompany = customer.transportationcompany || '';
 				var creatorname = obj.creatorname || '';
 				var createtimeStr = obj.createtimeStr || '';
 				var auditname = obj.auditname || '';
 				var audittimeStr = obj.audittimeStr || '';
-				var channelcode = customer.channelcode || '';
+				
 				$('<tr>').append('<td>'+(i+1)+'</td>')
 						.append('<td>'+code+'</td>')
 						.append('<td>'+status+'</td>')
@@ -567,12 +574,17 @@
 			break;
 		}
 		var billtype = obj.billtype || '';
-		var transportationcompany = customer.transportationcompany || '';
+		var transportationcompany = '';
+		var customername = '';
+		var salesmanname = '';
+		if(customer){
+			transportationcompany = customer.transportationcompany || '';
+			customername = customer.name || '';
+			salesmanname = customer.salesmanname || '';
+		}
 		var billtimeStr = obj.billtimeStr || '';
-		var customername = customer.name || '';
 		var orgname = obj.orgname || '';
 		var departmentname = obj.departmentname || '';
-		var salesmanname = customer.salesmanname || '';
 		var creatorname = obj.creatorname || '';
 		var createtimeStr = obj.createtimeStr || '';
 		var auditname = obj.auditname || '';

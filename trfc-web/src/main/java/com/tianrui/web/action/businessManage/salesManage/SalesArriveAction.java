@@ -1,5 +1,7 @@
 package com.tianrui.web.action.businessManage.salesManage;
 
+import javax.servlet.http.HttpSession;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,9 +15,11 @@ import com.tianrui.api.intf.basicFile.measure.IVehicleManageService;
 import com.tianrui.api.intf.basicFile.nc.ICustomerManageService;
 import com.tianrui.api.intf.basicFile.nc.IMaterielManageService;
 import com.tianrui.api.intf.businessManage.salesManage.ISalesArriveService;
+import com.tianrui.api.req.basicFile.nc.CustomerManageQuery;
 import com.tianrui.api.req.businessManage.salesManage.SalesArriveQuery;
 import com.tianrui.api.req.businessManage.salesManage.SalesArriveSave;
 import com.tianrui.api.resp.businessManage.salesManage.SalesArriveResp;
+import com.tianrui.api.resp.system.auth.SystemUserResp;
 import com.tianrui.smartfactory.common.constants.ErrorCode;
 import com.tianrui.smartfactory.common.utils.DateUtil;
 import com.tianrui.smartfactory.common.vo.PaginationVO;
@@ -94,9 +98,11 @@ public class SalesArriveAction {
 
 	@RequestMapping("/add")
 	@ResponseBody
-	public Result add(SalesArriveSave save){
+	public Result add(SalesArriveSave save, HttpSession session){
 		Result result = Result.getSuccessResult();
 		try {
+			SystemUserResp user = (SystemUserResp) session.getAttribute("systemUser");
+			save.setCurrUId(user.getId());
 			result = salesArriveService.add(save);
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
@@ -129,9 +135,11 @@ public class SalesArriveAction {
 
 	@RequestMapping("/update")
 	@ResponseBody
-	public Result update(SalesArriveSave save){
+	public Result update(SalesArriveSave save, HttpSession session){
 		Result result = Result.getSuccessResult();
 		try {
+			SystemUserResp user = (SystemUserResp) session.getAttribute("systemUser");
+			save.setCurrUId(user.getId());
 			result = salesArriveService.update(save);
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
@@ -142,9 +150,11 @@ public class SalesArriveAction {
 	
 	@RequestMapping("/audit")
 	@ResponseBody
-	public Result audit(SalesArriveQuery query){
+	public Result audit(SalesArriveQuery query, HttpSession session){
 		Result result = Result.getSuccessResult();
 		try {
+			SystemUserResp user = (SystemUserResp) session.getAttribute("systemUser");
+			query.setCurrUId(user.getId());
 			result = salesArriveService.audit(query);
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
@@ -155,9 +165,11 @@ public class SalesArriveAction {
 	
 	@RequestMapping("/unaudit")
 	@ResponseBody
-	public Result unaudit(SalesArriveQuery query){
+	public Result unaudit(SalesArriveQuery query, HttpSession session){
 		Result result = Result.getSuccessResult();
 		try {
+			SystemUserResp user = (SystemUserResp) session.getAttribute("systemUser");
+			query.setCurrUId(user.getId());
 			result = salesArriveService.unaudit(query);
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
@@ -168,9 +180,11 @@ public class SalesArriveAction {
 	
 	@RequestMapping("/invalid")
 	@ResponseBody
-	public Result invalid(SalesArriveQuery query){
+	public Result invalid(SalesArriveQuery query, HttpSession session){
 		Result result = Result.getSuccessResult();
 		try {
+			SystemUserResp user = (SystemUserResp) session.getAttribute("systemUser");
+			query.setCurrUId(user.getId());
 			result = salesArriveService.invalid(query);
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
@@ -181,9 +195,11 @@ public class SalesArriveAction {
 	
 	@RequestMapping("/outfactory")
 	@ResponseBody
-	public Result outfactory(SalesArriveQuery query){
+	public Result outfactory(SalesArriveQuery query, HttpSession session){
 		Result result = Result.getSuccessResult();
 		try {
+			SystemUserResp user = (SystemUserResp) session.getAttribute("systemUser");
+			query.setCurrUId(user.getId());
 			result = salesArriveService.outfactory(query);
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);

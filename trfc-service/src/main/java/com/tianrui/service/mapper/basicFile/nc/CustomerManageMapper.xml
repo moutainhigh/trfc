@@ -412,5 +412,6 @@
         and utc <![CDATA[>]]> #{utc,jdbcType=BIGINT}
       </if>
   	</where>
+  	limit 0,20
   </select>
 </mapper>

@@ -51,6 +51,7 @@ public class DriverManageService implements IDriverManageService {
 		if(save != null){
 			DriverManage driver = new DriverManage();
 			driver.setIdentityno(save.getIdentityno());
+			driver.setState("1");
 			List<DriverManage> list = driverManageMapper.selectSelective(driver);
 			if(list != null && list.size() > 0){
 				result.setErrorCode(ErrorCode.PARAM_REPEAT_ERROR);

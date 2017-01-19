@@ -35,8 +35,18 @@ public class CardReq extends BaseReq {
     private int start;
     
     private int limit;
+    
+    private String currUId;
 
-    public String getId() {
+    public String getCurrUId() {
+		return currUId;
+	}
+
+	public void setCurrUId(String currUId) {
+		this.currUId = currUId;
+	}
+
+	public String getId() {
         return id;
     }
 
