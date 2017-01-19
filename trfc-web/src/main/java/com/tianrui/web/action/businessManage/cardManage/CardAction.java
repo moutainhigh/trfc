@@ -1,5 +1,7 @@
 package com.tianrui.web.action.businessManage.cardManage;
 
+import javax.servlet.http.HttpSession;
+
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,6 +15,7 @@ import com.tianrui.api.intf.businessManage.cardManage.ICardService;
 import com.tianrui.api.req.businessManage.cardManage.CardReq;
 import com.tianrui.api.req.businessManage.cardManage.CardSave;
 import com.tianrui.api.resp.businessManage.cardManage.CardResp;
+import com.tianrui.api.resp.system.auth.SystemUserResp;
 import com.tianrui.smartfactory.common.constants.ErrorCode;
 import com.tianrui.smartfactory.common.vo.PaginationVO;
 import com.tianrui.smartfactory.common.vo.Result;
@@ -27,8 +30,10 @@ public class CardAction {
 	private ICardService cardService;
 	
 	@RequestMapping("/main")
-	public ModelAndView main(){
+	public ModelAndView main(HttpSession session){
 		ModelAndView view = new ModelAndView("businessManage/cardManage/card");
+		SystemUserResp user = (SystemUserResp) session.getAttribute("systemUser");
+		view.addObject("user", user);
 		return view;
 	}
 	

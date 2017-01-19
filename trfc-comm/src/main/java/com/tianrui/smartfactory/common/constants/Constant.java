@@ -38,30 +38,11 @@ public class Constant {
     //日志文件  性能日志 记录返回时间
     public final static String PREF ="pref";
     
-    //消息 替换符合
-    public final static String MESSAGE_SPLIT="<_>";
     
     
     
-    // * 1 实名认证
-    public final static String AUTHCHECK_USER ="1";
-    // * 2 货主认证
-    public final static String AUTHCHECK_OWNER ="2";
-    // * 3 司机认证
-    public final static String AUTHCHECK_DRIVBR ="3";
-    // * 4 车主认证
-    public final static String AUTHCHECK_VEHICLE_OWNER="4";
-    
-    
-    //认证申请状态
-    //初始化
-    public final static String AUTHSTATUS_INIT ="0";
-    //认证通过
-    public final static String AUTHSTATUS_PASS ="1";
-    //认证中
-    public final static String AUTHSTATUS_ING ="2";
-    //认证失败
-    public final static String AUTHSTATUS_FAIL ="3";
+    public final static String ORG_ID ="0001PP1000000000BSF6";
+    public final static String ORG_NAME ="天瑞集团汝州水泥有限公司";
     
     
 }

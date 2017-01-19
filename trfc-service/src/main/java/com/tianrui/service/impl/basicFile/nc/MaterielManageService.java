@@ -1,13 +1,17 @@
 package com.tianrui.service.impl.basicFile.nc;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.commons.beanutils.PropertyUtils;
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.alibaba.fastjson.JSONObject;
 import com.tianrui.api.intf.basicFile.nc.IMaterielManageService;
 import com.tianrui.api.req.basicFile.nc.MaterielManageQuery;
 import com.tianrui.api.req.basicFile.nc.MaterielManageSave;
@@ -15,6 +19,7 @@ import com.tianrui.api.resp.basicFile.nc.MaterielManageResp;
 import com.tianrui.service.bean.basicFile.nc.MaterielManage;
 import com.tianrui.service.mapper.basicFile.nc.MaterielManageMapper;
 import com.tianrui.smartfactory.common.constants.ErrorCode;
+import com.tianrui.smartfactory.common.utils.DateUtil;
 import com.tianrui.smartfactory.common.utils.UUIDUtil;
 import com.tianrui.smartfactory.common.vo.PaginationVO;
 import com.tianrui.smartfactory.common.vo.Result;
@@ -154,6 +159,60 @@ public class MaterielManageService implements IMaterielManageService {
 			rs.setData(max);
 		}
 		return rs;
+	}
+	
+	@Override
+	public Result updateDataWithDC(List<JSONObject> list) throws Exception {
+		Result rs =Result.getParamErrorResult();
+		if(CollectionUtils.isNotEmpty(list) ){
+			Set<String> idSet = getAllDb();
+			// 区分新增还是修改
+			List<MaterielManage>  toSave = new ArrayList<>();
+			List<MaterielManage>  toUpdate = new ArrayList<>();
+			for(JSONObject jsonItem :list ){
+				if( idSet.contains(jsonItem.get("id"))){
+					toSave.add(converJson2Bean(jsonItem));
+				}else{
+					toUpdate.add(converJson2Bean(jsonItem));
+				}
+			}
+			//新增的调批量保存
+			if(CollectionUtils.isNotEmpty(toSave)){
+				materielManageMapper.insertBatch(toSave);
+			}
+			//修改的就一个一个的调用修改
+			if( CollectionUtils.isNotEmpty(toUpdate) ){
+				for( MaterielManage item:toUpdate ){
+					materielManageMapper.updateByPrimaryKeySelective(item);
+				}
+			}
+		}
+		return rs;
+	}
+	
+	private Set<String> getAllDb(){
+		Set<String> set =new HashSet<>();
+		List<MaterielManage> dbList =materielManageMapper.selectSelective(null);
+		if( CollectionUtils.isNotEmpty(dbList) ){
+			for(MaterielManage manage:dbList){
+				set.add(manage.getId());
+			}
+		}
+		return set;
+	}
+	private MaterielManage converJson2Bean(JSONObject jsonItem){
+		MaterielManage item  =new MaterielManage();
+		item.setId(jsonItem.getString("id"));
+		item.setCode(jsonItem.getString("code"));
+		item.setOrgid(jsonItem.getString("orgId"));
+		item.setName(jsonItem.getString("name"));
+		item.setState("1");
+		item.setOrgname(jsonItem.getString("orgName"));
+		item.setInternalcode(jsonItem.getString("internalcode"));
+		item.setCreatetime(System.currentTimeMillis());
+		item.setModifytime(System.currentTimeMillis());	
+		item.setUtc(DateUtil.parse(jsonItem.getString("ts"), "yyyy-MM-dd HH:mm:ss"));
+		return item;
 	}
 	
 }

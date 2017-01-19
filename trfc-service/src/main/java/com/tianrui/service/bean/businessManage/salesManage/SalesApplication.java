@@ -40,6 +40,7 @@ public class SalesApplication {
     private String modifier;
 
     private Long modifytime;
+    private Long utc;
 
     public String getId() {
         return id;
@@ -200,4 +201,13 @@ public class SalesApplication {
     public void setModifytime(Long modifytime) {
         this.modifytime = modifytime;
     }
+
+	public Long getUtc() {
+		return utc;
+	}
+
+	public void setUtc(Long utc) {
+		this.utc = utc;
+	}
+    
 }

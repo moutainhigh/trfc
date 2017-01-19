@@ -21,6 +21,11 @@ import com.tianrui.smartfactory.common.utils.DateUtil;
 import com.tianrui.smartfactory.common.vo.PaginationVO;
 import com.tianrui.smartfactory.common.vo.Result;
 
+/**
+ * 销售通知单
+ * @author Administrator
+ *
+ */
 @RequestMapping("/trfc/salesArrive")
 @Controller
 public class SalesArriveAction {
