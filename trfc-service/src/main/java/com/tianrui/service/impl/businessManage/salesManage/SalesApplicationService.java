@@ -26,8 +26,10 @@ import com.tianrui.api.req.businessManage.salesManage.SalesApplicationSave;
 import com.tianrui.api.resp.businessManage.salesManage.SalesApplicationResp;
 import com.tianrui.service.bean.businessManage.salesManage.SalesApplication;
 import com.tianrui.service.bean.businessManage.salesManage.SalesApplicationDetail;
+import com.tianrui.service.bean.common.BillType;
 import com.tianrui.service.mapper.businessManage.salesManage.SalesApplicationDetailMapper;
 import com.tianrui.service.mapper.businessManage.salesManage.SalesApplicationMapper;
+import com.tianrui.service.mapper.common.BillTypeMapper;
 import com.tianrui.smartfactory.common.constants.Constant;
 import com.tianrui.smartfactory.common.constants.ErrorCode;
 import com.tianrui.smartfactory.common.utils.DateUtil;
@@ -51,6 +53,9 @@ public class SalesApplicationService implements ISalesApplicationService {
 	
 	@Autowired
 	private ISystemUserService systemUserService;
+	
+	@Autowired
+	private BillTypeMapper billTypeMapper;
 	
 	@Override
 	public PaginationVO<SalesApplicationResp> page(SalesApplicationQuery query) throws Exception{
@@ -240,6 +245,12 @@ public class SalesApplicationService implements ISalesApplicationService {
 				CustomerManageQuery query = new CustomerManageQuery();
 				query.setId(bean.getCustomerid());
 				resp.setCustomerManageResp(customerManageService.findOne(query));
+			}
+			if(StringUtils.isNotBlank(bean.getBilltype())){
+				BillType billtype = billTypeMapper.selectByPrimaryKey(bean.getBilltype());
+				if(billtype != null){
+					resp.setBilltypename(billtype.getName());
+				}
 			}
 			SalesApplicationDetailQuery query = new SalesApplicationDetailQuery();
 			query.setSalesid(bean.getId());
