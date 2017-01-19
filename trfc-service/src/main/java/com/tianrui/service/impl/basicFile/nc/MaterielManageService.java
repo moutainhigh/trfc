@@ -171,9 +171,9 @@ public class MaterielManageService implements IMaterielManageService {
 			List<MaterielManage>  toUpdate = new ArrayList<>();
 			for(JSONObject jsonItem :list ){
 				if( idSet.contains(jsonItem.get("id"))){
-					toSave.add(converJson2Bean(jsonItem));
-				}else{
 					toUpdate.add(converJson2Bean(jsonItem));
+				}else{
+					toSave.add(converJson2Bean(jsonItem));
 				}
 			}
 			//新增的调批量保存
