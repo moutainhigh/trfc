@@ -479,7 +479,7 @@
 	left join tr_sales_db_application a2 on a1.billid = a2.id
 	left join tr_sales_db_application_detail a3 on a2.id = a3.salesid
 	left join tr_materiel_db_manage m on a3.materielid = m.id
-	where a1.`status` != 0 and a1.`status` != 6 and a1.state = '1'
+	where a1.`status` != 0 and a1.`status` != 5 and a1.`status` != 3 and a1.state = '1'
 	<if test="materielid != null and materielid != ''">
 		and a3.materielid = #{materielid,jdbcType=VARCHAR}
 	</if>

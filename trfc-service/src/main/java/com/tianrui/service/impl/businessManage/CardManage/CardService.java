@@ -169,7 +169,8 @@ public class CardService implements ICardService {
 				card.setId(UUIDUtil.getId());
 				card.setCardstatus("1");
 				card.setState("1");
-				card.setCode("");//IC卡单据编号
+				card.setCardtype(cardApi.getCardtype());
+				card.setCode("IC"+(int)(Math.random()*1000000));//IC卡单据编号
 				card.setCreator(cardApi.getCurrUid());
 				card.setCreatetime(System.currentTimeMillis());
 				card.setModifytime(System.currentTimeMillis());

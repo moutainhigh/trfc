@@ -267,10 +267,6 @@
 			</div>
 		</div>
 	</div>
-	<form action="/trfc/upload/image">
-		<input type="file" name="file">
-		<button type="submit">上传</button>
-	</form>
 	<!--删除end-->
 	<jsp:include page="../../common/base/footer_busi.jsp"></jsp:include>
 	<script type="text/javascript"

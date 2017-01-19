@@ -119,10 +119,7 @@
 					packagetype = '袋装';
 					break;
 				case '1':
-					packagetype = '水泥散装';
-					break;
-				case '0':
-					packagetype = '其他散装';
+					packagetype = '散装';
 					break;
 				default:
 					packagetype = '';

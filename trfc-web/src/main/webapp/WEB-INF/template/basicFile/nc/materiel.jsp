@@ -172,8 +172,7 @@
 									class="form-control">
 									<option value="">请选择</option>
 									<option value="0">袋装</option>
-									<option value="1">水泥散装</option>
-									<option value="2">其他散装</option>
+									<option value="1">散装</option>
 								</select>
 							</div>
 							<div class="alt_edit_div">

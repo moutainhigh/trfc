@@ -332,11 +332,21 @@ public class SalesArriveService implements ISalesArriveService {
 							api.setCustomer(customerResp.getName());
 							api.setMaterielid(materielResp.getId());
 							api.setMateriel(materielResp.getName());
-							if(StringUtils.equals(materielResp.getPackagetype(), "0")){
-								api.setCementtype("1");
-								api.setBatchnumber(resp.getSerialnumber());
-							}else{
-								api.setCementtype("2");
+//							if(StringUtils.equals(materielResp.getPackagetype(), "0")){
+//								api.setCementtype("1");
+//								api.setBatchnumber(resp.getSerialnumber());
+//							}
+//							if(StringUtils.equals(materielResp.getPackagetype(), "1")){
+//								api.setCementtype("2");
+//							}
+							if(StringUtils.isNotBlank(materielResp.getName()) && materielResp.getName().contains("水泥")){
+								if(materielResp.getName().contains("袋装")){
+									api.setCementtype("1");
+									api.setBatchnumber(resp.getSerialnumber());
+								}
+								if(materielResp.getName().contains("散装")){
+									api.setCementtype("2");
+								}
 							}
 							api.setServicetype("2");
 							api.setNotionformcode(resp.getCode());
