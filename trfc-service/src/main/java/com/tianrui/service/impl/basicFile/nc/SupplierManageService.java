@@ -165,10 +165,11 @@ public class SupplierManageService implements ISupplierManageService {
 			supplier.setName(json.getString("name"));
 			supplier.setState("1");
 			supplier.setOrgid(json.getString("orgId"));
-			supplier.setUtc(json.getDate("ts").getTime());
 			supplier.setAbbrname(json.getString("shortName"));
+			supplier.setRemarks(json.getString("remark"));
 			supplier.setCreatetime(System.currentTimeMillis());
 			supplier.setModifytime(System.currentTimeMillis());
+			supplier.setUtc(Long.valueOf(json.getString("ts")));
 		}
 		return supplier;
 	}
