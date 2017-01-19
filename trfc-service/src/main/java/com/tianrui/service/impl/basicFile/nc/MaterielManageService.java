@@ -211,7 +211,7 @@ public class MaterielManageService implements IMaterielManageService {
 		item.setInternalcode(jsonItem.getString("internalcode"));
 		item.setCreatetime(System.currentTimeMillis());
 		item.setModifytime(System.currentTimeMillis());	
-		item.setUtc(DateUtil.parse(jsonItem.getString("ts"), "yyyy-MM-dd HH:mm:ss"));
+		item.setUtc(Long.valueOf(jsonItem.getString("ts")));
 		return item;
 	}
 	
