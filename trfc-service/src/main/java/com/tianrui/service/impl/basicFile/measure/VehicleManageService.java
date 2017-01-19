@@ -257,6 +257,7 @@ public class VehicleManageService implements IVehicleManageService {
 								vehicle.setId(v.getId());
 								vehicle.setModifier(vehicleManageApi.getCurrUid());
 								vehicle.setModifytime(System.currentTimeMillis());
+								vehicle.setRfid(vehicleManageApi.getRfid());
 								if (vehicleManageMapper.updateByPrimaryKeySelective(vehicle) > 0) {
 									result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
 								} else {

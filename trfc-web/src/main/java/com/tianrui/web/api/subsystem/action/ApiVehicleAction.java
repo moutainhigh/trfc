@@ -31,7 +31,7 @@ public class ApiVehicleAction {
 	@Autowired
 	private IVehicleManageService vehicleManageService;
 	
-	//车辆 ic卡绑定
+	//车辆 rfid绑定
 	@RequestMapping(value="vehicleCard",method=RequestMethod.POST)
 	@ApiParamRawType(VehicleManageApi.class)
 	@ApiAuthValidation(callType="2")

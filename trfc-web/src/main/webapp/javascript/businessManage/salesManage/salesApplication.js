@@ -550,8 +550,13 @@
 	function showMore(obj){
 		$('#moreBody').empty();
 		var detailResp = obj.detailResp;
+		var materiel = detailResp.materiel;
 		if(detailResp){
-			$('<tr>').append('<td>'+(detailResp.materielname || '')+'</td>')
+			var materielname = '';
+			if(materiel){
+				materielname = materiel.name;
+			}
+			$('<tr>').append('<td>'+(materielname || '')+'</td>')
 			.append('<td>'+(detailResp.salessum || '')+'</td>')
 			.append('<td>'+(detailResp.taxprice || '')+'</td>')
 			.append('<td></td>')
