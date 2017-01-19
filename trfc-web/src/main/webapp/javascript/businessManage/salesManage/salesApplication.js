@@ -443,16 +443,24 @@
 			layer.msg('已审核的单据，不能修改！', {icon: 5});
 			return;
 		}
+		var customer = obj.customerManageResp;
 		var id = obj.id || '';
 		var code = obj.code || '';
 		var billtype = obj.billtype || '';
 		var billtimeStr = obj.billtimeStr || '';
-		var customerid = obj.customerManageResp.id || '';
-		var customername = obj.customerManageResp.name || '';
-		var channelcode = obj.customerManageResp.channelcode || '';
+		var customerid = '';
+		var customername = '';
+		var channelcode = '';
+		var salesmanname = '';
+		var transportationcompany = '';
+		if(customer){
+			customerid = obj.customerManageResp.id || '';
+			customername = obj.customerManageResp.name || '';
+			channelcode = obj.customerManageResp.channelcode || '';
+			salesmanname = obj.customerManageResp.salesmanname || '';
+			transportationcompany = obj.customerManageResp.transportationcompany || '';
+		}
 		var orgname = obj.orgname || '';
-		var salesmanname = obj.customerManageResp.salesmanname || '';
-		var transportationcompany = obj.customerManageResp.transportationcompany || '';
 		var creatorname = obj.creatorname || '';
 		$('#u_id').val(id);
 		$('#u_code').val(code);
