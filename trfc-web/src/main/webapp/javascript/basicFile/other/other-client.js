@@ -121,6 +121,7 @@ function modifyAction(){
 	var info = $('#customer_modify_info').val();
 	var orgname = $('#customer_modify_orgname').val();
 	var remark = $('#customer_modify_remark').val();
+	var userName = $('.user label').html();
 	var isvalid = 0;
 	if($('#customer_modify_isvalid').prop('checked')){
 		isvalid = 1;
@@ -133,7 +134,8 @@ function modifyAction(){
 			info:info,
 			orgname:orgname,
 			remark:remark,
-			isvalid:isvalid
+			isvalid:isvalid,
+			userName:userName
 	};
 	if(name==obj.name&&info==obj.info&&orgname==obj.orgname&&remark==obj.remark&&isvalid==obj.isvalid){
 		return;
@@ -198,6 +200,7 @@ function getInsertData(){
 	var name = $('#customer_name').val().trim();
 	var info = $('#customer_info').val().trim();
 	var orgName = $('#customer_orgname').val().trim();
+	var userName = $('.user label').html();
 	var isvalid = 0;
 	if($('#customer_isvalid').prop('checked')){
 		isvalid = 1;
@@ -211,7 +214,8 @@ function getInsertData(){
 			info:info,
 			orgname:orgName,
 			isvalid:isvalid,
-			remark:remark
+			remark:remark,
+			userName:userName
 	};
 	return params;
 }

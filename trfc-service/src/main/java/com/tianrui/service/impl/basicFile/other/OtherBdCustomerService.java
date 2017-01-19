@@ -21,15 +21,14 @@ import com.tianrui.smartfactory.common.vo.Result;
 
 @Service
 public class OtherBdCustomerService implements IOtherBdCustomerService {
-
-
+	
 	@Resource
 	private OtherBdCustomerMapper otherBdCustomerMapper;
 	/**
 	 * 获取列表数据
 	 */
 	@Override
-	public Result findCustomerByPage(OtherBdCustomerReq req) {
+	public Result findCustomerByPage(OtherBdCustomerReq req)  throws Exception{
 		Result result = Result.getParamErrorResult();
 		if(req!=null){
 			PaginationVO<OtherBdCustomerResp> pageVO = new PaginationVO<OtherBdCustomerResp>();
@@ -48,13 +47,7 @@ public class OtherBdCustomerService implements IOtherBdCustomerService {
 				if(count>0){
 					list = otherBdCustomerMapper.page(req);
 				}
-				try {
 					pageVO.setList(copyBeanList2RespList(list));
-				} catch (Exception e) {
-					e.printStackTrace();
-					result.setErrorCode(ErrorCode.PARAM_ERROR);
-					return result;
-				}
 				pageVO.setPageNo(req.getPageNo());
 				pageVO.setPageSize(req.getPageSize());
 				//成功后  重新赋值
@@ -92,22 +85,20 @@ public class OtherBdCustomerService implements IOtherBdCustomerService {
 	//新增数据
 	@Transactional
 	@Override
-	public Result insertCustomer(OtherBdCustomerReq req){
+	public Result insertCustomer(OtherBdCustomerReq req)  throws Exception{
 		Result result = Result.getParamErrorResult();
 		if(req!=null){
 			//添加创建时间
 			OtherBdCustomer tomer = new OtherBdCustomer();
-			try {
-				PropertyUtils.copyProperties(tomer, req);
-			} catch (Exception e) {
-				e.printStackTrace();
-				result.setErrorCode(ErrorCode.PARAM_ERROR);
-				return result;
-			}
+			
+			PropertyUtils.copyProperties(tomer, req);
+			
 			tomer.setCreatetime(System.currentTimeMillis());
 			tomer.setId(getCustomerId());
 			//假设一个creator
-			tomer.setCreator("LXY");
+			tomer.setCreator(req.getUserName());
+			tomer.setModifier(req.getUserName());
+			tomer.setModifytime(System.currentTimeMillis());
 			int index = otherBdCustomerMapper.insertSelective(tomer);
 			if(index<0){
 				result.setErrorCode(ErrorCode.OPERATE_ERROR);
@@ -120,19 +111,15 @@ public class OtherBdCustomerService implements IOtherBdCustomerService {
 	}
 	@Transactional
 	@Override
-	public Result updateCustomer(OtherBdCustomerReq req) {
+	public Result updateCustomer(OtherBdCustomerReq req) throws Exception{
 		Result result = Result.getParamErrorResult();
 		if(req!=null){
 			OtherBdCustomer tomer = new OtherBdCustomer();
 			//添加修改时间
-			try {
-				PropertyUtils.copyProperties(tomer, req);
-			} catch (Exception e) {
-				e.printStackTrace();
-				result.setErrorCode(ErrorCode.PARAM_ERROR);
-				return result;
-			}
-
+			
+			PropertyUtils.copyProperties(tomer, req);
+		
+			tomer.setModifier(req.getUserName());
 			tomer.setModifytime(System.currentTimeMillis());
 			int index = otherBdCustomerMapper.updateByPrimaryKeySelective(tomer);
 			if(index<0){
@@ -147,7 +134,7 @@ public class OtherBdCustomerService implements IOtherBdCustomerService {
 	@Transactional
 	//删除一条数据
 	@Override
-	public Result deleteCustomer(OtherBdCustomerReq req){
+	public Result deleteCustomer(OtherBdCustomerReq req) throws Exception{
 		Result result = Result.getParamErrorResult();
 		if(req!=null){
 			String id = req.getId();
@@ -180,7 +167,7 @@ public class OtherBdCustomerService implements IOtherBdCustomerService {
 		return "ICD"+(int)(Math.random()*10000);
 	}
 	//通过主键(id)查找数据
-	public Result findByPrimaryKey(OtherBdCustomerReq req){
+	public Result findByPrimaryKey(OtherBdCustomerReq req) throws Exception{
 		Result result = Result.getParamErrorResult();
 		if(req!=null){
 			String id = req.getId();
@@ -194,13 +181,7 @@ public class OtherBdCustomerService implements IOtherBdCustomerService {
 			}
 			//类型 转换
 			OtherBdCustomerResp resp = new OtherBdCustomerResp();
-			try {
 				PropertyUtils.copyProperties(resp, o);
-			} catch (Exception e) {
-				e.printStackTrace();
-				result.setErrorCode(ErrorCode.PARAM_ERROR);
-				return result;
-			}
 			result = Result.getSuccessResult();
 			result.setData(resp);
 		}
