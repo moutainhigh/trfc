@@ -19,7 +19,7 @@ import com.tianrui.smartfactory.common.vo.Result;
 import com.tianrui.web.smvc.ApiParamRawType;
 
 /**
- * 客户对接数据中心
+ * 物料对接数据中心
  * @author Yangzhenfu
  * @createtime 2017年1月18日 下午16:44:30
  */
