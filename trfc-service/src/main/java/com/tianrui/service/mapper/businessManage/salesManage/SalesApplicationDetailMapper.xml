@@ -39,6 +39,20 @@
       #{unit,jdbcType=VARCHAR}, #{salessum,jdbcType=DOUBLE}, #{taxprice,jdbcType=DOUBLE}, #{untaxprice,jdbcType=DOUBLE}, 
       #{taxrate,jdbcType=DOUBLE}, #{remarks,jdbcType=VARCHAR})
   </insert>
+  <insert id="insertBatch"  parameterType="java.util.List" >
+    insert into tr_sales_db_application_detail (
+      id, salesid, materielid, 
+      materielname, warehouseid, warehousename, unit, 
+      salessum, taxprice, untaxprice, 
+      taxrate, remarks)
+       values
+      <foreach collection="list" item="item" index="index" separator=",">
+    (#{item.id,jdbcType=VARCHAR}, #{item.salesid,jdbcType=VARCHAR}, #{item.materielid,jdbcType=VARCHAR}, 
+      #{item.materielname,jdbcType=VARCHAR}, #{item.warehouseid,jdbcType=VARCHAR}, #{item.warehousename,jdbcType=VARCHAR}, 
+      #{item.unit,jdbcType=VARCHAR}, #{item.salessum,jdbcType=DOUBLE}, #{item.taxprice,jdbcType=DOUBLE}, #{item.untaxprice,jdbcType=DOUBLE}, 
+      #{item.taxrate,jdbcType=DOUBLE}, #{item.remarks,jdbcType=VARCHAR})
+      </foreach>
+  </insert>
   <insert id="insertSelective" parameterType="com.tianrui.service.bean.businessManage.salesManage.SalesApplicationDetail" >
     insert into tr_sales_db_application_detail
     <trim prefix="(" suffix=")" suffixOverrides="," >
