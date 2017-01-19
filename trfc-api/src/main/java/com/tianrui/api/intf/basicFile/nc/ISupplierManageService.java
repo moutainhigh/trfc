@@ -1,6 +1,8 @@
 package com.tianrui.api.intf.basicFile.nc;
 
-import com.tianrui.api.req.basicFile.nc.MaterielManageQuery;
+import java.util.List;
+
+import com.alibaba.fastjson.JSONObject;
 import com.tianrui.api.req.basicFile.nc.SupplierManageQuery;
 import com.tianrui.api.req.basicFile.nc.SupplierManageSave;
 import com.tianrui.api.resp.basicFile.nc.SupplierManageResp;
@@ -19,6 +21,17 @@ public interface ISupplierManageService {
 	Result updateSupplier(SupplierManageSave save) throws Exception;
 	
 	Result findListByParmas(SupplierManageQuery query) throws Exception;
-	
+	/**
+	 * 获取最大时间戳
+	 * @param query
+	 * @return
+	 * @throws Exception
+	 */
 	Result findMaxUtc(SupplierManageQuery query) throws Exception;
+	/**
+	 * 把数据中心的最新数据更新到本地
+	 * @param list
+	 * @return
+	 */
+	Result updateDataWithDC(List<JSONObject> list);
 }

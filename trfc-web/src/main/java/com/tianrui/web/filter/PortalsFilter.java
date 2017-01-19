@@ -12,6 +12,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.lang.StringUtils;
+
 public class PortalsFilter implements Filter {
 
 	@Override
@@ -29,9 +31,8 @@ public class PortalsFilter implements Filter {
 
 		//获取路径
 		String p = req.getServletPath();
-		//System.out.println(p);
 		//过滤所有'/trfc'开头的路径
-		if(p==null || p.length()<=4|| !"/trfc".equals(p.substring(0,4))) {
+		if(p.length()<5 || !("/trfc".equals(p.substring(0,5)))) {
 			chain.doFilter(request, response);
 			return;
 		}
@@ -40,7 +41,7 @@ public class PortalsFilter implements Filter {
 		String userId = (String)
 				session.getAttribute("userId");
 		//根据账号判断用户是否登录
-		if(userId == null) {
+		if(userId == null || !StringUtils.isNotBlank(userId)) {
 			//没登录,重定向到登录页
 			resp.sendRedirect(
 					"/index");

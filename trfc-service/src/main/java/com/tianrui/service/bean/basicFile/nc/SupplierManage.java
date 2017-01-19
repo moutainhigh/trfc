@@ -6,37 +6,73 @@ package com.tianrui.service.bean.basicFile.nc;
  * @classname SupplierManage.java
  */
 public class SupplierManage {
-    private String id;
-
+    /**
+     * 供应商id
+     */
+	private String id;
+	/**
+	 * 编码
+	 */
     private String code;
-
+    /**
+     * 内码
+     */
     private String internalcode;
-
+    /**
+     * 名称
+     */
     private String name;
-
+    /**
+     * 简称
+     */
     private String abbrname;
-
+    /**
+     * 拼音码
+     */
     private String pinyincode;
-
+    /**
+     * 组织id
+     */
     private String orgid;
-
+    /**
+     * 组织名称
+     */
     private String orgname;
-
+    /**
+     * 矿口(0:否,1:是)
+     */
     private String minemouth;
-
+    /**
+     * 司机身份验证(0:否,1:是)
+     */
     private String drivercheck;
-    
+    /**
+     * 状态(0:删除,1:正常)
+     */
     private String state;
-
+    /**
+     * 备注
+     */
     private String remarks;
-
+    /**
+     * 创建人
+     */
     private String creator;
-
+    /**
+     * 创建时间
+     */
     private Long createtime;
-
+    /**
+     * 修改者
+     */
     private String modifier;
-
+    /**
+     * 最后修改时间
+     */
     private Long modifytime;
+    /**
+     * 数据中心时间戳
+     */
     private Long utc;
 
     public String getId() {
