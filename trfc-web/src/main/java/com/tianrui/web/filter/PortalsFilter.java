@@ -34,7 +34,6 @@ public class PortalsFilter implements Filter {
 		String p = req.getServletPath();
 		//System.out.println(p);
 		//过滤所有'/trfc'开头的路径
-		if(p==null || p.length()<=4|| !"/trfc".equals(p.substring(0,4))) {
 		if(p != null && p.startsWith("/trfc")) {
 			//从session中获取账号
 			HttpSession session = req.getSession();
@@ -64,19 +63,6 @@ public class PortalsFilter implements Filter {
 			//已登录,请求继续执行
 			chain.doFilter(request, response);
 		}
-
-
-
-
-
-
-
-
-
-
-
-
-
 	}
 
 	@Override
