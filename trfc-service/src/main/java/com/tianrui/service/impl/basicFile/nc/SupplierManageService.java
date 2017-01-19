@@ -1,12 +1,16 @@
 package com.tianrui.service.impl.basicFile.nc;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.commons.beanutils.PropertyUtils;
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.alibaba.fastjson.JSONObject;
 import com.tianrui.api.intf.basicFile.nc.ISupplierManageService;
 import com.tianrui.api.req.basicFile.nc.SupplierManageQuery;
 import com.tianrui.api.req.basicFile.nc.SupplierManageSave;
@@ -109,4 +113,77 @@ public class SupplierManageService implements ISupplierManageService {
 		return rs;
 	}
 
+	//更新 数据中心发来的数据 到本地
+	@Override
+	public Result updateDataWithDC(List<JSONObject> list) {
+		Result result = Result.getParamErrorResult();
+		if(CollectionUtils.isEmpty(list)){
+			Set<String> idSet = getSetOfId();
+			List<SupplierManage> toAddList = new ArrayList<SupplierManage>();
+			List<SupplierManage> toUpdateList = new ArrayList<SupplierManage>();
+			for(JSONObject json : list){
+				if(idSet.contains(json.getString("id"))){
+					toUpdateList.add(converJson2Bean(json));
+				}else{
+					toAddList.add(converJson2Bean(json));
+				}
+			}
+			if(!toAddList.isEmpty()){
+				supplierManageMapper.insertBatch(toAddList);
+			}
+			if(!toUpdateList.isEmpty()){
+				for(SupplierManage manage : toUpdateList){
+					supplierManageMapper.updateByPrimaryKeySelective(manage);
+				}
+			}
+			result = Result.getSuccessResult();
+		}
+		return result;
+	}
+	
+	/**
+	 * 获取表中所有ID的数据
+	 */
+	private Set<String> getSetOfId(){
+		Set<String> set = new HashSet<String>();
+		List<SupplierManage> list = supplierManageMapper.selectSelective(null);
+		for(SupplierManage sm : list){
+			set.add(sm.getId());
+		}
+		return set;
+	}
+	/**
+	 * 类型转换
+	 */
+	private SupplierManage converJson2Bean(JSONObject json){
+		SupplierManage supplier = null;
+		if(json!=null){
+			supplier = new SupplierManage();
+			supplier.setId(json.getString("id"));
+			supplier.setCode(json.getString("code"));
+			supplier.setInternalcode(json.getString("innercode"));
+			supplier.setName(json.getString("name"));
+			supplier.setState("1");
+			supplier.setOrgid(json.getString("orgId"));
+			supplier.setUtc(json.getDate("ts").getTime());
+			supplier.setAbbrname(json.getString("shortName"));
+			supplier.setCreatetime(System.currentTimeMillis());
+			supplier.setModifytime(System.currentTimeMillis());
+		}
+		return supplier;
+	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+

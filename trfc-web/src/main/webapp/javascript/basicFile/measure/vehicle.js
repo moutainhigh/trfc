@@ -175,7 +175,8 @@
 		var params = {};
 		var qtp = $('#qtp').val();qtp = $.trim(qtp);
 		var keyword = $('#keyword').val();keyword = $.trim(keyword);
-		var orgid = $('#orgid').val();orgid = $.trim(orgid);
+		var orgid = $('#orgid').attr("orgid");orgid = $.trim(orgid);
+		var orgname = $('#orgid').val();orgname = $.trim(orgname);
 		var transporttype = $('#transporttype').val();transporttype = $.trim(transporttype);
 		var isblacklist = $('#isblacklist').val();isblacklist = $.trim(isblacklist);
 		if(qtp == 'mc'){
@@ -185,6 +186,7 @@
 			params.internalcode = keyword;
 		}
 		params.orgid = orgid;
+		params.orgname = orgname;
 		params.transporttype = transporttype;
 		params.isblacklist = isblacklist;
 		var pageSize = $('#pageSize').val();pageSize = $.trim(pageSize);

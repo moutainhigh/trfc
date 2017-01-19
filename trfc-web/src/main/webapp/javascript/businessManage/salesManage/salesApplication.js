@@ -146,6 +146,7 @@
 			queryData(1);
 		});
 		$('#addBtn').off('click').on('click', function(){
+			layer.closeAll();
 			$.ajax({
 				url:URL.initAddUrl,
 				data:null,
@@ -363,7 +364,7 @@
 					source = '';
 					break;
 				}
-				var billtype = obj.billtype || '';
+				var billtypename = obj.billtypename || '';
 				var customername = customer.name || '';
 				var billtimeStr = obj.billtimeStr || '';
 				var salesmanname = customer.salesmanname || '';
@@ -378,7 +379,7 @@
 						.append('<td>'+code+'</td>')
 						.append('<td>'+status+'</td>')
 						.append('<td>'+source+'</td>')
-						.append('<td>'+billtype+'</td>')
+						.append('<td>'+billtypename+'</td>')
 						.append('<td>'+customername+'</td>')
 						.append('<td>'+billtimeStr+'</td>')
 						.append('<td>'+salesmanname+'</td>')
@@ -397,18 +398,22 @@
 						.appendTo('#dataBody');
 			}
 			$('#dataBody tr').find('.updateBtn').off('click').on('click',function(){
+				layer.closeAll();
 				var obj = $(this).closest('tr').data();
 				showUpdate(obj);
 			});
 			$('#dataBody tr').find('.auditBtn').off('click').on('click',function(){
+				layer.closeAll();
 				var obj = $(this).closest('tr').data();
 				audit(obj);
 			});
 			$('#dataBody tr').find('.unauditBtn').off('click').on('click',function(){
+				layer.closeAll();
 				var obj = $(this).closest('tr').data();
 				unaudit(obj);
 			});
 			$('#dataBody tr').find('.deleteBtn').off('click').on('click',function(){
+				layer.closeAll();
 				var obj = $(this).closest('tr').data();
 				deleteData(obj);
 			});
@@ -438,6 +443,7 @@
 		var customerid = obj.customerManageResp.id || '';
 		var customername = obj.customerManageResp.name || '';
 		var channelcode = obj.customerManageResp.channelcode || '';
+		var orgname = obj.orgname || '';
 		var salesmanname = obj.customerManageResp.salesmanname || '';
 		var transportationcompany = obj.customerManageResp.transportationcompany || '';
 		var creatorname = obj.creatorname || '';
@@ -448,6 +454,7 @@
 		$('#u_customer').val(customerid);
 		$('#u_customername').val(customername);
 		$('#u_channelcode').val(channelcode);
+		$('#u_orgname').val(orgname);
 		$('#u_salesmanname').val(salesmanname);
 		$('#u_transportationcompany').val(transportationcompany);
 		$('#u_creatorname').val(creatorname);

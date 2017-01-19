@@ -10,6 +10,7 @@ import com.tianrui.service.bean.basicFile.nc.SupplierManage;
  * @createtime 2016年12月16日 上午10:20:37
  * @classname SupplierManageMapper.java
  */
+import com.tianrui.service.bean.basicFile.nc.WarehouseManage;
 public interface SupplierManageMapper {
     int deleteByPrimaryKey(String id);
 
@@ -28,7 +29,12 @@ public interface SupplierManageMapper {
     List<SupplierManage> findSupplierPage(SupplierManageQuery query);
     
     long findSupplierPageCount(SupplierManageQuery query);
-    
+    /**
+     * 获取最大时间戳
+     */
     Long findMaxUtc();
-    
+    /**
+     * 批量添加
+     */
+    int insertBatch(List<SupplierManage> list);
 }

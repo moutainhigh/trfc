@@ -1,7 +1,6 @@
 package com.tianrui.service.impl.businessManage.salesManage;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -13,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.tianrui.api.intf.basicFile.nc.ICustomerManageService;
 import com.tianrui.api.intf.businessManage.salesManage.ISalesApplicationDetailService;
@@ -26,7 +26,10 @@ import com.tianrui.api.req.businessManage.salesManage.SalesApplicationSave;
 import com.tianrui.api.resp.businessManage.salesManage.SalesApplicationResp;
 import com.tianrui.service.bean.businessManage.salesManage.SalesApplication;
 import com.tianrui.service.bean.businessManage.salesManage.SalesApplicationDetail;
+import com.tianrui.service.bean.common.BillType;
+import com.tianrui.service.mapper.businessManage.salesManage.SalesApplicationDetailMapper;
 import com.tianrui.service.mapper.businessManage.salesManage.SalesApplicationMapper;
+import com.tianrui.service.mapper.common.BillTypeMapper;
 import com.tianrui.smartfactory.common.constants.Constant;
 import com.tianrui.smartfactory.common.constants.ErrorCode;
 import com.tianrui.smartfactory.common.utils.DateUtil;
@@ -39,6 +42,8 @@ public class SalesApplicationService implements ISalesApplicationService {
 	
 	@Autowired
 	private SalesApplicationMapper salesApplicationMapper;
+	@Autowired
+	private SalesApplicationDetailMapper salesApplicationDetailMapper;
 	
 	@Autowired
 	private ISalesApplicationDetailService salesApplicationDetailService;
@@ -48,6 +53,9 @@ public class SalesApplicationService implements ISalesApplicationService {
 	
 	@Autowired
 	private ISystemUserService systemUserService;
+	
+	@Autowired
+	private BillTypeMapper billTypeMapper;
 	
 	@Override
 	public PaginationVO<SalesApplicationResp> page(SalesApplicationQuery query) throws Exception{
@@ -238,6 +246,12 @@ public class SalesApplicationService implements ISalesApplicationService {
 				query.setId(bean.getCustomerid());
 				resp.setCustomerManageResp(customerManageService.findOne(query));
 			}
+			if(StringUtils.isNotBlank(bean.getBilltype())){
+				BillType billtype = billTypeMapper.selectByPrimaryKey(bean.getBilltype());
+				if(billtype != null){
+					resp.setBilltypename(billtype.getName());
+				}
+			}
 			SalesApplicationDetailQuery query = new SalesApplicationDetailQuery();
 			query.setSalesid(bean.getId());
 			resp.setDetailResp(salesApplicationDetailService.findListBySalesApplicationId(query).get(0));
@@ -274,13 +288,13 @@ public class SalesApplicationService implements ISalesApplicationService {
 					toUpdate.add(converJson2Bean(jsonObject));
 				}else{
 					toSave.add(converJson2Bean(jsonObject));
-					toSaveItem.addAll(converJson2ItemList(jsonObject));
+					toSaveItem.addAll(converJson2ItemList(jsonObject,id));
 				}
 			}
 			
 			if( CollectionUtils.isNotEmpty(toSave) ){
 				salesApplicationMapper.insertBatch(toSave);
-				//salesApplicationDetailMapper.insertBatch(toSaveItem);
+				salesApplicationDetailMapper.insertBatch(toSaveItem);
 			}
 			
 			if( CollectionUtils.isNotEmpty(toUpdate) ){
@@ -332,17 +346,38 @@ public class SalesApplicationService implements ISalesApplicationService {
 		item.setCreatetime(DateUtil.parse(jsonItem.getString("singleData"), "yyyy-MM-dd HH:mm:ss"));
 		//审核人
 		item.setAuditid(jsonItem.getString("auditPerson"));
-		item.setAuditname(jsonItem.getString("auditData"));
+		item.setAuditname(jsonItem.getString("auditName"));
 		//审核日期
-		item.setAudittime(0L);
+		item.setAudittime(DateUtil.parse(jsonItem.getString("auditData"), "yyyy-MM-dd HH:mm:ss"));
 		//区域码 //TODO areaCode
 		//TS
 		item.setUtc(Long.valueOf(jsonItem.getString("ts")));
 		return item;
 	}
-	private List<SalesApplicationDetail> converJson2ItemList(JSONObject jsonItem){
+	private List<SalesApplicationDetail> converJson2ItemList(JSONObject jsonItem,String id){
 		List<SalesApplicationDetail> itemList = new ArrayList<SalesApplicationDetail>();
-		System.out.println(jsonItem.getJSONArray("list"));
+		if( jsonItem.getJSONArray("list") !=null ){
+			JSONArray arr =jsonItem.getJSONArray("list");
+			if( arr.size()>0){
+				for(int i=0;i<arr.size();i++){
+					JSONObject itemJon=JSONObject.parseObject(arr.get(0).toString());
+					SalesApplicationDetail saleItem = new SalesApplicationDetail();
+					
+					saleItem.setId(itemJon.getString("id"));
+					saleItem.setSalesid(id);
+					saleItem.setMaterielid(itemJon.getString("materialId"));
+					saleItem.setMaterielname(itemJon.getString("materialCode"));
+//					saleItem.setWarehouseid(itemJon.getString(""));
+//					saleItem.setWarehousename(itemJon.getString(""));
+					saleItem.setUnit("吨");
+					saleItem.setSalessum(Double.valueOf(itemJon.getString("number")));
+					saleItem.setTaxprice(Double.valueOf(itemJon.getString("nqtorigtaxprice")));
+					saleItem.setUntaxprice(Double.valueOf(itemJon.getString("nqtorigprice")));
+					saleItem.setTaxrate(Double.valueOf(itemJon.getString("ntaxrate")));
+					itemList.add(saleItem);
+				}
+			}
+		}
 		return itemList;
 	}
 }
