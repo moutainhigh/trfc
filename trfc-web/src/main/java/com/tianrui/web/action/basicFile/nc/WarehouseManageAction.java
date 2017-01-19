@@ -1,5 +1,7 @@
 package com.tianrui.web.action.basicFile.nc;
 
+import javax.servlet.http.HttpSession;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +14,7 @@ import com.tianrui.api.intf.basicFile.nc.IWarehouseManageService;
 import com.tianrui.api.req.basicFile.nc.WarehouseManageQuery;
 import com.tianrui.api.req.basicFile.nc.WarehouseManageSave;
 import com.tianrui.api.resp.basicFile.nc.WarehouseManageResp;
+import com.tianrui.api.resp.system.auth.SystemUserResp;
 import com.tianrui.smartfactory.common.constants.ErrorCode;
 import com.tianrui.smartfactory.common.vo.PaginationVO;
 import com.tianrui.smartfactory.common.vo.Result;
@@ -53,9 +56,11 @@ public class WarehouseManageAction {
 	
 	@RequestMapping("/updateWarehouse")
 	@ResponseBody
-	public Result updateMater(WarehouseManageSave req){
+	public Result updateMater(WarehouseManageSave req, HttpSession session){
 		Result result = Result.getSuccessResult();
 		try {
+			SystemUserResp user = (SystemUserResp) session.getAttribute("systemUser");
+			req.setCurrUId(user.getId());
 			result = warehouseManageService.updateWarehouse(req);
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);

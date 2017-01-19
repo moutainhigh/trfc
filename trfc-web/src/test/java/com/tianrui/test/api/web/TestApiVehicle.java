@@ -9,6 +9,8 @@ import com.alibaba.fastjson.JSON;
 import com.tianrui.api.req.basicFile.measure.VehicleManageApi;
 import com.tianrui.smartfactory.common.api.ApiParam;
 import com.tianrui.smartfactory.common.api.Head;
+import com.tianrui.smartfactory.common.constants.Constant;
+import com.tianrui.smartfactory.common.utils.Md5Utils;
 
 public class TestApiVehicle {
 
@@ -57,7 +59,19 @@ public class TestApiVehicle {
 		
 		api.setBody(req);
 		api.setHead(head);
+		
+		setkey(api);
+		setMd5(api);
 		return api;
+	}
+	
+	static void setkey( ApiParam api){
+		api.getHead().setKey(Md5Utils.MD5(Constant.apiAuthKey+api.getHead().getCallTime()));
+	}
+	
+	static void setMd5( ApiParam api){
+		api.setSign(Constant.apiAuthSign);
+		api.setSign(Md5Utils.MD5(JSON.toJSONString(api)));
 	}
 	
 	

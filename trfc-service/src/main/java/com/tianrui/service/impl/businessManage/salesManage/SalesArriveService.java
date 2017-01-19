@@ -12,6 +12,7 @@ import com.tianrui.api.intf.basicFile.measure.IDriverManageService;
 import com.tianrui.api.intf.basicFile.measure.IVehicleManageService;
 import com.tianrui.api.intf.businessManage.salesManage.ISalesApplicationService;
 import com.tianrui.api.intf.businessManage.salesManage.ISalesArriveService;
+import com.tianrui.api.intf.system.auth.ISystemUserService;
 import com.tianrui.api.req.basicFile.measure.DriverManageQuery;
 import com.tianrui.api.req.basicFile.measure.VehicleManageQuery;
 import com.tianrui.api.req.businessManage.salesManage.ApiDoorQueueQuery;
@@ -27,6 +28,7 @@ import com.tianrui.api.resp.businessManage.salesManage.ApiSalesArriveResp;
 import com.tianrui.api.resp.businessManage.salesManage.SalesApplicationDetailResp;
 import com.tianrui.api.resp.businessManage.salesManage.SalesApplicationResp;
 import com.tianrui.api.resp.businessManage.salesManage.SalesArriveResp;
+import com.tianrui.api.resp.system.auth.SystemUserResp;
 import com.tianrui.service.bean.basicFile.measure.VehicleManage;
 import com.tianrui.service.bean.businessManage.salesManage.SalesArrive;
 import com.tianrui.service.bean.common.RFID;
@@ -68,6 +70,9 @@ public class SalesArriveService implements ISalesArriveService {
 	
 	@Autowired
 	private CodeGenDaoImpl codeGenDaoImpl;
+	
+	@Autowired
+	private ISystemUserService systemUserService;
 	
 	@Override
 	public PaginationVO<SalesArriveResp> page(SalesArriveQuery query) throws Exception {
@@ -114,6 +119,7 @@ public class SalesArriveService implements ISalesArriveService {
 			bean.setAuditstatus("1");
 			bean.setStatus("0");
 			bean.setState("1");
+			bean.setSource("0");
 //			bean.setCreator("");
 //			bean.setModifier("");
 			bean.setModifytime(save.getCreatetime());
@@ -156,7 +162,7 @@ public class SalesArriveService implements ISalesArriveService {
 				}
 			}
 			PropertyUtils.copyProperties(bean, save);
-//			bean.setModifier("");
+			bean.setModifier(save.getCurrUId());
 			bean.setModifytime(save.getCreatetime());
 			if(salesArriveMapper.updateByPrimaryKeySelective(bean) > 0){
 				result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
@@ -206,6 +212,10 @@ public class SalesArriveService implements ISalesArriveService {
 				query.setId(bean.getBillid());
 				resp.setSalesApplication(salesApplicationService.findOne(query));
 			}
+			if(StringUtils.isNotBlank(bean.getAbnormalperson())){
+				SystemUserResp user = systemUserService.getUser(bean.getAbnormalperson());
+				resp.setAbnormalpersonname(user.getName());
+			}
 		}
 		return resp;
 	}
@@ -217,7 +227,7 @@ public class SalesArriveService implements ISalesArriveService {
 			SalesArrive sa = new SalesArrive();
 			sa.setId(query.getId());
 			sa.setAuditstatus("1");
-			sa.setModifier("");
+			sa.setModifier(query.getCurrUId());
 			sa.setModifytime(System.currentTimeMillis());
 			if(salesArriveMapper.updateByPrimaryKeySelective(sa) > 0){
 				result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
@@ -235,7 +245,7 @@ public class SalesArriveService implements ISalesArriveService {
 			SalesArrive sa = new SalesArrive();
 			sa.setId(query.getId());
 			sa.setAuditstatus("0");
-			sa.setModifier("");
+			sa.setModifier(query.getCurrUId());
 			sa.setModifytime(System.currentTimeMillis());
 			if(salesArriveMapper.updateByPrimaryKeySelective(sa) > 0){
 				result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
@@ -253,9 +263,9 @@ public class SalesArriveService implements ISalesArriveService {
 			SalesArrive sa = new SalesArrive();
 			sa.setId(query.getId());
 			sa.setStatus("3");
-			sa.setAbnormalperson("");
+			sa.setAbnormalperson(query.getCurrUId());
 			sa.setAbnormaltime(System.currentTimeMillis());
-			sa.setModifier("");
+			sa.setModifier(query.getCurrUId());
 			sa.setModifytime(System.currentTimeMillis());
 			if(salesArriveMapper.updateByPrimaryKeySelective(sa) > 0){
 				result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
@@ -273,9 +283,9 @@ public class SalesArriveService implements ISalesArriveService {
 			SalesArrive sa = new SalesArrive();
 			sa.setId(query.getId());
 			sa.setStatus("5");
-			sa.setAbnormalperson("");
+			sa.setAbnormalperson(query.getCurrUId());
 			sa.setAbnormaltime(System.currentTimeMillis());
-			sa.setModifier("");
+			sa.setModifier(query.getCurrUId());
 			sa.setModifytime(System.currentTimeMillis());
 			if(salesArriveMapper.updateByPrimaryKeySelective(sa) > 0){
 				result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);

@@ -108,9 +108,11 @@ public class SalesApplicationAction {
 	
 	@RequestMapping("/update")
 	@ResponseBody
-	public Result update(SalesApplicationSave save){
+	public Result update(SalesApplicationSave save, HttpSession session){
 		Result result = Result.getSuccessResult();
 		try {
+			SystemUserResp user = (SystemUserResp) session.getAttribute("systemUser");
+			save.setCurrid(user.getId());
 			result = salesApplicationService.update(save);
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);

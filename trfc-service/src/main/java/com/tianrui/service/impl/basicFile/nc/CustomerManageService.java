@@ -25,7 +25,6 @@ import com.tianrui.service.bean.basicFile.nc.CustomerManage;
  */
 import com.tianrui.service.mapper.basicFile.nc.CustomerManageMapper;
 import com.tianrui.smartfactory.common.constants.ErrorCode;
-import com.tianrui.smartfactory.common.utils.DateUtil;
 import com.tianrui.smartfactory.common.vo.PaginationVO;
 import com.tianrui.smartfactory.common.vo.Result;
 @Service
@@ -39,6 +38,7 @@ public class CustomerManageService implements ICustomerManageService {
 		PaginationVO<CustomerManageResp> page = null;
 		if(query != null){
 			page = new PaginationVO<CustomerManageResp>();
+			query.setState("1");
 			long count = customerManageMapper.findCustomerPageCount(query);
 			if(count > 0){
 				query.setStart((query.getPageNo()-1)*query.getPageSize());
@@ -59,7 +59,7 @@ public class CustomerManageService implements ICustomerManageService {
 		if(save != null){
 			CustomerManage c = new CustomerManage();
 			PropertyUtils.copyProperties(c, save);
-			//c.setModifier("");
+			c.setModifier(save.getCurrUId());
 			c.setModifytime(System.currentTimeMillis());
 			if(customerManageMapper.updateByPrimaryKeySelective(c) > 0){
 				result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);

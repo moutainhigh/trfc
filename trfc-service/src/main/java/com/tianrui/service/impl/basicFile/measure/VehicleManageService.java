@@ -75,6 +75,7 @@ public class VehicleManageService implements IVehicleManageService {
 		Result result = Result.getParamErrorResult();
 		if (save != null) {
 			VehicleManage vehicle = new VehicleManage();
+			vehicle.setState("1");
 			vehicle.setVehicleno(save.getVehicleno());
 			List<VehicleManage> list = this.vehicleManageMapper.selectSelective(vehicle);
 			if (list != null && list.size() > 0) {
@@ -256,6 +257,7 @@ public class VehicleManageService implements IVehicleManageService {
 								vehicle.setId(v.getId());
 								vehicle.setModifier(vehicleManageApi.getCurrUid());
 								vehicle.setModifytime(System.currentTimeMillis());
+								vehicle.setRfid(vehicleManageApi.getRfid());
 								if (vehicleManageMapper.updateByPrimaryKeySelective(vehicle) > 0) {
 									result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
 								} else {
