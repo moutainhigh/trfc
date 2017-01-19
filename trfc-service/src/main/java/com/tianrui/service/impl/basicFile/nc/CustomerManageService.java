@@ -132,9 +132,9 @@ public class CustomerManageService implements ICustomerManageService {
 			List<CustomerManage>  toUpdate = new ArrayList<>();
 			for(JSONObject jsonItem :list ){
 				if( idSet.contains(jsonItem.get("id"))){
-					toSave.add(converJson2Bean(jsonItem));
-				}else{
 					toUpdate.add(converJson2Bean(jsonItem));
+				}else{
+					toSave.add(converJson2Bean(jsonItem));
 				}
 			}
 			//新增的调批量保存
@@ -172,7 +172,7 @@ public class CustomerManageService implements ICustomerManageService {
 		item.setInternalcode(jsonItem.getString("internalcode"));
 		item.setCreatetime(System.currentTimeMillis());
 		item.setModifytime(System.currentTimeMillis());	
-		item.setUtc(DateUtil.parse(jsonItem.getString("ts"), "yyyy-MM-dd HH:mm:ss"));
+		item.setUtc(Long.valueOf(jsonItem.getString("ts")));
 		return item;
 	}
 	
