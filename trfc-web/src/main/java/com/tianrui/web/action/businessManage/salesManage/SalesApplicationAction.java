@@ -19,6 +19,7 @@ import com.tianrui.api.intf.common.IBillTypeService;
 import com.tianrui.api.req.businessManage.salesManage.SalesApplicationQuery;
 import com.tianrui.api.req.businessManage.salesManage.SalesApplicationSave;
 import com.tianrui.api.resp.businessManage.salesManage.SalesApplicationResp;
+import com.tianrui.api.resp.system.auth.SystemUserResp;
 import com.tianrui.smartfactory.common.constants.Constant;
 import com.tianrui.smartfactory.common.constants.ErrorCode;
 import com.tianrui.smartfactory.common.utils.DateUtil;
@@ -50,8 +51,8 @@ public class SalesApplicationAction {
 		try {
 			view.addObject("billType", billTypeService.findListByParmas(null).getData());
 			view.addObject("customer", customerManageService.findListByParmas(null).getData());
-			view.addObject("currid", session.getAttribute("userId"));
-			view.addObject("currname", session.getAttribute("userName"));
+			SystemUserResp user = (SystemUserResp) session.getAttribute("systemUser");
+			view.addObject("user", user);
 			view.addObject("orgid", Constant.ORG_ID);
 			view.addObject("orgname", Constant.ORG_NAME);
 		} catch (Exception e) {
@@ -95,7 +96,8 @@ public class SalesApplicationAction {
 	public Result add(SalesApplicationSave save, HttpSession session){
 		Result result = Result.getSuccessResult();
 		try {
-			save.setCreator((String) session.getAttribute("userId"));
+			SystemUserResp user = (SystemUserResp) session.getAttribute("systemUser");
+			save.setCreator(user.getId());
 			result = salesApplicationService.add(save);
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
@@ -122,8 +124,9 @@ public class SalesApplicationAction {
 	public Result audit(SalesApplicationQuery query, HttpSession session){
 		Result result = Result.getSuccessResult();
 		try {
-			query.setAuditid((String) session.getAttribute("userId"));
-			query.setAuditname((String) session.getAttribute("userName"));
+			SystemUserResp user = (SystemUserResp) session.getAttribute("systemUser");
+			query.setAuditid(user.getId());
+			query.setAuditname(user.getName());
 			result = salesApplicationService.audit(query);
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
@@ -137,8 +140,9 @@ public class SalesApplicationAction {
 	public Result unaudit(SalesApplicationQuery query, HttpSession session){
 		Result result = Result.getSuccessResult();
 		try {
-			query.setAuditid((String) session.getAttribute("userId"));
-			query.setAuditname((String) session.getAttribute("userName"));
+			SystemUserResp user = (SystemUserResp) session.getAttribute("systemUser");
+			query.setAuditid(user.getId());
+			query.setAuditname(user.getName());
 			result = salesApplicationService.unaudit(query);
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
@@ -152,8 +156,9 @@ public class SalesApplicationAction {
 	public Result delete(SalesApplicationQuery query, HttpSession session){
 		Result result = Result.getSuccessResult();
 		try {
-			query.setCurrid((String) session.getAttribute("userId"));
-			query.setCurrname((String) session.getAttribute("userName"));
+			SystemUserResp user = (SystemUserResp) session.getAttribute("systemUser");
+			query.setCurrid(user.getId());
+			query.setCurrname(user.getName());
 			result = salesApplicationService.delete(query);
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);

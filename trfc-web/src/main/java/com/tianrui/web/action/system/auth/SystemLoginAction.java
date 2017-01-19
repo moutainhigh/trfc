@@ -35,8 +35,7 @@ public class SystemLoginAction {
 			if(rs.getData()!=null){
 				SystemUserResp user = (SystemUserResp)rs.getData();
 				HttpSession session = request.getSession();
-				session.setAttribute("userId", user.getId());
-				session.setAttribute("userName", user.getName());
+				session.setAttribute("systemUser", user);
 			}
 		} catch (Exception e) {
 			log.error(e.getMessage(),e);

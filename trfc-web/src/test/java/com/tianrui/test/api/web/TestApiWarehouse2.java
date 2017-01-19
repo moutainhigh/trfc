@@ -1,4 +1,4 @@
-package com.tianrui.test.api.web;
+/*package com.tianrui.test.api.web;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -65,3 +65,4 @@ public class TestApiWarehouse2 {
 	}
 	
 }
+*/
