@@ -38,7 +38,13 @@ public class OtherBdVehicleAction {
 	@RequestMapping(value="page",method=RequestMethod.POST)
 	@ResponseBody
 	public Result page(OtherBdVehicleReq req){
-		Result result = otherBdVehicleService.page(req);
+		Result result=Result.getErrorResult();
+		try {
+			result = otherBdVehicleService.page(req);
+		} catch (Exception e) {
+			log.error(e.getMessage(),e);
+		}
+		
 		return result;
 	}
 	
@@ -71,7 +77,12 @@ public class OtherBdVehicleAction {
 	@RequestMapping(value="addOtherVehicle",method=RequestMethod.POST)
 	@ResponseBody
 	public Result addOtherVehicle(OtherBdVehicleReq req){
-		Result result = otherBdVehicleService.addVehicle(req);
+		Result result=Result.getErrorResult();
+		try {
+			result = otherBdVehicleService.addVehicle(req);
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+		}
 		return result;
 	}
 	
@@ -83,7 +94,12 @@ public class OtherBdVehicleAction {
 	@RequestMapping(value="editOtherVehicle",method=RequestMethod.POST)
 	@ResponseBody
 	public Result editOtherVehicle(OtherBdVehicleReq req){
-		Result result =otherBdVehicleService.editVehicle(req);
+		Result result=Result.getErrorResult();
+		try {
+			result =otherBdVehicleService.editVehicle(req);
+		} catch (Exception e) {
+			log.error(e.getMessage(),e);
+		}
 		return result;
 	}
 	
@@ -95,7 +111,12 @@ public class OtherBdVehicleAction {
 	@RequestMapping(value="deleteOtherVehicle",method=RequestMethod.POST)
 	@ResponseBody
 	public Result deleteOtherVehicle(String id){
-		Result result = otherBdVehicleService.deleteVehicle(id);
+		Result result=Result.getErrorResult();
+		try {
+			result = otherBdVehicleService.deleteVehicle(id);
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+		}
 		return result;
 	}
 	
@@ -107,7 +128,12 @@ public class OtherBdVehicleAction {
 	@RequestMapping(value="checkName",method=RequestMethod.POST)
 	@ResponseBody
 	public Result checkName(String name){
-		Result result =  otherBdVehicleService.checkName(name);
+		Result result=Result.getErrorResult();
+		try {
+			result =  otherBdVehicleService.checkName(name);
+		} catch (Exception e) {
+			log.error(e.getMessage(),e);
+		}
 		return result;
 	}
 	

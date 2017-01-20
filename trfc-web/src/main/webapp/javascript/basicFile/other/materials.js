@@ -5,7 +5,7 @@ $(function(){
 	//2列表中删除按钮点击事件
 	$('#material_list').on('click','tr .material_delete',toDelete);
 	// 删除确认事件
-	$('#material_delete').attr('data-dismiss','modal').click(deleteAction);
+//	$('#material_delete').attr('data-dismiss','modal').click(deleteAction);
 	
 	//3列表中的修改按钮 点击事件
 	$('#material_list').on('click','tr .material_modify',toModify);
@@ -32,6 +32,16 @@ $(function(){
 	
 });
 
+//请求路径
+var URL = {
+		deleteUrl:"/trfc/basicFile/other/material/deleteOtherBdMaterial",
+		updateUrl:"/trfc/basicFile/other/material/updateOtherBdMaterial",
+		toupdateUrl:"/trfc/basicFile/other/material/toUpdate",
+		insertUrl:"/trfc/basicFile/other/material/addOtherBdMaterial",
+		toinsertUrl:"/trfc/basicFile/other/material/toInsert",
+		pageUrl:"/trfc/basicFile/other/material/page"
+};
+
 //7页面跳转
 function jumpPageAction(){
 	var maxpageno = $('#jumpPageNo').attr('maxpageno');
@@ -52,7 +62,7 @@ function searchAction(){
 
 //4获取新增 时所需展示的 数据
 function toInsert(){
-	var url = "toInsert";
+	var url =URL.toinsertUrl;
 	var params = {};
 	$.post(url,params,function(result){
 		if(result.code=='000000'){
@@ -60,17 +70,26 @@ function toInsert(){
 			$('#material_code').val(data.code);
 			$('#material_innercode').val(data.innercode);
 			//console.log(data);
+			$('#material_name').val('');
+			$('#material_info').val('');
+			$('#material_orgname').val('');
+			$('#material_isvalid').removeAttr('checked');
+			$('#material_remark').val('');
 		}else{
-			console.log('false');
+			layer.msg(result.error, {icon: 5});
 		}
 	});
 }
 //提交需要添加的数据
 function insertAction(){
-	var url = "addOtherBdMaterial";
+	var url = URL.insertUrl;
 	var code = $('#material_code').val();
 	var innercode = $('#material_innercode').val();
 	var name = $('#material_name').val();
+	if(!name){
+		$('#add .btn-primary').attr('data-dismiss','modal');
+		return;
+	}
 	var info = $('#material_info').val();
 	var orgName = $('#material_orgname').val();
 	var isvalid = 0;
@@ -87,12 +106,12 @@ function insertAction(){
 			isvalid:isvalid,
 			remark:remark
 	};
-	console.log(params);
+//	console.log(params);
 	$.post(url,params,function(result){
 		if(result.code=='000000'){
 			MaterialShowAction(1);
 		}else{
-			alert('添加失败');
+			layer.msg(result.error, {icon: 5});
 		}
 	});
 }
@@ -103,7 +122,7 @@ function insertAction(){
 function toModify(){
 	var tr = $(this).parent().parent();
 	var id = tr.data('material_id');
-	var url = "toUpdate";
+	var url = URL.toupdateUrl;
 	var param = {"id":id};
 	pageData.materialId=id;
 	$.post(url,param,function(result){
@@ -124,17 +143,21 @@ function toModify(){
 				
 			}
 		}else{
-			alert('修改失败');
+			layer.msg(result.error, {icon: 5});
 		}
 	});
 }
 
 //提交修改
 function modifyAction(){
-	var url = "updateOtherBdMaterial";
+	var url = URL.updateUrl;
 	//通过公共对象获得id
 	var id = pageData.materialId;
 	var name = $('#material_modify_name').val();
+	if(!name){
+		$('#edit .btn-primary').attr('data-dismiss','modal');
+		return;
+	}
 	var info = $('#material_modify_info').val();
 	var orgname = $('#material_modify_orgname').val();
 	var remark = $('#material_modify_remark').val();
@@ -154,7 +177,7 @@ function modifyAction(){
 		if(result.code=='000000'){
 			MaterialShowAction(1);
 		}else{
-			alert(result.error);
+			layer.msg(result.error, {icon: 5});
 		}
 	});
 }
@@ -171,11 +194,29 @@ function toDelete(){
 	var id = $(this).parent().parent().data('material_id');
 	//添加id到公用对象
 	pageData.materialId=id;
+	
+	var bn=layer.open({
+        content: '您确定要删除吗？',
+        area: '600px',
+        closeBtn:1,
+        shadeClose:true,
+        btn: ['确定', '取消'],
+        yes: function(index, layero){
+            //按钮【确定】的回调
+        	deleteAction();
+			layer.close(bn);
+        },btn2: function(index, layero){
+            //按钮【取消】的回调
+        }
+        ,cancel: function(){
+            //右上角关闭回调
+        }
+    });
 }
 
 //2执行删除操作
 function deleteAction(){	
-	var url = "deleteOtherBdMaterial";
+	var url = URL.deleteUrl;
 	var id = pageData.materialId;
 	var param = {id:id};
 	$.post(url,param,function(result){
@@ -183,10 +224,10 @@ function deleteAction(){
 			if($(result.data)){
 				MaterialShowAction(1);
 			}else{
-				alert('删除失败');
+				layer.msg(result.error, {icon: 5});
 			}
 		}else{
-			alert('删除失败');
+			layer.msg(result.error, {icon: 5});
 		}
 	});
 }
@@ -200,7 +241,13 @@ function pageCallback(pageNo){
 }
 //1加载并显示数据
 function MaterialShowAction(pageNo){
-	var url='page';
+	
+	var index = layer.load(2, {
+		  shade: [0.3,'#fff'] //0.1透明度的白色背景
+		});
+	
+	
+	var url=URL.pageUrl;
 	//var url = "/trfc-web/Other/page";
 	//获取当前页面记录数	
 	var pageSize=$('#pageSize').val();
@@ -222,7 +269,7 @@ function MaterialShowAction(pageNo){
 		};
 	//获取当前页面标记
 	params.pageNo=pageNo;
-	console.log(params);
+//	console.log(params);
 	$.post(url,params,function(result){
           if(result.code=='000000'){
 			
@@ -279,9 +326,10 @@ function MaterialShowAction(pageNo){
 				tr.data('material_id',list[i].id);
 			}
 		}else{
-			alert("获取列表失败");
+			layer.msg(result.error, {icon: 5});
 		}
 	});		
+	layer.close(index);
 }
 
 

@@ -15,8 +15,10 @@ import com.tianrui.api.req.basicFile.other.OtherBdMaterialReq;
 import com.tianrui.api.resp.basicFile.other.OtherBdMaterialResp;
 import com.tianrui.service.bean.basicFile.other.OtherBdMaterial;
 import com.tianrui.service.mapper.basicFile.other.OtherBdMaterialMapper;
+import com.tianrui.smartfactory.common.constants.ErrorCode;
 import com.tianrui.smartfactory.common.utils.UUIDUtil;
 import com.tianrui.smartfactory.common.vo.PaginationVO;
+import com.tianrui.smartfactory.common.vo.Result;
 
 /**
  * 其他物料的Service接口的实现类
@@ -27,9 +29,11 @@ import com.tianrui.smartfactory.common.vo.PaginationVO;
 public class OtherBdMaterialService implements IOtherBdMaterialService{
 	@Autowired
 	private OtherBdMaterialMapper otherBdMaterialMapper;
-	@Transactional
+	
+	
 	@Override
-	public PaginationVO<OtherBdMaterialResp> page(OtherBdMaterialReq req) throws Exception {
+	public Result page(OtherBdMaterialReq req) throws Exception {
+		Result result=Result.getSuccessResult();
 		// 实现分页方法
 		PaginationVO<OtherBdMaterialResp> page=null;
 		if(req!=null){
@@ -40,14 +44,20 @@ public class OtherBdMaterialService implements IOtherBdMaterialService{
             if(count>0){
             	List<OtherBdMaterial> list=otherBdMaterialMapper.findMaterialPage(req);
             	page.setList(copyBeanList2RespList(list));
+            	page.setTotal(count);
+				page.setPageNo(req.getPageNo());
+				page.setPageSize(req.getPageSize());
+				result.setData(page);
+            }else{
+            	page.setTotal(count);
+                page.setPageNo(req.getPageNo());
+                page.setPageSize(req.getPageSize());
+                result.setData(page);
             }
-            page.setTotal(count);
-            page.setPageNo(req.getPageNo());
-            page.setPageSize(req.getPageSize());
-			
 		}
-		return page;
+		return result;
 	}
+	
 	private List<OtherBdMaterialResp> copyBeanList2RespList(List<OtherBdMaterial> list)throws Exception{
 		List<OtherBdMaterialResp> listResp=null;
 		if(list != null && list.size()>0){
@@ -81,9 +91,11 @@ public class OtherBdMaterialService implements IOtherBdMaterialService{
 	public String getMaterialId(){
 		return UUIDUtil.getId();
 	}
+	
 	@Transactional
 	@Override
-	public int addOtherBdMaterial(OtherBdMaterialReq req) throws Exception {
+	public Result addOtherBdMaterial(OtherBdMaterialReq req) throws Exception {
+		Result result=Result.getSuccessResult();
 		//增加
 		int n=0;
 		if(req!=null){
@@ -94,13 +106,21 @@ public class OtherBdMaterialService implements IOtherBdMaterialService{
 			mater.setCreatetime(System.currentTimeMillis());
 			mater.setModifytime(System.currentTimeMillis());
 			n=otherBdMaterialMapper.insertSelective(mater);
+			if(n > 0){
+				result.setData(n);
+			}else if(n == -1){
+				result.setErrorCode(ErrorCode.PARAM_REPEAT_ERROR);
+			}else{
+				result.setErrorCode(ErrorCode.OPERATE_ERROR);
+			}
 		}
-		return n;
+		return result;
 	}
 	
 	
 	@Override
-	public int updateOtherBdMaterial(OtherBdMaterialReq req) throws Exception{
+	public Result updateOtherBdMaterial(OtherBdMaterialReq req) throws Exception{
+		Result result=Result.getSuccessResult();
 		//更新
 		int n=0;
 		if(req!=null){
@@ -109,8 +129,13 @@ public class OtherBdMaterialService implements IOtherBdMaterialService{
 			mater.setId(UUIDUtil.getId());
 			mater.setModifytime(System.currentTimeMillis());
 			n=this.otherBdMaterialMapper.updateByPrimaryKeySelective(req);
+			if(n > 0){
+				result.setData(n);
+			}else{
+				result.setErrorCode(ErrorCode.OPERATE_ERROR);
+			}
 		}
-		return n;
+		return result;
 		
 	}
 	@Override
@@ -130,9 +155,18 @@ public class OtherBdMaterialService implements IOtherBdMaterialService{
 		
 	@Transactional
 	@Override
-	public int deleteByPrimaryKey(String id) throws Exception {
+	public Result deleteByPrimaryKey(String id) throws Exception {
 		// 删除
-		return this.otherBdMaterialMapper.deleteByPrimaryKey(id);
+		Result result=Result.getSuccessResult();
+		if(id!=null && !id.trim().isEmpty()){
+			int n=this.otherBdMaterialMapper.deleteByPrimaryKey(id);
+			if(n > 0){
+				result.setData(n);
+			}else{
+				result.setErrorCode(ErrorCode.OPERATE_ERROR);
+			}
+		}
+		return result;
 	}
 	
 	

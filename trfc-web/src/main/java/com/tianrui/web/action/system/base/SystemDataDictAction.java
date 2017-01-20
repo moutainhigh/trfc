@@ -1,5 +1,7 @@
 package com.tianrui.web.action.system.base;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -10,11 +12,15 @@ import org.springframework.web.servlet.ModelAndView;
 import com.tianrui.api.intf.system.base.ISystemDataDictService;
 import com.tianrui.api.req.system.base.SystemDataDictItemReq;
 import com.tianrui.api.req.system.base.SystemDataDictReq;
+import com.tianrui.smartfactory.common.constants.ErrorCode;
 import com.tianrui.smartfactory.common.vo.Result;
 
 @Controller
 @RequestMapping("/trfc/system/base/dataDict")
 public class SystemDataDictAction {
+	
+	private Logger log = LoggerFactory.getLogger(SystemDataDictAction.class);
+	
 	@Autowired
 	private ISystemDataDictService systemDataDictService;
 	
@@ -32,7 +38,13 @@ public class SystemDataDictAction {
 	@RequestMapping(value="/listDict",method=RequestMethod.POST)
 	@ResponseBody
 	public Result listDataDict(SystemDataDictReq req){
-		Result result = systemDataDictService.findSystemDataDicts(req);
+		Result result=Result.getErrorResult();
+		try {
+			result = systemDataDictService.findSystemDataDicts(req);
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
+		}
 		return result;
 	}
 	
@@ -44,7 +56,13 @@ public class SystemDataDictAction {
 	@RequestMapping(value="/addDict",method=RequestMethod.POST)
 	@ResponseBody
 	public Result addDataDict(SystemDataDictReq req){
-		Result result = systemDataDictService.addSystemDataDict(req);
+		Result result=Result.getErrorResult();
+		try {
+			result = systemDataDictService.addSystemDataDict(req);
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
+		}
 		return result;
 	}
 	
@@ -56,7 +74,13 @@ public class SystemDataDictAction {
 	@RequestMapping(value="/editDict",method=RequestMethod.POST)
 	@ResponseBody
 	public Result editDataDict(SystemDataDictReq req){
-		Result result = systemDataDictService.editSystemDataDict(req);
+		Result result=Result.getErrorResult();
+		try {
+			result = systemDataDictService.editSystemDataDict(req);
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
+		}
 		return result;
 	}
 	
@@ -68,7 +92,13 @@ public class SystemDataDictAction {
 	@RequestMapping(value="/deleteDict",method=RequestMethod.POST)
 	@ResponseBody
 	public Result deleteDataDict(String id){
-		Result result = systemDataDictService.deleteSystemDataDict(id);
+		Result result=Result.getErrorResult();
+		try {
+			result = systemDataDictService.deleteSystemDataDict(id);
+		} catch (Exception e) {
+			log.error(e.getMessage(),e);
+			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
+		}
 		return result;
 	}
 	
@@ -80,7 +110,13 @@ public class SystemDataDictAction {
 	@RequestMapping(value="/listItem",method=RequestMethod.POST)
 	@ResponseBody
 	public Result listItem(SystemDataDictItemReq req){
-		Result result = systemDataDictService.findSystemDataDictItems(req);
+		Result result=Result.getErrorResult();
+		try {
+			result = systemDataDictService.findSystemDataDictItems(req);
+		} catch (Exception e) {
+			log.error(e.getMessage(),e);
+			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
+		}
 		return result;
 	}
 	
@@ -92,7 +128,13 @@ public class SystemDataDictAction {
 	@RequestMapping(value="/addItem",method=RequestMethod.POST)
 	@ResponseBody
 	public Result addItem(SystemDataDictItemReq req){
-		Result result = systemDataDictService.addSystemDataDictItem(req);
+		Result result=Result.getErrorResult();
+		try {
+			result = systemDataDictService.addSystemDataDictItem(req);
+		} catch (Exception e) {
+			log.error(e.getMessage(),e);
+			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
+		}
 		return result;
 	}
 	
@@ -104,7 +146,13 @@ public class SystemDataDictAction {
 	@RequestMapping(value="/editItem",method=RequestMethod.POST)
 	@ResponseBody
 	public Result editItem(SystemDataDictItemReq req){
-		Result result = systemDataDictService.editSystemDataDictItem(req);
+		Result result=Result.getErrorResult();
+		try {
+			result = systemDataDictService.editSystemDataDictItem(req);
+		} catch (Exception e) {
+			log.error(e.getMessage(),e);
+			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
+		}
 		return result;
 	}
 	
@@ -116,7 +164,13 @@ public class SystemDataDictAction {
 	@RequestMapping(value="/deleteItem",method=RequestMethod.POST)
 	@ResponseBody
 	public Result deleteItem(String id){
-		Result result = systemDataDictService.deleteSystemDataDictItem(id);
+		Result result=Result.getErrorResult();
+		try {
+			result = systemDataDictService.deleteSystemDataDictItem(id);
+		} catch (Exception e) {
+			log.error(e.getMessage(),e);
+			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
+		}
 		return result;
 	}
 }

@@ -2,150 +2,26 @@
 <!Doctype html>
 <html>
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <title>index</title>
-    <meta name="keywords" content=" 天瑞"/>
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <link href="/trfc-web/resources/css/bootstrap.css" rel="stylesheet">
-    <link href="/trfc-web/resources/css/base.css" rel="stylesheet">
-    <link href="/trfc-web/resources/css/style.css" rel="stylesheet">
-    <link href="/trfc-web/resources/css/pagination.css" rel="stylesheet">
-    <!--这个日历控件js必须放头部-->
-    <script language="javascript" type="text/javascript" src="/trfc-web/resources/js/My97DatePicker/WdatePicker.js"></script>
-    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!--[if lt IE 9]>
-    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>无人值守-其他档案-其他物料</title>
+<!-- 引用公共header部分 -->
+<jsp:include page="../../common/base/header_busi.jsp"></jsp:include>
 
 </head>
 <body>
-<div class="left ">
-    <div class="user">
-        <a href="#" data-toggle="dropdown" data-target="#menu-messages" class="dropdown-toggle">
-            <img src="/trfc-web/resources/images/tx.jpg" class="img-circle">
-            <label>超级管理员</label>
-            <i class="iconfont">&#xe602;</i>
-        </a>
-        <ul class="dropdown-menu">
-            <li><a data-toggle="modal" data-target="#account"><i class="iconfont">&#xe60e;</i>个人资料</a></li>
-            <li class="divider"></li>
-            <li><a data-toggle="modal" data-target="#password"><i class="iconfont">&#xe60d;</i> 设置</a></li>
-        </ul>
-    </div>
-    <div class="menu">
-        <label>菜单</label>
-        <i class="iconfont fr">&#xe61a;</i>
-    </div>
-    <ul class="typelist">
-        <li >
-            <i class="iconfont">&#xe617;</i>
-            <label>采购管理</label>
-        </li>
-        <li>
-            <i class="iconfont">&#xe615;</i>
-            <label>销售管理</label>
-        </li>
-        <li>
-            <i class="iconfont">&#xe614;</i>
-            <label>其他页面</label>
-        </li>
-        <li class="active">
-            <i class="iconfont">&#xe618;</i>
-            <label>档案管理</label>
-        </li>
-    </ul>
-</div>
-<div class="leftmini hide">
-    <div class="user">
-        <a href="#" data-toggle="dropdown" data-target="#menu-messages" class="dropdown-toggle">
-            <img src="/trfc-web/resources/images/tx.jpg" class="img-circle">
-        </a>
-        <ul class="dropdown-menu">
-            <li><a data-toggle="modal" data-target="#account"><i class="iconfont">&#xe60e;</i>个人资料</a></li>
-            <li class="divider"></li>
-            <li><a data-toggle="modal" data-target="#password"><i class="iconfont">&#xe60d;</i> 设置</a></li>
-        </ul>
-    </div>
-    <div class="menu2">
-        <i class="iconfont">&#xe635;</i>
-    </div>
-    <div class="menu_collap">
-        <ul class="typelist ">
-            <a href="#ityewu" data-toggle="collapse" class="menu_collap_tit">
-                <label>业务管理</label>
-                <span><i class="iconfont">&#xe604;</i></span>
-            </a>
-            <div class="in" id="ityewu">
-                <li>
-                    <a href="../cg/cg_index.html">
-                        <i class="iconfont">&#xe617;</i>
-                        <label>采购管理</label>
-                    </a>
-                </li>
-                <li>
-                    <a href="../sell/sell_apply.html">
-                        <i class="iconfont">&#xe615;</i>
-                        <label>销售管理</label>
-                    </a>
-                </li>
-                <li>
-                    <a>
-                        <i class="iconfont">&#xe614;</i>
-                        <label>其他业务</label>
-                    </a>
-                </li>
-                <li>
-                    <a>
-                        <i class="iconfont">&#xe618;</i>
-                        <label>质控管理</label>
-                    </a>
-                </li>
-            </div>
-            <a href="#itdangan" data-toggle="collapse" class="menu_collap_tit">
-                <label>基础档案</label>
-                <span><i class="iconfont">&#xe604;</i></span>
-            </a>
-            <div class="in" id="itdangan">
-                <li>
-                    <a href="../file_nc/client.html">
-                        <i class="iconfont">&#xe617;</i>
-                        <label>NC档案</label>
-                    </a>
-                </li>
-                <li>
-                    <a href="../file_jil/car.html">
-                        <i class="iconfont">&#xe617;</i>
-                        <label>计量档案</label>
-                    </a>
-                </li>
-                <li class="active">
-                    <a href="../file-other/car.html">
-                        <i class="iconfont">&#xe617;</i>
-                        <label>其他档案</label>
-                    </a>
-                </li>
-            </div>
-        </ul>
-    </div>
-</div>
+<div class="it_admin">
+<!-- 引用公共left部分 -->
+<jsp:include page="../../common/base/left_busi.jsp"></jsp:include>
 <div class="right">
+<!-- 引用公共right部分 -->
+<jsp:include page="../../common/base/right_head_busi.jsp"></jsp:include>
 <div class="intel_tab">
-    <!--tab切换标题-->
-    <ul class="intel_menu">
-        <li >其他供应商</li>
-        <li >其他客户</li>
-        <li class="select">其他物料</li>
-        <li >其他车辆</li>
-        <li>其他司机</li>
-    </ul>
-    <!--tab切换标题end-->
-    <div class="top_opera">
-        <a><i class="iconfont" data-toggle="tooltip" data-placement="left" title="首页">&#xe605;</i></a>
-        <a><i class="iconfont" data-toggle="tooltip" data-placement="left" title="控制面板">&#xe606;</i></a>
-        <a><i class="iconfont" data-toggle="tooltip" data-placement="left" title="退出">&#xe607;</i></a>
-    </div>
+	<!--tab切换标题-->
+	<ul class="intel_menu">
+		<li><a href="/trfc/basicFile/other/customer/main">其他客戶</a></li>
+		<li><a href="/trfc/other/otherVehicle/main">其他车辆</a></li>
+		<li class="select"><a href="/trfc/basicFile/other/material/main">其他物料</a></li>
+	</ul>
 </div>
 
 <!--tab切换的内容-->
@@ -163,7 +39,6 @@
                 <select class="form-control" id="material_query">
                     <option value="name">名称</option>
                     <option value="innercode">内码</option>
-                    <option id="pinyincode">拼音码</option>
                 </select>
             </div>
             <div class="intel_solo">
@@ -385,33 +260,12 @@
 </div>
 <!--编辑end-->
 <!--删除begin-->
-<div class="modal fade" id="dele" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-    <div class="modal-dialog" role="document" style="width: 400px;">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                        aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">提示</h4>
-            </div>
-            <div class="modal-body">
-                <div class="alert_qf">
-                     <img src="/trfc-web/resources/images/tishi.png"><label>注：删除操作不可恢复，您确定要继续么？</label>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary" id="material_delete">确定</button>
-                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-            </div>
-        </div>
-    </div>
-</div>
-<!--删除end-->
-<script type="text/javascript" src="/trfc-web/resources/js/jquery-1.11.1.js"></script>
-<script type="text/javascript" src="/trfc-web/resources/js/bootstrap.js"></script>
-<script type="text/javascript" src="/trfc-web/resources/js/jquery.pagination.js"></script>
-<!--引入materials.js文件-->
-<script type="text/javascript" src="/trfc-web/resources/js/basicFile/other/materials.js"></script>
 
+<!--删除end-->
+<!--引入materials.js文件-->
+<script type="text/javascript" src="/javascript/basicFile/other/materials.js"></script>
+
+<!-- 
 <script type="text/javascript">
     // 顶部tab切换菜单
     var $tab_li = $('.intel_menu li');
@@ -457,8 +311,10 @@
         var index_alt = alt_li.index(this);
         $('#alt_tab .cg_tabbox > .cg_tabcont').eq(index_alt).show().siblings().hide();
     });
+</script> -->
 
 
-</script>
+<!-- 引用公共footer部分 -->
+<jsp:include page="../../common/base/footer_busi.jsp"></jsp:include>
 </body>
 </html>

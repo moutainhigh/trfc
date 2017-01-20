@@ -20,7 +20,7 @@ public class DataDictServiceTest {
 	private ISystemCodeService systemCodeService;
 	
 	@Test
-	public void testCode(){
+	public void testCode() throws Exception{
 		SystemCodeReq req = new SystemCodeReq();
 		req.setId("0001");
 		req.setCode("HH");
