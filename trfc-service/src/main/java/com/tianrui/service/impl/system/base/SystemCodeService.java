@@ -33,20 +33,20 @@ public class SystemCodeService implements ISystemCodeService{
 	 */
 	@Transactional
 	@Override
-	public Result insert(SystemCodeReq req) {
+	public Result insert(SystemCodeReq req) throws Exception{
 		Result result = Result.getParamErrorResult();
 		//判断参数是不是null
 		if(req!=null){
 			SystemCode code = new SystemCode();
-			try {
+			
 				//req-->code 类型转换
 				PropertyUtils.copyProperties(code, req);
 				//生成ID
 				code.setId(UUIDUtil.getId());
-				//假设一个创建者/修改者   (实际:用userId获取)
-				code.setCreator("LXY");
+			
+				code.setCreator(req.getUserName());
 				code.setCreatetime(System.currentTimeMillis());
-				code.setModifier("LXY");
+				code.setModifier(req.getUserName());
 				code.setModifytime(System.currentTimeMillis());
 				//新增数据
 				int index = systemCodeMapper.insertSelective(code);
@@ -58,10 +58,6 @@ public class SystemCodeService implements ISystemCodeService{
 					result = Result.getSuccessResult();
 					result.setData(index>0);
 				}
-			} catch (Exception e) {
-				e.printStackTrace();
-				result.setErrorCode(ErrorCode.OPERATE_ERROR);
-			}
 		}
 		return result;
 	}
@@ -70,14 +66,14 @@ public class SystemCodeService implements ISystemCodeService{
 	 */
 	@Transactional
 	@Override
-	public Result delete(SystemCodeReq req) {
+	public Result delete(SystemCodeReq req) throws Exception{
 		Result result = Result.getParamErrorResult();
 		if(req!=null && StringUtils.isNotBlank(req.getId())){
 			String id = req.getId();
 			//删除数据
 			int index1 = systemCodeMapper.deleteByPrimaryKey(id);
 			//删除子表数据
-			int index2 = systemCodeItemMapper.deleteByCodeId(id);
+			systemCodeItemMapper.deleteByCodeId(id);
 			//判断小于0的情况
 			if(index1<0){
 				result.setErrorCode(ErrorCode.OPERATE_ERROR);
@@ -94,14 +90,15 @@ public class SystemCodeService implements ISystemCodeService{
 	 */
 	@Transactional
 	@Override
-	public Result update(SystemCodeReq req) {
+	public Result update(SystemCodeReq req) throws Exception{
 		Result result = Result.getParamErrorResult();
 		//参数不能为空 并且id不能为空
 		if(req!=null && StringUtils.isNotBlank(req.getId())){
 			SystemCode code = new SystemCode();
-			try {
 				//转换类型
 				PropertyUtils.copyProperties(code, req);
+				code.setModifier(req.getUserName());
+				code.setModifytime(System.currentTimeMillis());
 				//更新数据
 				int index = systemCodeMapper.updateByPrimaryKeySelective(code);
 				//判断小于0的情况
@@ -112,11 +109,6 @@ public class SystemCodeService implements ISystemCodeService{
 					result = Result.getSuccessResult();
 					result.setData(index>0);
 				}
-			} catch (Exception e) {
-				e.printStackTrace();
-				//抓取异常
-				result.setErrorCode(ErrorCode.PARAM_ERROR);
-			}
 		}
 		return result;
 	}
@@ -124,10 +116,9 @@ public class SystemCodeService implements ISystemCodeService{
 	 * 查询数据
 	 */
 	@Override
-	public Result select(SystemCodeReq req) {
+	public Result select(SystemCodeReq req) throws Exception{
 		Result result = Result.getParamErrorResult();
 		if(req!=null){
-			try{
 				//获取数据
 				List<SystemCode> codes = systemCodeMapper.selectByReq(req);
 				//集合codes不能为空
@@ -146,18 +137,16 @@ public class SystemCodeService implements ISystemCodeService{
 				}else{
 					result.setErrorCode(ErrorCode.OPERATE_ERROR);
 				}
-			}catch(Exception e){
-				e.printStackTrace();
-				result.setErrorCode(ErrorCode.OPERATE_ERROR);
-			}
 		}
 		return result;
 	}
+	/**
+	 * 获取编号
+	 */
 	@Transactional
-	public Result getCode(SystemCodeReq req){
+	public Result getCode(SystemCodeReq req) throws Exception{
 		Result result = Result.getParamErrorResult();
 		if(req!=null && StringUtils.isNotBlank(req.getId())){
-			try {
 				//赋值给TypeValue
 				req.setTypeValue(req.getCodeType()+"");
 				//通过id,typeValue获取item对象,判断item对象是否存在
@@ -170,8 +159,8 @@ public class SystemCodeService implements ISystemCodeService{
 				if(item != null){
 					//确保判断的时间 与生成code是的时间一致
 					Date now = new Date(System.currentTimeMillis());
-					//假设一个修改者(可通过req.userId获取)
-					item.setModifier("LXY");
+					
+					item.setModifier(req.getUserName());
 					item.setModifytime(now.getTime());
 					StringBuilder code = codeFactory(req, item,now);
 					//code不能为空
@@ -184,10 +173,6 @@ public class SystemCodeService implements ISystemCodeService{
 					}
 				}
 
-			} catch (Exception e) {
-				e.printStackTrace();
-				result.setErrorCode(ErrorCode.OPERATE_ERROR);
-			}
 		}
 		return result;
 	}
@@ -201,10 +186,10 @@ public class SystemCodeService implements ISystemCodeService{
 		sci.setCodeId(req.getId());
 		sci.setTypeValue(req.getCodeType()+"");
 		sci.setItemType(req.getItemType());
-		//假设一个创建者和创建者
-		sci.setCreator("LXY");
+		
+		sci.setCreator(req.getUserName());
 		sci.setCreatetime(System.currentTimeMillis());
-		sci.setModifier("LXY");
+		sci.setModifier(req.getUserName());
 		sci.setModifytime(System.currentTimeMillis());
 		sci.setDigit("1");
 		//数据库新增失败的情况
@@ -217,7 +202,7 @@ public class SystemCodeService implements ISystemCodeService{
 	 * 刷新计数
 	 * @throws Exception 
 	 */
-	public boolean updateCodeItem(SystemCodeItem item) { 
+	public boolean updateCodeItem(SystemCodeItem item) throws Exception{ 
 		item.setDigit(Integer.parseInt(item.getDigit())+1+"");
 		int index = systemCodeItemMapper.updateByPrimaryKeySelective(item);
 		return index>0;
@@ -225,7 +210,7 @@ public class SystemCodeService implements ISystemCodeService{
 	/**
 	 * 获取计数
 	 */
-	public String gainDigit(SystemCodeItem item,Date now){
+	public String gainDigit(SystemCodeItem item,Date now) throws Exception{
 		Date modifyTime = new Date(item.getModifytime());
 		//获得上次数据变动的时间
 		Calendar old = Calendar.getInstance();old.setTime(modifyTime);
@@ -268,7 +253,7 @@ public class SystemCodeService implements ISystemCodeService{
 	/**
 	 * 编号加工
 	 */
-	public StringBuilder codeFactory(SystemCodeReq req,SystemCodeItem item,Date now){
+	public StringBuilder codeFactory(SystemCodeReq req,SystemCodeItem item,Date now) throws Exception{
 		StringBuilder code =new StringBuilder();
 		String digit = gainDigit( item, now);
 		//代号,计数,编码类型不能为空
@@ -349,7 +334,7 @@ public class SystemCodeService implements ISystemCodeService{
 	/**
 	 * 字符串拼接
 	 */
-	private StringBuilder joint(String str,String digit){
+	private StringBuilder joint(String str,String digit) throws Exception{
 		StringBuilder sb = null;
 		if(str!=null && digit!=null){
 			sb = new StringBuilder(str);
@@ -368,7 +353,7 @@ public class SystemCodeService implements ISystemCodeService{
 	 * 检测单据代号是否重复
 	 */
 	@Override
-	public Result checkCode(SystemCodeReq req) {
+	public Result checkCode(SystemCodeReq req) throws Exception{
 		Result result = Result.getParamErrorResult();
 		//参数不能为空
 		if(req!=null ){

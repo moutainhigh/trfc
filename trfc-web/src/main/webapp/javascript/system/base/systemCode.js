@@ -123,6 +123,7 @@
 		var codeBegin = $('#systemCode_add_codeBegin').val();
 		var innerCodeBegin = $('#systemCode_add_innerCodeBegin').val();
 		var example = $('#systemCode_add_example').val();
+		var userName = $('.user label').html();
 		var params = {
 				key:key,
 				code:code,
@@ -130,7 +131,8 @@
 				splitType:splitType,
 				codeBegin:codeBegin,
 				innerCodeBegin:innerCodeBegin,
-				example:example
+				example:example,
+				userName:userName
 		};
 		var url = URL.addUrl;
 		$.post(url,params,function(result){
@@ -151,6 +153,7 @@
 		var codeBegin = $('#systemCode_edit_codeBegin').val();
 		var innerCodeBegin = $('#systemCode_edit_innerCodeBegin').val();
 		var example = $('#systemCode_edit_example').val();
+		var userName = $('.user label').html();
 		var params = {
 				id:id,
 				key:key,
@@ -159,7 +162,8 @@
 				splitType:splitType,
 				codeBegin:codeBegin,
 				innerCodeBegin:innerCodeBegin,
-				example:example
+				example:example,
+				userName:userName
 		};
 		var url = URL.editUrl;
 		$.post(url,params,function(result){

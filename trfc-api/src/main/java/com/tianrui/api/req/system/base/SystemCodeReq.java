@@ -56,7 +56,7 @@ public class SystemCodeReq extends BaseReq{
     /**
      * 用户Id
      */
-    private String userId;
+    private String userName;
     /**
      * 分页查询开始位置
      */
@@ -84,6 +84,14 @@ public class SystemCodeReq extends BaseReq{
     
     
 	
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
 
 	public String getTypeValue() {
 		return typeValue;
@@ -205,13 +213,7 @@ public class SystemCodeReq extends BaseReq{
 		this.innerCodeBegin = innerCodeBegin;
 	}
 
-	public String getUserId() {
-		return userId;
-	}
-
-	public void setUserId(String userId) {
-		this.userId = userId;
-	}
+	
 
 
     

@@ -12,25 +12,26 @@ public interface ISystemCodeService {
 	/**
 	 * 新增数据
 	 */
-	Result insert(SystemCodeReq req);
+	Result insert(SystemCodeReq req) throws Exception;
 	/**
 	 * 删除数据
+	 * @throws Exception 
 	 */
-	Result delete(SystemCodeReq req);
+	Result delete(SystemCodeReq req) throws Exception;
 	/**
 	 * 修改数据
 	 */
-	Result update(SystemCodeReq req);
+	Result update(SystemCodeReq req) throws Exception;
 	/**
 	 * 查询数据
 	 */
-	Result select(SystemCodeReq req);
+	Result select(SystemCodeReq req) throws Exception;
 	/**
 	 * 获取编号
 	 */
-	Result getCode(SystemCodeReq req);
+	Result getCode(SystemCodeReq req) throws Exception;
 	/**
 	 * 检测单据代号是否重复
 	 */
-	Result checkCode(SystemCodeReq req);
+	Result checkCode(SystemCodeReq req) throws Exception;
 }
