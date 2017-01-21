@@ -20,6 +20,7 @@
 				<ul class="intel_menu">
 					<li class="select"><a href="/trfc/basicFile/other/customer/main">其他客戶</a></li>
 					<li><a href="/trfc/other/otherVehicle/main">其他车辆</a></li>
+					<li><a href="/trfc/basicFile/other/material/main">其他物料</a></li>
 				</ul>
 			</div>
 			<!--tab切换的内容-->

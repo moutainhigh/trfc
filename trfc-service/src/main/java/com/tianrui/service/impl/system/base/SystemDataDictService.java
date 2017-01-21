@@ -1,5 +1,6 @@
 package com.tianrui.service.impl.system.base;
 
+import java.lang.reflect.InvocationTargetException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
@@ -38,31 +39,25 @@ public class SystemDataDictService implements ISystemDataDictService{
 	
 	/**
 	 * 查询所有数据字典类别
+	 * @throws Exception 
 	 */
 	@Override
-	public Result findSystemDataDicts(SystemDataDictReq req){
+	public Result findSystemDataDicts(SystemDataDictReq req) throws Exception{
 		Result result=Result.getSuccessResult();
 		//参数不能为空校验
 		if(req!=null){
 			List<SystemDataDictResp> page=new ArrayList<SystemDataDictResp>();
 			SystemDataDict dataDict=new SystemDataDict();
-			try {
-				//拷贝SystemDataDictReq中的属性到数据字典实体bean中
-				PropertyUtils.copyProperties(dataDict, req);
-			} catch (Exception e) {
-				//抓取异常
-				e.printStackTrace();
-				result.setErrorCode(ErrorCode.PARAM_ERROR);
-			} 
+			
+			//拷贝SystemDataDictReq中的属性到数据字典实体bean中
+			PropertyUtils.copyProperties(dataDict, req);
+			
 			//查询数据
 			List<SystemDataDict> list=this.systemDataDictMapper.findSystemDataDicts(req);
-			try {
-				//集合转换
-				page=copyBeanListRespList(list);
-			} catch (Exception e) {
-				e.printStackTrace();
-				result.setErrorCode(ErrorCode.OPERATE_ERROR);
-			}
+			
+			//集合转换
+			page=copyBeanListRespList(list);
+			
 			//查询成功时保存数据
 			result.setData(page);
 		}
@@ -72,22 +67,19 @@ public class SystemDataDictService implements ISystemDataDictService{
 	
 	/**
 	 * 增加数据字典类别
+	 * @throws Exception 
 	 */
 	@Transactional
 	@Override
-	public Result addSystemDataDict(SystemDataDictReq req) {
+	public Result addSystemDataDict(SystemDataDictReq req) throws  Exception {
 		Result result = Result.getSuccessResult();
 		//参数不能为空校验
 		if(req != null){
 			SystemDataDict dataDict=new SystemDataDict();
-			try {
-				//拷贝SystemDataDictReq中的属性到数据字典实体bean中
-				PropertyUtils.copyProperties(dataDict, req);
-			} catch (Exception e) {
-				//抓取异常
-				e.printStackTrace();
-				result.setErrorCode(ErrorCode.PARAM_ERROR);
-			} 
+			
+			//拷贝SystemDataDictReq中的属性到数据字典实体bean中
+			PropertyUtils.copyProperties(dataDict, req);
+			
 			//生成Id
 			dataDict.setId(UUIDUtil.getId());
 			//假设一个创建者/修改者   (实际:用userId获取)
@@ -112,22 +104,19 @@ public class SystemDataDictService implements ISystemDataDictService{
 	
 	/**
 	 * 修改数据字典类别
+	 * @throws Exception 
 	 */
 	@Transactional
 	@Override
-	public Result editSystemDataDict(SystemDataDictReq req) {
+	public Result editSystemDataDict(SystemDataDictReq req) throws  Exception {
 		Result result=Result.getSuccessResult();
 		//参数不能为空校验
 		if(req != null){
 			SystemDataDict dataDict=new SystemDataDict();
-			try {
-				//拷贝SystemDataDictReq中的属性到数据字典实体bean中
-				PropertyUtils.copyProperties(dataDict, req);
-			} catch (Exception e) {
-				//抓取异常
-				e.printStackTrace();
-				result.setErrorCode(ErrorCode.PARAM_ERROR);
-			} 
+			
+			//拷贝SystemDataDictReq中的属性到数据字典实体bean中
+			PropertyUtils.copyProperties(dataDict, req);
+			
 			dataDict.setModifytime(System.currentTimeMillis());
 			dataDict.setUtc(new Timestamp(System.currentTimeMillis()));
 			//修改数据
@@ -209,32 +198,26 @@ public class SystemDataDictService implements ISystemDataDictService{
 
 	/**
 	 * 根据数据字典类别id查询所有的数据字典明细
+	 * @throws Exception 
 	 */
 	@Override
-	public Result findSystemDataDictItems(SystemDataDictItemReq req) {
+	public Result findSystemDataDictItems(SystemDataDictItemReq req) throws Exception {
 		Result result=Result.getSuccessResult();
 		//参数不能为空校验
 		if(req!=null){
 			List<SystemDataDictItemResp> page=new ArrayList<SystemDataDictItemResp>();
 			SystemDataDictItem dictItem=new SystemDataDictItem();
-			try {
-				//拷贝SystemDataDictItemReq中的属性到数据字典子表实体bean中
-				PropertyUtils.copyProperties(dictItem, req);
-			} catch (Exception e) {
-				//抓取异常
-				e.printStackTrace();
-				result.setErrorCode(ErrorCode.PARAM_ERROR);
-			} 
+			
+			//拷贝SystemDataDictItemReq中的属性到数据字典子表实体bean中
+			PropertyUtils.copyProperties(dictItem, req);
+			
 			String dictId=dictItem.getDictid();
 			//查询数据
 			List<SystemDataDictItem> list=this.systemDataDictItemMapper.selectByDictId(dictId);
-			try {
-				//集合转换
-				page=copyBeanList2RespList(list);
-			} catch (Exception e) {
-				e.printStackTrace();
-				result.setErrorCode(ErrorCode.OPERATE_ERROR);
-			}
+		
+			//集合转换
+			page=copyBeanList2RespList(list);
+			
 			//查询成功时保存数据
 			result.setData(page);
 		}
@@ -243,21 +226,19 @@ public class SystemDataDictService implements ISystemDataDictService{
 
 	/**
 	 * 增加数据字典明细
+	 * @throws Exception 
 	 */
 	@Transactional
 	@Override
-	public Result addSystemDataDictItem(SystemDataDictItemReq req) {
+	public Result addSystemDataDictItem(SystemDataDictItemReq req) throws  Exception {
 		Result result = Result.getSuccessResult();
 		//参数不能为空校验
 		if(req != null){ 
 			SystemDataDictItem dictItem=new SystemDataDictItem();
-			try {
-				//拷贝SystemDataDictItemReq中的属性到数据字典子表实体bean中
-				PropertyUtils.copyProperties(dictItem, req);
-			} catch (Exception e) {
-				e.printStackTrace();
-				result.setErrorCode(ErrorCode.PARAM_ERROR);
-			} 
+		
+			//拷贝SystemDataDictItemReq中的属性到数据字典子表实体bean中
+			PropertyUtils.copyProperties(dictItem, req);
+			
 			//生成Id
 			dictItem.setId(UUIDUtil.getId());
 			//假设一个创建者/修改者   (实际:用userId获取)
@@ -282,22 +263,19 @@ public class SystemDataDictService implements ISystemDataDictService{
 
 	/**
 	 * 修改数据字典明细
+	 * @throws Exception 
 	 */
 	@Transactional
 	@Override
-	public Result editSystemDataDictItem(SystemDataDictItemReq req) {
+	public Result editSystemDataDictItem(SystemDataDictItemReq req) throws  Exception {
 		Result result=Result.getSuccessResult();
 		//参数不能为空校验
 		if(req != null){
 			SystemDataDictItem dictItem=new SystemDataDictItem();
-			try {
-				//拷贝SystemDataDictItemReq中的属性到数据字典子表实体bean中
-				PropertyUtils.copyProperties(dictItem, req);
-			} catch (Exception e) {
-				//抓取异常
-				e.printStackTrace();
-				result.setErrorCode(ErrorCode.PARAM_ERROR);
-			} 
+		
+			//拷贝SystemDataDictItemReq中的属性到数据字典子表实体bean中
+			PropertyUtils.copyProperties(dictItem, req);
+			
 			dictItem.setModifytime(System.currentTimeMillis());
 			dictItem.setUtc(new Timestamp(System.currentTimeMillis()));
 			//修改数据

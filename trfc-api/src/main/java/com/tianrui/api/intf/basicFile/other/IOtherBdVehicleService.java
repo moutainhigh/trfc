@@ -13,17 +13,17 @@ public interface IOtherBdVehicleService {
 	/*
 	 * 分页查询数据
 	 */
-	Result page(OtherBdVehicleReq req);
+	Result page(OtherBdVehicleReq req) throws Exception;
 	
 	/*
 	 * 新增其他车辆信息
 	 */
-	Result addVehicle(OtherBdVehicleReq req);
+	Result addVehicle(OtherBdVehicleReq req) throws Exception;
 	
 	/*
 	 * 修改其他车辆信息
 	 */
-	Result editVehicle(OtherBdVehicleReq req);
+	Result editVehicle(OtherBdVehicleReq req) throws Exception;
 	
 	/*
 	 * 删除其他车辆信息
