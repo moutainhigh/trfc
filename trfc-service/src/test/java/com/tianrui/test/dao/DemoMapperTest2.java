@@ -10,21 +10,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.alibaba.fastjson.JSON;
-import com.tianrui.api.req.basicFile.other.OtherBdCustomerReq;
-import com.tianrui.api.resp.basicFile.other.OtherBdCustomerResp;
-import com.tianrui.service.bean.basicFile.other.OtherBdCustomer;
-import com.tianrui.service.bean.system.base.SystemDataDict;
+import com.tianrui.api.req.basicFile.other.OtherBdSupplierReq;
+import com.tianrui.service.bean.basicFile.other.OtherBdSupplier;
 import com.tianrui.service.bean.system.base.SystemDataDictItem;
-//import com.tianrui.service.bean.demo.Demo;
-import com.tianrui.service.impl.basicFile.other.OtherBdCustomerService;
 import com.tianrui.service.mapper.basicFile.nc.SupplierManageMapper;
-//import com.tianrui.service.mapper.DemoMapper;
-import com.tianrui.service.mapper.basicFile.other.OtherBdCustomerMapper;
+import com.tianrui.service.mapper.basicFile.other.OtherBdSupplierMapper;
 import com.tianrui.service.mapper.system.base.SystemDataDictItemMapper;
 import com.tianrui.service.mapper.system.base.SystemDataDictMapper;
-import com.tianrui.smartfactory.common.utils.UUIDUtil;
-import com.tianrui.smartfactory.common.vo.PaginationVO;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath*:spring/appliactionContext-service.xml" })
@@ -45,6 +37,23 @@ public class DemoMapperTest2 {
 	
 	@Autowired
 	private SupplierManageMapper supplierManageMapper;
+	@Autowired
+	private OtherBdSupplierMapper otherBdSupplierMapper;
+	
+	@Test
+	public void test2(){
+		OtherBdSupplierReq req = new OtherBdSupplierReq();
+		req.setInnercode("2");
+		int a = otherBdSupplierMapper.count(req);
+//		List<OtherBdSupplier> list = otherBdSupplierMapper.page(req);
+		System.out.println(a);
+//		for(OtherBdSupplier o : list){
+//			System.out.println(o.getId());
+//		}
+		
+	}
+	
+	
 	
 	@Test
 	public void test1(){
