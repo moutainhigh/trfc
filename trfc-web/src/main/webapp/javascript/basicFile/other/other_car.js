@@ -360,7 +360,7 @@ function updateCheckNameAction(){
 }
 //提交修改信息前 检测信息
 function updateCheckName(){
-	url = "checkName";
+	url = URL.checkNameUrl;
 	var name = $('#update_vehicle_name').val();name=$.trim(name);
 	if(!name){
 		alert('名称不能为空');
