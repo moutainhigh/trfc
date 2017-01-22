@@ -1,5 +1,8 @@
 package com.tianrui.service.mapper.basicFile.other;
 
+import java.util.List;
+
+import com.tianrui.api.req.basicFile.other.OtherBdDriverReq;
 import com.tianrui.service.bean.basicFile.other.OtherBdDriver;
 
 public interface OtherBdDriverMapper {
@@ -50,4 +53,24 @@ public interface OtherBdDriverMapper {
      * @mbggenerated
      */
     int updateByPrimaryKey(OtherBdDriver record);
+    /**
+     * 查询分页数据总数
+     * @param req
+     * @return
+     */
+    long findDriverPageCount(OtherBdDriverReq req);
+    
+    /**
+     * 分页查询数据
+     * @param req
+     * @return
+     */
+	List<OtherBdDriver> findDriverPage(OtherBdDriverReq req);
+	
+	/**
+	 * 根据名称查询数据
+	 * @param name
+	 * @return
+	 */
+	int findDriverByName(String name);
 }

@@ -50,19 +50,6 @@ public class PortalsFilter implements Filter {
 			chain.doFilter(request, response);
 			return;
 		}
-		//从session中获取账号
-		HttpSession session = req.getSession();
-		String userId = (String)
-				session.getAttribute("userId");
-		//根据账号判断用户是否登录
-		if(userId == null) {
-			//没登录,重定向到登录页
-			resp.sendRedirect(
-					"/index");
-		} else {
-			//已登录,请求继续执行
-			chain.doFilter(request, response);
-		}
 	}
 
 	@Override

@@ -9,25 +9,24 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.tianrui.api.intf.basicFile.other.IOtherBdVehicleService;
-import com.tianrui.api.req.basicFile.other.OtherBdVehicleReq;
-import com.tianrui.api.resp.basicFile.other.OtherBdVehicleResp;
+import com.tianrui.api.intf.basicFile.other.IOtherBdDriverService;
+import com.tianrui.api.req.basicFile.other.OtherBdDriverReq;
+import com.tianrui.api.resp.basicFile.other.OtherBdDriverResp;
 import com.tianrui.smartfactory.common.constants.ErrorCode;
 import com.tianrui.smartfactory.common.vo.Result;
 
 @Controller
-@RequestMapping("/trfc/other/otherVehicle")
-public class OtherBdVehicleAction {
+@RequestMapping("/trfc/basicFile/other/driver")
+public class OtherBdDriverAction {
 	
-	private Logger log = LoggerFactory.getLogger(OtherBdVehicleAction.class);
+	private Logger log=LoggerFactory.getLogger(OtherBdDriverAction.class);
 	
 	@Autowired
-	private IOtherBdVehicleService otherBdVehicleService;
+	private IOtherBdDriverService otherBdDriverService;
 	
 	@RequestMapping("main")
 	public ModelAndView main(){
-		ModelAndView view = new ModelAndView("basicFile/other/other_car");
-		return view;
+		return new ModelAndView("basicFile/other/driver");
 	}
 	
 	/**
@@ -37,10 +36,10 @@ public class OtherBdVehicleAction {
 	 */
 	@RequestMapping(value="page",method=RequestMethod.POST)
 	@ResponseBody
-	public Result page(OtherBdVehicleReq req){
+	public Result page(OtherBdDriverReq req){
 		Result result=Result.getErrorResult();
 		try {
-			result = otherBdVehicleService.page(req);
+			result = otherBdDriverService.page(req);
 		} catch (Exception e) {
 			log.error(e.getMessage(),e);
 		}
@@ -52,14 +51,14 @@ public class OtherBdVehicleAction {
 	 * 获取新增时需要的编号和内码
 	 * @return
 	 */
-	@RequestMapping(value="toAddOtherVehicle",method=RequestMethod.POST)
+	@RequestMapping(value="toAddOtherDriver",method=RequestMethod.POST)
 	@ResponseBody
-	public Result toAddOtherVehicle(){
+	public Result toAddOtherDriver(){
 		Result result = Result.getSuccessResult();
 		try {
-			OtherBdVehicleResp resp = new OtherBdVehicleResp();
-			resp.setCode(otherBdVehicleService.getVehicleCode());
-			resp.setInnercode(otherBdVehicleService.getVehicleInnercode());
+			OtherBdDriverResp resp = new OtherBdDriverResp();
+			resp.setCode(otherBdDriverService.getDriverCode());
+			resp.setInnercode(otherBdDriverService.getDriverInnercode());
 			result.setData(resp);
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
@@ -70,16 +69,16 @@ public class OtherBdVehicleAction {
 	}
 	
 	/**
-	 * 新增其他车辆信息Action
+	 * 新增其他司机信息Action
 	 * @param req
 	 * @return
 	 */
-	@RequestMapping(value="addOtherVehicle",method=RequestMethod.POST)
+	@RequestMapping(value="addOtherDriver",method=RequestMethod.POST)
 	@ResponseBody
-	public Result addOtherVehicle(OtherBdVehicleReq req){
+	public Result addOtherDriver(OtherBdDriverReq req){
 		Result result=Result.getErrorResult();
 		try {
-			result = otherBdVehicleService.addVehicle(req);
+			result = otherBdDriverService.addDriver(req);
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 		}
@@ -87,16 +86,16 @@ public class OtherBdVehicleAction {
 	}
 	
 	/**
-	 * 修改其他车辆信息Action
+	 * 修改其他司机信息Action
 	 * @param req
 	 * @return
 	 */
-	@RequestMapping(value="editOtherVehicle",method=RequestMethod.POST)
+	@RequestMapping(value="editOtherDriver",method=RequestMethod.POST)
 	@ResponseBody
-	public Result editOtherVehicle(OtherBdVehicleReq req){
+	public Result editOtherDriver(OtherBdDriverReq req){
 		Result result=Result.getErrorResult();
 		try {
-			result =otherBdVehicleService.editVehicle(req);
+			result =otherBdDriverService.editDriver(req);
 		} catch (Exception e) {
 			log.error(e.getMessage(),e);
 		}
@@ -104,16 +103,16 @@ public class OtherBdVehicleAction {
 	}
 	
 	/**
-	 * 删除其他车辆信息Action
+	 * 删除其他司机信息Action
 	 * @param id
 	 * @return
 	 */
-	@RequestMapping(value="deleteOtherVehicle",method=RequestMethod.POST)
+	@RequestMapping(value="deleteOtherDriver",method=RequestMethod.POST)
 	@ResponseBody
-	public Result deleteOtherVehicle(String id){
+	public Result deleteOtherDriver(String id){
 		Result result=Result.getErrorResult();
 		try {
-			result = otherBdVehicleService.deleteVehicle(id);
+			result = otherBdDriverService.deleteDriver(id);
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 		}
@@ -130,7 +129,7 @@ public class OtherBdVehicleAction {
 	public Result checkName(String name){
 		Result result=Result.getErrorResult();
 		try {
-			result =  otherBdVehicleService.checkName(name);
+			result =  otherBdDriverService.checkName(name);
 		} catch (Exception e) {
 			log.error(e.getMessage(),e);
 		}

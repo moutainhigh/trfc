@@ -8,20 +8,17 @@ import java.util.Set;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
-import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.alibaba.fastjson.JSONObject;
 import com.tianrui.api.intf.basicFile.nc.IWarehouseManageService;
-import com.tianrui.api.req.basicFile.nc.NcBatchUpdateReq;
 import com.tianrui.api.req.basicFile.nc.WarehouseManageQuery;
 import com.tianrui.api.req.basicFile.nc.WarehouseManageSave;
 import com.tianrui.api.resp.basicFile.nc.WarehouseManageResp;
 import com.tianrui.service.bean.basicFile.nc.WarehouseManage;
 import com.tianrui.service.mapper.basicFile.nc.WarehouseManageMapper;
 import com.tianrui.smartfactory.common.constants.ErrorCode;
-import com.tianrui.smartfactory.common.utils.DateUtil;
 import com.tianrui.smartfactory.common.utils.UUIDUtil;
 import com.tianrui.smartfactory.common.vo.PaginationVO;
 import com.tianrui.smartfactory.common.vo.Result;
@@ -93,7 +90,7 @@ public class WarehouseManageService implements IWarehouseManageService {
 		if(save != null){
 			WarehouseManage wm = new WarehouseManage();
 			PropertyUtils.copyProperties(wm, save);
-//			wm.setModifier("");
+			wm.setModifier(save.getCurrUId());
 			wm.setModifytime(System.currentTimeMillis());
 			if(warehouseManageMapper.updateByPrimaryKeySelective(wm) > 0){
 				result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
@@ -104,24 +101,6 @@ public class WarehouseManageService implements IWarehouseManageService {
 		return result;
 	}
 	
-	@Override
-	public Result deleteWarehouse(WarehouseManageSave save) throws Exception {
-		Result result = Result.getParamErrorResult();
-		if(save != null){
-			WarehouseManage wm = new WarehouseManage();
-			PropertyUtils.copyProperties(wm, save);
-			wm.setState("0");
-//			wm.setModifier("");
-			wm.setModifytime(System.currentTimeMillis());
-			if(warehouseManageMapper.updateByPrimaryKeySelective(wm) > 0){
-				result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
-			}else{
-				result.setErrorCode(ErrorCode.OPERATE_ERROR);
-			}
-		}
-		return result;
-	}
-
 	@Override
 	public Result findListByParmas(WarehouseManageQuery query) throws Exception {
 		Result result = Result.getSuccessResult();

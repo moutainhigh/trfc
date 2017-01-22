@@ -43,7 +43,7 @@ public class CodeGenDaoImpl extends BaseDaoImpl<CodeGen,String> implements CodeG
 			mongoTemplate.updateFirst(new Query().addCriteria(Criteria.where("id").is(code.getId())), update, CodeGen.class);
 			rs = String.valueOf(newCoe);
 		}else{
-			rs = String.valueOf(getCurrDate()+"0001");
+			rs = String.valueOf("0001");
 			CodeGen code =new CodeGen();
 			code.setType(type);
 			code.setCurrdata(getCurrDate());

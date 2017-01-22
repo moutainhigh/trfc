@@ -59,7 +59,7 @@ public class CardService implements ICardService {
 		if(req != null){
 			Card card = new Card();
 			PropertyUtils.copyProperties(card, req);
-//			card.setModifier("");
+			card.setModifier(req.getCurrUId());
 			card.setModifytime(System.currentTimeMillis());
 			return cardMapper.updateByPrimaryKeySelective(card);
 		}
@@ -73,18 +73,9 @@ public class CardService implements ICardService {
 			Card card = new Card();
 			PropertyUtils.copyProperties(card, req);
 			card.setState("0");
-//			card.setModifier("");
+			card.setModifier(req.getCurrUId());
 			card.setModifytime(System.currentTimeMillis());
 			return cardMapper.updateByPrimaryKeySelective(card);
-		}
-		return 0;
-	}
-	
-	@Transactional
-	@Override
-	public int deleteCard(String id){
-		if(StringUtils.isNotBlank(id)){
-			return cardMapper.deleteByPrimaryKey(id);
 		}
 		return 0;
 	}
@@ -125,10 +116,12 @@ public class CardService implements ICardService {
 				&& StringUtils.isNotEmpty(save.getCardno())&& StringUtils.isNotEmpty(save.getCardtype())){
 			//卡编码不能重复
 			CardReq query = new CardReq();
+			query.setState("1");
 			query.setCardcode(save.getCardcode());
 			long dbCodeSize =cardMapper.findCardPageCount(query) ;
 			//卡序号也不能重复
 			query = new CardReq();
+			query.setState("1");
 			query.setCardno(save.getCardno());
 			long dbNoSize =cardMapper.findCardPageCount(query) ;
 			if(dbCodeSize>0){
@@ -158,10 +151,12 @@ public class CardService implements ICardService {
 				&& StringUtils.isNotEmpty(cardApi.getCardno())&& StringUtils.isNotEmpty(cardApi.getCardtype())){
 			//卡编码不能重复
 			CardReq query = new CardReq();
+			query.setState("1");
 			query.setCardcode(cardApi.getCardcode());
 			long dbCodeSize =cardMapper.findCardPageCount(query) ;
 			//卡序号也不能重复
 			query = new CardReq();
+			query.setState("1");
 			query.setCardno(cardApi.getCardno());
 			long dbNoSize =cardMapper.findCardPageCount(query) ;
 			if(dbCodeSize>0){
@@ -174,7 +169,8 @@ public class CardService implements ICardService {
 				card.setId(UUIDUtil.getId());
 				card.setCardstatus("1");
 				card.setState("1");
-				card.setCode("");//IC卡单据编号
+				card.setCardtype(cardApi.getCardtype());
+				card.setCode("IC"+(int)(Math.random()*1000000));//IC卡单据编号
 				card.setCreator(cardApi.getCurrUid());
 				card.setCreatetime(System.currentTimeMillis());
 				card.setModifytime(System.currentTimeMillis());

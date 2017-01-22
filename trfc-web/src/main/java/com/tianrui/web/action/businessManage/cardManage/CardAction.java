@@ -53,11 +53,12 @@ public class CardAction {
 	
 	@RequestMapping("/addCard")
 	@ResponseBody
-	public Result addCard(CardSave req){
+	public Result addCard(CardSave req, HttpSession session){
 		Result result = Result.getSuccessResult();
 		try {
+			SystemUserResp user = (SystemUserResp) session.getAttribute("systemUser");
+			req.setCurrUid(user.getId());
 			result = cardService.addCard(req);
-			
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
@@ -67,9 +68,11 @@ public class CardAction {
 	
 	@RequestMapping("/updateCard")
 	@ResponseBody
-	public Result updateCard(CardReq req){
+	public Result updateCard(CardReq req, HttpSession session){
 		Result result = Result.getSuccessResult();
 		try {
+			SystemUserResp user = (SystemUserResp) session.getAttribute("systemUser");
+			req.setCurrUId(user.getId());
 			int n = cardService.updateCard(req);
 			if(n > 0){
 				result.setData(n);
@@ -85,9 +88,11 @@ public class CardAction {
 	
 	@RequestMapping("/delCard")
 	@ResponseBody
-	public Result delCard(CardReq req){
+	public Result delCard(CardReq req, HttpSession session){
 		Result result = Result.getSuccessResult();
 		try {
+			SystemUserResp user = (SystemUserResp) session.getAttribute("systemUser");
+			req.setCurrUId(user.getId());
 			int n = cardService.delCard(req);
 			if(n > 0){
 				result.setData(n);

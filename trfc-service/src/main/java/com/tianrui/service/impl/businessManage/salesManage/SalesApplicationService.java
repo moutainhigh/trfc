@@ -131,7 +131,7 @@ public class SalesApplicationService implements ISalesApplicationService {
 		if(save != null){
 			SalesApplication sa = new SalesApplication();
 			PropertyUtils.copyProperties(sa, save);
-//			sa.setModifier("");
+			sa.setModifier(save.getCurrid());
 			sa.setModifytime(System.currentTimeMillis());
 			if(salesApplicationMapper.updateByPrimaryKeySelective(sa) > 0){
 				SalesApplicationDetailSave sd = new SalesApplicationDetailSave();

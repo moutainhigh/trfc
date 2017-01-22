@@ -3,8 +3,6 @@ package com.tianrui.api.intf.basicFile.nc;
 import java.util.List;
 
 import com.alibaba.fastjson.JSONObject;
-import com.tianrui.api.req.basicFile.nc.NcBatchUpdateReq;
-import com.tianrui.api.req.basicFile.nc.SupplierManageQuery;
 import com.tianrui.api.req.basicFile.nc.WarehouseManageQuery;
 import com.tianrui.api.req.basicFile.nc.WarehouseManageSave;
 import com.tianrui.api.resp.basicFile.nc.WarehouseManageResp;
@@ -32,13 +30,6 @@ public interface IWarehouseManageService {
 	 * @throws Exception
 	 */
 	WarehouseManageResp findOne(WarehouseManageQuery query) throws Exception;
-	/**
-	 * 删除仓库
-	 * @param id
-	 * @return
-	 * @throws Exception 
-	 */
-	Result deleteWarehouse(WarehouseManageSave save) throws Exception;
 	/**
 	 * 修改仓库
 	 * @param req

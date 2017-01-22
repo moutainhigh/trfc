@@ -18,6 +18,7 @@ import com.tianrui.service.bean.system.base.SystemDataDict;
 import com.tianrui.service.bean.system.base.SystemDataDictItem;
 //import com.tianrui.service.bean.demo.Demo;
 import com.tianrui.service.impl.basicFile.other.OtherBdCustomerService;
+import com.tianrui.service.mapper.basicFile.nc.SupplierManageMapper;
 //import com.tianrui.service.mapper.DemoMapper;
 import com.tianrui.service.mapper.basicFile.other.OtherBdCustomerMapper;
 import com.tianrui.service.mapper.system.base.SystemDataDictItemMapper;
@@ -41,6 +42,17 @@ public class DemoMapperTest2 {
 	private SystemDataDictMapper systemDataDictMapper;
 	@Autowired
 	private SystemDataDictItemMapper systemDataDictItemMapper;
+	
+	@Autowired
+	private SupplierManageMapper supplierManageMapper;
+	
+	@Test
+	public void test1(){
+		Long Time = supplierManageMapper.findMaxUtc();
+		System.out.println(Time);
+	}
+	
+	
 //	@Test
 //	public void select1() throws Exception{
 //		OtherBdCustomerReq oo = new OtherBdCustomerReq();

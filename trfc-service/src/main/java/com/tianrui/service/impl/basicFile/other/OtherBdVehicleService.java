@@ -31,9 +31,10 @@ public class OtherBdVehicleService implements IOtherBdVehicleService{
 	
 	/**
 	 * 分页查询数据
+	 * @throws Exception 
 	 */
 	@Override
-	public Result page(OtherBdVehicleReq req)  {
+	public Result page(OtherBdVehicleReq req) throws Exception  {
 		Result result=Result.getSuccessResult();
 		if(req != null){
 			PaginationVO<OtherBdVehicleResp> page = new PaginationVO<OtherBdVehicleResp>();
@@ -47,12 +48,7 @@ public class OtherBdVehicleService implements IOtherBdVehicleService{
 				req.setStart((req.getPageNo()-1)*req.getPageSize());
 				req.setLimit(req.getPageSize());
 				List<OtherBdVehicle> list = this.otherBdVehicleMapper.findVehiclePage(req);
-				try {
-					page.setList(copyBeanList2RespList(list));
-				} catch (Exception e) {
-					e.printStackTrace();
-					result.setErrorCode(ErrorCode.OPERATE_ERROR);
-				}
+				page.setList(copyBeanList2RespList(list));
 				page.setTotal(count);
 				page.setPageNo(req.getPageNo());
 				page.setPageSize(req.getPageSize());
@@ -71,19 +67,15 @@ public class OtherBdVehicleService implements IOtherBdVehicleService{
 
 	/**
 	 * 增加其他车辆信息
+	 * @throws Exception 
 	 */
 	@Transactional
 	@Override
-	public Result addVehicle(OtherBdVehicleReq req)  {
+	public Result addVehicle(OtherBdVehicleReq req) throws Exception  {
 		Result result = Result.getSuccessResult();
 		if(req != null){
 			OtherBdVehicle vehicle = new OtherBdVehicle();
-			try {
-				PropertyUtils.copyProperties(vehicle, req);
-			} catch (Exception e) {
-				e.printStackTrace();
-				result.setErrorCode(ErrorCode.PARAM_ERROR);
-			} 
+			PropertyUtils.copyProperties(vehicle, req);
 			vehicle.setId(getVehicleId());
 			vehicle.setCreator("YZF");
 			vehicle.setAddr("墨西哥");
@@ -104,19 +96,15 @@ public class OtherBdVehicleService implements IOtherBdVehicleService{
 	
 	/**
 	 * 修改其他车辆信息
+	 * @throws Exception 
 	 */
 	@Transactional
 	@Override
-	public Result editVehicle(OtherBdVehicleReq req)  {
+	public Result editVehicle(OtherBdVehicleReq req) throws Exception  {
 		Result result=Result.getSuccessResult();
 		if(req != null){
 			OtherBdVehicle vehicle = new OtherBdVehicle();
-			try {
-				PropertyUtils.copyProperties(vehicle, req);
-			} catch (Exception e) {
-				e.printStackTrace();
-				result.setErrorCode(ErrorCode.PARAM_ERROR);
-			} 
+			PropertyUtils.copyProperties(vehicle, req);
 			vehicle.setModifytime(System.currentTimeMillis());
 			int n=this.otherBdVehicleMapper.updateByPrimaryKeySelective(vehicle);
 			if(n > 0){

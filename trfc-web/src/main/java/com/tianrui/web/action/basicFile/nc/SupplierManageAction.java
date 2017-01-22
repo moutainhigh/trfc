@@ -1,5 +1,7 @@
 package com.tianrui.web.action.basicFile.nc;
 
+import javax.servlet.http.HttpSession;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +14,7 @@ import com.tianrui.api.intf.basicFile.nc.ISupplierManageService;
 import com.tianrui.api.req.basicFile.nc.SupplierManageQuery;
 import com.tianrui.api.req.basicFile.nc.SupplierManageSave;
 import com.tianrui.api.resp.basicFile.nc.SupplierManageResp;
+import com.tianrui.api.resp.system.auth.SystemUserResp;
 import com.tianrui.smartfactory.common.constants.ErrorCode;
 import com.tianrui.smartfactory.common.vo.PaginationVO;
 import com.tianrui.smartfactory.common.vo.Result;
@@ -47,9 +50,11 @@ public class SupplierManageAction {
 	
 	@RequestMapping("/updateSupplier")
 	@ResponseBody
-	public Result updateSupplier(SupplierManageSave req){
+	public Result updateSupplier(SupplierManageSave req, HttpSession session){
 		Result result = Result.getSuccessResult();
 		try {
+			SystemUserResp user = (SystemUserResp) session.getAttribute("systemUser");
+			req.setCurrUId(user.getId());
 			result = supplierManageService.updateSupplier(req);
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);

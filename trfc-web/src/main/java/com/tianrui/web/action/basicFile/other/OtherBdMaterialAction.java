@@ -15,7 +15,7 @@ import com.tianrui.smartfactory.common.constants.ErrorCode;
 import com.tianrui.smartfactory.common.vo.PaginationVO;
 import com.tianrui.smartfactory.common.vo.Result;
 @Controller
-@RequestMapping("materials")
+@RequestMapping("/trfc/basicFile/other/material")
 public class OtherBdMaterialAction {
 	private Logger log=LoggerFactory.getLogger(OtherBdMaterialAction.class);
 	@Autowired
@@ -29,15 +29,11 @@ public class OtherBdMaterialAction {
 	@RequestMapping("page")
 	@ResponseBody
 	public Result page(OtherBdMaterialReq req){
-		Result result=Result.getSuccessResult();
+		Result result=Result.getErrorResult();
 		try {
-			PaginationVO<OtherBdMaterialResp> page=otherBdMaterialService.page(req);
-			result.setData(page);
+			result=otherBdMaterialService.page(req);
 		} catch (Exception e) {
 			log.error(e.getMessage(),e);
-			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
-			//return result;
-			//e.printStackTrace();
 		}		
 		return result;
 		
@@ -46,31 +42,28 @@ public class OtherBdMaterialAction {
 	@ResponseBody
 	public Result toInsert(){
 		Result result = Result.getSuccessResult();
-		OtherBdMaterialResp resp = new OtherBdMaterialResp();
-		resp.setCode(otherBdMaterialService.getMaterialCode());
-		resp.setInnercode(otherBdMaterialService.getMaterialInnercode());
-		result.setData(resp);
+		try {
+			OtherBdMaterialResp resp = new OtherBdMaterialResp();
+			resp.setCode(otherBdMaterialService.getMaterialCode());
+			resp.setInnercode(otherBdMaterialService.getMaterialInnercode());
+			result.setData(resp);
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
+			return result;
+		}
 		return result;
 	}
 	
 	@RequestMapping("addOtherBdMaterial")
 	@ResponseBody
 	public Result addOtherBdMaterial(OtherBdMaterialReq req){
-		Result result=Result.getSuccessResult();
+		Result result=Result.getErrorResult();
 		try {
-			int n=otherBdMaterialService.addOtherBdMaterial(req);
-			if(n>0){
-			result.setData(n);	
-			}else if(n==-1){
-			result.setErrorCode(ErrorCode.OPERATE_ERROR);	
-			}else{
-				result.setErrorCode(ErrorCode.SYSTEM_ERROR);
-			}
+			result=otherBdMaterialService.addOtherBdMaterial(req);
 		} catch (Exception e) {
 			log.error(e.getMessage(),e);
-			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
-			//return result;
-			//e.printStackTrace();
+			
 		}
 		return result;
 	}
@@ -93,18 +86,12 @@ public class OtherBdMaterialAction {
 	@RequestMapping("updateOtherBdMaterial")
 	@ResponseBody
 	public Result updateOtherBdMaterial(OtherBdMaterialReq req){
-		Result result = Result.getSuccessResult();
+		Result result = Result.getErrorResult();
 		try {
-			int n=otherBdMaterialService.updateOtherBdMaterial(req);
-			if(n == 1){
-				result.setData(n);
-			}else{
-				result.setErrorCode(ErrorCode.OPERATE_ERROR);
-			}
+			result=otherBdMaterialService.updateOtherBdMaterial(req);
+			
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
-			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
-			return result;
 		}
 		return result;
 	}
@@ -112,21 +99,11 @@ public class OtherBdMaterialAction {
 	@RequestMapping("deleteOtherBdMaterial")
 	@ResponseBody
 	public Result deleteOtherBdMaterial(String id){
-		Result result=Result.getSuccessResult();		
+		Result result=Result.getErrorResult();		
 		try {
-			
-				int n=otherBdMaterialService.deleteByPrimaryKey(id);
-				if(n>0){
-					result.setData(n);
-				}else{
-					result.setErrorCode(ErrorCode.PARAM_ERROR);
-				}	
-				
+			result=otherBdMaterialService.deleteByPrimaryKey(id);
 		} catch (Exception e) {
 			log.error(e.getMessage(),e);
-			result.setErrorCode(ErrorCode.SYSTEM_ERROR);			
-			//return result;
-			//e.printStackTrace();
 		}		
 		return result;
 		

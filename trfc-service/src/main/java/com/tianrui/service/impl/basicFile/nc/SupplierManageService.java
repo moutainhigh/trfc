@@ -58,7 +58,7 @@ public class SupplierManageService implements ISupplierManageService {
 		if(save != null){
 			SupplierManage sm = new SupplierManage();
 			PropertyUtils.copyProperties(sm, save);
-//			sm.setModifier("");
+			sm.setModifier(save.getCurrUId());
 			sm.setModifytime(System.currentTimeMillis());
 			if(supplierManageMapper.updateByPrimaryKeySelective(sm) > 0){
 				result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
@@ -165,10 +165,11 @@ public class SupplierManageService implements ISupplierManageService {
 			supplier.setName(json.getString("name"));
 			supplier.setState("1");
 			supplier.setOrgid(json.getString("orgId"));
-			supplier.setUtc(json.getDate("ts").getTime());
 			supplier.setAbbrname(json.getString("shortName"));
+			supplier.setRemarks(json.getString("remark"));
 			supplier.setCreatetime(System.currentTimeMillis());
 			supplier.setModifytime(System.currentTimeMillis());
+			supplier.setUtc(Long.valueOf(json.getString("ts")));
 		}
 		return supplier;
 	}

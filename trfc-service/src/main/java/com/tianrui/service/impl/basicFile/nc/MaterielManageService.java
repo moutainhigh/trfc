@@ -41,6 +41,7 @@ public class MaterielManageService implements IMaterielManageService {
 		PaginationVO<MaterielManageResp> page = null;
 		if(req != null){
 			page = new PaginationVO<MaterielManageResp>();
+			req.setState("1");
 			long count = materielManageMapper.findMaterielManagePageCount(req);
 			if(count > 0){
 				req.setStart((req.getPageNo()-1)*req.getPageSize());
@@ -56,51 +57,14 @@ public class MaterielManageService implements IMaterielManageService {
 	}
 
 	@Override
-	public Result deleteMateriel(MaterielManageQuery query) {
-		Result result = Result.getParamErrorResult();
-		if(query != null && StringUtils.isNotBlank(query.getId())){
-			MaterielManage mater = new MaterielManage();
-			mater.setId(query.getId());
-			mater.setState("0");
-			if(materielManageMapper.updateByPrimaryKeySelective(mater) > 0){
-				result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
-			}else{
-				result.setErrorCode(ErrorCode.OPERATE_ERROR);
-			}
-		}
-		return result;
-	}
-
-	@Override
 	public Result updateMateriel(MaterielManageSave save) throws Exception {
 		Result result = Result.getParamErrorResult();
 		if(save != null){
 			MaterielManage mater = new MaterielManage();
 			PropertyUtils.copyProperties(mater, save);
-//			mater.setModifier("");
+			mater.setModifier(save.getCurrUId());
 			mater.setModifytime(System.currentTimeMillis());
 			if(materielManageMapper.updateByPrimaryKeySelective(mater) > 0){
-				result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
-			}else{
-				result.setErrorCode(ErrorCode.OPERATE_ERROR);
-			}
-		}
-		return result;
-	}
-	
-	@Override
-	public Result addMateriel(MaterielManageSave save) throws Exception {
-		Result result = Result.getParamErrorResult();
-		if(save != null){
-			MaterielManage mater = new MaterielManage();
-			PropertyUtils.copyProperties(mater, save);
-			mater.setId(UUIDUtil.getId());
-			mater.setState("1");
-//			mater.setCreator("");
-			mater.setCreatetime(System.currentTimeMillis());
-//			mater.setModifier("");
-			mater.setModifytime(System.currentTimeMillis());
-			if(materielManageMapper.insertSelective(mater) > 0){
 				result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
 			}else{
 				result.setErrorCode(ErrorCode.OPERATE_ERROR);

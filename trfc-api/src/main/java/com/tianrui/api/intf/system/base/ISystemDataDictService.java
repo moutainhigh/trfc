@@ -13,15 +13,15 @@ public interface ISystemDataDictService {
 	/*
 	 * 查询所有的数据字典类别
 	 */
-	Result findSystemDataDicts(SystemDataDictReq req);
+	Result findSystemDataDicts(SystemDataDictReq req) throws Exception;
 	/*
 	 * 增加数据字典类别
 	 */
-	Result addSystemDataDict(SystemDataDictReq req);
+	Result addSystemDataDict(SystemDataDictReq req) throws Exception;
 	/*
 	 * 修改数据字典类别
 	 */
-	Result editSystemDataDict(SystemDataDictReq req);
+	Result editSystemDataDict(SystemDataDictReq req) throws Exception;
 	/*
 	 * 删除数据字典类别
 	 */
@@ -30,15 +30,15 @@ public interface ISystemDataDictService {
 	/*
 	 * 查找所有的数据字典明细
 	 */
-	Result findSystemDataDictItems(SystemDataDictItemReq req);
+	Result findSystemDataDictItems(SystemDataDictItemReq req) throws Exception;
 	/*
 	 * 增加数据字典明细
 	 */
-	Result addSystemDataDictItem(SystemDataDictItemReq req);
+	Result addSystemDataDictItem(SystemDataDictItemReq req) throws Exception;
 	/*
 	 * 修改数据字典明细
 	 */
-	Result editSystemDataDictItem(SystemDataDictItemReq req);
+	Result editSystemDataDictItem(SystemDataDictItemReq req) throws Exception;
 	/*
 	 * 删除数据字典明细
 	 */

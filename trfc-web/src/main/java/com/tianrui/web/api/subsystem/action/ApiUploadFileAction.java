@@ -15,7 +15,7 @@ import com.tianrui.smartfactory.common.api.ApiResult;
 import com.tianrui.smartfactory.common.constants.ErrorCode;
 import com.tianrui.smartfactory.common.vo.Result;
 
-@RequestMapping("api/upload")
+@RequestMapping("trfc/upload")
 @Controller
 public class ApiUploadFileAction {
 	

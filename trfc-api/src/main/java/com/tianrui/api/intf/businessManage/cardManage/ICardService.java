@@ -21,8 +21,6 @@ public interface ICardService {
 
 	int updateCard(CardReq req) throws Exception;
 
-	int deleteCard(String id);
-
 	int delCard(CardReq req) throws Exception;
 
 	CardResp findOne(String id) throws Exception;
