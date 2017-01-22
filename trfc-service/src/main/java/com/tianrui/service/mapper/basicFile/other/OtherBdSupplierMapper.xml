@@ -218,14 +218,14 @@
 		<include refid="Base_Column_List"></include>
 		from tr_other_bd_supplier
 		<where>
-			<if test="code!=null and code!=''">
-				and code like CONCAT('%',#{code,jdbcType=VARCHAR,'%'},
+			<if test="nameLike!=null and nameLike!=''">
+				and name like CONCAT('%',#{nameLike,jdbcType=VARCHAR},'%')
 			</if>
-			<if test="innercode!=null and innercode!=''">
-				and innercode like CONCAT('%',#{innercode,jdbcType=VARCHAR},'%'),
+			<if test="innercodeLike!=null and innercodeLike!=''">
+				and innercode like CONCAT('%',#{innercodeLike,jdbcType=VARCHAR},'%')
 			</if>
 			<if test="orgname!=null and orgname!=''">
-				and orgname!=#{orgname,jdbcType=VARCHAR},
+				and orgname=#{orgname,jdbcType=VARCHAR}
 			</if>
 		</where>
 		order by createtime desc
@@ -239,14 +239,14 @@
 		select count(1)
 		from tr_other_bd_supplier
 		<where>
-			<if test="name!=null and name!=''">
-				and name like CONCAT('%',#{name,jdbcType=VARCHAR},'%')
+			<if test="nameLike!=null and nameLike!=''">
+				and name like CONCAT('%',#{nameLike,jdbcType=VARCHAR},'%')
 			</if>
-			<if test="innercode!=null and innercode!=''">
-				and innercode like CONCAT('%',#{innercode,jdbcType=VARCHAR},'%')
+			<if test="innercodeLike!=null and innercodeLike!=''">
+				and innercode like CONCAT('%',#{innercodeLike,jdbcType=VARCHAR},'%')
 			</if>
 			<if test="orgname!=null and orgname!=''">
-				and orgname!=#{orgname,jdbcType=VARCHAR}
+				and orgname=#{orgname,jdbcType=VARCHAR}
 			</if>
 		</where>
 	</select>

@@ -274,9 +274,9 @@ function CustomersShowAction(pageNo){
 	var orgnamelike = $('#customer_orgname1').val().trim();
 	var params = {
 			pageSize:pageSize,
-			namelike:'%'+namelike+'%',
-			innercodelike:'%'+innercodelike+'%',
-			orgnamelike:'%'+orgnamelike+'%'
+			namelike:namelike,
+			innercodelike:innercodelike,
+			orgnamelike:orgnamelike
 	};
 	//获得当前页面标记
 	params.pageNo = pageNo;
