@@ -20,7 +20,7 @@ public class Constant {
     //初始密码
     public final static String PASSWORD_INIT="123456";
     
-    public final static String FILE_URL_PRE="http://www.trwl.com/img/";
+    public final static String FILE_URL_PRE="http://172.19.4.73:81/uploadimgs/";
     
     
     // 用户验证key
