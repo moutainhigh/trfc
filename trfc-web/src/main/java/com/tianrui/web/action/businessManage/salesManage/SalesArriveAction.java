@@ -15,7 +15,6 @@ import com.tianrui.api.intf.basicFile.measure.IVehicleManageService;
 import com.tianrui.api.intf.basicFile.nc.ICustomerManageService;
 import com.tianrui.api.intf.basicFile.nc.IMaterielManageService;
 import com.tianrui.api.intf.businessManage.salesManage.ISalesArriveService;
-import com.tianrui.api.req.basicFile.nc.CustomerManageQuery;
 import com.tianrui.api.req.businessManage.salesManage.SalesArriveQuery;
 import com.tianrui.api.req.businessManage.salesManage.SalesArriveSave;
 import com.tianrui.api.resp.businessManage.salesManage.SalesArriveResp;

@@ -468,10 +468,24 @@
 	  </if>
   	</where>
   </select>
+  <select id="checkDriverAndVehicleIsUse" resultMap="BaseResultMap" parameterType="com.tianrui.service.bean.businessManage.salesManage.SalesArrive">
+  	select 
+	<include refid="Base_Column_List" />
+  	from tr_sales_db_arrive
+  	<where>
+  		status != '5' and status != '3' and state = '1'
+  		<if test="driverid != null and driverid != ''">
+  			and driverid = #{driverid,jdbcType=VARCHAR}
+  		</if>
+  		<if test="vehicleid != null and vehicleid != ''">
+  			and vehicleid = #{vehicleid,jdbcType=VARCHAR}
+  		</if>
+  	</where>
+  </select>
   <select id="checkICUse" resultType="java.lang.Integer" parameterType="com.tianrui.api.req.businessManage.salesManage.SalesArriveQuery">
   	select count(0) 
   	from tr_sales_db_arrive
-  	where icardid = #{icardid,jdbcType=VARCHAR} and state = #{state,jdbcType=VARCHAR} and status != '5'
+  	where icardid = #{icardid,jdbcType=VARCHAR} and state = #{state,jdbcType=VARCHAR} and status != '5' and status != '3'
   </select>
   <select id="selectWaitingNumber" resultType="java.lang.Integer" parameterType="com.tianrui.api.req.businessManage.salesManage.SalesArriveQuery">
   	select count(0)

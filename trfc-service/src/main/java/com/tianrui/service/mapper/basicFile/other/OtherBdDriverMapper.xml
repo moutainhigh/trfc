@@ -252,4 +252,47 @@
       modifytime = #{modifytime,jdbcType=BIGINT}
     where id = #{id,jdbcType=VARCHAR}
   </update>
+  <select id="findDriverPageCount" resultType="java.lang.Long" parameterType="com.tianrui.api.req.basicFile.other.OtherBdDriverReq">
+  	select
+  	count(0)
+  	from tr_other_bd_driver
+  	<where>
+  		<if test="namelike != null and namelike != ''">
+  			and name like concat('%',#{namelike,jdbcType=VARCHAR},'%')
+		</if>
+  		<if test="orgname != null and orgname != ''">
+  			and orgname = #{orgname,jdbcType=VARCHAR}
+		</if>
+		<if test="innercodelike != null and innercodelike != ''">
+  			and innercode like concat('%',#{innercodelike,jdbcType=VARCHAR},'%')
+		</if>
+  	</where>
+  </select>
+  <select id="findDriverPage" resultMap="BaseResultMap" parameterType="com.tianrui.api.req.basicFile.other.OtherBdDriverReq">
+  	select
+  	<include refid="Base_Column_List" />
+  	from tr_other_bd_driver
+  	<where>
+  		<if test="namelike != null and namelike != ''">
+  			and name like concat('%',#{namelike,jdbcType=VARCHAR},'%')
+		</if>
+  		<if test="orgname != null and orgname != ''">
+  			and orgname = #{orgname,jdbcType=VARCHAR}
+		</if>
+		<if test="innercodelike != null and innercodelike != ''">
+  			and innercode like concat('%',#{innercodelike,jdbcType=VARCHAR},'%')
+		</if>
+  	</where>
+  	order by createtime desc
+  	<if test="start != null and start >= 0">
+  		<if test="limit != null">
+			limit #{start,jdbcType=INTEGER},#{limit,jdbcType=INTEGER}
+  		</if>
+  	</if>
+  </select>
+  <select id="findDriverByName" resultType="int" parameterType="java.lang.String">
+		select count(1)
+		from tr_other_bd_driver
+		where name = #{name,jdbcType=VARCHAR}
+  </select>
 </mapper>

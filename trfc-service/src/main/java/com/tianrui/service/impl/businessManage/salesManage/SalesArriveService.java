@@ -100,18 +100,18 @@ public class SalesArriveService implements ISalesArriveService {
 		if(save != null){
 			SalesArrive bean = new SalesArrive();
 			bean.setVehicleid(save.getVehicleid());
-			List<SalesArrive> list1 = salesArriveMapper.selectSelective(bean);
-			if(list1 != null && list1.size() > 0){
+			List<SalesArrive> listVehicle = salesArriveMapper.checkDriverAndVehicleIsUse(bean);
+			if(listVehicle != null && listVehicle.size() > 0){
 				result.setErrorCode(ErrorCode.PARAM_REPEAT_ERROR);
-				result.setError("此车辆己有提货通知单、待出厂后进行派车，现有车辆业务单据号为:"+list1.get(0).getCode()+"，如有疑问请与销售处联系！");
+				result.setError("此车辆己有提货通知单、待出厂后进行派车，现有车辆业务单据号为:"+listVehicle.get(0).getCode()+"，如有疑问请与销售处联系！");
 				return result;
 			}
 			bean.setVehicleid(null);
 			bean.setDriverid(save.getDriverid());
-			List<SalesArrive> list2 = salesArriveMapper.selectSelective(bean);
-			if(list2 != null && list2.size() > 0){
+			List<SalesArrive> listDriver = salesArriveMapper.checkDriverAndVehicleIsUse(bean);
+			if(listDriver != null && listDriver.size() > 0){
 				result.setErrorCode(ErrorCode.PARAM_REPEAT_ERROR);
-				result.setError("此司机己有提货通知单、待出厂后进行派车，现有车辆业务单据号为:"+list2.get(0).getCode()+"，如有疑问请与销售处联系！");
+				result.setError("此司机己有提货通知单、待出厂后进行派车，现有车辆业务单据号为:"+listDriver.get(0).getCode()+"，如有疑问请与销售处联系！");
 				return result;
 			}
 			PropertyUtils.copyProperties(bean, save);
@@ -120,8 +120,8 @@ public class SalesArriveService implements ISalesArriveService {
 			bean.setStatus("0");
 			bean.setState("1");
 			bean.setSource("0");
-//			bean.setCreator("");
-//			bean.setModifier("");
+			bean.setCreator(save.getCurrUId());
+			bean.setModifier(save.getCurrUId());
 			bean.setModifytime(save.getCreatetime());
 			if(salesArriveMapper.insertSelective(bean) > 0){
 				result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
@@ -139,24 +139,24 @@ public class SalesArriveService implements ISalesArriveService {
 			SalesArrive sa = salesArriveMapper.selectByPrimaryKey(save.getId());
 			SalesArrive bean = new SalesArrive();
 			bean.setVehicleid(save.getVehicleid());
-			List<SalesArrive> list1 = salesArriveMapper.selectSelective(bean);
-			if(list1 != null && list1.size() > 0){
-				for(SalesArrive s : list1){
+			List<SalesArrive> listVehicle = salesArriveMapper.checkDriverAndVehicleIsUse(bean);
+			if(listVehicle != null && listVehicle.size() > 0){
+				for(SalesArrive s : listVehicle){
 					if(!StringUtils.equals(s.getVehicleid(), sa.getVehicleid())){
 						result.setErrorCode(ErrorCode.PARAM_REPEAT_ERROR);
-						result.setError("此车辆己有提货通知单、待出厂后进行派车，现有车辆业务单据号为:"+list1.get(0).getCode()+"，如有疑问请与销售处联系！");
+						result.setError("此车辆己有提货通知单、待出厂后进行派车，现有车辆业务单据号为:"+listVehicle.get(0).getCode()+"，如有疑问请与销售处联系！");
 						return result;
 					}
 				}
 			}
 			bean.setVehicleid(null);
 			bean.setDriverid(save.getDriverid());
-			List<SalesArrive> list2 = salesArriveMapper.selectSelective(bean);
-			if(list2 != null && list2.size() > 0){
-				for(SalesArrive s : list1){
+			List<SalesArrive> listDriver = salesArriveMapper.checkDriverAndVehicleIsUse(bean);
+			if(listDriver != null && listDriver.size() > 0){
+				for(SalesArrive s : listDriver){
 					if(!StringUtils.equals(s.getDriverid(), sa.getDriverid())){
 						result.setErrorCode(ErrorCode.PARAM_REPEAT_ERROR);
-						result.setError("此司机己有提货通知单、待出厂后进行派车，现有车辆业务单据号为:"+list2.get(0).getCode()+"，如有疑问请与销售处联系！");
+						result.setError("此司机己有提货通知单、待出厂后进行派车，现有车辆业务单据号为:"+listDriver.get(0).getCode()+"，如有疑问请与销售处联系！");
 						return result;
 					}
 				}
@@ -216,6 +216,11 @@ public class SalesArriveService implements ISalesArriveService {
 				SystemUserResp user = systemUserService.getUser(bean.getAbnormalperson());
 				resp.setAbnormalpersonname(user.getName());
 			}
+			if(StringUtils.isNotBlank(bean.getCreator())){
+				SystemUserResp user = systemUserService.getUser(bean.getCreator());
+				resp.setCreatorname(user.getName());
+			}
+				
 		}
 		return resp;
 	}
@@ -353,7 +358,7 @@ public class SalesArriveService implements ISalesArriveService {
 							api.setPrimary("");
 							api.setVehicleid(vehicleResp.getId());
 							api.setMinemouth("");
-							api.setNumber(resp.getTakeamount().toString());
+							api.setNumber(String.valueOf(resp.getTakeamount()==null?"":resp.getTakeamount()));
 							result.setData(api);
 							result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
 						}

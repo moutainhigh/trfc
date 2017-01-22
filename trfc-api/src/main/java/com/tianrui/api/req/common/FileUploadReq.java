@@ -5,9 +5,7 @@ import com.tianrui.api.req.BaseReq;
 public class FileUploadReq extends BaseReq{
 
 	private static final long serialVersionUID = 1298849672113160842L;
-	/**
-	 * Base64编码字符串
-	 */
+
 	private byte[] fileByte;
 	/**
 	 * 上传者id
