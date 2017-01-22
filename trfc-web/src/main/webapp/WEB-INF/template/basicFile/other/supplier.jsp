@@ -18,6 +18,7 @@
 					<li><a href="/trfc/basicFile/other/customer/main">其他客戶</a></li>
 					<li><a href="/trfc/other/otherVehicle/main">其他车辆</a></li>
 					<li><a href="/trfc/basicFile/other/material/main">其他物料</a></li>
+					<li><a href="/trfc/basicFile/other/driver/main">其他司机</a></li>
 					<li class="select"><a href="/trfc/basicFile/other/supplier/main">其他供应商</a></li>
 				</ul>
 				<!--tab切换标题end-->
