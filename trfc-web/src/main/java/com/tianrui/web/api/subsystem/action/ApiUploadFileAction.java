@@ -10,12 +10,11 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.tianrui.api.intf.common.IFileService;
 import com.tianrui.api.req.common.FileUploadReq;
-import com.tianrui.smartfactory.common.api.ApiParam;
 import com.tianrui.smartfactory.common.api.ApiResult;
 import com.tianrui.smartfactory.common.constants.ErrorCode;
 import com.tianrui.smartfactory.common.vo.Result;
 
-@RequestMapping("trfc/upload")
+@RequestMapping("api/upload")
 @Controller
 public class ApiUploadFileAction {
 	
@@ -27,17 +26,16 @@ public class ApiUploadFileAction {
 	
 	@RequestMapping("image")
 	@ResponseBody
-	public ApiResult uploadImg(ApiParam<FileUploadReq> apiParam, MultipartFile file){
-		FileUploadReq req = apiParam.getBody();
-		req.setuId(apiParam.getHead().getUserId());
+	public ApiResult uploadImg(MultipartFile file){
 		Result rs=Result.getErrorResult();
 		try {
+			FileUploadReq req = new FileUploadReq();
 			req.setFileByte(file.getBytes());
 			rs = fileService.uploadImg(req);
 		} catch (Exception e) {
 			rs.setErrorCode(ErrorCode.SYSTEM_ERROR);
 			log.error(e.getMessage(),e);
-		}
+		}	
 		return ApiResult.valueOf(rs);
 	}
 	

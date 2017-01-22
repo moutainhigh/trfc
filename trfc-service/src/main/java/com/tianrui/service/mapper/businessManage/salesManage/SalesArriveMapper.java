@@ -27,4 +27,6 @@ public interface SalesArriveMapper {
 	int checkICUse(SalesArriveQuery query);
 
 	int selectWaitingNumber(SalesArriveQuery query);
+	
+	List<SalesArrive> checkDriverAndVehicleIsUse(SalesArrive record);
 }

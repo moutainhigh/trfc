@@ -39,9 +39,17 @@ public class CodeGenDaoImpl extends BaseDaoImpl<CodeGen,String> implements CodeG
 		if( CollectionUtils.isNotEmpty(list) ){
 			CodeGen code =list.get(0);
 			long  newCoe=code.getCode()+1;
-			Update update =Update.update("code", newCoe);
+			String newCoeStr = String.valueOf(newCoe);
+			if(newCoeStr.length() == 1){
+				newCoeStr = "000" + newCoeStr;
+			}else if(newCoeStr.length() == 2){
+				newCoeStr = "00" + newCoeStr;
+			}else if(newCoeStr.length() == 3){
+				newCoeStr = "0" + newCoeStr;
+			}
+			Update update =Update.update("code", newCoeStr);
 			mongoTemplate.updateFirst(new Query().addCriteria(Criteria.where("id").is(code.getId())), update, CodeGen.class);
-			rs = String.valueOf(newCoe);
+			rs = String.valueOf(newCoeStr);
 		}else{
 			rs = String.valueOf("0001");
 			CodeGen code =new CodeGen();
