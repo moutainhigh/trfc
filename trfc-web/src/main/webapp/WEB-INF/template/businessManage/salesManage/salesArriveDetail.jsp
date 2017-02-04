@@ -56,7 +56,7 @@
 							</div>
 							<div class="daohuo_add_solo">
 								<label>制单日期：</label> <input
-									value="${salesArrive.createtimeStr }" type="text" readonly>
+									value="${salesArrive.markbilltimeStr }" type="text" readonly>
 							</div>
 							<div class="daohuo_add_solo">
 								<label>客户：</label> <input
@@ -95,19 +95,19 @@
 							</div>
 							<div class="daohuo_add_solo">
 								<label>车号：</label> <input
-									value="${salesArrive.vehicle.vehicleno }" type="text" readonly>
+									value="${salesArrive.vehicleno }" type="text" readonly>
 							</div>
 							<div class="daohuo_add_solo">
-								<label>RFID：</label> <input value="${salesArrive.vehicle.rfid }"
+								<label>RFID：</label> <input value="${salesArrive.vehiclerfid }"
 									type="text" readonly>
 							</div>
 							<div class="daohuo_add_solo">
-								<label>司机：</label> <input value="${salesArrive.driver.name }"
+								<label>司机：</label> <input value="${salesArrive.drivername }"
 									type="text" readonly>
 							</div>
 							<div class="daohuo_add_solo">
 								<label>身份证号：</label> <input
-									value="${salesArrive.driver.identityno }" type="text" readonly>
+									value="${salesArrive.driveridentityno }" type="text" readonly>
 							</div>
 							<div class="daohuo_add_solo">
 								<label>提货量：</label> <input value="${salesArrive.takeamount }"

@@ -8,19 +8,14 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.tianrui.api.intf.basicFile.measure.IDriverManageService;
-import com.tianrui.api.intf.basicFile.measure.IVehicleManageService;
 import com.tianrui.api.intf.businessManage.salesManage.ISalesApplicationService;
 import com.tianrui.api.intf.businessManage.salesManage.ISalesArriveService;
 import com.tianrui.api.intf.system.auth.ISystemUserService;
-import com.tianrui.api.req.basicFile.measure.DriverManageQuery;
-import com.tianrui.api.req.basicFile.measure.VehicleManageQuery;
 import com.tianrui.api.req.businessManage.salesManage.ApiDoorQueueQuery;
 import com.tianrui.api.req.businessManage.salesManage.ApiSalesArriveQuery;
 import com.tianrui.api.req.businessManage.salesManage.SalesApplicationQuery;
 import com.tianrui.api.req.businessManage.salesManage.SalesArriveQuery;
 import com.tianrui.api.req.businessManage.salesManage.SalesArriveSave;
-import com.tianrui.api.resp.basicFile.measure.VehicleManageResp;
 import com.tianrui.api.resp.basicFile.nc.CustomerManageResp;
 import com.tianrui.api.resp.basicFile.nc.MaterielManageResp;
 import com.tianrui.api.resp.businessManage.salesManage.ApiDoorQueueResp;
@@ -52,12 +47,6 @@ public class SalesArriveService implements ISalesArriveService {
 
 	@Autowired
 	private SalesArriveMapper salesArriveMapper;
-	
-	@Autowired
-	private IDriverManageService driverManageService;
-	
-	@Autowired
-	private IVehicleManageService vehicleManageService;
 	
 	@Autowired
 	private ISalesApplicationService salesApplicationService;
@@ -120,9 +109,11 @@ public class SalesArriveService implements ISalesArriveService {
 			bean.setStatus("0");
 			bean.setState("1");
 			bean.setSource("0");
+			bean.setMarkbillname(systemUserService.getUser(save.getCurrUId()).getName());
 			bean.setCreator(save.getCurrUId());
+			bean.setCreatetime(System.currentTimeMillis());
 			bean.setModifier(save.getCurrUId());
-			bean.setModifytime(save.getCreatetime());
+			bean.setModifytime(System.currentTimeMillis());
 			if(salesArriveMapper.insertSelective(bean) > 0){
 				result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
 			}else{
@@ -197,16 +188,16 @@ public class SalesArriveService implements ISalesArriveService {
 		if(bean != null){
 			resp = new SalesArriveResp();
 			PropertyUtils.copyProperties(resp, bean);
-			if(StringUtils.isNotBlank(bean.getDriverid())){
-				DriverManageQuery query = new DriverManageQuery();
-				query.setId(bean.getDriverid());
-				resp.setDriver(driverManageService.findOne(query));
-			}
-			if(StringUtils.isNotBlank(bean.getVehicleid())){
-				VehicleManageQuery query = new VehicleManageQuery();
-				query.setId(bean.getVehicleid());
-				resp.setVehicle(vehicleManageService.findOne(query));
-			}
+//			if(StringUtils.isNotBlank(bean.getDriverid())){
+//				DriverManageQuery query = new DriverManageQuery();
+//				query.setId(bean.getDriverid());
+//				resp.setDriver(driverManageService.findOne(query));
+//			}
+//			if(StringUtils.isNotBlank(bean.getVehicleid())){
+//				VehicleManageQuery query = new VehicleManageQuery();
+//				query.setId(bean.getVehicleid());
+//				resp.setVehicle(vehicleManageService.findOne(query));
+//			}
 			if(StringUtils.isNotBlank(bean.getBillid())){
 				SalesApplicationQuery query = new SalesApplicationQuery();
 				query.setId(bean.getBillid());
@@ -282,13 +273,14 @@ public class SalesArriveService implements ISalesArriveService {
 	}
 
 	@Override
-	public Result outfactory(SalesArriveQuery query) {
+	public Result outfactory(SalesArriveQuery query) throws Exception {
 		Result result = Result.getParamErrorResult();
 		if(query != null && StringUtils.isNotBlank(query.getId())){
 			SalesArrive sa = new SalesArrive();
 			sa.setId(query.getId());
 			sa.setStatus("5");
 			sa.setAbnormalperson(query.getCurrUId());
+			sa.setAbnormalpersonname(systemUserService.getUser(query.getCurrUId()).getName());
 			sa.setAbnormaltime(System.currentTimeMillis());
 			sa.setModifier(query.getCurrUId());
 			sa.setModifytime(System.currentTimeMillis());
@@ -326,13 +318,13 @@ public class SalesArriveService implements ISalesArriveService {
 							result.setErrorCode(ErrorCode.VEHICLE_NOT_ARRIVE);
 						}else{
 							SalesArriveResp resp = copyBean2Resp(listSales.get(0));
-							VehicleManageResp vehicleResp = resp.getVehicle();
+							//VehicleManageResp vehicleResp = resp.getVehicle();
 							SalesApplicationResp salesApplicationResp = resp.getSalesApplication();
 							CustomerManageResp customerResp = salesApplicationResp.getCustomerManageResp();
 							SalesApplicationDetailResp salesApplicationDetailResp = salesApplicationResp.getDetailResp();
 							MaterielManageResp materielResp = salesApplicationDetailResp.getMateriel();
 							ApiSalesArriveResp api = new ApiSalesArriveResp();
-							api.setVehicleno(vehicleResp.getVehicleno());
+							api.setVehicleno(resp.getVehicleno());
 							api.setCustomerid(customerResp.getId());
 							api.setCustomer(customerResp.getName());
 							api.setMaterielid(materielResp.getId());
@@ -356,7 +348,7 @@ public class SalesArriveService implements ISalesArriveService {
 							api.setServicetype("2");
 							api.setNotionformcode(resp.getCode());
 							api.setPrimary("");
-							api.setVehicleid(vehicleResp.getId());
+							api.setVehicleid(resp.getId());
 							api.setMinemouth("");
 							api.setNumber(String.valueOf(resp.getTakeamount()==null?"":resp.getTakeamount()));
 							result.setData(api);

@@ -1,55 +1,71 @@
 package com.tianrui.service.bean.businessManage.salesManage;
 /**
- * 销售提货通知单Bean
+ * @Description 销售提货通知单Bean
  * @author zhanggaohao
- * @createtime 2017年1月12日 上午10:53:56
- * @classname SalesArrive.java
+ * @version 2017年2月4日 上午9:22:01
  */
 public class SalesArrive {
-    private String id;
-
+	//主键id
+	private String id;
+	//提货单号
     private String code;
-
+    //审核状态
     private String auditstatus;
-
+    //来源
     private String source;
-
+    //状态
     private String status;
-
+    //车辆id
     private String vehicleid;
-
+    //车牌号
+    private String vehicleno;
+    //RFID
+    private String vehiclerfid;
+    //司机id
     private String driverid;
-
+    //司机名称
+    private String drivername;
+    //司机身份证号
+    private String driveridentityno;
+    //销售订单id
     private String billid;
-
+    //销售订单编号
     private String billcode;
-
+    //作废/强制出厂人
     private String abnormalperson;
-
+    //作废/强制出厂人名称
+    private String abnormalpersonname;
+    //作废/强制出厂时间
     private Long abnormaltime;
-
+	//单位
     private String unit;
-
+    //提货量
     private Double takeamount;
-
+    //喷码
     private String spraycode;
-
+    //出厂编号
     private String serialnumber;
-
+    //IC卡id
     private String icardid;
-
+    //卡序号
+    private String icardno;
+    //数据状态：（0：删除，1：正常）
     private String state;
-
+    //主单扣量（0：否，1：是）
     private String maindeduction;
-    
+    //制单人名称
+    private String markbillname;
+    //制单时间
+    private Long markbilltime;
+    //备注
     private String remarks;
-
+    //创建人
     private String creator;
-
+    //创建时间
     private Long createtime;
-
+    //最后修改人
     private String modifier;
-
+    //最后修改时间
     private Long modifytime;
 
     public String getId() {
@@ -100,12 +116,44 @@ public class SalesArrive {
         this.vehicleid = vehicleid == null ? null : vehicleid.trim();
     }
 
-    public String getDriverid() {
+    public String getVehicleno() {
+        return vehicleno;
+    }
+
+    public void setVehicleno(String vehicleno) {
+        this.vehicleno = vehicleno == null ? null : vehicleno.trim();
+    }
+
+    public String getVehiclerfid() {
+		return vehiclerfid;
+	}
+
+	public void setVehiclerfid(String vehiclerfid) {
+		this.vehiclerfid = vehiclerfid;
+	}
+
+	public String getDriverid() {
         return driverid;
     }
 
     public void setDriverid(String driverid) {
         this.driverid = driverid == null ? null : driverid.trim();
+    }
+
+    public String getDrivername() {
+        return drivername;
+    }
+
+    public void setDrivername(String drivername) {
+        this.drivername = drivername == null ? null : drivername.trim();
+    }
+
+    public String getDriveridentityno() {
+        return driveridentityno;
+    }
+
+    public void setDriveridentityno(String driveridentityno) {
+        this.driveridentityno = driveridentityno == null ? null : driveridentityno.trim();
     }
 
     public String getBillid() {
@@ -130,6 +178,14 @@ public class SalesArrive {
 
     public void setAbnormalperson(String abnormalperson) {
         this.abnormalperson = abnormalperson == null ? null : abnormalperson.trim();
+    }
+
+    public String getAbnormalpersonname() {
+        return abnormalpersonname;
+    }
+
+    public void setAbnormalpersonname(String abnormalpersonname) {
+        this.abnormalpersonname = abnormalpersonname == null ? null : abnormalpersonname.trim();
     }
 
     public Long getAbnormaltime() {
@@ -180,23 +236,47 @@ public class SalesArrive {
         this.icardid = icardid == null ? null : icardid.trim();
     }
 
+    public String getIcardno() {
+    	return icardno;
+    }
+    
+    public void setIcardno(String icardno) {
+    	this.icardno = icardno == null ? null : icardno.trim();
+    }
+
     public String getState() {
         return state;
     }
 
-    public void setState(String state) {
+	public void setState(String state) {
         this.state = state == null ? null : state.trim();
     }
 
     public String getMaindeduction() {
-		return maindeduction;
-	}
+        return maindeduction;
+    }
 
-	public void setMaindeduction(String maindeduction) {
-		this.maindeduction = maindeduction;
-	}
+    public void setMaindeduction(String maindeduction) {
+        this.maindeduction = maindeduction == null ? null : maindeduction.trim();
+    }
 
-	public String getRemarks() {
+    public String getMarkbillname() {
+        return markbillname;
+    }
+
+    public void setMarkbillname(String markbillname) {
+        this.markbillname = markbillname == null ? null : markbillname.trim();
+    }
+
+    public Long getMarkbilltime() {
+        return markbilltime;
+    }
+
+    public void setMarkbilltime(Long markbilltime) {
+        this.markbilltime = markbilltime;
+    }
+
+    public String getRemarks() {
         return remarks;
     }
 
