@@ -54,10 +54,12 @@ public class SalesArriveSave extends BaseReq {
     private String state;
     //主单扣量（0：否，1：是）
     private String maindeduction;
+    //制单人id
+    private String makerid;
     //制单人名称
-    private String markbillname;
+    private String makebillname;
     //制单时间
-    private Long markbilltime;
+    private Long makebilltime;
     //备注
     private String remarks;
     //创建人
@@ -263,20 +265,28 @@ public class SalesArriveSave extends BaseReq {
 		this.maindeduction = maindeduction;
 	}
 
-	public String getMarkbillname() {
-		return markbillname;
+	public String getMakerid() {
+		return makerid;
 	}
 
-	public void setMarkbillname(String markbillname) {
-		this.markbillname = markbillname;
+	public void setMakerid(String makerid) {
+		this.makerid = makerid;
 	}
 
-	public Long getMarkbilltime() {
-		return markbilltime;
+	public String getMakebillname() {
+		return makebillname;
 	}
 
-	public void setMarkbilltime(Long markbilltime) {
-		this.markbilltime = markbilltime;
+	public void setMakebillname(String makebillname) {
+		this.makebillname = makebillname;
+	}
+
+	public Long getMakebilltime() {
+		return makebilltime;
+	}
+
+	public void setMakebilltime(Long makebilltime) {
+		this.makebilltime = makebilltime;
 	}
 
 	public String getRemarks() {

@@ -53,10 +53,12 @@ public class SalesArrive {
     private String state;
     //主单扣量（0：否，1：是）
     private String maindeduction;
+    //制单人id
+    private String makerid;
     //制单人名称
-    private String markbillname;
+    private String makebillname;
     //制单时间
-    private Long markbilltime;
+    private Long makebilltime;
     //备注
     private String remarks;
     //创建人
@@ -260,20 +262,28 @@ public class SalesArrive {
         this.maindeduction = maindeduction == null ? null : maindeduction.trim();
     }
 
-    public String getMarkbillname() {
-        return markbillname;
+    public String getMakerid() {
+        return makerid;
     }
 
-    public void setMarkbillname(String markbillname) {
-        this.markbillname = markbillname == null ? null : markbillname.trim();
+    public void setMakerid(String makerid) {
+        this.makerid = makerid == null ? null : makerid.trim();
+    }
+    
+    public String getMakebillname() {
+    	return makebillname;
+    }
+    
+    public void setMakebillname(String makebillname) {
+    	this.makebillname = makebillname == null ? null : makebillname.trim();
     }
 
-    public Long getMarkbilltime() {
-        return markbilltime;
+    public Long getMakebilltime() {
+        return makebilltime;
     }
 
-    public void setMarkbilltime(Long markbilltime) {
-        this.markbilltime = markbilltime;
+    public void setMakebilltime(Long makebilltime) {
+        this.makebilltime = makebilltime;
     }
 
     public String getRemarks() {

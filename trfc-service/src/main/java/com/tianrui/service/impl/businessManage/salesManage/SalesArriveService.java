@@ -23,7 +23,6 @@ import com.tianrui.api.resp.businessManage.salesManage.ApiSalesArriveResp;
 import com.tianrui.api.resp.businessManage.salesManage.SalesApplicationDetailResp;
 import com.tianrui.api.resp.businessManage.salesManage.SalesApplicationResp;
 import com.tianrui.api.resp.businessManage.salesManage.SalesArriveResp;
-import com.tianrui.api.resp.system.auth.SystemUserResp;
 import com.tianrui.service.bean.basicFile.measure.VehicleManage;
 import com.tianrui.service.bean.businessManage.salesManage.SalesArrive;
 import com.tianrui.service.bean.common.RFID;
@@ -109,7 +108,8 @@ public class SalesArriveService implements ISalesArriveService {
 			bean.setStatus("0");
 			bean.setState("1");
 			bean.setSource("0");
-			bean.setMarkbillname(systemUserService.getUser(save.getCurrUId()).getName());
+			bean.setMakerid(save.getCurrUId());
+			bean.setMakebillname(systemUserService.getUser(save.getCurrUId()).getName());
 			bean.setCreator(save.getCurrUId());
 			bean.setCreatetime(System.currentTimeMillis());
 			bean.setModifier(save.getCurrUId());
@@ -188,30 +188,11 @@ public class SalesArriveService implements ISalesArriveService {
 		if(bean != null){
 			resp = new SalesArriveResp();
 			PropertyUtils.copyProperties(resp, bean);
-//			if(StringUtils.isNotBlank(bean.getDriverid())){
-//				DriverManageQuery query = new DriverManageQuery();
-//				query.setId(bean.getDriverid());
-//				resp.setDriver(driverManageService.findOne(query));
-//			}
-//			if(StringUtils.isNotBlank(bean.getVehicleid())){
-//				VehicleManageQuery query = new VehicleManageQuery();
-//				query.setId(bean.getVehicleid());
-//				resp.setVehicle(vehicleManageService.findOne(query));
-//			}
 			if(StringUtils.isNotBlank(bean.getBillid())){
 				SalesApplicationQuery query = new SalesApplicationQuery();
 				query.setId(bean.getBillid());
 				resp.setSalesApplication(salesApplicationService.findOne(query));
 			}
-			if(StringUtils.isNotBlank(bean.getAbnormalperson())){
-				SystemUserResp user = systemUserService.getUser(bean.getAbnormalperson());
-				resp.setAbnormalpersonname(user.getName());
-			}
-			if(StringUtils.isNotBlank(bean.getCreator())){
-				SystemUserResp user = systemUserService.getUser(bean.getCreator());
-				resp.setCreatorname(user.getName());
-			}
-				
 		}
 		return resp;
 	}
@@ -253,13 +234,14 @@ public class SalesArriveService implements ISalesArriveService {
 	}
 
 	@Override
-	public Result invalid(SalesArriveQuery query) {
+	public Result invalid(SalesArriveQuery query) throws Exception {
 		Result result = Result.getParamErrorResult();
 		if(query != null && StringUtils.isNotBlank(query.getId())){
 			SalesArrive sa = new SalesArrive();
 			sa.setId(query.getId());
 			sa.setStatus("3");
 			sa.setAbnormalperson(query.getCurrUId());
+			sa.setAbnormalpersonname(systemUserService.getUser(query.getCurrUId()).getName());
 			sa.setAbnormaltime(System.currentTimeMillis());
 			sa.setModifier(query.getCurrUId());
 			sa.setModifytime(System.currentTimeMillis());

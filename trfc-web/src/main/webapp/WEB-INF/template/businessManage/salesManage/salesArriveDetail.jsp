@@ -56,7 +56,7 @@
 							</div>
 							<div class="daohuo_add_solo">
 								<label>制单日期：</label> <input
-									value="${salesArrive.markbilltimeStr }" type="text" readonly>
+									value="${salesArrive.makebilltimeStr }" type="text" readonly>
 							</div>
 							<div class="daohuo_add_solo">
 								<label>客户：</label> <input

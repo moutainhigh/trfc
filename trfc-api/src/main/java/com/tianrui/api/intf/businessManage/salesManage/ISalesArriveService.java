@@ -60,8 +60,9 @@ public interface ISalesArriveService {
 	 * 作废销售提货通知单
 	 * @param query
 	 * @return
+	 * @throws Exception 
 	 */
-	Result invalid(SalesArriveQuery query);
+	Result invalid(SalesArriveQuery query) throws Exception;
 	/**
 	 * 强制出厂销售提货通知单
 	 * @param query

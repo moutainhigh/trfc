@@ -172,8 +172,8 @@ PAGE.mod.main = {
 					var materielname = materiel.name || '';
 					var billtimeStr = salesApplication.billtimeStr || '';
 					var channelcode = customer.channelcode || '';
-					var markbillname = obj.markbillname || '';
-					var markbilltimeStr = obj.markbilltimeStr || '';
+					var makebillname = obj.makebillname || '';
+					var makebilltimeStr = obj.makebilltimeStr || '';
 					var abnormalpersonname = obj.abnormalpersonname || '';
 					var abnormaltimeStr = obj.abnormaltimeStr || '';
 					var remarks = obj.remarks || '';
@@ -188,8 +188,8 @@ PAGE.mod.main = {
 							.append('<td>'+materielname+'</td>')
 							.append('<td>'+billtimeStr+'</td>')
 							.append('<td>'+channelcode+'</td>')
-							.append('<td>'+markbilltimeStr+'</td>')
-							.append('<td>'+markbillname+'</td>')
+							.append('<td>'+makebilltimeStr+'</td>')
+							.append('<td>'+makebillname+'</td>')
 							.append('<td>'+abnormalpersonname+'</td>')
 							.append('<td>'+abnormaltimeStr+'</td>')
 							.append('<td>'+remarks+'</td>')
@@ -244,7 +244,7 @@ PAGE.mod.main = {
 					case 0:
 						$('<table>').addClass('table table-bordered')
 								.append('<thead><tr><th>车号</th><th>预提数量</th><th>司机</th><th>身份证号</th><th>制单日期</th></tr></thead>')
-								.append('<tbody><tr><td>'+(obj.vehicleno || '')+'</td><td>'+(obj.takeamount || '')+'</td><td>'+(obj.drivername || '')+'</td><td>'+(obj.driveridentityno || '')+'</td><td>'+(obj.markbilltimeStr || '')+'</td><td></td></tr></tbody>')
+								.append('<tbody><tr><td>'+(obj.vehicleno || '')+'</td><td>'+(obj.takeamount || '')+'</td><td>'+(obj.drivername || '')+'</td><td>'+(obj.driveridentityno || '')+'</td><td>'+(obj.makebilltimeStr || '')+'</td><td></td></tr></tbody>')
 								.appendTo($tabCont);
 						break;
 					case 1:

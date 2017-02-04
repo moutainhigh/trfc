@@ -269,7 +269,7 @@ PAGE.mod.main = {
 					billcode:billcode,
 					maindeduction:maindeduction,
 					code:code,
-					markbilltime:createtime,
+					makebilltime:createtime,
 					unit:unit,
 					vehicleid:vehicleid,
 					vehicleno:vehicleno,
