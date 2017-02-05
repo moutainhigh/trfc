@@ -1,0 +1,323 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper
+	namespace="com.tianrui.service.mapper.quality.sales.batchnum.SalesBatchnumMapper">
+	<resultMap id="BaseResultMap"
+		type="com.tianrui.service.bean.quality.sales.batchnum.SalesBatchnum">
+		<id column="id" property="id" jdbcType="VARCHAR" />
+		<result column="material" property="material" jdbcType="VARCHAR" />
+		<result column="code" property="code" jdbcType="VARCHAR" />
+		<result column="count" property="count" jdbcType="BIGINT" />
+		<result column="producedtime" property="producedtime" jdbcType="BIGINT" />
+		<result column="testtime" property="testtime" jdbcType="BIGINT" />
+		<result column="remark" property="remark" jdbcType="VARCHAR" />
+		<result column="auditstate" property="auditstate" jdbcType="VARCHAR" />
+		<result column="billsstate" property="billsstate" jdbcType="VARCHAR" />
+		<result column="teststate" property="teststate" jdbcType="VARCHAR" />
+		<result column="audittime" property="audittime" jdbcType="BIGINT" />
+		<result column="assayer" property="assayer" jdbcType="VARCHAR" />
+		<result column="assaytime" property="assaytime" jdbcType="BIGINT" />
+		<result column="assayorg" property="assayorg" jdbcType="VARCHAR" />
+		<result column="starttime" property="starttime" jdbcType="BIGINT" />
+		<result column="endtime" property="endtime" jdbcType="BIGINT" />
+		<result column="creator" property="creator" jdbcType="VARCHAR" />
+		<result column="createtime" property="createtime" jdbcType="BIGINT" />
+		<result column="modifier" property="modifier" jdbcType="VARCHAR" />
+		<result column="modifytime" property="modifytime" jdbcType="BIGINT" />
+		<result column="utc" property="utc" jdbcType="BIGINT" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, material, code, count, producedtime, testtime, remark, auditstate,
+		billsstate,
+		teststate, audittime, assayer, assaytime, assayorg, starttime, endtime, creator,
+		createtime, modifier, modifytime, utc
+	</sql>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from tr_sales_db_batch_num
+		where id = #{id,jdbcType=VARCHAR}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from tr_sales_db_batch_num
+		where id = #{id,jdbcType=VARCHAR}
+	</delete>
+	<insert id="insert"
+		parameterType="com.tianrui.service.bean.quality.sales.batchnum.SalesBatchnum">
+		insert into tr_sales_db_batch_num (id, material, code,
+		count, producedtime, testtime,
+		remark, auditstate, billsstate,
+		teststate, audittime, assayer,
+		assaytime, assayorg, starttime,
+		endtime, creator, createtime,
+		modifier, modifytime, utc
+		)
+		values (#{id,jdbcType=VARCHAR}, #{material,jdbcType=VARCHAR},
+		#{code,jdbcType=VARCHAR},
+		#{count,jdbcType=BIGINT}, #{producedtime,jdbcType=BIGINT}, #{testtime,jdbcType=BIGINT},
+		#{remark,jdbcType=VARCHAR}, #{auditstate,jdbcType=VARCHAR},
+		#{billsstate,jdbcType=VARCHAR},
+		#{teststate,jdbcType=VARCHAR}, #{audittime,jdbcType=BIGINT}, #{assayer,jdbcType=VARCHAR},
+		#{assaytime,jdbcType=BIGINT}, #{assayorg,jdbcType=VARCHAR},
+		#{starttime,jdbcType=BIGINT},
+		#{endtime,jdbcType=BIGINT}, #{creator,jdbcType=VARCHAR}, #{createtime,jdbcType=BIGINT},
+		#{modifier,jdbcType=VARCHAR}, #{modifytime,jdbcType=BIGINT},
+		#{utc,jdbcType=BIGINT}
+		)
+	</insert>
+	<insert id="insertSelective"
+		parameterType="com.tianrui.service.bean.quality.sales.batchnum.SalesBatchnum">
+		insert into tr_sales_db_batch_num
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="material != null">
+				material,
+			</if>
+			<if test="code != null">
+				code,
+			</if>
+			<if test="count != null">
+				count,
+			</if>
+			<if test="producedtime != null">
+				producedtime,
+			</if>
+			<if test="testtime != null">
+				testtime,
+			</if>
+			<if test="remark != null">
+				remark,
+			</if>
+			<if test="auditstate != null">
+				auditstate,
+			</if>
+			<if test="billsstate != null">
+				billsstate,
+			</if>
+			<if test="teststate != null">
+				teststate,
+			</if>
+			<if test="audittime != null">
+				audittime,
+			</if>
+			<if test="assayer != null">
+				assayer,
+			</if>
+			<if test="assaytime != null">
+				assaytime,
+			</if>
+			<if test="assayorg != null">
+				assayorg,
+			</if>
+			<if test="starttime != null">
+				starttime,
+			</if>
+			<if test="endtime != null">
+				endtime,
+			</if>
+			<if test="creator != null">
+				creator,
+			</if>
+			<if test="createtime != null">
+				createtime,
+			</if>
+			<if test="modifier != null">
+				modifier,
+			</if>
+			<if test="modifytime != null">
+				modifytime,
+			</if>
+			<if test="utc != null">
+				utc,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=VARCHAR},
+			</if>
+			<if test="material != null">
+				#{material,jdbcType=VARCHAR},
+			</if>
+			<if test="code != null">
+				#{code,jdbcType=VARCHAR},
+			</if>
+			<if test="count != null">
+				#{count,jdbcType=BIGINT},
+			</if>
+			<if test="producedtime != null">
+				#{producedtime,jdbcType=BIGINT},
+			</if>
+			<if test="testtime != null">
+				#{testtime,jdbcType=BIGINT},
+			</if>
+			<if test="remark != null">
+				#{remark,jdbcType=VARCHAR},
+			</if>
+			<if test="auditstate != null">
+				#{auditstate,jdbcType=VARCHAR},
+			</if>
+			<if test="billsstate != null">
+				#{billsstate,jdbcType=VARCHAR},
+			</if>
+			<if test="teststate != null">
+				#{teststate,jdbcType=VARCHAR},
+			</if>
+			<if test="audittime != null">
+				#{audittime,jdbcType=BIGINT},
+			</if>
+			<if test="assayer != null">
+				#{assayer,jdbcType=VARCHAR},
+			</if>
+			<if test="assaytime != null">
+				#{assaytime,jdbcType=BIGINT},
+			</if>
+			<if test="assayorg != null">
+				#{assayorg,jdbcType=VARCHAR},
+			</if>
+			<if test="starttime != null">
+				#{starttime,jdbcType=BIGINT},
+			</if>
+			<if test="endtime != null">
+				#{endtime,jdbcType=BIGINT},
+			</if>
+			<if test="creator != null">
+				#{creator,jdbcType=VARCHAR},
+			</if>
+			<if test="createtime != null">
+				#{createtime,jdbcType=BIGINT},
+			</if>
+			<if test="modifier != null">
+				#{modifier,jdbcType=VARCHAR},
+			</if>
+			<if test="modifytime != null">
+				#{modifytime,jdbcType=BIGINT},
+			</if>
+			<if test="utc != null">
+				#{utc,jdbcType=BIGINT},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective"
+		parameterType="com.tianrui.service.bean.quality.sales.batchnum.SalesBatchnum">
+		update tr_sales_db_batch_num
+		<set>
+			<if test="material != null">
+				material = #{material,jdbcType=VARCHAR},
+			</if>
+			<if test="code != null">
+				code = #{code,jdbcType=VARCHAR},
+			</if>
+			<if test="count != null">
+				count = #{count,jdbcType=BIGINT},
+			</if>
+			<if test="producedtime != null">
+				producedtime = #{producedtime,jdbcType=BIGINT},
+			</if>
+			<if test="testtime != null">
+				testtime = #{testtime,jdbcType=BIGINT},
+			</if>
+			<if test="remark != null">
+				remark = #{remark,jdbcType=VARCHAR},
+			</if>
+			<if test="auditstate != null">
+				auditstate = #{auditstate,jdbcType=VARCHAR},
+			</if>
+			<if test="billsstate != null">
+				billsstate = #{billsstate,jdbcType=VARCHAR},
+			</if>
+			<if test="teststate != null">
+				teststate = #{teststate,jdbcType=VARCHAR},
+			</if>
+			<if test="audittime != null">
+				audittime = #{audittime,jdbcType=BIGINT},
+			</if>
+			<if test="assayer != null">
+				assayer = #{assayer,jdbcType=VARCHAR},
+			</if>
+			<if test="assaytime != null">
+				assaytime = #{assaytime,jdbcType=BIGINT},
+			</if>
+			<if test="assayorg != null">
+				assayorg = #{assayorg,jdbcType=VARCHAR},
+			</if>
+			<if test="starttime != null">
+				starttime = #{starttime,jdbcType=BIGINT},
+			</if>
+			<if test="endtime != null">
+				endtime = #{endtime,jdbcType=BIGINT},
+			</if>
+			<if test="creator != null">
+				creator = #{creator,jdbcType=VARCHAR},
+			</if>
+			<if test="createtime != null">
+				createtime = #{createtime,jdbcType=BIGINT},
+			</if>
+			<if test="modifier != null">
+				modifier = #{modifier,jdbcType=VARCHAR},
+			</if>
+			<if test="modifytime != null">
+				modifytime = #{modifytime,jdbcType=BIGINT},
+			</if>
+			<if test="utc != null">
+				utc = #{utc,jdbcType=BIGINT},
+			</if>
+		</set>
+		where id = #{id,jdbcType=VARCHAR}
+	</update>
+	<update id="updateByPrimaryKey"
+		parameterType="com.tianrui.service.bean.quality.sales.batchnum.SalesBatchnum">
+		update tr_sales_db_batch_num
+		set material = #{material,jdbcType=VARCHAR},
+		code = #{code,jdbcType=VARCHAR},
+		count = #{count,jdbcType=BIGINT},
+		producedtime = #{producedtime,jdbcType=BIGINT},
+		testtime = #{testtime,jdbcType=BIGINT},
+		remark = #{remark,jdbcType=VARCHAR},
+		auditstate = #{auditstate,jdbcType=VARCHAR},
+		billsstate = #{billsstate,jdbcType=VARCHAR},
+		teststate = #{teststate,jdbcType=VARCHAR},
+		audittime = #{audittime,jdbcType=BIGINT},
+		assayer = #{assayer,jdbcType=VARCHAR},
+		assaytime = #{assaytime,jdbcType=BIGINT},
+		assayorg = #{assayorg,jdbcType=VARCHAR},
+		starttime = #{starttime,jdbcType=BIGINT},
+		endtime = #{endtime,jdbcType=BIGINT},
+		creator = #{creator,jdbcType=VARCHAR},
+		createtime = #{createtime,jdbcType=BIGINT},
+		modifier = #{modifier,jdbcType=VARCHAR},
+		modifytime = #{modifytime,jdbcType=BIGINT},
+		utc = #{utc,jdbcType=BIGINT}
+		where id = #{id,jdbcType=VARCHAR}
+	</update>
+	<insert id="insertBatch" parameterType="java.util.List">
+		insert into tr_sales_db_batch_num
+		(id, material, code,
+		count, producedtime, testtime,
+		remark, auditstate, billsstate,
+		teststate, audittime, assayer,
+		assaytime, assayorg, starttime,
+		endtime, creator, createtime,
+		modifier, modifytime, utc)
+		values
+		<foreach collection="list" item="item" index="index"
+			separator=",">
+			(#{id,jdbcType=VARCHAR}, #{material,jdbcType=VARCHAR},
+		#{code,jdbcType=VARCHAR},
+		#{count,jdbcType=BIGINT}, #{producedtime,jdbcType=BIGINT}, #{testtime,jdbcType=BIGINT},
+		#{remark,jdbcType=VARCHAR}, #{auditstate,jdbcType=VARCHAR},
+		#{billsstate,jdbcType=VARCHAR},
+		#{teststate,jdbcType=VARCHAR}, #{audittime,jdbcType=BIGINT}, #{assayer,jdbcType=VARCHAR},
+		#{assaytime,jdbcType=BIGINT}, #{assayorg,jdbcType=VARCHAR},
+		#{starttime,jdbcType=BIGINT},
+		#{endtime,jdbcType=BIGINT}, #{creator,jdbcType=VARCHAR}, #{createtime,jdbcType=BIGINT},
+		#{modifier,jdbcType=VARCHAR}, #{modifytime,jdbcType=BIGINT},
+		#{utc,jdbcType=BIGINT}
+			)
+		</foreach>
+	</insert>
+	<select id="page" resultType="com.tianrui.api.req.quality.sales.batchnum.SalesBatchnumReq"></select>
+
+</mapper>
