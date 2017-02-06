@@ -39,33 +39,41 @@
 						<div class="intel_sconditon">
 							<div class="intel_sline">
 								<div class="intel_solo">
-									<label>开始时间：</label> <input type="text" readonly="true"
+									<label>开始时间：</label> <input type="text" id="seek_starttime"
+										readonly="true"
 										onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:00:00'})"
 										class="Wdate" style="width: 160px" />
 								</div>
 								<div class="intel_solo">
-									<label>结束时间：</label> <input type="text" readonly="true"
+									<label>结束时间：</label> <input type="text" id="seek_endtime"
+										readonly="true"
 										onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:00:00'})"
 										class="Wdate" style="width: 160px" />
 								</div>
 								<div class="intel_solo">
-									<label>单据来源：</label> <select class="form-control">
-										<option>名称</option>
-										<option>内码</option>
-										<option>拼音码</option>
+									<label>单据编号：</label><input type="text" id="seek_code" />
+								</div>
+								<div class="intel_solo">
+									<label>出厂编号：</label> <input type="text" id="seek_factorycode">
+								</div>
+								<div class="intel_solo">
+									<label>物料：</label> <select class="form-control"
+										id="seek_material">
+										<option></option>
+										<option>硫酸</option>
+										<option>含铝水泥</option>
 									</select>
 								</div>
 								<div class="intel_solo">
-									<label>订单号：</label> <input type="text">
+									<label>单据状态：</label> <select class="form-control"
+										id="seek_billsstate">
+										<option>--请选择--</option>
+										<option value="">启用</option>
+										<option value="">停用</option>
+									</select>
 								</div>
 								<div class="intel_solo">
-									<label>客户：</label> <a href="javascript:;" class="toggle"
-										id="menu-toggle1"> <input type="text">
-									</a>
-									
-								</div>
-								<div class="intel_solo">
-									<button class="btn btnblue ">搜索</button>
+									<button class="btn btnblue " id="seek">搜索</button>
 								</div>
 								<div class="clear"></div>
 							</div>
@@ -107,7 +115,7 @@
 									<th>操作</th>
 								</tr>
 							</thead>
-							<tbody>
+							<tbody id="list">
 								<tr>
 									<td>1</td>
 									<td class="colorred">审核中</td>
@@ -150,24 +158,20 @@
 					<!--分页效果开始-->
 					<div class=" row fr">
 						<div class="page_date">
-							<label>数据共：</label><i class="colorred">100</i><label>条</label>
+							<label>数据共：</label><i class="colorred" id="total">100</i><label>条</label>
 						</div>
 						<div class="page_date">
-							<label>跳到第：</label> <input type="text"> <label>页</label>
-							<button class="btn btn-default">确定</button>
+							<label>跳到第：</label> <input type="text" id="jumpPageNo"> <label>页</label>
+							<button class="btn btn-default" id="jumpButton">确定</button>
 						</div>
-						<div class="page_btn">
-							<ul class="pagination">
-								<li><a href="#">&laquo;上一页</a></li>
-								<li><a href="#">1</a></li>
-								<li><a href="#">2</a></li>
-								<li><a href="#">3</a></li>
-								<li><a href="#">...</a></li>
-								<li><a href="#">4</a></li>
-								<li><a href="#">5</a></li>
-								<li><a href="#">下一页&raquo;</a></li>
-							</ul>
+						<div class="page_date">
+							<label>每页记录：</label> <select id="pageSize" class="form-control">
+								<option value="10">10</option>
+								<option value="20">20</option>
+								<option value="30">30</option>
+							</select>
 						</div>
+						<div class="page_btn" id="pagination"></div>
 					</div>
 					<!--分页效果结束-->
 				</div>
@@ -190,69 +194,12 @@
 				<!--tab切换的内容end-->
 			</div>
 		</div>
-		<!--删除begin-->
-		<div class="modal fade" id="dele" tabindex="-1" role="dialog"
-			aria-labelledby="myModalLabel">
-			<div class="modal-dialog" role="document" style="width: 400px;">
-				<div class="modal-content">
-					<div class="modal-header">
-						<button type="button" class="close" data-dismiss="modal"
-							aria-label="Close">
-							<span aria-hidden="true">&times;</span>
-						</button>
-						<h4 class="modal-title">提示</h4>
-					</div>
-					<div class="modal-body">
-						<div class="alert_qf">
-							<img src="images/tishi.png"><label>注：删除操作不可恢复，您确定要继续么？</label>
-						</div>
-					</div>
-					<div class="modal-footer">
-						<button type="button" class="btn btn-primary">确定</button>
-						<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-					</div>
-				</div>
-			</div>
-		</div>
-		<!--删除end-->
-		<script type="text/javascript" src="../js/jquery-1.11.1.js"></script>
-		<script type="text/javascript" src="../js/bootstrap.js"></script>
-		<script type="text/javascript" src="../js/myself.js"></script>
-		<script>$('[data-menu]').menu();</script>
-		<script type="text/javascript">
-    // 顶部tab切换菜单
-    var $tab_li = $('.intel_menu li');
-    $tab_li.click(function () {
-        $(this).addClass('select').siblings().removeClass('select');
-        var index = $tab_li.index(this);
-        $('.intel_tabbox > .intel_tabcont').eq(index).show().siblings().hide();
-    });
-    // 表格内容每行单击出来下面的详细信息
-    var tabledata = $('.intel_table table tbody tr');
-    tabledata.on("click", function () {
-        $(".intel_result").css("display", "block");
-    })
-    // 表格内容每行双击出来下面的详细信息
-    tabledata.on("dblclick", function () {
-        $('#caigoubill').modal('show');
-    })
-    // 首页底部的tab切换菜单
-    var ind_li = $('#ind_tab ul li');
-    ind_li.click(function () {
-        $(this).addClass('select').siblings().removeClass('select');
-        var index_li = cg_li.index(this);
-        $('#ind_tab .cg_tabbox > .cg_tabcont').eq(index_li).show().siblings().hide();
-    });
-
-    // 弹出信息的tab切换菜单
-    var alt_li = $('#alt_tab ul li');
-    alt_li.click(function () {
-        $(this).addClass('select').siblings().removeClass('select');
-        var index_alt = alt_li.index(this);
-        $('#alt_tab .cg_tabbox > .cg_tabcont').eq(index_alt).show().siblings().hide();
-    });
-
-
-</script>
+		<!-- 引用公共footer部分 -->
+		<jsp:include page="../../common/base/footer_busi.jsp"></jsp:include>
+	</div>
+	<script type="text/javascript"
+		src="/javascript/quality/sales/batchnum.js"></script>
+	</script>
+	</div>
 </body>
 </html>

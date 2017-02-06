@@ -9,7 +9,9 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.tianrui.api.intf.system.base.ISystemCodeService;
-import com.tianrui.api.req.system.base.SystemCodeReq;
+import com.tianrui.api.req.system.base.getCodeReq;
+import com.tianrui.service.bean.system.base.SystemCode;
+import com.tianrui.service.mapper.system.base.SystemCodeMapper;
 import com.tianrui.smartfactory.common.vo.Result;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -18,23 +20,42 @@ public class DataDictServiceTest {
 	public static Logger logger =LoggerFactory.getLogger(DataDictServiceTest.class);
 	@Autowired
 	private ISystemCodeService systemCodeService;
+	@Autowired
+	private SystemCodeMapper systemCodeMapper;
+	
 	
 	@Test
 	public void testCode() throws Exception{
-		SystemCodeReq req = new SystemCodeReq();
-		req.setId("0001");
-		req.setCode("HH");
-		req.setCodeType((byte)0);
-		req.setCodeBegin((byte)0);
-		req.setInnerCodeBegin((byte)0);
-		req.setItemType(false);
+//		SystemCodeReq req = new SystemCodeReq();
+//		req.setId("0001");
+//		req.setCode("HH");
+//		req.setCodeType((byte)0);
+//		req.setCodeBegin((byte)0);
+//		req.setInnerCodeBegin((byte)0);
+//		req.setItemType(false);
+		
+//		SystemCode sc = systemCodeMapper.selectByCode("cs");
+//		System.out.println(sc.getCode());
+		
+		getCodeReq req = new getCodeReq();
+		req.setCode("cs");
+		req.setCodeType(true);
+		req.setUserid("sdfsd");
 		
 		Result result = systemCodeService.getCode(req);
 		System.out.println(result.getCode());
 		System.out.println(result.getData()+","+result.getError());
 		
 	}
-	
+	@Test
+	public void test13() throws Exception{
+		getCodeReq req = new getCodeReq();
+		req.setCode("cs");
+		req.setCodeType(true);
+		req.setUserid("sdfsd");
+		Result result = systemCodeService.updateCodeItem(req);
+		System.out.println(result.getCode());
+	}
 	
 //	@Autowired
 //	private  IVehicleManageService  vehicleManageService;

@@ -52,9 +52,9 @@ public class DemoMapperTest2 {
 		req.setCodeType((byte)1);
 		req.setItemType(false);
 		req.setUserName("sd");
-		Result rs = systemCodeService.updateCodeItem(req);
+		//Result rs = systemCodeService.updateCodeItem(req);
 		
-		System.out.println(rs.getCode());
+		//System.out.println(rs.getCode());
 		
 	}
 	
