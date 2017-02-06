@@ -15,7 +15,7 @@ public interface SalesBatchnumMapper {
      */
     int insert(SalesBatchnum record);
     /**
-     * 新增数据(动态)
+     * 新增数据(动�??)
      */
     int insertSelective(SalesBatchnum record);
     /**
@@ -27,7 +27,7 @@ public interface SalesBatchnumMapper {
      */
     int updateByPrimaryKeySelective(SalesBatchnum record);
     /**
-     * 更新数据(动态)
+     * 更新数据(动�??)
      */
     int updateByPrimaryKey(SalesBatchnum record);
     /**

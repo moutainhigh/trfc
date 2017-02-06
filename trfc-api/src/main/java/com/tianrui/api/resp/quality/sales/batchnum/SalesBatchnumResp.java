@@ -21,9 +21,13 @@ public class SalesBatchnumResp extends BaseResp {
      */
     private String material;
     /**
-     * 出厂编号
+     * 编号
      */
     private String code;
+    /**
+     * 出厂编号
+     */
+    private String factorycode;
     /**
      * 数量
      */
@@ -109,6 +113,12 @@ public class SalesBatchnumResp extends BaseResp {
 	}
 	public void setCode(String code) {
 		this.code = code;
+	}
+	public String getFactorycode() {
+		return factorycode;
+	}
+	public void setFactorycode(String factorycode) {
+		this.factorycode = factorycode;
 	}
 	public Long getCount() {
 		return count;

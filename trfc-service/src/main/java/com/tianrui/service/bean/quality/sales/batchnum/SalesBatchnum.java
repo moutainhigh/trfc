@@ -5,6 +5,8 @@ package com.tianrui.service.bean.quality.sales.batchnum;
  *
  */
 public class SalesBatchnum {
+
+
 	/**
 	 * 主键ID
 	 */
@@ -14,9 +16,13 @@ public class SalesBatchnum {
      */
     private String material;
     /**
-     * 出厂编号
+     * 编号
      */
     private String code;
+    /**
+     * 出厂编号
+     */
+    private String factorycode;
     /**
      * 物料数量
      */
@@ -50,7 +56,7 @@ public class SalesBatchnum {
      */
     private Long audittime;
     /**
-     * 化验人
+     * 化验�?
      */
     private String assayer;
     /**
@@ -70,7 +76,7 @@ public class SalesBatchnum {
      */
     private Long endtime;
     /**
-     * 创建人	
+     * 创建时间	
      */
     private String creator;
     /**
@@ -114,7 +120,15 @@ public class SalesBatchnum {
         this.code = code == null ? null : code.trim();
     }
 
-    public Long getCount() {
+    public String getFactorycode() {
+		return factorycode;
+	}
+
+	public void setFactorycode(String factorycode) {
+		this.factorycode = factorycode;
+	}
+
+	public Long getCount() {
         return count;
     }
 
@@ -257,4 +271,16 @@ public class SalesBatchnum {
     public void setUtc(Long utc) {
         this.utc = utc;
     }
+
+	@Override
+	public String toString() {
+		return "SalesBatchnum [id=" + id + ", material=" + material + ", code=" + code + ", factorycode=" + factorycode
+				+ ", count=" + count + ", producedtime=" + producedtime + ", testtime=" + testtime + ", remark="
+				+ remark + ", auditstate=" + auditstate + ", billsstate=" + billsstate + ", teststate=" + teststate
+				+ ", audittime=" + audittime + ", assayer=" + assayer + ", assaytime=" + assaytime + ", assayorg="
+				+ assayorg + ", starttime=" + starttime + ", endtime=" + endtime + ", creator=" + creator
+				+ ", createtime=" + createtime + ", modifier=" + modifier + ", modifytime=" + modifytime + ", utc="
+				+ utc + "]";
+	}
+    
 }

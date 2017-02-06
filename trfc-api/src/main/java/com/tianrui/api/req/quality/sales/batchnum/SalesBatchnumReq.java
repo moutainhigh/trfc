@@ -21,9 +21,13 @@ public class SalesBatchnumReq extends BaseReq {
      */
     private String material;
     /**
-     * 出厂编号
+     * 编号
      */
     private String code;
+    /**
+     * 出厂编号
+     */
+    private String factorycode;
     /**
      * 数量
      */
@@ -110,6 +114,12 @@ public class SalesBatchnumReq extends BaseReq {
 	}
 	public void setCode(String code) {
 		this.code = code;
+	}
+	public String getFactorycode() {
+		return factorycode;
+	}
+	public void setFactorycode(String factorycode) {
+		this.factorycode = factorycode;
 	}
 	public Long getCount() {
 		return count;
@@ -212,6 +222,15 @@ public class SalesBatchnumReq extends BaseReq {
 	}
 	public void setPageSize(int pageSize) {
 		this.pageSize = pageSize;
+	}
+	@Override
+	public String toString() {
+		return "SalesBatchnumReq [id=" + id + ", material=" + material + ", code=" + code + ", factorycode="
+				+ factorycode + ", count=" + count + ", producedtime=" + producedtime + ", testtime=" + testtime
+				+ ", remark=" + remark + ", auditstate=" + auditstate + ", billsstate=" + billsstate + ", teststate="
+				+ teststate + ", audittime=" + audittime + ", assayer=" + assayer + ", assaytime=" + assaytime
+				+ ", assayorg=" + assayorg + ", starttime=" + starttime + ", endtime=" + endtime + ", user=" + user
+				+ ", createtime=" + createtime + ", pageNo=" + pageNo + ", pageSize=" + pageSize + "]";
 	}
 	
 }
