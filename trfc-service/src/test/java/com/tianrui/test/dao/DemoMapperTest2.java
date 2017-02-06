@@ -10,13 +10,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import com.tianrui.api.intf.system.base.ISystemCodeService;
 import com.tianrui.api.req.basicFile.other.OtherBdSupplierReq;
-import com.tianrui.service.bean.basicFile.other.OtherBdSupplier;
+import com.tianrui.api.req.system.base.SystemCodeReq;
 import com.tianrui.service.bean.system.base.SystemDataDictItem;
 import com.tianrui.service.mapper.basicFile.nc.SupplierManageMapper;
 import com.tianrui.service.mapper.basicFile.other.OtherBdSupplierMapper;
 import com.tianrui.service.mapper.system.base.SystemDataDictItemMapper;
 import com.tianrui.service.mapper.system.base.SystemDataDictMapper;
+import com.tianrui.smartfactory.common.vo.Result;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath*:spring/appliactionContext-service.xml" })
@@ -39,6 +41,23 @@ public class DemoMapperTest2 {
 	private SupplierManageMapper supplierManageMapper;
 	@Autowired
 	private OtherBdSupplierMapper otherBdSupplierMapper;
+	@Autowired
+	private ISystemCodeService systemCodeService;
+	
+	
+	@Test
+	public void test12() throws Exception{
+		SystemCodeReq req = new SystemCodeReq();
+		req.setId("00000");
+		req.setCodeType((byte)1);
+		req.setItemType(false);
+		req.setUserName("sd");
+		Result rs = systemCodeService.updateCodeItem(req);
+		
+		System.out.println(rs.getCode());
+		
+	}
+	
 	
 	@Test
 	public void test2(){

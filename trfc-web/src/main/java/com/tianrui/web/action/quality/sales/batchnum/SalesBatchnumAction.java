@@ -23,7 +23,7 @@ public class SalesBatchnumAction {
 	
 	@RequestMapping("/main")
 	public ModelAndView show(){
-		ModelAndView view = new ModelAndView("sell_pihao");
+		ModelAndView view = new ModelAndView("quality/sales/batchnum");
 		return view;
 	}
 	

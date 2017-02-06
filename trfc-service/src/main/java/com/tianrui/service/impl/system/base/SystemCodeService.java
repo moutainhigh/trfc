@@ -38,26 +38,26 @@ public class SystemCodeService implements ISystemCodeService{
 		//判断参数是不是null
 		if(req!=null){
 			SystemCode code = new SystemCode();
-			
-				//req-->code 类型转换
-				PropertyUtils.copyProperties(code, req);
-				//生成ID
-				code.setId(UUIDUtil.getId());
-			
-				code.setCreator(req.getUserName());
-				code.setCreatetime(System.currentTimeMillis());
-				code.setModifier(req.getUserName());
-				code.setModifytime(System.currentTimeMillis());
-				//新增数据
-				int index = systemCodeMapper.insertSelective(code);
-				//判断小于0的情况
-				if(index<0){
-					result.setErrorCode(ErrorCode.OPERATE_ERROR);
-				}else{
-					//操作成功
-					result = Result.getSuccessResult();
-					result.setData(index>0);
-				}
+
+			//req-->code 类型转换
+			PropertyUtils.copyProperties(code, req);
+			//生成ID
+			code.setId(UUIDUtil.getId());
+
+			code.setCreator(req.getUserName());
+			code.setCreatetime(System.currentTimeMillis());
+			code.setModifier(req.getUserName());
+			code.setModifytime(System.currentTimeMillis());
+			//新增数据
+			int index = systemCodeMapper.insertSelective(code);
+			//判断小于0的情况
+			if(index<0){
+				result.setErrorCode(ErrorCode.OPERATE_ERROR);
+			}else{
+				//操作成功
+				result = Result.getSuccessResult();
+				result.setData(index>0);
+			}
 		}
 		return result;
 	}
@@ -95,20 +95,20 @@ public class SystemCodeService implements ISystemCodeService{
 		//参数不能为空 并且id不能为空
 		if(req!=null && StringUtils.isNotBlank(req.getId())){
 			SystemCode code = new SystemCode();
-				//转换类型
-				PropertyUtils.copyProperties(code, req);
-				code.setModifier(req.getUserName());
-				code.setModifytime(System.currentTimeMillis());
-				//更新数据
-				int index = systemCodeMapper.updateByPrimaryKeySelective(code);
-				//判断小于0的情况
-				if(index<0){
-					result.setErrorCode(ErrorCode.OPERATE_ERROR);
-				}else{
-					//操作成功
-					result = Result.getSuccessResult();
-					result.setData(index>0);
-				}
+			//转换类型
+			PropertyUtils.copyProperties(code, req);
+			code.setModifier(req.getUserName());
+			code.setModifytime(System.currentTimeMillis());
+			//更新数据
+			int index = systemCodeMapper.updateByPrimaryKeySelective(code);
+			//判断小于0的情况
+			if(index<0){
+				result.setErrorCode(ErrorCode.OPERATE_ERROR);
+			}else{
+				//操作成功
+				result = Result.getSuccessResult();
+				result.setData(index>0);
+			}
 		}
 		return result;
 	}
@@ -119,24 +119,24 @@ public class SystemCodeService implements ISystemCodeService{
 	public Result select(SystemCodeReq req) throws Exception{
 		Result result = Result.getParamErrorResult();
 		if(req!=null){
-				//获取数据
-				List<SystemCode> codes = systemCodeMapper.selectByReq(req);
-				//集合codes不能为空
-				if(codes!=null){
-					//codes -->  resps   转换为 resp类型的集合
-					List<SystemCodeResp> resps = new ArrayList<SystemCodeResp>();
-					for(SystemCode code : codes){
-						SystemCodeResp resp = new SystemCodeResp();
-						//类型转换
-						PropertyUtils.copyProperties(resp, code);
-						resps.add(resp);
-					}
-					//操作成功
-					result=Result.getSuccessResult();
-					result.setData(resps);
-				}else{
-					result.setErrorCode(ErrorCode.OPERATE_ERROR);
+			//获取数据
+			List<SystemCode> codes = systemCodeMapper.selectByReq(req);
+			//集合codes不能为空
+			if(codes!=null){
+				//codes -->  resps   转换为 resp类型的集合
+				List<SystemCodeResp> resps = new ArrayList<SystemCodeResp>();
+				for(SystemCode code : codes){
+					SystemCodeResp resp = new SystemCodeResp();
+					//类型转换
+					PropertyUtils.copyProperties(resp, code);
+					resps.add(resp);
 				}
+				//操作成功
+				result=Result.getSuccessResult();
+				result.setData(resps);
+			}else{
+				result.setErrorCode(ErrorCode.OPERATE_ERROR);
+			}
 		}
 		return result;
 	}
@@ -147,31 +147,31 @@ public class SystemCodeService implements ISystemCodeService{
 	public Result getCode(SystemCodeReq req) throws Exception{
 		Result result = Result.getParamErrorResult();
 		if(req!=null && StringUtils.isNotBlank(req.getId())){
-				//赋值给TypeValue
-				req.setTypeValue(req.getCodeType()+"");
-				//通过id,typeValue获取item对象,判断item对象是否存在
-				SystemCodeItem item = systemCodeItemMapper.selectByReq(req);
-				//如果item对象为空,则进行初始化
-				if(item==null){
-					//初始化并重新获取数据
-					item = initCodeItem(req);
+			//赋值给TypeValue
+			req.setTypeValue(req.getCodeType()+"");
+			//通过id,typeValue获取item对象,判断item对象是否存在
+			SystemCodeItem item = systemCodeItemMapper.selectByReq(req);
+			//如果item对象为空,则进行初始化
+			if(item==null){
+				//初始化并重新获取数据
+				item = initCodeItem(req);
+			}
+			if(item != null){
+				//确保判断的时间 与生成code是的时间一致
+				Date now = new Date(System.currentTimeMillis());
+
+				item.setModifier(req.getUserName());
+				item.setModifytime(now.getTime());
+				StringBuilder code = codeFactory(req, item,now);
+				//code不能为空
+				if(code!=null){
+					//操作成功
+					result = Result.getSuccessResult();
+					result.setData(code.toString());
+				}else{
+					result = Result.getErrorResult();
 				}
-				if(item != null){
-					//确保判断的时间 与生成code是的时间一致
-					Date now = new Date(System.currentTimeMillis());
-					
-					item.setModifier(req.getUserName());
-					item.setModifytime(now.getTime());
-					StringBuilder code = codeFactory(req, item,now);
-					//code不能为空
-					if(code!=null){
-						//操作成功
-						result = Result.getSuccessResult();
-						result.setData(code.toString());
-					}else{
-						result = Result.getErrorResult();
-					}
-				}
+			}
 
 		}
 		return result;
@@ -186,7 +186,7 @@ public class SystemCodeService implements ISystemCodeService{
 		sci.setCodeId(req.getId());
 		sci.setTypeValue(req.getCodeType()+"");
 		sci.setItemType(req.getItemType());
-		
+
 		sci.setCreator(req.getUserName());
 		sci.setCreatetime(System.currentTimeMillis());
 		sci.setModifier(req.getUserName());
@@ -202,10 +202,27 @@ public class SystemCodeService implements ISystemCodeService{
 	 * 刷新计数
 	 * @throws Exception 
 	 */
-	public boolean updateCodeItem(SystemCodeItem item) throws Exception{ 
-		item.setDigit(Integer.parseInt(item.getDigit())+1+"");
-		int index = systemCodeItemMapper.updateByPrimaryKeySelective(item);
-		return index>0;
+	public Result updateCodeItem(SystemCodeReq req) throws Exception{ 
+		Result rs = Result.getParamErrorResult();
+		if(req!=null){
+			//赋值给TypeValue
+			req.setTypeValue(req.getCodeType()+"");
+			//获取item对象
+			SystemCodeItem item = systemCodeItemMapper.selectByReq(req);
+			//设置修改者和时间
+			item.setModifier(req.getUserName());
+			item.setModifytime(System.currentTimeMillis());
+			//在原来的值上+1
+			item.setDigit(Integer.parseInt(item.getDigit())+1+"");
+			//更新数据
+			int index = systemCodeItemMapper.updateByPrimaryKeySelective(item);
+			if(index>0){
+				rs = Result.getSuccessResult();
+			}else{
+				rs.setErrorCode(ErrorCode.OPERATE_ERROR);
+			}
+		}
+		return rs;
 	}
 	/**
 	 * 获取计数
@@ -242,11 +259,7 @@ public class SystemCodeService implements ISystemCodeService{
 		}
 
 		String digit = item.getDigit();
-		//更新计数
-		if(!updateCodeItem(item)){
-			//如果失败,返回null
-			digit = null;
-		}
+
 		return digit;
 
 	}
@@ -321,10 +334,10 @@ public class SystemCodeService implements ISystemCodeService{
 				case 6 :
 					code.append(joint("000000001",digit));
 				}
-			//判断是否溢出
-			if("-1".equals(code.substring(code.length()-2))){
-				code = null;
-			}
+				//判断是否溢出
+				if("-1".equals(code.substring(code.length()-2))){
+					code = null;
+				}
 			}
 		}else{
 			code = null;
