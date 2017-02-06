@@ -17,6 +17,7 @@
 			<div class="intel_tab">
 				<!--tab切换标题-->
 				<ul class="intel_menu">
+					<li><a href="/trfc/transport/main">运输单位</a></li>
 					<li><a href="/trfc/vehicle/main">车辆管理</a></li>
 					<li class="select"><a href="/trfc/driver/main">司机管理</a></li>
 				</ul>

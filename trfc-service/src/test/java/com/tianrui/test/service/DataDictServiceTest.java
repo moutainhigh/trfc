@@ -8,7 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import com.tianrui.api.intf.basicFile.measure.ITransportunitManageService;
 import com.tianrui.api.intf.system.base.ISystemCodeService;
+import com.tianrui.api.req.basicFile.measure.TransportunitManageSave;
 import com.tianrui.api.req.system.base.SystemCodeReq;
 import com.tianrui.smartfactory.common.vo.Result;
 
@@ -35,7 +37,8 @@ public class DataDictServiceTest {
 		
 	}
 	
-	
+//	@Autowired
+//	private ITransportunitManageService transportunitManageService;
 //	@Autowired
 //	private  IVehicleManageService  vehicleManageService;
 //	@Autowired
@@ -155,5 +158,22 @@ public class DataDictServiceTest {
 //		req.setSource("测试2");
 //		Result result = accessRecordService.add(req);
 //		System.out.println(result.getCode()+","+result.getError());
+//	}
+//	@Test
+//	public void testTransport() throws Exception{
+//		TransportunitManageSave bean=new TransportunitManageSave();
+//		bean.setCode("TC45458451");
+//		bean.setInternalcode("151534");
+//		bean.setName("哈哈");
+//		bean.setAbbrname("erew");
+//		bean.setAddress("热热");
+//		bean.setTelephone("4846");
+//		bean.setOrgname("ewrew");
+//		bean.setRemarks("rewrew");
+//		bean.setOrgid("5456");
+//		bean.setIsvalid("1");
+//		Result result=transportunitManageService.addTransportunit(bean);
+//		System.out.println(result.getData());
+//		System.out.println(result.getCode());
 //	}
 }
