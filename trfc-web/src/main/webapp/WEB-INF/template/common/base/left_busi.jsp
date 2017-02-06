@@ -38,7 +38,7 @@
 				<li><a href="/trfc/customer/main"> <i class="iconfont">&#xe617;</i>
 						<label>NC档案</label>
 				</a></li>
-				<li><a href="/trfc/vehicle/main"> <i class="iconfont">&#xe617;</i>
+				<li><a href="/trfc/transport/main"> <i class="iconfont">&#xe617;</i>
 						<label>计量档案</label>
 				</a></li>
 				<li><a href="/trfc/basicFile/other/customer/main"> <i class="iconfont">&#xe617;</i>
