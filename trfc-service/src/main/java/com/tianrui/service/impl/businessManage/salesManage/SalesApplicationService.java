@@ -18,7 +18,6 @@ import com.tianrui.api.intf.basicFile.nc.ICustomerManageService;
 import com.tianrui.api.intf.businessManage.salesManage.ISalesApplicationDetailService;
 import com.tianrui.api.intf.businessManage.salesManage.ISalesApplicationService;
 import com.tianrui.api.intf.system.auth.ISystemUserService;
-import com.tianrui.api.req.basicFile.nc.CustomerManageQuery;
 import com.tianrui.api.req.businessManage.salesManage.SalesApplicationDetailQuery;
 import com.tianrui.api.req.businessManage.salesManage.SalesApplicationDetailSave;
 import com.tianrui.api.req.businessManage.salesManage.SalesApplicationQuery;
@@ -26,10 +25,8 @@ import com.tianrui.api.req.businessManage.salesManage.SalesApplicationSave;
 import com.tianrui.api.resp.businessManage.salesManage.SalesApplicationResp;
 import com.tianrui.service.bean.businessManage.salesManage.SalesApplication;
 import com.tianrui.service.bean.businessManage.salesManage.SalesApplicationDetail;
-import com.tianrui.service.bean.common.BillType;
 import com.tianrui.service.mapper.businessManage.salesManage.SalesApplicationDetailMapper;
 import com.tianrui.service.mapper.businessManage.salesManage.SalesApplicationMapper;
-import com.tianrui.service.mapper.common.BillTypeMapper;
 import com.tianrui.smartfactory.common.constants.Constant;
 import com.tianrui.smartfactory.common.constants.ErrorCode;
 import com.tianrui.smartfactory.common.utils.DateUtil;
@@ -49,13 +46,7 @@ public class SalesApplicationService implements ISalesApplicationService {
 	private ISalesApplicationDetailService salesApplicationDetailService;
 	
 	@Autowired
-	private ICustomerManageService customerManageService;
-	
-	@Autowired
 	private ISystemUserService systemUserService;
-	
-	@Autowired
-	private BillTypeMapper billTypeMapper;
 	
 	@Override
 	public PaginationVO<SalesApplicationResp> page(SalesApplicationQuery query) throws Exception{
@@ -241,23 +232,9 @@ public class SalesApplicationService implements ISalesApplicationService {
 		if(bean != null){
 			resp = new SalesApplicationResp();
 			PropertyUtils.copyProperties(resp, bean);
-			if(StringUtils.isNotBlank(bean.getCustomerid())){
-				CustomerManageQuery query = new CustomerManageQuery();
-				query.setId(bean.getCustomerid());
-				resp.setCustomerManageResp(customerManageService.findOne(query));
-			}
-			if(StringUtils.isNotBlank(bean.getBilltype())){
-				BillType billtype = billTypeMapper.selectByPrimaryKey(bean.getBilltype());
-				if(billtype != null){
-					resp.setBilltypename(billtype.getName());
-				}
-			}
 			SalesApplicationDetailQuery query = new SalesApplicationDetailQuery();
 			query.setSalesid(bean.getId());
 			resp.setDetailResp(salesApplicationDetailService.findListBySalesApplicationId(query).get(0));
-			if(StringUtils.isNotBlank(resp.getCreator())){
-				resp.setCreatorname(systemUserService.getUser(resp.getCreator()).getName());
-			}
 		}
 		return resp;
 	}
@@ -326,7 +303,7 @@ public class SalesApplicationService implements ISalesApplicationService {
 		//来源
 		item.setSource("0");
 		//类型jsonItem.getString("sourceType")
-		item.setBilltype("1002P11000000000SEKU");
+		item.setBilltypeid("1002P11000000000SEKU");
 		//客户
 		item.setCustomerid(jsonItem.getString("customerId"));
 		//订单日期

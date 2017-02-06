@@ -34,4 +34,9 @@ public interface ISystemCodeService {
 	 * 检测单据代号是否重复
 	 */
 	Result checkCode(SystemCodeReq req) throws Exception;
+	/**
+	 * 刷新编号(自增1)
+	 */
+	Result updateCodeItem(SystemCodeReq req) throws Exception;
+	
 }

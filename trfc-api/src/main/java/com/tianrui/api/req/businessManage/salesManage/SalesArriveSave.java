@@ -6,59 +6,72 @@ public class SalesArriveSave extends BaseReq {
 
 	private static final long serialVersionUID = -1530450198922426215L;
 
+	//主键id
 	private String id;
-
+	//提货单号
     private String code;
-
+    //审核状态
     private String auditstatus;
-
+    //来源
     private String source;
-
+    //状态
     private String status;
-
+    //车辆id
     private String vehicleid;
-
+    //车牌号
+    private String vehicleno;
+    //RFID
+    private String vehiclerfid;
+    //司机id
     private String driverid;
-
+    //司机名称
+    private String drivername;
+    //司机身份证号
+    private String driveridentityno;
+    //销售订单id
     private String billid;
-
+    //销售订单编号
     private String billcode;
-
+    //作废/强制出厂人
     private String abnormalperson;
-
+    //作废/强制出厂人名称
+    private String abnormalpersonname;
+    //作废/强制出厂时间
     private Long abnormaltime;
-
+	//单位
     private String unit;
-
+    //提货量
     private Double takeamount;
-
+    //喷码
     private String spraycode;
-
+    //出厂编号
     private String serialnumber;
-
+    //IC卡id
     private String icardid;
-
+    //卡序号
+    private String icardno;
+    //数据状态：（0：删除，1：正常）
     private String state;
-
+    //主单扣量（0：否，1：是）
+    private String maindeduction;
+    //制单人id
+    private String makerid;
+    //制单人名称
+    private String makebillname;
+    //制单时间
+    private Long makebilltime;
+    //备注
     private String remarks;
-
+    //创建人
     private String creator;
-
+    //创建时间
     private Long createtime;
-
+    //最后修改人
     private String modifier;
-
+    //最后修改时间
     private Long modifytime;
     
     private String currUId;
-
-	public String getCurrUId() {
-		return currUId;
-	}
-
-	public void setCurrUId(String currUId) {
-		this.currUId = currUId;
-	}
 
 	public String getId() {
 		return id;
@@ -108,12 +121,44 @@ public class SalesArriveSave extends BaseReq {
 		this.vehicleid = vehicleid;
 	}
 
+	public String getVehicleno() {
+		return vehicleno;
+	}
+
+	public void setVehicleno(String vehicleno) {
+		this.vehicleno = vehicleno;
+	}
+
+	public String getVehiclerfid() {
+		return vehiclerfid;
+	}
+
+	public void setVehiclerfid(String vehiclerfid) {
+		this.vehiclerfid = vehiclerfid;
+	}
+
 	public String getDriverid() {
 		return driverid;
 	}
 
 	public void setDriverid(String driverid) {
 		this.driverid = driverid;
+	}
+
+	public String getDrivername() {
+		return drivername;
+	}
+
+	public void setDrivername(String drivername) {
+		this.drivername = drivername;
+	}
+
+	public String getDriveridentityno() {
+		return driveridentityno;
+	}
+
+	public void setDriveridentityno(String driveridentityno) {
+		this.driveridentityno = driveridentityno;
 	}
 
 	public String getBillid() {
@@ -138,6 +183,14 @@ public class SalesArriveSave extends BaseReq {
 
 	public void setAbnormalperson(String abnormalperson) {
 		this.abnormalperson = abnormalperson;
+	}
+
+	public String getAbnormalpersonname() {
+		return abnormalpersonname;
+	}
+
+	public void setAbnormalpersonname(String abnormalpersonname) {
+		this.abnormalpersonname = abnormalpersonname;
 	}
 
 	public Long getAbnormaltime() {
@@ -188,12 +241,52 @@ public class SalesArriveSave extends BaseReq {
 		this.icardid = icardid;
 	}
 
+	public String getIcardno() {
+		return icardno;
+	}
+
+	public void setIcardno(String icardno) {
+		this.icardno = icardno;
+	}
+
 	public String getState() {
 		return state;
 	}
 
 	public void setState(String state) {
 		this.state = state;
+	}
+
+	public String getMaindeduction() {
+		return maindeduction;
+	}
+
+	public void setMaindeduction(String maindeduction) {
+		this.maindeduction = maindeduction;
+	}
+
+	public String getMakerid() {
+		return makerid;
+	}
+
+	public void setMakerid(String makerid) {
+		this.makerid = makerid;
+	}
+
+	public String getMakebillname() {
+		return makebillname;
+	}
+
+	public void setMakebillname(String makebillname) {
+		this.makebillname = makebillname;
+	}
+
+	public Long getMakebilltime() {
+		return makebilltime;
+	}
+
+	public void setMakebilltime(Long makebilltime) {
+		this.makebilltime = makebilltime;
 	}
 
 	public String getRemarks() {
@@ -234,6 +327,14 @@ public class SalesArriveSave extends BaseReq {
 
 	public void setModifytime(Long modifytime) {
 		this.modifytime = modifytime;
+	}
+
+	public String getCurrUId() {
+		return currUId;
+	}
+
+	public void setCurrUId(String currUId) {
+		this.currUId = currUId;
 	}
 
 }

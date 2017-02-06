@@ -243,33 +243,48 @@ PAGE.mod.main = {
 			var id = $('#salesArriveId').val(); id = $.trim(id);
 			var billid = $('#billcode').attr('billid'); billid = $.trim(billid);
 			var billcode = $('#billcode').val(); billcode = $.trim(billcode);
+			var maindeduction = '0';
+			if($('#maindeduction').is(':checked')){
+				maindeduction = '1';
+			}
 			var code = $('#code').val(); code = $.trim(code);
 			var createtimeStr = $('#createtimeStr').val(); code = $.trim(code);
 			var createtime = this.top.util.parseStr2Long(createtimeStr);
 			var unit = $('#unit').val(); unit = $.trim(unit);
 			var vehicleid = $('#vehicleid').val(); vehicleid = $.trim(vehicleid);
+			var vehicleno = $('#vehicleid>option:checked').text(); vehicleno = $.trim(vehicleno);
+			var vehiclerfid = $('#rfid').val(); vehiclerfid = $.trim(vehiclerfid);
 			var driverid = $('#driverid').val(); driverid = $.trim(driverid);
+			var drivername = $('#driverid>option:checked').text(); drivername = $.trim(drivername);
+			var driveridentityno = $('#identityno').val(); driveridentityno = $.trim(driveridentityno);
 			var takeamount = $('#takeamount').val(); takeamount = $.trim(takeamount);
 			var remarks = $('#remarks').val(); remarks = $.trim(remarks);
 			var spraycode = $('#spraycode').val(); spraycode = $.trim(spraycode);
 			var serialnumber = $('#serialnumber').val(); serialnumber = $.trim(serialnumber);
 			var icardid = $('#icardid').attr('icardid'); icardid = $.trim(icardid);
+			var icardno = $('#icardid').attr('icardno'); icardno = $.trim(icardno);
 			$.ajax({
 				url:URL.updateUrl,
 				data:{
 					id:id,
 					billid:billid,
 					billcode:billcode,
+					maindeduction:maindeduction,
 					code:code,
-					createtime:createtime,
+					makebilltime:createtime,
 					unit:unit,
 					vehicleid:vehicleid,
+					vehicleno:vehicleno,
+					vehiclerfid:vehiclerfid,
 					driverid:driverid,
+					drivername:drivername,
+					driveridentityno:driveridentityno,
 					takeamount:takeamount,
 					remarks:remarks,
 					spraycode:spraycode,
 					serialnumber:serialnumber,
-					icardid:icardid
+					icardid:icardid,
+					icardno:icardno
 				},
 				async:true,
 				cache:false,

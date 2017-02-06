@@ -50,7 +50,7 @@
 									<input id="billcode" type="text" readonly class="readOnlyText">
 									<span class="form-control-feedback"><i class="iconfont">&#xe608;</i></span>
 								</div>
-								<input type="checkbox"><span class="ml5">主单扣量 </span>
+								<input id="maindeduction" type="checkbox"><span class="ml5">主单扣量 </span>
 							</div>
 							<div class="daohuo_add_solo">
 								<label>通知单号：</label> <input id="code" type="text"
@@ -158,7 +158,7 @@
 												readonly class="readOnlyText">
 										</div>
 										<div class="daohuo_add_solo">
-											<label>IC卡号：</label> <input type="text" readonly
+											<label>IC卡号：</label> <input id="icardid" type="text" readonly
 												class="readOnlyText">
 										</div>
 									</div>

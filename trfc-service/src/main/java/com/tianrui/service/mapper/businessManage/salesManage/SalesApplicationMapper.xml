@@ -6,17 +6,27 @@
     <result column="code" property="code" jdbcType="VARCHAR" />
     <result column="status" property="status" jdbcType="VARCHAR" />
     <result column="source" property="source" jdbcType="VARCHAR" />
-    <result column="billtype" property="billtype" jdbcType="VARCHAR" />
+    <result column="billtypeid" property="billtypeid" jdbcType="VARCHAR" />
+    <result column="billtypename" property="billtypename" jdbcType="VARCHAR" />
     <result column="customerid" property="customerid" jdbcType="VARCHAR" />
+    <result column="customername" property="customername" jdbcType="VARCHAR" />
+    <result column="channelcode" property="channelcode" jdbcType="VARCHAR" />
+    <result column="salesmanid" property="salesmanid" jdbcType="VARCHAR" />
+    <result column="salesmanname" property="salesmanname" jdbcType="VARCHAR" />
     <result column="billtime" property="billtime" jdbcType="BIGINT" />
     <result column="orgid" property="orgid" jdbcType="VARCHAR" />
     <result column="orgname" property="orgname" jdbcType="VARCHAR" />
+    <result column="transportcompanyid" property="transportcompanyid" jdbcType="VARCHAR" />
+    <result column="transportcompanyname" property="transportcompanyname" jdbcType="VARCHAR" />
     <result column="departmentid" property="departmentid" jdbcType="VARCHAR" />
     <result column="departmentname" property="departmentname" jdbcType="VARCHAR" />
     <result column="auditid" property="auditid" jdbcType="VARCHAR" />
     <result column="auditname" property="auditname" jdbcType="VARCHAR" />
     <result column="audittime" property="audittime" jdbcType="BIGINT" />
     <result column="state" property="state" jdbcType="VARCHAR" />
+    <result column="makerid" property="makerid" jdbcType="VARCHAR" />
+    <result column="makebillname" property="makebillname" jdbcType="VARCHAR" />
+    <result column="makebilltime" property="makebilltime" jdbcType="BIGINT" />
     <result column="remarks" property="remarks" jdbcType="VARCHAR" />
     <result column="creator" property="creator" jdbcType="VARCHAR" />
     <result column="createtime" property="createtime" jdbcType="BIGINT" />
@@ -25,14 +35,16 @@
     <result column="utc" property="utc" jdbcType="BIGINT" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, code, status, source, billtype, customerid, billtime, orgid, orgname, departmentid, 
-    departmentname, auditid, auditname, audittime, state, remarks, creator, createtime, 
-    modifier, modifytime,utc
+    id, code, status, source, billtypeid, billtypename, customerid, customername, channelcode, 
+    salesmanid, salesmanname, billtime, orgid, orgname, transportcompanyid, transportcompanyname, 
+    departmentid, departmentname, auditid, auditname, audittime, state, makerid, makebillname, 
+    makebilltime, remarks, creator, createtime, modifier, modifytime, utc
   </sql>
   <sql id="Base_Column_List_S1" >
-    s1.id, s1.code, s1.status, s1.source, s1.billtype, s1.customerid, s1.billtime, s1.orgid, s1.orgname, s1.departmentid, 
-    s1.departmentname, s1.auditid, s1.auditname, s1.audittime, s1.state, s1.remarks, s1.creator, s1.createtime, 
-    s1.modifier, s1.modifytime
+    s1.id, s1.code, s1.status, s1.source, s1.billtypeid, s1.billtypename, s1.customerid, s1.customername, s1.channelcode, 
+    s1.salesmanid, s1.salesmanname, s1.billtime, s1.orgid, s1.orgname, s1.transportcompanyid, s1.transportcompanyname, 
+    s1.departmentid, s1.departmentname, s1.auditid, s1.auditname, s1.audittime, s1.state, s1.makerid, s1.makebillname, 
+    s1.makebilltime, s1.remarks, s1.creator, s1.createtime, s1.modifier, s1.modifytime, s1.utc
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
@@ -40,55 +52,33 @@
     from tr_sales_db_application
     where id = #{id,jdbcType=VARCHAR}
   </select>
-  <select id="findMaxUtc" resultType="Long"  >
-    select 
-   		max(utc)
-    from tr_sales_db_application
-  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from tr_sales_db_application
     where id = #{id,jdbcType=VARCHAR}
   </delete>
-
-<insert id="insertBatch" parameterType="java.util.List">
-	insert into tr_sales_db_application (id, code, status,
-	source, billtype, customerid,
-	billtime, orgid, orgname,
-	departmentid, departmentname, auditid,
-	auditname, audittime, state,
-	creator, createtime,
-	modifytime,utc)
-	values
-	<foreach collection="list" item="item" index="index" separator=",">
-		( #{item.id,jdbcType=VARCHAR}, #{item.code,jdbcType=VARCHAR},
-		#{item.status,jdbcType=VARCHAR},
-		#{item.source,jdbcType=VARCHAR}, #{item.billtype,jdbcType=VARCHAR}, #{item.customerid,jdbcType=VARCHAR},
-		#{item.billtime,jdbcType=BIGINT}, #{item.orgid,jdbcType=VARCHAR},
-		#{item.orgname,jdbcType=VARCHAR},
-		#{item.departmentid,jdbcType=VARCHAR}, #{item.departmentname,jdbcType=VARCHAR}, #{item.auditid,jdbcType=VARCHAR},
-		#{item.auditname,jdbcType=VARCHAR}, #{item.audittime,jdbcType=BIGINT},
-		#{item.state,jdbcType=VARCHAR},
-		#{item.creator,jdbcType=VARCHAR}, #{item.createtime,jdbcType=BIGINT},
-		#{item.modifytime,jdbcType=BIGINT}, #{item.utc,jdbcType=BIGINT}
-		)
-	</foreach>
-</insert>  
-  
   <insert id="insert" parameterType="com.tianrui.service.bean.businessManage.salesManage.SalesApplication" >
     insert into tr_sales_db_application (id, code, status, 
-      source, billtype, customerid, 
-      billtime, orgid, orgname, 
-      departmentid, departmentname, auditid, 
-      auditname, audittime, state, 
+      source, billtypeid, billtypename, 
+      customerid, customername, channelcode, 
+      salesmanid, salesmanname, billtime, 
+      orgid, orgname, transportcompanyid, 
+      transportcompanyname, departmentid, departmentname, 
+      auditid, auditname, audittime, 
+      state, makerid, makebillname, makebilltime, 
       remarks, creator, createtime, 
-      modifier, modifytime,utc)
+      modifier, modifytime, utc
+      )
     values (#{id,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, 
-      #{source,jdbcType=VARCHAR}, #{billtype,jdbcType=VARCHAR}, #{customerid,jdbcType=VARCHAR}, 
-      #{billtime,jdbcType=BIGINT}, #{orgid,jdbcType=VARCHAR}, #{orgname,jdbcType=VARCHAR}, 
-      #{departmentid,jdbcType=VARCHAR}, #{departmentname,jdbcType=VARCHAR}, #{auditid,jdbcType=VARCHAR}, 
-      #{auditname,jdbcType=VARCHAR}, #{audittime,jdbcType=BIGINT}, #{state,jdbcType=VARCHAR}, 
+      #{source,jdbcType=VARCHAR}, #{billtypeid,jdbcType=VARCHAR}, #{billtypename,jdbcType=VARCHAR}, 
+      #{customerid,jdbcType=VARCHAR}, #{customername,jdbcType=VARCHAR}, #{channelcode,jdbcType=VARCHAR}, 
+      #{salesmanid,jdbcType=VARCHAR}, #{salesmanname,jdbcType=VARCHAR}, #{billtime,jdbcType=BIGINT}, 
+      #{orgid,jdbcType=VARCHAR}, #{orgname,jdbcType=VARCHAR}, #{transportcompanyid,jdbcType=VARCHAR}, 
+      #{transportcompanyname,jdbcType=VARCHAR}, #{departmentid,jdbcType=VARCHAR}, #{departmentname,jdbcType=VARCHAR}, 
+      #{auditid,jdbcType=VARCHAR}, #{auditname,jdbcType=VARCHAR}, #{audittime,jdbcType=BIGINT}, 
+      #{state,jdbcType=VARCHAR}, #{makerid,jdbcType=VARCHAR}, #{makebillname,jdbcType=VARCHAR}, #{makebilltime,jdbcType=BIGINT}, 
       #{remarks,jdbcType=VARCHAR}, #{creator,jdbcType=VARCHAR}, #{createtime,jdbcType=BIGINT}, 
-      #{modifier,jdbcType=VARCHAR}, #{modifytime,jdbcType=BIGINT}, #{utc,jdbcType=BIGINT})
+      #{modifier,jdbcType=VARCHAR}, #{modifytime,jdbcType=BIGINT}, #{utc,jdbcType=BIGINT}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.tianrui.service.bean.businessManage.salesManage.SalesApplication" >
     insert into tr_sales_db_application
@@ -105,11 +95,26 @@
       <if test="source != null" >
         source,
       </if>
-      <if test="billtype != null" >
-        billtype,
+      <if test="billtypeid != null" >
+        billtypeid,
+      </if>
+      <if test="billtypename != null" >
+        billtypename,
       </if>
       <if test="customerid != null" >
         customerid,
+      </if>
+      <if test="customername != null" >
+        customername,
+      </if>
+      <if test="channelcode != null" >
+        channelcode,
+      </if>
+      <if test="salesmanid != null" >
+        salesmanid,
+      </if>
+      <if test="salesmanname != null" >
+        salesmanname,
       </if>
       <if test="billtime != null" >
         billtime,
@@ -119,6 +124,12 @@
       </if>
       <if test="orgname != null" >
         orgname,
+      </if>
+      <if test="transportcompanyid != null" >
+        transportcompanyid,
+      </if>
+      <if test="transportcompanyname != null" >
+        transportcompanyname,
       </if>
       <if test="departmentid != null" >
         departmentid,
@@ -137,6 +148,15 @@
       </if>
       <if test="state != null" >
         state,
+      </if>
+      <if test="makerid != null" >
+        makerid,
+      </if>
+      <if test="makebillname != null" >
+        makebillname,
+      </if>
+      <if test="makebilltime != null" >
+        makebilltime,
       </if>
       <if test="remarks != null" >
         remarks,
@@ -170,11 +190,26 @@
       <if test="source != null" >
         #{source,jdbcType=VARCHAR},
       </if>
-      <if test="billtype != null" >
-        #{billtype,jdbcType=VARCHAR},
+      <if test="billtypeid != null" >
+        #{billtypeid,jdbcType=VARCHAR},
+      </if>
+      <if test="billtypename != null" >
+        #{billtypename,jdbcType=VARCHAR},
       </if>
       <if test="customerid != null" >
         #{customerid,jdbcType=VARCHAR},
+      </if>
+      <if test="customername != null" >
+        #{customername,jdbcType=VARCHAR},
+      </if>
+      <if test="channelcode != null" >
+        #{channelcode,jdbcType=VARCHAR},
+      </if>
+      <if test="salesmanid != null" >
+        #{salesmanid,jdbcType=VARCHAR},
+      </if>
+      <if test="salesmanname != null" >
+        #{salesmanname,jdbcType=VARCHAR},
       </if>
       <if test="billtime != null" >
         #{billtime,jdbcType=BIGINT},
@@ -184,6 +219,12 @@
       </if>
       <if test="orgname != null" >
         #{orgname,jdbcType=VARCHAR},
+      </if>
+      <if test="transportcompanyid != null" >
+        #{transportcompanyid,jdbcType=VARCHAR},
+      </if>
+      <if test="transportcompanyname != null" >
+        #{transportcompanyname,jdbcType=VARCHAR},
       </if>
       <if test="departmentid != null" >
         #{departmentid,jdbcType=VARCHAR},
@@ -202,6 +243,15 @@
       </if>
       <if test="state != null" >
         #{state,jdbcType=VARCHAR},
+      </if>
+      <if test="makerid != null" >
+        #{makerid,jdbcType=VARCHAR},
+      </if>
+      <if test="makebillname != null" >
+        #{makebillname,jdbcType=VARCHAR},
+      </if>
+      <if test="makebilltime != null" >
+        #{makebilltime,jdbcType=BIGINT},
       </if>
       <if test="remarks != null" >
         #{remarks,jdbcType=VARCHAR},
@@ -235,11 +285,26 @@
       <if test="source != null" >
         source = #{source,jdbcType=VARCHAR},
       </if>
-      <if test="billtype != null" >
-        billtype = #{billtype,jdbcType=VARCHAR},
+      <if test="billtypeid != null" >
+        billtypeid = #{billtypeid,jdbcType=VARCHAR},
+      </if>
+      <if test="billtypename != null" >
+        billtypename = #{billtypename,jdbcType=VARCHAR},
       </if>
       <if test="customerid != null" >
         customerid = #{customerid,jdbcType=VARCHAR},
+      </if>
+      <if test="customername != null" >
+        customername = #{customername,jdbcType=VARCHAR},
+      </if>
+      <if test="channelcode != null" >
+        channelcode = #{channelcode,jdbcType=VARCHAR},
+      </if>
+      <if test="salesmanid != null" >
+        salesmanid = #{salesmanid,jdbcType=VARCHAR},
+      </if>
+      <if test="salesmanname != null" >
+        salesmanname = #{salesmanname,jdbcType=VARCHAR},
       </if>
       <if test="billtime != null" >
         billtime = #{billtime,jdbcType=BIGINT},
@@ -249,6 +314,12 @@
       </if>
       <if test="orgname != null" >
         orgname = #{orgname,jdbcType=VARCHAR},
+      </if>
+      <if test="transportcompanyid != null" >
+        transportcompanyid = #{transportcompanyid,jdbcType=VARCHAR},
+      </if>
+      <if test="transportcompanyname != null" >
+        transportcompanyname = #{transportcompanyname,jdbcType=VARCHAR},
       </if>
       <if test="departmentid != null" >
         departmentid = #{departmentid,jdbcType=VARCHAR},
@@ -267,6 +338,15 @@
       </if>
       <if test="state != null" >
         state = #{state,jdbcType=VARCHAR},
+      </if>
+      <if test="makerid != null" >
+        makerid = #{makerid,jdbcType=VARCHAR},
+      </if>
+      <if test="makebillname != null" >
+        makebillname = #{makebillname,jdbcType=VARCHAR},
+      </if>
+      <if test="makebilltime != null" >
+        makebilltime = #{makebilltime,jdbcType=BIGINT},
       </if>
       <if test="remarks != null" >
         remarks = #{remarks,jdbcType=VARCHAR},
@@ -294,17 +374,27 @@
     set code = #{code,jdbcType=VARCHAR},
       status = #{status,jdbcType=VARCHAR},
       source = #{source,jdbcType=VARCHAR},
-      billtype = #{billtype,jdbcType=VARCHAR},
+      billtypeid = #{billtypeid,jdbcType=VARCHAR},
+      billtypename = #{billtypename,jdbcType=VARCHAR},
       customerid = #{customerid,jdbcType=VARCHAR},
+      customername = #{customername,jdbcType=VARCHAR},
+      channelcode = #{channelcode,jdbcType=VARCHAR},
+      salesmanid = #{salesmanid,jdbcType=VARCHAR},
+      salesmanname = #{salesmanname,jdbcType=VARCHAR},
       billtime = #{billtime,jdbcType=BIGINT},
       orgid = #{orgid,jdbcType=VARCHAR},
       orgname = #{orgname,jdbcType=VARCHAR},
+      transportcompanyid = #{transportcompanyid,jdbcType=VARCHAR},
+      transportcompanyname = #{transportcompanyname,jdbcType=VARCHAR},
       departmentid = #{departmentid,jdbcType=VARCHAR},
       departmentname = #{departmentname,jdbcType=VARCHAR},
       auditid = #{auditid,jdbcType=VARCHAR},
       auditname = #{auditname,jdbcType=VARCHAR},
       audittime = #{audittime,jdbcType=BIGINT},
       state = #{state,jdbcType=VARCHAR},
+      makerid = #{makerid,jdbcType=VARCHAR},
+      makebillname = #{makebillname,jdbcType=VARCHAR},
+      makebilltime = #{makebilltime,jdbcType=BIGINT},
       remarks = #{remarks,jdbcType=VARCHAR},
       creator = #{creator,jdbcType=VARCHAR},
       createtime = #{createtime,jdbcType=BIGINT},
@@ -321,62 +411,95 @@
   	  <if test="id != null and id != ''" >
         and id = #{id,jdbcType=VARCHAR}
       </if>
-  	  <if test="code != null and code != ''" >
+  	  <if test="code != null and code !=''" >
         and code = #{code,jdbcType=VARCHAR}
       </if>
-      <if test="status != null and status != ''" >
+      <if test="status != null and status !=''" >
         and status = #{status,jdbcType=VARCHAR}
       </if>
-      <if test="source != null and source != ''" >
+      <if test="source != null and source !=''" >
         and source = #{source,jdbcType=VARCHAR}
       </if>
-      <if test="billtype != null and billtype != ''" >
-        and billtype = #{billtype,jdbcType=VARCHAR}
+      <if test="billtypeid != null and billtypeid !=''" >
+        and billtypeid = #{billtypeid,jdbcType=VARCHAR}
       </if>
-      <if test="customerid != null and customerid != ''" >
+      <if test="billtypename != null and billtypename !=''" >
+        and billtypename = #{billtypename,jdbcType=VARCHAR}
+      </if>
+      <if test="customerid != null and customerid !=''" >
         and customerid = #{customerid,jdbcType=VARCHAR}
       </if>
-      <if test="billtime != null and billtime != ''" >
+      <if test="customername != null and customername !=''" >
+        and customername = #{customername,jdbcType=VARCHAR}
+      </if>
+      <if test="channelcode != null and channelcode !=''" >
+        and channelcode = #{channelcode,jdbcType=VARCHAR}
+      </if>
+      <if test="salesmanid != null and salesmanid !=''" >
+        and salesmanid = #{salesmanid,jdbcType=VARCHAR}
+      </if>
+      <if test="salesmanname != null and salesmanname !=''" >
+        and salesmanname = #{salesmanname,jdbcType=VARCHAR}
+      </if>
+      <if test="billtime != null and billtime !=''" >
         and billtime = #{billtime,jdbcType=BIGINT}
       </if>
-      <if test="orgid != null and orgid != ''" >
+      <if test="orgid != null and orgid !=''" >
         and orgid = #{orgid,jdbcType=VARCHAR}
       </if>
-      <if test="orgname != null and orgname != ''" >
+      <if test="orgname != null and orgname !=''" >
         and orgname = #{orgname,jdbcType=VARCHAR}
       </if>
-      <if test="departmentid != null and departmentid != ''" >
+      <if test="transportcompanyid != null and transportcompanyid !=''" >
+        and transportcompanyid = #{transportcompanyid,jdbcType=VARCHAR}
+      </if>
+      <if test="transportcompanyname != null and transportcompanyname !=''" >
+        and transportcompanyname = #{transportcompanyname,jdbcType=VARCHAR}
+      </if>
+      <if test="departmentid != null and departmentid !=''" >
         and departmentid = #{departmentid,jdbcType=VARCHAR}
       </if>
-      <if test="departmentname != null and departmentname != ''" >
-      	and departmentname = #{departmentname,jdbcType=VARCHAR}
+      <if test="departmentname != null and departmentname !=''" >
+        and departmentname = #{departmentname,jdbcType=VARCHAR}
       </if>
-      <if test="auditid != null and auditid != ''" >
+      <if test="auditid != null and auditid !=''" >
         and auditid = #{auditid,jdbcType=VARCHAR}
       </if>
-      <if test="auditname != null and auditname != ''" >
+      <if test="auditname != null and auditname !=''" >
         and auditname = #{auditname,jdbcType=VARCHAR}
       </if>
-      <if test="audittime != null and audittime != ''" >
+      <if test="audittime != null and audittime !=''" >
         and audittime = #{audittime,jdbcType=BIGINT}
       </if>
-      <if test="state != null and state != ''" >
+      <if test="state != null and state !=''" >
         and state = #{state,jdbcType=VARCHAR}
       </if>
-      <if test="remarks != null and remarks != ''" >
+      <if test="makerid != null and makerid !=''" >
+        and makerid = #{makerid,jdbcType=VARCHAR}
+      </if>
+      <if test="makebillname != null and makebillname !=''" >
+        and makebillname = #{makebillname,jdbcType=VARCHAR}
+      </if>
+      <if test="makebilltime != null and makebilltime !=''" >
+        and makebilltime = #{makebilltime,jdbcType=BIGINT}
+      </if>
+      <if test="remarks != null and remarks !=''" >
         and remarks = #{remarks,jdbcType=VARCHAR}
       </if>
-      <if test="creator != null and creator != ''" >
+      <if test="creator != null and creator !=''" >
         and creator = #{creator,jdbcType=VARCHAR}
       </if>
-      <if test="createtime != null and createtime != ''" >
+      <if test="createtime != null and createtime !=''" >
         and createtime = #{createtime,jdbcType=BIGINT}
       </if>
-      <if test="modifier != null and modifier != ''" >
+      <if test="modifier != null and modifier !=''" >
         and modifier = #{modifier,jdbcType=VARCHAR}
       </if>
-      <if test="modifytime != null and modifytime != ''" >
+      <if test="modifytime != null and modifytime !=''" >
         and modifytime = #{modifytime,jdbcType=BIGINT}
+      </if>
+      <if test="utc != null and utc !=''" >
+        and utc = #{utc,jdbcType=BIGINT}
       </if>
   	</where>
   </select>
@@ -455,4 +578,32 @@
   		</if>
   	</where>
   </select>
+  <select id="findMaxUtc" resultType="Long"  >
+    select 
+   		max(utc)
+    from tr_sales_db_application
+  </select>
+  <insert id="insertBatch" parameterType="java.util.List">
+	insert into tr_sales_db_application (id, code, status,
+	source, billtype, customerid,
+	billtime, orgid, orgname,
+	departmentid, departmentname, auditid,
+	auditname, audittime, state,
+	creator, createtime,
+	modifytime,utc)
+	values
+	<foreach collection="list" item="item" index="index" separator=",">
+		( #{item.id,jdbcType=VARCHAR}, #{item.code,jdbcType=VARCHAR},
+		#{item.status,jdbcType=VARCHAR},
+		#{item.source,jdbcType=VARCHAR}, #{item.billtype,jdbcType=VARCHAR}, #{item.customerid,jdbcType=VARCHAR},
+		#{item.billtime,jdbcType=BIGINT}, #{item.orgid,jdbcType=VARCHAR},
+		#{item.orgname,jdbcType=VARCHAR},
+		#{item.departmentid,jdbcType=VARCHAR}, #{item.departmentname,jdbcType=VARCHAR}, #{item.auditid,jdbcType=VARCHAR},
+		#{item.auditname,jdbcType=VARCHAR}, #{item.audittime,jdbcType=BIGINT},
+		#{item.state,jdbcType=VARCHAR},
+		#{item.creator,jdbcType=VARCHAR}, #{item.createtime,jdbcType=BIGINT},
+		#{item.modifytime,jdbcType=BIGINT}, #{item.utc,jdbcType=BIGINT}
+		)
+	</foreach>
+</insert>  
 </mapper>

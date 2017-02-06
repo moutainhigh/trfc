@@ -1,76 +1,92 @@
 package com.tianrui.api.resp.businessManage.salesManage;
 
 import com.tianrui.api.resp.BaseResp;
-import com.tianrui.api.resp.basicFile.measure.DriverManageResp;
-import com.tianrui.api.resp.basicFile.measure.VehicleManageResp;
 import com.tianrui.smartfactory.common.utils.DateUtil;
-
+/**
+ * @Description 销售提货通知单Resp
+ * @author zhanggaohao
+ * @version 2017年2月4日 上午9:27:07
+ */
 public class SalesArriveResp extends BaseResp {
 	
 	private static final long serialVersionUID = 4625515863613381387L;
-
+	//主键id
 	private String id;
-
+	//提货单号
     private String code;
-
+    //审核状态
     private String auditstatus;
-
+    //来源
     private String source;
-
+    //状态
     private String status;
-
+    //车辆id
     private String vehicleid;
-
+    //车牌号
+    private String vehicleno;
+    //RFID
+    private String vehiclerfid;
+    //司机id
     private String driverid;
-
+    //司机名称
+    private String drivername;
+    //司机身份证号
+    private String driveridentityno;
+    //销售订单id
     private String billid;
-
+    //销售订单编号
     private String billcode;
-
+    //作废/强制出厂人
     private String abnormalperson;
-    
+    //作废/强制出厂人名称
     private String abnormalpersonname;
-
+    //作废/强制出厂时间
     private Long abnormaltime;
-    
-    private String abnormaltimeStr;
-
+    //作废/强制出厂时间Str
+	private String abnormaltimeStr;
+	//单位
     private String unit;
-
+    //提货量
     private Double takeamount;
-
+    //喷码
     private String spraycode;
-
+    //出厂编号
     private String serialnumber;
-
+    //IC卡id
     private String icardid;
-
+    //卡序号
+    private String icardno;
+    //数据状态：（0：删除，1：正常）
     private String state;
-    
+    //主单扣量（0：否，1：是）
     private String maindeduction;
-
+    //制单人id
+    private String makerid;
+    //制单人名称
+    private String makebillname;
+    //制单时间
+    private Long makebilltime;
+    //制单时间Str
+    private String makebilltimeStr;
+    //备注
     private String remarks;
-
+    //创建人
     private String creator;
-    
+    //创建人名称
     private String creatorname;
-
+    //创建时间
     private Long createtime;
-    
+    //创建时间Str
     private String createtimeStr;
-
+    //最后修改人
     private String modifier;
-    
+    //最后修改人名称
     private String modifiername;
-
+    //最后修改时间
     private Long modifytime;
-    
+    //最后修改时间Str
     private String modifytimeStr;
-    
-    private DriverManageResp driver;
-    
-    private VehicleManageResp vehicle;
-    
+    //销售订单
     private SalesApplicationResp salesApplication;
     
 	public String getId() {
@@ -121,12 +137,44 @@ public class SalesArriveResp extends BaseResp {
 		this.vehicleid = vehicleid;
 	}
 
+	public String getVehicleno() {
+		return vehicleno;
+	}
+
+	public void setVehicleno(String vehicleno) {
+		this.vehicleno = vehicleno;
+	}
+
+	public String getVehiclerfid() {
+		return vehiclerfid;
+	}
+
+	public void setVehiclerfid(String vehiclerfid) {
+		this.vehiclerfid = vehiclerfid;
+	}
+
 	public String getDriverid() {
 		return driverid;
 	}
 
 	public void setDriverid(String driverid) {
 		this.driverid = driverid;
+	}
+
+	public String getDrivername() {
+		return drivername;
+	}
+
+	public void setDrivername(String drivername) {
+		this.drivername = drivername;
+	}
+
+	public String getDriveridentityno() {
+		return driveridentityno;
+	}
+
+	public void setDriveridentityno(String driveridentityno) {
+		this.driveridentityno = driveridentityno;
 	}
 
 	public String getBillid() {
@@ -218,6 +266,14 @@ public class SalesArriveResp extends BaseResp {
 		this.icardid = icardid;
 	}
 
+	public String getIcardno() {
+		return icardno;
+	}
+
+	public void setIcardno(String icardno) {
+		this.icardno = icardno;
+	}
+
 	public String getState() {
 		return state;
 	}
@@ -232,6 +288,39 @@ public class SalesArriveResp extends BaseResp {
 
 	public void setMaindeduction(String maindeduction) {
 		this.maindeduction = maindeduction;
+	}
+
+	public String getMakerid() {
+		return makerid;
+	}
+
+	public void setMakerid(String makerid) {
+		this.makerid = makerid;
+	}
+
+	public String getMakebillname() {
+		return makebillname;
+	}
+
+	public void setMakebillname(String makebillname) {
+		this.makebillname = makebillname;
+	}
+
+	public Long getMakebilltime() {
+		return makebilltime;
+	}
+
+	public void setMakebilltime(Long makebilltime) {
+		this.makebilltime = makebilltime;
+		this.makebilltimeStr = DateUtil.parse(makebilltime, "yyyy-MM-dd HH:mm:ss");
+	}
+
+	public String getMakebilltimeStr() {
+		return makebilltimeStr;
+	}
+
+	public void setMakebilltimeStr(String makebilltimeStr) {
+		this.makebilltimeStr = makebilltimeStr;
 	}
 
 	public String getRemarks() {
@@ -306,22 +395,6 @@ public class SalesArriveResp extends BaseResp {
 
 	public void setModifytimeStr(String modifytimeStr) {
 		this.modifytimeStr = modifytimeStr;
-	}
-
-	public DriverManageResp getDriver() {
-		return driver;
-	}
-
-	public void setDriver(DriverManageResp driver) {
-		this.driver = driver;
-	}
-
-	public VehicleManageResp getVehicle() {
-		return vehicle;
-	}
-
-	public void setVehicle(VehicleManageResp vehicle) {
-		this.vehicle = vehicle;
 	}
 
 	public SalesApplicationResp getSalesApplication() {

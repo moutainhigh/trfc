@@ -97,6 +97,7 @@ public class AccessRecordService implements IAccessRecordService {
 						if(StringUtils.equals(api.getType(), "1")){
 							sa.setStatus("6");
 							sa.setIcardid(listCard.get(0).getId());
+							sa.setIcardno(listCard.get(0).getCardno());
 						}else{
 							sa.setStatus("5");
 						}

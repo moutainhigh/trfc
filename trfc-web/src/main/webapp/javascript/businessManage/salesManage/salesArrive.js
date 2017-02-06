@@ -1,12 +1,4 @@
 	//请求路径
-	var URL = {
-			pageUrl:"/trfc/salesArrive/page",
-			updateViewUrl:"/trfc/salesArrive/updateView",
-			auditUrl:"/trfc/salesArrive/audit",
-			unauditUrl:"/trfc/salesArrive/unaudit",
-			invalidUrl:"/trfc/salesArrive/invalid",
-			outfactoryUrl:"/trfc/salesArrive/outfactory"
-	};
 var PAGE;
 if(PAGE){
 	PAGE = null;
@@ -14,7 +6,15 @@ if(PAGE){
 PAGE = {};
 PAGE.mod = {
 	main:{},
-	util:{}
+	util:{},
+	URL:{
+		pageUrl:"/trfc/salesArrive/page",
+		updateViewUrl:"/trfc/salesArrive/updateView",
+		auditUrl:"/trfc/salesArrive/audit",
+		unauditUrl:"/trfc/salesArrive/unaudit",
+		invalidUrl:"/trfc/salesArrive/invalid",
+		outfactoryUrl:"/trfc/salesArrive/outfactory"
+	}
 }
 PAGE.mod.util = {
 		parseStr2Long: function(str){
@@ -94,7 +94,7 @@ PAGE.mod.main = {
 			var params = _this.getParams();
 			params.pageNo = pageNo;
 			$.ajax({
-				url:URL.pageUrl,
+				url:_this.top.URL.pageUrl,
 				data:params,
 				async:true,
 				cache:false,
@@ -136,8 +136,6 @@ PAGE.mod.main = {
 			if(list && list.length>0){
 				for(var i=0;i<list.length;i++){
 					var obj = list[i] || '';
-					var vehicle = obj.vehicle;
-					var driver = obj.driver;
 					var salesApplication = obj.salesApplication;
 					var salesApplicationDetail = salesApplication.detailResp;
 					var customer = salesApplication.customerManageResp;
@@ -167,15 +165,15 @@ PAGE.mod.main = {
 					case '7': status = '装车'; break;
 					default: status = ''; break;
 					}
-					var vehicleno = vehicle.vehicleno || '';
+					var vehicleno = obj.vehicleno || '';
 					var billcode = obj.billcode || '';
-					var customername = customer.name || '';
+					var customername = obj.customername || '';
 					var materiel = salesApplicationDetail.materiel;
 					var materielname = materiel.name || '';
 					var billtimeStr = salesApplication.billtimeStr || '';
-					var channelcode = customer.channelcode || '';
-					var createtimeStr = obj.createtimeStr || '';
-					var creatorname = obj.creatorname || '';
+					var channelcode = obj.channelcode || '';
+					var makebillname = obj.makebillname || '';
+					var makebilltimeStr = obj.makebilltimeStr || '';
 					var abnormalpersonname = obj.abnormalpersonname || '';
 					var abnormaltimeStr = obj.abnormaltimeStr || '';
 					var remarks = obj.remarks || '';
@@ -190,8 +188,8 @@ PAGE.mod.main = {
 							.append('<td>'+materielname+'</td>')
 							.append('<td>'+billtimeStr+'</td>')
 							.append('<td>'+channelcode+'</td>')
-							.append('<td>'+createtimeStr+'</td>')
-							.append('<td>'+creatorname+'</td>')
+							.append('<td>'+makebilltimeStr+'</td>')
+							.append('<td>'+makebillname+'</td>')
 							.append('<td>'+abnormalpersonname+'</td>')
 							.append('<td>'+abnormaltimeStr+'</td>')
 							.append('<td>'+remarks+'</td>')
@@ -205,7 +203,7 @@ PAGE.mod.main = {
 				}
 				$('#dataBody').find('i.update').off('click').on('click',function(){
 					var obj = $(this).closest('tr').data();
-					window.location.href = URL.updateViewUrl+'?id='+obj.id;
+					_this.update(obj);
 				});
 				$('#dataBody').find('i.audit').off('click').on('click',function(){
 					var obj = $(this).closest('tr').data();
@@ -233,8 +231,6 @@ PAGE.mod.main = {
 			}
 			$('#dataBody').find('tr').off('click').on('click',function(){
 				var obj = $(this).data();
-				var vehicle = obj.vehicle;
-				var driver = obj.driver;
 				var salesApplication = obj.salesApplication;
 				var salesApplicationDetail = salesApplication.detailResp;
 				var customer = salesApplication.customerManageResp;
@@ -248,7 +244,7 @@ PAGE.mod.main = {
 					case 0:
 						$('<table>').addClass('table table-bordered')
 								.append('<thead><tr><th>车号</th><th>预提数量</th><th>司机</th><th>身份证号</th><th>制单日期</th></tr></thead>')
-								.append('<tbody><tr><td>'+(vehicle.vehicleno || '')+'</td><td>'+(obj.takeamount || '')+'</td><td>'+(driver.name || '')+'</td><td>'+(driver.identityno || '')+'</td><td>'+(obj.createtimeStr || '')+'</td><td></td></tr></tbody>')
+								.append('<tbody><tr><td>'+(obj.vehicleno || '')+'</td><td>'+(obj.takeamount || '')+'</td><td>'+(obj.drivername || '')+'</td><td>'+(obj.driveridentityno || '')+'</td><td>'+(obj.makebilltimeStr || '')+'</td><td></td></tr></tbody>')
 								.appendTo($tabCont);
 						break;
 					case 1:
@@ -260,7 +256,7 @@ PAGE.mod.main = {
 					case 2:
 						$('<table>').addClass('table table-bordered')
 								.append('<thead><tr><th>磅单号</th><th>车号</th><th>毛重</th><th>皮重</th><th>净重</th><th>轻车时间</th><th>重车时间</th></tr></thead>')
-								.append('<tbody><tr><td></td><td>'+(vehicle.vehicleno || '')+'</td><td></td><td></td><td></td><td></td><td></td></tr></tbody>')
+								.append('<tbody><tr><td></td><td>'+(obj.vehicleno || '')+'</td><td></td><td></td><td></td><td></td><td></td></tr></tbody>')
 								.appendTo($tabCont);
 						break;
 					default:
@@ -270,6 +266,22 @@ PAGE.mod.main = {
 				$tabDiv.find('ul li:eq(0)').trigger('click');
 				$('#dataMore').show();
 			});
+		},
+		update:function(obj){
+			var _this = this;
+			if(obj.auditstatus == '1'){
+				layer.msg('此单据已审核，无法继续编辑！', {icon: 5});
+				return;
+			}
+			if(obj.status == '3'){
+				layer.msg('此单据已作废，无法继续编辑！', {icon: 5});
+				return;
+			}else if(obj.status != '0'){
+				layer.msg('此单据已使用，无法继续编辑！', {icon: 5});
+				return;
+			}else{
+				window.location.href = _this.top.URL.updateViewUrl+'?id='+obj.id;
+			}
 		},
 		audit:function(obj){
 			var _this = this;
@@ -305,7 +317,7 @@ PAGE.mod.main = {
 				layer.msg('此单据已过重车，无法审核操作！', {icon: 5});
 				return;
 			}
-			_this.confirmOperation('您确定要审核么？', URL.auditUrl, {id: obj.id});
+			_this.confirmOperation('您确定要审核么？', _this.top.URL.auditUrl, {id: obj.id});
 		},
 		unaudit:function(obj){
 			var _this = this;
@@ -341,7 +353,7 @@ PAGE.mod.main = {
 				layer.msg('此单据已过重车,无法反审操作!', {icon: 5});
 				return;
 			}
-			_this.confirmOperation('您确定要反审么？', Url.unauditUrl, {id: obj.id});
+			_this.confirmOperation('您确定要反审么？',  _this.top.URL.unauditUrl, {id: obj.id});
 		},
 		invalid:function(obj){
 			var _this = this;
@@ -361,7 +373,7 @@ PAGE.mod.main = {
 				layer.msg('数据已入厂，不能进行作废操作！', {icon: 5});
 				return;
 			}
-			_this.confirmOperation('您确定要作废么？', URL.invalidUrl, {id: obj.id});
+			_this.confirmOperation('您确定要作废么？', _this.top.URL.invalidUrl, {id: obj.id});
 		},
 		outfactory:function(obj){
 			var _this = this;
@@ -377,7 +389,7 @@ PAGE.mod.main = {
 				layer.msg('数据未过重车，不能进行出厂操作！', {icon: 5});
 				return;
 			}
-			_this.confirmOperation('您确定要出厂么？', URL.outfactoryUrl, {id: obj.id});
+			_this.confirmOperation('您确定要出厂么？', _this.top.URL.outfactoryUrl, {id: obj.id});
 		},
 		confirmOperation: function(confirmContent, url, params){
 			layer.confirm(confirmContent, {

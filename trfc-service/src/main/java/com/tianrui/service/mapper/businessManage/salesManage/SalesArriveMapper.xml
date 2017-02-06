@@ -8,18 +8,27 @@
     <result column="source" property="source" jdbcType="VARCHAR" />
     <result column="status" property="status" jdbcType="VARCHAR" />
     <result column="vehicleid" property="vehicleid" jdbcType="VARCHAR" />
+    <result column="vehicleno" property="vehicleno" jdbcType="VARCHAR" />
+    <result column="vehiclerfid" property="vehiclerfid" jdbcType="VARCHAR" />
     <result column="driverid" property="driverid" jdbcType="VARCHAR" />
+    <result column="drivername" property="drivername" jdbcType="VARCHAR" />
+    <result column="driveridentityno" property="driveridentityno" jdbcType="VARCHAR" />
     <result column="billid" property="billid" jdbcType="VARCHAR" />
     <result column="billcode" property="billcode" jdbcType="VARCHAR" />
     <result column="abnormalperson" property="abnormalperson" jdbcType="VARCHAR" />
+    <result column="abnormalpersonname" property="abnormalpersonname" jdbcType="VARCHAR" />
     <result column="abnormaltime" property="abnormaltime" jdbcType="BIGINT" />
     <result column="unit" property="unit" jdbcType="VARCHAR" />
     <result column="takeamount" property="takeamount" jdbcType="DOUBLE" />
     <result column="spraycode" property="spraycode" jdbcType="VARCHAR" />
     <result column="serialnumber" property="serialnumber" jdbcType="VARCHAR" />
     <result column="icardid" property="icardid" jdbcType="VARCHAR" />
+    <result column="icardno" property="icardno" jdbcType="VARCHAR" />
     <result column="state" property="state" jdbcType="VARCHAR" />
     <result column="maindeduction" property="maindeduction" jdbcType="VARCHAR" />
+    <result column="makerid" property="makerid" jdbcType="VARCHAR" />
+    <result column="makebillname" property="makebillname" jdbcType="VARCHAR" />
+    <result column="makebilltime" property="makebilltime" jdbcType="BIGINT" />
     <result column="remarks" property="remarks" jdbcType="VARCHAR" />
     <result column="creator" property="creator" jdbcType="VARCHAR" />
     <result column="createtime" property="createtime" jdbcType="BIGINT" />
@@ -27,9 +36,10 @@
     <result column="modifytime" property="modifytime" jdbcType="BIGINT" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, code, auditstatus, source, status, vehicleid, driverid, billid, billcode, abnormalperson, 
-    abnormaltime, unit, takeamount, spraycode, serialnumber, icardid, state, maindeduction, remarks, 
-    creator, createtime, modifier, modifytime
+    id, code, auditstatus, source, status, vehicleid, vehicleno, vehiclerfid, driverid, drivername, 
+    driveridentityno, billid, billcode, abnormalperson, abnormalpersonname, abnormaltime, 
+    unit, takeamount, spraycode, serialnumber, icardid, icardno, state, maindeduction, 
+    makerid, makebillname, makebilltime, remarks, creator, createtime, modifier, modifytime
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
@@ -44,20 +54,26 @@
   <insert id="insert" parameterType="com.tianrui.service.bean.businessManage.salesManage.SalesArrive" >
     insert into tr_sales_db_arrive (id, code, auditstatus, 
       source, status, vehicleid, 
-      driverid, billid, billcode, 
-      abnormalperson, abnormaltime, unit, 
-      takeamount, spraycode, serialnumber, 
-      icardid, state, maindeduction, remarks, 
-      creator, createtime, modifier, 
-      modifytime)
+      vehicleno, vehiclerfid, driverid, drivername, 
+      driveridentityno, billid, billcode, 
+      abnormalperson, abnormalpersonname, abnormaltime, 
+      unit, takeamount, spraycode, 
+      serialnumber, icardid, icardno, 
+      state, maindeduction, makerid, makebillname, 
+      makebilltime, remarks, creator, 
+      createtime, modifier, modifytime
+      )
     values (#{id,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR}, #{auditstatus,jdbcType=VARCHAR}, 
       #{source,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, #{vehicleid,jdbcType=VARCHAR}, 
-      #{driverid,jdbcType=VARCHAR}, #{billid,jdbcType=VARCHAR}, #{billcode,jdbcType=VARCHAR}, 
-      #{abnormalperson,jdbcType=VARCHAR}, #{abnormaltime,jdbcType=BIGINT}, #{unit,jdbcType=VARCHAR}, 
-      #{takeamount,jdbcType=DOUBLE}, #{spraycode,jdbcType=VARCHAR}, #{serialnumber,jdbcType=VARCHAR}, 
-      #{icardid,jdbcType=VARCHAR}, #{state,jdbcType=VARCHAR}, #{maindeduction,jdbcType=VARCHAR}, 
-      #{remarks,jdbcType=VARCHAR}, #{creator,jdbcType=VARCHAR}, #{createtime,jdbcType=BIGINT}, 
-      #{modifier,jdbcType=VARCHAR}, #{modifytime,jdbcType=BIGINT})
+      #{vehicleno,jdbcType=VARCHAR}, #{vehiclerfid,jdbcType=VARCHAR}, #{driverid,jdbcType=VARCHAR}, #{drivername,jdbcType=VARCHAR}, 
+      #{driveridentityno,jdbcType=VARCHAR}, #{billid,jdbcType=VARCHAR}, #{billcode,jdbcType=VARCHAR}, 
+      #{abnormalperson,jdbcType=VARCHAR}, #{abnormalpersonname,jdbcType=VARCHAR}, #{abnormaltime,jdbcType=BIGINT}, 
+      #{unit,jdbcType=VARCHAR}, #{takeamount,jdbcType=DOUBLE}, #{spraycode,jdbcType=VARCHAR}, 
+      #{serialnumber,jdbcType=VARCHAR}, #{icardid,jdbcType=VARCHAR}, #{icardno,jdbcType=VARCHAR}, 
+      #{state,jdbcType=VARCHAR}, #{maindeduction,jdbcType=VARCHAR}, #{makerid,jdbcType=VARCHAR}, #{makebillname,jdbcType=VARCHAR}, 
+      #{makebilltime,jdbcType=BIGINT}, #{remarks,jdbcType=VARCHAR}, #{creator,jdbcType=VARCHAR}, 
+      #{createtime,jdbcType=BIGINT}, #{modifier,jdbcType=VARCHAR}, #{modifytime,jdbcType=BIGINT}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.tianrui.service.bean.businessManage.salesManage.SalesArrive" >
     insert into tr_sales_db_arrive
@@ -80,8 +96,20 @@
       <if test="vehicleid != null" >
         vehicleid,
       </if>
+      <if test="vehicleno != null" >
+        vehicleno,
+      </if>
+      <if test="vehiclerfid != null" >
+        vehiclerfid,
+      </if>
       <if test="driverid != null" >
         driverid,
+      </if>
+      <if test="drivername != null" >
+        drivername,
+      </if>
+      <if test="driveridentityno != null" >
+        driveridentityno,
       </if>
       <if test="billid != null" >
         billid,
@@ -91,6 +119,9 @@
       </if>
       <if test="abnormalperson != null" >
         abnormalperson,
+      </if>
+      <if test="abnormalpersonname != null" >
+        abnormalpersonname,
       </if>
       <if test="abnormaltime != null" >
         abnormaltime,
@@ -110,11 +141,23 @@
       <if test="icardid != null" >
         icardid,
       </if>
+      <if test="icardno != null" >
+        icardno,
+      </if>
       <if test="state != null" >
         state,
       </if>
       <if test="maindeduction != null" >
         maindeduction,
+      </if>
+      <if test="makerid != null" >
+        makerid,
+      </if>
+      <if test="makebillname != null" >
+        makebillname,
+      </if>
+      <if test="makebilltime != null" >
+        makebilltime,
       </if>
       <if test="remarks != null" >
         remarks,
@@ -151,8 +194,20 @@
       <if test="vehicleid != null" >
         #{vehicleid,jdbcType=VARCHAR},
       </if>
+      <if test="vehicleno != null" >
+        #{vehicleno,jdbcType=VARCHAR},
+      </if>
+      <if test="vehiclerfid != null" >
+        #{vehiclerfid,jdbcType=VARCHAR},
+      </if>
       <if test="driverid != null" >
         #{driverid,jdbcType=VARCHAR},
+      </if>
+      <if test="drivername != null" >
+        #{drivername,jdbcType=VARCHAR},
+      </if>
+      <if test="driveridentityno != null" >
+        #{driveridentityno,jdbcType=VARCHAR},
       </if>
       <if test="billid != null" >
         #{billid,jdbcType=VARCHAR},
@@ -162,6 +217,9 @@
       </if>
       <if test="abnormalperson != null" >
         #{abnormalperson,jdbcType=VARCHAR},
+      </if>
+      <if test="abnormalpersonname != null" >
+        #{abnormalpersonname,jdbcType=VARCHAR},
       </if>
       <if test="abnormaltime != null" >
         #{abnormaltime,jdbcType=BIGINT},
@@ -181,11 +239,23 @@
       <if test="icardid != null" >
         #{icardid,jdbcType=VARCHAR},
       </if>
+      <if test="icardno != null" >
+        #{icardno,jdbcType=VARCHAR},
+      </if>
       <if test="state != null" >
         #{state,jdbcType=VARCHAR},
       </if>
       <if test="maindeduction != null" >
         #{maindeduction,jdbcType=VARCHAR},
+      </if>
+      <if test="makerid != null" >
+        #{makerid,jdbcType=VARCHAR},
+      </if>
+      <if test="makebillname != null" >
+        #{makebillname,jdbcType=VARCHAR},
+      </if>
+      <if test="makebilltime != null" >
+        #{makebilltime,jdbcType=BIGINT},
       </if>
       <if test="remarks != null" >
         #{remarks,jdbcType=VARCHAR},
@@ -222,8 +292,20 @@
       <if test="vehicleid != null" >
         vehicleid = #{vehicleid,jdbcType=VARCHAR},
       </if>
+      <if test="vehicleno != null" >
+        vehicleno = #{vehicleno,jdbcType=VARCHAR},
+      </if>
+      <if test="vehiclerfid != null" >
+        vehiclerfid = #{vehiclerfid,jdbcType=VARCHAR},
+      </if>
       <if test="driverid != null" >
         driverid = #{driverid,jdbcType=VARCHAR},
+      </if>
+      <if test="drivername != null" >
+        drivername = #{drivername,jdbcType=VARCHAR},
+      </if>
+      <if test="driveridentityno != null" >
+        driveridentityno = #{driveridentityno,jdbcType=VARCHAR},
       </if>
       <if test="billid != null" >
         billid = #{billid,jdbcType=VARCHAR},
@@ -233,6 +315,9 @@
       </if>
       <if test="abnormalperson != null" >
         abnormalperson = #{abnormalperson,jdbcType=VARCHAR},
+      </if>
+      <if test="abnormalpersonname != null" >
+        abnormalpersonname = #{abnormalpersonname,jdbcType=VARCHAR},
       </if>
       <if test="abnormaltime != null" >
         abnormaltime = #{abnormaltime,jdbcType=BIGINT},
@@ -252,11 +337,23 @@
       <if test="icardid != null" >
         icardid = #{icardid,jdbcType=VARCHAR},
       </if>
+      <if test="icardno != null" >
+        icardno = #{icardno,jdbcType=VARCHAR},
+      </if>
       <if test="state != null" >
         state = #{state,jdbcType=VARCHAR},
       </if>
       <if test="maindeduction != null" >
         maindeduction = #{maindeduction,jdbcType=VARCHAR},
+      </if>
+      <if test="makerid != null" >
+        makerid = #{makerid,jdbcType=VARCHAR},
+      </if>
+      <if test="makebillname != null" >
+        makebillname = #{makebillname,jdbcType=VARCHAR},
+      </if>
+      <if test="makebilltime != null" >
+        makebilltime = #{makebilltime,jdbcType=BIGINT},
       </if>
       <if test="remarks != null" >
         remarks = #{remarks,jdbcType=VARCHAR},
@@ -283,18 +380,27 @@
       source = #{source,jdbcType=VARCHAR},
       status = #{status,jdbcType=VARCHAR},
       vehicleid = #{vehicleid,jdbcType=VARCHAR},
+      vehicleno = #{vehicleno,jdbcType=VARCHAR},
+      vehiclerfid = #{vehiclerfid,jdbcType=VARCHAR},
       driverid = #{driverid,jdbcType=VARCHAR},
+      drivername = #{drivername,jdbcType=VARCHAR},
+      driveridentityno = #{driveridentityno,jdbcType=VARCHAR},
       billid = #{billid,jdbcType=VARCHAR},
       billcode = #{billcode,jdbcType=VARCHAR},
       abnormalperson = #{abnormalperson,jdbcType=VARCHAR},
+      abnormalpersonname = #{abnormalpersonname,jdbcType=VARCHAR},
       abnormaltime = #{abnormaltime,jdbcType=BIGINT},
       unit = #{unit,jdbcType=VARCHAR},
       takeamount = #{takeamount,jdbcType=DOUBLE},
       spraycode = #{spraycode,jdbcType=VARCHAR},
       serialnumber = #{serialnumber,jdbcType=VARCHAR},
       icardid = #{icardid,jdbcType=VARCHAR},
+      icardno = #{icardno,jdbcType=VARCHAR},
       state = #{state,jdbcType=VARCHAR},
       maindeduction = #{maindeduction,jdbcType=VARCHAR},
+      makerid = #{makerid,jdbcType=VARCHAR},
+      makebillname = #{makebillname,jdbcType=VARCHAR},
+      makebilltime = #{makebilltime,jdbcType=BIGINT},
       remarks = #{remarks,jdbcType=VARCHAR},
       creator = #{creator,jdbcType=VARCHAR},
       createtime = #{createtime,jdbcType=BIGINT},
@@ -313,67 +419,94 @@
   	  <if test="code != null and code != ''" >
         and code = #{code,jdbcType=VARCHAR}
       </if>
-      <if test="auditstatus != null and auditstatus != '' ">
+      <if test="auditstatus != null and auditstatus != ''" >
         and auditstatus = #{auditstatus,jdbcType=VARCHAR}
       </if>
-      <if test="source != null and source != '' ">
+      <if test="source != null and source != ''" >
         and source = #{source,jdbcType=VARCHAR}
       </if>
-      <if test="status != null and status != '' ">
+      <if test="status != null and status != ''" >
         and status = #{status,jdbcType=VARCHAR}
       </if>
-      <if test="vehicleid != null and vehicleid != '' ">
+      <if test="vehicleid != null and vehicleid != ''" >
         and vehicleid = #{vehicleid,jdbcType=VARCHAR}
       </if>
-      <if test="driverid != null and driverid != '' ">
+      <if test="vehicleno != null and vehicleno != ''" >
+        and vehicleno = #{vehicleno,jdbcType=VARCHAR}
+      </if>
+      <if test="vehiclerfid != null and vehiclerfid != ''" >
+        and vehiclerfid = #{vehiclerfid,jdbcType=VARCHAR}
+      </if>
+      <if test="driverid != null and driverid != ''" >
         and driverid = #{driverid,jdbcType=VARCHAR}
       </if>
-      <if test="billid != null and billid != '' ">
+      <if test="drivername != null and drivername != ''" >
+        and drivername = #{drivername,jdbcType=VARCHAR}
+      </if>
+      <if test="driveridentityno != null and driveridentityno != ''" >
+        and driveridentityno = #{driveridentityno,jdbcType=VARCHAR}
+      </if>
+      <if test="billid != null and billid != ''" >
         and billid = #{billid,jdbcType=VARCHAR}
       </if>
-      <if test="billcode != null and billcode != '' ">
+      <if test="billcode != null and billcode != ''" >
         and billcode = #{billcode,jdbcType=VARCHAR}
       </if>
-      <if test="abnormalperson != null and abnormalperson != '' ">
+      <if test="abnormalperson != null and abnormalperson != ''" >
         and abnormalperson = #{abnormalperson,jdbcType=VARCHAR}
       </if>
-      <if test="abnormaltime != null and abnormaltime != '' ">
+      <if test="abnormalpersonname != null and abnormalpersonname != ''" >
+        and abnormalpersonname = #{abnormalpersonname,jdbcType=VARCHAR}
+      </if>
+      <if test="abnormaltime != null and abnormaltime != ''" >
         and abnormaltime = #{abnormaltime,jdbcType=BIGINT}
       </if>
-      <if test="unit != null and unit != '' ">
+      <if test="unit != null and unit != ''" >
         and unit = #{unit,jdbcType=VARCHAR}
       </if>
-      <if test="takeamount != null and takeamount != '' ">
+      <if test="takeamount != null and takeamount != ''" >
         and takeamount = #{takeamount,jdbcType=DOUBLE}
       </if>
-      <if test="spraycode != null and spraycode != '' ">
+      <if test="spraycode != null and spraycode != ''" >
         and spraycode = #{spraycode,jdbcType=VARCHAR}
       </if>
-      <if test="serialnumber != null and serialnumber != '' ">
+      <if test="serialnumber != null and serialnumber != ''" >
         and serialnumber = #{serialnumber,jdbcType=VARCHAR}
       </if>
-      <if test="icardid != null and icardid != '' ">
+      <if test="icardid != null and icardid != ''" >
         and icardid = #{icardid,jdbcType=VARCHAR}
       </if>
-      <if test="state != null and state != '' ">
+      <if test="icardno != null and icardno != ''" >
+        and icardno = #{icardno,jdbcType=VARCHAR}
+      </if>
+      <if test="state != null and state != ''" >
         and state = #{state,jdbcType=VARCHAR}
       </if>
-      <if test="maindeduction != null and state != '' ">
+      <if test="maindeduction != null and maindeduction != ''" >
         and maindeduction = #{maindeduction,jdbcType=VARCHAR}
       </if>
-      <if test="remarks != null and remarks != '' ">
+      <if test="makerid != null and makerid != ''" >
+        and makerid = #{makerid,jdbcType=VARCHAR}
+      </if>
+      <if test="makebillname != null and makebillname != ''" >
+        and makebillname = #{makebillname,jdbcType=VARCHAR}
+      </if>
+      <if test="makebilltime != null and makebilltime != ''" >
+        and makebilltime = #{makebilltime,jdbcType=BIGINT}
+      </if>
+      <if test="remarks != null and remarks != ''" >
         and remarks = #{remarks,jdbcType=VARCHAR}
       </if>
-      <if test="creator != null and creator != '' ">
+      <if test="creator != null and creator != ''" >
         and creator = #{creator,jdbcType=VARCHAR}
       </if>
-      <if test="createtime != null and createtime != '' ">
+      <if test="createtime != null and createtime != ''" >
         and createtime = #{createtime,jdbcType=BIGINT}
       </if>
-      <if test="modifier != null and modifier != '' ">
+      <if test="modifier != null and modifier != ''" >
         and modifier = #{modifier,jdbcType=VARCHAR}
       </if>
-      <if test="modifytime != null and modifytime != '' ">
+      <if test="modifytime != null and modifytime != ''" >
         and modifytime = #{modifytime,jdbcType=BIGINT}
       </if>
   	</where>
@@ -413,13 +546,13 @@
         and s3.materielid = #{materielid,jdbcType=VARCHAR}
       </if>
       <if test="starttime != null and starttime != ''">
-		and s1.createtime <![CDATA[>=]]> #{starttime,jdbcType=BIGINT}
+		and s1.makebilltime <![CDATA[>=]]> #{starttime,jdbcType=BIGINT}
 	  </if>
 	  <if test="endtime != null and endtime != ''">
-		and s1.createtime <![CDATA[<]]> #{endtime,jdbcType=BIGINT}
+		and s1.makebilltime <![CDATA[<]]> #{endtime,jdbcType=BIGINT}
 	  </if>
   	</where>
-  	order by createtime desc
+  	order by makebilltime desc
   	<if test="start != null and start >= 0">
   		<if test="limit != null">
 			limit #{start,jdbcType=INTEGER},#{limit,jdbcType=INTEGER}
@@ -461,10 +594,10 @@
         and s3.materielid = #{materielid,jdbcType=VARCHAR}
       </if>
       <if test="starttime != null and starttime != ''">
-		and s1.createtime <![CDATA[>=]]> #{starttime,jdbcType=BIGINT}
+		and s1.makebilltime <![CDATA[>=]]> #{starttime,jdbcType=BIGINT}
 	  </if>
 	  <if test="endtime != null and endtime != ''">
-		and s1.createtime <![CDATA[<]]> #{endtime,jdbcType=BIGINT}
+		and s1.makebilltime <![CDATA[<]]> #{endtime,jdbcType=BIGINT}
 	  </if>
   	</where>
   </select>

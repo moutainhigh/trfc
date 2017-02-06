@@ -57,7 +57,7 @@
 										class="readOnlyText"> <span
 										class="form-control-feedback"><i class="iconfont">&#xe608;</i></span>
 								</div>
-								<input type="checkbox"
+								<input id="maindeduction" type="checkbox"
 									<c:if test="${salesArrive.maindeduction eq '1' }">checked</c:if>><span
 									class="ml5">主单扣量 </span>
 							</div>
@@ -138,7 +138,6 @@
 												<c:forEach items="${vehicle }" var="v">
 													<option value="${v.id }" rfid="${v.rfid }"
 														<c:if test="${v.id eq salesArrive.vehicleid }">selected</c:if>>${v.vehicleno }</option>
-													<c:set var="rfid" value="${v.rfid }"></c:set>
 												</c:forEach>
 											</select> <a data-toggle="modal" data-target="#vehicleAddView"><i
 												class="iconfont">&#xe680;</i></a>
@@ -149,18 +148,17 @@
 												<c:forEach items="${driver }" var="d">
 													<option value="${d.id }" identityno="${d.identityno }"
 														<c:if test="${d.id eq salesArrive.driverid }">selected</c:if>>${d.name }</option>
-													<c:set var="identityno" value="${d.identityno }"></c:set>
 												</c:forEach>
 											</select> <a data-toggle="modal" data-target="#driverAddView"><i
 												class="iconfont">&#xe680;</i></a>
 										</div>
 										<div class="daohuo_add_solo">
 											<label>身份证号：</label> <input id="identityno" type="text"
-												value="${identityno }" readonly class="readOnlyText">
+												value="${salesArrive.driveridentityno }" readonly class="readOnlyText">
 										</div>
 										<div class="daohuo_add_solo">
 											<label>RFID：</label> <input id="rfid" type="text"
-												value="${rfid }" readonly class="readOnlyText">
+												value="${salesArrive.vehiclerfid }" readonly class="readOnlyText">
 										</div>
 
 										<div class="daohuo_add_solo">

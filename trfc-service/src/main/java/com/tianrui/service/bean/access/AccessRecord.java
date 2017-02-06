@@ -2,19 +2,19 @@ package com.tianrui.service.bean.access;
 
 public class AccessRecord {
     /**
-     * é—¨ç¦è®°å½•id
+     * ÃÅ½û¼ÇÂ¼id
      */
 	private String id;
 	/**
-	 * é€šå‘Šå•å·
+	 * Í¨¸æµ¥ºÅ
 	 */
     private String salesarrivecode;
     /**
-     * icå¡å·
+     * ic¿¨ºÅ
      */
     private String icardcode;
     /**
-     * è®°å½•æ—¶é—´
+     * ¼ÇÂ¼Ê±¼ä
      */
     private String intotime;
     /**
@@ -22,35 +22,35 @@ public class AccessRecord {
      */
     private String rfid;
     /**
-     * é—¨ç¦ç±»å‹(1:å…¥å‚,2:å‡ºå‚)
+     * ÃÅ½ûÀàĞÍ(1:Èë³§,2:³ö³§)
      */
     private String accesstype;
     /**
-     * ä¸šåŠ¡ç±»å‹(1:é‡‡è´­,2:é”€å”®)
+     * ÒµÎñÀàĞÍ(1:²É¹º,2:ÏúÊÛ)
      */
     private String businesstype;
     /**
-     * æ¥æº
+     * À´Ô´
      */
     private String source;
     /**
-     * çŠ¶æ€(0:åˆ é™¤,1:æ˜¾ç¤º)
+     * ×´Ì¬(0:É¾³ı,1:ÏÔÊ¾)
      */
     private String state;
     /**
-     * åˆ›å»ºè€…
+     * ´´½¨Õß
      */
     private String creator;
     /**
-     * åˆ›å»ºæ—¶é—´
+     * ´´½¨Ê±¼ä
      */
     private Long createtime;
     /**
-     * ä¿®æ”¹è€…
+     * ĞŞ¸ÄÕß
      */
     private String modifier;
     /**
-     * ä¿®æ”¹æ—¶é—´
+     * ĞŞ¸ÄÊ±¼ä
      */
     private Long modifytime;
 
