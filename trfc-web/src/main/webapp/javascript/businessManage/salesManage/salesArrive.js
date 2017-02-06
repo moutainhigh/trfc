@@ -167,11 +167,11 @@ PAGE.mod.main = {
 					}
 					var vehicleno = obj.vehicleno || '';
 					var billcode = obj.billcode || '';
-					var customername = customer.name || '';
+					var customername = obj.customername || '';
 					var materiel = salesApplicationDetail.materiel;
 					var materielname = materiel.name || '';
 					var billtimeStr = salesApplication.billtimeStr || '';
-					var channelcode = customer.channelcode || '';
+					var channelcode = obj.channelcode || '';
 					var makebillname = obj.makebillname || '';
 					var makebilltimeStr = obj.makebilltimeStr || '';
 					var abnormalpersonname = obj.abnormalpersonname || '';

@@ -145,7 +145,7 @@
 		$('#pageSize').change(function(){
 			queryData(1);
 		});
-		/*$('#addBtn').off('click').on('click', function(){
+		$('#addBtn').off('click').on('click', function(){
 			layer.closeAll();
 			$.ajax({
 				url:URL.initAddUrl,
@@ -170,7 +170,7 @@
 					}
 				}
 			});
-		})*/
+		})
 		/*$('#addCommitBtn').off('click').on('click', function(){
 			if($('#addView').is(':visible')){
 				var code = $('#a_code').val();code = $.trim(code);
@@ -338,7 +338,6 @@
 		if(list && list.length>0){
 			for(var i=0;i<list.length;i++){
 				var obj = list[i] || '';
-				var customer = obj.customerManageResp;
 				var code = obj.code || '';
 				var status = obj.status || '';
 				switch (status) {
@@ -365,20 +364,14 @@
 					break;
 				}
 				var billtypename = obj.billtypename || '';
-				var customername = '';
-				var salesmanname = '';
-				var transportationcompany = '';
-				var channelcode = '';
-				if(customer){
-					customername = customer.name || '';
-					salesmanname = customer.salesmanname || '';
-					transportationcompany = customer.transportationcompany || '';
-					channelcode = customer.channelcode || '';
-				}
+				var customername = obj.customername || '';
+				var salesmanname = obj.salesmanname || '';
+				var transportcompanyname = obj.transportcompanyname || '';
+				var channelcode = obj.channelcode || '';
 				var billtimeStr = obj.billtimeStr || '';
 				var orgname = obj.orgname || '';
-				var creatorname = obj.creatorname || '';
-				var createtimeStr = obj.createtimeStr || '';
+				var makebillname = obj.makebillname || '';
+				var makebilltimeStr = obj.makebilltimeStr || '';
 				var auditname = obj.auditname || '';
 				var audittimeStr = obj.audittimeStr || '';
 				
@@ -391,9 +384,9 @@
 						.append('<td>'+billtimeStr+'</td>')
 						.append('<td>'+salesmanname+'</td>')
 						.append('<td>'+orgname+'</td>')
-						.append('<td>'+transportationcompany+'</td>')
-						.append('<td>'+creatorname+'</td>')
-						.append('<td>'+createtimeStr+'</td>')
+						.append('<td>'+transportcompanyname+'</td>')
+						.append('<td>'+makebillname+'</td>')
+						.append('<td>'+makebilltimeStr+'</td>')
 						.append('<td>'+auditname+'</td>')
 						.append('<td>'+audittimeStr+'</td>')
 						.append('<td>'+channelcode+'</td>')
@@ -443,36 +436,28 @@
 			layer.msg('已审核的单据，不能修改！', {icon: 5});
 			return;
 		}
-		var customer = obj.customerManageResp;
 		var id = obj.id || '';
 		var code = obj.code || '';
-		var billtype = obj.billtype || '';
+		var billtypename = obj.billtypename || '';
 		var billtimeStr = obj.billtimeStr || '';
-		var customerid = '';
-		var customername = '';
-		var channelcode = '';
-		var salesmanname = '';
-		var transportationcompany = '';
-		if(customer){
-			customerid = obj.customerManageResp.id || '';
-			customername = obj.customerManageResp.name || '';
-			channelcode = obj.customerManageResp.channelcode || '';
-			salesmanname = obj.customerManageResp.salesmanname || '';
-			transportationcompany = obj.customerManageResp.transportationcompany || '';
-		}
+		var customerid = obj.customerid || '';
+		var customername = obj.customername || '';
+		var salesmanname = obj.salesmanname || '';
+		var transportcompanyname = obj.transportcompanyname || '';
+		var channelcode = obj.channelcode || '';
 		var orgname = obj.orgname || '';
-		var creatorname = obj.creatorname || '';
+		var makebillname = obj.makebillname || '';
 		$('#u_id').val(id);
 		$('#u_code').val(code);
-		$('#u_billtype').val(billtype);
+		$('#u_billtype').val(billtypename);
 		$('#u_billtimeStr').val(billtimeStr);
 		$('#u_customer').val(customerid);
 		$('#u_customername').val(customername);
 		$('#u_channelcode').val(channelcode);
 		$('#u_orgname').val(orgname);
 		$('#u_salesmanname').val(salesmanname);
-		$('#u_transportationcompany').val(transportationcompany);
-		$('#u_creatorname').val(creatorname);
+		$('#u_transportationcompany').val(transportcompanyname);
+		$('#u_creatorname').val(makebillname);
 		var detailResp = obj.detailResp;
 		if(detailResp){
 			$('#u_detailid').val(detailResp.id);
@@ -586,32 +571,27 @@
 			source = '';
 			break;
 		}
-		var billtype = obj.billtype || '';
-		var transportationcompany = '';
-		var customername = '';
-		var salesmanname = '';
-		if(customer){
-			transportationcompany = customer.transportationcompany || '';
-			customername = customer.name || '';
-			salesmanname = customer.salesmanname || '';
-		}
+		var billtypename = obj.billtypename || '';
+		var transportcompanyname = obj.transportcompanyname || '';
+		var customername = obj.customername || '';
+		var salesmanname = obj.salesmanname || '';
 		var billtimeStr = obj.billtimeStr || '';
 		var orgname = obj.orgname || '';
 		var departmentname = obj.departmentname || '';
-		var creatorname = obj.creatorname || '';
-		var createtimeStr = obj.createtimeStr || '';
+		var makebillname = obj.makebillname || '';
+		var makebilltimeStr = obj.makebilltimeStr || '';
 		var auditname = obj.auditname || '';
 		$('#v_code').val(code);
 		$('#v_source').val(source);
-		$('#v_billtype').val(billtype);
-		$('#v_transportationcompany').val(transportationcompany);
+		$('#v_billtype').val(billtypename);
+		$('#v_transportationcompany').val(transportcompanyname);
 		$('#v_billtimeStr').val(billtimeStr);
 		$('#v_customername').val(customername);
 		$('#v_orgname').val(orgname);
 		$('#v_departmentname').val(departmentname);
 		$('#v_salesmanname').val(salesmanname);
-		$('#v_creatorname').val(creatorname);
-		$('#v_createtimeStr').val(createtimeStr);
+		$('#v_creatorname').val(makebillname);
+		$('#v_createtimeStr').val(makebilltimeStr);
 		$('#v_auditname').val(auditname);
 		//订单明细
 		$('#detailTabBody').empty();

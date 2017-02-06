@@ -16,7 +16,6 @@ import com.tianrui.api.req.businessManage.salesManage.ApiSalesArriveQuery;
 import com.tianrui.api.req.businessManage.salesManage.SalesApplicationQuery;
 import com.tianrui.api.req.businessManage.salesManage.SalesArriveQuery;
 import com.tianrui.api.req.businessManage.salesManage.SalesArriveSave;
-import com.tianrui.api.resp.basicFile.nc.CustomerManageResp;
 import com.tianrui.api.resp.basicFile.nc.MaterielManageResp;
 import com.tianrui.api.resp.businessManage.salesManage.ApiDoorQueueResp;
 import com.tianrui.api.resp.businessManage.salesManage.ApiSalesArriveResp;
@@ -300,24 +299,15 @@ public class SalesArriveService implements ISalesArriveService {
 							result.setErrorCode(ErrorCode.VEHICLE_NOT_ARRIVE);
 						}else{
 							SalesArriveResp resp = copyBean2Resp(listSales.get(0));
-							//VehicleManageResp vehicleResp = resp.getVehicle();
 							SalesApplicationResp salesApplicationResp = resp.getSalesApplication();
-							CustomerManageResp customerResp = salesApplicationResp.getCustomerManageResp();
 							SalesApplicationDetailResp salesApplicationDetailResp = salesApplicationResp.getDetailResp();
 							MaterielManageResp materielResp = salesApplicationDetailResp.getMateriel();
 							ApiSalesArriveResp api = new ApiSalesArriveResp();
 							api.setVehicleno(resp.getVehicleno());
-							api.setCustomerid(customerResp.getId());
-							api.setCustomer(customerResp.getName());
+							api.setCustomerid(salesApplicationResp.getCustomerid());
+							api.setCustomer(salesApplicationResp.getCustomername());
 							api.setMaterielid(materielResp.getId());
 							api.setMateriel(materielResp.getName());
-//							if(StringUtils.equals(materielResp.getPackagetype(), "0")){
-//								api.setCementtype("1");
-//								api.setBatchnumber(resp.getSerialnumber());
-//							}
-//							if(StringUtils.equals(materielResp.getPackagetype(), "1")){
-//								api.setCementtype("2");
-//							}
 							if(StringUtils.isNotBlank(materielResp.getName()) && materielResp.getName().contains("水泥")){
 								if(materielResp.getName().contains("袋装")){
 									api.setCementtype("1");
