@@ -87,7 +87,7 @@
 							</div>
 							<div class="daohuo_add_solo">
 								<label>物料：</label> <input id="materielname"
-									value="${salesArrive.salesApplication.detailResp.materiel.name }"
+									value="${salesArrive.salesApplication.detailResp.materielname }"
 									type="text" readonly class="readOnlyText">
 							</div>
 							<div class="daohuo_add_solo">

@@ -88,16 +88,16 @@ public class SalesApplicationDetailService implements ISalesApplicationDetailSer
 		if(bean != null){
 			resp = new SalesApplicationDetailResp();
 			PropertyUtils.copyProperties(resp, bean);
-			if(StringUtils.isNotBlank(bean.getMaterielid())){
-				MaterielManageQuery query = new MaterielManageQuery();
-				query.setId(bean.getMaterielid());
-				resp.setMateriel(materielManageService.findOne(query));
-			}
-			if(StringUtils.isNotBlank(bean.getMaterielid())){
-				WarehouseManageQuery query = new WarehouseManageQuery();
-				query.setId(bean.getMaterielid());
-				resp.setWarehouse(warehouseManageService.findOne(query));
-			}
+//			if(StringUtils.isNotBlank(bean.getMaterielid())){
+//				MaterielManageQuery query = new MaterielManageQuery();
+//				query.setId(bean.getMaterielid());
+//				resp.setMateriel(materielManageService.findOne(query));
+//			}
+//			if(StringUtils.isNotBlank(bean.getMaterielid())){
+//				WarehouseManageQuery query = new WarehouseManageQuery();
+//				query.setId(bean.getMaterielid());
+//				resp.setWarehouse(warehouseManageService.findOne(query));
+//			}
 		}
 		return resp;
 	}

@@ -1,12 +1,3 @@
-	//请求路径
-	var URL = {
-			mainUrl:"/trfc/salesArrive/main",
-			pageUrl:"/trfc/salesApplication/page",
-			updateUrl:"/trfc/salesArrive/update",
-			addVehicleUrl:"/trfc/vehicle/addVehicle",
-			addDriverUrl:"/trfc/driver/addDriver"
-	};
-
 var PAGE;
 if(PAGE){
 	PAGE = null;
@@ -14,7 +5,14 @@ if(PAGE){
 PAGE = {};
 PAGE.mod = {
 	main:{},
-	util:{}
+	util:{},
+	URL: {
+		mainUrl:"/trfc/salesArrive/main",
+		pageUrl:"/trfc/salesApplication/page",
+		updateUrl:"/trfc/salesArrive/update",
+		addVehicleUrl:"/trfc/vehicle/addVehicle",
+		addDriverUrl:"/trfc/driver/addDriver"
+	}
 }
 PAGE.mod.util = {
 		parseStr2Long: function(str){
@@ -78,7 +76,7 @@ PAGE.mod.main = {
 				
 			});
 			$('#backBtn').off('click').on('click',function(){
-				window.location.href = URL.mainUrl;
+				window.location.href = _this.top.URL.mainUrl;
 			});
 			$('#addVehicleCommitBtn').off('click').on('click',function(){
 				if($('#vehicleAddView').is(':visible')){
@@ -120,7 +118,7 @@ PAGE.mod.main = {
 			var params = _this.getSarelApplicationParams();
 			params.pageNo = pageNo;
 			$.ajax({
-				url:URL.pageUrl,
+				url:_this.top.URL.pageUrl,
 				data:params,
 				async:true,
 				cache:false,
@@ -162,11 +160,10 @@ PAGE.mod.main = {
 				for(var i=0;i<list.length;i++){
 					var obj = list[i] || '';
 					var salesApplicationDetail = obj.detailResp;
-					var materiel = salesApplicationDetail.materiel;
 					var code = obj.code || '';
 					var billtypename = obj.billtypename || '';
 					var customername = obj.customername || '';
-					var materielname = materiel.name || '';
+					var materielname = salesApplicationDetail.materielname || '';
 					var salessum = salesApplicationDetail.salessum || '';
 					var orgname = obj.orgname || '';
 					var billtimeStr = obj.billtimeStr || '';
@@ -201,20 +198,18 @@ PAGE.mod.main = {
 			});
 			$('#salesApplicationBody').find('tr').off('dblclick').on('dblclick',function(){
 				var obj = $(this).data();
-				var customer = obj.customerManageResp;
 				var salesApplicationDetail = obj.detailResp;
-				var materiel = salesApplicationDetail.materiel;
 				var billid = obj.id || '';
 				var billcode = obj.code || '';
 				var createtime = obj.createtime || '';
 				var createtimeStr = obj.createtimeStr || '';
-				var customerid = customer.id || '';
-				var customername = customer.name || '';
-				var channelcode = customer.channelcode || '';
+				var customerid = obj.customerid || '';
+				var customername = obj.customername || '';
+				var channelcode = obj.channelcode || '';
 				var orgid = obj.orgid || '';
 				var orgname = obj.orgname || '';
-				var materielid = materiel.id || '';
-				var materielname = materiel.name || '';
+				var materielid = salesApplicationDetail.materielid || '';
+				var materielname = salesApplicationDetail.materielname || '';
 				var departmentid = obj.departmentid || '';
 				var departmentname = obj.departmentname || '';
 				var unit = salesApplicationDetail.unit || '';
@@ -223,7 +218,7 @@ PAGE.mod.main = {
 				var billtimeStr = obj.billtimeStr || '';
 				var code = obj.code || '';
 				var billtype = obj.billtype || '';
-				var salesmanname = customer.salesmanname || '';
+				var salesmanname = obj.salesmanname || '';
 				var creatorname = obj.creatorname || '';
 				$('#billcode').val(billcode).attr('billid', billid);
 				$('#customername').val(customername).attr('customerid', customerid);
@@ -263,7 +258,7 @@ PAGE.mod.main = {
 			var icardid = $('#icardid').attr('icardid'); icardid = $.trim(icardid);
 			var icardno = $('#icardid').attr('icardno'); icardno = $.trim(icardno);
 			$.ajax({
-				url:URL.updateUrl,
+				url:_this.top.URL.updateUrl,
 				data:{
 					id:id,
 					billid:billid,
@@ -291,7 +286,7 @@ PAGE.mod.main = {
 				type:'post',
 				success:function(result){
 					if(result.code == '000000'){
-						window.location.href = URL.mainUrl;
+						window.location.href = _this.top.URL.mainUrl;
 					}else{
 						layer.msg(result.error, {icon: 5});
 					}
@@ -299,6 +294,7 @@ PAGE.mod.main = {
 			});
 		},
 		saveVehicle:function(){
+			var _this = this;
 			var code = $('#v_code').val(); code = $.trim(code);
 			var transporttype = $('#v_transporttype').val(); transporttype = $.trim(transporttype);
 			var vehicleno = $('#v_vehicleno').val(); vehicleno = $.trim(vehicleno);
@@ -317,7 +313,7 @@ PAGE.mod.main = {
 			}
 			var remarks = $('#v_remarks').val(); remarks = $.trim(remarks);
 			$.ajax({
-				url:URL.addVehicleUrl,
+				url:_this.top.URL.addVehicleUrl,
 				data:{
 					code:code,
 					transporttype:transporttype,
@@ -351,6 +347,7 @@ PAGE.mod.main = {
 			});
 		},
 		saveDriver:function(){
+			var _this = this;
 			var code = $('#d_code').val(); code = $.trim(code);
 			var internalcode = $('#d_internalcode').val(); internalcode = $.trim(internalcode);
 			var name = $('#d_name').val(); name = $.trim(name);
@@ -366,7 +363,7 @@ PAGE.mod.main = {
 			}
 			var remarks = $('#d_remarks').val(); remarks = $.trim(remarks);
 			$.ajax({
-				url:URL.addDriverUrl,
+				url:_this.top.URL.addDriverUrl,
 				data:{
 					code:code,
 					internalcode:internalcode,

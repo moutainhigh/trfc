@@ -1,7 +1,3 @@
-	//请求路径
-	var URL = {
-			mainUrl:"/trfc/salesArrive/main",
-	};
 var PAGE;
 if(PAGE){
 	PAGE = null;
@@ -9,7 +5,10 @@ if(PAGE){
 PAGE = {};
 PAGE.mod = {
 	main:{},
-	util:{}
+	util:{},
+	URL: {
+		mainUrl:"/trfc/salesArrive/main",
+	}
 }
 PAGE.mod.util = {
 }
@@ -28,7 +27,7 @@ PAGE.mod.main = {
 				layer.msg('待开发.');
 			});
 			$('#backBtn').off('click').on('click',function(){
-				window.location.href = URL.mainUrl;
+				window.location.href = _this.top.URL.mainUrl;
 			});
 		}
 }

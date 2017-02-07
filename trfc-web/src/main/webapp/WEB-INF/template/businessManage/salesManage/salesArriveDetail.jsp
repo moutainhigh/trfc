@@ -75,7 +75,7 @@
 							</div>
 							<div class="daohuo_add_solo">
 								<label>物料：</label> <input
-									value="${salesArrive.salesApplication.detailResp.materiel.name }"
+									value="${salesArrive.salesApplication.detailResp.materielname }"
 									type="text" readonly>
 							</div>
 							<div class="daohuo_add_solo">
@@ -119,7 +119,7 @@
 									type="text" readonly>
 							</div>
 							<div class="daohuo_add_solo">
-								<label>制单人：</label> <input value="${salesArrive.creatorname }"
+								<label>制单人：</label> <input value="${salesArrive.makebillname }"
 									type="text" readonly>
 							</div>
 							<div class="daohuo_add_solo">
@@ -171,8 +171,8 @@
 									<tbody>
 										<tr>
 											<td>${salesArrive.salesApplication.code }</td>
-											<td>${salesArrive.salesApplication.customerManageResp.name }</td>
-											<td>${salesArrive.salesApplication.detailResp.materiel.name }</td>
+											<td>${salesArrive.salesApplication.customername }</td>
+											<td>${salesArrive.salesApplication.detailResp.materielname }</td>
 											<td>${salesArrive.salesApplication.orgname }</td>
 											<td>${salesArrive.takeamount }</td>
 											<td>${salesArrive.salesApplication.detailResp.salessum }</td>
