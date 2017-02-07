@@ -297,6 +297,9 @@
 				});
 			}
 		});
+		$('#s_customerid').off('click').on('click',function(){
+			initCustomer();
+		});
 	}
 	
 	function getParams(){
@@ -678,5 +681,116 @@
 		    }
 		});
 	}
+	
+	function initCustomer(){
+		$('#customerView').modal();
+		queryData(1);
+		
+		$('#jumpPageNoBtn1').off('click').on('click',function(){
+			var pageNo = $('input#jumpPageNo1').val();pageNo = $.trim(pageNo);pageNo = parseInt(pageNo);
+			var pageMaxNo = $('input#jumpPageNo1').attr('maxpageno');pageMaxNo = $.trim(pageMaxNo);pageMaxNo = parseInt(pageMaxNo);
+			if(!pageNo || !$.isNumeric(pageNo) || pageNo < 0 || pageNo > pageMaxNo){
+				alert('此处必须为1-'+pageMaxNo+'的数字');
+				$('input#jumpPageNo1').val('');
+			}else{
+				$('input#jumpPageNo1').val(pageNo);
+				queryData(pageNo);
+			}
+		});
+		$('#pageSize1').change(function(){
+			queryData(1);
+		});
+		
+		$('#searchBtn1').off('click').on('click', function(){
+			queryData(1);
+		});
+		
+		function pageCallback(pageNo){
+			queryData(pageNo+1);
+		}
+		
+		function queryData(pageNo){
+			var params = {};
+			var qtp = $('#qtp').val() || '';qtp = $.trim(qtp);
+			var keyword = $('#keyword').val() || '';keyword = $.trim(keyword);
+			if(qtp == 'mc'){
+				params.name = keyword;
+			}
+			if(qtp == 'nm'){
+				params.internalcode = keyword;
+			}
+			if(qtp == 'py'){
+				params.pinyincode = keyword;
+			}
+			var pageSize = $('#pageSize1').val();pageSize = $.trim(pageSize);
+			params.pageSize = pageSize;
+			var index = layer.load(2, {
+			  shade: [0.3,'#fff'] //0.1透明度的白色背景
+			});
+			params.pageNo = pageNo;
+			$.ajax({
+				url:'/trfc/customer/page',
+				data:params,
+				async:true,
+				cache:false,
+				dataType:'json',
+				type:'post',
+				success:function(result){
+					if(result.code == '000000'){
+						renderHtml(result.data);
+						var total = result.data.total;
+						var pageNo = result.data.pageNo;
+						var pageSize = result.data.pageSize;
+						$('#total1').html(total);
+						$('#jumpPageNo1').attr('maxPageNo',parseInt((total+pageSize-1)/pageSize));
+						$("#pagination1").pagination(total, {
+						    callback: pageCallback,
+						    prev_text: '上一页',
+						    next_text: '下一页',
+						    items_per_page:pageSize,
+						    num_display_entries:4,
+						    current_page:pageNo-1,
+						    num_edge_entries:1,
+						    maxentries:total,
+						    link_to:"javascript:void(0)"
+						});
+					}else{
+						layer.msg(result.error, {icon: 5});
+					}
+					layer.close(index);
+				}
+			});
+		}
+		
+		function renderHtml(data){
+			$('#customerBody').empty();
+			var list = data.list;
+			if(list && list.length>0){
+				for(var i=0;i<list.length;i++){
+					var obj = list[i] || '';
+					var code = obj.code || '';
+					var internalcode = obj.internalcode || '';
+					var name = obj.name || '';
+					var channeltype = obj.channeltype || '';
+					var channelcode = obj.channelcode || '';
+					var orgname = obj.orgname || '';
+					var remarks = obj.remarks || '';
+					$('<tr>').append('<td>'+(i+1)+'</td>')
+							.append('<td>'+code+'</td>')
+							.append('<td>'+internalcode+'</td>')
+							.append('<td>'+name+'</td>')
+							.append('<td>'+channeltype+'</td>')
+							.append('<td>'+channelcode+'</td>')
+							.append('<td>'+orgname+'</td>')
+							.append('<td>'+remarks+'</td>')
+							.data(obj)
+							.appendTo('#customerBody');
+				}
+			}else{
+				layer.msg('暂无数据...');
+			}
+		}
+	}
+	
 	
 })(jQuery, window);

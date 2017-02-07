@@ -489,6 +489,97 @@
 		</div>
 		<!--编辑end-->
 	</div>
+	
+	
+	
+	
+	<div class="modal fade" id="customerView" tabindex="-1"
+		role="dialog" aria-labelledby="myModalLabel">
+		<div class="modal-dialog" role="document"
+			style="width: 1000px; height: 800px;">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<div class="alt_head">
+						<h5>选销售订单</h5>
+					</div>
+				</div>
+				<div class="modal-body">
+					<div class="dhadd_search">
+						<div class="dhsearch_solo">
+							<label>查询条件：</label> <select id="qtp" class="form-control">
+									<option value="mc">名称</option>
+									<option value="nm">内码</option>
+									<option value="py">拼音码</option>
+								</select>
+						</div>
+						<div class="dhsearch_solo">
+							<label>关键字：</label> <input id="keyword" type="text">
+						</div>
+						<!-- <div class="dhsearch_solo">
+							<label>所属组织：</label> <input id="orgid" type="text">
+						</div> -->
+						<div class="dhsearch_solo">
+							<button id="searchBtn1" class="btn btnblue ">搜索</button>
+						</div>
+					</div>
+					<div>
+						<div class="dh_alttable">
+							<table class="table table-hover">
+								<thead>
+									<tr>
+										<th>序号</th>
+										<th>编号</th>
+										<th>内码</th>
+										<th>名称</th>
+										<th>渠道类型</th>
+										<th>渠道类型内码</th>
+										<th>所属组织</th>
+										<th>描述</th>
+									</tr>
+								</thead>
+								<tbody id="customerBody">
+									
+								</tbody>
+							</table>
+						</div>
+					</div>
+
+					<!--分页效果开始-->
+					<div class="page">
+						<div class="page_date">
+							<label>数据共：</label><i id="total1" class="colorred">100</i><label>条</label>
+						</div>
+						<div class="page_date">
+							<label>跳到第：</label> <input id="jumpPageNo1" type="text" value="1">
+							<label>页</label>
+							<button id="jumpPageNoBtn1" class="btn btn-default">确定</button>
+						</div>
+						<div class="page_date">
+							<label>每页记录：</label> <select id="pageSize1" class="form-control">
+								<option value="10">10</option>
+								<option value="20">20</option>
+								<option value="30">30</option>
+							</select>
+						</div>
+						<div class="page_btn" id="pagination1"></div>
+					</div>
+					<!--分页效果结束-->
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	
 	<!-- 引用公共footer部分 -->
 	<jsp:include page="../../common/base/footer_busi.jsp"></jsp:include>
 	<script type="text/javascript"
