@@ -213,7 +213,7 @@
 												<td>${salesArrive.salesApplication.code }</td>
 												<td>${salesArrive.salesApplication.billtypename }</td>
 												<td>${salesArrive.salesApplication.billtimeStr }</td>
-												<td>${salesArrive.salesApplication.detailResp.materiel.name }</td>
+												<td>${salesArrive.salesApplication.detailResp.materielname }</td>
 												<td>${salesArrive.salesApplication.detailResp.unit }</td>
 												<td>${salesArrive.salesApplication.detailResp.salessum }</td>
 												<td></td>
