@@ -113,7 +113,7 @@
 						</div>
 					</div>
 					<div class="intel_opera">
-						<div class="intel_operasolo">
+						<div id="refreshBtn" class="intel_operasolo">
 							<i class="iconfont colorlv">&#xe61b;</i>
 							<h5>刷新</h5>
 						</div>

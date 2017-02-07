@@ -138,7 +138,6 @@ PAGE.mod.main = {
 					var obj = list[i] || '';
 					var salesApplication = obj.salesApplication;
 					var salesApplicationDetail = salesApplication.detailResp;
-					var customer = salesApplication.customerManageResp;
 					var code = obj.code || '';
 					var auditstatus = obj.auditstatus || '';
 					switch (auditstatus) {
@@ -167,11 +166,11 @@ PAGE.mod.main = {
 					}
 					var vehicleno = obj.vehicleno || '';
 					var billcode = obj.billcode || '';
-					var customername = obj.customername || '';
+					var customername = salesApplication.customername || '';
 					var materiel = salesApplicationDetail.materiel;
 					var materielname = materiel.name || '';
 					var billtimeStr = salesApplication.billtimeStr || '';
-					var channelcode = obj.channelcode || '';
+					var channelcode = salesApplication.channelcode || '';
 					var makebillname = obj.makebillname || '';
 					var makebilltimeStr = obj.makebilltimeStr || '';
 					var abnormalpersonname = obj.abnormalpersonname || '';
@@ -233,7 +232,6 @@ PAGE.mod.main = {
 				var obj = $(this).data();
 				var salesApplication = obj.salesApplication;
 				var salesApplicationDetail = salesApplication.detailResp;
-				var customer = salesApplication.customerManageResp;
 				$('#dataMore').empty();
 				var $tabDiv = $('<div class="cg_tabtit"><ul><li class="select">物料信息</li><li>订单信息</li><li>过磅信息</li></ul></div>').appendTo('#dataMore');
 				var $tabCont = $('<div>').addClass('cg_tabbox').appendTo('#dataMore');
@@ -250,7 +248,7 @@ PAGE.mod.main = {
 					case 1:
 						$('<table>').addClass('table table-bordered')
 								.append('<thead><tr><th>订单编号</th><th>类型</th><th>客户</th><th>物料</th><th>订单量</th><th>余量</th><th>出库占用量</th><th>未出库占用量</th><th>预提量</th><th>订单日期</th><th>制单人</th></tr></thead>')
-								.append('<tbody><tr><td>'+(obj.billcode || '')+'</td><td>'+(salesApplication.billtypename || '')+'</td><td>'+(customer.name || '')+'</td><td>'+(salesApplicationDetail.materielname || '')+'</td><td>'+(salesApplicationDetail.salessum || '')+'</td><td></td><td></td><td></td><td>'+(obj.takeamount || '')+'</td><td>'+(salesApplication.billtimeStr || '')+'</td><td>'+(salesApplication.creatorname || '')+'</td></tr></tbody>')
+								.append('<tbody><tr><td>'+(obj.billcode || '')+'</td><td>'+(salesApplication.billtypename || '')+'</td><td>'+(salesApplication.customername || '')+'</td><td>'+(salesApplicationDetail.materielname || '')+'</td><td>'+(salesApplicationDetail.salessum || '')+'</td><td></td><td></td><td></td><td>'+(obj.takeamount || '')+'</td><td>'+(salesApplication.billtimeStr || '')+'</td><td>'+(salesApplication.makebillname || '')+'</td></tr></tbody>')
 								.appendTo($tabCont);
 						break;
 					case 2:

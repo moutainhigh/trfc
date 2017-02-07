@@ -161,23 +161,22 @@ PAGE.mod.main = {
 			if(list && list.length>0){
 				for(var i=0;i<list.length;i++){
 					var obj = list[i] || '';
-					var customer = obj.customerManageResp;
 					var salesApplicationDetail = obj.detailResp;
 					var materiel = salesApplicationDetail.materiel;
 					var code = obj.code || '';
-					var billtype = obj.billtype || '';
-					var customername = customer.name || '';
+					var billtypename = obj.billtypename || '';
+					var customername = obj.customername || '';
 					var materielname = materiel.name || '';
 					var salessum = salesApplicationDetail.salessum || '';
 					var orgname = obj.orgname || '';
 					var billtimeStr = obj.billtimeStr || '';
 					var departmentname = obj.departmentname || '';
-					var salesmanname = customer.salesmanname || '';
+					var salesmanname = obj.salesmanname || '';
 					var creatorname = obj.creatorname || '';
-					var channelcode = customer.channelcode || '';
+					var channelcode = obj.channelcode || '';
 					$('<tr>').attr('title','双击确定')
 							.append('<td>'+code+'</td>')
-							.append('<td>'+billtype+'</td>')
+							.append('<td>'+billtypename+'</td>')
 							.append('<td>'+customername+'</td>')
 							.append('<td>'+materielname+'</td>')
 							.append('<td>'+salessum+'</td>')

@@ -60,12 +60,12 @@
 							</div>
 							<div class="daohuo_add_solo">
 								<label>客户：</label> <input
-									value="${salesArrive.salesApplication.customerManageResp.name }"
+									value="${salesArrive.salesApplication.customername }"
 									type="text" readonly>
 							</div>
 							<div class="daohuo_add_solo">
 								<label>区域码：</label> <input
-									value="${salesArrive.salesApplication.customerManageResp.channelcode }"
+									value="${salesArrive.salesApplication.channelcode }"
 									type="text" readonly>
 							</div>
 							<div class="daohuo_add_solo">

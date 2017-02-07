@@ -73,12 +73,12 @@
 							</div>
 							<div class="daohuo_add_solo">
 								<label>客户：</label> <input id="customername"
-									value="${salesArrive.salesApplication.customerManageResp.name }"
+									value="${salesArrive.salesApplication.customername }"
 									type="text" readonly class="readOnlyText">
 							</div>
 							<div class="daohuo_add_solo">
 								<label>区域码：</label> <input id="channelcode"
-									value="${salesArrive.salesApplication.customerManageResp.channelcode }"
+									value="${salesArrive.salesApplication.channelcode }"
 									type="text" readonly class="readOnlyText">
 							</div>
 							<div class="daohuo_add_solo">
@@ -168,7 +168,7 @@
 										</div>
 										<div class="daohuo_add_solo">
 											<label>备注：</label> <input id="remarks" type="text"
-												value="${salesArrive.serialnumber }">
+												value="${salesArrive.remarks }">
 										</div>
 										<div class="daohuo_add_solo">
 											<label>喷码：</label> <input id="spraycode" type="text"
@@ -211,7 +211,7 @@
 										<tbody id="salesApplicationDetailBody">
 											<tr>
 												<td>${salesArrive.salesApplication.code }</td>
-												<td>${salesArrive.salesApplication.billtype }</td>
+												<td>${salesArrive.salesApplication.billtypename }</td>
 												<td>${salesArrive.salesApplication.billtimeStr }</td>
 												<td>${salesArrive.salesApplication.detailResp.materiel.name }</td>
 												<td>${salesArrive.salesApplication.detailResp.unit }</td>
@@ -219,10 +219,10 @@
 												<td></td>
 												<td id="advanceAmount">${salesArrive.takeamount }</td>
 												<td>${salesArrive.salesApplication.orgname }</td>
-												<td>${salesArrive.salesApplication.customerManageResp.name }</td>
+												<td>${salesArrive.salesApplication.customername }</td>
 												<td>${salesArrive.salesApplication.departmentname }</td>
-												<td>${salesArrive.salesApplication.customerManageResp.salesmanname }</td>
-												<td>${salesArrive.salesApplication.creatorname }</td>
+												<td>${salesArrive.salesApplication.salesmanname }</td>
+												<td>${salesArrive.salesApplication.makebillname }</td>
 											</tr>
 										</tbody>
 									</table>

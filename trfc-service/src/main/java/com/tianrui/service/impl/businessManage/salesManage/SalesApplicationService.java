@@ -85,7 +85,7 @@ public class SalesApplicationService implements ISalesApplicationService {
 			sa.setStatus("0");
 			sa.setSource("1");
 			sa.setState("1");
-			sa.setBilltime(System.currentTimeMillis());
+			sa.setMakebilltime(System.currentTimeMillis());
 			sa.setCreator(save.getCreator());
 			sa.setCreatetime(System.currentTimeMillis());
 			sa.setModifier(save.getCreator());

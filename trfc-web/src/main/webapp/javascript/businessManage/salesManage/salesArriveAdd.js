@@ -165,19 +165,19 @@ PAGE.mod.main = {
 					var salesApplicationDetail = obj.detailResp;
 					var materiel = salesApplicationDetail.materiel;
 					var code = obj.code || '';
-					var billtype = obj.billtype || '';
-					var customername = customer.name || '';
+					var billtypename = obj.billtypename || '';
+					var customername = obj.customername || '';
 					var materielname = materiel.name || '';
 					var salessum = salesApplicationDetail.salessum || '';
 					var orgname = obj.orgname || '';
 					var billtimeStr = obj.billtimeStr || '';
 					var departmentname = obj.departmentname || '';
-					var salesmanname = customer.salesmanname || '';
+					var salesmanname = obj.salesmanname || '';
 					var creatorname = obj.creatorname || '';
-					var channelcode = customer.channelcode || '';
+					var channelcode = obj.channelcode || '';
 					$('<tr>').attr('title','双击确定')
 							.append('<td>'+code+'</td>')
-							.append('<td>'+billtype+'</td>')
+							.append('<td>'+billtypename+'</td>')
 							.append('<td>'+customername+'</td>')
 							.append('<td>'+materielname+'</td>')
 							.append('<td>'+salessum+'</td>')
@@ -209,9 +209,9 @@ PAGE.mod.main = {
 				var billcode = obj.code || '';
 				var createtime = obj.createtime || '';
 				var createtimeStr = obj.createtimeStr || '';
-				var customerid = customer.id || '';
-				var customername = customer.name || '';
-				var channelcode = customer.channelcode || '';
+				var customerid = obj.customerid || '';
+				var customername = obj.customername || '';
+				var channelcode = obj.channelcode || '';
 				var orgid = obj.orgid || '';
 				var orgname = obj.orgname || '';
 				var materielid = materiel.id || '';
@@ -224,7 +224,7 @@ PAGE.mod.main = {
 				var billtimeStr = obj.billtimeStr || '';
 				var code = obj.code || '';
 				var billtype = obj.billtype || '';
-				var salesmanname = customer.salesmanname || '';
+				var salesmanname = obj.salesmanname || '';
 				var creatorname = obj.creatorname || '';
 				$('#billcode').val(billcode).attr('billid', billid);
 				$('#customername').val(customername).attr('customerid', customerid);
