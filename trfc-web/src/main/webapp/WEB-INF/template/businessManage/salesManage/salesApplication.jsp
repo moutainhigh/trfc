@@ -186,7 +186,6 @@
 							<div class="alt_edit_div">
 								<label>订单类型：</label>
 								<select id="a_billtype" class="form-control">
-									<option value="">请选择</option>
 									<c:forEach items="${billType }" var="b">
 										<option value="${b.id }">${b.name }</option>
 									</c:forEach>
@@ -221,7 +220,7 @@
 									readonly="true">
 							</div>
 							<div class="alt_edit_div">
-								<label>制单人：</label> <input id="a_creatorname" type="text" value="${user.name }" creator="${user.id }"
+								<label>制单人：</label> <input id="a_makebillname" type="text" value="${user.name }" makerid="${user.id }"
 									class="readOnlyText" class="readOnlyText" readonly="true">
 							</div>
 						</div>
@@ -490,6 +489,8 @@
 		</div>
 		<!--编辑end-->
 	</div>
+	
+	<jsp:include page="../../common/module/custom_choose.jsp"></jsp:include>
 	<!-- 引用公共footer部分 -->
 	<jsp:include page="../../common/base/footer_busi.jsp"></jsp:include>
 	<script type="text/javascript"

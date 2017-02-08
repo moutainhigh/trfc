@@ -42,45 +42,45 @@
 		queryData(1);
 	}
 	function initSelect(){
-		$.ajax({
-			url:URL.findCAllUrl,
-			data:null,
-			async:true,
-			cache:false,
-			dataType:'json',
-			type:'post',
-			success:function(result){
-				if(result.code == '000000'){
-					if(result.data && result.data.length > 0){
-						customer = result.data;
-						for(var i=0;i<result.data.length;i++){
-							var obj = result.data[i];
-							$('.customer').append('<option value="'+obj.id+'">'+obj.name+'</option>');
-						}
-						$('#u_customer.customer').change(function(a,b,c){
-							var id = $(this).val();
-							var customer = result.data.filter(function(x){
-								return id == x.id
-							},id)[0];
-							$('#u_channelcode').val(customer.channelcode);
-							$('#u_salesmanname').val(customer.salesmanname);
-							$('#u_transportationcompany').val(customer.transportationcompany);
-						});
-						$('#a_customer.customer').change(function(a,b,c){
-							var id = $(this).val();
-							var customer = result.data.filter(function(x){
-								return id == x.id
-							},id)[0];
-							$('#a_channelcode').val(customer.channelcode);
-							$('#a_salesmanname').val(customer.salesmanname);
-							$('#a_transportationcompany').val(customer.transportationcompany);
-						});
-					}
-				}else{
-					layer.msg(result.error, {icon: 5});
-				}
-			}
-		});
+//		$.ajax({
+//			url:URL.findCAllUrl,
+//			data:null,
+//			async:true,
+//			cache:false,
+//			dataType:'json',
+//			type:'post',
+//			success:function(result){
+//				if(result.code == '000000'){
+//					if(result.data && result.data.length > 0){
+//						customer = result.data;
+//						for(var i=0;i<result.data.length;i++){
+//							var obj = result.data[i];
+//							$('.customer').append('<option value="'+obj.id+'">'+obj.name+'</option>');
+//						}
+//						$('#u_customer.customer').change(function(a,b,c){
+//							var id = $(this).val();
+//							var customer = result.data.filter(function(x){
+//								return id == x.id
+//							},id)[0];
+//							$('#u_channelcode').val(customer.channelcode);
+//							$('#u_salesmanname').val(customer.salesmanname);
+//							$('#u_transportationcompany').val(customer.transportationcompany);
+//						});
+//						$('#a_customer.customer').change(function(a,b,c){
+//							var id = $(this).val();
+//							var customer = result.data.filter(function(x){
+//								return id == x.id
+//							},id)[0];
+//							$('#a_channelcode').val(customer.channelcode);
+//							$('#a_salesmanname').val(customer.salesmanname);
+//							$('#a_transportationcompany').val(customer.transportationcompany);
+//						});
+//					}
+//				}else{
+//					layer.msg(result.error, {icon: 5});
+//				}
+//			}
+//		});
 		$.ajax({
 			url:URL.findMAllUrl,
 			data:null,
@@ -171,15 +171,23 @@
 				}
 			});
 		})
-		/*$('#addCommitBtn').off('click').on('click', function(){
+		$('#addCommitBtn').off('click').on('click', function(){
 			if($('#addView').is(':visible')){
 				var code = $('#a_code').val();code = $.trim(code);
-				var billtype = $('#a_billtype').val();billtype = $.trim(billtype);
+				var billtypeid = $('#a_billtype').val();billtypeid = $.trim(billtypeid);
+				var billtypename = $('#a_billtype>option:checked').text();billtypename = $.trim(billtypename);
 				var billtimeStr = $('#a_billtimeStr').val();billtimeStr = $.trim(billtimeStr);
-				var customerid = $('#a_customer').val();
+				var customerid = $('#a_customer').val();customerid = $.trim(customerid);
+				var customername = $('#a_customer>option:checked').text();customername = $.trim(customername);
+				var channelcode = $('#a_channelcode').val();channelcode = $.trim(channelcode);
+				var salesmanid = $('#a_salesmanname').attr('salesmanid');salesmanid = $.trim(salesmanid);
+				var salesmanname = $('#a_salesmanname').val();salesmanname = $.trim(salesmanname);
+				var transportcompanyid = $('#a_transportationcompany').attr('transportcompanyid');transportcompanyid = $.trim(transportcompanyid);
+				var transportcompanyname = $('#a_transportationcompany').val();transportcompanyname = $.trim(transportcompanyname);
 				var orgid = $('#a_orgname').attr('orgid');orgid = $.trim(orgid);
 				var orgname = $('#a_orgname').val();orgname = $.trim(orgname);
-				var creator = $('#a_creatorname').attr('creator');creator = $.trim(creator);
+				var makerid = $('#a_makername').attr('makerid');makerid = $.trim(makerid);
+				var makebillname = $('#a_makebillname').val();makebillname = $.trim(makebillname);
 				var materielid = $('#a_materiel').val();
 				var materielname = $('#a_materiel option:checked').text();
 				var warehouseid = $('#a_warehouse').val();
@@ -192,12 +200,20 @@
 					url:URL.addBtnUrl,
 					data:{
 						code:code,
-						billtype:billtype,
-						billtimeStr:str2Long(billtimeStr),
+						billtypeid:billtypeid,
+						billtypename:billtypename,
+						billtime:str2Long(billtimeStr),
 						customerid:customerid,
+						customername:customername,
+						channelcode:channelcode,
+						salesmanid:salesmanid,
+						salesmanname:salesmanname,
+						transportcompanyid:transportcompanyid,
+						transportcompanyname:transportcompanyname,
 						orgid:orgid,
 						orgname:orgname,
-						creator:creator,
+						makerid:makerid,
+						makebillname:makebillname,
 						materielid:materielid,
 						materielname:materielname,
 						warehouseid:warehouseid,
@@ -220,13 +236,20 @@
 					}
 				});
 			}
-		});*/
+		});
 		$('#updateCommitBtn').off('click').on('click',function(){
 			if($('#updateView').is(':visible')){
 				var id = $('#u_id').val();
-				var billtype = $('#u_billtype').val();billtype = $.trim(billtype);
+				var billtypeid = $('#u_billtype').val();billtypeid = $.trim(billtypeid);
+				var billtypename = $('#u_billtype>option:checked').text();billtypename = $.trim(billtypename);
 				var billtimeStr = $('#u_billtimeStr').val();billtimeStr = $.trim(billtimeStr);
-				var customerid = $('#u_customer').val();
+				var customerid = $('#u_customer').val();customerid = $.trim(customerid);
+				var customername = $('#u_customer>option:checked').text();customername = $.trim(customername);
+				var channelcode = $('#u_channelcode').val();channelcode = $.trim(channelcode);
+				var salesmanid = $('#u_salesmanname').attr('salesmanid');salesmanid = $.trim(salesmanid);
+				var salesmanname = $('#u_salesmanname').val();salesmanname = $.trim(salesmanname);
+				var transportcompanyid = $('#u_salesmanname').attr('transportcompanyid');transportcompanyid = $.trim(transportcompanyid);
+				var transportcompanyname = $('#u_salesmanname').val();transportcompanyname = $.trim(transportcompanyname);
 				var detailid = $('#u_detailid').val();
 				var materielid = $('#u_materiel').val();
 				var materielname = $('#u_materiel option:checked').text();
@@ -240,9 +263,16 @@
 					url:URL.updateBtnUrl,
 					data:{
 						id:id,
-						billtype:billtype,
+						billtypeid:billtypeid,
+						billtypename:billtypename,
 						billtimeStr:str2Long(billtimeStr),
 						customerid:customerid,
+						customername:customername,
+						channelcode:channelcode,
+						salesmanid:salesmanid,
+						salesmanname:salesmanname,
+						transportcompanyid:transportcompanyid,
+						transportcompanyname:transportcompanyname,
 						detailid:detailid,
 						materielid:materielid,
 						materielname:materielname,
@@ -266,6 +296,9 @@
 					}
 				});
 			}
+		});
+		$('#s_customerid').off('click').on('click',function(){
+			initCustomer(function(key,value){alert("在这里赋值 key:"+key)});
 		});
 	}
 	
@@ -438,26 +471,30 @@
 		}
 		var id = obj.id || '';
 		var code = obj.code || '';
+		var billtypeid = obj.billtypeid || '';
 		var billtypename = obj.billtypename || '';
 		var billtimeStr = obj.billtimeStr || '';
 		var customerid = obj.customerid || '';
 		var customername = obj.customername || '';
-		var salesmanname = obj.salesmanname || '';
-		var transportcompanyname = obj.transportcompanyname || '';
 		var channelcode = obj.channelcode || '';
+		var salesmanid = obj.salesmanid || '';
+		var salesmanname = obj.salesmanname || '';
+		var orgid = obj.orgid || '';
 		var orgname = obj.orgname || '';
+		var transportcompanyid = obj.transportcompanyid || '';
+		var transportcompanyname = obj.transportcompanyname || '';
+		var makerid = obj.makerid || '';
 		var makebillname = obj.makebillname || '';
 		$('#u_id').val(id);
 		$('#u_code').val(code);
-		$('#u_billtype').val(billtypename);
+		$('#u_billtype').val(billtypeid);
 		$('#u_billtimeStr').val(billtimeStr);
 		$('#u_customer').val(customerid);
-		$('#u_customername').val(customername);
 		$('#u_channelcode').val(channelcode);
 		$('#u_orgname').val(orgname);
-		$('#u_salesmanname').val(salesmanname);
-		$('#u_transportationcompany').val(transportcompanyname);
-		$('#u_creatorname').val(makebillname);
+		$('#u_salesmanname').val(salesmanname).attr('salesmanid',salesmanid);
+		$('#u_transportationcompany').val(transportcompanyname).attr('transportcompanyid',transportcompanyid);
+		$('#u_creatorname').val(makebillname).attr('makerid',makerid);
 		var detailResp = obj.detailResp;
 		if(detailResp){
 			$('#u_detailid').val(detailResp.id);
@@ -644,5 +681,6 @@
 		    }
 		});
 	}
+	
 	
 })(jQuery, window);

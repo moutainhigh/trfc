@@ -32,10 +32,6 @@ public class SalesApplicationDetailResp extends BaseResp {
 
     private String remarks;
     
-    private MaterielManageResp materiel;
-    
-    private WarehouseManageResp warehouse;
-
     public String getId() {
         return id;
     }
@@ -132,19 +128,4 @@ public class SalesApplicationDetailResp extends BaseResp {
         this.remarks = remarks == null ? null : remarks.trim();
     }
 
-	public MaterielManageResp getMateriel() {
-		return materiel;
-	}
-
-	public void setMateriel(MaterielManageResp materiel) {
-		this.materiel = materiel;
-	}
-
-	public WarehouseManageResp getWarehouse() {
-		return warehouse;
-	}
-
-	public void setWarehouse(WarehouseManageResp warehouse) {
-		this.warehouse = warehouse;
-	}
 }

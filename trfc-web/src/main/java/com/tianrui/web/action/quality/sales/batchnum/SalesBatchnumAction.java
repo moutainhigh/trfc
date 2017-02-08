@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.tianrui.api.intf.quality.sales.batchnum.ISalesBatchnumService;
@@ -30,7 +31,8 @@ public class SalesBatchnumAction {
 	/**
 	 * 获取分页数据
 	 */
-	@RequestMapping("page")
+	@ResponseBody
+	@RequestMapping("/page")
 	public Result page(SalesBatchnumReq req){
 		Result rs = Result.getErrorResult();
 		try {
@@ -43,7 +45,8 @@ public class SalesBatchnumAction {
 	/**
 	 * 删除数据
 	 */
-	@RequestMapping("delete")
+	@ResponseBody
+	@RequestMapping("/delete")
 	public Result delete(SalesBatchnumReq req){
 		Result rs = Result.getErrorResult();
 		try {
@@ -56,7 +59,8 @@ public class SalesBatchnumAction {
 	/**
 	 * 新增数据
 	 */
-	@RequestMapping("add")
+	@ResponseBody
+	@RequestMapping("/add")
 	public Result add(List<SalesBatchnumReq> list){
 		Result rs = Result.getErrorResult();
 		try {
@@ -69,7 +73,8 @@ public class SalesBatchnumAction {
 	/**
 	 * 更新数据
 	 */
-	@RequestMapping("update")
+	@ResponseBody
+	@RequestMapping("/update")
 	public Result update(SalesBatchnumReq req){
 		Result rs = Result.getErrorResult();
 		try {

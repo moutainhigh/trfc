@@ -301,19 +301,18 @@ public class SalesArriveService implements ISalesArriveService {
 							SalesArriveResp resp = copyBean2Resp(listSales.get(0));
 							SalesApplicationResp salesApplicationResp = resp.getSalesApplication();
 							SalesApplicationDetailResp salesApplicationDetailResp = salesApplicationResp.getDetailResp();
-							MaterielManageResp materielResp = salesApplicationDetailResp.getMateriel();
 							ApiSalesArriveResp api = new ApiSalesArriveResp();
 							api.setVehicleno(resp.getVehicleno());
 							api.setCustomerid(salesApplicationResp.getCustomerid());
 							api.setCustomer(salesApplicationResp.getCustomername());
-							api.setMaterielid(materielResp.getId());
-							api.setMateriel(materielResp.getName());
-							if(StringUtils.isNotBlank(materielResp.getName()) && materielResp.getName().contains("水泥")){
-								if(materielResp.getName().contains("袋装")){
+							api.setMaterielid(salesApplicationDetailResp.getMaterielid());
+							api.setMateriel(salesApplicationDetailResp.getMaterielname());
+							if(StringUtils.isNotBlank(salesApplicationDetailResp.getMaterielname()) && salesApplicationDetailResp.getMaterielname().contains("水泥")){
+								if(salesApplicationDetailResp.getMaterielname().contains("袋装")){
 									api.setCementtype("1");
 									api.setBatchnumber(resp.getSerialnumber());
 								}
-								if(materielResp.getName().contains("散装")){
+								if(salesApplicationDetailResp.getMaterielname().contains("散装")){
 									api.setCementtype("2");
 								}
 							}
