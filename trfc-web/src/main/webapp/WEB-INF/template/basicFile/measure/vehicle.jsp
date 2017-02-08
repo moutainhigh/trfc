@@ -3,7 +3,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>index</title>
+<title>车辆管理</title>
 <!-- 引用公共header部分 -->
 <jsp:include page="../../common/base/header_busi.jsp"></jsp:include>
 </head>
@@ -20,6 +20,7 @@
 				<li><a href="/trfc/transport/main">运输单位</a></li>
 				<li class="select"><a href="/trfc/vehicle/main">车辆管理</a></li>
 				<li><a href="/trfc/driver/main">司机管理</a></li>
+				<li><a href="/trfc/minemouth/main">矿口管理</a></li>
 			</ul>
 		</div>
 		<!--tab切换的内容-->

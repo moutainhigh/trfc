@@ -81,4 +81,20 @@ public class CodeCommon {
 		}
 		return result;
 	}
+	
+	@RequestMapping("/minemouthCode")
+	@ResponseBody
+	public Result minemouthCode() throws Exception{
+		Result result = Result.getSuccessResult();
+		try {
+			Map<String, Object> map = new HashMap<String, Object>();
+			String code = (int)(Math.random()*100000000)+"";
+			map.put("code", "KD"+code);
+			result.setData(map);
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
+		}
+		return result;
+	}
 }
