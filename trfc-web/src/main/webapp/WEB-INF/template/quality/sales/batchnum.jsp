@@ -57,7 +57,8 @@
 									<label>出厂编号：</label> <input type="text" id="seek_factorycode">
 								</div>
 								<div class="intel_solo">
-									<label>物料：</label> <select class="form-control"
+									<label>物料：</label> 
+									<select class="form-control"
 										id="seek_material">
 										<option></option>
 										<option>硫酸</option>
@@ -67,9 +68,9 @@
 								<div class="intel_solo">
 									<label>单据状态：</label> <select class="form-control"
 										id="seek_billsstate">
-										<option>--请选择--</option>
-										<option value="">启用</option>
-										<option value="">停用</option>
+										<option></option>
+										<option value="1">启用</option>
+										<option value="0">停用</option>
 									</select>
 								</div>
 								<div class="intel_solo">
@@ -85,7 +86,7 @@
 							<h5>刷新</h5>
 						</div>
 						<div class="intel_operasolo">
-							<a href=" "> <i class="iconfont coloradd">&#xe627;</i>
+							<a href="/trfc/quality/sales/batchnum/addMain"> <i class="iconfont coloradd">&#xe627;</i>
 								<h5>新增</h5>
 							</a>
 						</div>
@@ -197,7 +198,8 @@
 		<!-- 引用公共footer部分 -->
 		<jsp:include page="../../common/base/footer_busi.jsp"></jsp:include>
 	</div>
-	<script type="text/javascript"
+	
+		<script type="text/javascript"
 		src="/javascript/quality/sales/batchnum.js"></script>
 	</script>
 	</div>

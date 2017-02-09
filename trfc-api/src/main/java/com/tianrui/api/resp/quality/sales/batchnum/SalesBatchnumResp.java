@@ -61,6 +61,10 @@ public class SalesBatchnumResp extends BaseResp {
      */
     private Long audittime;
     /**
+     * 审核人
+     */
+    private String auditer;
+    /**
      * 化验人
      */
     private String assayer;
@@ -222,5 +226,12 @@ public class SalesBatchnumResp extends BaseResp {
 	public void setModifytime(Long modifytime) {
 		this.modifytime = modifytime;
 	}
+	public String getAuditer() {
+		return auditer;
+	}
+	public void setAuditer(String auditer) {
+		this.auditer = auditer;
+	}
+
     
 }

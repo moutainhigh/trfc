@@ -21,9 +21,13 @@ public class BaseReq implements Serializable {
 	private String callId =UUIDUtil.getId();
 	
 	
-	//分页参数
+	/**
+	 *  页数
+	 */
 	protected Integer pageNo;
-	
+	/**
+	 * 每页显示数据总数
+	 */
 	protected Integer pageSize=10;
 
 	public String getCallSource() {

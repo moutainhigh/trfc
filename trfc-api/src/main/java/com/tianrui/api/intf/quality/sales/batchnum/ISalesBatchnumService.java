@@ -1,6 +1,5 @@
 package com.tianrui.api.intf.quality.sales.batchnum;
 
-import java.util.List;
 
 import com.tianrui.api.req.quality.sales.batchnum.SalesBatchnumReq;
 import com.tianrui.smartfactory.common.vo.Result;
@@ -13,7 +12,7 @@ public interface ISalesBatchnumService {
 	/**
 	 * 新增数据
 	 */
-	Result insertBatch(List<SalesBatchnumReq> list) throws Exception;
+	Result insertBatch(SalesBatchnumReq req) throws Exception;
 	/**
 	 * 修改数据
 	 */
@@ -26,4 +25,12 @@ public interface ISalesBatchnumService {
 	 * 新增页面预加载数据
 	 */
 	Result materialData() throws Exception;
+	/**
+	 * 通过id获取数据
+	 */
+	Result selectById(SalesBatchnumReq req) throws Exception;
+	/**
+	 * 检测批号是否重复
+	 */
+	Result checkFactoryCode(SalesBatchnumReq req) throws Exception;
 }

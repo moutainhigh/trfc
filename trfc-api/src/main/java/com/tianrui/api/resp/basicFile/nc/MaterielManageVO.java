@@ -10,7 +10,10 @@ import com.tianrui.api.resp.BaseResp;
 public class MaterielManageVO extends BaseResp {
 
 	private static final long serialVersionUID = -8179624773990886045L;
-
+	/**
+	 * ID
+	 */
+	private String id;
     /**
      * 名称
      */
@@ -35,6 +38,14 @@ public class MaterielManageVO extends BaseResp {
 
 	public void setSpec(String spec) {
 		this.spec = spec;
+	}
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
 	}
 
    

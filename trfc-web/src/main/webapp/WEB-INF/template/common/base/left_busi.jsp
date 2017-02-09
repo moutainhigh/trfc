@@ -1,6 +1,6 @@
 <%@ page language="java" pageEncoding="UTF-8"%>
 <div class="left ">
-	<div class="user">
+	<div class="user" userid=${sessionScope.systemUser.id }>
 		<a href="#" data-toggle="dropdown" data-target="#menu-messages"
 			class="dropdown-toggle"> <img
 			src="${staticBasePath}/images/tx.jpg" class="img-circle"> <label>${sessionScope.systemUser.name }</label>

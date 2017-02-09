@@ -6,7 +6,6 @@ package com.tianrui.service.bean.quality.sales.batchnum;
  */
 public class SalesBatchnum {
 
-
 	/**
 	 * 主键ID
 	 */
@@ -56,7 +55,7 @@ public class SalesBatchnum {
      */
     private Long audittime;
     /**
-     * 化验�?
+     * 化验时间
      */
     private String assayer;
     /**
@@ -84,7 +83,7 @@ public class SalesBatchnum {
      */
     private Long createtime;
     /**
-     * 修改者
+     * 修改人
      */
     private String modifier;
     /**
@@ -95,6 +94,10 @@ public class SalesBatchnum {
      * nc同步时间戳
      */
     private Long utc;
+    /**
+     * 审核人
+     */
+    private String auditer;
 
     public String getId() {
         return id;
@@ -188,7 +191,15 @@ public class SalesBatchnum {
         return audittime;
     }
 
-    public void setAudittime(Long audittime) {
+    public String getAuditer() {
+		return auditer;
+	}
+
+	public void setAuditer(String auditer) {
+		this.auditer = auditer;
+	}
+
+	public void setAudittime(Long audittime) {
         this.audittime = audittime;
     }
 

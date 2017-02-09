@@ -6,6 +6,7 @@ import com.tianrui.api.req.quality.sales.batchnum.SalesBatchnumReq;
 import com.tianrui.service.bean.quality.sales.batchnum.SalesBatchnum;
 
 public interface SalesBatchnumMapper {
+
 	/**
 	 * 删除数据(主键id)
 	 */

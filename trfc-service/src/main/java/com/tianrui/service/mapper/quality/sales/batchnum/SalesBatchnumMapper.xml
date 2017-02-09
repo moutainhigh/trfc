@@ -14,6 +14,7 @@
     <result column="billsstate" jdbcType="VARCHAR" property="billsstate" />
     <result column="teststate" jdbcType="VARCHAR" property="teststate" />
     <result column="audittime" jdbcType="BIGINT" property="audittime" />
+    <result column="auditer" jdbcType="VARCHAR" property="auditer" />
     <result column="assayer" jdbcType="VARCHAR" property="assayer" />
     <result column="assaytime" jdbcType="BIGINT" property="assaytime" />
     <result column="assayorg" jdbcType="VARCHAR" property="assayorg" />
@@ -27,8 +28,8 @@
   </resultMap>
   <sql id="Base_Column_List">
     id, material, code, factorycode, count, producedtime, testtime, remark, auditstate, 
-    billsstate, teststate, audittime, assayer, assaytime, assayorg, starttime, endtime, 
-    creator, createtime, modifier, modifytime, utc
+    billsstate, teststate, audittime, auditer, assayer, assaytime, assayorg, starttime, 
+    endtime, creator, createtime, modifier, modifytime, utc
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
@@ -45,18 +46,18 @@
       factorycode, count, producedtime, 
       testtime, remark, auditstate, 
       billsstate, teststate, audittime, 
-      assayer, assaytime, assayorg, 
-      starttime, endtime, creator, 
-      createtime, modifier, modifytime, 
-      utc)
+      auditer, assayer, assaytime, 
+      assayorg, starttime, endtime, 
+      creator, createtime, modifier, 
+      modifytime, utc)
     values (#{id,jdbcType=VARCHAR}, #{material,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR}, 
       #{factorycode,jdbcType=VARCHAR}, #{count,jdbcType=BIGINT}, #{producedtime,jdbcType=BIGINT}, 
       #{testtime,jdbcType=BIGINT}, #{remark,jdbcType=VARCHAR}, #{auditstate,jdbcType=VARCHAR}, 
       #{billsstate,jdbcType=VARCHAR}, #{teststate,jdbcType=VARCHAR}, #{audittime,jdbcType=BIGINT}, 
-      #{assayer,jdbcType=VARCHAR}, #{assaytime,jdbcType=BIGINT}, #{assayorg,jdbcType=VARCHAR}, 
-      #{starttime,jdbcType=BIGINT}, #{endtime,jdbcType=BIGINT}, #{creator,jdbcType=VARCHAR}, 
-      #{createtime,jdbcType=BIGINT}, #{modifier,jdbcType=VARCHAR}, #{modifytime,jdbcType=BIGINT}, 
-      #{utc,jdbcType=BIGINT})
+      #{auditer,jdbcType=VARCHAR}, #{assayer,jdbcType=VARCHAR}, #{assaytime,jdbcType=BIGINT}, 
+      #{assayorg,jdbcType=VARCHAR}, #{starttime,jdbcType=BIGINT}, #{endtime,jdbcType=BIGINT}, 
+      #{creator,jdbcType=VARCHAR}, #{createtime,jdbcType=BIGINT}, #{modifier,jdbcType=VARCHAR}, 
+      #{modifytime,jdbcType=BIGINT}, #{utc,jdbcType=BIGINT})
   </insert>
   <insert id="insertSelective" parameterType="com.tianrui.service.bean.quality.sales.batchnum.SalesBatchnum">
     insert into tr_sales_db_batch_num
@@ -96,6 +97,9 @@
       </if>
       <if test="audittime != null">
         audittime,
+      </if>
+      <if test="auditer != null">
+        auditer,
       </if>
       <if test="assayer != null">
         assayer,
@@ -165,6 +169,9 @@
       <if test="audittime != null">
         #{audittime,jdbcType=BIGINT},
       </if>
+      <if test="auditer != null">
+        #{auditer,jdbcType=VARCHAR},
+      </if>
       <if test="assayer != null">
         #{assayer,jdbcType=VARCHAR},
       </if>
@@ -233,6 +240,9 @@
       <if test="audittime != null">
         audittime = #{audittime,jdbcType=BIGINT},
       </if>
+      <if test="auditer != null">
+        auditer = #{auditer,jdbcType=VARCHAR},
+      </if>
       <if test="assayer != null">
         assayer = #{assayer,jdbcType=VARCHAR},
       </if>
@@ -279,6 +289,7 @@
       billsstate = #{billsstate,jdbcType=VARCHAR},
       teststate = #{teststate,jdbcType=VARCHAR},
       audittime = #{audittime,jdbcType=BIGINT},
+      auditer = #{auditer,jdbcType=VARCHAR},
       assayer = #{assayer,jdbcType=VARCHAR},
       assaytime = #{assaytime,jdbcType=BIGINT},
       assayorg = #{assayorg,jdbcType=VARCHAR},
@@ -291,6 +302,7 @@
       utc = #{utc,jdbcType=BIGINT}
     where id = #{id,jdbcType=VARCHAR}
   </update>
+ 
 	<insert id="insertBatch" parameterType="java.util.List">
 		insert into tr_sales_db_batch_num
 		(id, material, code,factorycode,
@@ -321,41 +333,50 @@
 		<include refid="Base_Column_List" />
 		from tr_sales_db_batch_num
 		<where>
-			<if test="starttime!=null and endtime!=null">
-				and starttime between #{starttime,jdbcType=BIGINT} and #{endtime,jdbcType=BIGINT}
+			<if test="starttime!=null and starttime!=''">
+				and starttime <![CDATA[>=#{starttime,jdbcType=BIGINT} ]]> 
 			</if>
-			<if test="code!=null">
-				and code=#{code,,jdbcType=VARCHAR}
+			<if test="endtime!=null and endtime!=''">
+				and starttime <![CDATA[<= #{endtime,jdbcType=BIGINT} ]]> 
 			</if>
-			<if test="factorycode!=null">
+			<if test="code!=null and code!=''">
+				and code=#{code,jdbcType=VARCHAR}
+			</if>
+			<if test="factorycode!=null and factorycode!=''">
 				and factorycode=#{factorycode,jdbcType=VARCHAR}
 			</if>
-			<if test="material!=null">
+			<if test="material!=null and material!=''">
 				and material=#{material,jdbcType=VARCHAR}
 			</if>
-			<if test="billsstate!=null">
+			<if test="billsstate!=null and billsstate!=''">
 				and billsstate =#{billsstate,jdbcType=VARCHAR}
 			</if>
 		</where>
+		<if test="start!=null and limit!=null ">
+			limit #{start,jdbcType=INTEGER},#{limit,jdbcType=INTEGER}
+		</if>
 	</select>
 	<select id="count" parameterType="com.tianrui.api.req.quality.sales.batchnum.SalesBatchnumReq" resultType="int">
 		select 
 		count(1)
 		from tr_sales_db_batch_num
 		<where>
-			<if test="starttime!=null and endtime!=null">
-				and starttime between #{starttime,jdbcType=BIGINT} and #{endtime,jdbcType=BIGINT}
+			<if test="starttime!=null and starttime!=''">
+				and starttime <![CDATA[>=#{starttime,jdbcType=BIGINT} ]]> 
 			</if>
-			<if test="code!=null">
+			<if test="endtime!=null and endtime!=''">
+				and starttime <![CDATA[<= #{endtime,jdbcType=BIGINT} ]]> 
+			</if>
+			<if test="code!=null and code!=''">
 				and code=#{code,jdbcType=VARCHAR}
 			</if>
-			<if test="factorycode!=null">
+			<if test="factorycode!=null and factorycode!=''">
 				and factorycode=#{factorycode,jdbcType=VARCHAR}
 			</if>
-			<if test="material!=null">
+			<if test="material!=null and material!=''">
 				and material=#{material,jdbcType=VARCHAR}
 			</if>
-			<if test="billsstate!=null">
+			<if test="billsstate!=null and billsstate!=''">
 				and billsstate =#{billsstate,jdbcType=VARCHAR}
 			</if>
 		</where>

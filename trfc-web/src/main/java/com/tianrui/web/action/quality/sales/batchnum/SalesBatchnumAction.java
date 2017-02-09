@@ -1,6 +1,6 @@
 package com.tianrui.web.action.quality.sales.batchnum;
 
-import java.util.List;
+
 
 import javax.annotation.Resource;
 
@@ -21,13 +21,18 @@ public class SalesBatchnumAction {
 	Logger log = LoggerFactory.getLogger(SalesBatchnumAction.class);
 	@Resource
 	private ISalesBatchnumService salesBatchnumService;
-	
+	//显示页面
 	@RequestMapping("/main")
 	public ModelAndView show(){
 		ModelAndView view = new ModelAndView("quality/sales/batchnum");
 		return view;
 	}
-	
+	//显示新增页面
+	@RequestMapping("/addMain")
+	public ModelAndView addMain(){
+		ModelAndView view = new ModelAndView("quality/sales/batchnum_add");
+		return view;
+	}
 	/**
 	 * 获取分页数据
 	 */
@@ -61,10 +66,10 @@ public class SalesBatchnumAction {
 	 */
 	@ResponseBody
 	@RequestMapping("/add")
-	public Result add(List<SalesBatchnumReq> list){
+	public Result add(SalesBatchnumReq req){
 		Result rs = Result.getErrorResult();
 		try {
-			rs = salesBatchnumService.insertBatch(list);
+			rs = salesBatchnumService.insertBatch(req);
 		} catch (Exception e) {
 			log.error(e.getMessage(),e);
 		}
@@ -87,6 +92,8 @@ public class SalesBatchnumAction {
 	/**
 	 * 新增页面预加载数据
 	 */
+	@ResponseBody
+	@RequestMapping("/selector")
 	public Result materialData(){
 		Result rs = Result.getErrorResult();
 		try {
@@ -96,4 +103,33 @@ public class SalesBatchnumAction {
 		}
 		return rs;
 	}
+	/**
+	 * 复制,获取原数据
+	 */
+	@ResponseBody
+	@RequestMapping("/copy")
+	public Result copy(SalesBatchnumReq req){
+		Result rs = Result.getErrorResult();
+		try {
+			rs = salesBatchnumService.selectById(req);
+		} catch (Exception e) {
+			log.error(e.getMessage(),e);
+		}
+		return rs;
+	}
+	/**
+	 * 检测批号是否重复
+	 */
+	@ResponseBody
+	@RequestMapping("/check")
+	public Result check(SalesBatchnumReq req){
+		Result rs = Result.getErrorResult();
+		try {
+			rs = salesBatchnumService.checkFactoryCode(req);
+		} catch (Exception e) {
+			log.error(e.getMessage(),e);
+		}
+		return rs;
+	}
+	
 }

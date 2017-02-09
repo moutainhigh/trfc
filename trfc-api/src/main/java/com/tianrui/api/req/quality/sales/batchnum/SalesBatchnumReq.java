@@ -89,14 +89,29 @@ public class SalesBatchnumReq extends BaseReq {
      */
     private Long createtime;
     /**
-     * 当前页
+     * 分页查询,数据数目
      */
-	private int pageNo;
+    private int limit;
+    /**
+     * 分页查询,开始位置
+     */
+    private int start;
 	/**
-	 * 每页显示数据总数
+	 * 新增需保存的物料数据
 	 */
-	private int pageSize;
-	
+    private String arrStr;
+	public int getLimit() {
+		return limit;
+	}
+	public void setLimit(int limit) {
+		this.limit = limit;
+	}
+	public int getStart() {
+		return start;
+	}
+	public void setStart(int start) {
+		this.start = start;
+	}
 	public String getId() {
 		return id;
 	}
@@ -211,17 +226,12 @@ public class SalesBatchnumReq extends BaseReq {
 	public void setCreatetime(Long createtime) {
 		this.createtime = createtime;
 	}
-	public Integer getPageNo() {
-		return pageNo;
+
+	public String getArrStr() {
+		return arrStr;
 	}
-	public void setPageNo(int pageNo) {
-		this.pageNo = pageNo;
-	}
-	public Integer getPageSize() {
-		return pageSize;
-	}
-	public void setPageSize(int pageSize) {
-		this.pageSize = pageSize;
+	public void setArrStr(String arrStr) {
+		this.arrStr = arrStr;
 	}
 	@Override
 	public String toString() {
@@ -230,7 +240,9 @@ public class SalesBatchnumReq extends BaseReq {
 				+ ", remark=" + remark + ", auditstate=" + auditstate + ", billsstate=" + billsstate + ", teststate="
 				+ teststate + ", audittime=" + audittime + ", assayer=" + assayer + ", assaytime=" + assaytime
 				+ ", assayorg=" + assayorg + ", starttime=" + starttime + ", endtime=" + endtime + ", user=" + user
-				+ ", createtime=" + createtime + ", pageNo=" + pageNo + ", pageSize=" + pageSize + "]";
+				+ ", createtime=" + createtime + ", limit=" + limit + ", start=" + start + ", arrStr=" + arrStr + "]";
 	}
+
+
 	
 }
