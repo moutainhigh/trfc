@@ -447,15 +447,35 @@
   </select>
   <insert id ="insertBatch" parameterType="java.util.List" >
       insert into tr_customer_db_manage
-      (id, code, internalcode,name,abbrname, orgid, orgname,channeltype,channelcode,pinyincode,customertype,
-       state, createtime, modifytime,utc)
+      (id, code, internalcode, name, abbrname, pinyincode, customertype, orgid, orgname, 
+	    channeltype, channelcode, salesmanid, salesmanname, transportcompanyid, transportcompanyname, 
+	    departmentid, departmentname, state, remarks, creator, createtime, modifier, modifytime, utc)
       values 
        <foreach collection ="list" item="item" index= "index" separator =",">
-        (   #{item.id}, #{item.code},
-           #{item.internalcode},#{item.name},#{item.abbrname},
-           #{item.orgid},#{item.orgname},#{item.channeltype},#{item.channelcode},#{item.pinyincode},#{item.customertype},#{item.state},
-           #{item.createtime},#{item.modifytime},
-           #{item.utc}
+       (#{item.id}, 
+        #{item.code},
+        #{item.internalcode},
+        #{item.name},
+        #{item.abbrname},
+        #{item.pinyincode},
+        #{item.customertype},
+        #{item.orgid},
+        #{item.orgname},
+        #{item.channeltype},
+        #{item.channelcode},
+        #{item.salesmanid},
+        #{item.salesmanname},
+        #{item.transportcompanyid},
+        #{item.transportcompanyname},
+        #{item.departmentid},
+        #{item.departmentname},
+        #{item.state},
+        #{item.remarks},
+        #{item.creator},
+        #{item.createtime},
+        #{item.modifier},
+        #{item.modifytime},
+        #{item.utc}
          )
        </foreach >
   </insert>
