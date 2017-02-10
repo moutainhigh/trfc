@@ -44,12 +44,7 @@
 								</div>
 								<div class="intel_solo">
 									<label>客户：</label>
-									<select id="s_customerid" class="form-control">
-										<option value="">请选择</option>	
-										<c:forEach items="${customer }" var="c">
-											<option value="${c.id }">${c.name }</option>
-										</c:forEach>
-									</select>
+									<input id="s_customerid" type="text" readonly>
 								</div>
 								<div class="intel_solo">
 									<label>开始时间：</label> <input id="s_starttime" type="text"
@@ -197,10 +192,8 @@
 									class="Wdate" readonly>
 							</div>
 							<div class="alt_edit_div">
-								<label>客户：</label> <select id="a_customer"
-									class="form-control customer">
-									<option value="">请选择</option>
-								</select>
+								<label>客户：</label> 
+								<input id="a_customer" type="text" readonly placeholder="点击选择客户" />
 							</div>
 							<div class="alt_edit_div">
 								<label>区域：</label> <input id="a_channelcode" type="text"

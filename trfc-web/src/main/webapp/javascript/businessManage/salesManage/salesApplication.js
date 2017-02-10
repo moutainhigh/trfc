@@ -298,7 +298,25 @@
 			}
 		});
 		$('#s_customerid').off('click').on('click',function(){
-			initCustomer(function(key,value){alert("在这里赋值 key:"+key)});
+			var _this = this;
+			initCustomer(function(obj){
+				$(_this).val(obj.name).attr('customerid',obj.id);
+			});
+		});
+		/**
+		 * 找鑫鹏确认客户区域码业务员等关系
+		 */
+		$('#a_customer').off('click').on('click',function(){
+			var _this = this;
+			initCustomer(function(obj){
+				$(_this).val(obj.name).attr('customerid',obj.id);
+			});
+		});
+		$('#u_customer').off('click').on('click',function(){
+			var _this = this;
+			initCustomer(function(obj){
+				$(_this).val(obj.name).attr('customerid',obj.id);
+			});
 		});
 	}
 	
@@ -306,7 +324,7 @@
 		var params = {};
 		var code = $('#s_code').val() || '';code = $.trim(code);
 		var source = $('#s_source').val() || '';source = $.trim(source);
-		var customerid = $('#s_customerid').val() || '';customerid = $.trim(customerid);
+		var customerid = $('#s_customerid').attr('customerid') || '';customerid = $.trim(customerid);
 		var starttime = $('#s_starttime').val() || '';starttime = $.trim(starttime);
 		var endtime = $('#s_endtime').val() || '';endtime = $.trim(endtime);
 		var pageSize = $('#pageSize').val() || '';pageSize = $.trim(pageSize);

@@ -1,10 +1,15 @@
 <%@ page language="java"  pageEncoding="UTF-8"%>
+<style>
+	.tablecontent td,th {
+		text-align: center;
+	}
+</style>
 <div class="modal fade" id="customerView" tabindex="-1"
 	role="dialog" aria-labelledby="myModalLabel">
 	<div class="modal-dialog" role="document"
-		style="width: 1000px; height: 800px;">
-		<div class="modal-content">
-			<div class="modal-header">
+		style="width: 1000px; height: 630px;">
+		<div class="modal-content" style="height: inherit;">
+			<div class="modal-header" style="height: 8%;">
 				<button type="button" class="close" data-dismiss="modal"
 					aria-label="Close">
 					<span aria-hidden="true">&times;</span>
@@ -13,7 +18,7 @@
 					<h5>客户选择</h5>
 				</div>
 			</div>
-			<div class="modal-body">
+			<div class="modal-body" style="height: 92%;">
 				<div class="dhadd_search">
 					<div class="dhsearch_solo">
 						<label>查询条件：</label> 
@@ -30,26 +35,24 @@
 						<button id="searchBtn1" class="btn btnblue ">搜索</button>
 					</div>
 				</div>
-				<div>
-					<div class="dh_alttable">
-						<table class="table table-hover">
-							<thead>
-								<tr>
-									<th>序号</th>
-									<th>编号</th>
-									<th>内码</th>
-									<th>名称</th>
-									<th>渠道类型</th>
-									<th>渠道类型内码</th>
-									<th>所属组织</th>
-									<th>描述</th>
-								</tr>
-							</thead>
-							<tbody id="customerBody">
-								
-							</tbody>
-						</table>
-					</div>
+				<div class="tablecontent">
+					<table class="table table-hover">
+						<thead>
+							<tr>
+								<th>序号</th>
+								<th>编号</th>
+								<th>内码</th>
+								<th>名称</th>
+								<th>渠道类型</th>
+								<th>渠道类型内码</th>
+								<th>所属组织</th>
+								<th>描述</th>
+							</tr>
+						</thead>
+						<tbody id="customerBody">
+							
+						</tbody>
+					</table>
 				</div>
 
 				<!--分页效果开始-->
@@ -81,6 +84,8 @@
 function initCustomer(callback){
 	$('#customerView').modal();
 	queryData(1);
+	$('#qtp').val('mc')
+	$('#keyword').val('');
 	
 	$('#jumpPageNoBtn1').off('click').on('click',function(){
 		var pageNo = $('input#jumpPageNo1').val();pageNo = $.trim(pageNo);pageNo = parseInt(pageNo);
@@ -171,14 +176,14 @@ function initCustomer(callback){
 				var channelcode = obj.channelcode || '';
 				var orgname = obj.orgname || '';
 				var remarks = obj.remarks || '';
-				$('<tr>').append('<td>'+(i+1)+'</td>')
-						.append('<td>'+code+'</td>')
-						.append('<td>'+internalcode+'</td>')
-						.append('<td>'+name+'</td>')
-						.append('<td>'+channeltype+'</td>')
-						.append('<td>'+channelcode+'</td>')
-						.append('<td>'+orgname+'</td>')
-						.append('<td>'+remarks+'</td>')
+				$('<tr title="双击">').append('<td><div>'+(i+1)+'</div></td>')
+						.append('<td><div>'+code+'</div></td>')
+						.append('<td><div>'+internalcode+'</div></td>')
+						.append('<td><div>'+name+'</div></td>')
+						.append('<td><div>'+channeltype+'</div></td>')
+						.append('<td><div>'+channelcode+'</div></td>')
+						.append('<td><div>'+orgname+'</div></td>')
+						.append('<td><div>'+remarks+'</div></td>')
 						.data(obj)
 						.appendTo('#customerBody');
 			}
@@ -187,9 +192,9 @@ function initCustomer(callback){
 		}
 	}
 	
-	$('#customerBody').on("click","tr",function(){
-		var val =$(this).find("td:eq(1)").text();
-		callback(val);
+	$('#customerBody').on("dblclick","tr",function(){
+		callback($(this).data());
+		$('#customerView').modal('hide');
 	});
 	
 }
