@@ -2,10 +2,8 @@ package com.tianrui.service.impl.basicFile.other;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 import org.apache.commons.beanutils.PropertyUtils;
-import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

@@ -23,8 +23,8 @@
 		<module>trfc-api</module>
 		<module>trfc-comm</module>
 		<module>trfc-service</module>
+		<module>trfc-schedule</module>
 		<module>trfc-web</module>
-<!-- 		<module>trfc-admin</module> -->
    </modules>
 <distributionManagement> 
     <repository> 

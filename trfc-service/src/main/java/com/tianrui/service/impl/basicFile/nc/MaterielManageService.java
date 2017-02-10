@@ -19,8 +19,6 @@ import com.tianrui.api.resp.basicFile.nc.MaterielManageResp;
 import com.tianrui.service.bean.basicFile.nc.MaterielManage;
 import com.tianrui.service.mapper.basicFile.nc.MaterielManageMapper;
 import com.tianrui.smartfactory.common.constants.ErrorCode;
-import com.tianrui.smartfactory.common.utils.DateUtil;
-import com.tianrui.smartfactory.common.utils.UUIDUtil;
 import com.tianrui.smartfactory.common.vo.PaginationVO;
 import com.tianrui.smartfactory.common.vo.Result;
 
