@@ -1,7 +1,6 @@
 ;(function($,win){
 	//请求路径
 	var URL = {
-			findCAllUrl:"/trfc/customer/findAll",
 			findMAllUrl:"/trfc/materiel/findAll",
 			findWAllUrl:"/trfc/warehouse/findAll",
 			initAddUrl:"/trfc/salesApplication/initAdd",
@@ -42,45 +41,6 @@
 		queryData(1);
 	}
 	function initSelect(){
-//		$.ajax({
-//			url:URL.findCAllUrl,
-//			data:null,
-//			async:true,
-//			cache:false,
-//			dataType:'json',
-//			type:'post',
-//			success:function(result){
-//				if(result.code == '000000'){
-//					if(result.data && result.data.length > 0){
-//						customer = result.data;
-//						for(var i=0;i<result.data.length;i++){
-//							var obj = result.data[i];
-//							$('.customer').append('<option value="'+obj.id+'">'+obj.name+'</option>');
-//						}
-//						$('#u_customer.customer').change(function(a,b,c){
-//							var id = $(this).val();
-//							var customer = result.data.filter(function(x){
-//								return id == x.id
-//							},id)[0];
-//							$('#u_channelcode').val(customer.channelcode);
-//							$('#u_salesmanname').val(customer.salesmanname);
-//							$('#u_transportcompanyname').val(customer.transportcompanyname);
-//						});
-//						$('#a_customer.customer').change(function(a,b,c){
-//							var id = $(this).val();
-//							var customer = result.data.filter(function(x){
-//								return id == x.id
-//							},id)[0];
-//							$('#a_channelcode').val(customer.channelcode);
-//							$('#a_salesmanname').val(customer.salesmanname);
-//							$('#a_transportcompanyname').val(customer.transportcompanyname);
-//						});
-//					}
-//				}else{
-//					layer.msg(result.error, {icon: 5});
-//				}
-//			}
-//		});
 		$.ajax({
 			url:URL.findMAllUrl,
 			data:null,

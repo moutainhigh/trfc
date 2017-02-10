@@ -14,14 +14,14 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.tianrui.api.intf.basicFile.nc.ICustomerManageService;
 import com.tianrui.api.intf.businessManage.salesManage.ISalesApplicationDetailService;
 import com.tianrui.api.intf.businessManage.salesManage.ISalesApplicationService;
-import com.tianrui.api.intf.system.auth.ISystemUserService;
+import com.tianrui.api.intf.system.base.ISystemCodeService;
 import com.tianrui.api.req.businessManage.salesManage.SalesApplicationDetailQuery;
 import com.tianrui.api.req.businessManage.salesManage.SalesApplicationDetailSave;
 import com.tianrui.api.req.businessManage.salesManage.SalesApplicationQuery;
 import com.tianrui.api.req.businessManage.salesManage.SalesApplicationSave;
+import com.tianrui.api.req.system.base.GetCodeReq;
 import com.tianrui.api.resp.businessManage.salesManage.SalesApplicationResp;
 import com.tianrui.service.bean.businessManage.salesManage.SalesApplication;
 import com.tianrui.service.bean.businessManage.salesManage.SalesApplicationDetail;
@@ -46,7 +46,7 @@ public class SalesApplicationService implements ISalesApplicationService {
 	private ISalesApplicationDetailService salesApplicationDetailService;
 	
 	@Autowired
-	private ISystemUserService systemUserService;
+	private ISystemCodeService systemCodeService;
 	
 	@Override
 	public PaginationVO<SalesApplicationResp> page(SalesApplicationQuery query) throws Exception{
@@ -108,6 +108,15 @@ public class SalesApplicationService implements ISalesApplicationService {
 				sa.setModifier(save.getCreator());
 				sa.setModifytime(System.currentTimeMillis());
 				result = salesApplicationDetailService.add(sd);
+				if(StringUtils.equals(result.getCode(), ErrorCode.SYSTEM_SUCCESS.getCode())){
+					GetCodeReq codeReq = new GetCodeReq();
+					codeReq.setCode("XXSO");
+					codeReq.setCodeType(false);
+					codeReq.setUserid(save.getCurrid());
+					if(!StringUtils.equals(systemCodeService.updateCodeItem(codeReq).getCode(), ErrorCode.SYSTEM_SUCCESS.getCode())){
+						result.setErrorCode(ErrorCode.OPERATE_ERROR);
+					}
+				}
 			}else{
 				result.setErrorCode(ErrorCode.OPERATE_ERROR);
 			}

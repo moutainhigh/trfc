@@ -13,11 +13,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.tianrui.api.intf.basicFile.nc.ICustomerManageService;
 import com.tianrui.api.intf.businessManage.salesManage.ISalesApplicationService;
 import com.tianrui.api.intf.common.IBillTypeService;
+import com.tianrui.api.intf.system.base.ISystemCodeService;
 import com.tianrui.api.req.businessManage.salesManage.SalesApplicationQuery;
 import com.tianrui.api.req.businessManage.salesManage.SalesApplicationSave;
+import com.tianrui.api.req.system.base.GetCodeReq;
 import com.tianrui.api.resp.businessManage.salesManage.SalesApplicationResp;
 import com.tianrui.api.resp.system.auth.SystemUserResp;
 import com.tianrui.smartfactory.common.constants.Constant;
@@ -43,14 +44,14 @@ public class SalesApplicationAction {
 	private IBillTypeService billTypeService;
 	
 	@Autowired
-	private ICustomerManageService customerManageService;
+	private ISystemCodeService systemCodeService;
 	
 	@RequestMapping("/main")
 	public ModelAndView main(HttpSession session){
 		ModelAndView view = new ModelAndView("businessManage/salesManage/salesApplication");
 		try {
 			view.addObject("billType", billTypeService.findListByParmas(null).getData());
-			view.addObject("customer", customerManageService.findListByParmas(null).getData());
+			//view.addObject("customer", customerManageService.findListByParmas(null).getData());
 			SystemUserResp user = (SystemUserResp) session.getAttribute("systemUser");
 			view.addObject("user", user);
 			view.addObject("orgid", Constant.ORG_ID);
@@ -81,7 +82,12 @@ public class SalesApplicationAction {
 		Result result = Result.getSuccessResult();
 		try {
 			Map<String, Object> map = new HashMap<String, Object>();
-			map.put("code", "XXS"+(DateUtil.getNowDateString("yyyyMMddHHmmss")));
+			SystemUserResp user = (SystemUserResp) session.getAttribute("systemUser");
+			GetCodeReq codeReq = new GetCodeReq();
+			codeReq.setCode("XXSO");
+			codeReq.setCodeType(false);
+			codeReq.setUserid(user.getId());
+			map.put("code", systemCodeService.getCode(codeReq).getData());
 			map.put("nowDate", DateUtil.getNowDateString("yyyy-MM-dd HH:mm:ss"));
 			result.setData(map);
 		} catch (Exception e) {

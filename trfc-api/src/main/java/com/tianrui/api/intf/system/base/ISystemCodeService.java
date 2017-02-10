@@ -1,7 +1,7 @@
 package com.tianrui.api.intf.system.base;
 
 import com.tianrui.api.req.system.base.SystemCodeReq;
-import com.tianrui.api.req.system.base.getCodeReq;
+import com.tianrui.api.req.system.base.GetCodeReq;
 import com.tianrui.smartfactory.common.vo.Result;
 
 /**
@@ -30,7 +30,7 @@ public interface ISystemCodeService {
 	/**
 	 * 获取编号
 	 */
-	Result getCode(getCodeReq codeReq) throws Exception;
+	Result getCode(GetCodeReq codeReq) throws Exception;
 	/**
 	 * 检测单据代号是否重复
 	 */
@@ -38,6 +38,6 @@ public interface ISystemCodeService {
 	/**
 	 * 刷新编号(自增1)
 	 */
-	Result updateCodeItem(getCodeReq codeReq) throws Exception;
+	Result updateCodeItem(GetCodeReq codeReq) throws Exception;
 	
 }
