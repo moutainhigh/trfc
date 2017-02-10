@@ -1,6 +1,5 @@
 package com.tianrui.service.impl.system.base;
 
-import java.lang.reflect.InvocationTargetException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
