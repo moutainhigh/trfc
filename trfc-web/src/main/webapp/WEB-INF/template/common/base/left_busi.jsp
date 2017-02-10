@@ -28,10 +28,11 @@
 				<li><a href="/trfc/card/main"> <i
 						class="iconfont">&#xe615;</i> <label>卡务管理</label>
 				</a></li>
+				<li><a href="/trfc/quality/sales/batchnum/main"> <i class="iconfont">&#xe618;</i> <label>质控管理</label>
+				</a></li>
 				<!-- <li><a> <i class="iconfont">&#xe614;</i> <label>其他业务</label>
 				</a></li>
-				<li><a> <i class="iconfont">&#xe618;</i> <label>质控管理</label>
-				</a></li> -->
+				 -->
 			</div>
 			<a href="#itdangan" data-toggle="collapse" class="menu_collap_tit">
 				<label>基础档案</label> <span><i class="iconfont">&#xe604;</i></span>
