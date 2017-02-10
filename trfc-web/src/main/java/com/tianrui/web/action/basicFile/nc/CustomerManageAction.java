@@ -63,17 +63,4 @@ public class CustomerManageAction {
 		return result;
 	}
 	
-	@RequestMapping("/findAll")
-	@ResponseBody
-	public Result findAll(){
-		Result result = Result.getSuccessResult();
-		try {
-			result = customerManageService.findListByParmas(null);
-		} catch (Exception e) {
-			log.error(e.getMessage(), e);
-			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
-		}
-		return result;
-	}
-	
 }

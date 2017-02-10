@@ -584,25 +584,43 @@
     from tr_sales_db_application
   </select>
   <insert id="insertBatch" parameterType="java.util.List">
-	insert into tr_sales_db_application (id, code, status,
-	source, billtype, customerid,
-	billtime, orgid, orgname,
-	departmentid, departmentname, auditid,
-	auditname, audittime, state,
-	creator, createtime,
-	modifytime,utc)
+	insert into tr_sales_db_application (id, code, status, source, billtypeid, billtypename, customerid, customername, channelcode, 
+    salesmanid, salesmanname, billtime, orgid, orgname, transportcompanyid, transportcompanyname, 
+    departmentid, departmentname, auditid, auditname, audittime, state, makerid, makebillname, 
+    makebilltime, remarks, creator, createtime, modifier, modifytime, utc)
 	values
 	<foreach collection="list" item="item" index="index" separator=",">
-		( #{item.id,jdbcType=VARCHAR}, #{item.code,jdbcType=VARCHAR},
+		(#{item.id,jdbcType=VARCHAR}, 
+		#{item.code,jdbcType=VARCHAR},
 		#{item.status,jdbcType=VARCHAR},
-		#{item.source,jdbcType=VARCHAR}, #{item.billtype,jdbcType=VARCHAR}, #{item.customerid,jdbcType=VARCHAR},
-		#{item.billtime,jdbcType=BIGINT}, #{item.orgid,jdbcType=VARCHAR},
+		#{item.source,jdbcType=VARCHAR},
+		#{item.billtypeid,jdbcType=VARCHAR},
+		#{item.billtypename,jdbcType=VARCHAR},
+		#{item.customerid,jdbcType=VARCHAR},
+		#{item.customername,jdbcType=VARCHAR},
+		#{item.channelcode,jdbcType=VARCHAR},
+		#{item.salesmanid,jdbcType=VARCHAR},
+		#{item.salesmanname,jdbcType=VARCHAR},
+		#{item.billtime,jdbcType=VARCHAR},
+		#{item.orgid,jdbcType=VARCHAR},
 		#{item.orgname,jdbcType=VARCHAR},
-		#{item.departmentid,jdbcType=VARCHAR}, #{item.departmentname,jdbcType=VARCHAR}, #{item.auditid,jdbcType=VARCHAR},
-		#{item.auditname,jdbcType=VARCHAR}, #{item.audittime,jdbcType=BIGINT},
+		#{item.transportcompanyid,jdbcType=VARCHAR},
+		#{item.transportcompanyname,jdbcType=VARCHAR},
+		#{item.departmentid,jdbcType=VARCHAR},
+		#{item.departmentname,jdbcType=VARCHAR},
+		#{item.auditid,jdbcType=VARCHAR},
+		#{item.auditname,jdbcType=VARCHAR},
+		#{item.audittime,jdbcType=VARCHAR},
 		#{item.state,jdbcType=VARCHAR},
-		#{item.creator,jdbcType=VARCHAR}, #{item.createtime,jdbcType=BIGINT},
-		#{item.modifytime,jdbcType=BIGINT}, #{item.utc,jdbcType=BIGINT}
+		#{item.makerid,jdbcType=VARCHAR},
+		#{item.makebillname,jdbcType=VARCHAR},
+		#{item.makebilltime,jdbcType=VARCHAR},
+		#{item.remarks,jdbcType=VARCHAR},
+		#{item.creator,jdbcType=VARCHAR},
+		#{item.createtime,jdbcType=VARCHAR},
+		#{item.modifier,jdbcType=VARCHAR},
+		#{item.modifytime,jdbcType=VARCHAR},
+		#{item.utc,jdbcType=VARCHAR}
 		)
 	</foreach>
 </insert>  

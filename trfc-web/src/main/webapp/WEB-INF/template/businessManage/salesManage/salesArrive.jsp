@@ -36,12 +36,8 @@
 									<label>通知单号：</label> <input id="code" type="text">
 								</div>
 								<div class="intel_solo">
-									<label>客户：</label> <select id="customerid" class="form-control">
-										<option value="">请选择</option>
-										<c:forEach items="${customer }" var="c">
-											<option value="${c.id }">${c.name }</option>
-										</c:forEach>
-									</select>
+									<label>客户：</label>
+									<input id="customer" type="text" readonly />
 								</div>
 								<div class="intel_solo">
 									<label>车号：</label> <select id="vehicleid" class="form-control">
@@ -271,7 +267,6 @@
 								<!--tab切换的内容end-->
 							</div>
 						</div>
-
 					</div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-primary">确定</button>
@@ -281,6 +276,7 @@
 			</div>
 		</div>
 	</div>
+	<jsp:include page="../../common/module/custom_choose.jsp"></jsp:include>
 	<!--查看详情end-->
 	<jsp:include page="../../common/base/footer_busi.jsp"></jsp:include>
 	<script type="text/javascript"

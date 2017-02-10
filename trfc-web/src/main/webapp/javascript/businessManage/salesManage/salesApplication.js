@@ -1,7 +1,6 @@
 ;(function($,win){
 	//请求路径
 	var URL = {
-			findCAllUrl:"/trfc/customer/findAll",
 			findMAllUrl:"/trfc/materiel/findAll",
 			findWAllUrl:"/trfc/warehouse/findAll",
 			initAddUrl:"/trfc/salesApplication/initAdd",
@@ -42,45 +41,6 @@
 		queryData(1);
 	}
 	function initSelect(){
-//		$.ajax({
-//			url:URL.findCAllUrl,
-//			data:null,
-//			async:true,
-//			cache:false,
-//			dataType:'json',
-//			type:'post',
-//			success:function(result){
-//				if(result.code == '000000'){
-//					if(result.data && result.data.length > 0){
-//						customer = result.data;
-//						for(var i=0;i<result.data.length;i++){
-//							var obj = result.data[i];
-//							$('.customer').append('<option value="'+obj.id+'">'+obj.name+'</option>');
-//						}
-//						$('#u_customer.customer').change(function(a,b,c){
-//							var id = $(this).val();
-//							var customer = result.data.filter(function(x){
-//								return id == x.id
-//							},id)[0];
-//							$('#u_channelcode').val(customer.channelcode);
-//							$('#u_salesmanname').val(customer.salesmanname);
-//							$('#u_transportationcompany').val(customer.transportationcompany);
-//						});
-//						$('#a_customer.customer').change(function(a,b,c){
-//							var id = $(this).val();
-//							var customer = result.data.filter(function(x){
-//								return id == x.id
-//							},id)[0];
-//							$('#a_channelcode').val(customer.channelcode);
-//							$('#a_salesmanname').val(customer.salesmanname);
-//							$('#a_transportationcompany').val(customer.transportationcompany);
-//						});
-//					}
-//				}else{
-//					layer.msg(result.error, {icon: 5});
-//				}
-//			}
-//		});
 		$.ajax({
 			url:URL.findMAllUrl,
 			data:null,
@@ -172,18 +132,23 @@
 			});
 		})
 		$('#addCommitBtn').off('click').on('click', function(){
+			var _add_this = this;
 			if($('#addView').is(':visible')){
+				_add_this.disabled = true;
+				var index = layer.load(2, {
+					  shade: [0.3,'#fff'] //0.1透明度的白色背景
+					});
 				var code = $('#a_code').val();code = $.trim(code);
 				var billtypeid = $('#a_billtype').val();billtypeid = $.trim(billtypeid);
 				var billtypename = $('#a_billtype>option:checked').text();billtypename = $.trim(billtypename);
 				var billtimeStr = $('#a_billtimeStr').val();billtimeStr = $.trim(billtimeStr);
-				var customerid = $('#a_customer').val();customerid = $.trim(customerid);
-				var customername = $('#a_customer>option:checked').text();customername = $.trim(customername);
+				var customerid = $('#a_customer').attr('customerid');customerid = $.trim(customerid);
+				var customername = $('#a_customer').val();customername = $.trim(customername);
 				var channelcode = $('#a_channelcode').val();channelcode = $.trim(channelcode);
 				var salesmanid = $('#a_salesmanname').attr('salesmanid');salesmanid = $.trim(salesmanid);
 				var salesmanname = $('#a_salesmanname').val();salesmanname = $.trim(salesmanname);
-				var transportcompanyid = $('#a_transportationcompany').attr('transportcompanyid');transportcompanyid = $.trim(transportcompanyid);
-				var transportcompanyname = $('#a_transportationcompany').val();transportcompanyname = $.trim(transportcompanyname);
+				var transportcompanyid = $('#a_transportcompanyname').attr('transportcompanyid');transportcompanyid = $.trim(transportcompanyid);
+				var transportcompanyname = $('#a_transportcompanyname').val();transportcompanyname = $.trim(transportcompanyname);
 				var orgid = $('#a_orgname').attr('orgid');orgid = $.trim(orgid);
 				var orgname = $('#a_orgname').val();orgname = $.trim(orgname);
 				var makerid = $('#a_makername').attr('makerid');makerid = $.trim(makerid);
@@ -232,24 +197,31 @@
 							win.location.reload();
 						}else{
 							layer.msg(result.error, {icon: 5});
+							_add_this.disabled = false;
 						}
+						layer.close(index);
 					}
 				});
 			}
 		});
 		$('#updateCommitBtn').off('click').on('click',function(){
+			var _up_this = this;
 			if($('#updateView').is(':visible')){
+				_up_this.disabled = true;
+				var index = layer.load(2, {
+					  shade: [0.3,'#fff'] //0.1透明度的白色背景
+					});
 				var id = $('#u_id').val();
 				var billtypeid = $('#u_billtype').val();billtypeid = $.trim(billtypeid);
 				var billtypename = $('#u_billtype>option:checked').text();billtypename = $.trim(billtypename);
 				var billtimeStr = $('#u_billtimeStr').val();billtimeStr = $.trim(billtimeStr);
-				var customerid = $('#u_customer').val();customerid = $.trim(customerid);
-				var customername = $('#u_customer>option:checked').text();customername = $.trim(customername);
+				var customerid = $('#u_customer').attr('customerid');customerid = $.trim(customerid);
+				var customername = $('#u_customer').val();customername = $.trim(customername);
 				var channelcode = $('#u_channelcode').val();channelcode = $.trim(channelcode);
 				var salesmanid = $('#u_salesmanname').attr('salesmanid');salesmanid = $.trim(salesmanid);
 				var salesmanname = $('#u_salesmanname').val();salesmanname = $.trim(salesmanname);
-				var transportcompanyid = $('#u_salesmanname').attr('transportcompanyid');transportcompanyid = $.trim(transportcompanyid);
-				var transportcompanyname = $('#u_salesmanname').val();transportcompanyname = $.trim(transportcompanyname);
+				var transportcompanyid = $('#u_transportcompanyname').attr('transportcompanyid');transportcompanyid = $.trim(transportcompanyid);
+				var transportcompanyname = $('#u_transportcompanyname').val();transportcompanyname = $.trim(transportcompanyname);
 				var detailid = $('#u_detailid').val();
 				var materielid = $('#u_materiel').val();
 				var materielname = $('#u_materiel option:checked').text();
@@ -292,13 +264,39 @@
 							win.location.reload();
 						}else{
 							layer.msg(result.error, {icon: 5});
+							_up_this.disabled = false;
 						}
+						layer.close(index);
 					}
 				});
 			}
 		});
-		$('#s_customerid').off('click').on('click',function(){
-			initCustomer(function(key,value){alert("在这里赋值 key:"+key)});
+		$('#s_customer').off('click').on('click',function(){
+			var _this = this;
+			initCustomer(function(obj){
+				$(_this).val(obj.name).attr('customerid',obj.id);
+			});
+		});
+		/**
+		 * 找鑫鹏确认客户区域码业务员等关系
+		 */
+		$('#a_customer').off('click').on('click',function(){
+			var _this = this;
+			initCustomer(function(obj){
+				$(_this).val(obj.name).attr('customerid',obj.id);
+				$('#a_channelcode').val(obj.channelcode);
+				$('#a_salesmanname').val(obj.salesmanname).attr('salesmanid',obj.salesmanid);
+				$('#a_transportcompanyname').val(obj.transportcompanyname).attr('transportcompanyid',obj.transportcompanyid);
+			});
+		});
+		$('#u_customer').off('click').on('click',function(){
+			var _this = this;
+			initCustomer(function(obj){
+				$(_this).val(obj.name).attr('customerid',obj.id);
+				$('#u_channelcode').val(obj.channelcode).attr('channelcode',obj.channelcode);
+				$('#u_salesmanname').val(obj.salesmanname).attr('salesmanid',obj.salesmanid);
+				$('#u_transportcompanyname').val(obj.transportcompanyname).attr('transportcompanyid',obj.transportcompanyid);
+			});
 		});
 	}
 	
@@ -306,7 +304,7 @@
 		var params = {};
 		var code = $('#s_code').val() || '';code = $.trim(code);
 		var source = $('#s_source').val() || '';source = $.trim(source);
-		var customerid = $('#s_customerid').val() || '';customerid = $.trim(customerid);
+		var customerid = $('#s_customer').attr('customerid') || '';customerid = $.trim(customerid);
 		var starttime = $('#s_starttime').val() || '';starttime = $.trim(starttime);
 		var endtime = $('#s_endtime').val() || '';endtime = $.trim(endtime);
 		var pageSize = $('#pageSize').val() || '';pageSize = $.trim(pageSize);
@@ -489,11 +487,11 @@
 		$('#u_code').val(code);
 		$('#u_billtype').val(billtypeid);
 		$('#u_billtimeStr').val(billtimeStr);
-		$('#u_customer').val(customerid);
+		$('#u_customer').val(customername).attr('customerid',customerid);
 		$('#u_channelcode').val(channelcode);
 		$('#u_orgname').val(orgname);
 		$('#u_salesmanname').val(salesmanname).attr('salesmanid',salesmanid);
-		$('#u_transportationcompany').val(transportcompanyname).attr('transportcompanyid',transportcompanyid);
+		$('#u_transportcompanyname').val(transportcompanyname).attr('transportcompanyid',transportcompanyid);
 		$('#u_creatorname').val(makebillname).attr('makerid',makerid);
 		var detailResp = obj.detailResp;
 		if(detailResp){
@@ -621,7 +619,7 @@
 		$('#v_code').val(code);
 		$('#v_source').val(source);
 		$('#v_billtype').val(billtypename);
-		$('#v_transportationcompany').val(transportcompanyname);
+		$('#v_transportcompanyname').val(transportcompanyname);
 		$('#v_billtimeStr').val(billtimeStr);
 		$('#v_customername').val(customername);
 		$('#v_orgname').val(orgname);
@@ -655,30 +653,24 @@
 	}
 	
 	function confirmOperation(confirmContent, url, params){
-		$.confirm({
-		    title: '提示',
-		    content: confirmContent,
-		    columnClass: 'col-md-4 col-md-offset-4',
-		    confirmButton: '确定',
-		    cancelButton: '取消',
-		    confirm: function(){
-		    	$.ajax({
-					url:url,
-					data:params,
-					async:true,
-					cache:false,
-					dataType:'json',
-					type:'post',
-					success:function(result){
-						if(result.code == '000000'){
-							win.location.reload();
-						}else{
-							layer.msg(result.error, {icon: 5});
-						}
-						layer.close(index);
+		layer.confirm(confirmContent, {
+			btn: ['确认','取消'] //按钮
+		}, function(){
+			$.ajax({
+				url:url,
+				data:params,
+				async:true,
+				cache:false,
+				dataType:'json',
+				type:'post',
+				success:function(result){
+					if(result.code == '000000'){
+						window.location.reload();
+					}else{
+						layer.msg(result.error, {icon: 5});
 					}
-				});
-		    }
+				}
+			});
 		});
 	}
 	

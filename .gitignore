@@ -20,6 +20,11 @@
 /trfc-service/target
 /trfc-service/.classpath
 
+/trfc-schedule/.project
+/trfc-schedule/.settings
+/trfc-schedule/target
+/trfc-schedule/.classpath
+
 /trfc-web/.project
 /trfc-web/.settings
 /trfc-web/target

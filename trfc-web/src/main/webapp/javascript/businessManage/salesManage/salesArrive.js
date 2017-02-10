@@ -56,12 +56,18 @@ PAGE.mod.main = {
 //			$('#addBtn').off('click').on('click',function(){
 //				
 //			});
+			$('#customer').off('click').on('click',function(){
+				var _this = this;
+				initCustomer(function(obj){
+					$(_this).val(obj.name).attr('customerid',obj.id);
+				});
+			});
 		},
 		getParams:function(){
 			var _this = this;
 			var billcode = $('#billcode').val() || ''; billcode = $.trim(billcode);
 			var code = $('#code').val() || ''; code = $.trim(code);
-			var customerid = $('#customerid').val() || ''; customerid = $.trim(customerid);
+			var customerid = $('#customer').attr('customerid') || ''; customerid = $.trim(customerid);
 			var vehicleid = $('#vehicleid').val() || ''; vehicleid = $.trim(vehicleid);
 			var auditstatus = $('#auditstatus').val() || ''; auditstatus = $.trim(auditstatus);
 			var materielid = $('#materielid').val() || ''; materielid = $.trim(materielid);

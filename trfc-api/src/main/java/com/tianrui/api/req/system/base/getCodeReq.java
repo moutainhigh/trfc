@@ -6,7 +6,7 @@ import com.tianrui.api.req.BaseReq;
  * @author lxy
  *
  */
-public class getCodeReq extends BaseReq {
+public class GetCodeReq extends BaseReq {
 
 	/**
 	 * 
