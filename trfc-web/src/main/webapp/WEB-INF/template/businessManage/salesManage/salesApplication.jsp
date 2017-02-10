@@ -44,7 +44,7 @@
 								</div>
 								<div class="intel_solo">
 									<label>客户：</label>
-									<input id="s_customerid" type="text" readonly>
+									<input id="s_customer" type="text" readonly>
 								</div>
 								<div class="intel_solo">
 									<label>开始时间：</label> <input id="s_starttime" type="text"
@@ -208,7 +208,7 @@
 									class="readOnlyText" class="readOnlyText" readonly="true">
 							</div>
 							<div class="alt_edit_div">
-								<label>运输公司：</label> <input id="a_transportationcompany"
+								<label>运输公司：</label> <input id="a_transportcompanyname"
 									type="text" class="readOnlyText" class="readOnlyText"
 									readonly="true">
 							</div>
@@ -299,7 +299,7 @@
 								<label>订单类型：</label> <input id="v_billtype" type="text" readonly>
 							</div>
 							<div class="cg_solo">
-								<label>运输公司：</label> <input id="v_transportationcompany"
+								<label>运输公司：</label> <input id="v_transportcompanyname"
 									type="text" readonly>
 							</div>
 							<div class="cg_solo">
@@ -399,10 +399,8 @@
 									class="Wdate" readonly>
 							</div>
 							<div class="alt_edit_div">
-								<label>客户：</label> <select id="u_customer"
-									class="form-control customer">
-									<option value="">请选择</option>
-								</select>
+								<label>客户：</label>
+								<input id="u_customer" type="text" readonly>
 							</div>
 							<div class="alt_edit_div">
 								<label>区域：</label> <input id="u_channelcode" type="text"
@@ -417,7 +415,7 @@
 									class="readOnlyText" class="readOnlyText" readonly="true">
 							</div>
 							<div class="alt_edit_div">
-								<label>运输公司：</label> <input id="u_transportationcompany"
+								<label>运输公司：</label> <input id="u_transportcompanyname"
 									type="text" class="readOnlyText" class="readOnlyText"
 									readonly="true">
 							</div>

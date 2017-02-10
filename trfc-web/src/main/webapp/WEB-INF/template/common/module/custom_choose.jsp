@@ -2,6 +2,7 @@
 <style>
 	.tablecontent td,th {
 		text-align: center;
+		cursor: default;
 	}
 </style>
 <div class="modal fade" id="customerView" tabindex="-1"
@@ -176,7 +177,7 @@ function initCustomer(callback){
 				var channelcode = obj.channelcode || '';
 				var orgname = obj.orgname || '';
 				var remarks = obj.remarks || '';
-				$('<tr title="双击">').append('<td><div>'+(i+1)+'</div></td>')
+				$('<tr title="双击选择">').append('<td><div>'+(i+1)+'</div></td>')
 						.append('<td><div>'+code+'</div></td>')
 						.append('<td><div>'+internalcode+'</div></td>')
 						.append('<td><div>'+name+'</div></td>')
@@ -198,5 +199,4 @@ function initCustomer(callback){
 	});
 	
 }
-
 </script>					

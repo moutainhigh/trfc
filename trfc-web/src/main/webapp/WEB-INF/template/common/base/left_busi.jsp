@@ -19,6 +19,9 @@
 				<!-- <li><a href="../cg/cg_index.html"> <i class="iconfont">&#xe617;</i>
 						<label>采购管理</label>
 				</a></li> -->
+				<li><a href="/trfc/purchaseApplication/main"> <i
+						class="iconfont">&#xe615;</i> <label>采购管理</label>
+				</a></li>
 				<li><a href="/trfc/salesApplication/main"> <i
 						class="iconfont">&#xe615;</i> <label>销售管理</label>
 				</a></li>

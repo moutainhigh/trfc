@@ -5,24 +5,25 @@ import com.tianrui.api.req.BaseReq;
 public class CustomerManageQuery extends BaseReq {
 
 	private static final long serialVersionUID = 3974553146232519193L;
-
+	//主键id
 	private String id;
-
+	//客户内码
     private String internalcode;
-
+	//客户名称
     private String name;
-
+	//所属组织id
     private String orgid;
-
+	//所属组织名称
     private String orgname;
-
+    //拼音助记码
     private String pinyincode;
-
+    //状态：（0：删除，1：正常）
     private String state;
-    
+    //起始页数
     private Integer start;
-    
+    //条数
     private Integer limit;
+    //档案比对时间戳
     private Long utc;
 
 	public String getId() {
