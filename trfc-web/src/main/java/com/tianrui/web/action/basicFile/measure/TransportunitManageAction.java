@@ -30,7 +30,11 @@ public class TransportunitManageAction {
 		return view;
 	}
 	
-
+	/**
+	 * 分页查询数据
+	 * @param query
+	 * @return
+	 */
 	@RequestMapping(value="/page",method=RequestMethod.POST)
 	@ResponseBody
 	public Result page(TransportunitManageQuery query){
@@ -43,7 +47,12 @@ public class TransportunitManageAction {
 		}
 		return result;
 	}
-
+	
+	/**
+	 * 新增运输单位信息
+	 * @param save
+	 * @return
+	 */
 	@RequestMapping(value="/addTransport",method=RequestMethod.POST)
 	@ResponseBody
 	public Result addTransportunit(TransportunitManageSave save){
@@ -57,6 +66,11 @@ public class TransportunitManageAction {
 		return result;
 	}
 	
+	/**
+	 * 修改运输单位信息
+	 * @param save
+	 * @return
+	 */
 	@RequestMapping(value="/updateTransport",method=RequestMethod.POST)
 	@ResponseBody
 	public Result updateTransportunit(TransportunitManageSave save){
@@ -70,11 +84,16 @@ public class TransportunitManageAction {
 		return result;
 	}
 	
+	/**
+	 * 删除运输单位信息
+	 * @param query
+	 * @return
+	 */
 	@RequestMapping(value="/delTransport",method=RequestMethod.POST)
 	@ResponseBody
 	public Result deleteTransportunit(TransportunitManageQuery query){
 		Result result = Result.getSuccessResult();
-		try {
+		try  {
 			result = transportunitManageService.deleteTransportunit(query);
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);

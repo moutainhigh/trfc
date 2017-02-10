@@ -17,10 +17,22 @@ public interface TransportunitManageMapper {
     int updateByPrimaryKeySelective(TransportunitManage record);
 
     int updateByPrimaryKey(TransportunitManage record);
-    
+    /**
+     * 根据字段查询数据
+     * @param record
+     * @return
+     */
     List<TransportunitManage> selectSelective(TransportunitManage record);
-    
+    /**
+     * 根据条件查询数据总数
+     * @param query
+     * @return
+     */
     long findTransportunitPageCount(TransportunitManageQuery query);
-
+    /**
+     * 根据条件进行分页查询
+     * @param query
+     * @return
+     */
 	List<TransportunitManage> findTransportunitPage(TransportunitManageQuery query);
 }

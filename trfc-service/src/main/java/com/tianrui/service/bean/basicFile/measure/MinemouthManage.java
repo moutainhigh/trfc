@@ -1,5 +1,10 @@
 package com.tianrui.service.bean.basicFile.measure;
-
+/**
+ * 矿口管理Bean
+ * @author YangZhenFu
+ * @createtime 2017年2月10日 上午9:49:55
+ * @classname MinemouthManage.java
+ */
 public class MinemouthManage {
     private String id;
 

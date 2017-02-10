@@ -1,5 +1,10 @@
 package com.tianrui.service.bean.basicFile.measure;
-
+/**
+ * 运输单位Bean
+ * @author YangZhenFu
+ * @createtime 2017年2月10日 上午9:49:55
+ * @classname TransportunitManage.java
+ */
 public class TransportunitManage {
     private String id;
 

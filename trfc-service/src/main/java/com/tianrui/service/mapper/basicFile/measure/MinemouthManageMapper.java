@@ -17,10 +17,22 @@ public interface MinemouthManageMapper {
     int updateByPrimaryKeySelective(MinemouthManage record);
 
     int updateByPrimaryKey(MinemouthManage record);
-    
+    /**
+     * 根据字段查新数据
+     * @param record
+     * @return
+     */
     List<MinemouthManage> selectSelective(MinemouthManage record);
-    
+    /**
+     * 根据条件查询数据总数
+     * @param query
+     * @return
+     */
     long findMinemouthPageCount(MinemouthManageQuery query);
-
+    /**
+     * 根据条件进行分页查询
+     * @param query
+     * @return
+     */
 	List<MinemouthManage> findMinemouthPage(MinemouthManageQuery query);
 }

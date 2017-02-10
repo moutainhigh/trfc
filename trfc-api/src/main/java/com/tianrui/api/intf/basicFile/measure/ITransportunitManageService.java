@@ -11,12 +11,31 @@ import com.tianrui.smartfactory.common.vo.Result;
  * @classname TransportunitManageService.java
  */
 public interface ITransportunitManageService {
-	
+	/**
+	 * 分页查询数据
+	 * @param query
+	 * @return
+	 * @throws Exception
+	 */
 	Result page(TransportunitManageQuery query) throws Exception;
-
+	/**
+	 * 新增运输单位
+	 * @param save
+	 * @return
+	 * @throws Exception
+	 */
 	Result addTransportunit(TransportunitManageSave save) throws Exception;
-
+	/**
+	 * 修改运输单位信息
+	 * @param save
+	 * @return
+	 * @throws Exception
+	 */
 	Result updateTransportunit(TransportunitManageSave save) throws Exception;
-	
+	/**
+	 * 删除运输单位信息(假删除)
+	 * @param query
+	 * @return
+	 */
 	Result deleteTransportunit(TransportunitManageQuery query);
 }

@@ -11,11 +11,31 @@ import com.tianrui.smartfactory.common.vo.Result;
  * @classname IMinemouthManageService.java
  */
 public interface IMinemouthManageService {
+	/**
+	 * 分页查询数据
+	 * @param query
+	 * @return
+	 * @throws Exception
+	 */
 	Result page(MinemouthManageQuery query) throws Exception;
-
+	/**
+	 * 新增矿口管理
+	 * @param save
+	 * @return
+	 * @throws Exception
+	 */
 	Result addMinemouth(MinemouthManageSave save) throws Exception;
-
+	/**
+	 * 修改矿口管理信息
+	 * @param save
+	 * @return
+	 * @throws Exception
+	 */
 	Result updateMinemouth(MinemouthManageSave save) throws Exception;
-	
+	/**
+	 * 删除矿口管理信息(假删除)
+	 * @param query
+	 * @return
+	 */
 	Result deleteMinemouth(MinemouthManageQuery query);
 }
