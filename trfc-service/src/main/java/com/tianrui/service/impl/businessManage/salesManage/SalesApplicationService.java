@@ -25,8 +25,10 @@ import com.tianrui.api.req.system.base.GetCodeReq;
 import com.tianrui.api.resp.businessManage.salesManage.SalesApplicationResp;
 import com.tianrui.service.bean.businessManage.salesManage.SalesApplication;
 import com.tianrui.service.bean.businessManage.salesManage.SalesApplicationDetail;
+import com.tianrui.service.bean.common.ReturnQueue;
 import com.tianrui.service.mapper.businessManage.salesManage.SalesApplicationDetailMapper;
 import com.tianrui.service.mapper.businessManage.salesManage.SalesApplicationMapper;
+import com.tianrui.service.mapper.common.ReturnQueueMapper;
 import com.tianrui.smartfactory.common.constants.Constant;
 import com.tianrui.smartfactory.common.constants.ErrorCode;
 import com.tianrui.smartfactory.common.utils.DateUtil;
@@ -47,6 +49,9 @@ public class SalesApplicationService implements ISalesApplicationService {
 	
 	@Autowired
 	private ISystemCodeService systemCodeService;
+	
+	@Autowired
+	private ReturnQueueMapper returnQueueMapper;
 	
 	@Override
 	public PaginationVO<SalesApplicationResp> page(SalesApplicationQuery query) throws Exception{
@@ -73,8 +78,12 @@ public class SalesApplicationService implements ISalesApplicationService {
 	public Result add(SalesApplicationSave save) throws Exception {
 		Result result = Result.getSuccessResult();
 		if(save != null){
+			GetCodeReq codeReq = new GetCodeReq();
+			codeReq.setCode("XXSO");
+			codeReq.setCodeType(false);
+			codeReq.setUserid(save.getCurrid());
 			SalesApplication sa = new SalesApplication();
-			sa.setCode(save.getCode());
+			sa.setCode(String.valueOf(systemCodeService.getCode(codeReq).getData()));
 			List<SalesApplication> list = salesApplicationMapper.selectSelective(sa);
 			if(list != null && list.size() > 0){
 				result.setErrorCode(ErrorCode.PARAM_REPEAT_ERROR);
@@ -109,13 +118,16 @@ public class SalesApplicationService implements ISalesApplicationService {
 				sa.setModifytime(System.currentTimeMillis());
 				result = salesApplicationDetailService.add(sd);
 				if(StringUtils.equals(result.getCode(), ErrorCode.SYSTEM_SUCCESS.getCode())){
-					GetCodeReq codeReq = new GetCodeReq();
-					codeReq.setCode("XXSO");
-					codeReq.setCodeType(false);
-					codeReq.setUserid(save.getCurrid());
 					if(!StringUtils.equals(systemCodeService.updateCodeItem(codeReq).getCode(), ErrorCode.SYSTEM_SUCCESS.getCode())){
 						result.setErrorCode(ErrorCode.OPERATE_ERROR);
 					}
+					ReturnQueue returnQueue = new ReturnQueue();
+					returnQueue.setId(UUIDUtil.getId());
+					returnQueue.setDataid(sa.getId());
+					returnQueue.setDatatype("0");
+					returnQueue.setCreator(sa.getCreator());
+					returnQueue.setCreatetime(System.currentTimeMillis());
+					returnQueueMapper.insertSelective(returnQueue);
 				}
 			}else{
 				result.setErrorCode(ErrorCode.OPERATE_ERROR);

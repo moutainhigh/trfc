@@ -132,7 +132,12 @@
 			});
 		})
 		$('#addCommitBtn').off('click').on('click', function(){
+			var _add_this = this;
 			if($('#addView').is(':visible')){
+				_add_this.disabled = true;
+				var index = layer.load(2, {
+					  shade: [0.3,'#fff'] //0.1透明度的白色背景
+					});
 				var code = $('#a_code').val();code = $.trim(code);
 				var billtypeid = $('#a_billtype').val();billtypeid = $.trim(billtypeid);
 				var billtypename = $('#a_billtype>option:checked').text();billtypename = $.trim(billtypename);
@@ -192,13 +197,20 @@
 							win.location.reload();
 						}else{
 							layer.msg(result.error, {icon: 5});
+							_add_this.disabled = false;
 						}
+						layer.close(index);
 					}
 				});
 			}
 		});
 		$('#updateCommitBtn').off('click').on('click',function(){
+			var _up_this = this;
 			if($('#updateView').is(':visible')){
+				_up_this.disabled = true;
+				var index = layer.load(2, {
+					  shade: [0.3,'#fff'] //0.1透明度的白色背景
+					});
 				var id = $('#u_id').val();
 				var billtypeid = $('#u_billtype').val();billtypeid = $.trim(billtypeid);
 				var billtypename = $('#u_billtype>option:checked').text();billtypename = $.trim(billtypename);
@@ -252,7 +264,9 @@
 							win.location.reload();
 						}else{
 							layer.msg(result.error, {icon: 5});
+							_up_this.disabled = false;
 						}
+						layer.close(index);
 					}
 				});
 			}
@@ -639,30 +653,24 @@
 	}
 	
 	function confirmOperation(confirmContent, url, params){
-		$.confirm({
-		    title: '提示',
-		    content: confirmContent,
-		    columnClass: 'col-md-4 col-md-offset-4',
-		    confirmButton: '确定',
-		    cancelButton: '取消',
-		    confirm: function(){
-		    	$.ajax({
-					url:url,
-					data:params,
-					async:true,
-					cache:false,
-					dataType:'json',
-					type:'post',
-					success:function(result){
-						if(result.code == '000000'){
-							win.location.reload();
-						}else{
-							layer.msg(result.error, {icon: 5});
-						}
-						layer.close(index);
+		layer.confirm(confirmContent, {
+			btn: ['确认','取消'] //按钮
+		}, function(){
+			$.ajax({
+				url:url,
+				data:params,
+				async:true,
+				cache:false,
+				dataType:'json',
+				type:'post',
+				success:function(result){
+					if(result.code == '000000'){
+						window.location.reload();
+					}else{
+						layer.msg(result.error, {icon: 5});
 					}
-				});
-		    }
+				}
+			});
 		});
 	}
 	
