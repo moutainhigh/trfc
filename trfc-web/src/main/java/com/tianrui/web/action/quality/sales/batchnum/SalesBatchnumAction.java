@@ -33,6 +33,12 @@ public class SalesBatchnumAction {
 		ModelAndView view = new ModelAndView("quality/sales/batchnum_add");
 		return view;
 	}
+	//显示修改页面
+		@RequestMapping("/editMain")
+		public ModelAndView editMain(){
+			ModelAndView view = new ModelAndView("quality/sales/batchnum_edit");
+			return view;
+		}
 	/**
 	 * 获取分页数据
 	 */
@@ -62,7 +68,7 @@ public class SalesBatchnumAction {
 		return rs;
 	}
 	/**
-	 * 新增数据
+	 * 批量新增数据
 	 */
 	@ResponseBody
 	@RequestMapping("/add")
@@ -75,6 +81,7 @@ public class SalesBatchnumAction {
 		}
 		return rs;
 	}
+
 	/**
 	 * 更新数据
 	 */
@@ -104,7 +111,22 @@ public class SalesBatchnumAction {
 		return rs;
 	}
 	/**
-	 * 复制,获取原数据
+	 * 获取化验人下拉框数据
+	 */
+	@ResponseBody
+	@RequestMapping("/userData")
+	public Result userData(){
+		Result rs = Result.getErrorResult();
+		try {
+			rs = salesBatchnumService.assayerData();
+		} catch (Exception e) {
+			log.error(e.getMessage(),e);
+		}
+		return rs;
+	}
+	
+	/**
+	 * 获取原数据
 	 */
 	@ResponseBody
 	@RequestMapping("/copy")

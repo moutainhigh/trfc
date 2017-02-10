@@ -2,17 +2,12 @@ $(function(){
 
 
 
-	var URL = {
-			pageUrl:"/trfc/quality/sales/batchnum/page",
-			selectorUrl:"/trfc/quality/sales/batchnum/selector",
-			deleteUrl:"/trfc/quality/sales/batchnum/delete",
-			updateUrl:"/trfc/quality/sales/batchnum/update",
-			addUrl:"/trfc/quality/sales/batchnum/addMain"
-	};
+
 	//console.log(1);
 	//加载页面
 	batchnumShowAction(1);
 	materialSelect();
+	$('.material_select2').select2();
 	//绑定搜索按钮
 	$('#seek').click(function(){batchnumShowAction(1);});
 	//绑定删除按钮
@@ -28,15 +23,21 @@ $(function(){
 	$('#list').on('click','tr [title="复制"]',copyAction);
 	//监听每页记录 事件
 	$('#pageSize').change(function(){batchnumShowAction(1);});
-	
+	//绑定编辑按钮
+	$('#list').on('click','tr [title="编辑"]',aditAction);
 	//获取用户id
 	var user = $('.user').attr("userid");
 	
 	
 	//--------------------------------------------------------------------------------
-	
+	//编辑
+	function aditAction(){
+		//跳转到编辑页面
+		window.location.replace(URL.editUrl+"?id="+$(this).closest('tr').data('batchnum_obj').id);
+	}
 	//复制
 	function copyAction(){
+		//跳转到新增页面
 		window.location.replace(URL.addUrl+"?id="+$(this).closest('tr').data('batchnum_obj').id);
 	}
 	
@@ -130,7 +131,11 @@ $(function(){
 		if(list){
 			for(var i=0;i<list.length;i++){
 				var obj = list[i];
-				var option = '<option value='+obj.id+'>'+(obj.name || '')+'</option>';
+				var msg = obj.name;
+				if(obj.spec){
+					msg = obj.name+' | '+obj.spec;
+				}
+				var option = '<option value='+obj.id+'>'+msg+'</option>';
 				select.append(option);
 			}
 		}
@@ -139,33 +144,7 @@ $(function(){
 	function pageCallback(pageNo){
 		batchnumShowAction(pageNo+1);
 	}
-	//获取当前时间
-	function getNowFormatDate(param,time) {
-		var date ;
-		if(time){
-			date = new Date(time);
-		}else{
-			date = new Date();
-		}
-		var seperator1 = "-";
-		var seperator2 = ":";
-		var month = date.getMonth() + 1;
-		var strDate = date.getDate();
-		if (month >= 1 && month <= 9) {
-			month = "0" + month;
-		}
-		if (strDate >= 0 && strDate <= 9) {
-			strDate = "0" + strDate;
-		}
-		if(param){
-			var currentdate = date.getFullYear() + seperator1 + month + seperator1 + strDate
-			+ " " + date.getHours() + seperator2 + date.getMinutes()
-			+ seperator2 + date.getSeconds();
-		}else{
-			var currentdate = date.getFullYear() + seperator1 + month + seperator1 + strDate
-		}
-		return currentdate;
-	}
+
 	//展示数据列表
 	function batchnumShowAction(pageNo){
 		var index = layer.load(2, {
@@ -293,6 +272,8 @@ $(function(){
 				+'</span> </span> <span> <a data-toggle="modal" data-target="#dele"><i'
 				+'			class="iconfont" data-toggle="tooltip" data-placement="left"'
 				+'			title="复制">&#xe61c;</i></a>'
+				+'</span> <span >'
+				+'<a data-toggle="modal" data-target="#edit"><i class="iconfont" data-toggle="tooltip" data-placement="left" title="编辑">&#xe600;</i></a>'
 				+'</span></td>'
 				+'</tr>';
 			tr=$(tr);

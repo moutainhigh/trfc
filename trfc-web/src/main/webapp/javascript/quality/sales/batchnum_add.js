@@ -1,12 +1,9 @@
 $(function(){
-	var URL = {
-			selectorUrl:"/trfc/quality/sales/batchnum/selector",
-			saveUrl:"/trfc/quality/sales/batchnum/add",
-			copyUrl:"/trfc/quality/sales/batchnum/copy",
-			checkUrl:"/trfc/quality/sales/batchnum/check"
-	};
+
 	//加载下拉框
 	materialSelect();
+	userSelect();
+	
 	var reg = new RegExp("id=");
 	var href = window.location.href;
 
@@ -20,10 +17,46 @@ $(function(){
 		loadOld();
 	}else{
 		loadNew();
+		$('.material_select2').select2();
 	}
 
 	//----------------------------------------------------------------
 
+	//添加一列
+	function addTR(index){
+		
+		var tbody = $('#material');
+		var trs = tbody.find('tr');
+		//只有最后一行的改变事件 才能触发添加
+		if(trs.length>=index){
+			return;
+		}
+		var tr = '<tr>'
+			+'<td>'+index+'</td>'
+			+'<td width="200px"><select type="text" class="material_select2"'
+			+'style="border: none; width: 100%; height: 100%">'
+			+'</select></td>'
+			+'<td><input type="text"'
+			+'	style="border: none; width: 100%;"></td>'
+			+'	<td><input type="text"'
+			+'		style="border: none; width: 100%;"></td>'
+			+'		<td><input type="text" readonly="true"'
+			+'			onfocus="WdatePicker({dateFmt:\'yyyy-MM-dd\'})" class="Wdate"'
+			+'				style="border: none; width: 100%;"></td>'
+			+'				<td><input type="text" readonly="true"'
+			+'					onfocus="WdatePicker({dateFmt:\'yyyy-MM-dd\'})" class="Wdate"'
+			+'						style="border: none; width: 100%;"></td>'
+			+'						<td><input type="text"'
+			+'							style="border: none; width: 100%;"></td>'
+			+'							</tr>';
+		tbody.append(tr);	
+		//加载下拉框
+		materialSelect();
+		$('.material_select2').select2();
+		//监听下拉框
+		$('#material tr select').change(fillData);
+	}
+	//检测
 	function checkFC(factorycode){
 
 		var reg = new RegExp('\\D');
@@ -75,12 +108,14 @@ $(function(){
 				$('#add_creator').val(obj.creator);
 				$('#add_assaytime').val(getNowFormatDate(false,obj.assaytime));
 				$('#add_starttime').val(getNowFormatDate(false,obj.starttime));
-				$('#add_assayer').val(obj.assayer);
+				$('#user_select').val(obj.assayer);
 				$('#add_endtime').val(getNowFormatDate(false,obj.endtime));
 				$('#add_assayorg').val(obj.assayorg);
 				//设置ajax执行完成后,执行
-				$.when(post1).done(function(){
-					$('#material tr:first select').find('option[value="'+obj.material+'"]').attr("selected","selected");
+				$.when(post1,post2).done(function(){
+					$('#material tr:first select').val(obj.material);
+					$('#user_select').val(obj.assayer);
+					$('.material_select2').select2();
 				});
 				var tds = $('#material tr:first td');
 				tds.eq(2).find('input').val(obj.factorycode);
@@ -129,7 +164,7 @@ $(function(){
 	//获取需保存的参数
 	function getData(){
 		var assaytime =new Date($('#add_assaytime').val());
-		var assayer = $('#add_assayer').val();
+		var assayer = $('#user_select').val();
 		var assayorg = $('#add_assayorg').val();
 		var starttime = new Date($('#add_starttime').val());
 		var endtime = new Date($('#add_endtime').val());
@@ -144,12 +179,14 @@ $(function(){
 				createtime:createtime.getTime(),
 				user:user
 		};
+		//获取表格数据
 		var trs = $('#material tr[statu="true"]');
 		var arr = new Array();
 		for(var i=0;i<trs.length;i++){
 			var tds = trs[i].children;
 			var material = $(tds[1]).find('select').val();
 			var factorycode = $(tds[2]).find('input').val();
+			//检测 批号
 			if(!checkFC(factorycode)){
 				return null;
 			}
@@ -165,6 +202,7 @@ $(function(){
 					testtime:testtime.getTime(),
 					remark:remark
 			}
+			//将结果放入数组
 			arr[i]=mater;
 		}
 		//讲数组转换为JSON字符串
@@ -181,7 +219,12 @@ $(function(){
 	function fillData(){
 		$(this).closest('tr').removeAttr("statu");
 		if($(this).val()){
-			var tds = $(this).closest('tr').attr("statu",true).find('input');
+			var tr =  $(this).closest('tr');
+			//添加一个属性,以便获取数据
+			var tds = tr.attr("statu",true).find('input');
+			//获取当前行号,并增1
+			addTR(parseInt(tr.find('td:first').html())+1);
+			
 			tds[1].value = 5000;
 			tds[2].value = getNowFormatDate(false);
 			tds[3].value = getNowFormatDate(false);
@@ -203,7 +246,11 @@ $(function(){
 		if(list){
 			for(var i=0;i<list.length;i++){
 				var obj = list[i];
-				var option = '<option value='+obj.id+'>'+(obj.name || '')+'</option>';
+				var msg = obj.name;
+				if(obj.spec){
+					msg = obj.name+' | '+obj.spec;
+				}
+				var option = '<option value='+obj.id+'>'+msg+'</option>';
 				select.append(option);
 			}
 		}
@@ -218,31 +265,4 @@ $(function(){
 		return lastdate;  
 	}  
 
-	//获取当前时间
-	function getNowFormatDate(param,time) {
-		var date ;
-		if(time){
-			date = new Date(time);
-		}else{
-			date = new Date();
-		}
-		var seperator1 = "-";
-		var seperator2 = ":";
-		var month = date.getMonth() + 1;
-		var strDate = date.getDate();
-		if (month >= 1 && month <= 9) {
-			month = "0" + month;
-		}
-		if (strDate >= 0 && strDate <= 9) {
-			strDate = "0" + strDate;
-		}
-		if(param){
-			var currentdate = date.getFullYear() + seperator1 + month + seperator1 + strDate
-			+ " " + date.getHours() + seperator2 + date.getMinutes()
-			+ seperator2 + date.getSeconds();
-		}else{
-			var currentdate = date.getFullYear() + seperator1 + month + seperator1 + strDate
-		}
-		return currentdate;
-	}
 });

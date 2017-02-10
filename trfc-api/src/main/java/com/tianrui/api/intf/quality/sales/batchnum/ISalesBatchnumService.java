@@ -33,4 +33,8 @@ public interface ISalesBatchnumService {
 	 * 检测批号是否重复
 	 */
 	Result checkFactoryCode(SalesBatchnumReq req) throws Exception;
-}
+	/**
+	 * 获取化验人下拉框数据
+	 */
+	Result assayerData() throws Exception;
+	}

@@ -3,18 +3,10 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>销售批号维护</title>
+<title>销售批量维护-修改</title>
 <link href="${staticBasePath}/css/select2.css" rel="stylesheet">
 
 <jsp:include page="../../common/base/header_busi.jsp"></jsp:include>
-<style type="text/css">
-select {
-	-webkit-appearance: none;
-	-webkit-tap-highlight-color: #fff;
-	outline: 0;
-}
-</style>
-
 </head>
 <body>
 
@@ -50,13 +42,11 @@ select {
 						</div>
 						<div class="alt_opera">
 							<ul>
-								<li id="fresh"><i class="iconfont colorlv">&#xe61b;</i>
+								<li  id="refresh"><i class="iconfont colorlv">&#xe61b;</i>
 									<h5>刷新</h5></li>
-								<li><i class="iconfont colorblue" id="save">&#xe61d;</i>
+								<li id="save"><i class="iconfont colorblue" >&#xe61d;</i>
 									<h5>保存</h5></li>
-								<li id="rollback"><a
-									href="/trfc/quality/sales/batchnum/main"> <i
-										class="iconfont colorblue">&#xe61e;</i>
+								<li><a href="/trfc/quality/sales/batchnum/main"> <i class="iconfont colorblue">&#xe61e;</i>
 										<h5>返回</h5>
 								</a></li>
 							</ul>
@@ -66,93 +56,67 @@ select {
 						<h5>批号维护单录入</h5>
 						<div class="daohuo_add_div">
 							<div class="daohuo_add_solo">
-								<label>化验日期：</label> <input type="text" readonly="true"
-									id="add_assaytime"
-									onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})" class="Wdate" />
+								<label><span class="colorred">*</span>单据编号：</label> <input
+									id="edit_code" type="text" readonly="true" value="000">
 							</div>
 							<div class="daohuo_add_solo">
-								<label>化验人：</label>  <select
-									id="user_select" class="material_select2"></select>
+								<label><span class="colorred">*</span>批号：</label> <input
+									id="edit_factorycode" type="text" value="000">
 							</div>
+							<div class="daohuo_add_solo">
+								<label><span class="colorred">*</span>数量：</label> <input
+									id="edit_count" type="text" value="000">
+							</div>
+							<div class="daohuo_add_solo">
+								<label><span class="colorred">*</span>物料：</label> <select
+									id="edit_material" class="material_select2"></select>
+							</div>
+							<div class="daohuo_add_solo">
+								<label>生产日期：</label> <input type="text" readonly="true"
+									id="edit_producedtime" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})"
+									class="Wdate" />
+							</div>
+							<div class="daohuo_add_solo">
+								<label>试验日期：</label> <input type="text" readonly="true"
+									id="edit_testtime" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})"
+									class="Wdate" />
+							</div>
+							<div class="daohuo_add_solo">
+								<label>化验日期：</label> <input type="text" readonly="true"
+									id="edit_assaytime" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})"
+									class="Wdate" />
+							</div>
+							<div class="daohuo_add_solo">
+								<label>化验人：</label> <select
+									id="user_select" class="material_select2"></select>							</div>
 							<div class="daohuo_add_solo">
 								<label><span class="colorred">*</span>化验单位：</label> <input
-									type="text" id="add_assayorg" readonly="true">
+									id="edit_assayorg" type="text" readonly="true" value="000">
 							</div>
 							<div class="daohuo_add_solo">
 								<label>开始日期：</label> <input type="text" readonly="true"
-									onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})" class="Wdate"
-									id="add_starttime" />
+									id="edit_starttime" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})"
+									class="Wdate" />
 							</div>
 							<div class="daohuo_add_solo">
 								<label>结束日期：</label> <input type="text" readonly="true"
-									onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})" class="Wdate"
-									id="add_endtime" />
+									id="edit_endtime" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})"
+									class="Wdate" />
 							</div>
 							<div class="daohuo_add_solo">
 								<label>制单日期：</label> <input type="text" readonly="true"
-									id="add_createtime" />
+									id="edit_createtime" />
 							</div>
 							<div class="daohuo_add_solo">
-								<label>制单人：</label> <input type="text" readonly="true"
-									id="add_creator">
+								<label>制单人：</label> <input type="text" value="admin"
+									id="edit_creator" readonly="true">
 							</div>
-
+							<div class="daohuo_add_solo">
+								<label>备注：</label> <input type="text" value="admin" id="edit_remark" >
+							</div>
 						</div>
 					</div>
 					<div class="clear"></div>
-					<div>
-						<div class="cg_dhadd">
-							<div class="cg_tabtit">
-								<ul>
-									<li class="select">物料明细</li>
-								</ul>
-							</div>
-						</div>
-
-						<div class="cg_tabbox">
-							<!--tab切换的内容-->
-							<div class="cg_tabcont">
-								<div class=" ">
-									<table class="table table-bordered">
-										<thead>
-											<tr>
-												<th>行号</th>
-												<th>物料</th>
-												<th>出厂标号</th>
-												<th>数量</th>
-												<th>生产日期</th>
-												<th>试验日期</th>
-												<th>备注</th>
-											</tr>
-										</thead>
-										<tbody id="material">
-											<tr>
-												<td>1</td>
-												<td width="200px"><select type="text"
-													class="material_select2"
-													style="border: none; width: 100%; height: 100%">
-												</select></td>
-												<td><input type="text"
-													style="border: none; width: 100%;"></td>
-												<td><input type="text"
-													style="border: none; width: 100%;"></td>
-												<td><input type="text" readonly="true"
-													onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})" class="Wdate"
-													style="border: none; width: 100%;"></td>
-												<td><input type="text" readonly="true"
-													onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})" class="Wdate"
-													style="border: none; width: 100%;"></td>
-												<td><input type="text"
-													style="border: none; width: 100%;"></td>
-											</tr>
-
-										</tbody>
-									</table>
-								</div>
-							</div>
-							<!--tab切换的内容end-->
-						</div>
-					</div>
 				</div>
 
 
@@ -174,18 +138,17 @@ select {
 
 	</div>
 
-	</div>
-
-
-
 	<!-- 引用公共footer部分 -->
 	<jsp:include page="../../common/base/footer_busi.jsp"></jsp:include>
-	<script type="text/javascript" src="/resources/js/select2.js"></script>
+	<script type="text/javascript"
+		src="/resources/js/select2.js"></script>
 	<script type="text/javascript"
 		src="/javascript/quality/sales/batchnum_common.js"></script>
 	<script type="text/javascript"
-		src="/javascript/quality/sales/batchnum_add.js"></script>
+		src="/javascript/quality/sales/batchnum_edit.js"></script>
 	</script>
 
+
+	
 </body>
 </html>

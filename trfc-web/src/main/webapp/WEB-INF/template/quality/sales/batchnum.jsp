@@ -4,6 +4,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>销售批号维护</title>
+<link href="${staticBasePath}/css/select2.css" rel="stylesheet">
 <jsp:include page="../../common/base/header_busi.jsp"></jsp:include>
 </head>
 <body>
@@ -57,13 +58,11 @@
 									<label>出厂编号：</label> <input type="text" id="seek_factorycode">
 								</div>
 								<div class="intel_solo">
-									<label>物料：</label> 
-									<select class="form-control"
-										id="seek_material">
-										<option></option>
-										<option>硫酸</option>
-										<option>含铝水泥</option>
-									</select>
+									<label>物料：</label>
+									<select id="seek_material"
+									class="material_select2"
+								>
+								</select>
 								</div>
 								<div class="intel_solo">
 									<label>单据状态：</label> <select class="form-control"
@@ -86,7 +85,8 @@
 							<h5>刷新</h5>
 						</div>
 						<div class="intel_operasolo">
-							<a href="/trfc/quality/sales/batchnum/addMain"> <i class="iconfont coloradd">&#xe627;</i>
+							<a href="/trfc/quality/sales/batchnum/addMain"> <i
+								class="iconfont coloradd">&#xe627;</i>
 								<h5>新增</h5>
 							</a>
 						</div>
@@ -198,8 +198,11 @@
 		<!-- 引用公共footer部分 -->
 		<jsp:include page="../../common/base/footer_busi.jsp"></jsp:include>
 	</div>
-	
-		<script type="text/javascript"
+	<script type="text/javascript"
+		src="/resources/js/select2.js"></script>
+	<script type="text/javascript"
+		src="/javascript/quality/sales/batchnum_common.js"></script>
+	<script type="text/javascript"
 		src="/javascript/quality/sales/batchnum.js"></script>
 	</script>
 	</div>

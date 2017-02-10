@@ -14,8 +14,10 @@ import com.alibaba.fastjson.JSONArray;
 import com.tianrui.api.intf.quality.sales.batchnum.ISalesBatchnumService;
 import com.tianrui.api.req.basicFile.nc.MaterielManageQuery;
 import com.tianrui.api.req.quality.sales.batchnum.SalesBatchnumReq;
+import com.tianrui.api.req.system.auth.SystemUserQueryReq;
 import com.tianrui.api.resp.basicFile.nc.MaterielManageVO;
 import com.tianrui.api.resp.quality.sales.batchnum.SalesBatchnumResp;
+import com.tianrui.api.resp.quality.sales.batchnum.SystemUserVO;
 import com.tianrui.service.bean.basicFile.nc.MaterielManage;
 import com.tianrui.service.bean.quality.sales.batchnum.SalesBatchnum;
 import com.tianrui.service.bean.system.auth.SystemUser;
@@ -126,7 +128,7 @@ public class SalesBatchnumService implements ISalesBatchnumService {
 			//类型转换
 			PropertyUtils.copyProperties(batchnum, req);
 			//判断是否审核
-			System.out.println(req.getAuditstate());
+			//System.out.println(req.getAuditstate());
 			if("1".equals(req.getAuditstate())){
 				batchnum.setAuditer(req.getUser());
 				batchnum.setAudittime(System.currentTimeMillis());
@@ -135,8 +137,9 @@ public class SalesBatchnumService implements ISalesBatchnumService {
 			//获取修改者和时间
 			batchnum.setModifier(req.getUser());
 			batchnum.setModifytime(System.currentTimeMillis());
-
+			System.out.println(batchnum.toString());
 			int index = salesBatchnumMapper.updateByPrimaryKeySelective(batchnum);
+			System.out.println(index);
 			if(index>0){
 				//操作成功
 				rs = Result.getSuccessResult();
@@ -191,7 +194,13 @@ public class SalesBatchnumService implements ISalesBatchnumService {
 							resp.setMaterial("");
 						}
 					}
-					
+					//获取化验人名称
+					if(StringUtils.isNotBlank(resp.getAssayer())){
+						SystemUser assayer = systemUserMapper.selectByPrimaryKey(resp.getAssayer());
+						if(assayer!=null){
+							resp.setAssayer(assayer.getName());
+						}
+					}
 					resps.add(resp);
 				}
 			}
@@ -224,7 +233,7 @@ public class SalesBatchnumService implements ISalesBatchnumService {
 		rs.setData(list2);
 		return rs;
 	}
-	
+
 	@Override
 	public Result selectById(SalesBatchnumReq req) throws Exception {
 		Result rs = Result.getParamErrorResult();
@@ -238,7 +247,7 @@ public class SalesBatchnumService implements ISalesBatchnumService {
 				//获取创建人的名称
 				SystemUser creator = systemUserMapper.selectByPrimaryKey(resp.getCreator());
 				resp.setCreator(creator.getName());
-				
+
 				//操作成功
 				rs = Result.getSuccessResult();
 				rs.setData(resp);
@@ -254,7 +263,7 @@ public class SalesBatchnumService implements ISalesBatchnumService {
 		if(req!=null && StringUtils.isNotBlank(req.getFactorycode())){
 			//通过批号查询数据
 			int index = salesBatchnumMapper.count(req);
-			
+
 			if(index<0){
 				rs.setErrorCode(ErrorCode.OPERATE_ERROR);
 			}else{
@@ -265,5 +274,26 @@ public class SalesBatchnumService implements ISalesBatchnumService {
 		}
 		return rs;
 	}
+	@Override
+	public Result assayerData() throws Exception {
+		Result rs = new Result();
+		//创建参数
+		SystemUserQueryReq req = new SystemUserQueryReq();
+
+		//查询
+		List<SystemUser> list1 = systemUserMapper.selectByCondition(req);
+		//结果集转化为vo类型的集合
+		List<SystemUserVO> list2 = new ArrayList<SystemUserVO>();
+		if(list1!=null && !list1.isEmpty()){
+			for(SystemUser user : list1){
+				SystemUserVO vo = new SystemUserVO();
+				PropertyUtils.copyProperties(vo, user);
+				list2.add(vo);
+			}
+		}
+		rs = Result.getSuccessResult();
+		rs.setData(list2);
+		return rs;
+	}	
 
 }
