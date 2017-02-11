@@ -7,6 +7,8 @@ $(function(){
 	//加载页面
 	batchnumShowAction(1);
 	materialSelect();
+	//跳转页面
+	$('#jumpButton').click(jumpPageAction);
 	$('.material_select2').select2();
 	//绑定搜索按钮
 	$('#seek').click(function(){batchnumShowAction(1);});
@@ -44,13 +46,16 @@ $(function(){
 	//停用
 	function updateStopState(){
 		var audit = $(this).closest('tr').find('td').eq(3).html();
+		//判断是否已经停用
 		if('停用'==audit){
 			return;
 		}
+		//获取id
 		var id = $(this).closest('tr').data('batchnum_obj').id;
 		var param = {id:id,
 				billsstate:'0',
 					user:user};
+		//提交数据到服务器
 		$.post(URL.updateUrl,param,function(result){
 			if(result.code=='000000'){
 				//加载页面
@@ -63,24 +68,28 @@ $(function(){
 	}
 	
 	
-	//审核
+	//审核(bt:当前元素 auditstate:数据)
 	function updateAudit(bt,auditstate){
 		var audit = $(bt).closest('tr').find('td').eq(2).html();
+		//是否是审核
 		if(auditstate=='1'){
 			if(audit=='已审核'){
 				return;
 			}
 		}
+		//是否是反审
 		if(auditstate=='0'){
 			if(audit=='待审核'){
 				return;
 			}
 		}
+		//获取id
 		var id = $(bt).closest('tr').data('batchnum_obj').id;
 		var param = {id:id,
 					auditstate:auditstate,
 					user:user
 				};
+		//更新数据到服务器
 		$.post(URL.updateUrl,param,function(result){
 			if(result.code=='000000'){
 				//加载页面
@@ -93,12 +102,14 @@ $(function(){
 	//删除action
 	function deleteAction(){
 		var id = $(this).closest('tr').data('batchnum_obj').id;
-		
+		//弹出删除确认框
 		var index = layer.confirm('你确定要删除吗?', {
 			area: '600px', 
 			btn: ['确定','取消'] //按钮
 		}, function(){
+			//提交删除的数据
 			submitDelete(id);
+			//关闭对话框
 			layer.close(index);
 		}, function(){
 		});
@@ -115,18 +126,22 @@ $(function(){
 		});
 	}
 
-
+	//获取下拉框数据并填充
 	function materialSelect(){
+		//获取数据
 		$.post(URL.selectorUrl,{},function(result){
 			if(result.code=='000000'){
+				//填充数据
 				fillContent(result.data);
 			}else{
 				layer.msg(result.error, {icon:5});
 			}
 		});
 	}
+	//填充数据
 	function fillContent(list){
 		var select = $('#seek_material').empty();
+		//设置默认值
 		select.append("<option></option>");
 		if(list){
 			for(var i=0;i<list.length;i++){
@@ -136,11 +151,26 @@ $(function(){
 					msg = obj.name+' | '+obj.spec;
 				}
 				var option = '<option value='+obj.id+'>'+msg+'</option>';
+				//追加数据
 				select.append(option);
 			}
 		}
 	}
-
+	//页面跳转
+	function jumpPageAction(){
+		//获取总页数
+		var maxpageno = $('#jumpPageNo').attr('maxpageno');
+		//获取当前页
+		var pageno = $('#jumpPageNo').val();
+		//判断跳转值是否在符合规范
+		if(!pageno || !$.isNumeric(pageno) || pageno<=0 || pageno>maxpageno){
+			alert('输入的数字必须在1~'+maxpageno+'之间');
+		}else{
+			//加载指定的列表数据
+			batchnumShowAction(pageno);
+		}
+	}
+	//前进一页
 	function pageCallback(pageNo){
 		batchnumShowAction(pageNo+1);
 	}
@@ -233,7 +263,6 @@ $(function(){
 			var obj = list[i];
 
 			var assaytime = getNowFormatDate(false,obj.assaytime);
-			//assaytime = assaytime.toLocaleDateString();
 			var starttime = getNowFormatDate(false,obj.starttime);
 			var endtime = getNowFormatDate(false,obj.endtime);
 			var audittime = null;
@@ -276,8 +305,11 @@ $(function(){
 				+'<a data-toggle="modal" data-target="#edit"><i class="iconfont" data-toggle="tooltip" data-placement="left" title="编辑">&#xe600;</i></a>'
 				+'</span></td>'
 				+'</tr>';
+			//转换为jquery对象
 			tr=$(tr);
+			//追加
 			tbody.append(tr);
+			//将数据绑定到tr上
 			tr.data('batchnum_obj',obj);
 		}
 	}

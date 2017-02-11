@@ -77,10 +77,10 @@ public class SalesBatchnumService implements ISalesBatchnumService {
 				batchnum.setId(UUIDUtil.getId());
 				//获取单据编号
 				batchnum.setCode("HH"+(int)(Math.random()*10000));
-				//
 				batchnum.setCreator(req.getUser());
 				batchnum.setModifier(req.getUser());
 				batchnum.setModifytime(System.currentTimeMillis());
+				//对状态进行默认复制
 				batchnum.setTeststate("0");
 				batchnum.setBillsstate("1");
 				batchnum.setAuditstate("0");
@@ -103,8 +103,11 @@ public class SalesBatchnumService implements ISalesBatchnumService {
 	 */
 	public List<SalesBatchnumReq> getListReq(SalesBatchnumReq req){
 		List<SalesBatchnumReq> list = new ArrayList<SalesBatchnumReq>();
+		//将字符串转换为json数组
 		JSONArray json = JSONArray.parseArray(req.getArrStr());
+		//通过循环把数组中的数据添加到list集合中
 		for(int i=0;i<json.size();i++){
+			//json对象转换为java对象
 			SalesBatchnumReq s = JSONArray.toJavaObject(json.getJSONObject(i), SalesBatchnumReq.class);
 			s.setAssaytime(req.getAssaytime());
 			s.setAssayer(req.getAssayer());
@@ -128,18 +131,16 @@ public class SalesBatchnumService implements ISalesBatchnumService {
 			//类型转换
 			PropertyUtils.copyProperties(batchnum, req);
 			//判断是否审核
-			//System.out.println(req.getAuditstate());
 			if("1".equals(req.getAuditstate())){
+				//添加审核人和时间
 				batchnum.setAuditer(req.getUser());
 				batchnum.setAudittime(System.currentTimeMillis());
 			}
-
 			//获取修改者和时间
 			batchnum.setModifier(req.getUser());
 			batchnum.setModifytime(System.currentTimeMillis());
-			System.out.println(batchnum.toString());
+			//更新数据到数据库
 			int index = salesBatchnumMapper.updateByPrimaryKeySelective(batchnum);
-			System.out.println(index);
 			if(index>0){
 				//操作成功
 				rs = Result.getSuccessResult();
@@ -157,8 +158,11 @@ public class SalesBatchnumService implements ISalesBatchnumService {
 		Result rs = Result.getParamErrorResult();
 		if(req!=null){
 			PaginationVO<SalesBatchnumResp> page = new PaginationVO<SalesBatchnumResp>();
+			//获取数据总数
 			int total = salesBatchnumMapper.count(req);
+			//当前页
 			int pageNo = req.getPageNo();
+			//每页显示数据数
 			int pageSize = req.getPageSize();
 			//获取数据总数
 			page.setTotal(total);

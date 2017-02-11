@@ -132,9 +132,9 @@ select {
 													class="material_select2"
 													style="border: none; width: 100%; height: 100%">
 												</select></td>
-												<td><input type="text"
+												<td><input readonly="true" type="text"
 													style="border: none; width: 100%;"></td>
-												<td><input type="text"
+												<td><input type="text" readonly="true"
 													style="border: none; width: 100%;"></td>
 												<td><input type="text" readonly="true"
 													onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})" class="Wdate"
@@ -142,7 +142,7 @@ select {
 												<td><input type="text" readonly="true"
 													onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})" class="Wdate"
 													style="border: none; width: 100%;"></td>
-												<td><input type="text"
+												<td><input type="text" readonly="true"
 													style="border: none; width: 100%;"></td>
 											</tr>
 

@@ -8,6 +8,7 @@ $(function(){
 	$('#save').click(updateAction);
 	//绑定刷新按钮
 	$('#refresh').click(function(){window.location.reload()});
+	//加载需要修改的数据
 	loadOld();
 	
 	//获取id
@@ -21,7 +22,9 @@ $(function(){
 	//加载数据
 	function loadOld(){
 		var id = getId();
+		//根据id获取数据
 		$.post(URL.copyUrl,{id:id},function(result){
+			//操作成功
 			if(result.code=='000000'){
 				var obj = result.data;
 				$('#edit_code').val(obj.code);
@@ -58,11 +61,14 @@ $(function(){
 	}
 	//提交修改数据
 	function updateAction(){
+		//获取参数
 		var param = getData();
 		if(param){
+			//弹出对话框
 			if(confirm('确定要修改吗?')){
 				$.post(URL.updateUrl,param,function(result){
 					if(result.code=='000000'){
+						//保存成功后,跳转到列表页面
 						window.location.assign("/trfc/quality/sales/batchnum/main");
 					}else{
 						layer.msg(result.error,{icon:5});
@@ -78,9 +84,11 @@ $(function(){
 		var assayorg = $('#edit_assayorg').val();
 		var starttime = new Date($('#edit_starttime').val());
 		var endtime = new Date($('#edit_endtime').val());
+		//获取用户id
 		var user = $('.user').attr("userid");
 		var code = $('#edit_code').val();
 		var factorycode = $('#edit_factorycode').val();
+		//判断批号
 		if(!checkFC(factorycode)){
 			return null;
 		}
@@ -90,6 +98,7 @@ $(function(){
 		var testtime = new Date($('#edit_testtime').val());
 		var remark = $('#edit_remark').val();
 		var data = {
+				//获取id
 				id:getId(),
 				assaytime:assaytime.getTime(),
 				assayer:assayer,
@@ -104,7 +113,7 @@ $(function(){
 				testtime:testtime.getTime(),
 				remark:remark
 		};
-		
+		//判断物料
 		if(!material){
 			alert('物料详细不能为空!');
 			data = null;
@@ -113,14 +122,17 @@ $(function(){
 	}
 	//下拉框
 	function materialSelect(){
+		//获取物料下拉框的数据
 		post1 = $.post(URL.selectorUrl,{},function(result){
 			if(result.code=='000000'){
+				//填充数据
 				fillContent(result.data);
 			}else{
 				layer.msg(result.error,{icon:5});
 			}
 		});
 	}
+	//填充数据
 	function fillContent(list){
 		var select = $('#edit_material');
 		select.append("<option></option>");
@@ -128,28 +140,31 @@ $(function(){
 			for(var i=0;i<list.length;i++){
 				var obj = list[i];
 				var msg = obj.name;
+				//判断型号是否存在
 				if(obj.spec){
 					msg = obj.name+' | '+obj.spec;
 				}
 				var option = '<option value='+obj.id+'>'+msg+'</option>';
+				//追加元素
 				select.append(option);
 			}
 		}
 	}
-	//检测是否重复
+	//检测批号是否重复
 	function checkFC(factorycode){
-
+		//设置正则表达式
 		var reg = new RegExp('\\D');
 		var bl = false;
 		if(!factorycode){
 			alert('批号不能为空');
 			return bl;
 		}else if(factorycode.length<5 || reg.test(factorycode.substr(-5))){
-			alert('批号必须大于5位且后5位必须是数字')
+			alert('批号必须是5~32位且后5位必须是数字')
 			return bl;
 		}else if(factorycode==$('#edit_factorycode').attr('factorycode')){
 			return true;
 		}else{
+			//判断批号是否重复
 			var param = {factorycode:factorycode};
 			$.ajax({url:URL.checkUrl,
 				data:param,
