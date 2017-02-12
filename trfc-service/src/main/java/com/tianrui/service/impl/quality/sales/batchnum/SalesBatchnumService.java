@@ -17,7 +17,7 @@ import com.tianrui.api.req.quality.sales.batchnum.SalesBatchnumReq;
 import com.tianrui.api.req.system.auth.SystemUserQueryReq;
 import com.tianrui.api.resp.basicFile.nc.MaterielManageVO;
 import com.tianrui.api.resp.quality.sales.batchnum.SalesBatchnumResp;
-import com.tianrui.api.resp.quality.sales.batchnum.SystemUserVO;
+import com.tianrui.api.resp.system.auth.SystemRoleResp;
 import com.tianrui.service.bean.basicFile.nc.MaterielManage;
 import com.tianrui.service.bean.quality.sales.batchnum.SalesBatchnum;
 import com.tianrui.service.bean.system.auth.SystemUser;
@@ -287,10 +287,10 @@ public class SalesBatchnumService implements ISalesBatchnumService {
 		//查询
 		List<SystemUser> list1 = systemUserMapper.selectByCondition(req);
 		//结果集转化为vo类型的集合
-		List<SystemUserVO> list2 = new ArrayList<SystemUserVO>();
+		List<SystemRoleResp> list2 = new ArrayList<SystemRoleResp>();
 		if(list1!=null && !list1.isEmpty()){
 			for(SystemUser user : list1){
-				SystemUserVO vo = new SystemUserVO();
+				SystemRoleResp vo = new SystemRoleResp();
 				PropertyUtils.copyProperties(vo, user);
 				list2.add(vo);
 			}

@@ -3,7 +3,7 @@ package com.tianrui.api.resp.basicFile.nc;
 import com.tianrui.api.resp.BaseResp;
 
 /**
- * 用于销售批号维护新增页面下拉选
+ * (id,名称,规格)
  * @author lxy
  *
  */

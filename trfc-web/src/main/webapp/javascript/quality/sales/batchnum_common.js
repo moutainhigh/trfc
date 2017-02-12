@@ -1,17 +1,16 @@
 //整合url
-var URL = {
-		selectorUrl:"/trfc/quality/sales/batchnum/selector",
-		copyUrl:"/trfc/quality/sales/batchnum/copy",
-		checkUrl:"/trfc/quality/sales/batchnum/check",
-		pageUrl:"/trfc/quality/sales/batchnum/page",
-		deleteUrl:"/trfc/quality/sales/batchnum/delete",
-		updateUrl:"/trfc/quality/sales/batchnum/update",
-		addUrl:"/trfc/quality/sales/batchnum/addMain",
-		editUrl:"/trfc/quality/sales/batchnum/editMain",
-		saveUrl:"/trfc/quality/sales/batchnum/add",
-		usersUrl:"/trfc/quality/sales/batchnum/userData"
-};
-
+	var URL = {
+			selectorUrl:"/trfc/quality/sales/file/selector",
+			copyUrl:"/trfc/quality/sales/batchnum/copy",
+			checkUrl:"/trfc/quality/sales/batchnum/check",
+			pageUrl:"/trfc/quality/sales/batchnum/page",
+			deleteUrl:"/trfc/quality/sales/batchnum/delete",
+			updateUrl:"/trfc/quality/sales/batchnum/update",
+			addUrl:"/trfc/quality/sales/batchnum/addMain",
+			editUrl:"/trfc/quality/sales/batchnum/editMain",
+			saveUrl:"/trfc/quality/sales/batchnum/add",
+			usersUrl:"/trfc/quality/sales/batchnum/userData"
+	};
 
 //(化验人)下拉框
 function userSelect(){

@@ -1,7 +1,9 @@
 package com.tianrui.api.resp.system.auth;
 
 import java.io.Serializable;
-
+/**
+ *	用户出参(id,name)
+ */
 public class SystemRoleResp implements Serializable{
 
 	private static final long serialVersionUID = -5817774971738348903L;

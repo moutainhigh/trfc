@@ -120,6 +120,9 @@ public class SystemCodeService implements ISystemCodeService{
 	public Result select(SystemCodeReq req) throws Exception{
 		Result result = Result.getParamErrorResult();
 		if(req!=null){
+			//设置排序
+			req.setOrdering("createtime");
+			req.setSorting("desc");
 			//获取数据
 			List<SystemCode> codes = systemCodeMapper.selectByReq(req);
 			//集合codes不能为空
