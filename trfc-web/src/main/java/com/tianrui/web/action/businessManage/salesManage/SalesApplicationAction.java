@@ -51,7 +51,6 @@ public class SalesApplicationAction {
 		ModelAndView view = new ModelAndView("businessManage/salesManage/salesApplication");
 		try {
 			view.addObject("billType", billTypeService.findListByParmas(null).getData());
-			//view.addObject("customer", customerManageService.findListByParmas(null).getData());
 			SystemUserResp user = (SystemUserResp) session.getAttribute("systemUser");
 			view.addObject("user", user);
 			view.addObject("orgid", Constant.ORG_ID);
@@ -85,7 +84,7 @@ public class SalesApplicationAction {
 			SystemUserResp user = (SystemUserResp) session.getAttribute("systemUser");
 			GetCodeReq codeReq = new GetCodeReq();
 			codeReq.setCode("XXSO");
-			codeReq.setCodeType(false);
+			codeReq.setCodeType(true);
 			codeReq.setUserid(user.getId());
 			map.put("code", systemCodeService.getCode(codeReq).getData());
 			map.put("nowDate", DateUtil.getNowDateString("yyyy-MM-dd HH:mm:ss"));

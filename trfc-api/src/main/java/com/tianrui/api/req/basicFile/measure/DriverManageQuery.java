@@ -21,6 +21,8 @@ public class DriverManageQuery extends BaseReq {
     private Integer start;
     
     private Integer limit;
+    
+    private String currId;
 
 	public String getId() {
 		return id;
@@ -84,6 +86,14 @@ public class DriverManageQuery extends BaseReq {
 
 	public void setLimit(Integer limit) {
 		this.limit = limit;
+	}
+
+	public String getCurrId() {
+		return currId;
+	}
+
+	public void setCurrId(String currId) {
+		this.currId = currId;
 	}
    
 }

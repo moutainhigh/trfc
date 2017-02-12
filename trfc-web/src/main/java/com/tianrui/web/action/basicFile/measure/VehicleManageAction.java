@@ -1,5 +1,9 @@
 package com.tianrui.web.action.basicFile.measure;
 
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
@@ -11,12 +15,15 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.tianrui.api.intf.basicFile.measure.IVehicleManageService;
+import com.tianrui.api.intf.system.base.ISystemCodeService;
 import com.tianrui.api.req.basicFile.measure.VehicleManageQuery;
 import com.tianrui.api.req.basicFile.measure.VehicleManageSave;
+import com.tianrui.api.req.system.base.GetCodeReq;
 import com.tianrui.api.resp.basicFile.measure.VehicleManageResp;
 import com.tianrui.api.resp.system.auth.SystemUserResp;
 import com.tianrui.smartfactory.common.constants.Constant;
 import com.tianrui.smartfactory.common.constants.ErrorCode;
+import com.tianrui.smartfactory.common.utils.DateUtil;
 import com.tianrui.smartfactory.common.vo.PaginationVO;
 import com.tianrui.smartfactory.common.vo.Result;
 
@@ -29,6 +36,9 @@ public class VehicleManageAction {
 	
 	@Autowired
 	private IVehicleManageService vehicleManageService;
+	
+	@Autowired
+	private ISystemCodeService systemCodeService;
 	
 	@RequestMapping("/main")
 	public ModelAndView main(){
@@ -53,14 +63,34 @@ public class VehicleManageAction {
 		return result;
 	}
 				
-	@RequestMapping("/addVehicle")
+	@RequestMapping("/addView")
 	@ResponseBody
-	public Result addVehicle(VehicleManageSave save, HttpSession session){
+	public Result addView(HttpSession session){
+		Result result = Result.getSuccessResult();
+		try {
+			Map<String, Object> map = new HashMap<String, Object>();
+			SystemUserResp user = (SystemUserResp) session.getAttribute("systemUser");
+			GetCodeReq codeReq = new GetCodeReq();
+			codeReq.setCode("CL");
+			codeReq.setCodeType(true);
+			codeReq.setUserid(user.getId());
+			map.put("code", systemCodeService.getCode(codeReq).getData());
+			result.setData(map);
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
+		}
+		return result;
+	}
+	
+	@RequestMapping("/add")
+	@ResponseBody
+	public Result add(VehicleManageSave save, HttpSession session){
 		Result result = Result.getErrorResult();
 		try {
 			SystemUserResp user = (SystemUserResp) session.getAttribute("systemUser");
 			save.setCurrUId(user.getId());
-			result = vehicleManageService.addVehicle(save);
+			result = vehicleManageService.add(save);
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
@@ -68,14 +98,14 @@ public class VehicleManageAction {
 		return result;
 	}
 	
-	@RequestMapping("/editVehicle")
+	@RequestMapping("/update")
 	@ResponseBody
-	public Result editVehicle(VehicleManageSave save, HttpSession session){
+	public Result update(VehicleManageSave save, HttpSession session){
 		Result result = Result.getSuccessResult();
 		try {
 			SystemUserResp user = (SystemUserResp) session.getAttribute("systemUser");
 			save.setCurrUId(user.getId());
-			result = vehicleManageService.editVehicle(save);
+			result = vehicleManageService.update(save);
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
@@ -83,14 +113,14 @@ public class VehicleManageAction {
 		return result;
 	}
 	
-	@RequestMapping("/deleteVehicle")
+	@RequestMapping("/delete")
 	@ResponseBody
-	public Result deleteVehicle(VehicleManageQuery query, HttpSession session){
+	public Result delete(VehicleManageQuery query, HttpSession session){
 		Result result = Result.getSuccessResult();
 		try {
 			SystemUserResp user = (SystemUserResp) session.getAttribute("systemUser");
 			query.setCurrUId(user.getId());
-			result = vehicleManageService.deleteVehicle(query);
+			result = vehicleManageService.delete(query);
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
@@ -113,6 +143,25 @@ public class VehicleManageAction {
 		return result;
 	}
 	
+	@RequestMapping("/addblacklistView")
+	@ResponseBody
+	public Result addblacklistView(HttpSession session){
+		Result result = Result.getSuccessResult();
+		try {
+			Map<String, Object> map = new HashMap<String, Object>();
+			SystemUserResp user = (SystemUserResp) session.getAttribute("systemUser");
+			map.put("b_creator", user.getId());
+			map.put("b_creatorname", user.getName());
+			Date date = new Date();
+			map.put("b_createtime", date.getTime());
+			map.put("b_createtimeStr", DateUtil.getDateString(date, "yyyy-MM-dd HH:mm:ss"));
+			result.setData(map);
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
+		}
+		return result;
+	}
 	@RequestMapping("/addblacklist")
 	@ResponseBody
 	public Result addblacklist(VehicleManageQuery query, HttpSession session){

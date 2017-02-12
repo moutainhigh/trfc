@@ -1,12 +1,14 @@
 ;(function($, win){
 	//请求路径
 	var URL = {
-			addVehicleUrl:"/trfc/common/code/vehicleCode",
-			addBtnUrl:"/trfc/vehicle/addVehicle",
+			addViewUrl:"/trfc/vehicle/addView",
+			addUrl:"/trfc/vehicle/add",
 			pageUrl:"/trfc/vehicle/page",
-			updateVehicleUrl:"/trfc/vehicle/editVehicle",
-			addblacklistUrl:"/trfc/vehicle/delblacklist",
-			deleteVehicleUrl:"/trfc/vehicle/deleteVehicle",
+			updateUrl:"/trfc/vehicle/update",
+			addblacklistViewUrl:"/trfc/vehicle/addblacklistView",
+			addblacklistUrl:"/trfc/vehicle/addblacklist",
+			delblacklistUrl:"/trfc/vehicle/delblacklist",
+			deleteUrl:"/trfc/vehicle/delete",
 	};
 	init();
 	function init(){
@@ -21,7 +23,9 @@
 			queryData(1);
 		});
 		$('#updateBtn').off('click').on('click',function(){
+			var _up_this = this;
 			if($('#editView').is(':visible')){
+				_up_this.disabled = true;
 				var id = $('#vehicleid').val();id = $.trim(id);
 				var transporttype = $('#_transporttype').val();transporttype = $.trim(transporttype);
 				var vehicleno = $('#_vehicleno').val();vehicleno = $.trim(vehicleno);
@@ -37,7 +41,7 @@
 					isvalid = '1';
 				}
 				var remarks = $('#_remarks').val();remarks = $.trim(remarks);
-				operation(URL.updateVehicleUrl, {
+				operation(URL.updateUrl, {
 					id:id,
 					transporttype:transporttype,
 					vehicleno:vehicleno,
@@ -50,12 +54,14 @@
 					address:address,
 					isvalid:isvalid,
 					remarks:remarks
-				})
+				},function(){
+					_up_this.disabled = false;
+				});
 			}
 		});
 		$('#addvehicle').off('click').on('click',function(){
 			$.ajax({
-				url:URL.addVehicleUrl,
+				url:URL.addViewUrl,
 				data:{},
 				async:true,
 				cache:false,
@@ -63,7 +69,7 @@
 				type:'post',
 				success:function(result){
 					if(result.code == '000000'){
-						$('#add_code').val(result.data);
+						$('#add_code').val(result.data.code);
 						$('#addView').modal();
 					}else{
 						layer.msg(result.error, {icon: 5});
@@ -72,7 +78,9 @@
 			});
 		});
 		$('#addBtn').off('click').on('click',function(){
+			var _add_this = this;
 			if($('#addView').is(':visible')){
+				_add_this.disabled = true;
 				var code = $('#add_code').val();code = $.trim(code);
 				var transporttype = $('#add_transporttype').val();transporttype = $.trim(transporttype);
 				var vehicleno = $('#add_vehicleno').val();vehicleno = $.trim(vehicleno);
@@ -90,7 +98,7 @@
 					isvalid = '1';
 				}
 				var remarks = $('#add_remarks').val();remarks = $.trim(remarks);
-				operation(URL.addBtnUrl, {
+				operation(URL.addUrl, {
 					code:code,
 					transporttype:transporttype,
 					vehicleno:vehicleno,
@@ -105,55 +113,27 @@
 					orgid:orgid,
 					isvalid:isvalid,
 					remarks:remarks
-				})
-			}
-		});
-		$('#delvehicle').off('click').on('click',function(){
-			if($('#vehicleBody tr.active').length == 1){
-				vConfirm('提示', '注：删除操作不可恢复，您确定要继续么？', function(){
-					var id = $('#vehicleBody tr.active').attr('vid'); id = $.trim(id);
-					operation(URL.deleteVehicleUrl, {id:id});
+				},function(){
+					_add_this.disabled = false;
 				});
-			}else{
-				layer.msg('必须选中一行才行哦！');
-			}
-		});
-		$('#addblacklist').off('click').on('click',function(){
-			if($('#vehicleBody tr.active').length == 1){
-				var obj = $('#vehicleBody tr.active').data();
-				$('#b_vehicleno').val(obj.vehicleno);
-				var date = new Date();
-				$('#b_createtime').attr('b_createtime',date.getTime());
-				$('#b_createtime').val(date.format('yyyy-MM-dd HH:mm:ss'));
-				$('#addBlacklistView').modal();
-			}else{
-				layer.msg('必须选中一行才行哦！');
 			}
 		});
 		$('#addBlacklistBtn').off('click').on('click',function(){
-			var id = $('#vehicleBody tr.active').attr('vid'); id = $.trim(id);
+			var _add_this = this;
+			var id = $('#b_vehicleid').val(); id = $.trim(id);
 			if($('#addBlacklistView').is(':visible')){
+				_add_this.disabled = true;
 				var vehicleno = $('#b_vehicleno').val();vehicleno = $.trim(vehicleno);
 				var remarks = $('#b_remarks').val();remarks = $.trim(remarks);
-				var creator = $('#b_creator').val();creator = $.trim(creator);
 				var createtime = $('#b_createtime').attr('b_createtime');createtime = $.trim(createtime);
 				operation(URL.addblacklistUrl, {
 					id:id,
 					blackVno:vehicleno,
 					blackRemarks:remarks,
-					blackCreator:creator,
 					blackCreatetime:createtime
-				})
-			}
-		});
-		$('#delblacklist').off('click').on('click',function(){
-			if($('#vehicleBody tr.active').length == 1){
-				vConfirm('提示', '注：确定要从黑名单中删除吗？', function(){
-					var id = $('#vehicleBody tr.active').attr('vid'); id = $.trim(id);
-					operation(URL.addblacklistUrl, {id:id});
+				},function(){
+					_add_this.disabled = false;
 				});
-			}else{
-				layer.msg('必须选中一行才行哦！');
 			}
 		});
 		$('#jumpPageNoBtn').off('click').on('click',function(){
@@ -270,51 +250,132 @@
 						.append('<td>'+transportunit+'</td>')
 						.append('<td '+(obj.isblacklist=='1'?'style="color:red;"':'')+'>'+isblacklist+'</td>')
 						.append('<td>'+remarks+'</td>')
-						.append('<td><span><a class="editVehicle"><i class="iconfont" data-toggle="tooltip" data-placement="left" title="编辑">&#xe600;</i></a></span></td>')
+						.append('<td><span><a class="update"><i class="iconfont" data-toggle="tooltip" data-placement="left" title="编辑">&#xe600;</i></a></span>'
+								+'<span><a class="delete"><i class="iconfont" data-toggle="tooltip" data-placement="left" title="删除">&#xe63d;</i></a></span>'
+								+'<span><a class="black"><i class="iconfont" data-toggle="tooltip" data-placement="left" title="黑名单">&#xe717;</i></a></span>'
+								+'<span><a class="white"><i class="iconfont" data-toggle="tooltip" data-placement="left" title="白名单">&#xe637;</i></a></span>'
+								+'</td>')
 						.attr('vid',obj.id)
 						.data(obj)
 						.appendTo('#vehicleBody');
 			}
-			$('#vehicleBody tr').off('click').on('click',function(){
-				$(this).addClass('active').siblings().removeClass('active');
-			});
-			$('#vehicleBody .editVehicle').off('click').on('click',function(){
+			$('#vehicleBody .update').off('click').on('click',function(){
 				var obj = $(this).closest('tr').data();
-				$('#vehicleid').val(obj.id);
-				$('#_code').val(obj.code);
-				$('#_transporttype').val(obj.transporttype);
-				$('#_vehicleno').val(obj.vehicleno);
-				$('#_vehicletype').val(obj.vehicletype);
-				$('#_transportunit').val(obj.transportunit);
-				$('#_maxweight').val(obj.maxweight);
-				$('#_tareweight').val(obj.tareweight);
-				$('#_ownername').val(obj.ownername);
-				$('#_telephone').val(obj.telephone);
-				$('#_address').val(obj.address);
-				$('#_orgname').val(obj.orgname);
-				if(obj.isvalid == '1'){
-					$('#_isvalid')[0].checked = true;
-				}else{
-					$('#_isvalid')[0].checked = false;
+				updateShowView(obj);
+			});
+			$('#vehicleBody .delete').off('click').on('click',function(){
+				var obj = $(this).closest('tr').data();
+				deleteVehicle(obj.id);
+			});
+			$('#vehicleBody .black').off('click').on('click',function(){
+				var obj = $(this).closest('tr').data();
+				if(obj.isblacklist == '1'){
+					layer.msg('该车辆已被添加进黑名单中，不能重复添加！', {icon: 5});
+					return;
 				}
-				$('#_remarks').val(obj.remarks);
-				$('#editView').modal();
+				addblacklistShowView(obj);
+			});
+			$('#vehicleBody .white').off('click').on('click',function(){
+				var obj = $(this).closest('tr').data();
+				if(obj.isblacklist == '0'){
+					layer.msg('该车辆没有被列入黑名单，无需移除！', {icon: 5});
+					return;
+				}
+				delblacklist(obj.id);
 			});
 		}else{
 			layer.msg('暂无数据...');
 		}
 	}
-	function vConfirm(title, content, callback){
-		$('#modal-title').html(title);
-		$('#modal-content').html(content);
-		if(callback){
-			$('#deleteBtn').off('cilck').on('click',function(){
-				callback();
-			});
+	function updateShowView(obj){
+		$('#vehicleid').val(obj.id);
+		$('#_code').val(obj.code);
+		$('#_transporttype').val(obj.transporttype);
+		$('#_vehicleno').val(obj.vehicleno);
+		$('#_vehicletype').val(obj.vehicletype);
+		$('#_transportunit').val(obj.transportunit);
+		$('#_maxweight').val(obj.maxweight);
+		$('#_tareweight').val(obj.tareweight);
+		$('#_ownername').val(obj.ownername);
+		$('#_telephone').val(obj.telephone);
+		$('#_address').val(obj.address);
+		$('#_orgname').val(obj.orgname);
+		if(obj.isvalid == '1'){
+			$('#_isvalid')[0].checked = true;
+		}else{
+			$('#_isvalid')[0].checked = false;
 		}
-		$('#delView').modal();
+		$('#_remarks').val(obj.remarks);
+		$('#editView').modal();
 	}
-	function operation(url, params){
+	function deleteVehicle(id){
+		layer.confirm('注：删除操作不可恢复，您确定要继续吗？', {
+			btn: ['确认','取消'] //按钮
+		}, function(){
+			$.ajax({
+				url:URL.deleteUrl,
+				data:{id: id},
+				async:true,
+				cache:false,
+				dataType:'json',
+				type:'post',
+				success:function(result){
+					if(result.code == '000000'){
+						window.location.reload();
+					}else{
+						layer.msg(result.error, {icon: 5});
+					}
+				}
+			});
+		});
+	}
+	function addblacklistShowView(obj){
+		$('#b_vehicleid').val(obj.id);
+		$('#b_vehicleno').val(obj.vehicleno);
+		$.ajax({
+			url:URL.addblacklistViewUrl,
+			data:null,
+			async:true,
+			cache:false,
+			dataType:'json',
+			type:'post',
+			success:function(result){
+				if(result.code == '000000'){
+					var data = result.data;
+					if(data){
+						$('#b_creator').val(data.b_creatorname).attr('b_creator',data.b_creator);
+						$('#b_createtime').val(data.b_createtimeStr).attr('b_createtime',data.b_createtime);
+					}
+				}else{
+					layer.msg(result.error, {icon: 5});
+				}
+			}
+		});
+		$('#addBlacklistView').modal();
+	}
+	function delblacklist(id){
+		layer.confirm('注：确定要从黑名单中删除吗？', {
+			btn: ['确认','取消'] //按钮
+		}, function(){
+			$.ajax({
+				url:URL.delblacklistUrl,
+				data:{id: id},
+				async:true,
+				cache:false,
+				dataType:'json',
+				type:'post',
+				success:function(result){
+					if(result.code == '000000'){
+						window.location.reload();
+					}else{
+						layer.msg(result.error, {icon: 5});
+					}
+				}
+			});
+		});
+	}
+	
+	function operation(url, params, successFun){
 		$.ajax({
 			url:url,
 			data:params,
@@ -327,6 +388,9 @@
 					win.location.reload();
 				}else{
 					layer.msg(result.error, {icon: 5});
+				}
+				if(successFun){
+					successFun();
 				}
 			}
 		});

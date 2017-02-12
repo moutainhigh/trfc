@@ -40,6 +40,8 @@ public class DriverManageSave extends BaseReq {
 
     private Long modifytime;
     
+    private String currId;
+    
     public String getId() {
         return id;
     }
@@ -175,5 +177,13 @@ public class DriverManageSave extends BaseReq {
     public void setModifytime(Long modifytime) {
         this.modifytime = modifytime;
     }
+
+	public String getCurrId() {
+		return currId;
+	}
+
+	public void setCurrId(String currId) {
+		this.currId = currId;
+	}
     
 }

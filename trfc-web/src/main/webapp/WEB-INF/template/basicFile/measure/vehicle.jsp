@@ -79,21 +79,6 @@
 							<span>新增</span>
 						</a>
 					</div>
-					<div id="delvehicle" class="intel_operasolo">
-						<a> <i class="iconfont coloradd">&#xe63d;</i>
-							<span>删除</span>
-						</a>
-					</div>
-					<div id="addblacklist" class="intel_operasolo" style="width: 70px;">
-						<a> <i class="iconfont coloradd" style="color: #ff7878;">&#xe717;</i>
-							<span>黑名单</span>
-						</a>
-					</div>
-					<div id="delblacklist" class="intel_operasolo" style="width: 70px;">
-						<a> <i class="iconfont coloradd">&#xe637;</i>
-							<span>白名单</span>
-						</a>
-					</div>
 				</div>
 				<div class="intel_table">
 					<!--用户表格begin-->
@@ -156,6 +141,7 @@
 					</div>
 				</div>
 				<div class="modal-body">
+					<input id="b_vehicleid" type="hidden"/>
 					<div class="alt_edit">
 						<div class="alt_edit_div">
 							<label>车号：</label>

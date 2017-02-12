@@ -80,7 +80,7 @@ public class SalesApplicationService implements ISalesApplicationService {
 		if(save != null){
 			GetCodeReq codeReq = new GetCodeReq();
 			codeReq.setCode("XXSO");
-			codeReq.setCodeType(false);
+			codeReq.setCodeType(true);
 			codeReq.setUserid(save.getCurrid());
 			SalesApplication sa = new SalesApplication();
 			sa.setCode(String.valueOf(systemCodeService.getCode(codeReq).getData()));

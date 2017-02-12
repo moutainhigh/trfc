@@ -54,6 +54,13 @@ PAGE.mod.main = {
 			$('#searchBtn').off('click').on('click',function(){
 				_this.getSalesApplicationData($.trim($('#jumpPageNo').val()) || 1);
 			});
+			$('#clearBtn').off('click').on('click',function(){
+				$('#materielid').val("");
+				$('#customer').val("").removeAttr('customerid');
+				$('#billcode').val("");
+				$('#starttime').val("");
+				$('#endtime').val("");
+			});
 			$('#billcode').off('click').on('click',function(){
 				_this.getSalesApplicationData($.trim($('#jumpPageNo').val()) || 1);
 				$('#salesApplication').modal();
@@ -91,11 +98,17 @@ PAGE.mod.main = {
 			$('#takeamount').change(function(){
 				$('#advanceAmount').html($(this).val());
 			});
+			$('#customer').off('click').on('click',function(){
+				var _this = this;
+				initCustomer(function(obj){
+					$(_this).val(obj.name).attr('customerid',obj.id);
+				});
+			});
 		},
 		getSarelApplicationParams:function(){
 			var _this = this;
 			var billcode = $('#billcode').val() || ''; billcode = $.trim(billcode);
-			var customerid = $('#customerid').val() || ''; customerid = $.trim(customerid);
+			var customerid = $('#customer').attr('customerid') || ''; customerid = $.trim(customerid);
 			var materielid = $('#materielid').val() || ''; materielid = $.trim(materielid);
 			var starttime = $('#starttime').val() || ''; starttime = $.trim(starttime);
 			var endtime = $('#endtime').val() || ''; endtime = $.trim(endtime);

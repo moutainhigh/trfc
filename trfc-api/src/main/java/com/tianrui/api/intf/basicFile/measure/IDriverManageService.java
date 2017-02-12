@@ -16,11 +16,11 @@ public interface IDriverManageService {
 
 	PaginationVO<DriverManageResp> page(DriverManageQuery query) throws Exception;
 
-	Result addDriver(DriverManageSave save) throws Exception;
+	Result add(DriverManageSave save) throws Exception;
 
-	Result updateDriver(DriverManageSave save) throws Exception;
+	Result update(DriverManageSave save) throws Exception;
 	
-	Result deleteDriver(DriverManageQuery query);
+	Result delete(DriverManageQuery query);
 
 	Result findListByParmas(DriverManageQuery query) throws Exception;
 

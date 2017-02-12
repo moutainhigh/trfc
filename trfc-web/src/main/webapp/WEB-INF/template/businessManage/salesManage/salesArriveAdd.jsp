@@ -201,7 +201,7 @@
 	<div class="modal fade" id="salesApplication" tabindex="-1"
 		role="dialog" aria-labelledby="myModalLabel">
 		<div class="modal-dialog" role="document"
-			style="width: 1000px; height: 800px;">
+			style="width: 1500px; height: 800px;">
 			<div class="modal-content">
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal"
@@ -223,12 +223,8 @@
 							</select>
 						</div>
 						<div class="dhsearch_solo">
-							<label>客户：</label> <select id="customerid" class="form-control">
-								<option value="">请选择</option>
-								<c:forEach items="${customer }" var="c">
-									<option value="${c.id }">${c.name }</option>
-								</c:forEach>
-							</select>
+							<label>客户：</label>
+							<input id="customer" type="text" readonly >
 						</div>
 						<div class="dhsearch_solo">
 							<label>订单号：</label> <input id="billcode" type="text">
@@ -245,11 +241,12 @@
 						</div>
 						<div class="dhsearch_solo">
 							<button id="searchBtn" class="btn btnblue ">搜索</button>
+							<button id="clearBtn" class="btn btnblue ">清空</button>
 						</div>
 					</div>
 					<div>
-						<div class="dh_alttable">
-							<table class="table table-hover">
+						<div class="dh_alttable" style="width: 100%;">
+							<table class="table table-hover" style="width: 100%;">
 								<thead>
 									<tr>
 										<th>销售订单号</th>
@@ -443,6 +440,7 @@
 			</div>
 		</div>
 	</div>
+	<jsp:include page="../../common/module/custom_choose.jsp"></jsp:include>
 	<!--司机新增end-->
 	<jsp:include page="../../common/base/footer_busi.jsp"></jsp:include>
 	<script type="text/javascript"

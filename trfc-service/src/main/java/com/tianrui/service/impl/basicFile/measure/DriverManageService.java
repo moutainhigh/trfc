@@ -7,10 +7,13 @@ import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.tianrui.api.intf.basicFile.measure.IDriverManageService;
+import com.tianrui.api.intf.system.base.ISystemCodeService;
 import com.tianrui.api.req.basicFile.measure.DriverManageQuery;
 import com.tianrui.api.req.basicFile.measure.DriverManageSave;
+import com.tianrui.api.req.system.base.GetCodeReq;
 import com.tianrui.api.resp.basicFile.measure.DriverManageResp;
 import com.tianrui.service.bean.basicFile.measure.DriverManage;
 import com.tianrui.service.mapper.basicFile.measure.DriverManageMapper;
@@ -24,6 +27,8 @@ public class DriverManageService implements IDriverManageService {
 	
 	@Autowired
 	private DriverManageMapper driverManageMapper;
+	@Autowired
+	private ISystemCodeService systemCodeService;
 
 	@Override
 	public PaginationVO<DriverManageResp> page(DriverManageQuery query) throws Exception {
@@ -45,41 +50,52 @@ public class DriverManageService implements IDriverManageService {
 		return page;
 	}
 
+	@Transactional
 	@Override
-	public Result addDriver(DriverManageSave save) throws Exception {
+	public Result add(DriverManageSave save) throws Exception {
 		Result result = Result.getParamErrorResult();
 		if(save != null){
 			DriverManage driver = new DriverManage();
 			driver.setIdentityno(save.getIdentityno());
 			driver.setState("1");
 			List<DriverManage> list = driverManageMapper.selectSelective(driver);
-			if(list != null && list.size() > 0){
-				result.setErrorCode(ErrorCode.PARAM_REPEAT_ERROR);
-			}else{
+			if(list == null || list.size() == 0){
 				PropertyUtils.copyProperties(driver, save);
 				driver.setId(UUIDUtil.getId());
-//				driver.setCreator("");
+				GetCodeReq codeReq = new GetCodeReq();
+				codeReq.setCode("DR");
+				codeReq.setCodeType(true);
+				codeReq.setUserid(save.getCurrId());
+				driver.setCode(String.valueOf(systemCodeService.getCode(codeReq).getData()));
+				codeReq.setCodeType(false);
+				driver.setInternalcode(String.valueOf(systemCodeService.getCode(codeReq).getData()));
+				driver.setCreator(save.getCurrId());
 				driver.setCreatetime(System.currentTimeMillis());
-//				driver.setModifier("");
+				driver.setModifier(save.getCurrId());
 				driver.setModifytime(System.currentTimeMillis());
 				if(driverManageMapper.insertSelective(driver) > 0){
+					systemCodeService.updateCodeItem(codeReq);
+					codeReq.setCodeType(true);
+					systemCodeService.updateCodeItem(codeReq);
 					result.setData(driver);
 					result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
 				}else{
 					result.setErrorCode(ErrorCode.OPERATE_ERROR);
 				}
+			}else{
+				result.setErrorCode(ErrorCode.PARAM_REPEAT_ERROR);
 			}
 		}
 		return result;
 	}
 
 	@Override
-	public Result updateDriver(DriverManageSave save) throws Exception {
+	public Result update(DriverManageSave save) throws Exception {
 		Result result = Result.getParamErrorResult();
 		if(save != null){
 			DriverManage driver = new DriverManage();
 			PropertyUtils.copyProperties(driver, save);
-//			save.setModifier("");
+			save.setModifier(save.getCurrId());
 			save.setModifytime(System.currentTimeMillis());
 			if(driverManageMapper.updateByPrimaryKeySelective(driver) > 0){
 				result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
@@ -91,12 +107,14 @@ public class DriverManageService implements IDriverManageService {
 	}
 
 	@Override
-	public Result deleteDriver(DriverManageQuery query) {
+	public Result delete(DriverManageQuery query) {
 		Result result = Result.getParamErrorResult();
 		if(query != null && StringUtils.isNotBlank(query.getId())){
 			DriverManage driver = new DriverManage();
 			driver.setId(query.getId());
 			driver.setState("0");
+			driver.setModifier(query.getCurrId());
+			driver.setModifytime(System.currentTimeMillis());
 			if(driverManageMapper.updateByPrimaryKeySelective(driver) > 0){
 				result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
 			}else{

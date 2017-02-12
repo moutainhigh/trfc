@@ -1,5 +1,10 @@
 package com.tianrui.web.action.basicFile.measure;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.servlet.http.HttpSession;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,9 +14,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.tianrui.api.intf.basicFile.measure.IDriverManageService;
+import com.tianrui.api.intf.system.base.ISystemCodeService;
 import com.tianrui.api.req.basicFile.measure.DriverManageQuery;
 import com.tianrui.api.req.basicFile.measure.DriverManageSave;
+import com.tianrui.api.req.system.base.GetCodeReq;
 import com.tianrui.api.resp.basicFile.measure.DriverManageResp;
+import com.tianrui.api.resp.system.auth.SystemUserResp;
+import com.tianrui.smartfactory.common.constants.Constant;
 import com.tianrui.smartfactory.common.constants.ErrorCode;
 import com.tianrui.smartfactory.common.vo.PaginationVO;
 import com.tianrui.smartfactory.common.vo.Result;
@@ -24,10 +33,14 @@ public class DriverManageAction {
 	
 	@Autowired
 	private IDriverManageService driverManageService;
+	@Autowired
+	private ISystemCodeService systemCodeService;
 	
 	@RequestMapping("/main")
 	public ModelAndView main(){
 		ModelAndView view = new ModelAndView("basicFile/measure/driver");
+		view.addObject("orgid", Constant.ORG_ID);
+		view.addObject("orgname", Constant.ORG_NAME);
 		return view;
 	}
 	
@@ -45,12 +58,21 @@ public class DriverManageAction {
 		return result;
 	}
 
-	@RequestMapping("/addDriver")
+	@RequestMapping("/addView")
 	@ResponseBody
-	public Result addDriver(DriverManageSave save){
+	public Result addView(HttpSession session){
 		Result result = Result.getSuccessResult();
 		try {
-			result = driverManageService.addDriver(save);
+			Map<String, Object> map = new HashMap<String, Object>();
+			SystemUserResp user = (SystemUserResp) session.getAttribute("systemUser");
+			GetCodeReq codeReq = new GetCodeReq();
+			codeReq.setCode("DR");
+			codeReq.setCodeType(true);
+			codeReq.setUserid(user.getId());
+			map.put("code", systemCodeService.getCode(codeReq).getData());
+			codeReq.setCodeType(false);
+			map.put("internalcode", systemCodeService.getCode(codeReq).getData());
+			result.setData(map);
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
@@ -58,12 +80,14 @@ public class DriverManageAction {
 		return result;
 	}
 	
-	@RequestMapping("/updateDriver")
+	@RequestMapping("/add")
 	@ResponseBody
-	public Result updateDriver(DriverManageSave save){
+	public Result add(DriverManageSave save, HttpSession session){
 		Result result = Result.getSuccessResult();
 		try {
-			result = driverManageService.updateDriver(save);
+			SystemUserResp user = (SystemUserResp) session.getAttribute("systemUser");
+			save.setCurrId(user.getId());
+			result = driverManageService.add(save);
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
@@ -71,12 +95,29 @@ public class DriverManageAction {
 		return result;
 	}
 	
-	@RequestMapping("/delDriver")
+	@RequestMapping("/update")
 	@ResponseBody
-	public Result deleteDriver(DriverManageQuery query){
+	public Result updateDriver(DriverManageSave save, HttpSession session){
 		Result result = Result.getSuccessResult();
 		try {
-			result = driverManageService.deleteDriver(query);
+			SystemUserResp user = (SystemUserResp) session.getAttribute("systemUser");
+			save.setCurrId(user.getId());
+			result = driverManageService.update(save);
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
+		}
+		return result;
+	}
+	
+	@RequestMapping("/delete")
+	@ResponseBody
+	public Result delete(DriverManageQuery query, HttpSession session){
+		Result result = Result.getSuccessResult();
+		try {
+			SystemUserResp user = (SystemUserResp) session.getAttribute("systemUser");
+			query.setCurrId(user.getId());
+			result = driverManageService.delete(query);
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 			result.setErrorCode(ErrorCode.SYSTEM_ERROR);

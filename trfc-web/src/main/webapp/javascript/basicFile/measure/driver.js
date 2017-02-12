@@ -1,10 +1,11 @@
 ;(function($, win){
 	//请求路径
 	var URL = {
-			addDriverUrl:"/trfc/driver/addDriver",
-			addBtnUrl:"/trfc/common/code/driverCode",
+			addUrl:"/trfc/driver/add",
+			addViewUrl:"/trfc/driver/addView",
 			pageUrl:"/trfc/driver/page",
-			updateDriverUrl:"/trfc/driver/updateDriver"
+			updateUrl:"/trfc/driver/update",
+			deleteUrl:"/trfc/driver/delete"
 	};
 	
 	init();
@@ -26,7 +27,7 @@
 		});
 		$('#addBtn').off('click').on('click',function(){
 			$.ajax({
-				url:URL.addBtnUrl,
+				url:URL.addViewUrl,
 				data:{},
 				async:true,
 				cache:false,
@@ -44,7 +45,9 @@
 			});
 		});
 		$('#addDriverBtn').off('click').on('click',function(){
+			var _add_this = this;
 			if($('#addDriver').is(':visible')){
+				_add_this.disabled = true;
 				var code = $('#add_code').val();code = $.trim(code);
 				var internalcode = $('#add_internalcode').val();internalcode = $.trim(internalcode);
 				var name = $('#add_name').val();name = $.trim(name);
@@ -60,7 +63,7 @@
 				var orgname = $('#add_orgname').val();orgname = $.trim(orgname);
 				var remarks = $('#add_remarks').val();remarks = $.trim(remarks);
 				$.ajax({
-					url:URL.addDriverUrl,
+					url:URL.addUrl,
 					data:{
 						code:code,
 						internalcode:internalcode,
@@ -84,6 +87,7 @@
 						}else{
 							layer.msg(result.error, {icon: 5});
 						}
+						_add_this.disabled = false;
 					}
 				});
 			}
@@ -213,8 +217,25 @@
 			});
 			$('#dataBody .delView').off('click').on('click',function(){
 				var obj = $(this).closest('tr').data();
-				$('#del_id').val(obj.id);
-				$('#delDriver').modal();
+				layer.confirm('注：删除操作不可恢复，您确定要继续吗？', {
+					btn: ['确认','取消'] //按钮
+				}, function(){
+					$.ajax({
+						url:URL.deleteUrl,
+						data:{id: obj.id},
+						async:true,
+						cache:false,
+						dataType:'json',
+						type:'post',
+						success:function(result){
+							if(result.code == '000000'){
+								window.location.reload();
+							}else{
+								layer.msg(result.error, {icon: 5});
+							}
+						}
+					});
+				});
 			});
 		}else{
 			layer.msg('暂无数据...');
@@ -235,7 +256,7 @@
 			}
 			var remarks = $('#update_remarks').val();remarks = $.trim(remarks);
 			$.ajax({
-				url:URL.updateDriverUrl,
+				url:URL.updateUrl,
 				data:{
 					id:id,
 					name:name,

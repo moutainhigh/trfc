@@ -15,8 +15,10 @@ import com.tianrui.api.intf.basicFile.measure.IVehicleManageService;
 import com.tianrui.api.intf.basicFile.nc.ICustomerManageService;
 import com.tianrui.api.intf.basicFile.nc.IMaterielManageService;
 import com.tianrui.api.intf.businessManage.salesManage.ISalesArriveService;
+import com.tianrui.api.intf.system.base.ISystemCodeService;
 import com.tianrui.api.req.businessManage.salesManage.SalesArriveQuery;
 import com.tianrui.api.req.businessManage.salesManage.SalesArriveSave;
+import com.tianrui.api.req.system.base.GetCodeReq;
 import com.tianrui.api.resp.businessManage.salesManage.SalesArriveResp;
 import com.tianrui.api.resp.system.auth.SystemUserResp;
 import com.tianrui.smartfactory.common.constants.ErrorCode;
@@ -45,12 +47,13 @@ public class SalesArriveAction {
 	private IDriverManageService driverManageService; 
 	@Autowired
 	private ICustomerManageService customerManageService; 
+	@Autowired
+	private ISystemCodeService systemCodeService;
 	
 	@RequestMapping("/main")
 	public ModelAndView main(){
 		ModelAndView view = new ModelAndView("businessManage/salesManage/salesArrive");
 		try {
-			view.addObject("customer", customerManageService.findListByParmas(null).getData());
 			view.addObject("vehicle", vehicleManageService.findListByParmas(null).getData());
 			view.addObject("materiel", materielManageService.findListByParmas(null).getData());
 			view.addObject("driver", driverManageService.findListByParmas(null).getData());
@@ -75,18 +78,28 @@ public class SalesArriveAction {
 	}
 	
 	@RequestMapping("/addView")
-	public ModelAndView addView(){
+	public ModelAndView addView(HttpSession session){
 		ModelAndView view = new ModelAndView("businessManage/salesManage/salesArriveAdd");
 		try {
-			view.addObject("code", "TH"+(int)(Math.random()*1000000));
-			view.addObject("v_code", "CL"+(int)(Math.random()*1000000));
-			view.addObject("d_code", "DR"+(int)(Math.random()*100000000));
-			view.addObject("d_internalcode", ((int)(Math.random()*1000000)+"").substring(2));
+			SystemUserResp user = (SystemUserResp) session.getAttribute("systemUser");
+			GetCodeReq codeReq = new GetCodeReq();
+			codeReq.setCode("TH");
+			codeReq.setCodeType(true);
+			codeReq.setUserid(user.getId());
+			view.addObject("code", systemCodeService.getCode(codeReq).getData());
+			codeReq.setCode("CL");
+			codeReq.setCodeType(true);
+			view.addObject("v_code", systemCodeService.getCode(codeReq).getData());
+			codeReq.setCode("DR");
+			codeReq.setCodeType(true);
+			view.addObject("d_code", systemCodeService.getCode(codeReq).getData());
+			codeReq.setCode("DR");
+			codeReq.setCodeType(false);
+			view.addObject("d_internalcode", systemCodeService.getCode(codeReq).getData());
 			view.addObject("orgid", "0");
 			view.addObject("orgname", "天瑞集团");
 			view.addObject("createtimeStr", DateUtil.getNowDateString("yyyy-MM-dd HH:mm:ss"));
 			view.addObject("materiel", materielManageService.findListByParmas(null).getData());
-			view.addObject("customer", customerManageService.findListByParmas(null).getData());
 			view.addObject("vehicle", vehicleManageService.findListByParmas(null).getData());
 			view.addObject("driver", driverManageService.findListByParmas(null).getData());
 		} catch (Exception e) {

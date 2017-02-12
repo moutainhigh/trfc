@@ -17,11 +17,11 @@ public interface IVehicleManageService {
 
 	PaginationVO<VehicleManageResp> page(VehicleManageQuery query) throws Exception;
 
-	Result addVehicle(VehicleManageSave save) throws Exception;
+	Result add(VehicleManageSave save) throws Exception;
 
-	Result editVehicle(VehicleManageSave save) throws Exception;
+	Result update(VehicleManageSave save) throws Exception;
 
-	Result deleteVehicle(VehicleManageQuery query);
+	Result delete(VehicleManageQuery query);
 	
 	Result delblacklist(VehicleManageQuery query) throws Exception;
 
