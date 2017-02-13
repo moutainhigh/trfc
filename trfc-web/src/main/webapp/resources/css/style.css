@@ -184,14 +184,21 @@ input[readOnly="true"]{
     background: #529cd6;
     margin-top: 1px;
 }
+.intel_search{
+}
 .intel_search .intel_sconditon{
     padding: 0;
+    position: relative;
 }
 .intel_search .intel_solo{
     text-align: right;
     float: left;
     margin:5px 15px 5px 0;
     font-size: 12px;
+    position: relative;
+}
+.intel_search .intel_solo ul{
+    display: none;
 }
 .intel_search .intel_sline{
     overflow: hidden;
@@ -200,6 +207,7 @@ input[readOnly="true"]{
      width: 80px;
      text-align: right;
  }
+
 .intel_search .intel_solo select{
     width: 156px;
     display: inline-block;
@@ -335,21 +343,21 @@ input[readOnly="true"]{
     margin: 45px 0 50px 0;
 }
 .login .lgcont{
-    margin: 45px 80px 50px 80px;
+    margin: 45px 80px 50px 40px;
 }
 .login .lgcont .lgleft{
-    width: 600px;
+    width: 630px;
     float: left;
 }
 .login .lgcont .lgleft img{
    display: block;
-    margin: 40px auto;
+    margin: 20px auto 0 auto;
 }
 .login .lgcont .lgright{
     width: 400px;
     float: right;
     border:1px solid #dfe0e9;
-    padding: 30px 34px 50px 34px;
+    padding: 30px 34px 40px 34px;
     color: #434e8d;
 }
 .login .lgcont .lgright .lgline1 label{
@@ -408,7 +416,7 @@ input[readOnly="true"]{
     color: #ffffff;
     font-size: 18px;
     padding: 15px 0;
-    margin-top: 20px;
+    margin-top: 30px;
 }
 .reg_top{
     margin: 36px 0;
@@ -837,6 +845,7 @@ input[readOnly="true"]{
 }
 .cg_tabbox .cg_tabcont{
     margin-bottom: 20px;
+    position: relative;
 }
 .cg_tabbox .cg_tabcont table thead th{
     background: #e5e6ef;
@@ -855,8 +864,8 @@ input[readOnly="true"]{
     margin-top: 10px;
     width: 350px;
     float: left;
-    height: 30px;
     position: relative;
+    overflow: hidden;
 }
 .alt_edit_div label{
     width: 120px;
@@ -897,12 +906,12 @@ input[readOnly="true"]{
 
 .daohuo_add{
     width: 100%;
-    margin-top: 20px;
+    margin-top: 0px;
 }
 .daohuo_add h5{
     font-size: 24px;
     text-align: center;
-    line-height: 80px;
+    line-height: 60px;
 }
 .daohuo_add .daohuo_add_div{
 }
@@ -918,7 +927,6 @@ input[readOnly="true"]{
     position: relative;
 }
 .dh_carnum_sele{
-    display: none;
     position: absolute;
     left: 125px;
     top: 30px;
@@ -943,9 +951,11 @@ width: 180px;
 .daohuo_add .daohuo_add_div label{
     width: 120px;
     text-align: right;
+    line-height: 30px;
 }
 .daohuo_add  .daohuo_add_div .daohuo_add_solo input[type="text"]{
     width: 180px;
+
 }
 .daohuo_add .daohuo_add_div select{
     width: 180px;
@@ -1461,4 +1471,18 @@ width: 180px;
     border-bottom: 1px solid #e3e4ea;
     margin: 0;
     background: #fafbfe;
+}
+.total_addscroll{
+    max-height: 500px;
+    overflow-y: scroll;
+}
+.selct2_alt_div{
+    width: 220px;
+    display: inline-block;
+    position: relative;
+
+}
+.alt_edit_div .selct2_alt_div span{
+    margin: 0;
+    width: 220px;
 }

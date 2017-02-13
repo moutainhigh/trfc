@@ -48,7 +48,7 @@ public class MaterialScheme {
     /**
      * 显示
      */
-    private String show;
+    private String shows;
     /**
      * 有效�?(0:有效,1:无效)
      */
@@ -166,13 +166,7 @@ public class MaterialScheme {
         this.invalid = invalid == null ? null : invalid.trim();
     }
 
-    public String getShow() {
-		return show;
-	}
-
-	public void setShow(String show) {
-		this.show = show;
-	}
+ 
 
 	public String getVerdict() {
         return verdict;
@@ -221,4 +215,12 @@ public class MaterialScheme {
     public void setUtc(Long utc) {
         this.utc = utc;
     }
+
+	public String getShows() {
+		return shows;
+	}
+
+	public void setShows(String shows) {
+		this.shows = shows;
+	}
 }

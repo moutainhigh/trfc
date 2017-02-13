@@ -34,6 +34,7 @@ public class MaterialSchemeAction {
 		Result rs = Result.getErrorResult();
 		try {
 			rs = materialSchemeService.page(req);
+			
 		} catch (Exception e) {
 			log.error(e.getMessage(),e);
 		}

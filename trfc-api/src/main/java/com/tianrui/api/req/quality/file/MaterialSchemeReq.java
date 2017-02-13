@@ -55,7 +55,7 @@ public class MaterialSchemeReq extends BaseReq {
     /**
      * 显示(0:全部显示,1:部分显示,2:不显示)
      */
-    private String show;
+    private String shows;
     /**
      * 结论
      */
@@ -162,12 +162,13 @@ public class MaterialSchemeReq extends BaseReq {
 	public void setLimit(int limit) {
 		this.limit = limit;
 	}
-	public String getShow() {
-		return show;
+	public String getShows() {
+		return shows;
 	}
-	public void setShow(String show) {
-		this.show = show;
+	public void setShows(String shows) {
+		this.shows = shows;
 	}
+
     
     
 }

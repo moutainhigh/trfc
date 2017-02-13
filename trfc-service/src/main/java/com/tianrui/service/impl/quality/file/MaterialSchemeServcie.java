@@ -1,4 +1,4 @@
-package com.tianrui.service.impl.file;
+package com.tianrui.service.impl.quality.file;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,6 +19,7 @@ import com.tianrui.service.bean.quality.file.MaterialScheme;
 import com.tianrui.service.mapper.basicFile.nc.MaterielManageMapper;
 import com.tianrui.service.mapper.quality.file.MaterialSchemeMapper;
 import com.tianrui.smartfactory.common.constants.ErrorCode;
+import com.tianrui.smartfactory.common.utils.UUIDUtil;
 import com.tianrui.smartfactory.common.vo.PaginationVO;
 import com.tianrui.smartfactory.common.vo.Result;
 
@@ -53,6 +54,8 @@ public class MaterialSchemeServcie implements IMaterialSchemeService {
 		if(req!=null){
 			MaterialScheme ms = new MaterialScheme();
 			PropertyUtils.copyProperties(ms, req);
+			//获取id
+			ms.setId(UUIDUtil.getId());
 			//获取创建者和修改者
 			ms.setCreator(req.getUser());
 			ms.setCreatetime(System.currentTimeMillis());
@@ -120,7 +123,9 @@ public class MaterialSchemeServcie implements IMaterialSchemeService {
 						PropertyUtils.copyProperties(resp, ms);
 						//通过id获取名称,并赋值
 						MaterielManage mm = materielManageMapper.selectByPrimaryKey(ms.getMaterialid());
-						resp.setMaterialname(mm.getName());
+						if(mm!=null){
+							resp.setMaterialname(mm.getName());
+						}
 						//添加到集合
 						resps.add(resp);
 					}
@@ -136,30 +141,31 @@ public class MaterialSchemeServcie implements IMaterialSchemeService {
 	@Override
 	public Result materialData() throws Exception {
 		//创建参数
-				MaterielManageQuery req = new MaterielManageQuery();
-				//设置限定条件,查询业务类型为 销售的信息
-				//req.setBusinesstype("1");
-				//查询
-				List<MaterielManage> list1 = materielManageMapper.findMaterielManagePage(req);
-				//结果集转化为vo类型的集合
-				List<MaterielManageVO> list2 = new ArrayList<MaterielManageVO>();
-				if(list1!=null && !list1.isEmpty()){
-					for(MaterielManage manage : list1){
-						MaterielManageVO vo = new MaterielManageVO();
-						PropertyUtils.copyProperties(vo, manage);
-						list2.add(vo);
-					}
-				}
-				//操作成功
-				Result rs = Result.getSuccessResult();
-				rs.setData(list2);
-				return rs;
+		MaterielManageQuery req = new MaterielManageQuery();
+		//设置限定条件,查询业务类型为 销售的信息
+		//req.setBusinesstype("1");
+		//查询
+		List<MaterielManage> list1 = materielManageMapper.findMaterielManagePage(req);
+		//结果集转化为vo类型的集合
+		List<MaterielManageVO> list2 = new ArrayList<MaterielManageVO>();
+		if(list1!=null && !list1.isEmpty()){
+			for(MaterielManage manage : list1){
+				MaterielManageVO vo = new MaterielManageVO();
+				PropertyUtils.copyProperties(vo, manage);
+				list2.add(vo);
+			}
+		}
+		//操作成功
+		Result rs = Result.getSuccessResult();
+		rs.setData(list2);
+		return rs;
 	}
 
 	@Override
 	public Result checkMaterialType(MaterialSchemeReq req) throws Exception {
 		Result rs = Result.getParamErrorResult();
 		if(req!=null){
+			//查询数据总数(通过物料品种)
 			int index = materialSchemeMapper.count(req);
 			//通过index 判断操作是否成功
 			if(index<0){

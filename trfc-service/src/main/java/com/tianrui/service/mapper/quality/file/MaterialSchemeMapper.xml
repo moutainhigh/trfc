@@ -13,7 +13,7 @@
     <result column="aid" jdbcType="VARCHAR" property="aid" />
     <result column="aidadd" jdbcType="VARCHAR" property="aidadd" />
     <result column="invalid" jdbcType="VARCHAR" property="invalid" />
-    <result column="show" jdbcType="VARCHAR" property="show" />
+    <result column="shows" jdbcType="VARCHAR" property="shows" />
     <result column="verdict" jdbcType="VARCHAR" property="verdict" />
     <result column="creator" jdbcType="VARCHAR" property="creator" />
     <result column="createtime" jdbcType="BIGINT" property="createtime" />
@@ -23,7 +23,7 @@
   </resultMap>
   <sql id="Base_Column_List">
     id, materialid, materialtype, strength, admixture, admixtureadd, gypsum, gypsumadd, 
-    aid, aidadd, invalid, show, verdict, creator, createtime, modifier, modifytime, utc
+    aid, aidadd, invalid, shows, verdict, creator, createtime, modifier, modifytime, utc
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
@@ -39,14 +39,14 @@
     insert into tr_quality_db_material (id, materialid, materialtype, 
       strength, admixture, admixtureadd, 
       gypsum, gypsumadd, aid, 
-      aidadd, invalid, show, 
+      aidadd, invalid, shows, 
       verdict, creator, createtime, 
       modifier, modifytime, utc
       )
     values (#{id,jdbcType=VARCHAR}, #{materialid,jdbcType=VARCHAR}, #{materialtype,jdbcType=VARCHAR}, 
       #{strength,jdbcType=VARCHAR}, #{admixture,jdbcType=VARCHAR}, #{admixtureadd,jdbcType=VARCHAR}, 
       #{gypsum,jdbcType=VARCHAR}, #{gypsumadd,jdbcType=VARCHAR}, #{aid,jdbcType=VARCHAR}, 
-      #{aidadd,jdbcType=VARCHAR}, #{invalid,jdbcType=VARCHAR}, #{show,jdbcType=VARCHAR}, 
+      #{aidadd,jdbcType=VARCHAR}, #{invalid,jdbcType=VARCHAR}, #{shows,jdbcType=VARCHAR}, 
       #{verdict,jdbcType=VARCHAR}, #{creator,jdbcType=VARCHAR}, #{createtime,jdbcType=BIGINT}, 
       #{modifier,jdbcType=VARCHAR}, #{modifytime,jdbcType=BIGINT}, #{utc,jdbcType=BIGINT}
       )
@@ -87,8 +87,8 @@
       <if test="invalid != null">
         invalid,
       </if>
-      <if test="show != null">
-        show,
+      <if test="shows != null">
+        shows,
       </if>
       <if test="verdict != null">
         verdict,
@@ -143,8 +143,8 @@
       <if test="invalid != null">
         #{invalid,jdbcType=VARCHAR},
       </if>
-      <if test="show != null">
-        #{show,jdbcType=VARCHAR},
+      <if test="shows != null">
+        #{shows,jdbcType=VARCHAR},
       </if>
       <if test="verdict != null">
         #{verdict,jdbcType=VARCHAR},
@@ -199,8 +199,8 @@
       <if test="invalid != null">
         invalid = #{invalid,jdbcType=VARCHAR},
       </if>
-      <if test="show != null">
-        show = #{show,jdbcType=VARCHAR},
+      <if test="shows != null">
+        shows = #{shows,jdbcType=VARCHAR},
       </if>
       <if test="verdict != null">
         verdict = #{verdict,jdbcType=VARCHAR},
@@ -235,7 +235,7 @@
       aid = #{aid,jdbcType=VARCHAR},
       aidadd = #{aidadd,jdbcType=VARCHAR},
       invalid = #{invalid,jdbcType=VARCHAR},
-      show = #{show,jdbcType=VARCHAR},
+      shows = #{shows,jdbcType=VARCHAR},
       verdict = #{verdict,jdbcType=VARCHAR},
       creator = #{creator,jdbcType=VARCHAR},
       createtime = #{createtime,jdbcType=BIGINT},

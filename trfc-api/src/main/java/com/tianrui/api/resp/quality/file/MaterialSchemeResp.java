@@ -55,7 +55,7 @@ public class MaterialSchemeResp extends BaseResp{
     /**
      * 显示
      */
-    private String show;
+    private String shows;
     /**
      * 有效性(0:有效,1:无效)
      */
@@ -142,11 +142,12 @@ public class MaterialSchemeResp extends BaseResp{
 	public void setVerdict(String verdict) {
 		this.verdict = verdict;
 	}
-	public String getShow() {
-		return show;
+	public String getShows() {
+		return shows;
 	}
-	public void setShow(String show) {
-		this.show = show;
+	public void setShows(String shows) {
+		this.shows = shows;
 	}
+
 
 }
