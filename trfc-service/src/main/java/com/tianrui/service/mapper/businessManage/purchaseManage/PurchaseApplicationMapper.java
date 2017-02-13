@@ -2,7 +2,7 @@ package com.tianrui.service.mapper.businessManage.purchaseManage;
 
 import java.util.List;
 
-import com.tianrui.api.req.businessManage.purchaseManage.PurchaseApplicationReq;
+import com.tianrui.api.req.businessManage.purchaseManage.PurchaseApplicationQuery;
 import com.tianrui.service.bean.businessManage.purchaseManage.PurchaseApplication;
 
 public interface PurchaseApplicationMapper {
@@ -17,9 +17,8 @@ public interface PurchaseApplicationMapper {
     int updateByPrimaryKeySelective(PurchaseApplication record);
 
     int updateByPrimaryKey(PurchaseApplication record);
-    
-    List<PurchaseApplication> findPurchaseApplicationPage(PurchaseApplicationReq req);
-    
-    long findPurchaseApplicationPageCount(PurchaseApplicationReq req);
-    
+
+	long findPurchaseApplicationPageCount(PurchaseApplicationQuery query);
+
+	List<PurchaseApplication> findPurchaseApplicationPage(PurchaseApplicationQuery query);
 }

@@ -8,8 +8,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.tianrui.api.intf.basicFile.nc.ISupplierManageService;
 import com.tianrui.api.intf.businessManage.purchaseManage.IPurchaseApplicationService;
-import com.tianrui.api.req.businessManage.purchaseManage.PurchaseApplicationReq;
+import com.tianrui.api.req.businessManage.purchaseManage.PurchaseApplicationQuery;
 import com.tianrui.api.resp.businessManage.purchaseManage.PurchaseApplicationResp;
 import com.tianrui.smartfactory.common.constants.ErrorCode;
 import com.tianrui.smartfactory.common.vo.PaginationVO;
@@ -24,18 +25,26 @@ public class PurchaseApplicationAction {
 	@Autowired
 	private IPurchaseApplicationService purchaseApplicationService;
 	
+	@Autowired
+	private ISupplierManageService supplierManageService;
+	
 	@RequestMapping("/main")
 	public ModelAndView main(){
 		ModelAndView view = new ModelAndView("businessManage/purchaseManage/purchaseApplication");
+		try {
+			view.addObject("supplier", supplierManageService.findListByParmas(null).getData());
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+		}
 		return view;
 	}
 	
 	@RequestMapping("/page")
 	@ResponseBody
-	public Result page(PurchaseApplicationReq req){
+	public Result page(PurchaseApplicationQuery query){
 		Result result = Result.getSuccessResult();
 		try {
-			PaginationVO<PurchaseApplicationResp> page = purchaseApplicationService.page(req);
+			PaginationVO<PurchaseApplicationResp> page = purchaseApplicationService.page(query);
 			result.setData(page);
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);

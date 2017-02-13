@@ -1,5 +1,7 @@
 package com.tianrui.service.mapper.businessManage.purchaseManage;
 
+import java.util.List;
+
 import com.tianrui.service.bean.businessManage.purchaseManage.PurchaseApplicationDetail;
 
 public interface PurchaseApplicationDetailMapper {
@@ -14,7 +16,6 @@ public interface PurchaseApplicationDetailMapper {
     int updateByPrimaryKeySelective(PurchaseApplicationDetail record);
 
     int updateByPrimaryKey(PurchaseApplicationDetail record);
-    
-    PurchaseApplicationDetail findPurchaseApplicationDetail(String purchaseid);
-    
+
+	List<PurchaseApplicationDetail> selectByPurchaseId(String purchaseId);
 }

@@ -1,49 +1,66 @@
 package com.tianrui.service.bean.businessManage.purchaseManage;
-
+/**
+ * @Description 采购申请单Bean
+ * @author zhanggaohao
+ * @version 2017年2月13日 上午9:00:48
+ */
 public class PurchaseApplication {
+	//主键id
     private String id;
-
-    private String billno;
-
-    private String status;
-
+	//订单编号
+    private String code;
+	//审核状态 0-未审核，1-已审核
+    private String auditstatus;
+	//来源 0-联机，1-脱机
     private String source;
-
-    private String typecode;
-    
-    private String typename;
-
-    private String supplierid;
-
-    private String suppliername;
-    
+	//订单类型id
+    private String billtypeid;
+	//订单类型名称
+    private String billtypename;
+	//订单日期
+    private Long billtime;
+	//总数量
     private Double sumnum;
-
-    private Long applytime;
-
-    private String deptid;
-
-    private String deptname;
-
+	//组织id
+    private String orgid;
+	//组织名称
+    private String orgname;
+	//供应商id
+    private String supplierid;
+	//供应商名称
+    private String suppliername;
+	//部门id
+    private String departmentid;
+	//部门
+    private String departmentname;
+	//采购员id
     private String buyerid;
-
+	//采购员姓名
     private String buyername;
-
+	//审核人id
     private String auditid;
-
+	//审核人姓名
     private String auditname;
-
+	//审核日期
     private Long audittime;
-
-    private String remark;
-
+	//状态：（0：删除，1：正常）
+    private String state;
+	//制单人id
+    private String makerid;
+	//制单人名称
+    private String makebillname;
+	//制单时间
+    private Long makebilltime;
+	//制单人
     private String creator;
-
-    private Long creatortime;
-
+	//制单时间
+    private Long createtime;
+	//修改人
     private String modifier;
-
+	//修改时间
     private Long modifytime;
+	//备注
+    private String remark;
 
     public String getId() {
         return id;
@@ -53,20 +70,20 @@ public class PurchaseApplication {
         this.id = id == null ? null : id.trim();
     }
 
-    public String getBillno() {
-        return billno;
+    public String getCode() {
+        return code;
     }
 
-    public void setBillno(String billno) {
-        this.billno = billno == null ? null : billno.trim();
+    public void setCode(String code) {
+        this.code = code == null ? null : code.trim();
     }
 
-    public String getStatus() {
-        return status;
+    public String getAuditstatus() {
+        return auditstatus;
     }
 
-    public void setStatus(String status) {
-        this.status = status == null ? null : status.trim();
+    public void setAuditstatus(String auditstatus) {
+        this.auditstatus = auditstatus == null ? null : auditstatus.trim();
     }
 
     public String getSource() {
@@ -77,20 +94,52 @@ public class PurchaseApplication {
         this.source = source == null ? null : source.trim();
     }
 
-    public String getTypecode() {
-        return typecode;
+    public String getBilltypeid() {
+        return billtypeid;
     }
 
-    public void setTypecode(String typecode) {
-        this.typecode = typecode == null ? null : typecode.trim();
+    public void setBilltypeid(String billtypeid) {
+        this.billtypeid = billtypeid == null ? null : billtypeid.trim();
     }
-    
-    public String getTypename() {
-    	return typename;
+
+    public String getBilltypename() {
+        return billtypename;
     }
-    
-    public void setTypename(String typename) {
-    	this.typename = typename == null ? null : typename.trim();
+
+    public void setBilltypename(String billtypename) {
+        this.billtypename = billtypename == null ? null : billtypename.trim();
+    }
+
+    public Long getBilltime() {
+        return billtime;
+    }
+
+    public void setBilltime(Long billtime) {
+        this.billtime = billtime;
+    }
+
+    public Double getSumnum() {
+        return sumnum;
+    }
+
+    public void setSumnum(Double sumnum) {
+        this.sumnum = sumnum;
+    }
+
+    public String getOrgid() {
+        return orgid;
+    }
+
+    public void setOrgid(String orgid) {
+        this.orgid = orgid == null ? null : orgid.trim();
+    }
+
+    public String getOrgname() {
+        return orgname;
+    }
+
+    public void setOrgname(String orgname) {
+        this.orgname = orgname == null ? null : orgname.trim();
     }
 
     public String getSupplierid() {
@@ -108,37 +157,21 @@ public class PurchaseApplication {
     public void setSuppliername(String suppliername) {
         this.suppliername = suppliername == null ? null : suppliername.trim();
     }
-    
-    public Double getSumnum() {
-    	return sumnum;
-    }
-    
-    public void setSumnum(Double sumnum) {
-    	this.sumnum = sumnum;
+
+    public String getDepartmentid() {
+        return departmentid;
     }
 
-    public Long getApplytime() {
-        return applytime;
+    public void setDepartmentid(String departmentid) {
+        this.departmentid = departmentid == null ? null : departmentid.trim();
     }
 
-    public void setApplytime(Long applytime) {
-        this.applytime = applytime;
+    public String getDepartmentname() {
+        return departmentname;
     }
 
-    public String getDeptid() {
-        return deptid;
-    }
-
-    public void setDeptid(String deptid) {
-        this.deptid = deptid == null ? null : deptid.trim();
-    }
-
-    public String getDeptname() {
-        return deptname;
-    }
-
-    public void setDeptname(String deptname) {
-        this.deptname = deptname == null ? null : deptname.trim();
+    public void setDepartmentname(String departmentname) {
+        this.departmentname = departmentname == null ? null : departmentname.trim();
     }
 
     public String getBuyerid() {
@@ -181,12 +214,36 @@ public class PurchaseApplication {
         this.audittime = audittime;
     }
 
-    public String getRemark() {
-        return remark;
+    public String getState() {
+        return state;
     }
 
-    public void setRemark(String remark) {
-        this.remark = remark == null ? null : remark.trim();
+    public void setState(String state) {
+        this.state = state == null ? null : state.trim();
+    }
+
+    public String getMakerid() {
+        return makerid;
+    }
+
+    public void setMakerid(String makerid) {
+        this.makerid = makerid == null ? null : makerid.trim();
+    }
+
+    public String getMakebillname() {
+        return makebillname;
+    }
+
+    public void setMakebillname(String makebillname) {
+        this.makebillname = makebillname == null ? null : makebillname.trim();
+    }
+
+    public Long getMakebilltime() {
+        return makebilltime;
+    }
+
+    public void setMakebilltime(Long makebilltime) {
+        this.makebilltime = makebilltime;
     }
 
     public String getCreator() {
@@ -197,12 +254,12 @@ public class PurchaseApplication {
         this.creator = creator == null ? null : creator.trim();
     }
 
-    public Long getCreatortime() {
-        return creatortime;
+    public Long getCreatetime() {
+        return createtime;
     }
 
-    public void setCreatortime(Long creatortime) {
-        this.creatortime = creatortime;
+    public void setCreatetime(Long createtime) {
+        this.createtime = createtime;
     }
 
     public String getModifier() {
@@ -219,5 +276,13 @@ public class PurchaseApplication {
 
     public void setModifytime(Long modifytime) {
         this.modifytime = modifytime;
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark == null ? null : remark.trim();
     }
 }

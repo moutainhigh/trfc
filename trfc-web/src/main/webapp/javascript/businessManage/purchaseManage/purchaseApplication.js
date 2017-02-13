@@ -42,14 +42,14 @@
 	
 	function getParams(){
 		var params = {};
-		var billno = $('#billno').val();billno = $.trim(billno);
-		var supplierid = $('#supplierid').val();supplierid = $.trim(supplierid);
+		var code = $('#code').val();code = $.trim(code);
+		var supplierid = $('#supplier').val();supplierid = $.trim(supplierid);
 		var source = $('#source').val();source = $.trim(source);
 		var starttime = $('#starttime').val();starttime = $.trim(starttime);
 		var endtime = $('#endtime').val();endtime = $.trim(endtime);
 		var pageSize = $('#pageSize').val();pageSize = $.trim(pageSize);
 		return {
-			billno:billno,
+			code:code,
 			supplierid:supplierid,
 			source:source,
 			starttime:str2Long(starttime),
@@ -108,17 +108,17 @@
 		if(list && list.length>0){
 			for(var i=0;i<list.length;i++){
 				var obj = list[i] || '';
-				var billno = obj.billno || '';
-				var status = obj.status || '';
-				switch (status) {
+				var code = obj.code || '';
+				var auditstatus = obj.auditstatus || '';
+				switch (auditstatus) {
 				case '0':
-					status = '未审核';
+					auditstatus = '未审核';
 					break;
 				case '1':
-					status = '已审核';
+					auditstatus = '已审核';
 					break;
 				default:
-					status = '';
+					auditstatus = '';
 					break;
 				}
 				var source = obj.source || '';
@@ -133,27 +133,27 @@
 					source = '';
 					break;
 				}
-				var typename = obj.typename || '';
+				var billtypename = obj.billtypename || '';
 				var suppliername = obj.suppliername || '';
-				var applytimeStr = obj.applytimeStr || '';
-				var deptname = obj.deptname || '';
+				var billtimeStr = obj.billtimeStr || '';
+				var departmentname = obj.departmentname || '';
 				var buyername = obj.buyername || '';
-				var creator = obj.creator || '';
-				var creatortimeStr = obj.creatortimeStr || '';
+				var makebillname = obj.makebillname || '';
+				var makebilltimeStr = obj.makebilltimeStr || '';
 				var auditname = obj.auditname || '';
 				var audittimeStr = obj.audittimeStr || '';
 				var remark = obj.remark || '';
 				$('<tr>').append('<td>'+(i+1)+'</td>')
-						.append('<td>'+billno+'</td>')
-						.append('<td class="colorred">'+status+'</td>')
+						.append('<td>'+code+'</td>')
+						.append('<td class="colorred">'+auditstatus+'</td>')
 						.append('<td>'+source+'</td>')
-						.append('<td>'+typename+'</td>')
+						.append('<td>'+billtypename+'</td>')
 						.append('<td>'+suppliername+'</td>')
-						.append('<td>'+applytimeStr+'</td>')
-						.append('<td>'+deptname+'</td>')
+						.append('<td>'+billtimeStr+'</td>')
+						.append('<td>'+departmentname+'</td>')
 						.append('<td>'+buyername+'</td>')
-						.append('<td>'+creator+'</td>')
-						.append('<td>'+creatortimeStr+'</td>')
+						.append('<td>'+makebillname+'</td>')
+						.append('<td>'+makebilltimeStr+'</td>')
 						.append('<td>'+auditname+'</td>')
 						.append('<td>'+audittimeStr+'</td>')
 						.append('<td>'+remark+'</td>')
@@ -163,77 +163,83 @@
 			$('#dataBody tr').off('click').on('click',function(){
 				$('#moreBody').empty();
 				var obj = $(this).data();
-				var objDetail = obj.detailResp;
-				var orgname = objDetail.orgname || '';
-				var materielname = objDetail.materielname || '';
-				var materielspec = objDetail.materielspec || '';
-				var materieltype = objDetail.materieltype || '';
-				var purchasesum = objDetail.purchasesum;
-				var receiptsum = objDetail.receiptsum;
-				var unreceiptsum = objDetail.unreceiptsum;
-				var advancesum = objDetail.advancesum;
-				var remainsum = objDetail.remainsum;
-				var remark = objDetail.remark || '';
-				$('<tr>').append('<td>'+orgname+'</td>')
-				.append('<td>'+materielname+'</td>')
-				.append('<td>'+materielspec+'</td>')
-				.append('<td>'+materieltype+'</td>')
-				.append('<td>'+purchasesum+'</td>')
-				.append('<td>'+receiptsum+'</td>')
-				.append('<td>'+unreceiptsum+'</td>')
-				.append('<td>'+advancesum+'</td>')
-				.append('<td>'+remainsum+'</td>')
-				.append('<td>'+remark+'</td>')
-				.appendTo('#moreBody');
+				var listdetail = obj.listdetail;
+				if(listdetail && listdetail.length > 0){
+					for(var i=0;i<listdetail.length;i++){
+						var detail = listdetail[i];
+						var orgname = detail.orgname || '';
+						var materielname = detail.materielname || '';
+						var materielspec = detail.materielspec || '';
+						var materieltype = detail.materieltype || '';
+						var purchasesum = detail.purchasesum;
+						var remark = detail.remark || '';
+						$('<tr>').append('<td>'+(i+1)+'</td>')
+								.append('<td>'+orgname+'</td>')
+								.append('<td>'+materielname+'</td>')
+								.append('<td>'+materielspec+'</td>')
+								.append('<td>'+materieltype+'</td>')
+								.append('<td>'+purchasesum+'</td>')
+								.append('<td></td>')
+								.append('<td></td>')
+								.append('<td></td>')
+								.append('<td></td>')
+								.append('<td>'+remark+'</td>')
+								.appendTo('#moreBody');
+					}
+				}
 				$('#dataMore').show();
 			});
 			$('#dataBody tr').off('dblclick').on('dblclick',function(){
 				$('#detailtab1').empty();
 				var obj = $(this).data();
-				var objDetail = obj.detailResp;
-				var billno = obj.billno || '';
+				var code = obj.code || '';
 				var source = obj.source || '';
-				switch (source) {
-				case '0':
-					source = '脱机';
-					break;
-				case '1':
-					source = '联机';
-					break;
-				default:
-					source = '';
-					break;
-				}
-				var typename = obj.typename || '';
-				var applytimeStr = obj.applytimeStr || '';
+				var billtypename = obj.billtypename || '';
+				var billtimeStr = obj.billtimeStr || '';
 				var suppliername = obj.suppliername || '';
-				var sumnum = obj.sumnum;
+				//var sumnum = obj.sumnum;
 				var buyername = obj.buyername || '';
-				var creator = obj.creator || '';
-				var creatortimeStr = obj.creatortimeStr || '';
+				var makebillname = obj.makebillname || '';
+				var makebilltimeStr = obj.makebilltimeStr || '';
 				var remark = obj.remark || '';
-				$('#_billno').val(billno);
-				$('#_source').val(source);
-				$('#_typename').val(typename);
-				$('#_applytime').val(applytimeStr);
-				$('#_suppliername').val(suppliername);
-				$('#_sumnum').val(sumnum);
-				$('#_buyername').val(buyername);
-				$('#_creator').val(creator);
-				$('#_creatortime').val(creatortimeStr);
-				$('#_remark').val(remark);
-				var orgname = objDetail.orgname || '';
-				var materielname = objDetail.materielname || '';
-				var checkprogramid = objDetail.checkprogramid || '';
-				var purchasesum = objDetail.purchasesum;
-				var remark = objDetail.remark || '';
-				$('<tr>').append('<td>'+orgname+'</td>')
-				.append('<td>'+materielname+'</td>')
-				.append('<td>'+checkprogramid+'</td>')
-				.append('<td>'+purchasesum+'</td>')
-				.append('<td>'+remark+'</td>')
-				.appendTo('#detailtab1');
-				switch (obj.status) {
+				$('#v_code').val(code);
+				$('#v_source').val(source);
+				$('#v_billtypename').val(billtypename);
+				$('#v_billtime').val(billtimeStr);
+				$('#v_suppliername').val(suppliername);
+				//$('#v_sumnum').val(sumnum);
+				$('#v_buyername').val(buyername);
+				$('#v_makebillname').val(makebillname);
+				$('#v_makebilltime').val(makebilltimeStr);
+				$('#v_remark').val(remark);
+				var listdetail = obj.listdetail;
+				if(listdetail && listdetail.length > 0){
+					var sumnum = 0;
+					for(var i=0;i<listdetail.length;i++){
+						var detail = listdetail[i];
+						var orgname = detail.orgname || '';
+						var materielname = detail.materielname || '';
+						var purchasesum = detail.purchasesum;
+						var remark = detail.remark || '';
+						$('<tr>').append('<td>'+(i+1)+'</td>')
+								.append('<td>'+orgname+'</td>')
+								.append('<td>'+materielname+'</td>')
+								.append('<td></td>')
+								.append('<td>'+purchasesum+'</td>')
+								.append('<td>'+remark+'</td>')
+								.appendTo('#detailtab1');
+						sumnum += purchasesum;
+					}
+					$('<tr>').append('<td></td>')
+							.append('<td>合计</td>')
+							.append('<td></td>')
+							.append('<td></td>')
+							.append('<td>'+sumnum+'</td>')
+							.append('<td></td>')
+							.appendTo('#detailtab1');
+					$('#v_sumnum').val(sumnum);
+				}
+				switch (obj.auditstatus) {
 				case '0':
 					$('#shImg').attr('src','/resources/images/un_sh.png');
 					break;

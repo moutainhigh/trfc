@@ -37,9 +37,9 @@ public class SalesArriveQuery extends BaseReq {
     private String state;
     //开始时间
     private Long starttime;
-    //结束事件
+    //结束时间
     private Long endtime;
-    //结束事件
+    //IC卡id
     private String icardid;
 
     private int start;

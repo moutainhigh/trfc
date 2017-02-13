@@ -4,17 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.beanutils.PropertyUtils;
-import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.tianrui.api.intf.businessManage.purchaseManage.IPurchaseApplicationDetailService;
 import com.tianrui.api.intf.businessManage.purchaseManage.IPurchaseApplicationService;
-import com.tianrui.api.req.businessManage.purchaseManage.PurchaseApplicationReq;
-import com.tianrui.api.resp.businessManage.purchaseManage.PurchaseApplicationDetailResp;
+import com.tianrui.api.req.businessManage.purchaseManage.PurchaseApplicationQuery;
 import com.tianrui.api.resp.businessManage.purchaseManage.PurchaseApplicationResp;
 import com.tianrui.service.bean.businessManage.purchaseManage.PurchaseApplication;
-import com.tianrui.service.bean.businessManage.purchaseManage.PurchaseApplicationDetail;
-import com.tianrui.service.mapper.businessManage.purchaseManage.PurchaseApplicationDetailMapper;
 import com.tianrui.service.mapper.businessManage.purchaseManage.PurchaseApplicationMapper;
 import com.tianrui.smartfactory.common.vo.PaginationVO;
 
@@ -25,22 +22,23 @@ public class PurchaseApplicationService implements IPurchaseApplicationService {
 	private PurchaseApplicationMapper purchaseApplicationMapper;
 	
 	@Autowired
-	private PurchaseApplicationDetailMapper purchaseApplicationDetailMapper;
+	private IPurchaseApplicationDetailService purchaseApplicationDetailService;
 	
 	@Override
-	public PaginationVO<PurchaseApplicationResp> page(PurchaseApplicationReq req) throws Exception{
+	public PaginationVO<PurchaseApplicationResp> page(PurchaseApplicationQuery query) throws Exception{
 		PaginationVO<PurchaseApplicationResp> page = null;
-		if(req != null){
+		if(query != null){
 			page = new PaginationVO<PurchaseApplicationResp>();
-			long count = purchaseApplicationMapper.findPurchaseApplicationPageCount(req);
+			query.setState("1");
+			long count = purchaseApplicationMapper.findPurchaseApplicationPageCount(query);
 			if(count > 0){
-				req.setStart((req.getPageNo()-1)*req.getPageSize());
-				req.setLimit(req.getPageSize());
-				List<PurchaseApplication> list = purchaseApplicationMapper.findPurchaseApplicationPage(req);
+				query.setStart((query.getPageNo()-1)*query.getPageSize());
+				query.setLimit(query.getPageSize());
+				List<PurchaseApplication> list = purchaseApplicationMapper.findPurchaseApplicationPage(query);
 				page.setList(copyBeanList2RespList(list));
 			}
-			page.setPageNo(req.getPageNo());
-			page.setPageSize(req.getPageSize());
+			page.setPageNo(query.getPageNo());
+			page.setPageSize(query.getPageSize());
 			page.setTotal(count);
 		}
 		return page;
@@ -62,20 +60,7 @@ public class PurchaseApplicationService implements IPurchaseApplicationService {
 		if(bean != null){
 			resp = new PurchaseApplicationResp();
 			PropertyUtils.copyProperties(resp, bean);
-			if(StringUtils.isNotBlank(resp.getId())){
-				PurchaseApplicationDetail detail = purchaseApplicationDetailMapper.findPurchaseApplicationDetail(resp.getId());
-				resp.setDetailResp(copyBean2DetailResp(detail));
-			}
-		}
-		return resp;
-	}
-	
-
-	private PurchaseApplicationDetailResp copyBean2DetailResp(PurchaseApplicationDetail bean) throws Exception {
-		PurchaseApplicationDetailResp resp = null;
-		if(bean != null){
-			resp = new PurchaseApplicationDetailResp();
-			PropertyUtils.copyProperties(resp, bean);
+			resp.setListdetail(purchaseApplicationDetailService.selectByPurchaseId(bean.getId()));
 		}
 		return resp;
 	}

@@ -1,4 +1,5 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!Doctype html>
 <html>
 <head>
@@ -31,12 +32,15 @@
 						<div class="intel_sconditon">
 							<div class="intel_sline">
 								<div class="intel_solo">
-									<label>订单号：</label> <input id="billno" type="text">
+									<label>订单号：</label> <input id="code" type="text">
 								</div>
 								<div class="intel_solo">
-									<label>供应商：</label> <select id="supplierid"
-										class="form-control">
-
+									<label>供应商：</label> 
+									<select id="supplier" class="form-control">
+										<option value="">请选择</option>
+										<c:forEach items="${supplier }" var="s">
+											<option value="${s.id }">${s.name }</option>
+										</c:forEach>
 									</select>
 								</div>
 								<div class="intel_solo">
@@ -100,6 +104,7 @@
 								<table class="table table-bordered">
 									<thead>
 										<tr>
+											<th>序号</th>
 											<th>采购组织</th>
 											<th>物料</th>
 											<th>物料规格</th>
@@ -159,39 +164,39 @@
 							<div class="">
 								<div class="cg_div">
 									<div class="cg_solo">
-										<label>单据编号：</label> <input id="_billno" type="text" readonly>
+										<label>单据编号：</label> <input id="v_code" type="text" readonly>
 									</div>
 									<div class="cg_solo">
-										<label>单据来源：</label> <input id="_source" type="text" readonly>
+										<label>单据来源：</label> <input id="v_source" type="text" readonly>
 									</div>
 									<div class="cg_solo">
-										<label>订单类型：</label> <input id="_typename" type="text"
+										<label>订单类型：</label> <input id="v_billtypename" type="text"
 											readonly>
 									</div>
 									<div class="cg_solo">
-										<label>订单日期：</label> <input id="_applytime" type="text"
+										<label>订单日期：</label> <input id="v_billtime" type="text"
 											readonly>
 									</div>
 									<div class="cg_solo">
-										<label>供应商：</label> <input id="_suppliername" type="text"
+										<label>供应商：</label> <input id="v_suppliername" type="text"
 											readonly>
 									</div>
 									<div class="cg_solo">
-										<label>总数量：</label> <input id="_sumnum" type="text" readonly>
+										<label>总数量：</label> <input id="v_sumnum" type="text" readonly>
 									</div>
 									<div class="cg_solo">
-										<label>采购员：</label> <input id="_buyername" type="text"
+										<label>采购员：</label> <input id="v_buyername" type="text"
 											readonly>
 									</div>
 									<div class="cg_solo">
-										<label>制单人： </label> <input id="_creator" type="text" readonly>
+										<label>制单人： </label> <input id="v_makebillname" type="text" readonly>
 									</div>
 									<div class="cg_solo">
-										<label> 制单日期：</label> <input id="_creatortime" type="text"
+										<label> 制单日期：</label> <input id="v_makebilltime" type="text"
 											readonly>
 									</div>
 									<div class="cg_bz">
-										<label>备注：</label> <input id="_remark" type="text" readonly>
+										<label>备注：</label> <input id="v_remark" type="text" readonly>
 									</div>
 								</div>
 								<div id="alt_tab">
@@ -207,6 +212,7 @@
 											<table class="table table-bordered">
 												<thead>
 													<tr>
+														<th>序号</th>
 														<th>采购组织</th>
 														<th>物料</th>
 														<th>质检方案</th>

@@ -1,36 +1,31 @@
 package com.tianrui.service.bean.businessManage.purchaseManage;
-
+/**
+ * @Description 采购申请单详情Bean
+ * @author zhanggaohao
+ * @version 2017年2月13日 上午9:13:14
+ */
 public class PurchaseApplicationDetail {
+	//主键id
     private String id;
-
+	//采购申请单id
     private String purchaseid;
-
+    //组织id
     private String orgid;
-
+    //组织名称
     private String orgname;
-
+	//物料id
     private String materielid;
-
+	//物料名称
     private String materielname;
-
+	//物料规格
     private String materielspec;
-
+	//物料类型
     private String materieltype;
-
-    private String checkprogramid;
-
+	//数量
     private Double purchasesum;
-
-    private Double receiptsum;
-
-    private Double unreceiptsum;
-
-    private Double advancesum;
-
-    private Double remainsum;
-
+	//备注
     private String remark;
-
+    
     public String getId() {
         return id;
     }
@@ -95,52 +90,12 @@ public class PurchaseApplicationDetail {
         this.materieltype = materieltype == null ? null : materieltype.trim();
     }
 
-    public String getCheckprogramid() {
-        return checkprogramid;
-    }
-
-    public void setCheckprogramid(String checkprogramid) {
-        this.checkprogramid = checkprogramid == null ? null : checkprogramid.trim();
-    }
-
     public Double getPurchasesum() {
         return purchasesum;
     }
 
     public void setPurchasesum(Double purchasesum) {
         this.purchasesum = purchasesum;
-    }
-
-    public Double getReceiptsum() {
-        return receiptsum;
-    }
-
-    public void setReceiptsum(Double receiptsum) {
-        this.receiptsum = receiptsum;
-    }
-
-    public Double getUnreceiptsum() {
-        return unreceiptsum;
-    }
-
-    public void setUnreceiptsum(Double unreceiptsum) {
-        this.unreceiptsum = unreceiptsum;
-    }
-
-    public Double getAdvancesum() {
-        return advancesum;
-    }
-
-    public void setAdvancesum(Double advancesum) {
-        this.advancesum = advancesum;
-    }
-
-    public Double getRemainsum() {
-        return remainsum;
-    }
-
-    public void setRemainsum(Double remainsum) {
-        this.remainsum = remainsum;
     }
 
     public String getRemark() {
