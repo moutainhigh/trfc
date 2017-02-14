@@ -410,7 +410,7 @@
   			and billtime <![CDATA[<]]> #{endtime,jdbcType=BIGINT}
   		</if>
   	</where>
-  	order by createtime
+  	order by makebilltime
   	<if test="start != null and start >= 0">
   		<if test="limit != null">
 			limit #{start,jdbcType=INTEGER},#{limit,jdbcType=INTEGER}

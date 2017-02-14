@@ -136,8 +136,18 @@ input[readOnly="true"]{
     font-size: 14px;
     cursor: pointer;
 }
-.intel_tab .intel_menu li.select,.intel_tab .intel_menu li:hover{
+.intel_tab .intel_menu li.select {
+    color: #0574c6;
+    background: #c8e6ff;
+}
+.intel_tab .intel_menu li:hover{
     color: #0573c7;
+    background: #eff4f9;
+}
+.intel_tab .intel_menu li a {
+    width: 100%;
+    height: 100%;
+    display: block;
 }
 .intel_tab .top_opera{
     width: 170px;
