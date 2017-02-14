@@ -1,5 +1,5 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!Doctype html>
 <html>
 <head>
@@ -20,6 +20,9 @@
 				<ul class="intel_menu">
 					<li class="select"><a href="/trfc/purchaseApplication/main">采购申请单</a></li>
 				</ul>
+				<ul class="intel_menu">
+					<li><a href="/trfc/purchaseArrive/main">到货通知单</a></li>
+				</ul>
 			</div>
 			<!--tab切换的内容-->
 			<div class="intel_tabbox">
@@ -35,8 +38,7 @@
 									<label>订单号：</label> <input id="code" type="text">
 								</div>
 								<div class="intel_solo">
-									<label>供应商：</label> 
-									<select id="supplier" class="form-control">
+									<label>供应商：</label> <select id="supplier" class="form-control">
 										<option value="">请选择</option>
 										<c:forEach items="${supplier }" var="s">
 											<option value="${s.id }">${s.name }</option>
@@ -189,7 +191,8 @@
 											readonly>
 									</div>
 									<div class="cg_solo">
-										<label>制单人： </label> <input id="v_makebillname" type="text" readonly>
+										<label>制单人： </label> <input id="v_makebillname" type="text"
+											readonly>
 									</div>
 									<div class="cg_solo">
 										<label> 制单日期：</label> <input id="v_makebilltime" type="text"
@@ -258,9 +261,9 @@
 			</div>
 		</div>
 	</div>
+	<!--查看详情end-->
 	<!-- 引用公共footer部分 -->
 	<jsp:include page="../../common/base/footer_busi.jsp"></jsp:include>
-	<!--查看详情end-->
 	<script type="text/javascript"
 		src="/javascript/businessManage/purchaseManage/purchaseApplication.js"></script>
 	<script type="text/javascript">
