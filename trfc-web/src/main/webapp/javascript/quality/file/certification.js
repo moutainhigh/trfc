@@ -1,12 +1,11 @@
 $(function(){
 	//整合url
 	var URL = {
-			selectorUrl:"/trfc/quality/sales/file/MaterialScheme/selector",
-			checkUrl:"/trfc/quality/sales/file/MaterialScheme/check",
-			pageUrl:"/trfc/quality/sales/file/MaterialScheme/page",
-			deleteUrl:"/trfc/quality/sales/file/MaterialScheme/delete",
-			updateUrl:"/trfc/quality/sales/file/MaterialScheme/update",
-			saveUrl:"/trfc/quality/sales/file/MaterialScheme/add",
+			selectorUrl:"/trfc/quality/sales/file/certification/selector",
+			pageUrl:"/trfc/quality/sales/file/certification/page",
+			deleteUrl:"/trfc/quality/sales/file/certification/delete",
+			updateUrl:"/trfc/quality/sales/file/certification/update",
+			saveUrl:"/trfc/quality/sales/file/certification/add",
 	};
 	//设置一个公共变量,当点击编辑按钮时,将原数据存入该变量中
 	var editOD = {};
@@ -37,35 +36,7 @@ $(function(){
 	//绑定编辑按钮
 	$('#list').on('click','tr [title="编辑"]',initEditData);
 
-	//物料品种检测
-	function checkMaterialType(type){
-		if(!type){
-			alert("物料品种不能为空!");
-			return false;
-		}
-		var bl = false;
-		//通过同步加载 获取检测结果
-		$.ajax({url:URL.checkUrl,
-			data:{materialtype:type},
-			async:false,
-			cache:false,
-			dataType:'json',
-			type:'post',
-			success:function(result){
-				if(result.code=='000000'){
-					//true为不重复
-					if(result.data){
-						bl=true;
-					}else{
-						alert("物料品种已存在!");
-					}
-				}else{
-					layer.msg(result.error,{icon:5});
-				}
-			}});
-
-		return bl;
-	}
+	
 
 	//初始化新增数据
 	function initAddData(){
@@ -75,23 +46,19 @@ $(function(){
 				allowClear: false
 			});;
 		});
-		$('#add_materialtype').val('');
-		$('#add_strength').val('');
-		$('#add_admixture').val('');
-		$('#add_admixtureadd').val('');
-		$('#add_gypsum').val('');
-		$('#add_gypsumadd').val('');
-		$('#add_aid').val('');
-		$('#add_aidadd').val('');
-
-		$('#add_shows').val('0');
+		$('#add_trademark').val('');
+		$('#add_norm').val('');
+		$('#add_certificate').val('');
+		$('#add_factorysite').val('');
+		$('#add_salestel').val('');
 		$('#add_invalid').removeAttr('checked')
-		$('#add_verdict').val('');
+		$('#add_intro').val('');
+
 	}
 	//初始化编辑数据
 	function initEditData(){
 		//获取数据
-		var obj = $(this).closest('tr').data('material_obj')
+		var obj = $(this).closest('tr').data('certification_obj')
 		editOD.obj = obj;
 		//设置等下拉框数据加载完成后 执行
 		$.when($selector).done(function(){
@@ -100,22 +67,17 @@ $(function(){
 			});;
 		});
 		$('#edit_id').val(obj.id);
-		$('#edit_materialtype').val(obj.materialtype);
-		$('#edit_strength').val(obj.strength);
-		$('#edit_admixture').val(obj.admixture);
-		$('#edit_admixtureadd').val(obj.admixtureadd);
-		$('#edit_gypsum').val(obj.gypsum);
-		$('#edit_gypsumadd').val(obj.gypsumadd);
-		$('#edit_aid').val(obj.aid);
-		$('#edit_aidadd').val(obj.aidadd);
-
-		$('#edit_shows').val(obj.shows);
+		$('#edit_trademark').val(obj.trademark);
+		$('#edit_norm').val(obj.norm);
+		$('#edit_certificate').val(obj.certificate);
+		$('#edit_factorysite').val(obj.factorysite);
+		$('#edit_salestel').val(obj.salestel);
 		//为checkbox赋值
 		$('#edit_invalid')[0].checked=true;
 		if('1'==obj.invalid){
 			$('#edit_invalid')[0].checked=false;
 		}
-		$('#edit_verdict').val(obj.verdict);
+		$('#edit_intro').val(obj.intro);
 	}
 
 //	新增数据
@@ -165,41 +127,39 @@ $(function(){
 			alert("物料不能为空!");
 			return null;
 		};
-		var materialtype = $('#add_materialtype').val();
-		if(!checkMaterialType(materialtype)){
+		var trademark = $('#add_trademark').val();
+		if(!trademark){
+			alert("商标不能为空!");
 			return null;
 		}
-		var strength = $('#add_strength').val();
-		if(!strength){
-			alert("强度不能为空");
+		var norm = $('#add_norm').val();
+		if(!norm){
+			alert("执行标准不能为空");
 			return null;
 		}
-		var admixture = $('#add_admixture').val();
-		var admixtureadd = $('#add_admixtureadd').val();
-		var gypsum = $('#add_gypsum').val();
-		var gypsumadd = $('#add_gypsumadd').val();
-		var aid = $('#add_aid').val();
-		var aidadd = $('#add_aidadd').val();
+		var certificate = $('#add_certificate').val();
+		if(!certificate){
+			alert("生产许可证号不能为空");
+			return null;
+		}
+		var factorysite = $('#add_factorysite').val();
+		var salestel = $('#add_salestel').val();
+		
 		var invalid = '1';
-		var shows = $('#add_shows').val();
 		if($('#add_invalid').prop('checked')){
 			invalid='0';
 		}
 		var userid = $('.user').attr('userid');
-		var verdict = $('#add_verdict').val();
+		var intro = $('#add_intro').val();
 		var param = {
 				materialid:materialid,
-				materialtype:materialtype,
-				strength:strength,
-				admixture:admixture,
-				admixtureadd:admixtureadd,
-				gypsum:gypsum,
-				gypsumadd:gypsumadd,
-				aid:aid,
-				aidadd:aidadd,
+				trademark:trademark,
+				norm:norm,
+				certificate:certificate,
+				factorysite:factorysite,
+				salestel:salestel,
 				invalid:invalid,
-				shows:shows,
-				verdict:verdict,
+				intro:intro,
 				user:userid
 		};
 		return param;
@@ -212,44 +172,40 @@ $(function(){
 			alert("物料不能为空!");
 			return null;
 		};
-		var materialtype = $('#edit_materialtype').val();
-		if(editOD.obj.materialtype!=materialtype && !checkMaterialType(materialtype)){
+		var trademark = $('#edit_trademark').val();
+		if(!trademark){
+			alert("商标不能为空!");
 			return null;
 		}
-		var strength = $('#edit_strength').val();
-		if(!strength){
-			alert("强度不能为空");
+		var norm = $('#edit_norm').val();
+		if(!norm){
+			alert("执行标准不能为空");
 			return null;
 		}
-		var admixture = $('#edit_admixture').val();
-		var admixtureadd = $('#edit_admixtureadd').val();
-		var gypsum = $('#edit_gypsum').val();
-		var gypsumadd = $('#edit_gypsumadd').val();
-		var aid = $('#edit_aid').val();
-		var aidadd = $('#edit_aidadd').val();
+		var certificate = $('#edit_certificate').val();
+		if(!certificate){
+			alert("生产许可证号不能为空");
+			return null;
+		}
+		var factorysite = $('#edit_factorysite').val();
+		var salestel = $('#edit_salestel').val();
+		
 		var invalid = '1';
-		var shows = $('#edit_shows').val();
-		//获取有效 值
 		if($('#edit_invalid').prop('checked')){
 			invalid='0';
 		}
-		//获取userid
 		var userid = $('.user').attr('userid');
-		var verdict = $('#edit_verdict').val();
+		var intro = $('#edit_intro').val();
 		var param = {
 				id:id,
 				materialid:materialid,
-				materialtype:materialtype,
-				strength:strength,
-				admixture:admixture,
-				admixtureadd:admixtureadd,
-				gypsum:gypsum,
-				gypsumadd:gypsumadd,
-				aid:aid,
-				aidadd:aidadd,
+				trademark:trademark,
+				norm:norm,
+				certificate:certificate,
+				factorysite:factorysite,
+				salestel:salestel,
 				invalid:invalid,
-				shows:shows,
-				verdict:verdict,
+				intro:intro,
 				user:userid
 		};
 		return param;
@@ -257,24 +213,20 @@ $(function(){
 	//对比两个对象 如果相同则返回true
 	function contrast(obj1,obj2){
 		if(obj1.materialid==obj2.materialid &&
-				obj1.materialtype==obj2.materialtype &&
-				obj1.strength==obj2.strength &&
-				obj1.admixture==obj2.admixture &&
-				obj1.admixtureadd==obj2.admixtureadd &&
-				obj1.gypsum==obj2.gypsum &&
-				obj1.gypsumadd==obj2.gypsumadd &&
-				obj1.aid==obj2.aid &&
-				obj1.aidadd==obj2.aidadd &&
+				obj1.trademark==obj2.trademark &&
+				obj1.norm==obj2.norm &&
+				obj1.certificate==obj2.certificate &&
+				obj1.factorysite==obj2.factorysite &&
+				obj1.salestel==obj2.salestel &&
 				obj1.invalid==obj2.invalid &&
-				obj1.shows==obj2.shows &&
-				obj1.verdict==obj2.verdict
+				obj1.intro==obj2.intro
 		){
 			return true;
 		}
 		return false;
 	}
 	function deleteAction(){
-		var id = $(this).closest('tr').data('material_obj').id;
+		var id = $(this).closest('tr').data('certification_obj').id;
 		//弹出删除确认框
 		var index = layer.confirm('你确定要删除吗?', {
 			area: '600px', 
@@ -361,10 +313,9 @@ $(function(){
 		var pageSize = $('#pageSize').val();
 		//获取查询条件
 		var materialid = $('#seek_material').val();
-		var materialtype = $('#seek_materialtype').val();
 		var params = {
-				materialid:materialid,
-				materialtype:materialtype
+				pageSize:pageSize,
+				materialid:materialid
 		};
 		//获得当前页面标记
 		params.pageNo = pageNo;
@@ -411,16 +362,13 @@ $(function(){
 			var tr = '<tr>'
 				+'<td>'+((pageNo-1)*pageSize+i+1)+'</td>'
 				+'<td class="colorred">'+obj.materialname+'</td>'
-				+'<td>'+obj.materialtype+'</td>'
-				+'<td>'+obj.strength+'</td>'
-				+'<td>'+obj.admixture+'</td>'
-				+'<td>'+obj.admixtureadd+'</td>'
-				+'<td>'+obj.gypsum+'</td>'
-				+'<td>'+obj.gypsumadd+'</td>'
-				+'<td>'+obj.aid+'</td>'
-				+'<td>'+obj.aidadd+'</td>'
+				+'<td>'+obj.trademark+'</td>'
+				+'<td>'+obj.norm+'</td>'
+				+'<td>'+obj.certificate+'</td>'
+				+'<td>'+obj.factorysite+'</td>'
+				+'<td>'+obj.salestel+'</td>'
 				+'<td><input type="checkbox" '+("0"==invalid?'checked="true"':"")+' disabled="true"></td>'
-				+'<td>'+obj.verdict+'</td>'
+				+'<td>'+obj.intro+'</td>'
 				+'<td><span> <a data-toggle="modal"'
 				+'		data-target="#edit"><i class="iconfont"'
 				+'			data-toggle="tooltip" data-placement="left" title="编辑">&#xe600;</i></a>'
@@ -434,7 +382,7 @@ $(function(){
 			//追加
 			tbody.append(tr);
 			//将数据绑定到tr上
-			tr.data('material_obj',obj);
+			tr.data('certification_obj',obj);
 		}
 	}
 

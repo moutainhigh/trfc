@@ -45,7 +45,7 @@
 				<li><a href="/trfc/transport/main"> <i class="iconfont">&#xe617;</i>
 						<label>计量档案</label>
 				</a></li>
-				<li><a href="/trfc/quality/sales/file/main"> <i class="iconfont">&#xe617;</i>
+				<li><a href="/trfc/quality/sales/file/MaterialScheme/main"> <i class="iconfont">&#xe617;</i>
 						<label>质检档案</label>
 				</a></li>
 				<li><a href="/trfc/basicFile/other/customer/main"> <i class="iconfont">&#xe617;</i>

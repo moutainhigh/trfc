@@ -21,7 +21,7 @@
 					<li>质检方案</li>
 					<li>质检项目</li>
 					<li>供应商标准方案</li>
-					<li>合格证维护</li>
+					<li><a href="/trfc/quality/sales/file/certification/main">合格证维护</a></li>
 				</ul>
 				<!--tab切换标题end-->
 				<div class="top_opera">
