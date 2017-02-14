@@ -38,9 +38,6 @@ public class Constant {
     //日志文件  性能日志 记录返回时间
     public final static String PREF ="pref";
     
-    
-    
-    
     public final static String ORG_ID ="0001PP1000000000BSF6";
     public final static String ORG_NAME ="天瑞集团汝州水泥有限公司";
     

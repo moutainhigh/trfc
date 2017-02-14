@@ -1,5 +1,6 @@
 package com.tianrui.web.api.datacenter.action;
 
+import java.util.Arrays;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSONObject;
+import com.mysql.fabric.xmlrpc.base.Array;
 import com.tianrui.api.req.basicFile.nc.CustomerManageQuery;
 import com.tianrui.service.impl.basicFile.nc.CustomerManageService;
 import com.tianrui.smartfactory.common.api.ApiParam;

@@ -24,6 +24,7 @@ import com.tianrui.service.bean.basicFile.nc.CustomerManage;
  * @classname CustomerManageService.java
  */
 import com.tianrui.service.mapper.basicFile.nc.CustomerManageMapper;
+import com.tianrui.smartfactory.common.constants.Constant;
 import com.tianrui.smartfactory.common.constants.ErrorCode;
 import com.tianrui.smartfactory.common.vo.PaginationVO;
 import com.tianrui.smartfactory.common.vo.Result;
@@ -147,6 +148,7 @@ public class CustomerManageService implements ICustomerManageService {
 					customerManageMapper.updateByPrimaryKeySelective(item);
 				}
 			}
+			rs.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
 		}
 		return rs;
 	}
@@ -165,14 +167,27 @@ public class CustomerManageService implements ICustomerManageService {
 		CustomerManage item  =new CustomerManage();
 		item.setId(jsonItem.getString("id"));
 		item.setCode(jsonItem.getString("code"));
-		item.setOrgid(jsonItem.getString("orgId"));
+		item.setInternalcode(jsonItem.getString("innerCode"));
 		item.setName(jsonItem.getString("name"));
-		item.setState("1");
+		item.setAbbrname(jsonItem.getString("shortName"));
+		item.setCustomertype("0");
+		item.setOrgid(Constant.ORG_ID);
+		item.setOrgname(Constant.ORG_NAME);
 		item.setOrgname(jsonItem.getString("orgName"));
-		item.setInternalcode(jsonItem.getString("internalcode"));
+		item.setChanneltype(jsonItem.getString("channelType"));
+		item.setChannelcode(jsonItem.getString("channelTypeCode"));
+		item.setSalesmanid(jsonItem.getString("salesPsnId"));
+		item.setSalesmanname(jsonItem.getString("salesPsn"));
+		item.setTransportcompanyid(jsonItem.getString("transportId"));
+		item.setTransportcompanyname(jsonItem.getString("transport"));
+		item.setDepartmentid(jsonItem.getString("deptId"));
+		item.setDepartmentname(jsonItem.getString("dept"));
+		item.setState("1");
 		item.setCreatetime(System.currentTimeMillis());
 		item.setModifytime(System.currentTimeMillis());	
-		item.setUtc(Long.valueOf(jsonItem.getString("ts")));
+		if(StringUtils.isNotBlank(jsonItem.getString("ts"))){
+			item.setUtc(Long.valueOf(jsonItem.getString("ts")));
+		}
 		return item;
 	}
 	

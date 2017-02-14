@@ -42,9 +42,9 @@
 								<div class="intel_solo">
 									<label>关键字：</label> <input id="keyword" type="text">
 								</div>
-								<div class="intel_solo">
+								<!-- <div class="intel_solo">
 									<label>所属组织：</label> <input id="orgid" type="text">
-								</div>
+								</div> -->
 								<div class="intel_solo">
 									<div class="intel_sbtn">
 										<button class="btn btnblue" id="searchBtn">搜索</button>
