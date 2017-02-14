@@ -10,23 +10,27 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.tianrui.api.intf.basicFile.nc.IMaterielManageService;
-import com.tianrui.api.intf.quality.file.ICertificationService;
-import com.tianrui.api.req.quality.file.CertificationReq;
+import com.tianrui.api.intf.quality.file.IQualitySchemeService;
+import com.tianrui.api.intf.system.base.ISystemCodeService;
+import com.tianrui.api.req.quality.file.QualitySchemeReq;
+import com.tianrui.api.req.system.base.GetCodeReq;
 import com.tianrui.smartfactory.common.vo.Result;
 
 @Controller
-@RequestMapping("/trfc/quality/sales/file/certification")
-public class CertificationAction {
-	Logger log = LoggerFactory.getLogger(CertificationAction.class);
+@RequestMapping("/trfc/quality/sales/file/qualityScheme")
+public class QualitySchemeAction {
+	Logger log = LoggerFactory.getLogger(QualitySchemeAction.class);
 	@Resource
-	private ICertificationService certificationService;
+	private IQualitySchemeService qualitySchemeService;
 	@Resource
 	private IMaterielManageService materielManageService;
+	@Resource
+	private ISystemCodeService systemCodeService;
 	
 	//显示页面
 	@RequestMapping("/main")
 	public ModelAndView show(){
-		ModelAndView view = new ModelAndView("quality/file/certification");
+		ModelAndView view = new ModelAndView("quality/file/qualityScheme");
 		return view;
 	}
 	/**
@@ -34,10 +38,10 @@ public class CertificationAction {
 	 */
 	@ResponseBody
 	@RequestMapping("/page")
-	public Result page(CertificationReq req){
+	public Result page(QualitySchemeReq req){
 		Result rs = Result.getErrorResult();
 		try {
-			rs = certificationService.page(req);
+			rs = qualitySchemeService.page(req);
 			
 		} catch (Exception e) {
 			log.error(e.getMessage(),e);
@@ -49,10 +53,10 @@ public class CertificationAction {
 	 */
 	@ResponseBody
 	@RequestMapping("/delete")
-	public Result delete(CertificationReq req){
+	public Result delete(QualitySchemeReq req){
 		Result rs = Result.getErrorResult();
 		try {
-			rs = certificationService.delete(req);
+			rs = qualitySchemeService.delete(req);
 		} catch (Exception e) {
 			log.error(e.getMessage(),e);
 		}
@@ -63,10 +67,10 @@ public class CertificationAction {
 	 */
 	@ResponseBody
 	@RequestMapping("/add")
-	public Result add(CertificationReq req){
+	public Result add(QualitySchemeReq req){
 		Result rs = Result.getErrorResult();
 		try {
-			rs = certificationService.add(req);
+			rs = qualitySchemeService.add(req);
 		} catch (Exception e) {
 			log.error(e.getMessage(),e);
 		}
@@ -78,10 +82,10 @@ public class CertificationAction {
 	 */
 	@ResponseBody
 	@RequestMapping("/update")
-	public Result update(CertificationReq req){
+	public Result update(QualitySchemeReq req){
 		Result rs = Result.getErrorResult();
 		try {
-			rs = certificationService.update(req);
+			rs = qualitySchemeService.update(req);
 		} catch (Exception e) {
 			log.error(e.getMessage(),e);
 		}
@@ -101,7 +105,32 @@ public class CertificationAction {
 		}
 		return rs;
 	}
-	
-	
-	
+	/**
+	 * 获取编号
+	 */
+	@ResponseBody
+	@RequestMapping("/getCode")
+	public Result getCode(GetCodeReq req){
+		Result rs = Result.getErrorResult();
+		try {
+			rs = systemCodeService.getCode(req);
+		} catch (Exception e) {
+			log.error(e.getMessage(),e);
+		}
+		return rs;
+	}
+	/**
+	 * 刷新编号(增1)
+	 */
+	@ResponseBody
+	@RequestMapping("/updateCode")
+	public Result updateCode(GetCodeReq req){
+		Result rs = Result.getErrorResult();
+		try {
+			rs = systemCodeService.updateCodeItem(req);
+		} catch (Exception e) {
+			log.error(e.getMessage(),e);
+		}
+		return rs;
+	}
 }

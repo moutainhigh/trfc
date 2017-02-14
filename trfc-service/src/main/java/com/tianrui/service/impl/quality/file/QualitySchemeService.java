@@ -9,33 +9,30 @@ import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;
 
-import com.tianrui.api.intf.quality.file.ICertificationService;
-import com.tianrui.api.req.quality.file.CertificationReq;
-import com.tianrui.api.resp.quality.file.CertificationResp;
+import com.tianrui.api.intf.quality.file.IQualitySchemeService;
+import com.tianrui.api.req.quality.file.QualitySchemeReq;
+import com.tianrui.api.resp.quality.file.QualitySchemeResp;
 import com.tianrui.service.bean.basicFile.nc.MaterielManage;
-import com.tianrui.service.bean.quality.file.Certification;
+import com.tianrui.service.bean.quality.file.QualityScheme;
 import com.tianrui.service.mapper.basicFile.nc.MaterielManageMapper;
-import com.tianrui.service.mapper.quality.file.CertificationMapper;
+import com.tianrui.service.mapper.quality.file.QualitySchemeMapper;
 import com.tianrui.smartfactory.common.constants.ErrorCode;
 import com.tianrui.smartfactory.common.utils.UUIDUtil;
 import com.tianrui.smartfactory.common.vo.PaginationVO;
 import com.tianrui.smartfactory.common.vo.Result;
 
 @Service
-public class CertificationService implements ICertificationService {
+public class QualitySchemeService implements IQualitySchemeService {
 	@Resource
-	private CertificationMapper certificationMapper;
+	private QualitySchemeMapper qualitySchemeMapper;
 	@Resource
 	private MaterielManageMapper materielManageMapper;
-
-
+	
 	@Override
-	public Result delete(CertificationReq req) throws Exception {
+	public Result delete(QualitySchemeReq req) throws Exception {
 		Result rs = Result.getParamErrorResult();
 		if(req!=null && StringUtils.isNotBlank(req.getId())){
-			//删除数据
-			int index = certificationMapper.deleteByPrimaryKey(req.getId());
-			//判断操作是否成功
+			int index = qualitySchemeMapper.deleteByPrimaryKey(req.getId());
 			if(index>0){
 				rs = Result.getSuccessResult();
 			}else{
@@ -46,22 +43,21 @@ public class CertificationService implements ICertificationService {
 	}
 
 	@Override
-	public Result add(CertificationReq req) throws Exception {
+	public Result add(QualitySchemeReq req) throws Exception {
 		Result rs = Result.getParamErrorResult();
 		if(req!=null){
-			//转换类型
-			Certification c = new Certification();
-			PropertyUtils.copyProperties(c, req);
+			QualityScheme qs = new QualityScheme();
+			PropertyUtils.copyProperties(qs, req);
 			//设置id
-			c.setId(UUIDUtil.getId());
+			qs.setId(UUIDUtil.getId());
 			//设置创建者和修改者
-			c.setCreator(req.getUser());
-			c.setCreatetime(System.currentTimeMillis());
-			c.setModifier(req.getUser());
-			c.setModifytime(System.currentTimeMillis());
-			c.setUtc(System.currentTimeMillis());
+			qs.setCreator(req.getUser());
+			qs.setCreatetime(System.currentTimeMillis());
+			qs.setModifier(req.getUser());
+			qs.setModifytime(System.currentTimeMillis());
+			qs.setUtc(System.currentTimeMillis());
 			//保存数据
-			int index = certificationMapper.insertSelective(c);
+			int index = qualitySchemeMapper.insertSelective(qs);
 			//判断操作是否成功
 			if(index>0){
 				rs = Result.getSuccessResult();
@@ -73,18 +69,18 @@ public class CertificationService implements ICertificationService {
 	}
 
 	@Override
-	public Result update(CertificationReq req) throws Exception {
+	public Result update(QualitySchemeReq req) throws Exception {
 		Result rs = Result.getParamErrorResult();
 		if(req!=null && StringUtils.isNotBlank(req.getId())){
 			//转换类型
-			Certification c = new Certification();
-			PropertyUtils.copyProperties(c, req);
+			QualityScheme qs = new QualityScheme();
+			PropertyUtils.copyProperties(qs, req);
 			//设置创建者和修改者
-			c.setModifier(req.getUser());
-			c.setModifytime(System.currentTimeMillis());
-			c.setUtc(System.currentTimeMillis());
+			qs.setModifier(req.getUser());
+			qs.setModifytime(System.currentTimeMillis());
+			qs.setUtc(System.currentTimeMillis());
 			//更新数据
-			int index = certificationMapper.updateByPrimaryKeySelective(c);
+			int index = qualitySchemeMapper.updateByPrimaryKeySelective(qs);
 			//判断操作是否成功
 			if(index>0){
 				rs = Result.getSuccessResult();
@@ -96,36 +92,38 @@ public class CertificationService implements ICertificationService {
 	}
 
 	@Override
-	public Result page(CertificationReq req) throws Exception {
+	public Result page(QualitySchemeReq req) throws Exception {
 		Result rs = Result.getParamErrorResult();
 		if(req!=null){
-			PaginationVO<CertificationResp> page = new PaginationVO<CertificationResp>();
+			PaginationVO<QualitySchemeResp> page = new PaginationVO<QualitySchemeResp>();
 			int pageNo = req.getPageNo();
 			int pageSize = req.getPageSize();
 			//设置开始位置,和每页数据量
 			req.setStart((pageNo-1)*pageSize);
 			req.setLimit(pageSize);
 			//获取数据总数
-			int total = certificationMapper.count(req);
+			int total = qualitySchemeMapper.count(req);
 			page.setPageNo(pageNo);
 			page.setPageSize(pageSize);
 			page.setTotal(total);
+			System.out.println(total);
 			//创建一个出参集合
-			List<CertificationResp> resps = new ArrayList<CertificationResp>();
+			List<QualitySchemeResp> resps = new ArrayList<QualitySchemeResp>();
 			//判断是否有数据可查询
 			if(total>0){
-				List<Certification> list = certificationMapper.page(req);
+				List<QualityScheme> list = qualitySchemeMapper.page(req);
 				if(list!=null && !list.isEmpty()){
 					//遍历集合,并转换类型
-					for(Certification c : list){
-						CertificationResp resp = new CertificationResp();
+					for(QualityScheme c : list){
+						QualitySchemeResp resp = new QualitySchemeResp();
 						PropertyUtils.copyProperties(resp, c);
 						//通过物料id 查询物料信息 获取物料名称
 						MaterielManage m = materielManageMapper.selectByPrimaryKey(c.getMaterialid());
 						if(m!=null){
 							resp.setMaterialname(m.getName());
 						}
-						//将对想放入集合
+						
+						//将对象放入集合
 						resps.add(resp);
 					}
 				}
@@ -136,6 +134,5 @@ public class CertificationService implements ICertificationService {
 		}
 		return rs;
 	}
-	
-	
+
 }

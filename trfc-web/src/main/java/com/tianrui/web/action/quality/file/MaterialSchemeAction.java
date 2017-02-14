@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.tianrui.api.intf.basicFile.nc.IMaterielManageService;
 import com.tianrui.api.intf.quality.file.IMaterialSchemeService;
 import com.tianrui.api.req.quality.file.MaterialSchemeReq;
 import com.tianrui.smartfactory.common.vo.Result;
@@ -19,6 +20,9 @@ public class MaterialSchemeAction {
 	Logger log = LoggerFactory.getLogger(MaterialSchemeAction.class);
 	@Resource
 	private IMaterialSchemeService materialSchemeService;
+	@Resource
+	private IMaterielManageService materielManageService;
+	
 	//显示页面
 	@RequestMapping("/main")
 	public ModelAndView show(){
@@ -91,7 +95,7 @@ public class MaterialSchemeAction {
 	public Result materialData(){
 		Result rs = Result.getErrorResult();
 		try {
-			rs = materialSchemeService.materialData();
+			rs = materielManageService.materialData();
 		} catch (Exception e) {
 			log.error(e.getMessage(),e);
 		}

@@ -25,8 +25,5 @@ public interface ICertificationService {
 	 * 分页查询
 	 */
 	Result page(CertificationReq req) throws Exception;
-	/**
-	 * 获取下拉框数据
-	 */
-	Result materialData() throws Exception;
+	
 }

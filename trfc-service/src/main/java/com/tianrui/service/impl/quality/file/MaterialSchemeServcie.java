@@ -10,9 +10,7 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;
 
 import com.tianrui.api.intf.quality.file.IMaterialSchemeService;
-import com.tianrui.api.req.basicFile.nc.MaterielManageQuery;
 import com.tianrui.api.req.quality.file.MaterialSchemeReq;
-import com.tianrui.api.resp.basicFile.nc.MaterielManageVO;
 import com.tianrui.api.resp.quality.file.MaterialSchemeResp;
 import com.tianrui.service.bean.basicFile.nc.MaterielManage;
 import com.tianrui.service.bean.quality.file.MaterialScheme;
@@ -138,28 +136,7 @@ public class MaterialSchemeServcie implements IMaterialSchemeService {
 		return rs;
 	}
 
-	@Override
-	public Result materialData() throws Exception {
-		//创建参数
-		MaterielManageQuery req = new MaterielManageQuery();
-		//设置限定条件,查询业务类型为 销售的信息
-		//req.setBusinesstype("1");
-		//查询
-		List<MaterielManage> list1 = materielManageMapper.findMaterielManagePage(req);
-		//结果集转化为vo类型的集合
-		List<MaterielManageVO> list2 = new ArrayList<MaterielManageVO>();
-		if(list1!=null && !list1.isEmpty()){
-			for(MaterielManage manage : list1){
-				MaterielManageVO vo = new MaterielManageVO();
-				PropertyUtils.copyProperties(vo, manage);
-				list2.add(vo);
-			}
-		}
-		//操作成功
-		Result rs = Result.getSuccessResult();
-		rs.setData(list2);
-		return rs;
-	}
+	
 
 	@Override
 	public Result checkMaterialType(MaterialSchemeReq req) throws Exception {

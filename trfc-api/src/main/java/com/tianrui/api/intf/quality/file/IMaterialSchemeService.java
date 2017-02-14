@@ -21,10 +21,7 @@ public interface IMaterialSchemeService {
 	 * 分页查询
 	 */
 	Result page(MaterialSchemeReq req) throws Exception;
-	/**
-	 * 新增页面预加载数据
-	 */
-	Result materialData() throws Exception;
+	
 	/**
 	 * 检测物料品种是否重复
 	 */

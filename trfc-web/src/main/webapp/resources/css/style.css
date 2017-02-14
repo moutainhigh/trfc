@@ -1486,3 +1486,41 @@ width: 180px;
     margin: 0;
     width: 220px;
 }
+
+.alt_onerow_div{
+    padding: 0px 0px;
+    margin-top: 10px;
+    width: 100%;
+    float: left;
+    position: relative;
+    overflow: hidden;
+}
+.alt_onerow_div label{
+    width: 120px;
+    text-align: right;
+}
+.alt_onerow_div  input[type="text"]{
+    line-height: 30px;
+    padding:0px 10px;
+    width: 70%;
+    height: 30px;
+}
+.alt_onerow_div span{
+    margin: 0 15px 0 5px;
+}
+.alt_onerow_div  textarea{
+    display: inline-block;
+    width:70%;
+    vertical-align: top;
+}
+.zj_biaozhun_table{
+    width: 700px;
+    overflow: scroll;
+}
+.zj_biaozhun_table2{
+    width: 1200px;
+}
+.zj_biaozhun_table table{
+    width: 1500px;
+
+}

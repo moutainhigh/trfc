@@ -16,6 +16,7 @@ import com.tianrui.api.intf.basicFile.nc.IMaterielManageService;
 import com.tianrui.api.req.basicFile.nc.MaterielManageQuery;
 import com.tianrui.api.req.basicFile.nc.MaterielManageSave;
 import com.tianrui.api.resp.basicFile.nc.MaterielManageResp;
+import com.tianrui.api.resp.basicFile.nc.MaterielManageVO;
 import com.tianrui.service.bean.basicFile.nc.MaterielManage;
 import com.tianrui.service.mapper.basicFile.nc.MaterielManageMapper;
 import com.tianrui.smartfactory.common.constants.ErrorCode;
@@ -176,5 +177,25 @@ public class MaterielManageService implements IMaterielManageService {
 		item.setUtc(Long.valueOf(jsonItem.getString("ts")));
 		return item;
 	}
-	
+	@Override
+	public Result materialData() throws Exception {
+		//创建参数
+		MaterielManageQuery req = new MaterielManageQuery();
+		
+		//查询
+		List<MaterielManage> list1 = materielManageMapper.findMaterielManagePage(req);
+		//结果集转化为vo类型的集合
+		List<MaterielManageVO> list2 = new ArrayList<MaterielManageVO>();
+		if(list1!=null && !list1.isEmpty()){
+			for(MaterielManage manage : list1){
+				MaterielManageVO vo = new MaterielManageVO();
+				PropertyUtils.copyProperties(vo, manage);
+				list2.add(vo);
+			}
+		}
+		//操作成功
+		Result rs = Result.getSuccessResult();
+		rs.setData(list2);
+		return rs;
+	}
 }

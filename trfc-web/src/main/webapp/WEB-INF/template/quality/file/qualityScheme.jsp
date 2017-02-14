@@ -3,13 +3,12 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>物料方案</title>
+<title>质检方案</title>
 <link href="${staticBasePath}/css/select2.css" rel="stylesheet">
 <jsp:include page="../../common/base/header_busi.jsp"></jsp:include>
 
 </head>
 <body>
-
 	<div class="it_admin">
 		<jsp:include page="../../common/base/left_busi.jsp"></jsp:include>
 		<div class="right">
@@ -17,8 +16,8 @@
 			<div class="intel_tab">
 				<!--tab切换标题-->
 				<ul class="intel_menu">
-					<li class="select">物料方案</li>
-					<li><a href="/trfc/quality/sales/file/qualityScheme/main">质检方案</a></li>
+					<li><a href="/trfc/quality/sales/file/MaterialScheme/main">物料方案</a></li>
+					<li class="select">质检方案</li>
 					<li><a href="/trfc/quality/sales/file/qualityItem/main">质检项目</a></li>
 					<li><a href="/trfc/quality/sales/file/supplierScheme/main">供应商标准方案</a></li>
 					<li><a href="/trfc/quality/sales/file/certification/main">合格证维护</a></li>
@@ -44,14 +43,25 @@
 						<div class="intel_sconditon">
 							<div class="intel_sline">
 								<div class="intel_solo">
-									<label>物料：</label> <select id="seek_material"
-										class="materialSelect"></select>
+									<label>物料：</label> <select class="form-control materialSelect"
+										id="seek_material">
+									</select>
 								</div>
 								<div class="intel_solo">
-									<label>物料品种：</label> <input type="text" id="seek_materialtype">
+									<label>类型：</label> <select class="form-control" id="seek_type">
+										<option>采购</option>
+										<option>销售</option>
+									</select>
 								</div>
 								<div class="intel_solo">
-									<button class="btn btnblue" id="seek">搜索</button>
+									<label>名称：</label> <input type="text" id="seek_namelike">
+								</div>
+								<div class="intel_solo">
+									<div class="intel_sbtn">
+										<input type="checkbox" id="seek_invalid"><span>只显示有效的</span>
+										<button class="btn btnblue" id="seek">搜索</button>
+
+									</div>
 								</div>
 								<div class="clear"></div>
 							</div>
@@ -62,8 +72,8 @@
 							<i class="iconfont colorlv">&#xe61b;</i>
 							<h5>刷新</h5>
 						</div>
-						<div class="intel_operasolo" id="addBtn">
-							<a data-toggle="modal" data-target="#add"> <i
+						<div class="intel_operasolo">
+							<a data-toggle="modal" data-target="#add" id="addBtn"> <i
 								class="iconfont coloradd">&#xe627;</i>
 								<h5>新增</h5>
 							</a>
@@ -76,32 +86,29 @@
 							<thead>
 								<tr>
 									<th>行号</th>
+									<th>方案编码</th>
+									<th>方案名称</th>
 									<th>物料</th>
-									<th>物料品种</th>
-									<th>强度等级</th>
-									<th>混合材品种</th>
-									<th>混合材掺加量</th>
-									<th>石膏种类</th>
-									<th>石膏掺加量</th>
-									<th>助磨剂种类</th>
-									<th>助磨掺加量</th>
+									<th>单据</th>
 									<th>有效</th>
-									<th>结论</th>
+									<th>默认</th>
+									<th>类型</th>
+									<th>质量标准</th>
+									<th>描述</th>
 									<th>操作</th>
+									<th>查看</th>
 								</tr>
 							</thead>
 							<tbody id="list">
 								<tr>
-									<td>CD201601010138</td>
-									<td class="colorred">审核中</td>
+									<td>1</td>
+									<td>审核中</td>
 									<td>客商APP</td>
 									<td>未入厂</td>
-									<td>粉煤灰1</td>
-									<td>粉煤灰1</td>
-									<td>客商APP</td>
-									<td>未入厂</td>
-									<td>粉煤灰1</td>
-									<td>粉煤灰1</td>
+									<td>供应商标准方案</td>
+									<td><input type="checkbox" checked="true" disabled="true"></td>
+									<td><input type="checkbox" checked="true" disabled="true"></td>
+									<td>供应商标准方案</td>
 									<td><input type="checkbox" checked="true" disabled="true"></td>
 									<td>粉煤灰1</td>
 									<td><span> <a data-toggle="modal"
@@ -111,6 +118,27 @@
 												class="iconfont" data-toggle="tooltip" data-placement="left"
 												title="删除">&#xe63d;</i></a>
 									</span></td>
+									<td><a>方案项目</a> <a>质量标准</a></td>
+								</tr>
+								<tr>
+									<td>2</td>
+									<td>审核中</td>
+									<td>客商APP</td>
+									<td>未入厂</td>
+									<td>供应商标准方案</td>
+									<td><input type="checkbox" checked="true" disabled="true"></td>
+									<td><input type="checkbox" checked="true" disabled="true"></td>
+									<td>供应商标准方案</td>
+									<td><input type="checkbox" checked="true" disabled="true"></td>
+									<td>粉煤灰1</td>
+									<td><span> <a data-toggle="modal"
+											data-target="#edit"><i class="iconfont"
+												data-toggle="tooltip" data-placement="left" title="编辑">&#xe600;</i></a>
+									</span> <span> <a data-toggle="modal" data-target="#dele"><i
+												class="iconfont" data-toggle="tooltip" data-placement="left"
+												title="删除">&#xe63d;</i></a>
+									</span></td>
+									<td><a>方案项目</a> <a>质量标准</a></td>
 								</tr>
 							</tbody>
 						</table>
@@ -157,7 +185,7 @@
 			</div>
 		</div>
 		<!--新增begin-->
-		<div class="modal fade" id="add"  role="dialog"
+		<div class="modal fade" id="add" role="dialog"
 			aria-labelledby="myModalLabel">
 			<div class="modal-dialog" role="document" style="width: 750px;">
 				<div class="modal-content">
@@ -167,64 +195,48 @@
 							<span aria-hidden="true">&times;</span>
 						</button>
 						<div class="alt_head">
-							<h5>物料方案新增</h5>
+							<h5>质检方案新增</h5>
 						</div>
 					</div>
 					<div class="modal-body">
 						<div class="alt_edit">
 							<div class="alt_edit_div">
-								<label class="colorred">*物料：</label>
+								<label>编号：</label> <input type="text" readonly="true" value="11" id="add_code">
+							</div>
+							<div class="alt_edit_div">
+								<label>名称：</label> <input type="text" id="add_name">
+							</div>
+							<div class="alt_edit_div">
+								<label>单据：</label> <input type="text" id="add_bills">
+							</div>
+							<div class="alt_edit_div">
+								<label>物料：</label> 
 								<div class=selct2_alt_div>
 									<select id="add_material"
 										class="js-example-basic-single materialSelect form-control"></select>
 								</div>
 							</div>
 							<div class="alt_edit_div">
-								<label class="colorred">*物料品种：</label> <input type="text"
-									id="add_materialtype">
-							</div>
-							<div class="alt_edit_div">
-								<label class="colorred">*强度等级：</label> <input type="text"
-									id="add_strength">
-							</div>
-							<div class="alt_edit_div">
-								<label>混合材品种：</label> <input type="text" id="add_admixture">
-							</div>
-							<div class="alt_edit_div">
-								<label>混合材掺加量：</label> <input type="text" id="add_admixtureadd">
-							</div>
-							<div class="alt_edit_div">
-								<label>石膏种类：</label> <input type="text" id="add_gypsum">
-							</div>
-							<div class="alt_edit_div">
-								<label>石膏掺加量：</label> <input type="text" id="add_gypsumadd">
-							</div>
-							<div class="alt_edit_div">
-								<label>助磨剂种类：</label> <input type="text" id="add_aid">
-							</div>
-							<div class="alt_edit_div">
-								<label>助磨掺加量：</label> <input type="text" id="add_aidadd">
-							</div>
-							<div class="alt_edit_div">
-								<label>有效性：</label> <input type="checkbox" id="add_invalid"><span>有效</span>
-							</div>
-							<div class="alt_edit_div">
-								<label>是否显示：</label> <select class="form-control" id="add_shows">
-									<option value="0">全部显示</option>
-									<option value="1">部分显示</option>
-									<option value="2">不显示</option>
+								<label>类型：</label> <select class="form-control" id="add_type">
+									<option></option>
+									<option value="0">采购项目</option>
+									<option value="1">销售项目</option>
 								</select>
 							</div>
+							<div class="alt_edit_div">
+								<label>选项：</label> <input type="checkbox" id="add_invalid"><span>有效</span>
+								<input type="checkbox" id="add_def"><span>默认</span> <input
+									type="checkbox" id="add_standard"><span>质量标准</span>
+							</div>
 							<div class="alt_edit_textarea">
-								<label>结论： </label>
-								<textarea class="form-control" rows="1" id="add_verdict"></textarea>
+								<label>备注： </label>
+								<textarea class="form-control" rows="1" id="add_describe"></textarea>
 							</div>
 						</div>
 					</div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-primary" id="add_sure">确定</button>
-						<button type="button" class="btn btn-default" data-dismiss="modal"
-							id="add_cancel">取消</button>
+						<button type="button" class="btn btn-default" data-dismiss="modal" id="add_cancel">取消</button>
 					</div>
 				</div>
 			</div>
@@ -241,66 +253,48 @@
 							<span aria-hidden="true">&times;</span>
 						</button>
 						<div class="alt_head">
-							<h5>物料方案编辑</h5>
+							<h5>质检方案编辑</h5>
 						</div>
 					</div>
 					<div class="modal-body">
 						<div class="alt_edit">
 							<div class="alt_edit_div">
-								<input type="hidden" id="edit_id"> <label class="colorred">*物料：</label>
+								<label>编号：</label> <input type="text" readonly="true" value="11" id="edit_code">
+							</div>
+							<div class="alt_edit_div">
+								<label>名称：</label> <input type="text" id="edit_name">
+							</div>
+							<div class="alt_edit_div">
+								<label>单据：</label> <input type="text" id="edit_bills">
+							</div>
+							<div class="alt_edit_div">
+								<label>物料：</label> 
 								<div class=selct2_alt_div>
 									<select id="edit_material"
 										class="js-example-basic-single materialSelect form-control"></select>
 								</div>
-
 							</div>
 							<div class="alt_edit_div">
-								<label class="colorred">*物料品种：</label> <input type="text"
-									id="edit_materialtype">
-							</div>
-							<div class="alt_edit_div">
-								<label class="colorred">*强度等级：</label> <input type="text"
-									id="edit_strength">
-							</div>
-							<div class="alt_edit_div">
-								<label>混合材品种：</label> <input type="text" id="edit_admixture">
-							</div>
-							<div class="alt_edit_div">
-								<label>混合材掺加量：</label> <input type="text" id="edit_admixtureadd">
-							</div>
-							<div class="alt_edit_div">
-								<label>石膏种类：</label> <input type="text" id="edit_gypsum">
-							</div>
-							<div class="alt_edit_div">
-								<label>石膏掺加量：</label> <input type="text" id="edit_gypsumadd">
-							</div>
-							<div class="alt_edit_div">
-								<label>助磨剂种类：</label> <input type="text" id="edit_aid">
-							</div>
-							<div class="alt_edit_div">
-								<label>助磨掺加量：</label> <input type="text" id="edit_aidadd">
-							</div>
-							<div class="alt_edit_div">
-								<label>有效性：</label> <input type="checkbox" id="edit_invalid"><span>有效</span>
-							</div>
-							<div class="alt_edit_div">
-								<label>是否显示：</label> <select class="form-control"
-									id="edit_shows">
-									<option value="0">全部显示</option>
-									<option value="1">部分显示</option>
-									<option value="2">不显示</option>
+								<label>类型：</label> <select class="form-control" id="edit_type">
+									<option></option>
+									<option value="0">采购项目</option>
+									<option value="1">销售项目</option>
 								</select>
 							</div>
+							<div class="alt_edit_div">
+								<label>选项：</label> <input type="checkbox" id="edit_invalid"><span>有效</span>
+								<input type="checkbox" id="edit_def"><span>默认</span> <input
+									type="checkbox" id="edit_standard"><span>质量标准</span>
+							</div>
 							<div class="alt_edit_textarea">
-								<label>结论： </label>
-								<textarea class="form-control" rows="1" id="edit_verdict"></textarea>
+								<label>备注： </label>
+								<textarea class="form-control" rows="1" id="edit_describe"></textarea>
 							</div>
 						</div>
 					</div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-primary" id="edit_sure">确定</button>
-						<button type="button" class="btn btn-default" data-dismiss="modal"
-							id="edit_cancel">取消</button>
+						<button type="button" class="btn btn-default" data-dismiss="modal" id="edit_cancel">取消</button>
 					</div>
 				</div>
 			</div>
@@ -310,7 +304,7 @@
 		<jsp:include page="../../common/base/footer_busi.jsp"></jsp:include>
 		<script type="text/javascript" src="/resources/js/select2.js"></script>
 		<script type="text/javascript"
-			src="/javascript/quality/file/materialScheme.js"></script>
+			src="/javascript/quality/file/qualityScheme.js"></script>
 		</script>
 </body>
 </html>

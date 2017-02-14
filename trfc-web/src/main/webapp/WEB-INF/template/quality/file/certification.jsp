@@ -17,9 +17,9 @@
 				<!--tab切换标题-->
 				<ul class="intel_menu">
 					<li><a href="/trfc/quality/sales/file/MaterialScheme/main">物料方案</a></li>
-					<li>质检方案</li>
-					<li>质检项目</li>
-					<li>供应商标准方案</li>
+					<li><a href="/trfc/quality/sales/file/qualityScheme/main">质检方案</a></li>
+					<li><a href="/trfc/quality/sales/file/qualityItem/main">质检项目</a></li>
+					<li><a href="/trfc/quality/sales/file/supplierScheme/main">供应商标准方案</a></li>
 					<li class="select">合格证维护</li>
 				</ul>
 				<!--tab切换标题end-->
