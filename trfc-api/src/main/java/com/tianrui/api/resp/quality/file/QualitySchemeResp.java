@@ -44,7 +44,7 @@ public class QualitySchemeResp extends BaseResp {
     /**
      * 默认的(0:默认的,1:非默认的)
      */
-    private String defaults;
+    private String def;
     /**
      * 类型(0:采购项目,1:销售项目)
      */
@@ -105,12 +105,7 @@ public class QualitySchemeResp extends BaseResp {
 	public void setInvalid(String invalid) {
 		this.invalid = invalid;
 	}
-	public String getDefaults() {
-		return defaults;
-	}
-	public void setDefaults(String defaults) {
-		this.defaults = defaults;
-	}
+	
 	public String getType() {
 		return type;
 	}
@@ -128,6 +123,12 @@ public class QualitySchemeResp extends BaseResp {
 	}
 	public void setDescribe(String describe) {
 		this.describe = describe;
+	}
+	public String getDef() {
+		return def;
+	}
+	public void setDef(String def) {
+		this.def = def;
 	}
  
 }

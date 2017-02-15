@@ -118,7 +118,7 @@ select {
 											<tr>
 												<th>行号</th>
 												<th>物料</th>
-												<th>出厂标号</th>
+												<th>出厂批号</th>
 												<th>数量</th>
 												<th>生产日期</th>
 												<th>试验日期</th>

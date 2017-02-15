@@ -10,12 +10,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import com.tianrui.api.intf.quality.file.IQualitySchemeService;
 import com.tianrui.api.intf.system.base.ISystemCodeService;
 import com.tianrui.api.req.basicFile.other.OtherBdSupplierReq;
+import com.tianrui.api.req.quality.file.QualitySchemeReq;
 import com.tianrui.api.req.system.base.SystemCodeReq;
+import com.tianrui.service.bean.quality.file.QualityScheme;
 import com.tianrui.service.bean.system.base.SystemDataDictItem;
 import com.tianrui.service.mapper.basicFile.nc.SupplierManageMapper;
 import com.tianrui.service.mapper.basicFile.other.OtherBdSupplierMapper;
+import com.tianrui.service.mapper.quality.file.QualitySchemeMapper;
 import com.tianrui.service.mapper.system.base.SystemDataDictItemMapper;
 import com.tianrui.service.mapper.system.base.SystemDataDictMapper;
 import com.tianrui.smartfactory.common.vo.Result;
@@ -43,6 +47,21 @@ public class DemoMapperTest2 {
 	private OtherBdSupplierMapper otherBdSupplierMapper;
 	@Autowired
 	private ISystemCodeService systemCodeService;
+	
+	@Autowired
+	private IQualitySchemeService qualitySchemeService;
+	@Autowired
+	private QualitySchemeMapper qualitySchemeMapper;
+	
+	@Test
+	public void test123() throws Exception{
+		QualitySchemeReq req = new QualitySchemeReq();
+		req.setId("000");
+		QualityScheme qs= qualitySchemeMapper.selectByPrimaryKey(req.getId());
+		System.out.println(qs.getName());
+	}
+	
+	
 	
 	
 	@Test

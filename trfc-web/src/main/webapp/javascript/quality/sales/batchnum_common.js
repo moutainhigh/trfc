@@ -1,6 +1,6 @@
 //整合url
 	var URL = {
-			selectorUrl:"/trfc/quality/sales/file/selector",
+			selectorUrl:"/trfc/quality/sales/batchnum/selector",
 			copyUrl:"/trfc/quality/sales/batchnum/copy",
 			checkUrl:"/trfc/quality/sales/batchnum/check",
 			pageUrl:"/trfc/quality/sales/batchnum/page",

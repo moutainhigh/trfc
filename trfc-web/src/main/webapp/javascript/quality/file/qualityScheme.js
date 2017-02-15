@@ -6,6 +6,11 @@ $(function(){
 			deleteUrl:"/trfc/quality/sales/file/qualityScheme/delete",
 			updateUrl:"/trfc/quality/sales/file/qualityScheme/update",
 			saveUrl:"/trfc/quality/sales/file/qualityScheme/add",
+			billsUrl:"/trfc/quality/sales/file/qualityScheme/billsData",
+			codeUrl:"/trfc/quality/sales/file/qualityScheme/getCode",
+			updateCodeUrl:"/trfc/quality/sales/file/qualityScheme/updateCode",
+			itemUrl:"/trfc/quality/sales/file/qualityScheme/item",
+			standardUrl:"/trfc/quality/sales/file/qualityScheme/standard"
 	};
 	//设置一个公共变量,当点击编辑按钮时,将原数据存入该变量中
 	var editOD = {};
@@ -13,6 +18,7 @@ $(function(){
 	ShowAction(1);
 	//加载下拉框
 	materialSelect();
+	billsSelect();
 	//加载select2
 	$('#seek_material').select2({ placeholder: "请选择",
 		allowClear: false
@@ -23,6 +29,8 @@ $(function(){
 	$('#addBtn').click(initAddData);
 	//绑定新增界面确定按钮
 	$('#add_sure').click(saveAction);
+	//绑定只显示有效
+	$('#seek_invalid').change(function(){ShowAction(1);});
 	//绑定修改页面确定按钮
 	$('#edit_sure').click(editAction);
 	//绑定跳转按钮
@@ -35,49 +43,88 @@ $(function(){
 	$('#list').on('click','tr [title="删除"]',deleteAction);
 	//绑定编辑按钮
 	$('#list').on('click','tr [title="编辑"]',initEditData);
-
-	
+	//绑定跳转页面
+	$('#list').on('click','tr [title="方案项目"]',function(){
+		var id = $(this).closest('tr').data('obj').id;
+		window.location.replace(URL.itemUrl+"?id="+id);
+	});
+	$('#list').on('click','tr [title="质量标准"]',function(){
+		var id = $(this).closest('tr').data('obj').id;
+		window.location.replace(URL.standardUrl+"?id="+id);
+	});
+	//获取用户id
+	var userid = $('.user').attr('userid');
 
 	//初始化新增数据
 	function initAddData(){
 		//等待下拉框加载完成后,执行
 		$.when($selector).done(function(){
+			//下拉框初始化
 			$('#add_material').val('').select2({ placeholder: "请选择",
+				allowClear: false
+			});
+			$('#add_bills').val('').select2({ placeholder: "请选择",
 				allowClear: false
 			});;
 		});
-		$('#add_trademark').val('');
-		$('#add_norm').val('');
-		$('#add_certificate').val('');
-		$('#add_factorysite').val('');
-		$('#add_salestel').val('');
-		$('#add_invalid').removeAttr('checked')
-		$('#add_intro').val('');
+		//设置编码代号为FA
+		var code = 'FA';
+		//设置类型为编码
+		var codeType = true;
+		var param = {
+				userid:userid,
+				code:code,
+				codeType:codeType
+		};
+		//获取编号,并赋值
+		$.post(URL.codeUrl,param,function(result){
+			if(result.code=='000000'){
+				$('#add_code').val(result.data);
+			}else{
+				layer.msg(result.error, {icon:5});
+			}
+		});
 
+		$('#add_name').val('');
+		$('#add_type').val('');
+		$('#add_invalid').removeAttr('checked');
+		$('#add_def').removeAttr('checked');
+		$('#add_standard').removeAttr('checked');
+		$('#add_describe').val('');
 	}
 	//初始化编辑数据
 	function initEditData(){
 		//获取数据
-		var obj = $(this).closest('tr').data('certification_obj')
+		var obj = $(this).closest('tr').data('obj')
 		editOD.obj = obj;
 		//设置等下拉框数据加载完成后 执行
 		$.when($selector).done(function(){
 			$('#edit_material').val(obj.materialid).select2({ placeholder: "请选择",
 				allowClear: false
-			});;
+			});
+			$('#edit_bills').val(obj.bills).select2({ placeholder: "请选择",
+				allowClear: false
+			});
 		});
 		$('#edit_id').val(obj.id);
-		$('#edit_trademark').val(obj.trademark);
-		$('#edit_norm').val(obj.norm);
-		$('#edit_certificate').val(obj.certificate);
-		$('#edit_factorysite').val(obj.factorysite);
-		$('#edit_salestel').val(obj.salestel);
+		$('#edit_code').val(obj.code);
+		$('#edit_name').val(obj.name);
+		$('#edit_type').val(obj.type);
+
 		//为checkbox赋值
 		$('#edit_invalid')[0].checked=true;
 		if('1'==obj.invalid){
 			$('#edit_invalid')[0].checked=false;
 		}
-		$('#edit_intro').val(obj.intro);
+		$('#edit_def')[0].checked=true;
+		if('1'==obj.def){
+			$('#edit_def')[0].checked=false;
+		}
+		$('#edit_standard')[0].checked=true;
+		if('1'==obj.standard){
+			$('#edit_standard')[0].checked=false;
+		}
+		$('#edit_describe').val(obj.describe);
 	}
 
 //	新增数据
@@ -88,8 +135,8 @@ $(function(){
 		if(param){
 			$.post(URL.saveUrl,param,function(result){
 				if(result.code=='000000'){
-					//重新加载列表
-					ShowAction(1);
+					//添加成功后,刷新服务器编号(增1)
+					updateCode();
 					//关闭新增页面
 					$("#add_cancel").click();
 				}else{
@@ -120,46 +167,73 @@ $(function(){
 			}
 		}
 	}
+	//添加成功后,刷新标号(增1)
+	function updateCode(){
+		//设置编码代号
+		var code = 'FA';
+		//编制编号
+		var codeType = true;
+		var param = {
+				userid:userid,
+				code:code,
+				codeType:codeType
+		}; 
+		//更新编码
+		$.post(URL.updateCodeUrl,param,function(result){
+			if(result.code=='000000'){
+				//加载列表
+				ShowAction(1);
+			}else{
+				layer.msg(result.error,{icon:5});
+			}
+		});
+	}
 //	获取新增数据
 	function getAddData(){
+		var code = $('#add_code').val();
 		var materialid = $('#add_material').val();
 		if(!materialid){
 			alert("物料不能为空!");
 			return null;
 		};
-		var trademark = $('#add_trademark').val();
-		if(!trademark){
-			alert("商标不能为空!");
+		var bills = $('#add_bills').val();
+		if(!bills){
+			alert("单据类型不能为空!");
+			return null;
+		};
+		var name = $('#add_name').val();
+		if(!name){
+			alert("名称不能为空!");
 			return null;
 		}
-		var norm = $('#add_norm').val();
-		if(!norm){
-			alert("执行标准不能为空");
+		var type = $('#add_type').val();
+		if(!type){
+			alert("类型不能为空");
 			return null;
 		}
-		var certificate = $('#add_certificate').val();
-		if(!certificate){
-			alert("生产许可证号不能为空");
-			return null;
-		}
-		var factorysite = $('#add_factorysite').val();
-		var salestel = $('#add_salestel').val();
-		
 		var invalid = '1';
 		if($('#add_invalid').prop('checked')){
 			invalid='0';
 		}
-		var userid = $('.user').attr('userid');
-		var intro = $('#add_intro').val();
+		var def = '1';
+		if($('#add_def').prop('checked')){
+			def='0';
+		}
+		var standard = '1';
+		if($('#add_standard').prop('checked')){
+			standard='0';
+		}
+		var describe = $('#add_describe').val();
 		var param = {
+				code:code,
 				materialid:materialid,
-				trademark:trademark,
-				norm:norm,
-				certificate:certificate,
-				factorysite:factorysite,
-				salestel:salestel,
+				bills:bills,
+				name:name,
+				type:type,
 				invalid:invalid,
-				intro:intro,
+				def:def,
+				standard:standard,
+				describe:describe,
 				user:userid
 		};
 		return param;
@@ -167,45 +241,51 @@ $(function(){
 //	获取修改数据
 	function getEditData(){
 		var id = $('#edit_id').val();
+		var code = $('#edit_code').val();
 		var materialid = $('#edit_material').val();
 		if(!materialid){
 			alert("物料不能为空!");
 			return null;
 		};
-		var trademark = $('#edit_trademark').val();
-		if(!trademark){
-			alert("商标不能为空!");
+		var bills = $('#edit_bills').val();
+		if(!bills){
+			alert("单据类型不能为空!");
+			return null;
+		};
+		var name = $('#edit_name').val();
+		if(!name){
+			alert("名称不能为空!");
 			return null;
 		}
-		var norm = $('#edit_norm').val();
-		if(!norm){
-			alert("执行标准不能为空");
+		var type = $('#edit_type').val();
+		if(!type){
+			alert("类型不能为空");
 			return null;
 		}
-		var certificate = $('#edit_certificate').val();
-		if(!certificate){
-			alert("生产许可证号不能为空");
-			return null;
-		}
-		var factorysite = $('#edit_factorysite').val();
-		var salestel = $('#edit_salestel').val();
-		
 		var invalid = '1';
 		if($('#edit_invalid').prop('checked')){
 			invalid='0';
 		}
-		var userid = $('.user').attr('userid');
-		var intro = $('#edit_intro').val();
+		var def = '1';
+		if($('#edit_def').prop('checked')){
+			def='0';
+		}
+		var standard = '1';
+		if($('#edit_standard').prop('checked')){
+			standard='0';
+		}
+		var describe = $('#edit_describe').val();
 		var param = {
 				id:id,
+				code:code,
 				materialid:materialid,
-				trademark:trademark,
-				norm:norm,
-				certificate:certificate,
-				factorysite:factorysite,
-				salestel:salestel,
+				bills:bills,
+				name:name,
+				type:type,
 				invalid:invalid,
-				intro:intro,
+				def:def,
+				standard:standard,
+				describe:describe,
 				user:userid
 		};
 		return param;
@@ -213,20 +293,23 @@ $(function(){
 	//对比两个对象 如果相同则返回true
 	function contrast(obj1,obj2){
 		if(obj1.materialid==obj2.materialid &&
-				obj1.trademark==obj2.trademark &&
-				obj1.norm==obj2.norm &&
-				obj1.certificate==obj2.certificate &&
-				obj1.factorysite==obj2.factorysite &&
-				obj1.salestel==obj2.salestel &&
+				obj1.bills==obj2.bills &&
+				obj1.name==obj2.name &&
+				obj1.type==obj2.type &&
 				obj1.invalid==obj2.invalid &&
-				obj1.intro==obj2.intro
+				obj1.def==obj2.def &&
+				obj1.standard==obj2.standard &&
+				obj1.describe==obj2.describe
 		){
 			return true;
+		}else{
+			return false;
 		}
-		return false;
 	}
+	//删除数据
 	function deleteAction(){
-		var id = $(this).closest('tr').data('certification_obj').id;
+		//获取id
+		var id = $(this).closest('tr').data('obj').id;
 		//弹出删除确认框
 		var index = layer.confirm('你确定要删除吗?', {
 			area: '600px', 
@@ -249,9 +332,7 @@ $(function(){
 			}
 		});
 	}
-	function aditAction(){
-		console.log(1);
-	}
+
 //	获取下拉框数据并填充
 	function materialSelect(){
 		//获取数据
@@ -282,6 +363,38 @@ $(function(){
 			}
 		}
 	}
+//	获取下拉框数据并填充
+	function billsSelect(){
+		//获取数据
+		$selector = $.post(URL.billsUrl,{},function(result){
+			if(result.code=='000000'){
+				//填充数据
+				fillBillsContent(result.data);
+			}else{
+				layer.msg(result.error, {icon:5});
+			}
+		});
+	}
+//	填充数据
+	function fillBillsContent(list){
+		var select = $('.billsSelect');
+		//设置默认值
+		select.append("<option></option>");
+		if(list){
+			for(var i=0;i<list.length;i++){
+				var obj = list[i];
+				var msg = obj.name;
+				if(obj.spec){
+					msg = obj.name+' | '+obj.spec;
+				}
+				var option = '<option value='+obj.id+'>'+msg+'</option>';
+				//追加数据
+				select.append(option);
+			}
+		}
+	}
+
+
 
 //	页面跳转
 	function jumpPageAction(){
@@ -313,9 +426,19 @@ $(function(){
 		var pageSize = $('#pageSize').val();
 		//获取查询条件
 		var materialid = $('#seek_material').val();
+		var namelike = $('#seek_namelike').val();
+		var type = $('#seek_type').val();
+		var invalid = "1";
+		if($('#seek_invalid').prop('checked')){
+			invalid = "0";
+		}
+
 		var params = {
 				pageSize:pageSize,
-				materialid:materialid
+				materialid:materialid,
+				namelike:namelike,
+				type:type,
+				invalid:invalid
 		};
 		//获得当前页面标记
 		params.pageNo = pageNo;
@@ -353,22 +476,29 @@ $(function(){
 	}
 //	展示列表
 	function showPageData(list,pageSize,pageNo){
+		//设置TYPE变量 ,作用为 显示结果
+		var TYPE = {
+				0:'采购项目',
+				1:'销售项目'
+		};
 		//加载时清空列表和跳转值
 		$('#jumpPageNo').val('');
+		//清空列表
 		var tbody = $('#list').empty();
 		for(var i=0;i<list.length;i++){
 			var obj = list[i];
 			var invalid = obj.invalid;
 			var tr = '<tr>'
 				+'<td>'+((pageNo-1)*pageSize+i+1)+'</td>'
-				+'<td class="colorred">'+obj.materialname+'</td>'
-				+'<td>'+obj.trademark+'</td>'
-				+'<td>'+obj.norm+'</td>'
-				+'<td>'+obj.certificate+'</td>'
-				+'<td>'+obj.factorysite+'</td>'
-				+'<td>'+obj.salestel+'</td>'
+				+'<td class="colorred">'+obj.code+'</td>'
+				+'<td>'+obj.name+'</td>'
+				+'<td>'+obj.materialname+'</td>'
+				+'<td>'+obj.billsname+'</td>'
 				+'<td><input type="checkbox" '+("0"==invalid?'checked="true"':"")+' disabled="true"></td>'
-				+'<td>'+obj.intro+'</td>'
+				+'<td><input type="checkbox" '+("0"==obj.def?'checked="true"':"")+' disabled="true"></td>'
+				+'<td>'+TYPE[obj.type]+'</td>'
+				+'<td><input type="checkbox" '+("0"==obj.standard?'checked="true"':"")+' disabled="true"></td>'
+				+'<td>'+obj.describe+'</td>'
 				+'<td><span> <a data-toggle="modal"'
 				+'		data-target="#edit"><i class="iconfont"'
 				+'			data-toggle="tooltip" data-placement="left" title="编辑">&#xe600;</i></a>'
@@ -376,13 +506,13 @@ $(function(){
 				+'			class="iconfont" data-toggle="tooltip" data-placement="left"'
 				+'			title="删除">&#xe63d;</i></a>'
 				+'</span></td>'
-				+'</tr>';
+				+'<td><a title="方案项目">方案项目</a> <a title="质量标准">质量标准</a></td></tr>';
 			//转换为jquery对象
 			tr=$(tr);
 			//追加
 			tbody.append(tr);
 			//将数据绑定到tr上
-			tr.data('certification_obj',obj);
+			tr.data('obj',obj);
 		}
 	}
 

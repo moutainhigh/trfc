@@ -6,6 +6,7 @@ import com.tianrui.api.req.quality.file.QualitySchemeReq;
 import com.tianrui.service.bean.quality.file.QualityScheme;
 
 public interface QualitySchemeMapper {
+	
 	/**
 	 * 删除数据
 	 */
@@ -15,7 +16,7 @@ public interface QualitySchemeMapper {
 	 */
     int insert(QualityScheme record);
     /**
-	 * 新增数据(动态)
+	 * 新增数据(动�??)
 	 */
     int insertSelective(QualityScheme record);
     /**
@@ -23,7 +24,7 @@ public interface QualitySchemeMapper {
 	 */
     QualityScheme selectByPrimaryKey(String id);
     /**
-	 * 更新数据(动态)
+	 * 更新数据(动�??)
 	 */
     int updateByPrimaryKeySelective(QualityScheme record);
     /**

@@ -33,6 +33,18 @@ public class QualitySchemeAction {
 		ModelAndView view = new ModelAndView("quality/file/qualityScheme");
 		return view;
 	}
+	//显示页面
+		@RequestMapping("/item")
+		public ModelAndView item(){
+			ModelAndView view = new ModelAndView("quality/file/qualityScheme_item");
+			return view;
+		}
+		//显示页面
+		@RequestMapping("/standard")
+		public ModelAndView standard(){
+			ModelAndView view = new ModelAndView("quality/file/qualityScheme_standard");
+			return view;
+		}
 	/**
 	 * 获取分页数据
 	 */
@@ -100,6 +112,20 @@ public class QualitySchemeAction {
 		Result rs = Result.getErrorResult();
 		try {
 			rs = materielManageService.materialData();
+		} catch (Exception e) {
+			log.error(e.getMessage(),e);
+		}
+		return rs;
+	}
+	/**
+	 * 获取单据类型下拉框数据
+	 */
+	@ResponseBody
+	@RequestMapping("/billsData")
+	public Result billsData(){
+		Result rs = Result.getErrorResult();
+		try {
+			rs = qualitySchemeService.billsData();
 		} catch (Exception e) {
 			log.error(e.getMessage(),e);
 		}

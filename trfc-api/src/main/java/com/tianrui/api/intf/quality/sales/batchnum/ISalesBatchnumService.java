@@ -21,10 +21,7 @@ public interface ISalesBatchnumService {
 	 * 分页查询
 	 */
 	Result page(SalesBatchnumReq req) throws Exception;
-	/**
-	 * 新增页面预加载数据
-	 */
-	Result materialData() throws Exception;
+
 	/**
 	 * 通过id获取数据
 	 */

@@ -1,66 +1,84 @@
 package com.tianrui.service.bean.quality.file;
 
 public class QualityScheme {
-    /**
+    private String id;
+	private String code;
+	private String name;
+	private String materialid;
+	private String bills;
+	private String invalid;
+	private String def;
+	private String type;
+	private String standard;
+	private String describe;
+	private String creator;
+	private Long createtime;
+	private String modifier;
+	private Long modifytime;
+	private Long utc;
+
+	
+
+/*	*//**
      * 主键id
-     */
+     *//*
 	private String id;
-	/**
+	*//**
 	 * 编码
-	 */
+	 *//*
     private String code;
-    /**
+    *//**
      * 名称
-     */
+     *//*
     private String name;
-    /**
+    *//**
      * 物料id
-     */
+     *//*
     private String materialid;
-    /**
+    *//**
      * 单据类型
-     */
+     *//*
     private String bills;
-    /**
-     * 有效性(0:有效,1:无效)
-     */
+    *//**
+     * 有效�?(0:有效,1:无效)
+     *//*
     private String invalid;
-    /**
-     * 默认的(0:默认的,1:非默认的)
-     */
+    *//**
+     * 默认�?(0:默认�?,1:非默认的)
+     *//*
     private String def;
-    /**
-     * 类型(0:采购项目,1:销售项目)
-     */
+    *//**
+     * 类型(0:采购项目,1:�?售项�?)
+     *//*
     private String type;
-    /**
-     * 质量标准(0:标准,1:非标准)
-     */
+    *//**
+     * 质量标准(0:标准,1:非标�?)
+     *//*
     private String standard;
-    /**
+    *//**
      * 描述
-     */
+     *//*
     private String describe;
-    /**
-     * 创建者
-     */
+    *//**
+     * 创建�?
+     *//*
     private String creator;
-    /**
+    *//**
      * 创建时间
-     */
+     *//*
     private Long createtime;
-    /**
-     * 修改者
-     */
+    *//**
+     * 修改�?
+     *//*
     private String modifier;
-    /**
+    *//**
      * 修改时间
-     */
+     *//*
     private Long modifytime;
-    /**
-     * 数据同步时间戳
-     */
-    private Long utc;
+    *//**
+     * 数据同步时间�?
+     *//*
+    private Long utc;*/
 
     public String getId() {
         return id;

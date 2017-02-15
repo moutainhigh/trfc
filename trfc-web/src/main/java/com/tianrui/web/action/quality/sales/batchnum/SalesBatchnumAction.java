@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.tianrui.api.intf.basicFile.nc.IMaterielManageService;
 import com.tianrui.api.intf.quality.sales.batchnum.ISalesBatchnumService;
 import com.tianrui.api.req.quality.sales.batchnum.SalesBatchnumReq;
 import com.tianrui.smartfactory.common.vo.Result;
@@ -21,6 +22,8 @@ public class SalesBatchnumAction {
 	Logger log = LoggerFactory.getLogger(SalesBatchnumAction.class);
 	@Resource
 	private ISalesBatchnumService salesBatchnumService;
+	@Resource
+	private IMaterielManageService materielManageService;
 	//显示页面
 	@RequestMapping("/main")
 	public ModelAndView show(){
@@ -104,7 +107,7 @@ public class SalesBatchnumAction {
 	public Result materialData(){
 		Result rs = Result.getErrorResult();
 		try {
-			rs = salesBatchnumService.materialData();
+			rs = materielManageService.materialData();
 		} catch (Exception e) {
 			log.error(e.getMessage(),e);
 		}

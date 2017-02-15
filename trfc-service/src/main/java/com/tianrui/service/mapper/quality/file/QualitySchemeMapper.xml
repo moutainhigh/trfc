@@ -19,7 +19,7 @@
     <result column="utc" property="utc" jdbcType="BIGINT" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, code, name, materialid, bills, invalid, def, type, standard, describe, creator, 
+    id, code, name, materialid, bills, invalid, def, type, standard, `describe`, creator, 
     createtime, modifier, modifytime, utc
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
@@ -36,7 +36,7 @@
     insert into tr_quality_db_scheme (id, code, name, 
       materialid, bills, invalid, 
       def, type, standard, 
-      describe, creator, createtime, 
+      `describe`, creator, createtime, 
       modifier, modifytime, utc
       )
     values (#{id,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
@@ -77,7 +77,7 @@
         standard,
       </if>
       <if test="describe != null" >
-        describe,
+        `describe`,
       </if>
       <if test="creator != null" >
         creator,
@@ -171,7 +171,7 @@
         standard = #{standard,jdbcType=VARCHAR},
       </if>
       <if test="describe != null" >
-        describe = #{describe,jdbcType=VARCHAR},
+        `describe` = #{describe,jdbcType=VARCHAR},
       </if>
       <if test="creator != null" >
         creator = #{creator,jdbcType=VARCHAR},
@@ -201,7 +201,7 @@
       def = #{def,jdbcType=VARCHAR},
       type = #{type,jdbcType=VARCHAR},
       standard = #{standard,jdbcType=VARCHAR},
-      describe = #{describe,jdbcType=VARCHAR},
+      `describe` = #{describe,jdbcType=VARCHAR},
       creator = #{creator,jdbcType=VARCHAR},
       createtime = #{createtime,jdbcType=BIGINT},
       modifier = #{modifier,jdbcType=VARCHAR},
@@ -228,6 +228,7 @@
 				and type = #{type,jdbcType=VARCHAR}
 			</if>
 		</where>
+		order by createtime desc
 		<if test="start!=null and limit!=null ">
 			limit #{start,jdbcType=INTEGER},#{limit,jdbcType=INTEGER}
 		</if>

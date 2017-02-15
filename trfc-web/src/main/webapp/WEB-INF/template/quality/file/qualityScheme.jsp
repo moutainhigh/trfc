@@ -49,8 +49,9 @@
 								</div>
 								<div class="intel_solo">
 									<label>类型：</label> <select class="form-control" id="seek_type">
-										<option>采购</option>
-										<option>销售</option>
+										<option></option>
+										<option value="0">采购</option>
+										<option value="1">销售</option>
 									</select>
 								</div>
 								<div class="intel_solo">
@@ -58,7 +59,7 @@
 								</div>
 								<div class="intel_solo">
 									<div class="intel_sbtn">
-										<input type="checkbox" id="seek_invalid"><span>只显示有效的</span>
+										<input type="checkbox" id="seek_invalid" checked><span>只显示有效的</span>
 										<button class="btn btnblue" id="seek">搜索</button>
 
 									</div>
@@ -207,7 +208,10 @@
 								<label>名称：</label> <input type="text" id="add_name">
 							</div>
 							<div class="alt_edit_div">
-								<label>单据：</label> <input type="text" id="add_bills">
+								<label>单据：</label><div class=selct2_alt_div>
+									<select id="add_bills"
+										class="js-example-basic-single billsSelect form-control"></select>
+								</div>
 							</div>
 							<div class="alt_edit_div">
 								<label>物料：</label> 
@@ -259,13 +263,18 @@
 					<div class="modal-body">
 						<div class="alt_edit">
 							<div class="alt_edit_div">
+							 <input type="hidden" id="edit_id"> 
 								<label>编号：</label> <input type="text" readonly="true" value="11" id="edit_code">
 							</div>
 							<div class="alt_edit_div">
 								<label>名称：</label> <input type="text" id="edit_name">
 							</div>
 							<div class="alt_edit_div">
-								<label>单据：</label> <input type="text" id="edit_bills">
+								<label>单据：</label> 
+								<div class=selct2_alt_div>
+								<select id="edit_bills"
+										class="js-example-basic-single billsSelect form-control"></select>
+								</div>
 							</div>
 							<div class="alt_edit_div">
 								<label>物料：</label> 

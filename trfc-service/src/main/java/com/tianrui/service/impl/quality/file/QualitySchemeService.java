@@ -14,8 +14,10 @@ import com.tianrui.api.req.quality.file.QualitySchemeReq;
 import com.tianrui.api.resp.quality.file.QualitySchemeResp;
 import com.tianrui.service.bean.basicFile.nc.MaterielManage;
 import com.tianrui.service.bean.quality.file.QualityScheme;
+import com.tianrui.service.bean.system.base.SystemDataDictItem;
 import com.tianrui.service.mapper.basicFile.nc.MaterielManageMapper;
 import com.tianrui.service.mapper.quality.file.QualitySchemeMapper;
+import com.tianrui.service.mapper.system.base.SystemDataDictItemMapper;
 import com.tianrui.smartfactory.common.constants.ErrorCode;
 import com.tianrui.smartfactory.common.utils.UUIDUtil;
 import com.tianrui.smartfactory.common.vo.PaginationVO;
@@ -27,12 +29,16 @@ public class QualitySchemeService implements IQualitySchemeService {
 	private QualitySchemeMapper qualitySchemeMapper;
 	@Resource
 	private MaterielManageMapper materielManageMapper;
+	@Resource
+	private	SystemDataDictItemMapper systemDataDictItemMapper;
 	
 	@Override
 	public Result delete(QualitySchemeReq req) throws Exception {
 		Result rs = Result.getParamErrorResult();
 		if(req!=null && StringUtils.isNotBlank(req.getId())){
+			//删除数据
 			int index = qualitySchemeMapper.deleteByPrimaryKey(req.getId());
+			//判断操作是否成功
 			if(index>0){
 				rs = Result.getSuccessResult();
 			}else{
@@ -122,7 +128,11 @@ public class QualitySchemeService implements IQualitySchemeService {
 						if(m!=null){
 							resp.setMaterialname(m.getName());
 						}
-						
+						//通过单据id 查询单据信息,获取单据名称
+						SystemDataDictItem sd = systemDataDictItemMapper.selectByPrimaryKey(c.getBills());
+						if(sd!=null){
+							resp.setBillsname(sd.getName());
+						}
 						//将对象放入集合
 						resps.add(resp);
 					}
@@ -132,6 +142,15 @@ public class QualitySchemeService implements IQualitySchemeService {
 			rs = Result.getSuccessResult();
 			rs.setData(page);
 		}
+		return rs;
+	}
+	public Result billsData() throws Exception{
+		Result rs = Result.getSuccessResult();
+		//设置单据类型id
+		String dictId = "dbca68d35daa485fa07a813504511d03";
+		//查询所有单据类型
+		List<SystemDataDictItem> list = systemDataDictItemMapper.selectByDictId(dictId);
+		rs.setData(list);
 		return rs;
 	}
 

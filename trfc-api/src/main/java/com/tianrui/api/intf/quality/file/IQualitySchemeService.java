@@ -21,8 +21,10 @@ public interface IQualitySchemeService {
 	 * 分页查询
 	 */
 	Result page(QualitySchemeReq req) throws Exception;
-
-	
+	/**
+	 * 获取单据数据
+	 */
+	Result billsData() throws Exception;
 	
 	
 }

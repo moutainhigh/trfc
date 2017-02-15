@@ -50,20 +50,29 @@ $(function(){
 		if('停用'==audit){
 			return;
 		}
-		//获取id
-		var id = $(this).closest('tr').data('batchnum_obj').id;
-		var param = {id:id,
-				billsstate:'0',
-					user:user};
-		//提交数据到服务器
-		$.post(URL.updateUrl,param,function(result){
-			if(result.code=='000000'){
-				//加载页面
-				batchnumShowAction(1);
-			}else{
-				layer.msg(result.error,{icon:5});
-			}
+		var index = layer.confirm('你确定要停用吗?', {
+			area: '600px', 
+			btn: ['确定','取消'] //按钮
+		}, function(){
+			//获取id
+			var id = $(this).closest('tr').data('batchnum_obj').id;
+			var param = {id:id,
+					billsstate:'0',
+						user:user};
+			//提交数据到服务器
+			$.post(URL.updateUrl,param,function(result){
+				if(result.code=='000000'){
+					//加载页面
+					batchnumShowAction(1);
+				}else{
+					layer.msg(result.error,{icon:5});
+				}
+			});
+			//关闭对话框
+			layer.close(index);
+		}, function(){
 		});
+		
 		
 	}
 	
@@ -71,33 +80,45 @@ $(function(){
 	//审核(bt:当前元素 auditstate:数据)
 	function updateAudit(bt,auditstate){
 		var audit = $(bt).closest('tr').find('td').eq(2).html();
+		var msg = '';
 		//是否是审核
 		if(auditstate=='1'){
+			msg = '你确定要审核吗?';
 			if(audit=='已审核'){
 				return;
 			}
 		}
 		//是否是反审
 		if(auditstate=='0'){
+			msg = '你确定要反审吗?';
 			if(audit=='待审核'){
 				return;
 			}
 		}
-		//获取id
-		var id = $(bt).closest('tr').data('batchnum_obj').id;
-		var param = {id:id,
-					auditstate:auditstate,
-					user:user
-				};
-		//更新数据到服务器
-		$.post(URL.updateUrl,param,function(result){
-			if(result.code=='000000'){
-				//加载页面
-				batchnumShowAction(1);
-			}else{
-				layer.msg(result.error, {icon:5});
-			}
+		var index = layer.confirm(msg, {
+			area: '600px', 
+			btn: ['确定','取消'] //按钮
+		}, function(){
+			//获取id
+			var id = $(bt).closest('tr').data('batchnum_obj').id;
+			var param = {id:id,
+						auditstate:auditstate,
+						user:user
+					};
+			//更新数据到服务器
+			$.post(URL.updateUrl,param,function(result){
+				if(result.code=='000000'){
+					//加载页面
+					batchnumShowAction(1);
+				}else{
+					layer.msg(result.error, {icon:5});
+				}
+			});
+			//关闭对话框
+			layer.close(index);
+		}, function(){
 		});
+		
 	}
 	//删除action
 	function deleteAction(){
