@@ -15,12 +15,6 @@ public class PurchaseArrive {
     private String source;
 	//状态：（0：未入厂，1：空车，2：重车，3：作废，4：发卡，5：出厂，6：入厂，7：装车）
     private String status;
-	//供应商id
-    private String supplierid;
-	//供应商名称
-    private String suppliername;
-	//供应商备注
-    private String supplierremark;
 	//矿口id
     private String minemouthid;
 	//矿口名称
@@ -41,13 +35,15 @@ public class PurchaseArrive {
     private String billid;
 	//采购订单编号
     private String billcode;
+    //采购订单详情id
+    private String billdetailid;
 	//作废/强制出厂人
     private String abnormalperson;
 	//作废/强制出厂人名称
     private String abnormalpersonname;
 	//作废/强制出厂时间
     private Long abnormaltime;
-	//提货量
+	//到货量
     private Double arrivalamount;
 	//单位 default='吨'
     private String unit;
@@ -108,30 +104,6 @@ public class PurchaseArrive {
 
     public void setStatus(String status) {
         this.status = status == null ? null : status.trim();
-    }
-
-    public String getSupplierid() {
-        return supplierid;
-    }
-
-    public void setSupplierid(String supplierid) {
-        this.supplierid = supplierid == null ? null : supplierid.trim();
-    }
-
-    public String getSuppliername() {
-        return suppliername;
-    }
-
-    public void setSuppliername(String suppliername) {
-        this.suppliername = suppliername == null ? null : suppliername.trim();
-    }
-
-    public String getSupplierremark() {
-        return supplierremark;
-    }
-
-    public void setSupplierremark(String supplierremark) {
-        this.supplierremark = supplierremark == null ? null : supplierremark.trim();
     }
 
     public String getMinemouthid() {
@@ -214,7 +186,15 @@ public class PurchaseArrive {
         this.billcode = billcode == null ? null : billcode.trim();
     }
 
-    public String getAbnormalperson() {
+    public String getBilldetailid() {
+		return billdetailid;
+	}
+
+	public void setBilldetailid(String billdetailid) {
+		this.billdetailid = billdetailid == null ? null : billdetailid.trim();
+	}
+
+	public String getAbnormalperson() {
         return abnormalperson;
     }
 

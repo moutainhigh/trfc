@@ -65,7 +65,7 @@
 								</div>
 								<div class="intel_solo">
 									<label>物料：</label> <select id="materiel" class="form-control">
-										<option>请选择</option>
+										<option value="">请选择</option>
 										<c:forEach items="${materiel }" var="m">
 											<option value="${m.id }">${m.name }</option>
 										</c:forEach>
@@ -73,8 +73,7 @@
 								</div>
 								<div class="intel_solo">
 									<label>司机：</label> <select id="driver" class="form-control">
-										<option>请选择</option>
-										<option>请选择</option>
+										<option value="">请选择</option>
 										<c:forEach items="${driver }" var="d">
 											<option value="${d.id }">${d.name }</option>
 										</c:forEach>
@@ -118,11 +117,11 @@
 						</div>
 					</div>
 					<div class="intel_opera">
-						<div class="intel_operasolo">
+						<div id="refreshBtn" class="intel_operasolo">
 							<i class="iconfont colorlv">&#xe61b;</i>
 							<h5>刷新</h5>
 						</div>
-						<div class="intel_operasolo">
+						<div id="addBtn" class="intel_operasolo">
 							<a> <i class="iconfont coloradd">&#xe627;</i>
 								<h5>新增</h5>
 							</a>
@@ -133,6 +132,7 @@
 						<table class="table table-hover">
 							<thead>
 								<tr>
+									<th>序号</th>
 									<th>到货单号</th>
 									<th>审核</th>
 									<th>来源</th>
@@ -151,34 +151,7 @@
 									<th>操作</th>
 								</tr>
 							</thead>
-							<tbody>
-								<tr>
-									<td>CD201601010138</td>
-									<td class="colorred">审核中</td>
-									<td>客商APP</td>
-									<td>未入厂</td>
-									<td>豫GA1783</td>
-									<td>CD201601010138</td>
-									<td>卫辉市润晨商贸有限公司</td>
-									<td>粉煤灰1</td>
-									<td>粉煤灰1</td>
-									<td>2016-01-01 07:59:39</td>
-									<td>2016-01-01 07:59:39</td>
-									<td>粉煤灰1</td>
-									<td>粉煤灰1</td>
-									<td>粉煤灰1</td>
-									<td>粉煤灰1</td>
-									<td><span> <i class="iconfont"
-											data-toggle="tooltip" data-placement="left" title="编辑">&#xe600;</i></span>
-										<span> <i class="iconfont " data-toggle="tooltip"
-											data-placement="left" title="审核">&#xe692;</i></span> <span> <i
-											class="iconfont" data-toggle="tooltip" data-placement="left"
-											title=" 作废">&#xe60c;</i></span> <span> <i class="iconfont"
-											data-toggle="tooltip" data-placement="left" title=" 反审">&#xe651;</i></span>
-										<span> <i class="iconfont" data-toggle="tooltip"
-											data-placement="left" title=" 出厂">&#xe63c;</i></span></td>
-								</tr>
-
+							<tbody id="dataBody">
 							</tbody>
 						</table>
 						<!--用户表格end-->
@@ -207,12 +180,12 @@
 									</thead>
 									<tbody>
 										<tr>
-											<td>卫辉市天瑞水泥有限公司</td>
-											<td>粉煤炭</td>
-											<td>方案2</td>
-											<td>1000</td>
-											<td>豫GA1783</td>
-											<td>豫GA1783</td>
+											<td id="vehicleno"></td>
+											<td id="arrivalamount"></td>
+											<td id="drivername"></td>
+											<td id="driveridentityno"></td>
+											<td id="makebilltimeStr"></td>
+											<td id="makebillname"></td>
 										</tr>
 									</tbody>
 								</table>
@@ -231,12 +204,12 @@
 									</thead>
 									<tbody>
 										<tr>
-											<td>卫辉市天瑞水泥有限公司</td>
-											<td>粉煤炭</td>
-											<td>方案2</td>
-											<td>1000</td>
-											<td>豫GA1783</td>
-											<td>豫GA1783</td>
+											<td id="billno"></td>
+											<td id="suppliername"></td>
+											<td id="materielname"></td>
+											<td id="orgname"></td>
+											<td id="purchasesum"></td>
+											<td id="billtime"></td>
 										</tr>
 									</tbody>
 								</table>
@@ -256,13 +229,13 @@
 									</thead>
 									<tbody>
 										<tr>
-											<td>卫辉市天瑞水泥有限公司</td>
-											<td>粉煤炭</td>
-											<td>方案2</td>
-											<td>1000</td>
-											<td>豫GA1783</td>
-											<td>豫GA1783</td>
-											<td>豫GA1783</td>
+											<td></td>
+											<td id="vehicleno2"></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
 										</tr>
 									</tbody>
 								</table>
@@ -274,7 +247,7 @@
 					<!--分页效果开始-->
 					<div class="page">
 						<div class="page_date">
-							<label>数据共：</label><i id="total" class="colorred">100</i><label>条</label>
+							<label>数据共：</label><i id="total" class="colorred"></i><label>条</label>
 						</div>
 						<div class="page_date">
 							<label>跳到第：</label> <input id="jumpPageNo" type="text"> <label>页</label>

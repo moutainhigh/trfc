@@ -29,6 +29,8 @@ public class PurchaseApplication {
     private String supplierid;
 	//供应商名称
     private String suppliername;
+    //供应商备注
+    private String supplierremark;
 	//部门id
     private String departmentid;
 	//部门
@@ -158,7 +160,15 @@ public class PurchaseApplication {
         this.suppliername = suppliername == null ? null : suppliername.trim();
     }
 
-    public String getDepartmentid() {
+    public String getSupplierremark() {
+		return supplierremark;
+	}
+
+	public void setSupplierremark(String supplierremark) {
+		this.supplierremark = supplierremark == null ? null : supplierremark.trim();
+	}
+
+	public String getDepartmentid() {
         return departmentid;
     }
 

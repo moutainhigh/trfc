@@ -1,15 +1,14 @@
-package com.tianrui.api.resp.businessManage.purchaseManage;
+package com.tianrui.api.req.businessManage.purchaseManage;
 
-import com.tianrui.api.resp.BaseResp;
-import com.tianrui.smartfactory.common.utils.DateUtil;
+import com.tianrui.api.req.BaseReq;
 /**
- * @Description 采购到货通知单Resp
+ * @Description 采购通知单Update
  * @author zhanggaohao
- * @version 2017年2月14日 上午9:44:45
+ * @version 2017年2月15日 上午10:36:01
  */
-public class PurchaseArriveResp extends BaseResp {
+public class PurchaseArriveUpdate extends BaseReq {
 	/** serialVersionUID */
-	private static final long serialVersionUID = 5250449009196691062L;
+	private static final long serialVersionUID = 8233358448528743510L;
 	//主键id
     private String id;
 	//到货单号
@@ -48,8 +47,6 @@ public class PurchaseArriveResp extends BaseResp {
     private String abnormalpersonname;
 	//作废/强制出厂时间
     private Long abnormaltime;
-    //作废/强制出厂时间字符串
-    private String abnormaltimeStr;
 	//到货量
     private Double arrivalamount;
 	//单位 default='吨'
@@ -60,29 +57,20 @@ public class PurchaseArriveResp extends BaseResp {
     private String makebillname;
 	//制单时间
     private Long makebilltime;
-    //制单时间字符串
-    private String makebilltimeStr;
     //状态：（0：删除，1：正常）
     private String state;
 	//创建人
     private String creator;
 	//创建时间
     private Long createtime;
-    //创建时间字符串
-    private String createtimeStr;
 	//最后修改人
     private String modifier;
 	//最后修改时间
     private Long modifytime;
-    //最后修改时间字符串
-    private String modifytimeStr;
 	//备注
     private String remark;
-    //采购申请单
-    private PurchaseApplicationResp purchaseApplicationResp;
-    //采购申请单详情
-    private PurchaseApplicationDetailResp purchaseApplicationDetailResp;
-    
+	//当前用户
+    private String currId;
 	public String getId() {
 		return id;
 	}
@@ -196,13 +184,6 @@ public class PurchaseArriveResp extends BaseResp {
 	}
 	public void setAbnormaltime(Long abnormaltime) {
 		this.abnormaltime = abnormaltime;
-		this.abnormaltimeStr = DateUtil.parse(abnormaltime, "yyyy-MM-dd HH:mm:ss");
-	}
-	public String getAbnormaltimeStr() {
-		return abnormaltimeStr;
-	}
-	public void setAbnormaltimeStr(String abnormaltimeStr) {
-		this.abnormaltimeStr = abnormaltimeStr;
 	}
 	public Double getArrivalamount() {
 		return arrivalamount;
@@ -233,13 +214,6 @@ public class PurchaseArriveResp extends BaseResp {
 	}
 	public void setMakebilltime(Long makebilltime) {
 		this.makebilltime = makebilltime;
-		this.makebilltimeStr = DateUtil.parse(makebilltime, "yyyy-MM-dd HH:mm:ss");
-	}
-	public String getMakebilltimeStr() {
-		return makebilltimeStr;
-	}
-	public void setMakebilltimeStr(String makebilltimeStr) {
-		this.makebilltimeStr = makebilltimeStr;
 	}
 	public String getState() {
 		return state;
@@ -258,13 +232,6 @@ public class PurchaseArriveResp extends BaseResp {
 	}
 	public void setCreatetime(Long createtime) {
 		this.createtime = createtime;
-		this.createtimeStr = DateUtil.parse(createtime, "yyyy-MM-dd HH:mm:ss");
-	}
-	public String getCreatetimeStr() {
-		return createtimeStr;
-	}
-	public void setCreatetimeStr(String createtimeStr) {
-		this.createtimeStr = createtimeStr;
 	}
 	public String getModifier() {
 		return modifier;
@@ -277,13 +244,6 @@ public class PurchaseArriveResp extends BaseResp {
 	}
 	public void setModifytime(Long modifytime) {
 		this.modifytime = modifytime;
-		this.modifytimeStr = DateUtil.parse(modifytime, "yyyy-MM-dd HH:mm:ss");
-	}
-	public String getModifytimeStr() {
-		return modifytimeStr;
-	}
-	public void setModifytimeStr(String modifytimeStr) {
-		this.modifytimeStr = modifytimeStr;
 	}
 	public String getRemark() {
 		return remark;
@@ -291,17 +251,11 @@ public class PurchaseArriveResp extends BaseResp {
 	public void setRemark(String remark) {
 		this.remark = remark;
 	}
-	public PurchaseApplicationResp getPurchaseApplicationResp() {
-		return purchaseApplicationResp;
+	public String getCurrId() {
+		return currId;
 	}
-	public void setPurchaseApplicationResp(PurchaseApplicationResp purchaseApplicationResp) {
-		this.purchaseApplicationResp = purchaseApplicationResp;
-	}
-	public PurchaseApplicationDetailResp getPurchaseApplicationDetailResp() {
-		return purchaseApplicationDetailResp;
-	}
-	public void setPurchaseApplicationDetailResp(PurchaseApplicationDetailResp purchaseApplicationDetailResp) {
-		this.purchaseApplicationDetailResp = purchaseApplicationDetailResp;
+	public void setCurrId(String currId) {
+		this.currId = currId;
 	}
     
 }

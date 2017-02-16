@@ -312,7 +312,7 @@ PAGE.mod.main = {
 				layer.msg('此单据已作废，无法审核操作！', {icon: 5});
 				return;
 			}
-			if(obj.status == '3'){
+			if(obj.status == '1'){
 				layer.msg('此单据已使用，无法审核操作！', {icon: 5});
 				return;
 			}
@@ -320,7 +320,7 @@ PAGE.mod.main = {
 				layer.msg('此单据已过重车，无法审核操作！', {icon: 5});
 				return;
 			}
-			_this.confirmOperation('您确定要审核么？', _this.top.URL.auditUrl, {id: obj.id});
+			_this.confirmOperation('您确定要审核吗？', _this.top.URL.auditUrl, {id: obj.id});
 		},
 		unaudit:function(obj){
 			var _this = this;
@@ -337,11 +337,11 @@ PAGE.mod.main = {
 				return;
 			}
 			if(obj.status == '6'){
-				layer.msg('此单据已入厂,无法审核操作!', {icon: 5});
+				layer.msg('此单据已入厂,无法反审操作!', {icon: 5});
 				return;
 			}
 			if(obj.status == '7'){
-				layer.msg('此单据已装货,无法审核操作!', {icon: 5});
+				layer.msg('此单据已装货,无法反审操作!', {icon: 5});
 				return;
 			}
 			if(obj.status == '3'){
@@ -356,7 +356,7 @@ PAGE.mod.main = {
 				layer.msg('此单据已过重车,无法反审操作!', {icon: 5});
 				return;
 			}
-			_this.confirmOperation('您确定要反审么？',  _this.top.URL.unauditUrl, {id: obj.id});
+			_this.confirmOperation('您确定要反审吗？',  _this.top.URL.unauditUrl, {id: obj.id});
 		},
 		invalid:function(obj){
 			var _this = this;
@@ -376,7 +376,7 @@ PAGE.mod.main = {
 				layer.msg('数据已入厂，不能进行作废操作！', {icon: 5});
 				return;
 			}
-			_this.confirmOperation('您确定要作废么？', _this.top.URL.invalidUrl, {id: obj.id});
+			_this.confirmOperation('您确定要作废吗？', _this.top.URL.invalidUrl, {id: obj.id});
 		},
 		outfactory:function(obj){
 			var _this = this;
@@ -392,7 +392,7 @@ PAGE.mod.main = {
 				layer.msg('数据未过重车，不能进行出厂操作！', {icon: 5});
 				return;
 			}
-			_this.confirmOperation('您确定要出厂么？', _this.top.URL.outfactoryUrl, {id: obj.id});
+			_this.confirmOperation('您确定要出厂吗？', _this.top.URL.outfactoryUrl, {id: obj.id});
 		},
 		confirmOperation: function(confirmContent, url, params){
 			layer.confirm(confirmContent, {

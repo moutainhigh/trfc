@@ -7,9 +7,6 @@
     <result column="auditstatus" property="auditstatus" jdbcType="VARCHAR" />
     <result column="source" property="source" jdbcType="VARCHAR" />
     <result column="status" property="status" jdbcType="VARCHAR" />
-    <result column="supplierid" property="supplierid" jdbcType="VARCHAR" />
-    <result column="suppliername" property="suppliername" jdbcType="VARCHAR" />
-    <result column="supplierremark" property="supplierremark" jdbcType="VARCHAR" />
     <result column="minemouthid" property="minemouthid" jdbcType="VARCHAR" />
     <result column="minemouthname" property="minemouthname" jdbcType="VARCHAR" />
     <result column="vehicleid" property="vehicleid" jdbcType="VARCHAR" />
@@ -20,6 +17,7 @@
     <result column="driveridentityno" property="driveridentityno" jdbcType="VARCHAR" />
     <result column="billid" property="billid" jdbcType="VARCHAR" />
     <result column="billcode" property="billcode" jdbcType="VARCHAR" />
+    <result column="billdetailid" property="billdetailid" jdbcType="VARCHAR" />
     <result column="abnormalperson" property="abnormalperson" jdbcType="VARCHAR" />
     <result column="abnormalpersonname" property="abnormalpersonname" jdbcType="VARCHAR" />
     <result column="abnormaltime" property="abnormaltime" jdbcType="BIGINT" />
@@ -36,11 +34,16 @@
     <result column="remark" property="remark" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, code, auditstatus, source, status, supplierid, suppliername, supplierremark, 
-    minemouthid, minemouthname, vehicleid, vehicleno, vehiclerfid, driverid, drivername, 
-    driveridentityno, billid, billcode, abnormalperson, abnormalpersonname, abnormaltime, 
-    arrivalamount, unit, makerid, makebillname, makebilltime, state, creator, createtime, modifier, 
-    modifytime, remark
+    id, code, auditstatus, source, status, minemouthid, minemouthname, vehicleid, 
+    vehicleno, vehiclerfid, driverid, drivername, driveridentityno, billid, billcode, 
+    billdetailid, abnormalperson, abnormalpersonname, abnormaltime, arrivalamount, unit, makerid, 
+    makebillname, makebilltime, state, creator, createtime, modifier, modifytime, remark
+  </sql>
+  <sql id="P_Base_Column_List" >
+    p1.id, p1.code, p1.auditstatus, p1.source, p1.status, p1.minemouthid, p1.minemouthname, p1.vehicleid, 
+    p1.vehicleno, p1.vehiclerfid, p1.driverid, p1.drivername, p1.driveridentityno, p1.billid, p1.billcode, 
+    p1.billdetailid, p1.abnormalperson, p1.abnormalpersonname, p1.abnormaltime, p1.arrivalamount, p1.unit, p1.makerid, 
+    p1.makebillname, p1.makebilltime, p1.state, p1.creator, p1.createtime, p1.modifier, p1.modifytime, p1.remark
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
@@ -54,22 +57,20 @@
   </delete>
   <insert id="insert" parameterType="com.tianrui.service.bean.businessManage.purchaseManage.PurchaseArrive" >
     insert into tr_purchase_db_arrive (id, code, auditstatus, 
-      source, status, supplierid, 
-      suppliername, supplierremark, minemouthid, 
+      source, status, minemouthid, 
       minemouthname, vehicleid, vehicleno, 
       vehiclerfid, driverid, drivername, 
-      driveridentityno, billid, billcode, 
+      driveridentityno, billid, billcode, billdetailid,
       abnormalperson, abnormalpersonname, abnormaltime, 
       arrivalamount, unit, makerid, 
       makebillname, makebilltime, state, creator, 
       createtime, modifier, modifytime, 
       remark)
     values (#{id,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR}, #{auditstatus,jdbcType=VARCHAR}, 
-      #{source,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, #{supplierid,jdbcType=VARCHAR}, 
-      #{suppliername,jdbcType=VARCHAR}, #{supplierremark,jdbcType=VARCHAR}, #{minemouthid,jdbcType=VARCHAR}, 
+      #{source,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, #{minemouthid,jdbcType=VARCHAR}, 
       #{minemouthname,jdbcType=VARCHAR}, #{vehicleid,jdbcType=VARCHAR}, #{vehicleno,jdbcType=VARCHAR}, 
       #{vehiclerfid,jdbcType=VARCHAR}, #{driverid,jdbcType=VARCHAR}, #{drivername,jdbcType=VARCHAR}, 
-      #{driveridentityno,jdbcType=VARCHAR}, #{billid,jdbcType=VARCHAR}, #{billcode,jdbcType=VARCHAR}, 
+      #{driveridentityno,jdbcType=VARCHAR}, #{billid,jdbcType=VARCHAR}, #{billcode,jdbcType=VARCHAR}, #{billdetailid,jdbcType=VARCHAR}, 
       #{abnormalperson,jdbcType=VARCHAR}, #{abnormalpersonname,jdbcType=VARCHAR}, #{abnormaltime,jdbcType=BIGINT}, 
       #{arrivalamount,jdbcType=DOUBLE}, #{unit,jdbcType=VARCHAR}, #{makerid,jdbcType=VARCHAR}, 
       #{makebillname,jdbcType=VARCHAR}, #{makebilltime,jdbcType=BIGINT}, #{state,jdbcType=VARCHAR}, #{creator,jdbcType=VARCHAR}, 
@@ -93,15 +94,6 @@
       </if>
       <if test="status != null" >
         status,
-      </if>
-      <if test="supplierid != null" >
-        supplierid,
-      </if>
-      <if test="suppliername != null" >
-        suppliername,
-      </if>
-      <if test="supplierremark != null" >
-        supplierremark,
       </if>
       <if test="minemouthid != null" >
         minemouthid,
@@ -132,6 +124,9 @@
       </if>
       <if test="billcode != null" >
         billcode,
+      </if>
+      <if test="billdetailid != null" >
+        billdetailid,
       </if>
       <if test="abnormalperson != null" >
         abnormalperson,
@@ -192,15 +187,6 @@
       <if test="status != null" >
         #{status,jdbcType=VARCHAR},
       </if>
-      <if test="supplierid != null" >
-        #{supplierid,jdbcType=VARCHAR},
-      </if>
-      <if test="suppliername != null" >
-        #{suppliername,jdbcType=VARCHAR},
-      </if>
-      <if test="supplierremark != null" >
-        #{supplierremark,jdbcType=VARCHAR},
-      </if>
       <if test="minemouthid != null" >
         #{minemouthid,jdbcType=VARCHAR},
       </if>
@@ -230,6 +216,9 @@
       </if>
       <if test="billcode != null" >
         #{billcode,jdbcType=VARCHAR},
+      </if>
+      <if test="billdetailid != null" >
+        #{billdetailid,jdbcType=VARCHAR},
       </if>
       <if test="abnormalperson != null" >
         #{abnormalperson,jdbcType=VARCHAR},
@@ -290,15 +279,6 @@
       <if test="status != null" >
         status = #{status,jdbcType=VARCHAR},
       </if>
-      <if test="supplierid != null" >
-        supplierid = #{supplierid,jdbcType=VARCHAR},
-      </if>
-      <if test="suppliername != null" >
-        suppliername = #{suppliername,jdbcType=VARCHAR},
-      </if>
-      <if test="supplierremark != null" >
-        supplierremark = #{supplierremark,jdbcType=VARCHAR},
-      </if>
       <if test="minemouthid != null" >
         minemouthid = #{minemouthid,jdbcType=VARCHAR},
       </if>
@@ -328,6 +308,9 @@
       </if>
       <if test="billcode != null" >
         billcode = #{billcode,jdbcType=VARCHAR},
+      </if>
+      <if test="billdetailid != null" >
+        billdetailid = #{billdetailid,jdbcType=VARCHAR},
       </if>
       <if test="abnormalperson != null" >
         abnormalperson = #{abnormalperson,jdbcType=VARCHAR},
@@ -380,9 +363,6 @@
       auditstatus = #{auditstatus,jdbcType=VARCHAR},
       source = #{source,jdbcType=VARCHAR},
       status = #{status,jdbcType=VARCHAR},
-      supplierid = #{supplierid,jdbcType=VARCHAR},
-      suppliername = #{suppliername,jdbcType=VARCHAR},
-      supplierremark = #{supplierremark,jdbcType=VARCHAR},
       minemouthid = #{minemouthid,jdbcType=VARCHAR},
       minemouthname = #{minemouthname,jdbcType=VARCHAR},
       vehicleid = #{vehicleid,jdbcType=VARCHAR},
@@ -393,6 +373,7 @@
       driveridentityno = #{driveridentityno,jdbcType=VARCHAR},
       billid = #{billid,jdbcType=VARCHAR},
       billcode = #{billcode,jdbcType=VARCHAR},
+      billdetailid = #{billdetailid,jdbcType=VARCHAR},
       abnormalperson = #{abnormalperson,jdbcType=VARCHAR},
       abnormalpersonname = #{abnormalpersonname,jdbcType=VARCHAR},
       abnormaltime = #{abnormaltime,jdbcType=BIGINT},
@@ -429,15 +410,6 @@
       <if test="status != null and status != ''" >
         and status = #{status,jdbcType=VARCHAR}
       </if>
-      <if test="supplierid != null and supplierid != ''" >
-        and supplierid = #{supplierid,jdbcType=VARCHAR}
-      </if>
-      <if test="suppliername != null and suppliername != ''" >
-        and suppliername = #{suppliername,jdbcType=VARCHAR}
-      </if>
-      <if test="supplierremark != null and supplierremark != ''" >
-        and supplierremark = #{supplierremark,jdbcType=VARCHAR}
-      </if>
       <if test="minemouthid != null and minemouthid != ''" >
         and minemouthid = #{minemouthid,jdbcType=VARCHAR}
       </if>
@@ -467,6 +439,9 @@
       </if>
       <if test="billcode != null and billcode != ''" >
         and billcode = #{billcode,jdbcType=VARCHAR}
+      </if>
+      <if test="billdetailid != null and billdetailid != ''" >
+        and billdetailid = #{billdetailid,jdbcType=VARCHAR}
       </if>
       <if test="abnormalperson != null and abnormalperson != ''" >
         and abnormalperson = #{abnormalperson,jdbcType=VARCHAR}
@@ -514,10 +489,10 @@
   </select>
   <select id="findPurchaseArrivePage" parameterType="com.tianrui.api.req.businessManage.purchaseManage.PurchaseArriveQuery" resultMap="BaseResultMap">
   	select
-  	<include refid="Base_Column_List" />
+  	<include refid="P_Base_Column_List" />
   	from tr_purchase_db_arrive p1
   	left join tr_purchase_db_application p2 on p1.billid = p2.id
-  	left join tr_purchase_db_application_detail p3 on p2.id = p3.purchaseid
+  	left join tr_purchase_db_application_detail p3 on p1.billdetailid = p3.id
   	<where>
   	  <if test="code != null and code !=''" >
         and p1.code = #{code,jdbcType=VARCHAR}
@@ -532,7 +507,7 @@
         and p1.status = #{status,jdbcType=VARCHAR}
       </if>
   	  <if test="supplierid != null and supplierid !=''" >
-        and p1.supplierid = #{supplierid,jdbcType=VARCHAR}
+        and p2.supplierid = #{supplierid,jdbcType=VARCHAR}
       </if>
   	  <if test="vehicleid != null and vehicleid !=''" >
         and p1.vehicleid = #{vehicleid,jdbcType=VARCHAR}
@@ -563,12 +538,11 @@
   		</if>
   	</if>
   </select>
-  <select id="findPurchaseArrivePageCount" parameterType="com.tianrui.api.req.businessManage.purchaseManage.PurchaseArriveQuery" resultMap="BaseResultMap">
-  	select
-  	<include refid="Base_Column_List" />
+  <select id="findPurchaseArrivePageCount" parameterType="com.tianrui.api.req.businessManage.purchaseManage.PurchaseArriveQuery" resultType="java.lang.Long">
+  	select count(0)
   	from tr_purchase_db_arrive p1
   	left join tr_purchase_db_application p2 on p1.billid = p2.id
-  	left join tr_purchase_db_application_detail p3 on p2.id = p3.purchaseid
+  	left join tr_purchase_db_application_detail p3 on p1.billdetailid = p3.id
   	<where>
   	  <if test="code != null and code !=''" >
         and p1.code = #{code,jdbcType=VARCHAR}
@@ -583,7 +557,7 @@
         and p1.status = #{status,jdbcType=VARCHAR}
       </if>
   	  <if test="supplierid != null and supplierid !=''" >
-        and p1.supplierid = #{supplierid,jdbcType=VARCHAR}
+        and p2.supplierid = #{supplierid,jdbcType=VARCHAR}
       </if>
   	  <if test="vehicleid != null and vehicleid !=''" >
         and p1.vehicleid = #{vehicleid,jdbcType=VARCHAR}

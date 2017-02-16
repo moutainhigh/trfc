@@ -31,6 +31,8 @@ public class PurchaseArriveQuery extends BaseReq {
     private String billid;
 	//采购订单编号
     private String billcode;
+    //采购订单详情id
+    private String billdetailid;
     //状态：（0：删除，1：正常）
     private String state;
     //起始日期
@@ -108,6 +110,12 @@ public class PurchaseArriveQuery extends BaseReq {
 	}
 	public void setBillcode(String billcode) {
 		this.billcode = billcode;
+	}
+	public String getBilldetailid() {
+		return billdetailid;
+	}
+	public void setBilldetailid(String billdetailid) {
+		this.billdetailid = billdetailid;
 	}
 	public String getState() {
 		return state;

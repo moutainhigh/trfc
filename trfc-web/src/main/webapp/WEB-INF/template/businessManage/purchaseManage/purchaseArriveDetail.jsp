@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>销售提货通知单详情</title>
+<title>采购到货通知单详情</title>
 <jsp:include page="../../common/base/header_busi.jsp"></jsp:include>
 </head>
 <body>
@@ -15,8 +15,8 @@
 			<div class="intel_tab">
 				<!--tab切换标题-->
 				<ul class="intel_menu">
-					<li><a href="/trfc/salesApplication/main">销售申请单</a></li>
-					<li class="select"><a href="/trfc/salesArrive/main">提货通知单</a></li>
+					<li><a href="/trfc/purchaseApplicationResp/main">采购申请单</a></li>
+					<li class="select"><a href="/trfc/purchaseArrive/main">到货通知单</a></li>
 				</ul>
 			</div>
 			<!--tab切换的内容-->
@@ -40,103 +40,89 @@
 						</div>
 					</div>
 					<div class="daohuo_add">
-						<h5>提货通知单详细信息</h5>
+						<h5>到货通知单详细信息</h5>
 						<div class="daohuo_add_div">
 							<div class="daohuo_add_solo">
-								<label>订单编号：</label> <input value="${salesArrive.billcode }"
+								<label>订单编号：</label> <input value="${purchaseArrive.billcode }"
 									type="text" readonly>
 							</div>
 							<div class="daohuo_add_solo">
-								<label>通知单号：</label> <input value="${salesArrive.code }"
-									type="text" readonly>
-							</div>
-							<div class="daohuo_add_solo">
-								<label>制单日期：</label> <input
-									value="${salesArrive.makebilltimeStr }" type="text" readonly>
-							</div>
-							<div class="daohuo_add_solo">
-								<label>客户：</label> <input
-									value="${salesArrive.salesApplication.customername }"
-									type="text" readonly>
-							</div>
-							<div class="daohuo_add_solo">
-								<label>区域码：</label> <input
-									value="${salesArrive.salesApplication.channelcode }"
-									type="text" readonly>
-							</div>
-							<div class="daohuo_add_solo">
-								<label>销售组织：</label> <input
-									value="${salesArrive.salesApplication.orgname }" type="text"
-									readonly>
-							</div>
-							<div class="daohuo_add_solo">
-								<label>物料：</label> <input
-									value="${salesArrive.salesApplication.detailResp.materielname }"
-									type="text" readonly>
-							</div>
-							<div class="daohuo_add_solo">
-								<label>部门：</label> <input
-									value="${salesArrive.salesApplication.departmentname }"
-									type="text" readonly>
-							</div>
-							<div class="daohuo_add_solo">
-								<label>单位：</label> <input
-									value="${salesArrive.salesApplication.detailResp.unit }"
-									type="text" readonly>
-							</div>
-							<div class="daohuo_add_solo">
-								<label>订单数量：</label> <input
-									value="${salesArrive.salesApplication.detailResp.salessum }"
-									type="text" readonly>
-							</div>
-							<div class="daohuo_add_solo">
-								<label>车号：</label> <input
-									value="${salesArrive.vehicleno }" type="text" readonly>
-							</div>
-							<div class="daohuo_add_solo">
-								<label>RFID：</label> <input value="${salesArrive.vehiclerfid }"
-									type="text" readonly>
-							</div>
-							<div class="daohuo_add_solo">
-								<label>司机：</label> <input value="${salesArrive.drivername }"
-									type="text" readonly>
-							</div>
-							<div class="daohuo_add_solo">
-								<label>身份证号：</label> <input
-									value="${salesArrive.driveridentityno }" type="text" readonly>
-							</div>
-							<div class="daohuo_add_solo">
-								<label>提货量：</label> <input value="${salesArrive.takeamount }"
+								<label>通知单号：</label> <input value="${purchaseArrive.code }"
 									type="text" readonly>
 							</div>
 							<div class="daohuo_add_solo">
 								<label>业务日期：</label> <input
-									value="${salesArrive.salesApplication.createtimeStr }"
+									value="${purchaseArrive.makebilltimeStr }" type="text" readonly>
+							</div>
+							<div class="daohuo_add_solo">
+								<label>采购组织：</label> <input
+									value="${purchaseArrive.purchaseApplicationResp.orgname }"
 									type="text" readonly>
 							</div>
 							<div class="daohuo_add_solo">
-								<label>制单人：</label> <input value="${salesArrive.makebillname }"
+								<label>供应商：</label> <input
+									value="${purchaseArrive.purchaseApplicationResp.suppliername }"
 									type="text" readonly>
 							</div>
 							<div class="daohuo_add_solo">
-								<label>备注：</label> <input value="${salesArrive.remarks }"
+								<label>物料：</label> <input
+									value="${purchaseArrive.purchaseApplicationDetailResp.materielname }"
 									type="text" readonly>
 							</div>
 							<div class="daohuo_add_solo">
-								<c:set var="s" value="${salesArrive.status }"></c:set>
+								<label>矿口：</label> <input
+									value="${purchaseArrive.minemouthname }"
+									type="text" readonly>
+							</div>
+							<div class="daohuo_add_solo">
+								<label>订单数量：</label> <input
+									value="${purchaseArrive.purchaseApplicationDetailResp.purchasesum }"
+									type="text" readonly>
+							</div>
+							<div class="daohuo_add_solo">
+								<label>车号：</label> <input
+									value="${purchaseArrive.vehicleno }" type="text" readonly>
+							</div>
+							<div class="daohuo_add_solo">
+								<label>司机：</label> <input value="${purchaseArrive.drivername }"
+									type="text" readonly>
+							</div>
+							<div class="daohuo_add_solo">
+								<label>身份证号：</label> <input
+									value="${purchaseArrive.driveridentityno }" type="text" readonly>
+							</div>
+							<div class="daohuo_add_solo">
+								<label>RFID：</label> <input value="${purchaseArrive.vehiclerfid }"
+									type="text" readonly>
+							</div>
+							<div class="daohuo_add_solo">
+								<label>到货量：</label> <input value="${purchaseArrive.arrivalamount }"
+									type="text" readonly>
+							</div>
+							<div class="daohuo_add_solo">
+								<label>部门：</label> <input
+									value="${purchaseArrive.purchaseApplicationResp.departmentname }"
+									type="text" readonly>
+							</div>
+							<div class="daohuo_add_solo">
+								<label>备注：</label> <input value="${purchaseArrive.remark }"
+									type="text" readonly>
+							</div>
+							<div class="daohuo_add_solo">
+								<c:set var="s" value="${purchaseArrive.status }"></c:set>
 								<label>状态：</label> <input
 									value="${s eq '0' ? '未入厂' : s eq '1' ? '空车' : s eq '2' ? '重车' : s eq '3' ? '作废' : s eq '4' ? '发卡' : s eq '5' ? '出厂' : s eq '6' ? '入厂' : s eq '7' ? '装车' : '' }"
 									type="text" readonly>
 							</div>
 							<div class="daohuo_add_solo">
-								<c:set var="sc" value="${salesArrive.source }"></c:set>
+								<c:set var="sc" value="${purchaseArrive.source }"></c:set>
 								<label>来源：</label> <input
 									value="${sc eq '0' ? '业务平台' : sc eq '1' ? '客商平台' : sc eq '2' ? '客商APP' : '' }"
 									type="text" readonly>
 							</div>
 							<div class="daohuo_add_solo">
 								<label>作废/出场时间：</label> <input
-									value="${salesArrive.abnormaltimeStr }" type="text" readonly>
+									value="${purchaseArrive.abnormaltimeStr }" type="text" readonly>
 							</div>
 						</div>
 					</div>
@@ -144,8 +130,7 @@
 						<div class="cg_dhadd">
 							<div class="cg_tabtit">
 								<ul>
-									<li class="select">订单明细</li>
-									<li>磅单明细</li>
+									<li class="select">磅单明细</li>
 									<li>读卡信息</li>
 								</ul>
 							</div>
@@ -155,30 +140,31 @@
 								<table class="table table-bordered">
 									<thead>
 										<tr>
-											<th>订单编号</th>
-											<th>客户</th>
-											<th>物料</th>
-											<th>组织机构</th>
-											<th>预提量</th>
-											<th>订单量</th>
-											<th>订单日期</th>
+											<th>榜单号</th>
+											<th>车牌号</th>
+											<th>毛重</th>
+											<th>皮重</th>
+											<th>净重</th>
+											<th>轻车时间</th>
+											<th>重车时间</th>
 										</tr>
 									</thead>
 									<tbody>
 										<tr>
-											<td>${salesArrive.salesApplication.code }</td>
-											<td>${salesArrive.salesApplication.customername }</td>
-											<td>${salesArrive.salesApplication.detailResp.materielname }</td>
-											<td>${salesArrive.salesApplication.orgname }</td>
-											<td>${salesArrive.takeamount }</td>
-											<td>${salesArrive.salesApplication.detailResp.salessum }</td>
-											<td>${salesArrive.salesApplication.billtimeStr }</td>
+											<td></td>
+											<td>${purchaseArrive.vehicleno }</td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
 										</tr>
 									</tbody>
 								</table>
 							</div>
-							<div class="cg_tabcont hide"></div>
-							<div class="cg_tabcont hide"></div>
+							<div class="cg_tabcont hide">
+								
+							</div>
 						</div>
 					</div>
 				</div>
@@ -187,7 +173,7 @@
 	</div>
 	<jsp:include page="../../common/base/footer_busi.jsp"></jsp:include>
 	<script type="text/javascript"
-		src="/javascript/businessManage/salesManage/salesArriveDetail.js"></script>
+		src="/javascript/businessManage/purchaseManage/purchaseArriveDetail.js"></script>
 	<script type="text/javascript">
 		// 录入、参照tab切换菜单
 		var cg_li = $('.cg_tabtit ul li');

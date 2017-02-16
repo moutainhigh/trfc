@@ -1,28 +1,29 @@
 package com.tianrui.service.bean.businessManage.salesManage;
 
 public class SalesApplicationDetail {
+    //主键id
     private String id;
-
+    //销售申请单id
     private String salesid;
-
+    //物料id
     private String materielid;
-
+    //物料名称
     private String materielname;
-
+    //仓库id
     private String warehouseid;
-
+    //仓库名称
     private String warehousename;
-
+    //单位 default:吨
     private String unit;
-    
+    //数量
     private Double salessum;
-
-    private Double taxprice;
-
+    //含税单价
+    private  Double taxprice;
+    //不含税单价
     private Double untaxprice;
-
+    //税率
     private Double taxrate;
-
+    //备注
     private String remarks;
 
     public String getId() {

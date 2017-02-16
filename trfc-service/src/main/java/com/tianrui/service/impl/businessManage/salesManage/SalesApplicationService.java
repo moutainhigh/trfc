@@ -23,11 +23,17 @@ import com.tianrui.api.req.businessManage.salesManage.SalesApplicationQuery;
 import com.tianrui.api.req.businessManage.salesManage.SalesApplicationSave;
 import com.tianrui.api.req.system.base.GetCodeReq;
 import com.tianrui.api.resp.businessManage.salesManage.SalesApplicationResp;
+import com.tianrui.service.bean.basicFile.nc.CustomerManage;
+import com.tianrui.service.bean.basicFile.nc.MaterielManage;
 import com.tianrui.service.bean.businessManage.salesManage.SalesApplication;
 import com.tianrui.service.bean.businessManage.salesManage.SalesApplicationDetail;
+import com.tianrui.service.bean.common.BillType;
 import com.tianrui.service.bean.common.ReturnQueue;
+import com.tianrui.service.mapper.basicFile.nc.CustomerManageMapper;
+import com.tianrui.service.mapper.basicFile.nc.MaterielManageMapper;
 import com.tianrui.service.mapper.businessManage.salesManage.SalesApplicationDetailMapper;
 import com.tianrui.service.mapper.businessManage.salesManage.SalesApplicationMapper;
+import com.tianrui.service.mapper.common.BillTypeMapper;
 import com.tianrui.service.mapper.common.ReturnQueueMapper;
 import com.tianrui.smartfactory.common.constants.Constant;
 import com.tianrui.smartfactory.common.constants.ErrorCode;
@@ -52,6 +58,15 @@ public class SalesApplicationService implements ISalesApplicationService {
 	
 	@Autowired
 	private ReturnQueueMapper returnQueueMapper;
+	
+	@Autowired
+	private BillTypeMapper billTypeMapper;
+	
+	@Autowired
+	private CustomerManageMapper customerManageMapper;
+	
+	@Autowired
+	private MaterielManageMapper materielManageMapper;
 	
 	@Override
 	public PaginationVO<SalesApplicationResp> page(SalesApplicationQuery query) throws Exception{
@@ -325,31 +340,53 @@ public class SalesApplicationService implements ISalesApplicationService {
 		item.setSource("0");
 		//类型jsonItem.getString("sourceType")
 		item.setBilltypeid("1002P11000000000SEKU");
+		String billtypeid = jsonItem.getString("type");
+		if(StringUtils.isNotBlank(billtypeid)){
+			item.setBilltypeid(billtypeid);
+			BillType bt = billTypeMapper.selectByPrimaryKey(billtypeid);
+			if(bt != null && StringUtils.isNotBlank(bt.getName())){
+				item.setBilltypename(bt.getName());
+			}
+		}
 		//客户
-		item.setCustomerid(jsonItem.getString("customerId"));
+		String customerid = jsonItem.getString("customerId");
+		if(StringUtils.isNotBlank(customerid)){
+			item.setCustomerid(customerid);
+			CustomerManage cm = customerManageMapper.selectByPrimaryKey(customerid);
+			if(cm != null && StringUtils.isNotBlank(cm.getName())){
+				item.setCustomername(cm.getName());
+			}
+		}
+		//区域码
+		item.setChannelcode(jsonItem.getString("channelTypeCode"));
+		//业务员
+		item.setSalesmanid(jsonItem.getString("salesPsnId"));
+		item.setSalesmanname(jsonItem.getString("salesPsn"));
 		//订单日期
 		item.setBilltime(DateUtil.parse(jsonItem.getString("orderData"), "yyyy-MM-dd HH:mm:ss"));
-		//业务员 TODO
 		//销售组织
 		item.setOrgid(Constant.ORG_ID);
 		item.setOrgname(Constant.ORG_NAME);
-		//部门名称jsonItem.getString("deptId")
-		item.setDepartmentid("1111");
-		//jsonItem.getString("deptName")
-		item.setDepartmentname("工程部");
-		//运输公司 //TODO transComp
-		//制单人 jsonItem.getString("singleId")
-		item.setCreator("0001P11000000002AB56");
-		//制单日期
-		item.setCreatetime(DateUtil.parse(jsonItem.getString("singleData"), "yyyy-MM-dd HH:mm:ss"));
+		//运输公司
+		item.setTransportcompanyid(jsonItem.getString("transComp"));
+		item.setTransportcompanyname(jsonItem.getString("transport"));
+		//部门
+		item.setDepartmentid(jsonItem.getString("deptId"));
+		item.setDepartmentname(jsonItem.getString("dept"));
 		//审核人
 		item.setAuditid(jsonItem.getString("auditPerson"));
 		item.setAuditname(jsonItem.getString("auditName"));
 		//审核日期
 		item.setAudittime(DateUtil.parse(jsonItem.getString("auditData"), "yyyy-MM-dd HH:mm:ss"));
-		//区域码 //TODO areaCode
+		//制单人
+		item.setMakerid(jsonItem.getString("singleId"));
+		item.setMakebillname(jsonItem.getString("singleName"));
+		//制单日期
+		item.setMakebilltime(DateUtil.parse(jsonItem.getString("singleData"), "yyyy-MM-dd HH:mm:ss"));
 		//TS
-		item.setUtc(Long.valueOf(jsonItem.getString("ts")));
+		if(StringUtils.isNotBlank(jsonItem.getString("ts"))){
+			item.setUtc(Long.valueOf(jsonItem.getString("ts")));
+		}
 		return item;
 	}
 	private List<SalesApplicationDetail> converJson2ItemList(JSONObject jsonItem,String id){
@@ -360,11 +397,17 @@ public class SalesApplicationService implements ISalesApplicationService {
 				for(int i=0;i<arr.size();i++){
 					JSONObject itemJon=JSONObject.parseObject(arr.get(0).toString());
 					SalesApplicationDetail saleItem = new SalesApplicationDetail();
-					
 					saleItem.setId(itemJon.getString("id"));
 					saleItem.setSalesid(id);
-					saleItem.setMaterielid(itemJon.getString("materialId"));
-					saleItem.setMaterielname(itemJon.getString("materialCode"));
+					//物料
+					String materielid = itemJon.getString("materialId");
+					if(StringUtils.isNotBlank(materielid)){
+						saleItem.setMaterielid(materielid);
+						MaterielManage m = materielManageMapper.selectByPrimaryKey(materielid);
+						if(m != null && StringUtils.isNotBlank(m.getName())){
+							saleItem.setMaterielname(m.getName());
+						}
+					}
 //					saleItem.setWarehouseid(itemJon.getString(""));
 //					saleItem.setWarehousename(itemJon.getString(""));
 					saleItem.setUnit("吨");

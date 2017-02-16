@@ -39,6 +39,8 @@ public class PurchaseApplicationResp extends BaseResp {
     private String supplierid;
 	//供应商名称
     private String suppliername;
+    //供应商备注
+    private String supplierremark;
 	//部门id
     private String departmentid;
 	//部门
@@ -160,6 +162,12 @@ public class PurchaseApplicationResp extends BaseResp {
 	}
 	public void setSuppliername(String suppliername) {
 		this.suppliername = suppliername;
+	}
+	public String getSupplierremark() {
+		return supplierremark;
+	}
+	public void setSupplierremark(String supplierremark) {
+		this.supplierremark = supplierremark;
 	}
 	public String getDepartmentid() {
 		return departmentid;

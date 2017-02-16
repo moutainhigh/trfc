@@ -277,9 +277,6 @@
 				$(_this).val(obj.name).attr('customerid',obj.id);
 			});
 		});
-		/**
-		 * 找鑫鹏确认客户区域码业务员等关系
-		 */
 		$('#a_customer').off('click').on('click',function(){
 			var _this = this;
 			initCustomer(function(obj){

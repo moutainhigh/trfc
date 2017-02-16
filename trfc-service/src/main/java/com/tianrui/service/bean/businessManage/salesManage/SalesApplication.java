@@ -9,9 +9,9 @@ public class SalesApplication {
     private String id;
     //订单编号
     private String code;
-    //订单状态
+    //审核状态（0：未审核，1：已审核）
     private String status;
-    //来源
+    //来源（0：联机，1：脱机）
     private String source;
     //订单类型id
     private String billtypeid;

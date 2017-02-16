@@ -8,4 +8,6 @@ public interface IPurchaseApplicationDetailService {
 
 	List<PurchaseApplicationDetailResp> selectByPurchaseId(String purchaseId) throws Exception;
 
+	PurchaseApplicationDetailResp findOne(String id) throws Exception;
+
 }

@@ -28,6 +28,15 @@ public class PurchaseApplicationDetailDetailService implements IPurchaseApplicat
 		return null;
 	}
 	
+	@Override
+	public PurchaseApplicationDetailResp findOne(String id) throws Exception {
+		PurchaseApplicationDetailResp resp = null;
+		if(StringUtils.isNotBlank(id)){
+			return copyBean2Resp(purchaseApplicationDetailMapper.selectByPrimaryKey(id));
+		}
+		return resp;
+	}
+	
 	private List<PurchaseApplicationDetailResp> copyBeanList2RespList(List<PurchaseApplicationDetail> list) throws Exception {
 		List<PurchaseApplicationDetailResp> listResp = null;
 		if(list != null && list.size() > 0){
@@ -47,5 +56,5 @@ public class PurchaseApplicationDetailDetailService implements IPurchaseApplicat
 		}
 		return resp;
 	}
-	
+
 }

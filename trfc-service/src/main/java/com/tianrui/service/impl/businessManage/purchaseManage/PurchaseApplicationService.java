@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.beanutils.PropertyUtils;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -42,6 +43,15 @@ public class PurchaseApplicationService implements IPurchaseApplicationService {
 			page.setTotal(count);
 		}
 		return page;
+	}
+	
+	@Override
+	public PurchaseApplicationResp findOne(String id) throws Exception {
+		PurchaseApplicationResp resp = null;
+		if(StringUtils.isNotBlank(id)){
+			resp = copyBean2Resp(purchaseApplicationMapper.selectByPrimaryKey(id));
+		}
+		return resp;
 	}
 	
 	private List<PurchaseApplicationResp> copyBeanList2RespList(List<PurchaseApplication> list) throws Exception {
