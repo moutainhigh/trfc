@@ -1,28 +1,17 @@
 $(function(){
 	//整合url
 	var URL = {
-			selectorUrl:"/trfc/quality/sales/file/qualityScheme/selector",
-			pageUrl:"/trfc/quality/sales/file/qualityScheme/page",
-			deleteUrl:"/trfc/quality/sales/file/qualityScheme/delete",
-			updateUrl:"/trfc/quality/sales/file/qualityScheme/update",
-			saveUrl:"/trfc/quality/sales/file/qualityScheme/add",
-			billsUrl:"/trfc/quality/sales/file/qualityScheme/billsData",
-			codeUrl:"/trfc/quality/sales/file/qualityScheme/getCode",
-			updateCodeUrl:"/trfc/quality/sales/file/qualityScheme/updateCode",
-			itemUrl:"/trfc/quality/sales/file/qualityScheme/item",
-			standardUrl:"/trfc/quality/sales/file/qualityScheme/standard"
+			pageUrl:"/trfc/quality/sales/file/qualityItem/page",
+			deleteUrl:"/trfc/quality/sales/file/qualityItem/delete",
+			updateUrl:"/trfc/quality/sales/file/qualityItem/update",
+			saveUrl:"/trfc/quality/sales/file/qualityItem/add",
+			codeUrl:"/trfc/quality/sales/file/qualityItem/getCode",
+			updateCodeUrl:"/trfc/quality/sales/file/qualityItem/updateCode",
 	};
 	//设置一个公共变量,当点击编辑按钮时,将原数据存入该变量中
 	var editOD = {};
 	//加载列表
 	ShowAction(1);
-	//加载下拉框
-	materialSelect();
-	billsSelect();
-	//加载select2
-	$('#seek_material').select2({ placeholder: "请选择",
-		allowClear: false
-	});
 	//绑定刷新按钮
 	$('#fresh').click(function(){ShowAction(1);});
 	//绑定新增按钮
@@ -30,7 +19,7 @@ $(function(){
 	//绑定新增界面确定按钮
 	$('#add_sure').click(saveAction);
 	//绑定只显示有效
-	$('#seek_invalid').change(function(){ShowAction(1);});
+	$('#seek_invlid').change(function(){ShowAction(1);});
 	//绑定修改页面确定按钮
 	$('#edit_sure').click(editAction);
 	//绑定跳转按钮
@@ -43,32 +32,15 @@ $(function(){
 	$('#list').on('click','tr [title="删除"]',deleteAction);
 	//绑定编辑按钮
 	$('#list').on('click','tr [title="编辑"]',initEditData);
-	//绑定跳转页面
-	$('#list').on('click','tr [title="方案项目"]',function(){
-		var id = $(this).closest('tr').data('obj').id;
-		window.location.replace(URL.itemUrl+"?id="+id);
-	});
-	$('#list').on('click','tr [title="质量标准"]',function(){
-		var id = $(this).closest('tr').data('obj').id;
-		window.location.replace(URL.standardUrl+"?id="+id);
-	});
+	
 	//获取用户id
 	var userid = $('.user').attr('userid');
 
 	//初始化新增数据
 	function initAddData(){
-		//等待下拉框加载完成后,执行
-		$.when($selector).done(function(){
-			//下拉框初始化
-			$('#add_material').val('').select2({ placeholder: "请选择",
-				allowClear: false
-			});
-			$('#add_bills').val('').select2({ placeholder: "请选择",
-				allowClear: false
-			});;
-		});
+		
 		//设置编码代号为FA
-		var code = 'FA';
+		var code = 'ZL';
 		//设置类型为编码
 		var codeType = true;
 		var param = {
@@ -86,45 +58,41 @@ $(function(){
 		});
 
 		$('#add_name').val('');
+		$('#add_ename').val('');
+		$('#add_units').val('');
 		$('#add_type').val('');
-		$('#add_invalid').removeAttr('checked');
-		$('#add_def').removeAttr('checked');
-		$('#add_standard').removeAttr('checked');
-		$('#add_describe').val('');
+		$('#add_line').val('');
+		$('#add_formula').val('');
+		$('#add_invlid').removeAttr('checked');
+		$('#add_vgroups').val('');
+		$('#add_vdays').val('');
+		$('#add_vtype').val('');
+		$('#add_remark').val('');
 	}
 	//初始化编辑数据
 	function initEditData(){
 		//获取数据
 		var obj = $(this).closest('tr').data('obj')
 		editOD.obj = obj;
-		//设置等下拉框数据加载完成后 执行
-		$.when($selector).done(function(){
-			$('#edit_material').val(obj.materialid).select2({ placeholder: "请选择",
-				allowClear: false
-			});
-			$('#edit_bills').val(obj.bills).select2({ placeholder: "请选择",
-				allowClear: false
-			});
-		});
 		$('#edit_id').val(obj.id);
 		$('#edit_code').val(obj.code);
 		$('#edit_name').val(obj.name);
+		$('#edit_ename').val(obj.ename);
+		$('#edit_units').val(obj.units);
 		$('#edit_type').val(obj.type);
-
+		$('#edit_line').val(obj.line);
+		$('#edit_formula').val(obj.formula);
 		//为checkbox赋值
-		$('#edit_invalid')[0].checked=true;
-		if('1'==obj.invalid){
-			$('#edit_invalid')[0].checked=false;
+		$('#edit_invlid')[0].checked=true;
+		if('1'==obj.invlid){
+			$('#edit_invlid')[0].checked=false;
 		}
-		$('#edit_def')[0].checked=true;
-		if('1'==obj.def){
-			$('#edit_def')[0].checked=false;
-		}
-		$('#edit_standard')[0].checked=true;
-		if('1'==obj.standard){
-			$('#edit_standard')[0].checked=false;
-		}
-		$('#edit_describe').val(obj.describe);
+		$('#edit_vgroups').val(obj.vgroups);
+		$('#edit_vdays').val(obj.vdays);
+		$('#edit_vtype').val(obj.vtype);
+		$('#edit_remark').val(obj.remark);
+	
+		
 	}
 
 //	新增数据
@@ -170,7 +138,7 @@ $(function(){
 	//添加成功后,刷新标号(增1)
 	function updateCode(){
 		//设置编码代号
-		var code = 'FA';
+		var code = 'ZL';
 		//编制编号
 		var codeType = true;
 		var param = {
@@ -191,14 +159,9 @@ $(function(){
 //	获取新增数据
 	function getAddData(){
 		var code = $('#add_code').val();
-		var materialid = $('#add_material').val();
-		if(!materialid){
-			alert("物料不能为空!");
-			return null;
-		};
-		var bills = $('#add_bills').val();
-		if(!bills){
-			alert("单据类型不能为空!");
+		var ename = $('#add_ename').val();
+		if(!ename){
+			alert("英文代号不能为空!");
 			return null;
 		};
 		var name = $('#add_name').val();
@@ -211,29 +174,46 @@ $(function(){
 			alert("类型不能为空");
 			return null;
 		}
-		var invalid = '1';
-		if($('#add_invalid').prop('checked')){
-			invalid='0';
+		var invlid = '1';
+		if($('#add_invlid').prop('checked')){
+			invlid='0';
 		}
-		var def = '1';
-		if($('#add_def').prop('checked')){
-			def='0';
+		var line = $('#add_line').val();
+		if(!line){
+			alert("对应行不能为空");
+			return null;
 		}
-		var standard = '1';
-		if($('#add_standard').prop('checked')){
-			standard='0';
+		var units = $('#add_units').val();
+		var formula = $('#add_formula').val();
+		var vgroups = $('#add_vgroups').val();
+		if(!vgroups){
+			alert("值分组不能为空");
+			return null;
 		}
-		var describe = $('#add_describe').val();
+		var vtype = $('#add_vtype').val();
+		if(!vtype){
+			alert("值类型不能为空");
+			return null;
+		}
+		var vdays = $('#add_vdays').val();
+		if(!vdays){
+			alert("值天数不能为空");
+			return null;
+		}
+		var remark = $('#add_remark').val();
 		var param = {
 				code:code,
-				materialid:materialid,
-				bills:bills,
+				ename:ename,
+				line:line,
+				units:units,
 				name:name,
 				type:type,
-				invalid:invalid,
-				def:def,
-				standard:standard,
-				describe:describe,
+				invlid:invlid,
+				formula:formula,
+				vgroups:vgroups,
+				vtype:vtype,
+				vdays:vdays,
+				remark:remark,
 				user:userid
 		};
 		return param;
@@ -242,14 +222,9 @@ $(function(){
 	function getEditData(){
 		var id = $('#edit_id').val();
 		var code = $('#edit_code').val();
-		var materialid = $('#edit_material').val();
-		if(!materialid){
-			alert("物料不能为空!");
-			return null;
-		};
-		var bills = $('#edit_bills').val();
-		if(!bills){
-			alert("单据类型不能为空!");
+		var ename = $('#edit_ename').val();
+		if(!ename){
+			alert("英文代号不能为空!");
 			return null;
 		};
 		var name = $('#edit_name').val();
@@ -262,44 +237,64 @@ $(function(){
 			alert("类型不能为空");
 			return null;
 		}
-		var invalid = '1';
-		if($('#edit_invalid').prop('checked')){
-			invalid='0';
+		var invlid = '1';
+		if($('#edit_invlid').prop('checked')){
+			invlid='0';
 		}
-		var def = '1';
-		if($('#edit_def').prop('checked')){
-			def='0';
+		var line = $('#edit_line').val();
+		if(!line){
+			alert("对应行不能为空");
+			return null;
 		}
-		var standard = '1';
-		if($('#edit_standard').prop('checked')){
-			standard='0';
+		var units = $('#edit_units').val();
+		var formula = $('#edit_formula').val();
+		var vgroups = $('#edit_vgroups').val();
+		if(!vgroups){
+			alert("值分组不能为空");
+			return null;
 		}
-		var describe = $('#edit_describe').val();
+		var vtype = $('#edit_vtype').val();
+		if(!vtype){
+			alert("值类型不能为空");
+			return null;
+		}
+		var vdays = $('#edit_vdays').val();
+		if(!vdays){
+			alert("值天数不能为空");
+			return null;
+		}
+		var remark = $('#edit_remark').val();
 		var param = {
 				id:id,
 				code:code,
-				materialid:materialid,
-				bills:bills,
+				ename:ename,
+				line:line,
+				units:units,
 				name:name,
 				type:type,
-				invalid:invalid,
-				def:def,
-				standard:standard,
-				describe:describe,
+				invlid:invlid,
+				formula:formula,
+				vgroups:vgroups,
+				vtype:vtype,
+				vdays:vdays,
+				remark:remark,
 				user:userid
 		};
 		return param;
 	}
 	//对比两个对象 如果相同则返回true
 	function contrast(obj1,obj2){
-		if(obj1.materialid==obj2.materialid &&
-				obj1.bills==obj2.bills &&
+		if(obj1.ename==obj2.ename &&
+				obj1.remark==obj2.remark &&
 				obj1.name==obj2.name &&
 				obj1.type==obj2.type &&
-				obj1.invalid==obj2.invalid &&
-				obj1.def==obj2.def &&
-				obj1.standard==obj2.standard &&
-				obj1.describe==obj2.describe
+				obj1.invlid==obj2.invlid &&
+				obj1.units==obj2.units &&
+				obj1.line==obj2.line &&
+				obj1.formula==obj2.formula &&
+				obj1.vgroups==obj2.vgroups &&
+				obj1.vdays==obj2.vdays &&
+				obj1.vtype==obj2.vtype
 		){
 			return true;
 		}else{
@@ -333,66 +328,6 @@ $(function(){
 		});
 	}
 
-//	获取下拉框数据并填充
-	function materialSelect(){
-		//获取数据
-		$selector = $.post(URL.selectorUrl,{},function(result){
-			if(result.code=='000000'){
-				//填充数据
-				fillContent(result.data);
-			}else{
-				layer.msg(result.error, {icon:5});
-			}
-		});
-	}
-//	填充数据
-	function fillContent(list){
-		var select = $('.materialSelect');
-		//设置默认值
-		select.append("<option></option>");
-		if(list){
-			for(var i=0;i<list.length;i++){
-				var obj = list[i];
-				var msg = obj.name;
-				if(obj.spec){
-					msg = obj.name+' | '+obj.spec;
-				}
-				var option = '<option value='+obj.id+'>'+msg+'</option>';
-				//追加数据
-				select.append(option);
-			}
-		}
-	}
-//	获取下拉框数据并填充
-	function billsSelect(){
-		//获取数据
-		$selector = $.post(URL.billsUrl,{},function(result){
-			if(result.code=='000000'){
-				//填充数据
-				fillBillsContent(result.data);
-			}else{
-				layer.msg(result.error, {icon:5});
-			}
-		});
-	}
-//	填充数据
-	function fillBillsContent(list){
-		var select = $('.billsSelect');
-		//设置默认值
-		select.append("<option></option>");
-		if(list){
-			for(var i=0;i<list.length;i++){
-				var obj = list[i];
-				var msg = obj.name;
-				if(obj.spec){
-					msg = obj.name+' | '+obj.spec;
-				}
-				var option = '<option value='+obj.id+'>'+msg+'</option>';
-				//追加数据
-				select.append(option);
-			}
-		}
-	}
 
 
 
@@ -425,20 +360,28 @@ $(function(){
 		//获取当前页面记录数
 		var pageSize = $('#pageSize').val();
 		//获取查询条件
-		var materialid = $('#seek_material').val();
-		var namelike = $('#seek_namelike').val();
+		var condition = $('#seek_condition').val();
+		var namelike = '';
+		var codelike = '';
+		var key = $('#seek_key').val();
+		if('name'==condition){
+			namelike = key;
+		}else{
+			codelike = key;
+		}
+		
 		var type = $('#seek_type').val();
-		var invalid = "1";
-		if($('#seek_invalid').prop('checked')){
-			invalid = "0";
+		var invlid = "1";
+		if($('#seek_invlid').prop('checked')){
+			invlid = "0";
 		}
 
 		var params = {
 				pageSize:pageSize,
-				materialid:materialid,
+				codelike:codelike,
 				namelike:namelike,
 				type:type,
-				invalid:invalid
+				invlid:invlid
 		};
 		//获得当前页面标记
 		params.pageNo = pageNo;
@@ -481,24 +424,30 @@ $(function(){
 				0:'采购项目',
 				1:'销售项目'
 		};
+		var VTYPE = {
+				0:'单值',
+				1:'平均',
+				2:'其他'
+		};
 		//加载时清空列表和跳转值
 		$('#jumpPageNo').val('');
 		//清空列表
 		var tbody = $('#list').empty();
 		for(var i=0;i<list.length;i++){
 			var obj = list[i];
-			var invalid = obj.invalid;
+			var invlid = obj.invlid;
 			var tr = '<tr>'
 				+'<td>'+((pageNo-1)*pageSize+i+1)+'</td>'
 				+'<td class="colorred">'+(obj.code || '')+'</td>'
 				+'<td>'+(obj.name || '')+'</td>'
-				+'<td>'+(obj.materialname || '')+'</td>'
-				+'<td>'+(obj.billsname || '')+'</td>'
-				+'<td><input type="checkbox" '+("0"==invalid?'checked="true"':"")+' disabled="true"></td>'
-				+'<td><input type="checkbox" '+("0"==obj.def?'checked="true"':"")+' disabled="true"></td>'
-				+'<td>'+(TYPE[obj.type] || '')+'</td>'
-				+'<td><input type="checkbox" '+("0"==obj.standard?'checked="true"':"")+' disabled="true"></td>'
-				+'<td>'+(obj.describe || '')+'</td>'
+				+'<td>'+(obj.ename || '')+'</td>'
+				+'<td>'+(obj.units || '')+'</td>'
+				+'<td>'+(obj.line || '')+'</td>'
+				+'<td class="colorblue">'+(TYPE[obj.type] || '')+'</td>'
+				+'<td>'+(obj.formula || '')+'</td>'
+				+'<td>'+(obj.vgroups || '')+'</td>'
+				+'<td class="colorblue">'+(VTYPE[obj.vtype] || '')+'</td>'
+				+'<td>'+(obj.remark || '')+'</td>'
 				+'<td><span> <a data-toggle="modal"'
 				+'		data-target="#edit"><i class="iconfont"'
 				+'			data-toggle="tooltip" data-placement="left" title="编辑">&#xe600;</i></a>'
@@ -506,7 +455,7 @@ $(function(){
 				+'			class="iconfont" data-toggle="tooltip" data-placement="left"'
 				+'			title="删除">&#xe63d;</i></a>'
 				+'</span></td>'
-				+'<td><a title="方案项目">方案项目</a> <a title="质量标准">质量标准</a></td></tr>';
+				+'</tr>';
 			//转换为jquery对象
 			tr=$(tr);
 			//追加

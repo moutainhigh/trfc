@@ -1,0 +1,290 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tianrui.service.mapper.quality.file.QualityItemMapper" >
+  <resultMap id="BaseResultMap" type="com.tianrui.service.bean.quality.file.QualityItem" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="code" property="code" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="ename" property="ename" jdbcType="VARCHAR" />
+    <result column="units" property="units" jdbcType="VARCHAR" />
+    <result column="line" property="line" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="VARCHAR" />
+    <result column="formula" property="formula" jdbcType="VARCHAR" />
+    <result column="vgroups" property="vgroups" jdbcType="VARCHAR" />
+    <result column="vdays" property="vdays" jdbcType="VARCHAR" />
+    <result column="vtype" property="vtype" jdbcType="VARCHAR" />
+    <result column="invlid" property="invlid" jdbcType="VARCHAR" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="creator" property="creator" jdbcType="VARCHAR" />
+    <result column="createtime" property="createtime" jdbcType="BIGINT" />
+    <result column="modifier" property="modifier" jdbcType="VARCHAR" />
+    <result column="modifytime" property="modifytime" jdbcType="BIGINT" />
+    <result column="utc" property="utc" jdbcType="BIGINT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, code, name, ename, units, line, type, formula, vgroups, vdays, vtype, invlid, 
+    remark, creator, createtime, modifier, modifytime, utc
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from tr_quality_db_item
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from tr_quality_db_item
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.tianrui.service.bean.quality.file.QualityItem" >
+    insert into tr_quality_db_item (id, code, name, 
+      ename, units, line, 
+      type, formula, vgroups, 
+      vdays, vtype, invlid, 
+      remark, creator, createtime, 
+      modifier, modifytime, utc
+      )
+    values (#{id,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+      #{ename,jdbcType=VARCHAR}, #{units,jdbcType=VARCHAR}, #{line,jdbcType=VARCHAR}, 
+      #{type,jdbcType=VARCHAR}, #{formula,jdbcType=VARCHAR}, #{vgroups,jdbcType=VARCHAR}, 
+      #{vdays,jdbcType=VARCHAR}, #{vtype,jdbcType=VARCHAR}, #{invlid,jdbcType=VARCHAR}, 
+      #{remark,jdbcType=VARCHAR}, #{creator,jdbcType=VARCHAR}, #{createtime,jdbcType=BIGINT}, 
+      #{modifier,jdbcType=VARCHAR}, #{modifytime,jdbcType=BIGINT}, #{utc,jdbcType=BIGINT}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.tianrui.service.bean.quality.file.QualityItem" >
+    insert into tr_quality_db_item
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="code != null" >
+        code,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="ename != null" >
+        ename,
+      </if>
+      <if test="units != null" >
+        units,
+      </if>
+      <if test="line != null" >
+        line,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="formula != null" >
+        formula,
+      </if>
+      <if test="vgroups != null" >
+        vgroups,
+      </if>
+      <if test="vdays != null" >
+        vdays,
+      </if>
+      <if test="vtype != null" >
+        vtype,
+      </if>
+      <if test="invlid != null" >
+        invlid,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+      <if test="creator != null" >
+        creator,
+      </if>
+      <if test="createtime != null" >
+        createtime,
+      </if>
+      <if test="modifier != null" >
+        modifier,
+      </if>
+      <if test="modifytime != null" >
+        modifytime,
+      </if>
+      <if test="utc != null" >
+        utc,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="code != null" >
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="ename != null" >
+        #{ename,jdbcType=VARCHAR},
+      </if>
+      <if test="units != null" >
+        #{units,jdbcType=VARCHAR},
+      </if>
+      <if test="line != null" >
+        #{line,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="formula != null" >
+        #{formula,jdbcType=VARCHAR},
+      </if>
+      <if test="vgroups != null" >
+        #{vgroups,jdbcType=VARCHAR},
+      </if>
+      <if test="vdays != null" >
+        #{vdays,jdbcType=VARCHAR},
+      </if>
+      <if test="vtype != null" >
+        #{vtype,jdbcType=VARCHAR},
+      </if>
+      <if test="invlid != null" >
+        #{invlid,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="creator != null" >
+        #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=BIGINT},
+      </if>
+      <if test="modifier != null" >
+        #{modifier,jdbcType=VARCHAR},
+      </if>
+      <if test="modifytime != null" >
+        #{modifytime,jdbcType=BIGINT},
+      </if>
+      <if test="utc != null" >
+        #{utc,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tianrui.service.bean.quality.file.QualityItem" >
+    update tr_quality_db_item
+    <set >
+      <if test="code != null" >
+        code = #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="ename != null" >
+        ename = #{ename,jdbcType=VARCHAR},
+      </if>
+      <if test="units != null" >
+        units = #{units,jdbcType=VARCHAR},
+      </if>
+      <if test="line != null" >
+        line = #{line,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="formula != null" >
+        formula = #{formula,jdbcType=VARCHAR},
+      </if>
+      <if test="vgroups != null" >
+        vgroups = #{vgroups,jdbcType=VARCHAR},
+      </if>
+      <if test="vdays != null" >
+        vdays = #{vdays,jdbcType=VARCHAR},
+      </if>
+      <if test="vtype != null" >
+        vtype = #{vtype,jdbcType=VARCHAR},
+      </if>
+      <if test="invlid != null" >
+        invlid = #{invlid,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="creator != null" >
+        creator = #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        createtime = #{createtime,jdbcType=BIGINT},
+      </if>
+      <if test="modifier != null" >
+        modifier = #{modifier,jdbcType=VARCHAR},
+      </if>
+      <if test="modifytime != null" >
+        modifytime = #{modifytime,jdbcType=BIGINT},
+      </if>
+      <if test="utc != null" >
+        utc = #{utc,jdbcType=BIGINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tianrui.service.bean.quality.file.QualityItem" >
+    update tr_quality_db_item
+    set code = #{code,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      ename = #{ename,jdbcType=VARCHAR},
+      units = #{units,jdbcType=VARCHAR},
+      line = #{line,jdbcType=VARCHAR},
+      type = #{type,jdbcType=VARCHAR},
+      formula = #{formula,jdbcType=VARCHAR},
+      vgroups = #{vgroups,jdbcType=VARCHAR},
+      vdays = #{vdays,jdbcType=VARCHAR},
+      vtype = #{vtype,jdbcType=VARCHAR},
+      invlid = #{invlid,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR},
+      creator = #{creator,jdbcType=VARCHAR},
+      createtime = #{createtime,jdbcType=BIGINT},
+      modifier = #{modifier,jdbcType=VARCHAR},
+      modifytime = #{modifytime,jdbcType=BIGINT},
+      utc = #{utc,jdbcType=BIGINT}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <select id="page" parameterType="com.tianrui.api.req.quality.file.QualityItemReq" resultMap="BaseResultMap">
+		select 
+		<include refid="Base_Column_List" />
+		from tr_quality_db_item
+		<where>
+			<if test="codelike!=null and codelike!=''">
+				and code like CONCAT('%',#{codelike,jdbcType=VARCHAR},'%')
+			</if>
+			<if test="namelike!=null and namelike!=''">
+				and name like CONCAT('%',#{namelike,jdbcType=VARCHAR},'%')
+			</if>
+			<if test="type!=null and type!=''">
+				and type=#{type,jdbcType=VARCHAR}
+			</if>
+			<if test="invlid!=null and invlid!=''">
+				and invlid=#{invlid,jdbcType=VARCHAR}
+			</if>
+		</where>
+		<if test="start!=null and limit!=null ">
+			limit #{start,jdbcType=INTEGER},#{limit,jdbcType=INTEGER}
+		</if>
+	</select>
+	<select id="count" parameterType="com.tianrui.api.req.quality.file.QualityItemReq" resultType="int">
+		select 
+		count(1)
+		from tr_quality_db_item
+		<where>
+			<if test="codelike!=null and codelike!=''">
+				and code like CONCAT('%',#{codelike,jdbcType=VARCHAR},'%')
+			</if>
+			<if test="namelike!=null and namelike!=''">
+				and name like CONCAT('%',#{namelike,jdbcType=VARCHAR},'%')
+			</if>
+			<if test="type!=null and type!=''">
+				and type=#{type,jdbcType=VARCHAR}
+			</if>
+			<if test="invlid!=null and invlid!=''">
+				and invlid=#{invlid,jdbcType=VARCHAR}
+			</if>
+		</where>
+	</select>
+  
+  
+</mapper>

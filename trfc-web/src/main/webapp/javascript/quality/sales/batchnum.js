@@ -293,7 +293,7 @@ $(function(){
 			var tr = '<tr>'
 				+'<td>'+((pageNo-1)*pageSize+i+1)+'</td>'
 				+'<td class="colorred">'+(obj.code || '')+'</td>'
-				+'<td class="colorblue">'+(AUDIT[obj.auditstate] || '')+'</td>'
+				+'<td class="colorred">'+(AUDIT[obj.auditstate] || '')+'</td>'
 				+'<td class="colorred">'+(BILLS[obj.billsstate] || '')+'</td>'
 				+'<td>'+(TEST[obj.teststate] || '')+'</td>'
 				+'<td>'+(obj.material || '')+'</td>'

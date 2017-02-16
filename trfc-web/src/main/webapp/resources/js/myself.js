@@ -5,7 +5,8 @@
 // 网站整体布局，左侧菜单宽度改变 右边自动补上
 $(function(){
 	
-
+	
+	
 var menu_ctrl = $(".left .menu");
 var menu_ctrlmini = $(".leftmini .menu2");
 var leftall = $(".left");
