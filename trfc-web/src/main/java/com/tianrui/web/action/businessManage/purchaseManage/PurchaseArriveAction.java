@@ -1,5 +1,7 @@
 package com.tianrui.web.action.businessManage.purchaseManage;
 
+import javax.servlet.http.HttpSession;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,10 +15,14 @@ import com.tianrui.api.intf.basicFile.measure.IVehicleManageService;
 import com.tianrui.api.intf.basicFile.nc.IMaterielManageService;
 import com.tianrui.api.intf.basicFile.nc.ISupplierManageService;
 import com.tianrui.api.intf.businessManage.purchaseManage.IPurchaseArriveService;
+import com.tianrui.api.intf.system.base.ISystemCodeService;
 import com.tianrui.api.req.businessManage.purchaseManage.PurchaseArriveQuery;
-import com.tianrui.api.req.businessManage.purchaseManage.PurchaseArriveUpdate;
+import com.tianrui.api.req.businessManage.purchaseManage.PurchaseArriveSave;
+import com.tianrui.api.req.system.base.GetCodeReq;
 import com.tianrui.api.resp.businessManage.purchaseManage.PurchaseArriveResp;
+import com.tianrui.api.resp.system.auth.SystemUserResp;
 import com.tianrui.smartfactory.common.constants.ErrorCode;
+import com.tianrui.smartfactory.common.utils.DateUtil;
 import com.tianrui.smartfactory.common.vo.PaginationVO;
 import com.tianrui.smartfactory.common.vo.Result;
 
@@ -36,6 +42,8 @@ public class PurchaseArriveAction {
 	private IMaterielManageService materielManageService;
 	@Autowired
 	private IDriverManageService driverManageService;
+	@Autowired
+	private ISystemCodeService systemCodeService;
 	
 	@RequestMapping("/main")
 	public ModelAndView main(){
@@ -66,24 +74,45 @@ public class PurchaseArriveAction {
 	}
 	
 	@RequestMapping("addView")
-	@ResponseBody
-	public Result addView(PurchaseArriveQuery query){
-		Result result = Result.getSuccessResult();
+	public ModelAndView addView(HttpSession session){
+		ModelAndView view = new ModelAndView("businessManage/purchaseManage/purchaseArriveAdd");
 		try {
-			
+			SystemUserResp user = (SystemUserResp) session.getAttribute("systemUser");
+			GetCodeReq codeReq = new GetCodeReq();
+			codeReq.setCode("DH");
+			codeReq.setCodeType(true);
+			codeReq.setUserid(user.getId());
+			view.addObject("code", systemCodeService.getCode(codeReq).getData());
+			codeReq.setCode("CL");
+			codeReq.setCodeType(true);
+			view.addObject("v_code", systemCodeService.getCode(codeReq).getData());
+			codeReq.setCode("DR");
+			codeReq.setCodeType(true);
+			view.addObject("d_code", systemCodeService.getCode(codeReq).getData());
+			codeReq.setCode("DR");
+			codeReq.setCodeType(false);
+			view.addObject("d_internalcode", systemCodeService.getCode(codeReq).getData());
+			view.addObject("orgid", "0");
+			view.addObject("orgname", "天瑞集团");
+			view.addObject("nowDate", DateUtil.getNowDateString("yyyy-MM-dd HH:mm:ss"));
+			view.addObject("supplier", supplierManageService.findListByParmas(null).getData());
+			view.addObject("vehicle", vehicleManageService.findListByParmas(null).getData());
+			view.addObject("materiel", materielManageService.findListByParmas(null).getData());
+			view.addObject("driver", driverManageService.findListByParmas(null).getData());
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
-			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
 		}
-		return result;
+		return view;
 	}
 	
 	@RequestMapping("add")
 	@ResponseBody
-	public Result add(PurchaseArriveQuery query){
+	public Result add(PurchaseArriveSave save, HttpSession session){
 		Result result = Result.getSuccessResult();
 		try {
-			
+			SystemUserResp user = (SystemUserResp) session.getAttribute("systemUser");
+			save.setCurrId(user.getId());
+			result = purchaseArriveService.add(save);
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
@@ -92,16 +121,14 @@ public class PurchaseArriveAction {
 	}
 	
 	@RequestMapping("updateView")
-	@ResponseBody
-	public Result updateView(PurchaseArriveQuery query){
-		Result result = Result.getSuccessResult();
+	public ModelAndView updateView(PurchaseArriveQuery query){
+		ModelAndView view = new ModelAndView("businessManage/purchaseManage/purchaseArrive");
 		try {
-
+			
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
-			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
 		}
-		return result;
+		return view;
 	}
 	
 	@RequestMapping("detailView")
@@ -117,7 +144,7 @@ public class PurchaseArriveAction {
 	
 	@RequestMapping("update")
 	@ResponseBody
-	public Result update(PurchaseArriveUpdate update){
+	public Result update(PurchaseArriveSave update){
 		Result result = Result.getSuccessResult();
 		try {
 			
@@ -130,7 +157,7 @@ public class PurchaseArriveAction {
 	
 	@RequestMapping("audit")
 	@ResponseBody
-	public Result audit(PurchaseArriveUpdate update){
+	public Result audit(PurchaseArriveSave update){
 		Result result = Result.getSuccessResult();
 		try {
 			update.setAuditstatus("1");
@@ -144,7 +171,7 @@ public class PurchaseArriveAction {
 	
 	@RequestMapping("unaudit")
 	@ResponseBody
-	public Result unaudit(PurchaseArriveUpdate update){
+	public Result unaudit(PurchaseArriveSave update){
 		Result result = Result.getSuccessResult();
 		try {
 			update.setAuditstatus("0");
@@ -158,7 +185,7 @@ public class PurchaseArriveAction {
 	
 	@RequestMapping("invalid")
 	@ResponseBody
-	public Result invalid(PurchaseArriveUpdate update){
+	public Result invalid(PurchaseArriveSave update){
 		Result result = Result.getSuccessResult();
 		try {
 			update.setStatus("3");
@@ -172,7 +199,7 @@ public class PurchaseArriveAction {
 	
 	@RequestMapping("outfactory")
 	@ResponseBody
-	public Result outfactory(PurchaseArriveUpdate update){
+	public Result outfactory(PurchaseArriveSave update){
 		Result result = Result.getSuccessResult();
 		try {
 			update.setStatus("5");

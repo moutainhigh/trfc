@@ -17,5 +17,8 @@ public interface PurchaseApplicationDetailMapper {
 
     int updateByPrimaryKey(PurchaseApplicationDetail record);
 
+	List<PurchaseApplicationDetail> selectSelective(PurchaseApplicationDetail record);
+
 	List<PurchaseApplicationDetail> selectByPurchaseId(String purchaseId);
+	
 }

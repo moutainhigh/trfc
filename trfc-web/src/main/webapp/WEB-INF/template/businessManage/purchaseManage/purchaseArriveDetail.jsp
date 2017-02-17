@@ -71,7 +71,7 @@
 							</div>
 							<div class="daohuo_add_solo">
 								<label>矿口：</label> <input
-									value="${purchaseArrive.minemouthname }"
+									value="${purchaseArrive.purchaseApplicationResp.minemouthname }"
 									type="text" readonly>
 							</div>
 							<div class="daohuo_add_solo">

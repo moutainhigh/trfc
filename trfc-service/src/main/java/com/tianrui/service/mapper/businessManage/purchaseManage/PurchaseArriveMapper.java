@@ -21,5 +21,7 @@ public interface PurchaseArriveMapper {
     long findPurchaseArrivePageCount(PurchaseArriveQuery record);
     
     List<PurchaseArrive> findPurchaseArrivePage(PurchaseArriveQuery record);
+
+	List<PurchaseArrive> checkDriverAndVehicleIsUse(PurchaseArrive bean);
     
 }

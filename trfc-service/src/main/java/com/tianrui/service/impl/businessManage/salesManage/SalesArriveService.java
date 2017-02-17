@@ -7,25 +7,29 @@ import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.tianrui.api.intf.businessManage.salesManage.ISalesApplicationService;
 import com.tianrui.api.intf.businessManage.salesManage.ISalesArriveService;
 import com.tianrui.api.intf.system.auth.ISystemUserService;
+import com.tianrui.api.intf.system.base.ISystemCodeService;
 import com.tianrui.api.req.businessManage.salesManage.ApiDoorQueueQuery;
 import com.tianrui.api.req.businessManage.salesManage.ApiSalesArriveQuery;
 import com.tianrui.api.req.businessManage.salesManage.SalesApplicationQuery;
 import com.tianrui.api.req.businessManage.salesManage.SalesArriveQuery;
 import com.tianrui.api.req.businessManage.salesManage.SalesArriveSave;
-import com.tianrui.api.resp.basicFile.nc.MaterielManageResp;
+import com.tianrui.api.req.system.base.GetCodeReq;
 import com.tianrui.api.resp.businessManage.salesManage.ApiDoorQueueResp;
 import com.tianrui.api.resp.businessManage.salesManage.ApiSalesArriveResp;
 import com.tianrui.api.resp.businessManage.salesManage.SalesApplicationDetailResp;
 import com.tianrui.api.resp.businessManage.salesManage.SalesApplicationResp;
 import com.tianrui.api.resp.businessManage.salesManage.SalesArriveResp;
 import com.tianrui.service.bean.basicFile.measure.VehicleManage;
+import com.tianrui.service.bean.businessManage.purchaseManage.PurchaseArrive;
 import com.tianrui.service.bean.businessManage.salesManage.SalesArrive;
 import com.tianrui.service.bean.common.RFID;
 import com.tianrui.service.mapper.basicFile.measure.VehicleManageMapper;
+import com.tianrui.service.mapper.businessManage.purchaseManage.PurchaseArriveMapper;
 import com.tianrui.service.mapper.businessManage.salesManage.SalesArriveMapper;
 import com.tianrui.service.mapper.common.RFIDMapper;
 import com.tianrui.service.mongo.impl.CodeGenDaoImpl;
@@ -45,21 +49,20 @@ public class SalesArriveService implements ISalesArriveService {
 
 	@Autowired
 	private SalesArriveMapper salesArriveMapper;
-	
 	@Autowired
 	private ISalesApplicationService salesApplicationService;
-	
 	@Autowired
 	private VehicleManageMapper vehicleManageMapper;
-	
 	@Autowired
 	private RFIDMapper rfidMapper;
-	
 	@Autowired
 	private CodeGenDaoImpl codeGenDaoImpl;
-	
 	@Autowired
 	private ISystemUserService systemUserService;
+	@Autowired
+	private ISystemCodeService systemCodeService;
+	@Autowired
+	private PurchaseArriveMapper purchaseArriveMapper;
 	
 	@Override
 	public PaginationVO<SalesArriveResp> page(SalesArriveQuery query) throws Exception {
@@ -81,6 +84,7 @@ public class SalesArriveService implements ISalesArriveService {
 		return page;
 	}
 	
+	@Transactional
 	@Override
 	public Result add(SalesArriveSave save) throws Exception {
 		Result result = Result.getParamErrorResult();
@@ -93,6 +97,14 @@ public class SalesArriveService implements ISalesArriveService {
 				result.setError("此车辆己有提货通知单、待出厂后进行派车，现有车辆业务单据号为:"+listVehicle.get(0).getCode()+"，如有疑问请与销售处联系！");
 				return result;
 			}
+			PurchaseArrive pa = new PurchaseArrive();
+			pa.setVehicleid(save.getVehicleid());
+			List<PurchaseArrive> listVehicle1 = purchaseArriveMapper.checkDriverAndVehicleIsUse(pa);
+			if(listVehicle1 != null && listVehicle1.size() > 0){
+				result.setErrorCode(ErrorCode.PARAM_REPEAT_ERROR);
+				result.setError("此车辆己有到货通知单、待出厂后进行派车，现有车辆业务单据号为:"+listVehicle1.get(0).getCode()+"，如有疑问请与销售处联系！");
+				return result;
+			}
 			bean.setVehicleid(null);
 			bean.setDriverid(save.getDriverid());
 			List<SalesArrive> listDriver = salesArriveMapper.checkDriverAndVehicleIsUse(bean);
@@ -101,8 +113,21 @@ public class SalesArriveService implements ISalesArriveService {
 				result.setError("此司机己有提货通知单、待出厂后进行派车，现有车辆业务单据号为:"+listDriver.get(0).getCode()+"，如有疑问请与销售处联系！");
 				return result;
 			}
+			pa.setVehicleid(null);
+			pa.setDriverid(save.getDriverid());
+			List<PurchaseArrive> listDriver1 = purchaseArriveMapper.checkDriverAndVehicleIsUse(pa);
+			if(listDriver1 != null && listDriver1.size() > 0){
+				result.setErrorCode(ErrorCode.PARAM_REPEAT_ERROR);
+				result.setError("此司机己有到货通知单、待出厂后进行派车，现有车辆业务单据号为:"+listDriver1.get(0).getCode()+"，如有疑问请与销售处联系！");
+				return result;
+			}
 			PropertyUtils.copyProperties(bean, save);
 			bean.setId(UUIDUtil.getId());
+			GetCodeReq codeReq = new GetCodeReq();
+			codeReq.setCode("TH");
+			codeReq.setCodeType(true);
+			codeReq.setUserid(save.getCurrUId());
+			bean.setCode(systemCodeService.getCode(codeReq).getData().toString());
 			bean.setAuditstatus("1");
 			bean.setStatus("0");
 			bean.setState("1");
@@ -113,7 +138,8 @@ public class SalesArriveService implements ISalesArriveService {
 			bean.setCreatetime(System.currentTimeMillis());
 			bean.setModifier(save.getCurrUId());
 			bean.setModifytime(System.currentTimeMillis());
-			if(salesArriveMapper.insertSelective(bean) > 0){
+			if(salesArriveMapper.insertSelective(bean) > 0 
+					&& StringUtils.equals(systemCodeService.updateCodeItem(codeReq).getCode(), ErrorCode.SYSTEM_SUCCESS.getCode())){
 				result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
 			}else{
 				result.setErrorCode(ErrorCode.OPERATE_ERROR);

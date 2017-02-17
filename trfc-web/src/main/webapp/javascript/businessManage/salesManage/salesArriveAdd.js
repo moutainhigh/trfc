@@ -10,8 +10,8 @@ PAGE.mod = {
 			addUrl:"/trfc/salesArrive/add",
 			pageUrl:"/trfc/salesApplication/page",
 			mainUrl:"/trfc/salesArrive/main",
-			addVehicleUrl:"/trfc/vehicle/addVehicle",
-			addDriverUrl:"/trfc/driver/addDriver"
+			addVehicleUrl:"/trfc/vehicle/add",
+			addDriverUrl:"/trfc/driver/add"
 	}
 }
 PAGE.mod.util = {

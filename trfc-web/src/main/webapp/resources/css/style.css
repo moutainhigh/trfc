@@ -48,7 +48,8 @@
     border: 1px solid #e3e4ea;
     display: inline-block;
 }
-input[readOnly="true"]{
+input[readonly="true"] ,
+input[readonly="readonly"] {
     background: #f5f6fb;
 }
 .it_admin{
@@ -1533,4 +1534,9 @@ width: 180px;
 .zj_biaozhun_table table{
     width: 1500px;
 
+}
+.form-control-feedback {
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
 }

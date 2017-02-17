@@ -15,6 +15,8 @@
     <result column="supplierid" property="supplierid" jdbcType="VARCHAR" />
     <result column="suppliername" property="suppliername" jdbcType="VARCHAR" />
     <result column="supplierremark" property="supplierremark" jdbcType="VARCHAR" />
+    <result column="minemouthid" property="minemouthid" jdbcType="VARCHAR" />
+    <result column="minemouthname" property="minemouthname" jdbcType="VARCHAR" />
     <result column="departmentid" property="departmentid" jdbcType="VARCHAR" />
     <result column="departmentname" property="departmentname" jdbcType="VARCHAR" />
     <result column="buyerid" property="buyerid" jdbcType="VARCHAR" />
@@ -34,9 +36,16 @@
   </resultMap>
   <sql id="Base_Column_List" >
     id, code, auditstatus, source, billtypeid, billtypename, billtime, sumnum, orgid, orgname, 
-    supplierid, suppliername, supplierremark, departmentid, departmentname, buyerid, buyername, auditid, 
+    supplierid, suppliername, supplierremark, minemouthid, minemouthname, departmentid, departmentname, buyerid, buyername, auditid, 
     auditname, audittime, state, makerid, makebillname, makebilltime, creator, createtime, 
     modifier, modifytime, remark
+  </sql>
+  <sql id="P_Base_Column_List" >
+    p1.id, p1.code, p1.auditstatus, p1.source, p1.billtypeid, p1.billtypename, p1.billtime, p1.sumnum, p1.orgid, p1.orgname, 
+    p1.supplierid, p1.suppliername, p1.supplierremark, p1.minemouthid, p1.minemouthname, p1.departmentid, p1.departmentname, p1.buyerid, p1.buyername, p1.auditid,
+    p1.auditname, p1.audittime, p1.state, p1.makerid, p1.makebillname, p1.makebilltime, p1.creator, p1.createtime, 
+    p1.modifier, p1.modifytime, p1.remark, p2.id as detailid, p2.purchaseid, p2.materielid, p2.materielname, p2.materielspec, 
+    p2.materieltype, p2.purchasesum, p2.unit
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
@@ -53,7 +62,7 @@
       source, billtypeid, billtypename, 
       billtime, sumnum, orgid, 
       orgname, supplierid, suppliername, supplierremark,
-      departmentid, departmentname, buyerid, 
+      minemouthid, minemouthname, departmentid, departmentname, buyerid, 
       buyername, auditid, auditname, 
       audittime, state, makerid, 
       makebillname, makebilltime, creator, 
@@ -62,7 +71,8 @@
     values (#{id,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR}, #{auditstatus,jdbcType=VARCHAR}, 
       #{source,jdbcType=VARCHAR}, #{billtypeid,jdbcType=VARCHAR}, #{billtypename,jdbcType=VARCHAR}, 
       #{billtime,jdbcType=BIGINT}, #{sumnum,jdbcType=DOUBLE}, #{orgid,jdbcType=VARCHAR}, 
-      #{orgname,jdbcType=VARCHAR}, #{supplierid,jdbcType=VARCHAR}, #{suppliername,jdbcType=VARCHAR}, #{supplierremark,jdbcType=VARCHAR}, 
+      #{orgname,jdbcType=VARCHAR}, #{supplierid,jdbcType=VARCHAR}, #{suppliername,jdbcType=VARCHAR}, 
+      #{supplierremark,jdbcType=VARCHAR}, #{minemouthid,jdbcType=VARCHAR}, #{minemouthname,jdbcType=VARCHAR},
       #{departmentid,jdbcType=VARCHAR}, #{departmentname,jdbcType=VARCHAR}, #{buyerid,jdbcType=VARCHAR}, 
       #{buyername,jdbcType=VARCHAR}, #{auditid,jdbcType=VARCHAR}, #{auditname,jdbcType=VARCHAR}, 
       #{audittime,jdbcType=BIGINT}, #{state,jdbcType=VARCHAR}, #{makerid,jdbcType=VARCHAR}, 
@@ -111,6 +121,12 @@
       </if>
       <if test="supplierremark != null" >
         supplierremark,
+      </if>
+      <if test="minemouthid != null" >
+        minemouthid,
+      </if>
+      <if test="minemouthname != null" >
+        minemouthname,
       </if>
       <if test="departmentid != null" >
         departmentid,
@@ -201,6 +217,12 @@
       <if test="supplierremark != null" >
         #{supplierremark,jdbcType=VARCHAR},
       </if>
+      <if test="minemouthid != null" >
+        #{minemouthid,jdbcType=VARCHAR},
+      </if>
+      <if test="minemouthname != null" >
+        #{minemouthname,jdbcType=VARCHAR},
+      </if>
       <if test="departmentid != null" >
         #{departmentid,jdbcType=VARCHAR},
       </if>
@@ -290,6 +312,12 @@
       <if test="supplierremark != null" >
         supplierremark = #{supplierremark,jdbcType=VARCHAR},
       </if>
+      <if test="minemouthid != null" >
+        minemouthid = #{minemouthid,jdbcType=VARCHAR},
+      </if>
+      <if test="minemouthname != null" >
+        minemouthname = #{minemouthname,jdbcType=VARCHAR},
+      </if>
       <if test="departmentid != null" >
         departmentid = #{departmentid,jdbcType=VARCHAR},
       </if>
@@ -355,6 +383,8 @@
       supplierid = #{supplierid,jdbcType=VARCHAR},
       suppliername = #{suppliername,jdbcType=VARCHAR},
       supplierremark = #{supplierremark,jdbcType=VARCHAR},
+      minemouthid = #{minemouthid,jdbcType=VARCHAR},
+      minemouthname = #{minemouthname,jdbcType=VARCHAR},
       departmentid = #{departmentid,jdbcType=VARCHAR},
       departmentname = #{departmentname,jdbcType=VARCHAR},
       buyerid = #{buyerid,jdbcType=VARCHAR},
@@ -422,6 +452,63 @@
   		</if>
   	</where>
   	order by makebilltime
+  	<if test="start != null and start >= 0">
+  		<if test="limit != null">
+			limit #{start,jdbcType=INTEGER},#{limit,jdbcType=INTEGER}
+  		</if>
+  	</if>
+  </select>
+  <select id="findPageGroupMaterielCount" parameterType="com.tianrui.api.req.businessManage.purchaseManage.PurchaseApplicationQuery" resultType="java.lang.Long">
+  	select count(1)
+  	from tr_purchase_db_application p1
+	left join tr_purchase_db_application_detail p2 on p1.id = p2.purchaseid
+  	<where>
+  		<if test="code != null and code != ''">
+  			and p1.code = #{code,jdbcType=VARCHAR}
+  		</if>
+  		<if test="supplierid != null and supplierid != ''">
+  			and p1.supplierid = #{supplierid,jdbcType=VARCHAR}
+  		</if>
+  		<if test="materielid != null and materielid != ''">
+  			and p2.materielid = #{materielid,jdbcType=VARCHAR}
+  		</if>
+  		<if test="state != null and state != ''">
+  			and p1.state = #{state,jdbcType=VARCHAR}
+  		</if>
+  		<if test="starttime != null and starttime != ''">
+  			and p1.billtime <![CDATA[>=]]> #{starttime,jdbcType=BIGINT}
+  		</if>
+  		<if test="endtime != null and endtime != ''">
+  			and p1.billtime <![CDATA[<]]> #{endtime,jdbcType=BIGINT}
+  		</if>
+  	</where>
+  </select>
+  <select id="findPageGroupMateriel" parameterType="com.tianrui.api.req.businessManage.purchaseManage.PurchaseApplicationQuery" resultType="com.tianrui.api.resp.businessManage.purchaseManage.PurchaseApplicationJoinDetailResp">
+  	select 
+  	<include refid="P_Base_Column_List" />
+  	from tr_purchase_db_application p1
+	left join tr_purchase_db_application_detail p2 on p1.id = p2.purchaseid
+  	<where>
+  		<if test="code != null and code != ''">
+  			and p1.code = #{code,jdbcType=VARCHAR}
+  		</if>
+  		<if test="supplierid != null and supplierid != ''">
+  			and p1.supplierid = #{supplierid,jdbcType=VARCHAR}
+  		</if>
+  		<if test="materielid != null and materielid != ''">
+  			and p2.materielid = #{materielid,jdbcType=VARCHAR}
+  		</if>
+  		<if test="state != null and state != ''">
+  			and p1.state = #{state,jdbcType=VARCHAR}
+  		</if>
+  		<if test="starttime != null and starttime != ''">
+  			and p1.billtime <![CDATA[>=]]> #{starttime,jdbcType=BIGINT}
+  		</if>
+  		<if test="endtime != null and endtime != ''">
+  			and p1.billtime <![CDATA[<]]> #{endtime,jdbcType=BIGINT}
+  		</if>
+  	</where>
+  	order by p1.makebilltime
   	<if test="start != null and start >= 0">
   		<if test="limit != null">
 			limit #{start,jdbcType=INTEGER},#{limit,jdbcType=INTEGER}

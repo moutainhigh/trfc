@@ -7,6 +7,7 @@ import java.util.Set;
 
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -80,6 +81,15 @@ public class SupplierManageService implements ISupplierManageService {
 		List<SupplierManage> list = supplierManageMapper.selectSelective(sm);
 		result.setData(copyBeanList2RespList(list));
 		return result;
+	}
+	
+	@Override
+	public SupplierManageResp findOne(String id) throws Exception {
+		SupplierManageResp resp = null;
+		if(StringUtils.isNotBlank(id)){
+			resp = copyBean2Resp(supplierManageMapper.selectByPrimaryKey(id));
+		}
+		return resp;
 	}
 	
 	private List<SupplierManageResp> copyBeanList2RespList(List<SupplierManage> list) throws Exception {
