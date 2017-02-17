@@ -23,11 +23,12 @@ public interface ISalesApplicationService {
 
 	Result delete(SalesApplicationQuery query);
 
-	SalesApplicationResp findOne(SalesApplicationQuery query) throws Exception;
+	SalesApplicationResp findOne(String id) throws Exception;
 	
 	//查询最大时间戳
 	Result findMaxUtc(SalesApplicationQuery req) throws Exception;
 	//同步修改订单数据
 	Result updateDataWithDC(List<JSONObject> list) throws Exception;
+
 
 }

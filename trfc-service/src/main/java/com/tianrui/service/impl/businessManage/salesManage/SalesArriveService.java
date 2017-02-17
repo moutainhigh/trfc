@@ -15,7 +15,6 @@ import com.tianrui.api.intf.system.auth.ISystemUserService;
 import com.tianrui.api.intf.system.base.ISystemCodeService;
 import com.tianrui.api.req.businessManage.salesManage.ApiDoorQueueQuery;
 import com.tianrui.api.req.businessManage.salesManage.ApiSalesArriveQuery;
-import com.tianrui.api.req.businessManage.salesManage.SalesApplicationQuery;
 import com.tianrui.api.req.businessManage.salesManage.SalesArriveQuery;
 import com.tianrui.api.req.businessManage.salesManage.SalesArriveSave;
 import com.tianrui.api.req.system.base.GetCodeReq;
@@ -222,9 +221,7 @@ public class SalesArriveService implements ISalesArriveService {
 			resp = new SalesArriveResp();
 			PropertyUtils.copyProperties(resp, bean);
 			if(StringUtils.isNotBlank(bean.getBillid())){
-				SalesApplicationQuery query = new SalesApplicationQuery();
-				query.setId(bean.getBillid());
-				resp.setSalesApplication(salesApplicationService.findOne(query));
+				resp.setSalesApplication(salesApplicationService.findOne(bean.getBillid()));
 			}
 		}
 		return resp;
