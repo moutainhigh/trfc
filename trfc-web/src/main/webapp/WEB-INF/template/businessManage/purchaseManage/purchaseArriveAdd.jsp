@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>index</title>
+<title>采购到货通知单新增</title>
 <!-- 引用公共header部分 -->
 <jsp:include page="../../common/base/header_busi.jsp"></jsp:include>
 </head>
@@ -49,7 +49,6 @@
 					</div>
 					<div class="daohuo_add">
 						<h5>到货通知单新增</h5>
-
 						<div class="daohuo_add_div">
 							<div class="daohuo_add_solo">
 								<label class="colorred"><em class="colorred">*</em>订单号：</label>
@@ -115,8 +114,8 @@
 								<div class="daohuo_add">
 									<div class="daohuo_add_div">
 										<div class="daohuo_add_solo">
-											<label class="colorred"><em class="colorred">*</em>车号：</label> <select id="vehicleid"
-												class="form-control">
+											<label class="colorred"><em class="colorred">*</em>车号：</label>
+											<select id="vehicleid" class="form-control">
 												<option value="">请选择</option>
 												<c:forEach items="${vehicle }" var="v">
 													<option value="${v.id }" rfid="${v.rfid }">${v.vehicleno }</option>
@@ -134,13 +133,16 @@
 												class="iconfont">&#xe680;</i></a>
 										</div>
 										<div class="daohuo_add_solo">
-											<label>身份证号：</label> <input id="identityno" type="text" readonly="readonly">
+											<label>身份证号：</label> <input id="identityno" type="text"
+												readonly="readonly">
 										</div>
 										<div class="daohuo_add_solo">
-											<label>RFID：</label> <input id="rfid" type="text" readonly="readonly">
+											<label>RFID：</label> <input id="rfid" type="text"
+												readonly="readonly">
 										</div>
 										<div class="daohuo_add_solo">
-											<label class="colorred"><em class="colorred">*</em>到货量：</label> <input id="arrivalamount" type="text"> <span>吨</span>
+											<label class="colorred"><em class="colorred">*</em>到货量：</label>
+											<input id="arrivalamount" type="text"> <span>吨</span>
 										</div>
 										<div class="daohuo_add_solo">
 											<label>备注：</label> <input id="remark" type="text">
@@ -410,48 +412,5 @@
 	<jsp:include page="../../common/base/footer_busi.jsp"></jsp:include>
 	<script type="text/javascript"
 		src="/javascript/businessManage/purchaseManage/purchaseArriveAdd.js"></script>
-	<script type="text/javascript">
-		// 录入信息的车号输入框点击，出来下面的选项内容
-		var daohuo_add_input = $(".daohuo_add_solo .dh_carnum input");
-		daohuo_add_input.on("click", function() {
-			$(".dh_carnum_sele").show();
-		});
-		// 录入信息的车号 下面的选项内容选中，input赋值
-		var daohuo_add_li = $(".dh_carnum_sele ul li");
-		daohuo_add_li.on("click", function() {
-			daohuo_add_input.val($(this).text());
-			$(".dh_carnum_sele").hide();
-		});
-		// 顶部tab切换菜单
-		var $tab_li = $('.intel_menu li');
-		$tab_li.click(function() {
-			$(this).addClass('select').siblings().removeClass('select');
-			var index = $tab_li.index(this);
-			$('.intel_tabbox > .intel_tabcont').eq(index).show().siblings()
-					.hide();
-		});
-		// 左侧宽度改变 右边改变
-		var menu_ctrl = $(".left .menu");
-		var menu_ctrlmini = $(".leftmini .menu2");
-		var leftall = $(".left");
-		var leftmini = $(".leftmini");
-		menu_ctrl.on("click", function() {
-			$(leftall).css("display", "none");
-			leftmini.css("display", "block");
-			$(".right").css("margin-left", "100px");
-		});
-		menu_ctrlmini.on("click", function() {
-			$(leftmini).css("display", "none");
-			leftall.css("display", "block");
-			$(".right").css("margin-left", "200px");
-		});
-		// 底部tab切换菜单
-		var cg_li = $('.cg_tabtit ul li');
-		cg_li.click(function() {
-			$(this).addClass('select').siblings().removeClass('select');
-			var index = cg_li.index(this);
-			$('.cg_tabbox > .cg_tabcont').eq(index).show().siblings().hide();
-		});
-	</script>
 </body>
 </html>

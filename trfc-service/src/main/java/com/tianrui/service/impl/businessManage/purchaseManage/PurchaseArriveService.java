@@ -126,6 +126,55 @@ public class PurchaseArriveService implements IPurchaseArriveService {
 		}
 		return result;
 	}
+
+	@Override
+	public Result update(PurchaseArriveSave update) throws Exception {
+		Result result = Result.getParamErrorResult();
+		if(update != null){
+			PurchaseArrive pa = new PurchaseArrive();
+			pa.setId(update.getId());
+			pa.setVehicleid(update.getVehicleid());
+			List<PurchaseArrive> listVehicle = purchaseArriveMapper.checkDriverAndVehicleIsUse(pa);
+			if(listVehicle != null && listVehicle.size() > 0){
+				result.setErrorCode(ErrorCode.PARAM_REPEAT_ERROR);
+				result.setError("此车辆己有到货通知单、待出厂后进行派车，现有车辆业务单据号为:"+listVehicle.get(0).getCode()+"，如有疑问请与销售处联系！");
+				return result;
+			}
+			SalesArrive sa = new SalesArrive();
+			sa.setVehicleid(update.getVehicleid());
+			List<SalesArrive> listVehicle1 = salesArriveMapper.checkDriverAndVehicleIsUse(sa);
+			if(listVehicle1 != null && listVehicle1.size() > 0){
+				result.setErrorCode(ErrorCode.PARAM_REPEAT_ERROR);
+				result.setError("此车辆己有提货通知单、待出厂后进行派车，现有车辆业务单据号为:"+listVehicle1.get(0).getCode()+"，如有疑问请与销售处联系！");
+				return result;
+			}
+			pa.setVehicleid(null);
+			pa.setDriverid(update.getDriverid());
+			List<PurchaseArrive> listDriver = purchaseArriveMapper.checkDriverAndVehicleIsUse(pa);
+			if(listDriver != null && listDriver.size() > 0){
+				result.setErrorCode(ErrorCode.PARAM_REPEAT_ERROR);
+				result.setError("此司机己有到货通知单、待出厂后进行派车，现有车辆业务单据号为:"+listDriver.get(0).getCode()+"，如有疑问请与销售处联系！");
+				return result;
+			}
+			sa.setVehicleid(null);
+			sa.setDriverid(update.getDriverid());
+			List<SalesArrive> listDriver1 = salesArriveMapper.checkDriverAndVehicleIsUse(sa);
+			if(listDriver1 != null && listDriver1.size() > 0){
+				result.setErrorCode(ErrorCode.PARAM_REPEAT_ERROR);
+				result.setError("此司机己有提货通知单、待出厂后进行派车，现有车辆业务单据号为:"+listDriver1.get(0).getCode()+"，如有疑问请与销售处联系！");
+				return result;
+			}
+			PropertyUtils.copyProperties(pa, update);
+			pa.setModifier(update.getCurrId());
+			pa.setModifytime(System.currentTimeMillis());
+			if(purchaseArriveMapper.updateByPrimaryKeySelective(pa) == 1){
+				result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+			}else{
+				result.setErrorCode(ErrorCode.OPERATE_ERROR);
+			}
+		}
+		return result;
+	}
 	
 	@Override
 	public Result updateOperation(PurchaseArriveSave update) throws Exception {
@@ -133,6 +182,8 @@ public class PurchaseArriveService implements IPurchaseArriveService {
 		if(update != null){
 			PurchaseArrive pa = new PurchaseArrive();
 			PropertyUtils.copyProperties(pa, update);
+			pa.setModifier(update.getCurrId());
+			pa.setModifytime(System.currentTimeMillis());
 			if(purchaseArriveMapper.updateByPrimaryKeySelective(pa) == 1){
 				result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
 			}
@@ -141,10 +192,10 @@ public class PurchaseArriveService implements IPurchaseArriveService {
 	}
 
 	@Override
-	public PurchaseArriveResp findOne(PurchaseArriveQuery query) throws Exception {
+	public PurchaseArriveResp findOne(String id) throws Exception {
 		PurchaseArriveResp resp = null;
-		if(query != null && StringUtils.isNotBlank(query.getId())){
-			resp = copyBean2Resp(purchaseArriveMapper.selectByPrimaryKey(query.getId()));
+		if(StringUtils.isNotBlank(id)){
+			resp = copyBean2Resp(purchaseArriveMapper.selectByPrimaryKey(id));
 		}
 		return resp;
 	}

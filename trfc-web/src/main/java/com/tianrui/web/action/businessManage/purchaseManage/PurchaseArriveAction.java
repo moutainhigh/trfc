@@ -121,21 +121,29 @@ public class PurchaseArriveAction {
 	}
 	
 	@RequestMapping("updateView")
-	public ModelAndView updateView(PurchaseArriveQuery query){
-		ModelAndView view = new ModelAndView("businessManage/purchaseManage/purchaseArrive");
+	public ModelAndView updateView(String id, HttpSession session){
+		ModelAndView view = new ModelAndView("businessManage/purchaseManage/purchaseArriveUpdate");
 		try {
-			
-		} catch (Exception e) {
-			log.error(e.getMessage(), e);
-		}
-		return view;
-	}
-	
-	@RequestMapping("detailView")
-	public ModelAndView detailView(PurchaseArriveQuery query){
-		ModelAndView view = new ModelAndView("businessManage/purchaseManage/purchaseArriveDetail");
-		try {
-			view.addObject("purchaseArrive", purchaseArriveService.findOne(query));
+			SystemUserResp user = (SystemUserResp) session.getAttribute("systemUser");
+			GetCodeReq codeReq = new GetCodeReq();
+			codeReq.setCode("CL");
+			codeReq.setCodeType(true);
+			codeReq.setUserid(user.getId());
+			view.addObject("v_code", systemCodeService.getCode(codeReq).getData());
+			codeReq.setCode("DR");
+			codeReq.setCodeType(true);
+			view.addObject("d_code", systemCodeService.getCode(codeReq).getData());
+			codeReq.setCode("DR");
+			codeReq.setCodeType(false);
+			view.addObject("d_internalcode", systemCodeService.getCode(codeReq).getData());
+			view.addObject("orgid", "0");
+			view.addObject("orgname", "天瑞集团");
+			view.addObject("nowDate", DateUtil.getNowDateString("yyyy-MM-dd HH:mm:ss"));
+			view.addObject("supplier", supplierManageService.findListByParmas(null).getData());
+			view.addObject("vehicle", vehicleManageService.findListByParmas(null).getData());
+			view.addObject("materiel", materielManageService.findListByParmas(null).getData());
+			view.addObject("driver", driverManageService.findListByParmas(null).getData());
+			view.addObject("purchaseArrive", purchaseArriveService.findOne(id));
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 		}
@@ -144,10 +152,12 @@ public class PurchaseArriveAction {
 	
 	@RequestMapping("update")
 	@ResponseBody
-	public Result update(PurchaseArriveSave update){
+	public Result update(PurchaseArriveSave update, HttpSession session){
 		Result result = Result.getSuccessResult();
 		try {
-			
+			SystemUserResp user = (SystemUserResp) session.getAttribute("systemUser");
+			update.setCurrId(user.getId());
+			result = purchaseArriveService.update(update);
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
@@ -155,11 +165,24 @@ public class PurchaseArriveAction {
 		return result;
 	}
 	
+	@RequestMapping("detailView")
+	public ModelAndView detailView(String id){
+		ModelAndView view = new ModelAndView("businessManage/purchaseManage/purchaseArriveDetail");
+		try {
+			view.addObject("purchaseArrive", purchaseArriveService.findOne(id));
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+		}
+		return view;
+	}
+	
 	@RequestMapping("audit")
 	@ResponseBody
-	public Result audit(PurchaseArriveSave update){
+	public Result audit(PurchaseArriveSave update, HttpSession session){
 		Result result = Result.getSuccessResult();
 		try {
+			SystemUserResp user = (SystemUserResp) session.getAttribute("systemUser");
+			update.setCurrId(user.getId());
 			update.setAuditstatus("1");
 			result = purchaseArriveService.updateOperation(update);
 		} catch (Exception e) {
@@ -171,9 +194,11 @@ public class PurchaseArriveAction {
 	
 	@RequestMapping("unaudit")
 	@ResponseBody
-	public Result unaudit(PurchaseArriveSave update){
+	public Result unaudit(PurchaseArriveSave update, HttpSession session){
 		Result result = Result.getSuccessResult();
 		try {
+			SystemUserResp user = (SystemUserResp) session.getAttribute("systemUser");
+			update.setCurrId(user.getId());
 			update.setAuditstatus("0");
 			result = purchaseArriveService.updateOperation(update);
 		} catch (Exception e) {
@@ -185,9 +210,11 @@ public class PurchaseArriveAction {
 	
 	@RequestMapping("invalid")
 	@ResponseBody
-	public Result invalid(PurchaseArriveSave update){
+	public Result invalid(PurchaseArriveSave update, HttpSession session){
 		Result result = Result.getSuccessResult();
 		try {
+			SystemUserResp user = (SystemUserResp) session.getAttribute("systemUser");
+			update.setCurrId(user.getId());
 			update.setStatus("3");
 			result = purchaseArriveService.updateOperation(update);
 		} catch (Exception e) {
@@ -199,9 +226,11 @@ public class PurchaseArriveAction {
 	
 	@RequestMapping("outfactory")
 	@ResponseBody
-	public Result outfactory(PurchaseArriveSave update){
+	public Result outfactory(PurchaseArriveSave update, HttpSession session){
 		Result result = Result.getSuccessResult();
 		try {
+			SystemUserResp user = (SystemUserResp) session.getAttribute("systemUser");
+			update.setCurrId(user.getId());
 			update.setStatus("5");
 			result = purchaseArriveService.updateOperation(update);
 		} catch (Exception e) {

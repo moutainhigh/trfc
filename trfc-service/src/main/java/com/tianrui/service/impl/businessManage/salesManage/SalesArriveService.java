@@ -128,7 +128,7 @@ public class SalesArriveService implements ISalesArriveService {
 			codeReq.setCodeType(true);
 			codeReq.setUserid(save.getCurrUId());
 			bean.setCode(systemCodeService.getCode(codeReq).getData().toString());
-			bean.setAuditstatus("1");
+			bean.setAuditstatus("0");
 			bean.setStatus("0");
 			bean.setState("1");
 			bean.setSource("0");
@@ -152,30 +152,38 @@ public class SalesArriveService implements ISalesArriveService {
 	public Result update(SalesArriveSave save) throws Exception {
 		Result result = Result.getParamErrorResult();
 		if(save != null){
-			SalesArrive sa = salesArriveMapper.selectByPrimaryKey(save.getId());
 			SalesArrive bean = new SalesArrive();
+			bean.setId(save.getId());
 			bean.setVehicleid(save.getVehicleid());
 			List<SalesArrive> listVehicle = salesArriveMapper.checkDriverAndVehicleIsUse(bean);
 			if(listVehicle != null && listVehicle.size() > 0){
-				for(SalesArrive s : listVehicle){
-					if(!StringUtils.equals(s.getVehicleid(), sa.getVehicleid())){
-						result.setErrorCode(ErrorCode.PARAM_REPEAT_ERROR);
-						result.setError("此车辆己有提货通知单、待出厂后进行派车，现有车辆业务单据号为:"+listVehicle.get(0).getCode()+"，如有疑问请与销售处联系！");
-						return result;
-					}
-				}
+				result.setErrorCode(ErrorCode.PARAM_REPEAT_ERROR);
+				result.setError("此车辆己有提货通知单、待出厂后进行派车，现有车辆业务单据号为:"+listVehicle.get(0).getCode()+"，如有疑问请与销售处联系！");
+				return result;
+			}
+			PurchaseArrive pa = new PurchaseArrive();
+			pa.setVehicleid(save.getVehicleid());
+			List<PurchaseArrive> listVehicle1 = purchaseArriveMapper.checkDriverAndVehicleIsUse(pa);
+			if(listVehicle1 != null && listVehicle1.size() > 0){
+				result.setErrorCode(ErrorCode.PARAM_REPEAT_ERROR);
+				result.setError("此车辆己有到货通知单、待出厂后进行派车，现有车辆业务单据号为:"+listVehicle1.get(0).getCode()+"，如有疑问请与销售处联系！");
+				return result;
 			}
 			bean.setVehicleid(null);
 			bean.setDriverid(save.getDriverid());
 			List<SalesArrive> listDriver = salesArriveMapper.checkDriverAndVehicleIsUse(bean);
 			if(listDriver != null && listDriver.size() > 0){
-				for(SalesArrive s : listDriver){
-					if(!StringUtils.equals(s.getDriverid(), sa.getDriverid())){
-						result.setErrorCode(ErrorCode.PARAM_REPEAT_ERROR);
-						result.setError("此司机己有提货通知单、待出厂后进行派车，现有车辆业务单据号为:"+listDriver.get(0).getCode()+"，如有疑问请与销售处联系！");
-						return result;
-					}
-				}
+				result.setErrorCode(ErrorCode.PARAM_REPEAT_ERROR);
+				result.setError("此司机己有提货通知单、待出厂后进行派车，现有车辆业务单据号为:"+listDriver.get(0).getCode()+"，如有疑问请与销售处联系！");
+				return result;
+			}
+			pa.setVehicleid(null);
+			pa.setDriverid(save.getDriverid());
+			List<PurchaseArrive> listDriver1 = purchaseArriveMapper.checkDriverAndVehicleIsUse(pa);
+			if(listDriver1 != null && listDriver1.size() > 0){
+				result.setErrorCode(ErrorCode.PARAM_REPEAT_ERROR);
+				result.setError("此司机己有到货通知单、待出厂后进行派车，现有车辆业务单据号为:"+listDriver1.get(0).getCode()+"，如有疑问请与销售处联系！");
+				return result;
 			}
 			PropertyUtils.copyProperties(bean, save);
 			bean.setModifier(save.getCurrUId());

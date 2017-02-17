@@ -78,6 +78,17 @@ public class PurchaseArriveResp extends BaseResp {
     private PurchaseApplicationResp purchaseApplicationResp;
     //采购申请单详情
     private PurchaseApplicationDetailResp purchaseApplicationDetailResp;
+    /**
+     * 仓库物料数量统计
+     */
+    //余量
+    private String margin;
+    //入库占用量
+    private String storagequantity;
+    //未入库占用量
+    private String unstoragequantity;
+    //到货占用量
+    private String arrivalquantity;
     
 	public String getId() {
 		return id;
@@ -286,6 +297,30 @@ public class PurchaseArriveResp extends BaseResp {
 	}
 	public void setPurchaseApplicationDetailResp(PurchaseApplicationDetailResp purchaseApplicationDetailResp) {
 		this.purchaseApplicationDetailResp = purchaseApplicationDetailResp;
+	}
+	public String getMargin() {
+		return margin;
+	}
+	public void setMargin(String margin) {
+		this.margin = margin;
+	}
+	public String getStoragequantity() {
+		return storagequantity;
+	}
+	public void setStoragequantity(String storagequantity) {
+		this.storagequantity = storagequantity;
+	}
+	public String getUnstoragequantity() {
+		return unstoragequantity;
+	}
+	public void setUnstoragequantity(String unstoragequantity) {
+		this.unstoragequantity = unstoragequantity;
+	}
+	public String getArrivalquantity() {
+		return arrivalquantity;
+	}
+	public void setArrivalquantity(String arrivalquantity) {
+		this.arrivalquantity = arrivalquantity;
 	}
     
 }

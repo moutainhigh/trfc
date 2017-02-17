@@ -12,13 +12,19 @@
 }
 .menu_collap .typelist li{
     line-height: 50px;
-    padding-left: 43px;
+    /* padding-left: 43px; */
     margin: 0;
     cursor: pointer;
 }
 .menu_collap .typelist li i{
     font-size: 17px;
     margin-right: 8px;
+}
+.menu_collap .typelist li a {
+    display: block;
+    width: 100%;
+    height: 100%;
+    padding-left: 43px;
 }
 .menu_collap .typelist li.active,.menu_collap .typelist li:focus,.menu_collap .typelist li:hover{
     background: #f5f6fb;

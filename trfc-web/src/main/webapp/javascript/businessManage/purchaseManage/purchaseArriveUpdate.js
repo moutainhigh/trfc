@@ -2,7 +2,7 @@
 	var URL = {
 			purchaseArriveMain: '/trfc/purchaseArrive/main',
 			pageGroupMateriel: '/trfc/purchaseApplication/pageGroupMateriel',
-			add: '/trfc/purchaseArrive/add',
+			update: '/trfc/purchaseArrive/update',
 			addVehicle: '/trfc/vehicle/add',
 			addDriver: '/trfc/driver/add'
 	};
@@ -15,12 +15,8 @@
 			window.location.reload();
 		});
 		//保存
-		$('#addBtn').off('click').on('click',function(){
-			addPurchaseArrive();
-		});
-		//保存写卡
-		$('#addAndAddCardBtn').off('click').on('click',function(){
-			alert('待开发...');
+		$('#updateBtn').off('click').on('click',function(){
+			updatePurchaseArrive();
 		});
 		//返回按钮
 		$('#backBtn').off('click').on('click',function(){
@@ -320,6 +316,8 @@
 	}
 	//获取通知单新增参数
 	function getPurchaseArriveAddParams(){
+		
+		var id = $('#purchaseArriveId').val() || ''; id = $.trim(id);
 		var billid = $('#billcode').attr('billid') || ''; billid = $.trim(billid);
 		var billcode = $('#billcode').val() || ''; billcode = $.trim(billcode);
 		var billdetailid = $('#billcode').attr('billdetailid') || ''; billdetailid = $.trim(billdetailid);
@@ -343,6 +341,7 @@
 			layer.msg('司机不能为空!', {icon: 5});return false;
 		}
 		return {
+			id:id,
 			billid:billid,
 			billcode:billcode,
 			billdetailid:billdetailid,
@@ -359,11 +358,11 @@
 		};
 	}
 	//新增到货通知单
-	function addPurchaseArrive(){
+	function updatePurchaseArrive(){
 		var params = getPurchaseArriveAddParams();
 		if(params){
 			$.ajax({
-				url: URL.add,
+				url: URL.update,
 				data:params,
 				async:true,
 				cache:false,

@@ -19,14 +19,44 @@ public interface SalesArriveMapper {
     int updateByPrimaryKey(SalesArrive record);
     
     List<SalesArrive> selectSelective(SalesArrive record);
-
+    /**
+     * @Description 分页和查询总条数
+     * @author zhanggaohao
+     * @version 2017年2月17日 上午8:58:24
+     * @param query
+     * @return
+     */
 	long findSalesArrivePageCount(SalesArriveQuery query);
-
+	/**
+	 * @Description 分页查询
+	 * @author zhanggaohao
+	 * @version 2017年2月17日 上午8:58:16
+	 * @param query
+	 * @return
+	 */
 	List<SalesArrive> findSalesArrivePage(SalesArriveQuery query);
-	
+	/**
+	 * @Description 检查IC卡是否正在使用中
+	 * @author zhanggaohao
+	 * @version 2017年2月17日 上午8:57:28
+	 * @param query
+	 * @return
+	 */
 	int checkICUse(SalesArriveQuery query);
-
+	/**
+	 * @Description 查询车辆等待数量
+	 * @author zhanggaohao
+	 * @version 2017年2月17日 上午8:57:22
+	 * @param query
+	 * @return
+	 */
 	int selectWaitingNumber(SalesArriveQuery query);
-	
+	/**
+	 * @Description 检查车辆和司机是否已有正在执行的销售通知单
+	 * @author zhanggaohao
+	 * @version 2017年2月17日 上午8:56:52
+	 * @param record
+	 * @return
+	 */
 	List<SalesArrive> checkDriverAndVehicleIsUse(SalesArrive record);
 }

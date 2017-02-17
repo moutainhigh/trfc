@@ -193,11 +193,13 @@
 		});
 		$('#dataBody>tr').off('dblclick').on('dblclick',function(){
 			var obj = $(this).data();
+			//跳转到详情页面
 			window.location.href = '/trfc/purchaseArrive/detailView?id='+obj.id;
 		});
 		$('#dataBody>tr').find('.update').off('click').on('click',function(){
 			var obj = $(this).closest('tr').data();
-			updateShowView(obj.id);
+			//跳转到修改页面
+			window.location.href = '/trfc/purchaseArrive/updateView?id='+obj.id;
 		});
 		$('#dataBody>tr').find('.audit').off('click').on('click',function(){
 			var obj = $(this).closest('tr').data();
@@ -233,10 +235,6 @@
 		$('#purchasesum').html(purchaseApplicationDetail.purchasesum || '');
 		$('#billtime').html(purchaseApplication.makebilltimeStr || '');
 		$('#ind_tab').show();
-	}
-	//跳转到修改页面
-	function updateShowView(id){
-		
 	}
 	//审核
 	function auditOperation(obj){
@@ -368,33 +366,4 @@
 			});
 		});
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 })(jQuery, window);

@@ -37,8 +37,6 @@
 									<h5>刷新</h5></li>
 								<li id="updateBtn"><i class="iconfont colorblue">&#xe61d;</i>
 									<h5>保存</h5></li>
-								<li id="updateAndAddCardBtn"><i class="iconfont colorblue">&#xe601;</i>
-									<h5>保存写卡</h5></li>
 								<li id="backBtn"><a> <i class="iconfont colorblue">&#xe61e;</i>
 										<h5>返回</h5>
 								</a></li>
