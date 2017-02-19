@@ -1,26 +1,33 @@
-<%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@page language="java" pageEncoding="UTF-8"
+	contentType="text/html; charset=UTF-8"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!Doctype html>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>新增提货通知单</title>
+<title>采购到货通知单修改</title>
+<!-- 引用公共header部分 -->
 <jsp:include page="../../common/base/header_busi.jsp"></jsp:include>
 </head>
 <body>
 	<div class="it_admin">
+		<!-- 引用公共left部分 -->
 		<jsp:include page="../../common/base/left_busi.jsp"></jsp:include>
 		<div class="right">
+			<!-- 引用公共right部分 -->
 			<jsp:include page="../../common/base/right_head_busi.jsp"></jsp:include>
 			<div class="intel_tab">
 				<!--tab切换标题-->
 				<ul class="intel_menu">
-					<li><a href="/trfc/salesApplication/main">销售申请单</a></li>
-					<li class="select"><a href="/trfc/salesArrive/main">提货通知单</a></li>
+					<li><a href="/trfc/purchaseApplication/main">采购申请单</a></li>
+				</ul>
+				<ul class="intel_menu">
+					<li class="select"><a href="/trfc/purchaseArrive/main">到货通知单</a></li>
 				</ul>
 			</div>
 			<!--tab切换的内容-->
 			<div class="intel_tabbox">
+				<!--到货通知单begin-->
 				<div class="intel_tabcont ">
 					<div class="intel_search">
 						<div class="intel_bggray">
@@ -30,10 +37,8 @@
 							<ul>
 								<li id="refreshBtn"><i class="iconfont colorlv">&#xe61b;</i>
 									<h5>刷新</h5></li>
-								<li id="addBtn"><i class="iconfont colorblue">&#xe61d;</i>
+								<li id="updateBtn"><i class="iconfont colorblue">&#xe61d;</i>
 									<h5>保存</h5></li>
-								<li id="addAndAddCardBtn"><i class="iconfont colorblue">&#xe601;</i>
-									<h5>保存写卡</h5></li>
 								<li id="backBtn"><a> <i class="iconfont colorblue">&#xe61e;</i>
 										<h5>返回</h5>
 								</a></li>
@@ -41,69 +46,63 @@
 						</div>
 					</div>
 					<div class="daohuo_add">
-						<h5>提货通知单新增</h5>
-
+						<h5>到货通知单修改</h5>
+						<input id="purchaseArriveId" type="hidden" value="${purchaseArrive.id }"/>
 						<div class="daohuo_add_div">
 							<div class="daohuo_add_solo">
-								<label><em class="colorred">*</em>订单号：</label>
+								<label class="colorred"><em class="colorred">*</em>订单号：</label>
 								<div class="input_withlogo">
-									<input id="billcode" type="text" readonly class="readOnlyText">
-									<span class="form-control-feedback"><i class="iconfont">&#xe608;</i></span>
+									<input id="billcode" type="text" value="${purchaseArrive.billcode }" billid="${purchaseArrive.billid }" billdetailid="${purchaseArrive.billdetailid }" readonly> <span
+										class="form-control-feedback"><i class="iconfont">&#xe608;</i></span>
 								</div>
-								<input id="maindeduction" type="checkbox"><span class="ml5">主单扣量 </span>
 							</div>
 							<div class="daohuo_add_solo">
 								<label>通知单号：</label> <input id="code" type="text"
-									value="${code }" readonly class="readOnlyText">
+									value="${purchaseArrive.code }" readonly="readonly">
 							</div>
 							<div class="daohuo_add_solo">
-								<label>制单日期：</label> <input id="createtimeStr" type="text"
-									value="${createtimeStr }" readonly class="readOnlyText">
+								<label>业务日期：</label> <input id="makebilltime"
+									value="${nowDate }" type="text" readonly="readonly">
 							</div>
 							<div class="daohuo_add_solo">
-								<label>客户：</label> <input id="customername" type="text" readonly
-									class="readOnlyText">
+								<label>采购组织：</label> <input id="orgname" type="text" value="${orgname }" readonly="readonly">
 							</div>
 							<div class="daohuo_add_solo">
-								<label>区域码：</label> <input id="channelcode" type="text" readonly
-									class="readOnlyText">
+								<label>供应商：</label> <input id="suppliername" type="text" value="${purchaseArrive.purchaseApplicationResp.suppliername }"
+									readonly="readonly">
 							</div>
 							<div class="daohuo_add_solo">
-								<label>销售组织：</label> <input id="orgname" orgid="${orgid }"
-									value="${orgname }" type="text" readonly class="readOnlyText">
+								<label>物料：</label> <input id="materielname" type="text" value="${purchaseArrive.purchaseApplicationDetailResp.materielname }"
+									readonly="readonly">
 							</div>
 							<div class="daohuo_add_solo">
-								<label>物料：</label> <input id="materielname" type="text" readonly
-									class="readOnlyText">
+								<label>订单数量：</label> <input id="purchasesum" type="text" value="${purchaseArrive.purchaseApplicationDetailResp.purchasesum }"
+									readonly="readonly">
 							</div>
 							<div class="daohuo_add_solo">
-								<label>部门：</label> <input id="departmentname" type="text"
-									readonly class="readOnlyText">
+								<label>余量：</label> <input id="margin" type="text" value="${purchaseArrive.margin }"
+									readonly="readonly">
 							</div>
 							<div class="daohuo_add_solo">
-								<label>单位：</label> <input id="unit" type="text" value="吨"
-									readonly class="readOnlyText">
+								<label>单位：</label> <input id="unit" type="text" value="${purchaseArrive.unit }"
+									readonly="readonly">
 							</div>
 							<div class="daohuo_add_solo">
-								<label>订单数量：</label> <input id="salessum" type="text" readonly
-									class="readOnlyText">
+								<label>部门：</label> <input id="departmentname" type="text" value="${purchaseArrive.purchaseApplicationResp.departmentname }"
+									readonly="readonly">
 							</div>
 							<div class="daohuo_add_solo">
-								<label>余量：</label> <input id="" type="text" readonly
-									class="readOnlyText">
-							</div>
-							<div class="daohuo_add_solo">
-								<label>业务日期：</label> <input id="billtime" type="text" readonly
-									class="readOnlyText">
+								<label>供应商备注：</label> <input id="supplierremark" type="text" value="${purchaseArrive.purchaseApplicationResp.supplierremark }"
+									readonly="readonly">
 							</div>
 						</div>
 					</div>
+					<div class="clear"></div>
 					<div>
 						<div class="cg_dhadd">
 							<div class="cg_tabtit">
 								<ul>
 									<li class="select">录入信息</li>
-									<li>参照信息</li>
 								</ul>
 							</div>
 						</div>
@@ -113,11 +112,13 @@
 								<div class="daohuo_add">
 									<div class="daohuo_add_div">
 										<div class="daohuo_add_solo">
-											<label class="colorred">车号：</label> <select id="vehicleid"
-												class="form-control">
+											<label class="colorred"><em class="colorred">*</em>车号：</label>
+											<select id="vehicleid" class="form-control">
 												<option value="">请选择</option>
 												<c:forEach items="${vehicle }" var="v">
-													<option value="${v.id }" rfid="${v.rfid }">${v.vehicleno }</option>
+													<option value="${v.id }" rfid="${v.rfid }"
+													<c:if test="${v.id eq purchaseArrive.vehicleid }">selected</c:if>
+													>${v.vehicleno }</option>
 												</c:forEach>
 											</select> <a data-toggle="modal" data-target="#vehicleAddView"><i
 												class="iconfont">&#xe680;</i></a>
@@ -126,79 +127,41 @@
 											<label>司机：</label> <select id="driverid" class="form-control">
 												<option value="">请选择</option>
 												<c:forEach items="${driver }" var="d">
-													<option value="${d.id }" identityno="${d.identityno }">${d.name }</option>
+													<option value="${d.id }" identityno="${d.identityno }"
+													<c:if test="${d.id eq purchaseArrive.driverid }">selected</c:if>
+													>${d.name }</option>
 												</c:forEach>
 											</select> <a data-toggle="modal" data-target="#driverAddView"><i
 												class="iconfont">&#xe680;</i></a>
 										</div>
 										<div class="daohuo_add_solo">
-											<label>身份证号：</label> <input id="identityno" type="text"
-												readonly class="readOnlyText">
+											<label>身份证号：</label> <input id="identityno" type="text" value="${purchaseArrive.driveridentityno }"
+												readonly="readonly">
 										</div>
 										<div class="daohuo_add_solo">
-											<label>RFID：</label> <input id="rfid" type="text" readonly
-												class="readOnlyText">
-										</div>
-
-										<div class="daohuo_add_solo">
-											<label>提货量：</label> <input id="takeamount" type="text">
-											<span>吨</span>
-
+											<label>RFID：</label> <input id="rfid" type="text" value="${purchaseArrive.vehiclerfid }"
+												readonly="readonly">
 										</div>
 										<div class="daohuo_add_solo">
-											<label>备注：</label> <input id="remarks" type="text">
+											<label class="colorred"><em class="colorred">*</em>到货量：</label>
+											<input id="arrivalamount" type="text" value="${purchaseArrive.arrivalamount }"> <span>吨</span>
 										</div>
 										<div class="daohuo_add_solo">
-											<label>喷码：</label> <input id="spraycode" type="text" readonly
-												class="readOnlyText">
-										</div>
-										<div class="daohuo_add_solo">
-											<label>出厂编号：</label> <input id="serialnumber" type="text"
-												readonly class="readOnlyText">
-										</div>
-										<div class="daohuo_add_solo">
-											<label>IC卡号：</label> <input id="icardid" type="text" readonly
-												class="readOnlyText">
+											<label>备注：</label> <input id="remark" type="text" value="${purchaseArrive.remark }">
 										</div>
 									</div>
 								</div>
 							</div>
-							<div class="cg_tabcont hide">
-								<div class=" ">
-									<table class="table table-bordered">
-										<thead>
-											<tr>
-												<th>销售订单号</th>
-												<th>订单类型</th>
-												<th>订单日期</th>
-												<th>物料</th>
-												<th>单位</th>
-												<th>订单数量</th>
-												<th>余量</th>
-												<th>预提量</th>
-												<th>销售组织</th>
-												<th>客户名称</th>
-												<th>部门</th>
-												<th>业务员</th>
-												<th>制单人</th>
-											</tr>
-										</thead>
-										<tbody id="salesApplicationDetailBody">
-										</tbody>
-									</table>
-								</div>
-							</div>
+							<!--tab切换的内容end-->
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-
-	</div>
 	<!--订单号弹出begin-->
-	<div class="modal fade" id="salesApplication" tabindex="-1"
-		role="dialog" aria-labelledby="myModalLabel">
+	<div class="modal fade" id="altbill" tabindex="-1" role="dialog"
+		aria-labelledby="myModalLabel">
 		<div class="modal-dialog" role="document"
 			style="width: 1500px; height: 800px;">
 			<div class="modal-content">
@@ -208,13 +171,13 @@
 						<span aria-hidden="true">&times;</span>
 					</button>
 					<div class="alt_head">
-						<h5>选销售订单</h5>
+						<h5>选采购订单</h5>
 					</div>
 				</div>
 				<div class="modal-body">
 					<div class="dhadd_search">
 						<div class="dhsearch_solo">
-							<label>物料：</label> <select id="materielid" class="form-control">
+							<label>物料：</label> <select id="materiel" class="form-control">
 								<option value="">请选择</option>
 								<c:forEach items="${materiel }" var="m">
 									<option value="${m.id }">${m.name }</option>
@@ -222,25 +185,29 @@
 							</select>
 						</div>
 						<div class="dhsearch_solo">
-							<label>客户：</label>
-							<input id="customer" type="text" readonly >
+							<label>供应商：</label> <select id="supplier" class="form-control">
+								<option value="">请选择</option>
+								<c:forEach items="${supplier }" var="s">
+									<option value="${s.id }">${s.name }</option>
+								</c:forEach>
+							</select>
 						</div>
 						<div class="dhsearch_solo">
-							<label>订单号：</label> <input id="billcode" type="text">
+							<label>订单号：</label> <input id="purchaseApplicationCode"
+								type="text">
 						</div>
 						<div class="dhsearch_solo">
 							<label>开始时间：</label> <input id="starttime" type="text"
-								onfocus="WdatePicker({dateFmt:'yyyy-MM-dd 00:00:00'})"
+								onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:00:00',maxDate:'#F{$dp.$D(\'endtime\')}'})"
 								class="Wdate" style="width: 160px" readonly />
 						</div>
 						<div class="dhsearch_solo">
 							<label>结束时间：</label> <input id="endtime" type="text"
-								onfocus="WdatePicker({dateFmt:'yyyy-MM-dd 00:00:00'})"
+								onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:00:00',minDate:'#F{$dp.$D(\'starttime\')}'})"
 								class="Wdate" style="width: 160px" readonly />
 						</div>
 						<div class="dhsearch_solo">
-							<button id="searchBtn" class="btn btnblue ">搜索</button>
-							<button id="clearBtn" class="btn btnblue ">清空</button>
+							<button id="PurchaseApplicationSearchBtn" class="btn btnblue ">搜索</button>
 						</div>
 					</div>
 					<div>
@@ -248,37 +215,38 @@
 							<table class="table table-hover" style="width: 100%;">
 								<thead>
 									<tr>
-										<th>销售订单号</th>
-										<th>订单类型</th>
-										<th>客户名称</th>
-										<th>物料名称</th>
+										<th>序号</th>
+										<th>采购订单号</th>
+										<th>供应商名称</th>
+										<th>物料</th>
+										<th>物料规格</th>
+										<th>物料类型</th>
 										<th>订单数量</th>
 										<th>余量</th>
-										<th>出库占用量</th>
-										<th>未出库占用量</th>
-										<th>预提占用量</th>
-										<th>销售组织</th>
+										<th>入库占用量</th>
+										<th>未入库占用量</th>
+										<th>到货占用量</th>
+										<th>采购组织</th>
 										<th>订单日期</th>
-										<th>部门</th>
-										<th>业务员</th>
-										<th>制单人</th>
-										<th>区域码</th>
+										<th>采购部门</th>
+										<th>矿口</th>
+										<th>司机身份验证</th>
+										<th>备注</th>
 									</tr>
 								</thead>
-								<tbody id="salesApplicationBody">
+								<tbody id="purchaseApplicationBody">
+
 								</tbody>
 							</table>
 						</div>
 					</div>
-
 					<!--分页效果开始-->
 					<div class="page">
 						<div class="page_date">
 							<label>数据共：</label><i id="total" class="colorred">100</i><label>条</label>
 						</div>
 						<div class="page_date">
-							<label>跳到第：</label> <input id="jumpPageNo" type="text" value="1">
-							<label>页</label>
+							<label>跳到第：</label> <input id="jumpPageNo" type="text"> <label>页</label>
 							<button id="jumpPageNoBtn" class="btn btn-default">确定</button>
 						</div>
 						<div class="page_date">
@@ -439,19 +407,10 @@
 			</div>
 		</div>
 	</div>
-	<jsp:include page="../../common/module/custom_choose.jsp"></jsp:include>
 	<!--司机新增end-->
+	<!-- 引用公共footer部分 -->
 	<jsp:include page="../../common/base/footer_busi.jsp"></jsp:include>
 	<script type="text/javascript"
-		src="/javascript/businessManage/salesManage/salesArriveAdd.js"></script>
-	<script type="text/javascript">
-		// 录入、参照tab切换菜单
-		var cg_li = $('.cg_tabtit ul li');
-		cg_li.click(function() {
-			$(this).addClass('select').siblings().removeClass('select');
-			var index = cg_li.index(this);
-			$('.cg_tabbox > .cg_tabcont').eq(index).show().siblings().hide();
-		});
-	</script>
+		src="/javascript/businessManage/purchaseManage/purchaseArriveUpdate.js"></script>
 </body>
 </html>

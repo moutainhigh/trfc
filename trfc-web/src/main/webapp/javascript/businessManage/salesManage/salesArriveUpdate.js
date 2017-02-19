@@ -72,9 +72,6 @@ PAGE.mod.main = {
 			$('#updateBtn').off('click').on('click',function(){
 				_this.saveSalesArrive();
 			});
-			$('#updateAndAddCardBtn').off('click').on('click',function(){
-				
-			});
 			$('#backBtn').off('click').on('click',function(){
 				window.location.href = _this.top.URL.mainUrl;
 			});

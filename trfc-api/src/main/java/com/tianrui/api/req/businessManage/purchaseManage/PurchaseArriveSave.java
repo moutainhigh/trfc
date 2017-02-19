@@ -6,7 +6,7 @@ import com.tianrui.api.req.BaseReq;
  * @author zhanggaohao
  * @version 2017年2月15日 上午10:36:01
  */
-public class PurchaseArriveUpdate extends BaseReq {
+public class PurchaseArriveSave extends BaseReq {
 	/** serialVersionUID */
 	private static final long serialVersionUID = 8233358448528743510L;
 	//主键id
@@ -19,10 +19,6 @@ public class PurchaseArriveUpdate extends BaseReq {
     private String source;
 	//状态：（0：未入厂，1：空车，2：重车，3：作废，4：发卡，5：出厂，6：入厂，7：装车）
     private String status;
-	//矿口id
-    private String minemouthid;
-	//矿口名称
-    private String minemouthname;
 	//车辆id
     private String vehicleid;
 	//车牌号
@@ -100,18 +96,6 @@ public class PurchaseArriveUpdate extends BaseReq {
 	}
 	public void setStatus(String status) {
 		this.status = status;
-	}
-	public String getMinemouthid() {
-		return minemouthid;
-	}
-	public void setMinemouthid(String minemouthid) {
-		this.minemouthid = minemouthid;
-	}
-	public String getMinemouthname() {
-		return minemouthname;
-	}
-	public void setMinemouthname(String minemouthname) {
-		this.minemouthname = minemouthname;
 	}
 	public String getVehicleid() {
 		return vehicleid;

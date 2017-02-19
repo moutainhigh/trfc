@@ -31,6 +31,10 @@ public class PurchaseApplication {
     private String suppliername;
     //供应商备注
     private String supplierremark;
+    //矿口id
+    private String minemouthid;
+    //矿口名称
+    private String minemouthname;
 	//部门id
     private String departmentid;
 	//部门
@@ -166,6 +170,22 @@ public class PurchaseApplication {
 
 	public void setSupplierremark(String supplierremark) {
 		this.supplierremark = supplierremark == null ? null : supplierremark.trim();
+	}
+
+	public String getMinemouthid() {
+		return minemouthid;
+	}
+
+	public void setMinemouthid(String minemouthid) {
+		this.minemouthid = minemouthid == null ? null : minemouthid.trim();
+	}
+
+	public String getMinemouthname() {
+		return minemouthname;
+	}
+
+	public void setMinemouthname(String minemouthname) {
+		this.minemouthname = minemouthname == null ? null : minemouthname.trim();
 	}
 
 	public String getDepartmentid() {

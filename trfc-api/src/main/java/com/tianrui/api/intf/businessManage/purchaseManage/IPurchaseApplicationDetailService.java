@@ -5,7 +5,7 @@ import java.util.List;
 import com.tianrui.api.resp.businessManage.purchaseManage.PurchaseApplicationDetailResp;
 
 public interface IPurchaseApplicationDetailService {
-
+	
 	List<PurchaseApplicationDetailResp> selectByPurchaseId(String purchaseId) throws Exception;
 
 	PurchaseApplicationDetailResp findOne(String id) throws Exception;

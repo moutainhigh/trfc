@@ -1,6 +1,7 @@
 package com.tianrui.api.intf.businessManage.purchaseManage;
 
 import com.tianrui.api.req.businessManage.purchaseManage.PurchaseApplicationQuery;
+import com.tianrui.api.resp.businessManage.purchaseManage.PurchaseApplicationJoinDetailResp;
 import com.tianrui.api.resp.businessManage.purchaseManage.PurchaseApplicationResp;
 import com.tianrui.smartfactory.common.vo.PaginationVO;
 /**
@@ -19,6 +20,16 @@ public interface IPurchaseApplicationService {
 	 * @throws Exception
 	 */
 	PaginationVO<PurchaseApplicationResp> page(PurchaseApplicationQuery query) throws Exception;
+	
+	/**
+	 * @Description 查询分页根据物料分组
+	 * @author zhanggaohao
+	 * @version 2017年2月16日 下午2:34:50
+	 * @param query
+	 * @return
+	 * @throws Exception
+	 */
+	PaginationVO<PurchaseApplicationJoinDetailResp> pageGroupMateriel(PurchaseApplicationQuery query) throws Exception;
 
 	/**
 	 * @Description 根据id查询采购通知单
@@ -29,5 +40,4 @@ public interface IPurchaseApplicationService {
 	 * @throws Exception
 	 */
 	PurchaseApplicationResp findOne(String id) throws Exception;
-	
 }

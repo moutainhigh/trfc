@@ -245,9 +245,9 @@ public class SalesApplicationService implements ISalesApplicationService {
 	}
 	
 	@Override
-	public SalesApplicationResp findOne(SalesApplicationQuery query) throws Exception {
-		if(query != null && StringUtils.isNotBlank(query.getId())){
-			return copyBean2Resp(salesApplicationMapper.selectByPrimaryKey(query.getId()));
+	public SalesApplicationResp findOne(String id) throws Exception {
+		if(StringUtils.isNotBlank(id)){
+			return copyBean2Resp(salesApplicationMapper.selectByPrimaryKey(id));
 		}
 		return null;
 	}

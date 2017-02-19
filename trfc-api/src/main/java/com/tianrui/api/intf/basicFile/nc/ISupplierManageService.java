@@ -21,6 +21,8 @@ public interface ISupplierManageService {
 	Result updateSupplier(SupplierManageSave save) throws Exception;
 	
 	Result findListByParmas(SupplierManageQuery query) throws Exception;
+	
+	SupplierManageResp findOne(String id) throws Exception;
 	/**
 	 * 获取最大时间戳
 	 * @param query
@@ -34,4 +36,5 @@ public interface ISupplierManageService {
 	 * @return
 	 */
 	Result updateDataWithDC(List<JSONObject> list);
+
 }

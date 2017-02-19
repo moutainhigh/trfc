@@ -1,18 +1,23 @@
 package com.tianrui.quartz.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.alibaba.fastjson.JSON;
 import com.tianrui.api.intf.businessManage.salesManage.ISalesApplicationService;
-import com.tianrui.api.req.businessManage.salesManage.SalesApplicationQuery;
 import com.tianrui.api.resp.businessManage.salesManage.SalesApplicationResp;
+import com.tianrui.quartz.common.ApiParamUtils;
+import com.tianrui.quartz.common.HttpUtils;
 import com.tianrui.service.bean.common.ReturnQueue;
 import com.tianrui.service.mapper.common.ReturnQueueMapper;
+import com.tianrui.smartfactory.common.api.ApiResult;
+import com.tianrui.smartfactory.common.constants.Constant;
+import com.tianrui.smartfactory.common.constants.ErrorCode;
 
 @Service
 public class TaskJobService {
@@ -25,31 +30,38 @@ public class TaskJobService {
 
 	public void returnDataCenter() throws Exception{
 		List<ReturnQueue> list = returnQueueMapper.selectSelective(null);
-		if(list != null && list.size() > 0){
+		//销售申请单回传
+		returnSalesApplication(groupList(list, "0"));
+	}
+	
+	private List<ReturnQueue> groupList(List<ReturnQueue> list, String dataType){
+		List<ReturnQueue> groupList = null;
+		if(CollectionUtils.isNotEmpty(list)){
+			groupList = new ArrayList<ReturnQueue>();
 			for(ReturnQueue rq : list){
-				String dataType = rq.getDatatype();
-				switch (dataType) {
-				case "0":
-					returnSalesApplication(rq);
-					break;
-				default:
-					break;
+				//销售申请单
+				if(StringUtils.equals(rq.getDatatype(), dataType)){
+					groupList.add(rq);
 				}
 			}
 		}
+		return groupList;
 	}
 
 	@Transactional
-	private void returnSalesApplication(ReturnQueue rq) throws Exception {
-		if(rq != null){
-			if(StringUtils.isNotBlank(rq.getDataid())){
-				SalesApplicationQuery query = new SalesApplicationQuery();
-				query.setId(rq.getDataid());
-				SalesApplicationResp resp = salesApplicationService.findOne(query);
-				System.out.println(JSON.toJSONString(resp));
-				
-				//回传成功从队列里面删除
-				returnQueueMapper.deleteByPrimaryKey(rq.getId());
+	private void returnSalesApplication(List<ReturnQueue> list) throws Exception {
+		if(list != null){
+			List<SalesApplicationResp> listSales = new ArrayList<SalesApplicationResp>();
+			for(ReturnQueue rq : list){
+				SalesApplicationResp resp = salesApplicationService.findOne(rq.getDataid());
+				listSales.add(resp);
+			}
+			
+			ApiResult apiResult = HttpUtils.post(ApiParamUtils.getApiParam(listSales), Constant.URL_RETURN_SALESAPPLICATION);
+			if(StringUtils.equals(apiResult.getCode(), ErrorCode.SYSTEM_SUCCESS.getCode())){
+				for(ReturnQueue rq : list){
+					returnQueueMapper.deleteByPrimaryKey(rq.getId());
+				}
 			}
 		}
 	}

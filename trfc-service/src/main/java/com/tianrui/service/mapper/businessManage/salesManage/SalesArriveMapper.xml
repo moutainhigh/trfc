@@ -607,6 +607,9 @@
   	from tr_sales_db_arrive
   	<where>
   		status != '5' and status != '3' and state = '1'
+  		<if test="id != null and id != ''">
+  			and id != #{id,jdbcType=VARCHAR}
+  		</if>
   		<if test="driverid != null and driverid != ''">
   			and driverid = #{driverid,jdbcType=VARCHAR}
   		</if>

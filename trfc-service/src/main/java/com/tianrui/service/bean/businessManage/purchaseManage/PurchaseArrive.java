@@ -15,10 +15,6 @@ public class PurchaseArrive {
     private String source;
 	//状态：（0：未入厂，1：空车，2：重车，3：作废，4：发卡，5：出厂，6：入厂，7：装车）
     private String status;
-	//矿口id
-    private String minemouthid;
-	//矿口名称
-    private String minemouthname;
 	//车辆id
     private String vehicleid;
 	//车牌号
@@ -104,22 +100,6 @@ public class PurchaseArrive {
 
     public void setStatus(String status) {
         this.status = status == null ? null : status.trim();
-    }
-
-    public String getMinemouthid() {
-        return minemouthid;
-    }
-
-    public void setMinemouthid(String minemouthid) {
-        this.minemouthid = minemouthid == null ? null : minemouthid.trim();
-    }
-
-    public String getMinemouthname() {
-        return minemouthname;
-    }
-
-    public void setMinemouthname(String minemouthname) {
-        this.minemouthname = minemouthname == null ? null : minemouthname.trim();
     }
 
     public String getVehicleid() {

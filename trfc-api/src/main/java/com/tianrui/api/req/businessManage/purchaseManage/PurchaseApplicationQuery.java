@@ -22,6 +22,8 @@ public class PurchaseApplicationQuery extends BaseReq {
     private String supplierid;
 	//供应商名称
     private String suppliername;
+	//物料id
+    private String materielid;
     //数据状态（0：删除，1：正常）
     private String state;
 	//开始时间
@@ -81,6 +83,14 @@ public class PurchaseApplicationQuery extends BaseReq {
 
 	public void setSuppliername(String suppliername) {
 		this.suppliername = suppliername;
+	}
+
+	public String getMaterielid() {
+		return materielid;
+	}
+
+	public void setMaterielid(String materielid) {
+		this.materielid = materielid;
 	}
 
 	public String getState() {

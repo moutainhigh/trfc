@@ -20,10 +20,6 @@ public class PurchaseArriveResp extends BaseResp {
     private String source;
 	//状态：（0：未入厂，1：空车，2：重车，3：作废，4：发卡，5：出厂，6：入厂，7：装车）
     private String status;
-	//矿口id
-    private String minemouthid;
-	//矿口名称
-    private String minemouthname;
 	//车辆id
     private String vehicleid;
 	//车牌号
@@ -82,6 +78,17 @@ public class PurchaseArriveResp extends BaseResp {
     private PurchaseApplicationResp purchaseApplicationResp;
     //采购申请单详情
     private PurchaseApplicationDetailResp purchaseApplicationDetailResp;
+    /**
+     * 仓库物料数量统计
+     */
+    //余量
+    private String margin;
+    //入库占用量
+    private String storagequantity;
+    //未入库占用量
+    private String unstoragequantity;
+    //到货占用量
+    private String arrivalquantity;
     
 	public String getId() {
 		return id;
@@ -112,18 +119,6 @@ public class PurchaseArriveResp extends BaseResp {
 	}
 	public void setStatus(String status) {
 		this.status = status;
-	}
-	public String getMinemouthid() {
-		return minemouthid;
-	}
-	public void setMinemouthid(String minemouthid) {
-		this.minemouthid = minemouthid;
-	}
-	public String getMinemouthname() {
-		return minemouthname;
-	}
-	public void setMinemouthname(String minemouthname) {
-		this.minemouthname = minemouthname;
 	}
 	public String getVehicleid() {
 		return vehicleid;
@@ -302,6 +297,30 @@ public class PurchaseArriveResp extends BaseResp {
 	}
 	public void setPurchaseApplicationDetailResp(PurchaseApplicationDetailResp purchaseApplicationDetailResp) {
 		this.purchaseApplicationDetailResp = purchaseApplicationDetailResp;
+	}
+	public String getMargin() {
+		return margin;
+	}
+	public void setMargin(String margin) {
+		this.margin = margin;
+	}
+	public String getStoragequantity() {
+		return storagequantity;
+	}
+	public void setStoragequantity(String storagequantity) {
+		this.storagequantity = storagequantity;
+	}
+	public String getUnstoragequantity() {
+		return unstoragequantity;
+	}
+	public void setUnstoragequantity(String unstoragequantity) {
+		this.unstoragequantity = unstoragequantity;
+	}
+	public String getArrivalquantity() {
+		return arrivalquantity;
+	}
+	public void setArrivalquantity(String arrivalquantity) {
+		this.arrivalquantity = arrivalquantity;
 	}
     
 }

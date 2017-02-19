@@ -47,7 +47,7 @@
 		var source = $('#source').val();source = $.trim(source);
 		var starttime = $('#starttime').val();starttime = $.trim(starttime);
 		var endtime = $('#endtime').val();endtime = $.trim(endtime);
-		var pageSize = $('#pageSize').val();pageSize = $.trim(pageSize);
+		var pageSize = $('#pageSize').val() || 10;pageSize = $.trim(pageSize);
 		return {
 			code:code,
 			supplierid:supplierid,
@@ -56,10 +56,6 @@
 			endtime:str2Long(endtime),
 			pageSize:pageSize
 		};
-	}
-	
-	function pageCallback(pageNo){
-		queryData(pageNo+1);
 	}
 	
 	function queryData(pageNo){
@@ -84,7 +80,9 @@
 					$('#total').html(total);
 					$('#jumpPageNo').attr('maxPageNo',parseInt((total+pageSize-1)/pageSize));
 					$("#pagination").pagination(total, {
-					    callback: pageCallback,
+					    callback: function(pageNo){
+							queryData(pageNo+1);
+						},
 					    prev_text: '上一页',
 					    next_text: '下一页',
 					    items_per_page:pageSize,

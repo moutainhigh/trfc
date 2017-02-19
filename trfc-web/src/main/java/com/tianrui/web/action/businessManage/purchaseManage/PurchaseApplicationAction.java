@@ -11,6 +11,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.tianrui.api.intf.basicFile.nc.ISupplierManageService;
 import com.tianrui.api.intf.businessManage.purchaseManage.IPurchaseApplicationService;
 import com.tianrui.api.req.businessManage.purchaseManage.PurchaseApplicationQuery;
+import com.tianrui.api.resp.businessManage.purchaseManage.PurchaseApplicationJoinDetailResp;
 import com.tianrui.api.resp.businessManage.purchaseManage.PurchaseApplicationResp;
 import com.tianrui.smartfactory.common.constants.ErrorCode;
 import com.tianrui.smartfactory.common.vo.PaginationVO;
@@ -52,6 +53,19 @@ public class PurchaseApplicationAction {
 		}
 		return result;
 	}
-	
+
+	@RequestMapping("/pageGroupMateriel")
+	@ResponseBody
+	public Result pageGroupMateriel(PurchaseApplicationQuery query){
+		Result result = Result.getSuccessResult();
+		try {
+			PaginationVO<PurchaseApplicationJoinDetailResp> page = purchaseApplicationService.pageGroupMateriel(query);
+			result.setData(page);
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
+		}
+		return result;
+	}
 	
 }

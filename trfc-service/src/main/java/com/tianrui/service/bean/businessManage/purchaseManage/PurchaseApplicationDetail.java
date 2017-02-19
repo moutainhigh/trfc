@@ -23,6 +23,8 @@ public class PurchaseApplicationDetail {
     private String materieltype;
 	//数量
     private Double purchasesum;
+	//单位 default='吨'
+    private String unit;
 	//备注
     private String remark;
     
@@ -98,7 +100,15 @@ public class PurchaseApplicationDetail {
         this.purchasesum = purchasesum;
     }
 
-    public String getRemark() {
+    public String getUnit() {
+		return unit;
+	}
+
+	public void setUnit(String unit) {
+		this.unit = unit;
+	}
+
+	public String getRemark() {
         return remark;
     }
 

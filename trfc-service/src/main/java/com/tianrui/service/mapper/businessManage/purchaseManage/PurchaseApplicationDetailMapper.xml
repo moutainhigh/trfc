@@ -11,11 +11,12 @@
     <result column="materielspec" property="materielspec" jdbcType="VARCHAR" />
     <result column="materieltype" property="materieltype" jdbcType="VARCHAR" />
     <result column="purchasesum" property="purchasesum" jdbcType="DOUBLE" />
+    <result column="unit" property="unit" jdbcType="VARCHAR" />
     <result column="remark" property="remark" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, purchaseid, orgid, orgname, materielid, materielname, materielspec, materieltype, 
-    purchasesum, remark
+    purchasesum, unit, remark
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
@@ -31,11 +32,11 @@
     insert into tr_purchase_db_application_detail (id, purchaseid, orgid, 
       orgname, materielid, materielname, 
       materielspec, materieltype, purchasesum, 
-      remark)
+      unit, remark)
     values (#{id,jdbcType=VARCHAR}, #{purchaseid,jdbcType=VARCHAR}, #{orgid,jdbcType=VARCHAR}, 
       #{orgname,jdbcType=VARCHAR}, #{materielid,jdbcType=VARCHAR}, #{materielname,jdbcType=VARCHAR}, 
       #{materielspec,jdbcType=VARCHAR}, #{materieltype,jdbcType=VARCHAR}, #{purchasesum,jdbcType=DOUBLE}, 
-      #{remark,jdbcType=VARCHAR})
+      #{unit,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.tianrui.service.bean.businessManage.purchaseManage.PurchaseApplicationDetail" >
     insert into tr_purchase_db_application_detail
@@ -66,6 +67,9 @@
       </if>
       <if test="purchasesum != null" >
         purchasesum,
+      </if>
+      <if test="unit != null" >
+        unit,
       </if>
       <if test="remark != null" >
         remark,
@@ -99,6 +103,9 @@
       <if test="purchasesum != null" >
         #{purchasesum,jdbcType=DOUBLE},
       </if>
+      <if test="unit != null" >
+        #{unit,jdbcType=VARCHAR},
+      </if>
       <if test="remark != null" >
         #{remark,jdbcType=VARCHAR},
       </if>
@@ -131,6 +138,9 @@
       <if test="purchasesum != null" >
         purchasesum = #{purchasesum,jdbcType=DOUBLE},
       </if>
+      <if test="unit != null" >
+        unit = #{unit,jdbcType=VARCHAR},
+      </if>
       <if test="remark != null" >
         remark = #{remark,jdbcType=VARCHAR},
       </if>
@@ -147,9 +157,50 @@
       materielspec = #{materielspec,jdbcType=VARCHAR},
       materieltype = #{materieltype,jdbcType=VARCHAR},
       purchasesum = #{purchasesum,jdbcType=DOUBLE},
+      unit = #{unit,jdbcType=VARCHAR},
       remark = #{remark,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
+  <select id="selectSelective" parameterType="com.tianrui.service.bean.businessManage.purchaseManage.PurchaseApplicationDetail" resultMap="BaseResultMap">
+ 	select 
+	<include refid="Base_Column_List" />
+	from tr_purchase_db_application_detail 
+	<where>
+	  <if test="id != null and id != ''" >
+        and id = #{id,jdbcType=VARCHAR}
+      </if>
+	  <if test="purchaseid != null and purchaseid != ''" >
+        and purchaseid = #{purchaseid,jdbcType=VARCHAR}
+      </if>
+      <if test="orgid != null and orgid != ''" >
+        and orgid = #{orgid,jdbcType=VARCHAR}
+      </if>
+      <if test="orgname != null and orgname != ''" >
+        and orgname = #{orgname,jdbcType=VARCHAR}
+      </if>
+      <if test="materielid != null and materielid != ''" >
+        and materielid = #{materielid,jdbcType=VARCHAR}
+      </if>
+      <if test="materielname != null and materielname != ''" >
+        and materielname = #{materielname,jdbcType=VARCHAR}
+      </if>
+      <if test="materielspec != null and materielspec != ''" >
+        and materielspec = #{materielspec,jdbcType=VARCHAR}
+      </if>
+      <if test="materieltype != null and materieltype != ''" >
+        and materieltype = #{materieltype,jdbcType=VARCHAR}
+      </if>
+      <if test="purchasesum != null and purchasesum != ''" >
+        and purchasesum = #{purchasesum,jdbcType=DOUBLE}
+      </if>
+      <if test="unit != null and unit != ''" >
+        and unit = #{unit,jdbcType=VARCHAR}
+      </if>
+      <if test="remark != null and remark != ''" >
+        and remark = #{remark,jdbcType=VARCHAR}
+      </if>
+	</where>
+  </select>
   <select id="selectByPurchaseId" parameterType="java.lang.String" resultMap="BaseResultMap">
  	select 
 	<include refid="Base_Column_List" />

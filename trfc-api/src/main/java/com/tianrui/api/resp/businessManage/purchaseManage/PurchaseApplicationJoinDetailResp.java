@@ -1,16 +1,15 @@
 package com.tianrui.api.resp.businessManage.purchaseManage;
 
-import java.util.List;
-
 import com.tianrui.api.resp.BaseResp;
+import com.tianrui.api.resp.basicFile.nc.SupplierManageResp;
 import com.tianrui.smartfactory.common.utils.DateUtil;
 
 /**
- * @Description 采购申请单Resp
+ * @Description 采购申请单关联详情Resp
  * @author zhanggaohao
- * @version 2017年2月13日 上午9:31:43
+ * @version 2017年2月16日 下午2:48:38
  */
-public class PurchaseApplicationResp extends BaseResp {
+public class PurchaseApplicationJoinDetailResp extends BaseResp {
 	/** serialVersionUID */
 	private static final long serialVersionUID = 4187702554630690799L;
 	//主键id
@@ -85,8 +84,39 @@ public class PurchaseApplicationResp extends BaseResp {
     private String modifytimeStr;
 	//备注
     private String remark;
-    //申请单详情集合
-    private List<PurchaseApplicationDetailResp> listdetail;
+    
+    /**
+     * 详情字段
+     */
+    //主键id
+    private String detailid;
+	//采购申请单id
+    private String purchaseid;
+	//物料id
+    private String materielid;
+	//物料名称
+    private String materielname;
+	//物料规格
+    private String materielspec;
+	//物料类型
+    private String materieltype;
+	//数量
+    private Double purchasesum;
+	//单位 default='吨'
+    private String unit;
+    
+    private SupplierManageResp supplier;
+    /**
+     * 仓库物料数量统计
+     */
+    //余量
+    private String margin;
+    //入库占用量
+    private String storagequantity;
+    //未入库占用量
+    private String unstoragequantity;
+    //到货占用量
+    private String arrivalquantity;
     
 	public String getId() {
 		return id;
@@ -309,11 +339,83 @@ public class PurchaseApplicationResp extends BaseResp {
 	public void setRemark(String remark) {
 		this.remark = remark;
 	}
-	public List<PurchaseApplicationDetailResp> getListdetail() {
-		return listdetail;
+	public String getDetailid() {
+		return detailid;
 	}
-	public void setListdetail(List<PurchaseApplicationDetailResp> listdetail) {
-		this.listdetail = listdetail;
+	public void setDetailid(String detailid) {
+		this.detailid = detailid;
 	}
-
+	public String getPurchaseid() {
+		return purchaseid;
+	}
+	public void setPurchaseid(String purchaseid) {
+		this.purchaseid = purchaseid;
+	}
+	public String getMaterielid() {
+		return materielid;
+	}
+	public void setMaterielid(String materielid) {
+		this.materielid = materielid;
+	}
+	public String getMaterielname() {
+		return materielname;
+	}
+	public void setMaterielname(String materielname) {
+		this.materielname = materielname;
+	}
+	public String getMaterielspec() {
+		return materielspec;
+	}
+	public void setMaterielspec(String materielspec) {
+		this.materielspec = materielspec;
+	}
+	public String getMaterieltype() {
+		return materieltype;
+	}
+	public void setMaterieltype(String materieltype) {
+		this.materieltype = materieltype;
+	}
+	public Double getPurchasesum() {
+		return purchasesum;
+	}
+	public void setPurchasesum(Double purchasesum) {
+		this.purchasesum = purchasesum;
+	}
+	public String getUnit() {
+		return unit;
+	}
+	public void setUnit(String unit) {
+		this.unit = unit;
+	}
+	public SupplierManageResp getSupplier() {
+		return supplier;
+	}
+	public void setSupplier(SupplierManageResp supplier) {
+		this.supplier = supplier;
+	}
+	public String getMargin() {
+		return margin;
+	}
+	public void setMargin(String margin) {
+		this.margin = margin;
+	}
+	public String getStoragequantity() {
+		return storagequantity;
+	}
+	public void setStoragequantity(String storagequantity) {
+		this.storagequantity = storagequantity;
+	}
+	public String getUnstoragequantity() {
+		return unstoragequantity;
+	}
+	public void setUnstoragequantity(String unstoragequantity) {
+		this.unstoragequantity = unstoragequantity;
+	}
+	public String getArrivalquantity() {
+		return arrivalquantity;
+	}
+	public void setArrivalquantity(String arrivalquantity) {
+		this.arrivalquantity = arrivalquantity;
+	}
+    
 }
