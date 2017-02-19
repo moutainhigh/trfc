@@ -1,0 +1,316 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tianrui.service.mapper.quality.file.QualitySchemeItemMapper" >
+  <resultMap id="BaseResultMap" type="com.tianrui.service.bean.quality.file.QualitySchemeItem" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="schemeid" property="schemeid" jdbcType="VARCHAR" />
+    <result column="itemid" property="itemid" jdbcType="VARCHAR" />
+    <result column="comparison1" property="comparison1" jdbcType="VARCHAR" />
+    <result column="comparison2" property="comparison2" jdbcType="VARCHAR" />
+    <result column="comparison3" property="comparison3" jdbcType="VARCHAR" />
+    <result column="standardval" property="standardval" jdbcType="VARCHAR" />
+    <result column="upperlimit" property="upperlimit" jdbcType="VARCHAR" />
+    <result column="lowlimit" property="lowlimit" jdbcType="VARCHAR" />
+    <result column="baseval" property="baseval" jdbcType="VARCHAR" />
+    <result column="floatval" property="floatval" jdbcType="VARCHAR" />
+    <result column="charge" property="charge" jdbcType="VARCHAR" />
+    <result column="deduct" property="deduct" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="invalid" property="invalid" jdbcType="VARCHAR" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="creator" property="creator" jdbcType="VARCHAR" />
+    <result column="createtime" property="createtime" jdbcType="BIGINT" />
+    <result column="modifier" property="modifier" jdbcType="VARCHAR" />
+    <result column="modifytime" property="modifytime" jdbcType="BIGINT" />
+    <result column="utc" property="utc" jdbcType="BIGINT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, schemeid, itemid, comparison1, comparison2, comparison3, standardval, upperlimit, 
+    lowlimit, baseval, floatval, charge, deduct, status, invalid, remark, creator, createtime, 
+    modifier, modifytime, utc
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from tr_quality_db_scheme_item
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from tr_quality_db_scheme_item
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.tianrui.service.bean.quality.file.QualitySchemeItem" >
+    insert into tr_quality_db_scheme_item (id, schemeid, itemid, 
+      comparison1, comparison2, comparison3, 
+      standardval, upperlimit, lowlimit, 
+      baseval, floatval, charge, 
+      deduct, status, invalid, 
+      remark, creator, createtime, 
+      modifier, modifytime, utc
+      )
+    values (#{id,jdbcType=VARCHAR}, #{schemeid,jdbcType=VARCHAR}, #{itemid,jdbcType=VARCHAR}, 
+      #{comparison1,jdbcType=VARCHAR}, #{comparison2,jdbcType=VARCHAR}, #{comparison3,jdbcType=VARCHAR}, 
+      #{standardval,jdbcType=VARCHAR}, #{upperlimit,jdbcType=VARCHAR}, #{lowlimit,jdbcType=VARCHAR}, 
+      #{baseval,jdbcType=VARCHAR}, #{floatval,jdbcType=VARCHAR}, #{charge,jdbcType=VARCHAR}, 
+      #{deduct,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, #{invalid,jdbcType=VARCHAR}, 
+      #{remark,jdbcType=VARCHAR}, #{creator,jdbcType=VARCHAR}, #{createtime,jdbcType=BIGINT}, 
+      #{modifier,jdbcType=VARCHAR}, #{modifytime,jdbcType=BIGINT}, #{utc,jdbcType=BIGINT}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.tianrui.service.bean.quality.file.QualitySchemeItem" >
+    insert into tr_quality_db_scheme_item
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="schemeid != null" >
+        schemeid,
+      </if>
+      <if test="itemid != null" >
+        itemid,
+      </if>
+      <if test="comparison1 != null" >
+        comparison1,
+      </if>
+      <if test="comparison2 != null" >
+        comparison2,
+      </if>
+      <if test="comparison3 != null" >
+        comparison3,
+      </if>
+      <if test="standardval != null" >
+        standardval,
+      </if>
+      <if test="upperlimit != null" >
+        upperlimit,
+      </if>
+      <if test="lowlimit != null" >
+        lowlimit,
+      </if>
+      <if test="baseval != null" >
+        baseval,
+      </if>
+      <if test="floatval != null" >
+        floatval,
+      </if>
+      <if test="charge != null" >
+        charge,
+      </if>
+      <if test="deduct != null" >
+        deduct,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="invalid != null" >
+        invalid,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+      <if test="creator != null" >
+        creator,
+      </if>
+      <if test="createtime != null" >
+        createtime,
+      </if>
+      <if test="modifier != null" >
+        modifier,
+      </if>
+      <if test="modifytime != null" >
+        modifytime,
+      </if>
+      <if test="utc != null" >
+        utc,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="schemeid != null" >
+        #{schemeid,jdbcType=VARCHAR},
+      </if>
+      <if test="itemid != null" >
+        #{itemid,jdbcType=VARCHAR},
+      </if>
+      <if test="comparison1 != null" >
+        #{comparison1,jdbcType=VARCHAR},
+      </if>
+      <if test="comparison2 != null" >
+        #{comparison2,jdbcType=VARCHAR},
+      </if>
+      <if test="comparison3 != null" >
+        #{comparison3,jdbcType=VARCHAR},
+      </if>
+      <if test="standardval != null" >
+        #{standardval,jdbcType=VARCHAR},
+      </if>
+      <if test="upperlimit != null" >
+        #{upperlimit,jdbcType=VARCHAR},
+      </if>
+      <if test="lowlimit != null" >
+        #{lowlimit,jdbcType=VARCHAR},
+      </if>
+      <if test="baseval != null" >
+        #{baseval,jdbcType=VARCHAR},
+      </if>
+      <if test="floatval != null" >
+        #{floatval,jdbcType=VARCHAR},
+      </if>
+      <if test="charge != null" >
+        #{charge,jdbcType=VARCHAR},
+      </if>
+      <if test="deduct != null" >
+        #{deduct,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="invalid != null" >
+        #{invalid,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="creator != null" >
+        #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=BIGINT},
+      </if>
+      <if test="modifier != null" >
+        #{modifier,jdbcType=VARCHAR},
+      </if>
+      <if test="modifytime != null" >
+        #{modifytime,jdbcType=BIGINT},
+      </if>
+      <if test="utc != null" >
+        #{utc,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tianrui.service.bean.quality.file.QualitySchemeItem" >
+    update tr_quality_db_scheme_item
+    <set >
+      <if test="schemeid != null" >
+        schemeid = #{schemeid,jdbcType=VARCHAR},
+      </if>
+      <if test="itemid != null" >
+        itemid = #{itemid,jdbcType=VARCHAR},
+      </if>
+      <if test="comparison1 != null" >
+        comparison1 = #{comparison1,jdbcType=VARCHAR},
+      </if>
+      <if test="comparison2 != null" >
+        comparison2 = #{comparison2,jdbcType=VARCHAR},
+      </if>
+      <if test="comparison3 != null" >
+        comparison3 = #{comparison3,jdbcType=VARCHAR},
+      </if>
+      <if test="standardval != null" >
+        standardval = #{standardval,jdbcType=VARCHAR},
+      </if>
+      <if test="upperlimit != null" >
+        upperlimit = #{upperlimit,jdbcType=VARCHAR},
+      </if>
+      <if test="lowlimit != null" >
+        lowlimit = #{lowlimit,jdbcType=VARCHAR},
+      </if>
+      <if test="baseval != null" >
+        baseval = #{baseval,jdbcType=VARCHAR},
+      </if>
+      <if test="floatval != null" >
+        floatval = #{floatval,jdbcType=VARCHAR},
+      </if>
+      <if test="charge != null" >
+        charge = #{charge,jdbcType=VARCHAR},
+      </if>
+      <if test="deduct != null" >
+        deduct = #{deduct,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="invalid != null" >
+        invalid = #{invalid,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="creator != null" >
+        creator = #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        createtime = #{createtime,jdbcType=BIGINT},
+      </if>
+      <if test="modifier != null" >
+        modifier = #{modifier,jdbcType=VARCHAR},
+      </if>
+      <if test="modifytime != null" >
+        modifytime = #{modifytime,jdbcType=BIGINT},
+      </if>
+      <if test="utc != null" >
+        utc = #{utc,jdbcType=BIGINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tianrui.service.bean.quality.file.QualitySchemeItem" >
+    update tr_quality_db_scheme_item
+    set schemeid = #{schemeid,jdbcType=VARCHAR},
+      itemid = #{itemid,jdbcType=VARCHAR},
+      comparison1 = #{comparison1,jdbcType=VARCHAR},
+      comparison2 = #{comparison2,jdbcType=VARCHAR},
+      comparison3 = #{comparison3,jdbcType=VARCHAR},
+      standardval = #{standardval,jdbcType=VARCHAR},
+      upperlimit = #{upperlimit,jdbcType=VARCHAR},
+      lowlimit = #{lowlimit,jdbcType=VARCHAR},
+      baseval = #{baseval,jdbcType=VARCHAR},
+      floatval = #{floatval,jdbcType=VARCHAR},
+      charge = #{charge,jdbcType=VARCHAR},
+      deduct = #{deduct,jdbcType=VARCHAR},
+      status = #{status,jdbcType=VARCHAR},
+      invalid = #{invalid,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR},
+      creator = #{creator,jdbcType=VARCHAR},
+      createtime = #{createtime,jdbcType=BIGINT},
+      modifier = #{modifier,jdbcType=VARCHAR},
+      modifytime = #{modifytime,jdbcType=BIGINT},
+      utc = #{utc,jdbcType=BIGINT}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+   <delete id="deleteBatch" parameterType="java.lang.String" >
+    delete from tr_quality_db_scheme_item
+    where schemeid = #{schemeid,jdbcType=VARCHAR}
+  </delete>
+  	<select id="findBySchemeId" parameterType="com.tianrui.api.req.quality.file.QualitySchemeItemReq" resultMap="BaseResultMap">
+		select 
+		<include refid="Base_Column_List" />
+		from tr_quality_db_scheme_item
+		<where>
+			<if test="schemeid!=null">
+				and schemeid = #{schemeid,jdbcType=VARCHAR}
+			</if>
+			<if test="status!=null">
+				and status = #{status,jdbcType=VARCHAR}
+			</if>
+		</where>
+	</select>
+  <insert id="insertBatch" parameterType="java.util.List">
+		insert into tr_sales_db_batch_num
+		(id, schemeid, itemid,status, invalid,remark, 
+		 creator, createtime,modifier, modifytime, utc)
+		values
+		<foreach collection="list" index="index" item="item" separator=",">
+			(#{item.id,jdbcType=VARCHAR}, #{item.schemeid,jdbcType=VARCHAR},
+		#{item.itemid,jdbcType=VARCHAR}, #{item.status,jdbcType=VARCHAR},
+		#{item.invalid,jdbcType=BIGINT}, #{item.remark,jdbcType=BIGINT},
+		 #{item.creator,jdbcType=VARCHAR}, #{item.createtime,jdbcType=BIGINT},
+		#{item.modifier,jdbcType=VARCHAR}, #{item.modifytime,jdbcType=BIGINT},
+		#{item.utc,jdbcType=BIGINT}
+			)
+		</foreach>
+	</insert>
+  
+</mapper>

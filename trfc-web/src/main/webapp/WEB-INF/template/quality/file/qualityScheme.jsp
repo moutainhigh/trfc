@@ -208,7 +208,7 @@
 								<label>名称：</label> <input type="text" id="add_name">
 							</div>
 							<div class="alt_edit_div">
-								<label>单据：</label><div class=selct2_alt_div>
+								<label>单据：</label><div class="selct2_alt_div">
 									<select id="add_bills"
 										class="js-example-basic-single billsSelect form-control"></select>
 								</div>

@@ -25,6 +25,10 @@ public interface IQualitySchemeService {
 	 * 获取单据数据
 	 */
 	Result billsData() throws Exception;
+	/**
+	 * 通过id获取数据
+	 */
+	Result findById(QualitySchemeReq req) throws Exception;
 	
 	
 }

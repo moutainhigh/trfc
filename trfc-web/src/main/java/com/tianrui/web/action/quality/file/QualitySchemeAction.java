@@ -10,8 +10,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.tianrui.api.intf.basicFile.nc.IMaterielManageService;
+import com.tianrui.api.intf.quality.file.IQualityItemService;
+import com.tianrui.api.intf.quality.file.IQualitySchemeItemService;
 import com.tianrui.api.intf.quality.file.IQualitySchemeService;
 import com.tianrui.api.intf.system.base.ISystemCodeService;
+import com.tianrui.api.req.quality.file.QualityItemReq;
+import com.tianrui.api.req.quality.file.QualitySchemeItemReq;
 import com.tianrui.api.req.quality.file.QualitySchemeReq;
 import com.tianrui.api.req.system.base.GetCodeReq;
 import com.tianrui.smartfactory.common.vo.Result;
@@ -26,6 +30,10 @@ public class QualitySchemeAction {
 	private IMaterielManageService materielManageService;
 	@Resource
 	private ISystemCodeService systemCodeService;
+	@Resource
+	private IQualitySchemeItemService qualitySchemeItemService;
+	@Resource
+	private IQualityItemService qualityItemService;
 	
 	//显示页面
 	@RequestMapping("/main")
@@ -45,6 +53,12 @@ public class QualitySchemeAction {
 			ModelAndView view = new ModelAndView("quality/file/qualityScheme_standard");
 			return view;
 		}
+		//显示页面
+				@RequestMapping("/addBatchMain")
+				public ModelAndView addBatchMain(){
+					ModelAndView view = new ModelAndView("quality/file/qualityScheme_item_addBatch");
+					return view;
+				}
 	/**
 	 * 获取分页数据
 	 */
@@ -159,4 +173,91 @@ public class QualitySchemeAction {
 		}
 		return rs;
 	}
+	/**
+	 * 获取分页数据
+	 */
+	@ResponseBody
+	@RequestMapping("/inquire")
+	public Result inquire(QualitySchemeItemReq req){
+		Result rs = Result.getErrorResult();
+		try {
+			rs = qualitySchemeItemService.findBySchemeId(req);
+			
+		} catch (Exception e) {
+			log.error(e.getMessage(),e);
+		}
+		return rs;
+	}
+	/**
+	 * 删除数据
+	 */
+	@ResponseBody
+	@RequestMapping("/deleteItem")
+	public Result deleteItem(QualitySchemeItemReq req){
+		Result rs = Result.getErrorResult();
+		try {
+			rs = qualitySchemeItemService.delete(req);
+		} catch (Exception e) {
+			log.error(e.getMessage(),e);
+		}
+		return rs;
+	}
+	/**
+	 * 批量新增数据
+	 */
+	@ResponseBody
+	@RequestMapping("/addItem")
+	public Result addItem(QualitySchemeItemReq req){
+		Result rs = Result.getErrorResult();
+		try {
+			rs = qualitySchemeItemService.add(req);
+		} catch (Exception e) {
+			log.error(e.getMessage(),e);
+		}
+		return rs;
+	}
+
+	/**
+	 * 更新数据
+	 */
+	@ResponseBody
+	@RequestMapping("/updateItem")
+	public Result updateItem(QualitySchemeItemReq req){
+		Result rs = Result.getErrorResult();
+		try {
+			rs = qualitySchemeItemService.update(req);
+		} catch (Exception e) {
+			log.error(e.getMessage(),e);
+		}
+		return rs;
+	}
+	/**
+	 * 获取下拉框数据
+	 */
+	@ResponseBody
+	@RequestMapping("/itemSelector")
+	public Result itemlData(QualityItemReq req){
+		Result rs = Result.getErrorResult();
+		try {
+			rs = qualityItemService.page(req);
+		} catch (Exception e) {
+			log.error(e.getMessage(),e);
+		}
+		return rs;
+	}
+	/**
+	 * 获取方案信息
+	 */
+	@ResponseBody
+	@RequestMapping("/getSchemeData")
+	public Result itemlData(QualitySchemeReq req){
+		Result rs = Result.getErrorResult();
+		try {
+			rs = qualitySchemeService.findById(req);
+		} catch (Exception e) {
+			log.error(e.getMessage(),e);
+		}
+		return rs;
+	}
+	
 }

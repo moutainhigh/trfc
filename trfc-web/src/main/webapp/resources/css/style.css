@@ -40,7 +40,6 @@
 }
 .wrapreg{
     width: 1000px;
-
     padding: 0;
     margin: 0 auto;
 }
@@ -51,8 +50,12 @@
 input[readOnly="true"]{
     background: #f5f6fb;
 }
+.modal-body input[type="text"]{
+    font-size: 12px;
+}
 .it_admin{
-    min-width: 1400px;
+    min-width: 1320px;
+    overflow: hidden;
 }
 .left{
     width: 200px;
@@ -123,7 +126,6 @@ input[readOnly="true"]{
     color: #434e8d;
     border-bottom: 1px solid #ececec;
     overflow: hidden;
-    min-width: 1000px;
 }
 .intel_tab .intel_menu{
     float: left;
@@ -136,18 +138,8 @@ input[readOnly="true"]{
     font-size: 14px;
     cursor: pointer;
 }
-.intel_tab .intel_menu li.select {
-    color: #0574c6;
-    background: #c8e6ff;
-}
-.intel_tab .intel_menu li:hover{
+.intel_tab .intel_menu li.select,.intel_tab .intel_menu li:hover{
     color: #0573c7;
-    background: #eff4f9;
-}
-.intel_tab .intel_menu li a {
-    width: 100%;
-    height: 100%;
-    display: block;
 }
 .intel_tab .top_opera{
     width: 170px;
@@ -234,14 +226,17 @@ input[readOnly="true"]{
     padding: 0 0 0 80px;
 }
 .intel_search .intel_solo .intel_sbtn button{
-    margin-left:15px;
+    margin:0 10px 0 15px;
     line-height: 28px;
     padding: 0px 18px;
+    float: left;
 }
 
 .intel_search .intel_solo .intel_sbtn input[type="checkbox"]{
-    width: 15px;
-    line-height: 30px;
+    width: 20px;
+    height: 20px;
+    vertical-align: middle;
+    margin: 0;
 }
 .intel_search .intel_solo .intel_sbtn span{
     line-height: 30px;
@@ -267,13 +262,16 @@ input[readOnly="true"]{
 .intel_opera .intel_operasolo a{
     color: #434e8d;
 }
+.intel_tabbox .intel_tabcont .intel_table {
+    min-width: 1200px;
+}
+
 .intel_tabbox .intel_tabcont .intel_table table{
-    background: #f5f6fb;
+
     font-size: 12px;
     text-align: center;
 }
 .intel_tabbox .intel_tabcont .intel_table table thead th{
-    color: #0573c7;
     font-size: 14px;
     text-align: center;
     line-height: 33px;
@@ -286,13 +284,14 @@ input[readOnly="true"]{
 .intel_tabbox .intel_tabcont .intel_table table tbody td{
     line-height: 33px;
     cursor: pointer;
+    min-width: 120px;
 }
 .intel_tabbox .intel_tabcont .intel_table table tbody tr.select{
     background: #ffffff;
 }
 
 .intel_tabbox .intel_tabcont .intel_table .table-hover > tbody > tr:hover {
-    background-color: #ffffff
+
 }
 /*下面的表内容*/
 .intel_result{
@@ -873,6 +872,7 @@ input[readOnly="true"]{
     padding: 0px 0px;
     margin-top: 10px;
     width: 350px;
+    height: 31px;
     float: left;
     position: relative;
     overflow: hidden;
@@ -880,6 +880,7 @@ input[readOnly="true"]{
 .alt_edit_div label{
     width: 120px;
     text-align: right;
+    line-height: 30px;
 }
 .alt_edit_div em{
 }
@@ -965,7 +966,17 @@ width: 180px;
 }
 .daohuo_add  .daohuo_add_div .daohuo_add_solo input[type="text"]{
     width: 180px;
-
+}
+.daohuo_add  .daohuo_add_div .zhij_piliang_add{
+     width: 40%;
+    float: left;
+ }
+.daohuo_add  .daohuo_add_div .zhij_piliang_check{
+    width: 200px;
+    float: left;
+}
+.daohuo_add  .daohuo_add_div .zhij_piliang_add input[type="text"]{
+    width: 300px;
 }
 .daohuo_add .daohuo_add_div select{
     width: 180px;
@@ -1526,11 +1537,12 @@ width: 180px;
 .zj_biaozhun_table{
     width: 700px;
     overflow: scroll;
+    min-height:200px;
+    max-height: 400px;
 }
 .zj_biaozhun_table2{
     width: 1200px;
 }
-.zj_biaozhun_table table{
-    width: 1500px;
-
+.zj_biaozhun_table .zj_biaozhun_tablepl{
+    width: 100%
 }

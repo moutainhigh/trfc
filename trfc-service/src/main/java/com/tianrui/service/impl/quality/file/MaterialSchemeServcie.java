@@ -8,6 +8,7 @@ import javax.annotation.Resource;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.tianrui.api.intf.quality.file.IMaterialSchemeService;
 import com.tianrui.api.req.quality.file.MaterialSchemeReq;
@@ -30,6 +31,7 @@ public class MaterialSchemeServcie implements IMaterialSchemeService {
 	private MaterielManageMapper materielManageMapper;
 
 	@Override
+	@Transactional
 	public Result delete(MaterialSchemeReq req) throws Exception {
 		Result rs = Result.getParamErrorResult();
 		//参数不能为空,id不能为空
@@ -47,6 +49,7 @@ public class MaterialSchemeServcie implements IMaterialSchemeService {
 	}
 
 	@Override
+	@Transactional
 	public Result add(MaterialSchemeReq req) throws Exception {
 		Result rs = Result.getParamErrorResult();
 		if(req!=null){
@@ -74,6 +77,7 @@ public class MaterialSchemeServcie implements IMaterialSchemeService {
 	}
 
 	@Override
+	@Transactional
 	public Result update(MaterialSchemeReq req) throws Exception {
 		Result rs = Result.getParamErrorResult();
 		if(req!=null){

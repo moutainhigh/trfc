@@ -8,6 +8,7 @@ import javax.annotation.Resource;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.tianrui.api.intf.quality.file.IQualitySchemeService;
 import com.tianrui.api.req.quality.file.QualitySchemeReq;
@@ -33,6 +34,7 @@ public class QualitySchemeService implements IQualitySchemeService {
 	private	SystemDataDictItemMapper systemDataDictItemMapper;
 	
 	@Override
+	@Transactional
 	public Result delete(QualitySchemeReq req) throws Exception {
 		Result rs = Result.getParamErrorResult();
 		if(req!=null && StringUtils.isNotBlank(req.getId())){
@@ -49,6 +51,7 @@ public class QualitySchemeService implements IQualitySchemeService {
 	}
 
 	@Override
+	@Transactional
 	public Result add(QualitySchemeReq req) throws Exception {
 		Result rs = Result.getParamErrorResult();
 		if(req!=null){
@@ -75,6 +78,7 @@ public class QualitySchemeService implements IQualitySchemeService {
 	}
 
 	@Override
+	@Transactional
 	public Result update(QualitySchemeReq req) throws Exception {
 		Result rs = Result.getParamErrorResult();
 		if(req!=null && StringUtils.isNotBlank(req.getId())){
@@ -151,6 +155,19 @@ public class QualitySchemeService implements IQualitySchemeService {
 		//查询所有单据类型
 		List<SystemDataDictItem> list = systemDataDictItemMapper.selectByDictId(dictId);
 		rs.setData(list);
+		return rs;
+	}
+
+	@Override
+	public Result findById(QualitySchemeReq req) throws Exception {
+		Result rs = Result.getParamErrorResult();
+		if(req!=null && StringUtils.isNotBlank(req.getId())){
+			QualityScheme qs = qualitySchemeMapper.selectByPrimaryKey(req.getId());
+			if(qs!=null){
+				rs = Result.getSuccessResult();
+				rs.setData(qs);
+			}
+		}
 		return rs;
 	}
 

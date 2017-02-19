@@ -37,24 +37,24 @@
     </div>
     <div class="intel_sconditon">
         <div class="intel_sline">
-            <h5>质检方案项目 - 济源博盈商贸有限公司-干粉煤灰(GH15)</h5>
+            <h5 id="headline">质检方案项目 - 济源博盈商贸有限公司-干粉煤灰(GH15)</h5>
 
         </div>
     </div>
 </div>
 <div class="intel_opera">
-    <div class="intel_operasolo">
+    <div class="intel_operasolo" id="fresh">
         <i class="iconfont colorlv">&#xe61b;</i>
         <h5>刷新</h5>
     </div>
     <div class="intel_operasolo">
-        <a  data-toggle="modal" data-target="#add">
+        <a  data-toggle="modal" data-target="#add" id="addBtn">
             <i class="iconfont coloradd">&#xe627;</i>
             <h5>新增</h5>
         </a>
     </div>
     <div class="intel_operasolo">
-        <a  data-toggle="modal" data-target="#add">
+        <a  data-toggle="modal" data-target="#BatchDiv" id="addBatch">
             <i class="iconfont coloradd">&#xe627;</i>
             <h5>批量新增</h5>
         </a>
@@ -73,11 +73,11 @@
             <th>项目名称</th>
             <th>有效</th>
             <th>类型</th>
-            <th>描述</th>
+            <th>备注</th>
             <th>操作</th>
         </tr>
         </thead>
-        <tbody>
+        <tbody id="list">
         <tr>
             <td> 1</td>
             <td>审核中</td>
@@ -104,31 +104,7 @@
     <!--用户表格end-->
 </div>
 
-<!--分页效果开始-->
-<div class=" row fr">
-    <div class="page_date">
-        <label>数据共：</label><i class="colorred">100</i><label>条</label>
-    </div>
-    <div class="page_date">
-        <label>跳到第：</label>
-        <input type="text">
-        <label>页</label>
-        <button class="btn btn-default">确定</button>
-    </div>
-    <div class="page_btn">
-        <ul class="pagination">
-            <li><a href="#">&laquo;上一页</a></li>
-            <li><a href="#">1</a></li>
-            <li><a href="#">2</a></li>
-            <li><a href="#">3</a></li>
-            <li><a href="#">...</a></li>
-            <li><a href="#">4</a></li>
-            <li><a href="#">5</a></li>
-            <li><a href="#">下一页&raquo;</a></li>
-        </ul>
-    </div>
-</div>
-<!--分页效果结束-->
+
 </div>
 <!--采购申请单end-->
 
@@ -158,7 +134,7 @@
 </div>
 </div>
 <!--新增begin-->
-<div class="modal fade" id="add" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+<div class="modal fade" id="add"  role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document" style="width: 750px;">
         <div class="modal-content">
             <div class="modal-header">
@@ -172,77 +148,145 @@
                 <div class="alt_edit">
                     <div class="alt_onerow_div">
                         <label>方案：</label>
-                        <input type="text" readonly="true" value="11">
+                        <input type="text" readonly="true" value="11" id="add_name">
                     </div>
-                    <div class="alt_onerow_div">
-                        <label>项目名称：</label>
-                        <input type="text">
-                    </div>
+                    <div class="alt_edit_div">
+								<label>项目名称：</label><div class="selct2_alt_div">
+									<select  id="add_item"
+										class="js-example-basic-single itemSelect form-control"></select>
+								</div>
+							</div>
                     <div class="alt_onerow_div">
                         <label>类型：</label>
-                        <input type="text">
+                        <input type="text" readonly="true" id="add_schemetype">
                     </div>
                     <div class="alt_onerow_div">
                         <label>有效性：</label>
-                        <input type="checkbox"><span>有效</span>
+                        <input type="checkbox" id="add_invalid"><span>有效</span>
                     </div>
                     <div class="alt_onerow_div">
                         <label>备注： </label>
-                        <textarea class="form-control" rows="2"></textarea>
+                        <textarea class="form-control" rows="2" id="add_remark"></textarea>
                     </div>
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary">确定</button>
-                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary" id="add_sure">确定</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal" id="add_cancel">取消</button>
             </div>
         </div>
     </div>
 </div>
 <!--新增end-->
-<!--编辑begin-->
-<div class="modal fade" id="edit" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+<!--批量新增begin-->
+<div class="modal fade" id="BatchDiv" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document" style="width: 750px;">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                         aria-hidden="true">&times;</span></button>
                 <div class="alt_head">
-                    <h5>质检方案项目-新增</h5>
+                    <h5>质量标准-批量新增</h5>
                 </div>
             </div>
             <div class="modal-body">
                 <div class="alt_edit">
                     <div class="alt_onerow_div">
-                        <label>方案：</label>
-                        <input type="text" readonly="true" value="11">
-                    </div>
-                    <div class="alt_onerow_div">
-                        <label>项目名称：</label>
-                        <input type="text">
+                        <label>质检方案：</label>
+                        <input type="text"  value="11" id="addBatch_name">
                     </div>
                     <div class="alt_onerow_div">
                         <label>类型：</label>
-                        <input type="text">
+                        <input type="text" id="addBatch_schemetype">
                     </div>
                     <div class="alt_onerow_div">
                         <label>有效性：</label>
-                        <input type="checkbox"><span>有效</span>
+                        <input type="checkbox" id="addBatch_invalid"><span>有效</span>
+                    </div>
+                </div>
+                <div class="zj_biaozhun_table">
+                    <div class="zj_biaozhun_tablepl">
+                    <table class="table table-hover table-bordered">
+                        <thead>
+                        <tr>
+                            <th>行号</th>
+                            <th>项目</th>
+                            <th>备注</th>
+                            
+                        </tr>
+                        </thead>
+                        <tbody id=="addBatch_list">
+                        <tr>
+                            <td> 1</td>
+                            <td><div class="selct2_alt_div">
+                            <select class="js-example-basic-single itemSelect form-control" 
+                            style="width:100%;border-left:0px;border-top:0px;border-right:0px;border-bottom:0px"></select>
+                            </div>
+                            </td>
+                            <td><input type="text"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                        </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="addBatch_sure">保存</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal" id="addBatch_cancel">取消</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--批量新增end-->
+<!--编辑begin-->
+<div class="modal fade" id="edit"  role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document" style="width: 750px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <div class="alt_head">
+                    <h5>质检方案项目-编辑</h5>
+                </div>
+            </div>
+            <div class="modal-body">
+                <div class="alt_edit">
+                    <div class="alt_onerow_div">
+                        <input type="hidden" id="edit_id">
+                        <label>方案：</label>
+                        <input type="text" readonly="true" value="11" id="edit_name">
+                    </div>
+                    <div class="alt_edit_div">
+                        <label>项目名称：</label>
+                        <div class=selct2_alt_div>
+									<select id="edit_item"
+										class="js-example-basic-single itemSelect form-control"></select>
+								</div>
+                    </div>
+                    <div class="alt_onerow_div">
+                        <label>类型：</label>
+                        <input type="text" readonly="true" id="edit_schemetype">
+                    </div>
+                    <div class="alt_onerow_div">
+                        <label>有效性：</label>
+                        <input type="checkbox" id="edit_invalid"><span>有效</span>
                     </div>
                     <div class="alt_onerow_div">
                         <label>备注： </label>
-                        <textarea class="form-control" rows="2"></textarea>
+                        <textarea class="form-control" rows="2" id="edit_remark"></textarea>
                     </div>
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary">确定</button>
-                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary" id="edit_sure">确定</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal" id="edit_cancel">取消</button>
             </div>
         </div>
     </div>
 </div>
 <!--编辑end-->
+
 <!-- 引用公共footer部分 -->
 		<jsp:include page="../../common/base/footer_busi.jsp"></jsp:include>
 		<script type="text/javascript" src="/resources/js/select2.js"></script>

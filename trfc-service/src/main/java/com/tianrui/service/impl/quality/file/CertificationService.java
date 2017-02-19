@@ -8,6 +8,7 @@ import javax.annotation.Resource;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.tianrui.api.intf.quality.file.ICertificationService;
 import com.tianrui.api.req.quality.file.CertificationReq;
@@ -30,6 +31,7 @@ public class CertificationService implements ICertificationService {
 
 
 	@Override
+	@Transactional
 	public Result delete(CertificationReq req) throws Exception {
 		Result rs = Result.getParamErrorResult();
 		if(req!=null && StringUtils.isNotBlank(req.getId())){
@@ -46,6 +48,7 @@ public class CertificationService implements ICertificationService {
 	}
 
 	@Override
+	@Transactional
 	public Result add(CertificationReq req) throws Exception {
 		Result rs = Result.getParamErrorResult();
 		if(req!=null){
@@ -73,6 +76,7 @@ public class CertificationService implements ICertificationService {
 	}
 
 	@Override
+	@Transactional
 	public Result update(CertificationReq req) throws Exception {
 		Result rs = Result.getParamErrorResult();
 		if(req!=null && StringUtils.isNotBlank(req.getId())){

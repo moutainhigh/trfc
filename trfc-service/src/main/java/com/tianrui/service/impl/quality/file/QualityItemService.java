@@ -8,6 +8,7 @@ import javax.annotation.Resource;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.tianrui.api.intf.quality.file.IQualityItemService;
 import com.tianrui.api.req.quality.file.QualityItemReq;
@@ -24,8 +25,9 @@ public class QualityItemService implements IQualityItemService {
 
 	@Resource
 	private QualityItemMapper qualityItemMapper;
-	
+
 	@Override
+	@Transactional
 	public Result delete(QualityItemReq req) throws Exception {
 		Result rs = Result.getParamErrorResult();
 		if(req!=null && StringUtils.isNotBlank(req.getId())){
@@ -42,6 +44,7 @@ public class QualityItemService implements IQualityItemService {
 	}
 
 	@Override
+	@Transactional
 	public Result add(QualityItemReq req) throws Exception {
 		Result rs = Result.getParamErrorResult();
 		if(req!=null){
@@ -63,12 +66,13 @@ public class QualityItemService implements IQualityItemService {
 			}else{
 				rs.setErrorCode(ErrorCode.OPERATE_ERROR);
 			}
-			
+
 		}
 		return rs;
 	}
 
 	@Override
+	@Transactional
 	public Result update(QualityItemReq req) throws Exception {
 		Result rs = Result.getParamErrorResult();
 		if(req!=null && StringUtils.isNotBlank(req.getId())){
@@ -95,15 +99,17 @@ public class QualityItemService implements IQualityItemService {
 		Result rs = Result.getParamErrorResult();
 		if(req!=null){
 			PaginationVO<QualityItemResp> page = new PaginationVO<QualityItemResp>();
-			int pageNo = req.getPageNo();
-			int pageSize = req.getPageSize();
-			//设置开始位置,和每页数据量
-			req.setStart((pageNo-1)*pageSize);
-			req.setLimit(pageSize);
+			if(req.getPageNo()!=null && req.getPageSize()!=null){
+				int pageNo = req.getPageNo();
+				int pageSize = req.getPageSize();
+				//设置开始位置,和每页数据量
+				req.setStart((pageNo-1)*pageSize);
+				req.setLimit(pageSize);
+				page.setPageNo(pageNo);
+				page.setPageSize(pageSize);
+			}
 			//获取数据总数
 			int total = qualityItemMapper.count(req);
-			page.setPageNo(pageNo);
-			page.setPageSize(pageSize);
 			page.setTotal(total);
 			System.out.println(total);
 			//创建一个出参集合
