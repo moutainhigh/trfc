@@ -338,8 +338,7 @@ public class SalesApplicationService implements ISalesApplicationService {
 		item.setState("1");
 		//来源
 		item.setSource("0");
-		//类型jsonItem.getString("sourceType")
-		item.setBilltypeid("1002P11000000000SEKU");
+		//类型
 		String billtypeid = jsonItem.getString("type");
 		if(StringUtils.isNotBlank(billtypeid)){
 			item.setBilltypeid(billtypeid);
@@ -380,7 +379,7 @@ public class SalesApplicationService implements ISalesApplicationService {
 		item.setAudittime(DateUtil.parse(jsonItem.getString("auditData"), "yyyy-MM-dd HH:mm:ss"));
 		//制单人
 		item.setMakerid(jsonItem.getString("singleId"));
-		item.setMakebillname(jsonItem.getString("singleName"));
+		item.setMakebillname(jsonItem.getString("billMaker"));
 		//制单日期
 		item.setMakebilltime(DateUtil.parse(jsonItem.getString("singleData"), "yyyy-MM-dd HH:mm:ss"));
 		//TS
@@ -408,8 +407,8 @@ public class SalesApplicationService implements ISalesApplicationService {
 							saleItem.setMaterielname(m.getName());
 						}
 					}
-//					saleItem.setWarehouseid(itemJon.getString(""));
-//					saleItem.setWarehousename(itemJon.getString(""));
+					saleItem.setWarehouseid(itemJon.getString("csendstordocId"));
+					saleItem.setWarehousename(itemJon.getString("csendstordocName"));
 					saleItem.setUnit("吨");
 					saleItem.setSalessum(Double.valueOf(itemJon.getString("number")));
 					saleItem.setTaxprice(Double.valueOf(itemJon.getString("nqtorigtaxprice")));

@@ -19,9 +19,8 @@
 				<!--tab切换标题-->
 				<ul class="intel_menu">
 					<li class="select"><a href="/trfc/purchaseApplication/main">采购申请单</a></li>
-				</ul>
-				<ul class="intel_menu">
 					<li><a href="/trfc/purchaseArrive/main">到货通知单</a></li>
+					<li><a href="/trfc/purchaseReturn/main">退货通知单</a></li>
 				</ul>
 			</div>
 			<!--tab切换的内容-->

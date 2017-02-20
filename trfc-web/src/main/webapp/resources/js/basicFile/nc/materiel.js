@@ -195,7 +195,7 @@
 				$('#editMater').modal();
 			});
 		}else{
-			alert('暂无数据');
+			layer.msg('暂无数据');
 		}
 	}
 	

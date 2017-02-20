@@ -219,7 +219,7 @@ PAGE.mod.main = {
 					window.location.href = 'detailView?id='+obj.id;
 				});
 			}else{
-				alert('暂无数据');
+				layer.msg('暂无数据');
 				$('#dataMore').hide();
 			}
 			$('#dataBody').find('tr').off('click').on('click',function(){

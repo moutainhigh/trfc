@@ -1,7 +1,6 @@
 ;(function($,win){
 	//请求路径
 	var URL = {
-			findMAllUrl:"/trfc/materiel/findAll",
 			findWAllUrl:"/trfc/warehouse/findAll",
 			initAddUrl:"/trfc/salesApplication/initAdd",
 			
@@ -13,7 +12,6 @@
 			deleteUrl:"/trfc/salesApplication/delete",
 	};
 	var customer = null;
-	var materiel = null;
 	var warehouse = null;
 	
 	function str2Long(dateStr){
@@ -25,15 +23,6 @@
 		return time;
 	}
 	
-	function long2String(time){
-		var dateStr = '';
-		if(time){
-			var date = new Date(time);
-			dateStr = date.format("yyyy-MM-dd HH:mm:ss");
-		}
-		return dateStr;
-	}
-	
 	init();
 	function init(){
 		initSelect();
@@ -41,27 +30,6 @@
 		queryData(1);
 	}
 	function initSelect(){
-		$.ajax({
-			url:URL.findMAllUrl,
-			data:null,
-			async:true,
-			cache:false,
-			dataType:'json',
-			type:'post',
-			success:function(result){
-				if(result.code == '000000'){
-					if(result.data && result.data.length > 0){
-						materiel = result.data;
-						for(var i=0;i<result.data.length;i++){
-							var obj = result.data[i];
-							$('.materiel').append('<option value="'+obj.id+'">'+obj.name+'</option>');
-						}
-					}
-				}else{
-					layer.msg(result.error, {icon: 5});
-				}
-			}
-		});
 		$.ajax({
 			url:URL.findWAllUrl,
 			data:null,
@@ -454,7 +422,7 @@
 				showDetail(obj);
 			});
 		}else{
-			alert('暂无数据');
+			layer.msg('暂无数据');
 			$('#dataMore').hide();
 		}
 	}
@@ -567,13 +535,8 @@
 	function showMore(obj){
 		$('#moreBody').empty();
 		var detailResp = obj.detailResp;
-		var materiel = detailResp.materiel;
 		if(detailResp){
-			var materielname = '';
-			if(materiel){
-				materielname = materiel.name;
-			}
-			$('<tr>').append('<td>'+(materielname || '')+'</td>')
+			$('<tr>').append('<td>'+(detailResp.materielname || '')+'</td>')
 			.append('<td>'+(detailResp.salessum || '')+'</td>')
 			.append('<td>'+(detailResp.taxprice || '')+'</td>')
 			.append('<td></td>')

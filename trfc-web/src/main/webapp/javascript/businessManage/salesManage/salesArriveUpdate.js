@@ -188,7 +188,7 @@ PAGE.mod.main = {
 							.appendTo('#salesApplicationBody');
 				}
 			}else{
-				alert('暂无数据');
+				layer.msg('暂无数据');
 			}
 			$('#salesApplicationBody').find('tr').off('click').on('click',function(){
 				$(this).addClass('active').siblings().removeClass('active');
