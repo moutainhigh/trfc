@@ -163,9 +163,17 @@ public class QualitySchemeService implements IQualitySchemeService {
 		Result rs = Result.getParamErrorResult();
 		if(req!=null && StringUtils.isNotBlank(req.getId())){
 			QualityScheme qs = qualitySchemeMapper.selectByPrimaryKey(req.getId());
+			
 			if(qs!=null){
+				QualitySchemeResp resp = new QualitySchemeResp();
+				PropertyUtils.copyProperties(resp, qs);
+				//通过物料id 查询物料信息 获取物料名称
+				MaterielManage m = materielManageMapper.selectByPrimaryKey(qs.getMaterialid());
+				if(m!=null){
+					resp.setMaterialname(m.getName());
+				}
 				rs = Result.getSuccessResult();
-				rs.setData(qs);
+				rs.setData(resp);
 			}
 		}
 		return rs;

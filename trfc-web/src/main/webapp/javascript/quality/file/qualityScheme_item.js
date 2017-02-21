@@ -7,19 +7,15 @@ $(function(){
 			updateUrl:"/trfc/quality/sales/file/qualityScheme/updateItem",
 			saveUrl:"/trfc/quality/sales/file/qualityScheme/addItem",
 			schemeData:"/trfc/quality/sales/file/qualityScheme/getSchemeData",
-			addBatchUrl:"/trfc/quality/sales/file/qualityScheme/addBatchMain"
+			addBatchUrl:"/trfc/quality/sales/file/qualityScheme/addBatchItem",
+			standardUrl:"/trfc/quality/sales/file/qualityScheme/standard"
 	};
 	var TYPE = {0:'采购项目',1:'销售项目'};
 	var editOD = {};
 	var schemeid = getId();
 	initPage();
-	//加载列表
-	ShowAction(1);
-	//加载下拉框
-	itemSelect();
-
-	//绑定下拉框事件
-//	$('.itemSelect').change(subval);
+	
+	
 	//绑定刷新按钮
 	$('#fresh').click(function(){ShowAction(1);});
 	//绑定新增按钮
@@ -28,19 +24,80 @@ $(function(){
 	$('#addBatch').click(initAddBatchData);
 	//绑定新增界面确定按钮
 	$('#add_sure').click(saveAction);
+	//绑定新增界面确定按钮
+	$('#addBatch_sure').click(saveAddBatch);
 	//绑定修改页面确定按钮
 	$('#edit_sure').click(editAction);
 	//绑定删除按钮
 	$('#list').on('click','tr [title="删除"]',deleteAction);
 	//绑定编辑按钮
 	$('#list').on('click','tr [title="编辑"]',initEditData);
-
+	$('ul li:contains(质检方案-质检标准)').click(function(){
+		window.location.replace(URL.standardUrl+"?id="+schemeid);
+	});
+	
+	
+	//提交保存数据
+	function saveAddBatch(){
+		var param = getAddBatchData();
+		//判断 param有没有值,无值则不处理
+		if(param){
+			if(confirm('确定要保存吗?')){
+				//数据存到服务器
+				$.post(URL.addBatchUrl,param,function(result){
+					if(result.code=='000000'){
+						//加载列表
+						ShowAction(1);
+						
+					}else{
+						layer.msg(result.error,{icon:5});
+					}
+				});
+			}
+		}
+	}
+	//添加一列
+	function addTR(index){
+		
+		var tbody = $('#addBatch_list');
+		var trs = tbody.find('tr');
+		//只有最后一行的改变事件 才能触发添加
+		if(trs.length>=index){
+			return;
+		}
+		var tr = '<tr>'
+           +' <td> '+index+'</td>'
+           +' <td><div class="selct2_alt_div">'
+           +' <select class="form-control" style="width:220px"'
+           +' ></select>'
+           +'  </div>'
+           +'  </td>'
+           +'  <td><input type="text"></td>'
+           +'</tr>';
+		//将tr追加到tbody中
+		tbody.append(tr);
+		var sel = $('#addBatch_list').find('select:last');
+		fillContent(sel,editOD.selectData);
+		sel.select2({ placeholder: "请选择",
+			allowClear: false
+	});
+		sel.change(function(){addTR(index+1)});
+	}
+	
+	//初始化页面
 	function initPage(){
 		$.post(URL.schemeData,{id:schemeid},function(result){
 			if(result.code=='000000'){
 				var obj = result.data;
 				$('#headline').html('质检方案项目 - '+obj.name);
 				editOD.obj = obj;
+				//加载列表
+				ShowAction(1);
+				//加载下拉框
+				itemSelect($('.itemSelect'));
+				$('.itemSelect').select2({ placeholder: "请选择",
+					allowClear: false
+				});
 			}else{
 				layer.msg(result.error,{icon:5});
 			}
@@ -60,8 +117,54 @@ $(function(){
 
 		$('#addBatch_name').val(editOD.obj.name);
 		$('#addBatch_schemetype').val(TYPE[editOD.obj.type]);
-		$('#addBatch_invalid').attr('checked','checked')
+		$('#addBatch_invalid').attr('checked','checked');
+		$('#addBatch_list').html('');
+		addTR(1);
 	}
+	function getAddBatchData(){
+		var invalid = '1';
+		if($('#addBatch_invalid').prop('checked')){
+			invalid='0';
+		}
+		//获取user的id
+		var user = $('.user').attr("userid");
+		var data = {
+				schemeid:getId(),
+				invalid:invalid,
+				user:user
+		};
+		//获取表格数据
+		var trs = $('#addBatch_list tr');
+		var arr = new Array();
+		//通过循环吧数据存到arr中
+		for(var i=0;i<trs.length-1;i++){
+			//获取子元素
+			var tds = trs[i].children;
+			var itemid = $(tds[1]).find('select').val();
+			//物料名称不能为空
+			if(!schemeid){
+				return null;
+			}
+			var remark = $(tds[2]).find('input').val();
+			var mater = {
+					itemid:itemid,
+					remark:remark
+			}
+			//将结果放入数组
+			arr[i]=mater;
+		}
+		//讲数组转换为JSON字符串
+		data.arrStr = JSON.stringify(arr);
+		//判断是否为空,为空则返回null
+		if('[]'==data.arrStr){
+			alert('物料详细不能为空!');
+			data = null;
+		}
+		return data;
+	}
+
+	
+	
 	//初始化新增数据
 	function initAddData(){
 		//等待下拉框加载完成后,执行
@@ -150,7 +253,6 @@ $(function(){
 		if($('#add_invalid').prop('checked')){
 			invalid='0';
 		}
-		var userid = $('.user').attr('userid');
 		var remark = $('#add_remark').val();
 		var userid = $('.user').attr('userid');
 		var param = {
@@ -214,34 +316,33 @@ $(function(){
 			}
 		});
 	}
-	function aditAction(){
-		console.log(1);
-	}
+
 	//获取下拉框数据并填充
-	function itemSelect(){
+	function itemSelect($obj){
 		//获取数据
-		$selector = $.post(URL.selectorUrl,{pageSize:10,pageNo:1,invalid:"0"},function(result){
+		$selector = $.post(URL.selectorUrl,{invalid:"0",type:editOD.obj.type},function(result){
 			if(result.code=='000000'){
 				//填充数据
-				fillContent(result.data.list);
+				fillContent($obj,result.data.list);
+				editOD.selectData = result.data.list;
 			}else{
 				layer.msg(result.error, {icon:5});
 			}
 		});
 	}
 //	填充数据
-	function fillContent(list){
-		var select = $('.itemSelect').html('');
+	function fillContent($obj,list){
+		var selecter = $obj.html('');
 		//设置默认值
-		select.append("<option></option>");
+		selecter.append("<option></option>");
 		if(list){
 			for(var i=0;i<list.length;i++){
 				var obj = list[i];
 				var msg = obj.name;
-				msg = obj.code+'&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;'+obj.name;
+				msg = '（'+obj.code+'）'+obj.name;
 				var option = '<option value='+obj.id+'>'+msg+'</option>';
 				//追加数据
-				select.append(option);
+				selecter.append(option);
 			}
 		}
 	}
@@ -279,13 +380,13 @@ $(function(){
 			var invalid = obj.invalid;
 			var tr = '<tr>'
 				+'<td>'+(i+1)+'</td>'
-				+'<td>'+editOD.obj.code+'</td>'
-				+'<td>'+editOD.obj.name+'</td>'
-				+'<td>'+obj.itemcode+'</td>'
-				+'<td>'+obj.itemname+'</td>'
+				+'<td>'+(editOD.obj.code || '')+'</td>'
+				+'<td>'+(editOD.obj.name || '')+'</td>'
+				+'<td>'+(obj.itemcode || '')+'</td>'
+				+'<td>'+(obj.itemname || '')+'</td>'
 				+'<td><input type="checkbox" '+("0"==invalid?'checked="true"':"")+' disabled="true"></td>'
-				+'<td>'+TYPE[editOD.obj.type]+'</td>'
-				+'<td>'+obj.remark+'</td>'
+				+'<td>'+(TYPE[editOD.obj.type] || '')+'</td>'
+				+'<td>'+(obj.remark || '')+'</td>'
 				+'<td><span> <a data-toggle="modal"'
 				+'		data-target="#edit"><i class="iconfont"'
 				+'			data-toggle="tooltip" data-placement="left" title="编辑">&#xe600;</i></a>'
@@ -312,3 +413,4 @@ $(function(){
 	}
 
 });
+

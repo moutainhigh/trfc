@@ -15,9 +15,12 @@ import com.tianrui.api.intf.quality.file.IQualitySchemeItemService;
 import com.tianrui.api.req.quality.file.QualityItemReq;
 import com.tianrui.api.req.quality.file.QualitySchemeItemReq;
 import com.tianrui.api.resp.quality.file.QualitySchemeItemResp;
-import com.tianrui.api.resp.quality.file.QualitySchemeItemRespSP;
+import com.tianrui.service.bean.basicFile.nc.MaterielManage;
 import com.tianrui.service.bean.quality.file.QualityItem;
+import com.tianrui.service.bean.quality.file.QualityScheme;
 import com.tianrui.service.bean.quality.file.QualitySchemeItem;
+import com.tianrui.service.mapper.basicFile.nc.MaterielManageMapper;
+import com.tianrui.service.mapper.quality.file.MaterialSchemeMapper;
 import com.tianrui.service.mapper.quality.file.QualityItemMapper;
 import com.tianrui.service.mapper.quality.file.QualitySchemeItemMapper;
 import com.tianrui.service.mapper.quality.file.QualitySchemeMapper;
@@ -34,8 +37,12 @@ public class QualitySchemeItemService implements IQualitySchemeItemService {
 	private QualityItemMapper qualityItemMapper;
 	@Resource
 	private QualitySchemeMapper qualitySchemeMapper;
-	
-	
+	@Resource
+	private MaterialSchemeMapper materialSchemeMapper;
+	@Resource
+	private MaterielManageMapper materielManageMapper;
+
+
 	@Override
 	@Transactional
 	public Result delete(QualitySchemeItemReq req) throws Exception {
@@ -80,6 +87,7 @@ public class QualitySchemeItemService implements IQualitySchemeItemService {
 			//设置id
 			qi.setId(UUIDUtil.getId());
 			//设置创建者和修改者
+			qi.setStatus("0");
 			qi.setCreator(req.getUser());
 			qi.setCreatetime(System.currentTimeMillis());
 			qi.setModifier(req.getUser());
@@ -112,9 +120,12 @@ public class QualitySchemeItemService implements IQualitySchemeItemService {
 				//获取ID
 				obj.setId(UUIDUtil.getId());
 				//获取单据编号
-				obj.setCreator(req.getUser());
-				obj.setModifier(req.getUser());
+				obj.setInvalid(qsiReq.getInvalid());
+				obj.setCreator(qsiReq.getUser());
+				obj.setCreatetime(System.currentTimeMillis());
+				obj.setModifier(qsiReq.getUser());
 				obj.setModifytime(System.currentTimeMillis());
+				obj.setUtc(System.currentTimeMillis());
 				//对状态进行默认复制
 				obj.setStatus("0");
 				objs.add(obj);
@@ -151,8 +162,8 @@ public class QualitySchemeItemService implements IQualitySchemeItemService {
 		}
 		return list;
 	}
-	
-	
+
+
 	@Override
 	@Transactional
 	public Result update(QualitySchemeItemReq req) throws Exception {
@@ -183,42 +194,40 @@ public class QualitySchemeItemService implements IQualitySchemeItemService {
 	public Result findBySchemeId(QualitySchemeItemReq req) throws Exception {
 		Result rs = Result.getParamErrorResult();
 		if(req!=null && StringUtils.isNotBlank(req.getSchemeid())){
+			//通过schemeid获取数据
 			List<QualitySchemeItem> list = qualitySchemeItemMapper.findBySchemeId(req);
-			//判断需要查询的数据是否是已初始化的
-			if("1"==req.getStatus()){
+			//转换为resp集合
 			List<QualitySchemeItemResp> resps = new ArrayList<QualitySchemeItemResp>();
 			if(list!=null && !list.isEmpty()){
 				for(QualitySchemeItem q : list){
 					QualitySchemeItemResp resp = new QualitySchemeItemResp();
 					PropertyUtils.copyProperties(resp,q);
+					//获取物料名称
+					QualityScheme qs = qualitySchemeMapper.selectByPrimaryKey(q.getSchemeid());
+					if(qs!=null){
+						MaterielManage manage = materielManageMapper.selectByPrimaryKey(qs.getMaterialid());
+						if(manage!=null){
+							resp.setMaterialname(manage.getName());
+						}
+					}
+					//获取item对象
+					QualityItem qi = qualityItemMapper.selectByPrimaryKey(resp.getItemid());
+					if(qi!=null){
+						resp.setItemcode(qi.getCode());
+						resp.setItemname(qi.getName());
+						resp.setUnits(qi.getUnits());
+					}
+
+
 					resps.add(resp);
 				}
-				rs = Result.getSuccessResult();
-				rs.setData(resps);
 			}
-			}else{
-				List<QualitySchemeItemRespSP> sps = new ArrayList<QualitySchemeItemRespSP>();
-				if(list!=null && !list.isEmpty()){
-					for(QualitySchemeItem q : list){
-						QualitySchemeItemRespSP resp = new QualitySchemeItemRespSP();
-						PropertyUtils.copyProperties(resp,q);
-					
-						//获取item对象
-						QualityItem qi = qualityItemMapper.selectByPrimaryKey(resp.getItemid());
-						if(qi!=null){
-							resp.setItemcode(qi.getCode());
-							resp.setItemname(qi.getName());
-						}
-						sps.add(resp);
-					}
-				}
-				rs = Result.getSuccessResult();
-				rs.setData(sps);
-			}
-		
+			rs = Result.getSuccessResult();
+			rs.setData(resps);
 		}
 		return rs;
 	}
+
 
 	@Override
 	public Result itemData() throws Exception {
@@ -228,6 +237,32 @@ public class QualitySchemeItemService implements IQualitySchemeItemService {
 		if(list==null){
 			rs = Result.getSuccessResult();
 			rs.setData(list);
+		}
+		return rs;
+	}
+
+	@Override
+	public Result updateBatch(QualitySchemeItemReq req) throws Exception {
+		Result rs = Result.getErrorResult();
+		if(req!=null){
+			List<QualitySchemeItemReq> list = getListReq(req);
+			int num = 0;
+			//集合类型转换
+			for(QualitySchemeItemReq item : list){
+				QualitySchemeItem obj = new QualitySchemeItem();
+				//类型转换
+				PropertyUtils.copyProperties(obj, item);
+				obj.setStatus("1");
+				obj.setModifier(req.getUser());
+				obj.setModifytime(System.currentTimeMillis());
+				obj.setUtc(System.currentTimeMillis());
+				num+=qualitySchemeItemMapper.updateByPrimaryKeySelective(obj);
+			}
+			if(num==list.size()){
+				rs = Result.getSuccessResult();
+			}else{
+				rs.setErrorCode(ErrorCode.OPERATE_ERROR);
+			}
 		}
 		return rs;
 	}

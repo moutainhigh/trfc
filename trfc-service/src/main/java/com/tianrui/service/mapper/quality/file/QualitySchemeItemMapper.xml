@@ -298,9 +298,8 @@
 		</where>
 	</select>
   <insert id="insertBatch" parameterType="java.util.List">
-		insert into tr_sales_db_batch_num
-		(id, schemeid, itemid,status, invalid,remark, 
-		 creator, createtime,modifier, modifytime, utc)
+		insert into tr_quality_db_scheme_item
+		(id, schemeid, itemid,status, invalid,remark,creator,createtime,modifier,modifytime, utc)
 		values
 		<foreach collection="list" index="index" item="item" separator=",">
 			(#{item.id,jdbcType=VARCHAR}, #{item.schemeid,jdbcType=VARCHAR},

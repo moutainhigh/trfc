@@ -84,6 +84,10 @@ public class QualitySchemeItemResp extends BaseResp {
      * 有效性(0:有效,1,无效)
      */
     private String invalid;
+    /**
+     * 备注
+     */
+    private String remark;
 	public String getId() {
 		return id;
 	}
@@ -197,6 +201,12 @@ public class QualitySchemeItemResp extends BaseResp {
 	}
 	public void setSchemecode(String schemecode) {
 		this.schemecode = schemecode;
+	}
+	public String getRemark() {
+		return remark;
+	}
+	public void setRemark(String remark) {
+		this.remark = remark;
 	}
 
 	
