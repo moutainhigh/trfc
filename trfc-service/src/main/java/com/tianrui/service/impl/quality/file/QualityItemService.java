@@ -99,7 +99,7 @@ public class QualityItemService implements IQualityItemService {
 		Result rs = Result.getParamErrorResult();
 		if(req!=null){
 			PaginationVO<QualityItemResp> page = new PaginationVO<QualityItemResp>();
-			if(req.getPageNo()!=null && req.getPageSize()!=null){
+			if(req.getPageNo()!=null && req.getPageNo()!=null){
 				int pageNo = req.getPageNo();
 				int pageSize = req.getPageSize();
 				//设置开始位置,和每页数据量

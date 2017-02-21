@@ -262,7 +262,7 @@
 				and invlid=#{invlid,jdbcType=VARCHAR}
 			</if>
 		</where>
-		<if test="start!=null and limit!=null ">
+		<if test="start!=null and limit!=null and limit!=0">
 			limit #{start,jdbcType=INTEGER},#{limit,jdbcType=INTEGER}
 		</if>
 	</select>

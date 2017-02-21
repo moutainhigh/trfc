@@ -26,6 +26,10 @@ public interface IQualitySchemeItemService {
 	 */
 	Result update(QualitySchemeItemReq req) throws Exception;
 	/**
+	 * 批量更新数据
+	 */
+	Result updateBatch(QualitySchemeItemReq req) throws Exception;
+	/**
 	 * 查询数据
 	 */
 	Result findBySchemeId(QualitySchemeItemReq req) throws Exception;

@@ -47,8 +47,7 @@
     border: 1px solid #e3e4ea;
     display: inline-block;
 }
-input[readonly="true"] ,
-input[readonly="readonly"] {
+input[readOnly="true"]{
     background: #f5f6fb;
 }
 .modal-body input[type="text"]{
@@ -264,15 +263,16 @@ input[readonly="readonly"] {
     color: #434e8d;
 }
 .intel_tabbox .intel_tabcont .intel_table {
-    min-width: 1200px;
+overflow-x: scroll;
 }
 
 .intel_tabbox .intel_tabcont .intel_table table{
-
+    background: #f5f6fb;
     font-size: 12px;
     text-align: center;
 }
 .intel_tabbox .intel_tabcont .intel_table table thead th{
+    background: #f5f6fb;
     font-size: 14px;
     text-align: center;
     line-height: 33px;
@@ -285,7 +285,7 @@ input[readonly="readonly"] {
 .intel_tabbox .intel_tabcont .intel_table table tbody td{
     line-height: 33px;
     cursor: pointer;
-    min-width: 120px;
+    min-width: 100px;
 }
 .intel_tabbox .intel_tabcont .intel_table table tbody tr.select{
     background: #ffffff;
@@ -1547,8 +1547,14 @@ width: 180px;
 .zj_biaozhun_table .zj_biaozhun_tablepl{
     width: 100%
 }
-.form-control-feedback {
-    width: 30px;
-    height: 30px;
-    line-height: 30px;
+.zj_biaozhun_tablepl input, .zj_biaozhun_table2 input{
+    border: none;
+    text-align: center;
+
 }
+.zj_biaozhun_tablepl input{
+    width:100%;
+}
+.zj_biaozhun_table{
+
+ }

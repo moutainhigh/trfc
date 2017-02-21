@@ -203,7 +203,21 @@ public class QualitySchemeAction {
 		return rs;
 	}
 	/**
-	 * 批量新增数据
+	 * 删除数据
+	 */
+	@ResponseBody
+	@RequestMapping("/deleteBatchItem")
+	public Result deleteBatchItem(QualitySchemeItemReq req){
+		Result rs = Result.getErrorResult();
+		try {
+			rs = qualitySchemeItemService.deleteBatch(req);
+		} catch (Exception e) {
+			log.error(e.getMessage(),e);
+		}
+		return rs;
+	}
+	/**
+	 * 新增数据
 	 */
 	@ResponseBody
 	@RequestMapping("/addItem")
@@ -216,7 +230,20 @@ public class QualitySchemeAction {
 		}
 		return rs;
 	}
-
+	/**
+ 	* 批量新增数据
+ 	*/
+	@ResponseBody
+	@RequestMapping("/addBatchItem")
+	public Result addBatchItem(QualitySchemeItemReq req){
+		Result rs = Result.getErrorResult();
+		try {
+			rs = qualitySchemeItemService.addBatch(req);
+		} catch (Exception e) {
+			log.error(e.getMessage(),e);
+		}
+		return rs;
+	}
 	/**
 	 * 更新数据
 	 */
@@ -226,6 +253,20 @@ public class QualitySchemeAction {
 		Result rs = Result.getErrorResult();
 		try {
 			rs = qualitySchemeItemService.update(req);
+		} catch (Exception e) {
+			log.error(e.getMessage(),e);
+		}
+		return rs;
+	}
+	/**
+	 * 批量更新数据
+	 */
+	@ResponseBody
+	@RequestMapping("/updateBatchItem")
+	public Result updateBatchItem(QualitySchemeItemReq req){
+		Result rs = Result.getErrorResult();
+		try {
+			rs = qualitySchemeItemService.updateBatch(req);
 		} catch (Exception e) {
 			log.error(e.getMessage(),e);
 		}
