@@ -243,9 +243,15 @@
 										<tr>
 											<td><select id="a_materiel" class="materiel">
 													<option value="">请选择</option>
+												<c:forEach items="${materiel }" var="m">
+													<option value="${m.id }">${m.name }</option>
+												</c:forEach>
 											</select></td>
 											<td><select id="a_warehouse" class="warehouse">
 													<option value="">请选择</option>
+												<c:forEach items="${warehouse }" var="w">
+													<option value="${w.id }">${w.name }</option>
+												</c:forEach>
 											</select></td>
 											<td><input id="a_salessum" style="width: 80px;"></td>
 											<td><input id="a_taxprice" style="width: 80px;"></td>
@@ -450,9 +456,15 @@
 										<tr>
 											<td><select id="u_materiel" class="materiel">
 													<option value="">请选择</option>
+												<c:forEach items="${materiel }" var="m">
+													<option value="${m.id }">${m.name }</option>
+												</c:forEach>
 											</select></td>
 											<td><select id="u_warehouse" class="warehouse">
 													<option value="">请选择</option>
+												<c:forEach items="${warehouse }" var="w">
+													<option value="${w.id }">${w.name }</option>
+												</c:forEach>
 											</select></td>
 											<td><input id="u_salessum" style="width: 80px;"></td>
 											<td><input id="u_taxprice" style="width: 80px;"></td>
