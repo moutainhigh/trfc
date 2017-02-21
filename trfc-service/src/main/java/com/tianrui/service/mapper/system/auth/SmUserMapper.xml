@@ -196,4 +196,74 @@
       status = #{status,jdbcType=INTEGER}
     where id = #{id,jdbcType=VARCHAR}
   </update>
+  <select id="findMaxUtc" resultType="Long" >
+    select 
+   		max(ts)
+    from sm_user
+  </select>
+  <insert id ="insertBatch" parameterType="java.util.List" >
+        insert into sm_user
+        (id, name, code, 
+      	 pk_base_doc, user_note, pk_psndoc, 
+      	 pk_customer, pk_supplier, base_doc_type, 
+      	 org_id, group_id, ts, 
+      	 create_time, status)
+        values 
+         <foreach collection ="list" item="item" index= "index" separator =",">
+          (   #{item.id}, #{item.name},
+             #{item.code},#{item.pkBaseDoc},
+             #{item.userNote},
+             #{item.pkPsndoc},#{item.pkCustomer},
+             #{item.pkSupplier},#{item.baseDocType},
+             #{item.orgId},#{item.groupId},#{item.ts},#{item.createTime},
+             #{item.status}
+           )
+         </foreach >
+    </insert> 
+    <select id="selectSelective" resultMap="BaseResultMap" parameterType="com.tianrui.service.bean.basicFile.nc.WarehouseManage">
+    select 
+  	<include refid="Base_Column_List"/>
+  	from sm_user
+  	<where>
+  	  <if test="name != null and name != ''" >
+        and name = #{name,jdbcType=VARCHAR}
+      </if>
+      <if test="code != null and code != ''" >
+        and code = #{code,jdbcType=VARCHAR}
+      </if>
+      <if test="pkBaseDoc != null and pkBaseDoc != ''" >
+        and pk_base_doc = #{pkBaseDoc,jdbcType=VARCHAR}
+      </if>
+      <if test="userNote != null and userNote != ''" >
+        and user_note = #{userNote,jdbcType=VARCHAR}
+      </if>
+      <if test="pkPsndoc != null and pkPsndoc != ''" >
+        and pk_psndoc = #{pkPsndoc,jdbcType=VARCHAR}
+      </if>
+      <if test="pkCustomer != null and pkCustomer != ''" >
+        and pk_customer = #{pkCustomer,jdbcType=VARCHAR}
+      </if>
+      <if test="pkSupplier != null and pkSupplier != ''" >
+        and pk_supplier = #{pkSupplier,jdbcType=VARCHAR}
+      </if>
+      <if test="baseDocType != null and baseDocType != ''" >
+        and base_doc_type = #{baseDocType,jdbcType=INTEGER}
+      </if>
+      <if test="orgId != null and orgId != ''" >
+        and org_id = #{orgId,jdbcType=VARCHAR}
+      </if>
+      <if test="groupId != null and groupId != ''" >
+        and group_id = #{groupId,jdbcType=VARCHAR}
+      </if>
+      <if test="ts != null and ts != ''" >
+        and ts = #{ts,jdbcType=TIMESTAMP}
+      </if>
+      <if test="createTime != null and createTime != ''" >
+        and create_time = #{createTime,jdbcType=BIGINT}
+      </if>
+      <if test="status != null and status != ''" >
+        and status = #{status,jdbcType=INTEGER}
+      </if>
+  	</where>
+  </select>
 </mapper>
