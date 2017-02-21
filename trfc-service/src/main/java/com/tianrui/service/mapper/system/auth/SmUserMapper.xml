@@ -196,7 +196,7 @@
       status = #{status,jdbcType=INTEGER}
     where id = #{id,jdbcType=VARCHAR}
   </update>
-  <select id="findMaxUtc" resultType="Long" >
+  <select id="findMaxUtc" resultType="java.util.Date" >
     select 
    		max(ts)
     from sm_user
@@ -220,7 +220,7 @@
            )
          </foreach >
     </insert> 
-    <select id="selectSelective" resultMap="BaseResultMap" parameterType="com.tianrui.service.bean.basicFile.nc.WarehouseManage">
+    <select id="selectSelective" resultMap="BaseResultMap" parameterType="com.tianrui.service.bean.system.auth.SmUser">
     select 
   	<include refid="Base_Column_List"/>
   	from sm_user

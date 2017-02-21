@@ -1,12 +1,12 @@
-package com.tianrui.api.resp.system.auth;
+package com.tianrui.api.req.system.auth;
 
 import java.util.Date;
 
-import com.tianrui.api.resp.BaseResp;
+import com.tianrui.api.req.BaseReq;
 
-public class BdPsndocResp extends BaseResp{
+public class BdPsndocReq extends BaseReq{
 
-	private static final long serialVersionUID = -6961410525902722162L;
+	private static final long serialVersionUID = -4157530019173111339L;
 	
 	private String id;
 
