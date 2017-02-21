@@ -262,13 +262,13 @@ public class SalesApplicationService implements ISalesApplicationService {
 	
 	@Override
 	public List<SalesApplicationResp> selectByIds(List<String> ids) throws Exception{
-		List<SalesApplicationResp> list = null;
+		List<SalesApplicationResp> listResp = null;
 		if(CollectionUtils.isNotEmpty(ids)){
-			List<SalesApplicationResp> listResp = copyBeanList2RespList(salesApplicationMapper.selectByIds(ids), false);
+			listResp = copyBeanList2RespList(salesApplicationMapper.selectByIds(ids), false);
 			List<SalesApplicationDetailResp> listDetailResp = salesApplicationDetailService.selectBySalesIds(ids);
 			listRespSetListDetailResp(listResp, listDetailResp);
 		}
-		return list;
+		return listResp;
 	}
 	
 	private void listRespSetListDetailResp(List<SalesApplicationResp> listResp, List<SalesApplicationDetailResp> listDetailResp){
