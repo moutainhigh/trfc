@@ -192,4 +192,13 @@
   	from tr_sales_db_application_detail
   	where salesid = #{salesid,jdbcType=VARCHAR}
   </select>
+  <select id="selectBySalesIds" parameterType="java.util.List" resultMap="BaseResultMap">
+  	select
+  	<include refid="Base_Column_List" />
+  	from tr_sales_db_application_detail
+  	where id in
+	<foreach item="item" index="index" collection="list" open="(" separator="," close=")">  
+		#{item}  
+	</foreach>
+  </select>
 </mapper>

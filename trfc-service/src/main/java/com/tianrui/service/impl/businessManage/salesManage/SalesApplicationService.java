@@ -22,6 +22,7 @@ import com.tianrui.api.req.businessManage.salesManage.SalesApplicationDetailSave
 import com.tianrui.api.req.businessManage.salesManage.SalesApplicationQuery;
 import com.tianrui.api.req.businessManage.salesManage.SalesApplicationSave;
 import com.tianrui.api.req.system.base.GetCodeReq;
+import com.tianrui.api.resp.businessManage.salesManage.SalesApplicationDetailResp;
 import com.tianrui.api.resp.businessManage.salesManage.SalesApplicationResp;
 import com.tianrui.service.bean.basicFile.nc.CustomerManage;
 import com.tianrui.service.bean.basicFile.nc.MaterielManage;
@@ -79,7 +80,14 @@ public class SalesApplicationService implements ISalesApplicationService {
 				query.setStart((query.getPageNo()-1)*query.getPageSize());
 				query.setLimit(query.getPageSize());
 				List<SalesApplication> list = salesApplicationMapper.findSalesApplicationPage(query);
-				page.setList(copyBeanList2RespList(list));
+				List<SalesApplicationResp> listResp = copyBeanList2RespList(list, true);
+				List<String> ids = new ArrayList<String>();
+				for(SalesApplicationResp resp : listResp){
+					ids.add(resp.getId());
+				}
+				List<SalesApplicationDetailResp> listDetailResp = salesApplicationDetailService.selectBySalesIds(ids);
+				listRespSetListDetailResp(listResp, listDetailResp);
+				page.setList(listResp);
 			}
 			page.setTotal(count);
 			page.setPageNo(query.getPageNo());
@@ -245,32 +253,57 @@ public class SalesApplicationService implements ISalesApplicationService {
 	}
 	
 	@Override
-	public SalesApplicationResp findOne(String id) throws Exception {
+	public SalesApplicationResp findOne(String id, boolean setDetail) throws Exception {
 		if(StringUtils.isNotBlank(id)){
-			return copyBean2Resp(salesApplicationMapper.selectByPrimaryKey(id));
+			return copyBean2Resp(salesApplicationMapper.selectByPrimaryKey(id), setDetail);
 		}
 		return null;
 	}
 	
-	private List<SalesApplicationResp> copyBeanList2RespList(List<SalesApplication> list) throws Exception {
+	@Override
+	public List<SalesApplicationResp> selectByIds(List<String> ids) throws Exception{
+		List<SalesApplicationResp> list = null;
+		if(CollectionUtils.isNotEmpty(ids)){
+			List<SalesApplicationResp> listResp = copyBeanList2RespList(salesApplicationMapper.selectByIds(ids), false);
+			List<SalesApplicationDetailResp> listDetailResp = salesApplicationDetailService.selectBySalesIds(ids);
+			listRespSetListDetailResp(listResp, listDetailResp);
+		}
+		return list;
+	}
+	
+	private void listRespSetListDetailResp(List<SalesApplicationResp> listResp, List<SalesApplicationDetailResp> listDetailResp){
+		if(CollectionUtils.isNotEmpty(listResp) && CollectionUtils.isNotEmpty(listDetailResp)){
+			for(SalesApplicationResp resp : listResp){
+				for(SalesApplicationDetailResp detailResp : listDetailResp){
+					if(StringUtils.equals(resp.getId(), detailResp.getSalesid())){
+						resp.setDetailResp(detailResp);
+					}
+				}
+			}
+		}
+	}
+	
+	private List<SalesApplicationResp> copyBeanList2RespList(List<SalesApplication> list, boolean setDetail) throws Exception {
 		List<SalesApplicationResp> listResp = null;
 		if(list != null && list.size() > 0){
 			listResp = new ArrayList<SalesApplicationResp>();
 			for(SalesApplication sales : list){
-				listResp.add(copyBean2Resp(sales));
+				listResp.add(copyBean2Resp(sales, setDetail));
 			}
 		}
 		return listResp;
 	}
 	
-	private SalesApplicationResp copyBean2Resp(SalesApplication bean) throws Exception {
+	private SalesApplicationResp copyBean2Resp(SalesApplication bean, boolean setDetail) throws Exception {
 		SalesApplicationResp resp = null;
 		if(bean != null){
 			resp = new SalesApplicationResp();
 			PropertyUtils.copyProperties(resp, bean);
-			SalesApplicationDetailQuery query = new SalesApplicationDetailQuery();
-			query.setSalesid(bean.getId());
-			resp.setDetailResp(salesApplicationDetailService.findListBySalesApplicationId(query).get(0));
+			if(setDetail){
+				SalesApplicationDetailQuery query = new SalesApplicationDetailQuery();
+				query.setSalesid(bean.getId());
+				resp.setDetailResp(salesApplicationDetailService.findListBySalesApplicationId(query).get(0));
+			}
 		}
 		return resp;
 	}

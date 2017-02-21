@@ -18,4 +18,7 @@ public interface ReturnQueueMapper {
     int updateByPrimaryKey(ReturnQueue record);
     
     List<ReturnQueue> selectSelective(ReturnQueue record);
+    
+    int deteleByIds(List<String> list);
+    
 }
