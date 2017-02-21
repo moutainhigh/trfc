@@ -156,4 +156,11 @@
       </if>
   	</where>
   </select>
+  <delete id="deteleByIds" parameterType="java.util.List">
+  	delete from tr_return_db_queue
+    where id in 
+    <foreach item="item" index="index" collection="list" open="(" separator="," close=")">  
+		#{item}  
+	</foreach>
+  </delete>
 </mapper>

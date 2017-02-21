@@ -27,4 +27,6 @@ public interface SalesApplicationMapper {
 	List<SalesApplication> selectSelective(SalesApplication record);
 	
 	Long  findMaxUtc();
+	
+	List<SalesApplication> selectByIds(List<String> list);
 }

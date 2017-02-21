@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.beanutils.PropertyUtils;
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -74,7 +75,14 @@ public class SalesArriveService implements ISalesArriveService {
 				query.setStart((query.getPageNo() - 1)*query.getPageSize());
 				query.setLimit(query.getPageSize());
 				List<SalesArrive> list = salesArriveMapper.findSalesArrivePage(query);
-				page.setList(copyBeanList2RespList(list));
+				List<SalesArriveResp> listResp = copyBeanList2RespList(list, false);
+				List<String> ids = new ArrayList<String>();
+				for(SalesArriveResp resp : listResp){
+					ids.add(resp.getBillid());
+				}
+				List<SalesApplicationResp> listApplication = salesApplicationService.selectByIds(ids);
+				ListArriveRespSetListApplicationResp(listResp, listApplication);
+				page.setList(listResp);
 			}
 			page.setTotal(count);
 			page.setPageNo(query.getPageNo());
@@ -199,29 +207,41 @@ public class SalesArriveService implements ISalesArriveService {
 	@Override
 	public SalesArriveResp findOne(SalesArriveQuery query) throws Exception {
 		if(query != null && StringUtils.isNotBlank(query.getId())){
-			return copyBean2Resp(salesArriveMapper.selectByPrimaryKey(query.getId()));
+			return copyBean2Resp(salesArriveMapper.selectByPrimaryKey(query.getId()), true);
 		}
 		return null;
 	}
 	
-	private List<SalesArriveResp> copyBeanList2RespList(List<SalesArrive> list) throws Exception {
+	private void ListArriveRespSetListApplicationResp(List<SalesArriveResp> listArrive, List<SalesApplicationResp> listApplication){
+		if(CollectionUtils.isNotEmpty(listArrive) && CollectionUtils.isNotEmpty(listApplication)){
+			for(SalesArriveResp arriveResp : listArrive){
+				for(SalesApplicationResp applicationResp : listApplication){
+					if(StringUtils.equals(arriveResp.getBillid(), applicationResp.getId())){
+						arriveResp.setSalesApplication(applicationResp);
+					}
+				}
+			}
+		}
+	}
+	
+	private List<SalesArriveResp> copyBeanList2RespList(List<SalesArrive> list, boolean setApplication) throws Exception {
 		List<SalesArriveResp> listResp = null;
 		if(list != null && list.size() > 0){
 			listResp = new ArrayList<SalesArriveResp>();
 			for(SalesArrive sa : list){
-				listResp.add(copyBean2Resp(sa));
+				listResp.add(copyBean2Resp(sa, setApplication));
 			}
 		}
 		return listResp;
 	}
 	
-	private SalesArriveResp copyBean2Resp(SalesArrive bean) throws Exception {
+	private SalesArriveResp copyBean2Resp(SalesArrive bean, boolean setApplication) throws Exception {
 		SalesArriveResp resp = null;
 		if(bean != null){
 			resp = new SalesArriveResp();
 			PropertyUtils.copyProperties(resp, bean);
 			if(StringUtils.isNotBlank(bean.getBillid())){
-				resp.setSalesApplication(salesApplicationService.findOne(bean.getBillid()));
+				resp.setSalesApplication(salesApplicationService.findOne(bean.getBillid(), setApplication));
 			}
 		}
 		return resp;
@@ -329,7 +349,7 @@ public class SalesArriveService implements ISalesArriveService {
 						if(listSales == null || listSales.size() == 0){
 							result.setErrorCode(ErrorCode.VEHICLE_NOT_ARRIVE);
 						}else{
-							SalesArriveResp resp = copyBean2Resp(listSales.get(0));
+							SalesArriveResp resp = copyBean2Resp(listSales.get(0), true);
 							SalesApplicationResp salesApplicationResp = resp.getSalesApplication();
 							SalesApplicationDetailResp salesApplicationDetailResp = salesApplicationResp.getDetailResp();
 							ApiSalesArriveResp api = new ApiSalesArriveResp();

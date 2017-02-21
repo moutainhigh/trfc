@@ -623,5 +623,14 @@
 		#{item.utc,jdbcType=VARCHAR}
 		)
 	</foreach>
-</insert>  
+  </insert>
+  <select id="selectByIds" parameterType="java.util.List" resultMap="BaseResultMap">
+  	select
+  	<include refid="Base_Column_List" />
+  	from tr_sales_db_application
+  	where id in
+	<foreach item="item" index="index" collection="list" open="(" separator="," close=")">  
+		#{item}  
+	</foreach>
+  </select>
 </mapper>

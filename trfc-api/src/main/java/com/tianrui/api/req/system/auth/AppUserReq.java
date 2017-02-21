@@ -2,13 +2,12 @@ package com.tianrui.api.req.system.auth;
 
 import com.tianrui.api.req.BaseReq;
 /**
- * 用户登录相关
- * @author lixp 2017年1月7日 09:32:41
+ * 用户登录
+ * @author lixp
  *
  */
-public class UserReq extends BaseReq {
+public class AppUserReq extends BaseReq {
 
-	
 	private static final long serialVersionUID = 7754051527490768321L;
 	private String account;
 	private String pswd;
@@ -32,6 +31,5 @@ public class UserReq extends BaseReq {
 	public void setNewPswd(String newPswd) {
 		this.newPswd = newPswd;
 	}
-	
 	
 }

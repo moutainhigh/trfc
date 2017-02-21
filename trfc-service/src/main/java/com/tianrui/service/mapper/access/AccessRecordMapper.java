@@ -6,31 +6,31 @@ import com.tianrui.service.bean.access.AccessRecord;
 
 public interface AccessRecordMapper {
 	/**
-	 * É¾³ýÊý¾Ý(Ö÷¼üID)
+	 * É¾ï¿½ï¿½ï¿½ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½ID)
 	 */
     int deleteByPrimaryKey(String id);
     /**
-     * ÐÂÔöÊý¾Ý
+     * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
      */
     int insert(AccessRecord record);
     /**
-     * ÐÂÔöÊý¾Ý(¶¯Ì¬)
+     * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½(ï¿½ï¿½Ì¬)
      */
     int insertSelective(AccessRecord record);
     /**
-     * ²éÑ¯Êý¾Ý(Ö÷¼üID)
+     * ï¿½ï¿½Ñ¯ï¿½ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½ID)
      */
     AccessRecord selectByPrimaryKey(String id);
     /**
-     * ¸üÐÂÊý¾Ý(¶¯Ì¬)
+     * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½(ï¿½ï¿½Ì¬)
      */
     int updateByPrimaryKeySelective(AccessRecord record);
     /**
-     * ¸üÐÂÊý¾Ý
+     * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
      */
     int updateByPrimaryKey(AccessRecord record);
     /**
-     * ²éÑ¯ÃÅ½û¼ÇÂ¼
+     * ï¿½ï¿½Ñ¯ï¿½Å½ï¿½ï¿½Â¼
      * @param access
      * @return
      */

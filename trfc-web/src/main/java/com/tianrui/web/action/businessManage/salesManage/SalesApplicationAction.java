@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.tianrui.api.intf.basicFile.nc.IMaterielManageService;
+import com.tianrui.api.intf.basicFile.nc.IWarehouseManageService;
 import com.tianrui.api.intf.businessManage.salesManage.ISalesApplicationService;
 import com.tianrui.api.intf.common.IBillTypeService;
 import com.tianrui.api.intf.system.base.ISystemCodeService;
@@ -39,12 +41,14 @@ public class SalesApplicationAction {
 	
 	@Autowired
 	private ISalesApplicationService salesApplicationService;
-	
 	@Autowired
 	private IBillTypeService billTypeService;
-	
 	@Autowired
 	private ISystemCodeService systemCodeService;
+	@Autowired
+	private IMaterielManageService materielManageService;
+	@Autowired
+	private IWarehouseManageService warehouseManageService;
 	
 	@RequestMapping("/main")
 	public ModelAndView main(HttpSession session){
@@ -55,6 +59,8 @@ public class SalesApplicationAction {
 			view.addObject("user", user);
 			view.addObject("orgid", Constant.ORG_ID);
 			view.addObject("orgname", Constant.ORG_NAME);
+			view.addObject("materiel", materielManageService.findListByParmas(null).getData());
+			view.addObject("warehouse", warehouseManageService.findListByParmas(null).getData());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

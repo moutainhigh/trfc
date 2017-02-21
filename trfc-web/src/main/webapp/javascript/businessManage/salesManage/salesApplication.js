@@ -1,9 +1,7 @@
 ;(function($,win){
 	//请求路径
 	var URL = {
-			findWAllUrl:"/trfc/warehouse/findAll",
 			initAddUrl:"/trfc/salesApplication/initAdd",
-			
 			addBtnUrl:"/trfc/salesApplication/add",
 			updateBtnUrl:"/trfc/salesApplication/update",
 			pageUrl:"/trfc/salesApplication/page",
@@ -11,9 +9,6 @@
 			unauditUrl:"/trfc/salesApplication/unaudit",
 			deleteUrl:"/trfc/salesApplication/delete",
 	};
-	var customer = null;
-	var warehouse = null;
-	
 	function str2Long(dateStr){
 		var time = '';
 		if(dateStr){
@@ -25,32 +20,8 @@
 	
 	init();
 	function init(){
-		initSelect();
 		bindEvent();
 		queryData(1);
-	}
-	function initSelect(){
-		$.ajax({
-			url:URL.findWAllUrl,
-			data:null,
-			async:true,
-			cache:false,
-			dataType:'json',
-			type:'post',
-			success:function(result){
-				if(result.code == '000000'){
-					if(result.data && result.data.length > 0){
-						warehouse = result.data;
-						for(var i=0;i<result.data.length;i++){
-							var obj = result.data[i];
-							$('.warehouse').append('<option value="'+obj.id+'">'+obj.name+'</option>');
-						}
-					}
-				}else{
-					layer.msg(result.error, {icon: 5});
-				}
-			}
-		});
 	}
 	function bindEvent(){
 		$('#refreshBtn').off('click').on('click',function(){

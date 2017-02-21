@@ -1,7 +1,9 @@
 package com.tianrui.quartz.service;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
@@ -51,17 +53,16 @@ public class TaskJobService {
 	@Transactional
 	private void returnSalesApplication(List<ReturnQueue> list) throws Exception {
 		if(list != null){
-			List<SalesApplicationResp> listSales = new ArrayList<SalesApplicationResp>();
+			Set<String> dataIds = new HashSet<String>();
+			List<String> queueIds = new ArrayList<String>();
 			for(ReturnQueue rq : list){
-				SalesApplicationResp resp = salesApplicationService.findOne(rq.getDataid());
-				listSales.add(resp);
+				dataIds.add(rq.getDataid());
+				queueIds.add(rq.getId());
 			}
-			
+			List<SalesApplicationResp> listSales = salesApplicationService.selectByIds(new ArrayList<String>(dataIds));
 			ApiResult apiResult = HttpUtils.post(ApiParamUtils.getApiParam(listSales), Constant.URL_RETURN_SALESAPPLICATION);
 			if(StringUtils.equals(apiResult.getCode(), ErrorCode.SYSTEM_SUCCESS.getCode())){
-				for(ReturnQueue rq : list){
-					returnQueueMapper.deleteByPrimaryKey(rq.getId());
-				}
+				returnQueueMapper.deteleByIds(queueIds);
 			}
 		}
 	}
