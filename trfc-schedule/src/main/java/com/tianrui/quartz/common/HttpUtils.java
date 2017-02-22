@@ -23,6 +23,10 @@ public class HttpUtils {
 			URL url = new URL(path);
 			//打开链接
 			HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+			//连接超时设置
+			connection.setConnectTimeout(50000);
+			//读取超时设置
+			connection.setReadTimeout(150000);
 			//设置请求类型
 			connection.setRequestMethod("POST");
 			//设置是否带参数

@@ -27,7 +27,7 @@ public class TaskJob {
 	@Autowired
 	private TaskJobService taskJobService;
 	
-	@Scheduled(cron="0/5 * *  * * ? ")   //每5秒执行一次  
+	@Scheduled(cron="0 0/3 *  * * ? ")   //每5秒执行一次  
 	public void returnDataCenter(){
 		 try {
 			taskJobService.returnDataCenter();
