@@ -318,11 +318,11 @@ $(function(){
 	function showPageData(list,pageSize,pageNo){
 		//设置TYPE变量 ,作用为 显示结果
 		var COMP = {
-				0:'大于',
-				1:'小于',
-				2:'大于等于',
-				3:'小于等于',
-				4:'等于'
+				0:' >',
+				1:' <',
+				2:' >=',
+				3:' <=',
+				4:' ='
 		};
 		
 		//清空列表

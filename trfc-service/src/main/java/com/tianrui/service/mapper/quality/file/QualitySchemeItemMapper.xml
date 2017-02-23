@@ -295,6 +295,9 @@
 			<if test="status!=null">
 				and status = #{status,jdbcType=VARCHAR}
 			</if>
+			<if test="invalid!=null">
+				and invalid = #{invalid,jdbcType=VARCHAR}
+			</if>
 		</where>
 	</select>
   <insert id="insertBatch" parameterType="java.util.List">

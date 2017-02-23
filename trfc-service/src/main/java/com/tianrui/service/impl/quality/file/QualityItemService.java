@@ -111,7 +111,6 @@ public class QualityItemService implements IQualityItemService {
 			//获取数据总数
 			int total = qualityItemMapper.count(req);
 			page.setTotal(total);
-			System.out.println(total);
 			//创建一个出参集合
 			List<QualityItemResp> resps = new ArrayList<QualityItemResp>();
 			//判断是否有数据可查询

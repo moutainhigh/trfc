@@ -48,7 +48,7 @@ $(function(){
 					if(result.code=='000000'){
 						//加载列表
 						ShowAction(1);
-						
+						$("#addBatch_cancel").click();
 					}else{
 						layer.msg(result.error,{icon:5});
 					}

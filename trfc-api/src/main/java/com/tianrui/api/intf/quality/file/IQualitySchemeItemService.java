@@ -2,7 +2,11 @@ package com.tianrui.api.intf.quality.file;
 
 import com.tianrui.api.req.quality.file.QualitySchemeItemReq;
 import com.tianrui.smartfactory.common.vo.Result;
-
+/**
+ * 质检方案-项目接口
+ * @author Administrator
+ *
+ */
 public interface IQualitySchemeItemService {
 	
 	/**

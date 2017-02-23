@@ -4,7 +4,11 @@ import java.util.List;
 
 import com.tianrui.api.req.quality.file.QualitySchemeReq;
 import com.tianrui.service.bean.quality.file.QualityScheme;
-
+/**
+ * 质检方案Mapper接口
+ * @author Administrator
+ *
+ */
 public interface QualitySchemeMapper {
 	
 	/**
