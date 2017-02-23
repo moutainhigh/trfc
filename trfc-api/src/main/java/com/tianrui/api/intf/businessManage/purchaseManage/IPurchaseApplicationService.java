@@ -1,9 +1,13 @@
 package com.tianrui.api.intf.businessManage.purchaseManage;
 
+import java.util.List;
+
+import com.alibaba.fastjson.JSONObject;
 import com.tianrui.api.req.businessManage.purchaseManage.PurchaseApplicationQuery;
 import com.tianrui.api.resp.businessManage.purchaseManage.PurchaseApplicationJoinDetailResp;
 import com.tianrui.api.resp.businessManage.purchaseManage.PurchaseApplicationResp;
 import com.tianrui.smartfactory.common.vo.PaginationVO;
+import com.tianrui.smartfactory.common.vo.Result;
 /**
  * @Description 采购通知单Service接口
  * @author zhanggaohao
@@ -40,4 +44,8 @@ public interface IPurchaseApplicationService {
 	 * @throws Exception
 	 */
 	PurchaseApplicationResp findOne(String id) throws Exception;
+
+	Result findMaxUtc(PurchaseApplicationQuery cardApi);
+
+	Result updateDataWithDC(List<JSONObject> list);
 }

@@ -2,6 +2,8 @@ package com.tianrui.service.mapper.businessManage.purchaseManage;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.tianrui.service.bean.businessManage.purchaseManage.PurchaseApplicationDetail;
 
 public interface PurchaseApplicationDetailMapper {
@@ -21,4 +23,5 @@ public interface PurchaseApplicationDetailMapper {
 
 	List<PurchaseApplicationDetail> selectByPurchaseId(String purchaseId);
 	
+	int insertBatch(@Param("list")List<PurchaseApplicationDetail> list);
 }

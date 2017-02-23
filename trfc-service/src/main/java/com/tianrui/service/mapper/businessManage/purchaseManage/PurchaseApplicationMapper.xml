@@ -33,12 +33,13 @@
     <result column="modifier" property="modifier" jdbcType="VARCHAR" />
     <result column="modifytime" property="modifytime" jdbcType="BIGINT" />
     <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="utc" property="utc" jdbcType="BIGINT" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, code, auditstatus, source, billtypeid, billtypename, billtime, sumnum, orgid, orgname, 
     supplierid, suppliername, supplierremark, minemouthid, minemouthname, departmentid, departmentname, buyerid, buyername, auditid, 
     auditname, audittime, state, makerid, makebillname, makebilltime, creator, createtime, 
-    modifier, modifytime, remark
+    modifier, modifytime, remark,utc
   </sql>
   <sql id="P_Base_Column_List" >
     p1.id, p1.code, p1.auditstatus, p1.source, p1.billtypeid, p1.billtypename, p1.billtime, p1.sumnum, p1.orgid, p1.orgname, 
@@ -514,5 +515,155 @@
 			limit #{start,jdbcType=INTEGER},#{limit,jdbcType=INTEGER}
   		</if>
   	</if>
+  </select>
+  <select id="findMaxUtc" resultType="Long"  >
+    select 
+   		max(utc)
+    from tr_purchase_db_application
+  </select>
+  <insert id="insertBatch" parameterType="java.util.List">
+	insert into tr_purchase_db_application (id, code, auditstatus, source, billtypeid, billtypename, billtime, sumnum, orgid, orgname, 
+    supplierid, suppliername, supplierremark, minemouthid, minemouthname, departmentid, departmentname, buyerid, buyername, auditid, 
+    auditname, audittime, state, makerid, makebillname, makebilltime, creator, createtime, 
+    modifier, modifytime, remark,utc)
+	values
+	<foreach collection="list" item="item" index="index" separator=",">
+		(#{item.id,jdbcType=VARCHAR}, 
+		#{item.code,jdbcType=VARCHAR},
+		#{item.auditstatus,jdbcType=VARCHAR},
+		#{item.source,jdbcType=VARCHAR},
+		#{item.billtypeid,jdbcType=VARCHAR},
+		#{item.billtypename,jdbcType=VARCHAR},
+		#{item.billtime,jdbcType=BIGINT},
+		#{item.sumnum,jdbcType=DOUBLE},
+		#{item.orgid,jdbcType=VARCHAR},
+		#{item.orgname,jdbcType=VARCHAR},
+		#{item.supplierid,jdbcType=VARCHAR},
+		#{item.suppliername,jdbcType=VARCHAR},
+		#{item.supplierremark,jdbcType=VARCHAR},
+		#{item.minemouthid,jdbcType=VARCHAR},
+		#{item.minemouthname,jdbcType=VARCHAR},
+		#{item.departmentid,jdbcType=VARCHAR},
+		#{item.departmentname,jdbcType=VARCHAR},
+		#{item.buyerid,jdbcType=VARCHAR},
+		#{item.buyername,jdbcType=VARCHAR},
+		#{item.auditid,jdbcType=VARCHAR},
+		#{item.auditname,jdbcType=VARCHAR},
+		#{item.audittime,jdbcType=BIGINT},
+		#{item.state,jdbcType=VARCHAR},
+		#{item.makerid,jdbcType=VARCHAR},
+		#{item.makebillname,jdbcType=VARCHAR},
+		#{item.makebilltime,jdbcType=BIGINT},
+		#{item.creator,jdbcType=VARCHAR},
+		#{item.createtime,jdbcType=BIGINT},
+		#{item.modifier,jdbcType=VARCHAR},
+		#{item.modifytime,jdbcType=BIGINT},
+		#{item.remark,jdbcType=VARCHAR},
+		#{item.utc,jdbcType=BIGINT}
+		)
+	</foreach>
+  </insert>
+   <select id="selectSelective" parameterType="com.tianrui.service.bean.businessManage.purchaseManage.PurchaseApplication" resultMap="BaseResultMap">
+  	select
+  	<include refid="Base_Column_List" />
+  	from tr_purchase_db_application
+  	<where>
+  	  <if test="id != null and id != ''" >
+        and id = #{id,jdbcType=VARCHAR}
+      </if>
+  	  <if test="code != null and code !=''" >
+        and code = #{code,jdbcType=VARCHAR}
+      </if>
+      <if test="auditstatus != null and auditstatus !=''" >
+        and auditstatus = #{auditstatus,jdbcType=VARCHAR}
+      </if>
+      <if test="source != null and source !=''" >
+        and source = #{source,jdbcType=VARCHAR}
+      </if>
+      <if test="billtypeid != null and billtypeid !=''" >
+        and billtypeid = #{billtypeid,jdbcType=VARCHAR}
+      </if>
+      <if test="billtypename != null and billtypename !=''" >
+        and billtypename = #{billtypename,jdbcType=VARCHAR}
+      </if>
+      <if test="billtime != null and billtime !=''" >
+        and billtime = #{billtime,jdbcType=BIGINT}
+      </if>
+      <if test="sumnum != null and sumnum !=''" >
+        and sumnum = #{sumnum,jdbcType=DOUBLE}
+      </if>
+      <if test="orgid != null and orgid !=''" >
+        and orgid = #{orgid,jdbcType=VARCHAR}
+      </if>
+      <if test="orgname != null and orgname !=''" >
+        and orgname = #{orgname,jdbcType=VARCHAR}
+      </if>
+      <if test="supplierid != null and supplierid !=''" >
+        and supplierid = #{supplierid,jdbcType=VARCHAR}
+      </if>
+      <if test="suppliername != null and suppliername !=''" >
+        and suppliername = #{suppliername,jdbcType=VARCHAR}
+      </if>
+      <if test="supplierremark != null and supplierremark !=''" >
+        and supplierremark = #{supplierremark,jdbcType=VARCHAR}
+      </if>
+      <if test="minemouthid != null and minemouthid !=''" >
+        and minemouthid = #{minemouthid,jdbcType=VARCHAR}
+      </if>
+      <if test="minemouthname != null and minemouthname !=''" >
+        and minemouthname = #{minemouthname,jdbcType=VARCHAR}
+      </if>
+      <if test="departmentid != null and departmentid !=''" >
+        and departmentid = #{departmentid,jdbcType=VARCHAR}
+      </if>
+      <if test="departmentname != null and departmentname !=''" >
+        and departmentname = #{departmentname,jdbcType=VARCHAR}
+      </if>
+        <if test="buyerid != null and buyerid !=''" >
+        and buyerid = #{buyerid,jdbcType=VARCHAR}
+      </if>
+        <if test="buyername != null and buyername !=''" >
+        and buyername = #{buyername,jdbcType=VARCHAR}
+      </if>
+      <if test="auditid != null and auditid !=''" >
+        and auditid = #{auditid,jdbcType=VARCHAR}
+      </if>
+      <if test="auditname != null and auditname !=''" >
+        and auditname = #{auditname,jdbcType=VARCHAR}
+      </if>
+      <if test="audittime != null and audittime !=''" >
+        and audittime = #{audittime,jdbcType=BIGINT}
+      </if>
+      <if test="state != null and state !=''" >
+        and state = #{state,jdbcType=VARCHAR}
+      </if>
+      <if test="makerid != null and makerid !=''" >
+        and makerid = #{makerid,jdbcType=VARCHAR}
+      </if>
+      <if test="makebillname != null and makebillname !=''" >
+        and makebillname = #{makebillname,jdbcType=VARCHAR}
+      </if>
+      <if test="makebilltime != null and makebilltime !=''" >
+        and makebilltime = #{makebilltime,jdbcType=BIGINT}
+      </if>
+      <if test="creator != null and creator !=''" >
+        and creator = #{creator,jdbcType=VARCHAR}
+      </if>
+      <if test="createtime != null and createtime !=''" >
+        and createtime = #{createtime,jdbcType=BIGINT}
+      </if>
+      <if test="modifier != null and modifier !=''" >
+        and modifier = #{modifier,jdbcType=VARCHAR}
+      </if>
+      <if test="modifytime != null and modifytime !=''" >
+        and modifytime = #{modifytime,jdbcType=BIGINT}
+      </if>
+      <if test="remark != null and remark !=''" >
+        and remark = #{remark,jdbcType=VARCHAR}
+      </if>
+      <if test="utc != null and utc !=''" >
+        and utc = #{utc,jdbcType=BIGINT}
+      </if>
+  	</where>
   </select>
 </mapper>

@@ -67,7 +67,8 @@ public class PurchaseApplication {
     private Long modifytime;
 	//备注
     private String remark;
-
+    //NC同步时间戳
+    private Long utc;
     public String getId() {
         return id;
     }
@@ -315,4 +316,13 @@ public class PurchaseApplication {
     public void setRemark(String remark) {
         this.remark = remark == null ? null : remark.trim();
     }
+
+	public Long getUtc() {
+		return utc;
+	}
+
+	public void setUtc(Long utc) {
+		this.utc = utc;
+	}
+    
 }

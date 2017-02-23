@@ -26,4 +26,10 @@ public interface PurchaseApplicationMapper {
 	long findPageGroupMaterielCount(PurchaseApplicationQuery query);
 	
 	List<PurchaseApplicationJoinDetailResp> findPageGroupMateriel(PurchaseApplicationQuery query);
+	
+	Long  findMaxUtc();
+	
+	int insertBatch(List<PurchaseApplication> list);
+
+	List<PurchaseApplication> selectSelective(PurchaseApplication record);
 }
