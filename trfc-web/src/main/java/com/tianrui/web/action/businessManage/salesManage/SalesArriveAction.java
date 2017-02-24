@@ -136,9 +136,7 @@ public class SalesArriveAction {
 			view.addObject("customer", customerManageService.findListByParmas(null).getData());
 			view.addObject("vehicle", vehicleManageService.findListByParmas(null).getData());
 			view.addObject("driver", driverManageService.findListByParmas(null).getData());
-			SalesArriveQuery query = new SalesArriveQuery();
-			query.setId(id);
-			view.addObject("salesArrive", salesArriveService.findOne(query));
+			view.addObject("salesArrive", salesArriveService.findOne(id));
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 		}
@@ -224,9 +222,7 @@ public class SalesArriveAction {
 	public ModelAndView detailView(String id){
 		ModelAndView view = new ModelAndView("businessManage/salesManage/salesArriveDetail");
 		try {
-			SalesArriveQuery query = new SalesArriveQuery();
-			query.setId(id);
-			view.addObject("salesArrive", salesArriveService.findOne(query));
+			view.addObject("salesArrive", salesArriveService.findOne(id));
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 		}

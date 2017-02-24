@@ -23,5 +23,7 @@ public interface PurchaseApplicationDetailMapper {
 
 	List<PurchaseApplicationDetail> selectByPurchaseId(String purchaseId);
 	
+	List<PurchaseApplicationDetail> selectByIds(List<String> list);
+	
 	int insertBatch(@Param("list")List<PurchaseApplicationDetail> list);
 }

@@ -44,6 +44,16 @@ public interface IPurchaseApplicationService {
 	 * @throws Exception
 	 */
 	PurchaseApplicationResp findOne(String id) throws Exception;
+	/**
+	 * @Description 根据ids查询采购到货通知单
+	 * @author zhanggaohao
+	 * @version 2017年2月23日 下午3:24:42
+	 * @param ids
+	 * @param setDetail 
+	 * @return
+	 * @throws Exception
+	 */
+	List<PurchaseApplicationResp> selectByIds(List<String> ids, boolean setDetail) throws Exception;
 
 	Result findMaxUtc(PurchaseApplicationQuery cardApi) throws Exception;
 

@@ -44,7 +44,6 @@ public class ApiStaticAction {
 	@ApiParamRawType(AppUserReq.class)
 	@ResponseBody
 	public ApiResult login(ApiParam<AppUserReq> req){
-		AppUserReq userReq =req.getBody();
 		Result rs=Result.getSuccessResult();
 		AppUserResp resp = new AppUserResp();
 		resp.setId(UUID.randomUUID().toString());

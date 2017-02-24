@@ -28,7 +28,7 @@ public class PurchaseApplicationQuery extends BaseReq {
     private String state;
 	//开始时间
     private Long starttime;
-    //结束事件
+    //结束时间
     private Long endtime;
     //起始页
     private Integer start;

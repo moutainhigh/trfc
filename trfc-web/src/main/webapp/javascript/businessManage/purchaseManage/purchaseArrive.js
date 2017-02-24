@@ -196,24 +196,28 @@
 			//跳转到详情页面
 			window.location.href = '/trfc/purchaseArrive/detailView?id='+obj.id;
 		});
-		$('#dataBody>tr').find('.update').off('click').on('click',function(){
+		$('#dataBody>tr').find('.update').off('click').on('click',function(e){
+			e.stopPropagation();
 			var obj = $(this).closest('tr').data();
-			//跳转到修改页面
-			window.location.href = '/trfc/purchaseArrive/updateView?id='+obj.id;
+			updateOperation(obj);
 		});
-		$('#dataBody>tr').find('.audit').off('click').on('click',function(){
+		$('#dataBody>tr').find('.audit').off('click').on('click',function(e){
+			e.stopPropagation();
 			var obj = $(this).closest('tr').data();
 			auditOperation(obj);
 		});
-		$('#dataBody>tr').find('.unaudit').off('click').on('click',function(){
+		$('#dataBody>tr').find('.unaudit').off('click').on('click',function(e){
+			e.stopPropagation();
 			var obj = $(this).closest('tr').data();
 			unauditOperation(obj);
 		});
-		$('#dataBody>tr').find('.invalid').off('click').on('click',function(){
+		$('#dataBody>tr').find('.invalid').off('click').on('click',function(e){
+			e.stopPropagation();
 			var obj = $(this).closest('tr').data();
 			invalidOperation(obj);
 		});
-		$('#dataBody>tr').find('.outfactory').off('click').on('click',function(){
+		$('#dataBody>tr').find('.outfactory').off('click').on('click',function(e){
+			e.stopPropagation();
 			var obj = $(this).closest('tr').data();
 			outfactoryOperation(obj);
 		});
@@ -235,6 +239,19 @@
 		$('#purchasesum').html(purchaseApplicationDetail.purchasesum || '');
 		$('#billtime').html(purchaseApplication.makebilltimeStr || '');
 		$('#ind_tab').show();
+	}
+	//修改
+	function updateOperation(obj){
+		if(obj.auditstatus == '1'){
+			layer.msg('此单据已审核，无法继续编辑！', {icon: 5});
+			return;
+		}
+		if(obj.status != '0'){
+			layer.msg('当前通知单已使用，无法编辑！', {icon: 5});
+			return;
+		}
+		//跳转到修改页面
+		window.location.href = '/trfc/purchaseArrive/updateView?id='+obj.id;
 	}
 	//审核
 	function auditOperation(obj){

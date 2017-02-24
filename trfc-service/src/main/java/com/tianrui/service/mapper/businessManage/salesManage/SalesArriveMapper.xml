@@ -637,4 +637,13 @@
 		and m.packagetype = #{packagetype,jdbcType=VARCHAR}
 	</if>
   </select>
+  <select id="selectByIds" parameterType="java.util.List" resultMap="BaseResultMap">
+  	select
+  	<include refid="Base_Column_List" />
+  	from tr_sales_db_arrive
+  	where id in
+	<foreach item="item" index="index" collection="list" open="(" separator="," close=")">  
+		#{item}  
+	</foreach>
+  </select>
 </mapper>

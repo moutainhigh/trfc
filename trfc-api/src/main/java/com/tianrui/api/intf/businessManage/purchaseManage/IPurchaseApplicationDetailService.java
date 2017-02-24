@@ -10,4 +10,6 @@ public interface IPurchaseApplicationDetailService {
 
 	PurchaseApplicationDetailResp findOne(String id) throws Exception;
 
+	List<PurchaseApplicationDetailResp> selectByIds(List<String> ids) throws Exception;
+
 }

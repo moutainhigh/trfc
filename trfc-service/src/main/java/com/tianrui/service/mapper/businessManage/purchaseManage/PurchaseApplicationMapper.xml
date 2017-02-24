@@ -516,6 +516,15 @@
   		</if>
   	</if>
   </select>
+  <select id="selectByIds" parameterType="java.util.List" resultMap="BaseResultMap">
+  	select
+  	<include refid="Base_Column_List" />
+  	from tr_purchase_db_application
+  	where id in
+	<foreach item="item" index="index" collection="list" open="(" separator="," close=")">  
+		#{item}  
+	</foreach>
+  </select>
   <select id="findMaxUtc" resultType="Long"  >
     select 
    		max(utc)

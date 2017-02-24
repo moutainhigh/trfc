@@ -207,6 +207,15 @@
 	from tr_purchase_db_application_detail 
 	where purchaseid = #{purchaseid,jdbcType=VARCHAR}
   </select>
+  <select id="selectByIds" parameterType="java.util.List" resultMap="BaseResultMap">
+  	select
+  	<include refid="Base_Column_List" />
+  	from tr_purchase_db_application_detail
+  	where id in
+	<foreach item="item" index="index" collection="list" open="(" separator="," close=")">  
+		#{item}  
+	</foreach>
+  </select>
   <insert id="insertBatch"  parameterType="java.util.List" >
     insert into tr_purchase_db_application_detail (
       id, purchaseid, orgid, orgname, materielid, materielname, materielspec, materieltype, 

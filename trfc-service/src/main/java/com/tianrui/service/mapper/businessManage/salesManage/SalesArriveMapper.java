@@ -59,4 +59,12 @@ public interface SalesArriveMapper {
 	 * @return
 	 */
 	List<SalesArrive> checkDriverAndVehicleIsUse(SalesArrive record);
+	/**
+	 * @Description 根据ids查询列表
+	 * @author zhanggaohao
+	 * @version 2017年2月23日 下午2:52:32
+	 * @param ids
+	 * @return
+	 */
+	List<SalesArrive> selectByIds(List<String> ids);
 }
