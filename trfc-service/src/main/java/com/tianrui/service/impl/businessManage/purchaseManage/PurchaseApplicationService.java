@@ -22,7 +22,6 @@ import com.tianrui.service.bean.businessManage.purchaseManage.PurchaseApplicatio
 import com.tianrui.service.bean.businessManage.purchaseManage.PurchaseApplicationDetail;
 import com.tianrui.service.mapper.businessManage.purchaseManage.PurchaseApplicationDetailMapper;
 import com.tianrui.service.mapper.businessManage.purchaseManage.PurchaseApplicationMapper;
-import com.tianrui.service.mapper.common.BillTypeMapper;
 import com.tianrui.smartfactory.common.constants.ErrorCode;
 import com.tianrui.smartfactory.common.vo.PaginationVO;
 import com.tianrui.smartfactory.common.vo.Result;
@@ -42,9 +41,6 @@ public class PurchaseApplicationService implements IPurchaseApplicationService {
 	@Autowired
 	private PurchaseApplicationDetailMapper purchaseApplicationDetailMapper;
 	
-	@Autowired
-	private BillTypeMapper billTypeMapper;
-	
 	@Override
 	public PaginationVO<PurchaseApplicationResp> page(PurchaseApplicationQuery query) throws Exception{
 		PaginationVO<PurchaseApplicationResp> page = null;
@@ -56,7 +52,7 @@ public class PurchaseApplicationService implements IPurchaseApplicationService {
 				query.setStart((query.getPageNo()-1)*query.getPageSize());
 				query.setLimit(query.getPageSize());
 				List<PurchaseApplication> list = purchaseApplicationMapper.findPurchaseApplicationPage(query);
-				page.setList(copyBeanList2RespList(list));
+				page.setList(copyBeanList2RespList(list, true));
 			}
 			page.setPageNo(query.getPageNo());
 			page.setPageSize(query.getPageSize());
@@ -94,28 +90,39 @@ public class PurchaseApplicationService implements IPurchaseApplicationService {
 	public PurchaseApplicationResp findOne(String id) throws Exception {
 		PurchaseApplicationResp resp = null;
 		if(StringUtils.isNotBlank(id)){
-			resp = copyBean2Resp(purchaseApplicationMapper.selectByPrimaryKey(id));
+			resp = copyBean2Resp(purchaseApplicationMapper.selectByPrimaryKey(id), true);
 		}
 		return resp;
 	}
 	
-	private List<PurchaseApplicationResp> copyBeanList2RespList(List<PurchaseApplication> list) throws Exception {
+	@Override
+	public List<PurchaseApplicationResp> selectByIds(List<String> ids, boolean setDetail) throws Exception{
+		List<PurchaseApplicationResp> listResp = null;
+		if(CollectionUtils.isNotEmpty(ids)){
+			listResp = copyBeanList2RespList(purchaseApplicationMapper.selectByIds(ids), setDetail);
+		}
+		return listResp;
+	}
+	
+	private List<PurchaseApplicationResp> copyBeanList2RespList(List<PurchaseApplication> list, boolean setDetail) throws Exception {
 		List<PurchaseApplicationResp> listResp = null;
 		if(list != null && list.size() > 0){
 			listResp = new ArrayList<PurchaseApplicationResp>();
-			for(PurchaseApplication mater : list){
-				listResp.add(copyBean2Resp(mater));
+			for(PurchaseApplication purchase : list){
+				listResp.add(copyBean2Resp(purchase, setDetail));
 			}
 		}
 		return listResp;
 	}
 	
-	private PurchaseApplicationResp copyBean2Resp(PurchaseApplication bean) throws Exception {
+	private PurchaseApplicationResp copyBean2Resp(PurchaseApplication bean, boolean setDetail) throws Exception {
 		PurchaseApplicationResp resp = null;
 		if(bean != null){
 			resp = new PurchaseApplicationResp();
 			PropertyUtils.copyProperties(resp, bean);
-			resp.setListdetail(purchaseApplicationDetailService.selectByPurchaseId(bean.getId()));
+			if(setDetail){
+				resp.setListdetail(purchaseApplicationDetailService.selectByPurchaseId(bean.getId()));
+			}
 		}
 		return resp;
 	}

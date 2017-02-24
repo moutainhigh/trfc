@@ -58,6 +58,8 @@ public class PurchaseArriveResp extends BaseResp {
     private Long makebilltime;
     //制单时间字符串
     private String makebilltimeStr;
+    //IC卡id
+    private String icardid;
     //状态：（0：删除，1：正常）
     private String state;
 	//创建人
@@ -235,6 +237,12 @@ public class PurchaseArriveResp extends BaseResp {
 	}
 	public void setMakebilltimeStr(String makebilltimeStr) {
 		this.makebilltimeStr = makebilltimeStr;
+	}
+	public String getIcardid() {
+		return icardid;
+	}
+	public void setIcardid(String icardid) {
+		this.icardid = icardid;
 	}
 	public String getState() {
 		return state;

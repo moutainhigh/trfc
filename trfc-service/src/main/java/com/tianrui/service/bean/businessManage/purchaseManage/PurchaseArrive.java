@@ -49,6 +49,8 @@ public class PurchaseArrive {
     private String makebillname;
 	//制单时间
     private Long makebilltime;
+    //IC卡id
+    private String icardid;
     //状态：（0：删除，1：正常）
     private String state;
 	//创建人
@@ -238,7 +240,15 @@ public class PurchaseArrive {
         this.makebilltime = makebilltime;
     }
 
-    public String getState() {
+    public String getIcardid() {
+		return icardid;
+	}
+
+	public void setIcardid(String icardid) {
+		this.icardid = icardid == null ? null : icardid.trim();
+	}
+
+	public String getState() {
 		return state;
 	}
 

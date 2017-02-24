@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.beanutils.PropertyUtils;
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,6 +18,8 @@ import com.tianrui.api.intf.system.base.ISystemCodeService;
 import com.tianrui.api.req.businessManage.purchaseManage.PurchaseArriveQuery;
 import com.tianrui.api.req.businessManage.purchaseManage.PurchaseArriveSave;
 import com.tianrui.api.req.system.base.GetCodeReq;
+import com.tianrui.api.resp.businessManage.purchaseManage.PurchaseApplicationDetailResp;
+import com.tianrui.api.resp.businessManage.purchaseManage.PurchaseApplicationResp;
 import com.tianrui.api.resp.businessManage.purchaseManage.PurchaseArriveResp;
 import com.tianrui.service.bean.businessManage.purchaseManage.PurchaseArrive;
 import com.tianrui.service.bean.businessManage.salesManage.SalesArrive;
@@ -54,7 +57,9 @@ public class PurchaseArriveService implements IPurchaseArriveService {
 				query.setStart((query.getPageNo()-1)*query.getPageSize());
 				query.setLimit(query.getPageSize());
 				List<PurchaseArrive> list = purchaseArriveMapper.findPurchaseArrivePage(query);
-				page.setList(copyBeanList2RespList(list));
+				List<PurchaseArriveResp> listResp = copyBeanList2RespList(list, false);
+				listRespSetListApplicationResp(listResp);
+				page.setList(listResp);
 			}
 			page.setPageNo(query.getPageNo());
 			page.setPageSize(query.getPageSize());
@@ -195,23 +200,66 @@ public class PurchaseArriveService implements IPurchaseArriveService {
 	public PurchaseArriveResp findOne(String id) throws Exception {
 		PurchaseArriveResp resp = null;
 		if(StringUtils.isNotBlank(id)){
-			resp = copyBean2Resp(purchaseArriveMapper.selectByPrimaryKey(id));
+			resp = copyBean2Resp(purchaseArriveMapper.selectByPrimaryKey(id), true);
 		}
 		return resp;
 	}
+
+	@Override
+	public List<PurchaseArriveResp> selectByIds(List<String> ids) throws Exception {
+		List<PurchaseArriveResp> list = null;
+		if(CollectionUtils.isNotEmpty(ids)){
+			list = copyBeanList2RespList(purchaseArriveMapper.selectByIds(ids), false);
+			listRespSetListApplicationResp(list);
+		}
+		return list;
+	}
 	
-	private List<PurchaseArriveResp> copyBeanList2RespList(List<PurchaseArrive> list) throws Exception {
+	private void listRespSetListApplicationResp(List<PurchaseArriveResp> list) throws Exception {
+		if(CollectionUtils.isNotEmpty(list)){
+			List<String> ids = new ArrayList<String>();
+			for(PurchaseArriveResp resp : list){
+				ids.add(resp.getBillid());
+			}
+			List<PurchaseApplicationResp> listApplication = purchaseApplicationService.selectByIds(ids, false);
+			if(CollectionUtils.isNotEmpty(listApplication)){
+				for(PurchaseArriveResp resp : list){
+					for(PurchaseApplicationResp applicationResp : listApplication){
+						if(StringUtils.equals(resp.getBillid(), applicationResp.getId())){
+							resp.setPurchaseApplicationResp(applicationResp);
+						}
+					}
+				}
+			}
+			ids.clear();
+			for(PurchaseArriveResp resp : list){
+				ids.add(resp.getBilldetailid());
+			}
+			List<PurchaseApplicationDetailResp> listApplicationDetail = purchaseApplicationDetailService.selectByIds(ids);
+			if(CollectionUtils.isNotEmpty(listApplicationDetail)){
+				for(PurchaseArriveResp resp : list){
+					for(PurchaseApplicationDetailResp applicationDetailResp : listApplicationDetail){
+						if(StringUtils.equals(resp.getBilldetailid(), applicationDetailResp.getId())){
+							resp.setPurchaseApplicationDetailResp(applicationDetailResp);
+						}
+					}
+				}
+			}
+		}
+	}
+
+	private List<PurchaseArriveResp> copyBeanList2RespList(List<PurchaseArrive> list, boolean setApplication) throws Exception {
 		List<PurchaseArriveResp> listResp = null;
 		if(list != null && list.size() > 0){
 			listResp = new ArrayList<PurchaseArriveResp>();
 			for(PurchaseArrive mater : list){
-				listResp.add(copyBean2Resp(mater));
+				listResp.add(copyBean2Resp(mater, setApplication));
 			}
 		}
 		return listResp;
 	}
 	
-	private PurchaseArriveResp copyBean2Resp(PurchaseArrive bean) throws Exception {
+	private PurchaseArriveResp copyBean2Resp(PurchaseArrive bean, boolean setApplication) throws Exception {
 		PurchaseArriveResp resp = null;
 		if(bean != null){
 			resp = new PurchaseArriveResp();

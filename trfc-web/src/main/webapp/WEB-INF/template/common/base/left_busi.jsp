@@ -25,10 +25,14 @@
 				<li><a href="/trfc/salesApplication/main"> <i
 						class="iconfont">&#xe615;</i> <label>销售管理</label>
 				</a></li>
-				<li><a href="/trfc/card/main"> <i
-						class="iconfont">&#xe615;</i> <label>卡务管理</label>
+				<li><a href="/trfc/card/main"> <i class="iconfont">&#xe615;</i>
+						<label>卡务管理</label>
 				</a></li>
-				<li><a href="/trfc/quality/sales/batchnum/main"> <i class="iconfont">&#xe615;</i> <label>质控管理</label>
+				<li><a href="/trfc/quality/sales/batchnum/main"> <i
+						class="iconfont">&#xe615;</i> <label>质控管理</label>
+				</a></li>
+				<li><a href="/trfc/accessRecord/main"> <i
+						class="iconfont">&#xe615;</i> <label>厂区物流</label>
 				</a></li>
 				<!-- <li><a> <i class="iconfont">&#xe614;</i> <label>其他业务</label>
 				</a></li>
@@ -45,11 +49,11 @@
 				<li><a href="/trfc/transport/main"> <i class="iconfont">&#xe617;</i>
 						<label>计量档案</label>
 				</a></li>
-				<li><a href="/trfc/quality/sales/file/MaterialScheme/main"> <i class="iconfont">&#xe617;</i>
-						<label>质检档案</label>
+				<li><a href="/trfc/quality/sales/file/MaterialScheme/main">
+						<i class="iconfont">&#xe617;</i> <label>质检档案</label>
 				</a></li>
-				<li><a href="/trfc/basicFile/other/customer/main"> <i class="iconfont">&#xe617;</i>
-						<label>其他档案</label>
+				<li><a href="/trfc/basicFile/other/customer/main"> <i
+						class="iconfont">&#xe617;</i> <label>其他档案</label>
 				</a></li>
 			</div>
 			<a href="#sys" data-toggle="collapse" class="menu_collap_tit"> <label>系统权限</label>

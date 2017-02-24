@@ -1,0 +1,372 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tianrui.service.mapper.businessManage.logisticsManage.AccessRecordMapper1" >
+  <resultMap id="BaseResultMap" type="com.tianrui.service.bean.businessManage.logisticsManage.AccessRecord" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="code" property="code" jdbcType="VARCHAR" />
+    <result column="businesstype" property="businesstype" jdbcType="VARCHAR" />
+    <result column="accesstype" property="accesstype" jdbcType="VARCHAR" />
+    <result column="noticeid" property="noticeid" jdbcType="VARCHAR" />
+    <result column="noticecode" property="noticecode" jdbcType="VARCHAR" />
+    <result column="entersource" property="entersource" jdbcType="VARCHAR" />
+    <result column="entertime" property="entertime" jdbcType="BIGINT" />
+    <result column="outsource" property="outsource" jdbcType="VARCHAR" />
+    <result column="outtime" property="outtime" jdbcType="BIGINT" />
+    <result column="state" property="state" jdbcType="VARCHAR" />
+    <result column="creator" property="creator" jdbcType="VARCHAR" />
+    <result column="createtime" property="createtime" jdbcType="BIGINT" />
+    <result column="modifier" property="modifier" jdbcType="VARCHAR" />
+    <result column="modifytime" property="modifytime" jdbcType="BIGINT" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, code, businesstype, accesstype, noticeid, noticecode, entersource, entertime, 
+    outsource, outtime, state, creator, createtime, modifier, modifytime, remark
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from tr_access_db_record_copy
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from tr_access_db_record_copy
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.tianrui.service.bean.businessManage.logisticsManage.AccessRecord" >
+    insert into tr_access_db_record_copy (id, code, businesstype, 
+      accesstype, noticeid, noticecode, 
+      entersource, entertime, outsource, 
+      outtime, state, creator, 
+      createtime, modifier, modifytime, 
+      remark)
+    values (#{id,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR}, #{businesstype,jdbcType=VARCHAR}, 
+      #{accesstype,jdbcType=VARCHAR}, #{noticeid,jdbcType=VARCHAR}, #{noticecode,jdbcType=VARCHAR}, 
+      #{entersource,jdbcType=VARCHAR}, #{entertime,jdbcType=BIGINT}, #{outsource,jdbcType=VARCHAR}, 
+      #{outtime,jdbcType=BIGINT}, #{state,jdbcType=VARCHAR}, #{creator,jdbcType=VARCHAR}, 
+      #{createtime,jdbcType=BIGINT}, #{modifier,jdbcType=VARCHAR}, #{modifytime,jdbcType=BIGINT}, 
+      #{remark,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.tianrui.service.bean.businessManage.logisticsManage.AccessRecord" >
+    insert into tr_access_db_record_copy
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="code != null" >
+        code,
+      </if>
+      <if test="businesstype != null" >
+        businesstype,
+      </if>
+      <if test="accesstype != null" >
+        accesstype,
+      </if>
+      <if test="noticeid != null" >
+        noticeid,
+      </if>
+      <if test="noticecode != null" >
+        noticecode,
+      </if>
+      <if test="entersource != null" >
+        entersource,
+      </if>
+      <if test="entertime != null" >
+        entertime,
+      </if>
+      <if test="outsource != null" >
+        outsource,
+      </if>
+      <if test="outtime != null" >
+        outtime,
+      </if>
+      <if test="state != null" >
+        state,
+      </if>
+      <if test="creator != null" >
+        creator,
+      </if>
+      <if test="createtime != null" >
+        createtime,
+      </if>
+      <if test="modifier != null" >
+        modifier,
+      </if>
+      <if test="modifytime != null" >
+        modifytime,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="code != null" >
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="businesstype != null" >
+        #{businesstype,jdbcType=VARCHAR},
+      </if>
+      <if test="accesstype != null" >
+        #{accesstype,jdbcType=VARCHAR},
+      </if>
+      <if test="noticeid != null" >
+        #{noticeid,jdbcType=VARCHAR},
+      </if>
+      <if test="noticecode != null" >
+        #{noticecode,jdbcType=VARCHAR},
+      </if>
+      <if test="entersource != null" >
+        #{entersource,jdbcType=VARCHAR},
+      </if>
+      <if test="entertime != null" >
+        #{entertime,jdbcType=BIGINT},
+      </if>
+      <if test="outsource != null" >
+        #{outsource,jdbcType=VARCHAR},
+      </if>
+      <if test="outtime != null" >
+        #{outtime,jdbcType=BIGINT},
+      </if>
+      <if test="state != null" >
+        #{state,jdbcType=VARCHAR},
+      </if>
+      <if test="creator != null" >
+        #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=BIGINT},
+      </if>
+      <if test="modifier != null" >
+        #{modifier,jdbcType=VARCHAR},
+      </if>
+      <if test="modifytime != null" >
+        #{modifytime,jdbcType=BIGINT},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tianrui.service.bean.businessManage.logisticsManage.AccessRecord" >
+    update tr_access_db_record_copy
+    <set >
+      <if test="code != null" >
+        code = #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="businesstype != null" >
+        businesstype = #{businesstype,jdbcType=VARCHAR},
+      </if>
+      <if test="accesstype != null" >
+        accesstype = #{accesstype,jdbcType=VARCHAR},
+      </if>
+      <if test="noticeid != null" >
+        noticeid = #{noticeid,jdbcType=VARCHAR},
+      </if>
+      <if test="noticecode != null" >
+        noticecode = #{noticecode,jdbcType=VARCHAR},
+      </if>
+      <if test="entersource != null" >
+        entersource = #{entersource,jdbcType=VARCHAR},
+      </if>
+      <if test="entertime != null" >
+        entertime = #{entertime,jdbcType=BIGINT},
+      </if>
+      <if test="outsource != null" >
+        outsource = #{outsource,jdbcType=VARCHAR},
+      </if>
+      <if test="outtime != null" >
+        outtime = #{outtime,jdbcType=BIGINT},
+      </if>
+      <if test="state != null" >
+        state = #{state,jdbcType=VARCHAR},
+      </if>
+      <if test="creator != null" >
+        creator = #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        createtime = #{createtime,jdbcType=BIGINT},
+      </if>
+      <if test="modifier != null" >
+        modifier = #{modifier,jdbcType=VARCHAR},
+      </if>
+      <if test="modifytime != null" >
+        modifytime = #{modifytime,jdbcType=BIGINT},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tianrui.service.bean.businessManage.logisticsManage.AccessRecord" >
+    update tr_access_db_record_copy
+    set code = #{code,jdbcType=VARCHAR},
+      businesstype = #{businesstype,jdbcType=VARCHAR},
+      accesstype = #{accesstype,jdbcType=VARCHAR},
+      noticeid = #{noticeid,jdbcType=VARCHAR},
+      noticecode = #{noticecode,jdbcType=VARCHAR},
+      entersource = #{entersource,jdbcType=VARCHAR},
+      entertime = #{entertime,jdbcType=BIGINT},
+      outsource = #{outsource,jdbcType=VARCHAR},
+      outtime = #{outtime,jdbcType=BIGINT},
+      state = #{state,jdbcType=VARCHAR},
+      creator = #{creator,jdbcType=VARCHAR},
+      createtime = #{createtime,jdbcType=BIGINT},
+      modifier = #{modifier,jdbcType=VARCHAR},
+      modifytime = #{modifytime,jdbcType=BIGINT},
+      remark = #{remark,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <select id="findAccessRecordPage" parameterType="com.tianrui.api.req.businessManage.logisticsManage.AccessRecordQuery" resultMap="BaseResultMap">
+  	select
+  	<include refid="Base_Column_List" />
+  	from tr_access_db_record_copy
+  	<where>
+  	  <if test="code != null and code != ''" >
+  	  	and code = #{code,jdbcType=VARCHAR}
+  	  </if>
+  	  <if test="state != null and state != ''" >
+  	  	and state = #{state,jdbcType=VARCHAR}
+  	  </if>
+  	  <choose>
+  	  	<when test="businesstype != null and businesstype != ''">
+		  	and businesstype = #{businesstype,jdbcType=VARCHAR}
+	        <choose>
+			  <when test="businesstype == 1">
+				and EXISTS(select id from tr_purchase_db_arrive p1 where p1.id=noticeid
+				<if test="vehicleid != null and vehicleid != ''">
+					and p1.vehicleid = #{vehicleid,jdbcType=VARCHAR}
+				</if>
+				<if test="materielid != null and materielid != ''">
+					and EXISTS(select id from tr_purchase_db_application_detail p2 where p1.billdetailid=p2.id
+							and p2.materielid = #{materielid,jdbcType=VARCHAR}
+					)
+				</if>
+				)
+			  </when>
+			  <when test="businesstype == 2">
+				and EXISTS(select id from tr_sales_db_arrive s1 where s1.id=noticeid
+				<if test="vehicleid != null and vehicleid != ''">
+					and s1.vehicleid = #{vehicleid,jdbcType=VARCHAR}
+				</if>
+				<if test="materielid != null and materielid != ''">
+					and EXISTS(select id from tr_sales_db_application_detail s2 where s1.billid=s2.id
+							and s2.materielid = #{materielid,jdbcType=VARCHAR}
+					)
+				</if>
+				)
+			  </when>
+	  		</choose>
+  	  	</when>
+  	  	<otherwise>
+	  	  	and (EXISTS(select id from tr_purchase_db_arrive p1 where p1.id=noticeid
+				<if test="vehicleid != null and vehicleid != ''">
+					and p1.vehicleid = #{vehicleid,jdbcType=VARCHAR}
+				</if>
+				<if test="materielid != null and materielid != ''">
+					and EXISTS(select id from tr_purchase_db_application_detail p2 where p1.billdetailid=p2.id
+							and p2.materielid = #{materielid,jdbcType=VARCHAR}
+					)
+				</if>
+			)
+			or EXISTS(select id from tr_sales_db_arrive s1 where s1.id=noticeid
+			<if test="vehicleid != null and vehicleid != ''">
+				and s1.vehicleid = #{vehicleid,jdbcType=VARCHAR}
+			</if>
+			<if test="materielid != null and materielid != ''">
+				and EXISTS(select id from tr_sales_db_application_detail s2 where s1.billid=s2.id
+						and s2.materielid = #{materielid,jdbcType=VARCHAR}
+				)
+			</if>
+			))
+  	  	</otherwise>
+  	  </choose>
+	  <if test="starttime != null and starttime != ''">
+  		and entertime <![CDATA[>=]]> #{starttime,jdbcType=BIGINT}
+  	  </if>
+  	  <if test="endtime != null and endtime != ''">
+  		and entertime <![CDATA[<]]> #{endtime,jdbcType=BIGINT}
+  	  </if>
+  	</where>
+  	order by entertime desc
+  	<if test="start != null and start >= 0">
+  		<if test="limit != null">
+			limit #{start,jdbcType=INTEGER},#{limit,jdbcType=INTEGER}
+  		</if>
+  	</if>
+  </select>
+  <select id="findAccessRecordPageCount" parameterType="com.tianrui.api.req.businessManage.logisticsManage.AccessRecordQuery" resultType="java.lang.Long">
+  	select count(0)
+  	from tr_access_db_record_copy
+  	<where>
+  	  <if test="code != null and code != ''" >
+  	  	and code = #{code,jdbcType=VARCHAR}
+  	  </if>
+  	  <if test="state != null and state != ''" >
+  	  	and state = #{state,jdbcType=VARCHAR}
+  	  </if>
+  	  <choose>
+  	  	<when test="businesstype != null and businesstype != ''">
+		  	and businesstype = #{businesstype,jdbcType=VARCHAR}
+	        <choose>
+			  <when test="businesstype == 1">
+				and EXISTS(select id from tr_purchase_db_arrive p1 where p1.id=noticeid
+				<if test="vehicleid != null and vehicleid != ''">
+					and p1.vehicleid = #{vehicleid,jdbcType=VARCHAR}
+				</if>
+				<if test="materielid != null and materielid != ''">
+					and EXISTS(select id from tr_purchase_db_application_detail p2 where p1.billdetailid=p2.id
+							and p2.materielid = #{materielid,jdbcType=VARCHAR}
+					)
+				</if>
+				)
+			  </when>
+			  <when test="businesstype == 2">
+				and EXISTS(select id from tr_sales_db_arrive s1 where s1.id=noticeid
+				<if test="vehicleid != null and vehicleid != ''">
+					and s1.vehicleid = #{vehicleid,jdbcType=VARCHAR}
+				</if>
+				<if test="materielid != null and materielid != ''">
+					and EXISTS(select id from tr_sales_db_application_detail s2 where s1.billid=s2.id
+							and s2.materielid = #{materielid,jdbcType=VARCHAR}
+					)
+				</if>
+				)
+			  </when>
+	  		</choose>
+  	  	</when>
+  	  	<otherwise>
+	  	  	and (EXISTS(select id from tr_purchase_db_arrive p1 where p1.id=noticeid
+				<if test="vehicleid != null and vehicleid != ''">
+					and p1.vehicleid = #{vehicleid,jdbcType=VARCHAR}
+				</if>
+				<if test="materielid != null and materielid != ''">
+					and EXISTS(select id from tr_purchase_db_application_detail p2 where p1.billdetailid=p2.id
+							and p2.materielid = #{materielid,jdbcType=VARCHAR}
+					)
+				</if>
+			)
+			or EXISTS(select id from tr_sales_db_arrive s1 where s1.id=noticeid
+				<if test="vehicleid != null and vehicleid != ''">
+					and s1.vehicleid = #{vehicleid,jdbcType=VARCHAR}
+				</if>
+				<if test="materielid != null and materielid != ''">
+					and EXISTS(select id from tr_sales_db_application_detail s2 where s1.billid=s2.id
+							and s2.materielid = #{materielid,jdbcType=VARCHAR}
+					)
+				</if>
+			))
+  	  	</otherwise>
+  	  </choose>
+	  <if test="starttime != null and starttime != ''">
+  		and entertime <![CDATA[>=]]> #{starttime,jdbcType=BIGINT}
+  	  </if>
+  	  <if test="endtime != null and endtime != ''">
+  		and entertime <![CDATA[<]]> #{endtime,jdbcType=BIGINT}
+  	  </if>
+  	</where>
+  </select>
+</mapper>

@@ -44,5 +44,13 @@ public interface PurchaseArriveMapper {
 	 * @return
 	 */
 	List<PurchaseArrive> checkDriverAndVehicleIsUse(PurchaseArrive bean);
+	/**
+	 * @Description 根据ids查询采购到货通知单
+	 * @author zhanggaohao
+	 * @version 2017年2月23日 下午3:18:25
+	 * @param list
+	 * @return
+	 */
+	List<PurchaseArrive> selectByIds(List<String> list);
     
 }

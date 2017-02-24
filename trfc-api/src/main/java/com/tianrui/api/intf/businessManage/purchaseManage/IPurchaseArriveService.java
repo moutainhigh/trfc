@@ -1,5 +1,7 @@
 package com.tianrui.api.intf.businessManage.purchaseManage;
 
+import java.util.List;
+
 import com.tianrui.api.req.businessManage.purchaseManage.PurchaseArriveQuery;
 import com.tianrui.api.req.businessManage.purchaseManage.PurchaseArriveSave;
 import com.tianrui.api.resp.businessManage.purchaseManage.PurchaseArriveResp;
@@ -56,5 +58,14 @@ public interface IPurchaseArriveService {
 	 * @throws Exception 
 	 */
 	Result update(PurchaseArriveSave update) throws Exception;
+	/**
+	 * @Description 根据ids获取采购到货通知单列表
+	 * @author zhanggaohao
+	 * @version 2017年2月23日 下午3:12:02
+	 * @param ids
+	 * @return
+	 * @throws Exception 
+	 */
+	List<PurchaseArriveResp> selectByIds(List<String> ids) throws Exception;
 
 }

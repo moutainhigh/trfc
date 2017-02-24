@@ -1,5 +1,7 @@
 package com.tianrui.api.intf.businessManage.salesManage;
 
+import java.util.List;
+
 import com.tianrui.api.req.businessManage.salesManage.ApiDoorQueueQuery;
 import com.tianrui.api.req.businessManage.salesManage.ApiSalesArriveQuery;
 import com.tianrui.api.req.businessManage.salesManage.SalesArriveQuery;
@@ -36,7 +38,7 @@ public interface ISalesArriveService {
 	 * @return
 	 * @throws Exception 
 	 */
-	SalesArriveResp findOne(SalesArriveQuery query) throws Exception;
+	SalesArriveResp findOne(String id) throws Exception;
 	/**
 	 * 修改销售提货通知单
 	 * @param save
@@ -83,5 +85,14 @@ public interface ISalesArriveService {
 	 * @return
 	 */
 	Result selectWaitingNumber(ApiDoorQueueQuery query);
+	/**
+	 * @Description 根据ids查询销售通知单列表
+	 * @author zhanggaohao
+	 * @version 2017年2月23日 下午2:54:52
+	 * @param ids
+	 * @return
+	 * @throws Exception
+	 */
+	List<SalesArriveResp> selectByIds(List<String> ids) throws Exception;
 
 }

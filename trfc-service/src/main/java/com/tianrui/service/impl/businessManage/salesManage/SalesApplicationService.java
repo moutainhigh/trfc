@@ -81,12 +81,7 @@ public class SalesApplicationService implements ISalesApplicationService {
 				query.setLimit(query.getPageSize());
 				List<SalesApplication> list = salesApplicationMapper.findSalesApplicationPage(query);
 				List<SalesApplicationResp> listResp = copyBeanList2RespList(list, true);
-				List<String> ids = new ArrayList<String>();
-				for(SalesApplicationResp resp : listResp){
-					ids.add(resp.getId());
-				}
-				List<SalesApplicationDetailResp> listDetailResp = salesApplicationDetailService.selectBySalesIds(ids);
-				listRespSetListDetailResp(listResp, listDetailResp);
+				listRespSetListDetailResp(listResp);
 				page.setList(listResp);
 			}
 			page.setTotal(count);
@@ -265,18 +260,24 @@ public class SalesApplicationService implements ISalesApplicationService {
 		List<SalesApplicationResp> listResp = null;
 		if(CollectionUtils.isNotEmpty(ids)){
 			listResp = copyBeanList2RespList(salesApplicationMapper.selectByIds(ids), false);
-			List<SalesApplicationDetailResp> listDetailResp = salesApplicationDetailService.selectBySalesIds(ids);
-			listRespSetListDetailResp(listResp, listDetailResp);
+			listRespSetListDetailResp(listResp);
 		}
 		return listResp;
 	}
 	
-	private void listRespSetListDetailResp(List<SalesApplicationResp> listResp, List<SalesApplicationDetailResp> listDetailResp){
-		if(CollectionUtils.isNotEmpty(listResp) && CollectionUtils.isNotEmpty(listDetailResp)){
+	private void listRespSetListDetailResp(List<SalesApplicationResp> listResp) throws Exception{
+		if(CollectionUtils.isNotEmpty(listResp)){
+			List<String> ids = new ArrayList<String>();
 			for(SalesApplicationResp resp : listResp){
-				for(SalesApplicationDetailResp detailResp : listDetailResp){
-					if(StringUtils.equals(resp.getId(), detailResp.getSalesid())){
-						resp.setDetailResp(detailResp);
+				ids.add(resp.getId());
+			}
+			List<SalesApplicationDetailResp> listDetailResp = salesApplicationDetailService.selectBySalesIds(ids);
+			if(CollectionUtils.isNotEmpty(listDetailResp)){
+				for(SalesApplicationResp resp : listResp){
+					for(SalesApplicationDetailResp detailResp : listDetailResp){
+						if(StringUtils.equals(resp.getId(), detailResp.getSalesid())){
+							resp.setDetailResp(detailResp);
+						}
 					}
 				}
 			}

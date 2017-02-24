@@ -52,12 +52,12 @@
 									</select>
 								</div>
 								<div class="intel_solo">
-									<label>创建时间：</label> <input id="starttime" type="text"
-										onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})"
-										class="Wdate" style="width: 160px" readonly /> <i>-</i> <input
-										id="endtime" type="text"
-										onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})"
-										class="Wdate" style="width: 160px" readonly />
+									<label>创建时间：</label> <input id="starttime" type="text" readonly
+										onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:00:00',maxDate:'#F{$dp.$D(\'endtime\')}'})"
+										class="Wdate" style="width: 160px" /> <i>-</i> <input
+										 id="endtime" type="text" readonly
+										onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:00:00',minDate:'#F{$dp.$D(\'starttime\')}'})"
+										class="Wdate" style="width: 160px" />
 								</div>
 								<div class="intel_solo">
 									<div class="intel_sbtn">

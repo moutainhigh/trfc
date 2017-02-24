@@ -76,12 +76,7 @@ public class SalesArriveService implements ISalesArriveService {
 				query.setLimit(query.getPageSize());
 				List<SalesArrive> list = salesArriveMapper.findSalesArrivePage(query);
 				List<SalesArriveResp> listResp = copyBeanList2RespList(list, false);
-				List<String> ids = new ArrayList<String>();
-				for(SalesArriveResp resp : listResp){
-					ids.add(resp.getBillid());
-				}
-				List<SalesApplicationResp> listApplication = salesApplicationService.selectByIds(ids);
-				ListArriveRespSetListApplicationResp(listResp, listApplication);
+				ListArriveRespSetListApplicationResp(listResp);
 				page.setList(listResp);
 			}
 			page.setTotal(count);
@@ -205,19 +200,36 @@ public class SalesArriveService implements ISalesArriveService {
 	}
 
 	@Override
-	public SalesArriveResp findOne(SalesArriveQuery query) throws Exception {
-		if(query != null && StringUtils.isNotBlank(query.getId())){
-			return copyBean2Resp(salesArriveMapper.selectByPrimaryKey(query.getId()), true);
+	public SalesArriveResp findOne(String id) throws Exception {
+		if(StringUtils.isNotBlank(id)){
+			return copyBean2Resp(salesArriveMapper.selectByPrimaryKey(id), true);
 		}
 		return null;
 	}
 	
-	private void ListArriveRespSetListApplicationResp(List<SalesArriveResp> listArrive, List<SalesApplicationResp> listApplication){
-		if(CollectionUtils.isNotEmpty(listArrive) && CollectionUtils.isNotEmpty(listApplication)){
-			for(SalesArriveResp arriveResp : listArrive){
-				for(SalesApplicationResp applicationResp : listApplication){
-					if(StringUtils.equals(arriveResp.getBillid(), applicationResp.getId())){
-						arriveResp.setSalesApplication(applicationResp);
+	@Override
+	public List<SalesArriveResp> selectByIds(List<String> ids) throws Exception{
+		List<SalesArriveResp> listResp = null;
+		if(CollectionUtils.isNotEmpty(ids)){
+			listResp = copyBeanList2RespList(salesArriveMapper.selectByIds(ids), false);
+			ListArriveRespSetListApplicationResp(listResp);
+		}
+		return listResp;
+	}
+	
+	private void ListArriveRespSetListApplicationResp(List<SalesArriveResp> listArrive) throws Exception{
+		if(CollectionUtils.isNotEmpty(listArrive)){
+			List<String> ids = new ArrayList<String>();
+			for(SalesArriveResp resp : listArrive){
+				ids.add(resp.getBillid());
+			}
+			List<SalesApplicationResp> listApplication = salesApplicationService.selectByIds(ids);
+			if(CollectionUtils.isNotEmpty(listApplication)){
+				for(SalesArriveResp arriveResp : listArrive){
+					for(SalesApplicationResp applicationResp : listApplication){
+						if(StringUtils.equals(arriveResp.getBillid(), applicationResp.getId())){
+							arriveResp.setSalesApplication(applicationResp);
+						}
 					}
 				}
 			}
