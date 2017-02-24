@@ -1,11 +1,13 @@
 var URL = {
 		mainUrl:"/trfc/quality/sales/file/supplierScheme/main",
 		addMainUrl:"/trfc/quality/sales/file/supplierScheme/addMain",
+		editMainUrl:"/trfc/quality/sales/file/supplierScheme/editMain",
 		pageUrl:"/trfc/quality/sales/file/supplierScheme/page",
 		deleteUrl:"/trfc/quality/sales/file/supplierScheme/delete",
 		updateUrl:"/trfc/quality/sales/file/supplierScheme/update",
 		saveUrl:"/trfc/quality/sales/file/supplierScheme/add",
 		codeUrl:"/trfc/quality/sales/file/supplierScheme/getCode",
+		selectByIdUrl:"/trfc/quality/sales/file/supplierScheme/selectById",
 		updateCodeUrl:"/trfc/quality/sales/file/supplierScheme/updateCode",
 		getSchemeUrl:"/trfc/quality/sales/file/supplierScheme/getSchemeData",
 		getMaterialUrl:"/trfc/quality/sales/file/supplierScheme/getMaterialData",
@@ -53,10 +55,10 @@ function getNowFormatDate(param,time) {
 	return currentdate;
 }
 
-//获取下拉框数据并填充
+//获取物料下拉框数据并填充
 function materialSelect(){
 	//获取数据
-	$selector = $.post(URL.getMaterialUrl,{state:"1"},function(result){
+	$materSelect = $.post(URL.getMaterialUrl,{state:"1"},function(result){
 		if(result.code=='000000'){
 			//填充数据
 			fillMaterialSelect(result.data);
@@ -83,10 +85,10 @@ function fillMaterialSelect(list){
 		}
 	}
 }
-//获取下拉框数据并填充
+//获取供应商下拉框数据并填充
 function supplierSelect(){
 	//获取数据
-	$selector = $.post(URL.getSupplierUrl,{state:"1"},function(result){
+	$supSelect = $.post(URL.getSupplierUrl,{state:"1"},function(result){
 		if(result.code=='000000'){
 			//填充数据
 			fillSupplierSelect(result.data);

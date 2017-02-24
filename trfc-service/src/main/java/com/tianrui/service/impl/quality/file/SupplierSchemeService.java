@@ -10,6 +10,7 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.alibaba.fastjson.JSONArray;
 import com.tianrui.api.intf.quality.file.ISupplierSchemeService;
 import com.tianrui.api.req.basicFile.nc.SupplierManageQuery;
 import com.tianrui.api.req.quality.file.QualitySchemeReq;
@@ -20,10 +21,12 @@ import com.tianrui.api.resp.quality.file.SupplierSchemeResp;
 import com.tianrui.service.bean.basicFile.nc.MaterielManage;
 import com.tianrui.service.bean.basicFile.nc.SupplierManage;
 import com.tianrui.service.bean.quality.file.QualityScheme;
+import com.tianrui.service.bean.quality.file.QualitySchemeItem;
 import com.tianrui.service.bean.quality.file.SupplierScheme;
 import com.tianrui.service.bean.system.auth.SystemUser;
 import com.tianrui.service.mapper.basicFile.nc.MaterielManageMapper;
 import com.tianrui.service.mapper.basicFile.nc.SupplierManageMapper;
+import com.tianrui.service.mapper.quality.file.QualitySchemeItemMapper;
 import com.tianrui.service.mapper.quality.file.QualitySchemeMapper;
 import com.tianrui.service.mapper.quality.file.SupplierSchemeMapper;
 import com.tianrui.service.mapper.system.auth.SystemUserMapper;
@@ -44,6 +47,8 @@ public class SupplierSchemeService implements ISupplierSchemeService{
 	private QualitySchemeMapper qualitySchemeMapper;
 	@Resource
 	private SystemUserMapper systemUserMapper;
+	@Resource
+	private QualitySchemeItemMapper qualitySchemeItemMapper;
 
 	@Override
 	@Transactional
@@ -77,6 +82,15 @@ public class SupplierSchemeService implements ISupplierSchemeService{
 			int index = supplierSchemeMapper.updateByPrimaryKeySelective(ss);
 			if(index>0){
 				rs = Result.getSuccessResult();
+				if(StringUtils.isNotBlank(req.getDetail())){
+					List<QualitySchemeItem> list = getListReq(req);
+					for(QualitySchemeItem item : list){
+						int num = qualitySchemeItemMapper.updateByPrimaryKeySelective(item);
+						if(num<=0){
+							rs.setErrorCode(ErrorCode.OPERATE_ERROR);
+						}
+					}
+				}
 			}else{
 				rs.setErrorCode(ErrorCode.OPERATE_ERROR);
 			}
@@ -108,11 +122,38 @@ public class SupplierSchemeService implements ISupplierSchemeService{
 			//判断操作是否成功
 			if(index>0){
 				rs = Result.getSuccessResult();
+				if(StringUtils.isNotBlank(req.getDetail())){
+					List<QualitySchemeItem> list = getListReq(req);
+					for(QualitySchemeItem item : list){
+						int num = qualitySchemeItemMapper.updateByPrimaryKeySelective(item);
+						if(num<=0){
+							rs.setErrorCode(ErrorCode.OPERATE_ERROR);
+						}
+					}
+				}
 			}else{
 				rs.setErrorCode(ErrorCode.OPERATE_ERROR);
 			}
 		}
 		return rs;
+	}
+	/**
+	 * 通过req获取List集合
+	 */
+	public List<QualitySchemeItem> getListReq(SupplierSchemeReq req){
+		List<QualitySchemeItem> list = new ArrayList<QualitySchemeItem>();
+		//将字符串转换为json数组
+		JSONArray json = JSONArray.parseArray(req.getDetail());
+		//通过循环把数组中的数据添加到list集合中
+		for(int i=0;i<json.size();i++){
+			//json对象转换为java对象
+			QualitySchemeItem s = JSONArray.toJavaObject(json.getJSONObject(i), QualitySchemeItem.class);
+			s.setModifier(req.getUser());
+			s.setModifytime(System.currentTimeMillis());
+			s.setUtc(System.currentTimeMillis());
+			list.add(s);
+		}
+		return list;
 	}
 
 	@Override
@@ -228,6 +269,35 @@ public class SupplierSchemeService implements ISupplierSchemeService{
 				}
 				rs = Result.getSuccessResult();
 				rs.setData(resps);
+			}
+			return rs;
+		}
+
+		@Override
+		public Result selectById(SupplierSchemeReq req) throws Exception {
+			Result rs = Result.getParamErrorResult();
+			//判断参数和id不能为空
+			if(req!=null && StringUtils.isNotBlank(req.getId())){
+				SupplierScheme scheme = new SupplierScheme();
+				scheme = supplierSchemeMapper.selectByPrimaryKey(req.getId());
+				if(scheme!=null){
+					//将结果转换为出参类型
+					SupplierSchemeResp resp = new SupplierSchemeResp();
+					PropertyUtils.copyProperties(resp, scheme);
+					//获取用户名
+					if(StringUtils.isNotBlank(resp.getCreator())){
+						SystemUser su = systemUserMapper.selectByPrimaryKey(resp.getCreator());
+						if(su!=null){
+							resp.setCreator(su.getName());
+						}
+					}
+					//操作成功
+					rs = Result.getSuccessResult();
+					rs.setData(resp);
+				}else{
+					//操作失败
+					rs.setErrorCode(ErrorCode.OPERATE_ERROR);
+				}
 			}
 			return rs;
 		}

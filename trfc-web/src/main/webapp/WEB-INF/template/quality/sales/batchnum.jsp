@@ -42,13 +42,13 @@
 								<div class="intel_solo">
 									<label>开始时间：</label> <input type="text" id="seek_starttime"
 										readonly="true"
-										onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:00:00'})"
+										onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})"
 										class="Wdate" style="width: 160px" />
 								</div>
 								<div class="intel_solo">
 									<label>结束时间：</label> <input type="text" id="seek_endtime"
 										readonly="true"
-										onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:00:00'})"
+										onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})"
 										class="Wdate" style="width: 160px" />
 								</div>
 								<div class="intel_solo">

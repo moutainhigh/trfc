@@ -33,4 +33,8 @@ public interface ISupplierSchemeService {
 	 * 获取供应商详细
 	 */
 	Result getSupplierData(SupplierSchemeReq req) throws Exception;
+	/**
+	 * 根据id查询数据
+	 */
+	Result selectById(SupplierSchemeReq req) throws Exception;
 }

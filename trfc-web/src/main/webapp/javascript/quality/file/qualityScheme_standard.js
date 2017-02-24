@@ -84,7 +84,7 @@ $(function(){
 		
 	}
 ////获取新增数据
-	function getAddData(){
+	function getEditData(){
 		//获取user的id
 		var user = $('.user').attr("userid");
 		var data = {
@@ -168,7 +168,7 @@ $(function(){
 ////	新增数据
 	function saveAction(){
 		//获取新增页面的数据
-		var param = getAddData();
+		var param = getEditData();
 		//若无参数,则不执行
 		if(param){
 			$.post(URL.updateBatchUrl,param,function(result){

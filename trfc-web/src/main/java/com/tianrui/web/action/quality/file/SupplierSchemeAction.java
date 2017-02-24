@@ -43,7 +43,12 @@ public class SupplierSchemeAction {
 		ModelAndView view = new ModelAndView("quality/file/supplierScheme_add");
 		return view;
 	}
-
+	//显示编辑页面
+		@RequestMapping("/editMain")
+		public ModelAndView showEdit(){
+			ModelAndView view = new ModelAndView("quality/file/supplierScheme_edit");
+			return view;
+		}
 
 	/**
 	 * 获取分页数据
@@ -187,5 +192,18 @@ public class SupplierSchemeAction {
 		}
 		return rs;
 	}
-	
+	/**
+	 * 通过id获取原数据
+	 */
+	@ResponseBody
+	@RequestMapping("/selectById")
+	public Result selectById(SupplierSchemeReq req){
+		Result rs = Result.getErrorResult();
+		try {
+			rs = supplierSchemeService.selectById(req);
+		} catch (Exception e) {
+			log.error(e.getMessage(),e);
+		}
+		return rs;
+	}
 }
