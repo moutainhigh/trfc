@@ -45,7 +45,7 @@ public interface IPurchaseApplicationService {
 	 */
 	PurchaseApplicationResp findOne(String id) throws Exception;
 
-	Result findMaxUtc(PurchaseApplicationQuery cardApi);
+	Result findMaxUtc(PurchaseApplicationQuery cardApi) throws Exception;
 
-	Result updateDataWithDC(List<JSONObject> list);
+	Result updateDataWithDC(List<JSONObject> list) throws Exception;
 }
