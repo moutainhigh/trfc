@@ -36,5 +36,14 @@ public interface ISupplierManageService {
 	 * @return
 	 */
 	Result updateDataWithDC(List<JSONObject> list);
+	/**
+	 * @Description 根据名称模糊查询
+	 * @author zhanggaohao
+	 * @version 2017年2月24日 上午10:25:41
+	 * @param likeName
+	 * @return
+	 * @throws Exception 
+	 */
+	List<SupplierManageResp> autoCompleteSearch(String likeName) throws Exception;
 
 }

@@ -34,15 +34,11 @@
 						<div class="intel_sconditon">
 							<div class="intel_sline">
 								<div class="intel_solo">
-									<label>订单号：</label> <input id="code" type="text">
+									<label>订单号：</label> <input id="code" type="text" placeholder="请输入订单号">
 								</div>
 								<div class="intel_solo">
-									<label>供应商：</label> <select id="supplier" class="form-control">
-										<option value="">请选择</option>
-										<c:forEach items="${supplier }" var="s">
-											<option value="${s.id }">${s.name }</option>
-										</c:forEach>
-									</select>
+									<label>供应商：</label>
+									<input id="supplier" type="text" placeholder="请选择供应商"/>
 								</div>
 								<div class="intel_solo">
 									<label>单据来源：</label> <select id="source" class="form-control">
@@ -54,10 +50,10 @@
 								<div class="intel_solo">
 									<label>创建时间：</label> <input id="starttime" type="text" readonly
 										onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:00:00',maxDate:'#F{$dp.$D(\'endtime\')}'})"
-										class="Wdate" style="width: 160px" /> <i>-</i> <input
+										class="Wdate" style="width: 160px" placeholder="请选择开始时间"/> <i>-</i> <input
 										 id="endtime" type="text" readonly
 										onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:00:00',minDate:'#F{$dp.$D(\'starttime\')}'})"
-										class="Wdate" style="width: 160px" />
+										class="Wdate" style="width: 160px" placeholder="请选择结束时间"/>
 								</div>
 								<div class="intel_solo">
 									<div class="intel_sbtn">

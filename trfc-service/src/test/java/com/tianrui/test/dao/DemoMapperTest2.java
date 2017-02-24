@@ -1,6 +1,7 @@
 package com.tianrui.test.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -15,6 +16,7 @@ import com.tianrui.api.intf.system.base.ISystemCodeService;
 import com.tianrui.api.req.basicFile.other.OtherBdSupplierReq;
 import com.tianrui.api.req.quality.file.QualitySchemeReq;
 import com.tianrui.api.req.system.base.SystemCodeReq;
+import com.tianrui.service.bean.basicFile.nc.SupplierManage;
 import com.tianrui.service.bean.quality.file.QualityScheme;
 import com.tianrui.service.bean.system.base.SystemDataDictItem;
 import com.tianrui.service.impl.businessManage.salesManage.SalesApplicationService;
@@ -53,6 +55,14 @@ public class DemoMapperTest2 {
 	private IQualitySchemeService qualitySchemeService;
 	@Autowired
 	private QualitySchemeMapper qualitySchemeMapper;
+	
+	@Autowired
+	private SupplierManageMapper supplier;
+	@Test
+	public void test(){
+		List<SupplierManage> list = supplier.autoCompleteSearch("be");
+		System.out.println(list.size());
+	}
 	
 	@Test
 	public void test123() throws Exception{

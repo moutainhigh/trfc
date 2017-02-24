@@ -9,6 +9,7 @@
 <link href="${staticBasePath}/css/iconfont.css" rel="stylesheet">
 <link href="${staticBasePath}/css/jquery-confirm.css" rel="stylesheet">
 <link href="${staticBasePath}/css/pagination.css" rel="stylesheet">
+<link href="${staticBasePath}/css/jquery-ui.min.css" rel="stylesheet">
 <!--这个日历控件js必须放头部-->
 <script language="javascript" type="text/javascript"
 	src="${staticBasePath}/js/My97DatePicker/WdatePicker.js"></script>
@@ -26,3 +27,4 @@
 <script type="text/javascript" src="${staticBasePath}/js/jquery.pagination.js"></script>
 <script type="text/javascript" src="${staticBasePath}/js/myself.js"></script>
 <script type="text/javascript" src="${staticBasePath }/js/dateutil.js"></script>
+<script type="text/javascript" src="${staticBasePath }/js/jquery-ui.min.js"></script>
