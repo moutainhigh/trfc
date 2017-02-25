@@ -6,6 +6,7 @@ package com.tianrui.service.bean.quality.file;
  *
  */
 public class QualityItem {
+
 	/**
 	 * 主键id
 	 */
@@ -31,7 +32,7 @@ public class QualityItem {
      */
     private String line;
     /**
-     * 类型(0:采购项目,1:销售项目)
+     * 类型(0:采购项目,1:�?售项�?)
      */
     private String type;
     /**
@@ -39,19 +40,19 @@ public class QualityItem {
      */
     private String formula;
     /**
-     * 值分组
+     * 值分�?
      */
     private String vgroups;
     /**
-     * 值天数(0:单天,1:3天,2:28天)
+     * 值天�?(0:单天,1:3�?,2:28�?)
      */
     private String vdays;
     /**
-     * 值类型(0:单值,1:平均,2:其他)
+     * 值类�?(0:单�??,1:平均,2:其他)
      */
     private String vtype;
     /**
-     * 有效性(0:有效,1:无效)
+     * 有效�?(0:有效,1:无效)
      */
     private String invlid;
     /**
@@ -59,7 +60,7 @@ public class QualityItem {
      */
     private String remark;
     /**
-     * 创建者
+     * 创建�?
      */
     private String creator;
     /**
@@ -67,7 +68,7 @@ public class QualityItem {
      */
     private Long createtime;
     /**
-     * 修改者
+     * 修改�?
      */
     private String modifier;
     /**
@@ -75,7 +76,11 @@ public class QualityItem {
      */
     private Long modifytime;
     /**
-     * 数据同步时间戳
+     * 状�??(0:删除,1:正常)
+     */
+    private String state;
+    /**
+     * 数据同步时间�?
      */
     private Long utc;
 
@@ -222,4 +227,12 @@ public class QualityItem {
     public void setUtc(Long utc) {
         this.utc = utc;
     }
+
+	public String getState() {
+		return state;
+	}
+
+	public void setState(String state) {
+		this.state = state;
+	}
 }

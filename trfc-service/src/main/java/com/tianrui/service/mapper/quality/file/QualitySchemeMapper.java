@@ -11,6 +11,7 @@ import com.tianrui.service.bean.quality.file.QualityScheme;
  */
 public interface QualitySchemeMapper {
 	
+	
 	/**
 	 * 删除数据
 	 */
@@ -27,6 +28,10 @@ public interface QualitySchemeMapper {
 	 * 查询数据(id)
 	 */
     QualityScheme selectByPrimaryKey(String id);
+    /**
+ 	 * 查询数据(id,state)
+ 	 */
+     QualityScheme selectOne(QualitySchemeReq req);
     /**
 	 * 更新数据(动�??)
 	 */

@@ -1,6 +1,7 @@
 package com.tianrui.service.bean.quality.file;
 
 public class QualitySchemeItem {
+
 	/**
 	 * 主键id
 	 */
@@ -14,19 +15,19 @@ public class QualitySchemeItem {
      */
     private String itemid;
     /**
-     * 运算符1
+     * 运算�?1
      */
     private String comparison1;
     /**
-     * 运算符2
+     * 运算�?2
      */
     private String comparison2;
     /**
-     * 运算符3
+     * 运算�?3
      */
     private String comparison3;
     /**
-     * 标准值
+     * 标准�?
      */
     private String standardval;
     /**
@@ -38,11 +39,11 @@ public class QualitySchemeItem {
      */
     private String lowlimit;
     /**
-     * 基值
+     * 基�??
      */
     private String baseval;
     /**
-     * 浮动值
+     * 浮动�?
      */
     private String floatval;
     /**
@@ -54,11 +55,11 @@ public class QualitySchemeItem {
      */
     private String deduct;
     /**
-     * 状态(0:未初始化,1:已初始化)
+     * 状�??(0:未初始化,1:已初始化)
      */
     private String status;
     /**
-     * 有效性(0:有效,1,无效)
+     * 有效�?(0:有效,1,无效)
      */
     private String invalid;
     /**
@@ -66,7 +67,7 @@ public class QualitySchemeItem {
      */
     private String remark;
     /**
-     * 创建者
+     * 创建�?
      */
     private String creator;
     /**
@@ -74,7 +75,7 @@ public class QualitySchemeItem {
      */
     private Long createtime;
     /**
-     * 修改者
+     * 修改�?
      */
     private String modifier;
     /**
@@ -82,9 +83,13 @@ public class QualitySchemeItem {
      */
     private Long modifytime;
     /**
-     * 数据同步时间戳
+     * 数据同步时间�?
      */
     private Long utc;
+    /**
+     * 状�??(0:删除,1:正常)
+     */
+    private String state;
 
     public String getId() {
         return id;
@@ -253,4 +258,12 @@ public class QualitySchemeItem {
     public void setUtc(Long utc) {
         this.utc = utc;
     }
+
+	public String getState() {
+		return state;
+	}
+
+	public void setState(String state) {
+		this.state = state;
+	}
 }

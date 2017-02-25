@@ -1,239 +1,250 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.tianrui.service.mapper.quality.file.SupplierSchemeMapper" >
-  <resultMap id="BaseResultMap" type="com.tianrui.service.bean.quality.file.SupplierScheme" >
-    <id column="id" property="id" jdbcType="VARCHAR" />
-    <result column="code" property="code" jdbcType="VARCHAR" />
-    <result column="name" property="name" jdbcType="VARCHAR" />
-    <result column="supplierid" property="supplierid" jdbcType="VARCHAR" />
-    <result column="supremark" property="supremark" jdbcType="VARCHAR" />
-    <result column="materialid" property="materialid" jdbcType="VARCHAR" />
-    <result column="schemeid" property="schemeid" jdbcType="VARCHAR" />
-    <result column="starttime" property="starttime" jdbcType="BIGINT" />
-    <result column="endtime" property="endtime" jdbcType="BIGINT" />
-    <result column="mean" property="mean" jdbcType="VARCHAR" />
-    <result column="deduct" property="deduct" jdbcType="VARCHAR" />
-    <result column="ref" property="ref" jdbcType="VARCHAR" />
-    <result column="invalid" property="invalid" jdbcType="VARCHAR" />
-    <result column="remark" property="remark" jdbcType="VARCHAR" />
-    <result column="creator" property="creator" jdbcType="VARCHAR" />
-    <result column="createtime" property="createtime" jdbcType="BIGINT" />
-    <result column="modifier" property="modifier" jdbcType="VARCHAR" />
-    <result column="modifytime" property="modifytime" jdbcType="BIGINT" />
-    <result column="utc" property="utc" jdbcType="BIGINT" />
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tianrui.service.mapper.quality.file.SupplierSchemeMapper">
+  <resultMap id="BaseResultMap" type="com.tianrui.service.bean.quality.file.SupplierScheme">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="code" jdbcType="VARCHAR" property="code" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="supplierid" jdbcType="VARCHAR" property="supplierid" />
+    <result column="supremark" jdbcType="VARCHAR" property="supremark" />
+    <result column="materialid" jdbcType="VARCHAR" property="materialid" />
+    <result column="schemeid" jdbcType="VARCHAR" property="schemeid" />
+    <result column="starttime" jdbcType="BIGINT" property="starttime" />
+    <result column="endtime" jdbcType="BIGINT" property="endtime" />
+    <result column="mean" jdbcType="VARCHAR" property="mean" />
+    <result column="deduct" jdbcType="VARCHAR" property="deduct" />
+    <result column="ref" jdbcType="VARCHAR" property="ref" />
+    <result column="invalid" jdbcType="VARCHAR" property="invalid" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="state" jdbcType="VARCHAR" property="state" />
+    <result column="creator" jdbcType="VARCHAR" property="creator" />
+    <result column="createtime" jdbcType="BIGINT" property="createtime" />
+    <result column="modifier" jdbcType="VARCHAR" property="modifier" />
+    <result column="modifytime" jdbcType="BIGINT" property="modifytime" />
+    <result column="utc" jdbcType="BIGINT" property="utc" />
   </resultMap>
-  <sql id="Base_Column_List" >
+  <sql id="Base_Column_List">
     id, code, name, supplierid, supremark, materialid, schemeid, starttime, endtime, 
-    mean, deduct, ref, invalid, remark, creator, createtime, modifier, modifytime, utc
+    mean, deduct, ref, invalid, remark, state, creator, createtime, modifier, modifytime, 
+    utc
   </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from tr_quality_db_supplier_scheme
     where id = #{id,jdbcType=VARCHAR}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from tr_quality_db_supplier_scheme
     where id = #{id,jdbcType=VARCHAR}
   </delete>
-  <insert id="insert" parameterType="com.tianrui.service.bean.quality.file.SupplierScheme" >
+  <insert id="insert" parameterType="com.tianrui.service.bean.quality.file.SupplierScheme">
     insert into tr_quality_db_supplier_scheme (id, code, name, 
       supplierid, supremark, materialid, 
       schemeid, starttime, endtime, 
       mean, deduct, ref, 
-      invalid, remark, creator, 
-      createtime, modifier, modifytime, 
-      utc)
+      invalid, remark, state, 
+      creator, createtime, modifier, 
+      modifytime, utc)
     values (#{id,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
       #{supplierid,jdbcType=VARCHAR}, #{supremark,jdbcType=VARCHAR}, #{materialid,jdbcType=VARCHAR}, 
       #{schemeid,jdbcType=VARCHAR}, #{starttime,jdbcType=BIGINT}, #{endtime,jdbcType=BIGINT}, 
       #{mean,jdbcType=VARCHAR}, #{deduct,jdbcType=VARCHAR}, #{ref,jdbcType=VARCHAR}, 
-      #{invalid,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, #{creator,jdbcType=VARCHAR}, 
-      #{createtime,jdbcType=BIGINT}, #{modifier,jdbcType=VARCHAR}, #{modifytime,jdbcType=BIGINT}, 
-      #{utc,jdbcType=BIGINT})
+      #{invalid,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, #{state,jdbcType=VARCHAR}, 
+      #{creator,jdbcType=VARCHAR}, #{createtime,jdbcType=BIGINT}, #{modifier,jdbcType=VARCHAR}, 
+      #{modifytime,jdbcType=BIGINT}, #{utc,jdbcType=BIGINT})
   </insert>
-  <insert id="insertSelective" parameterType="com.tianrui.service.bean.quality.file.SupplierScheme" >
+  <insert id="insertSelective" parameterType="com.tianrui.service.bean.quality.file.SupplierScheme">
     insert into tr_quality_db_supplier_scheme
-    <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
         id,
       </if>
-      <if test="code != null" >
+      <if test="code != null">
         code,
       </if>
-      <if test="name != null" >
+      <if test="name != null">
         name,
       </if>
-      <if test="supplierid != null" >
+      <if test="supplierid != null">
         supplierid,
       </if>
-      <if test="supremark != null" >
+      <if test="supremark != null">
         supremark,
       </if>
-      <if test="materialid != null" >
+      <if test="materialid != null">
         materialid,
       </if>
-      <if test="schemeid != null" >
+      <if test="schemeid != null">
         schemeid,
       </if>
-      <if test="starttime != null" >
+      <if test="starttime != null">
         starttime,
       </if>
-      <if test="endtime != null" >
+      <if test="endtime != null">
         endtime,
       </if>
-      <if test="mean != null" >
+      <if test="mean != null">
         mean,
       </if>
-      <if test="deduct != null" >
+      <if test="deduct != null">
         deduct,
       </if>
-      <if test="ref != null" >
+      <if test="ref != null">
         ref,
       </if>
-      <if test="invalid != null" >
+      <if test="invalid != null">
         invalid,
       </if>
-      <if test="remark != null" >
+      <if test="remark != null">
         remark,
       </if>
-      <if test="creator != null" >
+      <if test="state != null">
+        state,
+      </if>
+      <if test="creator != null">
         creator,
       </if>
-      <if test="createtime != null" >
+      <if test="createtime != null">
         createtime,
       </if>
-      <if test="modifier != null" >
+      <if test="modifier != null">
         modifier,
       </if>
-      <if test="modifytime != null" >
+      <if test="modifytime != null">
         modifytime,
       </if>
-      <if test="utc != null" >
+      <if test="utc != null">
         utc,
       </if>
     </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
         #{id,jdbcType=VARCHAR},
       </if>
-      <if test="code != null" >
+      <if test="code != null">
         #{code,jdbcType=VARCHAR},
       </if>
-      <if test="name != null" >
+      <if test="name != null">
         #{name,jdbcType=VARCHAR},
       </if>
-      <if test="supplierid != null" >
+      <if test="supplierid != null">
         #{supplierid,jdbcType=VARCHAR},
       </if>
-      <if test="supremark != null" >
+      <if test="supremark != null">
         #{supremark,jdbcType=VARCHAR},
       </if>
-      <if test="materialid != null" >
+      <if test="materialid != null">
         #{materialid,jdbcType=VARCHAR},
       </if>
-      <if test="schemeid != null" >
+      <if test="schemeid != null">
         #{schemeid,jdbcType=VARCHAR},
       </if>
-      <if test="starttime != null" >
+      <if test="starttime != null">
         #{starttime,jdbcType=BIGINT},
       </if>
-      <if test="endtime != null" >
+      <if test="endtime != null">
         #{endtime,jdbcType=BIGINT},
       </if>
-      <if test="mean != null" >
+      <if test="mean != null">
         #{mean,jdbcType=VARCHAR},
       </if>
-      <if test="deduct != null" >
+      <if test="deduct != null">
         #{deduct,jdbcType=VARCHAR},
       </if>
-      <if test="ref != null" >
+      <if test="ref != null">
         #{ref,jdbcType=VARCHAR},
       </if>
-      <if test="invalid != null" >
+      <if test="invalid != null">
         #{invalid,jdbcType=VARCHAR},
       </if>
-      <if test="remark != null" >
+      <if test="remark != null">
         #{remark,jdbcType=VARCHAR},
       </if>
-      <if test="creator != null" >
+      <if test="state != null">
+        #{state,jdbcType=VARCHAR},
+      </if>
+      <if test="creator != null">
         #{creator,jdbcType=VARCHAR},
       </if>
-      <if test="createtime != null" >
+      <if test="createtime != null">
         #{createtime,jdbcType=BIGINT},
       </if>
-      <if test="modifier != null" >
+      <if test="modifier != null">
         #{modifier,jdbcType=VARCHAR},
       </if>
-      <if test="modifytime != null" >
+      <if test="modifytime != null">
         #{modifytime,jdbcType=BIGINT},
       </if>
-      <if test="utc != null" >
+      <if test="utc != null">
         #{utc,jdbcType=BIGINT},
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.tianrui.service.bean.quality.file.SupplierScheme" >
+  <update id="updateByPrimaryKeySelective" parameterType="com.tianrui.service.bean.quality.file.SupplierScheme">
     update tr_quality_db_supplier_scheme
-    <set >
-      <if test="code != null" >
+    <set>
+      <if test="code != null">
         code = #{code,jdbcType=VARCHAR},
       </if>
-      <if test="name != null" >
+      <if test="name != null">
         name = #{name,jdbcType=VARCHAR},
       </if>
-      <if test="supplierid != null" >
+      <if test="supplierid != null">
         supplierid = #{supplierid,jdbcType=VARCHAR},
       </if>
-      <if test="supremark != null" >
+      <if test="supremark != null">
         supremark = #{supremark,jdbcType=VARCHAR},
       </if>
-      <if test="materialid != null" >
+      <if test="materialid != null">
         materialid = #{materialid,jdbcType=VARCHAR},
       </if>
-      <if test="schemeid != null" >
+      <if test="schemeid != null">
         schemeid = #{schemeid,jdbcType=VARCHAR},
       </if>
-      <if test="starttime != null" >
+      <if test="starttime != null">
         starttime = #{starttime,jdbcType=BIGINT},
       </if>
-      <if test="endtime != null" >
+      <if test="endtime != null">
         endtime = #{endtime,jdbcType=BIGINT},
       </if>
-      <if test="mean != null" >
+      <if test="mean != null">
         mean = #{mean,jdbcType=VARCHAR},
       </if>
-      <if test="deduct != null" >
+      <if test="deduct != null">
         deduct = #{deduct,jdbcType=VARCHAR},
       </if>
-      <if test="ref != null" >
+      <if test="ref != null">
         ref = #{ref,jdbcType=VARCHAR},
       </if>
-      <if test="invalid != null" >
+      <if test="invalid != null">
         invalid = #{invalid,jdbcType=VARCHAR},
       </if>
-      <if test="remark != null" >
+      <if test="remark != null">
         remark = #{remark,jdbcType=VARCHAR},
       </if>
-      <if test="creator != null" >
+      <if test="state != null">
+        state = #{state,jdbcType=VARCHAR},
+      </if>
+      <if test="creator != null">
         creator = #{creator,jdbcType=VARCHAR},
       </if>
-      <if test="createtime != null" >
+      <if test="createtime != null">
         createtime = #{createtime,jdbcType=BIGINT},
       </if>
-      <if test="modifier != null" >
+      <if test="modifier != null">
         modifier = #{modifier,jdbcType=VARCHAR},
       </if>
-      <if test="modifytime != null" >
+      <if test="modifytime != null">
         modifytime = #{modifytime,jdbcType=BIGINT},
       </if>
-      <if test="utc != null" >
+      <if test="utc != null">
         utc = #{utc,jdbcType=BIGINT},
       </if>
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.tianrui.service.bean.quality.file.SupplierScheme" >
+  <update id="updateByPrimaryKey" parameterType="com.tianrui.service.bean.quality.file.SupplierScheme">
     update tr_quality_db_supplier_scheme
     set code = #{code,jdbcType=VARCHAR},
       name = #{name,jdbcType=VARCHAR},
@@ -248,6 +259,7 @@
       ref = #{ref,jdbcType=VARCHAR},
       invalid = #{invalid,jdbcType=VARCHAR},
       remark = #{remark,jdbcType=VARCHAR},
+      state = #{state,jdbcType=VARCHAR},
       creator = #{creator,jdbcType=VARCHAR},
       createtime = #{createtime,jdbcType=BIGINT},
       modifier = #{modifier,jdbcType=VARCHAR},
@@ -278,6 +290,9 @@
 			<if test="supplierid!=null and supplierid!=''">
 				and supplierid =#{supplierid,jdbcType=VARCHAR}
 			</if>
+			<if test="state!=null and state!=''">
+				and state=#{state,jdbcType=VARCHAR}
+			</if>
 		</where>
 		<if test="start!=null and limit!=null and limit!=0">
 			limit #{start,jdbcType=INTEGER},#{limit,jdbcType=INTEGER}
@@ -306,7 +321,18 @@
 			<if test="supplierid!=null and supplierid!=''">
 				and supplierid =#{supplierid,jdbcType=VARCHAR}
 			</if>
+			<if test="state!=null and state!=''">
+				and state=#{state,jdbcType=VARCHAR}
+			</if>
 		</where>
 	</select>
-  
+    <select id="selectOne" parameterType="com.tianrui.api.req.quality.file.SupplierSchemeReq" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tr_quality_db_supplier_scheme
+    where id = #{id,jdbcType=VARCHAR}
+    <if test="state!=null and state!=''">
+		and state=#{state,jdbcType=VARCHAR}
+	</if>
+  </select>
 </mapper>

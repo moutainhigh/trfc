@@ -45,6 +45,10 @@ public class CertificationReq extends BaseReq {
      */
     private String intro;
     /**
+     * 状态(0:删除,1:正常)
+     */
+    private String state;
+    /**
      * 用户id
      */
     private String user;
@@ -128,6 +132,12 @@ public class CertificationReq extends BaseReq {
 	}
 	public void setLimit(int limit) {
 		this.limit = limit;
+	}
+	public String getState() {
+		return state;
+	}
+	public void setState(String state) {
+		this.state = state;
 	}
 	
 }

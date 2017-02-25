@@ -38,8 +38,11 @@ public class QualitySchemeService implements IQualitySchemeService {
 	public Result delete(QualitySchemeReq req) throws Exception {
 		Result rs = Result.getParamErrorResult();
 		if(req!=null && StringUtils.isNotBlank(req.getId())){
+			QualityScheme scheme = new QualityScheme();
+			scheme.setId(req.getId());
+			scheme.setState("0");
 			//删除数据
-			int index = qualitySchemeMapper.deleteByPrimaryKey(req.getId());
+			int index = qualitySchemeMapper.updateByPrimaryKeySelective(scheme);
 			//判断操作是否成功
 			if(index>0){
 				rs = Result.getSuccessResult();
@@ -65,6 +68,7 @@ public class QualitySchemeService implements IQualitySchemeService {
 			qs.setModifier(req.getUser());
 			qs.setModifytime(System.currentTimeMillis());
 			qs.setUtc(System.currentTimeMillis());
+			qs.setState("1");
 			//保存数据
 			int index = qualitySchemeMapper.insertSelective(qs);
 			//判断操作是否成功
@@ -105,6 +109,7 @@ public class QualitySchemeService implements IQualitySchemeService {
 	public Result page(QualitySchemeReq req) throws Exception {
 		Result rs = Result.getParamErrorResult();
 		if(req!=null){
+			req.setState("1");
 			PaginationVO<QualitySchemeResp> page = new PaginationVO<QualitySchemeResp>();
 			int pageNo = req.getPageNo();
 			int pageSize = req.getPageSize();
@@ -162,7 +167,8 @@ public class QualitySchemeService implements IQualitySchemeService {
 	public Result findById(QualitySchemeReq req) throws Exception {
 		Result rs = Result.getParamErrorResult();
 		if(req!=null && StringUtils.isNotBlank(req.getId())){
-			QualityScheme qs = qualitySchemeMapper.selectByPrimaryKey(req.getId());
+			req.setState("1");
+			QualityScheme qs = qualitySchemeMapper.selectOne(req);
 			
 			if(qs!=null){
 				QualitySchemeResp resp = new QualitySchemeResp();

@@ -6,6 +6,7 @@ import com.tianrui.api.req.quality.file.CertificationReq;
 import com.tianrui.service.bean.quality.file.Certification;
 
 public interface CertificationMapper {
+	
 	/**
 	 * 删除数据
 	 */
@@ -15,7 +16,7 @@ public interface CertificationMapper {
 	 */
     int insert(Certification record);
     /**
-	 * 新增数据(动态)
+	 * 新增数据(动�??)
 	 */
     int insertSelective(Certification record);
     /**
@@ -23,7 +24,11 @@ public interface CertificationMapper {
 	 */
     Certification selectByPrimaryKey(String id);
     /**
-	 * 更新数据(动态)
+	 * 查询数据(主键id,state)
+	 */
+    Certification selectOne(CertificationReq req);
+    /**
+	 * 更新数据(动�??)
 	 */
     int updateByPrimaryKeySelective(Certification record);
     /**

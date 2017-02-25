@@ -82,6 +82,10 @@ public class SupplierSchemeReq extends BaseReq {
 	     */
 	    private int start;
 	    /**
+	     * 状态(0:删除,1:正常)
+	     */
+	    private String state;
+	    /**
 	     * 分页查询数据量
 	     */
 	    private int limit;
@@ -198,6 +202,12 @@ public class SupplierSchemeReq extends BaseReq {
 		}
 		public void setDetail(String detail) {
 			this.detail = detail;
+		}
+		public String getState() {
+			return state;
+		}
+		public void setState(String state) {
+			this.state = state;
 		}
 	    
 	    

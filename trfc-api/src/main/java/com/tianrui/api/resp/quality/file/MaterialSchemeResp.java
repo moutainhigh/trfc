@@ -64,6 +64,10 @@ public class MaterialSchemeResp extends BaseResp{
      * 结论
      */
     private String verdict;
+    /**
+     * 状态(0:删除,1:正常)
+     */
+    private String state;
 	public String getId() {
 		return id;
 	}
@@ -147,6 +151,12 @@ public class MaterialSchemeResp extends BaseResp{
 	}
 	public void setShows(String shows) {
 		this.shows = shows;
+	}
+	public String getState() {
+		return state;
+	}
+	public void setState(String state) {
+		this.state = state;
 	}
 
 

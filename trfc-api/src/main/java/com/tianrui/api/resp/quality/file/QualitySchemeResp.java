@@ -57,6 +57,10 @@ public class QualitySchemeResp extends BaseResp {
      * 描述
      */
     private String describe;
+    /**
+     * 状态(0:删除,1:正常)
+     */
+    private String state;
 	public String getId() {
 		return id;
 	}
@@ -129,6 +133,12 @@ public class QualitySchemeResp extends BaseResp {
 	}
 	public void setDef(String def) {
 		this.def = def;
+	}
+	public String getState() {
+		return state;
+	}
+	public void setState(String state) {
+		this.state = state;
 	}
  
 }

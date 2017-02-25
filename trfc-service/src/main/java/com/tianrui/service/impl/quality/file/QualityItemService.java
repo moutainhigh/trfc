@@ -31,8 +31,12 @@ public class QualityItemService implements IQualityItemService {
 	public Result delete(QualityItemReq req) throws Exception {
 		Result rs = Result.getParamErrorResult();
 		if(req!=null && StringUtils.isNotBlank(req.getId())){
+			QualityItem item = new QualityItem();
+			item.setId(req.getId());
+			//设置为删除状态
+			item.setState("0");
 			//删除数据
-			int index = qualityItemMapper.deleteByPrimaryKey(req.getId());
+			int index = qualityItemMapper.updateByPrimaryKeySelective(item);
 			//判断操作是否成功
 			if(index>0){
 				rs = Result.getSuccessResult();
@@ -58,6 +62,8 @@ public class QualityItemService implements IQualityItemService {
 			qi.setModifier(req.getUser());
 			qi.setModifytime(System.currentTimeMillis());
 			qi.setUtc(System.currentTimeMillis());
+			//设置为正常状态
+			qi.setState("1");
 			//保存数据
 			int index = qualityItemMapper.insertSelective(qi);
 			//判断操作是否成功
@@ -98,6 +104,8 @@ public class QualityItemService implements IQualityItemService {
 	public Result page(QualityItemReq req) throws Exception {
 		Result rs = Result.getParamErrorResult();
 		if(req!=null){
+			//默认查询正常数据
+			req.setState("1");
 			PaginationVO<QualityItemResp> page = new PaginationVO<QualityItemResp>();
 			if(req.getPageNo()!=null && req.getPageNo()!=null){
 				int pageNo = req.getPageNo();

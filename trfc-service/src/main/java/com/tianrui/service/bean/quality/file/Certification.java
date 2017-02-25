@@ -1,10 +1,12 @@
 package com.tianrui.service.bean.quality.file;
 /**
- * 合格证维护
+ * 合格证维�?
  * @author lxy
  *
  */
 public class Certification {
+
+
 	/**
 	 * 主键id
 	 */
@@ -30,19 +32,19 @@ public class Certification {
      */
     private String factorysite;
     /**
-     * 销售电话
+     * �?售电�?
      */
     private String salestel;
     /**
-     * 有效性(0:有效,1:无效)
+     * 有效�?(0:有效,1:无效)
      */
     private String invalid;
     /**
-     * 简介
+     * �?�?
      */
     private String intro;
     /**
-     * 创建者
+     * 创建�?
      */
     private String creator;
     /**
@@ -50,7 +52,7 @@ public class Certification {
      */
     private Long createtime;
     /**
-     * 修改者
+     * 修改�?
      */
     private String modifier;
     /**
@@ -58,9 +60,13 @@ public class Certification {
      */
     private Long modifytime;
     /**
-     * 数据同步时间戳
+     * 数据同步时间�?
      */
     private Long utc;
+    /**
+     * 状�??(0:删除,1:正常)
+     */
+    private String state;
 
     public String getId() {
         return id;
@@ -173,4 +179,12 @@ public class Certification {
     public void setUtc(Long utc) {
         this.utc = utc;
     }
+
+	public String getState() {
+		return state;
+	}
+
+	public void setState(String state) {
+		this.state = state;
+	}
 }

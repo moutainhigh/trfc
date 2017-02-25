@@ -35,8 +35,12 @@ public class CertificationService implements ICertificationService {
 	public Result delete(CertificationReq req) throws Exception {
 		Result rs = Result.getParamErrorResult();
 		if(req!=null && StringUtils.isNotBlank(req.getId())){
+			Certification cert = new Certification();
+			cert.setId(req.getId());
+			//设置为删除状态
+			cert.setState("0");
 			//删除数据
-			int index = certificationMapper.deleteByPrimaryKey(req.getId());
+			int index = certificationMapper.updateByPrimaryKeySelective(cert);
 			//判断操作是否成功
 			if(index>0){
 				rs = Result.getSuccessResult();
@@ -63,6 +67,8 @@ public class CertificationService implements ICertificationService {
 			c.setModifier(req.getUser());
 			c.setModifytime(System.currentTimeMillis());
 			c.setUtc(System.currentTimeMillis());
+			//设置为正常状态
+			c.setState("1");
 			//保存数据
 			int index = certificationMapper.insertSelective(c);
 			//判断操作是否成功
@@ -103,6 +109,7 @@ public class CertificationService implements ICertificationService {
 	public Result page(CertificationReq req) throws Exception {
 		Result rs = Result.getParamErrorResult();
 		if(req!=null){
+			req.setState("1");
 			PaginationVO<CertificationResp> page = new PaginationVO<CertificationResp>();
 			int pageNo = req.getPageNo();
 			int pageSize = req.getPageSize();

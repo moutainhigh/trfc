@@ -56,8 +56,11 @@ public class SupplierSchemeService implements ISupplierSchemeService{
 		Result rs = Result.getParamErrorResult();
 		//判断参数和id不能为空
 		if(req!=null && StringUtils.isNotBlank(req.getId())){
+			SupplierScheme scheme = new SupplierScheme();
+			scheme.setId(req.getId());
+			scheme.setState("0");
 			//删除数据库中对应的数据
-			int index = supplierSchemeMapper.deleteByPrimaryKey(req.getId());
+			int index = supplierSchemeMapper.updateByPrimaryKeySelective(scheme);
 			//判断操作是否成功
 			if(index>0){
 				rs = Result.getSuccessResult();
@@ -117,6 +120,7 @@ public class SupplierSchemeService implements ISupplierSchemeService{
 			ss.setModifytime(System.currentTimeMillis());
 			//设置数据同步时间戳
 			ss.setUtc(System.currentTimeMillis());
+			ss.setState("1");
 			//保存数据到数据库
 			int index = supplierSchemeMapper.insertSelective(ss);
 			//判断操作是否成功
@@ -162,6 +166,7 @@ public class SupplierSchemeService implements ISupplierSchemeService{
 		Result rs = Result.getParamErrorResult();
 		//判断参数不能为空
 		if(req!=null){
+			req.setState("1");
 			PaginationVO<SupplierSchemeResp> page = new PaginationVO<SupplierSchemeResp>();
 			int pageNo = req.getPageNo();
 			int pageSize = req.getPageSize();
@@ -200,7 +205,10 @@ public class SupplierSchemeService implements ISupplierSchemeService{
 						}
 						//获取质检方案名称
 						if(StringUtils.isNotBlank(c.getSchemeid())){
-							QualityScheme qs = qualitySchemeMapper.selectByPrimaryKey(c.getSchemeid());
+							QualitySchemeReq qsreq = new QualitySchemeReq();
+							qsreq.setId(c.getSchemeid());
+							qsreq.setState("1");
+							QualityScheme qs = qualitySchemeMapper.selectOne(qsreq);
 							if(qs!=null){
 								resp.setSchemename(qs.getName());
 							}
@@ -233,6 +241,7 @@ public class SupplierSchemeService implements ISupplierSchemeService{
 				//设置物料id
 				r.setMaterialid(req.getMaterialid());
 				r.setInvalid(req.getInvalid());
+				r.setState("1");
 				//根据物料id查询数据 并转换类型
 				List<QualityScheme> list = qualitySchemeMapper.page(r);
 				List<QualitySchemeResp> resps = new ArrayList<QualitySchemeResp>();
@@ -257,6 +266,7 @@ public class SupplierSchemeService implements ISupplierSchemeService{
 				SupplierManageQuery query = new SupplierManageQuery();
 				//设置 开始位置为-1,查询所有数据
 				query.setStart(-1);
+				query.setState("1");
 				//查询数据 并转换类型
 				List<SupplierManage> list = supplierManageMapper.findSupplierPage(query);
 				List<SupplierManageResp> resps = new ArrayList<SupplierManageResp>();
@@ -279,7 +289,8 @@ public class SupplierSchemeService implements ISupplierSchemeService{
 			//判断参数和id不能为空
 			if(req!=null && StringUtils.isNotBlank(req.getId())){
 				SupplierScheme scheme = new SupplierScheme();
-				scheme = supplierSchemeMapper.selectByPrimaryKey(req.getId());
+				req.setState("1");
+				scheme = supplierSchemeMapper.selectOne(req);
 				if(scheme!=null){
 					//将结果转换为出参类型
 					SupplierSchemeResp resp = new SupplierSchemeResp();

@@ -61,6 +61,10 @@ public class QualityItemReq extends BaseReq {
      */
     private String remark;
     /**
+     * 状态(0:删除,1:正常)
+     */
+    private String state;
+    /**
      * 用户id
      */
     private String user;
@@ -187,6 +191,12 @@ public class QualityItemReq extends BaseReq {
 	}
 	public void setCodelike(String codelike) {
 		this.codelike = codelike;
+	}
+	public String getState() {
+		return state;
+	}
+	public void setState(String state) {
+		this.state = state;
 	}
     
 }

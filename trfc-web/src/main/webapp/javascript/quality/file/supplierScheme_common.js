@@ -8,7 +8,6 @@ var URL = {
 		saveUrl:"/trfc/quality/sales/file/supplierScheme/add",
 		codeUrl:"/trfc/quality/sales/file/supplierScheme/getCode",
 		selectByIdUrl:"/trfc/quality/sales/file/supplierScheme/selectById",
-		updateCodeUrl:"/trfc/quality/sales/file/supplierScheme/updateCode",
 		getSchemeUrl:"/trfc/quality/sales/file/supplierScheme/getSchemeData",
 		getMaterialUrl:"/trfc/quality/sales/file/supplierScheme/getMaterialData",
 		getSupplierUrl:"/trfc/quality/sales/file/supplierScheme/getSupplierData",
