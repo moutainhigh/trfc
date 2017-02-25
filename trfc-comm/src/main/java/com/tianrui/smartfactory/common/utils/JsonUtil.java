@@ -18,6 +18,7 @@ public class JsonUtil {
 	public static boolean validateSign(String json, String signValue, String authSign) {
 		boolean result = false;
 		try {
+			System.out.println(json);
 			// 将签名字符串替换为签名KEY
 			String sourceStr = json.replaceAll(signValue, authSign);
 			// MD5加密

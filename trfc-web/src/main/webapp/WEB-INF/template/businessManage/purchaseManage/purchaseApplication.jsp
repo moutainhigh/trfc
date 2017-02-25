@@ -7,6 +7,20 @@
 <title>采购管理</title>
 <!-- 引用公共header部分 -->
 <jsp:include page="../../common/base/header_busi.jsp"></jsp:include>
+<style type="text/css">
+.ui-autocomplete {
+	max-height: 200px;
+	overflow-y: auto;
+	/* 防止水平滚动条 */
+	overflow-x: hidden;
+}
+/* IE 6 不支持 max-height
+	   * 我们使用 height 代替，但是这会强制菜单总是显示为那个高度
+	   */
+* html .ui-autocomplete {
+	height: 200px;
+}
+</style>
 </head>
 <body>
 	<div class="it_admin">
@@ -34,11 +48,12 @@
 						<div class="intel_sconditon">
 							<div class="intel_sline">
 								<div class="intel_solo">
-									<label>订单号：</label> <input id="code" type="text" placeholder="请输入订单号">
+									<label>订单号：</label> <input id="code" type="text"
+										placeholder="请输入订单号">
 								</div>
 								<div class="intel_solo">
-									<label>供应商：</label>
-									<input id="supplier" type="text" placeholder="请选择供应商"/>
+									<label>供应商：</label> <input id="supplier" type="text"
+										placeholder="请选择供应商" />
 								</div>
 								<div class="intel_solo">
 									<label>单据来源：</label> <select id="source" class="form-control">
@@ -50,10 +65,10 @@
 								<div class="intel_solo">
 									<label>创建时间：</label> <input id="starttime" type="text" readonly
 										onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:00:00',maxDate:'#F{$dp.$D(\'endtime\')}'})"
-										class="Wdate" style="width: 160px" placeholder="请选择开始时间"/> <i>-</i> <input
-										 id="endtime" type="text" readonly
+										class="Wdate" style="width: 160px" placeholder="请选择开始时间" /> <i>-</i>
+									<input id="endtime" type="text" readonly
 										onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:00:00',minDate:'#F{$dp.$D(\'starttime\')}'})"
-										class="Wdate" style="width: 160px" placeholder="请选择结束时间"/>
+										class="Wdate" style="width: 160px" placeholder="请选择结束时间" />
 								</div>
 								<div class="intel_solo">
 									<div class="intel_sbtn">

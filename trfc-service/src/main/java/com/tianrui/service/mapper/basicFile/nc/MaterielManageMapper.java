@@ -2,6 +2,8 @@ package com.tianrui.service.mapper.basicFile.nc;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.tianrui.api.req.basicFile.nc.MaterielManageQuery;
 import com.tianrui.service.bean.basicFile.nc.MaterielManage;
 
@@ -34,4 +36,5 @@ public interface MaterielManageMapper {
     
     Long findMaxUtc();
     
+    List<MaterielManage> autoCompleteSearch(@Param("likeName")String likeName);
 }

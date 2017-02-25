@@ -84,6 +84,19 @@ public class MaterielManageService implements IMaterielManageService {
 		result.setData(copyBeanList2RespList(list));
 		return result;
 	}
+
+	@Override
+	public MaterielManageResp findOne(MaterielManageQuery query) throws Exception {
+		if(query != null && StringUtils.isNotBlank(query.getId())){
+			return copyBean2Resp(materielManageMapper.selectByPrimaryKey(query.getId()));
+		}
+		return null;
+	}
+
+	@Override
+	public List<MaterielManageResp> autoCompleteSearch(String likeName) throws Exception {
+		return copyBeanList2RespList(materielManageMapper.autoCompleteSearch(likeName));
+	}
 	
 	private List<MaterielManageResp> copyBeanList2RespList(List<MaterielManage> list) throws Exception {
 		List<MaterielManageResp> listResp = null;
@@ -103,14 +116,6 @@ public class MaterielManageService implements IMaterielManageService {
 			PropertyUtils.copyProperties(resp, bean);
 		}
 		return resp;
-	}
-
-	@Override
-	public MaterielManageResp findOne(MaterielManageQuery query) throws Exception {
-		if(query != null && StringUtils.isNotBlank(query.getId())){
-			return copyBean2Resp(materielManageMapper.selectByPrimaryKey(query.getId()));
-		}
-		return null;
 	}
 
 	@Override

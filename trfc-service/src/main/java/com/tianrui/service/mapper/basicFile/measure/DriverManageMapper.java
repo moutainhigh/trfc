@@ -2,6 +2,8 @@ package com.tianrui.service.mapper.basicFile.measure;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.tianrui.api.req.basicFile.measure.DriverManageQuery;
 import com.tianrui.service.bean.basicFile.measure.DriverManage;
 
@@ -23,5 +25,6 @@ public interface DriverManageMapper {
 	long findDriverPageCount(DriverManageQuery query);
 
 	List<DriverManage> findDriverPage(DriverManageQuery query);
-	
+
+    List<DriverManage> autoCompleteSearch(@Param("likeName")String likeName);
 }

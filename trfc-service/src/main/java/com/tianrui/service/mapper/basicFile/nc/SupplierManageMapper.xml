@@ -390,11 +390,11 @@
 		select 
 		<include refid="Base_Column_List"/>
 		from tr_supplier_db_manage
-		<where>
-			<if test="likeName != null and likeName !=''">
-				name like CONCAT('%', #{likeName,jdbcType=VARCHAR}, '%')
-			</if>
-		</where>
+		where state = 1 
+		<if test="likeName != null and likeName !=''">
+			and name like CONCAT('%', #{likeName,jdbcType=VARCHAR}, '%')
+		</if>
+		order by createtime desc
 		limit 0,20
 	</select>
 </mapper>

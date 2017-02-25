@@ -70,7 +70,7 @@ public class SupplierManageAction {
 	public List<SupplierManageResp> autoCompleteSearch(String term){
 		List<SupplierManageResp> list = null;
 		try {
-			list = supplierManageService.autoCompleteSearch(term);
+			list = supplierManageService.autoCompleteSearch(term.trim());
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 		}

@@ -219,11 +219,16 @@ public class VehicleManageService implements IVehicleManageService {
 	}
 
 	@Override
-	public VehicleManageResp findOne(VehicleManageQuery query) throws Exception {
-		if (query != null && StringUtils.isNotBlank(query.getId())) {
-			return copyBean2Resp(vehicleManageMapper.selectByPrimaryKey(query.getId()));
+	public VehicleManageResp findOne(String id) throws Exception {
+		if ( StringUtils.isNotBlank(id) ) {
+			return copyBean2Resp(vehicleManageMapper.selectByPrimaryKey(id));
 		}
 		return null;
+	}
+
+	@Override
+	public List<VehicleManageResp> autoCompleteSearch(String likeName) throws Exception {
+		return copyBeanList2RespList(vehicleManageMapper.autoCompleteSearch(likeName));
 	}
 
 	private List<VehicleManageResp> copyBeanList2RespList(List<VehicleManage> list) throws Exception {

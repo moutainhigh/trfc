@@ -64,9 +64,8 @@ public class ApiPurchaseApplicationAction {
 	@ResponseBody
 	public ApiResult updateData(ApiParam<List<JSONObject>> req){
 		Result rs=Result.getErrorResult();
-
-		List<JSONObject> list=req.getBody();
 		try {
+			List<JSONObject> list=req.getBody();
 			rs = purchaseApplicationService.updateDataWithDC(list);
 		} catch (Exception e) {
 			rs.setErrorCode(ErrorCode.SYSTEM_ERROR);

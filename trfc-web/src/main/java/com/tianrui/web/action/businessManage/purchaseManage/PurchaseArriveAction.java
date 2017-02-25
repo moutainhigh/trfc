@@ -48,14 +48,6 @@ public class PurchaseArriveAction {
 	@RequestMapping("/main")
 	public ModelAndView main(){
 		ModelAndView view = new ModelAndView("businessManage/purchaseManage/purchaseArrive");
-		try {
-			view.addObject("supplier", supplierManageService.findListByParmas(null).getData());
-			view.addObject("vehicle", vehicleManageService.findListByParmas(null).getData());
-			view.addObject("materiel", materielManageService.findListByParmas(null).getData());
-			view.addObject("driver", driverManageService.findListByParmas(null).getData());
-		} catch (Exception e) {
-			log.error(e.getMessage(), e);
-		}
 		return view;
 	}
 	

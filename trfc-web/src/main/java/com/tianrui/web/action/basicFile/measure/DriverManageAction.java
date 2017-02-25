@@ -1,6 +1,7 @@
 package com.tianrui.web.action.basicFile.measure;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
@@ -123,6 +124,18 @@ public class DriverManageAction {
 			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
 		}
 		return result;
+	}
+	
+	@RequestMapping("/autoCompleteSearch")
+	@ResponseBody
+	public List<DriverManageResp> autoCompleteSearch(String term){
+		List<DriverManageResp> list = null;
+		try {
+			list = driverManageService.autoCompleteSearch(term.trim());
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+		}
+		return list;
 	}
 
 }

@@ -2,6 +2,7 @@
 	//请求路径
 	var URL = {
 			pageUrl:"/trfc/purchaseApplication/page",
+			autoCompleteSearch: "/trfc/supplier/autoCompleteSearch"
 	};
 	init();
 	function init(){
@@ -19,23 +20,25 @@
 	    			response( supplier[ term ] );
 	    			return;
 	    		}
-	    		$.post( "/trfc/supplier/autoCompleteSearch", request, function( data, status, xhr ) {
+	    		$.post( URL.autoCompleteSearch, request, function( data, status, xhr ) {
 	    			supplier[ term ] = data;
 	    			response( data );
 	    		});
 	    	},
 	    	response: function( event, ui ) {
-	    		ui.content.forEach(function(x,i,a){
-	    			x.label = x.name;
-	    			x.value = x.id;
-	    		});
+	    		if(ui.content && ui.content.length > 0){
+		    		ui.content.forEach(function(x,i,a){
+		    			x.label = x.name;
+		    			x.value = x.id;
+		    		});
+	    		}
 	    	},
 	    	select: function( event, ui ) {
 	    		$(this).val(ui.item.name).attr('supplierid', ui.item.id);
 	    		return false;
     		}
 	    }).off('click').on('click',function(){
-	    	$(this).autocomplete('search');
+	    	$(this).autocomplete('search',' ');
 	    }).change(function(){
 	    	$(this).val('').removeAttr('supplierid');
 	    });

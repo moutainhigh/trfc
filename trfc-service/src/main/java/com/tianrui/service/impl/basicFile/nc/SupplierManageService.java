@@ -94,11 +94,7 @@ public class SupplierManageService implements ISupplierManageService {
 
 	@Override
 	public List<SupplierManageResp> autoCompleteSearch(String likeName) throws Exception {
-		List<SupplierManageResp> list = null;
-		if(StringUtils.isNotBlank(likeName)){
-			list = copyBeanList2RespList(supplierManageMapper.autoCompleteSearch(likeName));
-		}
-		return list;
+		return copyBeanList2RespList(supplierManageMapper.autoCompleteSearch(likeName));
 	}
 	
 	private List<SupplierManageResp> copyBeanList2RespList(List<SupplierManage> list) throws Exception {

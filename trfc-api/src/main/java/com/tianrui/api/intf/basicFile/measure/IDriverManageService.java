@@ -1,6 +1,9 @@
 package com.tianrui.api.intf.basicFile.measure;
 
 import com.tianrui.api.req.basicFile.measure.DriverManageSave;
+
+import java.util.List;
+
 import com.tianrui.api.req.basicFile.measure.DriverManageQuery;
 import com.tianrui.api.resp.basicFile.measure.DriverManageResp;
 import com.tianrui.smartfactory.common.vo.PaginationVO;
@@ -24,6 +27,8 @@ public interface IDriverManageService {
 
 	Result findListByParmas(DriverManageQuery query) throws Exception;
 
-	DriverManageResp findOne(DriverManageQuery query) throws Exception;
+	DriverManageResp findOne(String id) throws Exception;
+
+	List<DriverManageResp> autoCompleteSearch(String likeName) throws Exception;
 
 }
