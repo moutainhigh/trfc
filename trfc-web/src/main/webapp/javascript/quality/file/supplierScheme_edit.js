@@ -1,23 +1,32 @@
 $(function(){
-
+	//获取id
+	var id = getID();
+	//加载原数据
+	getOldData();
 	//刷新
 	$('#fresh').click(function(){window.location.reload()});
 	//保存
 	$('#save').click(saveAction);
 	//返回
 	$('#goBack').click(function(){window.location.replace(URL.mainUrl)});
-	//初始化 新增页面
-	initAdd();
 
+
+	//获取id
+	function getID(){
+		//获取地址栏数据
+		var href = window.location.href;
+		//将字符串拆分
+		var trs = href.split('?id=');
+		return trs[1];
+	}
 	//保存数据
 	function saveAction(){
-		var param = addData();
+		//获取数据
+		var param = editData();
 		if(param){
 			//保存数据到服务器
-			$.post(URL.saveUrl,param,function(result){
+			$.post(URL.updateUrl,param,function(result){
 				if('000000'==result.code){
-					//更新编码计数
-					updateCode();
 					//返回列表
 					$('#goBack').click();
 				}else{
@@ -27,31 +36,33 @@ $(function(){
 		}
 	};
 	//获取新增数据
-	function addData(){
-		var code = $('#add_code').val();
-		var name = $('#add_name').val();
-		var supplierid = $('#add_supplier').val();
-		var supremark = $('#add_supremark').val();
-		var materialid = $('#add_material').val();
-		var schemeid = $('#add_scheme').val();
-		var starttime = new Date($('#add_starttime').val());
+	function editData(){
+		var code = $('#edit_code').val();
+		var name = $('#edit_name').val();
+		var supplierid = $('#edit_supplier').val();
+		var supremark = $('#edit_supremark').val();
+		var materialid = $('#edit_material').val();
+		var schemeid = $('#edit_scheme').val();
+		var starttime = new Date($('#edit_starttime').val());
 		starttime = starttime.getTime();
-		var endtime = new Date($('#add_endtime').val());
+		var endtime = new Date($('#edit_endtime').val());
 		endtime = endtime.getTime();
-		var mean = $('#add_mean').val();
-		var deduct = $('#add_deduct').val();
+		var mean = $('#edit_mean').val();
+		var deduct = $('#edit_deduct').val();
 		var invalid = '1';
-		if($('#add_invalid').prop('checked')){
+		//判断是否已勾选
+		if($('#edit_invalid').prop('checked')){
 			invalid = '0';
 		}
 		var ref = '1';
-		if($('#add_ref').prop('checked')){
+		if($('#edit_ref').prop('checked')){
 			ref = '0';
 		}
-		var createtime = new Date($('#add_createtime').val());
+		var createtime = new Date($('#edit_createtime').val());
 		createtime = createtime.getTime();
-		var remark = $('#add_remark').val();
+		var remark = $('#edit_remark').val();
 		var param = {
+				id:id,
 				code:code,
 				name:name,
 				supplierid:supplierid,
@@ -71,88 +82,87 @@ $(function(){
 		};
 		return param;
 	}
-
-	//初始化新增页面
-	function initAdd(){
-		supplierSelect();
-		materialSelect();
-		$('#add_supplier').select2();
-		$("#add_material").select2();
-		$("#add_scheme").select2();
-		//设置编码代号为FA
-		var code = 'SF';
-		//设置类型为编码
-		var codeType = true;
-		var param = {
-				userid:userid,
-				code:code,
-				codeType:codeType
-		};
-		//获取编号,并赋值
-		$.post(URL.getCodeUrl,param,function(result){
-			if(result.code=='000000'){
-				$('#add_code').val(result.data);
-			}else{
-				layer.msg(result.error, {icon:5});
-			}
-		});
-		//默认开始日期为当月第一天,结束日期为当天
-		var now = getNowFormatDate(false);
-		var starttime = now.substr(0,now.length-2)+"01";
-		$('#add_starttime').val(starttime);
-		var endtime = now;
-		$('#add_endtime').val(endtime);
-		var createtime = getNowFormatDate(true);
-		$('#add_createtime').val(createtime);
-		var user = $('.user').find('label').html();
-		$('#add_creator').val(user);
-
-		//绑定物料下拉框监听事件,当物料发生改变,获取对应的质检方案
-		$('#add_material').change(schemeSelect);
-		//绑定质检方案下拉框监听事件,当发生改变,获取方案详细
-		$('#add_scheme').change(getDetailData);
-	}
-
-	//添加成功后,刷新标号(增1)
-	function updateCode(){
-		//设置编码代号
-		var code = 'SF';
-		//编制编号
-		var codeType = true;
-		var param = {
-				userid:userid,
-				code:code,
-				codeType:codeType
-		}; 
-		//更新编码
-		$.post(URL.updateCodeUrl,param,function(result){
-			if(result.code=='000000'){
-				//加载列表
-				ShowAction(1);
+	//初始化
+	function getOldData(){
+		$.post(URL.selectByIdUrl,{id:id},function(result){
+			if('000000'==result.code){
+				//填充数据
+				initEdit(result.data);
 			}else{
 				layer.msg(result.error,{icon:5});
 			}
 		});
 	}
+	//初始化编辑页面
+	function initEdit(data){
+		supplierSelect();
+		materialSelect();
+		//绑定物料下拉框监听事件,当物料发生改变,获取对应的质检方案
+		$('#edit_material').change(schemeSelect);
+		//绑定质检方案下拉框监听事件,当发生改变,获取方案详细
+		$('#edit_scheme').change(getDetailData);
+
+		$('#edit_code').val(data.code);
+		$('#edit_name').val(data.name);
+		//等待供应商下拉框加载完成,执行为下拉框赋值
+		$.when($supSelect).done(function(){
+			$('#edit_supplier').val(data.supplierid).select2();
+		});
+		//等待物料下拉框加载完成,执行 为下拉框赋值并加载项目下拉框
+		$.when($materSelect).done(function(){
+			$('#edit_material').val(data.materialid).select2();
+			//加载项目下拉框,并附值
+			schemeSelect(data.schemeid);
+		});
+		$('#edit_supremark').val(data.supremark);
+		
+		var starttime = getNowFormatDate(false,data.starttime);
+		$('#edit_starttime').val(starttime);
+		var endtime = getNowFormatDate(false,data.endtime);
+		$('#edit_endtime').val(endtime);
+		$('#edit_mean').val(data.mean);
+		$('#edit_deduct').val(data.deduct);
+		$('#edit_remark').val(data.remark);
+		var createtime = getNowFormatDate(true,data.createtime);
+		$('#edit_createtime').val(createtime);
+		var user = data.creator;
+		$('#edit_creator').val(user);
+		//为checkbox赋值
+		$('#edit_invalid')[0].checked=true;
+		if('1'==data.invalid){
+			$('#edit_invalid')[0].checked=false;
+		}
+		$('#edit_ref')[0].checked=true;
+		if('1'==data.ref){
+			$('#edit_ref')[0].checked=false;
+		}
+		
+	}
+
 
 
 	//获取下拉框数据并填充
-	function schemeSelect(){
-
+	function schemeSelect(id){
 		//获取数据
-		var materialid = $('#add_material').val();
-		$selector = $.post(URL.getSchemeUrl,{invalid:"0",materialid:materialid},function(result){
-			if(result.code=='000000'){
-				//填充数据
-				fillSchemeSelect(result.data);
-			}else{
-				layer.msg(result.error, {icon:5});
-			}
-		});
+		var materialid = $('#edit_material').val();
+		if(materialid){
+			$schSelect=$.post(URL.getSchemeUrl,{invalid:"0",materialid:materialid},function(result){
+				if(result.code=='000000'){
+					//填充数据
+					fillSchemeSelect(result.data);
+					if(id){
+						$('#edit_scheme').val(id).select2();
+						getDetailData();
+					}
+				}else{
+					layer.msg(result.error, {icon:5});
+				}
+			});
+		}
 	}
 	//填充数据
 	function fillSchemeSelect(list){
-		var selecter = $('#add_scheme').html('');
+		var selecter = $('#edit_scheme').html('');
 		//设置默认值
 		selecter.append("<option></option>");
 		if(list){
@@ -170,36 +180,36 @@ $(function(){
 	}
 	//获取质检方案详细
 	function getDetailData(){
-		//获取方案id
-		var schemeid=$('#add_scheme').val();
-		//判断是否为空
+		var schemeid=$('#edit_scheme').val();
 		if(schemeid){
+			//如果质检方案id不为空,这去数据库查询数据
 			var param = {
 					schemeid:schemeid,
-					invalid:'0',
-					status:'1'
+					invalid:'0',//设置为有效
+					status:'1'//设置为1(已初始化)
 			};
-			//查询数据
 			$.post(URL.getDetailUrl,param,function(result){
 				if('000000'==result.code){
-					//展示数据
+					//成功后,展示数据
 					showDetailData(result.data);
 				}else{
 					layer.msg(result.error,{icon:5});
 				}
 			});
+		}else{
+			$('#edit_detail').empty();
 		}
 	}
 
-//	加载运算符拉框框
+	//加载运算符拉框框
 	function loadSymbol($obj){
 		var options = '<option></option><option value="1">小于</option><option value="3">'
 			+'小于等于</option><option value="0">大于</option><option value="2">大于等于</option><option value="4">等于</option>';
 		$obj.html(options);
 	}
-//	展示详细列表
+	//展示详细列表
 	function showDetailData(list){
-		var tbody = $('#add_detail').empty();
+		var tbody = $('#edit_detail').empty();
 		if(list){
 			for(var i=0;i<list.length;i++){
 				var obj = list[i];
@@ -220,7 +230,7 @@ $(function(){
 				tbody.append(tr);
 				//将数据绑定到tr上
 				tr.data('obj',obj);
-				//加载下拉框并赋值
+				//加载下拉框,并赋值
 				loadSymbol(tr.find('select'));
 				tr.find('td select').eq(0).val(obj.comparison2);
 				tr.find('td select').eq(1).val(obj.comparison3);
@@ -228,10 +238,12 @@ $(function(){
 		}
 	}
 
-//	获取详细数据
+	//获取详细数据
 	function getDetail(){
-		var trs = $('#add_detail tr');
+		//获取trs
+		var trs = $('#edit_detail tr');
 		var arr = new Array();
+		//遍历trs
 		for(var i=0;i<trs.length;i++){
 			var obj = trs.eq(i).data('obj');
 			var inputs = trs.eq(i).find('input');
@@ -263,7 +275,7 @@ $(function(){
 		//将数组转化为json字符串并返回
 		return JSON.stringify(arr);
 	}
-//	对比两个对象 如果相同则返回true
+	//对比两个对象 如果相同则返回true
 	function contrast(obj1,obj2){
 		if(obj1.id==obj2.id &&
 				obj1.comparison2==obj2.comparison2 &&

@@ -6,6 +6,7 @@ import com.tianrui.api.req.quality.file.MaterialSchemeReq;
 import com.tianrui.service.bean.quality.file.MaterialScheme;
 
 public interface MaterialSchemeMapper {
+	
 	/**
 	 * 删除数据
 	 */
@@ -22,6 +23,10 @@ public interface MaterialSchemeMapper {
 	 * 通过id查询数据
 	 */
     MaterialScheme selectByPrimaryKey(String id);
+    /**
+	 * 通过id,state查询数据
+	 */
+    MaterialScheme selectOne(MaterialSchemeReq req);
     /**
 	 * 更新数据(动�??)
 	 */

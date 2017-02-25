@@ -2,6 +2,7 @@ package com.tianrui.web.action.basicFile.measure;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
@@ -162,6 +163,7 @@ public class VehicleManageAction {
 		}
 		return result;
 	}
+	
 	@RequestMapping("/addblacklist")
 	@ResponseBody
 	public Result addblacklist(VehicleManageQuery query, HttpSession session){
@@ -175,6 +177,18 @@ public class VehicleManageAction {
 			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
 		}
 		return result;
+	}
+	
+	@RequestMapping("/autoCompleteSearch")
+	@ResponseBody
+	public List<VehicleManageResp> autoCompleteSearch(String term){
+		List<VehicleManageResp> list = null;
+		try {
+			list = vehicleManageService.autoCompleteSearch(term.trim());
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+		}
+		return list;
 	}
 	
 }

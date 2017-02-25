@@ -80,6 +80,10 @@ public class QualitySchemeItemReq extends BaseReq {
 	 * 数组数据
 	 */
 	private String arrStr;
+	  /**
+     * 状态(0:删除,1:正常)
+     */
+    private String state;
 	public String getId() {
 		return id;
 	}
@@ -187,6 +191,12 @@ public class QualitySchemeItemReq extends BaseReq {
 	}
 	public void setArrStr(String arrStr) {
 		this.arrStr = arrStr;
+	}
+	public String getState() {
+		return state;
+	}
+	public void setState(String state) {
+		this.state = state;
 	}
 
 	

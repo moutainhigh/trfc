@@ -1,251 +1,276 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.tianrui.service.mapper.quality.file.MaterialSchemeMapper">
-  <resultMap id="BaseResultMap" type="com.tianrui.service.bean.quality.file.MaterialScheme">
-    <id column="id" jdbcType="VARCHAR" property="id" />
-    <result column="materialid" jdbcType="VARCHAR" property="materialid" />
-    <result column="materialtype" jdbcType="VARCHAR" property="materialtype" />
-    <result column="strength" jdbcType="VARCHAR" property="strength" />
-    <result column="admixture" jdbcType="VARCHAR" property="admixture" />
-    <result column="admixtureadd" jdbcType="VARCHAR" property="admixtureadd" />
-    <result column="gypsum" jdbcType="VARCHAR" property="gypsum" />
-    <result column="gypsumadd" jdbcType="VARCHAR" property="gypsumadd" />
-    <result column="aid" jdbcType="VARCHAR" property="aid" />
-    <result column="aidadd" jdbcType="VARCHAR" property="aidadd" />
-    <result column="invalid" jdbcType="VARCHAR" property="invalid" />
-    <result column="shows" jdbcType="VARCHAR" property="shows" />
-    <result column="verdict" jdbcType="VARCHAR" property="verdict" />
-    <result column="creator" jdbcType="VARCHAR" property="creator" />
-    <result column="createtime" jdbcType="BIGINT" property="createtime" />
-    <result column="modifier" jdbcType="VARCHAR" property="modifier" />
-    <result column="modifytime" jdbcType="BIGINT" property="modifytime" />
-    <result column="utc" jdbcType="BIGINT" property="utc" />
-  </resultMap>
-  <sql id="Base_Column_List">
-    id, materialid, materialtype, strength, admixture, admixtureadd, gypsum, gypsumadd, 
-    aid, aidadd, invalid, shows, verdict, creator, createtime, modifier, modifytime, utc
-  </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
-    from tr_quality_db_material
-    where id = #{id,jdbcType=VARCHAR}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
-    delete from tr_quality_db_material
-    where id = #{id,jdbcType=VARCHAR}
-  </delete>
-  <insert id="insert" parameterType="com.tianrui.service.bean.quality.file.MaterialScheme">
-    insert into tr_quality_db_material (id, materialid, materialtype, 
-      strength, admixture, admixtureadd, 
-      gypsum, gypsumadd, aid, 
-      aidadd, invalid, shows, 
-      verdict, creator, createtime, 
-      modifier, modifytime, utc
-      )
-    values (#{id,jdbcType=VARCHAR}, #{materialid,jdbcType=VARCHAR}, #{materialtype,jdbcType=VARCHAR}, 
-      #{strength,jdbcType=VARCHAR}, #{admixture,jdbcType=VARCHAR}, #{admixtureadd,jdbcType=VARCHAR}, 
-      #{gypsum,jdbcType=VARCHAR}, #{gypsumadd,jdbcType=VARCHAR}, #{aid,jdbcType=VARCHAR}, 
-      #{aidadd,jdbcType=VARCHAR}, #{invalid,jdbcType=VARCHAR}, #{shows,jdbcType=VARCHAR}, 
-      #{verdict,jdbcType=VARCHAR}, #{creator,jdbcType=VARCHAR}, #{createtime,jdbcType=BIGINT}, 
-      #{modifier,jdbcType=VARCHAR}, #{modifytime,jdbcType=BIGINT}, #{utc,jdbcType=BIGINT}
-      )
-  </insert>
-  <insert id="insertSelective" parameterType="com.tianrui.service.bean.quality.file.MaterialScheme">
-    insert into tr_quality_db_material
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        id,
-      </if>
-      <if test="materialid != null">
-        materialid,
-      </if>
-      <if test="materialtype != null">
-        materialtype,
-      </if>
-      <if test="strength != null">
-        strength,
-      </if>
-      <if test="admixture != null">
-        admixture,
-      </if>
-      <if test="admixtureadd != null">
-        admixtureadd,
-      </if>
-      <if test="gypsum != null">
-        gypsum,
-      </if>
-      <if test="gypsumadd != null">
-        gypsumadd,
-      </if>
-      <if test="aid != null">
-        aid,
-      </if>
-      <if test="aidadd != null">
-        aidadd,
-      </if>
-      <if test="invalid != null">
-        invalid,
-      </if>
-      <if test="shows != null">
-        shows,
-      </if>
-      <if test="verdict != null">
-        verdict,
-      </if>
-      <if test="creator != null">
-        creator,
-      </if>
-      <if test="createtime != null">
-        createtime,
-      </if>
-      <if test="modifier != null">
-        modifier,
-      </if>
-      <if test="modifytime != null">
-        modifytime,
-      </if>
-      <if test="utc != null">
-        utc,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=VARCHAR},
-      </if>
-      <if test="materialid != null">
-        #{materialid,jdbcType=VARCHAR},
-      </if>
-      <if test="materialtype != null">
-        #{materialtype,jdbcType=VARCHAR},
-      </if>
-      <if test="strength != null">
-        #{strength,jdbcType=VARCHAR},
-      </if>
-      <if test="admixture != null">
-        #{admixture,jdbcType=VARCHAR},
-      </if>
-      <if test="admixtureadd != null">
-        #{admixtureadd,jdbcType=VARCHAR},
-      </if>
-      <if test="gypsum != null">
-        #{gypsum,jdbcType=VARCHAR},
-      </if>
-      <if test="gypsumadd != null">
-        #{gypsumadd,jdbcType=VARCHAR},
-      </if>
-      <if test="aid != null">
-        #{aid,jdbcType=VARCHAR},
-      </if>
-      <if test="aidadd != null">
-        #{aidadd,jdbcType=VARCHAR},
-      </if>
-      <if test="invalid != null">
-        #{invalid,jdbcType=VARCHAR},
-      </if>
-      <if test="shows != null">
-        #{shows,jdbcType=VARCHAR},
-      </if>
-      <if test="verdict != null">
-        #{verdict,jdbcType=VARCHAR},
-      </if>
-      <if test="creator != null">
-        #{creator,jdbcType=VARCHAR},
-      </if>
-      <if test="createtime != null">
-        #{createtime,jdbcType=BIGINT},
-      </if>
-      <if test="modifier != null">
-        #{modifier,jdbcType=VARCHAR},
-      </if>
-      <if test="modifytime != null">
-        #{modifytime,jdbcType=BIGINT},
-      </if>
-      <if test="utc != null">
-        #{utc,jdbcType=BIGINT},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.tianrui.service.bean.quality.file.MaterialScheme">
-    update tr_quality_db_material
-    <set>
-      <if test="materialid != null">
-        materialid = #{materialid,jdbcType=VARCHAR},
-      </if>
-      <if test="materialtype != null">
-        materialtype = #{materialtype,jdbcType=VARCHAR},
-      </if>
-      <if test="strength != null">
-        strength = #{strength,jdbcType=VARCHAR},
-      </if>
-      <if test="admixture != null">
-        admixture = #{admixture,jdbcType=VARCHAR},
-      </if>
-      <if test="admixtureadd != null">
-        admixtureadd = #{admixtureadd,jdbcType=VARCHAR},
-      </if>
-      <if test="gypsum != null">
-        gypsum = #{gypsum,jdbcType=VARCHAR},
-      </if>
-      <if test="gypsumadd != null">
-        gypsumadd = #{gypsumadd,jdbcType=VARCHAR},
-      </if>
-      <if test="aid != null">
-        aid = #{aid,jdbcType=VARCHAR},
-      </if>
-      <if test="aidadd != null">
-        aidadd = #{aidadd,jdbcType=VARCHAR},
-      </if>
-      <if test="invalid != null">
-        invalid = #{invalid,jdbcType=VARCHAR},
-      </if>
-      <if test="shows != null">
-        shows = #{shows,jdbcType=VARCHAR},
-      </if>
-      <if test="verdict != null">
-        verdict = #{verdict,jdbcType=VARCHAR},
-      </if>
-      <if test="creator != null">
-        creator = #{creator,jdbcType=VARCHAR},
-      </if>
-      <if test="createtime != null">
-        createtime = #{createtime,jdbcType=BIGINT},
-      </if>
-      <if test="modifier != null">
-        modifier = #{modifier,jdbcType=VARCHAR},
-      </if>
-      <if test="modifytime != null">
-        modifytime = #{modifytime,jdbcType=BIGINT},
-      </if>
-      <if test="utc != null">
-        utc = #{utc,jdbcType=BIGINT},
-      </if>
-    </set>
-    where id = #{id,jdbcType=VARCHAR}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.tianrui.service.bean.quality.file.MaterialScheme">
-    update tr_quality_db_material
-    set materialid = #{materialid,jdbcType=VARCHAR},
-      materialtype = #{materialtype,jdbcType=VARCHAR},
-      strength = #{strength,jdbcType=VARCHAR},
-      admixture = #{admixture,jdbcType=VARCHAR},
-      admixtureadd = #{admixtureadd,jdbcType=VARCHAR},
-      gypsum = #{gypsum,jdbcType=VARCHAR},
-      gypsumadd = #{gypsumadd,jdbcType=VARCHAR},
-      aid = #{aid,jdbcType=VARCHAR},
-      aidadd = #{aidadd,jdbcType=VARCHAR},
-      invalid = #{invalid,jdbcType=VARCHAR},
-      shows = #{shows,jdbcType=VARCHAR},
-      verdict = #{verdict,jdbcType=VARCHAR},
-      creator = #{creator,jdbcType=VARCHAR},
-      createtime = #{createtime,jdbcType=BIGINT},
-      modifier = #{modifier,jdbcType=VARCHAR},
-      modifytime = #{modifytime,jdbcType=BIGINT},
-      utc = #{utc,jdbcType=BIGINT}
-    where id = #{id,jdbcType=VARCHAR}
-  </update>
-  	<select id="page" parameterType="com.tianrui.api.req.quality.file.MaterialSchemeReq" resultMap="BaseResultMap">
-		select 
+	<resultMap id="BaseResultMap"
+		type="com.tianrui.service.bean.quality.file.MaterialScheme">
+		<id column="id" jdbcType="VARCHAR" property="id" />
+		<result column="materialid" jdbcType="VARCHAR" property="materialid" />
+		<result column="materialtype" jdbcType="VARCHAR" property="materialtype" />
+		<result column="strength" jdbcType="VARCHAR" property="strength" />
+		<result column="admixture" jdbcType="VARCHAR" property="admixture" />
+		<result column="admixtureadd" jdbcType="VARCHAR" property="admixtureadd" />
+		<result column="gypsum" jdbcType="VARCHAR" property="gypsum" />
+		<result column="gypsumadd" jdbcType="VARCHAR" property="gypsumadd" />
+		<result column="aid" jdbcType="VARCHAR" property="aid" />
+		<result column="aidadd" jdbcType="VARCHAR" property="aidadd" />
+		<result column="invalid" jdbcType="VARCHAR" property="invalid" />
+		<result column="shows" jdbcType="VARCHAR" property="shows" />
+		<result column="verdict" jdbcType="VARCHAR" property="verdict" />
+		<result column="state" jdbcType="VARCHAR" property="state" />
+		<result column="creator" jdbcType="VARCHAR" property="creator" />
+		<result column="createtime" jdbcType="BIGINT" property="createtime" />
+		<result column="modifier" jdbcType="VARCHAR" property="modifier" />
+		<result column="modifytime" jdbcType="BIGINT" property="modifytime" />
+		<result column="utc" jdbcType="BIGINT" property="utc" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, materialid, materialtype, strength, admixture, admixtureadd, gypsum,
+		gypsumadd,
+		aid, aidadd, invalid, shows, verdict, state, creator, createtime,
+		modifier, modifytime,
+		utc
+	</sql>
+	<select id="selectByPrimaryKey" parameterType="java.lang.String"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from tr_quality_db_material
+		where id = #{id,jdbcType=VARCHAR}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from tr_quality_db_material
+		where id = #{id,jdbcType=VARCHAR}
+	</delete>
+	<insert id="insert"
+		parameterType="com.tianrui.service.bean.quality.file.MaterialScheme">
+		insert into tr_quality_db_material (id, materialid, materialtype,
+		strength, admixture, admixtureadd,
+		gypsum, gypsumadd, aid,
+		aidadd, invalid, shows,
+		verdict, state, creator,
+		createtime, modifier, modifytime,
+		utc)
+		values (#{id,jdbcType=VARCHAR}, #{materialid,jdbcType=VARCHAR},
+		#{materialtype,jdbcType=VARCHAR},
+		#{strength,jdbcType=VARCHAR}, #{admixture,jdbcType=VARCHAR}, #{admixtureadd,jdbcType=VARCHAR},
+		#{gypsum,jdbcType=VARCHAR}, #{gypsumadd,jdbcType=VARCHAR},
+		#{aid,jdbcType=VARCHAR},
+		#{aidadd,jdbcType=VARCHAR}, #{invalid,jdbcType=VARCHAR}, #{shows,jdbcType=VARCHAR},
+		#{verdict,jdbcType=VARCHAR}, #{state,jdbcType=VARCHAR},
+		#{creator,jdbcType=VARCHAR},
+		#{createtime,jdbcType=BIGINT}, #{modifier,jdbcType=VARCHAR}, #{modifytime,jdbcType=BIGINT},
+		#{utc,jdbcType=BIGINT})
+	</insert>
+	<insert id="insertSelective"
+		parameterType="com.tianrui.service.bean.quality.file.MaterialScheme">
+		insert into tr_quality_db_material
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="materialid != null">
+				materialid,
+			</if>
+			<if test="materialtype != null">
+				materialtype,
+			</if>
+			<if test="strength != null">
+				strength,
+			</if>
+			<if test="admixture != null">
+				admixture,
+			</if>
+			<if test="admixtureadd != null">
+				admixtureadd,
+			</if>
+			<if test="gypsum != null">
+				gypsum,
+			</if>
+			<if test="gypsumadd != null">
+				gypsumadd,
+			</if>
+			<if test="aid != null">
+				aid,
+			</if>
+			<if test="aidadd != null">
+				aidadd,
+			</if>
+			<if test="invalid != null">
+				invalid,
+			</if>
+			<if test="shows != null">
+				shows,
+			</if>
+			<if test="verdict != null">
+				verdict,
+			</if>
+			<if test="state != null">
+				state,
+			</if>
+			<if test="creator != null">
+				creator,
+			</if>
+			<if test="createtime != null">
+				createtime,
+			</if>
+			<if test="modifier != null">
+				modifier,
+			</if>
+			<if test="modifytime != null">
+				modifytime,
+			</if>
+			<if test="utc != null">
+				utc,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=VARCHAR},
+			</if>
+			<if test="materialid != null">
+				#{materialid,jdbcType=VARCHAR},
+			</if>
+			<if test="materialtype != null">
+				#{materialtype,jdbcType=VARCHAR},
+			</if>
+			<if test="strength != null">
+				#{strength,jdbcType=VARCHAR},
+			</if>
+			<if test="admixture != null">
+				#{admixture,jdbcType=VARCHAR},
+			</if>
+			<if test="admixtureadd != null">
+				#{admixtureadd,jdbcType=VARCHAR},
+			</if>
+			<if test="gypsum != null">
+				#{gypsum,jdbcType=VARCHAR},
+			</if>
+			<if test="gypsumadd != null">
+				#{gypsumadd,jdbcType=VARCHAR},
+			</if>
+			<if test="aid != null">
+				#{aid,jdbcType=VARCHAR},
+			</if>
+			<if test="aidadd != null">
+				#{aidadd,jdbcType=VARCHAR},
+			</if>
+			<if test="invalid != null">
+				#{invalid,jdbcType=VARCHAR},
+			</if>
+			<if test="shows != null">
+				#{shows,jdbcType=VARCHAR},
+			</if>
+			<if test="verdict != null">
+				#{verdict,jdbcType=VARCHAR},
+			</if>
+			<if test="state != null">
+				#{state,jdbcType=VARCHAR},
+			</if>
+			<if test="creator != null">
+				#{creator,jdbcType=VARCHAR},
+			</if>
+			<if test="createtime != null">
+				#{createtime,jdbcType=BIGINT},
+			</if>
+			<if test="modifier != null">
+				#{modifier,jdbcType=VARCHAR},
+			</if>
+			<if test="modifytime != null">
+				#{modifytime,jdbcType=BIGINT},
+			</if>
+			<if test="utc != null">
+				#{utc,jdbcType=BIGINT},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective"
+		parameterType="com.tianrui.service.bean.quality.file.MaterialScheme">
+		update tr_quality_db_material
+		<set>
+			<if test="materialid != null">
+				materialid = #{materialid,jdbcType=VARCHAR},
+			</if>
+			<if test="materialtype != null">
+				materialtype = #{materialtype,jdbcType=VARCHAR},
+			</if>
+			<if test="strength != null">
+				strength = #{strength,jdbcType=VARCHAR},
+			</if>
+			<if test="admixture != null">
+				admixture = #{admixture,jdbcType=VARCHAR},
+			</if>
+			<if test="admixtureadd != null">
+				admixtureadd = #{admixtureadd,jdbcType=VARCHAR},
+			</if>
+			<if test="gypsum != null">
+				gypsum = #{gypsum,jdbcType=VARCHAR},
+			</if>
+			<if test="gypsumadd != null">
+				gypsumadd = #{gypsumadd,jdbcType=VARCHAR},
+			</if>
+			<if test="aid != null">
+				aid = #{aid,jdbcType=VARCHAR},
+			</if>
+			<if test="aidadd != null">
+				aidadd = #{aidadd,jdbcType=VARCHAR},
+			</if>
+			<if test="invalid != null">
+				invalid = #{invalid,jdbcType=VARCHAR},
+			</if>
+			<if test="shows != null">
+				shows = #{shows,jdbcType=VARCHAR},
+			</if>
+			<if test="verdict != null">
+				verdict = #{verdict,jdbcType=VARCHAR},
+			</if>
+			<if test="state != null">
+				state = #{state,jdbcType=VARCHAR},
+			</if>
+			<if test="creator != null">
+				creator = #{creator,jdbcType=VARCHAR},
+			</if>
+			<if test="createtime != null">
+				createtime = #{createtime,jdbcType=BIGINT},
+			</if>
+			<if test="modifier != null">
+				modifier = #{modifier,jdbcType=VARCHAR},
+			</if>
+			<if test="modifytime != null">
+				modifytime = #{modifytime,jdbcType=BIGINT},
+			</if>
+			<if test="utc != null">
+				utc = #{utc,jdbcType=BIGINT},
+			</if>
+		</set>
+		where id = #{id,jdbcType=VARCHAR}
+	</update>
+	<update id="updateByPrimaryKey"
+		parameterType="com.tianrui.service.bean.quality.file.MaterialScheme">
+		update tr_quality_db_material
+		set materialid = #{materialid,jdbcType=VARCHAR},
+		materialtype = #{materialtype,jdbcType=VARCHAR},
+		strength = #{strength,jdbcType=VARCHAR},
+		admixture = #{admixture,jdbcType=VARCHAR},
+		admixtureadd = #{admixtureadd,jdbcType=VARCHAR},
+		gypsum = #{gypsum,jdbcType=VARCHAR},
+		gypsumadd = #{gypsumadd,jdbcType=VARCHAR},
+		aid = #{aid,jdbcType=VARCHAR},
+		aidadd = #{aidadd,jdbcType=VARCHAR},
+		invalid = #{invalid,jdbcType=VARCHAR},
+		shows = #{shows,jdbcType=VARCHAR},
+		verdict = #{verdict,jdbcType=VARCHAR},
+		state = #{state,jdbcType=VARCHAR},
+		creator = #{creator,jdbcType=VARCHAR},
+		createtime = #{createtime,jdbcType=BIGINT},
+		modifier = #{modifier,jdbcType=VARCHAR},
+		modifytime = #{modifytime,jdbcType=BIGINT},
+		utc = #{utc,jdbcType=BIGINT}
+		where id = #{id,jdbcType=VARCHAR}
+	</update>
+
+	<select id="page" parameterType="com.tianrui.api.req.quality.file.MaterialSchemeReq"
+		resultMap="BaseResultMap">
+		select
 		<include refid="Base_Column_List" />
 		from tr_quality_db_material
 		<where>
@@ -255,13 +280,17 @@
 			<if test="materialtype!=null and materialtype!=''">
 				and materialtype=#{materialtype,jdbcType=VARCHAR}
 			</if>
+			<if test="state!=null and state!=''">
+				and state=#{state,jdbcType=VARCHAR}
+			</if>
 		</where>
 		<if test="start!=null and limit!=null ">
 			limit #{start,jdbcType=INTEGER},#{limit,jdbcType=INTEGER}
 		</if>
 	</select>
-	<select id="count" parameterType="com.tianrui.api.req.quality.file.MaterialSchemeReq" resultType="int">
-		select 
+	<select id="count" parameterType="com.tianrui.api.req.quality.file.MaterialSchemeReq"
+		resultType="int">
+		select
 		count(1)
 		from tr_quality_db_material
 		<where>
@@ -271,6 +300,19 @@
 			<if test="materialtype!=null and materialtype!=''">
 				and materialtype=#{materialtype,jdbcType=VARCHAR}
 			</if>
+			<if test="state!=null and state!=''">
+				and state=#{state,jdbcType=VARCHAR}
+			</if>
 		</where>
+	</select>
+	<select id="selectOne" parameterType="com.tianrui.api.req.quality.file.MaterialSchemeReq"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from tr_quality_db_material
+		where id = #{id,jdbcType=VARCHAR}
+		<if test="state!=null and state!=''">
+			and state=#{state,jdbcType=VARCHAR}
+		</if>
 	</select>
 </mapper>

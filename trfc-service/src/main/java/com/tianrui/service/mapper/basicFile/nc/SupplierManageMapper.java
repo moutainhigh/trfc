@@ -2,6 +2,8 @@ package com.tianrui.service.mapper.basicFile.nc;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.tianrui.api.req.basicFile.nc.SupplierManageQuery;
 import com.tianrui.service.bean.basicFile.nc.SupplierManage;
 /**
@@ -36,4 +38,6 @@ public interface SupplierManageMapper {
      * 批量添加
      */
     int insertBatch(List<SupplierManage> list);
+    
+    List<SupplierManage> autoCompleteSearch(@Param("likeName")String likeName);
 }

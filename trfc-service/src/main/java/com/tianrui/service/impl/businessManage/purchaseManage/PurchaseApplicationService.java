@@ -10,6 +10,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
@@ -149,6 +150,7 @@ public class PurchaseApplicationService implements IPurchaseApplicationService {
 	}
 
 	@Override
+	@Transactional
 	public Result updateDataWithDC(List<JSONObject> list) throws Exception{
 		Result rs = Result.getErrorResult();
 		if(CollectionUtils.isNotEmpty(list) ){
@@ -156,7 +158,6 @@ public class PurchaseApplicationService implements IPurchaseApplicationService {
 			List<PurchaseApplication> toUpdate =new ArrayList<PurchaseApplication>();
 			List<PurchaseApplication> toSave =new ArrayList<PurchaseApplication>();
 			List<PurchaseApplicationDetail> toSaveItem =new ArrayList<PurchaseApplicationDetail>();
-			
 			for( JSONObject jsonObject:list ){
 				String id =jsonObject.getString("id");
 				if( ids.contains(id) ){
@@ -166,7 +167,6 @@ public class PurchaseApplicationService implements IPurchaseApplicationService {
 					toSaveItem.addAll(converJson2ItemList(jsonObject,id));
 				}
 			}
-			
 			if( CollectionUtils.isNotEmpty(toSave) ){
 				purchaseApplicationMapper.insertBatch(toSave);
 				purchaseApplicationDetailMapper.insertBatch(toSaveItem);
@@ -200,7 +200,7 @@ public class PurchaseApplicationService implements IPurchaseApplicationService {
 		item.setState("1");
 		//来源
 		item.setSource(jsonItem.getString("sourceType"));
-		String billtypeid=jsonItem.getString("ctrantypeid;");
+		String billtypeid=jsonItem.getString("ctrantypeid");
 		if(StringUtils.isNotBlank(billtypeid)){
 			//订单类型id
 			item.setBilltypeid(billtypeid);
@@ -248,8 +248,6 @@ public class PurchaseApplicationService implements IPurchaseApplicationService {
 		item.setCreator(jsonItem.getString("makebillname"));
 		//制单时间
 		item.setCreatetime(Long.valueOf(jsonItem.getString("createTime")));
-		//修改时间
-		item.setModifytime(Long.valueOf(jsonItem.getString("modifyTime")));
 		//备注
 		item.setRemark(jsonItem.getString("remark"));
 		//NC同步时间戳
@@ -262,7 +260,7 @@ public class PurchaseApplicationService implements IPurchaseApplicationService {
 			JSONArray arr =jsonItem.getJSONArray("list");
 			if( arr.size()>0){
 				for(int i=0;i<arr.size();i++){
-					JSONObject itemJon=JSONObject.parseObject(arr.get(0).toString());
+					JSONObject itemJon=JSONObject.parseObject(arr.get(i).toString());
 					PurchaseApplicationDetail purchaseItem = new PurchaseApplicationDetail();
 					purchaseItem.setId(itemJon.getString("id"));
 					purchaseItem.setPurchaseid(id);
@@ -276,6 +274,7 @@ public class PurchaseApplicationService implements IPurchaseApplicationService {
 					purchaseItem.setUnit("吨");
 					purchaseItem.setRemark(itemJon.getString("remark"));
 					itemList.add(purchaseItem);
+					System.out.println(purchaseItem.getId());
 				}
 			}
 		}

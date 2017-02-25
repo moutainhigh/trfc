@@ -88,6 +88,10 @@ public class QualitySchemeItemResp extends BaseResp {
      * 备注
      */
     private String remark;
+    /**
+     * 状态(0:删除,1:正常)
+     */
+    private String state;
 	public String getId() {
 		return id;
 	}
@@ -207,6 +211,12 @@ public class QualitySchemeItemResp extends BaseResp {
 	}
 	public void setRemark(String remark) {
 		this.remark = remark;
+	}
+	public String getState() {
+		return state;
+	}
+	public void setState(String state) {
+		this.state = state;
 	}
 
 	

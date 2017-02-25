@@ -1,5 +1,7 @@
 package com.tianrui.web.action.basicFile.nc;
 
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
@@ -80,6 +82,18 @@ public class MaterielManageAction {
 			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
 		}
 		return result;
+	}
+	
+	@RequestMapping("/autoCompleteSearch")
+	@ResponseBody
+	public List<MaterielManageResp> autoCompleteSearch(String term){
+		List<MaterielManageResp> list = null;
+		try {
+			list = materielManageService.autoCompleteSearch(term.trim());
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+		}
+		return list;
 	}
 	
 }

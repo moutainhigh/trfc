@@ -1,7 +1,9 @@
 package com.tianrui.service.bean.quality.file;
 
 public class SupplierScheme {
-   /**
+
+
+	/**
     * 主键id
     */
 	private String id;
@@ -18,7 +20,7 @@ public class SupplierScheme {
 	 */
     private String supplierid;
 	/**
-	 * 供应商备注
+	 * 供应商备�?
 	 */
     private String supremark;
 	/**
@@ -30,7 +32,7 @@ public class SupplierScheme {
 	 */
     private String schemeid;
 	/**
-	 * 开始时间
+	 * �?始时�?
 	 */
     private Long starttime;
 	/**
@@ -38,19 +40,19 @@ public class SupplierScheme {
 	 */
     private Long endtime;
 	/**
-	 * 平均方式(0:月加权平均值,1:日平均值)
+	 * 平均方式(0:月加权平均�??,1:日平均�??)
 	 */
     private String mean;
 	/**
-	 * 扣款方式(0:按金额,1:按吨)
+	 * 扣款方式(0:按金�?,1:按吨)
 	 */
     private String deduct;
 	/**
-	 * 默认(0:默认的,1:不默认)
+	 * 默认(0:默认�?,1:不默�?)
 	 */
     private String ref;
 	/**
-	 * 有效的(0:有效,1:无效)
+	 * 有效�?(0:有效,1:无效)
 	 */
     private String invalid;
 	/**
@@ -58,7 +60,7 @@ public class SupplierScheme {
 	 */
     private String remark;
 	/**
-	 * 创建人
+	 * 创建�?
 	 */
     private String creator;
 	/**
@@ -66,7 +68,7 @@ public class SupplierScheme {
 	 */
     private Long createtime;
 	/**
-	 * 修改者
+	 * 修改�?
 	 */
     private String modifier;
 	/**
@@ -74,9 +76,13 @@ public class SupplierScheme {
 	 */
     private Long modifytime;
 	/**
-	 * 数据同步时间戳
+	 * 数据同步时间�?
 	 */
     private Long utc;
+    /**
+     * 状�??(0:删除,1:正常)
+     */
+    private String state;
 
     public String getId() {
         return id;
@@ -229,4 +235,12 @@ public class SupplierScheme {
     public void setUtc(Long utc) {
         this.utc = utc;
     }
+
+	public String getState() {
+		return state;
+	}
+
+	public void setState(String state) {
+		this.state = state;
+	}
 }

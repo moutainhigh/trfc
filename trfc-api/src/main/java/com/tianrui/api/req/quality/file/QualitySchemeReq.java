@@ -58,6 +58,10 @@ public class QualitySchemeReq extends BaseReq {
      */
     private String user;
     /**
+     * 状态(0:删除,1:正常)
+     */
+    private String state;
+    /**
      * 分页查询开始位置
      */
     private int start;
@@ -149,6 +153,12 @@ public class QualitySchemeReq extends BaseReq {
 	}
 	public void setNamelike(String namelike) {
 		this.namelike = namelike;
+	}
+	public String getState() {
+		return state;
+	}
+	public void setState(String state) {
+		this.state = state;
 	}
     
 }

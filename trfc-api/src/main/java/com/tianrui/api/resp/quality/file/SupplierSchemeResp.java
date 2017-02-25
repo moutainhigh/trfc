@@ -87,6 +87,10 @@ public class SupplierSchemeResp extends BaseResp {
 	     * 质检方案质量标准详细
 	     */
 	    private List<QualitySchemeItemResp> data;
+	    /**
+	     * 状态(0:删除,1:正常)
+	     */
+	    private String state;
 		public String getId() {
 			return id;
 		}
@@ -200,6 +204,12 @@ public class SupplierSchemeResp extends BaseResp {
 		}
 		public void setData(List<QualitySchemeItemResp> data) {
 			this.data = data;
+		}
+		public String getState() {
+			return state;
+		}
+		public void setState(String state) {
+			this.state = state;
 		}
 	    
 }

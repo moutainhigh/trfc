@@ -3,7 +3,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>供应商标准方案-新增</title>
+<title>供应商标准方案-编辑</title>
 <link href="${staticBasePath}/css/select2.css" rel="stylesheet">
 <jsp:include page="../../common/base/header_busi.jsp"></jsp:include>
 
@@ -46,73 +46,76 @@
 						</div>
 					</div>
 					<div class="daohuo_add">
-						<h5>供应商标准方案录入</h5>
+						<h5>供应商标准方案-编辑</h5>
 						<div class="daohuo_add_div">
 							<div class="daohuo_add_solo">
 								<label><span class="colorred">*</span>单据编号：</label> <input
-									type="text" value="admin" readonly="true" id="add_code">
+									type="text" value="admin" readonly="true" id="edit_code">
 							</div>
 							<div class="daohuo_add_solo">
 								<label><span class="colorred">*</span>方案名称：</label> <input
-									type="text" id="add_name">
+									type="text" id="edit_name">
 							</div>
 							<div class="daohuo_add_solo">
-								<label><span class="colorred">*</span>供应商：</label> <select id="add_supplier"
-										class="supplierSelect form-control">
-									</select>
+								<label><span class="colorred">*</span>供应商：</label> <select
+									id="edit_supplier" class="supplierSelect form-control">
+								</select>
 							</div>
 							<div class="daohuo_add_solo">
-								<label>供应商备注：</label> <input type="text" id="add_supremark">
+								<label>供应商备注：</label> <input type="text" id="edit_supremark">
 							</div>
 							<div class="daohuo_add_solo">
-								<label><span class="colorred">*</span>物料：</label> <select id="add_material"
-										class="materialSelect form-control">
-									</select>
+								<label><span class="colorred">*</span>物料：</label> <select
+									id="edit_material" class="materialSelect form-control">
+								</select>
 							</div>
 							<div class="daohuo_add_solo">
-								<label><span class="colorred">*</span>质检方案：</label> <select id="add_scheme"
-										class="form-control">
-									</select>
+								<label><span class="colorred">*</span>质检方案：</label> <select
+									id="edit_scheme" class="form-control">
+								</select>
 							</div>
 							<div class="daohuo_add_solo">
 								<label>开始日期：</label> <input type="text" readonly="true"
-									onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})"
-									class="Wdate" id="add_starttime"/>
+									onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})" class="Wdate"
+									id="edit_starttime" />
 							</div>
 							<div class="daohuo_add_solo">
 								<label>结束日期：</label> <input type="text" readonly="true"
-									onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})"
-									class="Wdate" id="add_endtime"/>
+									onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})" class="Wdate"
+									id="edit_endtime" />
 							</div>
 							<div class="daohuo_add_solo">
-								<label>平均方式：</label> <select class="form-control" id="add_mean">
+								<label>平均方式：</label> <select class="form-control" id="edit_mean">
 									<option value="">--请选择--</option>
 									<option value="0">月加权平均值</option>
 									<option value="1">日平均值</option>
 								</select>
 							</div>
 							<div class="daohuo_add_solo">
-								<label>扣款方式：</label> <select class="form-control" id="add_deduct">
+								<label>扣款方式：</label> <select class="form-control"
+									id="edit_deduct">
 									<option value="">--请选择--</option>
 									<option value="0">按金额</option>
 									<option value="1">按吨</option>
 								</select>
 							</div>
 							<div class="daohuo_add_solo">
-								<label>选项：</label> <input type="checkbox" checked="checked" id="add_invalid"><span>有效 </span>
-								<input type="checkbox" checked="checked" id="add_ref"><span>默认</span> 
+								<label>选项：</label> <input type="checkbox" checked="checked"
+									id="edit_invalid"><span>有效 </span> <input
+									type="checkbox" checked="checked" id="edit_ref"><span>默认</span>
 							</div>
 							<div class="daohuo_add_solo">
 								<label>制单日期：</label> <input type="text" readonly="true"
 									onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:00:00'})"
-									class="Wdate" id="add_createtime"/>
+									class="Wdate" id="edit_createtime" />
 							</div>
 							<div class="daohuo_add_solo">
-								<label>制单人：</label> <input type="text" id="add_creator" readonly="true">
+								<label>制单人：</label> <input type="text" id="edit_creator"
+									readonly="true">
 							</div>
 							<div class="alt_edit_textarea">
 								<label>备注： </label>
-								<textarea class="form-control" rows="1" id="add_remark"></textarea>
+								<textarea class="form-control" rows="1" id="edit_remark"></textarea>
 							</div>
 						</div>
 					</div>
@@ -145,8 +148,8 @@
 												<th>扣吨</th>
 											</tr>
 										</thead>
-										<tbody id="add_detail">
-											
+										<tbody id="edit_detail">
+
 										</tbody>
 									</table>
 								</div>
@@ -162,7 +165,6 @@
 		</div>
 
 	</div>
-	
 
 	<!-- 引用公共footer部分 -->
 	<jsp:include page="../../common/base/footer_busi.jsp"></jsp:include>
@@ -170,6 +172,6 @@
 	<script type="text/javascript"
 		src="/javascript/quality/file/supplierScheme_common.js"></script>
 	<script type="text/javascript"
-		src="/javascript/quality/file/supplierScheme_add.js"></script>
+		src="/javascript/quality/file/supplierScheme_edit.js"></script>
 </body>
 </html>

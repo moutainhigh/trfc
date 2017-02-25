@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.tianrui.api.intf.basicFile.nc.ISupplierManageService;
 import com.tianrui.api.intf.businessManage.purchaseManage.IPurchaseApplicationService;
 import com.tianrui.api.req.businessManage.purchaseManage.PurchaseApplicationQuery;
 import com.tianrui.api.resp.businessManage.purchaseManage.PurchaseApplicationJoinDetailResp;
@@ -26,17 +25,9 @@ public class PurchaseApplicationAction {
 	@Autowired
 	private IPurchaseApplicationService purchaseApplicationService;
 	
-	@Autowired
-	private ISupplierManageService supplierManageService;
-	
 	@RequestMapping("/main")
 	public ModelAndView main(){
 		ModelAndView view = new ModelAndView("businessManage/purchaseManage/purchaseApplication");
-		try {
-			view.addObject("supplier", supplierManageService.findListByParmas(null).getData());
-		} catch (Exception e) {
-			log.error(e.getMessage(), e);
-		}
 		return view;
 	}
 	

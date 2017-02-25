@@ -53,4 +53,13 @@ public interface IMaterielManageService {
 	 * 获取物料数据(selector)
 	 */
 	Result materialData() throws Exception;
+	/**
+	 * @Description 根据名称模糊查询
+	 * @author zhanggaohao
+	 * @version 2017年2月25日 上午10:28:01
+	 * @param likeName
+	 * @return
+	 * @throws Exception
+	 */
+	List<MaterielManageResp> autoCompleteSearch(String likeName) throws Exception;
 }

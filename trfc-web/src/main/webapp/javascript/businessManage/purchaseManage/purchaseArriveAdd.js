@@ -4,10 +4,144 @@
 			pageGroupMateriel: '/trfc/purchaseApplication/pageGroupMateriel',
 			add: '/trfc/purchaseArrive/add',
 			addVehicle: '/trfc/vehicle/add',
-			addDriver: '/trfc/driver/add'
+			addDriver: '/trfc/driver/add',
+			vehicleAutoCompleteSearch: "/trfc/vehicle/autoCompleteSearch",
+			driverAutoCompleteSearch: "/trfc/driver/autoCompleteSearch",
+			materielAutoCompleteSearch: "/trfc/materiel/autoCompleteSearch",
+			supplierAutoCompleteSearch: "/trfc/supplier/autoCompleteSearch"
 	};
-	//初始化按钮事件
-	initBindEvent();
+	init();
+	function init(){
+		//初始化autocomplete
+		initAutoComplete();
+		//初始化按钮事件
+		initBindEvent();
+	}
+	function initAutoComplete(){
+		var cache = {};
+			$("#vehicle").autocomplete({
+	    	source: function( request, response ) {
+	    		var term = request.term;
+	    		var vehicle = cache['vehicle'] || {};
+	    		if ( term in vehicle ) {
+	    			response( vehicle[ term ] );
+	    			return;
+	    		}
+	    		$.post( URL.vehicleAutoCompleteSearch, request, function( data, status, xhr ) {
+	    			vehicle[ term ] = data;
+	    			response( data );
+	    		});
+	    	},
+	    	response: function( event, ui ) {
+	    		if(ui.content && ui.content.length > 0){
+		    		ui.content.forEach(function(x,i,a){
+		    			x.label = x.vehicleno;
+		    			x.value = x.id;
+		    		});
+	    		}
+	    	},
+	    	select: function( event, ui ) {
+	    		$(this).val(ui.item.vehicleno).attr('vehicleid', ui.item.id);
+	    		$('#rfid').val(ui.item.rfid);
+	    		return false;
+    		}
+	    }).off('click').on('click',function(){
+	    	$(this).autocomplete('search',' ');
+	    }).change(function(){
+	    	$(this).val('').removeAttr('vehicleid');
+	    });
+		$("#driver").autocomplete({
+	    	source: function( request, response ) {
+	    		var term = request.term;
+	    		var driver = cache['driver'] || {};
+	    		if ( term in driver ) {
+	    			response( driver[ term ] );
+	    			return;
+	    		}
+	    		$.post( URL.driverAutoCompleteSearch, request, function( data, status, xhr ) {
+	    			driver[ term ] = data;
+	    			response( data );
+	    		});
+	    	},
+	    	response: function( event, ui ) {
+	    		if(ui.content && ui.content.length > 0){
+		    		ui.content.forEach(function(x,i,a){
+		    			x.label = x.name;
+		    			x.value = x.id;
+		    		});
+	    		}
+	    	},
+	    	select: function( event, ui ) {
+	    		$(this).val(ui.item.name).attr('driverid', ui.item.id);
+	    		$('#identityno').val(ui.item.identityno);
+	    		return false;
+    		}
+	    }).off('click').on('click',function(){
+	    	$(this).autocomplete('search',' ');
+	    }).change(function(){
+	    	$(this).val('').removeAttr('driverid');
+	    });
+	    $("#materiel").autocomplete({
+	    	source: function( request, response ) {
+	    		var term = request.term;
+	    		var materiel = cache['materiel'] || {};
+	    		if ( term in materiel ) {
+	    			response( materiel[ term ] );
+	    			return;
+	    		}
+	    		$.post( URL.materielAutoCompleteSearch, request, function( data, status, xhr ) {
+	    			materiel[ term ] = data;
+	    			response( data );
+	    		});
+	    	},
+	    	response: function( event, ui ) {
+	    		if(ui.content && ui.content.length > 0){
+	    			ui.content.forEach(function(x,i,a){
+	    				x.label = x.name;
+	    				x.value = x.id;
+	    			});
+	    		}
+	    	},
+	    	select: function( event, ui ) {
+	    		$(this).val(ui.item.name).attr('materielid', ui.item.id);
+	    		return false;
+	    	}
+	    }).off('click').on('click',function(){
+	    	$(this).autocomplete('search',' ');
+	    }).change(function(){
+	    	$(this).val('').removeAttr('materielid');
+	    });
+	    $("#supplier").autocomplete({
+	    	source: function( request, response ) {
+	    		var term = request.term;
+	    		var supplier = cache['supplier'] || {};
+	    		if ( term in supplier ) {
+	    			response( supplier[ term ] );
+	    			return;
+	    		}
+	    		$.post( URL.supplierAutoCompleteSearch, request, function( data, status, xhr ) {
+	    			supplier[ term ] = data;
+	    			response( data );
+	    		});
+	    	},
+	    	response: function( event, ui ) {
+	    		if(ui.content && ui.content.length > 0){
+		    		ui.content.forEach(function(x,i,a){
+		    			x.label = x.name;
+		    			x.value = x.id;
+		    		});
+	    		}
+	    	},
+	    	select: function( event, ui ) {
+	    		$(this).val(ui.item.name).attr('supplierid', ui.item.id);
+	    		return false;
+    		}
+	    }).off('click').on('click',function(){
+	    	$(this).autocomplete('search',' ');
+	    }).change(function(){
+	    	$(this).val('').removeAttr('supplierid');
+	    });
+	}
 	//绑定按钮事件
 	function initBindEvent(){
 		//刷新
@@ -34,16 +168,6 @@
 		//订单搜索按钮
 		$('#PurchaseApplicationSearchBtn').off('click').on('click',function(){
 			queryPurchaseApplication(1);
-		});
-		//打开车辆新增页面
-		$('#vehicleid').change(function(){
-			var rfid = $(this).find('option:checked').attr('rfid');
-			$('#rfid').val(rfid);
-		});
-		//打开司机新增页面
-		$('#driverid').change(function(){
-			var identityno = $(this).find('option:checked').attr('identityno');
-			$('#identityno').val(identityno);
 		});
 		//新增车辆提交按钮
 		$('#addVehicleCommitBtn').off('click').on('click',function(){
@@ -86,8 +210,8 @@
 	}
 	//获取采购订单搜索条件
 	function getPurchaseApplicationParams(){
-		var supplierid = $('#supplier').val();supplierid = $.trim(supplierid);
-		var materielid = $('#materiel').val();materielid = $.trim(materielid);
+		var supplierid = $('#supplier').attr('supplierid');supplierid = $.trim(supplierid);
+		var materielid = $('#materiel').attr('materielid');materielid = $.trim(materielid);
 		var purchaseApplicationCode = $('#purchaseApplicationCode').val();purchaseApplicationCode = $.trim(purchaseApplicationCode);
 		var starttime = $('#starttime').val();starttime = $.trim(starttime);
 		var endtime = $('#endtime').val();endtime = $.trim(endtime);
@@ -125,7 +249,7 @@
 					$('#jumpPageNo').attr('maxPageNo',parseInt((total+pageSize-1)/pageSize));
 					$("#pagination").pagination(total, {
 					    callback: function(pageNo){
-							queryData(pageNo+1);
+					    	queryPurchaseApplication(pageNo+1);
 						},
 					    prev_text: '上一页',
 					    next_text: '下一页',
@@ -262,7 +386,7 @@
 				if(result.code == '000000'){
 					layer.msg(result.error, {icon: 1});
 					var vehicle = result.data;
-					$('#vehicleid').append('<option value="'+vehicle.id+'">'+vehicle.vehicleno+'</option>').val(vehicle.id);
+					$('#vehicle').val(vehicle.vehicleno).attr('vehicleid',vehicle.id);
 					$('#vehicleAddView').modal('hide');
 				}else{
 					layer.msg(result.error, {icon: 5});
@@ -309,7 +433,7 @@
 				if(result.code == '000000'){
 					layer.msg(result.error, {icon: 1});
 					var driver = result.data;
-					$('#driverid').append('<option value="'+driver.id+'">'+driver.name+'</option>').val(driver.id);
+					$('#driverid').val(driver.name).attr('driverid',driver.id);
 					$('#identityno').val(driver.identityno);
 					$('#driverAddView').modal('hide');
 				}else{
@@ -325,22 +449,21 @@
 		var billdetailid = $('#billcode').attr('billdetailid') || ''; billdetailid = $.trim(billdetailid);
 		var makebilltime = $('#makebilltime').val() || ''; makebilltime = $.trim(makebilltime); makebilltime = str2Long(makebilltime);
 		var unit = $('#unit').val(); unit = $.trim(unit);
-		var vehicleid = $('#vehicleid').val(); vehicleid = $.trim(vehicleid);
-		var vehicleno = $('#vehicleid>option:checked').text(); vehicleno = $.trim(vehicleno);
-		var vehiclerfid = $('#rfid').val(); vehiclerfid = $.trim(vehiclerfid);
-		var driverid = $('#driverid').val(); driverid = $.trim(driverid);
-		var drivername = $('#driverid>option:checked').text(); drivername = $.trim(drivername);
-		var driveridentityno = $('#identityno').val(); driveridentityno = $.trim(driveridentityno);
+		var vehicleid = $('#vehicle').attr('vehicleid'); vehicleid = $.trim(vehicleid);
+		var driverid = $('#driver').attr('driverid'); driverid = $.trim(driverid);
 		var arrivalamount = $('#arrivalamount').val(); arrivalamount = $.trim(arrivalamount);
 		var remark = $('#remark').val(); remark = $.trim(remark);
 		if(!billid || !billcode || !billdetailid){
 			layer.msg('订单号不能为空!', {icon: 5});return false;
 		}
-		if(!vehicleid || !vehicleno){
+		if(!vehicleid){
 			layer.msg('车辆不能为空!', {icon: 5});return false;
 		}
-		if(!driverid || !drivername){
+		if(!driverid){
 			layer.msg('司机不能为空!', {icon: 5});return false;
+		}
+		if(!arrivalamount){
+			layer.msg('到货量不能为空!', {icon: 5});return false;
 		}
 		return {
 			billid:billid,
@@ -349,11 +472,7 @@
 			makebilltime:makebilltime,
 			unit:unit,
 			vehicleid:vehicleid,
-			vehicleno:vehicleno,
-			vehiclerfid:vehiclerfid,
 			driverid:driverid,
-			drivername:drivername,
-			driveridentityno:driveridentityno,
 			arrivalamount:arrivalamount,
 			remark:remark
 		};

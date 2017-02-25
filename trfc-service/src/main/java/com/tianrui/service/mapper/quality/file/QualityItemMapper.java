@@ -6,6 +6,7 @@ import com.tianrui.api.req.quality.file.QualityItemReq;
 import com.tianrui.service.bean.quality.file.QualityItem;
 
 public interface QualityItemMapper {
+
 	/**
 	 * 删除数据
 	 */
@@ -15,7 +16,7 @@ public interface QualityItemMapper {
 	 */
     int insert(QualityItem record);
     /**
-	 * 新增数据(动态)
+	 * 新增数据(动�??)
 	 */
     int insertSelective(QualityItem record);
     /**
@@ -23,7 +24,11 @@ public interface QualityItemMapper {
 	 */
     QualityItem selectByPrimaryKey(String id);
     /**
-	 * 更新数据(动态)
+	 * 查询数据(主键id,state)
+	 */
+    QualityItem selectOne(QualityItemReq req);
+    /**
+	 * 更新数据(动�??)
 	 */
     int updateByPrimaryKeySelective(QualityItem record);
     /**

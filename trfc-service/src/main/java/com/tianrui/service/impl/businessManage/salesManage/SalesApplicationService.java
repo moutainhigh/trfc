@@ -416,6 +416,7 @@ public class SalesApplicationService implements ISalesApplicationService {
 		item.setMakebillname(jsonItem.getString("billMaker"));
 		//制单日期
 		item.setMakebilltime(DateUtil.parse(jsonItem.getString("singleData"), "yyyy-MM-dd HH:mm:ss"));
+		item.setRemarks(jsonItem.getString("remark"));
 		//TS
 		if(StringUtils.isNotBlank(jsonItem.getString("ts"))){
 			item.setUtc(Long.valueOf(jsonItem.getString("ts")));

@@ -61,6 +61,10 @@ public class MaterialSchemeReq extends BaseReq {
      */
     private String verdict;
     /**
+     * 状态(0:删除,1:正常)
+     */
+    private String state;
+    /**
      * 用户id
      */
     private String user;
@@ -167,6 +171,12 @@ public class MaterialSchemeReq extends BaseReq {
 	}
 	public void setShows(String shows) {
 		this.shows = shows;
+	}
+	public String getState() {
+		return state;
+	}
+	public void setState(String state) {
+		this.state = state;
 	}
 
     

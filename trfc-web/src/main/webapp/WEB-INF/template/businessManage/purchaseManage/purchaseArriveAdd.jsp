@@ -6,6 +6,20 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>采购到货通知单新增</title>
+<style type="text/css">
+.ui-autocomplete {
+	max-height: 200px;
+	overflow-y: auto;
+	/* 防止水平滚动条 */
+	overflow-x: hidden;
+}
+/* IE 6 不支持 max-height
+	   * 我们使用 height 代替，但是这会强制菜单总是显示为那个高度
+	   */
+* html .ui-autocomplete {
+	height: 200px;
+}
+</style>
 <!-- 引用公共header部分 -->
 <jsp:include page="../../common/base/header_busi.jsp"></jsp:include>
 </head>
@@ -115,21 +129,13 @@
 									<div class="daohuo_add_div">
 										<div class="daohuo_add_solo">
 											<label class="colorred"><em class="colorred">*</em>车号：</label>
-											<select id="vehicleid" class="form-control">
-												<option value="">请选择</option>
-												<c:forEach items="${vehicle }" var="v">
-													<option value="${v.id }" rfid="${v.rfid }">${v.vehicleno }</option>
-												</c:forEach>
-											</select> <a data-toggle="modal" data-target="#vehicleAddView"><i
+											<input id="vehicle" type="text" placeholder="请选择车辆" /> 
+											<a data-toggle="modal" data-target="#vehicleAddView"><i
 												class="iconfont">&#xe680;</i></a>
 										</div>
 										<div class="daohuo_add_solo">
-											<label>司机：</label> <select id="driverid" class="form-control">
-												<option value="">请选择</option>
-												<c:forEach items="${driver }" var="d">
-													<option value="${d.id }" identityno="${d.identityno }">${d.name }</option>
-												</c:forEach>
-											</select> <a data-toggle="modal" data-target="#driverAddView"><i
+											<label>司机：</label> <input id="driver" type="text" placeholder="请选择司机" />
+											<a data-toggle="modal" data-target="#driverAddView"><i
 												class="iconfont">&#xe680;</i></a>
 										</div>
 										<div class="daohuo_add_solo">
@@ -177,34 +183,24 @@
 				<div class="modal-body">
 					<div class="dhadd_search">
 						<div class="dhsearch_solo">
-							<label>物料：</label> <select id="materiel" class="form-control">
-								<option value="">请选择</option>
-								<c:forEach items="${materiel }" var="m">
-									<option value="${m.id }">${m.name }</option>
-								</c:forEach>
-							</select>
+							<label>物料：</label> <input id="materiel" type="text" placeholder="请选择物料" />
 						</div>
 						<div class="dhsearch_solo">
-							<label>供应商：</label> <select id="supplier" class="form-control">
-								<option value="">请选择</option>
-								<c:forEach items="${supplier }" var="s">
-									<option value="${s.id }">${s.name }</option>
-								</c:forEach>
-							</select>
+							<label>供应商：</label> <input id="supplier" type="text" placeholder="请选择供应商" />
 						</div>
 						<div class="dhsearch_solo">
 							<label>订单号：</label> <input id="purchaseApplicationCode"
-								type="text">
+								type="text" placeholder="请输入订单号"/>
 						</div>
 						<div class="dhsearch_solo">
 							<label>开始时间：</label> <input id="starttime" type="text"
 								onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:00:00',maxDate:'#F{$dp.$D(\'endtime\')}'})"
-								class="Wdate" style="width: 160px" readonly />
+								class="Wdate" style="width: 160px" readonly placeholder="请选择开始时间" />
 						</div>
 						<div class="dhsearch_solo">
 							<label>结束时间：</label> <input id="endtime" type="text"
 								onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:00:00',minDate:'#F{$dp.$D(\'starttime\')}'})"
-								class="Wdate" style="width: 160px" readonly />
+								class="Wdate" style="width: 160px" readonly placeholder="请选择结束时间" />
 						</div>
 						<div class="dhsearch_solo">
 							<button id="PurchaseApplicationSearchBtn" class="btn btnblue ">搜索</button>

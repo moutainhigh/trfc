@@ -1,8 +1,9 @@
 package com.tianrui.service.bean.quality.file;
 
 public class QualityScheme {
-   /**
-    * 主键id
+
+	/**
+ 	* 主键id
     */
 	private String id;
 	/**
@@ -22,15 +23,15 @@ public class QualityScheme {
 	 */
 	private String bills;
 	/**
-	 * 有效性(0:有效,1:无效)
+	 * 有效�?(0:有效,1:无效)
 	 */
 	private String invalid;
 	/**
-	 * 默认的(0:默认的,1:非默认的)
+	 * 默认�?(0:默认�?,1:非默认的)
 	 */
 	private String def;
 	/**
-	 * 类型(0:采购项目,1:销售项目)
+	 * 类型(0:采购项目,1:�?售项�?)
 	 */
 	private String type;
 	/**
@@ -46,9 +47,13 @@ public class QualityScheme {
 	private String modifier;
 	private Long modifytime;
 	/**
-	 * 数据同步时间戳
+	 * 数据同步时间�?
 	 */
 	private Long utc;
+	  /**
+     * 状�??(0:删除,1:正常)
+     */
+    private String state;
 
 
     public String getId() {
@@ -170,4 +175,12 @@ public class QualityScheme {
     public void setUtc(Long utc) {
         this.utc = utc;
     }
+
+	public String getState() {
+		return state;
+	}
+
+	public void setState(String state) {
+		this.state = state;
+	}
 }

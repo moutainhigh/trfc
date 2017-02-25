@@ -2,6 +2,9 @@ package com.tianrui.api.intf.basicFile.measure;
 
 import com.tianrui.api.req.basicFile.measure.VehicleManageQuery;
 import com.tianrui.api.req.basicFile.measure.VehicleManageSave;
+
+import java.util.List;
+
 import com.tianrui.api.req.basicFile.measure.VehicleManageApi;
 import com.tianrui.api.resp.basicFile.measure.VehicleManageResp;
 import com.tianrui.smartfactory.common.vo.PaginationVO;
@@ -29,10 +32,12 @@ public interface IVehicleManageService {
 
 	Result findListByParmas(VehicleManageQuery query) throws Exception;
 
-	VehicleManageResp findOne(VehicleManageQuery query) throws Exception;
+	VehicleManageResp findOne(String id) throws Exception;
 	
 	Result addVehicleApi(VehicleManageApi vehicleSaveReq);
 
 	Result vehicleCheck(VehicleManageApi vehicleManageApi);
+
+	List<VehicleManageResp> autoCompleteSearch(String term) throws Exception;
 
 }

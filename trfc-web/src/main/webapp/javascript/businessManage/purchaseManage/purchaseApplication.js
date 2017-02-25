@@ -2,11 +2,46 @@
 	//请求路径
 	var URL = {
 			pageUrl:"/trfc/purchaseApplication/page",
+			autoCompleteSearch: "/trfc/supplier/autoCompleteSearch"
 	};
 	init();
 	function init(){
+		initAutoComplete();
 		bindEvent();
 		queryData(1);
+	}
+	function initAutoComplete(){
+		var cache = {};
+	    $("#supplier").autocomplete({
+	    	source: function( request, response ) {
+	    		var term = request.term;
+	    		var supplier = cache['supplier'] || {};
+	    		if ( term in supplier ) {
+	    			response( supplier[ term ] );
+	    			return;
+	    		}
+	    		$.post( URL.autoCompleteSearch, request, function( data, status, xhr ) {
+	    			supplier[ term ] = data;
+	    			response( data );
+	    		});
+	    	},
+	    	response: function( event, ui ) {
+	    		if(ui.content && ui.content.length > 0){
+		    		ui.content.forEach(function(x,i,a){
+		    			x.label = x.name;
+		    			x.value = x.id;
+		    		});
+	    		}
+	    	},
+	    	select: function( event, ui ) {
+	    		$(this).val(ui.item.name).attr('supplierid', ui.item.id);
+	    		return false;
+    		}
+	    }).off('click').on('click',function(){
+	    	$(this).autocomplete('search',' ');
+	    }).change(function(){
+	    	$(this).val('').removeAttr('supplierid');
+	    });
 	}
 	function bindEvent(){
 		$('#refreshBtn').off('click').on('click',function(){
@@ -43,7 +78,7 @@
 	function getParams(){
 		var params = {};
 		var code = $('#code').val();code = $.trim(code);
-		var supplierid = $('#supplier').val();supplierid = $.trim(supplierid);
+		var supplierid = $('#supplier').attr('supplierid');supplierid = $.trim(supplierid);
 		var source = $('#source').val();source = $.trim(source);
 		var starttime = $('#starttime').val();starttime = $.trim(starttime);
 		var endtime = $('#endtime').val();endtime = $.trim(endtime);

@@ -36,7 +36,7 @@ public class HttpUtils {
 			params.append("p").append("=").append(JSON.toJSONString(apiParam));
 			byte[] bytes = params.toString().getBytes();
 			connection.getOutputStream().write(bytes);
-			BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+			BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream(), "UTF-8"));
 			//发送请求
 			String result = reader.readLine();
 			apiResult = JSON.parseObject(result, ApiResult.class);

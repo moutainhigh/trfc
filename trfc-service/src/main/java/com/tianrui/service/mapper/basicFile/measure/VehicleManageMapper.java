@@ -2,6 +2,8 @@ package com.tianrui.service.mapper.basicFile.measure;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.tianrui.api.req.basicFile.measure.VehicleManageQuery;
 import com.tianrui.service.bean.basicFile.measure.VehicleManage;
 
@@ -23,5 +25,7 @@ public interface VehicleManageMapper {
 	long findVehiclePageCount(VehicleManageQuery query);
 
 	List<VehicleManage> findVehiclePage(VehicleManageQuery query);
+
+	List<VehicleManage> autoCompleteSearch(@Param("likeName")String likeName);
     
 }

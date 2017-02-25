@@ -10,6 +10,7 @@ import com.tianrui.service.bean.quality.file.SupplierScheme;
  *
  */
 public interface SupplierSchemeMapper {
+	
 	/**
 	 * 删除数据
 	 */
@@ -19,7 +20,7 @@ public interface SupplierSchemeMapper {
 	 */
     int insert(SupplierScheme record);
 	/**
-	 * 新增数据(动态)
+	 * 新增数据(动�??)
 	 */
     int insertSelective(SupplierScheme record);
 	/**
@@ -27,7 +28,11 @@ public interface SupplierSchemeMapper {
 	 */
     SupplierScheme selectByPrimaryKey(String id);
 	/**
-	 * 更新数据(动态)
+	 * 查询数据(id,state)
+	 */
+    SupplierScheme selectOne(SupplierSchemeReq req);
+	/**
+	 * 更新数据(动�??)
 	 */
     int updateByPrimaryKeySelective(SupplierScheme record);
 	/**

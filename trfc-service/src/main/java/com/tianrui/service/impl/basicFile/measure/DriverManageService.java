@@ -138,11 +138,16 @@ public class DriverManageService implements IDriverManageService {
 	}
 	
 	@Override
-	public DriverManageResp findOne(DriverManageQuery query) throws Exception{
-		if(query != null && StringUtils.isNotBlank(query.getId())){
-			return copyBean2Resp(driverManageMapper.selectByPrimaryKey(query.getId()));
+	public DriverManageResp findOne(String id) throws Exception{
+		if( StringUtils.isNotBlank(id) ){
+			return copyBean2Resp(driverManageMapper.selectByPrimaryKey(id));
 		}
 		return null;
+	}
+
+	@Override
+	public List<DriverManageResp> autoCompleteSearch(String likeName) throws Exception {
+		return copyBeanList2RespList(driverManageMapper.autoCompleteSearch(likeName));
 	}
 	
 	private List<DriverManageResp> copyBeanList2RespList(List<DriverManage> list) throws Exception {

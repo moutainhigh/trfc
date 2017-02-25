@@ -1,10 +1,24 @@
 <%@page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!Doctype html>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>到货通知单</title>
+<style type="text/css">
+.ui-autocomplete {
+	max-height: 200px;
+	/* 防止水平滚动条 */
+	overflow-x: hidden;
+	overflow-y: auto;
+}
+/* IE 6 不支持 max-height
+	   * 我们使用 height 代替，但是这会强制菜单总是显示为那个高度
+	   */
+* html .ui-autocomplete {
+	height: 200px;
+}
+</style>
 <!-- 引用公共header部分 -->
 <jsp:include page="../../common/base/header_busi.jsp"></jsp:include>
 </head>
@@ -34,48 +48,19 @@
 						<div class="intel_sconditon">
 							<div class="intel_sline">
 								<div class="intel_solo">
-									<label>订单号：</label> <input id="billcode" type="text">
+									<label>订单号：</label> <input id="billcode" type="text"
+										placeholder="请输入订单号">
 								</div>
 								<div class="intel_solo">
-									<label>通知单号：</label> <input id="code" type="text">
+									<label>通知单号：</label> <input id="code" type="text"
+										placeholder="请输入通知单号">
 								</div>
 								<div class="intel_solo">
-									<label>供应商：</label> <select id="supplier" class="form-control">
-										<option value="">请选择</option>
-										<c:forEach items="${supplier }" var="s">
-											<option value="${s.id }">${s.name }</option>
-										</c:forEach>
-									</select>
-								</div>
-								<div class="intel_solo">
-									<label>车号：</label> <select idi="vehicle" class="form-control">
-										<option value="">请选择</option>
-										<c:forEach items="${vehicle }" var="v">
-											<option value="${v.id }">${v.vehicleno }</option>
-										</c:forEach>
-									</select>
-								</div>
-								<div class="intel_solo">
-									<label>审核状态：</label> <select id="auditstatus" class="form-control">
+									<label>审核状态：</label> <select id="auditstatus"
+										class="form-control">
 										<option value="">请选择</option>
 										<option value="0">未审核</option>
 										<option value="1">已审核</option>
-									</select>
-								</div>
-								<div class="intel_solo">
-									<label>物料：</label> <select id="materiel" class="form-control">
-										<option value="">请选择</option>
-										<c:forEach items="${materiel }" var="m">
-											<option value="${m.id }">${m.name }</option>
-										</c:forEach>
-									</select>
-								</div>
-								<div class="intel_solo">
-									<label>司机：</label> <select id="driver" class="form-control">
-										<option value="">请选择</option>
-										<c:forEach items="${driver }" var="d">
-											<option value="${d.id }">${d.name }</option>
-										</c:forEach>
 									</select>
 								</div>
 								<div class="intel_solo">
@@ -100,12 +85,28 @@
 									</select>
 								</div>
 								<div class="intel_solo">
+									<label>供应商：</label> <input id="supplier" type="text"
+										placeholder="请选择供应商" />
+								</div>
+								<div class="intel_solo">
+									<label>车号：</label> <input id="vehicle" type="text"
+										placeholder="请选择车号" />
+								</div>
+								<div class="intel_solo">
+									<label>物料：</label> <input id="materiel" type="text"
+										placeholder="请选择物料" />
+								</div>
+								<div class="intel_solo">
+									<label>司机：</label> <input id="driver" type="text"
+										placeholder="请选择司机" />
+								</div>
+								<div class="intel_solo">
 									<label>创建时间：</label> <input id="starttime" type="text" readonly
 										onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:00:00',maxDate:'#F{$dp.$D(\'endtime\')}'})"
-										class="Wdate" style="width: 160px" /> <i>-</i> <input
-										 id="endtime" type="text" readonly
+										class="Wdate" style="width: 160px" placeholder="请选择开始时间" /> <i>-</i>
+									<input id="endtime" type="text" readonly
 										onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:00:00',minDate:'#F{$dp.$D(\'starttime\')}'})"
-										class="Wdate" style="width: 160px" />
+										class="Wdate" style="width: 160px" placeholder="请选择结束时间" />
 								</div>
 								<div class="intel_solo">
 									<div class="intel_sbtn">

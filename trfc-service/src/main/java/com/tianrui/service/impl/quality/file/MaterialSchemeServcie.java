@@ -36,8 +36,12 @@ public class MaterialSchemeServcie implements IMaterialSchemeService {
 		Result rs = Result.getParamErrorResult();
 		//参数不能为空,id不能为空
 		if(req!=null && StringUtils.isNotBlank(req.getId())){
+			MaterialScheme scheme = new MaterialScheme();
+			scheme.setId(req.getId());
+			//设置为0.删除状态
+			scheme.setState("0");
 			//删除数据
-			int index = materialSchemeMapper.deleteByPrimaryKey(req.getId());
+			int index = materialSchemeMapper.updateByPrimaryKeySelective(scheme);
 			//判断是否成功
 			if(index>0){
 				rs = Result.getSuccessResult();
@@ -64,6 +68,8 @@ public class MaterialSchemeServcie implements IMaterialSchemeService {
 			ms.setModifytime(System.currentTimeMillis());
 			//设置同步时间戳
 			ms.setUtc(System.currentTimeMillis());
+			//设置为正常状态
+			ms.setState("1");
 			//更新数据
 			int index = materialSchemeMapper.insertSelective(ms);
 			//判断操作是否成功
@@ -103,6 +109,8 @@ public class MaterialSchemeServcie implements IMaterialSchemeService {
 	public Result page(MaterialSchemeReq req) throws Exception {
 		Result rs = Result.getParamErrorResult();
 		if(req!=null){
+			//默认查询正常数据
+			req.setState("1");
 			PaginationVO<MaterialSchemeResp> page = new PaginationVO<MaterialSchemeResp>();
 			int pageNo = req.getPageNo();
 			int pageSize = req.getPageSize();
@@ -147,6 +155,7 @@ public class MaterialSchemeServcie implements IMaterialSchemeService {
 		Result rs = Result.getParamErrorResult();
 		if(req!=null){
 			//查询数据总数(通过物料品种)
+			req.setState("1");
 			int index = materialSchemeMapper.count(req);
 			//通过index 判断操作是否成功
 			if(index<0){

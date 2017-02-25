@@ -48,6 +48,10 @@ public class CertificationResp extends BaseResp {
      * 简介
      */
     private String intro;
+    /**
+     * 状态(0:删除,1:正常)
+     */
+    private String state;
 	public String getId() {
 		return id;
 	}
@@ -107,6 +111,12 @@ public class CertificationResp extends BaseResp {
 	}
 	public void setIntro(String intro) {
 		this.intro = intro;
+	}
+	public String getState() {
+		return state;
+	}
+	public void setState(String state) {
+		this.state = state;
 	}
   
 }

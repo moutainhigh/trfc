@@ -14,6 +14,8 @@ import com.alibaba.fastjson.JSONArray;
 import com.tianrui.api.intf.quality.file.IQualitySchemeItemService;
 import com.tianrui.api.req.quality.file.QualityItemReq;
 import com.tianrui.api.req.quality.file.QualitySchemeItemReq;
+import com.tianrui.api.req.quality.file.QualitySchemeReq;
+import com.tianrui.api.resp.quality.file.QualityItemResp;
 import com.tianrui.api.resp.quality.file.QualitySchemeItemResp;
 import com.tianrui.service.bean.basicFile.nc.MaterielManage;
 import com.tianrui.service.bean.quality.file.QualityItem;
@@ -48,8 +50,12 @@ public class QualitySchemeItemService implements IQualitySchemeItemService {
 	public Result delete(QualitySchemeItemReq req) throws Exception {
 		Result rs = Result.getParamErrorResult();
 		if(req!=null && StringUtils.isNotBlank(req.getId())){
-			//删除数据库中的数据
-			int index = qualitySchemeItemMapper.deleteByPrimaryKey(req.getId());
+			QualitySchemeItem item = new QualitySchemeItem();
+			item.setId(req.getId());
+			//设置为删除状态
+			item.setState("0");
+			//更新到数据库
+			int index = qualitySchemeItemMapper.updateByPrimaryKeySelective(item);
 			//判断操作是否成功
 			if(index>0){
 				rs = Result.getSuccessResult();
@@ -65,13 +71,17 @@ public class QualitySchemeItemService implements IQualitySchemeItemService {
 	public Result deleteBatch(QualitySchemeItemReq req) throws Exception {
 		Result rs = Result.getParamErrorResult();
 		if(req!=null && StringUtils.isNotBlank(req.getSchemeid())){
-			//删除数据库中的数据
-			int index = qualitySchemeItemMapper.deleteBatch(req.getSchemeid());
-			//判断操作是否成功
-			if(index>0){
-				rs = Result.getSuccessResult();
-			}else{
-				rs.setErrorCode(ErrorCode.OPERATE_ERROR);
+			//通过schemeid获取数据
+			List<QualitySchemeItem> list = qualitySchemeItemMapper.findBySchemeId(req);
+			rs = Result.getSuccessResult();
+			for(QualitySchemeItem item : list){
+				//设置为删除状态
+				item.setState("0");
+				int index = qualitySchemeItemMapper.updateByPrimaryKeySelective(item);
+				//判断是否成功
+				if(index<=0){
+					rs.setErrorCode(ErrorCode.OPERATE_ERROR);
+				}
 			}
 		}
 		return rs;
@@ -93,6 +103,8 @@ public class QualitySchemeItemService implements IQualitySchemeItemService {
 			qi.setModifier(req.getUser());
 			qi.setModifytime(System.currentTimeMillis());
 			qi.setUtc(System.currentTimeMillis());
+			//设置为正常状态
+			qi.setState("1");
 			//保存数据
 			int index = qualitySchemeItemMapper.insertSelective(qi);
 			//判断操作是否成功
@@ -119,15 +131,17 @@ public class QualitySchemeItemService implements IQualitySchemeItemService {
 				PropertyUtils.copyProperties(obj, req);
 				//获取ID
 				obj.setId(UUIDUtil.getId());
-				//获取单据编号
+				//将公共信息赋值给对象
 				obj.setInvalid(qsiReq.getInvalid());
 				obj.setCreator(qsiReq.getUser());
 				obj.setCreatetime(System.currentTimeMillis());
 				obj.setModifier(qsiReq.getUser());
 				obj.setModifytime(System.currentTimeMillis());
 				obj.setUtc(System.currentTimeMillis());
-				//对状态进行默认复制
+				//设置状态为 未初始化
 				obj.setStatus("0");
+				//设置为正常状态
+				obj.setState("1");
 				objs.add(obj);
 			}
 			//调用批量添加
@@ -150,15 +164,15 @@ public class QualitySchemeItemService implements IQualitySchemeItemService {
 		//将字符串转换为json数组
 		JSONArray json = JSONArray.parseArray(req.getArrStr());
 		//通过循环把数组中的数据添加到list集合中
-		for(int i=0;i<json.size();i++){
-			//json对象转换为java对象
-			QualitySchemeItemReq s = JSONArray.toJavaObject(json.getJSONObject(i), QualitySchemeItemReq.class);
-			s.setSchemeid(req.getSchemeid());
-			s.setInvalid(req.getInvalid());
-			//设置状态为 未初始化
-			s.setStatus("0");
-			s.setUser(req.getUser());
-			list.add(s);
+		if(json!=null && json.size()>0){
+			for(int i=0;i<json.size();i++){
+				//json对象转换为java对象
+				QualitySchemeItemReq s = JSONArray.toJavaObject(json.getJSONObject(i), QualitySchemeItemReq.class);
+				s.setSchemeid(req.getSchemeid());
+				s.setInvalid(req.getInvalid());
+				s.setUser(req.getUser());
+				list.add(s);
+			}
 		}
 		return list;
 	}
@@ -194,6 +208,7 @@ public class QualitySchemeItemService implements IQualitySchemeItemService {
 	public Result findBySchemeId(QualitySchemeItemReq req) throws Exception {
 		Result rs = Result.getParamErrorResult();
 		if(req!=null && StringUtils.isNotBlank(req.getSchemeid())){
+			req.setState("1");
 			//通过schemeid获取数据
 			List<QualitySchemeItem> list = qualitySchemeItemMapper.findBySchemeId(req);
 			//转换为resp集合
@@ -203,7 +218,12 @@ public class QualitySchemeItemService implements IQualitySchemeItemService {
 					QualitySchemeItemResp resp = new QualitySchemeItemResp();
 					PropertyUtils.copyProperties(resp,q);
 					//获取物料名称
-					QualityScheme qs = qualitySchemeMapper.selectByPrimaryKey(q.getSchemeid());
+					QualitySchemeReq schemeReq = new QualitySchemeReq();
+					schemeReq.setId(q.getSchemeid());
+					schemeReq.setState("1");
+					//获取质检方案对象
+					QualityScheme qs = qualitySchemeMapper.selectOne(schemeReq);
+					//在该对象不会空的情况下,通过id获取物料的名称
 					if(qs!=null){
 						MaterielManage manage = materielManageMapper.selectByPrimaryKey(qs.getMaterialid());
 						if(manage!=null){
@@ -211,7 +231,10 @@ public class QualitySchemeItemService implements IQualitySchemeItemService {
 						}
 					}
 					//获取item对象
-					QualityItem qi = qualityItemMapper.selectByPrimaryKey(resp.getItemid());
+					QualityItemReq itemReq = new QualityItemReq();
+					itemReq.setId(resp.getItemid());
+					itemReq.setState("1");
+					QualityItem qi = qualityItemMapper.selectOne(itemReq);
 					if(qi!=null){
 						resp.setItemcode(qi.getCode());
 						resp.setItemname(qi.getName());
@@ -233,35 +256,46 @@ public class QualitySchemeItemService implements IQualitySchemeItemService {
 	public Result itemData() throws Exception {
 		Result rs = Result.getErrorResult();
 		QualityItemReq req = new QualityItemReq();
+		//查询正常状态的数据
+		req.setState("1");
 		List<QualityItem> list = qualityItemMapper.page(req);
-		if(list==null){
-			rs = Result.getSuccessResult();
-			rs.setData(list);
+		List<QualityItemResp> resps = new ArrayList<QualityItemResp>();
+		if(list!=null){
+			for(QualityItem item : list){
+				QualityItemResp resp = new QualityItemResp();
+				resp.setId(item.getId());
+				resp.setCode(item.getCode());
+				resp.setName(item.getName());
+				resps.add(resp);
+			}
 		}
+		rs = Result.getSuccessResult();
+		rs.setData(resps);
 		return rs;
 	}
 
 	@Override
+	@Transactional
 	public Result updateBatch(QualitySchemeItemReq req) throws Exception {
 		Result rs = Result.getErrorResult();
 		if(req!=null){
 			List<QualitySchemeItemReq> list = getListReq(req);
-			int num = 0;
 			//集合类型转换
+			rs = Result.getSuccessResult();
 			for(QualitySchemeItemReq item : list){
 				QualitySchemeItem obj = new QualitySchemeItem();
 				//类型转换
 				PropertyUtils.copyProperties(obj, item);
+				//设置为已初始化状态
 				obj.setStatus("1");
 				obj.setModifier(req.getUser());
 				obj.setModifytime(System.currentTimeMillis());
 				obj.setUtc(System.currentTimeMillis());
-				num+=qualitySchemeItemMapper.updateByPrimaryKeySelective(obj);
-			}
-			if(num==list.size()){
-				rs = Result.getSuccessResult();
-			}else{
-				rs.setErrorCode(ErrorCode.OPERATE_ERROR);
+				//更新数据到数据库
+				int index = qualitySchemeItemMapper.updateByPrimaryKeySelective(obj);
+				if(index<=0){
+					rs.setErrorCode(ErrorCode.OPERATE_ERROR);
+				}
 			}
 		}
 		return rs;

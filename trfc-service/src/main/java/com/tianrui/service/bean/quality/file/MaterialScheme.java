@@ -22,7 +22,7 @@ public class MaterialScheme {
      */
     private String strength;
     /**
-     * 混合料品�?
+     * 混合料品�??
      */
     private String admixture;
     /**
@@ -34,11 +34,11 @@ public class MaterialScheme {
      */
     private String gypsum;
     /**
-     * 石膏掺加�?
+     * 石膏掺加�??
      */
     private String gypsumadd;
     /**
-     * 助磨剂品�?
+     * 助磨剂品�??
      */
     private String aid;
     /**
@@ -50,7 +50,7 @@ public class MaterialScheme {
      */
     private String shows;
     /**
-     * 有效�?(0:有效,1:无效)
+     * 有效�??(0:有效,1:无效)
      */
     private String invalid;
     /**
@@ -58,7 +58,11 @@ public class MaterialScheme {
      */
     private String verdict;
     /**
-     * 创建�?
+     * 状态(0:删除,1:正常)
+     */
+    private String state;
+    /**
+     * 创建�??
      */
     private String creator;
     /**
@@ -66,7 +70,7 @@ public class MaterialScheme {
      */
     private Long createtime;
     /**
-     * 修改�?
+     * 修改�??
      */
     private String modifier;
     /**
@@ -74,7 +78,7 @@ public class MaterialScheme {
      */
     private Long modifytime;
     /**
-     * 数据同步时间�?
+     * 数据同步时间�??
      */
     private Long utc;
 
@@ -165,9 +169,6 @@ public class MaterialScheme {
     public void setInvalid(String invalid) {
         this.invalid = invalid == null ? null : invalid.trim();
     }
-
- 
-
 	public String getVerdict() {
         return verdict;
     }
@@ -222,5 +223,13 @@ public class MaterialScheme {
 
 	public void setShows(String shows) {
 		this.shows = shows;
+	}
+
+	public String getState() {
+		return state;
+	}
+
+	public void setState(String state) {
+		this.state = state;
 	}
 }

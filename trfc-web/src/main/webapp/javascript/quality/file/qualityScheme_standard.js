@@ -53,11 +53,11 @@ $(function(){
 					var invlid = obj.invlid;
 					var tr = '<tr>'
                        +' <td>'+(i+1)+'</td>'
-                       +' <td>'+DATA.schemeobj.name+'</td>'
-                       +' <td>'+obj.materialname+'</td>'
-                       +' <td>'+obj.itemcode+'</td>'
-                       +' <td>'+obj.itemname+'</td>'
-                       +' <td>'+obj.units+'</td>'
+                       +' <td>'+(DATA.schemeobj.name || '')+'</td>'
+                       +' <td>'+(obj.materialname || '')+'</td>'
+                       +' <td>'+(obj.itemcode || '')+'</td>'
+                       +' <td>'+(obj.itemname || '')+'</td>'
+                       +' <td>'+(obj.units || '')+'</td>'
                        +' <td><select class="comparison form-control" style="width:100px;"></select></td>'
                        +' <td><input type="text" class="w80" ></td>'
                        +' <td><select class="comparison form-control" style="width:100px;"></select></td>'
@@ -365,9 +365,11 @@ $(function(){
 		}
 	}
 
+	//获取id
 	function getSchemeId(){
+		//获取地址栏数据
 		var href = window.location.href;
-		//获取id
+		//将字符串拆分
 		var strs = href.split('id=');
 		return strs[1];
 		

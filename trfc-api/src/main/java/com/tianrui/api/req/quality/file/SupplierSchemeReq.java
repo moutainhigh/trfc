@@ -66,6 +66,10 @@ public class SupplierSchemeReq extends BaseReq {
 		 */
 	    private String remark;
 	    /**
+	     * 项目详细
+	     */
+	    private String detail;
+	    /**
 	     * 用户id
 	     */
 	    private String user;
@@ -77,6 +81,10 @@ public class SupplierSchemeReq extends BaseReq {
 	     * 分页查询开始位置
 	     */
 	    private int start;
+	    /**
+	     * 状态(0:删除,1:正常)
+	     */
+	    private String state;
 	    /**
 	     * 分页查询数据量
 	     */
@@ -188,6 +196,18 @@ public class SupplierSchemeReq extends BaseReq {
 		}
 		public void setCreatetime(Long createtime) {
 			this.createtime = createtime;
+		}
+		public String getDetail() {
+			return detail;
+		}
+		public void setDetail(String detail) {
+			this.detail = detail;
+		}
+		public String getState() {
+			return state;
+		}
+		public void setState(String state) {
+			this.state = state;
 		}
 	    
 	    

@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.tianrui.api.intf.basicFile.measure.IDriverManageService;
+import com.tianrui.api.intf.basicFile.measure.IVehicleManageService;
 import com.tianrui.api.intf.businessManage.purchaseManage.IPurchaseApplicationDetailService;
 import com.tianrui.api.intf.businessManage.purchaseManage.IPurchaseApplicationService;
 import com.tianrui.api.intf.businessManage.purchaseManage.IPurchaseArriveService;
@@ -18,6 +20,8 @@ import com.tianrui.api.intf.system.base.ISystemCodeService;
 import com.tianrui.api.req.businessManage.purchaseManage.PurchaseArriveQuery;
 import com.tianrui.api.req.businessManage.purchaseManage.PurchaseArriveSave;
 import com.tianrui.api.req.system.base.GetCodeReq;
+import com.tianrui.api.resp.basicFile.measure.DriverManageResp;
+import com.tianrui.api.resp.basicFile.measure.VehicleManageResp;
 import com.tianrui.api.resp.businessManage.purchaseManage.PurchaseApplicationDetailResp;
 import com.tianrui.api.resp.businessManage.purchaseManage.PurchaseApplicationResp;
 import com.tianrui.api.resp.businessManage.purchaseManage.PurchaseArriveResp;
@@ -45,6 +49,10 @@ public class PurchaseArriveService implements IPurchaseArriveService {
 	private ISystemUserService systemUserService;
 	@Autowired
 	private ISystemCodeService systemCodeService;
+	@Autowired
+	private IVehicleManageService vehicleManageService;
+	@Autowired
+	private IDriverManageService driverManageService;
 	
 	@Override
 	public PaginationVO<PurchaseArriveResp> page(PurchaseArriveQuery query) throws Exception{
@@ -104,6 +112,16 @@ public class PurchaseArriveService implements IPurchaseArriveService {
 				result.setErrorCode(ErrorCode.PARAM_REPEAT_ERROR);
 				result.setError("此司机己有提货通知单、待出厂后进行派车，现有车辆业务单据号为:"+listDriver1.get(0).getCode()+"，如有疑问请与销售处联系！");
 				return result;
+			}
+			VehicleManageResp vehicle = vehicleManageService.findOne(save.getVehicleid());
+			if(vehicle != null){
+				pa.setVehicleno(vehicle.getVehicleno());
+				pa.setVehiclerfid(vehicle.getRfid());
+			}
+			DriverManageResp driver = driverManageService.findOne(save.getDriverid());
+			if(driver != null){
+				pa.setDrivername(driver.getName());
+				pa.setDriveridentityno(driver.getIdentityno());
 			}
 			PropertyUtils.copyProperties(pa, save);
 			pa.setId(UUIDUtil.getId());
