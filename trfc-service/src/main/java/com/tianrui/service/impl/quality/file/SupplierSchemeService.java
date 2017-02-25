@@ -58,6 +58,7 @@ public class SupplierSchemeService implements ISupplierSchemeService{
 		if(req!=null && StringUtils.isNotBlank(req.getId())){
 			SupplierScheme scheme = new SupplierScheme();
 			scheme.setId(req.getId());
+			//设置为删除状态
 			scheme.setState("0");
 			//删除数据库中对应的数据
 			int index = supplierSchemeMapper.updateByPrimaryKeySelective(scheme);
@@ -77,18 +78,26 @@ public class SupplierSchemeService implements ISupplierSchemeService{
 		Result rs = Result.getParamErrorResult();
 		//判断参数和id不能为空
 		if(req!=null && StringUtils.isNotBlank(req.getId())){
+			//将参数转换为SupplierScheme类型
 			SupplierScheme ss = new SupplierScheme();
 			PropertyUtils.copyProperties(ss, req);
+			//设置修改者,修改时间及数据同步时间戳
 			ss.setModifier(req.getUser());
 			ss.setModifytime(System.currentTimeMillis());
 			ss.setUtc(System.currentTimeMillis());
+			//更新数据到数据库
 			int index = supplierSchemeMapper.updateByPrimaryKeySelective(ss);
+			//判断操作是否成功
 			if(index>0){
 				rs = Result.getSuccessResult();
+				//判断详细数据 存在,则把数据更新到数据哭
 				if(StringUtils.isNotBlank(req.getDetail())){
+					//将json字符串转换为对象集合
 					List<QualitySchemeItem> list = getListReq(req);
 					for(QualitySchemeItem item : list){
+						//遍历集合,将数据更新到数据库
 						int num = qualitySchemeItemMapper.updateByPrimaryKeySelective(item);
+						//判断操作是否成功
 						if(num<=0){
 							rs.setErrorCode(ErrorCode.OPERATE_ERROR);
 						}
@@ -120,15 +129,19 @@ public class SupplierSchemeService implements ISupplierSchemeService{
 			ss.setModifytime(System.currentTimeMillis());
 			//设置数据同步时间戳
 			ss.setUtc(System.currentTimeMillis());
+			//默认为1(正常状态)
 			ss.setState("1");
 			//保存数据到数据库
 			int index = supplierSchemeMapper.insertSelective(ss);
 			//判断操作是否成功
 			if(index>0){
 				rs = Result.getSuccessResult();
+				//判断详细数据 存在,则把数据更新到数据哭
 				if(StringUtils.isNotBlank(req.getDetail())){
+					//将json字符串转换为对象集合
 					List<QualitySchemeItem> list = getListReq(req);
 					for(QualitySchemeItem item : list){
+						//遍历集合,将数据更新到数据库
 						int num = qualitySchemeItemMapper.updateByPrimaryKeySelective(item);
 						if(num<=0){
 							rs.setErrorCode(ErrorCode.OPERATE_ERROR);
@@ -152,9 +165,11 @@ public class SupplierSchemeService implements ISupplierSchemeService{
 		for(int i=0;i<json.size();i++){
 			//json对象转换为java对象
 			QualitySchemeItem s = JSONArray.toJavaObject(json.getJSONObject(i), QualitySchemeItem.class);
+			//设置修改信息
 			s.setModifier(req.getUser());
 			s.setModifytime(System.currentTimeMillis());
 			s.setUtc(System.currentTimeMillis());
+			//将对象放入集合
 			list.add(s);
 		}
 		return list;
@@ -166,6 +181,7 @@ public class SupplierSchemeService implements ISupplierSchemeService{
 		Result rs = Result.getParamErrorResult();
 		//判断参数不能为空
 		if(req!=null){
+			//设置为1(正常状态)
 			req.setState("1");
 			PaginationVO<SupplierSchemeResp> page = new PaginationVO<SupplierSchemeResp>();
 			int pageNo = req.getPageNo();
@@ -289,6 +305,7 @@ public class SupplierSchemeService implements ISupplierSchemeService{
 			//判断参数和id不能为空
 			if(req!=null && StringUtils.isNotBlank(req.getId())){
 				SupplierScheme scheme = new SupplierScheme();
+				//默认为1(正常状态)
 				req.setState("1");
 				scheme = supplierSchemeMapper.selectOne(req);
 				if(scheme!=null){

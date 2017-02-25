@@ -105,9 +105,6 @@ function fillSupplierSelect(list){
 		for(var i=0;i<list.length;i++){
 			var obj = list[i];
 			var msg = obj.name;
-			if(obj.spec){
-				msg = obj.name + '（'+obj.spec+'）';
-			}
 			var option = '<option value='+obj.id+'>'+msg+'</option>';
 			//追加数据
 			selecter.append(option);

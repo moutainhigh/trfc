@@ -4,6 +4,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>供应商标准方案</title>
+<link href="${staticBasePath}/css/select2.css" rel="stylesheet">
 <jsp:include page="../../common/base/header_busi.jsp"></jsp:include>
 
 </head>
@@ -43,13 +44,13 @@
 							<div class="intel_sline">
 								<div class="intel_solo">
 									<label>开始时间：</label> <input type="text"
-										onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})"
-										class="Wdate" style="width: 160px" id="seek_starttime" />
+										onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})" class="Wdate"
+										style="width: 160px" id="seek_starttime" />
 								</div>
 								<div class="intel_solo">
 									<label>结束时间：</label> <input type="text"
-										onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})"
-										class="Wdate" style="width: 160px" id="seek_endtime" />
+										onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})" class="Wdate"
+										style="width: 160px" id="seek_endtime" />
 								</div>
 								<div class="intel_solo">
 									<label>物料：</label> <select id="seek_material"
@@ -238,9 +239,11 @@
 
 		<!-- 引用公共footer部分 -->
 		<jsp:include page="../../common/base/footer_busi.jsp"></jsp:include>
+		<script type="text/javascript" src="/resources/js/select2.js"></script>
 		<script type="text/javascript"
 			src="/javascript/quality/file/supplierScheme_common.js"></script>
 		<script type="text/javascript"
 			src="/javascript/quality/file/supplierScheme.js"></script>
+	</div>
 </body>
 </html>

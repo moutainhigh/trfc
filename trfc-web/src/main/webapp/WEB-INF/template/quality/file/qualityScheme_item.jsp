@@ -260,7 +260,7 @@
 						<div class="alt_edit">
 							<div class="alt_onerow_div">
 								<input type="hidden" id="edit_id"> <label>方案：</label> <input
-									type="text" readonly="true" value="11" id="edit_name">
+									type="text" readonly="readonly" value="11" id="edit_name">
 							</div>
 							<div class="alt_edit_div">
 								<label>项目名称：</label>
@@ -270,7 +270,7 @@
 								</div>
 							</div>
 							<div class="alt_onerow_div">
-								<label>类型：</label> <input type="text" readonly="true"
+								<label>类型：</label> <input type="text" readonly="readonly"
 									id="edit_schemetype">
 							</div>
 							<div class="alt_onerow_div">
@@ -297,6 +297,6 @@
 		<script type="text/javascript" src="/resources/js/select2.js"></script>
 		<script type="text/javascript"
 			src="/javascript/quality/file/qualityScheme_item.js"></script>
-		</script>
+	</div>
 </body>
 </html>

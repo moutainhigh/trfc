@@ -4,6 +4,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>供应商标准方案-新增</title>
+<link href="${staticBasePath}/css/select2.css" rel="stylesheet">
 <jsp:include page="../../common/base/header_busi.jsp"></jsp:include>
 
 </head>
@@ -161,10 +162,11 @@
 		</div>
 
 	</div>
-	</div>
+	
 
 	<!-- 引用公共footer部分 -->
 	<jsp:include page="../../common/base/footer_busi.jsp"></jsp:include>
+	<script type="text/javascript" src="/resources/js/select2.js"></script>
 	<script type="text/javascript"
 		src="/javascript/quality/file/supplierScheme_common.js"></script>
 	<script type="text/javascript"

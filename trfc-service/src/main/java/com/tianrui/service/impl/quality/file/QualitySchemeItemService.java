@@ -15,6 +15,7 @@ import com.tianrui.api.intf.quality.file.IQualitySchemeItemService;
 import com.tianrui.api.req.quality.file.QualityItemReq;
 import com.tianrui.api.req.quality.file.QualitySchemeItemReq;
 import com.tianrui.api.req.quality.file.QualitySchemeReq;
+import com.tianrui.api.resp.quality.file.QualityItemResp;
 import com.tianrui.api.resp.quality.file.QualitySchemeItemResp;
 import com.tianrui.service.bean.basicFile.nc.MaterielManage;
 import com.tianrui.service.bean.quality.file.QualityItem;
@@ -53,7 +54,7 @@ public class QualitySchemeItemService implements IQualitySchemeItemService {
 			item.setId(req.getId());
 			//设置为删除状态
 			item.setState("0");
-			//删除数据库中的数据
+			//更新到数据库
 			int index = qualitySchemeItemMapper.updateByPrimaryKeySelective(item);
 			//判断操作是否成功
 			if(index>0){
@@ -130,7 +131,7 @@ public class QualitySchemeItemService implements IQualitySchemeItemService {
 				PropertyUtils.copyProperties(obj, req);
 				//获取ID
 				obj.setId(UUIDUtil.getId());
-				//获取单据编号
+				//将公共信息赋值给对象
 				obj.setInvalid(qsiReq.getInvalid());
 				obj.setCreator(qsiReq.getUser());
 				obj.setCreatetime(System.currentTimeMillis());
@@ -220,7 +221,9 @@ public class QualitySchemeItemService implements IQualitySchemeItemService {
 					QualitySchemeReq schemeReq = new QualitySchemeReq();
 					schemeReq.setId(q.getSchemeid());
 					schemeReq.setState("1");
+					//获取质检方案对象
 					QualityScheme qs = qualitySchemeMapper.selectOne(schemeReq);
+					//在该对象不会空的情况下,通过id获取物料的名称
 					if(qs!=null){
 						MaterielManage manage = materielManageMapper.selectByPrimaryKey(qs.getMaterialid());
 						if(manage!=null){
@@ -253,12 +256,21 @@ public class QualitySchemeItemService implements IQualitySchemeItemService {
 	public Result itemData() throws Exception {
 		Result rs = Result.getErrorResult();
 		QualityItemReq req = new QualityItemReq();
+		//查询正常状态的数据
 		req.setState("1");
 		List<QualityItem> list = qualityItemMapper.page(req);
-		if(list==null){
-			rs = Result.getSuccessResult();
-			rs.setData(list);
+		List<QualityItemResp> resps = new ArrayList<QualityItemResp>();
+		if(list!=null){
+			for(QualityItem item : list){
+				QualityItemResp resp = new QualityItemResp();
+				resp.setId(item.getId());
+				resp.setCode(item.getCode());
+				resp.setName(item.getName());
+				resps.add(resp);
+			}
 		}
+		rs = Result.getSuccessResult();
+		rs.setData(resps);
 		return rs;
 	}
 
@@ -274,10 +286,12 @@ public class QualitySchemeItemService implements IQualitySchemeItemService {
 				QualitySchemeItem obj = new QualitySchemeItem();
 				//类型转换
 				PropertyUtils.copyProperties(obj, item);
+				//设置为已初始化状态
 				obj.setStatus("1");
 				obj.setModifier(req.getUser());
 				obj.setModifytime(System.currentTimeMillis());
 				obj.setUtc(System.currentTimeMillis());
+				//更新数据到数据库
 				int index = qualitySchemeItemMapper.updateByPrimaryKeySelective(obj);
 				if(index<=0){
 					rs.setErrorCode(ErrorCode.OPERATE_ERROR);

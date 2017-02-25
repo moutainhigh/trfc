@@ -11,8 +11,11 @@ $(function(){
 			standardUrl:"/trfc/quality/sales/file/qualityScheme/standard"
 	};
 	var TYPE = {0:'采购项目',1:'销售项目'};
+	//设置一个公共变量
 	var editOD = {};
+	//获取方案id
 	var schemeid = getId();
+	//初始化页面
 	initPage();
 	
 	
@@ -48,6 +51,7 @@ $(function(){
 					if(result.code=='000000'){
 						//加载列表
 						ShowAction(1);
+						//关闭新增模块
 						$("#addBatch_cancel").click();
 					}else{
 						layer.msg(result.error,{icon:5});
@@ -76,11 +80,14 @@ $(function(){
            +'</tr>';
 		//将tr追加到tbody中
 		tbody.append(tr);
+		//获取下拉框的JQuary对象
 		var sel = $('#addBatch_list').find('select:last');
+		//在下拉框中加载数据
 		fillContent(sel,editOD.selectData);
 		sel.select2({ placeholder: "请选择",
 			allowClear: false
 	});
+		//绑定监听事件
 		sel.change(function(){addTR(index+1)});
 	}
 	
@@ -104,14 +111,7 @@ $(function(){
 		});
 
 	}
-	//
-	function subval(){
-		var option = $('#add_item option:selected');
-		var msg = option.html();
-		var index = msg.indexOf('|');
-		option.html(msg.substr(msg.length-index));
-		itemSelect();
-	}
+	
 	//初始化批量新增数据
 	function initAddBatchData(){
 

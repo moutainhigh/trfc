@@ -1,6 +1,7 @@
 $(function(){
-
+	//获取id
 	var id = getID();
+	//加载原数据
 	getOldData();
 	//刷新
 	$('#fresh').click(function(){window.location.reload()});
@@ -12,12 +13,15 @@ $(function(){
 
 	//获取id
 	function getID(){
+		//获取地址栏数据
 		var href = window.location.href;
+		//将字符串拆分
 		var trs = href.split('?id=');
 		return trs[1];
 	}
 	//保存数据
 	function saveAction(){
+		//获取数据
 		var param = editData();
 		if(param){
 			//保存数据到服务器
@@ -46,6 +50,7 @@ $(function(){
 		var mean = $('#edit_mean').val();
 		var deduct = $('#edit_deduct').val();
 		var invalid = '1';
+		//判断是否已勾选
 		if($('#edit_invalid').prop('checked')){
 			invalid = '0';
 		}
@@ -81,6 +86,7 @@ $(function(){
 	function getOldData(){
 		$.post(URL.selectByIdUrl,{id:id},function(result){
 			if('000000'==result.code){
+				//填充数据
 				initEdit(result.data);
 			}else{
 				layer.msg(result.error,{icon:5});
@@ -100,11 +106,11 @@ $(function(){
 		$('#edit_name').val(data.name);
 		//等待供应商下拉框加载完成,执行为下拉框赋值
 		$.when($supSelect).done(function(){
-			$('#edit_supplier').val(data.supplierid);
+			$('#edit_supplier').val(data.supplierid).select2();
 		});
 		//等待物料下拉框加载完成,执行 为下拉框赋值并加载项目下拉框
 		$.when($materSelect).done(function(){
-			$('#edit_material').val(data.materialid);
+			$('#edit_material').val(data.materialid).select2();
 			//加载项目下拉框,并附值
 			schemeSelect(data.schemeid);
 		});
@@ -121,8 +127,16 @@ $(function(){
 		$('#edit_createtime').val(createtime);
 		var user = data.creator;
 		$('#edit_creator').val(user);
-
-
+		//为checkbox赋值
+		$('#edit_invalid')[0].checked=true;
+		if('1'==data.invalid){
+			$('#edit_invalid')[0].checked=false;
+		}
+		$('#edit_ref')[0].checked=true;
+		if('1'==data.ref){
+			$('#edit_ref')[0].checked=false;
+		}
+		
 	}
 
 
@@ -137,7 +151,7 @@ $(function(){
 					//填充数据
 					fillSchemeSelect(result.data);
 					if(id){
-						$('#edit_scheme').val(id);
+						$('#edit_scheme').val(id).select2();
 						getDetailData();
 					}
 				}else{
@@ -168,13 +182,15 @@ $(function(){
 	function getDetailData(){
 		var schemeid=$('#edit_scheme').val();
 		if(schemeid){
+			//如果质检方案id不为空,这去数据库查询数据
 			var param = {
 					schemeid:schemeid,
-					invalid:'0',
-					status:'1'
+					invalid:'0',//设置为有效
+					status:'1'//设置为1(已初始化)
 			};
 			$.post(URL.getDetailUrl,param,function(result){
 				if('000000'==result.code){
+					//成功后,展示数据
 					showDetailData(result.data);
 				}else{
 					layer.msg(result.error,{icon:5});
@@ -214,6 +230,7 @@ $(function(){
 				tbody.append(tr);
 				//将数据绑定到tr上
 				tr.data('obj',obj);
+				//加载下拉框,并赋值
 				loadSymbol(tr.find('select'));
 				tr.find('td select').eq(0).val(obj.comparison2);
 				tr.find('td select').eq(1).val(obj.comparison3);
@@ -223,8 +240,10 @@ $(function(){
 
 	//获取详细数据
 	function getDetail(){
+		//获取trs
 		var trs = $('#edit_detail tr');
 		var arr = new Array();
+		//遍历trs
 		for(var i=0;i<trs.length;i++){
 			var obj = trs.eq(i).data('obj');
 			var inputs = trs.eq(i).find('input');

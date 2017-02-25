@@ -1,8 +1,11 @@
 $(function(){
 	//加载列表
 	ShowAction(1);
+	//加载下拉框
 	supplierSelect();
 	materialSelect();
+	$(".supplierSelect").select2();
+	$(".materialSelect").select2();
 	$('#list').on("click","tr",showDetail);
 	//绑定刷新按钮
 	$('#fresh').click(function(){ShowAction(1);});
@@ -30,6 +33,7 @@ $(function(){
 
 	//删除数据
 	function deleteAction(event){
+		//停止事件冒泡
 		event.stopPropagation();
 		//获取id
 		var id = $(this).closest('tr').data('obj').id;
@@ -46,6 +50,7 @@ $(function(){
 		});
 	}
 	function submitDelete(id){
+		//提交删除数据
 		$.post(URL.deleteUrl,{id:id},function(result){
 			if(result.code=='000000'){
 				//重新加载当前页面
@@ -94,6 +99,7 @@ $(function(){
 		}
 		var endtime = new Date($('#seek_endtime').val());
 		endtime=endtime.getTime();
+		//判断是否为NaN
 		if(isNaN(endtime)){
 			endtime=null;
 		}
@@ -101,7 +107,7 @@ $(function(){
 		var supplierid = $('#seek_supplier').val();
 		var code = $('#seek_code').val();
 		var invalid = $('#seek_invalid').val();
-		
+		//放入params对象
 		var params = {
 				pageSize:pageSize,
 				starttime:starttime,
@@ -135,6 +141,7 @@ $(function(){
 					maxentries:total,
 					link_to:"javascript:void(0)"
 				});
+				//如果数据不为空,则展示数据
 				if(list){
 					showPageData(list,pageSize,pageNo);
 				}

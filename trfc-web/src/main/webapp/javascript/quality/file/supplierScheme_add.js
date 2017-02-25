@@ -1,17 +1,17 @@
 $(function(){
-	
+
 	//刷新
 	$('#fresh').click(function(){window.location.reload()});
 	//保存
 	$('#save').click(saveAction);
 	//返回
 	$('#goBack').click(function(){window.location.replace(URL.mainUrl)});
+	//初始化 新增页面
 	initAdd();
-	
+
 	//保存数据
 	function saveAction(){
 		var param = addData();
-		getDetail();
 		if(param){
 			//保存数据到服务器
 			$.post(URL.saveUrl,param,function(result){
@@ -71,11 +71,14 @@ $(function(){
 		};
 		return param;
 	}
-	
+
 	//初始化新增页面
 	function initAdd(){
 		supplierSelect();
 		materialSelect();
+		$('#add_supplier').select2();
+		$("#add_material").select2();
+		$("#add_scheme").select2();
 		//设置编码代号为FA
 		var code = 'SF';
 		//设置类型为编码
@@ -103,13 +106,13 @@ $(function(){
 		$('#add_createtime').val(createtime);
 		var user = $('.user').find('label').html();
 		$('#add_creator').val(user);
-		
+
 		//绑定物料下拉框监听事件,当物料发生改变,获取对应的质检方案
 		$('#add_material').change(schemeSelect);
 		//绑定质检方案下拉框监听事件,当发生改变,获取方案详细
 		$('#add_scheme').change(getDetailData);
 	}
-	
+
 	//添加成功后,刷新标号(增1)
 	function updateCode(){
 		//设置编码代号
@@ -131,11 +134,11 @@ $(function(){
 			}
 		});
 	}
-	
-	
+
+
 	//获取下拉框数据并填充
 	function schemeSelect(){
-		
+
 		//获取数据
 		var materialid = $('#add_material').val();
 		$selector = $.post(URL.getSchemeUrl,{invalid:"0",materialid:materialid},function(result){
@@ -167,28 +170,34 @@ $(function(){
 	}
 	//获取质检方案详细
 	function getDetailData(){
+		//获取方案id
 		var schemeid=$('#add_scheme').val();
-		var param = {
-				schemeid:schemeid,
-				invalid:'0',
-				status:'1'
-		};
-		$.post(URL.getDetailUrl,param,function(result){
-			if('000000'==result.code){
-				showDetailData(result.data);
-			}else{
-				layer.msg(result.error,{icon:5});
-			}
-		});
+		//判断是否为空
+		if(schemeid){
+			var param = {
+					schemeid:schemeid,
+					invalid:'0',
+					status:'1'
+			};
+			//查询数据
+			$.post(URL.getDetailUrl,param,function(result){
+				if('000000'==result.code){
+					//展示数据
+					showDetailData(result.data);
+				}else{
+					layer.msg(result.error,{icon:5});
+				}
+			});
+		}
 	}
-	
-	//加载运算符拉框框
+
+//	加载运算符拉框框
 	function loadSymbol($obj){
 		var options = '<option></option><option value="1">小于</option><option value="3">'
 			+'小于等于</option><option value="0">大于</option><option value="2">大于等于</option><option value="4">等于</option>';
 		$obj.html(options);
 	}
-	//展示详细列表
+//	展示详细列表
 	function showDetailData(list){
 		var tbody = $('#add_detail').empty();
 		if(list){
@@ -211,14 +220,15 @@ $(function(){
 				tbody.append(tr);
 				//将数据绑定到tr上
 				tr.data('obj',obj);
+				//加载下拉框并赋值
 				loadSymbol(tr.find('select'));
 				tr.find('td select').eq(0).val(obj.comparison2);
 				tr.find('td select').eq(1).val(obj.comparison3);
 			}
 		}
 	}
-	
-	//获取详细数据
+
+//	获取详细数据
 	function getDetail(){
 		var trs = $('#add_detail tr');
 		var arr = new Array();
@@ -253,7 +263,7 @@ $(function(){
 		//将数组转化为json字符串并返回
 		return JSON.stringify(arr);
 	}
-	//对比两个对象 如果相同则返回true
+//	对比两个对象 如果相同则返回true
 	function contrast(obj1,obj2){
 		if(obj1.id==obj2.id &&
 				obj1.comparison2==obj2.comparison2 &&
