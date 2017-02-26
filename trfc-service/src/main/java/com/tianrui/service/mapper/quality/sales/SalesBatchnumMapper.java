@@ -1,9 +1,9 @@
-package com.tianrui.service.mapper.quality.sales.batchnum;
+package com.tianrui.service.mapper.quality.sales;
 
 import java.util.List;
 
-import com.tianrui.api.req.quality.sales.batchnum.SalesBatchnumReq;
-import com.tianrui.service.bean.quality.sales.batchnum.SalesBatchnum;
+import com.tianrui.api.req.quality.sales.SalesBatchnumReq;
+import com.tianrui.service.bean.quality.sales.SalesBatchnum;
 
 public interface SalesBatchnumMapper {
 

@@ -1,4 +1,4 @@
-package com.tianrui.service.bean.quality.sales.batchnum;
+package com.tianrui.service.bean.quality.sales;
 /**
  * 销售批号维护
  * @author lxy

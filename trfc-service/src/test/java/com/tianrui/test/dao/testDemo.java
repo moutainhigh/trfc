@@ -6,7 +6,7 @@ import java.util.Calendar;
 import java.util.List;
 
 import com.alibaba.fastjson.JSONArray;
-import com.tianrui.api.req.quality.sales.batchnum.SalesBatchnumReq;
+import com.tianrui.api.req.quality.sales.SalesBatchnumReq;
 
 public class testDemo {
 	public static void main(String[] args) {

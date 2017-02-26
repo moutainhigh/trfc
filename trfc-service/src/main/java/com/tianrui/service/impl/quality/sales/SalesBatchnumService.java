@@ -1,4 +1,4 @@
-package com.tianrui.service.impl.quality.sales.batchnum;
+package com.tianrui.service.impl.quality.sales;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,16 +11,16 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.alibaba.fastjson.JSONArray;
-import com.tianrui.api.intf.quality.sales.batchnum.ISalesBatchnumService;
-import com.tianrui.api.req.quality.sales.batchnum.SalesBatchnumReq;
+import com.tianrui.api.intf.quality.sales.ISalesBatchnumService;
+import com.tianrui.api.req.quality.sales.SalesBatchnumReq;
 import com.tianrui.api.req.system.auth.SystemUserQueryReq;
-import com.tianrui.api.resp.quality.sales.batchnum.SalesBatchnumResp;
+import com.tianrui.api.resp.quality.sales.SalesBatchnumResp;
 import com.tianrui.api.resp.system.auth.SystemRoleResp;
 import com.tianrui.service.bean.basicFile.nc.MaterielManage;
-import com.tianrui.service.bean.quality.sales.batchnum.SalesBatchnum;
+import com.tianrui.service.bean.quality.sales.SalesBatchnum;
 import com.tianrui.service.bean.system.auth.SystemUser;
 import com.tianrui.service.mapper.basicFile.nc.MaterielManageMapper;
-import com.tianrui.service.mapper.quality.sales.batchnum.SalesBatchnumMapper;
+import com.tianrui.service.mapper.quality.sales.SalesBatchnumMapper;
 import com.tianrui.service.mapper.system.auth.SystemUserMapper;
 import com.tianrui.smartfactory.common.constants.ErrorCode;
 import com.tianrui.smartfactory.common.utils.UUIDUtil;

@@ -1,4 +1,4 @@
-package com.tianrui.api.req.quality.sales.batchnum;
+package com.tianrui.api.req.quality.sales;
 
 import com.tianrui.api.req.BaseReq;
 
