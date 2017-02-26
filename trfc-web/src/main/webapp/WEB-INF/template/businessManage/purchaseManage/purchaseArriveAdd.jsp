@@ -276,7 +276,7 @@
 
 						</div>
 						<div class="alt_edit_div">
-							<label>车辆号码：</label> <input id="v_vehicleno" type="text" placeholder="请输入车牌号码">
+							<label class="colorred">*车辆号码：</label> <input id="v_vehicleno" type="text" placeholder="请输入车牌号码">
 						</div>
 						<div class="alt_edit_div">
 							<label>车辆类型：</label> <input id="v_vehicletype" type="text" placeholder="请输入车辆类型">
@@ -360,7 +360,7 @@
 						</div>
 						<div class="alt_edit_div">
 							<label>所属组织：</label> <input id="d_orgname" orgid="${orgid }"
-								value="${orgname }" type="text">
+								value="${orgname }" type="text" readonly="true">
 						</div>
 						<div class="alt_edit_div">
 							<label class="colorred"> *电话：</label> <input id="d_telephone"

@@ -16,8 +16,15 @@
 #updateTabBody td>input {
 	width: 100% !important;
 	height: 40px !important;
+	line-height: 40px !important;
 	border-radius: 0px !important;
 	border: 0px !important;
+	text-align: center;
+}
+
+input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
+	-webkit-appearance: none !important;
+	margin: 0;
 }
 </style>
 </head>
@@ -57,7 +64,7 @@
 									</select>
 								</div>
 								<div class="intel_solo">
-									<label>客户：</label> <input id="s_customer" type="text" readonly
+									<label>客户：</label> <input id="s_customer" type="text"
 										placeholder="请选择客户">
 								</div>
 								<div class="intel_solo">
@@ -201,10 +208,10 @@
 							<div class="alt_edit_div">
 								<label>业务日期：</label> <input id="a_billtimeStr" type="text"
 									onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})"
-									class="Wdate" readonly>
+									class="Wdate" readonly placeholder="请选择日期">
 							</div>
 							<div class="alt_edit_div">
-								<label>客户：</label> <input id="a_customer" type="text" readonly
+								<label>客户：</label> <input id="a_customer" type="text"
 									placeholder="请选择客户" />
 							</div>
 							<div class="alt_edit_div">
@@ -259,11 +266,15 @@
 												placeholder="请选择物料"></td>
 											<td><input id="a_warehouse" type="text"
 												placeholder="请选择仓库"></td>
-											<td><input id="a_salessum" type="text" placeholder="请输入数量"/></td>
-											<td><input id="a_taxprice" type="text" placeholder="请输入含税单价"/></td>
+											<td><input id="a_salessum" type="number"
+												placeholder="请输入数量" /></td>
+											<td><input id="a_taxprice" type="number"
+												placeholder="请输入含税单价" /></td>
 											<td><input id="a_taxpricesum" readonly="true"></td>
-											<td><input id="a_taxrate" type="text" placeholder="请输入税率"/></td>
-											<td><input id="a_untaxprice" type="text" placeholder="请输入不含税单价"></td>
+											<td><input id="a_taxrate" type="number"
+												placeholder="请输入税率" /></td>
+											<td><input id="a_untaxprice" type="number"
+												placeholder="请输入不含税单价"></td>
 											<td><input id="a_untaxpricesum" readonly="true"></td>
 											<td><input id="a_taxratesum" readonly="true"></td>
 										</tr>
@@ -281,6 +292,116 @@
 			</div>
 		</div>
 		<!--新增end-->
+		<!--编辑begin-->
+		<div class="modal fade" id="updateView" tabindex="-1" role="dialog"
+			aria-labelledby="myModalLabel">
+			<div class="modal-dialog" role="document" style="width: 1100px;">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal"
+							aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+						<div class="alt_head">
+							<h5>付款方式编辑</h5>
+						</div>
+					</div>
+					<div class="modal-body">
+						<input id="u_id" type="hidden"> <input id="u_detailid"
+							type="hidden">
+						<div class="alt_edit">
+							<div class="alt_edit_div">
+								<label>订单号：</label> <input id="u_code" type="text"
+									class="readOnlyText" readonly="true">
+							</div>
+							<div class="alt_edit_div">
+								<label>订单类型：</label> <input id="u_billtype" type="text"
+									placeholder="请选择订单类型" />
+							</div>
+							<div class="alt_edit_div">
+								<label>业务日期：</label> <input id="u_billtimeStr" type="text"
+									onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})"
+									class="Wdate" readonly placeholder="请选择日期">
+							</div>
+							<div class="alt_edit_div">
+								<label>客户：</label> <input id="u_customer" type="text">
+							</div>
+							<div class="alt_edit_div">
+								<label>区域：</label> <input id="u_channelcode" type="text"
+									class="readOnlyText" class="readOnlyText" readonly="true">
+							</div>
+							<div class="alt_edit_div">
+								<label>销售组织：</label> <input id="u_orgname" type="text"
+									class="readOnlyText" class="readOnlyText" readonly="true">
+							</div>
+							<div class="alt_edit_div">
+								<label>业务员：</label> <input id="u_salesmanname" type="text"
+									class="readOnlyText" class="readOnlyText" readonly="true">
+							</div>
+							<div class="alt_edit_div">
+								<label>运输公司：</label> <input id="u_transportcompanyname"
+									type="text" class="readOnlyText" class="readOnlyText"
+									readonly="true">
+							</div>
+							<div class="alt_edit_div">
+								<label>制单人：</label> <input id="u_creatorname" type="text"
+									class="readOnlyText" class="readOnlyText" readonly="true">
+							</div>
+						</div>
+						<div class="cg_tabtit">
+							<ul>
+								<li class="select">订单明细</li>
+							</ul>
+						</div>
+						<div class="cg_tabbox">
+							<!--tab切换的内容-->
+							<div class="cg_tabcont">
+								<table class="table table-bordered">
+									<thead>
+										<tr>
+											<th>物料</th>
+											<th>发货仓库</th>
+											<th>数量</th>
+											<th>含税单价</th>
+											<th>价税金额</th>
+											<th>税率</th>
+											<th>不含税单价</th>
+											<th>不含税金额</th>
+											<th>税额</th>
+										</tr>
+									</thead>
+									<tbody id="updateTabBody">
+										<tr>
+											<td><input id="u_materiel" type="text"
+												placeholder="请选择物料"></td>
+											<td><input id="u_warehouse" type="text"
+												placeholder="请选择仓库"></td>
+											<td><input id="u_salessum" type="number"
+												placeholder="请输入数量" /></td>
+											<td><input id="u_taxprice" type="number"
+												placeholder="请输入含税单价" /></td>
+											<td><input id="u_taxpricesum" readonly="true"></td>
+											<td><input id="u_taxrate" type="number"
+												placeholder="请输入税率" /></td>
+											<td><input id="u_untaxprice" type="number"
+												placeholder="请输入不含税单价"></td>
+											<td><input id="u_untaxpricesum" readonly="true"></td>
+											<td><input id="u_taxratesum" readonly="true"></td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+							<!--tab切换的内容end-->
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button id="updateCommitBtn" type="button" class="btn btn-primary">确定</button>
+						<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!--编辑end-->
 		<!--查看详情begin-->
 		<div class="modal fade" id="detailView" tabindex="-1" role="dialog"
 			aria-labelledby="myModalLabel">
@@ -372,127 +493,6 @@
 			</div>
 		</div>
 		<!--查看详情end-->
-		<!--编辑begin-->
-		<div class="modal fade" id="updateView" tabindex="-1" role="dialog"
-			aria-labelledby="myModalLabel">
-			<div class="modal-dialog" role="document" style="width: 1000px;">
-				<div class="modal-content">
-					<div class="modal-header">
-						<button type="button" class="close" data-dismiss="modal"
-							aria-label="Close">
-							<span aria-hidden="true">&times;</span>
-						</button>
-						<div class="alt_head">
-							<h5>付款方式编辑</h5>
-						</div>
-					</div>
-					<div class="modal-body">
-						<input id="u_id" type="hidden"> <input id="u_detailid"
-							type="hidden">
-						<div class="alt_edit">
-							<div class="alt_edit_div">
-								<label>订单号：</label> <input id="u_code" type="text"
-									class="readOnlyText" readonly="true">
-							</div>
-							<div class="alt_edit_div">
-								<label>订单类型：</label> <select id="u_billtype"
-									class="form-control">
-									<c:forEach items="${billType }" var="b">
-										<option value="${b.id }">${b.name }</option>
-									</c:forEach>
-								</select>
-							</div>
-							<div class="alt_edit_div">
-								<label>业务日期：</label> <input id="u_billtimeStr" type="text"
-									onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})"
-									class="Wdate" readonly>
-							</div>
-							<div class="alt_edit_div">
-								<label>客户：</label> <input id="u_customer" type="text" readonly>
-							</div>
-							<div class="alt_edit_div">
-								<label>区域：</label> <input id="u_channelcode" type="text"
-									class="readOnlyText" class="readOnlyText" readonly="true">
-							</div>
-							<div class="alt_edit_div">
-								<label>销售组织：</label> <input id="u_orgname" type="text"
-									class="readOnlyText" class="readOnlyText" readonly="true">
-							</div>
-							<div class="alt_edit_div">
-								<label>业务员：</label> <input id="u_salesmanname" type="text"
-									class="readOnlyText" class="readOnlyText" readonly="true">
-							</div>
-							<div class="alt_edit_div">
-								<label>运输公司：</label> <input id="u_transportcompanyname"
-									type="text" class="readOnlyText" class="readOnlyText"
-									readonly="true">
-							</div>
-							<div class="alt_edit_div">
-								<label>制单人：</label> <input id="u_creatorname" type="text"
-									class="readOnlyText" class="readOnlyText" readonly="true">
-							</div>
-						</div>
-						<div class="cg_tabtit">
-							<ul>
-								<li class="select">订单明细</li>
-							</ul>
-						</div>
-						<div class="cg_tabbox">
-							<!--tab切换的内容-->
-							<div class="cg_tabcont">
-								<table class="table table-bordered">
-									<thead>
-										<tr>
-											<th>物料</th>
-											<th>发货仓库</th>
-											<th>数量</th>
-											<th>含税单价</th>
-											<th>价税金额</th>
-											<th>税率</th>
-											<th>不含税单价</th>
-											<th>不含税金额</th>
-											<th>税额</th>
-										</tr>
-									</thead>
-									<tbody id="updateTabBody">
-										<tr>
-											<td><select id="u_materiel" class="materiel">
-													<option value="">请选择</option>
-													<c:forEach items="${materiel }" var="m">
-														<option value="${m.id }">${m.name }</option>
-													</c:forEach>
-											</select></td>
-											<td><select id="u_warehouse" class="warehouse">
-													<option value="">请选择</option>
-													<c:forEach items="${warehouse }" var="w">
-														<option value="${w.id }">${w.name }</option>
-													</c:forEach>
-											</select></td>
-											<td><input id="u_salessum" style="width: 80px;"></td>
-											<td><input id="u_taxprice" style="width: 80px;"></td>
-											<td><input id="u_taxpricesum" style="width: 80px;"
-												class="readOnlyText" readonly="true"></td>
-											<td><input id="u_taxrate" style="width: 80px;"></td>
-											<td><input id="u_untaxprice" style="width: 80px;"></td>
-											<td><input id="u_untaxpricesum" style="width: 80px;"
-												class="readOnlyText" readonly="true"></td>
-											<td><input id="u_taxratesum" style="width: 80px;"
-												class="readOnlyText" readonly="true"></td>
-										</tr>
-									</tbody>
-								</table>
-							</div>
-							<!--tab切换的内容end-->
-						</div>
-					</div>
-					<div class="modal-footer">
-						<button id="updateCommitBtn" type="button" class="btn btn-primary">确定</button>
-						<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-					</div>
-				</div>
-			</div>
-		</div>
-		<!--编辑end-->
 	</div>
 
 	<jsp:include page="../../common/module/custom_choose.jsp"></jsp:include>

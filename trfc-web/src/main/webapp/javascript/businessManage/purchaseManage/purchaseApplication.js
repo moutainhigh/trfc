@@ -6,8 +6,11 @@
 	};
 	init();
 	function init(){
+		//初始化autocomplete
 		initAutoComplete();
+		//初始化页面按钮绑定事件
 		bindEvent();
+		//初始化页面
 		queryData(1);
 	}
 	function initAutoComplete(){

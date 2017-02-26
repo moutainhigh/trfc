@@ -10,6 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.tianrui.api.intf.basicFile.measure.IDriverManageService;
+import com.tianrui.api.intf.basicFile.measure.IVehicleManageService;
+import com.tianrui.api.intf.businessManage.cardManage.ICardService;
 import com.tianrui.api.intf.businessManage.salesManage.ISalesApplicationService;
 import com.tianrui.api.intf.businessManage.salesManage.ISalesArriveService;
 import com.tianrui.api.intf.system.auth.ISystemUserService;
@@ -19,6 +22,9 @@ import com.tianrui.api.req.businessManage.salesManage.ApiSalesArriveQuery;
 import com.tianrui.api.req.businessManage.salesManage.SalesArriveQuery;
 import com.tianrui.api.req.businessManage.salesManage.SalesArriveSave;
 import com.tianrui.api.req.system.base.GetCodeReq;
+import com.tianrui.api.resp.basicFile.measure.DriverManageResp;
+import com.tianrui.api.resp.basicFile.measure.VehicleManageResp;
+import com.tianrui.api.resp.businessManage.cardManage.CardResp;
 import com.tianrui.api.resp.businessManage.salesManage.ApiDoorQueueResp;
 import com.tianrui.api.resp.businessManage.salesManage.ApiSalesArriveResp;
 import com.tianrui.api.resp.businessManage.salesManage.SalesApplicationDetailResp;
@@ -63,6 +69,12 @@ public class SalesArriveService implements ISalesArriveService {
 	private ISystemCodeService systemCodeService;
 	@Autowired
 	private PurchaseArriveMapper purchaseArriveMapper;
+	@Autowired
+	private IVehicleManageService vehicleManageService;
+	@Autowired
+	private IDriverManageService driverManageService;
+	@Autowired
+	private ICardService cardService;
 	
 	@Override
 	public PaginationVO<SalesArriveResp> page(SalesArriveQuery query) throws Exception {
@@ -90,7 +102,8 @@ public class SalesArriveService implements ISalesArriveService {
 	@Override
 	public Result add(SalesArriveSave save) throws Exception {
 		Result result = Result.getParamErrorResult();
-		if(save != null){
+		if(save != null && StringUtils.isNotBlank(save.getBillid()) 
+				&& StringUtils.isNotBlank(save.getVehicleid())){
 			SalesArrive bean = new SalesArrive();
 			bean.setVehicleid(save.getVehicleid());
 			List<SalesArrive> listVehicle = salesArriveMapper.checkDriverAndVehicleIsUse(bean);
@@ -125,6 +138,27 @@ public class SalesArriveService implements ISalesArriveService {
 			}
 			PropertyUtils.copyProperties(bean, save);
 			bean.setId(UUIDUtil.getId());
+			VehicleManageResp vehicle = vehicleManageService.findOne(save.getVehicleid());
+			if(vehicle != null){
+				bean.setVehicleno(vehicle.getVehicleno());
+				bean.setVehiclerfid(vehicle.getRfid());
+			}
+			DriverManageResp driver = driverManageService.findOne(save.getDriverid());
+			if(driver != null){
+				bean.setDrivername(driver.getName());
+				bean.setDriveridentityno(driver.getIdentityno());
+			}
+			CardResp card = cardService.findOne(save.getIcardid());
+			if(card != null){
+				bean.setIcardno(card.getCardno());
+			}
+			SalesApplicationResp salesApplicationResp = salesApplicationService.findOne(save.getBillid(), true);
+			if(salesApplicationResp != null){
+				bean.setBillcode(salesApplicationResp.getCode());
+				if(salesApplicationResp.getDetailResp() != null){
+					bean.setUnit(salesApplicationResp.getDetailResp().getUnit());
+				}
+			}
 			GetCodeReq codeReq = new GetCodeReq();
 			codeReq.setCode("TH");
 			codeReq.setCodeType(true);
@@ -153,7 +187,8 @@ public class SalesArriveService implements ISalesArriveService {
 	@Override
 	public Result update(SalesArriveSave save) throws Exception {
 		Result result = Result.getParamErrorResult();
-		if(save != null){
+		if(save != null && StringUtils.isNotBlank(save.getBillid()) 
+				&& StringUtils.isNotBlank(save.getVehicleid())){
 			SalesArrive bean = new SalesArrive();
 			bean.setId(save.getId());
 			bean.setVehicleid(save.getVehicleid());
@@ -188,6 +223,27 @@ public class SalesArriveService implements ISalesArriveService {
 				return result;
 			}
 			PropertyUtils.copyProperties(bean, save);
+			VehicleManageResp vehicle = vehicleManageService.findOne(save.getVehicleid());
+			if(vehicle != null){
+				bean.setVehicleno(vehicle.getVehicleno());
+				bean.setVehiclerfid(vehicle.getRfid());
+			}
+			DriverManageResp driver = driverManageService.findOne(save.getDriverid());
+			if(driver != null){
+				bean.setDrivername(driver.getName());
+				bean.setDriveridentityno(driver.getIdentityno());
+			}
+			CardResp card = cardService.findOne(save.getIcardid());
+			if(card != null){
+				bean.setIcardno(card.getCardno());
+			}
+			SalesApplicationResp salesApplicationResp = salesApplicationService.findOne(save.getBillid(), true);
+			if(salesApplicationResp != null){
+				bean.setBillcode(salesApplicationResp.getCode());
+				if(salesApplicationResp.getDetailResp() != null){
+					bean.setUnit(salesApplicationResp.getDetailResp().getUnit());
+				}
+			}
 			bean.setModifier(save.getCurrUId());
 			bean.setModifytime(save.getCreatetime());
 			if(salesArriveMapper.updateByPrimaryKeySelective(bean) > 0){

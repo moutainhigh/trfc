@@ -10,7 +10,8 @@
 			deleteUrl:"/trfc/salesApplication/delete",
 			billTypeAutoCompleteSearch: "/trfc/billType/autoCompleteSearch",
 			materielAutoCompleteSearch: "/trfc/materiel/autoCompleteSearch",
-			warehouseAutoCompleteSearch: "/trfc/materiel/autoCompleteSearch"
+			warehouseAutoCompleteSearch: "/trfc/warehouse/autoCompleteSearch",
+			customerAutoCompleteSearch: "/trfc/customer/autoCompleteSearch"
 	};
 	function str2Long(dateStr){
 		var time = '';
@@ -30,7 +31,7 @@
 	}
 	function initAutoComplete(){
 		var cache = {};
-	    $("#a_billtype").autocomplete({
+	    $("#a_billtype,#u_billtype").autocomplete({
 	    	source: function( request, response ) {
 	    		var term = request.term;
 	    		var billtype = cache['billtype'] || {};
@@ -60,7 +61,7 @@
 	    }).change(function(){
 	    	$(this).val('').removeAttr('billtypeid');
 	    });
-	    $("#a_materiel").autocomplete({
+	    $("#a_materiel,#u_materiel").autocomplete({
 	    	source: function( request, response ) {
 	    		var term = request.term;
 	    		var materiel = cache['materiel'] || {};
@@ -90,7 +91,7 @@
 	    }).change(function(){
 	    	$(this).val('').removeAttr('materielid');
 	    });
-	    $("#a_warehouse").autocomplete({
+	    $("#a_warehouse,#u_warehouse").autocomplete({
 	    	source: function( request, response ) {
 	    		var term = request.term;
 	    		var warehouse = cache['warehouse'] || {};
@@ -119,6 +120,108 @@
 	    	$(this).autocomplete('search',' ');
 	    }).change(function(){
 	    	$(this).val('').removeAttr('warehouseid');
+	    });
+	    $("#s_customer").autocomplete({
+	    	source: function( request, response ) {
+	    		var term = request.term;
+	    		var customer = cache['customer'] || {};
+	    		if ( term in customer ) {
+	    			response( customer[ term ] );
+	    			return;
+	    		}
+	    		$.post( URL.customerAutoCompleteSearch, request, function( data, status, xhr ) {
+	    			customer[ term ] = data;
+	    			response( data );
+	    		});
+	    	},
+	    	response: function( event, ui ) {
+	    		if(ui.content && ui.content.length > 0){
+	    			ui.content.forEach(function(x,i,a){
+	    				x.label = x.name;
+	    				x.value = x.id;
+	    			});
+	    		}
+	    	},
+	    	select: function( event, ui ) {
+	    		$(this).val(ui.item.name).attr('customerid', ui.item.id);
+	    		return false;
+	    	}
+	    }).off('click').on('click',function(){
+	    	$(this).autocomplete('search',' ');
+	    }).change(function(){
+	    	$(this).val('').removeAttr('customerid');
+	    });
+	    $("#a_customer").autocomplete({
+	    	source: function( request, response ) {
+	    		var term = request.term;
+	    		var customer = cache['customer'] || {};
+	    		if ( term in customer ) {
+	    			response( customer[ term ] );
+	    			return;
+	    		}
+	    		$.post( URL.customerAutoCompleteSearch, request, function( data, status, xhr ) {
+	    			customer[ term ] = data;
+	    			response( data );
+	    		});
+	    	},
+	    	response: function( event, ui ) {
+	    		if(ui.content && ui.content.length > 0){
+	    			ui.content.forEach(function(x,i,a){
+	    				x.label = x.name;
+	    				x.value = x.id;
+	    			});
+	    		}
+	    	},
+	    	select: function( event, ui ) {
+	    		$(this).val(ui.item.name).attr('customerid', ui.item.id);
+	    		$('#a_channelcode').val(ui.item.channelcode);
+				$('#a_salesmanname').val(ui.item.salesmanname).attr('salesmanid',ui.item.salesmanid);
+				$('#a_transportcompanyname').val(ui.item.transportcompanyname).attr('transportcompanyid',ui.item.transportcompanyid);
+	    		return false;
+	    	}
+	    }).off('click').on('click',function(){
+	    	$(this).autocomplete('search',' ');
+	    }).change(function(){
+	    	$(this).val('').removeAttr('customerid');
+    		$('#a_channelcode').val('');
+    		$('#a_salesmanname').val('').removeAttr('salesmanid');
+    		$('#a_transportcompanyname').val('').removeAttr('transportcompanyid');
+	    });
+	    $("#u_customer").autocomplete({
+	    	source: function( request, response ) {
+	    		var term = request.term;
+	    		var customer = cache['customer'] || {};
+	    		if ( term in customer ) {
+	    			response( customer[ term ] );
+	    			return;
+	    		}
+	    		$.post( URL.customerAutoCompleteSearch, request, function( data, status, xhr ) {
+	    			customer[ term ] = data;
+	    			response( data );
+	    		});
+	    	},
+	    	response: function( event, ui ) {
+	    		if(ui.content && ui.content.length > 0){
+	    			ui.content.forEach(function(x,i,a){
+	    				x.label = x.name;
+	    				x.value = x.id;
+	    			});
+	    		}
+	    	},
+	    	select: function( event, ui ) {
+	    		$(this).val(ui.item.name).attr('customerid', ui.item.id);
+	    		$('#u_channelcode').val(ui.item.channelcode);
+	    		$('#u_salesmanname').val(ui.item.salesmanname).attr('salesmanid',ui.item.salesmanid);
+	    		$('#u_transportcompanyname').val(ui.item.transportcompanyname).attr('transportcompanyid',ui.item.transportcompanyid);
+	    		return false;
+	    	}
+	    }).off('click').on('click',function(){
+	    	$(this).autocomplete('search',' ');
+	    }).change(function(){
+	    	$(this).val('').removeAttr('customerid');
+    		$('#u_channelcode').val('');
+    		$('#u_salesmanname').val('').removeAttr('salesmanid');
+    		$('#u_transportcompanyname').val('').removeAttr('transportcompanyid');
 	    });
 	}
 	function bindEvent(){
@@ -175,12 +278,11 @@
 				var index = layer.load(2, {
 					  shade: [0.3,'#fff'] //0.1透明度的白色背景
 					});
-				var code = $('#a_code').val();code = $.trim(code);
 				var billtypeid = $('#a_billtype').attr('billtypeid');billtypeid = $.trim(billtypeid);
 				var billtimeStr = $('#a_billtimeStr').val();billtimeStr = $.trim(billtimeStr);
 				var customerid = $('#a_customer').attr('customerid');customerid = $.trim(customerid);
-				var materielid = $('#a_materiel').val();
-				var warehouseid = $('#a_warehouse').val();
+				var materielid = $('#a_materiel').attr('materielid');materielid = $.trim(materielid);
+				var warehouseid = $('#a_warehouse').attr('warehouseid');warehouseid = $.trim(warehouseid);
 				var salessum = $('#a_salessum').val();salessum = $.trim(salessum);
 				var taxprice = $('#a_taxprice').val();taxprice = $.trim(taxprice);
 				var taxrate = $('#a_taxrate').val();taxrate = $.trim(taxrate);
@@ -188,11 +290,9 @@
 				$.ajax({
 					url:URL.addBtnUrl,
 					data:{
-						code:code,
 						billtypeid:billtypeid,
 						billtime:str2Long(billtimeStr),
 						customerid:customerid,
-						makebillname:makebillname,
 						materielid:materielid,
 						warehouseid:warehouseid,
 						salessum:salessum,
@@ -282,30 +382,6 @@
 					}
 				});
 			}
-		});
-		$('#s_customer').off('click').on('click',function(){
-			var _this = this;
-			initCustomer(function(obj){
-				$(_this).val(obj.name).attr('customerid',obj.id);
-			});
-		});
-		$('#a_customer').off('click').on('click',function(){
-			var _this = this;
-			initCustomer(function(obj){
-				$(_this).val(obj.name).attr('customerid',obj.id);
-				$('#a_channelcode').val(obj.channelcode);
-				$('#a_salesmanname').val(obj.salesmanname).attr('salesmanid',obj.salesmanid);
-				$('#a_transportcompanyname').val(obj.transportcompanyname).attr('transportcompanyid',obj.transportcompanyid);
-			});
-		});
-		$('#u_customer').off('click').on('click',function(){
-			var _this = this;
-			initCustomer(function(obj){
-				$(_this).val(obj.name).attr('customerid',obj.id);
-				$('#u_channelcode').val(obj.channelcode).attr('channelcode',obj.channelcode);
-				$('#u_salesmanname').val(obj.salesmanname).attr('salesmanid',obj.salesmanid);
-				$('#u_transportcompanyname').val(obj.transportcompanyname).attr('transportcompanyid',obj.transportcompanyid);
-			});
 		});
 	}
 	
@@ -484,29 +560,25 @@
 		var customerid = obj.customerid || '';
 		var customername = obj.customername || '';
 		var channelcode = obj.channelcode || '';
-		var salesmanid = obj.salesmanid || '';
 		var salesmanname = obj.salesmanname || '';
-		var orgid = obj.orgid || '';
 		var orgname = obj.orgname || '';
-		var transportcompanyid = obj.transportcompanyid || '';
 		var transportcompanyname = obj.transportcompanyname || '';
-		var makerid = obj.makerid || '';
 		var makebillname = obj.makebillname || '';
 		$('#u_id').val(id);
 		$('#u_code').val(code);
-		$('#u_billtype').val(billtypeid);
+		$('#u_billtype').val(billtypename).attr('billtypeid', billtypeid);
 		$('#u_billtimeStr').val(billtimeStr);
 		$('#u_customer').val(customername).attr('customerid',customerid);
 		$('#u_channelcode').val(channelcode);
 		$('#u_orgname').val(orgname);
-		$('#u_salesmanname').val(salesmanname).attr('salesmanid',salesmanid);
-		$('#u_transportcompanyname').val(transportcompanyname).attr('transportcompanyid',transportcompanyid);
-		$('#u_creatorname').val(makebillname).attr('makerid',makerid);
+		$('#u_salesmanname').val(salesmanname);
+		$('#u_transportcompanyname').val(transportcompanyname);
+		$('#u_creatorname').val(makebillname);
 		var detailResp = obj.detailResp;
 		if(detailResp){
 			$('#u_detailid').val(detailResp.id);
-			$('#u_materiel').val(detailResp.materielid);
-			$('#u_warehouse').val(detailResp.warehouseid);
+			$('#u_materiel').val(detailResp.materielname).attr('materielid', detailResp.materielid);
+			$('#u_warehouse').val(detailResp.warehousename).attr('warehouseid', detailResp.warehouseid);
 			$('#u_salessum').val(detailResp.salessum);
 			$('#u_taxprice').val(detailResp.taxprice);
 			var taxpricesum = (detailResp.salessum * detailResp.taxprice);

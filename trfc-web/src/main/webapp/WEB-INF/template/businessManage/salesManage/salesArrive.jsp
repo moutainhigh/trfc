@@ -6,6 +6,11 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>提货通知单</title>
 <jsp:include page="../../common/base/header_busi.jsp"></jsp:include>
+<style type="text/css">
+.table-bordered {
+	text-align: center;
+}
+</style>
 </head>
 <body>
 	<div class="it_admin">
@@ -30,22 +35,30 @@
 						<div class="intel_sconditon">
 							<div class="intel_sline">
 								<div class="intel_solo">
-									<label>订单号：</label> <input id="billcode" type="text">
+									<label>订单号：</label> <input id="billcode" type="text"
+										placeholder="请输入订单号" />
 								</div>
 								<div class="intel_solo">
-									<label>通知单号：</label> <input id="code" type="text">
+									<label>客户：</label> <input id="customer" type="text"
+										placeholder="请选择客户" />
 								</div>
 								<div class="intel_solo">
-									<label>客户：</label>
-									<input id="customer" type="text" readonly />
+									<label>车号：</label> <input id="vehicle" type="text"
+										placeholder="请选择车辆" />
 								</div>
 								<div class="intel_solo">
-									<label>车号：</label> <select id="vehicleid" class="form-control">
-										<option value="">请选择</option>
-										<c:forEach items="${vehicle }" var="v">
-											<option value="${v.id }">${v.vehicleno }</option>
-										</c:forEach>
-									</select>
+									<label>物料：</label> <input id="materiel" type="text"
+										placeholder="请选择物料" />
+								</div>
+								<div class="intel_solo">
+									<label>司机：</label> <input id="driver" type="text"
+										placeholder="请选择司机" />
+								</div>
+								</div>
+							<div class="intel_sline">
+								<div class="intel_solo">
+									<label>通知单号：</label> <input id="code" type="text"
+										placeholder="请输入通知单号" />
 								</div>
 								<div class="intel_solo">
 									<label>审核状态：</label> <select id="auditstatus"
@@ -53,22 +66,6 @@
 										<option value="">请选择</option>
 										<option value="0">未审核</option>
 										<option value="1">已审核</option>
-									</select>
-								</div>
-								<div class="intel_solo">
-									<label>物料：</label> <select id="materielid" class="form-control">
-										<option value="">请选择</option>
-										<c:forEach items="${materiel }" var="m">
-											<option value="${m.id }">${m.name }</option>
-										</c:forEach>
-									</select>
-								</div>
-								<div class="intel_solo">
-									<label>司机：</label> <select id="driverid" class="form-control">
-										<option value="">请选择</option>
-										<c:forEach items="${driver }" var="d">
-											<option value="${d.id }">${d.name }</option>
-										</c:forEach>
 									</select>
 								</div>
 								<div class="intel_solo">
@@ -95,10 +92,12 @@
 								<div class="intel_solo">
 									<label>创建时间：</label> <input id="starttime" type="text"
 										onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})"
-										class="Wdate" style="width: 160px;" readonly /> <i>-</i> <input
-										id="endtime" type="text"
+										class="Wdate" style="width: 160px;" readonly
+										placeholder="请选择开始时间" /> <i>-</i> <input id="endtime"
+										type="text"
 										onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})"
-										class="Wdate" style="width: 160px;" readonly />
+										class="Wdate" style="width: 160px;" readonly
+										placeholder="请选择结束时间" />
 								</div>
 								<div class="intel_solo">
 									<div class="intel_sbtn">
@@ -118,10 +117,6 @@
 								<h5>新增</h5>
 							</a>
 						</div>
-						<!-- <div class="intel_operasolo" id="copyBtn">
-							<i class="iconfont coloradd">&#xe61c;</i>
-							<h5>复制</h5>
-						</div> -->
 					</div>
 					<div class="intel_table">
 						<!--用户表格begin-->
@@ -276,7 +271,7 @@
 			</div>
 		</div>
 	</div>
-	<jsp:include page="../../common/module/custom_choose.jsp"></jsp:include>
+	<%-- <jsp:include page="../../common/module/custom_choose.jsp"></jsp:include> --%>
 	<!--查看详情end-->
 	<jsp:include page="../../common/base/footer_busi.jsp"></jsp:include>
 	<script type="text/javascript"

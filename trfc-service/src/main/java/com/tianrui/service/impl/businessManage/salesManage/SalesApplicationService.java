@@ -105,6 +105,7 @@ public class SalesApplicationService implements ISalesApplicationService {
 				result.setErrorCode(ErrorCode.PARAM_REPEAT_ERROR);
 				return result;
 			}
+			save.setCode(sa.getCode());
 			PropertyUtils.copyProperties(sa, save);
 			sa.setId(UUIDUtil.getId());
 			if(StringUtils.isNotBlank(save.getBilltypeid())){
@@ -184,24 +185,59 @@ public class SalesApplicationService implements ISalesApplicationService {
 	public Result update(SalesApplicationSave save) throws Exception {
 		Result result = Result.getSuccessResult();
 		if(save != null){
-			SalesApplication sa = new SalesApplication();
-			PropertyUtils.copyProperties(sa, save);
-			sa.setModifier(save.getCurrid());
-			sa.setModifytime(System.currentTimeMillis());
-			if(salesApplicationMapper.updateByPrimaryKeySelective(sa) > 0){
-				SalesApplicationDetailSave sd = new SalesApplicationDetailSave();
-				sd.setId(save.getDetailid());
-				sd.setMaterielid(save.getMaterielid());
-				sd.setMaterielname(save.getMaterielname());
-				sd.setWarehouseid(save.getWarehouseid());
-				sd.setWarehousename(save.getWarehousename());
-				sd.setSalessum(save.getSalessum());
-				sd.setTaxprice(save.getTaxprice());
-				sd.setTaxrate(save.getTaxrate());
-				sd.setUntaxprice(save.getUntaxprice());
-				result = salesApplicationDetailService.update(sd);
+			if(StringUtils.isNotBlank(save.getId())){
+				SalesApplication sa = salesApplicationMapper.selectByPrimaryKey(save.getId());
+				PropertyUtils.copyProperties(sa, save);
+				if(StringUtils.isNotBlank(save.getBilltypeid())){
+					BillType billType = billTypeMapper.selectByPrimaryKey(save.getBilltypeid());
+					if(billType != null){
+						sa.setBilltypename(billType.getName());
+					}
+				}
+				if(StringUtils.isNotBlank(save.getCustomerid())){
+					CustomerManage customer = customerManageMapper.selectByPrimaryKey(save.getCustomerid());
+					if(customer != null){
+						sa.setCustomername(customer.getName());
+						sa.setChannelcode(customer.getChannelcode());
+						sa.setSalesmanid(customer.getSalesmanid());
+						sa.setSalesmanname(customer.getSalesmanname());
+						sa.setTransportcompanyid(customer.getTransportcompanyid());
+						sa.setTransportcompanyname(customer.getTransportcompanyname());
+					}
+				}
+				sa.setModifier(save.getCurrid());
+				sa.setModifytime(System.currentTimeMillis());
+				if(salesApplicationMapper.updateByPrimaryKeySelective(sa) > 0){
+					List<SalesApplicationDetailSave> list = new ArrayList<SalesApplicationDetailSave>();//稍后取save里面的List
+					for (int i = 0; i < list.size(); i++) {
+						SalesApplicationDetailSave detail = list.get(i);
+						if(StringUtils.isNotBlank(detail.getMaterielid())){
+							MaterielManage mater = materielManageMapper.selectByPrimaryKey(detail.getMaterielid());
+							if(mater != null){
+								detail.setMaterielname(mater.getName());
+							}
+						}
+						if(StringUtils.isNotBlank(detail.getWarehouseid())){
+							WarehouseManage warehouse = warehouseManageMapper.selectByPrimaryKey(detail.getWarehouseid());
+							detail.setWarehousename(warehouse.getName());
+						}
+						
+//						
+//						sd.setMaterielid(save.getMaterielid());
+//						sd.setMaterielname(save.getMaterielname());
+//						sd.setWarehouseid(save.getWarehouseid());
+//						sd.setWarehousename(save.getWarehousename());
+//						sd.setSalessum(save.getSalessum());
+//						sd.setTaxprice(save.getTaxprice());
+//						sd.setTaxrate(save.getTaxrate());
+//						sd.setUntaxprice(save.getUntaxprice());
+						result = salesApplicationDetailService.update(detail);
+					}
+				}else{
+					result.setErrorCode(ErrorCode.OPERATE_ERROR);
+				}
 			}else{
-				result.setErrorCode(ErrorCode.OPERATE_ERROR);
+				result.setErrorCode(ErrorCode.PARAM_NULL_ERROR);
 			}
 		}
 		return result;

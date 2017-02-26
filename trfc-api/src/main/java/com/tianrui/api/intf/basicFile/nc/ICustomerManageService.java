@@ -29,4 +29,6 @@ public interface ICustomerManageService {
 	
 	Result updateDataWithDC(List<JSONObject> list )throws Exception;
 
+	List<CustomerManageResp> autoCompleteSearch(String trim) throws Exception;
+
 }

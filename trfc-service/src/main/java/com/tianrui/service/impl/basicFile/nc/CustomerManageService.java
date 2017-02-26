@@ -91,6 +91,11 @@ public class CustomerManageService implements ICustomerManageService {
 		}
 		return null;
 	}
+
+	@Override
+	public List<CustomerManageResp> autoCompleteSearch(String likeName) throws Exception {
+		return copyBeanList2RespList(customerManageMapper.autoCompleteSearch(likeName));
+	}
 	
 	private List<CustomerManageResp> copyBeanList2RespList(List<CustomerManage> list) throws Exception {
 		List<CustomerManageResp> listResp = null;
