@@ -248,7 +248,7 @@ public class PurchaseApplicationService implements IPurchaseApplicationService {
 		//制单时间
 		item.setCreatetime(Long.valueOf(jsonItem.getString("createTime")));
 		//备注
-		item.setRemark(jsonItem.getString("remark"));
+		item.setSupplierremark(jsonItem.getString("remark"));
 		//NC同步时间戳
 		item.setUtc(DateUtil.parse(jsonItem.getString("ts"), "yyyy-MM-dd HH:mm:ss"));
 		return item;

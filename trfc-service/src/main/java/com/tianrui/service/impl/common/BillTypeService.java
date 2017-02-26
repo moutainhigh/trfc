@@ -33,6 +33,11 @@ public class BillTypeService implements IBillTypeService {
 		return result;
 	}
 
+	@Override
+	public List<BillTypeResp> autoCompleteSearch(String trim) throws Exception {
+		return copyBeanList2RespList(billTypeMapper.autoCompleteSearch(trim));
+	}
+
 	private List<BillTypeResp> copyBeanList2RespList(List<BillType> list) throws Exception {
 		List<BillTypeResp> listResp = null;
 		if(list != null && list.size() > 0){

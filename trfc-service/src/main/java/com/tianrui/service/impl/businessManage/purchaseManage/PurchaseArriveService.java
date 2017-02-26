@@ -113,6 +113,8 @@ public class PurchaseArriveService implements IPurchaseArriveService {
 				result.setError("此司机己有提货通知单、待出厂后进行派车，现有车辆业务单据号为:"+listDriver1.get(0).getCode()+"，如有疑问请与销售处联系！");
 				return result;
 			}
+			PropertyUtils.copyProperties(pa, save);
+			pa.setId(UUIDUtil.getId());
 			VehicleManageResp vehicle = vehicleManageService.findOne(save.getVehicleid());
 			if(vehicle != null){
 				pa.setVehicleno(vehicle.getVehicleno());
@@ -123,8 +125,6 @@ public class PurchaseArriveService implements IPurchaseArriveService {
 				pa.setDrivername(driver.getName());
 				pa.setDriveridentityno(driver.getIdentityno());
 			}
-			PropertyUtils.copyProperties(pa, save);
-			pa.setId(UUIDUtil.getId());
 			GetCodeReq codeReq = new GetCodeReq();
 			codeReq.setCode("DH");
 			codeReq.setCodeType(true);

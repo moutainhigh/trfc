@@ -108,7 +108,8 @@ public class SalesApplicationAction {
 		Result result = Result.getSuccessResult();
 		try {
 			SystemUserResp user = (SystemUserResp) session.getAttribute("systemUser");
-			save.setCreator(user.getId());
+			save.setMakerid(user.getId());
+			save.setMakebillname(user.getName());
 			result = salesApplicationService.add(save);
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);

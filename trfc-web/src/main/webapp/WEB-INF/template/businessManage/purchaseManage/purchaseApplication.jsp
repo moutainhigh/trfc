@@ -7,20 +7,6 @@
 <title>采购管理</title>
 <!-- 引用公共header部分 -->
 <jsp:include page="../../common/base/header_busi.jsp"></jsp:include>
-<style type="text/css">
-.ui-autocomplete {
-	max-height: 200px;
-	overflow-y: auto;
-	/* 防止水平滚动条 */
-	overflow-x: hidden;
-}
-/* IE 6 不支持 max-height
-	   * 我们使用 height 代替，但是这会强制菜单总是显示为那个高度
-	   */
-* html .ui-autocomplete {
-	height: 200px;
-}
-</style>
 </head>
 <body>
 	<div class="it_admin">

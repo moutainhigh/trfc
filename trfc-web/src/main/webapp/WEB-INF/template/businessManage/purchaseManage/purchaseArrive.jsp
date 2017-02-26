@@ -5,20 +5,6 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>到货通知单</title>
-<style type="text/css">
-.ui-autocomplete {
-	max-height: 200px;
-	/* 防止水平滚动条 */
-	overflow-x: hidden;
-	overflow-y: auto;
-}
-/* IE 6 不支持 max-height
-	   * 我们使用 height 代替，但是这会强制菜单总是显示为那个高度
-	   */
-* html .ui-autocomplete {
-	height: 200px;
-}
-</style>
 <!-- 引用公共header部分 -->
 <jsp:include page="../../common/base/header_busi.jsp"></jsp:include>
 </head>
