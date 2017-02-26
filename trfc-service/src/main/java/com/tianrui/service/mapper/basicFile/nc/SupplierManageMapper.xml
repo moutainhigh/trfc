@@ -63,19 +63,20 @@
 		)
 	</insert>
 	<insert id="insertBatch" parameterType="java.util.List">
-		insert into tr_warehouse_db_manage
-		(id, code, internalcode,name, orgid, orgname, state, createtime,
+		insert into tr_supplier_db_manage
+		(id, code, internalcode,name,abbrname, orgid, orgname, state, remarks,createtime,
 		modifytime,utc)
 		values
 		<foreach collection="list" item="item" index="index"
 			separator=",">
-			(#{item.id,jdbcType=VARCHAR}, #{item.code,jdbcType=VARCHAR},
-			#{item.internalcode,jdbcType=VARCHAR},
-			#{item.name,jdbcType=VARCHAR}, #{item.abbrname,jdbcType=VARCHAR}, #{item.orgid,jdbcType=VARCHAR},
-			#{item.state,jdbcType=VARCHAR}, #{item.remarks,jdbcType=VARCHAR},
-			#{item.createtime,jdbcType=BIGINT}, 
-			#{item.modifytime,jdbcType=BIGINT},
-			#{item.utc,jdbcType=BIGINT}
+			(#{item.id}, #{item.code},
+			#{item.internalcode},
+			#{item.name}, #{item.abbrname}, #{item.orgid},
+			 #{item.orgname},
+			#{item.state}, #{item.remarks},
+			#{item.createtime}, 
+			#{item.modifytime},
+			#{item.utc}
 			)
 		</foreach>
 	</insert>

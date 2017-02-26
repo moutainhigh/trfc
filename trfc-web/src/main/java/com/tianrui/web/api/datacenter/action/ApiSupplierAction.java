@@ -40,9 +40,7 @@ public class ApiSupplierAction {
 		SupplierManageQuery query = req.getBody();
 		try{
 		rs = supplierManageService.findMaxUtc(query);
-		System.out.println(rs.getData());
 		}catch(Exception e){
-			e.printStackTrace();
 			rs.setErrorCode(ErrorCode.SYSTEM_ERROR);
 			log.error(e.getMessage(),e);
 		}
@@ -60,7 +58,6 @@ public class ApiSupplierAction {
 		try {
 			rs = supplierManageService.updateDataWithDC(list);
 		} catch (Exception e) {
-			e.printStackTrace();
 			rs.setErrorCode(ErrorCode.SYSTEM_ERROR);
 			log.error(e.getMessage(),e);
 		}

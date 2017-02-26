@@ -251,7 +251,7 @@ public class PurchaseApplicationService implements IPurchaseApplicationService {
 		//备注
 		item.setRemark(jsonItem.getString("remark"));
 		//NC同步时间戳
-		item.setUtc(DateUtil.parse(jsonItem.getString("ts"), "yyyy-MM-dd HH:mm:ss"));
+		item.setUtc(Long.valueOf(jsonItem.getString("ts")));
 		return item;
 	}
 	private List<PurchaseApplicationDetail> converJson2ItemList(JSONObject jsonItem,String id){

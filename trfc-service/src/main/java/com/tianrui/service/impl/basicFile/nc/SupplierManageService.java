@@ -18,6 +18,7 @@ import com.tianrui.api.req.basicFile.nc.SupplierManageSave;
 import com.tianrui.api.resp.basicFile.nc.SupplierManageResp;
 import com.tianrui.service.bean.basicFile.nc.SupplierManage;
 import com.tianrui.service.mapper.basicFile.nc.SupplierManageMapper;
+import com.tianrui.smartfactory.common.constants.Constant;
 import com.tianrui.smartfactory.common.constants.ErrorCode;
 import com.tianrui.smartfactory.common.vo.PaginationVO;
 import com.tianrui.smartfactory.common.vo.Result;
@@ -132,7 +133,7 @@ public class SupplierManageService implements ISupplierManageService {
 	@Override
 	public Result updateDataWithDC(List<JSONObject> list) {
 		Result result = Result.getParamErrorResult();
-		if(CollectionUtils.isEmpty(list)){
+		if(CollectionUtils.isNotEmpty(list)){
 			Set<String> idSet = getSetOfId();
 			List<SupplierManage> toAddList = new ArrayList<SupplierManage>();
 			List<SupplierManage> toUpdateList = new ArrayList<SupplierManage>();
@@ -143,15 +144,15 @@ public class SupplierManageService implements ISupplierManageService {
 					toAddList.add(converJson2Bean(json));
 				}
 			}
-			if(!toAddList.isEmpty()){
+			if(CollectionUtils.isNotEmpty(toAddList)){
 				supplierManageMapper.insertBatch(toAddList);
 			}
-			if(!toUpdateList.isEmpty()){
+			if(CollectionUtils.isNotEmpty(toUpdateList)){
 				for(SupplierManage manage : toUpdateList){
 					supplierManageMapper.updateByPrimaryKeySelective(manage);
 				}
 			}
-			result = Result.getSuccessResult();
+			result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
 		}
 		return result;
 	}
@@ -162,8 +163,10 @@ public class SupplierManageService implements ISupplierManageService {
 	private Set<String> getSetOfId(){
 		Set<String> set = new HashSet<String>();
 		List<SupplierManage> list = supplierManageMapper.selectSelective(null);
-		for(SupplierManage sm : list){
-			set.add(sm.getId());
+		if(CollectionUtils.isNotEmpty(list)){
+			for(SupplierManage sm : list){
+				set.add(sm.getId());
+			}
 		}
 		return set;
 	}
@@ -179,10 +182,11 @@ public class SupplierManageService implements ISupplierManageService {
 			supplier.setInternalcode(json.getString("innercode"));
 			supplier.setName(json.getString("name"));
 			supplier.setState("1");
-			supplier.setOrgid(json.getString("orgId"));
+			supplier.setOrgid(Constant.ORG_ID);
+			supplier.setOrgname(Constant.ORG_NAME);
 			supplier.setAbbrname(json.getString("shortName"));
 			supplier.setRemarks(json.getString("remark"));
-			supplier.setCreatetime(System.currentTimeMillis());
+			supplier.setCreatetime(Long.valueOf(json.getString("createTime")));
 			supplier.setModifytime(System.currentTimeMillis());
 			supplier.setUtc(Long.valueOf(json.getString("ts")));
 		}
