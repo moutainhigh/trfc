@@ -177,6 +177,7 @@ public class PurchaseApplicationService implements IPurchaseApplicationService {
 					purchaseApplicationMapper.updateByPrimaryKeySelective(item);
 				}
 			}
+			rs.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
 		}
 		return rs;
 	}

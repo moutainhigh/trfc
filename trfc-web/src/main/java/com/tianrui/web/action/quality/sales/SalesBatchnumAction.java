@@ -1,4 +1,4 @@
-package com.tianrui.web.action.quality.sales.batchnum;
+package com.tianrui.web.action.quality.sales;
 
 
 
@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.tianrui.api.intf.basicFile.nc.IMaterielManageService;
-import com.tianrui.api.intf.quality.sales.batchnum.ISalesBatchnumService;
-import com.tianrui.api.req.quality.sales.batchnum.SalesBatchnumReq;
+import com.tianrui.api.intf.quality.sales.ISalesBatchnumService;
+import com.tianrui.api.req.quality.sales.SalesBatchnumReq;
 import com.tianrui.smartfactory.common.vo.Result;
 
 @Controller
