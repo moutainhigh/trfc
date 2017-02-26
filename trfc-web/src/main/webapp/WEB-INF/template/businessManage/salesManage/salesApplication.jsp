@@ -7,6 +7,19 @@
 <title>销售申请单</title>
 <!-- 引用公共header部分 -->
 <jsp:include page="../../common/base/header_busi.jsp"></jsp:include>
+<style type="text/css">
+#updateTabBody td {
+	margin: 0px !important;
+	padding: 0px !important;
+}
+
+#updateTabBody td>input {
+	width: 100% !important;
+	height: 40px !important;
+	border-radius: 0px !important;
+	border: 0px !important;
+}
+</style>
 </head>
 <body>
 	<div class="it_admin">
@@ -33,7 +46,8 @@
 						<div class="intel_sconditon">
 							<div class="intel_sline">
 								<div class="intel_solo">
-									<label>订单编号：</label> <input id="s_code" type="text">
+									<label>订单编号：</label> <input id="s_code" type="text"
+										placeholder="请输入订单编号">
 								</div>
 								<div class="intel_solo">
 									<label>单价来源：</label> <select id="s_source" class="form-control">
@@ -43,16 +57,18 @@
 									</select>
 								</div>
 								<div class="intel_solo">
-									<label>客户：</label>
-									<input id="s_customer" type="text" readonly>
+									<label>客户：</label> <input id="s_customer" type="text" readonly
+										placeholder="请选择客户">
 								</div>
 								<div class="intel_solo">
 									<label>开始时间：</label> <input id="s_starttime" type="text"
 										onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})"
-										class="Wdate" style="width: 160px;" readonly /> <i>-</i> <input
-										id="s_endtime" type="text"
+										class="Wdate" style="width: 160px;" readonly
+										placeholder="请选择开始时间" /> <i>-</i> <input id="s_endtime"
+										type="text"
 										onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})"
-										class="Wdate" style="width: 160px;" readonly />
+										class="Wdate" style="width: 160px;" readonly
+										placeholder="请选择结束时间" />
 								</div>
 								<div class="intel_solo">
 									<div class="intel_sbtn">
@@ -161,7 +177,7 @@
 		<!--新增begin-->
 		<div class="modal fade" id="addView" tabindex="-1" role="dialog"
 			aria-labelledby="myModalLabel">
-			<div class="modal-dialog" role="document" style="width: 1000px;">
+			<div class="modal-dialog" role="document" style="width: 1100px;">
 				<div class="modal-content">
 					<div class="modal-header">
 						<button type="button" class="close" data-dismiss="modal"
@@ -179,12 +195,8 @@
 									class="readOnlyText" readonly="true">
 							</div>
 							<div class="alt_edit_div">
-								<label>订单类型：</label>
-								<select id="a_billtype" class="form-control">
-									<c:forEach items="${billType }" var="b">
-										<option value="${b.id }">${b.name }</option>
-									</c:forEach>
-								</select>
+								<label>订单类型：</label> <input id="a_billtype" type="text"
+									placeholder="请选择订单类型" />
 							</div>
 							<div class="alt_edit_div">
 								<label>业务日期：</label> <input id="a_billtimeStr" type="text"
@@ -192,16 +204,17 @@
 									class="Wdate" readonly>
 							</div>
 							<div class="alt_edit_div">
-								<label>客户：</label> 
-								<input id="a_customer" type="text" readonly placeholder="点击选择客户" />
+								<label>客户：</label> <input id="a_customer" type="text" readonly
+									placeholder="请选择客户" />
 							</div>
 							<div class="alt_edit_div">
 								<label>区域：</label> <input id="a_channelcode" type="text"
 									class="readOnlyText" class="readOnlyText" readonly="true">
 							</div>
 							<div class="alt_edit_div">
-								<label>销售组织：</label> <input id="a_orgname" type="text" value="${orgname }" orgid="${orgid }"
-									class="readOnlyText" class="readOnlyText" readonly="true">
+								<label>销售组织：</label> <input id="a_orgname" type="text"
+									value="${orgname }" orgid="${orgid }" class="readOnlyText"
+									class="readOnlyText" readonly="true">
 							</div>
 							<div class="alt_edit_div">
 								<label>业务员：</label> <input id="a_salesmanname" type="text"
@@ -213,7 +226,8 @@
 									readonly="true">
 							</div>
 							<div class="alt_edit_div">
-								<label>制单人：</label> <input id="a_makebillname" type="text" value="${user.name }" makerid="${user.id }"
+								<label>制单人：</label> <input id="a_makebillname" type="text"
+									value="${user.name }" makerid="${user.id }"
 									class="readOnlyText" class="readOnlyText" readonly="true">
 							</div>
 						</div>
@@ -241,28 +255,17 @@
 									</thead>
 									<tbody id="updateTabBody">
 										<tr>
-											<td><select id="a_materiel" class="materiel">
-													<option value="">请选择</option>
-												<c:forEach items="${materiel }" var="m">
-													<option value="${m.id }">${m.name }</option>
-												</c:forEach>
-											</select></td>
-											<td><select id="a_warehouse" class="warehouse">
-													<option value="">请选择</option>
-												<c:forEach items="${warehouse }" var="w">
-													<option value="${w.id }">${w.name }</option>
-												</c:forEach>
-											</select></td>
-											<td><input id="a_salessum" style="width: 80px;"></td>
-											<td><input id="a_taxprice" style="width: 80px;"></td>
-											<td><input id="a_taxpricesum" style="width: 80px;"
-												class="readOnlyText" readonly="true"></td>
-											<td><input id="a_taxrate" style="width: 80px;"></td>
-											<td><input id="a_untaxprice" style="width: 80px;"></td>
-											<td><input id="a_untaxpricesum" style="width: 80px;"
-												class="readOnlyText" readonly="true"></td>
-											<td><input id="a_taxratesum" style="width: 80px;"
-												class="readOnlyText" readonly="true"></td>
+											<td><input id="a_materiel" type="text"
+												placeholder="请选择物料"></td>
+											<td><input id="a_warehouse" type="text"
+												placeholder="请选择仓库"></td>
+											<td><input id="a_salessum" type="text" placeholder="请输入数量"/></td>
+											<td><input id="a_taxprice" type="text" placeholder="请输入含税单价"/></td>
+											<td><input id="a_taxpricesum" readonly="true"></td>
+											<td><input id="a_taxrate" type="text" placeholder="请输入税率"/></td>
+											<td><input id="a_untaxprice" type="text" placeholder="请输入不含税单价"></td>
+											<td><input id="a_untaxpricesum" readonly="true"></td>
+											<td><input id="a_taxratesum" readonly="true"></td>
 										</tr>
 									</tbody>
 								</table>
@@ -392,8 +395,8 @@
 									class="readOnlyText" readonly="true">
 							</div>
 							<div class="alt_edit_div">
-								<label>订单类型：</label>
-								<select id="u_billtype" class="form-control">
+								<label>订单类型：</label> <select id="u_billtype"
+									class="form-control">
 									<c:forEach items="${billType }" var="b">
 										<option value="${b.id }">${b.name }</option>
 									</c:forEach>
@@ -405,8 +408,7 @@
 									class="Wdate" readonly>
 							</div>
 							<div class="alt_edit_div">
-								<label>客户：</label>
-								<input id="u_customer" type="text" readonly>
+								<label>客户：</label> <input id="u_customer" type="text" readonly>
 							</div>
 							<div class="alt_edit_div">
 								<label>区域：</label> <input id="u_channelcode" type="text"
@@ -456,15 +458,15 @@
 										<tr>
 											<td><select id="u_materiel" class="materiel">
 													<option value="">请选择</option>
-												<c:forEach items="${materiel }" var="m">
-													<option value="${m.id }">${m.name }</option>
-												</c:forEach>
+													<c:forEach items="${materiel }" var="m">
+														<option value="${m.id }">${m.name }</option>
+													</c:forEach>
 											</select></td>
 											<td><select id="u_warehouse" class="warehouse">
 													<option value="">请选择</option>
-												<c:forEach items="${warehouse }" var="w">
-													<option value="${w.id }">${w.name }</option>
-												</c:forEach>
+													<c:forEach items="${warehouse }" var="w">
+														<option value="${w.id }">${w.name }</option>
+													</c:forEach>
 											</select></td>
 											<td><input id="u_salessum" style="width: 80px;"></td>
 											<td><input id="u_taxprice" style="width: 80px;"></td>
@@ -492,7 +494,7 @@
 		</div>
 		<!--编辑end-->
 	</div>
-	
+
 	<jsp:include page="../../common/module/custom_choose.jsp"></jsp:include>
 	<!-- 引用公共footer部分 -->
 	<jsp:include page="../../common/base/footer_busi.jsp"></jsp:include>

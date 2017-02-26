@@ -1,7 +1,7 @@
-package com.tianrui.api.intf.quality.sales.batchnum;
+package com.tianrui.api.intf.quality.sales;
 
 
-import com.tianrui.api.req.quality.sales.batchnum.SalesBatchnumReq;
+import com.tianrui.api.req.quality.sales.SalesBatchnumReq;
 import com.tianrui.smartfactory.common.vo.Result;
 
 public interface ISalesBatchnumService {

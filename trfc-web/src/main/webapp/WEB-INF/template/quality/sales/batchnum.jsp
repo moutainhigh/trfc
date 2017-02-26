@@ -17,7 +17,7 @@
 				<!--tab切换标题-->
 				<ul class="intel_menu">
 					<li class="select">销售批号维护</li>
-					<li>销售化验报告</li>
+					<li><a href="/trfc/quality/sales/report/main">销售化验报告</a></li>
 				</ul>
 				<!--tab切换标题end-->
 				<div class="top_opera">
@@ -146,7 +146,7 @@
 									</span> <span> <a data-toggle="modal" data-target="#dele"><i
 												class="iconfont" data-toggle="tooltip" data-placement="left"
 												title="反审">&#xe651;</i></a>
-									</span> </span> <span> <a data-toggle="modal" data-target="#dele"><i
+									</span> <span> <a data-toggle="modal" data-target="#dele"><i
 												class="iconfont" data-toggle="tooltip" data-placement="left"
 												title="复制">&#xe61c;</i></a>
 									</span></td>
@@ -204,7 +204,5 @@
 		src="/javascript/quality/sales/batchnum_common.js"></script>
 	<script type="text/javascript"
 		src="/javascript/quality/sales/batchnum.js"></script>
-	</script>
-	</div>
 </body>
 </html>

@@ -10,10 +10,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.tianrui.api.intf.basicFile.measure.IDriverManageService;
-import com.tianrui.api.intf.basicFile.measure.IVehicleManageService;
-import com.tianrui.api.intf.basicFile.nc.IMaterielManageService;
-import com.tianrui.api.intf.basicFile.nc.ISupplierManageService;
 import com.tianrui.api.intf.businessManage.purchaseManage.IPurchaseArriveService;
 import com.tianrui.api.intf.system.base.ISystemCodeService;
 import com.tianrui.api.req.businessManage.purchaseManage.PurchaseArriveQuery;
@@ -34,14 +30,6 @@ public class PurchaseArriveAction {
 	
 	@Autowired
 	private IPurchaseArriveService purchaseArriveService;
-	@Autowired
-	private ISupplierManageService supplierManageService;
-	@Autowired
-	private IVehicleManageService vehicleManageService;
-	@Autowired
-	private IMaterielManageService materielManageService;
-	@Autowired
-	private IDriverManageService driverManageService;
 	@Autowired
 	private ISystemCodeService systemCodeService;
 	
@@ -87,10 +75,6 @@ public class PurchaseArriveAction {
 			view.addObject("orgid", "0");
 			view.addObject("orgname", "天瑞集团");
 			view.addObject("nowDate", DateUtil.getNowDateString("yyyy-MM-dd HH:mm:ss"));
-			view.addObject("supplier", supplierManageService.findListByParmas(null).getData());
-			view.addObject("vehicle", vehicleManageService.findListByParmas(null).getData());
-			view.addObject("materiel", materielManageService.findListByParmas(null).getData());
-			view.addObject("driver", driverManageService.findListByParmas(null).getData());
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 		}
@@ -131,10 +115,6 @@ public class PurchaseArriveAction {
 			view.addObject("orgid", "0");
 			view.addObject("orgname", "天瑞集团");
 			view.addObject("nowDate", DateUtil.getNowDateString("yyyy-MM-dd HH:mm:ss"));
-			view.addObject("supplier", supplierManageService.findListByParmas(null).getData());
-			view.addObject("vehicle", vehicleManageService.findListByParmas(null).getData());
-			view.addObject("materiel", materielManageService.findListByParmas(null).getData());
-			view.addObject("driver", driverManageService.findListByParmas(null).getData());
 			view.addObject("purchaseArrive", purchaseArriveService.findOne(id));
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);

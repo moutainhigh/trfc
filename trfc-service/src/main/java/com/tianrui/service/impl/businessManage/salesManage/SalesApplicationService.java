@@ -26,12 +26,14 @@ import com.tianrui.api.resp.businessManage.salesManage.SalesApplicationDetailRes
 import com.tianrui.api.resp.businessManage.salesManage.SalesApplicationResp;
 import com.tianrui.service.bean.basicFile.nc.CustomerManage;
 import com.tianrui.service.bean.basicFile.nc.MaterielManage;
+import com.tianrui.service.bean.basicFile.nc.WarehouseManage;
 import com.tianrui.service.bean.businessManage.salesManage.SalesApplication;
 import com.tianrui.service.bean.businessManage.salesManage.SalesApplicationDetail;
 import com.tianrui.service.bean.common.BillType;
 import com.tianrui.service.bean.common.ReturnQueue;
 import com.tianrui.service.mapper.basicFile.nc.CustomerManageMapper;
 import com.tianrui.service.mapper.basicFile.nc.MaterielManageMapper;
+import com.tianrui.service.mapper.basicFile.nc.WarehouseManageMapper;
 import com.tianrui.service.mapper.businessManage.salesManage.SalesApplicationDetailMapper;
 import com.tianrui.service.mapper.businessManage.salesManage.SalesApplicationMapper;
 import com.tianrui.service.mapper.common.BillTypeMapper;
@@ -50,24 +52,20 @@ public class SalesApplicationService implements ISalesApplicationService {
 	private SalesApplicationMapper salesApplicationMapper;
 	@Autowired
 	private SalesApplicationDetailMapper salesApplicationDetailMapper;
-	
 	@Autowired
 	private ISalesApplicationDetailService salesApplicationDetailService;
-	
 	@Autowired
 	private ISystemCodeService systemCodeService;
-	
 	@Autowired
 	private ReturnQueueMapper returnQueueMapper;
-	
 	@Autowired
 	private BillTypeMapper billTypeMapper;
-	
 	@Autowired
 	private CustomerManageMapper customerManageMapper;
-	
 	@Autowired
 	private MaterielManageMapper materielManageMapper;
+	@Autowired
+	private WarehouseManageMapper warehouseManageMapper;
 	
 	@Override
 	public PaginationVO<SalesApplicationResp> page(SalesApplicationQuery query) throws Exception{
@@ -99,7 +97,7 @@ public class SalesApplicationService implements ISalesApplicationService {
 			GetCodeReq codeReq = new GetCodeReq();
 			codeReq.setCode("XXSO");
 			codeReq.setCodeType(true);
-			codeReq.setUserid(save.getCurrid());
+			codeReq.setUserid(save.getMakerid());
 			SalesApplication sa = new SalesApplication();
 			sa.setCode(String.valueOf(systemCodeService.getCode(codeReq).getData()));
 			List<SalesApplication> list = salesApplicationMapper.selectSelective(sa);
@@ -109,30 +107,57 @@ public class SalesApplicationService implements ISalesApplicationService {
 			}
 			PropertyUtils.copyProperties(sa, save);
 			sa.setId(UUIDUtil.getId());
+			if(StringUtils.isNotBlank(save.getBilltypeid())){
+				BillType billType = billTypeMapper.selectByPrimaryKey(save.getBilltypeid());
+				if(billType != null){
+					sa.setBilltypename(billType.getName());
+				}
+			}
+			if(StringUtils.isNotBlank(save.getCustomerid())){
+				CustomerManage customer = customerManageMapper.selectByPrimaryKey(save.getCustomerid());
+				if(customer != null){
+					sa.setCustomername(customer.getName());
+					sa.setChannelcode(customer.getChannelcode());
+					sa.setSalesmanid(customer.getSalesmanid());
+					sa.setSalesmanname(customer.getSalesmanname());
+					sa.setTransportcompanyid(customer.getTransportcompanyid());
+					sa.setTransportcompanyname(customer.getTransportcompanyname());
+				}
+			}
+			sa.setOrgid(Constant.ORG_ID);
+			sa.setOrgname(Constant.ORG_NAME);
 			sa.setStatus("0");
 			sa.setSource("1");
 			sa.setState("1");
 			sa.setMakebilltime(System.currentTimeMillis());
-			sa.setCreator(save.getCreator());
+			sa.setCreator(save.getMakerid());
 			sa.setCreatetime(System.currentTimeMillis());
-			sa.setModifier(save.getCreator());
+			sa.setModifier(save.getMakerid());
 			sa.setModifytime(System.currentTimeMillis());
 			if(salesApplicationMapper.insertSelective(sa) > 0){
 				SalesApplicationDetailSave sd = new SalesApplicationDetailSave();
 				sd.setId(UUIDUtil.getId());
 				sd.setSalesid(sa.getId());
 				sd.setMaterielid(save.getMaterielid());
-				sd.setMaterielname(save.getMaterielname());
+				if(StringUtils.isNotBlank(save.getMaterielid())){
+					MaterielManage mater = materielManageMapper.selectByPrimaryKey(save.getMaterielid());
+					if(mater != null){
+						sd.setMaterielname(mater.getName());
+					}
+				}
 				sd.setWarehouseid(save.getWarehouseid());
-				sd.setWarehousename(save.getWarehousename());
+				if(StringUtils.isNotBlank(save.getWarehouseid())){
+					WarehouseManage warehouse = warehouseManageMapper.selectByPrimaryKey(save.getWarehouseid());
+					sd.setWarehousename(warehouse.getName());
+				}
 				sd.setUnit(save.getUnit());
 				sd.setSalessum(save.getSalessum());
 				sd.setTaxprice(save.getTaxprice());
 				sd.setTaxrate(save.getTaxrate());
 				sd.setUntaxprice(save.getUntaxprice());
-				sa.setCreator(save.getCreator());
+				sa.setCreator(save.getMakerid());
 				sa.setCreatetime(System.currentTimeMillis());
-				sa.setModifier(save.getCreator());
+				sa.setModifier(save.getMakerid());
 				sa.setModifytime(System.currentTimeMillis());
 				result = salesApplicationDetailService.add(sd);
 				if(StringUtils.equals(result.getCode(), ErrorCode.SYSTEM_SUCCESS.getCode())){
@@ -143,7 +168,7 @@ public class SalesApplicationService implements ISalesApplicationService {
 					returnQueue.setId(UUIDUtil.getId());
 					returnQueue.setDataid(sa.getId());
 					returnQueue.setDatatype("0");
-					returnQueue.setCreator(sa.getCreator());
+					returnQueue.setCreator(sa.getMakerid());
 					returnQueue.setCreatetime(System.currentTimeMillis());
 					returnQueueMapper.insertSelective(returnQueue);
 				}

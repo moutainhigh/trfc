@@ -6,20 +6,6 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>采购到货通知单新增</title>
-<style type="text/css">
-.ui-autocomplete {
-	max-height: 200px;
-	overflow-y: auto;
-	/* 防止水平滚动条 */
-	overflow-x: hidden;
-}
-/* IE 6 不支持 max-height
-	   * 我们使用 height 代替，但是这会强制菜单总是显示为那个高度
-	   */
-* html .ui-autocomplete {
-	height: 200px;
-}
-</style>
 <!-- 引用公共header部分 -->
 <jsp:include page="../../common/base/header_busi.jsp"></jsp:include>
 </head>
@@ -67,7 +53,7 @@
 							<div class="daohuo_add_solo">
 								<label class="colorred"><em class="colorred">*</em>订单号：</label>
 								<div class="input_withlogo">
-									<input id="billcode" type="text" readonly> <span
+									<input id="billcode" type="text" readonly="readonly" placeholder="请选择订单"> <span
 										class="form-control-feedback"><i class="iconfont">&#xe608;</i></span>
 								</div>
 							</div>
@@ -77,39 +63,39 @@
 							</div>
 							<div class="daohuo_add_solo">
 								<label>业务日期：</label> <input id="makebilltime"
-									value="${nowDate }" type="text" readonly="readonly">
+									value="${nowDate }" type="text" readonly="true">
 							</div>
 							<div class="daohuo_add_solo">
 								<label>采购组织：</label> <input id="orgname" type="text"
-									orgid="${orgid }" value="${orgname }" readonly="readonly">
+									orgid="${orgid }" value="${orgname }" readonly="true">
 							</div>
 							<div class="daohuo_add_solo">
 								<label>供应商：</label> <input id="suppliername" type="text"
-									readonly="readonly">
+									readonly="true">
 							</div>
 							<div class="daohuo_add_solo">
 								<label>物料：</label> <input id="materielname" type="text"
-									readonly="readonly">
+									readonly="true">
 							</div>
 							<div class="daohuo_add_solo">
 								<label>订单数量：</label> <input id="purchasesum" type="text"
-									readonly="readonly">
+									readonly="true">
 							</div>
 							<div class="daohuo_add_solo">
 								<label>余量：</label> <input id="margin" type="text"
-									readonly="readonly">
+									readonly="true">
 							</div>
 							<div class="daohuo_add_solo">
 								<label>单位：</label> <input id="unit" type="text"
-									readonly="readonly">
+									readonly="true">
 							</div>
 							<div class="daohuo_add_solo">
 								<label>部门：</label> <input id="departmentname" type="text"
-									readonly="readonly">
+									readonly="true">
 							</div>
 							<div class="daohuo_add_solo">
 								<label>供应商备注：</label> <input id="supplierremark" type="text"
-									readonly="readonly">
+									readonly="true">
 							</div>
 						</div>
 					</div>
@@ -140,15 +126,15 @@
 										</div>
 										<div class="daohuo_add_solo">
 											<label>身份证号：</label> <input id="identityno" type="text"
-												readonly="readonly">
+												readonly="true">
 										</div>
 										<div class="daohuo_add_solo">
 											<label>RFID：</label> <input id="rfid" type="text"
-												readonly="readonly">
+												readonly="true">
 										</div>
 										<div class="daohuo_add_solo">
 											<label class="colorred"><em class="colorred">*</em>到货量：</label>
-											<input id="arrivalamount" type="text"> <span>吨</span>
+											<input id="arrivalamount" type="text" placeholder="请输入到货量"> <span>吨</span>
 										</div>
 										<div class="daohuo_add_solo">
 											<label>备注：</label> <input id="remark" type="text">
@@ -278,7 +264,7 @@
 					<div class="alt_edit">
 						<div class="alt_edit_div">
 							<label>车辆编号：</label> <input id="v_code" type="text"
-								value="${v_code }" class="readOnlyText" readonly>
+								value="${v_code }" readonly="true">
 						</div>
 						<div class="alt_edit_div">
 							<label>运输类型：</label> <select id="v_transporttype"
@@ -290,32 +276,32 @@
 
 						</div>
 						<div class="alt_edit_div">
-							<label>车辆号码：</label> <input id="v_vehicleno" type="text">
+							<label>车辆号码：</label> <input id="v_vehicleno" type="text" placeholder="请输入车牌号码">
 						</div>
 						<div class="alt_edit_div">
-							<label>车辆类型：</label> <input id="v_vehicletype" type="text">
+							<label>车辆类型：</label> <input id="v_vehicletype" type="text" placeholder="请输入车辆类型">
 						</div>
 						<div class="alt_edit_div">
-							<label>运输单位：</label> <input id="v_transportunit" type="text">
+							<label>运输单位：</label> <input id="v_transportunit" type="text" placeholder="请输入运输单位">
 						</div>
 						<div class="alt_edit_div">
-							<label>最大载重： </label> <input id="v_maxweight" type="text">
+							<label>最大载重： </label> <input id="v_maxweight" type="text" placeholder="请输入最大载重">
 						</div>
 						<div class="alt_edit_div">
-							<label>皮重：</label> <input id="v_tareweight" type="text">
+							<label>皮重：</label> <input id="v_tareweight" type="text" placeholder="请输入皮重">
 						</div>
 						<div class="alt_edit_div">
-							<label>车主： </label> <input id="v_ownername" type="text">
+							<label>车主： </label> <input id="v_ownername" type="text" placeholder="请输入车主">
 						</div>
 						<div class="alt_edit_div">
-							<label>电话：</label> <input id="v_telephone" type="text">
+							<label>电话：</label> <input id="v_telephone" type="text" placeholder="请输入电话">
 						</div>
 						<div class="alt_edit_div">
-							<label>地址： </label> <input id="v_address" type="text">
+							<label>地址： </label> <input id="v_address" type="text" placeholder="请输入地址">
 						</div>
 						<div class="alt_edit_div">
 							<label>所属组织：</label> <input id="v_orgname" orgid="${orgid }"
-								value="${orgname }" type="text" class="readOnlyText" readonly>
+								value="${orgname }" type="text" readonly="true">
 						</div>
 						<div class="alt_edit_div">
 							<label>有效性： </label> <input id="v_isvalid" type="checkbox"
@@ -356,21 +342,21 @@
 					<div class="alt_caradd">
 						<div class="alt_edit_div">
 							<label>司机编号：</label> <input id="d_code" type="text"
-								value="${d_code }" class="readOnlyText" readonly>
+								value="${d_code }" readonly="true">
 						</div>
 						<div class="alt_edit_div">
 							<label>司机内码：</label> <input id="d_internalcode" type="text"
-								value="${d_internalcode }" class="readOnlyText" readonly>
+								value="${d_internalcode }" readonly="true">
 						</div>
 						<div class="alt_edit_div">
 							<label class="colorred"> *司机名称：</label> <input id="d_name"
-								type="text">
+								type="text" placeholder="请输入司机名称">
 						</div>
 						<div class="alt_edit_div">
-							<label>司机简称：</label> <input id="d_abbrname" type="text">
+							<label>司机简称：</label> <input id="d_abbrname" type="text" placeholder="请输入司机简称">
 						</div>
 						<div class="alt_edit_div">
-							<label>地址：</label> <input id="d_address" type="text">
+							<label>地址：</label> <input id="d_address" type="text" placeholder="请输入地址">
 						</div>
 						<div class="alt_edit_div">
 							<label>所属组织：</label> <input id="d_orgname" orgid="${orgid }"
@@ -378,11 +364,11 @@
 						</div>
 						<div class="alt_edit_div">
 							<label class="colorred"> *电话：</label> <input id="d_telephone"
-								type="text">
+								type="text" placeholder="请输入电话">
 						</div>
 						<div class="alt_edit_div">
 							<label class="colorred"> *身份证号：</label> <input id="d_identityno"
-								type="text">
+								type="text" placeholder="请输入身份证号">
 						</div>
 						<div class="alt_edit_div">
 							<label>有效性： </label> <input id="d_isvalid" type="checkbox"

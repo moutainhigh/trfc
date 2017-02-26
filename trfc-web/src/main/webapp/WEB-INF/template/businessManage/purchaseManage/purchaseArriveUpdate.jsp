@@ -47,53 +47,63 @@
 					</div>
 					<div class="daohuo_add">
 						<h5>到货通知单修改</h5>
-						<input id="purchaseArriveId" type="hidden" value="${purchaseArrive.id }"/>
+						<input id="purchaseArriveId" type="hidden"
+							value="${purchaseArrive.id }" />
 						<div class="daohuo_add_div">
 							<div class="daohuo_add_solo">
 								<label class="colorred"><em class="colorred">*</em>订单号：</label>
 								<div class="input_withlogo">
-									<input id="billcode" type="text" value="${purchaseArrive.billcode }" billid="${purchaseArrive.billid }" billdetailid="${purchaseArrive.billdetailid }" readonly> <span
-										class="form-control-feedback"><i class="iconfont">&#xe608;</i></span>
+									<input id="billcode" type="text"
+										value="${purchaseArrive.billcode }"
+										billid="${purchaseArrive.billid }"
+										billdetailid="${purchaseArrive.billdetailid }" readonly="readonly" placeholder="请选择订单">
+									<span class="form-control-feedback"><i class="iconfont">&#xe608;</i></span>
 								</div>
 							</div>
 							<div class="daohuo_add_solo">
 								<label>通知单号：</label> <input id="code" type="text"
-									value="${purchaseArrive.code }" readonly="readonly">
+									value="${purchaseArrive.code }" readonly="true">
 							</div>
 							<div class="daohuo_add_solo">
 								<label>业务日期：</label> <input id="makebilltime"
-									value="${nowDate }" type="text" readonly="readonly">
+									value="${nowDate }" type="text" readonly="true">
 							</div>
 							<div class="daohuo_add_solo">
-								<label>采购组织：</label> <input id="orgname" type="text" value="${orgname }" readonly="readonly">
+								<label>采购组织：</label> <input id="orgname" type="text"
+									value="${orgname }" readonly="true">
 							</div>
 							<div class="daohuo_add_solo">
-								<label>供应商：</label> <input id="suppliername" type="text" value="${purchaseArrive.purchaseApplicationResp.suppliername }"
-									readonly="readonly">
+								<label>供应商：</label> <input id="suppliername" type="text"
+									value="${purchaseArrive.purchaseApplicationResp.suppliername }"
+									readonly="true">
 							</div>
 							<div class="daohuo_add_solo">
-								<label>物料：</label> <input id="materielname" type="text" value="${purchaseArrive.purchaseApplicationDetailResp.materielname }"
-									readonly="readonly">
+								<label>物料：</label> <input id="materielname" type="text"
+									value="${purchaseArrive.purchaseApplicationDetailResp.materielname }"
+									readonly="true">
 							</div>
 							<div class="daohuo_add_solo">
-								<label>订单数量：</label> <input id="purchasesum" type="text" value="${purchaseArrive.purchaseApplicationDetailResp.purchasesum }"
-									readonly="readonly">
+								<label>订单数量：</label> <input id="purchasesum" type="text"
+									value="${purchaseArrive.purchaseApplicationDetailResp.purchasesum }"
+									readonly="true">
 							</div>
 							<div class="daohuo_add_solo">
-								<label>余量：</label> <input id="margin" type="text" value="${purchaseArrive.margin }"
-									readonly="readonly">
+								<label>余量：</label> <input id="margin" type="text"
+									value="${purchaseArrive.margin }" readonly="true">
 							</div>
 							<div class="daohuo_add_solo">
-								<label>单位：</label> <input id="unit" type="text" value="${purchaseArrive.unit }"
-									readonly="readonly">
+								<label>单位：</label> <input id="unit" type="text"
+									value="${purchaseArrive.unit }" readonly="true">
 							</div>
 							<div class="daohuo_add_solo">
-								<label>部门：</label> <input id="departmentname" type="text" value="${purchaseArrive.purchaseApplicationResp.departmentname }"
-									readonly="readonly">
+								<label>部门：</label> <input id="departmentname" type="text"
+									value="${purchaseArrive.purchaseApplicationResp.departmentname }"
+									readonly="true">
 							</div>
 							<div class="daohuo_add_solo">
-								<label>供应商备注：</label> <input id="supplierremark" type="text" value="${purchaseArrive.purchaseApplicationResp.supplierremark }"
-									readonly="readonly">
+								<label>供应商备注：</label> <input id="supplierremark" type="text"
+									value="${purchaseArrive.purchaseApplicationResp.supplierremark }"
+									readonly="true">
 							</div>
 						</div>
 					</div>
@@ -113,41 +123,32 @@
 									<div class="daohuo_add_div">
 										<div class="daohuo_add_solo">
 											<label class="colorred"><em class="colorred">*</em>车号：</label>
-											<select id="vehicleid" class="form-control">
-												<option value="">请选择</option>
-												<c:forEach items="${vehicle }" var="v">
-													<option value="${v.id }" rfid="${v.rfid }"
-													<c:if test="${v.id eq purchaseArrive.vehicleid }">selected</c:if>
-													>${v.vehicleno }</option>
-												</c:forEach>
-											</select> <a data-toggle="modal" data-target="#vehicleAddView"><i
+											<input id="vehicle" type="text" placeholder="请选择车辆" value="${purchaseArrive.vehicleno }" /> <a
+												data-toggle="modal" data-target="#vehicleAddView"><i
 												class="iconfont">&#xe680;</i></a>
 										</div>
 										<div class="daohuo_add_solo">
-											<label>司机：</label> <select id="driverid" class="form-control">
-												<option value="">请选择</option>
-												<c:forEach items="${driver }" var="d">
-													<option value="${d.id }" identityno="${d.identityno }"
-													<c:if test="${d.id eq purchaseArrive.driverid }">selected</c:if>
-													>${d.name }</option>
-												</c:forEach>
-											</select> <a data-toggle="modal" data-target="#driverAddView"><i
+											<label>司机：</label> <input id="driver" type="text" placeholder="请选择司机" value="${purchaseArrive.drivername }" />
+											<a data-toggle="modal" data-target="#driverAddView"><i
 												class="iconfont">&#xe680;</i></a>
 										</div>
 										<div class="daohuo_add_solo">
-											<label>身份证号：</label> <input id="identityno" type="text" value="${purchaseArrive.driveridentityno }"
-												readonly="readonly">
+											<label>身份证号：</label> <input id="identityno" type="text"
+												value="${purchaseArrive.driveridentityno }"
+												readonly="true">
 										</div>
 										<div class="daohuo_add_solo">
-											<label>RFID：</label> <input id="rfid" type="text" value="${purchaseArrive.vehiclerfid }"
-												readonly="readonly">
+											<label>RFID：</label> <input id="rfid" type="text"
+												value="${purchaseArrive.vehiclerfid }" readonly="true">
 										</div>
 										<div class="daohuo_add_solo">
 											<label class="colorred"><em class="colorred">*</em>到货量：</label>
-											<input id="arrivalamount" type="text" value="${purchaseArrive.arrivalamount }"> <span>吨</span>
+											<input id="arrivalamount" type="text"
+												value="${purchaseArrive.arrivalamount }" placeholder="请输入到货量"> <span>吨</span>
 										</div>
 										<div class="daohuo_add_solo">
-											<label>备注：</label> <input id="remark" type="text" value="${purchaseArrive.remark }">
+											<label>备注：</label> <input id="remark" type="text"
+												value="${purchaseArrive.remark }">
 										</div>
 									</div>
 								</div>
@@ -177,20 +178,11 @@
 				<div class="modal-body">
 					<div class="dhadd_search">
 						<div class="dhsearch_solo">
-							<label>物料：</label> <select id="materiel" class="form-control">
-								<option value="">请选择</option>
-								<c:forEach items="${materiel }" var="m">
-									<option value="${m.id }">${m.name }</option>
-								</c:forEach>
+							<label>物料：</label> <input id="materiel" type="text" placeholder="请选择物料" />
 							</select>
 						</div>
 						<div class="dhsearch_solo">
-							<label>供应商：</label> <select id="supplier" class="form-control">
-								<option value="">请选择</option>
-								<c:forEach items="${supplier }" var="s">
-									<option value="${s.id }">${s.name }</option>
-								</c:forEach>
-							</select>
+							<label>供应商：</label> <input id="supplier" type="text" placeholder="请选择供应商" />
 						</div>
 						<div class="dhsearch_solo">
 							<label>订单号：</label> <input id="purchaseApplicationCode"
@@ -282,7 +274,7 @@
 					<div class="alt_edit">
 						<div class="alt_edit_div">
 							<label>车辆编号：</label> <input id="v_code" type="text"
-								value="${v_code }" class="readOnlyText" readonly>
+								value="${v_code }" readonly="true">
 						</div>
 						<div class="alt_edit_div">
 							<label>运输类型：</label> <select id="v_transporttype"
@@ -294,32 +286,32 @@
 
 						</div>
 						<div class="alt_edit_div">
-							<label>车辆号码：</label> <input id="v_vehicleno" type="text">
+							<label>车辆号码：</label> <input id="v_vehicleno" type="text" placeholder="请输入车牌号码">
 						</div>
 						<div class="alt_edit_div">
-							<label>车辆类型：</label> <input id="v_vehicletype" type="text">
+							<label>车辆类型：</label> <input id="v_vehicletype" type="text" placeholder="请输入车辆类型">
 						</div>
 						<div class="alt_edit_div">
-							<label>运输单位：</label> <input id="v_transportunit" type="text">
+							<label>运输单位：</label> <input id="v_transportunit" type="text" placeholder="请输入运输单位">
 						</div>
 						<div class="alt_edit_div">
-							<label>最大载重： </label> <input id="v_maxweight" type="text">
+							<label>最大载重： </label> <input id="v_maxweight" type="text" placeholder="请输入最大载重">
 						</div>
 						<div class="alt_edit_div">
-							<label>皮重：</label> <input id="v_tareweight" type="text">
+							<label>皮重：</label> <input id="v_tareweight" type="text" placeholder="请输入皮重">
 						</div>
 						<div class="alt_edit_div">
-							<label>车主： </label> <input id="v_ownername" type="text">
+							<label>车主： </label> <input id="v_ownername" type="text" placeholder="请输入车主">
 						</div>
 						<div class="alt_edit_div">
-							<label>电话：</label> <input id="v_telephone" type="text">
+							<label>电话：</label> <input id="v_telephone" type="text" placeholder="请输入电话">
 						</div>
 						<div class="alt_edit_div">
-							<label>地址： </label> <input id="v_address" type="text">
+							<label>地址： </label> <input id="v_address" type="text" placeholder="请输入地址">
 						</div>
 						<div class="alt_edit_div">
 							<label>所属组织：</label> <input id="v_orgname" orgid="${orgid }"
-								value="${orgname }" type="text" class="readOnlyText" readonly>
+								value="${orgname }" type="text" readonly="true">
 						</div>
 						<div class="alt_edit_div">
 							<label>有效性： </label> <input id="v_isvalid" type="checkbox"
@@ -360,21 +352,21 @@
 					<div class="alt_caradd">
 						<div class="alt_edit_div">
 							<label>司机编号：</label> <input id="d_code" type="text"
-								value="${d_code }" class="readOnlyText" readonly>
+								value="${d_code }" readonly="true">
 						</div>
 						<div class="alt_edit_div">
 							<label>司机内码：</label> <input id="d_internalcode" type="text"
-								value="${d_internalcode }" class="readOnlyText" readonly>
+								value="${d_internalcode }" readonly="true">
 						</div>
 						<div class="alt_edit_div">
 							<label class="colorred"> *司机名称：</label> <input id="d_name"
-								type="text">
+								type="text" placeholder="请输入司机名称">
 						</div>
 						<div class="alt_edit_div">
-							<label>司机简称：</label> <input id="d_abbrname" type="text">
+							<label>司机简称：</label> <input id="d_abbrname" type="text" placeholder="请输入司机简称">
 						</div>
 						<div class="alt_edit_div">
-							<label>地址：</label> <input id="d_address" type="text">
+							<label>地址：</label> <input id="d_address" type="text" placeholder="请输入地址">
 						</div>
 						<div class="alt_edit_div">
 							<label>所属组织：</label> <input id="d_orgname" orgid="${orgid }"
@@ -382,11 +374,11 @@
 						</div>
 						<div class="alt_edit_div">
 							<label class="colorred"> *电话：</label> <input id="d_telephone"
-								type="text">
+								type="text" placeholder="请输入电话">
 						</div>
 						<div class="alt_edit_div">
 							<label class="colorred"> *身份证号：</label> <input id="d_identityno"
-								type="text">
+								type="text" placeholder="请输入身份证号">
 						</div>
 						<div class="alt_edit_div">
 							<label>有效性： </label> <input id="d_isvalid" type="checkbox"

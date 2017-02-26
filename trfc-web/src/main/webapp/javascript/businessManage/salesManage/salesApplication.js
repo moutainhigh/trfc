@@ -8,6 +8,9 @@
 			auditUrl:"/trfc/salesApplication/audit",
 			unauditUrl:"/trfc/salesApplication/unaudit",
 			deleteUrl:"/trfc/salesApplication/delete",
+			billTypeAutoCompleteSearch: "/trfc/billType/autoCompleteSearch",
+			materielAutoCompleteSearch: "/trfc/materiel/autoCompleteSearch",
+			warehouseAutoCompleteSearch: "/trfc/materiel/autoCompleteSearch"
 	};
 	function str2Long(dateStr){
 		var time = '';
@@ -20,8 +23,103 @@
 	
 	init();
 	function init(){
+		//初始化autocomplete
+		initAutoComplete();
 		bindEvent();
 		queryData(1);
+	}
+	function initAutoComplete(){
+		var cache = {};
+	    $("#a_billtype").autocomplete({
+	    	source: function( request, response ) {
+	    		var term = request.term;
+	    		var billtype = cache['billtype'] || {};
+	    		if ( term in billtype ) {
+	    			response( billtype[ term ] );
+	    			return;
+	    		}
+	    		$.post( URL.billTypeAutoCompleteSearch, request, function( data, status, xhr ) {
+	    			billtype[ term ] = data;
+	    			response( data );
+	    		});
+	    	},
+	    	response: function( event, ui ) {
+	    		if(ui.content && ui.content.length > 0){
+		    		ui.content.forEach(function(x,i,a){
+		    			x.label = x.name;
+		    			x.value = x.id;
+		    		});
+	    		}
+	    	},
+	    	select: function( event, ui ) {
+	    		$(this).val(ui.item.name).attr('billtypeid', ui.item.id);
+	    		return false;
+    		}
+	    }).off('click').on('click',function(){
+	    	$(this).autocomplete('search',' ');
+	    }).change(function(){
+	    	$(this).val('').removeAttr('billtypeid');
+	    });
+	    $("#a_materiel").autocomplete({
+	    	source: function( request, response ) {
+	    		var term = request.term;
+	    		var materiel = cache['materiel'] || {};
+	    		if ( term in materiel ) {
+	    			response( materiel[ term ] );
+	    			return;
+	    		}
+	    		$.post( URL.materielAutoCompleteSearch, request, function( data, status, xhr ) {
+	    			materiel[ term ] = data;
+	    			response( data );
+	    		});
+	    	},
+	    	response: function( event, ui ) {
+	    		if(ui.content && ui.content.length > 0){
+	    			ui.content.forEach(function(x,i,a){
+	    				x.label = x.name;
+	    				x.value = x.id;
+	    			});
+	    		}
+	    	},
+	    	select: function( event, ui ) {
+	    		$(this).val(ui.item.name).attr('materielid', ui.item.id);
+	    		return false;
+	    	}
+	    }).off('click').on('click',function(){
+	    	$(this).autocomplete('search',' ');
+	    }).change(function(){
+	    	$(this).val('').removeAttr('materielid');
+	    });
+	    $("#a_warehouse").autocomplete({
+	    	source: function( request, response ) {
+	    		var term = request.term;
+	    		var warehouse = cache['warehouse'] || {};
+	    		if ( term in warehouse ) {
+	    			response( warehouse[ term ] );
+	    			return;
+	    		}
+	    		$.post( URL.warehouseAutoCompleteSearch, request, function( data, status, xhr ) {
+	    			warehouse[ term ] = data;
+	    			response( data );
+	    		});
+	    	},
+	    	response: function( event, ui ) {
+	    		if(ui.content && ui.content.length > 0){
+	    			ui.content.forEach(function(x,i,a){
+	    				x.label = x.name;
+	    				x.value = x.id;
+	    			});
+	    		}
+	    	},
+	    	select: function( event, ui ) {
+	    		$(this).val(ui.item.name).attr('warehouseid', ui.item.id);
+	    		return false;
+	    	}
+	    }).off('click').on('click',function(){
+	    	$(this).autocomplete('search',' ');
+	    }).change(function(){
+	    	$(this).val('').removeAttr('warehouseid');
+	    });
 	}
 	function bindEvent(){
 		$('#refreshBtn').off('click').on('click',function(){
@@ -78,24 +176,11 @@
 					  shade: [0.3,'#fff'] //0.1透明度的白色背景
 					});
 				var code = $('#a_code').val();code = $.trim(code);
-				var billtypeid = $('#a_billtype').val();billtypeid = $.trim(billtypeid);
-				var billtypename = $('#a_billtype>option:checked').text();billtypename = $.trim(billtypename);
+				var billtypeid = $('#a_billtype').attr('billtypeid');billtypeid = $.trim(billtypeid);
 				var billtimeStr = $('#a_billtimeStr').val();billtimeStr = $.trim(billtimeStr);
 				var customerid = $('#a_customer').attr('customerid');customerid = $.trim(customerid);
-				var customername = $('#a_customer').val();customername = $.trim(customername);
-				var channelcode = $('#a_channelcode').val();channelcode = $.trim(channelcode);
-				var salesmanid = $('#a_salesmanname').attr('salesmanid');salesmanid = $.trim(salesmanid);
-				var salesmanname = $('#a_salesmanname').val();salesmanname = $.trim(salesmanname);
-				var transportcompanyid = $('#a_transportcompanyname').attr('transportcompanyid');transportcompanyid = $.trim(transportcompanyid);
-				var transportcompanyname = $('#a_transportcompanyname').val();transportcompanyname = $.trim(transportcompanyname);
-				var orgid = $('#a_orgname').attr('orgid');orgid = $.trim(orgid);
-				var orgname = $('#a_orgname').val();orgname = $.trim(orgname);
-				var makerid = $('#a_makername').attr('makerid');makerid = $.trim(makerid);
-				var makebillname = $('#a_makebillname').val();makebillname = $.trim(makebillname);
 				var materielid = $('#a_materiel').val();
-				var materielname = $('#a_materiel option:checked').text();
 				var warehouseid = $('#a_warehouse').val();
-				var warehousename = $('#a_warehouse option:checked').text();
 				var salessum = $('#a_salessum').val();salessum = $.trim(salessum);
 				var taxprice = $('#a_taxprice').val();taxprice = $.trim(taxprice);
 				var taxrate = $('#a_taxrate').val();taxrate = $.trim(taxrate);
@@ -105,23 +190,11 @@
 					data:{
 						code:code,
 						billtypeid:billtypeid,
-						billtypename:billtypename,
 						billtime:str2Long(billtimeStr),
 						customerid:customerid,
-						customername:customername,
-						channelcode:channelcode,
-						salesmanid:salesmanid,
-						salesmanname:salesmanname,
-						transportcompanyid:transportcompanyid,
-						transportcompanyname:transportcompanyname,
-						orgid:orgid,
-						orgname:orgname,
-						makerid:makerid,
 						makebillname:makebillname,
 						materielid:materielid,
-						materielname:materielname,
 						warehouseid:warehouseid,
-						warehousename:warehousename,
 						salessum:salessum,
 						taxprice:taxprice,
 						taxrate:taxrate,

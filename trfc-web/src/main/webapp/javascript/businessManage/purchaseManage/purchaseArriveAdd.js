@@ -343,7 +343,6 @@
 	}
 	//新增车辆
 	function saveVehicle(){
-		var code = $('#v_code').val(); code = $.trim(code);
 		var transporttype = $('#v_transporttype').val(); transporttype = $.trim(transporttype);
 		var vehicleno = $('#v_vehicleno').val(); vehicleno = $.trim(vehicleno);
 		var vehicletype = $('#v_vehicletype').val(); vehicletype = $.trim(vehicletype);
@@ -360,10 +359,12 @@
 			isvalid = 1;
 		}
 		var remarks = $('#v_remarks').val(); remarks = $.trim(remarks);
+		if(!vehicleno){
+			layer.msg('车牌号码不能为空!', {icon: 5});return;
+		}
 		$.ajax({
 			url:URL.addVehicle,
 			data:{
-				code:code,
 				transporttype:transporttype,
 				vehicleno:vehicleno,
 				vehicletype:vehicletype,
@@ -396,8 +397,6 @@
 	}
 	//新增司机
 	function saveDriver(){
-		var code = $('#d_code').val(); code = $.trim(code);
-		var internalcode = $('#d_internalcode').val(); internalcode = $.trim(internalcode);
 		var name = $('#d_name').val(); name = $.trim(name);
 		var abbrname = $('#d_abbrname').val(); abbrname = $.trim(abbrname);
 		var address = $('#d_address').val(); address = $.trim(address);
@@ -410,11 +409,18 @@
 			isvalid = 1;
 		}
 		var remarks = $('#d_remarks').val(); remarks = $.trim(remarks);
+		if(!name){
+			layer.msg('司机名称不能为空!', {icon: 5});return;
+		}
+		if(!telephone){
+			layer.msg('司机电话不能为空!', {icon: 5});return;
+		}
+		if(!identityno){
+			layer.msg('身份证号不能为空!', {icon: 5});return;
+		}
 		$.ajax({
 			url:URL.addDriver,
 			data:{
-				code:code,
-				internalcode:internalcode,
 				name:name,
 				abbrname:abbrname,
 				address:address,
@@ -433,7 +439,7 @@
 				if(result.code == '000000'){
 					layer.msg(result.error, {icon: 1});
 					var driver = result.data;
-					$('#driverid').val(driver.name).attr('driverid',driver.id);
+					$('#driver').val(driver.name).attr('driverid',driver.id);
 					$('#identityno').val(driver.identityno);
 					$('#driverAddView').modal('hide');
 				}else{
