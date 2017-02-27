@@ -11,13 +11,24 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.tianrui.api.req.businessManage.app.AppDriverSaveReq;
 import com.tianrui.api.req.businessManage.app.AppOrderReq;
+import com.tianrui.api.req.businessManage.app.AppOrderSaveReq;
+import com.tianrui.api.req.businessManage.app.AppQueryReq;
+import com.tianrui.api.req.businessManage.app.AppUserEditReq;
+import com.tianrui.api.req.businessManage.app.AppVersionReq;
 import com.tianrui.api.req.system.auth.AppUserReq;
 import com.tianrui.api.req.system.auth.UserReq;
+import com.tianrui.api.resp.businessManage.app.AppDriverResp;
+import com.tianrui.api.resp.businessManage.app.AppMsgCountResp;
+import com.tianrui.api.resp.businessManage.app.AppMsgResp;
 import com.tianrui.api.resp.businessManage.app.AppNoticeOrderDetailResp;
 import com.tianrui.api.resp.businessManage.app.AppOrderDetailResp;
 import com.tianrui.api.resp.businessManage.app.AppOrderResp;
 import com.tianrui.api.resp.businessManage.app.AppOverListDetailResp;
+import com.tianrui.api.resp.businessManage.app.AppVehicleInFactoryResp;
+import com.tianrui.api.resp.businessManage.app.AppVehicleResp;
+import com.tianrui.api.resp.businessManage.app.AppVersionResp;
 import com.tianrui.api.resp.system.auth.AppUserResp;
 import com.tianrui.smartfactory.common.api.ApiParam;
 import com.tianrui.smartfactory.common.api.ApiResult;
@@ -240,6 +251,198 @@ public class ApiStaticAction {
 		resp.setDoorCode("MJ201702200003");
 		resp.setSettlementWeight("33");
 		rs.setData(resp);
+		return ApiResult.valueOf(rs);
+	}
+	
+	
+	/**
+	 * 车牌号查询
+	 * @param req
+	 * @return
+	 */
+	@RequestMapping(value="/vehicleList",method=RequestMethod.POST)
+	@ApiParamRawType(AppQueryReq.class)
+	@ResponseBody
+	public ApiResult vehicleList(ApiParam<AppQueryReq> req){
+		AppQueryReq userReq =req.getBody();
+		Result rs=Result.getSuccessResult();
+		
+		
+		PaginationVO<AppVehicleResp> page=new PaginationVO<AppVehicleResp>();
+		
+		List<AppVehicleResp> list =new ArrayList<AppVehicleResp>();
+		AppVehicleResp item =new AppVehicleResp();
+		item.setId(UUIDUtil.getId());
+		item.setVehicle("临A12345");
+		list.add(item);
+		
+		page.setPageNo(1);
+		page.setTotal(19);
+		page.setList(list);
+		
+		
+		rs.setData(page);
+		return ApiResult.valueOf(rs);
+	}
+	
+	/**
+	 * 司机查询
+	 * @param req
+	 * @return
+	 */
+	@RequestMapping(value="/driverList",method=RequestMethod.POST)
+	@ApiParamRawType(AppQueryReq.class)
+	@ResponseBody
+	public ApiResult driverList(ApiParam<AppQueryReq> req){
+		AppQueryReq userReq =req.getBody();
+		PaginationVO<AppDriverResp> page=new PaginationVO<AppDriverResp>();
+		
+		Result rs=Result.getSuccessResult();
+		List<AppDriverResp> list =new ArrayList<AppDriverResp>();
+		AppDriverResp item =new AppDriverResp();
+		item.setId(UUIDUtil.getId());
+		item.setIdNo("4104821987xxxx6756");
+		item.setName("李先生");
+		list.add(item);
+		
+		page.setPageNo(1);
+		page.setTotal(19);
+		page.setList(list);
+		
+		rs.setData(page);
+		return ApiResult.valueOf(rs);
+	}
+	/**
+	 * 派单
+	 * @param req
+	 * @return
+	 */
+	@RequestMapping(value="/orderCrate",method=RequestMethod.POST)
+	@ApiParamRawType(AppOrderSaveReq.class)
+	@ResponseBody
+	public ApiResult orderCrate(ApiParam<AppOrderSaveReq> req){
+		AppOrderSaveReq userReq =req.getBody();
+		Result rs=Result.getSuccessResult();
+		
+		return ApiResult.valueOf(rs);
+	}
+	
+	/**
+	 * 新增司机
+	 * @param req
+	 * @return
+	 */
+	@RequestMapping(value="/driverCreate",method=RequestMethod.POST)
+	@ApiParamRawType(AppDriverSaveReq.class)
+	@ResponseBody
+	public ApiResult driverCreate(ApiParam<AppDriverSaveReq> req){
+		AppDriverSaveReq userReq =req.getBody();
+		Result rs=Result.getSuccessResult();
+
+		return ApiResult.valueOf(rs);
+	}
+	/**
+	 * 在厂车辆查询
+	 * @param req
+	 * @return
+	 */
+	@RequestMapping(value="/vehicleInFactory",method=RequestMethod.POST)
+	@ApiParamRawType(AppOrderReq.class)
+	@ResponseBody
+	public ApiResult vehicleInFactory(ApiParam<AppOrderReq> req){
+		AppOrderReq userReq =req.getBody();
+		PaginationVO<AppVehicleInFactoryResp> page=new PaginationVO<AppVehicleInFactoryResp>();
+		Result rs=Result.getSuccessResult();
+		List<AppVehicleInFactoryResp> list =new ArrayList<AppVehicleInFactoryResp>();
+		AppVehicleInFactoryResp item =new AppVehicleInFactoryResp();
+		item.setMaterName("水泥525");
+		item.setVehicleCount("20");
+		list.add(item);
+		
+		page.setPageNo(1);
+		page.setTotal(19);
+		page.setList(list);
+		
+		rs.setData(page);
+		return ApiResult.valueOf(rs);
+	}
+	
+
+	/**
+	 * 未读消息数量
+	 * @param req
+	 * @return
+	 */
+	@RequestMapping(value="/countMsgUnread",method=RequestMethod.POST)
+	@ApiParamRawType(AppQueryReq.class)
+	@ResponseBody
+	public ApiResult countMsgUnread(ApiParam<AppQueryReq> req){
+		AppQueryReq userReq =req.getBody();
+		Result rs=Result.getSuccessResult();
+		AppMsgCountResp item =new AppMsgCountResp();
+		item.setMsgCount("20");
+		rs.setData(item);
+		return ApiResult.valueOf(rs);
+	}
+	
+	/**
+	 * 消息列表
+	 * @param req
+	 * @return
+	 */
+	@RequestMapping(value="/msgList",method=RequestMethod.POST)
+	@ApiParamRawType(AppQueryReq.class)
+	@ResponseBody
+	public ApiResult msgList(ApiParam<AppQueryReq> req){
+		AppQueryReq userReq =req.getBody();
+		PaginationVO<AppMsgResp> page=new PaginationVO<AppMsgResp>();
+		Result rs=Result.getSuccessResult();
+		List<AppMsgResp> list =new ArrayList<AppMsgResp>();
+		AppMsgResp item =new AppMsgResp();
+		item.setId(UUIDUtil.getId());
+		item.setTitle("系统消息");
+		item.setContent("您有一条系统消息,来源与张先生");
+		item.setCreateTime("2017-02-02 12:12");
+		item.setFromUser("张先生");
+		item.setStatus("1");
+		list.add(item);
+		
+		page.setPageNo(1);
+		page.setTotal(19);
+		page.setList(list);
+		
+		rs.setData(page);
+		return ApiResult.valueOf(rs);
+	}
+	/**
+	 * 版本是否需要更新查询
+	 * @param req
+	 * @return
+	 */
+	@RequestMapping(value="/versionQuery",method=RequestMethod.POST)
+	@ApiParamRawType(AppVersionReq.class)
+	@ResponseBody
+	public ApiResult versionQuery(ApiParam<AppVersionReq> req){
+		AppVersionReq userReq =req.getBody();
+		Result rs=Result.getSuccessResult();
+		AppVersionResp item =new AppVersionResp();
+		item.setUpdateFlag("0");
+		rs.setData(item);
+		return ApiResult.valueOf(rs);
+	}
+	
+	/**
+	 * 用户修改
+	 * @param req
+	 * @return
+	 */
+	@RequestMapping(value="/userEdit",method=RequestMethod.POST)
+	@ApiParamRawType(AppUserEditReq.class)
+	@ResponseBody
+	public ApiResult userEdit(ApiParam<AppUserEditReq> req){
+		AppUserEditReq userReq =req.getBody();
+		Result rs=Result.getSuccessResult();
+		
 		return ApiResult.valueOf(rs);
 	}
 	
