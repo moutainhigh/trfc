@@ -24,4 +24,6 @@ public interface SalesApplicationDetailMapper {
     
     List<SalesApplicationDetail> selectBySalesIds(List<String> list);
     
+    List<SalesApplicationDetail> selectByIds(List<String> list);
+    
 }

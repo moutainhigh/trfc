@@ -1,7 +1,7 @@
 ;(function($, win){
 	var URL = {
 		addUrl:"/trfc/salesArrive/add",
-		pageUrl:"/trfc/salesApplication/page",
+		pageUrl:"/trfc/salesApplication/pageGroupMateriel",
 		mainUrl:"/trfc/salesArrive/main",
 		addVehicleUrl:"/trfc/vehicle/add",
 		addDriverUrl:"/trfc/driver/add",
@@ -272,12 +272,11 @@
 			for(var i=0;i<list.length;i++){
 				var obj = list[i] || '';
 				var customer = obj.customerManageResp;
-				var salesApplicationDetail = obj.detailResp;
 				var code = obj.code || '';
 				var billtypename = obj.billtypename || '';
 				var customername = obj.customername || '';
-				var materielname = salesApplicationDetail.materielname || '';
-				var salessum = salesApplicationDetail.salessum || '';
+				var materielname = obj.materielname || '';
+				var salessum = obj.salessum || '';
 				var orgname = obj.orgname || '';
 				var billtimeStr = obj.billtimeStr || '';
 				var departmentname = obj.departmentname || '';
@@ -315,26 +314,38 @@
 		});
 	}
 	function selectSalesApplication(obj){
-		var detail = obj.detailResp;
-		$('#billcode').val(obj.code || '').attr('billid', obj.id || '');
+		$('#billcode').val(obj.code || '').attr('billid', obj.id || '').attr('billdetailid', obj.detailid || '');
 		$('#customername').val(obj.customername || '');
 		$('#channelcode').val(obj.channelcode || '');
-		$('#materielname').val(detail.materielname || '');
+		$('#materielname').val(obj.materielname || '');
 		$('#departmentname').val(obj.departmentname || '');
-		$('#unit').val(detail.unit || '');
-		$('#salessum').val(detail.salessum || '');
+		$('#unit').val(obj.unit || '');
+		$('#salessum').val(obj.salessum || '');
 		$('#billtime').val(obj.billtimeStr || '').attr('billtime', obj.billtime || '');
 		$('#salesApplication').modal('hide');
 		$('#salesApplicationDetailBody').empty()
 										.append('<tr><td>'+(obj.code || '')+'</td><td>'+(obj.billtypename || '')+'</td>'
-												+'<td>'+(obj.billtimeStr || '')+'</td><td>'+(detail.materielname || '')+'</td>'
-												+'<td>'+detail.unit || ''+'</td><td>'+(detail.salessum || '')+'</td>'
+												+'<td>'+(obj.billtimeStr || '')+'</td><td>'+(obj.materielname || '')+'</td>'
+												+'<td>'+obj.unit || ''+'</td><td>'+(obj.salessum || '')+'</td>'
 												+'<td></td><td id="advanceAmount">0.00</td><td>'+(obj.orgname || '')+'</td>'
 												+'<td>'+(obj.customername || '')+'</td><td>'+(obj.departmentname || '')+'</td>'
 												+'<td>'+(obj.salesmanname || '')+'</td><td>'+obj.makerbillname || ''+'</td></tr>');
 	}
+	function validate(params){
+		if(!params.billid || !params.billdetailid){
+			layer.msg('请选择订单！', {icon: 5});return false;
+		}
+		if(!params.vehicleid){
+			layer.msg('请选择车辆！', {icon: 5});return false;
+		}
+		if(!params.takeamount){
+			layer.msg('请输入提货量！', {icon: 5});return false;
+		}
+		return params;
+	}
 	function getSalesArriveParams(){
 		var billid = $('#billcode').attr('billid'); billid = $.trim(billid);
+		var billdetailid = $('#billcode').attr('billdetailid'); billdetailid = $.trim(billdetailid);
 		var maindeduction = '0';
 		if($('#maindeduction').is(':checked')){
 			maindeduction = '1';
@@ -350,6 +361,7 @@
 		var icardid = $('#icardid').attr('icardid'); icardid = $.trim(icardid);
 		return {
 			billid:billid,
+			billdetailid:billdetailid,
 			maindeduction:maindeduction,
 			code:code,
 			makebilltime:str2Long(createtimeStr),
@@ -364,26 +376,29 @@
 	}
 	//新增通知单
 	function saveSalesArrive(_this){
-		var index = layer.load(2, {
-			  shade: [0.3,'#fff'] //0.1透明度的白色背景
+		var params = getSalesArriveParams();
+		if(validate(params)){
+			var index = layer.load(2, {
+				shade: [0.3,'#fff'] //0.1透明度的白色背景
 			});
-		$.ajax({
-			url:URL.addUrl,
-			data:getSalesArriveParams(),
-			async:true,
-			cache:false,
-			dataType:'json',
-			type:'post',
-			success:function(result){
-				if(result.code == '000000'){
-					window.location.href = URL.mainUrl;
-				}else{
-					layer.msg(result.error, {icon: 5});
-					_this.disabled = false;
-					layer.close(index);
+			$.ajax({
+				url:URL.addUrl,
+				data:params,
+				async:true,
+				cache:false,
+				dataType:'json',
+				type:'post',
+				success:function(result){
+					if(result.code == '000000'){
+						window.location.href = URL.mainUrl;
+					}else{
+						layer.msg(result.error, {icon: 5});
+						_this.disabled = false;
+						layer.close(index);
+					}
 				}
-			}
-		});
+			});
+		}
 	}
 	//新增车辆
 	function saveVehicle(){

@@ -236,8 +236,10 @@ public class PurchaseArriveService implements IPurchaseArriveService {
 	private void listRespSetListApplicationResp(List<PurchaseArriveResp> list) throws Exception {
 		if(CollectionUtils.isNotEmpty(list)){
 			List<String> ids = new ArrayList<String>();
+			List<String> detailIds = new ArrayList<String>();
 			for(PurchaseArriveResp resp : list){
 				ids.add(resp.getBillid());
+				detailIds.add(resp.getBilldetailid());
 			}
 			List<PurchaseApplicationResp> listApplication = purchaseApplicationService.selectByIds(ids, false);
 			if(CollectionUtils.isNotEmpty(listApplication)){
@@ -248,10 +250,6 @@ public class PurchaseArriveService implements IPurchaseArriveService {
 						}
 					}
 				}
-			}
-			ids.clear();
-			for(PurchaseArriveResp resp : list){
-				ids.add(resp.getBilldetailid());
 			}
 			List<PurchaseApplicationDetailResp> listApplicationDetail = purchaseApplicationDetailService.selectByIds(ids);
 			if(CollectionUtils.isNotEmpty(listApplicationDetail)){

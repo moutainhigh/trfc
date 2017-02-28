@@ -97,7 +97,7 @@ public class AccessRecordService1 implements IAccessRecordService1 {
 				for(SalesArriveResp salesResp : salesList){
 					if(StringUtils.equals(resp.getNoticeid(), salesResp.getId())){
 						resp.setVehicleno(salesResp.getVehicleno());
-						resp.setMaterielname(salesResp.getSalesApplication().getDetailResp().getMaterielname());
+						resp.setMaterielname(salesResp.getSalesApplicationDetail().getMaterielname());
 						resp.setRfid(salesResp.getVehiclerfid());
 						resp.setOtherparty(salesResp.getSalesApplication().getCustomername());
 						if(StringUtils.isNotBlank(salesResp.getIcardid())){

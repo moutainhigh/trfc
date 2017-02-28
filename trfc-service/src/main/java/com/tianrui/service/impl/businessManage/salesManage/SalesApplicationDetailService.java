@@ -62,6 +62,14 @@ public class SalesApplicationDetailService implements ISalesApplicationDetailSer
 		}
 		return list;
 	}
+
+	@Override
+	public SalesApplicationDetailResp findOne(String id) throws Exception {
+		if(StringUtils.isNotBlank(id)){
+			return copyBean2Resp(salesApplicationDetailMapper.selectByPrimaryKey(id));
+		}
+		return null;
+	}
 	
 	@Override
 	public List<SalesApplicationDetailResp> selectBySalesIds(List<String> salesIds) throws Exception {
@@ -70,6 +78,15 @@ public class SalesApplicationDetailService implements ISalesApplicationDetailSer
 			list = copyBeanList2RespList(salesApplicationDetailMapper.selectBySalesIds(salesIds));
 		}
 		return list;
+	}
+	
+	@Override
+	public List<SalesApplicationDetailResp> selectByIds(List<String> ids) throws Exception{
+		List<SalesApplicationDetailResp> listResp = null;
+		if(CollectionUtils.isNotEmpty(ids)){
+			listResp = copyBeanList2RespList(salesApplicationDetailMapper.selectByIds(ids));
+		}
+		return listResp;
 	}
 	
 	private List<SalesApplicationDetailResp> copyBeanList2RespList(List<SalesApplicationDetail> list) throws Exception {

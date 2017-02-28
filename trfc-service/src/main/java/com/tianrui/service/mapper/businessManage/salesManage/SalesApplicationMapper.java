@@ -3,6 +3,7 @@ package com.tianrui.service.mapper.businessManage.salesManage;
 import java.util.List;
 
 import com.tianrui.api.req.businessManage.salesManage.SalesApplicationQuery;
+import com.tianrui.api.resp.businessManage.salesManage.SalesApplicationJoinDetailResp;
 import com.tianrui.service.bean.businessManage.salesManage.SalesApplication;
 
 public interface SalesApplicationMapper {
@@ -20,9 +21,13 @@ public interface SalesApplicationMapper {
 
     int updateByPrimaryKey(SalesApplication record);
     
+    List<SalesApplication> findSalesApplicationPage(SalesApplicationQuery query);
+    
     long findSalesApplicationPageCount(SalesApplicationQuery query);
 
-	List<SalesApplication> findSalesApplicationPage(SalesApplicationQuery query);
+    List<SalesApplicationJoinDetailResp> findPageGroupMateriel(SalesApplicationQuery query);
+	
+	long findPageGroupMaterielCount(SalesApplicationQuery query);
 
 	List<SalesApplication> selectSelective(SalesApplication record);
 	

@@ -23,6 +23,7 @@ import com.tianrui.api.req.businessManage.salesManage.SalesApplicationQuery;
 import com.tianrui.api.req.businessManage.salesManage.SalesApplicationSave;
 import com.tianrui.api.req.system.base.GetCodeReq;
 import com.tianrui.api.resp.businessManage.salesManage.SalesApplicationDetailResp;
+import com.tianrui.api.resp.businessManage.salesManage.SalesApplicationJoinDetailResp;
 import com.tianrui.api.resp.businessManage.salesManage.SalesApplicationResp;
 import com.tianrui.service.bean.basicFile.nc.CustomerManage;
 import com.tianrui.service.bean.basicFile.nc.MaterielManage;
@@ -89,6 +90,26 @@ public class SalesApplicationService implements ISalesApplicationService {
 		return page;
 	}
 	
+	@Override
+	public PaginationVO<SalesApplicationJoinDetailResp> pageGroupMateriel(SalesApplicationQuery query) throws Exception{
+		PaginationVO<SalesApplicationJoinDetailResp> page = null;
+		if(query != null){
+			page = new PaginationVO<SalesApplicationJoinDetailResp>();
+			query.setState("1");
+			long count = salesApplicationMapper.findPageGroupMaterielCount(query);
+			if(count > 0){
+				query.setStart((query.getPageNo()-1)*query.getPageSize());
+				query.setLimit(query.getPageSize());
+				List<SalesApplicationJoinDetailResp> list = salesApplicationMapper.findPageGroupMateriel(query);
+				page.setList(list);
+			}
+			page.setTotal(count);
+			page.setPageNo(query.getPageNo());
+			page.setPageSize(query.getPageSize());
+		}
+		return page;
+	}
+	
 	@Transactional
 	@Override
 	public Result add(SalesApplicationSave save) throws Exception {
@@ -123,6 +144,8 @@ public class SalesApplicationService implements ISalesApplicationService {
 					sa.setSalesmanname(customer.getSalesmanname());
 					sa.setTransportcompanyid(customer.getTransportcompanyid());
 					sa.setTransportcompanyname(customer.getTransportcompanyname());
+					sa.setDepartmentid(customer.getDepartmentid());
+					sa.setDepartmentname(customer.getDepartmentname());
 				}
 			}
 			sa.setOrgid(Constant.ORG_ID);
@@ -203,36 +226,31 @@ public class SalesApplicationService implements ISalesApplicationService {
 						sa.setSalesmanname(customer.getSalesmanname());
 						sa.setTransportcompanyid(customer.getTransportcompanyid());
 						sa.setTransportcompanyname(customer.getTransportcompanyname());
+						sa.setDepartmentid(customer.getDepartmentid());
+						sa.setDepartmentname(customer.getDepartmentname());
 					}
 				}
 				sa.setModifier(save.getCurrid());
 				sa.setModifytime(System.currentTimeMillis());
 				if(salesApplicationMapper.updateByPrimaryKeySelective(sa) > 0){
-					List<SalesApplicationDetailSave> list = new ArrayList<SalesApplicationDetailSave>();//稍后取save里面的List
-					for (int i = 0; i < list.size(); i++) {
-						SalesApplicationDetailSave detail = list.get(i);
-						if(StringUtils.isNotBlank(detail.getMaterielid())){
-							MaterielManage mater = materielManageMapper.selectByPrimaryKey(detail.getMaterielid());
-							if(mater != null){
-								detail.setMaterielname(mater.getName());
-							}
+					SalesApplicationDetailResp applicationDetailResp = salesApplicationDetailService.findOne(save.getDetailid());
+					if(StringUtils.isNotBlank(save.getMaterielid())){
+						MaterielManage mater = materielManageMapper.selectByPrimaryKey(save.getMaterielid());
+						if(mater != null){
+							applicationDetailResp.setMaterielname(mater.getName());
 						}
-						if(StringUtils.isNotBlank(detail.getWarehouseid())){
-							WarehouseManage warehouse = warehouseManageMapper.selectByPrimaryKey(detail.getWarehouseid());
-							detail.setWarehousename(warehouse.getName());
-						}
-						
-//						
-//						sd.setMaterielid(save.getMaterielid());
-//						sd.setMaterielname(save.getMaterielname());
-//						sd.setWarehouseid(save.getWarehouseid());
-//						sd.setWarehousename(save.getWarehousename());
-//						sd.setSalessum(save.getSalessum());
-//						sd.setTaxprice(save.getTaxprice());
-//						sd.setTaxrate(save.getTaxrate());
-//						sd.setUntaxprice(save.getUntaxprice());
-						result = salesApplicationDetailService.update(detail);
 					}
+					if(StringUtils.isNotBlank(save.getWarehouseid())){
+						WarehouseManage warehouse = warehouseManageMapper.selectByPrimaryKey(save.getWarehouseid());
+						applicationDetailResp.setWarehousename(warehouse.getName());
+					}
+					applicationDetailResp.setSalessum(save.getSalessum());
+					applicationDetailResp.setTaxprice(save.getTaxprice());
+					applicationDetailResp.setTaxrate(save.getTaxrate());
+					applicationDetailResp.setUntaxprice(save.getUntaxprice());
+					SalesApplicationDetailSave applicationDetailSave = new SalesApplicationDetailSave();
+					PropertyUtils.copyProperties(applicationDetailSave, applicationDetailResp);
+					result = salesApplicationDetailService.update(applicationDetailSave);
 				}else{
 					result.setErrorCode(ErrorCode.OPERATE_ERROR);
 				}
@@ -335,11 +353,13 @@ public class SalesApplicationService implements ISalesApplicationService {
 			List<SalesApplicationDetailResp> listDetailResp = salesApplicationDetailService.selectBySalesIds(ids);
 			if(CollectionUtils.isNotEmpty(listDetailResp)){
 				for(SalesApplicationResp resp : listResp){
+					List<SalesApplicationDetailResp> list = new ArrayList<SalesApplicationDetailResp>();
 					for(SalesApplicationDetailResp detailResp : listDetailResp){
 						if(StringUtils.equals(resp.getId(), detailResp.getSalesid())){
-							resp.setDetailResp(detailResp);
+							list.add(detailResp);
 						}
 					}
+					resp.setList(list);
 				}
 			}
 		}
@@ -364,7 +384,7 @@ public class SalesApplicationService implements ISalesApplicationService {
 			if(setDetail){
 				SalesApplicationDetailQuery query = new SalesApplicationDetailQuery();
 				query.setSalesid(bean.getId());
-				resp.setDetailResp(salesApplicationDetailService.findListBySalesApplicationId(query).get(0));
+				resp.setList(salesApplicationDetailService.findListBySalesApplicationId(query));
 			}
 		}
 		return resp;

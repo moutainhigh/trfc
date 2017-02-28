@@ -46,6 +46,13 @@
     s1.departmentid, s1.departmentname, s1.auditid, s1.auditname, s1.audittime, s1.state, s1.makerid, s1.makebillname, 
     s1.makebilltime, s1.remarks, s1.creator, s1.createtime, s1.modifier, s1.modifytime, s1.utc
   </sql>
+  <sql id="Base_Column_List_S1_S2" >
+    s1.id, s1.code, s1.status, s1.source, s1.billtypeid, s1.billtypename, s1.customerid, s1.customername, s1.channelcode, 
+    s1.salesmanid, s1.salesmanname, s1.billtime, s1.orgid, s1.orgname, s1.transportcompanyid, s1.transportcompanyname, 
+    s1.departmentid, s1.departmentname, s1.auditid, s1.auditname, s1.audittime, s1.state, s1.makerid, s1.makebillname, 
+    s1.makebilltime, s1.remarks, s1.creator, s1.createtime, s1.modifier, s1.modifytime, s1.utc, s2.id as detailid, s2. materielname,
+    s2.salessum, s2.unit
+  </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
     <include refid="Base_Column_List" />
@@ -505,7 +512,62 @@
   </select>
   <select id="findSalesApplicationPage" parameterType="com.tianrui.api.req.businessManage.salesManage.SalesApplicationQuery" resultMap="BaseResultMap">
   	select
-  	<include refid="Base_Column_List_S1" />
+  	<include refid="Base_Column_List" />
+  	from tr_sales_db_application
+  	<where>
+  		<if test="state != null and state != ''">
+  			and state = #{state,jdbcType=VARCHAR}
+  		</if>
+  		<if test="customerid != null and customerid != ''">
+  			and customerid = #{customerid,jdbcType=VARCHAR}
+  		</if>
+  		<if test="source != null and source != ''">
+  			and source = #{source,jdbcType=VARCHAR}
+  		</if>
+  		<if test="code != null and code != ''">
+  			and code = #{code,jdbcType=VARCHAR}
+  		</if>
+  		<if test="starttime != null and starttime != ''">
+  			and createtime <![CDATA[>=]]> #{starttime,jdbcType=BIGINT}
+  		</if>
+  		<if test="endtime != null and endtime != ''">
+  			and createtime <![CDATA[<]]> #{endtime,jdbcType=BIGINT}
+  		</if>
+  	</where>
+  	order by createtime desc
+  	<if test="start != null and start >= 0">
+  		<if test="limit != null">
+			limit #{start,jdbcType=INTEGER},#{limit,jdbcType=INTEGER}
+  		</if>
+  	</if>
+  </select>
+  <select id="findSalesApplicationPageCount" parameterType="com.tianrui.api.req.businessManage.salesManage.SalesApplicationQuery" resultType="java.lang.Long" >
+  	select count(0)
+  	from tr_sales_db_application
+  	<where>
+  		<if test="state != null and state != ''">
+  			and state = #{state,jdbcType=VARCHAR}
+  		</if>
+  		<if test="customerid != null and customerid != ''">
+  			and customerid = #{customerid,jdbcType=VARCHAR}
+  		</if>
+  		<if test="source != null and source != ''">
+  			and source = #{source,jdbcType=VARCHAR}
+  		</if>
+  		<if test="code != null and code != ''">
+  			and code = #{code,jdbcType=VARCHAR}
+  		</if>
+  		<if test="starttime != null and starttime != ''">
+  			and createtime <![CDATA[>=]]> #{starttime,jdbcType=BIGINT}
+  		</if>
+  		<if test="endtime != null and endtime != ''">
+  			and createtime <![CDATA[<]]> #{endtime,jdbcType=BIGINT}
+  		</if>
+  	</where>
+  </select>
+  <select id="findPageGroupMateriel" parameterType="com.tianrui.api.req.businessManage.salesManage.SalesApplicationQuery" resultType="com.tianrui.api.resp.businessManage.salesManage.SalesApplicationJoinDetailResp">
+  	select
+  	<include refid="Base_Column_List_S1_S2" />
   	from tr_sales_db_application s1 left join tr_sales_db_application_detail s2 
   	on s1.id = s2.salesid
   	<where>
@@ -515,20 +577,11 @@
   		<if test="customerid != null and customerid != ''">
   			and s1.customerid = #{customerid,jdbcType=VARCHAR}
   		</if>
-  		<if test="source != null and source != ''">
-  			and s1.source = #{source,jdbcType=VARCHAR}
-  		</if>
   		<if test="code != null and code != ''">
   			and s1.code = #{code,jdbcType=VARCHAR}
   		</if>
-  		<if test="status != null and status != ''">
-  			and s1.status = #{status,jdbcType=VARCHAR}
-  		</if>
   		<if test="materielid != null and materielid != ''">
   			and s2.materielid = #{materielid,jdbcType=VARCHAR}
-  		</if>
-  		<if test="warehouseid != null and warehouseid != ''">
-  			and s2.warehouseid = #{warehouseid,jdbcType=VARCHAR}
   		</if>
   		<if test="starttime != null and starttime != ''">
   			and s1.createtime <![CDATA[>=]]> #{starttime,jdbcType=BIGINT}
@@ -544,7 +597,7 @@
   		</if>
   	</if>
   </select>
-  <select id="findSalesApplicationPageCount" parameterType="com.tianrui.api.req.businessManage.salesManage.SalesApplicationQuery" resultType="java.lang.Long" >
+  <select id="findPageGroupMaterielCount" parameterType="com.tianrui.api.resp.businessManage.salesManage.SalesApplicationJoinDetailResp" resultType="java.lang.Long">
   	select count(0)
   	from tr_sales_db_application s1 left join tr_sales_db_application_detail s2 
   	on s1.id = s2.salesid
@@ -555,20 +608,11 @@
   		<if test="customerid != null and customerid != ''">
   			and s1.customerid = #{customerid,jdbcType=VARCHAR}
   		</if>
-  		<if test="source != null and source != ''">
-  			and s1.source = #{source,jdbcType=VARCHAR}
-  		</if>
   		<if test="code != null and code != ''">
   			and s1.code = #{code,jdbcType=VARCHAR}
   		</if>
-  		<if test="status != null and status != ''">
-  			and s1.status = #{status,jdbcType=VARCHAR}
-  		</if>
   		<if test="materielid != null and materielid != ''">
   			and s2.materielid = #{materielid,jdbcType=VARCHAR}
-  		</if>
-  		<if test="warehouseid != null and warehouseid != ''">
-  			and s2.warehouseid = #{warehouseid,jdbcType=VARCHAR}
   		</if>
   		<if test="starttime != null and starttime != ''">
   			and s1.createtime <![CDATA[>=]]> #{starttime,jdbcType=BIGINT}
