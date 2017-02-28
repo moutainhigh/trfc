@@ -215,7 +215,7 @@
 		var endtime = $('#endtime').val() || ''; endtime = $.trim(endtime);
 		var pageSize = $('#pageSize').val() || ''; pageSize = $.trim(pageSize);
 		return {
-			billcode:billcode,
+			code:billcode,
 			customerid:customerid,
 			materielid:materielid,
 			starttime:str2Long(starttime),
