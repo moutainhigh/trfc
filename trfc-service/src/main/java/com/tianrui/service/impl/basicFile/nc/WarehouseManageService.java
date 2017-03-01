@@ -198,6 +198,7 @@ public class WarehouseManageService implements IWarehouseManageService {
 		item.setCreatetime(System.currentTimeMillis());
 		item.setModifytime(System.currentTimeMillis());	
 		item.setUtc(Long.valueOf(jsonItem.getString("ts")));
+		item.setRemarks(jsonItem.getString("remark"));
 		return item;
 	}
 	

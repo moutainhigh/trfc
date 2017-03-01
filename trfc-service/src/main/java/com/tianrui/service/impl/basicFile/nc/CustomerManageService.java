@@ -173,7 +173,6 @@ public class CustomerManageService implements ICustomerManageService {
 		item.setCustomertype("0");
 		item.setOrgid(Constant.ORG_ID);
 		item.setOrgname(Constant.ORG_NAME);
-		item.setOrgname(jsonItem.getString("orgName"));
 		item.setChanneltype(jsonItem.getString("channelType"));
 		item.setChannelcode(jsonItem.getString("channelTypeCode"));
 		item.setSalesmanid(jsonItem.getString("salesPsnId"));
@@ -183,6 +182,7 @@ public class CustomerManageService implements ICustomerManageService {
 		item.setDepartmentid(jsonItem.getString("deptId"));
 		item.setDepartmentname(jsonItem.getString("dept"));
 		item.setState("1");
+		item.setRemarks(jsonItem.getString("remark"));
 		item.setCreatetime(System.currentTimeMillis());
 		item.setModifytime(System.currentTimeMillis());	
 		if(StringUtils.isNotBlank(jsonItem.getString("ts"))){
