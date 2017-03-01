@@ -65,7 +65,7 @@ public class SalesApplicationSave extends BaseReq {
     private String modifier;
     //最后修改时间
     private Long modifytime;
-    
+    //订单子表id
     private String detailid;
     //物料id
     private String materielid;

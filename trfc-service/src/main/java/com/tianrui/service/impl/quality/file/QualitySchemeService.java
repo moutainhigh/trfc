@@ -170,23 +170,42 @@ public class QualitySchemeService implements IQualitySchemeService {
 	public Result findById(QualitySchemeReq req) throws Exception {
 		Result rs = Result.getParamErrorResult();
 		if(req!=null && StringUtils.isNotBlank(req.getId())){
-			//设置为1(正常状态)
-			req.setState("1");
 			//查询数据
-			QualityScheme qs = qualitySchemeMapper.selectOne(req);
-			
+			QualityScheme qs = qualitySchemeMapper.selectOne(req.getId());
+			QualitySchemeResp resp = new QualitySchemeResp();
 			if(qs!=null){
-				QualitySchemeResp resp = new QualitySchemeResp();
 				PropertyUtils.copyProperties(resp, qs);
 				//通过物料id 查询物料信息 获取物料名称
 				MaterielManage m = materielManageMapper.selectByPrimaryKey(qs.getMaterialid());
 				if(m!=null){
 					resp.setMaterialname(m.getName());
 				}
-				rs = Result.getSuccessResult();
-				rs.setData(resp);
+			}
+			rs = Result.getSuccessResult();
+			rs.setData(resp);
+		}
+		return rs;
+	}
+
+	@Override
+	public Result autoCompleteSearch(String likeName) throws Exception {
+		List<QualityScheme> list = qualitySchemeMapper.autoCompleteSearch(likeName);
+		List<QualitySchemeResp> resps = new ArrayList<QualitySchemeResp>();
+		if(list!=null && list.size()>0){
+			for(QualityScheme ms : list){
+				QualitySchemeResp resp = new QualitySchemeResp();
+				PropertyUtils.copyProperties(resp, ms);
+				if(StringUtils.isNotBlank(ms.getMaterialid())){
+					MaterielManage mm = materielManageMapper.selectByPrimaryKey(ms.getMaterialid());
+					if(mm!=null){
+						resp.setMaterialname(mm.getName());
+					}
+				}
+				resps.add(resp);
 			}
 		}
+		Result rs = Result.getSuccessResult();
+		rs.setData(resps);
 		return rs;
 	}
 

@@ -1,6 +1,7 @@
 package com.tianrui.api.intf.quality.sales;
 
 
+
 import com.tianrui.api.req.quality.sales.SalesBatchnumReq;
 import com.tianrui.smartfactory.common.vo.Result;
 
@@ -34,4 +35,14 @@ public interface ISalesBatchnumService {
 	 * 获取化验人下拉框数据
 	 */
 	Result assayerData() throws Exception;
+	/**
+	 * @Description 根据名称模糊查询
+	 * @author zhanggaohao
+	 * @version 2017年2月24日 上午10:25:41
+	 * @param likeName
+	 * @return
+	 * @throws Exception 
+	 */
+	Result autoCompleteSearch(String likeName) throws Exception;
+
 	}

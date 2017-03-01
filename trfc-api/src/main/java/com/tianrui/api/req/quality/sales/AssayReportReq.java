@@ -74,6 +74,10 @@ public class AssayReportReq extends BaseReq {
      */
     private String auditstate;
     /**
+     * 详情数据
+     */
+    private String arrStr;
+    /**
      * 用户
      */
     private String user;
@@ -89,6 +93,14 @@ public class AssayReportReq extends BaseReq {
      * 化验日期
      */
     private Long testtime;
+    /**
+     * 开始时间
+     */
+    private Long starttime;
+    /**
+     * 结束时间
+     */
+    private Long endtime;
     /**
      * 分页查询开始位置
      */
@@ -222,6 +234,24 @@ public class AssayReportReq extends BaseReq {
 	}
 	public void setLimit(int limit) {
 		this.limit = limit;
+	}
+	public Long getStarttime() {
+		return starttime;
+	}
+	public void setStarttime(Long starttime) {
+		this.starttime = starttime;
+	}
+	public Long getEndtime() {
+		return endtime;
+	}
+	public void setEndtime(Long endtime) {
+		this.endtime = endtime;
+	}
+	public String getArrStr() {
+		return arrStr;
+	}
+	public void setArrStr(String arrStr) {
+		this.arrStr = arrStr;
 	}
 
 }

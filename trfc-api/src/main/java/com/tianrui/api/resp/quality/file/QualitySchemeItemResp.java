@@ -65,6 +65,10 @@ public class QualitySchemeItemResp extends BaseResp {
      */
     private String lowlimit;
     /**
+     * 检测值
+     */
+    private String testval;
+    /**
      * 基值
      */
     private String baseval;
@@ -217,6 +221,12 @@ public class QualitySchemeItemResp extends BaseResp {
 	}
 	public void setState(String state) {
 		this.state = state;
+	}
+	public String getTestval() {
+		return testval;
+	}
+	public void setTestval(String testval) {
+		this.testval = testval;
 	}
 
 	

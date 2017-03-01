@@ -41,4 +41,8 @@ public interface IQualitySchemeItemService {
 	 * 获取下拉框数据(质检项目)
 	 */
 	Result itemData() throws Exception;
+	/**
+	 * 化验报告获取 详情+检测值
+	 */
+	Result findDetailandVal(QualitySchemeItemReq req) throws Exception;
 }

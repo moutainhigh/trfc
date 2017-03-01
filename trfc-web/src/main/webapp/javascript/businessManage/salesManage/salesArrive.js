@@ -260,7 +260,7 @@
 			for(var i=0;i<list.length;i++){
 				var obj = list[i] || '';
 				var salesApplication = obj.salesApplication;
-				var salesApplicationDetail = salesApplication.detailResp;
+				var salesApplicationDetail = obj.salesApplicationDetail;
 				var code = obj.code || '';
 				var auditstatus = obj.auditstatus || '';
 				switch (auditstatus) {
@@ -349,7 +349,7 @@
 	//显示更多
 	function showMore(obj){
 		var salesApplication = obj.salesApplication;
-		var salesApplicationDetail = salesApplication.detailResp;
+		var salesApplicationDetail = obj.salesApplicationDetail;
 		$('#dataMore').empty();
 		var $tabDiv = $('<div class="cg_tabtit"><ul><li class="select">物料信息</li><li>订单信息</li><li>过磅信息</li></ul></div>').appendTo('#dataMore');
 		var $tabCont = $('<div>').addClass('cg_tabbox').appendTo('#dataMore');

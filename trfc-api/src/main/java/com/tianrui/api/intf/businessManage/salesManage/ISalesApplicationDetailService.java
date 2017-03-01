@@ -15,6 +15,10 @@ public interface ISalesApplicationDetailService {
 
 	Result update(SalesApplicationDetailSave save) throws Exception;
 
+	SalesApplicationDetailResp findOne(String id) throws Exception;
+
 	List<SalesApplicationDetailResp> selectBySalesIds(List<String> salesIds) throws Exception;
+
+	List<SalesApplicationDetailResp> selectByIds(List<String> ids) throws Exception;
 
 }

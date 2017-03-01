@@ -141,4 +141,20 @@ public class QualityItemService implements IQualityItemService {
 		return rs;
 	}
 
+	@Override
+	public Result autoCompleteSearch(String likeName) throws Exception {
+		List<QualityItem> list = qualityItemMapper.autoCompleteSearch(likeName);
+		List<QualityItemResp> resps = new ArrayList<QualityItemResp>();
+		if(list!=null && list.size()>0){
+			for(QualityItem ms : list){
+				QualityItemResp resp = new QualityItemResp();
+				PropertyUtils.copyProperties(resp, ms);
+				resps.add(resp);
+			}
+		}
+		Result rs = Result.getSuccessResult();
+		rs.setData(resps);
+		return rs;
+	}
+
 }

@@ -44,7 +44,10 @@ public class AssayReportResp extends BaseResp {
      * 质检方案id
      */
     private String qschemeid;
-
+    /**
+     * 质检方案名称
+     */
+    private String qschemename;
     /**
      * 报告人
      */
@@ -232,6 +235,12 @@ public class AssayReportResp extends BaseResp {
 	}
 	public void setAudittime(Long audittime) {
 		this.audittime = audittime;
+	}
+	public String getQschemename() {
+		return qschemename;
+	}
+	public void setQschemename(String qschemename) {
+		this.qschemename = qschemename;
 	}
 
 

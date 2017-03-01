@@ -42,40 +42,41 @@
 								<div class="intel_solo">
 									<label>开始时间：</label> <input type="text" readonly="true"
 										onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:00:00'})"
-										class="Wdate" style="width: 160px" />
+										class="Wdate" style="width: 160px" id="seek_starttime" />
 								</div>
 								<div class="intel_solo">
 									<label>结束时间：</label> <input type="text" readonly="true"
 										onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:00:00'})"
-										class="Wdate" style="width: 160px" />
+										class="Wdate" style="width: 160px" id="seek_endtime" />
 								</div>
 								<div class="intel_solo">
-									<label>单据编号：</label> <input type="text">
+									<label>单据编号：</label> <input type="text" id="seek_code">
 								</div>
 								<div class="intel_solo">
-									<label>出厂编号：</label> <input type="text">
+									<label>出厂编号：</label> <input type="text" id="seek_batchcode">
 								</div>
 								<div class="intel_solo">
-									<label>报告天数：</label> <select class="form-control">
-										<option>请选择</option>
-										<option>3天</option>
-										<option>28天</option>
+									<label>报告天数：</label> <select class="form-control"
+										id="seek_reportdays">
+										<option value="">请选择</option>
+										<option value="0">3天</option>
+										<option value="1">28天</option>
 									</select>
 								</div>
 								<div class="intel_solo">
-									<button class="btn btnblue ">搜索</button>
+									<button class="btn btnblue" id="seek">搜索</button>
 								</div>
 								<div class="clear"></div>
 							</div>
 						</div>
 					</div>
 					<div class="intel_opera">
-						<div class="intel_operasolo">
+						<div class="intel_operasolo" id="fresh">
 							<i class="iconfont colorlv">&#xe61b;</i>
 							<h5>刷新</h5>
 						</div>
-						<div class="intel_operasolo">
-							<a href=" "> <i class="iconfont coloradd">&#xe627;</i>
+						<div class="intel_operasolo" id="addBtn">
+							<a> <i class="iconfont coloradd">&#xe627;</i>
 								<h5>新增</h5>
 							</a>
 						</div>
@@ -104,7 +105,7 @@
 									<th>操作</th>
 								</tr>
 							</thead>
-							<tbody>
+							<tbody id="list">
 								<tr>
 									<td>1</td>
 									<td>zg522121233</td>
@@ -208,37 +209,32 @@
 						</table>
 						<!--用户表格end-->
 					</div>
-
 					<!--分页效果开始-->
 					<div class=" row fr">
 						<div class="page_date">
-							<label>数据共：</label><i class="colorred">100</i><label>条</label>
+							<label>数据共：</label><i class="colorred" id="total">100</i><label>条</label>
 						</div>
 						<div class="page_date">
-							<label>跳到第：</label> <input type="text"> <label>页</label>
-							<button class="btn btn-default">确定</button>
+							<label>跳到第：</label> <input type="text" id="jumpPageNo"> <label>页</label>
+							<button class="btn btn-default" id="jumpButton">确定</button>
 						</div>
-						<div class="page_btn">
-							<ul class="pagination">
-								<li><a href="#">&laquo;上一页</a></li>
-								<li><a href="#">1</a></li>
-								<li><a href="#">2</a></li>
-								<li><a href="#">3</a></li>
-								<li><a href="#">...</a></li>
-								<li><a href="#">4</a></li>
-								<li><a href="#">5</a></li>
-								<li><a href="#">下一页&raquo;</a></li>
-							</ul>
+						<div class="page_date">
+							<label>每页记录：</label> <select id="pageSize" class="form-control">
+								<option value="10">10</option>
+								<option value="20">20</option>
+								<option value="30">30</option>
+							</select>
 						</div>
+						<div class="page_btn" id="pagination"></div>
 					</div>
 					<!--分页效果结束-->
 				</div>
 			</div>
 		</div>
 	</div>
-		<!-- 引用公共footer部分 -->
-		<jsp:include page="../../common/base/footer_busi.jsp"></jsp:include>
-			<script type="text/javascript"
+	<!-- 引用公共footer部分 -->
+	<jsp:include page="../../common/base/footer_busi.jsp"></jsp:include>
+	<script type="text/javascript"
 		src="/javascript/quality/sales/assayReport.js"></script>
 </body>
 </html>

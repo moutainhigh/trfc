@@ -275,6 +275,27 @@ public class SalesBatchnumService implements ISalesBatchnumService {
 		rs = Result.getSuccessResult();
 		rs.setData(list2);
 		return rs;
+	}
+	@Override
+	public Result autoCompleteSearch(String likeName) throws Exception {
+		List<SalesBatchnum> list = salesBatchnumMapper.autoCompleteSearch(likeName);
+		List<SalesBatchnumResp> resps = new ArrayList<SalesBatchnumResp>();
+		if(list!=null && list.size()>0){
+			for(SalesBatchnum ms : list){
+				SalesBatchnumResp resp = new SalesBatchnumResp();
+				PropertyUtils.copyProperties(resp, ms);
+				if(StringUtils.isNotBlank(ms.getMaterial())){
+					MaterielManage mm = materielManageMapper.selectByPrimaryKey(ms.getMaterial());
+					if(mm!=null){
+						resp.setMaterial(mm.getName());
+					}
+				}
+				resps.add(resp);
+			}
+		}
+		Result rs = Result.getSuccessResult();
+		rs.setData(resps);
+		return rs;
 	}	
 
 }

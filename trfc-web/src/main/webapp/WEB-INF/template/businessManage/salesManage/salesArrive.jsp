@@ -7,7 +7,7 @@
 <title>提货通知单</title>
 <jsp:include page="../../common/base/header_busi.jsp"></jsp:include>
 <style type="text/css">
-.table-bordered {
+table.table-bordered th,td {
 	text-align: center;
 }
 </style>

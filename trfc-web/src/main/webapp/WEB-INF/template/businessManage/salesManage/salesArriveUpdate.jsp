@@ -51,6 +51,7 @@
 								<label><em class="colorred">*</em>订单号：</label>
 								<div class="input_withlogo">
 									<input id="billcode" billid="${salesArrive.billid }"
+										billdetailid="${salesArrive.billdetailid }"
 										value="${salesArrive.billcode }" type="text"
 										readonly="readonly" placeholder="请选择订单"> <span
 										class="form-control-feedback"><i class="iconfont">&#xe608;</i></span>
@@ -84,7 +85,7 @@
 							</div>
 							<div class="daohuo_add_solo">
 								<label>物料：</label> <input id="materielname"
-									value="${salesArrive.salesApplication.detailResp.materielname }"
+									value="${salesArrive.salesApplicationDetail.materielname }"
 									type="text" readonly="true">
 							</div>
 							<div class="daohuo_add_solo">
@@ -94,12 +95,12 @@
 							</div>
 							<div class="daohuo_add_solo">
 								<label>单位：</label> <input id="unit" type="text"
-									value="${salesArrive.salesApplication.detailResp.unit }"
+									value="${salesArrive.salesApplicationDetail.unit }"
 									readonly="true">
 							</div>
 							<div class="daohuo_add_solo">
 								<label>订单数量：</label> <input id="salessum"
-									value="${salesArrive.salesApplication.detailResp.salessum }"
+									value="${salesArrive.salesApplicationDetail.salessum }"
 									type="text" readonly="true">
 							</div>
 							<div class="daohuo_add_solo">
@@ -201,9 +202,9 @@
 												<td>${salesArrive.salesApplication.code }</td>
 												<td>${salesArrive.salesApplication.billtypename }</td>
 												<td>${salesArrive.salesApplication.billtimeStr }</td>
-												<td>${salesArrive.salesApplication.detailResp.materielname }</td>
-												<td>${salesArrive.salesApplication.detailResp.unit }</td>
-												<td>${salesArrive.salesApplication.detailResp.salessum }</td>
+												<td>${salesArrive.salesApplicationDetail.materielname }</td>
+												<td>${salesArrive.salesApplicationDetail.unit }</td>
+												<td>${salesArrive.salesApplicationDetail.salessum }</td>
 												<td></td>
 												<td id="advanceAmount">${salesArrive.takeamount }</td>
 												<td>${salesArrive.salesApplication.orgname }</td>

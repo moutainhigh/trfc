@@ -32,6 +32,8 @@ public class SalesArriveSave extends BaseReq {
     private String billid;
     //销售订单编号
     private String billcode;
+    //销售订单详情id
+    private String billdetailid;
     //作废/强制出厂人
     private String abnormalperson;
     //作废/强制出厂人名称
@@ -175,6 +177,14 @@ public class SalesArriveSave extends BaseReq {
 
 	public void setBillcode(String billcode) {
 		this.billcode = billcode;
+	}
+
+	public String getBilldetailid() {
+		return billdetailid;
+	}
+
+	public void setBilldetailid(String billdetailid) {
+		this.billdetailid = billdetailid;
 	}
 
 	public String getAbnormalperson() {

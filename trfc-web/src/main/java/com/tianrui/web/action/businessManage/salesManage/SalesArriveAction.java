@@ -10,10 +10,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.tianrui.api.intf.basicFile.measure.IDriverManageService;
-import com.tianrui.api.intf.basicFile.measure.IVehicleManageService;
-import com.tianrui.api.intf.basicFile.nc.ICustomerManageService;
-import com.tianrui.api.intf.basicFile.nc.IMaterielManageService;
 import com.tianrui.api.intf.businessManage.salesManage.ISalesArriveService;
 import com.tianrui.api.intf.system.base.ISystemCodeService;
 import com.tianrui.api.req.businessManage.salesManage.SalesArriveQuery;
@@ -40,26 +36,11 @@ public class SalesArriveAction {
 	@Autowired
 	private ISalesArriveService salesArriveService;
 	@Autowired
-	private IVehicleManageService vehicleManageService; 
-	@Autowired
-	private IMaterielManageService materielManageService; 
-	@Autowired
-	private IDriverManageService driverManageService; 
-	@Autowired
-	private ICustomerManageService customerManageService; 
-	@Autowired
 	private ISystemCodeService systemCodeService;
 	
 	@RequestMapping("/main")
 	public ModelAndView main(){
 		ModelAndView view = new ModelAndView("businessManage/salesManage/salesArrive");
-		try {
-			view.addObject("vehicle", vehicleManageService.findListByParmas(null).getData());
-			view.addObject("materiel", materielManageService.findListByParmas(null).getData());
-			view.addObject("driver", driverManageService.findListByParmas(null).getData());
-		} catch (Exception e) {
-			log.error(e.getMessage(), e);
-		}
 		return view;
 	}
 	
@@ -99,9 +80,6 @@ public class SalesArriveAction {
 			view.addObject("orgid", "0");
 			view.addObject("orgname", "天瑞集团");
 			view.addObject("createtimeStr", DateUtil.getNowDateString("yyyy-MM-dd HH:mm:ss"));
-			view.addObject("materiel", materielManageService.findListByParmas(null).getData());
-			view.addObject("vehicle", vehicleManageService.findListByParmas(null).getData());
-			view.addObject("driver", driverManageService.findListByParmas(null).getData());
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 		}
@@ -132,10 +110,6 @@ public class SalesArriveAction {
 			view.addObject("d_internalcode", ((int)(Math.random()*1000000)+"").substring(2));
 			view.addObject("orgid", "0");
 			view.addObject("orgname", "天瑞集团");
-			view.addObject("materiel", materielManageService.findListByParmas(null).getData());
-			view.addObject("customer", customerManageService.findListByParmas(null).getData());
-			view.addObject("vehicle", vehicleManageService.findListByParmas(null).getData());
-			view.addObject("driver", driverManageService.findListByParmas(null).getData());
 			view.addObject("salesArrive", salesArriveService.findOne(id));
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);

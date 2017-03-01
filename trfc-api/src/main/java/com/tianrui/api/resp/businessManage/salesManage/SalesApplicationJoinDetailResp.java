@@ -1,15 +1,9 @@
 package com.tianrui.api.resp.businessManage.salesManage;
 
-import java.util.List;
-
 import com.tianrui.api.resp.BaseResp;
 import com.tianrui.smartfactory.common.utils.DateUtil;
-/**
- * @Description 销售申请单Resp
- * @author zhanggaohao
- * @version 2017年2月4日 下午4:56:38
- */
-public class SalesApplicationResp extends BaseResp {
+
+public class SalesApplicationJoinDetailResp extends BaseResp {
 	
 	private static final long serialVersionUID = -2559538852082320742L;
 	//主键id
@@ -82,8 +76,29 @@ public class SalesApplicationResp extends BaseResp {
     private Long modifytime;
     //最后修改时间Str
     private String modifytimeStr;
-    //订单详情
-    private List<SalesApplicationDetailResp> list;
+    /**
+     * 订单详情
+     */
+    //字表id
+    private String detailid;
+    //物料名称
+    private String materielname;
+    //订单数量
+    private Double salessum;
+    //单位
+    private String unit;
+
+    /**
+     * 仓库物料数量统计
+     */
+    //余量
+    private String margin;
+    //入库占用量
+    private String storagequantity;
+    //未入库占用量
+    private String unstoragequantity;
+    //到货占用量
+    private String arrivalquantity;
     
 	public String getId() {
 		return id;
@@ -300,11 +315,53 @@ public class SalesApplicationResp extends BaseResp {
 	public void setModifytimeStr(String modifytimeStr) {
 		this.modifytimeStr = modifytimeStr;
 	}
-	public List<SalesApplicationDetailResp> getList() {
-		return list;
+	public String getDetailid() {
+		return detailid;
 	}
-	public void setList(List<SalesApplicationDetailResp> list) {
-		this.list = list;
+	public void setDetailid(String detailid) {
+		this.detailid = detailid;
+	}
+	public String getMaterielname() {
+		return materielname;
+	}
+	public void setMaterielname(String materielname) {
+		this.materielname = materielname;
+	}
+	public Double getSalessum() {
+		return salessum;
+	}
+	public void setSalessum(Double salessum) {
+		this.salessum = salessum;
+	}
+	public String getUnit() {
+		return unit;
+	}
+	public void setUnit(String unit) {
+		this.unit = unit;
+	}
+	public String getMargin() {
+		return margin;
+	}
+	public void setMargin(String margin) {
+		this.margin = margin;
+	}
+	public String getStoragequantity() {
+		return storagequantity;
+	}
+	public void setStoragequantity(String storagequantity) {
+		this.storagequantity = storagequantity;
+	}
+	public String getUnstoragequantity() {
+		return unstoragequantity;
+	}
+	public void setUnstoragequantity(String unstoragequantity) {
+		this.unstoragequantity = unstoragequantity;
+	}
+	public String getArrivalquantity() {
+		return arrivalquantity;
+	}
+	public void setArrivalquantity(String arrivalquantity) {
+		this.arrivalquantity = arrivalquantity;
 	}
 
 }

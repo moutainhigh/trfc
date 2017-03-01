@@ -36,6 +36,8 @@ public class SalesArriveResp extends BaseResp {
     private String billid;
     //销售订单编号
     private String billcode;
+    //销售订单详情id
+    private String billdetailid;
     //作废/强制出厂人
     private String abnormalperson;
     //作废/强制出厂人名称
@@ -88,7 +90,9 @@ public class SalesArriveResp extends BaseResp {
     private String modifytimeStr;
     //销售订单
     private SalesApplicationResp salesApplication;
-    
+    //销售订单物料对应详情表
+    private SalesApplicationDetailResp salesApplicationDetail;
+
 	public String getId() {
 		return id;
 	}
@@ -191,6 +195,14 @@ public class SalesArriveResp extends BaseResp {
 
 	public void setBillcode(String billcode) {
 		this.billcode = billcode;
+	}
+
+	public String getBilldetailid() {
+		return billdetailid;
+	}
+
+	public void setBilldetailid(String billdetailid) {
+		this.billdetailid = billdetailid;
 	}
 
 	public String getAbnormalperson() {
@@ -403,6 +415,14 @@ public class SalesArriveResp extends BaseResp {
 
 	public void setSalesApplication(SalesApplicationResp salesApplication) {
 		this.salesApplication = salesApplication;
+	}
+    
+	public SalesApplicationDetailResp getSalesApplicationDetail() {
+		return salesApplicationDetail;
+	}
+
+	public void setSalesApplicationDetail(SalesApplicationDetailResp salesApplicationDetail) {
+		this.salesApplicationDetail = salesApplicationDetail;
 	}
 
 }

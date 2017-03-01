@@ -13,14 +13,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.tianrui.api.intf.basicFile.nc.IMaterielManageService;
-import com.tianrui.api.intf.basicFile.nc.IWarehouseManageService;
 import com.tianrui.api.intf.businessManage.salesManage.ISalesApplicationService;
-import com.tianrui.api.intf.common.IBillTypeService;
 import com.tianrui.api.intf.system.base.ISystemCodeService;
 import com.tianrui.api.req.businessManage.salesManage.SalesApplicationQuery;
 import com.tianrui.api.req.businessManage.salesManage.SalesApplicationSave;
 import com.tianrui.api.req.system.base.GetCodeReq;
+import com.tianrui.api.resp.businessManage.salesManage.SalesApplicationJoinDetailResp;
 import com.tianrui.api.resp.businessManage.salesManage.SalesApplicationResp;
 import com.tianrui.api.resp.system.auth.SystemUserResp;
 import com.tianrui.smartfactory.common.constants.Constant;
@@ -42,25 +40,16 @@ public class SalesApplicationAction {
 	@Autowired
 	private ISalesApplicationService salesApplicationService;
 	@Autowired
-	private IBillTypeService billTypeService;
-	@Autowired
 	private ISystemCodeService systemCodeService;
-	@Autowired
-	private IMaterielManageService materielManageService;
-	@Autowired
-	private IWarehouseManageService warehouseManageService;
 	
 	@RequestMapping("/main")
 	public ModelAndView main(HttpSession session){
 		ModelAndView view = new ModelAndView("businessManage/salesManage/salesApplication");
 		try {
-			view.addObject("billType", billTypeService.findListByParmas(null).getData());
 			SystemUserResp user = (SystemUserResp) session.getAttribute("systemUser");
 			view.addObject("user", user);
 			view.addObject("orgid", Constant.ORG_ID);
 			view.addObject("orgname", Constant.ORG_NAME);
-			view.addObject("materiel", materielManageService.findListByParmas(null).getData());
-			view.addObject("warehouse", warehouseManageService.findListByParmas(null).getData());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -73,6 +62,20 @@ public class SalesApplicationAction {
 		Result result = Result.getSuccessResult();
 		try {
 			PaginationVO<SalesApplicationResp> page = salesApplicationService.page(query);
+			result.setData(page);
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
+		}
+		return result;
+	}
+	
+	@RequestMapping("/pageGroupMateriel")
+	@ResponseBody
+	public Result pageGroupMateriel(SalesApplicationQuery query){
+		Result result = Result.getSuccessResult();
+		try {
+			PaginationVO<SalesApplicationJoinDetailResp> page = salesApplicationService.pageGroupMateriel(query);
 			result.setData(page);
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);

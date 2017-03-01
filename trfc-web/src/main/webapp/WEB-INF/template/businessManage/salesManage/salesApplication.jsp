@@ -132,6 +132,7 @@ input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
 								<table class="table table-bordered">
 									<thead>
 										<tr>
+											<th>序号</th>
 											<th>物料</th>
 											<th>数量</th>
 											<th>单价</th>
@@ -143,16 +144,6 @@ input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
 										</tr>
 									</thead>
 									<tbody id="moreBody">
-										<tr>
-											<td>卫辉市天瑞水泥有限公司</td>
-											<td>粉煤炭</td>
-											<td>方案2</td>
-											<td>1000</td>
-											<td>豫GA1783</td>
-											<td>豫GA1783</td>
-											<td>豫GA1783</td>
-											<td>豫GA1783</td>
-										</tr>
 									</tbody>
 								</table>
 							</div>
@@ -273,8 +264,7 @@ input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
 											<td><input id="a_taxpricesum" readonly="true"></td>
 											<td><input id="a_taxrate" type="number"
 												placeholder="请输入税率" /></td>
-											<td><input id="a_untaxprice" type="number"
-												placeholder="请输入不含税单价"></td>
+											<td><input id="a_untaxprice" type="number" readonly="true"></td>
 											<td><input id="a_untaxpricesum" readonly="true"></td>
 											<td><input id="a_taxratesum" readonly="true"></td>
 										</tr>
@@ -383,8 +373,7 @@ input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
 											<td><input id="u_taxpricesum" readonly="true"></td>
 											<td><input id="u_taxrate" type="number"
 												placeholder="请输入税率" /></td>
-											<td><input id="u_untaxprice" type="number"
-												placeholder="请输入不含税单价"></td>
+											<td><input id="u_untaxprice" type="number" readonly="true"></td>
 											<td><input id="u_untaxpricesum" readonly="true"></td>
 											<td><input id="u_taxratesum" readonly="true"></td>
 										</tr>
@@ -474,6 +463,7 @@ input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
 								<table class="table table-bordered">
 									<thead>
 										<tr>
+											<th>序号</th>
 											<th>物料</th>
 											<th>数量</th>
 											<th>备注</th>

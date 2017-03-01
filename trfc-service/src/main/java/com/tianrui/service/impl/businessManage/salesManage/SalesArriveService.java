@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.tianrui.api.intf.basicFile.measure.IDriverManageService;
 import com.tianrui.api.intf.basicFile.measure.IVehicleManageService;
 import com.tianrui.api.intf.businessManage.cardManage.ICardService;
+import com.tianrui.api.intf.businessManage.salesManage.ISalesApplicationDetailService;
 import com.tianrui.api.intf.businessManage.salesManage.ISalesApplicationService;
 import com.tianrui.api.intf.businessManage.salesManage.ISalesArriveService;
 import com.tianrui.api.intf.system.auth.ISystemUserService;
@@ -57,6 +58,8 @@ public class SalesArriveService implements ISalesArriveService {
 	private SalesArriveMapper salesArriveMapper;
 	@Autowired
 	private ISalesApplicationService salesApplicationService;
+	@Autowired
+	private ISalesApplicationDetailService salesApplicationDetailService;
 	@Autowired
 	private VehicleManageMapper vehicleManageMapper;
 	@Autowired
@@ -103,7 +106,8 @@ public class SalesArriveService implements ISalesArriveService {
 	public Result add(SalesArriveSave save) throws Exception {
 		Result result = Result.getParamErrorResult();
 		if(save != null && StringUtils.isNotBlank(save.getBillid()) 
-				&& StringUtils.isNotBlank(save.getVehicleid())){
+				&& StringUtils.isNotBlank(save.getVehicleid())
+				&& StringUtils.isNotBlank(save.getBilldetailid())){
 			SalesArrive bean = new SalesArrive();
 			bean.setVehicleid(save.getVehicleid());
 			List<SalesArrive> listVehicle = salesArriveMapper.checkDriverAndVehicleIsUse(bean);
@@ -152,12 +156,13 @@ public class SalesArriveService implements ISalesArriveService {
 			if(card != null){
 				bean.setIcardno(card.getCardno());
 			}
-			SalesApplicationResp salesApplicationResp = salesApplicationService.findOne(save.getBillid(), true);
+			SalesApplicationResp salesApplicationResp = salesApplicationService.findOne(save.getBillid(), false);
 			if(salesApplicationResp != null){
 				bean.setBillcode(salesApplicationResp.getCode());
-				if(salesApplicationResp.getDetailResp() != null){
-					bean.setUnit(salesApplicationResp.getDetailResp().getUnit());
-				}
+			}
+			SalesApplicationDetailResp salesApplicationDetailResp = salesApplicationDetailService.findOne(save.getBilldetailid());
+			if(salesApplicationDetailResp != null){
+				bean.setUnit(salesApplicationDetailResp.getUnit());
 			}
 			GetCodeReq codeReq = new GetCodeReq();
 			codeReq.setCode("TH");
@@ -237,12 +242,13 @@ public class SalesArriveService implements ISalesArriveService {
 			if(card != null){
 				bean.setIcardno(card.getCardno());
 			}
-			SalesApplicationResp salesApplicationResp = salesApplicationService.findOne(save.getBillid(), true);
+			SalesApplicationResp salesApplicationResp = salesApplicationService.findOne(save.getBillid(), false);
 			if(salesApplicationResp != null){
 				bean.setBillcode(salesApplicationResp.getCode());
-				if(salesApplicationResp.getDetailResp() != null){
-					bean.setUnit(salesApplicationResp.getDetailResp().getUnit());
-				}
+			}
+			SalesApplicationDetailResp salesApplicationDetailResp = salesApplicationDetailService.findOne(save.getBilldetailid());
+			if(salesApplicationDetailResp != null){
+				bean.setUnit(salesApplicationDetailResp.getUnit());
 			}
 			bean.setModifier(save.getCurrUId());
 			bean.setModifytime(save.getCreatetime());
@@ -276,8 +282,10 @@ public class SalesArriveService implements ISalesArriveService {
 	private void ListArriveRespSetListApplicationResp(List<SalesArriveResp> listArrive) throws Exception{
 		if(CollectionUtils.isNotEmpty(listArrive)){
 			List<String> ids = new ArrayList<String>();
+			List<String> detailIds = new ArrayList<String>();
 			for(SalesArriveResp resp : listArrive){
 				ids.add(resp.getBillid());
+				detailIds.add(resp.getBilldetailid());
 			}
 			List<SalesApplicationResp> listApplication = salesApplicationService.selectByIds(ids);
 			if(CollectionUtils.isNotEmpty(listApplication)){
@@ -285,6 +293,16 @@ public class SalesArriveService implements ISalesArriveService {
 					for(SalesApplicationResp applicationResp : listApplication){
 						if(StringUtils.equals(arriveResp.getBillid(), applicationResp.getId())){
 							arriveResp.setSalesApplication(applicationResp);
+						}
+					}
+				}
+			}
+			List<SalesApplicationDetailResp> listApplicationDetail = salesApplicationDetailService.selectByIds(detailIds);
+			if(CollectionUtils.isNotEmpty(listApplicationDetail)){
+				for(SalesArriveResp arriveResp : listArrive){
+					for(SalesApplicationDetailResp applicationDetailResp : listApplicationDetail){
+						if(StringUtils.equals(arriveResp.getBilldetailid(), applicationDetailResp.getId())){
+							arriveResp.setSalesApplicationDetail(applicationDetailResp);
 						}
 					}
 				}
@@ -308,8 +326,9 @@ public class SalesArriveService implements ISalesArriveService {
 		if(bean != null){
 			resp = new SalesArriveResp();
 			PropertyUtils.copyProperties(resp, bean);
-			if(StringUtils.isNotBlank(bean.getBillid())){
-				resp.setSalesApplication(salesApplicationService.findOne(bean.getBillid(), setApplication));
+			if(setApplication){
+				resp.setSalesApplication(salesApplicationService.findOne(bean.getBillid(), false));
+				resp.setSalesApplicationDetail(salesApplicationDetailService.findOne(bean.getBilldetailid()));
 			}
 		}
 		return resp;
@@ -419,7 +438,7 @@ public class SalesArriveService implements ISalesArriveService {
 						}else{
 							SalesArriveResp resp = copyBean2Resp(listSales.get(0), true);
 							SalesApplicationResp salesApplicationResp = resp.getSalesApplication();
-							SalesApplicationDetailResp salesApplicationDetailResp = salesApplicationResp.getDetailResp();
+							SalesApplicationDetailResp salesApplicationDetailResp = resp.getSalesApplicationDetail();
 							ApiSalesArriveResp api = new ApiSalesArriveResp();
 							api.setVehicleno(resp.getVehicleno());
 							api.setCustomerid(salesApplicationResp.getCustomerid());

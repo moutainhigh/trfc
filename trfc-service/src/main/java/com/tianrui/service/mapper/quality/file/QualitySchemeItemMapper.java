@@ -26,7 +26,7 @@ public interface QualitySchemeItemMapper {
     /**
   	 * 查询数据(主键id,state)
   	 */
-      QualitySchemeItem selectOne(QualitySchemeItemReq req);
+      QualitySchemeItem selectOne(String id);
     /**
 	 * 更新数据(动�??)
 	 */
