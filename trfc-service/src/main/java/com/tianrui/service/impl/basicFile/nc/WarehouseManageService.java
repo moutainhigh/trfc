@@ -113,6 +113,11 @@ public class WarehouseManageService implements IWarehouseManageService {
 		result.setData(copyBeanList2RespList(list));
 		return result;
 	}
+
+	@Override
+	public List<WarehouseManageResp> autoCompleteSearch(String trim) throws Exception {
+		return copyBeanList2RespList(warehouseManageMapper.autoCompleteSearch(trim));
+	}
 	
 	private List<WarehouseManageResp> copyBeanList2RespList(List<WarehouseManage> list) throws Exception {
 		List<WarehouseManageResp> listResp = null;

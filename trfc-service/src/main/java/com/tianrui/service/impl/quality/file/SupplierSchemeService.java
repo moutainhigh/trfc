@@ -221,10 +221,7 @@ public class SupplierSchemeService implements ISupplierSchemeService{
 						}
 						//获取质检方案名称
 						if(StringUtils.isNotBlank(c.getSchemeid())){
-							QualitySchemeReq qsreq = new QualitySchemeReq();
-							qsreq.setId(c.getSchemeid());
-							qsreq.setState("1");
-							QualityScheme qs = qualitySchemeMapper.selectOne(qsreq);
+							QualityScheme qs = qualitySchemeMapper.selectOne(c.getSchemeid());
 							if(qs!=null){
 								resp.setSchemename(qs.getName());
 							}
@@ -304,10 +301,7 @@ public class SupplierSchemeService implements ISupplierSchemeService{
 			Result rs = Result.getParamErrorResult();
 			//判断参数和id不能为空
 			if(req!=null && StringUtils.isNotBlank(req.getId())){
-				SupplierScheme scheme = new SupplierScheme();
-				//默认为1(正常状态)
-				req.setState("1");
-				scheme = supplierSchemeMapper.selectOne(req);
+				SupplierScheme scheme = supplierSchemeMapper.selectOne(req.getId());
 				if(scheme!=null){
 					//将结果转换为出参类型
 					SupplierSchemeResp resp = new SupplierSchemeResp();

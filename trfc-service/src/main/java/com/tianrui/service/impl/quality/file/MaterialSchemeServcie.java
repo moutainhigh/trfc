@@ -169,4 +169,40 @@ public class MaterialSchemeServcie implements IMaterialSchemeService {
 		return rs;
 	}
 
+	@Override
+	public Result autoCompleteSearch(String likeName) throws Exception {
+		List<MaterialScheme> list = materialSchemeMapper.autoCompleteSearch(likeName);
+		List<MaterialSchemeResp> resps = new ArrayList<MaterialSchemeResp>();
+		if(list!=null && list.size()>0){
+			for(MaterialScheme ms : list){
+				MaterialSchemeResp resp = new MaterialSchemeResp();
+				PropertyUtils.copyProperties(resp, ms);
+				if(StringUtils.isNotBlank(ms.getMaterialid())){
+					MaterielManage mm = materielManageMapper.selectByPrimaryKey(ms.getMaterialid());
+					if(mm!=null){
+						resp.setMaterialname(mm.getName());
+					}
+				}
+				resps.add(resp);
+			}
+		}
+		Result rs = Result.getSuccessResult();
+		rs.setData(resps);
+		return rs;
+	}
+
+	@Override
+	public Result findOne(String id) throws Exception {
+		Result rs = Result.getParamErrorResult();
+		if(StringUtils.isNotBlank(id)){
+			MaterialScheme ms = materialSchemeMapper.selectOne(id);
+			MaterialSchemeResp resp = new MaterialSchemeResp();
+			if(ms!=null){
+				PropertyUtils.copyProperties(resp, ms);
+			}
+			rs = Result.getSuccessResult();
+			rs.setData(resp);
+		}
+		return rs;
+	}
 }

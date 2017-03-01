@@ -45,56 +45,57 @@
 
 						<div class="daohuo_add_div">
 							<div class="daohuo_add_solo">
-								<label><em class="colorred">*</em>订单号：</label>
+								<label class="colorred"><em class="colorred">*</em>订单号：</label>
 								<div class="input_withlogo">
-									<input id="billcode" type="text" readonly class="readOnlyText">
-									<span class="form-control-feedback"><i class="iconfont">&#xe608;</i></span>
+									<input id="billcode" type="text" readonly="readonly"
+										placeholder="请选择订单"> <span
+										class="form-control-feedback"><i class="iconfont">&#xe608;</i></span>
 								</div>
-								<input id="maindeduction" type="checkbox"><span class="ml5">主单扣量 </span>
+								<input id="maindeduction" type="checkbox"><span
+									class="ml5">主单扣量 </span>
 							</div>
 							<div class="daohuo_add_solo">
 								<label>通知单号：</label> <input id="code" type="text"
-									value="${code }" readonly class="readOnlyText">
+									value="${code }" readonly="true">
 							</div>
 							<div class="daohuo_add_solo">
 								<label>制单日期：</label> <input id="createtimeStr" type="text"
-									value="${createtimeStr }" readonly class="readOnlyText">
+									value="${createtimeStr }" readonly="true">
 							</div>
 							<div class="daohuo_add_solo">
-								<label>客户：</label> <input id="customername" type="text" readonly
-									class="readOnlyText">
+								<label>客户：</label> <input id="customername" type="text"
+									readonly="true">
 							</div>
 							<div class="daohuo_add_solo">
-								<label>区域码：</label> <input id="channelcode" type="text" readonly
-									class="readOnlyText">
+								<label>区域码：</label> <input id="channelcode" type="text"
+									readonly="true">
 							</div>
 							<div class="daohuo_add_solo">
 								<label>销售组织：</label> <input id="orgname" orgid="${orgid }"
-									value="${orgname }" type="text" readonly class="readOnlyText">
+									value="${orgname }" type="text" readonly="true">
 							</div>
 							<div class="daohuo_add_solo">
-								<label>物料：</label> <input id="materielname" type="text" readonly
-									class="readOnlyText">
+								<label>物料：</label> <input id="materielname" type="text"
+									readonly="true">
 							</div>
 							<div class="daohuo_add_solo">
 								<label>部门：</label> <input id="departmentname" type="text"
-									readonly class="readOnlyText">
+									readonly="true">
 							</div>
 							<div class="daohuo_add_solo">
 								<label>单位：</label> <input id="unit" type="text" value="吨"
-									readonly class="readOnlyText">
+									readonly="true">
 							</div>
 							<div class="daohuo_add_solo">
-								<label>订单数量：</label> <input id="salessum" type="text" readonly
-									class="readOnlyText">
+								<label>订单数量：</label> <input id="salessum" type="text"
+									readonly="true">
 							</div>
 							<div class="daohuo_add_solo">
-								<label>余量：</label> <input id="" type="text" readonly
-									class="readOnlyText">
+								<label>余量：</label> <input id="" type="text" readonly="true">
 							</div>
 							<div class="daohuo_add_solo">
-								<label>业务日期：</label> <input id="billtime" type="text" readonly
-									class="readOnlyText">
+								<label>业务日期：</label> <input id="billtime" type="text"
+									readonly="true">
 							</div>
 						</div>
 					</div>
@@ -113,53 +114,42 @@
 								<div class="daohuo_add">
 									<div class="daohuo_add_div">
 										<div class="daohuo_add_solo">
-											<label class="colorred">车号：</label> <select id="vehicleid"
-												class="form-control">
-												<option value="">请选择</option>
-												<c:forEach items="${vehicle }" var="v">
-													<option value="${v.id }" rfid="${v.rfid }">${v.vehicleno }</option>
-												</c:forEach>
-											</select> <a data-toggle="modal" data-target="#vehicleAddView"><i
+											<label class="colorred"><em class="colorred">*</em>车号：</label>
+											<input id="vehicle" type="text" placeholder="请选择车辆" /> <a
+												data-toggle="modal" data-target="#vehicleAddView"><i
 												class="iconfont">&#xe680;</i></a>
 										</div>
 										<div class="daohuo_add_solo">
-											<label>司机：</label> <select id="driverid" class="form-control">
-												<option value="">请选择</option>
-												<c:forEach items="${driver }" var="d">
-													<option value="${d.id }" identityno="${d.identityno }">${d.name }</option>
-												</c:forEach>
-											</select> <a data-toggle="modal" data-target="#driverAddView"><i
-												class="iconfont">&#xe680;</i></a>
+											<label>司机：</label> <input id="driver" type="text"
+												placeholder="请选择司机" /> <a data-toggle="modal"
+												data-target="#driverAddView"><i class="iconfont">&#xe680;</i></a>
 										</div>
 										<div class="daohuo_add_solo">
 											<label>身份证号：</label> <input id="identityno" type="text"
-												readonly class="readOnlyText">
+												readonly="true">
 										</div>
 										<div class="daohuo_add_solo">
-											<label>RFID：</label> <input id="rfid" type="text" readonly
-												class="readOnlyText">
+											<label>RFID：</label> <input id="rfid" type="text"
+												readonly="true">
 										</div>
 
 										<div class="daohuo_add_solo">
-											<label>提货量：</label> <input id="takeamount" type="text">
-											<span>吨</span>
+											<label class="colorred"><em class="colorred">*</em>提货量：</label>
+											<input id="takeamount" type="text" placeholder="请输入提货量" /> <span>吨</span>
 
 										</div>
 										<div class="daohuo_add_solo">
 											<label>备注：</label> <input id="remarks" type="text">
 										</div>
 										<div class="daohuo_add_solo">
-											<label>喷码：</label> <input id="spraycode" type="text" readonly
-												class="readOnlyText">
+											<label>喷码：</label> <input id="spraycode" type="text"
+												readonly="true">
 										</div>
 										<div class="daohuo_add_solo">
 											<label>出厂编号：</label> <input id="serialnumber" type="text"
-												readonly class="readOnlyText">
+												readonly="true">
 										</div>
-										<div class="daohuo_add_solo">
-											<label>IC卡号：</label> <input id="icardid" type="text" readonly
-												class="readOnlyText">
-										</div>
+										<div class="daohuo_add_solo"></div>
 									</div>
 								</div>
 							</div>
@@ -214,29 +204,28 @@
 				<div class="modal-body">
 					<div class="dhadd_search">
 						<div class="dhsearch_solo">
-							<label>物料：</label> <select id="materielid" class="form-control">
-								<option value="">请选择</option>
-								<c:forEach items="${materiel }" var="m">
-									<option value="${m.id }">${m.name }</option>
-								</c:forEach>
-							</select>
+							<label>物料：</label> <input id="materiel" type="text"
+								placeholder="请选择物料" />
 						</div>
 						<div class="dhsearch_solo">
-							<label>客户：</label>
-							<input id="customer" type="text" readonly >
+							<label>客户：</label> <input id="customer" type="text"
+								placeholder="请选择客户" />
 						</div>
 						<div class="dhsearch_solo">
-							<label>订单号：</label> <input id="billcode" type="text">
+							<label>订单号：</label> <input id="applicationcode" type="text"
+								placeholder="请输入订单号">
 						</div>
 						<div class="dhsearch_solo">
 							<label>开始时间：</label> <input id="starttime" type="text"
 								onfocus="WdatePicker({dateFmt:'yyyy-MM-dd 00:00:00'})"
-								class="Wdate" style="width: 160px" readonly />
+								class="Wdate" style="width: 160px" readonly
+								placeholder="请选择开始时间" />
 						</div>
 						<div class="dhsearch_solo">
 							<label>结束时间：</label> <input id="endtime" type="text"
 								onfocus="WdatePicker({dateFmt:'yyyy-MM-dd 00:00:00'})"
-								class="Wdate" style="width: 160px" readonly />
+								class="Wdate" style="width: 160px" readonly
+								placeholder="请选择结束时间" />
 						</div>
 						<div class="dhsearch_solo">
 							<button id="searchBtn" class="btn btnblue ">搜索</button>
@@ -314,7 +303,7 @@
 					<div class="alt_edit">
 						<div class="alt_edit_div">
 							<label>车辆编号：</label> <input id="v_code" type="text"
-								value="${v_code }" class="readOnlyText" readonly>
+								value="${v_code }" readonly="true">
 						</div>
 						<div class="alt_edit_div">
 							<label>运输类型：</label> <select id="v_transporttype"
@@ -326,32 +315,40 @@
 
 						</div>
 						<div class="alt_edit_div">
-							<label>车辆号码：</label> <input id="v_vehicleno" type="text">
+							<label class="colorred">*车辆号码：</label> <input id="v_vehicleno"
+								type="text" placeholder="请输入车牌号码">
 						</div>
 						<div class="alt_edit_div">
-							<label>车辆类型：</label> <input id="v_vehicletype" type="text">
+							<label>车辆类型：</label> <input id="v_vehicletype" type="text"
+								placeholder="请输入车辆类型">
 						</div>
 						<div class="alt_edit_div">
-							<label>运输单位：</label> <input id="v_transportunit" type="text">
+							<label>运输单位：</label> <input id="v_transportunit" type="text"
+								placeholder="请输入运输单位">
 						</div>
 						<div class="alt_edit_div">
-							<label>最大载重： </label> <input id="v_maxweight" type="text">
+							<label>最大载重： </label> <input id="v_maxweight" type="text"
+								placeholder="请输入最大载重">
 						</div>
 						<div class="alt_edit_div">
-							<label>皮重：</label> <input id="v_tareweight" type="text">
+							<label>皮重：</label> <input id="v_tareweight" type="text"
+								placeholder="请输入皮重">
 						</div>
 						<div class="alt_edit_div">
-							<label>车主： </label> <input id="v_ownername" type="text">
+							<label>车主： </label> <input id="v_ownername" type="text"
+								placeholder="请输入车主">
 						</div>
 						<div class="alt_edit_div">
-							<label>电话：</label> <input id="v_telephone" type="text">
+							<label>电话：</label> <input id="v_telephone" type="text"
+								placeholder="请输入电话">
 						</div>
 						<div class="alt_edit_div">
-							<label>地址： </label> <input id="v_address" type="text">
+							<label>地址： </label> <input id="v_address" type="text"
+								placeholder="请输入地址">
 						</div>
 						<div class="alt_edit_div">
 							<label>所属组织：</label> <input id="v_orgname" orgid="${orgid }"
-								value="${orgname }" type="text" class="readOnlyText" readonly>
+								value="${orgname }" type="text" readonly="true">
 						</div>
 						<div class="alt_edit_div">
 							<label>有效性： </label> <input id="v_isvalid" type="checkbox"
@@ -392,33 +389,35 @@
 					<div class="alt_caradd">
 						<div class="alt_edit_div">
 							<label>司机编号：</label> <input id="d_code" type="text"
-								value="${d_code }" class="readOnlyText" readonly>
+								value="${d_code }" readonly="true">
 						</div>
 						<div class="alt_edit_div">
 							<label>司机内码：</label> <input id="d_internalcode" type="text"
-								value="${d_internalcode }" class="readOnlyText" readonly>
+								value="${d_internalcode }" readonly="true">
 						</div>
 						<div class="alt_edit_div">
 							<label class="colorred"> *司机名称：</label> <input id="d_name"
-								type="text">
+								type="text" placeholder="请输入司机名称">
 						</div>
 						<div class="alt_edit_div">
-							<label>司机简称：</label> <input id="d_abbrname" type="text">
+							<label>司机简称：</label> <input id="d_abbrname" type="text"
+								placeholder="请输入司机简称">
 						</div>
 						<div class="alt_edit_div">
-							<label>地址：</label> <input id="d_address" type="text">
+							<label>地址：</label> <input id="d_address" type="text"
+								placeholder="请输入地址">
 						</div>
 						<div class="alt_edit_div">
 							<label>所属组织：</label> <input id="d_orgname" orgid="${orgid }"
-								value="${orgname }" type="text">
+								value="${orgname }" type="text" readonly="true">
 						</div>
 						<div class="alt_edit_div">
 							<label class="colorred"> *电话：</label> <input id="d_telephone"
-								type="text">
+								type="text" placeholder="请输入电话">
 						</div>
 						<div class="alt_edit_div">
 							<label class="colorred"> *身份证号：</label> <input id="d_identityno"
-								type="text">
+								type="text" placeholder="请输入身份证号">
 						</div>
 						<div class="alt_edit_div">
 							<label>有效性： </label> <input id="d_isvalid" type="checkbox"
@@ -439,7 +438,6 @@
 			</div>
 		</div>
 	</div>
-	<jsp:include page="../../common/module/custom_choose.jsp"></jsp:include>
 	<!--司机新增end-->
 	<jsp:include page="../../common/base/footer_busi.jsp"></jsp:include>
 	<script type="text/javascript"

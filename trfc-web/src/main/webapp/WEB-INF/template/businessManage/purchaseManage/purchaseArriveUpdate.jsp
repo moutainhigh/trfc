@@ -186,17 +186,17 @@
 						</div>
 						<div class="dhsearch_solo">
 							<label>订单号：</label> <input id="purchaseApplicationCode"
-								type="text">
+								type="text" placeholder="请输入订单号">
 						</div>
 						<div class="dhsearch_solo">
 							<label>开始时间：</label> <input id="starttime" type="text"
 								onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:00:00',maxDate:'#F{$dp.$D(\'endtime\')}'})"
-								class="Wdate" style="width: 160px" readonly />
+								class="Wdate" style="width: 160px" readonly placeholder="请选择开始时间"/>
 						</div>
 						<div class="dhsearch_solo">
 							<label>结束时间：</label> <input id="endtime" type="text"
 								onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:00:00',minDate:'#F{$dp.$D(\'starttime\')}'})"
-								class="Wdate" style="width: 160px" readonly />
+								class="Wdate" style="width: 160px" readonly placeholder="请选择结束时间"/>
 						</div>
 						<div class="dhsearch_solo">
 							<button id="PurchaseApplicationSearchBtn" class="btn btnblue ">搜索</button>
@@ -286,7 +286,7 @@
 
 						</div>
 						<div class="alt_edit_div">
-							<label>车辆号码：</label> <input id="v_vehicleno" type="text" placeholder="请输入车牌号码">
+							<label class="colorred">*车辆号码：</label> <input id="v_vehicleno" type="text" placeholder="请输入车牌号码">
 						</div>
 						<div class="alt_edit_div">
 							<label>车辆类型：</label> <input id="v_vehicletype" type="text" placeholder="请输入车辆类型">

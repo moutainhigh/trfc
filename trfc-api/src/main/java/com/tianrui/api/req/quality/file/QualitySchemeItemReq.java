@@ -17,6 +17,10 @@ public class QualitySchemeItemReq extends BaseReq {
      */
     private String schemeid;
     /**
+     * 化验报告id
+     */
+    private String assayid;
+    /**
      * 质检项目id
      */
     private String itemid;
@@ -197,6 +201,12 @@ public class QualitySchemeItemReq extends BaseReq {
 	}
 	public void setState(String state) {
 		this.state = state;
+	}
+	public String getAssayid() {
+		return assayid;
+	}
+	public void setAssayid(String assayid) {
+		this.assayid = assayid;
 	}
 
 	

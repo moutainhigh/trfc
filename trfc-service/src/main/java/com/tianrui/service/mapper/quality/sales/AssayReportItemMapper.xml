@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tianrui.service.mapper.quality.sales.AssayReportItemMapper" >
+  <resultMap id="BaseResultMap" type="com.tianrui.service.bean.quality.sales.AssayReportItem" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="itemid" property="itemid" jdbcType="VARCHAR" />
+    <result column="assayid" property="assayid" jdbcType="VARCHAR" />
+    <result column="testval" property="testval" jdbcType="VARCHAR" />
+    <result column="creator" property="creator" jdbcType="VARCHAR" />
+    <result column="createtime" property="createtime" jdbcType="BIGINT" />
+    <result column="modifier" property="modifier" jdbcType="VARCHAR" />
+    <result column="modifytime" property="modifytime" jdbcType="BIGINT" />
+    <result column="utc" property="utc" jdbcType="BIGINT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, itemid, assayid, testval, creator, createtime, modifier, modifytime, utc
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from tr_sales_db_assay_report_item
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from tr_sales_db_assay_report_item
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.tianrui.service.bean.quality.sales.AssayReportItem" >
+    insert into tr_sales_db_assay_report_item (id, itemid, assayid, 
+      testval, creator, createtime, 
+      modifier, modifytime, utc
+      )
+    values (#{id,jdbcType=VARCHAR}, #{itemid,jdbcType=VARCHAR}, #{assayid,jdbcType=VARCHAR}, 
+      #{testval,jdbcType=VARCHAR}, #{creator,jdbcType=VARCHAR}, #{createtime,jdbcType=BIGINT}, 
+      #{modifier,jdbcType=VARCHAR}, #{modifytime,jdbcType=BIGINT}, #{utc,jdbcType=BIGINT}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.tianrui.service.bean.quality.sales.AssayReportItem" >
+    insert into tr_sales_db_assay_report_item
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="itemid != null" >
+        itemid,
+      </if>
+      <if test="assayid != null" >
+        assayid,
+      </if>
+      <if test="testval != null" >
+        testval,
+      </if>
+      <if test="creator != null" >
+        creator,
+      </if>
+      <if test="createtime != null" >
+        createtime,
+      </if>
+      <if test="modifier != null" >
+        modifier,
+      </if>
+      <if test="modifytime != null" >
+        modifytime,
+      </if>
+      <if test="utc != null" >
+        utc,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="itemid != null" >
+        #{itemid,jdbcType=VARCHAR},
+      </if>
+      <if test="assayid != null" >
+        #{assayid,jdbcType=VARCHAR},
+      </if>
+      <if test="testval != null" >
+        #{testval,jdbcType=VARCHAR},
+      </if>
+      <if test="creator != null" >
+        #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=BIGINT},
+      </if>
+      <if test="modifier != null" >
+        #{modifier,jdbcType=VARCHAR},
+      </if>
+      <if test="modifytime != null" >
+        #{modifytime,jdbcType=BIGINT},
+      </if>
+      <if test="utc != null" >
+        #{utc,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tianrui.service.bean.quality.sales.AssayReportItem" >
+    update tr_sales_db_assay_report_item
+    <set >
+      <if test="itemid != null" >
+        itemid = #{itemid,jdbcType=VARCHAR},
+      </if>
+      <if test="assayid != null" >
+        assayid = #{assayid,jdbcType=VARCHAR},
+      </if>
+      <if test="testval != null" >
+        testval = #{testval,jdbcType=VARCHAR},
+      </if>
+      <if test="creator != null" >
+        creator = #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        createtime = #{createtime,jdbcType=BIGINT},
+      </if>
+      <if test="modifier != null" >
+        modifier = #{modifier,jdbcType=VARCHAR},
+      </if>
+      <if test="modifytime != null" >
+        modifytime = #{modifytime,jdbcType=BIGINT},
+      </if>
+      <if test="utc != null" >
+        utc = #{utc,jdbcType=BIGINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tianrui.service.bean.quality.sales.AssayReportItem" >
+    update tr_sales_db_assay_report_item
+    set itemid = #{itemid,jdbcType=VARCHAR},
+      assayid = #{assayid,jdbcType=VARCHAR},
+      testval = #{testval,jdbcType=VARCHAR},
+      creator = #{creator,jdbcType=VARCHAR},
+      createtime = #{createtime,jdbcType=BIGINT},
+      modifier = #{modifier,jdbcType=VARCHAR},
+      modifytime = #{modifytime,jdbcType=BIGINT},
+      utc = #{utc,jdbcType=BIGINT}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+    <select id="findOne" resultMap="BaseResultMap" parameterType="com.tianrui.service.bean.quality.sales.AssayReportItem" >
+    select 
+    <include refid="Base_Column_List" />
+    from tr_sales_db_assay_report_item
+    where itemid = #{itemid,jdbcType=VARCHAR} and assayid = #{assayid,jdbcType=VARCHAR}
+  </select>
+</mapper>

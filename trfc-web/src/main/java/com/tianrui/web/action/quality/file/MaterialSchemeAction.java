@@ -1,5 +1,6 @@
 package com.tianrui.web.action.quality.file;
 
+
 import javax.annotation.Resource;
 
 import org.slf4j.Logger;
@@ -38,7 +39,6 @@ public class MaterialSchemeAction {
 		Result rs = Result.getErrorResult();
 		try {
 			rs = materialSchemeService.page(req);
-			
 		} catch (Exception e) {
 			log.error(e.getMessage(),e);
 		}
@@ -114,6 +114,36 @@ public class MaterialSchemeAction {
 			rs = materialSchemeService.checkMaterialType(req);
 		} catch (Exception e) {
 			log.error(e.getMessage(),e);
+		}
+		return rs;
+	}
+	/**
+	 * 模糊查询下拉框
+	 * @param term
+	 * @return
+	 */
+	@RequestMapping("/autoCompleteSearch")
+	@ResponseBody
+	public Result autoCompleteSearch(String term){
+		Result rs = Result.getErrorResult();
+		try {
+			rs = materialSchemeService.autoCompleteSearch(term.trim());
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+		}
+		return rs;
+	}
+	/**
+	 * 查询数据(id)
+	 */
+	@RequestMapping("/findOne")
+	@ResponseBody
+	public Result findOne(String id){
+		Result rs = Result.getErrorResult();
+		try {
+			rs = materialSchemeService.findOne(id);
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
 		}
 		return rs;
 	}

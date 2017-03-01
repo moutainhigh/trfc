@@ -2,6 +2,8 @@ package com.tianrui.service.mapper.basicFile.nc;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.tianrui.api.req.basicFile.nc.CustomerManageQuery;
 import com.tianrui.service.bean.basicFile.nc.CustomerManage;
 
@@ -27,4 +29,6 @@ public interface CustomerManageMapper {
 	int insertBatch(List<CustomerManage> list);
     
 	Long findMaxUtc();
+
+	List<CustomerManage> autoCompleteSearch(@Param("likeName")String likeName);
 }

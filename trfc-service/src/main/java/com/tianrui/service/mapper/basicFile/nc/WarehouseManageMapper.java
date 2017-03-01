@@ -2,6 +2,8 @@ package com.tianrui.service.mapper.basicFile.nc;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.tianrui.api.req.basicFile.nc.WarehouseManageQuery;
 import com.tianrui.service.bean.basicFile.nc.WarehouseManage;
 /**
@@ -32,4 +34,6 @@ public interface WarehouseManageMapper {
 	List<WarehouseManage> selectSelective(WarehouseManage record);
 	
 	Long findMaxUtc();
+
+	List<WarehouseManage> autoCompleteSearch(@Param("likeName")String trim);
 }

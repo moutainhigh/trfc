@@ -111,7 +111,7 @@
 							</div>
 							<div class="daohuo_add_solo">
 								<label>业务日期：</label> <input
-									value="${salesArrive.salesApplication.createtimeStr }"
+									value="${salesArrive.salesApplication.makebilltimeStr }"
 									type="text" readonly>
 							</div>
 							<div class="daohuo_add_solo">

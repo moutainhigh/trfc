@@ -352,8 +352,6 @@
 		var ownername = $('#v_ownername').val(); ownername = $.trim(ownername);
 		var telephone = $('#v_telephone').val(); telephone = $.trim(telephone);
 		var address = $('#v_address').val(); address = $.trim(address);
-		var orgid = $('#v_orgname').attr('orgid'); orgid = $.trim(orgid);
-		var orgname = $('#v_orgname').val(); orgname = $.trim(orgname);
 		var isvalid = 0;
 		if($('#v_isvalid').is(':checked')){
 			isvalid = 1;
@@ -374,8 +372,6 @@
 				ownername:ownername,
 				telephone:telephone,
 				address:address,
-				orgid:orgid,
-				orgname:orgname,
 				isvalid:isvalid,
 				remarks:remarks
 			},
@@ -400,8 +396,6 @@
 		var name = $('#d_name').val(); name = $.trim(name);
 		var abbrname = $('#d_abbrname').val(); abbrname = $.trim(abbrname);
 		var address = $('#d_address').val(); address = $.trim(address);
-		var orgid = $('#d_orgname').attr('orgid'); orgid = $.trim(orgid);
-		var orgname = $('#d_orgname').val(); orgname = $.trim(orgname);
 		var telephone = $('#d_telephone').val(); telephone = $.trim(telephone);
 		var identityno = $('#d_identityno').val(); identityno = $.trim(identityno);
 		var isvalid = 0;

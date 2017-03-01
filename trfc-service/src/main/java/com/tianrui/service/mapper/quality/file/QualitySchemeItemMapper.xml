@@ -329,13 +329,11 @@
 			)
 		</foreach>
 	</insert>
-    <select id="selectOne" parameterType="com.tianrui.api.req.quality.file.QualitySchemeItemReq" resultMap="BaseResultMap">
+    <select id="selectOne" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from tr_quality_db_scheme_item
     where id = #{id,jdbcType=VARCHAR}
-    <if test="state!=null and state!=''">
-		and state=#{state,jdbcType=VARCHAR}
-	</if>
+		and state="1"
   </select>
 </mapper>

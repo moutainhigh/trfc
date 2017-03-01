@@ -310,15 +310,14 @@
 		utc = #{utc,jdbcType=BIGINT}
 		where id = #{id,jdbcType=VARCHAR}
 	</update>
-	<select id="selectOne" parameterType="com.tianrui.api.req.quality.sales.AssayReportReq"
+	<select id="selectOne" parameterType="java.lang.String"
 		resultMap="BaseResultMap">
 		select
 		<include refid="Base_Column_List" />
 		from tr_sales_db_assay_report
 		where id = #{id,jdbcType=VARCHAR}
-		<if test="state!=null and state!=''">
-			and state=#{state,jdbcType=VARCHAR}
-		</if>
+			and state="1"
+		
 	</select>
 	  <select id="page" parameterType="com.tianrui.api.req.quality.sales.AssayReportReq" resultMap="BaseResultMap">
 		select 
@@ -351,10 +350,10 @@
 		from tr_sales_db_assay_report
 		<where>
 			<if test="starttime!=null and starttime!=''">
-				and starttime <![CDATA[>=#{starttime,jdbcType=BIGINT} ]]> 
+				and createtime <![CDATA[>=#{starttime,jdbcType=BIGINT} ]]> 
 			</if>
 			<if test="endtime!=null and endtime!=''">
-				and starttime <![CDATA[<= #{endtime,jdbcType=BIGINT} ]]> 
+				and createtime <![CDATA[<= #{endtime,jdbcType=BIGINT} ]]> 
 			</if>
 			<if test="code!=null and code!=''">
 				and code=#{code,jdbcType=VARCHAR}

@@ -55,6 +55,15 @@ public interface IWarehouseManageService {
 	Result findMaxUtc(WarehouseManageQuery query) throws Exception;
 	
 	Result updateDataWithDC(List<JSONObject> list )throws Exception;
+	/**
+	 * @Description 根据名称模糊查询
+	 * @author zhanggaohao
+	 * @version 2017年2月26日 上午9:15:15
+	 * @param trim
+	 * @return
+	 * @throws Exception 
+	 */
+	List<WarehouseManageResp> autoCompleteSearch(String trim) throws Exception;
 	
 	
 	

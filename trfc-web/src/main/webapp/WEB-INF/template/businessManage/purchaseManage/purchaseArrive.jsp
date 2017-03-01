@@ -38,6 +38,24 @@
 										placeholder="请输入订单号">
 								</div>
 								<div class="intel_solo">
+									<label>供应商：</label> <input id="supplier" type="text"
+										placeholder="请选择供应商" />
+								</div>
+								<div class="intel_solo">
+									<label>车号：</label> <input id="vehicle" type="text"
+										placeholder="请选择车号" />
+								</div>
+								<div class="intel_solo">
+									<label>物料：</label> <input id="materiel" type="text"
+										placeholder="请选择物料" />
+								</div>
+								<div class="intel_solo">
+									<label>司机：</label> <input id="driver" type="text"
+										placeholder="请选择司机" />
+								</div>
+								</div>
+							<div class="intel_sline">
+								<div class="intel_solo">
 									<label>通知单号：</label> <input id="code" type="text"
 										placeholder="请输入通知单号">
 								</div>
@@ -69,22 +87,6 @@
 										<option value="6">入厂</option>
 										<option value="7">装车</option>
 									</select>
-								</div>
-								<div class="intel_solo">
-									<label>供应商：</label> <input id="supplier" type="text"
-										placeholder="请选择供应商" />
-								</div>
-								<div class="intel_solo">
-									<label>车号：</label> <input id="vehicle" type="text"
-										placeholder="请选择车号" />
-								</div>
-								<div class="intel_solo">
-									<label>物料：</label> <input id="materiel" type="text"
-										placeholder="请选择物料" />
-								</div>
-								<div class="intel_solo">
-									<label>司机：</label> <input id="driver" type="text"
-										placeholder="请选择司机" />
 								</div>
 								<div class="intel_solo">
 									<label>创建时间：</label> <input id="starttime" type="text" readonly

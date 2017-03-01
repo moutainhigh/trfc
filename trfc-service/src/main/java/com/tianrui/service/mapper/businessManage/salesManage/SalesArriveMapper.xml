@@ -15,6 +15,7 @@
     <result column="driveridentityno" property="driveridentityno" jdbcType="VARCHAR" />
     <result column="billid" property="billid" jdbcType="VARCHAR" />
     <result column="billcode" property="billcode" jdbcType="VARCHAR" />
+    <result column="billdetailid" property="billdetailid" jdbcType="VARCHAR" />
     <result column="abnormalperson" property="abnormalperson" jdbcType="VARCHAR" />
     <result column="abnormalpersonname" property="abnormalpersonname" jdbcType="VARCHAR" />
     <result column="abnormaltime" property="abnormaltime" jdbcType="BIGINT" />
@@ -37,7 +38,7 @@
   </resultMap>
   <sql id="Base_Column_List" >
     id, code, auditstatus, source, status, vehicleid, vehicleno, vehiclerfid, driverid, drivername, 
-    driveridentityno, billid, billcode, abnormalperson, abnormalpersonname, abnormaltime, 
+    driveridentityno, billid, billcode, billdetailid, abnormalperson, abnormalpersonname, abnormaltime, 
     unit, takeamount, spraycode, serialnumber, icardid, icardno, state, maindeduction, 
     makerid, makebillname, makebilltime, remarks, creator, createtime, modifier, modifytime
   </sql>
@@ -55,7 +56,7 @@
     insert into tr_sales_db_arrive (id, code, auditstatus, 
       source, status, vehicleid, 
       vehicleno, vehiclerfid, driverid, drivername, 
-      driveridentityno, billid, billcode, 
+      driveridentityno, billid, billcode, billdetailid,
       abnormalperson, abnormalpersonname, abnormaltime, 
       unit, takeamount, spraycode, 
       serialnumber, icardid, icardno, 
@@ -66,7 +67,7 @@
     values (#{id,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR}, #{auditstatus,jdbcType=VARCHAR}, 
       #{source,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, #{vehicleid,jdbcType=VARCHAR}, 
       #{vehicleno,jdbcType=VARCHAR}, #{vehiclerfid,jdbcType=VARCHAR}, #{driverid,jdbcType=VARCHAR}, #{drivername,jdbcType=VARCHAR}, 
-      #{driveridentityno,jdbcType=VARCHAR}, #{billid,jdbcType=VARCHAR}, #{billcode,jdbcType=VARCHAR}, 
+      #{driveridentityno,jdbcType=VARCHAR}, #{billid,jdbcType=VARCHAR}, #{billcode,jdbcType=VARCHAR},  #{billdetailid,jdbcType=VARCHAR}, 
       #{abnormalperson,jdbcType=VARCHAR}, #{abnormalpersonname,jdbcType=VARCHAR}, #{abnormaltime,jdbcType=BIGINT}, 
       #{unit,jdbcType=VARCHAR}, #{takeamount,jdbcType=DOUBLE}, #{spraycode,jdbcType=VARCHAR}, 
       #{serialnumber,jdbcType=VARCHAR}, #{icardid,jdbcType=VARCHAR}, #{icardno,jdbcType=VARCHAR}, 
@@ -116,6 +117,9 @@
       </if>
       <if test="billcode != null" >
         billcode,
+      </if>
+      <if test="billdetailid != null" >
+        billdetailid,
       </if>
       <if test="abnormalperson != null" >
         abnormalperson,
@@ -215,6 +219,9 @@
       <if test="billcode != null" >
         #{billcode,jdbcType=VARCHAR},
       </if>
+      <if test="billdetailid != null" >
+        #{billdetailid,jdbcType=VARCHAR},
+      </if>
       <if test="abnormalperson != null" >
         #{abnormalperson,jdbcType=VARCHAR},
       </if>
@@ -313,6 +320,9 @@
       <if test="billcode != null" >
         billcode = #{billcode,jdbcType=VARCHAR},
       </if>
+      <if test="billdetailid != null" >
+        billdetailid = #{billdetailid,jdbcType=VARCHAR},
+      </if>
       <if test="abnormalperson != null" >
         abnormalperson = #{abnormalperson,jdbcType=VARCHAR},
       </if>
@@ -387,6 +397,7 @@
       driveridentityno = #{driveridentityno,jdbcType=VARCHAR},
       billid = #{billid,jdbcType=VARCHAR},
       billcode = #{billcode,jdbcType=VARCHAR},
+      billdetailid = #{billdetailid,jdbcType=VARCHAR},
       abnormalperson = #{abnormalperson,jdbcType=VARCHAR},
       abnormalpersonname = #{abnormalpersonname,jdbcType=VARCHAR},
       abnormaltime = #{abnormaltime,jdbcType=BIGINT},
@@ -451,6 +462,9 @@
       </if>
       <if test="billcode != null and billcode != ''" >
         and billcode = #{billcode,jdbcType=VARCHAR}
+      </if>
+      <if test="billdetailid != null and billdetailid != ''" >
+        and billdetailid = #{billdetailid,jdbcType=VARCHAR}
       </if>
       <if test="abnormalperson != null and abnormalperson != ''" >
         and abnormalperson = #{abnormalperson,jdbcType=VARCHAR}

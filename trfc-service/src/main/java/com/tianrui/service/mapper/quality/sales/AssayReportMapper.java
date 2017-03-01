@@ -41,5 +41,5 @@ public interface AssayReportMapper {
     /**
      * 查询单条数据
      */
-    AssayReport selectOne(AssayReportReq req);
+    AssayReport selectOne(String id);
 }

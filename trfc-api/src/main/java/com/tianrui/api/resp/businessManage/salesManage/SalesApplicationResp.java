@@ -1,5 +1,7 @@
 package com.tianrui.api.resp.businessManage.salesManage;
 
+import java.util.List;
+
 import com.tianrui.api.resp.BaseResp;
 import com.tianrui.smartfactory.common.utils.DateUtil;
 /**
@@ -81,7 +83,8 @@ public class SalesApplicationResp extends BaseResp {
     //最后修改时间Str
     private String modifytimeStr;
     //订单详情
-    private SalesApplicationDetailResp detailResp;
+    private List<SalesApplicationDetailResp> list;
+    
 	public String getId() {
 		return id;
 	}
@@ -297,11 +300,11 @@ public class SalesApplicationResp extends BaseResp {
 	public void setModifytimeStr(String modifytimeStr) {
 		this.modifytimeStr = modifytimeStr;
 	}
-	public SalesApplicationDetailResp getDetailResp() {
-		return detailResp;
+	public List<SalesApplicationDetailResp> getList() {
+		return list;
 	}
-	public void setDetailResp(SalesApplicationDetailResp detailResp) {
-		this.detailResp = detailResp;
+	public void setList(List<SalesApplicationDetailResp> list) {
+		this.list = list;
 	}
 
 }
