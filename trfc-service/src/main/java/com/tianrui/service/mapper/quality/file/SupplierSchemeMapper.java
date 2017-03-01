@@ -2,6 +2,8 @@ package com.tianrui.service.mapper.quality.file;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.tianrui.api.req.quality.file.SupplierSchemeReq;
 import com.tianrui.service.bean.quality.file.SupplierScheme;
 /**
@@ -30,7 +32,7 @@ public interface SupplierSchemeMapper {
 	/**
 	 * 查询数据(id,state)
 	 */
-    SupplierScheme selectOne(SupplierSchemeReq req);
+    SupplierScheme selectOne(String id);
 	/**
 	 * 更新数据(动�??)
 	 */
@@ -47,4 +49,9 @@ public interface SupplierSchemeMapper {
      * 数据总数
      */
     int count(SupplierSchemeReq req);
+    /**
+     * 下拉框自动搜索
+     */
+    List<SupplierScheme> autoCompleteSearch(@Param("likeName")String likeName);
+
 }

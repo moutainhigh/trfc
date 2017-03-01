@@ -300,5 +300,20 @@ public class QualitySchemeAction {
 		}
 		return rs;
 	}
-	
+	/**
+	 * 模糊查询下拉框
+	 * @param term
+	 * @return
+	 */
+	@RequestMapping("/autoCompleteSearch")
+	@ResponseBody
+	public Result autoCompleteSearch(String term){
+		Result rs = Result.getErrorResult();
+		try {
+			rs = qualitySchemeService.autoCompleteSearch(term.trim());
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+		}
+		return rs;
+	}
 }

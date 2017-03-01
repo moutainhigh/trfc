@@ -2,6 +2,8 @@ package com.tianrui.service.mapper.quality.file;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.tianrui.api.req.quality.file.MaterialSchemeReq;
 import com.tianrui.service.bean.quality.file.MaterialScheme;
 
@@ -26,7 +28,7 @@ public interface MaterialSchemeMapper {
     /**
 	 * 通过id,state查询数据
 	 */
-    MaterialScheme selectOne(MaterialSchemeReq req);
+    MaterialScheme selectOne(String id);
     /**
 	 * 更新数据(动�??)
 	 */
@@ -43,4 +45,8 @@ public interface MaterialSchemeMapper {
      * 分页查询数据
      */
     List<MaterialScheme> page(MaterialSchemeReq req);
+    /**
+     * 下拉框自动搜索
+     */
+    List<MaterialScheme> autoCompleteSearch(@Param("likeName")String likeName);
 }

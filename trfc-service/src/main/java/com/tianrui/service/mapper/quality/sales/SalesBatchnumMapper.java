@@ -2,6 +2,8 @@ package com.tianrui.service.mapper.quality.sales;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.tianrui.api.req.quality.sales.SalesBatchnumReq;
 import com.tianrui.service.bean.quality.sales.SalesBatchnum;
 
@@ -43,5 +45,9 @@ public interface SalesBatchnumMapper {
      * 批量插入数据
      */
     int insertBatch(List<SalesBatchnum> list);
-    
+    /**
+     * 下拉框自动搜索
+     */
+    List<SalesBatchnum> autoCompleteSearch(@Param("likeName")String likeName);
+
 }

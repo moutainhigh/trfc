@@ -14,18 +14,19 @@ import com.alibaba.fastjson.JSONArray;
 import com.tianrui.api.intf.quality.file.IQualitySchemeItemService;
 import com.tianrui.api.req.quality.file.QualityItemReq;
 import com.tianrui.api.req.quality.file.QualitySchemeItemReq;
-import com.tianrui.api.req.quality.file.QualitySchemeReq;
 import com.tianrui.api.resp.quality.file.QualityItemResp;
 import com.tianrui.api.resp.quality.file.QualitySchemeItemResp;
 import com.tianrui.service.bean.basicFile.nc.MaterielManage;
 import com.tianrui.service.bean.quality.file.QualityItem;
 import com.tianrui.service.bean.quality.file.QualityScheme;
 import com.tianrui.service.bean.quality.file.QualitySchemeItem;
+import com.tianrui.service.bean.quality.sales.AssayReportItem;
 import com.tianrui.service.mapper.basicFile.nc.MaterielManageMapper;
 import com.tianrui.service.mapper.quality.file.MaterialSchemeMapper;
 import com.tianrui.service.mapper.quality.file.QualityItemMapper;
 import com.tianrui.service.mapper.quality.file.QualitySchemeItemMapper;
 import com.tianrui.service.mapper.quality.file.QualitySchemeMapper;
+import com.tianrui.service.mapper.quality.sales.AssayReportItemMapper;
 import com.tianrui.smartfactory.common.constants.ErrorCode;
 import com.tianrui.smartfactory.common.utils.UUIDUtil;
 import com.tianrui.smartfactory.common.vo.Result;
@@ -43,6 +44,8 @@ public class QualitySchemeItemService implements IQualitySchemeItemService {
 	private MaterialSchemeMapper materialSchemeMapper;
 	@Resource
 	private MaterielManageMapper materielManageMapper;
+	@Resource
+	private AssayReportItemMapper assayReportItemMapper;
 
 
 	@Override
@@ -218,11 +221,7 @@ public class QualitySchemeItemService implements IQualitySchemeItemService {
 					QualitySchemeItemResp resp = new QualitySchemeItemResp();
 					PropertyUtils.copyProperties(resp,q);
 					//获取物料名称
-					QualitySchemeReq schemeReq = new QualitySchemeReq();
-					schemeReq.setId(q.getSchemeid());
-					schemeReq.setState("1");
-					//获取质检方案对象
-					QualityScheme qs = qualitySchemeMapper.selectOne(schemeReq);
+					QualityScheme qs = qualitySchemeMapper.selectOne(q.getSchemeid());
 					//在该对象不会空的情况下,通过id获取物料的名称
 					if(qs!=null){
 						MaterielManage manage = materielManageMapper.selectByPrimaryKey(qs.getMaterialid());
@@ -231,10 +230,7 @@ public class QualitySchemeItemService implements IQualitySchemeItemService {
 						}
 					}
 					//获取item对象
-					QualityItemReq itemReq = new QualityItemReq();
-					itemReq.setId(resp.getItemid());
-					itemReq.setState("1");
-					QualityItem qi = qualityItemMapper.selectOne(itemReq);
+					QualityItem qi = qualityItemMapper.selectOne(resp.getItemid());
 					if(qi!=null){
 						resp.setItemcode(qi.getCode());
 						resp.setItemname(qi.getName());
@@ -297,6 +293,54 @@ public class QualitySchemeItemService implements IQualitySchemeItemService {
 					rs.setErrorCode(ErrorCode.OPERATE_ERROR);
 				}
 			}
+		}
+		return rs;
+	}
+
+	@Override
+	public Result findDetailandVal(QualitySchemeItemReq req) throws Exception {
+		Result rs = Result.getParamErrorResult();
+		if(req!=null && StringUtils.isNotBlank(req.getSchemeid())){
+			req.setState("1");
+			//通过schemeid获取数据
+			List<QualitySchemeItem> list = qualitySchemeItemMapper.findBySchemeId(req);
+			//转换为resp集合
+			List<QualitySchemeItemResp> resps = new ArrayList<QualitySchemeItemResp>();
+			if(list!=null && !list.isEmpty()){
+				for(QualitySchemeItem q : list){
+					QualitySchemeItemResp resp = new QualitySchemeItemResp();
+					PropertyUtils.copyProperties(resp,q);
+					//获取物料名称
+					QualityScheme qs = qualitySchemeMapper.selectOne(q.getSchemeid());
+					//在该对象不会空的情况下,通过id获取物料的名称
+					if(qs!=null){
+						MaterielManage manage = materielManageMapper.selectByPrimaryKey(qs.getMaterialid());
+						if(manage!=null){
+							resp.setMaterialname(manage.getName());
+						}
+					}
+					//获取item对象
+					QualityItem qi = qualityItemMapper.selectOne(resp.getItemid());
+					if(qi!=null){
+						resp.setItemcode(qi.getCode());
+						resp.setItemname(qi.getName());
+						resp.setUnits(qi.getUnits());
+						//获取检测值
+						if(StringUtils.isNotBlank(req.getAssayid())){
+							AssayReportItem itemReq = new AssayReportItem();
+							itemReq.setAssayid(req.getAssayid());
+							itemReq.setItemid(resp.getItemid());
+							AssayReportItem reportItem = assayReportItemMapper.findOne(itemReq);
+							if(reportItem!=null){
+								resp.setTestval(reportItem.getTestval());
+							}
+						}
+					}
+					resps.add(resp);
+				}
+			}
+			rs = Result.getSuccessResult();
+			rs.setData(resps);
 		}
 		return rs;
 	}

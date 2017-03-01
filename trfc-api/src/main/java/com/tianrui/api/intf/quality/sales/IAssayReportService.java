@@ -29,4 +29,8 @@ public interface IAssayReportService {
 	 * 查询数据
 	 */
 	Result findOne(AssayReportReq req) throws Exception;
+	/**
+	 * 获取物料方案下拉框
+	 */
+	Result mschemeData() throws Exception;
 }
