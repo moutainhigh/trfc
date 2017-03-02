@@ -26,6 +26,10 @@ public interface SalesBatchnumMapper {
      */
     SalesBatchnum selectByPrimaryKey(String id);
     /**
+     * 通过批号查询数据
+     */
+    SalesBatchnum selectByFactoryCode(String factorycode);
+    /**
      * 更新数据
      */
     int updateByPrimaryKeySelective(SalesBatchnum record);

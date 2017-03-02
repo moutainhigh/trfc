@@ -30,7 +30,7 @@ public interface IAssayReportService {
 	 */
 	Result findOne(AssayReportReq req) throws Exception;
 	/**
-	 * 获取物料方案下拉框
+	 * 查询审核信息
 	 */
-	Result mschemeData() throws Exception;
+	Result findReportMsg(AssayReportReq req) throws Exception;
 }
