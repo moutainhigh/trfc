@@ -6,7 +6,6 @@ $(function(){
 			findOneUrl:"/trfc/quality/sales/report/selectOne",
 			saveUrl:"/trfc/quality/sales/report/update",
 			getDetailAndVal:"/trfc/quality/sales/report/getDetailAndVal",
-			qschemeSelectUrl:"/trfc/quality/sales/report/qschemeSelectUrl",
 			qschemeAutoCompleteSearch: "/trfc/quality/sales/file/qualityScheme/autoCompleteSearch",
 			materialAutoCompleteSearch: "/trfc/materiel/autoCompleteSearch",
 			mschemeAutoCompleteSearch: "/trfc/quality/sales/file/MaterialScheme/autoCompleteSearch",
@@ -32,6 +31,10 @@ $(function(){
 			if('000000'==result.code){
 				var obj = result.data;
 				$('#edit_code').val(obj.code);
+				$('#edit_pstate')[0].checked=true;
+				if(obj.pstate==0){
+					$('#edit_pstate')[0].checked=false;
+				}
 				$('#edit_batchcode').val(obj.batchcode).attr('batchnumid',obj.batchnumid);
 				$('#edit_producedtime').val(getNowFormatDate(false, obj.producetime));
 				$('#edit_testtime').val(getNowFormatDate(false, obj.testtime));
@@ -147,6 +150,7 @@ $(function(){
 		};
 		return data;
 	}
+	//获取详细 数据(返回json字符串)
 	function getDetailData(){
 		var trs = $('#detail_list tr');
 		var arr = new Array();
@@ -161,10 +165,6 @@ $(function(){
 	}
 
 
-
-
-
-
 	//当物料方案改变时 填充数据
 	function fillMSDetail(obj){
 		$('#edit_strength').val(obj.strength);
@@ -175,6 +175,7 @@ $(function(){
 		$('#edit_aid').val(obj.aid);
 		$('#edit_aidadd').val(obj.aidadd);
 	}
+	//获取详情数据,并展示列表
 	function showDetail(id,assayid){
 		$.post(URL.getDetailAndVal,{schemeid:id,assayid:assayid},function(result){
 			if('000000'==result.code){

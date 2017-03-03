@@ -31,9 +31,9 @@
 						</div>
 						<div class="alt_opera">
 							<ul>
-								<li><i class="iconfont colorlv" id="fresh">&#xe61b;</i>
+								<li  id="fresh"><i class="iconfont colorlv">&#xe61b;</i>
 									<h5>刷新</h5></li>
-								<li><i class="iconfont colorblue" id="save">&#xe61d;</i>
+								<li  id="save"><i class="iconfont colorblue">&#xe61d;</i>
 									<h5>保存</h5></li>
 								<li id="goBack"><a> <i class="iconfont colorblue">&#xe61e;</i>
 										<h5>返回</h5>

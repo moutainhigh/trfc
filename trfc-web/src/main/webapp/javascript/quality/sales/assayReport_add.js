@@ -1,11 +1,22 @@
 $(function(){
 	var URL = {
+			//列表
 			pageUrl:"/trfc/quality/sales/batchnum/page",
+			//主页
 			mainUrl:"/trfc/quality/sales/report/main",
+			//获取编码
 			getCodeUrl:"/trfc/quality/sales/report/getCode",
+			//获取物料方案数据
+			getMschemeData:"/trfc/quality/sales/file/MaterialScheme/findOne",
+			//刷新编码计数
+			updateCodeUrl:"/trfc/quality/sales/report/updateCode",
+			//保存数据
 			saveUrl:"/trfc/quality/sales/report/save",
-			getDetailUrl:"/trfc/quality/sales/file/qualityScheme/inquire",
-			qschemeSelectUrl:"/trfc/quality/sales/report/qschemeSelectUrl",
+			//获取一条化验报告的数据
+			findOneUrl:"/trfc/quality/sales/report/selectOne",
+			//获取详情和检测值
+			getDetailAndVal:"/trfc/quality/sales/report/getDetailAndVal",
+			//下拉框
 			qschemeAutoCompleteSearch: "/trfc/quality/sales/file/qualityScheme/autoCompleteSearch",
 			materialAutoCompleteSearch: "/trfc/materiel/autoCompleteSearch",
 			mschemeAutoCompleteSearch: "/trfc/quality/sales/file/MaterialScheme/autoCompleteSearch",
@@ -14,12 +25,94 @@ $(function(){
 	$('#goBack').click(function(){
 		window.location.href=URL.mainUrl;
 	});
+	$('#fresh').click(function(){
+		window.location.reload();
+	});
+	//选择批号是 对批号列表进行初始话
+	$('#add_batchcode').click(function(){batchnumShowAction(1);});
+	//下拉框初始化
+	initSelect();
+	//绑定搜索按钮
+	$('#select_seek').click(function(){batchnumShowAction(1);});
+	//监听每页记录 事件
+	$('#pageSize').change(function(){batchnumShowAction(1);});
+	//跳转页面
+	$('#jumpButton').click(jumpPageAction);
+	$('#select_list').on('dblclick','tr',function(){
+		var obj = $(this).data('obj');
+		$('#add_batchcode').val(obj.factorycode).attr('batchnumid',obj.id);
+		$('#add_producedtime').val(getNowFormatDate(false,obj.producedtime));
+		$('#add_testtime').val(getNowFormatDate(false,obj.testtime));
+		$('#closeBth').click();
+	});
+
+	//在保存按钮上 绑定事件
+	$('#save').click(function(){
+		var data = getAddData();
+		if(data){
+			$.post(URL.saveUrl,data,function(result){
+				if('000000'==result.code){
+					//更新编码计数
+					updateCode();
+					
+				}else{
+					layer.msg(result.error,{icon:5});
+				}
+			});
+		}
+	});
+	//获取编号
+	initCode();
 	//获取用户名
 	var userid = $('.user').attr('userid');
 	//对新增页面进行初始化
+	var id = getId();
 	initPage();
-
+	if(id){
+		initCopyPage();
+	}
+	
+	//-------------------------------------------------------------------------------
+	
+	function initCopyPage(){
+		$.post(URL.findOneUrl,{id:id},function(result){
+			if('000000'==result.code){
+				var obj = result.data;
+				$('#add_batchcode').val(obj.batchcode).attr('batchnumid',obj.batchnumid);
+				$('#add_pstate')[0].checked=true;
+				if(obj.pstate==0){
+					$('#add_pstate')[0].checked=false;
+				}
+				$('#add_producedtime').val(getNowFormatDate(false, obj.producetime));
+				$('#add_testtime').val(getNowFormatDate(false, obj.testtime));
+				$('#add_materialtype').val(obj.materialtype).attr('mschemeid',obj.mschemeid);
+				getMschemeData(obj.mschemeid);
+				$('#add_addr').val(obj.addr);
+				$('#add_remark').val(obj.remark);
+				$('#add_selldate').val(getNowFormatDate(false,obj.selldate));
+				$('#add_qscheme').val(obj.qschemename).attr('qschemeid',obj.qschemeid);
+				showDetail(obj.qschemeid,id);
+			
+			}else{
+				layer.msg(result.error,{icon:5});
+			}
+		});
+		
+	}
 	function initPage(){
+		var username = $(".user label").html();
+		$('#add_reportorg').val('郑州天瑞水泥集团');
+		$('#add_creattime').val(getNowFormatDate(true));
+		$('#add_reporter').val(username);
+		$('#add_creator').val(username);
+	}
+	//获取编号
+	function getId(){
+		var href = window.location.href;
+		var trs = href.split('?id=');
+		return trs[1];
+	};
+	function initCode(){
 		//获取编号
 		var param = {
 				code:'ZJ',
@@ -31,44 +124,25 @@ $(function(){
 				$('#add_code').val(result.data);
 			}
 		});
-		var username = $(".user label").html();
-		$('#add_reportorg').val('郑州天瑞水泥集团');
-		$('#add_creattime').val(getNowFormatDate(true));
-		$('#add_reporter').val(username);
-		$('#add_creator').val(username);
-		$('#add_batchcode').click(function(){batchnumShowAction(1);});
-		initSelect();
-		//绑定搜索按钮
-		$('#select_seek').click(function(){batchnumShowAction(1);});
-		//监听每页记录 事件
-		$('#pageSize').change(function(){batchnumShowAction(1);});
-		//跳转页面
-		$('#jumpButton').click(jumpPageAction);
-		$('#select_list').on('dblclick','tr',function(){
-			var obj = $(this).data('obj');
-			$('#add_batchcode').val(obj.factorycode).attr('batchnumid',obj.id);
-			$('#add_producedtime').val(getNowFormatDate(false,obj.producedtime));
-			$('#add_testtime').val(getNowFormatDate(false,obj.testtime));
-			$('#closeBth').click();
-		});
-		//在保存按钮上 绑定事件
-		$('#save').click(function(){
-			var data = getAddData();
-			if(data){
-				$.post(URL.saveUrl,data,function(result){
-					if('000000'==result.code){
-						window.location.href=URL.mainUrl;
-					}
-				});
-			}
-		})
 	}
 	//获取新增数据
 	function getAddData(){
 		var code = $('#add_code').val();
 		var batchnumid = $('#add_batchcode').attr('batchnumid');
+		if(!batchnumid){
+			alert("批号不能为空!");
+			return null;
+		}
 		var mscheme = $('#add_materialtype').attr('mschemeid');
+		if(!mscheme){
+			alert("物料方案不能为空!");
+			return null;
+		}
 		var qscheme = $('#add_qscheme').attr('qschemeid');
+		if(!qscheme){
+			alert("质检方案不能为空!")
+			return null;
+		}
 		var reportorg = $('#add_reportorg').val();
 		var reporter = $('#add_reporter').val();
 		var addr = $('#add_addr').val();
@@ -129,7 +203,24 @@ $(function(){
 		return JSON.stringify(arr);
 	}
 	
-	
+	//添加成功后,刷新标号(增1)
+	function updateCode(){
+		//设置编码代号
+		var param = {
+				code:'ZJ',
+				userid:userid,
+				codeType:true
+		}; 
+		//更新编码
+		$.post(URL.updateCodeUrl,param,function(result){
+			if(result.code=='000000'){
+				//跳转到主页
+				window.location.href=URL.mainUrl;
+			}else{
+				layer.msg(result.error,{icon:5});
+			}
+		});
+	}
 	
 	
 	
@@ -144,8 +235,19 @@ $(function(){
 		$('#add_aid').val(obj.aid);
 		$('#add_aidadd').val(obj.aidadd);
 	}
-	function showDetail(obj){
-		$.post(URL.getDetailUrl,{schemeid:obj.id},function(result){
+	//获取mscheme的详细信息
+	function getMschemeData(id){
+		$.post(URL.getMschemeData,{id:id},function(result){
+			if('000000'==result.code){
+				fillMSDetail(result.data);
+			}else{
+				layer.msg(result.error,{icon:5});
+			}
+		})
+	}
+	//获取详情数据,并展示列表
+	function showDetail(id,assayid){
+		$.post(URL.getDetailAndVal,{schemeid:id,assayid:assayid},function(result){
 			if('000000'==result.code){
 				fillQSDetail(result.data);
 			}else{
@@ -171,7 +273,7 @@ $(function(){
 					+'<td>'+(obj.itemname || '')+'</td>'
 					+'<td>'+(obj.units || '')+'</td>'
 					+'<td>'+(obj.standardval || '')+'</td>'
-					+'<td><input type="text" value="0"></td>'
+					+'<td><input type="text" value="'+(obj.testval || '0')+'"></td>'
 					+'</tr>';
 				tr = $(tr);
 				//追加
@@ -324,7 +426,7 @@ $(function(){
 			//选定,显示结果到输入框
 			select: function( event, ui ) {
 				$(this).val(ui.item.name).attr('qschemeid', ui.item.id);
-				showDetail(ui.item);
+				showDetail(ui.item.id);
 				return false;
 			}
 		}).off('click').on('click',function(){
