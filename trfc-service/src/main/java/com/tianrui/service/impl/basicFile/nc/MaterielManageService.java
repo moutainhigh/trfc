@@ -155,6 +155,7 @@ public class MaterielManageService implements IMaterielManageService {
 					materielManageMapper.updateByPrimaryKeySelective(item);
 				}
 			}
+			rs.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
 		}
 		return rs;
 	}
