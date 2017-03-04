@@ -47,13 +47,17 @@
 	    		}
 	    	},
 	    	select: function( event, ui ) {
-	    		$(this).val(ui.item.name).attr('supplierid', ui.item.id);
+	    		$(this).val(ui.item.name).attr('supplierid', ui.item.id).attr('select',true);
 	    		return false;
     		}
 	    }).off('click').on('click',function(){
 	    	$(this).autocomplete('search',' ');
+	    }).on('input propertychange',function(){
+	    	$(this).removeAttr('supplierid');
 	    }).change(function(){
-	    	$(this).val('').removeAttr('supplierid');
+    		if(!$(this).attr('supplierid')){
+    			$(this).val('');
+    		}
 	    });
 	    $("#vehicle").autocomplete({
 	    	source: function( request, response ) {
@@ -82,8 +86,12 @@
 	    	}
 	    }).off('click').on('click',function(){
 	    	$(this).autocomplete('search',' ');
+	    }).on('input propertychange',function(){
+	    	$(this).removeAttr('vehicleid');
 	    }).change(function(){
-	    	$(this).val('').removeAttr('vehicleid');
+    		if(!$(this).attr('vehicleid')){
+    			$(this).val('');
+    		}
 	    });
 	    $("#materiel").autocomplete({
 	    	source: function( request, response ) {
@@ -112,8 +120,12 @@
 	    	}
 	    }).off('click').on('click',function(){
 	    	$(this).autocomplete('search',' ');
+	    }).on('input propertychange',function(){
+	    	$(this).removeAttr('materielid');
 	    }).change(function(){
-	    	$(this).val('').removeAttr('materielid');
+    		if(!$(this).attr('materielid')){
+    			$(this).val('');
+    		}
 	    });
 	    $("#driver").autocomplete({
 	    	source: function( request, response ) {
@@ -142,8 +154,12 @@
 	    	}
 	    }).off('click').on('click',function(){
 	    	$(this).autocomplete('search',' ');
+	    }).on('input propertychange',function(){
+	    	$(this).removeAttr('driverid');
 	    }).change(function(){
-	    	$(this).val('').removeAttr('driverid');
+    		if(!$(this).attr('driverid')){
+    			$(this).val('');
+    		}
 	    });
 	}
 	function initBindEvent(){

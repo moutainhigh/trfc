@@ -47,8 +47,12 @@
     		}
 	    }).off('click').on('click',function(){
 	    	$(this).autocomplete('search',' ');
+	    }).on('input propertychange',function(){
+	    	$(this).removeAttr('vehicleid');
 	    }).change(function(){
-	    	$(this).val('').removeAttr('vehicleid');
+    		if(!$(this).attr('vehicleid')){
+    			$(this).val('');
+    		}
 	    });
 		$("#driver").autocomplete({
 	    	source: function( request, response ) {
@@ -78,8 +82,12 @@
     		}
 	    }).off('click').on('click',function(){
 	    	$(this).autocomplete('search',' ');
+	    }).on('input propertychange',function(){
+	    	$(this).removeAttr('driverid');
 	    }).change(function(){
-	    	$(this).val('').removeAttr('driverid');
+    		if(!$(this).attr('driverid')){
+    			$(this).val('');
+    		}
 	    });
 	    $("#materiel").autocomplete({
 	    	source: function( request, response ) {
@@ -108,8 +116,12 @@
 	    	}
 	    }).off('click').on('click',function(){
 	    	$(this).autocomplete('search',' ');
+	    }).on('input propertychange',function(){
+	    	$(this).removeAttr('materielid');
 	    }).change(function(){
-	    	$(this).val('').removeAttr('materielid');
+    		if(!$(this).attr('materielid')){
+    			$(this).val('');
+    		}
 	    });
 	    $("#supplier").autocomplete({
 	    	source: function( request, response ) {
@@ -138,8 +150,12 @@
     		}
 	    }).off('click').on('click',function(){
 	    	$(this).autocomplete('search',' ');
+	    }).on('input propertychange',function(){
+	    	$(this).removeAttr('supplierid');
 	    }).change(function(){
-	    	$(this).val('').removeAttr('supplierid');
+    		if(!$(this).attr('supplierid')){
+    			$(this).val('');
+    		}
 	    });
 	}
 	//绑定按钮事件

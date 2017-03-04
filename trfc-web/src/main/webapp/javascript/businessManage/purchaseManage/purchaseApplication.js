@@ -42,8 +42,12 @@
     		}
 	    }).off('click').on('click',function(){
 	    	$(this).autocomplete('search',' ');
+	    }).on('input propertychange',function(){
+	    	$(this).removeAttr('supplierid');
 	    }).change(function(){
-	    	$(this).val('').removeAttr('supplierid');
+    		if(!$(this).attr('supplierid')){
+    			$(this).val('');
+    		}
 	    });
 	}
 	function bindEvent(){
