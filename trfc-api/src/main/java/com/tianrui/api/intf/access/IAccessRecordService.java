@@ -15,4 +15,12 @@ public interface IAccessRecordService {
 	 * @return
 	 */
 	Result leaveFactoryCheckApi(VehicleCheckApi checkApi);
+	/**
+	 * @Description 入厂验证
+	 * @author zhanggaohao
+	 * @version 2017年3月2日 上午9:17:56
+	 * @param checkApi
+	 * @return
+	 */
+	Result enterFactoryCheckApi(VehicleCheckApi checkApi);
 }

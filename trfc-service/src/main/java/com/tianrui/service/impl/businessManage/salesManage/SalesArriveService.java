@@ -434,7 +434,7 @@ public class SalesArriveService implements ISalesArriveService {
 						sa.setVehicleid(list.get(0).getId());
 						List<SalesArrive> listSales = salesArriveMapper.selectSelective(sa);
 						if(listSales == null || listSales.size() == 0){
-							result.setErrorCode(ErrorCode.VEHICLE_NOT_ARRIVE);
+							result.setErrorCode(ErrorCode.VEHICLE_NOT_NOTICE);
 						}else{
 							SalesArriveResp resp = copyBean2Resp(listSales.get(0), true);
 							SalesApplicationResp salesApplicationResp = resp.getSalesApplication();

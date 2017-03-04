@@ -17,7 +17,7 @@ public class PurchaseArriveQuery extends BaseReq {
     private String auditstatus;
 	//来源（0：业务平台，1：客商平台，2：客商APP）
     private String source;
-	//状态：（0：未入厂，1：空车，2：重车，3：作废，4：发卡，5：出厂，6：入厂，7：装车）
+	//状态：（0：未入厂，1：一次过磅，2：二次过磅，3：作废，4：发卡，5：出厂，6：入厂，7：装车）
     private String status;
 	//供应商id
     private String supplierid;

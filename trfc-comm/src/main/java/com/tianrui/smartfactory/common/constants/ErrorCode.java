@@ -41,10 +41,11 @@ public enum ErrorCode {
 	 */
 	VEHICLE_EXIST("E10011","车辆已经存在."),
 	VEHICLE_NOT_EXIST("E10012","车辆不存在."),
-	VEHICLE_NOT_ARRIVE("E10013","该车辆没有通知单."),
-	VEHICLE_ARRIVE_NOT_ONLY("E10014","该车辆有多个通知单."),
-	VEHICLE_ARRIVE_ALREADY_ENTER("E10015","该通知单绑定的车辆已经入场."),
-	VEHICLE_ARRIVE_NOT_ENTER("E10016","该通知单绑定的车辆未入场."),
+	VEHICLE_NOT_NOTICE("E10013","该车辆没有通知单."),
+	VEHICLE_NOTICE_NOT_ONLY("E10014","该车辆有多个通知单."),
+	VEHICLE_NOTICE_ALREADY_ENTER("E10015","该车辆绑定的通知单已经入场."),
+	VEHICLE_NOTICE_NOT_ENTER("E10016","该车辆绑定的通知单未入场."),
+	VEHICLE_NOTICE_NOT_TWO_WEIGHT("E10017","该车辆未过二次磅房."),
 	
 	/**
 	 * 用户相关

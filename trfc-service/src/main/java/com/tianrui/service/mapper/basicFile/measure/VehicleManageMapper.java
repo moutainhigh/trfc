@@ -27,5 +27,7 @@ public interface VehicleManageMapper {
 	List<VehicleManage> findVehiclePage(VehicleManageQuery query);
 
 	List<VehicleManage> autoCompleteSearch(@Param("likeName")String likeName);
+
+	VehicleManage validateVehicle(@Param("vehicleno")String vehicleno, @Param("rfid")String rfid);
     
 }
