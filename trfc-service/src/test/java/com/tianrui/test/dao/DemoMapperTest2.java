@@ -20,12 +20,14 @@ import com.tianrui.api.resp.basicFile.nc.CustomerManageResp;
 import com.tianrui.service.bean.basicFile.measure.YardManage;
 import com.tianrui.service.bean.basicFile.nc.CustomerManage;
 import com.tianrui.service.bean.basicFile.nc.SupplierManage;
+import com.tianrui.service.bean.quality.file.QualityColumn;
 import com.tianrui.service.bean.quality.file.QualityScheme;
 import com.tianrui.service.bean.system.base.SystemDataDictItem;
 import com.tianrui.service.mapper.basicFile.measure.YardManageMapper;
 import com.tianrui.service.mapper.basicFile.nc.CustomerManageMapper;
 import com.tianrui.service.mapper.basicFile.nc.SupplierManageMapper;
 import com.tianrui.service.mapper.basicFile.other.OtherBdSupplierMapper;
+import com.tianrui.service.mapper.quality.file.QualityColumnMapper;
 import com.tianrui.service.mapper.quality.file.QualitySchemeMapper;
 import com.tianrui.service.mapper.system.base.SystemDataDictItemMapper;
 import com.tianrui.service.mapper.system.base.SystemDataDictMapper;
@@ -58,7 +60,8 @@ public class DemoMapperTest2 {
 	private IQualitySchemeService qualitySchemeService;
 	@Autowired
 	private QualitySchemeMapper qualitySchemeMapper;
-	
+	@Autowired
+	private QualityColumnMapper qualityColumnMapper;
 	@Autowired
 	private SupplierManageMapper supplier;
 	@Autowired
@@ -67,8 +70,12 @@ public class DemoMapperTest2 {
 	YardManageMapper YardManageMapper;
 	@Test
 	public void test(){
-		List<SupplierManage> list = supplier.autoCompleteSearch("be");
-		System.out.println(list.size());
+		
+			List<QualityColumn> list= qualityColumnMapper.autoCompleteSearch("1");
+			System.out.println(list);
+		
+		
+		
 	}
 	
 	@Test

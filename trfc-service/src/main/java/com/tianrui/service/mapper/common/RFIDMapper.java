@@ -56,4 +56,12 @@ public interface RFIDMapper {
     long selectSelectiveCount(RFID record);
     
     List<RFID> selectSelective(RFID record);
+    /**
+     * @Description 验证RFID是否已注册
+     * @author zhanggaohao
+     * @version 2017年3月2日 上午9:36:30
+     * @param rfid
+     * @return
+     */
+	RFID validateRFID(String rfid);
 }

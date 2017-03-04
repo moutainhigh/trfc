@@ -52,5 +52,13 @@ public interface PurchaseArriveMapper {
 	 * @return
 	 */
 	List<PurchaseArrive> selectByIds(List<String> list);
+	/**
+	 * @Description 验证是否有采购通知单
+	 * @author zhanggaohao
+	 * @version 2017年3月2日 上午10:00:17
+	 * @param vehicleno
+	 * @return
+	 */
+	PurchaseArrive hasPurchaseArrive(String vehicleno);
     
 }

@@ -18,7 +18,7 @@ public class PurchaseArriveResp extends BaseResp {
     private String auditstatus;
 	//来源（0：业务平台，1：客商平台，2：客商APP）
     private String source;
-	//状态：（0：未入厂，1：空车，2：重车，3：作废，4：发卡，5：出厂，6：入厂，7：装车）
+	//状态：（0：未入厂，1：一次过磅，2：二次过磅，3：作废，4：发卡，5：出厂，6：入厂，7：装车）
     private String status;
 	//车辆id
     private String vehicleid;
@@ -91,6 +91,9 @@ public class PurchaseArriveResp extends BaseResp {
     private String unstoragequantity;
     //到货占用量
     private String arrivalquantity;
+    
+    //通知单类型 1:采购到货通知单，2：采购退货通知单，3：销售提货通知单
+    private String type;
     
 	public String getId() {
 		return id;
@@ -329,6 +332,18 @@ public class PurchaseArriveResp extends BaseResp {
 	}
 	public void setArrivalquantity(String arrivalquantity) {
 		this.arrivalquantity = arrivalquantity;
+	}
+	/**
+	 * @return the type
+	 */
+	public String getType() {
+		return type;
+	}
+	/**
+	 * @param type the type to set
+	 */
+	public void setType(String type) {
+		this.type = type;
 	}
     
 }

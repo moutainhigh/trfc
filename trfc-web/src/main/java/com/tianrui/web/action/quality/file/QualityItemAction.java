@@ -89,6 +89,20 @@ public class QualityItemAction {
 		}
 		return rs;
 	}
+	/**
+	 * 获取所有列数据
+	 */
+	@ResponseBody
+	@RequestMapping("/getColumns")
+	public Result getColumns(){
+		Result rs = Result.getErrorResult();
+		try {
+			rs = qualityItemService.getLine();
+		} catch (Exception e) {
+			log.error(e.getMessage(),e);
+		}
+		return rs;
+	}
 	
 	/**
 	 * 获取编号

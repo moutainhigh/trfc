@@ -461,15 +461,28 @@ $(function(){
 		if (strDate >= 0 && strDate <= 9) {
 			strDate = "0" + strDate;
 		}
+		var hours = date.getHours();
+		var minutes = date.getMinutes();
+		var seconds = date.getSeconds();
+		if (hours >= 0 && hours <= 9) {
+			hours = "0" + hours;
+		}
+		if (minutes >= 0 && minutes <= 9) {
+			minutes = "0" + minutes;
+		}
+		if (seconds >= 0 && seconds <= 9) {
+			seconds = "0" + seconds;
+		}
 //		判断返回结果
 		if(param){
 			var currentdate = date.getFullYear() + seperator1 + month + seperator1 + strDate
-			+ " " + date.getHours() + seperator2 + date.getMinutes()
-			+ seperator2 + date.getSeconds();
+			+ " " + hours + seperator2 + minutes
+			+ seperator2 + seconds;
 		}else{
 			var currentdate = date.getFullYear() + seperator1 + month + seperator1 + strDate
 		}
 		return currentdate;
 	}
+
 
 });

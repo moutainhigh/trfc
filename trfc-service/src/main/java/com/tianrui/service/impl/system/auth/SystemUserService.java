@@ -338,4 +338,18 @@ public class SystemUserService implements ISystemUserService {
 		return copySystemUserBean2Resp(db);
 	}
 
+	@Override
+	public Result autoCompleteSearch(SystemUserQueryReq req) throws Exception {
+		Result rs = Result.getSuccessResult();
+		List<SystemUserResp> resps = new ArrayList<SystemUserResp>();
+		List<SystemUser> list = userMapper.autoCompleteSearch(req);
+		for(SystemUser su : list){
+			SystemUserResp resp = new SystemUserResp();
+			PropertyUtils.copyProperties(resp,su);
+			resps.add(resp);
+		}
+		rs.setData(resps);
+		return rs;
+	}
+
 }

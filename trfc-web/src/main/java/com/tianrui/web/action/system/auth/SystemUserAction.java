@@ -73,5 +73,18 @@ public class SystemUserAction {
 		}
 		return rs;
 	}
-	
+	/**
+	 * 获取下拉框数据(likename)
+	 */
+	@RequestMapping(value="/autoCompleteSearch",method=RequestMethod.POST)
+	@ResponseBody
+	public Result autoCompleteSearch(SystemUserQueryReq req){
+		Result rs= Result.getErrorResult();
+		try {
+			rs = systemUserService.autoCompleteSearch(req);
+		} catch (Exception e) {
+			log.error(e.getMessage(),e);
+		}
+		return rs;
+	}
 }

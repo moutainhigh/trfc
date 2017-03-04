@@ -58,8 +58,12 @@
     		}
 	    }).off('click').on('click',function(){
 	    	$(this).autocomplete('search',' ');
+	    }).on('input propertychange',function(){
+	    	$(this).removeAttr('billtypeid');
 	    }).change(function(){
-	    	$(this).val('').removeAttr('billtypeid');
+    		if(!$(this).attr('billtypeid')){
+    			$(this).val('');
+    		}
 	    });
 	    $("#a_materiel,#u_materiel").autocomplete({
 	    	source: function( request, response ) {
@@ -88,8 +92,12 @@
 	    	}
 	    }).off('click').on('click',function(){
 	    	$(this).autocomplete('search',' ');
+	    }).on('input propertychange',function(){
+	    	$(this).removeAttr('materielid');
 	    }).change(function(){
-	    	$(this).val('').removeAttr('materielid');
+    		if(!$(this).attr('materielid')){
+    			$(this).val('');
+    		}
 	    });
 	    $("#a_warehouse,#u_warehouse").autocomplete({
 	    	source: function( request, response ) {
@@ -118,8 +126,12 @@
 	    	}
 	    }).off('click').on('click',function(){
 	    	$(this).autocomplete('search',' ');
+	    }).on('input propertychange',function(){
+	    	$(this).removeAttr('warehouseid');
 	    }).change(function(){
-	    	$(this).val('').removeAttr('warehouseid');
+    		if(!$(this).attr('warehouseid')){
+    			$(this).val('');
+    		}
 	    });
 	    $("#s_customer").autocomplete({
 	    	source: function( request, response ) {
@@ -148,8 +160,12 @@
 	    	}
 	    }).off('click').on('click',function(){
 	    	$(this).autocomplete('search',' ');
+	    }).on('input propertychange',function(){
+	    	$(this).removeAttr('customerid');
 	    }).change(function(){
-	    	$(this).val('').removeAttr('customerid');
+    		if(!$(this).attr('customerid')){
+    			$(this).val('');
+    		}
 	    });
 	    $("#a_customer").autocomplete({
 	    	source: function( request, response ) {
@@ -181,11 +197,15 @@
 	    	}
 	    }).off('click').on('click',function(){
 	    	$(this).autocomplete('search',' ');
+	    }).on('input propertychange',function(){
+	    	$(this).removeAttr('customerid');
 	    }).change(function(){
-	    	$(this).val('').removeAttr('customerid');
-    		$('#a_channelcode').val('');
-    		$('#a_salesmanname').val('').removeAttr('salesmanid');
-    		$('#a_transportcompanyname').val('').removeAttr('transportcompanyid');
+    		if(!$(this).attr('customerid')){
+    			$(this).val('');
+        		$('#a_channelcode').val('');
+        		$('#a_salesmanname').val('').removeAttr('salesmanid');
+        		$('#a_transportcompanyname').val('').removeAttr('transportcompanyid');
+    		}
 	    });
 	    $("#u_customer").autocomplete({
 	    	source: function( request, response ) {
@@ -217,11 +237,15 @@
 	    	}
 	    }).off('click').on('click',function(){
 	    	$(this).autocomplete('search',' ');
+	    }).on('input propertychange',function(){
+	    	$(this).removeAttr('customerid');
 	    }).change(function(){
-	    	$(this).val('').removeAttr('customerid');
-    		$('#u_channelcode').val('');
-    		$('#u_salesmanname').val('').removeAttr('salesmanid');
-    		$('#u_transportcompanyname').val('').removeAttr('transportcompanyid');
+    		if(!$(this).attr('customerid')){
+    			$(this).val('');
+        		$('#u_channelcode').val('');
+        		$('#u_salesmanname').val('').removeAttr('salesmanid');
+        		$('#u_transportcompanyname').val('').removeAttr('transportcompanyid');
+    		}
 	    });
 	}
 	function bindEvent(){

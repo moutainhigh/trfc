@@ -1,7 +1,7 @@
 $(function(){
 
 	//加载物料和用户下拉框
-	materialSelect();
+	//materialSelect();
 	userSelect();
 	//获取url地址
 	var reg = new RegExp("id=");
@@ -17,8 +17,6 @@ $(function(){
 		loadNew();
 	}
 
-	//监听下拉框
-	$('#material tr select').change(fillData);
 	//保存按钮绑定时间
 	$('#save').click(saveAction);
 	//刷新按钮绑定事件
@@ -37,9 +35,9 @@ $(function(){
 		}
 		var tr = '<tr>'
 			+'<td>'+index+'</td>'
-			+'<td width="200px"><select type="text" class="material_select2"'
-			+'style="border: none; width: 100%; height: 100%">'
-			+'</select></td>'
+			+'<td width="200px"><input type="text"'
+			+'style="border: none; width: 100%; height: 100%" class="materialSel">'
+			+'</td>'
 			+'<td><input type="text"'
 			+'	style="border: none; width: 100%;" readonly="true"></td>'
 			+'	<td><input readonly="true" type="text"'
@@ -53,13 +51,16 @@ $(function(){
 			+'						<td><input readonly="true" type="text"'
 			+'							style="border: none; width: 100%;"></td>'
 			+'							</tr>';
+		tr = $(tr);
 		//将tr追加到tbody中
 		tbody.append(tr);	
 		//重新加载下拉框并绑定事件
 		materialSelect();
-		//加载select样式等
-		$('.material_select2').select2();
-		$('#material tr select').change(fillData);
+		tr.find('input:first').click(function(){
+			if(true!=tr.attr('statu')){
+				fillData(this);
+			}
+		});
 	}
 	//检测
 	function checkFC(factorycode){
@@ -111,29 +112,27 @@ $(function(){
 		$.post(URL.copyUrl,{id:materialId},function(result){
 			if(result.code=='000000'){
 				var obj = result.data;
-
+				
 				//制单日期
-				$('#add_createtime').val(getNowFormatDate(true,obj.createtime));
+				$('#add_createtime').val(getNowFormatDate(true));
 				//制单人
-				$('#add_creator').val(obj.creator);
+				$('#add_creator').val($('.user label').html());
 				$('#add_assaytime').val(getNowFormatDate(false,obj.assaytime));
 				$('#add_starttime').val(getNowFormatDate(false,obj.starttime));
-				$('#user_select').val(obj.assayer);
+				$('#user_select').val(obj.assayername).attr('assayerid',obj.assayer);
 				$('#add_endtime').val(getNowFormatDate(false,obj.endtime));
 				$('#add_assayorg').val(obj.assayorg);
-				//设置ajax执行完成后,执行
-				$.when(post1,post2).done(function(){
-					$('#material tr:first select').val(obj.material);
-					$('#user_select').val(obj.assayer);
-					$('.material_select2').select2();
-				});
+				$('#material').empty();
+				addTR(1);
 				//获取第一行的td元素 并根据下标赋值
-				var tds = $('#material tr:first td');
-				tds.eq(2).find('input').val(obj.factorycode);
-				tds.eq(3).find('input').val(obj.count);
-				tds.eq(4).find('input').val(getNowFormatDate(false,obj.producedtime));
-				tds.eq(5).find('input').val(getNowFormatDate(false,obj.testtime));
-				tds.eq(6).find('input').val(obj.remark);
+				$('#material tr:first').attr('statu',true);
+				var tds = $('#material tr:first>td');
+				tds.eq(1).find('input').val(obj.materialname).attr('materialid',obj.material);
+				tds.eq(2).find('input').val(obj.factorycode).attr('readonly',false);
+				tds.eq(3).find('input').val(obj.count).attr('readonly',false);
+				tds.eq(4).find('input').val(getNowFormatDate(false,obj.producedtime)).attr('readonly',false);
+				tds.eq(5).find('input').val(getNowFormatDate(false,obj.testtime)).attr('readonly',false);
+				tds.eq(6).find('input').val(obj.remark).attr('readonly',false);
 				//添加一行新的表格
 				addTR(2);
 
@@ -158,6 +157,8 @@ $(function(){
 		//获取当月最后一天,并复制
 		$('#add_endtime').val(getLastMonthDay(nowDate));
 		$('#add_assayorg').val("卫辉市天瑞水泥有限公司");
+		$('#material').empty();
+		addTR(1);
 
 	}
 	//提交保存数据
@@ -182,7 +183,7 @@ $(function(){
 	function getData(){
 		//将 字符串--> Date类型 -->getTime()转换为Number类型
 		var assaytime =new Date($('#add_assaytime').val());
-		var assayer = $('#user_select').val();
+		var assayer = $('#user_select').attr('assayerid');
 		var assayorg = $('#add_assayorg').val();
 		var starttime = new Date($('#add_starttime').val());
 		var endtime = new Date($('#add_endtime').val());
@@ -204,21 +205,21 @@ $(function(){
 		//通过循环吧数据存到arr中
 		for(var i=0;i<trs.length;i++){
 			//获取子元素
-			var tds = trs[i].children;
-			var material = $(tds[1]).find('select').val();
+			var tds = trs.eq(i).find('td');
+			var material = tds.eq(1).find('input').attr('materialid');
 			//物料名称不能为空
 			if(!material){
 				return null;
 			}
-			var factorycode = $(tds[2]).find('input').val();
+			var factorycode = tds.eq(2).find('input').val();
 			//检测 批号
 			if(!checkFC(factorycode)){
 				return null;
 			}
-			var count = $(tds[3]).find('input').val();
-			var producedtime =new Date($(tds[4]).find('input').val());
-			var testtime = new Date($(tds[5]).find('input').val());
-			var remark = $(tds[6]).find('input').val();
+			var count = tds.eq(3).find('input').val();
+			var producedtime =new Date(tds.eq(4).find('input').val());
+			var testtime = new Date(tds.eq(5).find('input').val());
+			var remark = tds.eq(6).find('input').val();
 			var mater = {
 					material:material,
 					factorycode:factorycode,
@@ -241,53 +242,23 @@ $(function(){
 	}
 
 	//当选择下拉框时,填充数据
-	function fillData(){
+	function fillData(input){
 		//当下拉框的值为不为空时
-		if($(this).val()){
-			var tr =  $(this).closest('tr');
+			var tr =  $(input).closest('tr');
+			console.log(input);
 			//添加一个属性,以便获取数据
-			var tds = tr.attr("statu",true).find("input");
+			var inputs = tr.attr("statu",true).find("input");
+			
 			//设置所有的input 的readonly属性
-			$("#material tr[statu='true'] input").attr('readonly',false);
+			inputs.attr('readonly',false);
 			//获取当前行号,并增1
 			addTR(parseInt(tr.find('td:first').html())+1);
+			inputs.eq(2).val(5000);
+			inputs.eq(3).val(getNowFormatDate(false));
+			inputs.eq(4).val(getNowFormatDate(false));
 			
-			tds[1].value = 5000;
-			tds[2].value = getNowFormatDate(false);
-			tds[3].value = getNowFormatDate(false);
-		}
 	}
-	//下拉框
-	function materialSelect(){
-		//获取物料下拉框的数据
-		post1 = $.post(URL.selectorUrl,{},function(result){
-			if(result.code=='000000'){
-				//填充下拉框
-				fillContent(result.data);
-			}else{
-				layer.msg(result.error,{icon:5});
-			}
-		});
-	}
-	//填充下拉框
-	function fillContent(list){
-		//获取物料列表的所有下拉框
-		var select = $('#material tr select');
-		select.append("<option></option>");
-		if(list){
-			for(var i=0;i<list.length;i++){
-				var obj = list[i];
-				var msg = obj.name;
-				//判断是否有型号
-				if(obj.spec){
-					msg = obj.name+' | '+obj.spec;
-				}
-				var option = '<option value='+obj.id+'>'+msg+'</option>';
-				//将option追加到select后面
-				select.append(option);
-			}
-		}
-	}
+
 	//获取当月最后一天
 	function getLastMonthDay(date){
 		var year = date.substr(0,4);

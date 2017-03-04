@@ -12,8 +12,6 @@ import com.tianrui.api.intf.businessManage.salesManage.ISalesArriveService;
 import com.tianrui.api.req.basicFile.measure.VehicleCheckApi;
 import com.tianrui.api.req.businessManage.salesManage.ApiDoorQueueQuery;
 import com.tianrui.api.req.businessManage.salesManage.ApiDoorSystemSave;
-import com.tianrui.api.resp.businessManage.salesManage.ApiDoorQueueResp;
-import com.tianrui.service.impl.access.AccessRecordService;
 import com.tianrui.smartfactory.common.api.ApiParam;
 import com.tianrui.smartfactory.common.api.ApiResult;
 import com.tianrui.smartfactory.common.constants.ErrorCode;
@@ -60,6 +58,27 @@ public class ApiDoorSystemAction {
 		return ApiResult.valueOf(rs);
 	}
 	
+	/**
+	 * 入厂验证
+	 * @param req
+	 * @return
+	 */
+	@RequestMapping(value="/enterFactoryCheck",method=RequestMethod.POST)
+	@ApiParamRawType(VehicleCheckApi.class)
+	@ApiAuthValidation(callType="2")
+	@ResponseBody
+	public ApiResult enterFactoryCheck(ApiParam<VehicleCheckApi> req){
+		VehicleCheckApi checkApi = req.getBody();
+		checkApi.setCurrUid(req.getHead().getUserId());
+		Result rs=Result.getErrorResult();
+		try {
+			rs = accessRecordService.enterFactoryCheckApi(checkApi);
+		} catch (Exception e) {
+			rs.setErrorCode(ErrorCode.SYSTEM_ERROR);
+			log.error(e.getMessage(),e);
+		}
+		return ApiResult.valueOf(rs);
+	}
 	
 	/**
 	 * 出厂验证

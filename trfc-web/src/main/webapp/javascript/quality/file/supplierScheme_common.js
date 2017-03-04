@@ -21,7 +21,7 @@ var supplierDATA = {};
 //获取用户id
 var userid = $('.user').attr('userid');
 //获取时间 param(true:返回yyyy-MM-dd hh:mm:ss fasle:返回yyyy-MM-dd)
-//time(获取指定时间的字符串) 默认返回当前时间//获取指定时间的字符串
+//time(获取指定时间的字符串) 默认返回当前时间
 function getNowFormatDate(param,time) {
 	var date ;
 //	判断time参数是否存在
@@ -43,11 +43,23 @@ function getNowFormatDate(param,time) {
 	if (strDate >= 0 && strDate <= 9) {
 		strDate = "0" + strDate;
 	}
+	var hours = date.getHours();
+	var minutes = date.getMinutes();
+	var seconds = date.getSeconds();
+	if (hours >= 0 && hours <= 9) {
+		hours = "0" + hours;
+	}
+	if (minutes >= 0 && minutes <= 9) {
+		minutes = "0" + minutes;
+	}
+	if (seconds >= 0 && seconds <= 9) {
+		seconds = "0" + seconds;
+	}
 //	判断返回结果
 	if(param){
 		var currentdate = date.getFullYear() + seperator1 + month + seperator1 + strDate
-		+ " " + date.getHours() + seperator2 + date.getMinutes()
-		+ seperator2 + date.getSeconds();
+		+ " " + hours + seperator2 + minutes
+		+ seperator2 + seconds;
 	}else{
 		var currentdate = date.getFullYear() + seperator1 + month + seperator1 + strDate
 	}

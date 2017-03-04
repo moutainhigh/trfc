@@ -67,4 +67,12 @@ public interface SalesArriveMapper {
 	 * @return
 	 */
 	List<SalesArrive> selectByIds(List<String> ids);
+	/**
+	 * @Description 验证是否有销售通知单
+	 * @author zhanggaohao
+	 * @version 2017年3月2日 上午10:33:24
+	 * @param vehicleno
+	 * @return
+	 */
+	SalesArrive hasPurchaseArrive(String vehicleno);
 }

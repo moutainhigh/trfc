@@ -11,6 +11,7 @@ $(function(){
 			updateCodeUrl:"/trfc/quality/sales/file/qualityScheme/updateCode",
 			itemUrl:"/trfc/quality/sales/file/qualityScheme/item",
 			standardUrl:"/trfc/quality/sales/file/qualityScheme/standard"
+			
 	};
 	//设置一个公共变量,当点击编辑按钮时,将原数据存入该变量中
 	var editOD = {};
@@ -92,6 +93,10 @@ $(function(){
 		$('#add_standard').removeAttr('checked');
 		$('#add_describe').val('');
 	}
+	
+	
+	
+	
 	//初始化编辑数据
 	function initEditData(){
 		//获取数据

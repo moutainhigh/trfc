@@ -86,6 +86,11 @@ public interface ISystemUserService {
 	 * @throws Exception 
 	 */
 	SystemUserResp getUser(String id) throws Exception;
-	
-	
+	/**
+	 * 自动搜索下拉框
+	 * @param req
+	 * @return List<SystemUserResp>
+	 * @throws Exception
+	 */
+	Result autoCompleteSearch(SystemUserQueryReq req) throws Exception;
 }

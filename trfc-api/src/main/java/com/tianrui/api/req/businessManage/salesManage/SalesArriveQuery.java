@@ -19,7 +19,7 @@ public class SalesArriveQuery extends BaseReq {
     private String auditstatus;
     //来源
     private String source;
-    //状态
+    //状态：（0：未入厂，1：一次过磅，2：二次过磅，3：作废，4：发卡，5：出厂，6：入厂，7：装车）
     private String status;
     //车辆id
     private String vehicleid;

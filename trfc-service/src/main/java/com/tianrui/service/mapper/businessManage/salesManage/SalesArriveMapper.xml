@@ -660,4 +660,10 @@
 		#{item}  
 	</foreach>
   </select>
+  <select id="hasPurchaseArrive" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from tr_sales_db_arrive
+    where vehicleno = #{vehicleno,jdbcType=VARCHAR} and state = '1' and status != '3'
+  </select>
 </mapper>
