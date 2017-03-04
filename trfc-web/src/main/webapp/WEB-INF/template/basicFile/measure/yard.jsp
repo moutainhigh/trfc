@@ -3,7 +3,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<title>矿口管理</title>
+<title>堆场管理</title>
 <!-- 引用公共header部分 -->
 <jsp:include page="../../common/base/header_busi.jsp"></jsp:include>
 </head>
@@ -20,8 +20,8 @@
 		<li><a href="/trfc/transport/main">运输单位</a></li>
 		<li><a href="/trfc/vehicle/main">车辆管理</a></li>
 		<li><a href="/trfc/driver/main">司机管理</a></li>
-		<li class="select"><a href="/trfc/minemouth/main">矿口管理</a></li>
-		<li><a href="/trfc/yard/main">堆场管理</a></li>
+		<li><a href="/trfc/yard/main">矿口管理</a></li>
+		<li class="select"><a href="/trfc/yard/main">堆场管理</a></li>
 	</ul>
 </div>
 
@@ -36,7 +36,7 @@
     <div class="intel_sconditon">
         <div class="intel_solo">
             <label>查询条件：</label>
-            <select class="form-control" id="minemouth_query">
+            <select class="form-control" id="yard_query">
             	<option value="code">编号</option>
                 <option value="name">名称</option>
             </select>
@@ -44,7 +44,7 @@
         <div class="intel_sline">
             <div class="intel_solo">
                 <label>关键字：</label>
-                <input type="text" id="minemouth_keyword">
+                <input type="text" id="yard_keyword">
             </div>
             <div class="intel_solo">
                 <div class="intel_sbtn">
@@ -81,7 +81,7 @@
             <th>操作</th>
         </tr>
         </thead>
-        <tbody id="minemouths">
+        <tbody id="yards">
         <tr>
             <td> CD201601010138</td>
             <td class="colorred">审核中</td>
@@ -176,31 +176,31 @@
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                         aria-hidden="true">&times;</span></button>
                 <div class="alt_head">
-                    <h5>矿口管理-新增</h5>
+                    <h5>堆场管理-新增</h5>
                 </div>
             </div>
             <div class="modal-body">
                 <div class="alt_edit">
                     <div class="alt_edit_div">
                         <label>编号：</label>
-                        <input type="text" value="121221" id="minemouth_code" readonly="readonly">
+                        <input type="text" value="121221" id="yard_code" readonly="readonly">
                     </div>
                     <div class="alt_edit_div">
                         <label>名称：</label>
-                        <input type="text" id="minemouth_name">
+                        <input type="text" id="yard_name">
                     </div>
                     <div class="alt_edit_div">
                         <label>有效性：</label>
-                        <input type="checkbox" id="minemouth_isvalid"><span>有效</span>
+                        <input type="checkbox" id="yard_isvalid"><span>有效</span>
                     </div>
                     <div class="alt_edit_textarea">
                         <label>备注： </label>
-                        <textarea class="form-control" rows="1" id="minemouth_remarks"></textarea>
+                        <textarea class="form-control" rows="1" id="yard_remarks"></textarea>
                     </div>
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" id="addMinemouth">确定</button>
+                <button type="button" class="btn btn-primary" id="addYard">确定</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
             </div>
         </div>
@@ -215,31 +215,31 @@
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                         aria-hidden="true">&times;</span></button>
                 <div class="alt_head">
-                    <h5>矿口管理-编辑</h5>
+                    <h5>堆场管理-编辑</h5>
                 </div>
             </div>
             <div class="modal-body">
                 <div class="alt_edit">
                     <div class="alt_edit_div">
                         <label>编号：</label>
-                        <input type="text" value="121221" id="update_minemouth_code" readonly="readonly">
+                        <input type="text" value="121221" id="update_yard_code" readonly="readonly">
                     </div>
                     <div class="alt_edit_div">
                         <label>名称：</label>
-                        <input type="text" id="update_minemouth_name">
+                        <input type="text" id="update_yard_name">
                     </div>
                     <div class="alt_edit_div">
                         <label>有效性：</label>
-                        <input type="checkbox" id="update_minemouth_isvalid"><span>有效</span>
+                        <input type="checkbox" id="update_yard_isvalid"><span>有效</span>
                     </div>
                     <div class="alt_edit_textarea">
                         <label>备注： </label>
-                        <textarea class="form-control" rows="1" id="update_minemouth_remarks"></textarea>
+                        <textarea class="form-control" rows="1" id="update_yard_remarks"></textarea>
                     </div>
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" id="update_minemouth">确定</button>
+                <button type="button" class="btn btn-primary" id="update_yard">确定</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
             </div>
         </div>
@@ -253,6 +253,6 @@
 	<jsp:include page="../../common/base/footer_busi.jsp"></jsp:include>
 	<script type="text/javascript" src="${staticBasePath}/js/pinyin.js"></script>
 	<script type="text/javascript"
-		src="/javascript/basicFile/measure/minemouth.js"></script>
+		src="/javascript/basicFile/measure/yard.js"></script>
 </body>
 </html>
