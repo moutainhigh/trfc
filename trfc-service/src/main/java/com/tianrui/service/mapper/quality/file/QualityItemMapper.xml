@@ -323,4 +323,10 @@
 		order by createtime desc
 		limit 0,20
 	</select>
+	 <select id="getColumns" resultType="java.lang.String">
+    select 
+    line
+    from tr_quality_db_item
+    where state = "1"
+  </select>
 </mapper>

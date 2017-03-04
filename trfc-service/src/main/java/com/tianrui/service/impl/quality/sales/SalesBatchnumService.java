@@ -213,7 +213,7 @@ public class SalesBatchnumService implements ISalesBatchnumService {
 		}
 		return rs;
 	}
-	
+
 
 	@Override
 	public Result selectById(SalesBatchnumReq req) throws Exception {
@@ -226,9 +226,26 @@ public class SalesBatchnumService implements ISalesBatchnumService {
 				SalesBatchnumResp resp = new SalesBatchnumResp();
 				PropertyUtils.copyProperties(resp, b);
 				//获取创建人的名称
-				SystemUser creator = systemUserMapper.selectByPrimaryKey(resp.getCreator());
-				resp.setCreator(creator.getName());
-
+				if(StringUtils.isNotBlank(resp.getCreator())){
+					SystemUser creator = systemUserMapper.selectByPrimaryKey(resp.getCreator());
+					if(creator!=null){
+						resp.setCreator(creator.getName());
+					}
+				}
+				//获取化验人名称
+				if(StringUtils.isNotBlank(resp.getAssayer())){
+					SystemUser creator = systemUserMapper.selectByPrimaryKey(resp.getAssayer());
+					if(creator!=null){
+						resp.setAssayername(creator.getName());
+					}
+				}
+				//获取物料名称
+				if(StringUtils.isNotBlank(resp.getMaterial())){
+					MaterielManage material = materielManageMapper.selectByPrimaryKey(resp.getMaterial());
+					if(material!=null){
+						resp.setMaterialname(material.getName());
+					}
+				}
 				//操作成功
 				rs = Result.getSuccessResult();
 				rs.setData(resp);

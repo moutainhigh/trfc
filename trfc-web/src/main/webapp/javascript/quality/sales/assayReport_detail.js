@@ -60,6 +60,7 @@ $(function(){
 	//强制审核
 	function constraintAction(){
 		var obj = DATA.obj;
+		//判断只有当待审核时才能进行
 		if(obj.auditstate=='0'){
 			var param = {
 					id:obj.id,
@@ -68,13 +69,22 @@ $(function(){
 					user:userid,
 					record:$('#record').val()
 			};
+			//弹出审核确认框
+			var index = layer.confirm('确定要强制签发吗!', {
+				area: '600px', 
+				btn: ['确定','取消'] //按钮
+			}, function(){
 			$.post(URL.saveUrl,param,function(result){
 				if('000000'==result.code){
-					$('#fresh').click();
+					$('#goBack').click();
 				}else{
 					layer.msg(result.error,{icon:5});
 				}
 			});
+			//关闭对话框
+			layer.close(index);
+		}, function(){
+		});
 		}else{
 			layer.alert('只能对未审核的数据进行操作');
 		}
@@ -90,12 +100,21 @@ $(function(){
 					user:userid,
 					record:$('#record').val()
 			};
-			$.post(URL.saveUrl,param,function(result){
-				if('000000'==result.code){
-					$('#fresh').click();
-				}else{
-					layer.msg(result.error,{icon:5});
-				}
+			//弹出审核确认框
+			var index = layer.confirm('确定不同意签收吗?合同审核将打回上个环节!', {
+				area: '600px', 
+				btn: ['确定','取消'] //按钮
+			}, function(){
+				$.post(URL.saveUrl,param,function(result){
+					if('000000'==result.code){
+						$('#goBack').click();
+					}else{
+						layer.msg(result.error,{icon:5});
+					}
+				});
+				//关闭对话框
+				layer.close(index);
+			}, function(){
 			});
 		}else{
 			layer.alert('只能对审核中的数据进行操作');
@@ -107,6 +126,7 @@ $(function(){
 		var audit = '1';
 		var auditstate ='1';
 		var record = $('#record').val();
+		//审核中的情况下
 		if(obj.auditstate=='1'){
 			audit = '2';
 			auditstate = '2';
@@ -118,12 +138,21 @@ $(function(){
 				user:userid,
 				record:record
 		};
-		$.post(URL.saveUrl,param,function(result){
-			if('000000'==result.code){
-				$('#fresh').click();
-			}else{
-				layer.msg(result.error,{icon:5});
-			}
+		//弹出审核确认框
+		var index = layer.confirm('你确定要进行审核吗?', {
+			area: '600px', 
+			btn: ['确定','取消'] //按钮
+		}, function(){
+			$.post(URL.saveUrl,param,function(result){
+				if('000000'==result.code){
+					$('#goBack').click();
+				}else{
+					layer.msg(result.error,{icon:5});
+				}
+			});
+			//关闭对话框
+			layer.close(index);
+		}, function(){
 		});
 	}
 	//获取mscheme的详细信息

@@ -243,4 +243,16 @@
       modifytime = #{modifytime,jdbcType=BIGINT}
     where id = #{id,jdbcType=VARCHAR}
   </update>
+    	<select id="autoCompleteSearch" parameterType="com.tianrui.api.req.system.auth.SystemUserQueryReq" resultMap="BaseResultMap">
+		select 
+		<include refid="Base_Column_List"/>
+		from tr_system_user
+		<where>
+		<if test="nameLike != null and nameLike !=''">
+			and name like CONCAT('%', #{nameLike,jdbcType=VARCHAR}, '%')
+		</if>
+		</where>
+		order by createtime desc
+		limit 0,20
+	</select>
 </mapper>

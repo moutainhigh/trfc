@@ -31,5 +31,8 @@ public interface IQualityItemService {
 	 * @throws Exception 
 	 */
 	Result autoCompleteSearch(String likeName) throws Exception;
-
+	/**
+	 * 获取所有的列
+	 */
+	Result getLine() throws Exception;
 }

@@ -49,4 +49,8 @@ public interface QualityItemMapper {
      * 下拉框
      */
     List<QualityItem> autoCompleteSearch(@Param("likeName")String likeName);
+    /**
+     * 获取所有列
+     */
+    List<String> getColumns();
 }

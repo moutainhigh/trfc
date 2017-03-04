@@ -53,10 +53,8 @@
 										style="width: 160px" id="seek_endtime" />
 								</div>
 								<div class="intel_solo">
-									<label>物料：</label> <select id="seek_material"
-										class="materialSelect form-control">
-									</select>
-
+									<label>物料：</label> <input id="seek_material"
+										type = "text">
 								</div>
 								<div class="intel_solo">
 									<label>供应商：</label> <select id="seek_supplier"
@@ -69,16 +67,13 @@
 								<div class="intel_solo">
 									<label>状态：</label> <select class="form-control"
 										id="seek_invalid">
-										<option value="">请选择</option>
 										<option value="0">启用</option>
 										<option value="1">停用</option>
 									</select>
 								</div>
 
 								<div class="intel_solo">
-									<div class="intel_sbtn">
 										<button class="btn btnblue " id="seek">搜索</button>
-									</div>
 								</div>
 							</div>
 						</div>

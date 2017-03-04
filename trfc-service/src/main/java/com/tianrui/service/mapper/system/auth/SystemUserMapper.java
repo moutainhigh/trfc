@@ -33,4 +33,10 @@ public interface SystemUserMapper {
      * @return
      */
     long countByCondition(SystemUserQueryReq queryReq );
+    /**
+     * 自动搜索下拉框
+     * @param queryReq
+     * @return List<SystemUser>
+     */
+    List<SystemUser> autoCompleteSearch(SystemUserQueryReq queryReq );
 }

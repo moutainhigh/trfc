@@ -71,8 +71,8 @@ select {
 									onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})" class="Wdate" />
 							</div>
 							<div class="daohuo_add_solo">
-								<label>化验人：</label>  <select
-									id="user_select" class="material_select2"></select>
+								<label>化验人：</label>  <input type = "text"
+									id="user_select">
 							</div>
 							<div class="daohuo_add_solo">
 								<label><span class="colorred">*</span>化验单位：</label> <input

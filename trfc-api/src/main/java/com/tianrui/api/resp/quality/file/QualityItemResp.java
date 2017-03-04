@@ -29,9 +29,13 @@ public class QualityItemResp extends BaseResp {
      */
     private String units;
     /**
-     * 对应行号
+     * 对应列号
      */
     private String line;
+    /**
+     * 对应列名
+     */
+    private String lineval;
     /**
      * 类型(0:采购项目,1:销售项目)
      */
@@ -147,6 +151,12 @@ public class QualityItemResp extends BaseResp {
 	}
 	public void setState(String state) {
 		this.state = state;
+	}
+	public String getLineval() {
+		return lineval;
+	}
+	public void setLineval(String lineval) {
+		this.lineval = lineval;
 	}
     
 }
