@@ -361,9 +361,13 @@ $(function(){
 			}
 		}).off('click').on('click',function(){
 			$(this).autocomplete('search',' ');
-		}).change(function(){
-			$(this).val('').removeAttr('qschemeid');
-		});
+		}).on('input propertychange',function(){
+	    	$(this).removeAttr('qschemeid');
+	    }).change(function(){
+    		if(!$(this).attr('qschemeid')){
+    			$(this).val('');
+    		}
+	    });
 		$("#edit_materialtype").autocomplete({
 			//获取数据
 			source: function( request, response ) {
@@ -400,9 +404,13 @@ $(function(){
 			}
 		}).off('click').on('click',function(){
 			$(this).autocomplete('search',' ');
-		}).change(function(){
-			$(this).val('').removeAttr('mschemeid');
-		});
+		}).on('input propertychange',function(){
+	    	$(this).removeAttr('mschemeid');
+	    }).change(function(){
+    		if(!$(this).attr('mschemeid')){
+    			$(this).val('');
+    		}
+	    });
 		$("#select_material").autocomplete({
 			//数据源
 			source: function( request, response ) {
@@ -434,9 +442,13 @@ $(function(){
 			}
 		}).off('click').on('click',function(){
 			$(this).autocomplete('search',' ');
-		}).change(function(){
-			$(this).val('').removeAttr('materialid');
-		});
+		}).on('input propertychange',function(){
+	    	$(this).removeAttr('materialid');
+	    }).change(function(){
+    		if(!$(this).attr('materialid')){
+    			$(this).val('');
+    		}
+	    });
 	};
 	//获取时间 param(true:返回yyyy-MM-dd hh:mm:ss fasle:返回yyyy-MM-dd)
 //	time(获取指定时间的字符串) 默认返回当前时间

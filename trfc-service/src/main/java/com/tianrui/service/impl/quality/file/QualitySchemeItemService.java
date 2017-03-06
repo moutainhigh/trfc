@@ -345,4 +345,17 @@ public class QualitySchemeItemService implements IQualitySchemeItemService {
 		return rs;
 	}
 
+	@Override
+	public Result getOldItem(String schemeid) throws Exception {
+		Result rs = Result.getParamErrorResult();
+		if(StringUtils.isNotBlank(schemeid)){
+			List<String> list = qualitySchemeItemMapper.findBySchemeid(schemeid);
+			if(list!=null){
+				rs = Result.getSuccessResult();
+				rs.setData(list);
+			}
+		}
+		return rs;
+	}
+
 }

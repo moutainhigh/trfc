@@ -264,9 +264,13 @@ $(function(){
 			}
 		}).off('click').on('click',function(){
 			$(this).autocomplete('search',' ');
-		}).change(function(){
-			$(this).val('').removeAttr('materialid');
-		});
+		}).on('input propertychange',function(){
+	    	$(this).removeAttr('materialid');
+	    }).change(function(){
+    		if(!$(this).attr('materialid')){
+    			$(this).val('');
+    		}
+	    });
 	};
 
 	function submitDelete(id){

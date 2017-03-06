@@ -47,4 +47,10 @@ public interface QualitySchemeItemMapper {
      * 批量添加数据
      */
     int insertBatch(List<QualitySchemeItem> list);
+    /**
+     * 通过质检方案 获取项目数据
+     * @param schemeid
+     * @return
+     */
+    List<String> findBySchemeid(String schemeid);
 }

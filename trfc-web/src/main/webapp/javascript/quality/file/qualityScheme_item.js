@@ -1,14 +1,15 @@
 $(function(){
 	//整合url
 	var URL = {
-			selectorUrl:"/trfc/quality/sales/file/qualityScheme/itemSelector",
+			qItemAutoCompleteSearch: "/trfc/quality/sales/file/qualityItem/autoCompleteSearch",
 			inquireUrl:"/trfc/quality/sales/file/qualityScheme/inquire",
 			deleteUrl:"/trfc/quality/sales/file/qualityScheme/deleteItem",
 			updateUrl:"/trfc/quality/sales/file/qualityScheme/updateItem",
 			saveUrl:"/trfc/quality/sales/file/qualityScheme/addItem",
 			schemeData:"/trfc/quality/sales/file/qualityScheme/getSchemeData",
 			addBatchUrl:"/trfc/quality/sales/file/qualityScheme/addBatchItem",
-			standardUrl:"/trfc/quality/sales/file/qualityScheme/standard"
+			standardUrl:"/trfc/quality/sales/file/qualityScheme/standard",
+			getOldItemUrl:"/trfc/quality/sales/file/qualityScheme/getOldItem"
 	};
 	var TYPE = {0:'采购项目',1:'销售项目'};
 	//设置一个公共变量
@@ -17,13 +18,12 @@ $(function(){
 	var schemeid = getId();
 	//初始化页面
 	initPage();
-	
-	
+	qschemeSelect();
+	getOldItem();
 	//绑定刷新按钮
 	$('#fresh').click(function(){ShowAction(1);});
 	//绑定新增按钮
 	$('#addBtn').click(initAddData);
-	//绑定批量新增按钮
 	$('#addBatch').click(initAddBatchData);
 	//绑定新增界面确定按钮
 	$('#add_sure').click(saveAction);
@@ -38,8 +38,18 @@ $(function(){
 	$('ul li:contains(质检方案-质检标准)').click(function(){
 		window.location.replace(URL.standardUrl+"?id="+schemeid);
 	});
+	$('.itemSelect').focus(getOldItem);
 	
-	
+	function getOldItem(){
+		$.post(URL.getOldItemUrl,{schemeid:schemeid},function(result){
+			if('000000'==result.code){
+				editOD.items = result.data;
+			}else{
+				layer.msg(result.error,{icon:5});
+			}
+		});
+		
+	}
 	//提交保存数据
 	function saveAddBatch(){
 		var param = getAddBatchData();
@@ -72,23 +82,18 @@ $(function(){
 		var tr = '<tr>'
            +' <td> '+index+'</td>'
            +' <td><div class="selct2_alt_div">'
-           +' <select class="form-control" style="width:220px"'
-           +' ></select>'
+           +' <input class="itemSelect" type="text" style="width:220px;text-align:left;"'
+           +' >'
            +'  </div>'
            +'  </td>'
-           +'  <td><input type="text"></td>'
+           +'  <td><input type="text" style="width:350px;text-align:left;"></td>'
            +'</tr>';
+		tr = $(tr);
 		//将tr追加到tbody中
 		tbody.append(tr);
-		//获取下拉框的JQuary对象
-		var sel = $('#addBatch_list').find('select:last');
-		//在下拉框中加载数据
-		fillContent(sel,editOD.selectData);
-		sel.select2({ placeholder: "请选择",
-			allowClear: false
-	});
-		//绑定监听事件
-		sel.change(function(){addTR(index+1)});
+		
+		qschemeSelect();
+		tr.find('td input:first').click(function(){addTR(index+1)});
 	}
 	
 	//初始化页面
@@ -100,11 +105,11 @@ $(function(){
 				editOD.obj = obj;
 				//加载列表
 				ShowAction(1);
-				//加载下拉框
-				itemSelect($('.itemSelect'));
-				$('.itemSelect').select2({ placeholder: "请选择",
-					allowClear: false
-				});
+//				initAddData();
+//				initAddBatchData();
+//				$('#addBatch_list').on('click','input:first',function(){
+//					var index = $(this).closest('tr').find('td:first').html();
+//					addTR(eval(index)+1);});
 			}else{
 				layer.msg(result.error,{icon:5});
 			}
@@ -121,6 +126,7 @@ $(function(){
 		$('#addBatch_list').html('');
 		addTR(1);
 	}
+	//获取批量新增数据
 	function getAddBatchData(){
 		var invalid = '1';
 		if($('#addBatch_invalid').prop('checked')){
@@ -139,13 +145,13 @@ $(function(){
 		//通过循环吧数据存到arr中
 		for(var i=0;i<trs.length-1;i++){
 			//获取子元素
-			var tds = trs[i].children;
-			var itemid = $(tds[1]).find('select').val();
+			var inputs = trs.eq(i).find('input');
+			var itemid = inputs.eq(0).attr('itemid');
 			//物料名称不能为空
 			if(!schemeid){
 				return null;
 			}
-			var remark = $(tds[2]).find('input').val();
+			var remark = inputs.eq(1).val();
 			var mater = {
 					itemid:itemid,
 					remark:remark
@@ -163,16 +169,62 @@ $(function(){
 		return data;
 	}
 
-	
+	//获取下拉框数据并填充
+	function qschemeSelect(){
+		var cache={};
+		$(".itemSelect").autocomplete({
+			//数据源
+			source: function( request, response ) {
+				var term = request.term;
+				var material = cache['material'] || {};
+				if ( term in material ) {
+					response( material[ term ] );
+					return;
+				}
+				$.post( URL.qItemAutoCompleteSearch, request, function( result, status, xhr ) {
+					var objs = result.data;
+					for(var i=0;i<objs.length;i++){
+						if(editOD.items.indexOf(objs[i].id)>=0){
+							objs.splice(i,1);
+							i--;
+						}
+						
+					}
+					material[ term ] = objs;
+					response( result.data );
+				});
+			},
+			//显示下拉框
+			response: function( event, ui ) {
+				if(ui.content && ui.content.length > 0){
+					//展示下拉框
+					ui.content.forEach(function(x,i,a){
+						x.label = x.name;
+						x.value = x.id;
+					});
+				}
+			},
+			//选定,显示结果到输入框
+			select: function( event, ui ) {
+				$(this).val(ui.item.name).attr('itemid', ui.item.id);
+				return false;
+			}
+		}).off('click').on('click',function(){
+			$(this).autocomplete('search',' ');
+		}).on('input propertychange',function(){
+	    	$(this).removeAttr('itemid');
+	    }).change(function(){
+    		if(!$(this).attr('itemid')){
+    			$(this).val('');
+    		}
+	    });
+	};
 	
 	//初始化新增数据
 	function initAddData(){
 		//等待下拉框加载完成后,执行
-		$.when($selector).done(function(){
-			$('#add_item').val('').select2({ placeholder: "请选择",
-				allowClear: false
-			});
-		});
+		$('#add_item').val('').removeAttr("itemid");
+		
 		$('#add_name').val(editOD.obj.code);
 		$('#add_schemetype').val(TYPE[editOD.obj.type]);
 
@@ -186,11 +238,8 @@ $(function(){
 		var obj = $(this).closest('tr').data('obj')
 		editOD.data = obj;
 		//设置等下拉框数据加载完成后 执行
-		$.when($selector).done(function(){
-			$('#edit_item').val(obj.itemid).select2({ placeholder: "请选择",
-				allowClear: false
-			});;
-		});
+		
+		$('#edit_item').val(obj.itemname).attr('itemid',obj.itemid)
 		$('#edit_id').val(obj.id);
 		$('#edit_name').val(editOD.obj.name);
 		$('#edit_schemetype').val(TYPE[editOD.obj.type]);
@@ -242,7 +291,7 @@ $(function(){
 //	获取新增数据
 	function getAddData(){
 
-		var itemid = $('#add_item').val();
+		var itemid = $('#add_item').attr('itemid');
 		if(!itemid){
 			alert("项目明细不能为空");
 			return null;
@@ -267,7 +316,7 @@ $(function(){
 //	获取修改数据
 	function getEditData(){
 		var id = $('#edit_id').val();
-		var itemid = $('#edit_item').val();
+		var itemid = $('#edit_item').attr('itemid');
 		if(!itemid){
 			alert("项目明细不能为空");
 			return null;
@@ -317,37 +366,7 @@ $(function(){
 		});
 	}
 
-	//获取下拉框数据并填充
-	function itemSelect($obj){
-		//获取数据
-		$selector = $.post(URL.selectorUrl,{invalid:"0",type:editOD.obj.type},function(result){
-			if(result.code=='000000'){
-				//填充数据
-				fillContent($obj,result.data.list);
-				editOD.selectData = result.data.list;
-			}else{
-				layer.msg(result.error, {icon:5});
-			}
-		});
-	}
-//	填充数据
-	function fillContent($obj,list){
-		var selecter = $obj.html('');
-		//设置默认值
-		selecter.append("<option></option>");
-		if(list){
-			for(var i=0;i<list.length;i++){
-				var obj = list[i];
-				var msg = obj.name;
-				msg = '（'+obj.code+'）'+obj.name;
-				var option = '<option value='+obj.id+'>'+msg+'</option>';
-				//追加数据
-				selecter.append(option);
-			}
-		}
-	}
-
-
+//
 //	展示数据列表
 	function ShowAction(pageNo){
 		//启动缓冲动画

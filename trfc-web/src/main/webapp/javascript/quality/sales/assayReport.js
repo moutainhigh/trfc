@@ -37,7 +37,8 @@ $(function(){
 	});
 	//绑定新增按钮
 	$('#addBtn').click(addAction);
-
+	//绑定搜索条件 报告天数 change事件
+	$('#seek_reportdays').change(function(){$('#seek').click();});
 	//28天报告
 	function daysReportAction(){
 		var obj = $(this).closest('tr').data('obj');

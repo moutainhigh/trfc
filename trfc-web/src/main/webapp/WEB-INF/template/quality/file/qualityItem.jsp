@@ -343,6 +343,6 @@
 		<jsp:include page="../../common/base/footer_busi.jsp"></jsp:include>
 		<script type="text/javascript"
 			src="/javascript/quality/file/qualityItem.js"></script>
-		</script>
+		</div>
 </body>
 </html>
