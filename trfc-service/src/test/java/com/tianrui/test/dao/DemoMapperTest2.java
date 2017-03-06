@@ -12,15 +12,18 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.tianrui.api.intf.quality.file.IQualitySchemeService;
 import com.tianrui.api.intf.system.base.ISystemCodeService;
+import com.tianrui.api.req.basicFile.measure.YardManageQuery;
 import com.tianrui.api.req.basicFile.other.OtherBdSupplierReq;
 import com.tianrui.api.req.quality.file.QualitySchemeReq;
 import com.tianrui.api.req.system.base.SystemCodeReq;
 import com.tianrui.api.resp.basicFile.nc.CustomerManageResp;
+import com.tianrui.service.bean.basicFile.measure.YardManage;
 import com.tianrui.service.bean.basicFile.nc.CustomerManage;
 import com.tianrui.service.bean.basicFile.nc.SupplierManage;
 import com.tianrui.service.bean.quality.file.QualityColumn;
 import com.tianrui.service.bean.quality.file.QualityScheme;
 import com.tianrui.service.bean.system.base.SystemDataDictItem;
+import com.tianrui.service.mapper.basicFile.measure.YardManageMapper;
 import com.tianrui.service.mapper.basicFile.nc.CustomerManageMapper;
 import com.tianrui.service.mapper.basicFile.nc.SupplierManageMapper;
 import com.tianrui.service.mapper.basicFile.other.OtherBdSupplierMapper;
@@ -63,6 +66,8 @@ public class DemoMapperTest2 {
 	private SupplierManageMapper supplier;
 	@Autowired
 	CustomerManageMapper customerManageMapper;
+	@Autowired
+	YardManageMapper YardManageMapper;
 	@Test
 	public void test(){
 		
@@ -80,7 +85,17 @@ public class DemoMapperTest2 {
 		QualityScheme qs= qualitySchemeMapper.selectByPrimaryKey(req.getId());
 		System.out.println(qs.getName());
 	}
-	
+	@Test
+	public void test4(){
+		YardManageQuery query=new YardManageQuery();
+		query.setIsvalid("1");
+		query.setPageNo(1);
+		query.setPageSize(10);
+		List<YardManage> list=YardManageMapper.findYardPage(query);
+		Long count=YardManageMapper.findYardPageCount(query);
+		System.out.println(count);
+		System.out.println(list.size());
+	}
 	
 	
 	
