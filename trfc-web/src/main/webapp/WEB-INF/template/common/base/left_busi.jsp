@@ -31,6 +31,7 @@
 				<li><a href="/trfc/quality/sales/batchnum/main"> <i
 						class="iconfont">&#xe615;</i> <label>质控管理</label>
 				</a></li>
+
 				<li><a href="/trfc/accessRecord/main"> <i
 						class="iconfont">&#xe615;</i> <label>厂区物流</label>
 				</a></li>
