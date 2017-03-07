@@ -49,8 +49,6 @@ public class ApiStaticAction {
 
 	private Logger log = LoggerFactory.getLogger(ApiStaticAction.class);
 	
-
-	
 	@RequestMapping(value="/login",method=RequestMethod.POST)
 	@ApiParamRawType(AppUserReq.class)
 	@ResponseBody

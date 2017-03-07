@@ -12,31 +12,26 @@ public class SystemRoleService implements ISystemRoleService {
 
 	@Override
 	public Result page(SystemRoleQueryReq req) throws Exception {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public Result detail(SystemRoleQueryReq req) throws Exception {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public Result addRole(SystemRoleSaveReq req) throws Exception {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public Result editRole(SystemRoleSaveReq req) throws Exception {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public Result delRole(SystemRoleQueryReq req) throws Exception {
-		// TODO Auto-generated method stub
 		return null;
 	}
 	
