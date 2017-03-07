@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.tianrui.api.intf.quality.file.IQualityColumnService;
+import com.tianrui.smartfactory.common.constants.ErrorCode;
 import com.tianrui.smartfactory.common.vo.Result;
 
 @Controller
@@ -29,6 +30,7 @@ public class QualityColumnAction {
 			rs = qualityColumnService.autoCompleteSearch(type.trim());
 		} catch (Exception e) {
 			log.error(e.getMessage(),e);
+			rs.setErrorCode(ErrorCode.SYSTEM_ERROR);
 		}
 		return rs;
 	}

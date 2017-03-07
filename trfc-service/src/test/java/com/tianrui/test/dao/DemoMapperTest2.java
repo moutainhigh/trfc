@@ -11,16 +11,16 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.tianrui.api.intf.quality.file.IQualitySchemeService;
+import com.tianrui.api.intf.quality.purchase.IPurchaseSamplingService;
 import com.tianrui.api.intf.system.base.ISystemCodeService;
 import com.tianrui.api.req.basicFile.measure.YardManageQuery;
 import com.tianrui.api.req.basicFile.other.OtherBdSupplierReq;
 import com.tianrui.api.req.quality.file.QualitySchemeReq;
+import com.tianrui.api.req.quality.purchase.PurchaseSamplingReq;
 import com.tianrui.api.req.system.base.SystemCodeReq;
-import com.tianrui.api.resp.basicFile.nc.CustomerManageResp;
+import com.tianrui.api.req.system.base.SystemDataDictItemReq;
 import com.tianrui.service.bean.basicFile.measure.YardManage;
 import com.tianrui.service.bean.basicFile.nc.CustomerManage;
-import com.tianrui.service.bean.basicFile.nc.SupplierManage;
-import com.tianrui.service.bean.quality.file.QualityColumn;
 import com.tianrui.service.bean.quality.file.QualityScheme;
 import com.tianrui.service.bean.system.base.SystemDataDictItem;
 import com.tianrui.service.mapper.basicFile.measure.YardManageMapper;
@@ -29,8 +29,10 @@ import com.tianrui.service.mapper.basicFile.nc.SupplierManageMapper;
 import com.tianrui.service.mapper.basicFile.other.OtherBdSupplierMapper;
 import com.tianrui.service.mapper.quality.file.QualityColumnMapper;
 import com.tianrui.service.mapper.quality.file.QualitySchemeMapper;
+import com.tianrui.service.mapper.quality.purchase.PurchaseSamplingMapper;
 import com.tianrui.service.mapper.system.base.SystemDataDictItemMapper;
 import com.tianrui.service.mapper.system.base.SystemDataDictMapper;
+import com.tianrui.smartfactory.common.vo.Result;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath*:spring/appliactionContext-service.xml" })
@@ -68,14 +70,18 @@ public class DemoMapperTest2 {
 	CustomerManageMapper customerManageMapper;
 	@Autowired
 	YardManageMapper YardManageMapper;
+	@Autowired
+	IPurchaseSamplingService purchaseSamplingService;
+	@Autowired
+	PurchaseSamplingMapper purchaseSamplingMapper;
 	@Test
-	public void test(){
-		
-			List<QualityColumn> list= qualityColumnMapper.autoCompleteSearch("1");
-			System.out.println(list);
-		
-		
-		
+	public void test() throws Exception{
+		SystemDataDictItemReq req = new SystemDataDictItemReq();
+		req.setDictid("18cd562f6d3041e2be797d8b289d1242");
+		List<SystemDataDictItem> list = systemDataDictItemMapper.autoCompleteSearch(req);
+		for(SystemDataDictItem ss : list){
+			System.out.println(ss.getName());
+		}
 	}
 	
 	@Test

@@ -11,6 +11,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.tianrui.api.intf.quality.file.IQualityItemService;
 import com.tianrui.api.req.quality.file.QualityItemReq;
+import com.tianrui.smartfactory.common.constants.ErrorCode;
 import com.tianrui.smartfactory.common.vo.Result;
 
 @Controller
@@ -40,6 +41,7 @@ public class QualityItemAction {
 			
 		} catch (Exception e) {
 			log.error(e.getMessage(),e);
+			rs.setErrorCode(ErrorCode.SYSTEM_ERROR);
 		}
 		return rs;
 	}
@@ -54,6 +56,7 @@ public class QualityItemAction {
 			rs = qualityItemService.delete(req);
 		} catch (Exception e) {
 			log.error(e.getMessage(),e);
+			rs.setErrorCode(ErrorCode.SYSTEM_ERROR);
 		}
 		return rs;
 	}
@@ -68,6 +71,7 @@ public class QualityItemAction {
 			rs = qualityItemService.add(req);
 		} catch (Exception e) {
 			log.error(e.getMessage(),e);
+			rs.setErrorCode(ErrorCode.SYSTEM_ERROR);
 		}
 		return rs;
 	}
@@ -83,6 +87,7 @@ public class QualityItemAction {
 			rs = qualityItemService.update(req);
 		} catch (Exception e) {
 			log.error(e.getMessage(),e);
+			rs.setErrorCode(ErrorCode.SYSTEM_ERROR);
 		}
 		return rs;
 	}
@@ -97,6 +102,7 @@ public class QualityItemAction {
 			rs = qualityItemService.getLine();
 		} catch (Exception e) {
 			log.error(e.getMessage(),e);
+			rs.setErrorCode(ErrorCode.SYSTEM_ERROR);
 		}
 		return rs;
 	}
@@ -114,6 +120,7 @@ public class QualityItemAction {
 			rs = qualityItemService.autoCompleteSearch(term.trim());
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
+			rs.setErrorCode(ErrorCode.SYSTEM_ERROR);
 		}
 		return rs;
 	}

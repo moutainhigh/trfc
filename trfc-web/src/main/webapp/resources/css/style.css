@@ -274,7 +274,6 @@ input[readOnly="true"]{
 }
 .intel_table {
     width: 100%;
-    height: 300px;
 }
 
 .intel_tabbox .intel_tabcont .intel_table table tbody i{
@@ -876,8 +875,6 @@ input[readOnly="true"]{
     text-align: right;
     line-height: 30px;
 }
-.alt_edit_div em{
-}
 .alt_edit_div  input[type="text"],.alt_edit_div  input[type="password"]{
     line-height: 30px;
     padding:0px 10px;
@@ -893,6 +890,17 @@ input[readOnly="true"]{
     padding:0px 10px;
     width: 220px;
     height: 30px;
+}
+.alt_edit_div .btn_duka{
+    padding: 0px 10px;
+    line-height: 30px;
+}
+.alt_edit_div  .em_duka{
+    line-height:30px;
+    margin: 0;
+    padding: 0;
+    font-size: 12px;
+    vertical-align: middle;
 }
 .alt_edit_textarea{
     width: 100%;
@@ -1041,6 +1049,9 @@ width: 180px;
 .dh_alttable{
     width: 100%;
     height: 400px;
+}
+.dh_alttable table tr{
+
 }
 /*菜单表格下拉*/
 .tree_table .vsStyle_node, .tree_table .vsStyle_active_node {width:16px;height:16px;border: medium none; margin: 0; padding: 0;display: inline-block;}
@@ -1557,23 +1568,22 @@ width: 180px;
     margin: 0 6px;
 }
 
-
 .ui-autocomplete {
-	max-height: 200px;
-	overflow-y: auto;
-	/* 防止水平滚动条 */
-	overflow-x: hidden;
+    max-height: 200px;
+    overflow-y: auto;
+    /* 防止水平滚动条 */
+    overflow-x: hidden;
     z-index: 1200!important;
 }
 /* IE 6 不支持 max-height
 	   * 我们使用 height 代替，但是这会强制菜单总是显示为那个高度
 	   */
 * html .ui-autocomplete {
-	height: 200px;
+    height: 200px;
 }
- 
- 
- ::-webkit-scrollbar {
+
+
+::-webkit-scrollbar {
     width: 10px;
     height: 10px;
 }

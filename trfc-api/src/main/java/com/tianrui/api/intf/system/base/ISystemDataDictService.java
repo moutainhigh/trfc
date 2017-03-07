@@ -25,7 +25,7 @@ public interface ISystemDataDictService {
 	/*
 	 * 删除数据字典类别
 	 */
-	Result deleteSystemDataDict(String id);
+	Result deleteSystemDataDict(String id) throws Exception;
 	
 	/*
 	 * 查找所有的数据字典明细
@@ -42,5 +42,9 @@ public interface ISystemDataDictService {
 	/*
 	 * 删除数据字典明细
 	 */
-	Result deleteSystemDataDictItem(String id);
+	Result deleteSystemDataDictItem(String id) throws Exception;
+	/**
+	 * 模糊查询 下拉框
+	 */
+	Result autoCompleteSearch(SystemDataDictItemReq req) throws Exception;
 }

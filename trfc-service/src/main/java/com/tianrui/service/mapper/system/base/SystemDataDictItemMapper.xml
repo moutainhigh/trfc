@@ -200,4 +200,20 @@
   	where dictid = #{dictid,jdbcType=VARCHAR}
   	order by createtime desc
   </select>
+  
+   	<select id="autoCompleteSearch" parameterType="com.tianrui.api.req.system.base.SystemDataDictItemReq"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from tr_system_data_dict_item
+		where
+		dictid = #{dictid,jdbcType=VARCHAR}
+		<if test="term != null and term !=''">
+			and name like CONCAT('%', #{term,jdbcType=VARCHAR},
+			'%')
+		</if>
+		order by createtime desc
+		limit 0,20
+	</select>
+  
 </mapper>

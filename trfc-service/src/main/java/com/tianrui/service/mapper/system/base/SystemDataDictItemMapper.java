@@ -2,6 +2,8 @@ package com.tianrui.service.mapper.system.base;
 
 import java.util.List;
 
+
+import com.tianrui.api.req.system.base.SystemDataDictItemReq;
 import com.tianrui.service.bean.system.base.SystemDataDictItem;
 
 public interface SystemDataDictItemMapper {
@@ -58,4 +60,8 @@ public interface SystemDataDictItemMapper {
      * @return
      */
     List<SystemDataDictItem> selectByDictId(String dictid);
+    /**
+     * 下拉框
+     */
+    List<SystemDataDictItem> autoCompleteSearch(SystemDataDictItemReq req);
 }
