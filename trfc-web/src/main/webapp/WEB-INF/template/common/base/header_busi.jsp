@@ -10,6 +10,7 @@
 <link href="${staticBasePath}/css/jquery-confirm.css" rel="stylesheet">
 <link href="${staticBasePath}/css/pagination.css" rel="stylesheet">
 <link href="${staticBasePath}/css/jquery-ui-1.10.4.custom.min.css" rel="stylesheet">
+<link href="${staticBasePath}/css/defaultTheme.css" rel="stylesheet">
 <!--这个日历控件js必须放头部-->
 <script language="javascript" type="text/javascript"
 	src="${staticBasePath}/js/My97DatePicker/WdatePicker.js"></script>
@@ -28,3 +29,4 @@
 <script type="text/javascript" src="${staticBasePath}/js/myself.js"></script>
 <script type="text/javascript" src="${staticBasePath }/js/dateutil.js"></script>
 <script type="text/javascript" src="${staticBasePath }/js/jquery-ui-1.10.4.custom.min.js"></script>
+<script type="text/javascript" src="${staticBasePath }/js/jquery.fixedheadertable.js"></script>
