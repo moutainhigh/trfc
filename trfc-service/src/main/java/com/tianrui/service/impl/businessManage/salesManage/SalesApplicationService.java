@@ -430,6 +430,7 @@ public class SalesApplicationService implements ISalesApplicationService {
 					salesApplicationMapper.updateByPrimaryKeySelective(item);
 				}
 			}
+			rs.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
 		}
 		return rs;
 	}
@@ -530,6 +531,7 @@ public class SalesApplicationService implements ISalesApplicationService {
 					saleItem.setTaxprice(Double.valueOf(itemJon.getString("nqtorigtaxprice")));
 					saleItem.setUntaxprice(Double.valueOf(itemJon.getString("nqtorigprice")));
 					saleItem.setTaxrate(Double.valueOf(itemJon.getString("ntaxrate")));
+					saleItem.setRemarks(itemJon.getString("remark"));
 					itemList.add(saleItem);
 				}
 			}

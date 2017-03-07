@@ -19,6 +19,7 @@ import com.tianrui.api.resp.basicFile.nc.MaterielManageResp;
 import com.tianrui.api.resp.basicFile.nc.MaterielManageVO;
 import com.tianrui.service.bean.basicFile.nc.MaterielManage;
 import com.tianrui.service.mapper.basicFile.nc.MaterielManageMapper;
+import com.tianrui.smartfactory.common.constants.Constant;
 import com.tianrui.smartfactory.common.constants.ErrorCode;
 import com.tianrui.smartfactory.common.vo.PaginationVO;
 import com.tianrui.smartfactory.common.vo.Result;
@@ -154,6 +155,7 @@ public class MaterielManageService implements IMaterielManageService {
 					materielManageMapper.updateByPrimaryKeySelective(item);
 				}
 			}
+			rs.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
 		}
 		return rs;
 	}
@@ -172,14 +174,18 @@ public class MaterielManageService implements IMaterielManageService {
 		MaterielManage item  =new MaterielManage();
 		item.setId(jsonItem.getString("id"));
 		item.setCode(jsonItem.getString("code"));
-		item.setOrgid(jsonItem.getString("orgId"));
+		item.setOrgid(Constant.ORG_ID);
 		item.setName(jsonItem.getString("name"));
+		item.setAbbrname(jsonItem.getString("shortName"));
 		item.setState("1");
-		item.setOrgname(jsonItem.getString("orgName"));
-		item.setInternalcode(jsonItem.getString("internalcode"));
-		item.setCreatetime(System.currentTimeMillis());
+		item.setOrgname(Constant.ORG_NAME);
+		item.setInternalcode(jsonItem.getString("innerCode"));
+		item.setCreatetime(Long.valueOf(jsonItem.getString("createTime")));
 		item.setModifytime(System.currentTimeMillis());	
 		item.setUtc(Long.valueOf(jsonItem.getString("ts")));
+		item.setRemarks(jsonItem.getString("remark"));
+		item.setSpec(jsonItem.getString("spec"));
+		item.setModel(jsonItem.getString("modelNumber"));
 		return item;
 	}
 	@Override

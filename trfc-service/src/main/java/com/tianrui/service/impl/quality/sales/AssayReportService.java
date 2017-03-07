@@ -12,15 +12,14 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.alibaba.fastjson.JSONArray;
 import com.tianrui.api.intf.quality.sales.IAssayReportService;
-import com.tianrui.api.req.quality.file.MaterialSchemeReq;
 import com.tianrui.api.req.quality.sales.AssayReportReq;
-import com.tianrui.api.resp.quality.file.MaterialSchemeResp;
 import com.tianrui.api.resp.quality.sales.AssayReportResp;
 import com.tianrui.service.bean.basicFile.nc.MaterielManage;
 import com.tianrui.service.bean.quality.file.MaterialScheme;
 import com.tianrui.service.bean.quality.file.QualityScheme;
 import com.tianrui.service.bean.quality.sales.AssayReport;
 import com.tianrui.service.bean.quality.sales.AssayReportItem;
+import com.tianrui.service.bean.quality.sales.AssayReportMsg;
 import com.tianrui.service.bean.quality.sales.SalesBatchnum;
 import com.tianrui.service.bean.system.auth.SystemUser;
 import com.tianrui.service.mapper.basicFile.nc.MaterielManageMapper;
@@ -28,6 +27,7 @@ import com.tianrui.service.mapper.quality.file.MaterialSchemeMapper;
 import com.tianrui.service.mapper.quality.file.QualitySchemeMapper;
 import com.tianrui.service.mapper.quality.sales.AssayReportItemMapper;
 import com.tianrui.service.mapper.quality.sales.AssayReportMapper;
+import com.tianrui.service.mapper.quality.sales.AssayReportMsgMapper;
 import com.tianrui.service.mapper.quality.sales.SalesBatchnumMapper;
 import com.tianrui.service.mapper.system.auth.SystemUserMapper;
 import com.tianrui.smartfactory.common.constants.ErrorCode;
@@ -50,6 +50,8 @@ public class AssayReportService implements IAssayReportService {
 	private MaterielManageMapper materielManageMapper;
 	@Resource
 	private AssayReportItemMapper assayReportItemMapper;
+	@Resource
+	private AssayReportMsgMapper assayReportMsgMapper;
 
 	@Override
 	public Result delete(AssayReportReq req) throws Exception {
@@ -112,6 +114,15 @@ public class AssayReportService implements IAssayReportService {
 			report.setModifier(req.getUser());
 			report.setModifytime(System.currentTimeMillis());
 			report.setUtc(System.currentTimeMillis());
+			if(req.getAuditstate()!=null){
+				
+				if(req.getAuditstate()!="0"){
+					report.setAuditer(req.getUser());
+					report.setAudittime(System.currentTimeMillis());
+					saveReportMsg(req);
+				}
+			}
+
 			//更新数据到数据库
 			int index = assayReportMapper.updateByPrimaryKeySelective(report);
 			//判断操作是否成功
@@ -138,6 +149,13 @@ public class AssayReportService implements IAssayReportService {
 			req.setLimit(pageSize);
 			page.setPageNo(pageNo);
 			page.setPageSize(pageSize);
+			//通过批号查询批号id
+			if(StringUtils.isNotBlank(req.getBatchcode())){
+				SalesBatchnum batch = salesBatchnumMapper.selectByFactoryCode(req.getBatchcode());
+				if(batch!=null){
+					req.setBatchnumid(batch.getId());
+				}
+			}
 			//获取数据总数
 			int total = assayReportMapper.count(req);
 			page.setTotal(total);
@@ -158,11 +176,10 @@ public class AssayReportService implements IAssayReportService {
 					}
 					//获取物料品种及水泥名称
 					if(resp.getMschemeid()!=null){
-						MaterialScheme mscheme = materialSchemeMapper.selectOne(resp.getId());
+						MaterialScheme mscheme = materialSchemeMapper.selectOne(resp.getMschemeid());
 						if(mscheme!=null){
 							resp.setMaterialtype(mscheme.getMaterialtype());
-							MaterielManage mm = 
-									materielManageMapper.selectByPrimaryKey(mscheme.getMaterialid());
+							MaterielManage mm = materielManageMapper.selectByPrimaryKey(mscheme.getMaterialid());
 							if(mm!=null){
 								resp.setMaterialname(mm.getName());
 							}
@@ -175,7 +192,13 @@ public class AssayReportService implements IAssayReportService {
 							resp.setCreator(sc.getName());
 						}
 					}
-
+					//获取审核者
+					if(resp.getAuditer()!=null){
+						SystemUser sc = systemUserMapper.selectByPrimaryKey(resp.getAuditer());
+						if(sc!=null){
+							resp.setAuditer(sc.getName());
+						}
+					}
 					resps.add(resp);
 				}
 			}
@@ -226,63 +249,109 @@ public class AssayReportService implements IAssayReportService {
 					resp.setCreator(sc.getName());
 				}
 			}
+			//获取审核者
+			if(resp.getAuditer()!=null){
+				SystemUser sc = systemUserMapper.selectByPrimaryKey(resp.getAuditer());
+				if(sc!=null){
+					resp.setAuditer(sc.getName());
+				}
+			}
 			rs = Result.getSuccessResult();
 			rs.setData(resp);
 		}
 		return rs;
 	}
 
-	@Override
-	public Result mschemeData() throws Exception {
-		MaterialSchemeReq req = new MaterialSchemeReq();
-		req.setState("1");
-		req.setLimit(0);
-		List<MaterialScheme> list = materialSchemeMapper.page(req);
-		List<MaterialSchemeResp> resps = new ArrayList<MaterialSchemeResp>();
-		if(list!=null){
-			for(MaterialScheme scheme : list){
-				MaterialSchemeResp resp = new MaterialSchemeResp();
-				resp.setId(scheme.getId());
-				resp.setMaterialtype(scheme.getMaterialtype());
-				if(StringUtils.isNotBlank(scheme.getMaterialid())){
-					MaterielManage mm = materielManageMapper.selectByPrimaryKey(scheme.getMaterialid());
-					if(mm!=null){
-						resp.setMaterialname(mm.getName());
-					}
-				}
-				resps.add(resp);
-			}
-		}
-		Result rs = Result.getSuccessResult();
-		rs.setData(resps);
-		return rs;
-	}
+	//	@Override
+	//	public Result mschemeData() throws Exception {
+	//		MaterialSchemeReq req = new MaterialSchemeReq();
+	//		req.setState("1");
+	//		req.setLimit(0);
+	//		List<MaterialScheme> list = materialSchemeMapper.page(req);
+	//		List<MaterialSchemeResp> resps = new ArrayList<MaterialSchemeResp>();
+	//		if(list!=null){
+	//			for(MaterialScheme scheme : list){
+	//				MaterialSchemeResp resp = new MaterialSchemeResp();
+	//				resp.setId(scheme.getId());
+	//				resp.setMaterialtype(scheme.getMaterialtype());
+	//				if(StringUtils.isNotBlank(scheme.getMaterialid())){
+	//					MaterielManage mm = materielManageMapper.selectByPrimaryKey(scheme.getMaterialid());
+	//					if(mm!=null){
+	//						resp.setMaterialname(mm.getName());
+	//					}
+	//				}
+	//				resps.add(resp);
+	//			}
+	//		}
+	//		Result rs = Result.getSuccessResult();
+	//		rs.setData(resps);
+	//		return rs;
+	//	}
 	@Transactional
 	private int saveTestval(AssayReportReq req){
-		//将字符串转换为json数组
-		JSONArray json = JSONArray.parseArray(req.getArrStr());
-		int index = 0;
-		for(int i=0;i<json.size();i++){
-			//json对象转换为java对象
-			AssayReportItem ari = JSONArray.toJavaObject(json.getJSONObject(i), AssayReportItem.class);
-			ari.setAssayid(req.getId());
-			ari.setModifier(req.getUser());
-			ari.setModifytime(System.currentTimeMillis());
-			ari.setUtc(System.currentTimeMillis());
-			AssayReportItem item = assayReportItemMapper.findOne(ari);
-			
-			if(item!=null){
-				index = assayReportItemMapper.updateByPrimaryKeySelective(ari);
-			}else{
-				ari.setId(UUIDUtil.getId());
-				ari.setCreator(req.getUser());
-				ari.setCreatetime(System.currentTimeMillis());
-				index = assayReportItemMapper.insertSelective(ari);
-			}
-			if(index<=0){
-				return -1;
+
+		int index = 1;
+		if(StringUtils.isNotBlank(req.getArrStr())){
+			//将字符串转换为json数组
+			JSONArray json = JSONArray.parseArray(req.getArrStr());
+			for(int i=0;i<json.size();i++){
+				//json对象转换为java对象
+				AssayReportItem ari = JSONArray.toJavaObject(json.getJSONObject(i), AssayReportItem.class);
+				ari.setAssayid(req.getId());
+				ari.setModifier(req.getUser());
+				ari.setModifytime(System.currentTimeMillis());
+				ari.setUtc(System.currentTimeMillis());
+				AssayReportItem item = assayReportItemMapper.findOne(ari);
+
+				if(item!=null){
+					ari.setId(item.getId());
+					index = assayReportItemMapper.updateByPrimaryKeySelective(ari);
+				}else{
+					ari.setId(UUIDUtil.getId());
+					ari.setCreator(req.getUser());
+					ari.setCreatetime(System.currentTimeMillis());
+					index = assayReportItemMapper.insertSelective(ari);
+				}
+				if(index<=0){
+					return -1;
+				}
 			}
 		}
+		return index;
+	}
+
+	@Override
+	public Result findReportMsg(AssayReportReq req) throws Exception {
+		Result rs = Result.getParamErrorResult();
+		if(req!=null){
+			List<AssayReportMsg> list = assayReportMsgMapper.selectByReportid(req.getId());
+			if(list!=null){
+				for(AssayReportMsg msg : list){
+					if(StringUtils.isNotBlank(msg.getCreator())){
+						SystemUser su = systemUserMapper.selectByPrimaryKey(msg.getCreator());
+						if(su!=null){
+							msg.setCreator(su.getName());
+						}
+					}
+				}
+			}
+			rs = Result.getSuccessResult();
+			rs.setData(list);
+		}
+		return rs;
+	}
+	private int saveReportMsg(AssayReportReq req) throws Exception{
+		AssayReportMsg msg = new AssayReportMsg();
+		msg.setId(UUIDUtil.getId());
+		msg.setReportid(req.getId());
+		msg.setAudit(req.getAudit());
+		msg.setRemark(req.getRecord());
+		msg.setCreator(req.getUser());
+		msg.setCreatetime(System.currentTimeMillis());
+		msg.setModifier(req.getUser());
+		msg.setModifytime(System.currentTimeMillis());
+		msg.setUtc(System.currentTimeMillis());
+		int index = assayReportMsgMapper.insertSelective(msg);
 		return index;
 	}
 }

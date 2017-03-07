@@ -66,6 +66,7 @@ public class SmUserService implements ISmUserService{
 					smUserMapper.updateByPrimaryKeySelective(item);
 				}
 			}
+			rs.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
 		}
 		return rs;
 	}

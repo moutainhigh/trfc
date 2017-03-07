@@ -45,4 +45,8 @@ public interface IQualitySchemeItemService {
 	 * 化验报告获取 详情+检测值
 	 */
 	Result findDetailandVal(QualitySchemeItemReq req) throws Exception;
+	/**
+	 * 获取已用项目数据
+	 */
+	Result getOldItem(String schemeid) throws Exception;
 }

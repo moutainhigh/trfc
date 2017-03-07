@@ -280,14 +280,16 @@ public class PurchaseArriveService implements IPurchaseArriveService {
 		if(bean != null){
 			resp = new PurchaseArriveResp();
 			PropertyUtils.copyProperties(resp, bean);
-			if(StringUtils.isNotBlank(bean.getBillid())){
-				resp.setPurchaseApplicationResp(purchaseApplicationService.findOne(bean.getBillid()));
-			}
-			if(StringUtils.isNotBlank(bean.getBilldetailid())){
-				resp.setPurchaseApplicationDetailResp(purchaseApplicationDetailService.findOne(bean.getBilldetailid()));
+			if(setApplication){
+				if(StringUtils.isNotBlank(bean.getBillid())){
+					resp.setPurchaseApplicationResp(purchaseApplicationService.findOne(bean.getBillid()));
+				}
+				if(StringUtils.isNotBlank(bean.getBilldetailid())){
+					resp.setPurchaseApplicationDetailResp(purchaseApplicationDetailService.findOne(bean.getBilldetailid()));
+				}
 			}
 		}
 		return resp;
 	}
-	
+
 }

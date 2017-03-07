@@ -59,15 +59,12 @@
 								</div>
 								<div class="intel_solo">
 									<label>物料：</label>
-									<select id="seek_material"
-									class="material_select2"
+									<input type = "text" id="seek_material"
 								>
-								</select>
 								</div>
 								<div class="intel_solo">
 									<label>单据状态：</label> <select class="form-control"
 										id="seek_billsstate">
-										<option></option>
 										<option value="1">启用</option>
 										<option value="0">停用</option>
 									</select>

@@ -212,7 +212,7 @@
                     </div>
                     <div class="alt_edit_div">
                         <label class="colorred">*对应列：</label>
-                        <input type="text" id="add_line">
+                        <input type="text" id="add_line" class="columnSel">
                     </div>
                     <div class="alt_edit_div">
                         <label>公式：</label>
@@ -295,7 +295,7 @@
                     </div>
                     <div class="alt_edit_div">
                         <label class="colorred">*对应列：</label>
-                        <input type="text" id="edit_line">
+                        <input type="text" id="edit_line" class="columnSel">
                     </div>
                     <div class="alt_edit_div">
                         <label>公式：</label>
@@ -343,6 +343,6 @@
 		<jsp:include page="../../common/base/footer_busi.jsp"></jsp:include>
 		<script type="text/javascript"
 			src="/javascript/quality/file/qualityItem.js"></script>
-		</script>
+		</div>
 </body>
 </html>

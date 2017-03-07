@@ -20,7 +20,7 @@ import com.tianrui.web.smvc.ApiParamRawType;
 
 
 /**
- * 仓库对接数据中心
+ * 销售订单对接数据中心
  * @author lixp 2017年1月7日 09:24:36
  *
  */

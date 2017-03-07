@@ -2,11 +2,13 @@ $(function(){
 	//整合url
 	var URL = {
 			pageUrl:"/trfc/quality/sales/file/qualityItem/page",
+			getLineUrl:"/trfc/quality/sales/file/qualityItem/getColumns",
 			deleteUrl:"/trfc/quality/sales/file/qualityItem/delete",
 			updateUrl:"/trfc/quality/sales/file/qualityItem/update",
 			saveUrl:"/trfc/quality/sales/file/qualityItem/add",
-			codeUrl:"/trfc/quality/sales/file/qualityItem/getCode",
-			updateCodeUrl:"/trfc/quality/sales/file/qualityItem/updateCode",
+			codeUrl:"/trfc/system/base/code/getCode",
+			updateCodeUrl:"/trfc/system/base/code/updateCode",
+			columnAutoCompleteSearch:"/trfc/quality/sales/file/qualityColumn/autoCompleteSearch"
 	};
 	//设置一个公共变量,当点击编辑按钮时,将原数据存入该变量中
 	var editOD = {};
@@ -32,10 +34,19 @@ $(function(){
 	$('#list').on('click','tr [title="删除"]',deleteAction);
 	//绑定编辑按钮
 	$('#list').on('click','tr [title="编辑"]',initEditData);
-	
+	$('.columnSel').focus(getLines);
 	//获取用户id
 	var userid = $('.user').attr('userid');
-
+	function getLines(){
+		$.post(URL.getLineUrl,{},function(result){
+			if('000000'==result.code){
+				editOD.lines = result.data;
+				initSelect();
+			}else{
+				layer.msg(result.error,{icon:5});
+			}
+		});
+	}
 	//初始化新增数据
 	function initAddData(){
 		
@@ -69,6 +80,8 @@ $(function(){
 		$('#add_vtype').val('');
 		$('#add_remark').val('');
 	}
+	
+	
 	//初始化编辑数据
 	function initEditData(){
 		//获取数据
@@ -80,7 +93,7 @@ $(function(){
 		$('#edit_ename').val(obj.ename);
 		$('#edit_units').val(obj.units);
 		$('#edit_type').val(obj.type);
-		$('#edit_line').val(obj.line);
+		$('#edit_line').attr('columnid',obj.line).val(obj.lineval);
 		$('#edit_formula').val(obj.formula);
 		//为checkbox赋值
 		$('#edit_invlid')[0].checked=true;
@@ -94,7 +107,104 @@ $(function(){
 	
 		
 	}
-
+	function initSelect(){
+		var cache = {};
+		$("#add_line").autocomplete({
+			//数据源
+			source: function( request, response ) {
+				var term = request.term;
+				var column = cache['column'] || {};
+				if ( term in column ) {
+					response( column[ term ] );
+					return;
+				}
+				$.post( URL.columnAutoCompleteSearch, {type:$('#add_type').val()}, function( result ) {
+					var list = editOD.lines;
+					//将使用过的列 剔除出去
+					for(var i = 0;i<result.data.length;i++){
+						var index = list.indexOf(result.data[i].id);
+						if(index>=0){
+							result.data.splice(i,1);
+							i=i-1;
+						}
+					}
+					column[ term ] = result.data;
+					response( result.data );
+				});
+			},
+			//显示下拉框
+			response: function( event, ui ) {
+				if(ui.content && ui.content.length > 0){
+					//展示下拉框
+					ui.content.forEach(function(x,i,a){
+							x.label = x.val;
+							x.value = x.id;
+					});
+				}
+			},
+			//选定,显示结果到输入框
+			select: function( event, ui ) {
+				$(this).val(ui.item.val).attr('columnid', ui.item.id);
+				return false;
+			}
+		}).off('click').on('click',function(){
+			$(this).autocomplete('search',' ');
+		}).on('input propertychange',function(){
+	    	$(this).removeAttr('columnid');
+	    }).change(function(){
+    		if(!$(this).attr('columnid')){
+    			$(this).val('');
+    		}
+	    });
+		$("#edit_line").autocomplete({
+			//数据源
+			source: function( request, response ) {
+				var term = request.term;
+				var column = cache['column'] || {};
+				if ( term in column ) {
+					response( column[ term ] );
+					return;
+				}
+				$.post( URL.columnAutoCompleteSearch, {type:$('#edit_type').val()}, function( result ) {
+					var list = editOD.lines;
+					//将使用过的列 剔除出去
+					for(var i = 0;i<result.data.length;i++){
+						var index = list.indexOf(result.data[i].id);
+						if(index>=0){
+							result.data.splice(i,1);
+							i=i-1;
+						}
+					}
+					column[ term ] = result.data;
+					response( result.data );
+				});
+			},
+			//显示下拉框
+			response: function( event, ui ) {
+				if(ui.content && ui.content.length > 0){
+					//展示下拉框
+					ui.content.forEach(function(x,i,a){
+							x.label = x.val;
+							x.value = x.id;
+					});
+				}
+			},
+			//选定,显示结果到输入框
+			select: function( event, ui ) {
+				$(this).val(ui.item.val).attr('columnid', ui.item.id);
+				return false;
+			}
+		}).off('click').on('click',function(){
+			$(this).autocomplete('search',' ');
+		}).on('input propertychange',function(){
+	    	$(this).removeAttr('columnid');
+	    }).change(function(){
+    		if(!$(this).attr('columnid')){
+    			$(this).val('');
+    		}
+	    });
+		
+	}
 //	新增数据
 	function saveAction(){
 		//获取新增页面的数据
@@ -178,7 +288,7 @@ $(function(){
 		if($('#add_invlid').prop('checked')){
 			invlid='0';
 		}
-		var line = $('#add_line').val();
+		var line = $('#add_line').attr('columnid');
 		if(!line){
 			alert("对应行不能为空");
 			return null;
@@ -241,7 +351,7 @@ $(function(){
 		if($('#edit_invlid').prop('checked')){
 			invlid='0';
 		}
-		var line = $('#edit_line').val();
+		var line = $('#edit_line').attr('columnid');
 		if(!line){
 			alert("对应行不能为空");
 			return null;
@@ -442,7 +552,7 @@ $(function(){
 				+'<td>'+(obj.name || '')+'</td>'
 				+'<td>'+(obj.ename || '')+'</td>'
 				+'<td>'+(obj.units || '')+'</td>'
-				+'<td>'+(obj.line || '')+'</td>'
+				+'<td>'+(obj.lineval || '')+'</td>'
 				+'<td class="colorblue">'+(TYPE[obj.type] || '')+'</td>'
 				+'<td>'+(obj.formula || '')+'</td>'
 				+'<td>'+(obj.vgroups || '')+'</td>'

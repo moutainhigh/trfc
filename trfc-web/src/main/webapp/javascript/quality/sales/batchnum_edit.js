@@ -1,9 +1,8 @@
 $(function(){
 
 	//加载下拉框
-	materialSelect();
 	userSelect();
-	
+	materialSelect();
 	//绑定保存按钮
 	$('#save').click(updateAction);
 	//绑定刷新按钮
@@ -45,13 +44,11 @@ $(function(){
 				$('#edit_endtime').val(getNowFormatDate(false,obj.endtime));
 				$('#edit_assayorg').val(obj.assayorg);
 				
-				//设置ajax执行完成后,执行
-				$.when(post1,post2).done(function(){
-					//设置默认值
-					$('#edit_material').val(obj.material);
-					$('#user_select').val(obj.assayer);
-					$('.material_select2').select2();
-				});
+			
+				//设置默认值
+				$('#edit_material').val(obj.materialname).attr('materialid',obj.material);
+				$('#user_select').val(obj.assayername).attr('assayerid',obj.assayer);
+				
 			}else{
 				layer.msg(result.error, {icon:5});
 			}
@@ -80,7 +77,7 @@ $(function(){
 	//获取需保存的参数
 	function getData(){
 		var assaytime =new Date($('#edit_assaytime').val());
-		var assayer = $('#user_select').val();
+		var assayer = $('#user_select').attr('assayerid');
 		var assayorg = $('#edit_assayorg').val();
 		var starttime = new Date($('#edit_starttime').val());
 		var endtime = new Date($('#edit_endtime').val());
@@ -93,7 +90,7 @@ $(function(){
 			return null;
 		}
 		var count = $('#edit_count').val();
-		var material = $('#edit_material').val();
+		var material = $('#edit_material').attr('materialid');
 		var producedtime = new Date($('#edit_producedtime').val());
 		var testtime = new Date($('#edit_testtime').val());
 		var remark = $('#edit_remark').val();
@@ -120,36 +117,7 @@ $(function(){
 		}
 		return data;
 	}
-	//下拉框
-	function materialSelect(){
-		//获取物料下拉框的数据
-		post1 = $.post(URL.selectorUrl,{},function(result){
-			if(result.code=='000000'){
-				//填充数据
-				fillContent(result.data);
-			}else{
-				layer.msg(result.error,{icon:5});
-			}
-		});
-	}
-	//填充数据
-	function fillContent(list){
-		var select = $('#edit_material');
-		select.append("<option></option>");
-		if(list){
-			for(var i=0;i<list.length;i++){
-				var obj = list[i];
-				var msg = obj.name;
-				//判断型号是否存在
-				if(obj.spec){
-					msg = obj.name+' | '+obj.spec;
-				}
-				var option = '<option value='+obj.id+'>'+msg+'</option>';
-				//追加元素
-				select.append(option);
-			}
-		}
-	}
+
 	//检测批号是否重复
 	function checkFC(factorycode){
 		//设置正则表达式

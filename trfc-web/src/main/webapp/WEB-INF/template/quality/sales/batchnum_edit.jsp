@@ -68,8 +68,8 @@
 									id="edit_count" type="text" value="000">
 							</div>
 							<div class="daohuo_add_solo">
-								<label><span class="colorred">*</span>物料：</label> <select
-									id="edit_material" class="material_select2"></select>
+								<label><span class="colorred">*</span>物料：</label> <input type="text"
+									id="edit_material" class="materialSel" >
 							</div>
 							<div class="daohuo_add_solo">
 								<label>生产日期：</label> <input type="text" readonly="true"
@@ -87,8 +87,8 @@
 									class="Wdate" />
 							</div>
 							<div class="daohuo_add_solo">
-								<label>化验人：</label> <select
-									id="user_select" class="material_select2"></select>							</div>
+								<label>化验人：</label> <input
+									id="user_select" type = "text"> 							</div>
 							<div class="daohuo_add_solo">
 								<label><span class="colorred">*</span>化验单位：</label> <input
 									id="edit_assayorg" type="text" readonly="true" value="000">
@@ -146,7 +146,7 @@
 		src="/javascript/quality/sales/batchnum_common.js"></script>
 	<script type="text/javascript"
 		src="/javascript/quality/sales/batchnum_edit.js"></script>
-	</script>
+	
 
 
 	

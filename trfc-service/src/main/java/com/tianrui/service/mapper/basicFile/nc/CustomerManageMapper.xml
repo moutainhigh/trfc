@@ -443,7 +443,6 @@
         and utc = #{utc,jdbcType=BIGINT}
       </if>
   	</where>
-  	limit 0,20
   </select>
   <insert id ="insertBatch" parameterType="java.util.List" >
       insert into tr_customer_db_manage

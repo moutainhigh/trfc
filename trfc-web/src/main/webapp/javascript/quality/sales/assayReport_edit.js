@@ -6,7 +6,6 @@ $(function(){
 			findOneUrl:"/trfc/quality/sales/report/selectOne",
 			saveUrl:"/trfc/quality/sales/report/update",
 			getDetailAndVal:"/trfc/quality/sales/report/getDetailAndVal",
-			qschemeSelectUrl:"/trfc/quality/sales/report/qschemeSelectUrl",
 			qschemeAutoCompleteSearch: "/trfc/quality/sales/file/qualityScheme/autoCompleteSearch",
 			materialAutoCompleteSearch: "/trfc/materiel/autoCompleteSearch",
 			mschemeAutoCompleteSearch: "/trfc/quality/sales/file/MaterialScheme/autoCompleteSearch",
@@ -32,6 +31,10 @@ $(function(){
 			if('000000'==result.code){
 				var obj = result.data;
 				$('#edit_code').val(obj.code);
+				$('#edit_pstate')[0].checked=true;
+				if(obj.pstate==0){
+					$('#edit_pstate')[0].checked=false;
+				}
 				$('#edit_batchcode').val(obj.batchcode).attr('batchnumid',obj.batchnumid);
 				$('#edit_producedtime').val(getNowFormatDate(false, obj.producetime));
 				$('#edit_testtime').val(getNowFormatDate(false, obj.testtime));
@@ -147,6 +150,7 @@ $(function(){
 		};
 		return data;
 	}
+	//获取详细 数据(返回json字符串)
 	function getDetailData(){
 		var trs = $('#detail_list tr');
 		var arr = new Array();
@@ -161,10 +165,6 @@ $(function(){
 	}
 
 
-
-
-
-
 	//当物料方案改变时 填充数据
 	function fillMSDetail(obj){
 		$('#edit_strength').val(obj.strength);
@@ -175,6 +175,7 @@ $(function(){
 		$('#edit_aid').val(obj.aid);
 		$('#edit_aidadd').val(obj.aidadd);
 	}
+	//获取详情数据,并展示列表
 	function showDetail(id,assayid){
 		$.post(URL.getDetailAndVal,{schemeid:id,assayid:assayid},function(result){
 			if('000000'==result.code){
@@ -360,9 +361,13 @@ $(function(){
 			}
 		}).off('click').on('click',function(){
 			$(this).autocomplete('search',' ');
-		}).change(function(){
-			$(this).val('').removeAttr('qschemeid');
-		});
+		}).on('input propertychange',function(){
+	    	$(this).removeAttr('qschemeid');
+	    }).change(function(){
+    		if(!$(this).attr('qschemeid')){
+    			$(this).val('');
+    		}
+	    });
 		$("#edit_materialtype").autocomplete({
 			//获取数据
 			source: function( request, response ) {
@@ -399,9 +404,13 @@ $(function(){
 			}
 		}).off('click').on('click',function(){
 			$(this).autocomplete('search',' ');
-		}).change(function(){
-			$(this).val('').removeAttr('mschemeid');
-		});
+		}).on('input propertychange',function(){
+	    	$(this).removeAttr('mschemeid');
+	    }).change(function(){
+    		if(!$(this).attr('mschemeid')){
+    			$(this).val('');
+    		}
+	    });
 		$("#select_material").autocomplete({
 			//数据源
 			source: function( request, response ) {
@@ -433,9 +442,13 @@ $(function(){
 			}
 		}).off('click').on('click',function(){
 			$(this).autocomplete('search',' ');
-		}).change(function(){
-			$(this).val('').removeAttr('materialid');
-		});
+		}).on('input propertychange',function(){
+	    	$(this).removeAttr('materialid');
+	    }).change(function(){
+    		if(!$(this).attr('materialid')){
+    			$(this).val('');
+    		}
+	    });
 	};
 	//获取时间 param(true:返回yyyy-MM-dd hh:mm:ss fasle:返回yyyy-MM-dd)
 //	time(获取指定时间的字符串) 默认返回当前时间
@@ -460,15 +473,28 @@ $(function(){
 		if (strDate >= 0 && strDate <= 9) {
 			strDate = "0" + strDate;
 		}
+		var hours = date.getHours();
+		var minutes = date.getMinutes();
+		var seconds = date.getSeconds();
+		if (hours >= 0 && hours <= 9) {
+			hours = "0" + hours;
+		}
+		if (minutes >= 0 && minutes <= 9) {
+			minutes = "0" + minutes;
+		}
+		if (seconds >= 0 && seconds <= 9) {
+			seconds = "0" + seconds;
+		}
 //		判断返回结果
 		if(param){
 			var currentdate = date.getFullYear() + seperator1 + month + seperator1 + strDate
-			+ " " + date.getHours() + seperator2 + date.getMinutes()
-			+ seperator2 + date.getSeconds();
+			+ " " + hours + seperator2 + minutes
+			+ seperator2 + seconds;
 		}else{
 			var currentdate = date.getFullYear() + seperator1 + month + seperator1 + strDate
 		}
 		return currentdate;
 	}
+
 
 });

@@ -44,6 +44,11 @@ public class AssayReportAction {
 		ModelAndView view = new ModelAndView("quality/sales/assayReport_edit");
 		return view;
 	}
+	@RequestMapping("/detailmain")
+	private ModelAndView detailmain(){
+		ModelAndView view = new ModelAndView("quality/sales/assayReport_detail");
+		return view;
+	}
 	
 	/**
 	 * 获取分页数据
@@ -116,20 +121,20 @@ public class AssayReportAction {
 		}
 		return rs;
 	}
-	/**
-	 * 查询数据(单个)
-	 */
-	@ResponseBody
-	@RequestMapping("/qschemeSelect")
-	public Result qschemeSelect(AssayReportReq req){
-		Result rs = Result.getErrorResult();
-		try {
-			rs = assayReportService.mschemeData();
-		} catch (Exception e) {
-			log.error(e.getMessage(),e);
-		}
-		return rs;
-	}
+//	/**
+//	 * 查询数据(单个)
+//	 */
+//	@ResponseBody
+//	@RequestMapping("/qschemeSelect")
+//	public Result qschemeSelect(AssayReportReq req){
+//		Result rs = Result.getErrorResult();
+//		try {
+//			rs = assayReportService.mschemeData();
+//		} catch (Exception e) {
+//			log.error(e.getMessage(),e);
+//		}
+//		return rs;
+//	}
 	
 	/**
 	 * 获取编号
@@ -168,6 +173,20 @@ public class AssayReportAction {
 		Result rs = Result.getErrorResult();
 		try {
 			rs = qualitySchemeItemService.findDetailandVal(req);
+		} catch (Exception e) {
+			log.error(e.getMessage(),e);
+		}
+		return rs;
+	}
+	/**
+	 * 查询审核信息
+	 */
+	@ResponseBody
+	@RequestMapping("/auditMsg")
+	public Result auditMsg(AssayReportReq req){
+		Result rs = Result.getErrorResult();
+		try {
+			rs = assayReportService.findReportMsg(req);
 		} catch (Exception e) {
 			log.error(e.getMessage(),e);
 		}

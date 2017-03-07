@@ -67,6 +67,7 @@ public class BdPsndocService implements IBdPsndocService{
 					bdPsndocMapper.updateByPrimaryKeySelective(item);
 				}
 			}
+			rs.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
 		}
 		return rs;
 	}

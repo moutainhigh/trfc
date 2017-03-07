@@ -17,8 +17,11 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.alibaba.fastjson.JSON;
+import com.tianrui.api.intf.basicFile.measure.IYardManageService;
 import com.tianrui.api.intf.common.IFileService;
+import com.tianrui.api.req.basicFile.measure.YardManageQuery;
 import com.tianrui.api.req.common.FileUploadReq;
+import com.tianrui.service.impl.basicFile.measure.YardManageService;
 import com.tianrui.smartfactory.common.vo.Result;
 
 
@@ -28,7 +31,8 @@ public class FileServiceTest {
 	public static Logger logger =LoggerFactory.getLogger(FileServiceTest.class);
 	@Autowired
 	private  IFileService fileService ;
-	
+	@Autowired
+	private IYardManageService yardManageService;
 	@Test
 	public void saveTest()throws Exception{
 		FileUploadReq req = new FileUploadReq();
@@ -39,7 +43,15 @@ public class FileServiceTest {
 		System.out.println(JSON.toJSONString(rs));
 	}
 	
-	
+	@Test
+	public void test1() throws Exception{
+		YardManageQuery query=new YardManageQuery();
+		query.setIsvalid("1");
+		query.setPageNo(1);
+		query.setPageSize(10);
+		Result result=yardManageService.page(query);
+		System.out.println(result);
+	}
 	private byte[] getBytes(String filePath){  
         byte[] buffer = null;  
         try {  

@@ -13,11 +13,8 @@ import com.tianrui.api.intf.basicFile.nc.IMaterielManageService;
 import com.tianrui.api.intf.quality.file.IQualityItemService;
 import com.tianrui.api.intf.quality.file.IQualitySchemeItemService;
 import com.tianrui.api.intf.quality.file.IQualitySchemeService;
-import com.tianrui.api.intf.system.base.ISystemCodeService;
-import com.tianrui.api.req.quality.file.QualityItemReq;
 import com.tianrui.api.req.quality.file.QualitySchemeItemReq;
 import com.tianrui.api.req.quality.file.QualitySchemeReq;
-import com.tianrui.api.req.system.base.GetCodeReq;
 import com.tianrui.smartfactory.common.vo.Result;
 
 @Controller
@@ -28,8 +25,6 @@ public class QualitySchemeAction {
 	private IQualitySchemeService qualitySchemeService;
 	@Resource
 	private IMaterielManageService materielManageService;
-	@Resource
-	private ISystemCodeService systemCodeService;
 	@Resource
 	private IQualitySchemeItemService qualitySchemeItemService;
 	@Resource
@@ -145,34 +140,7 @@ public class QualitySchemeAction {
 		}
 		return rs;
 	}
-	/**
-	 * 获取编号
-	 */
-	@ResponseBody
-	@RequestMapping("/getCode")
-	public Result getCode(GetCodeReq req){
-		Result rs = Result.getErrorResult();
-		try {
-			rs = systemCodeService.getCode(req);
-		} catch (Exception e) {
-			log.error(e.getMessage(),e);
-		}
-		return rs;
-	}
-	/**
-	 * 刷新编号(增1)
-	 */
-	@ResponseBody
-	@RequestMapping("/updateCode")
-	public Result updateCode(GetCodeReq req){
-		Result rs = Result.getErrorResult();
-		try {
-			rs = systemCodeService.updateCodeItem(req);
-		} catch (Exception e) {
-			log.error(e.getMessage(),e);
-		}
-		return rs;
-	}
+
 	/**
 	 * 获取分页数据
 	 */
@@ -272,20 +240,7 @@ public class QualitySchemeAction {
 		}
 		return rs;
 	}
-	/**
-	 * 获取下拉框数据
-	 */
-	@ResponseBody
-	@RequestMapping("/itemSelector")
-	public Result itemlData(QualityItemReq req){
-		Result rs = Result.getErrorResult();
-		try {
-			rs = qualityItemService.page(req);
-		} catch (Exception e) {
-			log.error(e.getMessage(),e);
-		}
-		return rs;
-	}
+
 	/**
 	 * 获取方案信息
 	 */
@@ -313,6 +268,20 @@ public class QualitySchemeAction {
 			rs = qualitySchemeService.autoCompleteSearch(term.trim());
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
+		}
+		return rs;
+	}
+	/**
+	 * 删除数据
+	 */
+	@ResponseBody
+	@RequestMapping("/getOldItem")
+	public Result getOldItem(String schemeid){
+		Result rs = Result.getErrorResult();
+		try {
+			rs = qualitySchemeItemService.getOldItem(schemeid);
+		} catch (Exception e) {
+			log.error(e.getMessage(),e);
 		}
 		return rs;
 	}

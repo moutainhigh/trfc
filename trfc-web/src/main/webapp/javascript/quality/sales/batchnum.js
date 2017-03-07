@@ -2,14 +2,12 @@ $(function(){
 
 
 
-
-	//console.log(1);
 	//加载页面
 	batchnumShowAction(1);
 	materialSelect();
 	//跳转页面
 	$('#jumpButton').click(jumpPageAction);
-	$('.material_select2').select2();
+	//$('.material_select2').select2();
 	//绑定搜索按钮
 	$('#seek').click(function(){batchnumShowAction(1);});
 	//绑定删除按钮
@@ -29,7 +27,7 @@ $(function(){
 	$('#list').on('click','tr [title="编辑"]',aditAction);
 	//获取用户id
 	var user = $('.user').attr("userid");
-	
+	$('#seek_billsstate').change(function(){batchnumShowAction(1);});
 	
 	//--------------------------------------------------------------------------------
 	//编辑
@@ -149,16 +147,42 @@ $(function(){
 
 	//获取下拉框数据并填充
 	function materialSelect(){
-		//获取数据
-		$.post(URL.selectorUrl,{},function(result){
-			if(result.code=='000000'){
-				//填充数据
-				fillContent(result.data);
-			}else{
-				layer.msg(result.error, {icon:5});
+		var cache={};
+		$("#seek_material").autocomplete({
+			//数据源
+			source: function( request, response ) {
+				var term = request.term;
+				var material = cache['material'] || {};
+				if ( term in material ) {
+					response( material[ term ] );
+					return;
+				}
+				$.post( URL.materialAutoCompleteSearch, request, function( data, status, xhr ) {
+					material[ term ] = data;
+					response( data );
+				});
+			},
+			//显示下拉框
+			response: function( event, ui ) {
+				if(ui.content && ui.content.length > 0){
+					//展示下拉框
+					ui.content.forEach(function(x,i,a){
+						x.label = x.name;
+						x.value = x.id;
+					});
+				}
+			},
+			//选定,显示结果到输入框
+			select: function( event, ui ) {
+				$(this).val(ui.item.name).attr('materialid', ui.item.id);
+				return false;
 			}
+		}).off('click').on('click',function(){
+			$(this).autocomplete('search',' ');
+		}).change(function(){
+			$(this).val('').removeAttr('materialid');
 		});
-	}
+	};
 	//填充数据
 	function fillContent(list){
 		var select = $('#seek_material').empty();
@@ -217,7 +241,7 @@ $(function(){
 		}
 		var code = $('#seek_code').val();
 		var factorycode = $('#seek_factorycode').val();
-		var material = $('#seek_material').val();
+		var material = $('#seek_material').attr('materialid');
 		var billsstate = $('#seek_billsstate').val();
 
 		var params = {

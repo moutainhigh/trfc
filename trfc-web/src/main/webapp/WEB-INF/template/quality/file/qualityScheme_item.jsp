@@ -4,7 +4,6 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>质检方案项目</title>
-<link href="${staticBasePath}/css/select2.css" rel="stylesheet">
 <jsp:include page="../../common/base/header_busi.jsp"></jsp:include>
 
 </head>
@@ -154,8 +153,8 @@
 							<div class="alt_edit_div">
 								<label>项目名称：</label>
 								<div class="selct2_alt_div">
-									<select id="add_item"
-										class="js-example-basic-single itemSelect form-control"></select>
+									<input id="add_item" type="text"
+										class="itemSelect">
 								</div>
 							</div>
 							<div class="alt_onerow_div">
@@ -219,14 +218,7 @@
 										</tr>
 									</thead>
 									<tbody id="addBatch_list">
-										<tr>
-											<td>1</td>
-											<td><div class="selct2_alt_div">
-													<select class="js-example-basic-single form-control"></select>
-												</div></td>
-											<td><input type="text"></td>
-
-										</tr>
+										
 									</tbody>
 								</table>
 							</div>
@@ -265,8 +257,8 @@
 							<div class="alt_edit_div">
 								<label>项目名称：</label>
 								<div class=selct2_alt_div>
-									<select id="edit_item"
-										class="js-example-basic-single itemSelect form-control"></select>
+									<input id="edit_item" type="text"
+										class="itemSelect">
 								</div>
 							</div>
 							<div class="alt_onerow_div">
@@ -294,7 +286,6 @@
 
 		<!-- 引用公共footer部分 -->
 		<jsp:include page="../../common/base/footer_busi.jsp"></jsp:include>
-		<script type="text/javascript" src="/resources/js/select2.js"></script>
 		<script type="text/javascript"
 			src="/javascript/quality/file/qualityScheme_item.js"></script>
 	</div>

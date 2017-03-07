@@ -21,6 +21,10 @@ public class SalesBatchnumResp extends BaseResp {
      */
     private String material;
     /**
+     * 物料名称
+     */
+    private String materialname;
+    /**
      * 编号
      */
     private String code;
@@ -68,6 +72,10 @@ public class SalesBatchnumResp extends BaseResp {
      * 化验人
      */
     private String assayer;
+    /**
+     * 化验人名称
+     */
+    private String assayername;
     /**
      * 化验时间
      */
@@ -231,6 +239,18 @@ public class SalesBatchnumResp extends BaseResp {
 	}
 	public void setAuditer(String auditer) {
 		this.auditer = auditer;
+	}
+	public String getAssayername() {
+		return assayername;
+	}
+	public void setAssayername(String assayername) {
+		this.assayername = assayername;
+	}
+	public String getMaterialname() {
+		return materialname;
+	}
+	public void setMaterialname(String materialname) {
+		this.materialname = materialname;
 	}
 
     

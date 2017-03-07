@@ -70,13 +70,21 @@ public class AssayReportReq extends BaseReq {
      */
     private String state;
     /**
-     * 审核状态(0:未审核,1:已审核)
+     * 审核状态(0:未审核,1:审核中,2:已审核)
      */
     private String auditstate;
+    /**
+     * 审核意见
+     */
+    private String record;
     /**
      * 详情数据
      */
     private String arrStr;
+    /**
+     * 审核信息(1:第一步,2:第二步,3第一步 (强制))
+     */
+    private String audit;
     /**
      * 用户
      */
@@ -252,6 +260,18 @@ public class AssayReportReq extends BaseReq {
 	}
 	public void setArrStr(String arrStr) {
 		this.arrStr = arrStr;
+	}
+	public String getAudit() {
+		return audit;
+	}
+	public void setAudit(String audit) {
+		this.audit = audit;
+	}
+	public String getRecord() {
+		return record;
+	}
+	public void setRecord(String record) {
+		this.record = record;
 	}
 
 }

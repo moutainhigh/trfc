@@ -28,11 +28,14 @@
 		<result column="utc" property="utc" jdbcType="BIGINT" />
 	</resultMap>
 	<sql id="Base_Column_List">
-		id, code, batchnumid, mschemeid, qschemeid, reporter, reportorg,
+		id, code, batchnumid, mschemeid, qschemeid, reporter,
+		reportorg,
 		reporttype, addr,
-		selldate, remark, pstate, state, auditstate, creator, createtime, producedtime,
+		selldate, remark, pstate, state,
+		auditstate, creator, createtime, producedtime,
 		testtime,
-		auditer, audittime, modifier, modifytime, utc
+		auditer,
+		audittime, modifier, modifytime, utc
 	</sql>
 	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
 		parameterType="java.lang.String">
@@ -42,28 +45,40 @@
 		where id = #{id,jdbcType=VARCHAR}
 	</select>
 	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
-		delete from tr_sales_db_assay_report
+		delete from
+		tr_sales_db_assay_report
 		where id = #{id,jdbcType=VARCHAR}
 	</delete>
 	<insert id="insert" parameterType="com.tianrui.service.bean.quality.sales.AssayReport">
-		insert into tr_sales_db_assay_report (id, code, batchnumid,
-		mschemeid, qschemeid, reporter,
+		insert into
+		tr_sales_db_assay_report (id, code, batchnumid,
+		mschemeid, qschemeid,
+		reporter,
 		reportorg, reporttype, addr,
 		selldate, remark, pstate,
-		state, auditstate, creator,
+		state,
+		auditstate, creator,
 		createtime, producedtime, testtime,
-		auditer, audittime, modifier,
+		auditer,
+		audittime, modifier,
 		modifytime, utc)
-		values (#{id,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR},
+		values (#{id,jdbcType=VARCHAR},
+		#{code,jdbcType=VARCHAR},
 		#{batchnumid,jdbcType=VARCHAR},
-		#{mschemeid,jdbcType=VARCHAR}, #{qschemeid,jdbcType=VARCHAR}, #{reporter,jdbcType=VARCHAR},
-		#{reportorg,jdbcType=VARCHAR}, #{reporttype,jdbcType=VARCHAR},
+		#{mschemeid,jdbcType=VARCHAR}, #{qschemeid,jdbcType=VARCHAR},
+		#{reporter,jdbcType=VARCHAR},
+		#{reportorg,jdbcType=VARCHAR},
+		#{reporttype,jdbcType=VARCHAR},
 		#{addr,jdbcType=VARCHAR},
-		#{selldate,jdbcType=BIGINT}, #{remark,jdbcType=VARCHAR}, #{pstate,jdbcType=VARCHAR},
-		#{state,jdbcType=VARCHAR}, #{auditstate,jdbcType=VARCHAR},
+		#{selldate,jdbcType=BIGINT}, #{remark,jdbcType=VARCHAR},
+		#{pstate,jdbcType=VARCHAR},
+		#{state,jdbcType=VARCHAR},
+		#{auditstate,jdbcType=VARCHAR},
 		#{creator,jdbcType=VARCHAR},
-		#{createtime,jdbcType=BIGINT}, #{producedtime,jdbcType=BIGINT}, #{testtime,jdbcType=BIGINT},
-		#{auditer,jdbcType=VARCHAR}, #{audittime,jdbcType=BIGINT},
+		#{createtime,jdbcType=BIGINT}, #{producedtime,jdbcType=BIGINT},
+		#{testtime,jdbcType=BIGINT},
+		#{auditer,jdbcType=VARCHAR},
+		#{audittime,jdbcType=BIGINT},
 		#{modifier,jdbcType=VARCHAR},
 		#{modifytime,jdbcType=BIGINT}, #{utc,jdbcType=BIGINT})
 	</insert>
@@ -285,30 +300,42 @@
 		where id = #{id,jdbcType=VARCHAR}
 	</update>
 	<update id="updateByPrimaryKey" parameterType="com.tianrui.service.bean.quality.sales.AssayReport">
-		update tr_sales_db_assay_report
+		update
+		tr_sales_db_assay_report
 		set code = #{code,jdbcType=VARCHAR},
 		batchnumid = #{batchnumid,jdbcType=VARCHAR},
-		mschemeid = #{mschemeid,jdbcType=VARCHAR},
-		qschemeid = #{qschemeid,jdbcType=VARCHAR},
+		mschemeid =
+		#{mschemeid,jdbcType=VARCHAR},
+		qschemeid =
+		#{qschemeid,jdbcType=VARCHAR},
 		reporter = #{reporter,jdbcType=VARCHAR},
 		reportorg = #{reportorg,jdbcType=VARCHAR},
-		reporttype = #{reporttype,jdbcType=VARCHAR},
+		reporttype =
+		#{reporttype,jdbcType=VARCHAR},
 		addr = #{addr,jdbcType=VARCHAR},
 		selldate = #{selldate,jdbcType=BIGINT},
-		remark = #{remark,jdbcType=VARCHAR},
+		remark =
+		#{remark,jdbcType=VARCHAR},
 		pstate = #{pstate,jdbcType=VARCHAR},
-		state = #{state,jdbcType=VARCHAR},
+		state =
+		#{state,jdbcType=VARCHAR},
 		auditstate = #{auditstate,jdbcType=VARCHAR},
 		creator = #{creator,jdbcType=VARCHAR},
-		createtime = #{createtime,jdbcType=BIGINT},
-		producedtime = #{producedtime,jdbcType=BIGINT},
-		testtime = #{testtime,jdbcType=BIGINT},
+		createtime =
+		#{createtime,jdbcType=BIGINT},
+		producedtime =
+		#{producedtime,jdbcType=BIGINT},
+		testtime =
+		#{testtime,jdbcType=BIGINT},
 		auditer = #{auditer,jdbcType=VARCHAR},
 		audittime = #{audittime,jdbcType=BIGINT},
-		modifier = #{modifier,jdbcType=VARCHAR},
-		modifytime = #{modifytime,jdbcType=BIGINT},
+		modifier =
+		#{modifier,jdbcType=VARCHAR},
+		modifytime =
+		#{modifytime,jdbcType=BIGINT},
 		utc = #{utc,jdbcType=BIGINT}
-		where id = #{id,jdbcType=VARCHAR}
+		where id =
+		#{id,jdbcType=VARCHAR}
 	</update>
 	<select id="selectOne" parameterType="java.lang.String"
 		resultMap="BaseResultMap">
@@ -316,19 +343,21 @@
 		<include refid="Base_Column_List" />
 		from tr_sales_db_assay_report
 		where id = #{id,jdbcType=VARCHAR}
-			and state="1"
-		
+		and state="1"
+
 	</select>
-	  <select id="page" parameterType="com.tianrui.api.req.quality.sales.AssayReportReq" resultMap="BaseResultMap">
-		select 
+	<select id="page" parameterType="com.tianrui.api.req.quality.sales.AssayReportReq"
+		resultMap="BaseResultMap">
+		select
 		<include refid="Base_Column_List" />
 		from tr_sales_db_assay_report
 		<where>
+			state = "1"
 			<if test="starttime!=null and starttime!=''">
-				and starttime <![CDATA[>=#{starttime,jdbcType=BIGINT} ]]> 
+				and starttime <![CDATA[>=#{starttime,jdbcType=BIGINT} ]]>
 			</if>
 			<if test="endtime!=null and endtime!=''">
-				and starttime <![CDATA[<= #{endtime,jdbcType=BIGINT} ]]> 
+				and starttime <![CDATA[<= #{endtime,jdbcType=BIGINT} ]]>
 			</if>
 			<if test="code!=null and code!=''">
 				and code=#{code,jdbcType=VARCHAR}
@@ -340,20 +369,24 @@
 				and reporttype=#{reporttype,jdbcType=VARCHAR}
 			</if>
 		</where>
+		order by createtime desc
 		<if test="start!=null and limit!=null and limit!=0">
 			limit #{start,jdbcType=INTEGER},#{limit,jdbcType=INTEGER}
 		</if>
+		
 	</select>
-	<select id="count" parameterType="com.tianrui.api.req.quality.sales.AssayReportReq" resultType="int">
-		select 
+	<select id="count" parameterType="com.tianrui.api.req.quality.sales.AssayReportReq"
+		resultType="int">
+		select
 		count(1)
 		from tr_sales_db_assay_report
 		<where>
+			state = "1"
 			<if test="starttime!=null and starttime!=''">
-				and createtime <![CDATA[>=#{starttime,jdbcType=BIGINT} ]]> 
+				and createtime <![CDATA[>=#{starttime,jdbcType=BIGINT} ]]>
 			</if>
 			<if test="endtime!=null and endtime!=''">
-				and createtime <![CDATA[<= #{endtime,jdbcType=BIGINT} ]]> 
+				and createtime <![CDATA[<= #{endtime,jdbcType=BIGINT} ]]>
 			</if>
 			<if test="code!=null and code!=''">
 				and code=#{code,jdbcType=VARCHAR}

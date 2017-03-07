@@ -13,7 +13,9 @@ import org.springframework.transaction.annotation.Transactional;
 import com.tianrui.api.intf.quality.file.IQualityItemService;
 import com.tianrui.api.req.quality.file.QualityItemReq;
 import com.tianrui.api.resp.quality.file.QualityItemResp;
+import com.tianrui.service.bean.quality.file.QualityColumn;
 import com.tianrui.service.bean.quality.file.QualityItem;
+import com.tianrui.service.mapper.quality.file.QualityColumnMapper;
 import com.tianrui.service.mapper.quality.file.QualityItemMapper;
 import com.tianrui.smartfactory.common.constants.ErrorCode;
 import com.tianrui.smartfactory.common.utils.UUIDUtil;
@@ -25,7 +27,8 @@ public class QualityItemService implements IQualityItemService {
 
 	@Resource
 	private QualityItemMapper qualityItemMapper;
-
+	@Resource
+	private QualityColumnMapper qualityColumnMapper;
 	@Override
 	@Transactional
 	public Result delete(QualityItemReq req) throws Exception {
@@ -129,6 +132,12 @@ public class QualityItemService implements IQualityItemService {
 					for(QualityItem c : list){
 						QualityItemResp resp = new QualityItemResp();
 						PropertyUtils.copyProperties(resp, c);
+						if(c.getLine()!=null){
+							QualityColumn qc = qualityColumnMapper.selectByPrimaryKey(c.getLine());
+							if(qc!=null){
+								resp.setLineval(qc.getVal());
+							}
+						}
 						//将对象放入集合
 						resps.add(resp);
 					}
@@ -154,6 +163,14 @@ public class QualityItemService implements IQualityItemService {
 		}
 		Result rs = Result.getSuccessResult();
 		rs.setData(resps);
+		return rs;
+	}
+
+	@Override
+	public Result getLine() throws Exception {
+		Result rs = Result.getSuccessResult();
+		List<String> list = qualityItemMapper.getColumns();
+		rs.setData(list);
 		return rs;
 	}
 

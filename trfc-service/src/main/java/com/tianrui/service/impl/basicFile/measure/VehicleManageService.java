@@ -332,10 +332,10 @@ public class VehicleManageService implements IVehicleManageService {
 						List<SalesArrive> listSales = salesArriveMapper.selectSelective(sa);
 						if(listSales == null || listSales.size() == 0){
 							//判断是否有通知单
-							result.setErrorCode(ErrorCode.VEHICLE_NOT_ARRIVE);
+							result.setErrorCode(ErrorCode.VEHICLE_NOT_NOTICE);
 						}else if(listSales.size() > 1){
 							//判断是否有多个通知单
-							result.setErrorCode(ErrorCode.VEHICLE_ARRIVE_NOT_ONLY);
+							result.setErrorCode(ErrorCode.VEHICLE_NOTICE_NOT_ONLY);
 							String code = ",";
 							for(SalesArrive s : listSales){
 								code += s.getCode();
@@ -343,7 +343,7 @@ public class VehicleManageService implements IVehicleManageService {
 							result.setData(code.substring(1, code.length()));
 						}else if(!StringUtils.equals(listSales.get(0).getStatus(), "0")){
 							//判断是否已经入场
-							result.setErrorCode(ErrorCode.VEHICLE_ARRIVE_ALREADY_ENTER);
+							result.setErrorCode(ErrorCode.VEHICLE_NOTICE_ALREADY_ENTER);
 							result.setData(listSales.get(0).getCode());
 						}else{
 							//合法

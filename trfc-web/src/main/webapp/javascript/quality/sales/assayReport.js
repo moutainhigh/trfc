@@ -2,10 +2,10 @@ $(function(){
 	var URL = {
 			editUrl:"/trfc/quality/sales/report/editmain",
 			addUrl:"/trfc/quality/sales/report/addmain",
+			detailUrl:"/trfc/quality/sales/report/detailmain",
 			pageUrl:"/trfc/quality/sales/report/page",
 			deleteUrl:"/trfc/quality/sales/report/delete",
 			updateUrl:"/trfc/quality/sales/report/update",
-			saveUrl:"/trfc/quality/sales/report/add",
 			codeUrl:"/trfc/quality/sales/report/getCode",
 			updateCodeUrl:"/trfc/quality/sales/report/updateCode",
 	};
@@ -20,14 +20,109 @@ $(function(){
 	$('#seek').click(function(){ShowAction(1);});
 	//绑定编辑按钮
 	$('#list').on('click','tr [title="编辑"]',editAction);
+	//绑定删除按钮
+	$('#list').on('click','tr [title="删除"]',deleteAction);
+	//绑定删除按钮
+	$('#list').on('click','tr [title="28天报告"]',daysReportAction);
+	//绑定删除按钮
+	$('#list').on('click','tr [title="审核"]',function(){$(this).closest('tr').dblclick()});
+	//绑定删除按钮
+	$('#list').on('click','tr [title="反审"]',denyAction);
+	//绑定删除按钮
+	$('#list').on('click','tr [title="复制"]',copyAction);
+	//绑定删除按钮
+	$('#list').on('dblclick','tr',function(){
+		var id = $(this).closest('tr').data('obj').id;
+		window.location.href = URL.detailUrl+"?id="+id;
+	});
 	//绑定新增按钮
 	$('#addBtn').click(addAction);
-	//编辑
+	//绑定搜索条件 报告天数 change事件
+	$('#seek_reportdays').change(function(){$('#seek').click();});
+	//28天报告
+	function daysReportAction(){
+		var obj = $(this).closest('tr').data('obj');
+		if(obj.reporttype=='0'){
+			$.post(URL.updateUrl,{id:obj.id,reporttype:'1'},function(result){
+				if('000000'==result.code){
+					ShowAction(1);
+				}else{
+					layer.msg(result.error,{icon:5});
+				}
+			});
+		}
+	}
+	//反审
+	function denyAction(){
+		var obj = $(this).closest('tr').data('obj');
+		if((obj.auditstate!='2')){
+			layer.alert('数据未审核,不能对未审核的数据进行反审操作');
+		}else{
+			//弹出反审确认框
+			var index = layer.confirm('你确定要进行反审吗?', {
+				area: '600px', 
+				btn: ['确定','取消'] //按钮
+			}, function(){
+
+				var param = {
+						id:obj.id,
+						auditstate:'0',
+						user:$('.user').attr('userid')
+				};
+				$.post(URL.updateUrl,param,function(result){
+					if('000000'==result.code){
+						ShowAction(1);
+					}else{
+						layer.msg(result.error,{icon:5});
+					}
+				});
+
+				//关闭对话框
+				layer.close(index);
+			}, function(){
+			});
+		}
+	}
+//	审核
+	function auditAction(){
+		$(this).closest('tr').dblclick();
+	}
+	function copyAction(){
+		var id = $(this).closest('tr').data('obj').id;
+		window.location.href=URL.addUrl+'?id='+id;
+	}
+//	删除
+	function deleteAction(){
+		var id = $(this).closest('tr').data('obj').id;
+		//弹出删除确认框
+		var index = layer.confirm('你确定要删除吗?', {
+			area: '600px', 
+			btn: ['确定','取消'] //按钮
+		}, function(){
+			//提交删除的数据
+			submitDelete(id);
+			//关闭对话框
+			layer.close(index);
+		}, function(){
+		});
+
+	};
+	function submitDelete(id){
+		$.post(URL.updateUrl,{id:id,state:'0'},function(result){
+			if(result.code=='000000'){
+				//重新加载当前页面
+				ShowAction(1);
+			}else{
+				layer.msg(result.error, {icon:5});
+			}
+		});
+	}
+//	编辑
 	function editAction(){
 		//跳转到编辑页面
 		window.location.replace(URL.editUrl+"?id="+$(this).closest('tr').data('obj').id);
 	}
-	//跳转到新增页面
+//	跳转到新增页面
 	function addAction(){
 		//跳转到新增页面
 		window.location.href = URL.addUrl;
@@ -41,7 +136,7 @@ $(function(){
 		var pageno = $('#jumpPageNo').val();
 		//判断跳转值是否在符合规范
 		if(!pageno || !$.isNumeric(pageno) || pageno<=0 || pageno>maxpageno){
-			alert('输入的数字必须在1~'+maxpageno+'之间');
+			layer.alert('输入的数字必须在1~'+maxpageno+'之间');
 		}else{
 			//加载指定的列表数据
 			ShowAction(pageno);
@@ -113,7 +208,7 @@ $(function(){
 				//关闭缓冲图标
 				layer.close(index);
 			}else{
-				alert(result.error);
+				layer.msg(result.error,{icon:5});
 			}
 		});
 	}
@@ -142,11 +237,15 @@ $(function(){
 			var producetime = getNowFormatDate(false,obj.producetime);
 			var testtime = getNowFormatDate(false,obj.testtime);
 			var selldate = getNowFormatDate(false,obj.selldate);
-			var audittime = getNowFormatDate(true,obj.audittime);
+			var audittime = '';
+			if(obj.audittime){
+				var audittime = getNowFormatDate(true,obj.audittime);
+			}
+			var auditstate = auditSTATE[obj.auditstate] || '';
 			var tr = '<tr>'
 				+'<td>'+((pageNo-1)*pageSize+i+1)+'</td>'
-				+'<td class="colorred">'+(obj.code || '')+'</td>'
-				+'<td>'+(auditSTATE[obj.auditstate] || '')+'</td>'
+				+'<td>'+(obj.code || '')+'</td>'
+				+'<td>'+auditstate+'</td>'
 				+'<td>'+(PSTATE[obj.pstate] || '')+'</td>'
 				+'<td>'+(obj.materialtype || '')+'</td>'
 				+'<td>'+(obj.materialname || '')+'</td>'
@@ -159,12 +258,24 @@ $(function(){
 				+'<td>'+(obj.addr || '')+'</td>'
 				+'<td>'+(obj.auditer || '')+'</td>'
 				+'<td>'+(audittime || '')+'</td>'
-				+'<td><span> <a data-toggle="modal"'
-				+'		data-target="#edit"><i class="iconfont"'
-				+'			data-toggle="tooltip" data-placement="left" title="编辑">&#xe600;</i></a>'
+				+'<td><span> <span> <a data-toggle="modal" data-target="#dele"><i'
+				+'			class="iconfont" data-toggle="tooltip" data-placement="left"'
+				+'			title="编辑">&#xe600;</i></a>'
+				+'</span><span> <a data-toggle="modal" data-target="#dele"><i'
+				+'			class="iconfont" data-toggle="tooltip" data-placement="left"'
+				+'			title="28天报告">&#xe610;</i></a>'
+				+'</span><span> <a data-toggle="modal" data-target="#dele"><i'
+				+'			class="iconfont" data-toggle="tooltip" data-placement="left"'
+				+'			title="审核">&#xe651;</i></a>'
 				+'</span> <span> <a data-toggle="modal" data-target="#dele"><i'
 				+'			class="iconfont" data-toggle="tooltip" data-placement="left"'
-				+'			title="删除">&#xe63d;</i></a>'
+				+'			title="反审">&#xe623;</i></a>'
+				+'</span> <span> <a data-toggle="modal" data-target="#dele"><i'
+				+'			class="iconfont" data-toggle="tooltip" data-placement="left"'
+				+'			title="复制">&#xe61c;</i></a>'
+				+'</span> <span> <a data-toggle="modal"'
+				+'	data-target="#dele"><i class="iconfont"'
+				+'	data-toggle="tooltip" data-placement="left" title="删除">&#xe63d;</i></a>'
 				+'</span></td>'
 				+'</tr>';
 			//转换为jquery对象
@@ -173,6 +284,12 @@ $(function(){
 			tbody.append(tr);
 			//将数据绑定到tr上
 			tr.data('obj',obj);
+			if(obj.auditstate!=2){
+				tr.find('td').eq(2).addClass('colorred');
+			}
+			if(obj.pstate=='0'){
+				tr.find('td').eq(3).addClass('colorred');
+			}
 		}
 	}
 
@@ -199,14 +316,27 @@ $(function(){
 		if (strDate >= 0 && strDate <= 9) {
 			strDate = "0" + strDate;
 		}
+		var hours = date.getHours();
+		var minutes = date.getMinutes();
+		var seconds = date.getSeconds();
+		if (hours >= 0 && hours <= 9) {
+			hours = "0" + hours;
+		}
+		if (minutes >= 0 && minutes <= 9) {
+			minutes = "0" + minutes;
+		}
+		if (seconds >= 0 && seconds <= 9) {
+			seconds = "0" + seconds;
+		}
 //		判断返回结果
 		if(param){
 			var currentdate = date.getFullYear() + seperator1 + month + seperator1 + strDate
-			+ " " + date.getHours() + seperator2 + date.getMinutes()
-			+ seperator2 + date.getSeconds();
+			+ " " + hours + seperator2 + minutes
+			+ seperator2 + seconds;
 		}else{
 			var currentdate = date.getFullYear() + seperator1 + month + seperator1 + strDate
 		}
 		return currentdate;
 	}
+
 });
