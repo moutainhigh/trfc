@@ -4,7 +4,6 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>质检方案</title>
-<link href="${staticBasePath}/css/select2.css" rel="stylesheet">
 <jsp:include page="../../common/base/header_busi.jsp"></jsp:include>
 
 </head>
@@ -209,15 +208,15 @@
 							</div>
 							<div class="alt_edit_div">
 								<label>单据：</label><div class="selct2_alt_div">
-									<select id="add_bills"
-										class="js-example-basic-single billsSelect form-control"></select>
+									<input id="add_bills" type="text"
+										class="billsSelect">
 								</div>
 							</div>
 							<div class="alt_edit_div">
 								<label>物料：</label> 
 								<div class=selct2_alt_div>
-									<select id="add_material"
-										class="js-example-basic-single materialSelect form-control"></select>
+									<input id="add_material" type="text"
+										class="materialSelect">
 								</div>
 							</div>
 							<div class="alt_edit_div">
@@ -272,15 +271,15 @@
 							<div class="alt_edit_div">
 								<label>单据：</label> 
 								<div class=selct2_alt_div>
-								<select id="edit_bills"
-										class="js-example-basic-single billsSelect form-control"></select>
+								<input id="edit_bills" type="text"
+										class="billsSelect">
 								</div>
 							</div>
 							<div class="alt_edit_div">
 								<label>物料：</label> 
 								<div class=selct2_alt_div>
-									<select id="edit_material"
-										class="js-example-basic-single materialSelect form-control"></select>
+									<input id="edit_material" type = "text"
+										class="materialSelect">
 								</div>
 							</div>
 							<div class="alt_edit_div">
@@ -311,10 +310,9 @@
 		<!--编辑end-->
 		<!-- 引用公共footer部分 -->
 		<jsp:include page="../../common/base/footer_busi.jsp"></jsp:include>
-		<script type="text/javascript" src="/resources/js/select2.js"></script>
 		<script type="text/javascript"
 			src="/javascript/quality/file/qualityScheme.js"></script>
-		</script>
+		</div>
 </body>
 </html>
 

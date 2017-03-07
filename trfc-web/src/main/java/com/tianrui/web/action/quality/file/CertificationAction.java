@@ -12,6 +12,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.tianrui.api.intf.basicFile.nc.IMaterielManageService;
 import com.tianrui.api.intf.quality.file.ICertificationService;
 import com.tianrui.api.req.quality.file.CertificationReq;
+import com.tianrui.smartfactory.common.constants.ErrorCode;
 import com.tianrui.smartfactory.common.vo.Result;
 
 @Controller
@@ -41,6 +42,7 @@ public class CertificationAction {
 			
 		} catch (Exception e) {
 			log.error(e.getMessage(),e);
+			rs.setErrorCode(ErrorCode.SYSTEM_ERROR);
 		}
 		return rs;
 	}
@@ -55,6 +57,7 @@ public class CertificationAction {
 			rs = certificationService.delete(req);
 		} catch (Exception e) {
 			log.error(e.getMessage(),e);
+			rs.setErrorCode(ErrorCode.SYSTEM_ERROR);
 		}
 		return rs;
 	}
@@ -69,6 +72,7 @@ public class CertificationAction {
 			rs = certificationService.add(req);
 		} catch (Exception e) {
 			log.error(e.getMessage(),e);
+			rs.setErrorCode(ErrorCode.SYSTEM_ERROR);
 		}
 		return rs;
 	}
@@ -84,6 +88,7 @@ public class CertificationAction {
 			rs = certificationService.update(req);
 		} catch (Exception e) {
 			log.error(e.getMessage(),e);
+			rs.setErrorCode(ErrorCode.SYSTEM_ERROR);
 		}
 		return rs;
 	}
@@ -98,6 +103,7 @@ public class CertificationAction {
 			rs = materielManageService.materialData();
 		} catch (Exception e) {
 			log.error(e.getMessage(),e);
+			rs.setErrorCode(ErrorCode.SYSTEM_ERROR);
 		}
 		return rs;
 	}

@@ -1,7 +1,7 @@
 $(function(){
 	//整合url
 	var URL = {
-			selectorUrl:"/trfc/quality/sales/file/MaterialScheme/selector",
+			materialAutoCompleteSearch: "/trfc/materiel/autoCompleteSearch",
 			checkUrl:"/trfc/quality/sales/file/MaterialScheme/check",
 			pageUrl:"/trfc/quality/sales/file/MaterialScheme/page",
 			deleteUrl:"/trfc/quality/sales/file/MaterialScheme/delete",
@@ -14,10 +14,7 @@ $(function(){
 	ShowAction(1);
 	//加载下拉框
 	materialSelect();
-	//加载select2
-	$('#seek_material').select2({ placeholder: "请选择",
-		allowClear: false
-	});
+	
 	//绑定刷新按钮
 	$('#fresh').click(function(){ShowAction(1);});
 	//绑定新增按钮
@@ -70,11 +67,8 @@ $(function(){
 	//初始化新增数据
 	function initAddData(){
 		//等待下拉框加载完成后,执行
-		$.when($selector).done(function(){
-			$('#add_material').val('').select2({ placeholder: "请选择",
-				allowClear: false
-			});;
-		});
+		
+		$('#add_material').val('').removeAttr('materialid')
 		$('#add_materialtype').val('');
 		$('#add_strength').val('');
 		$('#add_admixture').val('');
@@ -94,11 +88,7 @@ $(function(){
 		var obj = $(this).closest('tr').data('material_obj')
 		editOD.obj = obj;
 		//设置等下拉框数据加载完成后 执行
-		$.when($selector).done(function(){
-			$('#edit_material').val(obj.materialid).select2({ placeholder: "请选择",
-				allowClear: false
-			});;
-		});
+		$('#edit_material').val(obj.materialname).attr('materialid',obj.materialid);
 		$('#edit_id').val(obj.id);
 		$('#edit_materialtype').val(obj.materialtype);
 		$('#edit_strength').val(obj.strength);
@@ -160,7 +150,7 @@ $(function(){
 	}
 //	获取新增数据
 	function getAddData(){
-		var materialid = $('#add_material').val();
+		var materialid = $('#add_material').attr('materialid');
 		if(!materialid){
 			alert("物料不能为空!");
 			return null;
@@ -207,7 +197,7 @@ $(function(){
 //	获取修改数据
 	function getEditData(){
 		var id = $('#edit_id').val();
-		var materialid = $('#edit_material').val();
+		var materialid = $('#edit_material').attr('materialid');
 		if(!materialid){
 			alert("物料不能为空!");
 			return null;
@@ -300,35 +290,47 @@ $(function(){
 	function aditAction(){
 		console.log(1);
 	}
-//	获取下拉框数据并填充
+	
 	function materialSelect(){
-		//获取数据
-		$selector = $.post(URL.selectorUrl,{},function(result){
-			if(result.code=='000000'){
-				//填充数据
-				fillContent(result.data);
-			}else{
-				layer.msg(result.error, {icon:5});
-			}
-		});
-	}
-//	填充数据
-	function fillContent(list){
-		var select = $('.materialSelect');
-		//设置默认值
-		select.append("<option></option>");
-		if(list){
-			for(var i=0;i<list.length;i++){
-				var obj = list[i];
-				var msg = obj.name;
-				if(obj.spec){
-					msg = obj.name+' | '+obj.spec;
+		var cache = {};
+		$(".materialSelect").autocomplete({
+			//数据源
+			source: function( request, response ) {
+				var term = request.term;
+				var material = cache['material'] || {};
+				if ( term in material ) {
+					response( material[ term ] );
+					return;
 				}
-				var option = '<option value='+obj.id+'>'+msg+'</option>';
-				//追加数据
-				select.append(option);
+				$.post( URL.materialAutoCompleteSearch, request, function( data, status, xhr ) {
+					material[ term ] = data;
+					response( data );
+				});
+			},
+			//显示下拉框
+			response: function( event, ui ) {
+				if(ui.content && ui.content.length > 0){
+					//展示下拉框
+					ui.content.forEach(function(x,i,a){
+						x.label = x.name;
+						x.value = x.id;
+					});
+				}
+			},
+			//选定,显示结果到输入框
+			select: function( event, ui ) {
+				$(this).val(ui.item.name).attr('materialid', ui.item.id);
+				return false;
 			}
-		}
+		}).off('click').on('click',function(){
+			$(this).autocomplete('search',' ');
+		}).on('input propertychange',function(){
+	    	$(this).removeAttr('materialid');
+	    }).change(function(){
+    		if(!$(this).attr('materialid')){
+    			$(this).val('');
+    		}
+	    });
 	}
 
 //	页面跳转

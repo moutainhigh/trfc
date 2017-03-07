@@ -173,4 +173,20 @@ public class SystemDataDictAction {
 		}
 		return result;
 	}
+	/**
+	 * 模糊查询下拉框
+	 * @param term
+	 * @return
+	 */
+	@RequestMapping("/autoCompleteSearch")
+	@ResponseBody
+	public Result autoCompleteSearch(SystemDataDictItemReq req){
+		Result rs = Result.getErrorResult();
+		try {
+			rs = systemDataDictService.autoCompleteSearch(req);
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+		}
+		return rs;
+	}
 }

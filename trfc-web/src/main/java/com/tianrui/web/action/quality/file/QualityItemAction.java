@@ -10,9 +10,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.tianrui.api.intf.quality.file.IQualityItemService;
-import com.tianrui.api.intf.system.base.ISystemCodeService;
 import com.tianrui.api.req.quality.file.QualityItemReq;
-import com.tianrui.api.req.system.base.GetCodeReq;
+import com.tianrui.smartfactory.common.constants.ErrorCode;
 import com.tianrui.smartfactory.common.vo.Result;
 
 @Controller
@@ -21,8 +20,7 @@ public class QualityItemAction {
 	Logger log = LoggerFactory.getLogger(QualitySchemeAction.class);
 	@Resource
 	private IQualityItemService qualityItemService;
-	@Resource
-	private ISystemCodeService systemCodeService;
+	
 	
 	//显示页面
 	@RequestMapping("/main")
@@ -43,6 +41,7 @@ public class QualityItemAction {
 			
 		} catch (Exception e) {
 			log.error(e.getMessage(),e);
+			rs.setErrorCode(ErrorCode.SYSTEM_ERROR);
 		}
 		return rs;
 	}
@@ -57,6 +56,7 @@ public class QualityItemAction {
 			rs = qualityItemService.delete(req);
 		} catch (Exception e) {
 			log.error(e.getMessage(),e);
+			rs.setErrorCode(ErrorCode.SYSTEM_ERROR);
 		}
 		return rs;
 	}
@@ -71,6 +71,7 @@ public class QualityItemAction {
 			rs = qualityItemService.add(req);
 		} catch (Exception e) {
 			log.error(e.getMessage(),e);
+			rs.setErrorCode(ErrorCode.SYSTEM_ERROR);
 		}
 		return rs;
 	}
@@ -86,6 +87,7 @@ public class QualityItemAction {
 			rs = qualityItemService.update(req);
 		} catch (Exception e) {
 			log.error(e.getMessage(),e);
+			rs.setErrorCode(ErrorCode.SYSTEM_ERROR);
 		}
 		return rs;
 	}
@@ -100,35 +102,25 @@ public class QualityItemAction {
 			rs = qualityItemService.getLine();
 		} catch (Exception e) {
 			log.error(e.getMessage(),e);
+			rs.setErrorCode(ErrorCode.SYSTEM_ERROR);
 		}
 		return rs;
 	}
 	
 	/**
-	 * 获取编号
+	 * 模糊查询下拉框
+	 * @param term
+	 * @return
 	 */
+	@RequestMapping("/autoCompleteSearch")
 	@ResponseBody
-	@RequestMapping("/getCode")
-	public Result getCode(GetCodeReq req){
+	public Result autoCompleteSearch(String term){
 		Result rs = Result.getErrorResult();
 		try {
-			rs = systemCodeService.getCode(req);
+			rs = qualityItemService.autoCompleteSearch(term.trim());
 		} catch (Exception e) {
-			log.error(e.getMessage(),e);
-		}
-		return rs;
-	}
-	/**
-	 * 刷新编号(增1)
-	 */
-	@ResponseBody
-	@RequestMapping("/updateCode")
-	public Result updateCode(GetCodeReq req){
-		Result rs = Result.getErrorResult();
-		try {
-			rs = systemCodeService.updateCodeItem(req);
-		} catch (Exception e) {
-			log.error(e.getMessage(),e);
+			log.error(e.getMessage(), e);
+			rs.setErrorCode(ErrorCode.SYSTEM_ERROR);
 		}
 		return rs;
 	}

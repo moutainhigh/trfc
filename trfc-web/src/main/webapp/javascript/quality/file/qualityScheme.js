@@ -1,17 +1,16 @@
 $(function(){
 	//整合url
 	var URL = {
-			selectorUrl:"/trfc/quality/sales/file/qualityScheme/selector",
+			materialAutoCompleteSearch:"/trfc/materiel/autoCompleteSearch",
+			billsUrl:"/trfc/quality/sales/file/qualityScheme/billsData",
 			pageUrl:"/trfc/quality/sales/file/qualityScheme/page",
 			deleteUrl:"/trfc/quality/sales/file/qualityScheme/delete",
 			updateUrl:"/trfc/quality/sales/file/qualityScheme/update",
 			saveUrl:"/trfc/quality/sales/file/qualityScheme/add",
-			billsUrl:"/trfc/quality/sales/file/qualityScheme/billsData",
-			codeUrl:"/trfc/quality/sales/file/qualityScheme/getCode",
-			updateCodeUrl:"/trfc/quality/sales/file/qualityScheme/updateCode",
+			codeUrl:"/trfc/system/base/code/getCode",
+			updateCodeUrl:"/trfc/system/base/code/updateCode",
 			itemUrl:"/trfc/quality/sales/file/qualityScheme/item",
 			standardUrl:"/trfc/quality/sales/file/qualityScheme/standard"
-			
 	};
 	//设置一个公共变量,当点击编辑按钮时,将原数据存入该变量中
 	var editOD = {};
@@ -20,10 +19,7 @@ $(function(){
 	//加载下拉框
 	materialSelect();
 	billsSelect();
-	//加载select2
-	$('#seek_material').select2({ placeholder: "请选择",
-		allowClear: false
-	});
+	
 	//绑定刷新按钮
 	$('#fresh').click(function(){ShowAction(1);});
 	//绑定新增按钮
@@ -58,16 +54,9 @@ $(function(){
 
 	//初始化新增数据
 	function initAddData(){
-		//等待下拉框加载完成后,执行
-		$.when($selector).done(function(){
-			//下拉框初始化
-			$('#add_material').val('').select2({ placeholder: "请选择",
-				allowClear: false
-			});
-			$('#add_bills').val('').select2({ placeholder: "请选择",
-				allowClear: false
-			});;
-		});
+		$('#add_material').val('').removeAttr('materialid');
+		$('#add_bills').val('').removeAttr('billsid');
+		
 		//设置编码代号为FA
 		var code = 'FA';
 		//设置类型为编码
@@ -94,8 +83,91 @@ $(function(){
 		$('#add_describe').val('');
 	}
 	
-	
-	
+	//获取下拉框数据并填充
+	function materialSelect(){
+		var cache={};
+		$(".materialSelect").autocomplete({
+			//数据源
+			source: function( request, response ) {
+				var term = request.term;
+				var material = cache['material'] || {};
+				if ( term in material ) {
+					response( material[ term ] );
+					return;
+				}
+				$.post( URL.materialAutoCompleteSearch, request, function( data, status, xhr ) {
+					material[ term ] = data.data;
+					response( data );
+				});
+			},
+			//显示下拉框
+			response: function( event, ui ) {
+				if(ui.content && ui.content.length > 0){
+					//展示下拉框
+					ui.content.forEach(function(x,i,a){
+						x.label = x.name;
+						x.value = x.id;
+					});
+				}
+			},
+			//选定,显示结果到输入框
+			select: function( event, ui ) {
+				$(this).val(ui.item.name).attr('materialid', ui.item.id);
+				return false;
+			}
+		}).off('click').on('click',function(){
+			$(this).autocomplete('search',' ');
+		}).on('input propertychange',function(){
+	    	$(this).removeAttr('materialid');
+	    }).change(function(){
+    		if(!$(this).attr('materialid')){
+    			$(this).val('');
+    		}
+	    });
+	};
+	//获取下拉框数据并填充
+	function billsSelect(){
+		var cache={};
+		$(".billsSelect").autocomplete({
+			//数据源
+			source: function( request, response ) {
+				var term = request.term;
+				var material = cache['material'] || {};
+				if ( term in material ) {
+					response( material[ term ] );
+					return;
+				}
+				$.post( URL.billsUrl, request, function( result ) {
+					material[ term ] = result.data;
+					response( result.data );
+				});
+			},
+			//显示下拉框
+			response: function( event, ui ) {
+				if(ui.content && ui.content.length > 0){
+					//展示下拉框
+					ui.content.forEach(function(x,i,a){
+						x.label = x.name;
+						x.value = x.id;
+					});
+				}
+			},
+			//选定,显示结果到输入框
+			select: function( event, ui ) {
+				$(this).val(ui.item.name).attr('billsid', ui.item.id);
+				return false;
+			}
+		}).off('click').on('click',function(){
+			$(this).autocomplete('search',' ');
+		}).on('input propertychange',function(){
+	    	$(this).removeAttr('billsid');
+	    }).change(function(){
+    		if(!$(this).attr('billsid')){
+    			$(this).val('');
+    		}
+	    });
+	};
+
 	
 	//初始化编辑数据
 	function initEditData(){
@@ -103,14 +175,9 @@ $(function(){
 		var obj = $(this).closest('tr').data('obj')
 		editOD.obj = obj;
 		//设置等下拉框数据加载完成后 执行
-		$.when($selector).done(function(){
-			$('#edit_material').val(obj.materialid).select2({ placeholder: "请选择",
-				allowClear: false
-			});
-			$('#edit_bills').val(obj.bills).select2({ placeholder: "请选择",
-				allowClear: false
-			});
-		});
+		
+		$('#edit_material').val(obj.materialname).attr('materialid',obj.materialid);
+		$('#edit_bills').val(obj.billsname).attr('billsid',obj.bills);
 		$('#edit_id').val(obj.id);
 		$('#edit_code').val(obj.code);
 		$('#edit_name').val(obj.name);
@@ -196,12 +263,12 @@ $(function(){
 //	获取新增数据
 	function getAddData(){
 		var code = $('#add_code').val();
-		var materialid = $('#add_material').val();
+		var materialid = $('#add_material').attr('materialid');
 		if(!materialid){
 			alert("物料不能为空!");
 			return null;
 		};
-		var bills = $('#add_bills').val();
+		var bills = $('#add_bills').attr('billsid');
 		if(!bills){
 			alert("单据类型不能为空!");
 			return null;
@@ -247,12 +314,12 @@ $(function(){
 	function getEditData(){
 		var id = $('#edit_id').val();
 		var code = $('#edit_code').val();
-		var materialid = $('#edit_material').val();
+		var materialid = $('#edit_material').attr('materialid');
 		if(!materialid){
 			alert("物料不能为空!");
 			return null;
 		};
-		var bills = $('#edit_bills').val();
+		var bills = $('#edit_bills').attr('billsid');
 		if(!bills){
 			alert("单据类型不能为空!");
 			return null;
@@ -338,66 +405,66 @@ $(function(){
 		});
 	}
 
-//	获取下拉框数据并填充
-	function materialSelect(){
-		//获取数据
-		$selector = $.post(URL.selectorUrl,{},function(result){
-			if(result.code=='000000'){
-				//填充数据
-				fillContent(result.data);
-			}else{
-				layer.msg(result.error, {icon:5});
-			}
-		});
-	}
-//	填充数据
-	function fillContent(list){
-		var select = $('.materialSelect');
-		//设置默认值
-		select.append("<option></option>");
-		if(list){
-			for(var i=0;i<list.length;i++){
-				var obj = list[i];
-				var msg = obj.name;
-				if(obj.spec){
-					msg = obj.name+' | '+obj.spec;
-				}
-				var option = '<option value='+obj.id+'>'+msg+'</option>';
-				//追加数据
-				select.append(option);
-			}
-		}
-	}
-//	获取下拉框数据并填充
-	function billsSelect(){
-		//获取数据
-		$selector = $.post(URL.billsUrl,{},function(result){
-			if(result.code=='000000'){
-				//填充数据
-				fillBillsContent(result.data);
-			}else{
-				layer.msg(result.error, {icon:5});
-			}
-		});
-	}
-//	填充数据
-	function fillBillsContent(list){
-		var select = $('.billsSelect');
-		//设置默认值
-		select.append("<option></option>");
-		if(list){
-			for(var i=0;i<list.length;i++){
-				var obj = list[i];
-				var msg = obj.name;
-				if(obj.spec){
-					msg = obj.name+' | '+obj.spec;
-				}
-				var option = '<option value='+obj.id+'>'+msg+'</option>';
-				//追加数据
-				select.append(option);
-			}
-		}
-	}
+////	获取下拉框数据并填充
+//	function materialSelect(){
+//		//获取数据
+//		$selector = $.post(URL.selectorUrl,{},function(result){
+//			if(result.code=='000000'){
+//				//填充数据
+//				fillContent(result.data);
+//			}else{
+//				layer.msg(result.error, {icon:5});
+//			}
+//		});
+//	}
+////	填充数据
+//	function fillContent(list){
+//		var select = $('.materialSelect');
+//		//设置默认值
+//		select.append("<option></option>");
+//		if(list){
+//			for(var i=0;i<list.length;i++){
+//				var obj = list[i];
+//				var msg = obj.name;
+//				if(obj.spec){
+//					msg = obj.name+' | '+obj.spec;
+//				}
+//				var option = '<option value='+obj.id+'>'+msg+'</option>';
+//				//追加数据
+//				select.append(option);
+//			}
+//		}
+//	}
+////	获取下拉框数据并填充
+//	function billsSelect(){
+//		//获取数据
+//		$selector = $.post(URL.billsUrl,{},function(result){
+//			if(result.code=='000000'){
+//				//填充数据
+//				fillBillsContent(result.data);
+//			}else{
+//				layer.msg(result.error, {icon:5});
+//			}
+//		});
+//	}
+////	填充数据
+//	function fillBillsContent(list){
+//		var select = $('.billsSelect');
+//		//设置默认值
+//		select.append("<option></option>");
+//		if(list){
+//			for(var i=0;i<list.length;i++){
+//				var obj = list[i];
+//				var msg = obj.name;
+//				if(obj.spec){
+//					msg = obj.name+' | '+obj.spec;
+//				}
+//				var option = '<option value='+obj.id+'>'+msg+'</option>';
+//				//追加数据
+//				select.append(option);
+//			}
+//		}
+//	}
 
 
 

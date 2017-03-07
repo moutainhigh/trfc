@@ -16,6 +16,7 @@ import com.tianrui.api.intf.system.base.ISystemCodeService;
 import com.tianrui.api.req.quality.file.QualitySchemeItemReq;
 import com.tianrui.api.req.quality.file.SupplierSchemeReq;
 import com.tianrui.api.req.system.base.GetCodeReq;
+import com.tianrui.smartfactory.common.constants.ErrorCode;
 import com.tianrui.smartfactory.common.vo.Result;
 
 @Controller
@@ -62,6 +63,7 @@ public class SupplierSchemeAction {
 
 		} catch (Exception e) {
 			log.error(e.getMessage(),e);
+			rs.setErrorCode(ErrorCode.SYSTEM_ERROR);
 		}
 		return rs;
 	}
@@ -76,6 +78,7 @@ public class SupplierSchemeAction {
 			rs = supplierSchemeService.delete(req);
 		} catch (Exception e) {
 			log.error(e.getMessage(),e);
+			rs.setErrorCode(ErrorCode.SYSTEM_ERROR);
 		}
 		return rs;
 	}
@@ -90,6 +93,7 @@ public class SupplierSchemeAction {
 			rs = supplierSchemeService.add(req);
 		} catch (Exception e) {
 			log.error(e.getMessage(),e);
+			rs.setErrorCode(ErrorCode.SYSTEM_ERROR);
 		}
 		return rs;
 	}
@@ -105,6 +109,7 @@ public class SupplierSchemeAction {
 			rs = supplierSchemeService.update(req);
 		} catch (Exception e) {
 			log.error(e.getMessage(),e);
+			rs.setErrorCode(ErrorCode.SYSTEM_ERROR);
 		}
 		return rs;
 	}
@@ -119,6 +124,7 @@ public class SupplierSchemeAction {
 			rs = materielManageService.materialData();
 		} catch (Exception e) {
 			log.error(e.getMessage(),e);
+			rs.setErrorCode(ErrorCode.SYSTEM_ERROR);
 		}
 		return rs;
 	}
@@ -133,6 +139,7 @@ public class SupplierSchemeAction {
 			rs = supplierSchemeService.getSupplierData(req);
 		} catch (Exception e) {
 			log.error(e.getMessage(),e);
+			rs.setErrorCode(ErrorCode.SYSTEM_ERROR);
 		}
 		return rs;
 	}
@@ -147,6 +154,7 @@ public class SupplierSchemeAction {
 			rs = supplierSchemeService.getSchemeData(req);
 		} catch (Exception e) {
 			log.error(e.getMessage(),e);
+			rs.setErrorCode(ErrorCode.SYSTEM_ERROR);
 		}
 		return rs;
 	}
@@ -161,6 +169,7 @@ public class SupplierSchemeAction {
 			rs = qualitySchemeItemService.findBySchemeId(req);
 		} catch (Exception e) {
 			log.error(e.getMessage(),e);
+			rs.setErrorCode(ErrorCode.SYSTEM_ERROR);
 		}
 		return rs;
 	}
@@ -175,6 +184,7 @@ public class SupplierSchemeAction {
 			rs = systemCodeService.getCode(req);
 		} catch (Exception e) {
 			log.error(e.getMessage(),e);
+			rs.setErrorCode(ErrorCode.SYSTEM_ERROR);
 		}
 		return rs;
 	}
@@ -189,6 +199,7 @@ public class SupplierSchemeAction {
 			rs = systemCodeService.updateCodeItem(req);
 		} catch (Exception e) {
 			log.error(e.getMessage(),e);
+			rs.setErrorCode(ErrorCode.SYSTEM_ERROR);
 		}
 		return rs;
 	}
@@ -203,6 +214,7 @@ public class SupplierSchemeAction {
 			rs = supplierSchemeService.selectById(req);
 		} catch (Exception e) {
 			log.error(e.getMessage(),e);
+			rs.setErrorCode(ErrorCode.SYSTEM_ERROR);
 		}
 		return rs;
 	}

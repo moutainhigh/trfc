@@ -13,6 +13,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.tianrui.api.intf.basicFile.nc.IMaterielManageService;
 import com.tianrui.api.intf.quality.file.IMaterialSchemeService;
 import com.tianrui.api.req.quality.file.MaterialSchemeReq;
+import com.tianrui.smartfactory.common.constants.ErrorCode;
 import com.tianrui.smartfactory.common.vo.Result;
 
 @Controller
@@ -41,6 +42,7 @@ public class MaterialSchemeAction {
 			rs = materialSchemeService.page(req);
 		} catch (Exception e) {
 			log.error(e.getMessage(),e);
+			rs.setErrorCode(ErrorCode.SYSTEM_ERROR);
 		}
 		return rs;
 	}
@@ -55,6 +57,7 @@ public class MaterialSchemeAction {
 			rs = materialSchemeService.delete(req);
 		} catch (Exception e) {
 			log.error(e.getMessage(),e);
+			rs.setErrorCode(ErrorCode.SYSTEM_ERROR);
 		}
 		return rs;
 	}
@@ -69,6 +72,7 @@ public class MaterialSchemeAction {
 			rs = materialSchemeService.add(req);
 		} catch (Exception e) {
 			log.error(e.getMessage(),e);
+			rs.setErrorCode(ErrorCode.SYSTEM_ERROR);
 		}
 		return rs;
 	}
@@ -84,6 +88,7 @@ public class MaterialSchemeAction {
 			rs = materialSchemeService.update(req);
 		} catch (Exception e) {
 			log.error(e.getMessage(),e);
+			rs.setErrorCode(ErrorCode.SYSTEM_ERROR);
 		}
 		return rs;
 	}
@@ -98,6 +103,7 @@ public class MaterialSchemeAction {
 			rs = materielManageService.materialData();
 		} catch (Exception e) {
 			log.error(e.getMessage(),e);
+			rs.setErrorCode(ErrorCode.SYSTEM_ERROR);
 		}
 		return rs;
 	}
@@ -114,6 +120,7 @@ public class MaterialSchemeAction {
 			rs = materialSchemeService.checkMaterialType(req);
 		} catch (Exception e) {
 			log.error(e.getMessage(),e);
+			rs.setErrorCode(ErrorCode.SYSTEM_ERROR);
 		}
 		return rs;
 	}
@@ -130,6 +137,7 @@ public class MaterialSchemeAction {
 			rs = materialSchemeService.autoCompleteSearch(term.trim());
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
+			rs.setErrorCode(ErrorCode.SYSTEM_ERROR);
 		}
 		return rs;
 	}
@@ -144,6 +152,7 @@ public class MaterialSchemeAction {
 			rs = materialSchemeService.findOne(id);
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
+			rs.setErrorCode(ErrorCode.SYSTEM_ERROR);
 		}
 		return rs;
 	}

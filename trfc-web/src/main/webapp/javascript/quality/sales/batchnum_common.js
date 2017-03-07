@@ -48,9 +48,13 @@ function userSelect(){
 		}
 	}).off('click').on('click',function(){
 		$(this).autocomplete('search',' ');
-	}).change(function(){
-		$(this).val('').removeAttr('assayerid');
-	});
+	}).on('input propertychange',function(){
+    	$(this).removeAttr('assayerid');
+    }).change(function(){
+		if(!$(this).attr('assayerid')){
+			$(this).val('');
+		}
+    });
 }
 //获取下拉框数据并填充
 function materialSelect(){
@@ -86,9 +90,13 @@ function materialSelect(){
 		}
 	}).off('click').on('click',function(){
 		$(this).autocomplete('search',' ');
-	}).change(function(){
-		$(this).val('').removeAttr('materialid');
-	});
+	}).on('input propertychange',function(){
+    	$(this).removeAttr('materialid');
+    }).change(function(){
+		if(!$(this).attr('materialid')){
+			$(this).val('');
+		}
+    });
 };
 
 

@@ -27,6 +27,8 @@ public class SystemDataDictItemReq extends BaseReq{
 	    private String modifier;
 
 	    private Date utc;
+	    
+	    private String term;
 
 		public String getId() {
 			return id;
@@ -106,6 +108,14 @@ public class SystemDataDictItemReq extends BaseReq{
 
 		public void setUtc(Date utc) {
 			this.utc = utc;
+		}
+
+		public String getTerm() {
+			return term;
+		}
+
+		public void setTerm(String term) {
+			this.term = term.trim();
 		}
 	    
 

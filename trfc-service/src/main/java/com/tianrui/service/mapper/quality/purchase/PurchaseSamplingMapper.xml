@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tianrui.service.mapper.quality.purchase.PurchaseSamplingMapper" >
+  <resultMap id="BaseResultMap" type="com.tianrui.service.bean.quality.purchase.PurchaseSampling" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="code" property="code" jdbcType="VARCHAR" />
+    <result column="samplingtime" property="samplingtime" jdbcType="BIGINT" />
+    <result column="samplingcar" property="samplingcar" jdbcType="VARCHAR" />
+    <result column="samplingcode" property="samplingcode" jdbcType="VARCHAR" />
+    <result column="assaytype" property="assaytype" jdbcType="VARCHAR" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="state" property="state" jdbcType="VARCHAR" />
+    <result column="creator" property="creator" jdbcType="VARCHAR" />
+    <result column="createtime" property="createtime" jdbcType="BIGINT" />
+    <result column="modifier" property="modifier" jdbcType="VARCHAR" />
+    <result column="modifytime" property="modifytime" jdbcType="BIGINT" />
+    <result column="utc" property="utc" jdbcType="BIGINT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, code, samplingtime, samplingcar, samplingcode, assaytype, remark, state, creator, 
+    createtime, modifier, modifytime, utc
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from tr_purchase_db_sampling
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from tr_purchase_db_sampling
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.tianrui.service.bean.quality.purchase.PurchaseSampling" >
+    insert into tr_purchase_db_sampling (id, code, samplingtime, 
+      samplingcar, samplingcode, assaytype, 
+      remark, state, creator, 
+      createtime, modifier, modifytime, 
+      utc)
+    values (#{id,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR}, #{samplingtime,jdbcType=BIGINT}, 
+      #{samplingcar,jdbcType=VARCHAR}, #{samplingcode,jdbcType=VARCHAR}, #{assaytype,jdbcType=VARCHAR}, 
+      #{remark,jdbcType=VARCHAR}, #{state,jdbcType=VARCHAR}, #{creator,jdbcType=VARCHAR}, 
+      #{createtime,jdbcType=BIGINT}, #{modifier,jdbcType=VARCHAR}, #{modifytime,jdbcType=BIGINT}, 
+      #{utc,jdbcType=BIGINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.tianrui.service.bean.quality.purchase.PurchaseSampling" >
+    insert into tr_purchase_db_sampling
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="code != null" >
+        code,
+      </if>
+      <if test="samplingtime != null" >
+        samplingtime,
+      </if>
+      <if test="samplingcar != null" >
+        samplingcar,
+      </if>
+      <if test="samplingcode != null" >
+        samplingcode,
+      </if>
+      <if test="assaytype != null" >
+        assaytype,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+      <if test="state != null" >
+        state,
+      </if>
+      <if test="creator != null" >
+        creator,
+      </if>
+      <if test="createtime != null" >
+        createtime,
+      </if>
+      <if test="modifier != null" >
+        modifier,
+      </if>
+      <if test="modifytime != null" >
+        modifytime,
+      </if>
+      <if test="utc != null" >
+        utc,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="code != null" >
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="samplingtime != null" >
+        #{samplingtime,jdbcType=BIGINT},
+      </if>
+      <if test="samplingcar != null" >
+        #{samplingcar,jdbcType=VARCHAR},
+      </if>
+      <if test="samplingcode != null" >
+        #{samplingcode,jdbcType=VARCHAR},
+      </if>
+      <if test="assaytype != null" >
+        #{assaytype,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null" >
+        #{state,jdbcType=VARCHAR},
+      </if>
+      <if test="creator != null" >
+        #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=BIGINT},
+      </if>
+      <if test="modifier != null" >
+        #{modifier,jdbcType=VARCHAR},
+      </if>
+      <if test="modifytime != null" >
+        #{modifytime,jdbcType=BIGINT},
+      </if>
+      <if test="utc != null" >
+        #{utc,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tianrui.service.bean.quality.purchase.PurchaseSampling" >
+    update tr_purchase_db_sampling
+    <set >
+      <if test="code != null" >
+        code = #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="samplingtime != null" >
+        samplingtime = #{samplingtime,jdbcType=BIGINT},
+      </if>
+      <if test="samplingcar != null" >
+        samplingcar = #{samplingcar,jdbcType=VARCHAR},
+      </if>
+      <if test="samplingcode != null" >
+        samplingcode = #{samplingcode,jdbcType=VARCHAR},
+      </if>
+      <if test="assaytype != null" >
+        assaytype = #{assaytype,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null" >
+        state = #{state,jdbcType=VARCHAR},
+      </if>
+      <if test="creator != null" >
+        creator = #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        createtime = #{createtime,jdbcType=BIGINT},
+      </if>
+      <if test="modifier != null" >
+        modifier = #{modifier,jdbcType=VARCHAR},
+      </if>
+      <if test="modifytime != null" >
+        modifytime = #{modifytime,jdbcType=BIGINT},
+      </if>
+      <if test="utc != null" >
+        utc = #{utc,jdbcType=BIGINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tianrui.service.bean.quality.purchase.PurchaseSampling" >
+    update tr_purchase_db_sampling
+    set code = #{code,jdbcType=VARCHAR},
+      samplingtime = #{samplingtime,jdbcType=BIGINT},
+      samplingcar = #{samplingcar,jdbcType=VARCHAR},
+      samplingcode = #{samplingcode,jdbcType=VARCHAR},
+      assaytype = #{assaytype,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR},
+      state = #{state,jdbcType=VARCHAR},
+      creator = #{creator,jdbcType=VARCHAR},
+      createtime = #{createtime,jdbcType=BIGINT},
+      modifier = #{modifier,jdbcType=VARCHAR},
+      modifytime = #{modifytime,jdbcType=BIGINT},
+      utc = #{utc,jdbcType=BIGINT}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+  	<select id="page" parameterType="com.tianrui.api.req.quality.purchase.PurchaseSamplingReq"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from tr_purchase_db_sampling
+		<where>
+			state = "1"
+			<if test="starttime!=null and starttime!=0">
+				and createtime <![CDATA[ >= #{starttime,jdbcType=BIGINT} ]]>
+			</if>
+			<if test="endtime!=null and endtime!=0">
+				and createtime <![CDATA[ <= #{endtime,jdbcType=BIGINT} ]]>
+			</if>
+			<if test="assaytype!=null and assaytype!=''">
+				and assaytype=#{assaytype,jdbcType=VARCHAR}
+			</if>
+			<if test="code!=null and code!=''">
+				and code=#{code,jdbcType=VARCHAR}
+			</if>
+		</where>
+		order by createtime desc
+		<if test="start!=null and limit!=null and limit!=0">
+			limit #{start,jdbcType=INTEGER},#{limit,jdbcType=INTEGER}
+		</if>
+		
+	</select>
+	  	<select id="count" parameterType="com.tianrui.api.req.quality.purchase.PurchaseSamplingReq"
+		resultType="int">
+		select
+		count(1)
+		from tr_purchase_db_sampling
+		<where>
+			state = "1"
+			<if test="starttime!=null and starttime!=0">
+				and createtime <![CDATA[ >= #{starttime,jdbcType=BIGINT} ]]>
+			</if>
+			<if test="endtime!=null and endtime!=0">
+				and createtime <![CDATA[ <= #{endtime,jdbcType=BIGINT} ]]>
+			</if>
+			<if test="assaytype!=null and assaytype!=''">
+				and assaytype=#{assaytype,jdbcType=VARCHAR}
+			</if>
+			<if test="code!=null and code!=''">
+				and code=#{code,jdbcType=VARCHAR}
+			</if>
+		</where>
+	</select>
+</mapper>

@@ -4,7 +4,6 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>物料方案</title>
-<link href="${staticBasePath}/css/select2.css" rel="stylesheet">
 <jsp:include page="../../common/base/header_busi.jsp"></jsp:include>
 
 </head>
@@ -44,8 +43,8 @@
 						<div class="intel_sconditon">
 							<div class="intel_sline">
 								<div class="intel_solo">
-									<label>物料：</label> <select id="seek_material"
-										class="materialSelect"></select>
+									<label>物料：</label> <input id="seek_material"
+										class="materialSelect" type="text">
 								</div>
 								<div class="intel_solo">
 									<label>物料品种：</label> <input type="text" id="seek_materialtype">
@@ -175,8 +174,8 @@
 							<div class="alt_edit_div">
 								<label class="colorred">*物料：</label>
 								<div class=selct2_alt_div>
-									<select id="add_material"
-										class="js-example-basic-single materialSelect form-control"></select>
+									<input id="add_material" type = "text"
+										class="materialSelect">
 								</div>
 							</div>
 							<div class="alt_edit_div">
@@ -247,12 +246,10 @@
 					<div class="modal-body">
 						<div class="alt_edit">
 							<div class="alt_edit_div">
-								<input type="hidden" id="edit_id"> <label class="colorred">*物料：</label>
-								<div class=selct2_alt_div>
-									<select id="edit_material"
-										class="js-example-basic-single materialSelect form-control"></select>
-								</div>
-
+								<input type="hidden" id="edit_id"> 
+								<label class="colorred">*物料：</label>
+									<input id="edit_material" type = "text"
+										class="materialSelect">
 							</div>
 							<div class="alt_edit_div">
 								<label class="colorred">*物料品种：</label> <input type="text"
@@ -305,13 +302,13 @@
 				</div>
 			</div>
 		</div>
+		</div>
 		<!--编辑end-->
 		<!-- 引用公共footer部分 -->
 		<jsp:include page="../../common/base/footer_busi.jsp"></jsp:include>
-		<script type="text/javascript" src="/resources/js/select2.js"></script>
 		<script type="text/javascript"
 			src="/javascript/quality/file/materialScheme.js"></script>
-		</script>
+			</div>
 </body>
 </html>
 

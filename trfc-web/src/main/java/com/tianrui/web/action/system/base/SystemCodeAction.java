@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.tianrui.api.intf.system.base.ISystemCodeService;
+import com.tianrui.api.req.system.base.GetCodeReq;
 import com.tianrui.api.req.system.base.SystemCodeReq;
 import com.tianrui.smartfactory.common.constants.ErrorCode;
 import com.tianrui.smartfactory.common.vo.Result;
@@ -18,7 +19,7 @@ import com.tianrui.smartfactory.common.vo.Result;
 @RequestMapping("/trfc/system/base/code")
 public class SystemCodeAction {
 	Logger log = LoggerFactory.getLogger(SystemCodeAction.class);
-	
+
 	@Resource
 	private ISystemCodeService systemCodeService;
 	//显示当前页
@@ -33,7 +34,7 @@ public class SystemCodeAction {
 	public Result page(SystemCodeReq req){
 		Result rs = Result.getErrorResult();
 		try {
-			 rs = systemCodeService.select(req);
+			rs = systemCodeService.select(req);
 		} catch (Exception e) {
 			log.error(e.getMessage(),e);
 			rs.setErrorCode(ErrorCode.SYSTEM_ERROR);
@@ -78,7 +79,7 @@ public class SystemCodeAction {
 			rs.setErrorCode(ErrorCode.SYSTEM_ERROR);
 		}
 		return rs;
-		
+
 	}
 	//检测单据代号
 	@RequestMapping(value="/checkCode",method=RequestMethod.POST)
@@ -90,6 +91,34 @@ public class SystemCodeAction {
 		} catch (Exception e) {
 			log.error(e.getMessage(),e);
 			rs.setErrorCode(ErrorCode.SYSTEM_ERROR);
+		}
+		return rs;
+	}
+	/**
+	 * 获取编号
+	 */
+	@ResponseBody
+	@RequestMapping("/getCode")
+	public Result getCode(GetCodeReq req){
+		Result rs = Result.getErrorResult();
+		try {
+			rs = systemCodeService.getCode(req);
+		} catch (Exception e) {
+			log.error(e.getMessage(),e);
+		}
+		return rs;
+	}
+	/**
+	 * 刷新编号(增1)
+	 */
+	@ResponseBody
+	@RequestMapping("/updateCode")
+	public Result updateCode(GetCodeReq req){
+		Result rs = Result.getErrorResult();
+		try {
+			rs = systemCodeService.updateCodeItem(req);
+		} catch (Exception e) {
+			log.error(e.getMessage(),e);
 		}
 		return rs;
 	}

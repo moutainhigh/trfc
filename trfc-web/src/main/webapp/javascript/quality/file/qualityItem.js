@@ -6,8 +6,8 @@ $(function(){
 			deleteUrl:"/trfc/quality/sales/file/qualityItem/delete",
 			updateUrl:"/trfc/quality/sales/file/qualityItem/update",
 			saveUrl:"/trfc/quality/sales/file/qualityItem/add",
-			codeUrl:"/trfc/quality/sales/file/qualityItem/getCode",
-			updateCodeUrl:"/trfc/quality/sales/file/qualityItem/updateCode",
+			codeUrl:"/trfc/system/base/code/getCode",
+			updateCodeUrl:"/trfc/system/base/code/updateCode",
 			columnAutoCompleteSearch:"/trfc/quality/sales/file/qualityColumn/autoCompleteSearch"
 	};
 	//设置一个公共变量,当点击编辑按钮时,将原数据存入该变量中
@@ -149,9 +149,13 @@ $(function(){
 			}
 		}).off('click').on('click',function(){
 			$(this).autocomplete('search',' ');
-		}).change(function(){
-			$(this).val('').removeAttr('columnid');
-		});
+		}).on('input propertychange',function(){
+	    	$(this).removeAttr('columnid');
+	    }).change(function(){
+    		if(!$(this).attr('columnid')){
+    			$(this).val('');
+    		}
+	    });
 		$("#edit_line").autocomplete({
 			//数据源
 			source: function( request, response ) {
@@ -192,9 +196,13 @@ $(function(){
 			}
 		}).off('click').on('click',function(){
 			$(this).autocomplete('search',' ');
-		}).change(function(){
-			$(this).val('').removeAttr('columnid');
-		});
+		}).on('input propertychange',function(){
+	    	$(this).removeAttr('columnid');
+	    }).change(function(){
+    		if(!$(this).attr('columnid')){
+    			$(this).val('');
+    		}
+	    });
 		
 	}
 //	新增数据
