@@ -1,7 +1,7 @@
 .Wdate{
 	border:#999 1px solid;
 	height:20px;
-	background:#fff url(cel.png) no-repeat 133px 5px;
+	background: #fff url(cel.png) no-repeat 97% 50%;
 }
 .Wdate::-ms-clear{display:none;}
 

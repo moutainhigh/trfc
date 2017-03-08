@@ -6,6 +6,15 @@
 			vehicleAutoCompleteSearch: "/trfc/vehicle/autoCompleteSearch",
 			materielAutoCompleteSearch: "/trfc/materiel/autoCompleteSearch"
 	};
+	//日期字符串转为时间戳
+	function str2Long(dateStr){
+		var time = '';
+		if(dateStr){
+			var date = new Date(dateStr);
+			time = date.getTime();
+		}
+		return time;
+	}
 	//初始化
 	init();
 	//初始化方法
@@ -175,8 +184,8 @@
 			supplierid: supplierid,
 			materielid: materielid,
 			vehicleid: vehicleid,
-			starttime: starttime,
-			endtime: endtime,
+			starttime: str2Long(starttime),
+			endtime: str2Long(endtime),
 			pageSize: pageSize
 		}
 	}
