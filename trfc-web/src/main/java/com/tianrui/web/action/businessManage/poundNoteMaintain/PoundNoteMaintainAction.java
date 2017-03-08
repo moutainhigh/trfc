@@ -44,4 +44,11 @@ public class PoundNoteMaintainAction {
 		return result;
 	}
 	
+	@RequestMapping("/purchase/addView")
+	@ResponseBody
+	public ModelAndView purchaseAddView(PoundNoteQuery query){
+		ModelAndView view = new ModelAndView("businessManage/poundNoteMaintain/purchasePoundNoteAdd");
+		return view;
+	}
+	
 }

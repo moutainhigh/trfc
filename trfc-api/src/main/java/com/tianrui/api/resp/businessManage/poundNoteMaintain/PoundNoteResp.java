@@ -10,7 +10,7 @@ public class PoundNoteResp extends BaseResp {
     private String id;
 	//过磅单号
     private String code;
-	//推单状态（0：为推单，1：推单中，2：已推单）
+	//推单状态（0：未推单，1：推单中，2：已推单）
     private String returnstatus;
 	//是否红冲（0：否，1：是）
     private String redcollide;
@@ -30,7 +30,15 @@ public class PoundNoteResp extends BaseResp {
     private String noticeid;
 	//通知单code
     private String noticecode;
-	//司机id
+	//供应商id
+    private String supplierid;
+    //供应商名称
+    private String suppliername;
+    //供应商备注
+    private String supplierremark;
+    //物料
+    private String materielname;
+    //司机id
     private String driverid;
 	//司机名称
     private String drivername;
@@ -251,6 +259,54 @@ public class PoundNoteResp extends BaseResp {
 	 */
 	public void setNoticecode(String noticecode) {
 		this.noticecode = noticecode;
+	}
+	/**
+	 * @return the supplierid
+	 */
+	public String getSupplierid() {
+		return supplierid;
+	}
+	/**
+	 * @param supplierid the supplierid to set
+	 */
+	public void setSupplierid(String supplierid) {
+		this.supplierid = supplierid;
+	}
+	/**
+	 * @return the suppliername
+	 */
+	public String getSuppliername() {
+		return suppliername;
+	}
+	/**
+	 * @param suppliername the suppliername to set
+	 */
+	public void setSuppliername(String suppliername) {
+		this.suppliername = suppliername;
+	}
+	/**
+	 * @return the supplierremark
+	 */
+	public String getSupplierremark() {
+		return supplierremark;
+	}
+	/**
+	 * @param supplierremark the supplierremark to set
+	 */
+	public void setSupplierremark(String supplierremark) {
+		this.supplierremark = supplierremark;
+	}
+	/**
+	 * @return the materielname
+	 */
+	public String getMaterielname() {
+		return materielname;
+	}
+	/**
+	 * @param materielname the materielname to set
+	 */
+	public void setMaterielname(String materielname) {
+		this.materielname = materielname;
 	}
 	/**
 	 * @return the driverid
@@ -564,6 +620,7 @@ public class PoundNoteResp extends BaseResp {
 	 */
 	public void setWeighttime(Long weighttime) {
 		this.weighttime = weighttime;
+		this.weighttimeStr = DateUtil.parse(weighttime, "yyyy-MM-dd HH:mm:ss");
 	}
 	/**
 	 * @return the weighttimeStr

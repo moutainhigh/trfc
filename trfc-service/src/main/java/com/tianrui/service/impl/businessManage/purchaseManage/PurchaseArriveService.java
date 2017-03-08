@@ -251,7 +251,7 @@ public class PurchaseArriveService implements IPurchaseArriveService {
 					}
 				}
 			}
-			List<PurchaseApplicationDetailResp> listApplicationDetail = purchaseApplicationDetailService.selectByIds(ids);
+			List<PurchaseApplicationDetailResp> listApplicationDetail = purchaseApplicationDetailService.selectByIds(detailIds);
 			if(CollectionUtils.isNotEmpty(listApplicationDetail)){
 				for(PurchaseArriveResp resp : list){
 					for(PurchaseApplicationDetailResp applicationDetailResp : listApplicationDetail){

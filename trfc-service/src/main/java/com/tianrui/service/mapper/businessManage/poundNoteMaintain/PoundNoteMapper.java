@@ -3,6 +3,7 @@ package com.tianrui.service.mapper.businessManage.poundNoteMaintain;
 import java.util.List;
 
 import com.tianrui.api.req.businessManage.poundNoteMaintain.PoundNoteQuery;
+import com.tianrui.api.resp.businessManage.poundNoteMaintain.PoundNoteResp;
 import com.tianrui.service.bean.businessManage.poundNoteMaintain.PoundNote;
 
 public interface PoundNoteMapper {
@@ -32,5 +33,5 @@ public interface PoundNoteMapper {
 	 * @param query
 	 * @return
 	 */
-	List<PoundNote> purchasePage(PoundNoteQuery query);
+	List<PoundNoteResp> purchasePage(PoundNoteQuery query);
 }

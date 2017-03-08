@@ -28,8 +28,8 @@ public class PoundNoteService implements IPoundNoteService {
 			query.setState("1");
 			long count = poundNoteMapper.purchasePageCount(query);
 			if(count > 0){
-				List<PoundNote> list = poundNoteMapper.purchasePage(query);
-				page.setList(copyBeanList2RespList(list, false));
+				List<PoundNoteResp> list = poundNoteMapper.purchasePage(query);
+				page.setList(list);
 			}
 			page.setTotal(count);
 			page.setPageNo(query.getPageNo());
