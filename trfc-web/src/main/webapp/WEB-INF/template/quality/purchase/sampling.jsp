@@ -15,8 +15,9 @@
 			<div class="intel_tab">
 				<!--tab切换标题-->
 				<ul class="intel_menu">
-					<li class="select">采购化验管理</li>
-					<li>车辆管理</li>
+					<li><a href="/trfc/quality/sales/batchnum/main">销售批号维护</a></li>
+					<li><a href="/trfc/quality/sales/report/main">销售化验报告</a></li>
+					<li class="select">采购采样管理</li>
 				</ul>
 				<!--tab切换标题end-->
 				<div class="top_opera">
@@ -186,8 +187,6 @@
 							<ul>
 								<li id="add_fresh"><i class="iconfont colorlv">&#xe61b;</i>
 									<h5>刷新</h5></li>
-								<li id="add_save"><i class="iconfont colorblue">&#xe61d;</i>
-									<h5>保存</h5></li>
 							</ul>
 						</div>
 						<div class="alt_edit">
@@ -228,6 +227,7 @@
 									<table class="table table-bordered">
 										<thead>
 											<tr>
+											<th></th>
 												<th>采样编号</th>
 												<th>派车单号</th>
 												<th>供应商</th>
@@ -277,15 +277,8 @@
 						</div>
 					</div>
 					<div class="modal-body">
-						<div class="alt_opera mb10">
-							<ul>
-								<li id="edit_fresh"><i class="iconfont colorlv">&#xe61b;</i>
-									<h5>刷新</h5></li>
-								<li id="edit_save"><i class="iconfont colorblue">&#xe61d;</i>
-									<h5>保存</h5></li>
-							</ul>
-						</div>
 						<div class="alt_edit">
+						<input type = "hidden" id="edit_id">
 							<div class="alt_edit_div">
 								<label>单据编号：</label> <input type="text" id="edit_code" readonly="readonly">
 							</div>
@@ -304,8 +297,11 @@
 							<div class="alt_edit_div">
 								<label> 化验类型：</label> <input type="text" id="edit_assaytype" class="assaySel">
 							</div>
-							<div class="alt_edit_div">
-								<label>备注： </label> <input type="text" id="eidt_remark">
+							<div class="alt_edit_div" style="width: 100%">
+                        <label>备注： </label>
+                        <input type="text" style="width: 450px;" id="edit_remark">
+                        <button class="btn btn_duka" id="edit_readBtn">读卡</button>
+                        <em class="colorred em_duka">请读卡！</em>
 							</div>
 						</div>
 						<div>
@@ -348,8 +344,8 @@
 						</div>
 					</div>
 					<div class="modal-footer">
-						<button type="button" class="btn btn-primary">确定</button>
-						<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+						<button type="button" class="btn btn-primary" id="edit_sure">确定</button>
+						<button type="button" class="btn btn-default" id="edit_cancel" data-dismiss="modal">取消</button>
 					</div>
 				</div>
 			</div>
@@ -366,39 +362,32 @@
 							<span aria-hidden="true">&times;</span>
 						</button>
 						<div class="alt_head">
-							<h5>物料方案新增</h5>
+							<h5>物料方案详情</h5>
 						</div>
 					</div>
 					<div class="modal-body">
-						<div class="alt_opera mb10">
-							<ul>
-								<li><i class="iconfont colorlv">&#xe61b;</i>
-									<h5>刷新</h5></li>
-								<li><i class="iconfont colorblue">&#xe61d;</i>
-									<h5>保存</h5></li>
-							</ul>
-						</div>
+						
 						<div class="alt_edit">
 							<div class="alt_edit_div">
-								<label>单据编号：</label> <input type="text" readonly="readonly">
+								<label>单据编号：</label> <input type="text" id="detail_code" readonly="readonly">
 							</div>
 							<div class="alt_edit_div">
-								<label>采样日期：</label> <input type="text"  readonly="readonly"
+								<label>采样日期：</label> <input type="text" id="detail_samplingtime"  readonly="readonly"
 									onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})"
 									class="Wdate_cg" style="width: 220px" />
 							</div>
 							<div class="alt_edit_div">
-								<label>制单人：</label> <input type="text" readonly="readonly">
+								<label>制单人：</label> <input type="text" id="detail_creator" readonly="readonly">
 							</div>
 							<div class="alt_edit_div">
-								<label>制单日期：</label> <input type="text" readonly="readonly">
+								<label>制单日期：</label> <input type="text" id="detail_createtime" readonly="readonly">
 							</div>
 
 							<div class="alt_edit_div">
-								<label> 化验类型：</label> <input type="text" readonly="readonly">
+								<label> 化验类型：</label> <input type="text" id="detail_assaytype" readonly="readonly">
 							</div>
 							<div class="alt_edit_div">
-								<label>备注： </label> <input type="text" readonly="readonly">
+								<label>备注： </label> <input type="text" id="detail_remark" readonly="readonly">
 							</div>
 						</div>
 						<div>
@@ -423,7 +412,7 @@
 												<th>备注</th>
 											</tr>
 										</thead>
-										<tbody>
+										<tbody  id = "vehicle_list">
 											<tr>
 												<td>1</td>
 												<td>100</td>
@@ -441,7 +430,6 @@
 						</div>
 					</div>
 					<div class="modal-footer">
-						<button type="button" class="btn btn-primary">确定</button>
 						<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
 					</div>
 				</div>

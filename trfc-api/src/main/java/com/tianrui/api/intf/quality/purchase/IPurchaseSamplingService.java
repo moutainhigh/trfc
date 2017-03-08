@@ -21,4 +21,8 @@ public interface IPurchaseSamplingService {
 	 * 分页查询数据
 	 */
 	Result page(PurchaseSamplingReq req) throws Exception;
+	/**
+	 * 获取采样车辆详情
+	 */
+	Result getDetailData(PurchaseSamplingReq req) throws Exception;
 }

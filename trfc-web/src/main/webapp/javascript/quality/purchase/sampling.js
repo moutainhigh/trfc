@@ -1,22 +1,26 @@
 $(function(){
-	
 
-    var URL = {
+
+	var URL = {
 			systemDataAutoCompleteSearch:"/trfc/system/base/dataDict/autoCompleteSearch",
 			pageUrl:"/trfc/quality/purchase/sampling/page",
 			deleteUrl:"/trfc/quality/purchase/sampling/delete",
 			updateUrl:"/trfc/quality/purchase/sampling/update",
 			saveUrl:"/trfc/quality/purchase/sampling/add",
 			getCodeUrl:"/trfc/system/base/code/getCode",
-			updateCodeUrl:"/trfc/system/base/code/updateCode"
+			updateCodeUrl:"/trfc/system/base/code/updateCode",
+			getDetailUrl:"/trfc/quality/purchase/sampling/getDetailData"
 	};
-    ShowAction(1);
-	 // 表格内容每行单击出来下面的详细信息
-    $('#list').on("click", 'tr',function () {
-         $(".intel_result").css("display", "block");
-     });
-    var userid = $(".user").attr("userid");
-    initSelect();
+	ShowAction(1);
+	// 表格内容每行单击出来下面的详细信息
+	$('#list').on("click", 'tr',function () {
+		$(".intel_result").css("display", "block");
+		var tbody = $('#detail_list').empty();
+		var id = $(this).data('obj').id;
+		loadDetailData(tbody,id);
+	});
+	var userid = $(".user").attr("userid");
+	initSelect();
 	//绑定刷新按钮
 	$('#fresh').click(function(){ShowAction(1);});
 	//绑定新增按钮
@@ -28,26 +32,145 @@ $(function(){
 	//监听每页记录 事件
 	$('#pageSize').change(function(){ShowAction(1);});
 	//绑定删除按钮
-	$('#list').on('click','tr [title="删除"]',deleteAction);
+	$('#list').on('click','tr [title="删除"]',function(event){
+		event.stopPropagation();
+		deleteAction(this)});
 	//绑定编辑按钮
-	$('#list').on('click','tr [title="编辑"]',initEditData);
+	$('#list').on('click','tr [title="编辑"]',function(event){
+		initEditData(this);
+	});
+	$('#list').on('dblclick','tr',function(){
+		$('#caigoubill').modal('show');
+		initDetailData(this);
+	});
 	//绑定读卡功能
-	$('.btn_duka').click(getSamplingCarData);
+	$('.btn_duka').click(function(){
+		var tbody = $("#add_list");
+		getSamplingCarData(tbody);});
+	$('#edit_readBtn').click(function(){
+		var tbody = $("#edit_list");
+		getSamplingCarData(tbody);
+	});
 	//绑定新增保存
 	$('#add_sure').click(saveAction);
 	//绑定新增刷新
 	$('#add_fresh').click(initAddData);
+	$('#edit_sure').click(editAction);
+
 	
 	
+	
+	function indexOfList(tbody){
+		var trs = tbody.find('tr');
+		for(var i=0;i<trs.length;i++){
+			trs.eq(i).find('td:first').html(i+1);
+		}
+	}
+	
+	//加载详情数据
+	function initDetailData(tr){
+		var obj = $(tr).data('obj');
+		$("#detail_code").val(obj.code);
+		$("#detail_samplingtime").val(getNowFormatDate(false,obj.samplingtime));
+		$("#detail_creator").val(obj.creator);
+		$("#detail_createtime").val(getNowFormatDate(true,obj.createtime));
+		$("#detail_assaytype").val(obj.assayname).attr("assayid",obj.assaytype);
+		$("#detail_remark").val(obj.remark);
+		var tbody = $("#vehicle_list").empty();
+		loadDetailData(tbody,obj.id);
+	}
+	
+	//加载详情
+	function loadDetailData(tbody,id){
+
+		$.post(URL.getDetailUrl,{id:id},function(result){
+			if('000000'==result.code){
+				var list = result.data;
+				for(var i=0;i<list.length;i++){
+					var obj = list[i];
+					var tr = '<tr>'
+						+'<td></td>'
+						+'<td>'+(obj.samplingcode || '')+'</td>'
+						+'<td>'+(obj.samplingcar || '')+'</td>'
+						+'<td>'+(obj.supplier || '')+'</td>'
+						+'<td>'+(obj.material || '')+'</td>'
+						+'<td>'+(obj.mine || '')+'</td>'
+						+'<td>'+(obj.vehicle || '')+'</td>'
+						+'<td>'+(obj.remark || '')+'</td>'
+						+'</tr>';
+					tr = $(tr);
+					tbody.append(tr);
+					tr.data('obj',obj);
+				}
+				indexOfList(tbody);
+			}else{
+				layer.msg(result.error,{icon:5});
+			}
+		});
+	};
+	//保存新增数据
+	function editAction(){
+		var param = getEditData();
+		if(param){
+			$.post(URL.updateUrl,param,function(result){
+				if('000000'==result.code){
+					ShowAction(1);
+					$('#edit_cancel').click();
+				}else{
+					layer.msg(result.error,{icon:5});
+				}
+			});
+		}
+	}
+
+	//获取编辑数据
+	function getEditData(){
+		var code = $("#edit_code").val();
+		var samplingtime = new Date($("#edit_samplingtime").val());
+		samplingtime = samplingtime.getTime();
+		if(isNaN(samplingtime)){
+			layer.alert("采样日期无效!");
+			return null;
+		}
+		var id = $('#edit_id').val();
+		var createtime = new Date($("#edit_createtime").val());
+		createtime = createtime.getTime();
+		var assaytype = $("#edit_assaytype").attr('assayid');
+		var remark = $("#edit_remark").val();
+		var trs = $("#edit_list>tr");
+		var arr = new Array();
+		for(var i=0;i<trs.length;i++){
+			var obj=trs.eq(i).data('obj');
+			var samplingcode = obj.code;
+			var samplingcar = obj.car;
+			arr[i]={samplingcode:samplingcode,samplingcar:samplingcar};
+		}
+		var arrstr = JSON.stringify(arr);
+		if(arrstr=='[]'){
+			layer.alert("采样车辆信息不能为空!")
+			return null;
+		}
+		var param = {
+				id:id,
+				samplingtime:samplingtime,
+				user:userid,
+				assaytype:assaytype,
+				remark:remark,
+				arrstr:arrstr
+		};
+		return param;
+	}
+
 	//保存新增数据
 	function saveAction(){
 		var param = getAddData();
 		if(param){
 			$.post(URL.saveUrl,param,function(result){
 				if('000000'==result.code){
-					$('#and_cancel').click();
 					//更新计数
 					updateCode();
+				}else{
+					layer.msg(result.error,{icon:5});
 				}
 			});
 		}
@@ -69,9 +192,9 @@ $(function(){
 		var arr = new Array();
 		for(var i=0;i<trs.length;i++){
 			var obj=trs.eq(i).data('obj');
-			var simplcode = obj.code;
-			var vehiclecode = obj.car;
-			arr[i]={simplcode:simplcode,vehiclecode:vehiclecode};
+			var samplingcode = obj.code;
+			var samplingcar = obj.car;
+			arr[i]={samplingcode:samplingcode,samplingcar:samplingcar};
 		}
 		var arrstr = JSON.stringify(arr);
 		if(arrstr=='[]'){
@@ -98,20 +221,21 @@ $(function(){
 		$.post(URL.updateCodeUrl,param,function(result){
 			if('000000'==result.code){
 				ShowAction(1);
+				$('#add_cancel').click();
 			}else{
 				layer.msg(result.error,{icon:5});
 			}
 		});
 	}
 	//获取采样车辆信息
-	function getSamplingCarData(){
-		var tbody = $('#add_list').empty();
+	function getSamplingCarData(tbody){
 		var data = [{code:"01160809005",car:"DH1608090007",supplier:"中原裕阔商贸有限公司",material:"原煤",mine:"达丰沃",vehicle:"豫F57210"},
 		            {code:"01160809004",car:"DH1608090006",supplier:"中原裕阔商贸有限公司",material:"原煤",mine:"达丰沃",vehicle:"豫F57209"}];
 		if(data){
-			for(var i=0;i<data.length;i++){
-				var obj=data[i];
+			var obj=data[tbody.find('tr').length];
+			if(obj){
 				var tr = '<tr>'
+					+'<td></td>'
 					+'<td>'+(obj.code || '')+'</td>'
 					+'<td>'+(obj.car || '')+'</td>'
 					+'<td>'+(obj.supplier || '')+'</td>'
@@ -123,20 +247,32 @@ $(function(){
 				tr = $(tr);
 				tbody.append(tr);
 				tr.data('obj',obj);
+				tr.dblclick(function(){tr.remove();indexOfList(tbody);});
+				indexOfList(tbody);
 			}
 		}
 	}
-	
+
 	//初始化编辑事件
-	function initEditData(){
-		
+	function initEditData(btn){
+		var obj = $(btn).closest('tr').data('obj');
+		$("#edit_id").val(obj.id);
+		$("#edit_code").val(obj.code);
+		$("#edit_samplingtime").val(getNowFormatDate(false,obj.samplingtime));
+		$("#edit_creator").val(obj.creator);
+		$("#edit_createtime").val(getNowFormatDate(true,obj.createtime));
+		$("#edit_assaytype").val(obj.assayname).attr("assayid",obj.assaytype);
+		$("#edit_remark").val(obj.remark);
+		var tbody = $("#edit_list").empty();
+		loadDetailData(tbody,obj.id);
+		tbody.on('dblclick','tr',function(){$(this).remove();indexOfList(tbody);});
 	}
 	//删除数据
-	function deleteAction(){
+	function deleteAction(btn){
 		//停止事件向上传播
 		event.stopPropagation();
 		//获取id
-		var id = $(this).closest('tr').data('obj').id;
+		var id = $(btn).closest('tr').data('obj').id;
 		//弹出删除确认框
 		var index = layer.confirm('你确定要删除吗?', {
 			area: '600px', 
@@ -153,7 +289,7 @@ $(function(){
 		}, function(){
 		});
 	}
-	
+
 	//初始化新增数据
 	function initAddData(){
 		var param = {
@@ -175,7 +311,7 @@ $(function(){
 		$("#add_remark").val("");
 		$("#add_list").empty();
 	};
-	
+
 	function initSelect(){
 		var cache={};
 		$(".assaySel").autocomplete({
@@ -212,17 +348,17 @@ $(function(){
 		}).off('click').on('click',function(){
 			$(this).autocomplete('search',' ');
 		}).on('input propertychange',function(){
-	    	$(this).removeAttr('assayid');
-	    }).change(function(){
-    		if(!$(this).attr('assayid')){
-    			$(this).val('');
-    		}
-	    });
-		
-		
+			$(this).removeAttr('assayid');
+		}).change(function(){
+			if(!$(this).attr('assayid')){
+				$(this).val('');
+			}
+		});
+
+
 	}
-	
-	
+
+
 //	页面跳转
 	function jumpPageAction(){
 		//获取总页数
@@ -264,7 +400,7 @@ $(function(){
 		}
 		var assaytype = $('#seek_assaytype').attr('assayid');
 		var code = $('#seek_code').val();
-		
+
 		var params = {
 				pageSize:pageSize,
 				starttime:starttime,

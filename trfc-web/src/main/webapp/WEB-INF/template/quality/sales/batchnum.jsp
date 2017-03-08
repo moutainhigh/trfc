@@ -18,6 +18,7 @@
 				<ul class="intel_menu">
 					<li class="select">销售批号维护</li>
 					<li><a href="/trfc/quality/sales/report/main">销售化验报告</a></li>
+					<li><a href="/trfc/quality/purchase/sampling/main">采购采样管理</a></li>
 				</ul>
 				<!--tab切换标题end-->
 				<div class="top_opera">

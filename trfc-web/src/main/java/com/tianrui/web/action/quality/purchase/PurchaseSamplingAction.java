@@ -12,6 +12,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.tianrui.api.intf.quality.purchase.IPurchaseSamplingService;
 import com.tianrui.api.req.quality.purchase.PurchaseSamplingReq;
+import com.tianrui.smartfactory.common.constants.ErrorCode;
 import com.tianrui.smartfactory.common.vo.Result;
 
 @Controller
@@ -72,6 +73,18 @@ public class PurchaseSamplingAction {
 			result = purchaseSamplingService.page(req);
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
+		}
+		return result;
+	}
+	@RequestMapping(value="/getDetailData",method=RequestMethod.POST)
+	@ResponseBody
+	public Result getDetailData(PurchaseSamplingReq req){
+		Result result=Result.getErrorResult();
+		try {
+			result = purchaseSamplingService.getDetailData(req);
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
 		}
 		return result;
 	}
