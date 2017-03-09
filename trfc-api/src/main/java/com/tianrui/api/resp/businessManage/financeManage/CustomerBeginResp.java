@@ -23,9 +23,11 @@ public class CustomerBeginResp extends BaseResp {
 
     private String payer;
 
-    private Long billdate;
+    private String billdate;
 
     private Double money;
+    
+    private String moneybig;
 
     private String collectionunit;
 
@@ -127,11 +129,11 @@ public class CustomerBeginResp extends BaseResp {
 		this.payer = payer;
 	}
 
-	public Long getBilldate() {
+	public String getBilldate() {
 		return billdate;
 	}
 
-	public void setBilldate(Long billdate) {
+	public void setBilldate(String billdate) {
 		this.billdate = billdate;
 	}
 
@@ -253,6 +255,14 @@ public class CustomerBeginResp extends BaseResp {
 
 	public void setAudittime(Long audittime) {
 		this.audittime = audittime;
+	}
+
+	public String getMoneybig() {
+		return moneybig;
+	}
+
+	public void setMoneybig(String moneybig) {
+		this.moneybig = moneybig;
 	}
 
 }
