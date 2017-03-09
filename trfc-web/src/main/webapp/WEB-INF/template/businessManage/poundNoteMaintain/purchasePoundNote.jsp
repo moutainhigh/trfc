@@ -32,40 +32,21 @@
 						<div class="intel_sconditon">
 							<div class="intel_sline">
 								<div class="intel_solo">
-									<label>开始时间：</label> <input id="starttime" type="text" readonly
-										onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:00:00',maxDate:'#F{$dp.$D(\'endtime\')}'})"
-										class="Wdate" style="width: 160px" placeholder="请选择开始时间" />
-								</div>
-								<div class="intel_solo">
-									<label>结束时间：</label> <input id="endtime" type="text" readonly
-										onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:00:00',minDate:'#F{$dp.$D(\'starttime\')}'})"
-										class="Wdate" style="width: 160px" placeholder="请选择结束时间" />
-								</div>
-								<div class="intel_solo">
-									<label>供应商：</label> <input id="supplier" type="text" placeholder="请选择供应商">
+									<label>过磅单号：</label> <input id="code" type="text" placeholder="请输入过磅单号">
 								</div>
 								<div class="intel_solo">
 									<label>订单编号：</label> <input id="billcode" type="text" placeholder="请输入订单编号">
 								</div>
 								<div class="intel_solo">
-									<label>过磅单号：</label> <input id="code" type="text" placeholder="请输入过磅单号">
-								</div>
-								<div class="intel_solo">
-									<label>物料：</label> <input id="materiel" type="text" placeholder="请选择物料">
-								</div>
-								<div class="intel_solo">
 									<label>通知单号：</label> <input id="noticecode" type="text" placeholder="请输入通知单号">
 								</div>
 								<div class="intel_solo">
-									<label>车号：</label> <input id="vehicle" type="text" placeholder="请选择车号">
-								</div>
-								<div class="intel_solo">
 									<label>净重：</label> <select id="operator" class="mini_select form-control">
-										<option value="&gt;">大于</option>
-										<option value="&gt;=">大于等于</option>
-										<option value="&lt;">小于</option>
-										<option value="&lt;=">小于等于</option>
-										<option value="=">等于</option>
+										<option value="0">大于</option>
+										<option value="1">大于等于</option>
+										<option value="2">小于</option>
+										<option value="3">小于等于</option>
+										<option value="4">等于</option>
 									</select> <input id="netweight" type="text" class="mini_input" placeholder="请输入净重">
 								</div>
 								<div class="intel_solo">
@@ -85,18 +66,42 @@
 									</select>
 								</div>
 								<div class="intel_solo">
+									<label>供应商：</label> <input id="supplier" type="text" placeholder="请选择供应商">
+								</div>
+								<div class="intel_solo">
+									<label>物料：</label> <input id="materiel" type="text" placeholder="请选择物料">
+								</div>
+								<div class="intel_solo">
+									<label>车号：</label> <input id="vehicle" type="text" placeholder="请选择车号">
+								</div>
+								<div class="intel_solo">
+									<label>开始时间：</label> <input id="starttime" type="text" readonly
+										onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:00:00',maxDate:'#F{$dp.$D(\'endtime\')}'})"
+										class="Wdate" style="width: 160px" placeholder="请选择开始时间" />
+								</div>
+								<div class="intel_solo">
+									<label>结束时间：</label> <input id="endtime" type="text" readonly
+										onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:00:00',minDate:'#F{$dp.$D(\'starttime\')}'})"
+										class="Wdate" style="width: 160px" placeholder="请选择结束时间" />
+								</div>
+								<div class="intel_solo">
 									<div class="intel_sbtn">
-										<button class="btn btnblue ">搜索</button>
-										<button class="btn btngray ">取消</button>
+										<button id="searchBtn" class="btn btnblue">搜索</button>
 									</div>
 								</div>
 							</div>
 						</div>
 					</div>
 					<div class="intel_opera">
-						<div class="intel_operasolo">
+						<div id="refreshBtn" class="intel_operasolo">
 							<i class="iconfont colorlv">&#xe61b;</i>
 							<h5>刷新</h5>
+						</div>
+						<div id="addBtn" class="intel_operasolo">
+							<a data-toggle="modal" data-target="#add"> <i
+								class="iconfont coloradd">&#xe627;</i>
+								<h5>新增</h5>
+							</a>
 						</div>
 					</div>
 					<div class="intel_table">
@@ -130,8 +135,8 @@
 									<th>操作</th>
 								</tr>
 							</thead>
-							<tbody>
-								<tr>
+							<tbody id="dataBody">
+								<!-- <tr>
 									<td>1</td>
 									<td>154541990</td>
 									<td class="colorred">3.推单</td>
@@ -162,41 +167,32 @@
 												class="iconfont" data-toggle="tooltip"
 												data-placement="bottom" title="删除">&#xe63d;</i></a>
 									</span></td>
-								</tr>
+								</tr> -->
 							</tbody>
 						</table>
 						<!--用户表格end-->
 					</div>
 					<!--分页效果开始-->
-					<div class=" row fr">
+					<div class="page">
 						<div class="page_date">
-							<label>数据共：</label><i class="colorred">100</i><label>条</label>
+							<label>数据共：</label><i id="total" class="colorred">100</i><label>条</label>
 						</div>
 						<div class="page_date">
-							<label>跳到第：</label> <input type="text"> <label>页</label>
-							<button class="btn btn-default">确定</button>
+							<label>跳到第：</label> <input id="jumpPageNo" type="text"> <label>页</label>
+							<button id="jumpPageNoBtn" class="btn btn-default">确定</button>
 						</div>
-						<div class="page_btn">
-							<ul class="pagination">
-								<li><a href="#">&laquo;上一页</a></li>
-								<li><a href="#">1</a></li>
-								<li><a href="#">2</a></li>
-								<li><a href="#">3</a></li>
-								<li><a href="#">...</a></li>
-								<li><a href="#">4</a></li>
-								<li><a href="#">5</a></li>
-								<li><a href="#">下一页&raquo;</a></li>
-							</ul>
+						<div class="page_date">
+							<label>每页记录：</label> <select id="pageSize" class="form-control">
+								<option value="10">10</option>
+								<option value="20">20</option>
+								<option value="30">30</option>
+							</select>
 						</div>
+						<div class="page_btn" id="pagination"></div>
 					</div>
 					<!--分页效果结束-->
 				</div>
 				<!--采购申请单end-->
-
-				<!--到货通知单begin-->
-				<div class="intel_tabcont hide">2</div>
-				<!--到货通知单end-->
-				<!--到货通知单end-->
 				<!--tab切换的内容end-->
 			</div>
 		</div>
@@ -206,8 +202,8 @@
 	<script type="text/javascript"
 		src="/javascript/businessManage/poundNoteMaintain/purchasePoundNote.js"></script>
 	<script type="text/javascript">
-	    $('#myTable04').fixedHeaderTable({ altClass: 'odd', footer: false, cloneHeadToFoot: false, fixedColumns:3});
-	    $("[data-toggle='tooltip']").tooltip();
+	 /*    $('#myTable04').fixedHeaderTable({ altClass: 'odd', footer: false, cloneHeadToFoot: false, fixedColumns:3});
+	    $("[data-toggle='tooltip']").tooltip(); */
 	</script>
 </body>
 </html>

@@ -49,6 +49,58 @@
     <result column="modifytime" property="modifytime" jdbcType="BIGINT" />
     <result column="remark" property="remark" jdbcType="VARCHAR" />
   </resultMap>
+  <resultMap id="BaseRespResultMap" type="com.tianrui.api.resp.businessManage.poundNoteMaintain.PoundNoteResp" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="code" property="code" jdbcType="VARCHAR" />
+    <result column="returnstatus" property="returnstatus" jdbcType="VARCHAR" />
+    <result column="redcollide" property="redcollide" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="billtype" property="billtype" jdbcType="VARCHAR" />
+    <result column="putinwarehouseid" property="putinwarehouseid" jdbcType="VARCHAR" />
+    <result column="putinwarehousecode" property="putinwarehousecode" jdbcType="VARCHAR" />
+    <result column="billid" property="billid" jdbcType="VARCHAR" />
+    <result column="billcode" property="billcode" jdbcType="VARCHAR" />
+    <result column="noticeid" property="noticeid" jdbcType="VARCHAR" />
+    <result column="noticecode" property="noticecode" jdbcType="VARCHAR" />
+    <result column="supplierid" property="supplierid" jdbcType="VARCHAR" />
+    <result column="suppliername" property="suppliername" jdbcType="VARCHAR" />
+    <result column="supplierremark" property="supplierremark" jdbcType="VARCHAR" />
+    <result column="materielname" property="materielname" jdbcType="VARCHAR" />
+    <result column="driverid" property="driverid" jdbcType="VARCHAR" />
+    <result column="drivername" property="drivername" jdbcType="VARCHAR" />
+    <result column="driveridentityno" property="driveridentityno" jdbcType="VARCHAR" />
+    <result column="vehicleid" property="vehicleid" jdbcType="VARCHAR" />
+    <result column="vehicleno" property="vehicleno" jdbcType="VARCHAR" />
+    <result column="receivedepartmentid" property="receivedepartmentid" jdbcType="VARCHAR" />
+    <result column="receivedepartmentname" property="receivedepartmentname" jdbcType="VARCHAR" />
+    <result column="minemouthid" property="minemouthid" jdbcType="VARCHAR" />
+    <result column="minemouthname" property="minemouthname" jdbcType="VARCHAR" />
+    <result column="warehouseid" property="warehouseid" jdbcType="VARCHAR" />
+    <result column="warehousename" property="warehousename" jdbcType="VARCHAR" />
+    <result column="yardid" property="yardid" jdbcType="VARCHAR" />
+    <result column="yardname" property="yardname" jdbcType="VARCHAR" />
+    <result column="receiverpersonid" property="receiverpersonid" jdbcType="VARCHAR" />
+    <result column="receiverpersonname" property="receiverpersonname" jdbcType="VARCHAR" />
+    <result column="pickupquantity" property="pickupquantity" jdbcType="DOUBLE" />
+    <result column="grossweight" property="grossweight" jdbcType="DOUBLE" />
+    <result column="tareweight" property="tareweight" jdbcType="DOUBLE" />
+    <result column="netweight" property="netweight" jdbcType="DOUBLE" />
+    <result column="originalnetweight" property="originalnetweight" jdbcType="DOUBLE" />
+    <result column="deductionweight" property="deductionweight" jdbcType="DOUBLE" />
+    <result column="deductionother" property="deductionother" jdbcType="DOUBLE" />
+    <result column="serialnumber" property="serialnumber" jdbcType="VARCHAR" />
+    <result column="lighttime" property="lighttime" jdbcType="BIGINT" />
+    <result column="weighttime" property="weighttime" jdbcType="BIGINT" />
+    <result column="makerid" property="makerid" jdbcType="VARCHAR" />
+    <result column="makebillname" property="makebillname" jdbcType="VARCHAR" />
+    <result column="makebilltime" property="makebilltime" jdbcType="BIGINT" />
+    <result column="state" property="state" jdbcType="VARCHAR" />
+    <result column="creator" property="creator" jdbcType="VARCHAR" />
+    <result column="createtime" property="createtime" jdbcType="BIGINT" />
+    <result column="modifier" property="modifier" jdbcType="VARCHAR" />
+    <result column="modifytime" property="modifytime" jdbcType="BIGINT" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+  </resultMap>
   <sql id="Base_Column_List" >
     id, code, returnstatus, redcollide, status, billtype, putinwarehouseid, putinwarehousecode, billid, billcode, 
     noticeid, noticecode, driverid, drivername, driveridentityno, vehicleid, vehicleno, 
@@ -58,14 +110,14 @@
     serialnumber, lighttime, weighttime, makerid, makebillname, makebilltime, state, creator, 
     createtime, modifier, modifytime, remark
   </sql>
-  <sql id="Base_Column_List_P0" >
+  <sql id="Base_Column_List_P" >
     p0.id, p0.code, p0.returnstatus, p0.redcollide, p0.status, p0.billtype, p0.putinwarehouseid, p0.putinwarehousecode, p0.billid, p0.billcode, p0.
     noticeid, p0.noticecode, p0.driverid, p0.drivername, p0.driveridentityno, p0.vehicleid, p0.vehicleno, p0.
     receivedepartmentid, p0.receivedepartmentname, p0.minemouthid, p0.minemouthname, p0.warehouseid, p0.
     warehousename, p0.yardid, p0.yardname, p0.receiverpersonid, p0.receiverpersonname, p0.pickupquantity, p0.
     grossweight, p0.tareweight, p0.netweight, p0.originalnetweight, p0.deductionweight, p0.deductionother, p0.
     serialnumber, p0.lighttime, p0.weighttime, p0.makerid, p0.makebillname, p0.makebilltime, p0.state, p0.creator, p0.
-    createtime, p0.modifier, p0.modifytime, p0.remark
+    createtime, p0.modifier, p0.modifytime, p0.remark, p1.supplierid, p1.suppliername, p1.supplierremark, p2.materielname
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
@@ -610,19 +662,19 @@
 		<if test="netweight != null and netweight != ''">
 			<if test="operator != null and operator != ''">
 				<choose>
-					<when test="operator == '>'">
+					<when test="operator == 0">
 						and p0.netweight <![CDATA[>]]> #{netweight,jdbcType=DOUBLE}
 					</when>
-					<when test="operator == '>='">
+					<when test="operator == 1">
 						and p0.netweight <![CDATA[>=]]> #{netweight,jdbcType=DOUBLE}
 					</when>
-					<when test="operator == '&lt;'">
+					<when test="operator == 2">
 						and p0.netweight <![CDATA[<]]> #{netweight,jdbcType=DOUBLE}
 					</when>
-					<when test="operator == '&lt;='">
+					<when test="operator == 3">
 						and p0.netweight <![CDATA[<=]]> #{netweight,jdbcType=DOUBLE}
 					</when>
-					<when test="operator == '='">
+					<when test="operator == 4">
 						and p0.netweight <![CDATA[=]]> #{netweight,jdbcType=DOUBLE}
 					</when>
 				</choose>
@@ -639,9 +691,9 @@
 		</if>
 	</where>
   </select>
-  <select id="purchasePage" parameterType="com.tianrui.api.req.businessManage.poundNoteMaintain.PoundNoteQuery" resultMap="BaseResultMap">
+  <select id="purchasePage" parameterType="com.tianrui.api.req.businessManage.poundNoteMaintain.PoundNoteQuery" resultMap="BaseRespResultMap">
   	select 
-	<include refid="Base_Column_List_P0"/>
+	<include refid="Base_Column_List_P"/>
   	from tr_pound_db_note p0
 		left join tr_purchase_db_application p1 on p0.billid = p1.id
 		left join tr_purchase_db_application_detail p2 on p1.id = p2.purchaseid
@@ -668,19 +720,19 @@
 		<if test="netweight != null and netweight != ''">
 			<if test="operator != null and operator != ''">
 				<choose>
-					<when test="operator == '>'">
+					<when test="operator == 0">
 						and p0.netweight <![CDATA[>]]> #{netweight,jdbcType=DOUBLE}
 					</when>
-					<when test="operator == '>='">
+					<when test="operator == 1">
 						and p0.netweight <![CDATA[>=]]> #{netweight,jdbcType=DOUBLE}
 					</when>
-					<when test="operator == '&lt;'">
+					<when test="operator == 2">
 						and p0.netweight <![CDATA[<]]> #{netweight,jdbcType=DOUBLE}
 					</when>
-					<when test="operator == '&lt;='">
+					<when test="operator == 3">
 						and p0.netweight <![CDATA[<=]]> #{netweight,jdbcType=DOUBLE}
 					</when>
-					<when test="operator == '='">
+					<when test="operator == 4">
 						and p0.netweight <![CDATA[=]]> #{netweight,jdbcType=DOUBLE}
 					</when>
 				</choose>
