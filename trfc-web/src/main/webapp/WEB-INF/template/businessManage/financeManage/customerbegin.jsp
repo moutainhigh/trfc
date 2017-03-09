@@ -48,11 +48,14 @@
 						</div>
                         <div class="intel_solo">
                             <label>分支机构：</label>
-                            <input type="text">
+                            <select id="branch" class="form-control">
+                            	<option value="0">天瑞集团</option>
+                            	<option value="1" selected="selected">天瑞集团汝州水泥有限公司</option>
+                            </select>
                         </div>
                         <div class="intel_solo">
                             <label>制单人：</label>
-                            <input type="text" placeholder="请输入制单人">
+                            <input type="text" placeholder="请输入制单人" id="makebillname">
                         </div>
                         <div class="intel_solo">
                             <div class="intel_sbtn">
@@ -94,7 +97,7 @@
                         <th>操作</th>
                     </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="begins">
                     <tr>
                         <td> CD201601010138</td>
                         <td>审核中</td>
@@ -181,11 +184,11 @@
                     <div class="alt_edit_div">
                         <label>收款方式：</label>
                         <select class="form-control" id="paymentmethod">
-                        	<option value="0">银行存款</option>
-                        	<option value="1">其他</option>
-                        	<option value="2">现金</option>
-                        	<option value="3">商业承兑汇票</option>
-                        	<option value="4">银行承兑汇票</option>
+                        	<option value="0" name="type">银行存款</option>
+                        	<option value="1" name="type">其他</option>
+                        	<option value="2" name="type">现金</option>
+                        	<option value="3" name="type">商业承兑汇票</option>
+                        	<option value="4" name="type">银行承兑汇票</option>
                         </select>
                     </div>
                     <div class="alt_edit_div">
@@ -198,7 +201,7 @@
                     </div>
                     <div class="alt_edit_div">
                         <label>金额：</label>
-                        <input type="text" id="money">
+                        <input type="text" id="money" maxlength="10" check>
                     </div>
                     <div class="alt_edit_div" >
                         <label>金额大写：</label>
@@ -232,62 +235,63 @@
 
 <!--详细begin-->
 <div class="modal fade" id="caigoubill" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-    <div class="modal-dialog" role="document" style="width: 750px;">
+    <div class="modal-dialog" role="document" style="width: 850px;">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                         aria-hidden="true">&times;</span></button>
                 <div class="alt_head">
                     <h5>客户期初详细信息</h5>
-                    <img src="${basePath }/images/un_sh.png" style="left:440px">
+                    <img src="${basePath }/images/un_sh.png" style="left:500px;display: none;" id="un_sh"/>
+                    <img src="${basePath }/images/sh.png" style="left:500px;display: none;" id="sh"/>
                 </div>
             </div>
             <div class="modal-body">
                 <div class="alt_edit">
                     <div class="alt_edit_div">
                         <label>单据编号：</label>
-                        <input type="text" value="121221" readonly="true">
+                        <input type="text" value="121221" readonly="true" id="detail_code">
                     </div>
                     <div class="alt_edit_div">
                         <label> 客户名称：</label>
-                        <input type="text" value="121221" readonly="true">
+                        <input type="text" value="121221" readonly="true" id="detail_customer">
                     </div>
                     <div class="alt_edit_div">
                         <label>单据日期：</label>
                         <input type="text" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:00:00'})" class="Wdate_cg"
-                               style="width:220px"/>
+                               style="width:220px" id="detail_date" readonly="readonly"/>
                     </div>
                     <div class="alt_edit_div">
                         <label>收款方式：</label>
-                        <input type="text">
+                        <input type="text" id="detail_method" readonly="readonly">
                     </div>
                     <div class="alt_edit_div">
                         <label>付款人：</label>
-                        <input type="text">
+                        <input type="text" id="detail_payer" readonly="readonly">
                     </div>
                     <div class="alt_edit_div">
                         <label>收款单位：</label>
-                        <input type="text" value="121221" readonly="true">
+                        <input type="text" value="121221" readonly="true" id="detail_unit">
                     </div>
                     <div class="alt_edit_div">
                         <label>金额：</label>
-                        <input type="text">
+                        <input type="text" id="detail_money" readonly="readonly">
                     </div>
                     <div class="alt_edit_div">
                         <label>制单人：</label>
-                        <input type="text">
+                        <input type="text" id="detail_maker" readonly="readonly">
                     </div>
                     <div class="alt_edit_div" style="width: 100%">
                         <label>金额大写：</label>
-                        <input type="text" style="width: 500px;">
+                        <input type="text" style="width: 500px;" id="detail_capital" readonly="readonly">
                     </div>
                     <div class="alt_edit_div">
                         <label>制单日期：</label>
-                        <input type="text">
+                        <input type="text" id="detail_makebilltime" readonly="readonly">
                     </div>
                     <div class="alt_edit_div">
                         <label>备注：</label>
-                        <input type="text">
+                        <input type="text" id="detail_remark" readonly="readonly">
                     </div>
                 </div>
             </div>
@@ -305,13 +309,7 @@
 <script type="text/javascript"
 		src="/javascript/businessManage/financeManage/customerBegin.js"></script>
 
-<script type="text/javascript">
-    // 表格内容每行单击出来下面的详细信息
-    var tabledata = $('.intel_table table tbody tr');
-    tabledata.on("dblclick", function () {
-        $('#caigoubill').modal('show');
-    })
-</script>
+
 
 
 

@@ -10,14 +10,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.tianrui.api.intf.businessManage.financeManage.ICustomerBeginService;
+import com.tianrui.api.intf.system.base.ISystemCodeService;
 import com.tianrui.api.req.businessManage.financeManage.CustomerBeginQuery;
 import com.tianrui.api.req.businessManage.financeManage.CustomerBeginSave;
+import com.tianrui.api.req.system.base.GetCodeReq;
 import com.tianrui.api.resp.businessManage.financeManage.CustomerBeginResp;
-import com.tianrui.service.bean.basicFile.nc.CustomerManage;
 import com.tianrui.service.bean.businessManage.financeManage.CustomerBegin;
 import com.tianrui.service.mapper.basicFile.nc.CustomerManageMapper;
 import com.tianrui.service.mapper.businessManage.financeManage.CustomerBeginMapper;
-import com.tianrui.service.mapper.system.auth.SystemUserMapper;
 import com.tianrui.smartfactory.common.constants.Constant;
 import com.tianrui.smartfactory.common.constants.ErrorCode;
 import com.tianrui.smartfactory.common.utils.UUIDUtil;
@@ -37,23 +37,32 @@ public class CustomerBeginService implements ICustomerBeginService{
 	@Autowired 
 	CustomerManageMapper customerManageMapper;
 	@Autowired
-	SystemUserMapper systemUserMapper;
+	private ISystemCodeService systemCodeService;
 	
+	/**
+	 * 分页查询
+	 */
 	@Override
 	public Result page(CustomerBeginQuery query) throws Exception {
 		Result result=Result.getParamErrorResult();
+		//参数不能为空
 		if(query!=null){
 			PaginationVO<CustomerBeginResp> page=new PaginationVO<CustomerBeginResp>();
+			//只查询没有删除的(state=1)
 			query.setState("1");
+			//获取数据总数
 			Long count=customerBeginMapper.findCustomerBeginPageCount(query);
+			//当总数大于0时进行分页查询
 			if(count>0){
 				query.setStart((query.getPageNo()-1)*query.getPageSize());
 				query.setLimit(query.getPageSize());
+				//分页查询数据
 				List<CustomerBegin> list=customerBeginMapper.findCustomerBeginPage(query);
 				page.setList(copyBeanList2RespList(list));
 				page.setTotal(count);
 				page.setPageNo(query.getPageNo());
 				page.setPageSize(query.getPageSize());
+				//保存数据
 				result.setData(page);
 			}else{
 				page.setTotal(count);
@@ -66,27 +75,44 @@ public class CustomerBeginService implements ICustomerBeginService{
 		return result;
 	}
 	
+	/**
+	 * 新增客户期初
+	 */
 	@Transactional
 	@Override
 	public Result add(CustomerBeginSave save) throws Exception {
 		Result result=Result.getSuccessResult();
+		//参数不能为空
 		if(save!=null){
-			CustomerManage customer=new CustomerManage();
-			customer.setState("1");
-			customer.setName(save.getCustomername());
-			List<CustomerManage> list=customerManageMapper.selectSelective(customer);
-			if(list!=null && list.size()>0){
+			GetCodeReq codeReq = new GetCodeReq();
+			codeReq.setCode("XSQC");
+			codeReq.setCodeType(true);
+			codeReq.setUserid(save.getMakeid());
+			CustomerBegin bean=new CustomerBegin();
+			bean.setCode(String.valueOf(systemCodeService.getCode(codeReq).getData()));
+			//查询当前编号是否存在
+			List<CustomerBegin> _list = customerBeginMapper.selectSelective(bean);
+			//如果存在则提示错误信息
+			if(_list != null && _list.size() > 0){
 				result.setErrorCode(ErrorCode.PARAM_REPEAT_ERROR);
 				return result;
 			}
-			CustomerBegin bean=new CustomerBegin();
+			bean=new CustomerBegin();
+			bean.setState("1");
+			bean.setCustomername(save.getCustomername());
+			//查询客户是否已经存在(只查询未被删除的)
+			List<CustomerBegin> list = customerBeginMapper.selectSelective(bean);
+			//如果存在则提示错误信息
+			if(list != null && list.size() > 0){
+				result.setErrorCode(ErrorCode.PARAM_REPEAT_ERROR);
+				return result;
+			}
 			PropertyUtils.copyProperties(bean, save);
 			bean.setId(UUIDUtil.getId());
 			//未审核
 			bean.setAuditstatus("0");
 			bean.setOrgid(Constant.ORG_ID);
 			bean.setOrgname(Constant.ORG_NAME);
-			bean.setBilldate(System.currentTimeMillis());
 			bean.setMakeid(save.getUser());
 			bean.setMakebilltime(System.currentTimeMillis());
 			bean.setState("1");
@@ -95,28 +121,41 @@ public class CustomerBeginService implements ICustomerBeginService{
 			bean.setModifier(save.getUser());
 			bean.setModifytime(System.currentTimeMillis());
 			bean.setUtc(System.currentTimeMillis());
+			//执行插入方法
 			if(customerBeginMapper.insertSelective(bean)>0){
+				//成功时保存数据
 				result.setData(bean);
+				//使编号自增
+				if(!StringUtils.equals(systemCodeService.updateCodeItem(codeReq).getCode(), ErrorCode.SYSTEM_SUCCESS.getCode())){
+					result.setErrorCode(ErrorCode.OPERATE_ERROR);
+				}
 			}else{
+				//失败时提示错误信息
 				result.setErrorCode(ErrorCode.OPERATE_ERROR);
 			}
 		}
 		return result;
 	}
 	
+	/**
+	 * 审核客户期初
+	 */
 	@Transactional
 	@Override
 	public Result audit(CustomerBeginQuery query) throws Exception {
 		Result result=Result.getSuccessResult();
+		//参数不能为空并且id能为空
 		if(query!=null && StringUtils.isNotBlank(query.getId())){
 			CustomerBegin bean=new CustomerBegin();
 			bean.setId(query.getId());
+			//已审核
 			bean.setAuditstatus("1");
 			bean.setAuditid(query.getAuditid());
 			bean.setAuditname(query.getAuditname());
 			bean.setAudittime(System.currentTimeMillis());
 			bean.setModifier(query.getAuditid());
 			bean.setModifytime(System.currentTimeMillis());
+			//执行更新方法，失败时提示错误信息
 			if(customerBeginMapper.updateByPrimaryKeySelective(bean)>0){
 				result.setData("操作成功！");
 			}else{
@@ -128,16 +167,22 @@ public class CustomerBeginService implements ICustomerBeginService{
 		return result;
 	}
 	
+	/**
+	 * 删除客户期初
+	 */
 	@Transactional
 	@Override
 	public Result delete(CustomerBeginQuery query) throws Exception {
 		Result result=Result.getSuccessResult();
+		//参数不能为空并且id不能为空
 		if(query!=null && StringUtils.isNotBlank(query.getId())){
 			CustomerBegin bean=new CustomerBegin();
 			bean.setId(query.getId());
+			//设置state为0，执行假删除
 			bean.setState("0");
 			bean.setModifier(query.getUser());
 			bean.setModifytime(System.currentTimeMillis());
+			//执行更新方法，失败时提示错误信息
 			if(customerBeginMapper.updateByPrimaryKeySelective(bean)>0){
 				result.setData("操作成功！");
 			}else{

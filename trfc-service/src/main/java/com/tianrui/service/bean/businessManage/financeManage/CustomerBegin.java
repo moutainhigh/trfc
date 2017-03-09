@@ -19,9 +19,11 @@ public class CustomerBegin {
 
     private String payer;
 
-    private Long billdate;
+    private String billdate;
 
     private Double money;
+    
+    private String moneybig;
 
     private String collectionunit;
 
@@ -123,11 +125,11 @@ public class CustomerBegin {
         this.payer = payer == null ? null : payer.trim();
     }
 
-    public Long getBilldate() {
+    public String getBilldate() {
         return billdate;
     }
 
-    public void setBilldate(Long billdate) {
+    public void setBilldate(String billdate) {
         this.billdate = billdate;
     }
 
@@ -250,4 +252,13 @@ public class CustomerBegin {
     public void setUtc(Long utc) {
         this.utc = utc;
     }
+
+	public String getMoneybig() {
+		return moneybig;
+	}
+
+	public void setMoneybig(String moneybig) {
+		this.moneybig = moneybig;
+	}
+    
 }

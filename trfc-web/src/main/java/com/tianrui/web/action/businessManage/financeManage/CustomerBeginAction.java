@@ -18,7 +18,6 @@ import com.tianrui.api.intf.businessManage.financeManage.ICustomerBeginService;
 import com.tianrui.api.intf.system.base.ISystemCodeService;
 import com.tianrui.api.req.businessManage.financeManage.CustomerBeginQuery;
 import com.tianrui.api.req.businessManage.financeManage.CustomerBeginSave;
-import com.tianrui.api.req.businessManage.salesManage.SalesApplicationSave;
 import com.tianrui.api.req.system.base.GetCodeReq;
 import com.tianrui.api.resp.system.auth.SystemUserResp;
 import com.tianrui.smartfactory.common.constants.Constant;
@@ -48,15 +47,17 @@ public class CustomerBeginAction {
 		try {
 			SystemUserResp user = (SystemUserResp) session.getAttribute("systemUser");
 			view.addObject("user", user);
-			view.addObject("orgid", Constant.ORG_ID);
-			view.addObject("orgname", Constant.ORG_NAME);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return view;
 	}
 	
-	
+	/**
+	 * 分页查询Action
+	 * @param query
+	 * @return
+	 */
 	@RequestMapping(value="/page",method=RequestMethod.POST)
 	@ResponseBody
 	public Result page(CustomerBeginQuery query){
@@ -70,6 +71,12 @@ public class CustomerBeginAction {
 		return result;
 	}
 	
+	/**
+	 * 获取编号Action
+	 * @param save
+	 * @param session
+	 * @return
+	 */
 	@RequestMapping("/initAdd")
 	@ResponseBody
 	public Result initAdd(CustomerBeginSave save, HttpSession session){
@@ -85,7 +92,6 @@ public class CustomerBeginAction {
 			map.put("nowDate", DateUtil.getNowDateString("yyyy-MM-dd HH:mm:ss"));
 			map.put("collectionunit", Constant.ORG_NAME);
 			map.put("makebillname", user.getName());
-			System.out.println(map);
 			result.setData(map);
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
@@ -94,15 +100,16 @@ public class CustomerBeginAction {
 		return result;
 	}
 	
-	
+	/**
+	 * 新增Action
+	 * @param save
+	 * @return
+	 */
 	@RequestMapping("/add")
 	@ResponseBody
-	public Result add(CustomerBeginSave save, HttpSession session){
+	public Result add(CustomerBeginSave save){
 		Result result = Result.getSuccessResult();
 		try {
-			SystemUserResp user = (SystemUserResp) session.getAttribute("systemUser");
-			save.setMakeid(user.getId());
-			save.setMakebillname(user.getName());
 			result = customerBeginService.add(save);
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
@@ -111,6 +118,12 @@ public class CustomerBeginAction {
 		return result;
 	}
 	
+	/**
+	 * 审核Action
+	 * @param query
+	 * @param session
+	 * @return
+	 */
 	@RequestMapping("/audit")
 	@ResponseBody
 	public Result audit(CustomerBeginQuery query, HttpSession session){
@@ -127,12 +140,17 @@ public class CustomerBeginAction {
 		return result;
 	}
 	
+	/**
+	 * 删除Action
+	 * @param query
+	 * @param session
+	 * @return
+	 */
 	@RequestMapping("/delete")
 	@ResponseBody
 	public Result delete(CustomerBeginQuery query, HttpSession session){
 		Result result = Result.getSuccessResult();
 		try {
-			SystemUserResp user = (SystemUserResp) session.getAttribute("systemUser");
 			result = customerBeginService.delete(query);
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);

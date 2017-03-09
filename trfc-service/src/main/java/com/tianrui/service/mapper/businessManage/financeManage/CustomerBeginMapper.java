@@ -21,4 +21,6 @@ public interface CustomerBeginMapper {
     long findCustomerBeginPageCount(CustomerBeginQuery query);
     
     List<CustomerBegin> findCustomerBeginPage(CustomerBeginQuery query);
+
+	List<CustomerBegin> selectSelective(CustomerBegin record);
 }

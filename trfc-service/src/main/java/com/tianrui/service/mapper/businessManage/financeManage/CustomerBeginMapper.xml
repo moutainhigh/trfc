@@ -11,8 +11,9 @@
     <result column="customername" property="customername" jdbcType="VARCHAR" />
     <result column="paymentmethod" property="paymentmethod" jdbcType="VARCHAR" />
     <result column="payer" property="payer" jdbcType="VARCHAR" />
-    <result column="billdate" property="billdate" jdbcType="BIGINT" />
+    <result column="billdate" property="billdate" jdbcType="VARCHAR" />
     <result column="money" property="money" jdbcType="DOUBLE" />
+    <result column="moneybig" property="moneybig" jdbcType="VARCHAR" />
     <result column="collectionunit" property="collectionunit" jdbcType="VARCHAR" />
     <result column="makeid" property="makeid" jdbcType="VARCHAR" />
     <result column="makebillname" property="makebillname" jdbcType="VARCHAR" />
@@ -30,7 +31,7 @@
   </resultMap>
   <sql id="Base_Column_List" >
     id, code, auditstatus, orgid, orgname, customerid, customername, paymentmethod, payer, 
-    billdate, money, collectionunit, makeid, makebillname, makebilltime, auditid, auditname, 
+    billdate, money, moneybig, collectionunit, makeid, makebillname, makebilltime, auditid, auditname, 
     audittime, state, creator, createtime, modifier, modifytime, remark, utc
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
@@ -47,7 +48,7 @@
     insert into tr_finance_db_customer_beginning (id, code, auditstatus, 
       orgid, orgname, customerid, 
       customername, paymentmethod, payer, 
-      billdate, money, collectionunit, 
+      billdate, money, moneybig, collectionunit, 
       makeid, makebillname, makebilltime, 
       auditid, auditname, audittime, 
       state, creator, createtime, 
@@ -56,7 +57,7 @@
     values (#{id,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR}, #{auditstatus,jdbcType=VARCHAR}, 
       #{orgid,jdbcType=VARCHAR}, #{orgname,jdbcType=VARCHAR}, #{customerid,jdbcType=VARCHAR}, 
       #{customername,jdbcType=VARCHAR}, #{paymentmethod,jdbcType=VARCHAR}, #{payer,jdbcType=VARCHAR}, 
-      #{billdate,jdbcType=BIGINT}, #{money,jdbcType=DOUBLE}, #{collectionunit,jdbcType=VARCHAR}, 
+      #{billdate,jdbcType=VARCHAR}, #{money,jdbcType=DOUBLE}, #{moneybig,jdbcType=VARCHAR}, #{collectionunit,jdbcType=VARCHAR}, 
       #{makeid,jdbcType=VARCHAR}, #{makebillname,jdbcType=VARCHAR}, #{makebilltime,jdbcType=BIGINT}, 
       #{auditid,jdbcType=VARCHAR}, #{auditname,jdbcType=VARCHAR}, #{audittime,jdbcType=BIGINT}, 
       #{state,jdbcType=VARCHAR}, #{creator,jdbcType=VARCHAR}, #{createtime,jdbcType=BIGINT}, 
@@ -98,6 +99,9 @@
       </if>
       <if test="money != null" >
         money,
+      </if>
+      <if test="moneybig != null" >
+        moneybig,
       </if>
       <if test="collectionunit != null" >
         collectionunit,
@@ -171,10 +175,13 @@
         #{payer,jdbcType=VARCHAR},
       </if>
       <if test="billdate != null" >
-        #{billdate,jdbcType=BIGINT},
+        #{billdate,jdbcType=VARCHAR},
       </if>
       <if test="money != null" >
         #{money,jdbcType=DOUBLE},
+      </if>
+       <if test="moneybig != null" >
+        #{moneybig,jdbcType=VARCHAR},
       </if>
       <if test="collectionunit != null" >
         #{collectionunit,jdbcType=VARCHAR},
@@ -248,10 +255,13 @@
         payer = #{payer,jdbcType=VARCHAR},
       </if>
       <if test="billdate != null" >
-        billdate = #{billdate,jdbcType=BIGINT},
+        billdate = #{billdate,jdbcType=VARCHAR},
       </if>
       <if test="money != null" >
         money = #{money,jdbcType=DOUBLE},
+      </if>
+      <if test="moneybig != null" >
+        moneybig = #{moneybig,jdbcType=VARCHAR},
       </if>
       <if test="collectionunit != null" >
         collectionunit = #{collectionunit,jdbcType=VARCHAR},
@@ -308,8 +318,9 @@
       customername = #{customername,jdbcType=VARCHAR},
       paymentmethod = #{paymentmethod,jdbcType=VARCHAR},
       payer = #{payer,jdbcType=VARCHAR},
-      billdate = #{billdate,jdbcType=BIGINT},
+      billdate = #{billdate,jdbcType=VARCHAR},
       money = #{money,jdbcType=DOUBLE},
+      moneybig = #{moneybig,jdbcType=VARCHAR},
       collectionunit = #{collectionunit,jdbcType=VARCHAR},
       makeid = #{makeid,jdbcType=VARCHAR},
       makebillname = #{makebillname,jdbcType=VARCHAR},
@@ -336,7 +347,7 @@
   			and customername = #{customername,jdbcType=VARCHAR}
   		</if>
   		<if test="orgname != null and orgname != ''">
-  			and orgname like '%${orgname}%'
+  			and orgname = #{orgname,jdbcType=VARCHAR}
   		</if>
   		<if test="makebillname != null and makebillname != ''">
   			and makebillname = #{makebillname,jdbcType=VARCHAR}
@@ -361,7 +372,7 @@
   			and customername = #{customername,jdbcType=VARCHAR}
   		</if>
   		<if test="orgname != null and orgname != ''">
-  			and orgname like '%${orgname}%'
+  			and orgname = #{orgname,jdbcType=VARCHAR}
   		</if>
   		<if test="makebillname != null and makebillname != ''">
   			and makebillname = #{makebillname,jdbcType=VARCHAR}
@@ -379,5 +390,90 @@
 			limit #{start,jdbcType=INTEGER},#{limit,jdbcType=INTEGER}
   		</if>
   	</if>
+  </select>
+  <select id="selectSelective" resultMap="BaseResultMap" parameterType="com.tianrui.service.bean.businessManage.financeManage.CustomerBegin">
+  	select 
+  	<include refid="Base_Column_List" />
+    from tr_finance_db_customer_beginning
+  	<where>
+  	  <if test="id != null and id != ''" >
+        and id = #{id,jdbcType=VARCHAR}
+      </if>
+      <if test="code != null and code != ''" >
+        and code = #{code,jdbcType=VARCHAR}
+      </if>
+      <if test="auditstatus != null and auditstatus != ''" >
+        and auditstatus = #{auditstatus,jdbcType=VARCHAR}
+      </if>
+      <if test="orgid != null and orgid != ''" >
+        and orgid = #{orgid,jdbcType=VARCHAR}
+      </if>
+      <if test="orgname != null and orgname != ''" >
+        and orgname = #{orgname,jdbcType=VARCHAR}
+      </if>
+      <if test="customerid != null and customerid != ''" >
+        and customerid = #{customerid,jdbcType=VARCHAR}
+      </if>
+      <if test="customername != null and customername != ''" >
+        and customername = #{customername,jdbcType=VARCHAR}
+      </if>
+      <if test="paymentmethod != null and paymentmethod != ''" >
+        and paymentmethod = #{paymentmethod,jdbcType=VARCHAR}
+      </if>
+      <if test="payer != null and payer != ''" >
+        and payer = #{payer,jdbcType=VARCHAR}
+      </if>
+      <if test="billdate != null and billdate != ''" >
+        and billdate = #{billdate,jdbcType=VARCHAR}
+      </if>
+      <if test="money != null and money != ''" >
+        and money = #{money,jdbcType=DOUBLE}
+      </if>
+      <if test="moneybig != null and moneybig != ''" >
+        and moneybig = #{moneybig,jdbcType=VARCHAR}
+      </if>
+      <if test="collectionunit != null and collectionunit != ''" >
+        and collectionunit = #{collectionunit,jdbcType=VARCHAR}
+      </if>
+      <if test="makeid != null and makeid != ''" >
+        and makeid = #{makeid,jdbcType=VARCHAR}
+      </if>
+      <if test="makebillname != null and makebillname != ''" >
+        and makebillname = #{makebillname,jdbcType=VARCHAR}
+      </if>
+      <if test="makebilltime != null and makebilltime != ''" >
+        and makebilltime = #{makebilltime,jdbcType=BIGINT}
+      </if>
+      <if test="auditid != null and auditid != ''" >
+        and auditid = #{auditid,jdbcType=VARCHAR}
+      </if>
+      <if test="auditname != null and auditname != ''" >
+        and auditname = #{auditname,jdbcType=VARCHAR}
+      </if>
+      <if test="audittime != null and audittime != ''" >
+        and audittime = #{audittime,jdbcType=BIGINT}
+      </if>
+      <if test="state != null and state != ''" >
+        and state = #{state,jdbcType=VARCHAR}
+      </if>
+      <if test="creator != null and creator != ''" >
+        and creator = #{creator,jdbcType=VARCHAR}
+      </if>
+      <if test="createtime != null and createtime != ''" >
+        and createtime = #{createtime,jdbcType=BIGINT}
+      </if>
+      <if test="modifier != null and modifier != ''" >
+        and modifier = #{modifier,jdbcType=VARCHAR}
+      </if>
+      <if test="modifytime != null and modifytime != ''" >
+        and modifytime = #{modifytime,jdbcType=BIGINT}
+      </if>
+      <if test="remark != null and remark != ''" >
+        and remark = #{remark,jdbcType=VARCHAR}
+      </if>
+      <if test="utc != null and utc != ''" >
+        and utc = #{utc,jdbcType=BIGINT}
+      </if>
+  	</where>
   </select>
 </mapper>
