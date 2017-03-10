@@ -19,3 +19,29 @@ Date.prototype.format = function (fmt) { //author: meizz
     if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
     return fmt;
 }
+
+Date.parseYMD_HMS = function (dateStr) {
+	if(dateStr){
+		dateStr = dateStr.split(' ');
+		var date = dateStr[0];
+		var time = dateStr[1];
+		var year = date.split('-')[0];
+		var month = date.split('-')[1];
+		var day = date.split('-')[2];
+		var hour = time.split(':')[0];
+		var minutes = time.split(':')[1];
+		var seconds = time.split(':')[2];
+		function isNumber(n){
+			return /^\+?[0-9][0-9]*$/.test(n);
+		}
+		if(isNumber(year) && isNumber(month) && isNumber(day) 
+				&& isNumber(hour) && isNumber(minutes) && isNumber(seconds)){
+			return new Date(year, month, day, hour, minutes, seconds);
+		}else{
+			console.error('The format is incorrect!');
+		}
+	}else{
+		console.error('Parameter is empty!');
+	}
+}
+
