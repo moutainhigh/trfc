@@ -9,7 +9,7 @@ public class PoundNote {
     private String id;
 	//过磅单号
     private String code;
-	//推单状态（0：为推单，1：推单中，2：已推单）
+	//推单状态（0：未推单，1：推单中，2：已推单）
     private String returnstatus;
 	//是否红冲（0：否，1：是）
     private String redcollide;
@@ -25,10 +25,18 @@ public class PoundNote {
     private String billid;
     //订单code
     private String billcode;
+    //订单详情id
+    private String billdetailid;
 	//通知单id
     private String noticeid;
 	//通知单code
     private String noticecode;
+    //到货磅单
+    private String arrivepoundnotecode;
+    //发货单位id
+    private String senddepartmentid;
+    //发货单位名称
+    private String senddepartmentname;
 	//司机id
     private String driverid;
 	//司机名称
@@ -59,6 +67,8 @@ public class PoundNote {
     private String receiverpersonid;
 	//收料人名称
     private String receiverpersonname;
+    //收货时间
+    private Long receivertime;
 	//预提量
     private Double pickupquantity;
 	//毛重
@@ -178,6 +188,20 @@ public class PoundNote {
 		this.billcode = billcode == null ? null : billcode.trim();
 	}
 
+	/**
+	 * @return the billdetailid
+	 */
+	public String getBilldetailid() {
+		return billdetailid;
+	}
+
+	/**
+	 * @param billdetailid the billdetailid to set
+	 */
+	public void setBilldetailid(String billdetailid) {
+		this.billdetailid = billdetailid;
+	}
+
 	public String getNoticeid() {
         return noticeid;
     }
@@ -194,7 +218,49 @@ public class PoundNote {
         this.noticecode = noticecode == null ? null : noticecode.trim();
     }
 
-    public String getDriverid() {
+    /**
+	 * @return the arrivepoundnotecode
+	 */
+	public String getArrivepoundnotecode() {
+		return arrivepoundnotecode;
+	}
+
+	/**
+	 * @param arrivepoundnotecode the arrivepoundnotecode to set
+	 */
+	public void setArrivepoundnotecode(String arrivepoundnotecode) {
+		this.arrivepoundnotecode = arrivepoundnotecode;
+	}
+
+	/**
+	 * @return the senddepartmentid
+	 */
+	public String getSenddepartmentid() {
+		return senddepartmentid;
+	}
+
+	/**
+	 * @param senddepartmentid the senddepartmentid to set
+	 */
+	public void setSenddepartmentid(String senddepartmentid) {
+		this.senddepartmentid = senddepartmentid;
+	}
+
+	/**
+	 * @return the senddepartmentname
+	 */
+	public String getSenddepartmentname() {
+		return senddepartmentname;
+	}
+
+	/**
+	 * @param senddepartmentname the senddepartmentname to set
+	 */
+	public void setSenddepartmentname(String senddepartmentname) {
+		this.senddepartmentname = senddepartmentname;
+	}
+
+	public String getDriverid() {
         return driverid;
     }
 
@@ -314,7 +380,21 @@ public class PoundNote {
         this.receiverpersonname = receiverpersonname == null ? null : receiverpersonname.trim();
     }
 
-    public Double getPickupquantity() {
+    /**
+	 * @return the receivertime
+	 */
+	public Long getReceivertime() {
+		return receivertime;
+	}
+
+	/**
+	 * @param receivertime the receivertime to set
+	 */
+	public void setReceivertime(Long receivertime) {
+		this.receivertime = receivertime;
+	}
+
+	public Double getPickupquantity() {
         return pickupquantity;
     }
 
@@ -465,4 +545,29 @@ public class PoundNote {
     public void setRemark(String remark) {
         this.remark = remark == null ? null : remark.trim();
     }
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "PoundNote [id=" + id + ", code=" + code + ", returnstatus=" + returnstatus + ", redcollide="
+				+ redcollide + ", status=" + status + ", billtype=" + billtype + ", putinwarehouseid="
+				+ putinwarehouseid + ", putinwarehousecode=" + putinwarehousecode + ", billid=" + billid + ", billcode="
+				+ billcode + ", billdetailid=" + billdetailid + ", noticeid=" + noticeid + ", noticecode=" + noticecode
+				+ ", arrivepoundnotecode=" + arrivepoundnotecode + ", senddepartmentid=" + senddepartmentid
+				+ ", senddepartmentname=" + senddepartmentname + ", driverid=" + driverid + ", drivername=" + drivername
+				+ ", driveridentityno=" + driveridentityno + ", vehicleid=" + vehicleid + ", vehicleno=" + vehicleno
+				+ ", receivedepartmentid=" + receivedepartmentid + ", receivedepartmentname=" + receivedepartmentname
+				+ ", minemouthid=" + minemouthid + ", minemouthname=" + minemouthname + ", warehouseid=" + warehouseid
+				+ ", warehousename=" + warehousename + ", yardid=" + yardid + ", yardname=" + yardname
+				+ ", receiverpersonid=" + receiverpersonid + ", receiverpersonname=" + receiverpersonname
+				+ ", receivertime=" + receivertime + ", pickupquantity=" + pickupquantity + ", grossweight="
+				+ grossweight + ", tareweight=" + tareweight + ", netweight=" + netweight + ", originalnetweight="
+				+ originalnetweight + ", deductionweight=" + deductionweight + ", deductionother=" + deductionother
+				+ ", serialnumber=" + serialnumber + ", lighttime=" + lighttime + ", weighttime=" + weighttime
+				+ ", makerid=" + makerid + ", makebillname=" + makebillname + ", makebilltime=" + makebilltime
+				+ ", state=" + state + ", creator=" + creator + ", createtime=" + createtime + ", modifier=" + modifier
+				+ ", modifytime=" + modifytime + ", remark=" + remark + "]";
+	}
 }

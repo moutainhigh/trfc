@@ -1,16 +1,19 @@
-package com.tianrui.api.resp.businessManage.poundNoteMaintain;
+package com.tianrui.api.req.businessManage.poundNoteMaintain;
 
-import com.tianrui.api.resp.BaseResp;
-import com.tianrui.smartfactory.common.utils.DateUtil;
+import com.tianrui.api.req.BaseReq;
+/**
+ * @Description 磅单保存参数
+ * @author zhanggaohao
+ * @version 2017年3月6日 上午11:28:59
+ */
+public class PoundNoteSave extends BaseReq {
 
-public class PoundNoteResp extends BaseResp {
-
-	private static final long serialVersionUID = 2216553760770399508L;
+	private static final long serialVersionUID = 3636852701547994178L;
 	//主键id
     private String id;
 	//过磅单号
     private String code;
-	//推单状态（0：未推单，1：推单中，2：已推单）
+	//推单状态（0：为推单，1：推单中，2：已推单）
     private String returnstatus;
 	//是否红冲（0：否，1：是）
     private String redcollide;
@@ -26,29 +29,13 @@ public class PoundNoteResp extends BaseResp {
     private String billid;
     //订单code
     private String billcode;
-    //订单数量
-    private Double billsum;
     //订单详情id
     private String billdetailid;
 	//通知单id
     private String noticeid;
 	//通知单code
     private String noticecode;
-    //到货磅单
-    private String arrivepoundnotecode;
-    //发货单位id
-    private String senddepartmentid;
-    //发货单位名称
-    private String senddepartmentname;
-	//供应商id
-    private String supplierid;
-    //供应商名称
-    private String suppliername;
-    //供应商备注
-    private String supplierremark;
-    //物料
-    private String materielname;
-    //司机id
+	//司机id
     private String driverid;
 	//司机名称
     private String drivername;
@@ -78,10 +65,6 @@ public class PoundNoteResp extends BaseResp {
     private String receiverpersonid;
 	//收料人名称
     private String receiverpersonname;
-    //收货时间
-    private Long receivertime;
-    //收货时间字符串
-    private String receivertimeStr;
 	//预提量
     private Double pickupquantity;
 	//毛重
@@ -100,34 +83,24 @@ public class PoundNoteResp extends BaseResp {
     private String serialnumber;
 	//轻车时间
     private Long lighttime;
-    //轻车时间Str
-    private String lighttimeStr;
 	//重车时间
     private Long weighttime;
-    //重车时间Str
-    private String weighttimeStr;
 	//制单人id
     private String makerid;
 	//制单人名称
     private String makebillname;
 	//制单时间
     private Long makebilltime;
-    //制单时间Str
-    private String makebilltimeStr;
 	//状态（0：删除，1：正常）
     private String state;
     //创建人
     private String creator;
 	//创建时间
     private Long createtime;
-    //创建时间Str
-    private String createtimeStr;
 	//修改人
     private String modifier;
 	//修改时间
     private Long modifytime;
-    //修改时间Str
-    private String modifytimeStr;
 	//备注
     private String remark;
 	/**
@@ -251,18 +224,6 @@ public class PoundNoteResp extends BaseResp {
 		this.billcode = billcode;
 	}
 	/**
-	 * @return the billsum
-	 */
-	public Double getBillsum() {
-		return billsum;
-	}
-	/**
-	 * @param billsum the billsum to set
-	 */
-	public void setBillsum(Double billsum) {
-		this.billsum = billsum;
-	}
-	/**
 	 * @return the billdetailid
 	 */
 	public String getBilldetailid() {
@@ -297,90 +258,6 @@ public class PoundNoteResp extends BaseResp {
 	 */
 	public void setNoticecode(String noticecode) {
 		this.noticecode = noticecode;
-	}
-	/**
-	 * @return the arrivepoundnotecode
-	 */
-	public String getArrivepoundnotecode() {
-		return arrivepoundnotecode;
-	}
-	/**
-	 * @param arrivepoundnotecode the arrivepoundnotecode to set
-	 */
-	public void setArrivepoundnotecode(String arrivepoundnotecode) {
-		this.arrivepoundnotecode = arrivepoundnotecode;
-	}
-	/**
-	 * @return the senddepartmentid
-	 */
-	public String getSenddepartmentid() {
-		return senddepartmentid;
-	}
-	/**
-	 * @param senddepartmentid the senddepartmentid to set
-	 */
-	public void setSenddepartmentid(String senddepartmentid) {
-		this.senddepartmentid = senddepartmentid;
-	}
-	/**
-	 * @return the senddepartmentname
-	 */
-	public String getSenddepartmentname() {
-		return senddepartmentname;
-	}
-	/**
-	 * @param senddepartmentname the senddepartmentname to set
-	 */
-	public void setSenddepartmentname(String senddepartmentname) {
-		this.senddepartmentname = senddepartmentname;
-	}
-	/**
-	 * @return the supplierid
-	 */
-	public String getSupplierid() {
-		return supplierid;
-	}
-	/**
-	 * @param supplierid the supplierid to set
-	 */
-	public void setSupplierid(String supplierid) {
-		this.supplierid = supplierid;
-	}
-	/**
-	 * @return the suppliername
-	 */
-	public String getSuppliername() {
-		return suppliername;
-	}
-	/**
-	 * @param suppliername the suppliername to set
-	 */
-	public void setSuppliername(String suppliername) {
-		this.suppliername = suppliername;
-	}
-	/**
-	 * @return the supplierremark
-	 */
-	public String getSupplierremark() {
-		return supplierremark;
-	}
-	/**
-	 * @param supplierremark the supplierremark to set
-	 */
-	public void setSupplierremark(String supplierremark) {
-		this.supplierremark = supplierremark;
-	}
-	/**
-	 * @return the materielname
-	 */
-	public String getMaterielname() {
-		return materielname;
-	}
-	/**
-	 * @param materielname the materielname to set
-	 */
-	public void setMaterielname(String materielname) {
-		this.materielname = materielname;
 	}
 	/**
 	 * @return the driverid
@@ -563,31 +440,6 @@ public class PoundNoteResp extends BaseResp {
 		this.receiverpersonname = receiverpersonname;
 	}
 	/**
-	 * @return the receivertime
-	 */
-	public Long getReceivertime() {
-		return receivertime;
-	}
-	/**
-	 * @param receivertime the receivertime to set
-	 */
-	public void setReceivertime(Long receivertime) {
-		this.receivertime = receivertime;
-		this.receivertimeStr = DateUtil.parse(receivertime, "yyyy-MM-dd HH:mm:ss");
-	}
-	/**
-	 * @return the receivertimeStr
-	 */
-	public String getReceivertimeStr() {
-		return receivertimeStr;
-	}
-	/**
-	 * @param receivertimeStr the receivertimeStr to set
-	 */
-	public void setReceivertimeStr(String receivertimeStr) {
-		this.receivertimeStr = receivertimeStr;
-	}
-	/**
 	 * @return the pickupquantity
 	 */
 	public Double getPickupquantity() {
@@ -694,19 +546,6 @@ public class PoundNoteResp extends BaseResp {
 	 */
 	public void setLighttime(Long lighttime) {
 		this.lighttime = lighttime;
-		this.lighttimeStr = DateUtil.parse(lighttime, "yyyy-MM-dd HH:mm:ss");
-	}
-	/**
-	 * @return the lighttimeStr
-	 */
-	public String getLighttimeStr() {
-		return lighttimeStr;
-	}
-	/**
-	 * @param lighttimeStr the lighttimeStr to set
-	 */
-	public void setLighttimeStr(String lighttimeStr) {
-		this.lighttimeStr = lighttimeStr;
 	}
 	/**
 	 * @return the weighttime
@@ -719,19 +558,6 @@ public class PoundNoteResp extends BaseResp {
 	 */
 	public void setWeighttime(Long weighttime) {
 		this.weighttime = weighttime;
-		this.weighttimeStr = DateUtil.parse(weighttime, "yyyy-MM-dd HH:mm:ss");
-	}
-	/**
-	 * @return the weighttimeStr
-	 */
-	public String getWeighttimeStr() {
-		return weighttimeStr;
-	}
-	/**
-	 * @param weighttimeStr the weighttimeStr to set
-	 */
-	public void setWeighttimeStr(String weighttimeStr) {
-		this.weighttimeStr = weighttimeStr;
 	}
 	/**
 	 * @return the makerid
@@ -768,19 +594,6 @@ public class PoundNoteResp extends BaseResp {
 	 */
 	public void setMakebilltime(Long makebilltime) {
 		this.makebilltime = makebilltime;
-		this.makebilltimeStr = DateUtil.parse(makebilltime, "yyyy-MM-dd HH:mm:ss");
-	}
-	/**
-	 * @return the makebilltimeStr
-	 */
-	public String getMakebilltimeStr() {
-		return makebilltimeStr;
-	}
-	/**
-	 * @param makebilltimeStr the makebilltimeStr to set
-	 */
-	public void setMakebilltimeStr(String makebilltimeStr) {
-		this.makebilltimeStr = makebilltimeStr;
 	}
 	/**
 	 * @return the state
@@ -817,19 +630,6 @@ public class PoundNoteResp extends BaseResp {
 	 */
 	public void setCreatetime(Long createtime) {
 		this.createtime = createtime;
-		this.createtimeStr = DateUtil.parse(createtime, "yyyy-MM-dd HH:mm:ss");
-	}
-	/**
-	 * @return the createtimeStr
-	 */
-	public String getCreatetimeStr() {
-		return createtimeStr;
-	}
-	/**
-	 * @param createtimeStr the createtimeStr to set
-	 */
-	public void setCreatetimeStr(String createtimeStr) {
-		this.createtimeStr = createtimeStr;
 	}
 	/**
 	 * @return the modifier
@@ -854,19 +654,6 @@ public class PoundNoteResp extends BaseResp {
 	 */
 	public void setModifytime(Long modifytime) {
 		this.modifytime = modifytime;
-		this.modifytimeStr = DateUtil.parse(modifytime, "yyyy-MM-dd HH:mm:ss");
-	}
-	/**
-	 * @return the modifytimeStr
-	 */
-	public String getModifytimeStr() {
-		return modifytimeStr;
-	}
-	/**
-	 * @param modifytimeStr the modifytimeStr to set
-	 */
-	public void setModifytimeStr(String modifytimeStr) {
-		this.modifytimeStr = modifytimeStr;
 	}
 	/**
 	 * @return the remark
@@ -880,31 +667,5 @@ public class PoundNoteResp extends BaseResp {
 	public void setRemark(String remark) {
 		this.remark = remark;
 	}
-	/* (non-Javadoc)
-	 * @see java.lang.Object#toString()
-	 */
-	@Override
-	public String toString() {
-		return "PoundNoteResp [id=" + id + ", code=" + code + ", returnstatus=" + returnstatus + ", redcollide="
-				+ redcollide + ", status=" + status + ", billtype=" + billtype + ", putinwarehouseid="
-				+ putinwarehouseid + ", putinwarehousecode=" + putinwarehousecode + ", billid=" + billid + ", billcode="
-				+ billcode + ", billsum=" + billsum + ", billdetailid=" + billdetailid + ", noticeid=" + noticeid
-				+ ", noticecode=" + noticecode + ", arrivepoundnotecode=" + arrivepoundnotecode + ", senddepartmentid="
-				+ senddepartmentid + ", senddepartmentname=" + senddepartmentname + ", supplierid=" + supplierid
-				+ ", suppliername=" + suppliername + ", supplierremark=" + supplierremark + ", materielname="
-				+ materielname + ", driverid=" + driverid + ", drivername=" + drivername + ", driveridentityno="
-				+ driveridentityno + ", vehicleid=" + vehicleid + ", vehicleno=" + vehicleno + ", receivedepartmentid="
-				+ receivedepartmentid + ", receivedepartmentname=" + receivedepartmentname + ", minemouthid="
-				+ minemouthid + ", minemouthname=" + minemouthname + ", warehouseid=" + warehouseid + ", warehousename="
-				+ warehousename + ", yardid=" + yardid + ", yardname=" + yardname + ", receiverpersonid="
-				+ receiverpersonid + ", receiverpersonname=" + receiverpersonname + ", pickupquantity=" + pickupquantity
-				+ ", grossweight=" + grossweight + ", tareweight=" + tareweight + ", netweight=" + netweight
-				+ ", originalnetweight=" + originalnetweight + ", deductionweight=" + deductionweight
-				+ ", deductionother=" + deductionother + ", serialnumber=" + serialnumber + ", lighttime=" + lighttime
-				+ ", lighttimeStr=" + lighttimeStr + ", weighttime=" + weighttime + ", weighttimeStr=" + weighttimeStr
-				+ ", makerid=" + makerid + ", makebillname=" + makebillname + ", makebilltime=" + makebilltime
-				+ ", makebilltimeStr=" + makebilltimeStr + ", state=" + state + ", creator=" + creator + ", createtime="
-				+ createtime + ", createtimeStr=" + createtimeStr + ", modifier=" + modifier + ", modifytime="
-				+ modifytime + ", modifytimeStr=" + modifytimeStr + ", remark=" + remark + "]";
-	}
+    
 }

@@ -1,5 +1,7 @@
 package com.tianrui.web.action.basicFile.measure;
 
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +14,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.tianrui.api.intf.basicFile.measure.IYardManageService;
 import com.tianrui.api.req.basicFile.measure.YardManageQuery;
 import com.tianrui.api.req.basicFile.measure.YardManageSave;
+import com.tianrui.api.resp.basicFile.measure.YardManageResp;
 import com.tianrui.smartfactory.common.constants.ErrorCode;
 import com.tianrui.smartfactory.common.vo.Result;
 
@@ -99,6 +102,18 @@ public class YardManageAction {
 			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
 		}
 		return result;
+	}
+	
+	@RequestMapping("/autoCompleteSearch")
+	@ResponseBody
+	public List<YardManageResp> autoCompleteSearch(String term){
+		List<YardManageResp> list = null;
+		try {
+			list = yardManageService.autoCompleteSearch(term.trim());
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+		}
+		return list;
 	}
 	
 }

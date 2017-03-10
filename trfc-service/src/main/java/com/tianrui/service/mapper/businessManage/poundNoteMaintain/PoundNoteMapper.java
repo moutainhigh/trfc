@@ -34,4 +34,12 @@ public interface PoundNoteMapper {
 	 * @return
 	 */
 	List<PoundNoteResp> purchasePage(PoundNoteQuery query);
+	/**
+	 * @Description 根据id查询磅单
+	 * @author zhanggaohao
+	 * @version 2017年3月9日 上午9:48:01
+	 * @param id
+	 * @return
+	 */
+	PoundNoteResp findOne(String id);
 }

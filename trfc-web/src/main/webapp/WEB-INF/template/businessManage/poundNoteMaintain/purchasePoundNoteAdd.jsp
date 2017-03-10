@@ -1,10 +1,9 @@
-<%@page language="java" pageEncoding="UTF-8"
-	contentType="text/html; charset=UTF-8"%>
+<%@page language="java" pageEncoding="UTF-8" contentType="text/html; charset=UTF-8"%>
 <!Doctype html>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>index</title>
+<title>代购计量单新增</title>
 <!-- 引用公共header部分 -->
 <jsp:include page="../../common/base/header_busi.jsp"></jsp:include>
 </head>
@@ -31,9 +30,9 @@
 						</div>
 						<div class="alt_opera">
 							<ul>
-								<li><i class="iconfont colorlv">&#xe61b;</i>
+								<li id="refreshBtn"><i class="iconfont colorlv">&#xe61b;</i>
 									<h5>刷新</h5></li>
-								<li><i class="iconfont colorblue">&#xe61d;</i>
+								<li id="addBtn"><i class="iconfont colorblue">&#xe61d;</i>
 									<h5>保存</h5></li>
 							</ul>
 						</div>
@@ -44,82 +43,95 @@
 							<div class="daohuo_add_solo">
 								<label><em class="colorred">*</em>订单号：</label>
 								<div class="input_withlogo">
-									<input type="text" data-toggle="modal" data-target="#altbill"
+									<input id="billcode" type="text" placeholder="请选择订单"
 										readonly="readonly"> <span
 										class="form-control-feedback"><i class="iconfont">&#xe608;</i></span>
 								</div>
 							</div>
 							<div class="daohuo_add_solo">
-								<label>单据编号：</label> <input type="text" readonly="true">
+								<label>单据编号：</label> <input type="text" readonly="true"
+									value="${code }">
 							</div>
 							<div class="daohuo_add_solo">
-								<label>收货单位：：</label> <input type="text" readonly="true">
+								<label>收货单位：：</label> <input id="receivedepartmentname"
+									type="text" readonly="true">
 							</div>
 							<div class="daohuo_add_solo">
-								<label>供应商：</label> <input type="text" readonly="true">
+								<label>供应商：</label> <input id="suppliername" type="text"
+									readonly="true">
 							</div>
 							<div class="daohuo_add_solo">
-								<label>订单数量：</label> <input type="text" readonly="true">
+								<label>订单数量：</label> <input id="purchasesum" type="text"
+									readonly="true">
 							</div>
 							<div class="daohuo_add_solo">
-								<label>余量：</label> <input type="text" readonly="true">
+								<label>余量：</label> <input id="margin" type="text"
+									readonly="true">
 							</div>
 							<div class="daohuo_add_solo">
-								<label>毛重：</label> <input type="text">
+								<label>毛重：</label> <input id="grossweight" type="text">
 							</div>
 							<div class="daohuo_add_solo">
-								<label>皮重：</label> <input type="text">
+								<label>皮重：</label> <input id="tareweight" type="text">
 							</div>
 							<div class="daohuo_add_solo">
-								<label>净重：</label> <input type="text" readonly="true">
+								<label>净重：</label> <input id="netweight" type="text"
+									readonly="true">
 							</div>
 							<div class="daohuo_add_solo">
-								<label>原发净重：</label> <input type="text">
+								<label>原发净重：</label> <input id="originalnetweight" type="text">
 							</div>
 							<div class="daohuo_add_solo">
-								<label>车号：</label> <input type="text">
+								<label>车号：</label> <input id="vehicle" type="text">
 							</div>
 							<div class="daohuo_add_solo">
-								<label>物料：</label> <input type="text" readonly="true">
+								<label>物料：</label> <input id="materielname" type="text"
+									readonly="true">
 							</div>
 							<div class="daohuo_add_solo">
-								<label>司机：</label> <input type="text">
+								<label>司机：</label> <input id="driver" type="text">
 							</div>
 							<div class="daohuo_add_solo">
-								<label>身份证：</label> <input type="text" readonly="true">
+								<label>身份证：</label> <input id="driveridentityno" type="text"
+									readonly="true">
 							</div>
 							<div class="daohuo_add_solo">
-								<label>仓库：</label> <input type="text">
+								<label>仓库：</label> <input id="warehouse" type="text">
 							</div>
 							<div class="daohuo_add_solo">
-								<label>矿口：</label> <input type="text">
+								<label>矿口：</label> <input id="minemouth" type="text">
 							</div>
 							<div class="daohuo_add_solo">
-								<label>推场：</label> <input type="text">
+								<label>推场：</label> <input id="yard" type="text">
 							</div>
 							<div class="daohuo_add_solo">
-								<label>收料员：</label> <input type="text">
+								<label>收料员：</label> <input id="receiverperson" type="text">
 							</div>
 							<div class="daohuo_add_solo">
-								<label>重车时间：</label> <input type="text" readonly="readonly"
+								<label>重车时间：</label> <input id="weighttime" type="text"
+									value="${nowDate }" readonly="readonly"
 									onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:00:00'})"
 									class="Wdate" />
 							</div>
 							<div class="daohuo_add_solo">
-								<label>轻车时间：</label> <input type="text" readonly="readonly"
+								<label>轻车时间：</label> <input id="lighttime" type="text"
+									value="${nowDate }" readonly="readonly"
 									onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:00:00'})"
 									class="Wdate" />
 							</div>
 							<div class="daohuo_add_solo">
-								<label>供应商备注：</label> <input type="text" readonly="true">
+								<label>供应商备注：</label> <input id="supplierremark" type="text"
+									readonly="true">
 							</div>
 							<div class="daohuo_add_solo">
-								<label>制单日期：</label> <input type="text" readonly="readonly"
+								<label>制单日期：</label> <input id="makebilltime" type="text"
+									value="${nowDate }" readonly="readonly"
 									onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:00:00'})"
 									class="Wdate" />
 							</div>
 							<div class="daohuo_add_solo">
-								<label>制单人：</label> <input type="text" readonly="true">
+								<label>制单人：</label> <input id="makebillname" type="text"
+									value="${makebillname }" readonly="true">
 							</div>
 						</div>
 					</div>
@@ -233,7 +245,5 @@
 	<jsp:include page="../../common/base/footer_busi.jsp"></jsp:include>
 	<script type="text/javascript"
 		src="/javascript/businessManage/poundNoteMaintain/purchasePoundNoteAdd.js"></script>
-	<script type="text/javascript">
-		</body>
-		</html>
-	
+</body>
+</html>

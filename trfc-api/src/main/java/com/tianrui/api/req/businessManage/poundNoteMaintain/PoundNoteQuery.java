@@ -45,6 +45,8 @@ public class PoundNoteQuery extends BaseReq {
 	private Integer start;
 	//条数
 	private Integer limit;
+	//当前登录用户
+	private String currId;
 
 	/**
 	 * @return the id
@@ -296,5 +298,19 @@ public class PoundNoteQuery extends BaseReq {
 	 */
 	public void setLimit(Integer limit) {
 		this.limit = limit;
+	}
+
+	/**
+	 * @return the currId
+	 */
+	public String getCurrId() {
+		return currId;
+	}
+
+	/**
+	 * @param currId the currId to set
+	 */
+	public void setCurrId(String currId) {
+		this.currId = currId;
 	}
 }

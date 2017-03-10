@@ -1,9 +1,10 @@
 package com.tianrui.api.intf.basicFile.measure;
 
-import com.tianrui.api.req.basicFile.measure.MinemouthManageQuery;
-import com.tianrui.api.req.basicFile.measure.MinemouthManageSave;
+import java.util.List;
+
 import com.tianrui.api.req.basicFile.measure.YardManageQuery;
 import com.tianrui.api.req.basicFile.measure.YardManageSave;
+import com.tianrui.api.resp.basicFile.measure.YardManageResp;
 import com.tianrui.smartfactory.common.vo.Result;
 
 /**
@@ -40,4 +41,13 @@ public interface IYardManageService {
 	 * @return
 	 */
 	Result deleteYard(YardManageQuery query);
+	/**
+	 * @Description 通过名称模糊查询
+	 * @author zhanggaohao
+	 * @version 2017年3月8日 下午2:10:01
+	 * @param likeName
+	 * @return
+	 * @throws Exception
+	 */
+	List<YardManageResp> autoCompleteSearch(String likeName) throws Exception;
 }

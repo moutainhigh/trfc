@@ -1,15 +1,25 @@
 ;(function($, win){
 	var URL = {
-			purchaseArriveMain: '/trfc/purchaseArrive/main',
+			purchasePoundNoteMain: '/trfc/poundNote/purchase/main',
 			pageGroupMateriel: '/trfc/purchaseApplication/pageGroupMateriel',
-			add: '/trfc/purchaseArrive/add',
-			addVehicle: '/trfc/vehicle/add',
-			addDriver: '/trfc/driver/add',
+			addPurchase: '/trfc/poundNote/purchase/addPoundNote',
 			vehicleAutoCompleteSearch: "/trfc/vehicle/autoCompleteSearch",
 			driverAutoCompleteSearch: "/trfc/driver/autoCompleteSearch",
 			materielAutoCompleteSearch: "/trfc/materiel/autoCompleteSearch",
-			supplierAutoCompleteSearch: "/trfc/supplier/autoCompleteSearch"
+			supplierAutoCompleteSearch: "/trfc/supplier/autoCompleteSearch",
+			warehouseAutoCompleteSearch: "/trfc/warehouse/autoCompleteSearch",
+			minemouthAutoCompleteSearch: "/trfc/minemouth/autoCompleteSearch",
+			yardAutoCompleteSearch: "/trfc/yard/autoCompleteSearch",
 	};
+	//日期字符串转为时间戳
+	function str2Long(dateStr){
+		var time = '';
+		if(dateStr){
+			var date = new Date(dateStr);
+			time = date.getTime();
+		}
+		return time;
+	}
 	init();
 	function init(){
 		//初始化autocomplete
@@ -77,7 +87,7 @@
 	    	},
 	    	select: function( event, ui ) {
 	    		$(this).val(ui.item.name).attr('driverid', ui.item.id);
-	    		$('#identityno').val(ui.item.identityno);
+	    		$('#driveridentityno').val(ui.item.identityno);
 	    		return false;
     		}
 	    }).off('click').on('click',function(){
@@ -157,6 +167,108 @@
     			$(this).val('');
     		}
 	    });
+	    $("#warehouse").autocomplete({
+	    	source: function( request, response ) {
+	    		var term = request.term;
+	    		var warehouse = cache['warehouse'] || {};
+	    		if ( term in warehouse ) {
+	    			response( warehouse[ term ] );
+	    			return;
+	    		}
+	    		$.post( URL.warehouseAutoCompleteSearch, request, function( data, status, xhr ) {
+	    			warehouse[ term ] = data;
+	    			response( data );
+	    		});
+	    	},
+	    	response: function( event, ui ) {
+	    		if(ui.content && ui.content.length > 0){
+	    			ui.content.forEach(function(x,i,a){
+	    				x.label = x.name;
+	    				x.value = x.id;
+	    			});
+	    		}
+	    	},
+	    	select: function( event, ui ) {
+	    		$(this).val(ui.item.name).attr('warehouseid', ui.item.id);
+	    		return false;
+	    	}
+	    }).off('click').on('click',function(){
+	    	$(this).autocomplete('search',' ');
+	    }).on('input propertychange',function(){
+	    	$(this).removeAttr('warehouseid');
+	    }).change(function(){
+	    	if(!$(this).attr('warehouseid')){
+	    		$(this).val('');
+	    	}
+	    });
+	    $("#minemouth").autocomplete({
+	    	source: function( request, response ) {
+	    		var term = request.term;
+	    		var minemouth = cache['minemouth'] || {};
+	    		if ( term in minemouth ) {
+	    			response( minemouth[ term ] );
+	    			return;
+	    		}
+	    		$.post( URL.minemouthAutoCompleteSearch, request, function( data, status, xhr ) {
+	    			minemouth[ term ] = data;
+	    			response( data );
+	    		});
+	    	},
+	    	response: function( event, ui ) {
+	    		if(ui.content && ui.content.length > 0){
+	    			ui.content.forEach(function(x,i,a){
+	    				x.label = x.name;
+	    				x.value = x.id;
+	    			});
+	    		}
+	    	},
+	    	select: function( event, ui ) {
+	    		$(this).val(ui.item.name).attr('minemouthid', ui.item.id);
+	    		return false;
+	    	}
+	    }).off('click').on('click',function(){
+	    	$(this).autocomplete('search',' ');
+	    }).on('input propertychange',function(){
+	    	$(this).removeAttr('minemouthid');
+	    }).change(function(){
+	    	if(!$(this).attr('minemouthid')){
+	    		$(this).val('');
+	    	}
+	    });
+	    $("#yard").autocomplete({
+	    	source: function( request, response ) {
+	    		var term = request.term;
+	    		var yard = cache['yard'] || {};
+	    		if ( term in yard ) {
+	    			response( yard[ term ] );
+	    			return;
+	    		}
+	    		$.post( URL.yardAutoCompleteSearch, request, function( data, status, xhr ) {
+	    			yard[ term ] = data;
+	    			response( data );
+	    		});
+	    	},
+	    	response: function( event, ui ) {
+	    		if(ui.content && ui.content.length > 0){
+	    			ui.content.forEach(function(x,i,a){
+	    				x.label = x.name;
+	    				x.value = x.id;
+	    			});
+	    		}
+	    	},
+	    	select: function( event, ui ) {
+	    		$(this).val(ui.item.name).attr('yardid', ui.item.id);
+	    		return false;
+	    	}
+	    }).off('click').on('click',function(){
+	    	$(this).autocomplete('search',' ');
+	    }).on('input propertychange',function(){
+	    	$(this).removeAttr('yardid');
+	    }).change(function(){
+	    	if(!$(this).attr('yardid')){
+	    		$(this).val('');
+	    	}
+	    });
 	}
 	//绑定按钮事件
 	function initBindEvent(){
@@ -166,7 +278,10 @@
 		});
 		//保存
 		$('#addBtn').off('click').on('click',function(){
-			addPurchaseArrive();
+			if(!$(this).hasClass('disabled')){
+				$(this).addClass('disabled');
+				addPurchasePoundNote();
+			}
 		});
 		//打开订单列表
 		$('#billcode').off('click').on('click',function(){
@@ -176,6 +291,41 @@
 		//订单搜索按钮
 		$('#PurchaseApplicationSearchBtn').off('click').on('click',function(){
 			queryPurchaseApplication(1);
+		});
+		/**
+		 * 自动计算净重
+		 */
+		$('#grossweight').off('input propertychange').on('input propertychange',function(){
+			var grossweight = $(this).val();
+			if(!grossweight || !$.isNumeric(grossweight)){
+				layer.tips('必须为数字，且不能为空！', this, {
+					  tips: [1, '#3595CC'],
+					  time: 2000
+					});
+				$(this).val('');
+				$('#netweight').val('');
+			}else{
+				var tareweight = $('#tareweight').val();
+				if(tareweight && $.isNumeric(tareweight)){
+					$('#netweight').val(grossweight-tareweight);
+				}
+			}
+		});
+		$('#tareweight').off('input propertychange').on('input propertychange',function(){
+			var tareweight = $(this).val();
+			if(!tareweight || !$.isNumeric(tareweight)){
+				layer.tips('必须为数字，且不能为空！', this, {
+					  tips: [1, '#3595CC'],
+					  time: 2000
+					});
+				$(this).val('');
+				$('#netweight').val('');
+			}else{
+				var grossweight = $('#grossweight').val();
+				if(grossweight && $.isNumeric(grossweight)){
+					$('#netweight').val(grossweight-tareweight);
+				}
+			}
 		});
 		/**
 		 * 以下分页
@@ -328,14 +478,74 @@
 	//显示相关订单信息
 	function pushPurchaseArrive(obj){
 		$('#billcode').val(obj.code || '').attr('billid', obj.id || '').attr('billdetailid', obj.detailid);
+		$('#receivedepartmentname').val(obj.orgname || '');
 		$('#suppliername').val(obj.suppliername || '');
-		$('#materielname').val(obj.materielname || '');
 		$('#purchasesum').val(obj.purchasesum || '');
+		$('#materielname').val(obj.materielname || '');
 		$('#margin').val(obj.margin || '');
-		$('#unit').val(obj.unit || '');
-		$('#departmentname').val(obj.departmentname || '');
 		$('#supplierremark').val(obj.supplierremark || '');
 		$('#altbill').modal('hide');
+	}
+	//获取采购计量参数
+	function getPurchasePoundNoteParams(){
+		var billid = $('#billcode').attr('billid');
+		var billdetailid = $('#billcode').attr('billdetailid');
+		var grossweight = $('#grossweight').val();
+		var tareweight = $('#tareweight').val();
+		var netweight = $('#netweight').val();
+		var originalnetweight = $('#originalnetweight').val();
+		var vehicleid = $('#vehicle').attr('vehicleid');
+		var driverid = $('#driver').attr('driverid');
+		var warehouseid = $('#warehouse').attr('warehouseid');
+		var minemouthid = $('#minemouth').attr('minemouthid');
+		var yardid = $('#yard').attr('yardid');
+		var receiverpersonid = $('#receiverperson').attr('receiverpersonid');
+		var weighttime = $('#weighttime').val();
+		var lighttime = $('#lighttime').val();
+		var makebilltime = $('#makebilltime').val();
+		return {
+			billid: billid,
+			billdetailid: billdetailid,
+			grossweight: grossweight,
+			tareweight: tareweight,
+			netweight: netweight,
+			originalnetweight: originalnetweight,
+			vehicleid: vehicleid,
+			driverid: driverid,
+			warehouseid: warehouseid,
+			minemouthid: minemouthid,
+			yardid: yardid,
+			receiverpersonid: receiverpersonid,
+			weighttime: str2Long(weighttime),
+			lighttime: str2Long(lighttime),
+			makebilltime: str2Long(makebilltime)
+		}
+	}
+	//校验参数是否合法
+	function validate(params){
+		return params;
+	}
+	//新增采购计量
+	function addPurchasePoundNote(){
+		var params = getPurchasePoundNoteParams();
+		if(validate(params)){
+			$.ajax({
+				url:URL.addPurchase,
+				data:params,
+				async:true,
+				cache:false,
+				dataType:'json',
+				type:'post',
+				success:function(result){
+					if(result.code == '000000'){
+						window.location.href = URL.purchasePoundNoteMain;
+					}else{
+						layer.msg(result.error, {icon: 5});
+						$('#addBtn').removeClass('disabled');
+					}
+				}
+			});
+		}
 	}
 	
 })(jQuery, window);

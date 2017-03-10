@@ -186,8 +186,10 @@
 			window.location.reload();
 		});
 		$('#addBtn').off('click').on('click',function(){
-			this.disabled = true;
-			saveSalesArrive(this);
+			if(!$(this).hasClass('disabled')){
+				$(this).addClass('disabled');
+				saveSalesArrive();
+			}
 		});
 		$('#addAndAddCardBtn').off('click').on('click',function(){
 			alert('待开发.');
@@ -391,7 +393,7 @@
 		};
 	}
 	//新增通知单
-	function saveSalesArrive(_this){
+	function saveSalesArrive(){
 		var params = getSalesArriveParams();
 		if(validate(params)){
 			var index = layer.load(2, {
@@ -409,7 +411,7 @@
 						window.location.href = URL.mainUrl;
 					}else{
 						layer.msg(result.error, {icon: 5});
-						_this.disabled = false;
+						$('#addBtn').removeClass('disabled');
 						layer.close(index);
 					}
 				}

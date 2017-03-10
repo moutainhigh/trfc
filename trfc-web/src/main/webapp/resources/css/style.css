@@ -276,7 +276,6 @@ input[readOnly="true"]{
 }
 .intel_table {
     width: 100%;
-    height: 300px;
 }
 
 .intel_tabbox .intel_tabcont .intel_table table tbody i{
@@ -1052,8 +1051,10 @@ width: 180px;
 .dh_alttable{
     width: 100%;
     height: 400px;
+    overflow: scroll;
 }
 .dh_alttable table tr{
+    white-space: nowrap;
 
 }
 /*菜单表格下拉*/
@@ -1570,18 +1571,13 @@ width: 180px;
     padding: 4px 12px;
     margin: 0 6px;
 }
-#pageSize {
-    width: 50px;
-    padding: 0px;
-    height: 25px;
-}
 
 .ui-autocomplete {
-	max-height: 200px;
-	overflow-y: auto;
-	/* 防止水平滚动条 */
-	overflow-x: hidden;
-    z-index: 5001!important;
+    max-height: 200px;
+    overflow-y: auto;
+    /* 防止水平滚动条 */
+    overflow-x: hidden;
+    z-index: 1200!important;
 }
 /* IE 6 不支持 max-height
 	   * 我们使用 height 代替，但是这会强制菜单总是显示为那个高度

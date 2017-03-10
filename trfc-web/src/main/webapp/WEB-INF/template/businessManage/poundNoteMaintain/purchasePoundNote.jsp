@@ -99,8 +99,8 @@
 						</div>
 						<div id="addBtn" class="intel_operasolo">
 							<a data-toggle="modal" data-target="#add"> <i
-								class="iconfont coloradd">&#xe627;</i>
-								<h5>新增</h5>
+								class="iconfont coloradd">&#xe647;</i>
+								<h5>补增</h5>
 							</a>
 						</div>
 					</div>
@@ -136,38 +136,6 @@
 								</tr>
 							</thead>
 							<tbody id="dataBody">
-								<!-- <tr>
-									<td>1</td>
-									<td>154541990</td>
-									<td class="colorred">3.推单</td>
-									<td>是:22</td>
-									<td class="colorred">入库入库入库入库入库入库入库入库入库入库</td>
-									<td>200</td>
-									<td>1,990</td>
-									<td>1,990</td>
-									<td>1,990</td>
-									<td>1,990</td>
-									<td>1,990</td>
-									<td>1,990</td>
-									<td>1,990</td>
-									<td>1,990</td>
-									<td>3.11</td>
-									<td>1,990</td>
-									<td>1,990</td>
-									<td>22</td>
-									<td>3.11</td>
-									<td>22</td>
-									<td>12像素大小</td>
-									<td>1,990</td>
-									<td><span> <a data-toggle="modal"
-											data-target="#edit"> <i class="iconfont"
-												data-toggle="tooltip" data-placement="bottom" title="编辑">&#xe600;</i>
-										</a>
-									</span> <span> <a data-toggle="modal" data-target="#dele"><i
-												class="iconfont" data-toggle="tooltip"
-												data-placement="bottom" title="删除">&#xe63d;</i></a>
-									</span></td>
-								</tr> -->
 							</tbody>
 						</table>
 						<!--用户表格end-->
