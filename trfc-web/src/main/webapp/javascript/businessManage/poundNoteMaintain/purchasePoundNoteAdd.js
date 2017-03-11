@@ -523,6 +523,18 @@
 	}
 	//校验参数是否合法
 	function validate(params){
+		if(!params.billid || !params.billdetailid){
+			layer.msg('请选择订单！', {icon: 5}); return false;
+		}
+		if(!params.grossweight || params.grossweight == 0){
+			layer.msg('毛重不能为空且不能为零！', {icon: 5}); return false;
+		}
+		if(!params.tareweight || params.tareweight == 0){
+			layer.msg('皮重不能为空且不能为零！', {icon: 5}); return false;
+		}
+		if(!params.vehicleid){
+			layer.msg('请选择车辆！', {time:9999999,icon: 5}); return false;
+		}
 		return params;
 	}
 	//新增采购计量
@@ -545,6 +557,8 @@
 					}
 				}
 			});
+		}else{
+			$('#addBtn').removeClass('disabled');
 		}
 	}
 	

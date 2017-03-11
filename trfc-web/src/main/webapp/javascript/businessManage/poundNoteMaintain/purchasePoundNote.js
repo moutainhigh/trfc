@@ -289,9 +289,9 @@
 				var makebilltimeStr = obj.makebilltimeStr || '';
 				$('<tr>').append('<td>'+(i+1)+'</td>')
 						.append('<td>'+code+'</td>')
-						.append('<td>'+returnstatus+'</td>')
-						.append('<td>'+redcollide+'</td>')
-						.append('<td>'+status+'</td>')
+						.append('<td'+(obj.returnstatus == '0' ? ' class="colorred"' : '')+'>'+returnstatus+'</td>')
+						.append('<td'+(obj.redcollide == '0' ? ' class="colorred"' : '')+'>'+redcollide+'</td>')
+						.append('<td'+(obj.status == '1' || obj.status == '3' ? ' class="colorred"' : '')+'>'+status+'</td>')
 						.append('<td>'+putinwarehousecode+'</td>')
 						.append('<td>'+noticecode+'</td>')
 						.append('<td>'+suppliername+'</td>')

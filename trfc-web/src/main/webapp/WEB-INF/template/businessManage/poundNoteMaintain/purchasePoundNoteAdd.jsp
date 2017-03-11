@@ -69,55 +69,55 @@
 									readonly="true">
 							</div>
 							<div class="daohuo_add_solo">
-								<label>毛重：</label> <input id="grossweight" type="text">
+								<label>毛重：</label> <input id="grossweight" type="text" placeholder="请输入毛重">
 							</div>
 							<div class="daohuo_add_solo">
-								<label>皮重：</label> <input id="tareweight" type="text">
+								<label>皮重：</label> <input id="tareweight" type="text" placeholder="请输入皮重">
 							</div>
 							<div class="daohuo_add_solo">
 								<label>净重：</label> <input id="netweight" type="text"
 									readonly="true">
 							</div>
 							<div class="daohuo_add_solo">
-								<label>原发净重：</label> <input id="originalnetweight" type="text">
+								<label>原发净重：</label> <input id="originalnetweight" type="text" placeholder="请输入原发净重">
 							</div>
 							<div class="daohuo_add_solo">
-								<label>车号：</label> <input id="vehicle" type="text">
+								<label>车号：</label> <input id="vehicle" type="text" placeholder="请选择车号">
 							</div>
 							<div class="daohuo_add_solo">
 								<label>物料：</label> <input id="materielname" type="text"
 									readonly="true">
 							</div>
 							<div class="daohuo_add_solo">
-								<label>司机：</label> <input id="driver" type="text">
+								<label>司机：</label> <input id="driver" type="text" placeholder="请选择司机">
 							</div>
 							<div class="daohuo_add_solo">
 								<label>身份证：</label> <input id="driveridentityno" type="text"
 									readonly="true">
 							</div>
 							<div class="daohuo_add_solo">
-								<label>仓库：</label> <input id="warehouse" type="text">
+								<label>仓库：</label> <input id="warehouse" type="text" placeholder="请选择仓库">
 							</div>
 							<div class="daohuo_add_solo">
-								<label>矿口：</label> <input id="minemouth" type="text">
+								<label>矿口：</label> <input id="minemouth" type="text" placeholder="请选择矿口">
 							</div>
 							<div class="daohuo_add_solo">
-								<label>推场：</label> <input id="yard" type="text">
+								<label>堆场：</label> <input id="yard" type="text" placeholder="请选择堆场">
 							</div>
 							<div class="daohuo_add_solo">
-								<label>收料员：</label> <input id="receiverperson" type="text">
+								<label>收料员：</label> <input id="receiverperson" type="text" placeholder="请选择收料员">
 							</div>
 							<div class="daohuo_add_solo">
 								<label>重车时间：</label> <input id="weighttime" type="text"
 									value="${nowDate }" readonly="readonly"
 									onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:00:00'})"
-									class="Wdate" />
+									class="Wdate" placeholder="请选择重车时间"/>
 							</div>
 							<div class="daohuo_add_solo">
 								<label>轻车时间：</label> <input id="lighttime" type="text"
 									value="${nowDate }" readonly="readonly"
 									onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:00:00'})"
-									class="Wdate" />
+									class="Wdate" placeholder="请选择轻车时间"/>
 							</div>
 							<div class="daohuo_add_solo">
 								<label>供应商备注：</label> <input id="supplierremark" type="text"
@@ -127,7 +127,7 @@
 								<label>制单日期：</label> <input id="makebilltime" type="text"
 									value="${nowDate }" readonly="readonly"
 									onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:00:00'})"
-									class="Wdate" />
+									class="Wdate" placeholder="请选择制单日期"/>
 							</div>
 							<div class="daohuo_add_solo">
 								<label>制单人：</label> <input id="makebillname" type="text"

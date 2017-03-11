@@ -160,7 +160,6 @@ input[readOnly="true"]{
     border-left: 1px solid #dbe7f3;
     padding:0 10px;
     overflow: hidden;
-    min-height: 750px;
 }
 .intel_search{
     border-left: 1px solid #ecedf3;
@@ -245,9 +244,7 @@ input[readOnly="true"]{
     vertical-align: top;
 }
 .intel_search .intel_solo .mini_select{
-    width: 72px;
-    padding: 0px;
-    margin: 0px;
+    width:72px;
 }
 .intel_opera{
     padding: 15px 10px;
@@ -276,17 +273,37 @@ input[readOnly="true"]{
 }
 .intel_table {
     width: 100%;
+    overflow-x: auto;
 }
-
+.intel_tabbox .intel_tabcont .intel_table table{
+    background: #f5f6fb;
+    font-size: 12px;
+    text-align: center;
+}
+.intel_tabbox .intel_tabcont .intel_table table thead th{
+    background: #f5f6fb;
+    font-size: 14px;
+    text-align: center;
+    line-height: 33px;
+}
 .intel_tabbox .intel_tabcont .intel_table table tbody i{
     font-size: 17px;
     cursor: pointer;
     margin: 0 5px;
 }
+.intel_tabbox .intel_tabcont .intel_table table tbody td{
+    line-height: 33px;
+    cursor: pointer;
+    min-width: 100px;
+    white-space: nowrap;
+}
 .intel_tabbox .intel_tabcont .intel_table table tbody tr.select{
     background: #ffffff;
 }
 
+.intel_tabbox .intel_tabcont .intel_table .table-hover > tbody > tr:hover {
+    background: #ffffff;
+}
 /*下面的表内容*/
 .intel_result{
     padding: 0px;
@@ -331,8 +348,8 @@ input[readOnly="true"]{
     border: 1px solid #cccccc;
 }
 .page_date .form-control{
-    width: 100px;
-    height: 30px;
+    width: 80px;
+    height: 26px;
     padding: 0 15px;
 }
 /*登录*/
