@@ -1,6 +1,8 @@
 $(function(){
-
-
+	//用来存储需要删除采样车辆信息
+	var samplingItems = new Array();
+	//用来存储已读IC卡号
+	var cardIdArr = new Array();
 	var URL = {
 			systemDataAutoCompleteSearch:"/trfc/system/base/dataDict/autoCompleteSearch",
 			pageUrl:"/trfc/quality/purchase/sampling/page",
@@ -36,7 +38,7 @@ $(function(){
 		event.stopPropagation();
 		deleteAction(this)});
 	//绑定编辑按钮
-	$('#list').on('click','tr [title="编辑"]',function(event){
+	$('#list').on('click','tr [title="编辑"]',function(){
 		initEditData(this);
 	});
 	$('#list').on('dblclick','tr',function(){
@@ -44,29 +46,28 @@ $(function(){
 		initDetailData(this);
 	});
 	//绑定读卡功能
-	$('.btn_duka').click(function(){
+	$('#add_readBtn').click(function(){
 		var tbody = $("#add_list");
 		getSamplingCarData(tbody);});
 	$('#edit_readBtn').click(function(){
 		var tbody = $("#edit_list");
-		getSamplingCarData(tbody);
-	});
+		getSamplingCarData(tbody);});
 	//绑定新增保存
 	$('#add_sure').click(saveAction);
 	//绑定新增刷新
 	$('#add_fresh').click(initAddData);
 	$('#edit_sure').click(editAction);
 
-	
-	
-	
+
+
+
 	function indexOfList(tbody){
 		var trs = tbody.find('tr');
 		for(var i=0;i<trs.length;i++){
 			trs.eq(i).find('td:first').html(i+1);
 		}
 	}
-	
+
 	//加载详情数据
 	function initDetailData(tr){
 		var obj = $(tr).data('obj');
@@ -79,7 +80,7 @@ $(function(){
 		var tbody = $("#vehicle_list").empty();
 		loadDetailData(tbody,obj.id);
 	}
-	
+
 	//加载详情
 	function loadDetailData(tbody,id){
 
@@ -141,15 +142,18 @@ $(function(){
 		var arr = new Array();
 		for(var i=0;i<trs.length;i++){
 			var obj=trs.eq(i).data('obj');
-			var samplingcode = obj.code;
-			var samplingcar = obj.car;
-			arr[i]={samplingcode:samplingcode,samplingcar:samplingcar};
+			if(!obj.id){
+				var samplingcode = obj.code;
+				var samplingcar = obj.car;
+				arr.push({samplingcode:samplingcode,samplingcar:samplingcar});
+			}
 		}
 		var arrstr = JSON.stringify(arr);
-		if(arrstr=='[]'){
+		if(trs.length=0){
 			layer.alert("采样车辆信息不能为空!")
 			return null;
 		}
+
 		var param = {
 				id:id,
 				samplingtime:samplingtime,
@@ -158,6 +162,9 @@ $(function(){
 				remark:remark,
 				arrstr:arrstr
 		};
+		if(samplingItems.length>0){
+			param.idToDelete = JSON.stringify(samplingItems);
+		}
 		return param;
 	}
 
@@ -184,8 +191,7 @@ $(function(){
 			layer.alert("采购日期无效!");
 			return null;
 		}
-		var createtime = new Date($("#add_createtime").val());
-		createtime = createtime.getTime();
+		var createtime = Date.parseYMD_HMS($("#add_createtime").val()).getTime();
 		var assaytype = $("#add_assaytype").attr('assayid');
 		var remark = $("#add_remark").val();
 		var trs = $("#add_list>tr");
@@ -229,10 +235,31 @@ $(function(){
 	}
 	//获取采样车辆信息
 	function getSamplingCarData(tbody){
-		var data = [{code:"01160809005",car:"DH1608090007",supplier:"中原裕阔商贸有限公司",material:"原煤",mine:"达丰沃",vehicle:"豫F57210"},
-		            {code:"01160809004",car:"DH1608090006",supplier:"中原裕阔商贸有限公司",material:"原煤",mine:"达丰沃",vehicle:"豫F57209"}];
-		if(data){
-			var obj=data[tbody.find('tr').length];
+		//打开读卡器
+		readerOpen();
+		//读卡
+		var cardId = openCard();
+		if(cardId){
+			if(cardIdArr.indexOf(cardId)<0){
+				cardIdArr.push(cardId);
+			}else{
+				readerClose();
+				layer.alert('此卡已读!');
+				return;
+			}
+			//提示读卡成功
+			readerBeep();
+			var obj = {
+					id:'',
+					code:getICCardData(2),
+					car:getICCardData(3),
+					supplier:getICCardData(4),
+					material:getICCardData(5),
+					mine:getICCardData(6),
+					vehicle:getICCardData(7),
+					remark:getICCardData(8)};
+			//关闭读卡器
+			readerClose();
 			if(obj){
 				var tr = '<tr>'
 					+'<td></td>'
@@ -250,11 +277,15 @@ $(function(){
 				tr.dblclick(function(){tr.remove();indexOfList(tbody);});
 				indexOfList(tbody);
 			}
+		}else{
+			readerClose();
 		}
 	}
 
 	//初始化编辑事件
 	function initEditData(btn){
+		cardIdArr.splice(0,cardIdArr.length);
+		samplingItems.splice(0,samplingItems.length);
 		var obj = $(btn).closest('tr').data('obj');
 		$("#edit_id").val(obj.id);
 		$("#edit_code").val(obj.code);
@@ -265,12 +296,20 @@ $(function(){
 		$("#edit_remark").val(obj.remark);
 		var tbody = $("#edit_list").empty();
 		loadDetailData(tbody,obj.id);
-		tbody.on('dblclick','tr',function(){$(this).remove();indexOfList(tbody);});
+		tbody.on('dblclick','tr',function(){
+			var obj = $(this).data('obj');
+			if(obj){
+				if(obj.id){
+					samplingItems.push(obj.id);
+				}
+				//移除该列
+				$(this).remove();
+				indexOfList(tbody);
+			}
+		});
 	}
 	//删除数据
 	function deleteAction(btn){
-		//停止事件向上传播
-		event.stopPropagation();
 		//获取id
 		var id = $(btn).closest('tr').data('obj').id;
 		//弹出删除确认框
@@ -292,6 +331,7 @@ $(function(){
 
 	//初始化新增数据
 	function initAddData(){
+		cardIdArr.splice(0,cardIdArr.length);
 		var param = {
 				userid:userid,
 				code:"CY",

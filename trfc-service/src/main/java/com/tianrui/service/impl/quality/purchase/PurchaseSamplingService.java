@@ -106,11 +106,40 @@ public class PurchaseSamplingService implements IPurchaseSamplingService {
 		}
 		return list;
 	}
+	//通过id删除子表信息
+	public int deleteItem(PurchaseSamplingReq req){
+		int index = 1;
+		if(StringUtils.isNotBlank(req.getIdToDelete())){
+			//把JSON字符串转换为JSON数组
+			JSONArray json = JSONArray.parseArray(req.getIdToDelete());
+			for(int i=0;i<json.size();i++){
+				//获取id
+				String id = json.get(i).toString();
+				if(StringUtils.isNotBlank(id)){
+					PurchaseSamplingItem item = new PurchaseSamplingItem();
+					item.setId(id);
+					//设置状态为删除状态
+					item.setState("0");
+					item.setModifier(req.getUser());
+					item.setModifytime(System.currentTimeMillis());
+					item.setUtc(System.currentTimeMillis());
+					//更新数据到数据库
+					int num = purchaseSamplingItemMapper.updateByPrimaryKeySelective(item);
+					if(num<=0){
+						index = -1;
+					}
+				}
+			}
+		}
+		return index;
+	}
+	//保存子表信息
 	public int saveItem(PurchaseSamplingReq req){
 		int index = 1;
 		if(StringUtils.isNotBlank(req.getArrstr())){
 			List<PurchaseSamplingItem> list = getListReq(req);
 			for(PurchaseSamplingItem item : list){
+				//保存数据到数据库
 				int num = purchaseSamplingItemMapper.insertSelective(item);
 				if(num<1){
 					index = -1;
@@ -129,9 +158,10 @@ public class PurchaseSamplingService implements IPurchaseSamplingService {
 			ps.setModifier(req.getUser());
 			ps.setModifytime(System.currentTimeMillis());
 			ps.setUtc(System.currentTimeMillis());
+			System.out.println(req.getIdToDelete());
 			//更新到数据库
 			int index = purchaseSamplingMapper.updateByPrimaryKeySelective(ps);
-			if(index>0){
+			if(index>0 && deleteItem(req)>0 && saveItem(req)>0){
 				rs = Result.getSuccessResult();
 			}else{
 				rs.setErrorCode(ErrorCode.OPERATE_ERROR);

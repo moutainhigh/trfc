@@ -211,7 +211,7 @@
 							<div class="alt_edit_div" style="width: 100%">
                         <label>备注： </label>
                         <input type="text" style="width: 450px;" id="add_remark">
-                        <button class="btn btn_duka" id="readBtn">读卡</button>
+                        <button class="btn btn_duka" id="add_readBtn">读卡</button>
                         <em class="colorred em_duka">请读卡！</em>
                     </div>
 						</div>
@@ -437,6 +437,8 @@
 		</div>
 		<!-- 引用公共footer部分 -->
 		<jsp:include page="../../common/base/footer_busi.jsp"></jsp:include>
+		<script type="text/javascript"
+			src="/javascript/quality/purchase/cardReader.js"></script>
 		<script type="text/javascript"
 			src="/javascript/quality/purchase/sampling.js"></script>
 	</div>

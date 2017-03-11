@@ -49,11 +49,30 @@ public class PurchaseSamplingReq extends BaseReq {
      * 创建时间
      */
     private Long createtime;
+    /**
+     * 分页查询开始位置
+     */
     private int start;
+    /**
+     * 分页查询数据量
+     */
     private int limit;
+    /**
+     * 开始时间
+     */
     private long starttime;
+    /**
+     * 结束时间
+     */
     private long endtime;
+    /**
+     * 采样车辆信息
+     */
     private String arrstr;
+    /**
+     * 删除采样车辆信息
+     */
+    private String idToDelete;
     
 	public String getId() {
 		return id;
@@ -144,6 +163,12 @@ public class PurchaseSamplingReq extends BaseReq {
 	}
 	public void setArrstr(String arrstr) {
 		this.arrstr = arrstr;
+	}
+	public String getIdToDelete() {
+		return idToDelete;
+	}
+	public void setIdToDelete(String idToDelete) {
+		this.idToDelete = idToDelete;
 	}
 	
 }

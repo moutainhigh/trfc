@@ -21,6 +21,7 @@ import com.tianrui.api.req.system.base.SystemCodeReq;
 import com.tianrui.api.req.system.base.SystemDataDictItemReq;
 import com.tianrui.service.bean.basicFile.measure.YardManage;
 import com.tianrui.service.bean.basicFile.nc.CustomerManage;
+import com.tianrui.service.bean.quality.file.QualityColumn;
 import com.tianrui.service.bean.quality.file.QualityScheme;
 import com.tianrui.service.bean.system.base.SystemDataDictItem;
 import com.tianrui.service.mapper.basicFile.measure.YardManageMapper;
@@ -107,14 +108,15 @@ public class DemoMapperTest2 {
 	
 	@Test
 	public void test12() throws Exception{
-		SystemCodeReq req = new SystemCodeReq();
-		req.setId("00000");
-		req.setCodeType((byte)1);
-		req.setItemType(false);
-		req.setUserName("sd");
-		//Result rs = systemCodeService.updateCodeItem(req);
-		
-		//System.out.println(rs.getCode());
+		QualityColumn c = new QualityColumn();
+		for(int i=0;i<81;i++){
+			c.setId(i+37+"");
+			c.setVal("QC"+i);
+			c.setTxt("QC"+i);
+			c.setType("1");
+			qualityColumnMapper.insertSelective(c);
+		}
+		System.out.println("success");
 		
 	}
 	
