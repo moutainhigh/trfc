@@ -106,8 +106,7 @@
 					</div>
 					<div class="intel_table">
 						<!--用户表格begin-->
-						<table class="fancyTable" id="myTable04" cellpadding="0"
-							cellspacing="0">
+						<table class="table table-hover">
 							<thead>
 								<tr>
 									<th>序号</th>
@@ -169,9 +168,5 @@
 	<jsp:include page="../../common/base/footer_busi.jsp"></jsp:include>
 	<script type="text/javascript"
 		src="/javascript/businessManage/poundNoteMaintain/purchasePoundNote.js"></script>
-	<script type="text/javascript">
-	 /*    $('#myTable04').fixedHeaderTable({ altClass: 'odd', footer: false, cloneHeadToFoot: false, fixedColumns:3});
-	    $("[data-toggle='tooltip']").tooltip(); */
-	</script>
 </body>
 </html>

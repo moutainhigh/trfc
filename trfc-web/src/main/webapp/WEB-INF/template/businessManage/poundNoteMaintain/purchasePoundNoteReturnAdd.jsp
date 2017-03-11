@@ -69,10 +69,10 @@
 								<label>到货净重：</label> <input type="text" readonly="true" value="${poundNote.netweight }">
 							</div>
 							<div class="daohuo_add_solo">
-								<label>毛重：</label> <input id="grossweight" type="text" value="${poundNote.grossweight }">
+								<label>毛重：</label> <input id="grossweight" type="text" value="${poundNote.grossweight }" placeholder="请输入毛重">
 							</div>
 							<div class="daohuo_add_solo">
-								<label>皮重：</label> <input id="tareweight" type="text" value="${poundNote.tareweight }">
+								<label>皮重：</label> <input id="tareweight" type="text" value="${poundNote.tareweight }" placeholder="请输入皮重">
 							</div>
 							<div class="daohuo_add_solo">
 								<label>净重：</label> <input id="netweight" type="text" readonly="true" value="${poundNote.netweight }">
@@ -81,38 +81,38 @@
 								<label>物料：</label> <input type="text" readonly="true" value="${poundNote.materielname }">
 							</div>
 							<div class="daohuo_add_solo">
-								<label>司机：</label> <input id="driver" type="text">
+								<label>司机：</label> <input id="driver" type="text" placeholder="请选择司机">
 							</div>
 							<div class="daohuo_add_solo">
 								<label>身份证：</label> <input id="driveridentityno" type="text" readonly="true">
 							</div>
 							<div class="daohuo_add_solo">
-								<label><span class="colorred">*</span>车号：</label> <input id="vehicle"
-									type="text">
+								<label class="colorred">*车号：</label> <input id="vehicle"
+									type="text" placeholder="请选择车号">
 							</div>
 							<div class="daohuo_add_solo">
-								<label><span class="colorred">*</span>重车时间：</label> <input id="weighttime"
+								<label class="colorred">*重车时间：</label> <input id="weighttime"
 									type="text" readonly="readonly"
 									onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:00:00'})"
-									class="Wdate" value="${nowDate }"/>
+									class="Wdate" value="${nowDate }" placeholder="请选择重车时间"/>
 							</div>
 							<div class="daohuo_add_solo">
-								<label><span class="colorred">*</span>轻车时间：</label> <input id="lighttime"
+								<label class="colorred">*轻车时间：</label> <input id="lighttime"
 									type="text" readonly="readonly"
 									onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:00:00'})"
-									class="Wdate" value="${nowDate }"/>
+									class="Wdate" value="${nowDate }" placeholder="请选择轻车时间"/>
 							</div>
 							<div class="daohuo_add_solo">
-								<label>仓库：</label> <input id="warehouse" type="text">
+								<label>仓库：</label> <input id="warehouse" type="text" placeholder="请选择仓库">
 							</div>
 							<div class="daohuo_add_solo">
-								<label><span class="colorred">*</span>制单日期：</label> <input id="makebilltime"
+								<label class="colorred">*制单日期：</label> <input id="makebilltime"
 									type="text" readonly="readonly"
 									onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:00:00'})"
-									class="Wdate" value="${nowDate }"/>
+									class="Wdate" value="${nowDate }" placeholder="请选择制单日期"/>
 							</div>
 							<div class="daohuo_add_solo">
-								<label><span class="colorred">*</span>制单人：</label> <input
+								<label class="colorred">*制单人：</label> <input
 									type="text" readonly="true" value="${makebillname }">
 							</div>
 						</div>
