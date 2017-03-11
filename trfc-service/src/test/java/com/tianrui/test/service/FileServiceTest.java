@@ -18,9 +18,12 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.alibaba.fastjson.JSON;
 import com.tianrui.api.intf.basicFile.measure.IYardManageService;
+import com.tianrui.api.intf.businessManage.financeManage.ISalesChargeService;
 import com.tianrui.api.intf.common.IFileService;
 import com.tianrui.api.req.basicFile.measure.YardManageQuery;
+import com.tianrui.api.req.businessManage.financeManage.SalesChargeQuery;
 import com.tianrui.api.req.common.FileUploadReq;
+import com.tianrui.service.bean.businessManage.financeManage.SalesCharge;
 import com.tianrui.service.impl.basicFile.measure.YardManageService;
 import com.tianrui.smartfactory.common.vo.Result;
 
@@ -33,6 +36,8 @@ public class FileServiceTest {
 	private  IFileService fileService ;
 	@Autowired
 	private IYardManageService yardManageService;
+	@Autowired
+	private ISalesChargeService salesChargeService;
 	@Test
 	public void saveTest()throws Exception{
 		FileUploadReq req = new FileUploadReq();
@@ -51,6 +56,14 @@ public class FileServiceTest {
 		query.setPageSize(10);
 		Result result=yardManageService.page(query);
 		System.out.println(result);
+	}
+	@Test
+	public void test2() throws Exception{
+		SalesChargeQuery  query=new SalesChargeQuery();
+		query.setPageNo(1);
+		query.setPageSize(10);
+		Result result=salesChargeService.page(query);
+		System.out.println(result.getData());
 	}
 	private byte[] getBytes(String filePath){  
         byte[] buffer = null;  

@@ -18,6 +18,10 @@
         <!--tab切换标题-->
         <ul class="intel_menu">
            <li class="select"><a href="/trfc/customerbegin/main">客户期初</a></li>
+           <li><a href="/trfc/salescharge/main">销售收款</a></li>
+           <li><a href="/trfc/customerbegin/main">客户退补</a></li>
+           <li><a href="/trfc/customerbegin/main">收款台账</a></li>
+           <li><a href="/trfc/customerbegin/main">销售明细</a></li>
         </ul>
         <!--tab切换标题end-->
     </div>
