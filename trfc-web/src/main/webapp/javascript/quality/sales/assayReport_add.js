@@ -158,13 +158,17 @@ $(function(){
 		}
 		var createtime = $('#add_creattime').val();
 		if(createtime){
-			createtime = new Date(createtime);
+			createtime = Date.parseYMD_HMS(createtime);
 			createtime = createtime.getTime();
+		}else{
+			createtime = new Date().getTime();
 		}
 		var selldate = $('#add_selldate').val();
 		if(selldate){
-			selldate = new Date(selldate);
+			selldate = Date.parseYMD_HMS(selldate);
 			selldate = selldate.getTime();
+		}else{
+			createtime = new Date().getTime();
 		}
 		var remark = $('#add_remark').val();
 		var pstate = '0';

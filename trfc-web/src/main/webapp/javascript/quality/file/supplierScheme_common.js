@@ -12,8 +12,11 @@ var URL = {
 		getMaterialUrl:"/trfc/quality/sales/file/supplierScheme/getMaterialData",
 		getSupplierUrl:"/trfc/quality/sales/file/supplierScheme/getSupplierData",
 		getDetailUrl:"/trfc/quality/sales/file/supplierScheme/getDetailData",
-		getCodeUrl:"/trfc/quality/sales/file/supplierScheme/getCode",
-		updateCodeUrl:"/trfc/quality/sales/file/supplierScheme/updateCode"
+		getCodeUrl:"/trfc/quality/sales/report/getCode",
+		updateCodeUrl:"/trfc/quality/sales/report/updateCode",
+		qschemeAutoCompleteSearch: "/trfc/quality/sales/file/qualityScheme/autoCompleteSearch",
+		materialAutoCompleteSearch: "/trfc/materiel/autoCompleteSearch",
+		supplierAutoCompleteSearch: "/trfc/supplier/autoCompleteSearch",
 };
 
 //设置一个公共变量
@@ -65,62 +68,125 @@ function getNowFormatDate(param,time) {
 	}
 	return currentdate;
 }
-
-//获取物料下拉框数据并填充
-function materialSelect(){
-	//获取数据
-	$materSelect = $.post(URL.getMaterialUrl,{state:"1"},function(result){
-		if(result.code=='000000'){
-			//填充数据
-			fillMaterialSelect(result.data);
-		}else{
-			layer.msg(result.error, {icon:5});
-		}
-	});
-}
-//填充数据
-function fillMaterialSelect(list){
-	var selecter = $('.materialSelect').html('');
-	//设置默认值
-	selecter.append("<option></option>");
-	if(list){
-		for(var i=0;i<list.length;i++){
-			var obj = list[i];
-			var msg = obj.name;
-			if(obj.spec){
-				msg = obj.name + '（'+obj.spec+'）';
+function initSelect(){
+	var cache = {};
+	if($(".qschemeSel")){
+		$(".qschemeSel").autocomplete({
+			//数据源
+			source: function( request, response ) {
+				var term = request.term;
+				var qscheme = cache['qscheme'] || {};
+				if ( term in qscheme ) {
+					response( qscheme[ term ] );
+					return;
+				}
+				$.post( URL.qschemeAutoCompleteSearch, request, function( result ) {
+					qscheme[ term ] = result.data;
+					response( result.data );
+				});
+			},
+			//显示下拉框
+			response: function( event, ui ) {
+				if(ui.content && ui.content.length > 0){
+					//展示下拉框
+					ui.content.forEach(function(x,i,a){
+						x.label = x.name;
+						x.value = x.id;
+					});
+				}
+			},
+			//选定,显示结果到输入框
+			select: function( event, ui ) {
+				$(this).val(ui.item.name).attr('qschemeid', ui.item.id);
+				return false;
 			}
-			var option = '<option value='+obj.id+'>'+msg+'</option>';
-			//追加数据
-			selecter.append(option);
-		}
+		}).off('click').on('click',function(){
+			$(this).autocomplete('search',' ');
+		}).on('input propertychange',function(){
+			$(this).removeAttr('qschemeid');
+		}).change(function(){
+			if(!$(this).attr('qschemeid')){
+				$(this).val('');
+			}
+		});
 	}
-}
-//获取供应商下拉框数据并填充
-function supplierSelect(){
-	//获取数据
-	$supSelect = $.post(URL.getSupplierUrl,{state:"1"},function(result){
-		if(result.code=='000000'){
-			//填充数据
-			fillSupplierSelect(result.data);
-		}else{
-			layer.msg(result.error, {icon:5});
-		}
-	});
-}
-//填充数据
-function fillSupplierSelect(list){
-	var selecter = $('.supplierSelect').html('');
-	//设置默认值
-	selecter.append("<option></option>");
-	if(list){
-		for(var i=0;i<list.length;i++){
-			var obj = list[i];
-			var msg = obj.name;
-			var option = '<option value='+obj.id+'>'+msg+'</option>';
-			//追加数据
-			selecter.append(option);
-		}
+	if($(".supplierSel")){
+		$(".supplierSel").autocomplete({
+			//获取数据
+			source: function( request, response ) {
+				var term = request.term;
+				var supplier = cache['supplier'] || {};
+				if ( term in supplier ) {
+					response( supplier[ term ] );
+					return;
+				}
+				$.post( URL.supplierAutoCompleteSearch, request, function(data) {
+						supplier[ term ] = data;
+						response( data );
+				});
+			},
+			response: function( event, ui ) {
+				if(ui.content && ui.content.length > 0){
+					ui.content.forEach(function(x,i,a){
+						x.label = x.name;
+						x.value = x.id;
+					});
+				}
+			},
+			select: function( event, ui ) {
+				//当选择的时候 显示到输入框
+				$(this).val(ui.item.name).attr('supplierid', ui.item.id);
+				return false;
+			}
+		}).off('click').on('click',function(){
+			$(this).autocomplete('search',' ');
+		}).on('input propertychange',function(){
+			$(this).removeAttr('supplierid');
+		}).change(function(){
+			if(!$(this).attr('supplierid')){
+				$(this).val('');
+			}
+		});
 	}
-}
+	if($(".materialSel")){
+		$(".materialSel").autocomplete({
+			//数据源
+			source: function( request, response ) {
+				var term = request.term;
+				var material = cache['material'] || {};
+				if ( term in material ) {
+					response( material[ term ] );
+					return;
+				}
+				$.post( URL.materialAutoCompleteSearch, request, function( data, status, xhr ) {
+					material[ term ] = data;
+					response( data );
+				});
+			},
+			//显示下拉框
+			response: function( event, ui ) {
+				if(ui.content && ui.content.length > 0){
+					//展示下拉框
+					ui.content.forEach(function(x,i,a){
+						x.label = x.name;
+						x.value = x.id;
+					});
+				}
+			},
+			//选定,显示结果到输入框
+			select: function( event, ui ) {
+				$(this).val(ui.item.name).attr('materialid', ui.item.id);
+				return false;
+			}
+		}).off('click').on('click',function(){
+			$(this).autocomplete('search',' ');
+		}).on('input propertychange',function(){
+			$(this).removeAttr('materialid');
+		}).change(function(){
+			if(!$(this).attr('materialid')){
+				$(this).val('');
+			}
+		});
+	}
+};
 

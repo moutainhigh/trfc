@@ -117,6 +117,7 @@
 								<table class="table table-bordered">
 									<thead>
 										<tr>
+										<th></th>
 											<th>采样单号</th>
 											<th>派车单号</th>
 											<th>供应商</th>
@@ -128,6 +129,7 @@
 									</thead>
 									<tbody id="detail_list">
 										<tr>
+										<td></td>
 											<td>卫辉市天瑞水泥有限公司</td>
 											<td>粉煤炭</td>
 											<td>方案2</td>

@@ -57,22 +57,21 @@
 									type="text" id="add_name">
 							</div>
 							<div class="daohuo_add_solo">
-								<label><span class="colorred">*</span>供应商：</label> <select id="add_supplier"
-										class="supplierSelect form-control">
-									</select>
+								<label><span class="colorred">*</span>供应商：</label> <input id="add_supplier"
+										class="supplierSel" type="text">
+									
 							</div>
 							<div class="daohuo_add_solo">
 								<label>供应商备注：</label> <input type="text" id="add_supremark">
 							</div>
 							<div class="daohuo_add_solo">
-								<label><span class="colorred">*</span>物料：</label> <select id="add_material"
-										class="materialSelect form-control">
-									</select>
+								<label><span class="colorred">*</span>物料：</label> <input id="add_material"
+										class="materialSel" type="text">
 							</div>
 							<div class="daohuo_add_solo">
-								<label><span class="colorred">*</span>质检方案：</label> <select id="add_scheme"
-										class="form-control">
-									</select>
+								<label><span class="colorred">*</span>质检方案：</label> <input id="add_scheme"
+										class="qschemeSel" type="text">
+									
 							</div>
 							<div class="daohuo_add_solo">
 								<label>开始日期：</label> <input type="text" readonly="true"

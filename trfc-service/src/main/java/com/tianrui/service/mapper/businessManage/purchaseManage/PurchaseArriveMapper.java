@@ -14,6 +14,7 @@ public interface PurchaseArriveMapper {
     int insertSelective(PurchaseArrive record);
 
     PurchaseArrive selectByPrimaryKey(String id);
+    PurchaseArrive selectByCode(String code);
 
     int updateByPrimaryKeySelective(PurchaseArrive record);
 

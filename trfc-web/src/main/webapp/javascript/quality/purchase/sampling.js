@@ -149,7 +149,7 @@ $(function(){
 			}
 		}
 		var arrstr = JSON.stringify(arr);
-		if(trs.length=0){
+		if(trs.length==0){
 			layer.alert("采样车辆信息不能为空!")
 			return null;
 		}

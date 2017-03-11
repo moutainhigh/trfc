@@ -35,14 +35,14 @@ $(function(){
 			});
 		}
 	};
-	//获取新增数据
+	//获取编辑数据
 	function editData(){
 		var code = $('#edit_code').val();
 		var name = $('#edit_name').val();
-		var supplierid = $('#edit_supplier').val();
+		var supplierid = $('#edit_supplier').attr('supplierid');
 		var supremark = $('#edit_supremark').val();
-		var materialid = $('#edit_material').val();
-		var schemeid = $('#edit_scheme').val();
+		var materialid = $('#edit_material').attr('materialid');
+		var schemeid = $('#edit_scheme').attr('qschemeid');
 		var starttime = new Date($('#edit_starttime').val());
 		starttime = starttime.getTime();
 		var endtime = new Date($('#edit_endtime').val());
@@ -95,25 +95,13 @@ $(function(){
 	}
 	//初始化编辑页面
 	function initEdit(data){
-		supplierSelect();
-		materialSelect();
-		//绑定物料下拉框监听事件,当物料发生改变,获取对应的质检方案
-		$('#edit_material').change(schemeSelect);
-		//绑定质检方案下拉框监听事件,当发生改变,获取方案详细
-		$('#edit_scheme').change(getDetailData);
-
+		initSelect();
+		$('#edit_scheme').blur(getDetailData);
 		$('#edit_code').val(data.code);
 		$('#edit_name').val(data.name);
-		//等待供应商下拉框加载完成,执行为下拉框赋值
-		$.when($supSelect).done(function(){
-			$('#edit_supplier').val(data.supplierid).select2();
-		});
-		//等待物料下拉框加载完成,执行 为下拉框赋值并加载项目下拉框
-		$.when($materSelect).done(function(){
-			$('#edit_material').val(data.materialid).select2();
-			//加载项目下拉框,并附值
-			schemeSelect(data.schemeid);
-		});
+		$('#edit_supplier').val(data.suppliername).attr('supplierid',data.supplierid);
+		$('#edit_material').val(data.materialname).attr('materialid',data.materialid);
+		$('#edit_scheme').val(data.schemename).attr('qschemeid',data.schemeid).blur();
 		$('#edit_supremark').val(data.supremark);
 		
 		var starttime = getNowFormatDate(false,data.starttime);
@@ -180,7 +168,7 @@ $(function(){
 	}
 	//获取质检方案详细
 	function getDetailData(){
-		var schemeid=$('#edit_scheme').val();
+		var schemeid=$('#edit_scheme').attr('qschemeid');
 		if(schemeid){
 			//如果质检方案id不为空,这去数据库查询数据
 			var param = {
@@ -215,7 +203,7 @@ $(function(){
 				var obj = list[i];
 				var tr = '<tr>'
 					+'<td>'+(i+1)+'</td>'
-					+'<td><input type="text" class="w80" value="'+obj.itemname+'">'
+					+'<td>'+(obj.itemname || '')
 					+'</td>'
 					+'<td><select class="form-control"></select></td>'
 					+'<td><input type="text" class="w80" value="'+obj.lowlimit+'"></td>'

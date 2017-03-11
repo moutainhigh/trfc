@@ -15,10 +15,16 @@ import com.tianrui.api.intf.quality.purchase.IPurchaseSamplingService;
 import com.tianrui.api.req.quality.purchase.PurchaseSamplingReq;
 import com.tianrui.api.resp.quality.purchase.PurchaseSamplingItemResp;
 import com.tianrui.api.resp.quality.purchase.PurchaseSamplingResp;
+import com.tianrui.service.bean.businessManage.purchaseManage.PurchaseApplication;
+import com.tianrui.service.bean.businessManage.purchaseManage.PurchaseApplicationDetail;
+import com.tianrui.service.bean.businessManage.purchaseManage.PurchaseArrive;
 import com.tianrui.service.bean.quality.purchase.PurchaseSampling;
 import com.tianrui.service.bean.quality.purchase.PurchaseSamplingItem;
 import com.tianrui.service.bean.system.auth.SystemUser;
 import com.tianrui.service.bean.system.base.SystemDataDictItem;
+import com.tianrui.service.mapper.businessManage.purchaseManage.PurchaseApplicationDetailMapper;
+import com.tianrui.service.mapper.businessManage.purchaseManage.PurchaseApplicationMapper;
+import com.tianrui.service.mapper.businessManage.purchaseManage.PurchaseArriveMapper;
 import com.tianrui.service.mapper.quality.purchase.PurchaseSamplingItemMapper;
 import com.tianrui.service.mapper.quality.purchase.PurchaseSamplingMapper;
 import com.tianrui.service.mapper.system.auth.SystemUserMapper;
@@ -29,7 +35,7 @@ import com.tianrui.smartfactory.common.vo.PaginationVO;
 import com.tianrui.smartfactory.common.vo.Result;
 @Service
 public class PurchaseSamplingService implements IPurchaseSamplingService {
-	
+
 	@Resource
 	private PurchaseSamplingMapper purchaseSamplingMapper;
 	@Resource
@@ -38,7 +44,13 @@ public class PurchaseSamplingService implements IPurchaseSamplingService {
 	private SystemDataDictItemMapper systemDataDictItemMapper;
 	@Resource
 	private PurchaseSamplingItemMapper purchaseSamplingItemMapper;
-	
+	@Resource
+	private PurchaseArriveMapper purchaseArriveMapper;
+	@Resource
+	private PurchaseApplicationMapper purchaseApplicationMapper;
+	@Resource
+	private PurchaseApplicationDetailMapper purchaseApplicationDetailMapper;
+
 	@Override
 	public Result delete(PurchaseSamplingReq req) throws Exception {
 		Result rs = Result.getParamErrorResult();
@@ -147,7 +159,7 @@ public class PurchaseSamplingService implements IPurchaseSamplingService {
 			}
 		}
 		return index;
-		
+
 	}
 	@Override
 	public Result update(PurchaseSamplingReq req) throws Exception {
@@ -224,10 +236,23 @@ public class PurchaseSamplingService implements IPurchaseSamplingService {
 					PurchaseSamplingItemResp resp = new PurchaseSamplingItemResp();
 					PropertyUtils.copyProperties(resp, item);
 					//假设 可以获取下列数据
-					resp.setMaterial("原煤");
-					resp.setMine("达丰沃");
-					resp.setVehicle("豫F57210");
-					resp.setSupplier("中原裕阔商贸有限公司");
+					if(StringUtils.isNotBlank(resp.getSamplingcar())){
+						PurchaseArrive arrive = purchaseArriveMapper.selectByCode(resp.getSamplingcar());
+						if(arrive!=null){
+
+							resp.setVehicle(arrive.getVehicleno());
+							PurchaseApplication appl = purchaseApplicationMapper.selectByPrimaryKey(arrive.getBillid());
+							if(appl!=null){
+								resp.setMine(appl.getMinemouthname());
+								resp.setSupplier(appl.getSuppliername());
+								resp.setRemark(appl.getSupplierremark());
+							}
+							PurchaseApplicationDetail detail = purchaseApplicationDetailMapper.selectByPrimaryKey(arrive.getBilldetailid());
+							if(detail!=null){
+								resp.setMaterial(detail.getMaterielname());
+							}
+						}
+					}
 					resps.add(resp);
 				}
 			}
