@@ -384,6 +384,7 @@ input[readOnly="true"]{
 .login .lgcont .lgright .lgline1 label{
     font-size: 18px;
     line-height: 30px;
+    padding-left: 8px;
 }
 .login .lgcont .lgright .lgline1 span{
     font-size: 14px;
@@ -397,10 +398,25 @@ input[readOnly="true"]{
     padding: 0 12px;
     margin-top: 10px;
 }
-.lgline3 input{
+.lgline3 input[type="text"],.lgline3 input[type="password"]{
     border: none;
     width: 100px;
+    padding: 0 5px;
 }
+input[type="text"]::-webkit-input-placeholder, input::-webkit-input-placeholder{
+    color: #cbccdb;
+}
+
+input[type="text"]:-moz-placeholder, input:-moz-placeholder{
+    color: #cbccdb;
+}
+
+input[type="text"]::-moz-placeholder, input::-moz-placeholder{
+    color: #cbccdb;
+}
+input[type="text"]:-ms-input-placeholder, input:-ms-input-placeholder{
+      color: #cbccdb;
+  }
 .login .lgcont .lgright .lgline3{
     border: 1px solid #dfe0e9;
     border-radius: 2px;
@@ -410,9 +426,6 @@ input[readOnly="true"]{
 }
 .login .lgcont .lgright .lgline3 i{
     font-size: 22px;
-}
-.login .lgcont .lgright .lgline3 input{
-    padding: 0 5px;
 }
 .login .lgcont .lgright .lgline4{
     margin-top: 10px;
@@ -952,6 +965,7 @@ input[readOnly="true"]{
     width: 33.3%;
     margin-bottom:20px;
     position: relative;
+    height: 30px;
 }
 .dh_carnum{
     width: 330px;
