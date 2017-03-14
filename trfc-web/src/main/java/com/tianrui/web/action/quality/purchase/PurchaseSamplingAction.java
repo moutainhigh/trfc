@@ -37,6 +37,7 @@ public class PurchaseSamplingAction {
 			result = purchaseSamplingService.add(req);
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
+			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
 		}
 		return result;
 	}
@@ -49,6 +50,7 @@ public class PurchaseSamplingAction {
 			result = purchaseSamplingService.delete(req);
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
+			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
 		}
 		return result;
 	}
@@ -61,6 +63,7 @@ public class PurchaseSamplingAction {
 			result = purchaseSamplingService.update(req);
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
+			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
 		}
 		return result;
 	}
@@ -73,6 +76,7 @@ public class PurchaseSamplingAction {
 			result = purchaseSamplingService.page(req);
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
+			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
 		}
 		return result;
 	}
@@ -82,6 +86,18 @@ public class PurchaseSamplingAction {
 		Result result=Result.getErrorResult();
 		try {
 			result = purchaseSamplingService.getDetailData(req);
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
+		}
+		return result;
+	}
+	@RequestMapping(value="/findByCode",method=RequestMethod.POST)
+	@ResponseBody
+	public Result findByCode(PurchaseSamplingReq req){
+		Result result=Result.getErrorResult();
+		try {
+			result = purchaseSamplingService.findByCode(req);
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 			result.setErrorCode(ErrorCode.SYSTEM_ERROR);

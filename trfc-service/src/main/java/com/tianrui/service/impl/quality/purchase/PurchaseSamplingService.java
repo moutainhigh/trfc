@@ -235,7 +235,6 @@ public class PurchaseSamplingService implements IPurchaseSamplingService {
 				for(PurchaseSamplingItem item : list){
 					PurchaseSamplingItemResp resp = new PurchaseSamplingItemResp();
 					PropertyUtils.copyProperties(resp, item);
-					//假设 可以获取下列数据
 					if(StringUtils.isNotBlank(resp.getSamplingcar())){
 						PurchaseArrive arrive = purchaseArriveMapper.selectByCode(resp.getSamplingcar());
 						if(arrive!=null){
@@ -258,6 +257,31 @@ public class PurchaseSamplingService implements IPurchaseSamplingService {
 			}
 			rs = Result.getSuccessResult();
 			rs.setData(resps);
+		}
+		return rs;
+	}
+
+	@Override
+	public Result findByCode(PurchaseSamplingReq req) throws Exception {
+		Result rs = Result.getParamErrorResult();
+		if(StringUtils.isNotBlank(req.getCode())){
+			PurchaseSampling sampling = purchaseSamplingMapper.findByCode(req);
+			if(sampling!=null){
+				PurchaseSamplingResp resp = new PurchaseSamplingResp();
+				PropertyUtils.copyProperties(resp, sampling);
+				//获取采样类型
+				if(StringUtils.isNotBlank(resp.getAssaytype())){
+					SystemDataDictItem item = systemDataDictItemMapper.selectByPrimaryKey(resp.getAssaytype());
+					if(item!=null){
+						resp.setAssayname(item.getName());
+					}
+				}
+				rs = Result.getSuccessResult();
+				rs.setData(resp);
+			}else{
+				rs.setErrorCode(ErrorCode.OPERATE_ERROR);
+				rs.setError("查询不到信息,请输入正确单号!");
+			}
 		}
 		return rs;
 	}

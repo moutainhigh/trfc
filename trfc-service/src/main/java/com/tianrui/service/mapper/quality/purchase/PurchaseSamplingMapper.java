@@ -38,5 +38,11 @@ public interface PurchaseSamplingMapper {
      * 查询数据总数
      */
     int count(PurchaseSamplingReq req);
+    /**
+     * 通过code 查询数据
+     * @param req
+     * @return
+     */
+	PurchaseSampling findByCode(PurchaseSamplingReq req);
 
 }

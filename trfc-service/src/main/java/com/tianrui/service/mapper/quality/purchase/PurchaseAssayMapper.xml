@@ -1,0 +1,657 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper
+	namespace="com.tianrui.service.mapper.quality.purchase.PurchaseAssayMapper">
+	<resultMap id="BaseResultMap"
+		type="com.tianrui.service.bean.quality.purchase.PurchaseAssay">
+		<id column="id" property="id" jdbcType="VARCHAR" />
+		<result column="code" property="code" jdbcType="VARCHAR" />
+		<result column="qschemeid" property="qschemeid" jdbcType="VARCHAR" />
+		<result column="samplingid" property="samplingid" jdbcType="VARCHAR" />
+		<result column="assaytime" property="assaytime" jdbcType="BIGINT" />
+		<result column="remark" property="remark" jdbcType="VARCHAR" />
+		<result column="QC0" property="qc0" jdbcType="DECIMAL" />
+		<result column="QC1" property="qc1" jdbcType="DECIMAL" />
+		<result column="QC2" property="qc2" jdbcType="DECIMAL" />
+		<result column="QC3" property="qc3" jdbcType="DECIMAL" />
+		<result column="QC4" property="qc4" jdbcType="DECIMAL" />
+		<result column="QC5" property="qc5" jdbcType="DECIMAL" />
+		<result column="QC6" property="qc6" jdbcType="DECIMAL" />
+		<result column="QC7" property="qc7" jdbcType="DECIMAL" />
+		<result column="QC8" property="qc8" jdbcType="DECIMAL" />
+		<result column="QC9" property="qc9" jdbcType="DECIMAL" />
+		<result column="QC10" property="qc10" jdbcType="DECIMAL" />
+		<result column="QC11" property="qc11" jdbcType="DECIMAL" />
+		<result column="QC12" property="qc12" jdbcType="DECIMAL" />
+		<result column="QC13" property="qc13" jdbcType="DECIMAL" />
+		<result column="QC14" property="qc14" jdbcType="DECIMAL" />
+		<result column="QC15" property="qc15" jdbcType="DECIMAL" />
+		<result column="QC16" property="qc16" jdbcType="DECIMAL" />
+		<result column="QC17" property="qc17" jdbcType="DECIMAL" />
+		<result column="QC18" property="qc18" jdbcType="DECIMAL" />
+		<result column="QC19" property="qc19" jdbcType="DECIMAL" />
+		<result column="QC20" property="qc20" jdbcType="DECIMAL" />
+		<result column="QC21" property="qc21" jdbcType="DECIMAL" />
+		<result column="QC22" property="qc22" jdbcType="DECIMAL" />
+		<result column="QC23" property="qc23" jdbcType="DECIMAL" />
+		<result column="QC24" property="qc24" jdbcType="DECIMAL" />
+		<result column="QC25" property="qc25" jdbcType="DECIMAL" />
+		<result column="QC26" property="qc26" jdbcType="DECIMAL" />
+		<result column="QC27" property="qc27" jdbcType="DECIMAL" />
+		<result column="QC28" property="qc28" jdbcType="DECIMAL" />
+		<result column="QC29" property="qc29" jdbcType="DECIMAL" />
+		<result column="QC30" property="qc30" jdbcType="DECIMAL" />
+		<result column="QC31" property="qc31" jdbcType="DECIMAL" />
+		<result column="QC32" property="qc32" jdbcType="DECIMAL" />
+		<result column="QC33" property="qc33" jdbcType="DECIMAL" />
+		<result column="QC34" property="qc34" jdbcType="DECIMAL" />
+		<result column="QC35" property="qc35" jdbcType="DECIMAL" />
+		<result column="state" property="state" jdbcType="VARCHAR" />
+		<result column="creator" property="creator" jdbcType="VARCHAR" />
+		<result column="createtime" property="createtime" jdbcType="BIGINT" />
+		<result column="modifier" property="modifier" jdbcType="VARCHAR" />
+		<result column="modifytime" property="modifytime" jdbcType="BIGINT" />
+		<result column="utc" property="utc" jdbcType="BIGINT" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, code, qschemeid, samplingid, assaytime, remark, QC0, QC1, QC2, QC3,
+		QC4, QC5,
+		QC6, QC7, QC8, QC9, QC10, QC11, QC12, QC13, QC14, QC15, QC16, QC17, QC18,
+		QC19, QC20,
+		QC21, QC22, QC23, QC24, QC25, QC26, QC27, QC28, QC29, QC30, QC31, QC32,
+		QC33, QC34,
+		QC35, state, creator, createtime, modifier, modifytime, utc
+	</sql>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from tr_purchase_db_assay
+		where id = #{id,jdbcType=VARCHAR}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from tr_purchase_db_assay
+		where id = #{id,jdbcType=VARCHAR}
+	</delete>
+	<insert id="insert"
+		parameterType="com.tianrui.service.bean.quality.purchase.PurchaseAssay">
+		insert into tr_purchase_db_assay (id, code, qschemeid,
+		samplingid, assaytime, remark,
+		QC0, QC1, QC2, QC3,
+		QC4, QC5, QC6, QC7,
+		QC8, QC9, QC10, QC11,
+		QC12, QC13, QC14, QC15,
+		QC16, QC17, QC18, QC19,
+		QC20, QC21, QC22, QC23,
+		QC24, QC25, QC26, QC27,
+		QC28, QC29, QC30, QC31,
+		QC32, QC33, QC34, QC35,
+		state, creator, createtime,
+		modifier, modifytime, utc
+		)
+		values (#{id,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR},
+		#{qschemeid,jdbcType=VARCHAR},
+		#{samplingid,jdbcType=VARCHAR}, #{assaytime,jdbcType=BIGINT}, #{remark,jdbcType=VARCHAR},
+		#{qc0,jdbcType=DECIMAL}, #{qc1,jdbcType=DECIMAL},
+		#{qc2,jdbcType=DECIMAL}, #{qc3,jdbcType=DECIMAL},
+		#{qc4,jdbcType=DECIMAL}, #{qc5,jdbcType=DECIMAL},
+		#{qc6,jdbcType=DECIMAL}, #{qc7,jdbcType=DECIMAL},
+		#{qc8,jdbcType=DECIMAL}, #{qc9,jdbcType=DECIMAL},
+		#{qc10,jdbcType=DECIMAL}, #{qc11,jdbcType=DECIMAL},
+		#{qc12,jdbcType=DECIMAL}, #{qc13,jdbcType=DECIMAL},
+		#{qc14,jdbcType=DECIMAL}, #{qc15,jdbcType=DECIMAL},
+		#{qc16,jdbcType=DECIMAL}, #{qc17,jdbcType=DECIMAL},
+		#{qc18,jdbcType=DECIMAL}, #{qc19,jdbcType=DECIMAL},
+		#{qc20,jdbcType=DECIMAL}, #{qc21,jdbcType=DECIMAL},
+		#{qc22,jdbcType=DECIMAL}, #{qc23,jdbcType=DECIMAL},
+		#{qc24,jdbcType=DECIMAL}, #{qc25,jdbcType=DECIMAL},
+		#{qc26,jdbcType=DECIMAL}, #{qc27,jdbcType=DECIMAL},
+		#{qc28,jdbcType=DECIMAL}, #{qc29,jdbcType=DECIMAL},
+		#{qc30,jdbcType=DECIMAL}, #{qc31,jdbcType=DECIMAL},
+		#{qc32,jdbcType=DECIMAL}, #{qc33,jdbcType=DECIMAL},
+		#{qc34,jdbcType=DECIMAL}, #{qc35,jdbcType=DECIMAL},
+		#{state,jdbcType=VARCHAR}, #{creator,jdbcType=VARCHAR},
+		#{createtime,jdbcType=BIGINT},
+		#{modifier,jdbcType=VARCHAR}, #{modifytime,jdbcType=BIGINT}, #{utc,jdbcType=BIGINT}
+		)
+	</insert>
+	<insert id="insertSelective"
+		parameterType="com.tianrui.service.bean.quality.purchase.PurchaseAssay">
+		insert into tr_purchase_db_assay
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="code != null">
+				code,
+			</if>
+			<if test="qschemeid != null">
+				qschemeid,
+			</if>
+			<if test="samplingid != null">
+				samplingid,
+			</if>
+			<if test="assaytime != null">
+				assaytime,
+			</if>
+			<if test="remark != null">
+				remark,
+			</if>
+			<if test="qc0 != null">
+				QC0,
+			</if>
+			<if test="qc1 != null">
+				QC1,
+			</if>
+			<if test="qc2 != null">
+				QC2,
+			</if>
+			<if test="qc3 != null">
+				QC3,
+			</if>
+			<if test="qc4 != null">
+				QC4,
+			</if>
+			<if test="qc5 != null">
+				QC5,
+			</if>
+			<if test="qc6 != null">
+				QC6,
+			</if>
+			<if test="qc7 != null">
+				QC7,
+			</if>
+			<if test="qc8 != null">
+				QC8,
+			</if>
+			<if test="qc9 != null">
+				QC9,
+			</if>
+			<if test="qc10 != null">
+				QC10,
+			</if>
+			<if test="qc11 != null">
+				QC11,
+			</if>
+			<if test="qc12 != null">
+				QC12,
+			</if>
+			<if test="qc13 != null">
+				QC13,
+			</if>
+			<if test="qc14 != null">
+				QC14,
+			</if>
+			<if test="qc15 != null">
+				QC15,
+			</if>
+			<if test="qc16 != null">
+				QC16,
+			</if>
+			<if test="qc17 != null">
+				QC17,
+			</if>
+			<if test="qc18 != null">
+				QC18,
+			</if>
+			<if test="qc19 != null">
+				QC19,
+			</if>
+			<if test="qc20 != null">
+				QC20,
+			</if>
+			<if test="qc21 != null">
+				QC21,
+			</if>
+			<if test="qc22 != null">
+				QC22,
+			</if>
+			<if test="qc23 != null">
+				QC23,
+			</if>
+			<if test="qc24 != null">
+				QC24,
+			</if>
+			<if test="qc25 != null">
+				QC25,
+			</if>
+			<if test="qc26 != null">
+				QC26,
+			</if>
+			<if test="qc27 != null">
+				QC27,
+			</if>
+			<if test="qc28 != null">
+				QC28,
+			</if>
+			<if test="qc29 != null">
+				QC29,
+			</if>
+			<if test="qc30 != null">
+				QC30,
+			</if>
+			<if test="qc31 != null">
+				QC31,
+			</if>
+			<if test="qc32 != null">
+				QC32,
+			</if>
+			<if test="qc33 != null">
+				QC33,
+			</if>
+			<if test="qc34 != null">
+				QC34,
+			</if>
+			<if test="qc35 != null">
+				QC35,
+			</if>
+			<if test="state != null">
+				state,
+			</if>
+			<if test="creator != null">
+				creator,
+			</if>
+			<if test="createtime != null">
+				createtime,
+			</if>
+			<if test="modifier != null">
+				modifier,
+			</if>
+			<if test="modifytime != null">
+				modifytime,
+			</if>
+			<if test="utc != null">
+				utc,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=VARCHAR},
+			</if>
+			<if test="code != null">
+				#{code,jdbcType=VARCHAR},
+			</if>
+			<if test="qschemeid != null">
+				#{qschemeid,jdbcType=VARCHAR},
+			</if>
+			<if test="samplingid != null">
+				#{samplingid,jdbcType=VARCHAR},
+			</if>
+			<if test="assaytime != null">
+				#{assaytime,jdbcType=BIGINT},
+			</if>
+			<if test="remark != null">
+				#{remark,jdbcType=VARCHAR},
+			</if>
+			<if test="qc0 != null">
+				#{qc0,jdbcType=DECIMAL},
+			</if>
+			<if test="qc1 != null">
+				#{qc1,jdbcType=DECIMAL},
+			</if>
+			<if test="qc2 != null">
+				#{qc2,jdbcType=DECIMAL},
+			</if>
+			<if test="qc3 != null">
+				#{qc3,jdbcType=DECIMAL},
+			</if>
+			<if test="qc4 != null">
+				#{qc4,jdbcType=DECIMAL},
+			</if>
+			<if test="qc5 != null">
+				#{qc5,jdbcType=DECIMAL},
+			</if>
+			<if test="qc6 != null">
+				#{qc6,jdbcType=DECIMAL},
+			</if>
+			<if test="qc7 != null">
+				#{qc7,jdbcType=DECIMAL},
+			</if>
+			<if test="qc8 != null">
+				#{qc8,jdbcType=DECIMAL},
+			</if>
+			<if test="qc9 != null">
+				#{qc9,jdbcType=DECIMAL},
+			</if>
+			<if test="qc10 != null">
+				#{qc10,jdbcType=DECIMAL},
+			</if>
+			<if test="qc11 != null">
+				#{qc11,jdbcType=DECIMAL},
+			</if>
+			<if test="qc12 != null">
+				#{qc12,jdbcType=DECIMAL},
+			</if>
+			<if test="qc13 != null">
+				#{qc13,jdbcType=DECIMAL},
+			</if>
+			<if test="qc14 != null">
+				#{qc14,jdbcType=DECIMAL},
+			</if>
+			<if test="qc15 != null">
+				#{qc15,jdbcType=DECIMAL},
+			</if>
+			<if test="qc16 != null">
+				#{qc16,jdbcType=DECIMAL},
+			</if>
+			<if test="qc17 != null">
+				#{qc17,jdbcType=DECIMAL},
+			</if>
+			<if test="qc18 != null">
+				#{qc18,jdbcType=DECIMAL},
+			</if>
+			<if test="qc19 != null">
+				#{qc19,jdbcType=DECIMAL},
+			</if>
+			<if test="qc20 != null">
+				#{qc20,jdbcType=DECIMAL},
+			</if>
+			<if test="qc21 != null">
+				#{qc21,jdbcType=DECIMAL},
+			</if>
+			<if test="qc22 != null">
+				#{qc22,jdbcType=DECIMAL},
+			</if>
+			<if test="qc23 != null">
+				#{qc23,jdbcType=DECIMAL},
+			</if>
+			<if test="qc24 != null">
+				#{qc24,jdbcType=DECIMAL},
+			</if>
+			<if test="qc25 != null">
+				#{qc25,jdbcType=DECIMAL},
+			</if>
+			<if test="qc26 != null">
+				#{qc26,jdbcType=DECIMAL},
+			</if>
+			<if test="qc27 != null">
+				#{qc27,jdbcType=DECIMAL},
+			</if>
+			<if test="qc28 != null">
+				#{qc28,jdbcType=DECIMAL},
+			</if>
+			<if test="qc29 != null">
+				#{qc29,jdbcType=DECIMAL},
+			</if>
+			<if test="qc30 != null">
+				#{qc30,jdbcType=DECIMAL},
+			</if>
+			<if test="qc31 != null">
+				#{qc31,jdbcType=DECIMAL},
+			</if>
+			<if test="qc32 != null">
+				#{qc32,jdbcType=DECIMAL},
+			</if>
+			<if test="qc33 != null">
+				#{qc33,jdbcType=DECIMAL},
+			</if>
+			<if test="qc34 != null">
+				#{qc34,jdbcType=DECIMAL},
+			</if>
+			<if test="qc35 != null">
+				#{qc35,jdbcType=DECIMAL},
+			</if>
+			<if test="state != null">
+				#{state,jdbcType=VARCHAR},
+			</if>
+			<if test="creator != null">
+				#{creator,jdbcType=VARCHAR},
+			</if>
+			<if test="createtime != null">
+				#{createtime,jdbcType=BIGINT},
+			</if>
+			<if test="modifier != null">
+				#{modifier,jdbcType=VARCHAR},
+			</if>
+			<if test="modifytime != null">
+				#{modifytime,jdbcType=BIGINT},
+			</if>
+			<if test="utc != null">
+				#{utc,jdbcType=BIGINT},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective"
+		parameterType="com.tianrui.service.bean.quality.purchase.PurchaseAssay">
+		update tr_purchase_db_assay
+		<set>
+			<if test="code != null">
+				code = #{code,jdbcType=VARCHAR},
+			</if>
+			<if test="qschemeid != null">
+				qschemeid = #{qschemeid,jdbcType=VARCHAR},
+			</if>
+			<if test="samplingid != null">
+				samplingid = #{samplingid,jdbcType=VARCHAR},
+			</if>
+			<if test="assaytime != null">
+				assaytime = #{assaytime,jdbcType=BIGINT},
+			</if>
+			<if test="remark != null">
+				remark = #{remark,jdbcType=VARCHAR},
+			</if>
+			<if test="qc0 != null">
+				QC0 = #{qc0,jdbcType=DECIMAL},
+			</if>
+			<if test="qc1 != null">
+				QC1 = #{qc1,jdbcType=DECIMAL},
+			</if>
+			<if test="qc2 != null">
+				QC2 = #{qc2,jdbcType=DECIMAL},
+			</if>
+			<if test="qc3 != null">
+				QC3 = #{qc3,jdbcType=DECIMAL},
+			</if>
+			<if test="qc4 != null">
+				QC4 = #{qc4,jdbcType=DECIMAL},
+			</if>
+			<if test="qc5 != null">
+				QC5 = #{qc5,jdbcType=DECIMAL},
+			</if>
+			<if test="qc6 != null">
+				QC6 = #{qc6,jdbcType=DECIMAL},
+			</if>
+			<if test="qc7 != null">
+				QC7 = #{qc7,jdbcType=DECIMAL},
+			</if>
+			<if test="qc8 != null">
+				QC8 = #{qc8,jdbcType=DECIMAL},
+			</if>
+			<if test="qc9 != null">
+				QC9 = #{qc9,jdbcType=DECIMAL},
+			</if>
+			<if test="qc10 != null">
+				QC10 = #{qc10,jdbcType=DECIMAL},
+			</if>
+			<if test="qc11 != null">
+				QC11 = #{qc11,jdbcType=DECIMAL},
+			</if>
+			<if test="qc12 != null">
+				QC12 = #{qc12,jdbcType=DECIMAL},
+			</if>
+			<if test="qc13 != null">
+				QC13 = #{qc13,jdbcType=DECIMAL},
+			</if>
+			<if test="qc14 != null">
+				QC14 = #{qc14,jdbcType=DECIMAL},
+			</if>
+			<if test="qc15 != null">
+				QC15 = #{qc15,jdbcType=DECIMAL},
+			</if>
+			<if test="qc16 != null">
+				QC16 = #{qc16,jdbcType=DECIMAL},
+			</if>
+			<if test="qc17 != null">
+				QC17 = #{qc17,jdbcType=DECIMAL},
+			</if>
+			<if test="qc18 != null">
+				QC18 = #{qc18,jdbcType=DECIMAL},
+			</if>
+			<if test="qc19 != null">
+				QC19 = #{qc19,jdbcType=DECIMAL},
+			</if>
+			<if test="qc20 != null">
+				QC20 = #{qc20,jdbcType=DECIMAL},
+			</if>
+			<if test="qc21 != null">
+				QC21 = #{qc21,jdbcType=DECIMAL},
+			</if>
+			<if test="qc22 != null">
+				QC22 = #{qc22,jdbcType=DECIMAL},
+			</if>
+			<if test="qc23 != null">
+				QC23 = #{qc23,jdbcType=DECIMAL},
+			</if>
+			<if test="qc24 != null">
+				QC24 = #{qc24,jdbcType=DECIMAL},
+			</if>
+			<if test="qc25 != null">
+				QC25 = #{qc25,jdbcType=DECIMAL},
+			</if>
+			<if test="qc26 != null">
+				QC26 = #{qc26,jdbcType=DECIMAL},
+			</if>
+			<if test="qc27 != null">
+				QC27 = #{qc27,jdbcType=DECIMAL},
+			</if>
+			<if test="qc28 != null">
+				QC28 = #{qc28,jdbcType=DECIMAL},
+			</if>
+			<if test="qc29 != null">
+				QC29 = #{qc29,jdbcType=DECIMAL},
+			</if>
+			<if test="qc30 != null">
+				QC30 = #{qc30,jdbcType=DECIMAL},
+			</if>
+			<if test="qc31 != null">
+				QC31 = #{qc31,jdbcType=DECIMAL},
+			</if>
+			<if test="qc32 != null">
+				QC32 = #{qc32,jdbcType=DECIMAL},
+			</if>
+			<if test="qc33 != null">
+				QC33 = #{qc33,jdbcType=DECIMAL},
+			</if>
+			<if test="qc34 != null">
+				QC34 = #{qc34,jdbcType=DECIMAL},
+			</if>
+			<if test="qc35 != null">
+				QC35 = #{qc35,jdbcType=DECIMAL},
+			</if>
+			<if test="state != null">
+				state = #{state,jdbcType=VARCHAR},
+			</if>
+			<if test="creator != null">
+				creator = #{creator,jdbcType=VARCHAR},
+			</if>
+			<if test="createtime != null">
+				createtime = #{createtime,jdbcType=BIGINT},
+			</if>
+			<if test="modifier != null">
+				modifier = #{modifier,jdbcType=VARCHAR},
+			</if>
+			<if test="modifytime != null">
+				modifytime = #{modifytime,jdbcType=BIGINT},
+			</if>
+			<if test="utc != null">
+				utc = #{utc,jdbcType=BIGINT},
+			</if>
+		</set>
+		where id = #{id,jdbcType=VARCHAR}
+	</update>
+	<update id="updateByPrimaryKey"
+		parameterType="com.tianrui.service.bean.quality.purchase.PurchaseAssay">
+		update tr_purchase_db_assay
+		set code = #{code,jdbcType=VARCHAR},
+		qschemeid = #{qschemeid,jdbcType=VARCHAR},
+		samplingid = #{samplingid,jdbcType=VARCHAR},
+		assaytime = #{assaytime,jdbcType=BIGINT},
+		remark = #{remark,jdbcType=VARCHAR},
+		QC0 = #{qc0,jdbcType=DECIMAL},
+		QC1 = #{qc1,jdbcType=DECIMAL},
+		QC2 = #{qc2,jdbcType=DECIMAL},
+		QC3 = #{qc3,jdbcType=DECIMAL},
+		QC4 = #{qc4,jdbcType=DECIMAL},
+		QC5 = #{qc5,jdbcType=DECIMAL},
+		QC6 = #{qc6,jdbcType=DECIMAL},
+		QC7 = #{qc7,jdbcType=DECIMAL},
+		QC8 = #{qc8,jdbcType=DECIMAL},
+		QC9 = #{qc9,jdbcType=DECIMAL},
+		QC10 = #{qc10,jdbcType=DECIMAL},
+		QC11 = #{qc11,jdbcType=DECIMAL},
+		QC12 = #{qc12,jdbcType=DECIMAL},
+		QC13 = #{qc13,jdbcType=DECIMAL},
+		QC14 = #{qc14,jdbcType=DECIMAL},
+		QC15 = #{qc15,jdbcType=DECIMAL},
+		QC16 = #{qc16,jdbcType=DECIMAL},
+		QC17 = #{qc17,jdbcType=DECIMAL},
+		QC18 = #{qc18,jdbcType=DECIMAL},
+		QC19 = #{qc19,jdbcType=DECIMAL},
+		QC20 = #{qc20,jdbcType=DECIMAL},
+		QC21 = #{qc21,jdbcType=DECIMAL},
+		QC22 = #{qc22,jdbcType=DECIMAL},
+		QC23 = #{qc23,jdbcType=DECIMAL},
+		QC24 = #{qc24,jdbcType=DECIMAL},
+		QC25 = #{qc25,jdbcType=DECIMAL},
+		QC26 = #{qc26,jdbcType=DECIMAL},
+		QC27 = #{qc27,jdbcType=DECIMAL},
+		QC28 = #{qc28,jdbcType=DECIMAL},
+		QC29 = #{qc29,jdbcType=DECIMAL},
+		QC30 = #{qc30,jdbcType=DECIMAL},
+		QC31 = #{qc31,jdbcType=DECIMAL},
+		QC32 = #{qc32,jdbcType=DECIMAL},
+		QC33 = #{qc33,jdbcType=DECIMAL},
+		QC34 = #{qc34,jdbcType=DECIMAL},
+		QC35 = #{qc35,jdbcType=DECIMAL},
+		state = #{state,jdbcType=VARCHAR},
+		creator = #{creator,jdbcType=VARCHAR},
+		createtime = #{createtime,jdbcType=BIGINT},
+		modifier = #{modifier,jdbcType=VARCHAR},
+		modifytime = #{modifytime,jdbcType=BIGINT},
+		utc = #{utc,jdbcType=BIGINT}
+		where id = #{id,jdbcType=VARCHAR}
+	</update>
+	<select id="page"
+		parameterType="com.tianrui.api.req.quality.purchase.PurchaseAssayReq"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from tr_purchase_db_assay
+		<where>
+			state = "1"
+			<if test="starttime!=null and starttime!=0">
+				and createtime <![CDATA[ >= #{starttime,jdbcType=BIGINT} ]]>
+			</if>
+			<if test="endtime!=null and endtime!=0">
+				and createtime <![CDATA[ <= #{endtime,jdbcType=BIGINT} ]]>
+			</if>
+			<if test="code!=null and code!=''">
+				and code=#{code,jdbcType=VARCHAR}
+			</if>
+		</where>
+		order by createtime desc
+		<if test="start!=null and limit!=null and limit!=0">
+			limit #{start,jdbcType=INTEGER},#{limit,jdbcType=INTEGER}
+		</if>
+
+	</select>
+	<select id="count"
+		parameterType="com.tianrui.api.req.quality.purchase.PurchaseAssayReq"
+		resultType="int">
+		select
+		count(1)
+		from tr_purchase_db_assay
+		<where>
+			state = "1"
+			<if test="starttime!=null and starttime!=0">
+				and createtime <![CDATA[ >= #{starttime,jdbcType=BIGINT} ]]>
+			</if>
+			<if test="endtime!=null and endtime!=0">
+				and createtime <![CDATA[ <= #{endtime,jdbcType=BIGINT} ]]>
+			</if>
+			<if test="code!=null and code!=''">
+				and code=#{code,jdbcType=VARCHAR}
+			</if>
+		</where>
+	</select>
+</mapper>

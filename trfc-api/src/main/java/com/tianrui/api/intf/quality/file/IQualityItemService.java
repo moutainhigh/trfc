@@ -35,4 +35,8 @@ public interface IQualityItemService {
 	 * 获取所有的列
 	 */
 	Result getLine() throws Exception;
+	/**
+	 * 获取项目名称与列 的集合
+	 */
+	Result getLineAndName(QualityItemReq req) throws Exception;
 }
