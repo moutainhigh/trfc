@@ -174,4 +174,22 @@ public class QualityItemService implements IQualityItemService {
 		return rs;
 	}
 
+	@Override
+	public Result getLineAndName(QualityItemReq req) throws Exception {
+		Result rs = Result.getParamErrorResult();
+		if(req!=null){
+			req.setState("1");req.setLimit(0);
+			List<QualityItem> list = qualityItemMapper.page(req);
+			for(QualityItem item : list){
+				QualityColumn qc = qualityColumnMapper.selectByPrimaryKey(item.getLine());
+				if(qc!=null){
+					item.setLine(qc.getVal());
+				}
+			}
+			rs = Result.getSuccessResult();
+			rs.setData(list);
+		}
+		return rs;
+	}
+	
 }

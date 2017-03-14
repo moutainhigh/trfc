@@ -124,4 +124,19 @@ public class QualityItemAction {
 		}
 		return rs;
 	}
+	/**
+	 * 获取列表(名称和列)
+	 */
+	@RequestMapping("/getLineAndName")
+	@ResponseBody
+	public Result getLineAndName(QualityItemReq req){
+		Result rs = Result.getErrorResult();
+		try {
+			rs = qualityItemService.getLineAndName(req);
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			rs.setErrorCode(ErrorCode.SYSTEM_ERROR);
+		}
+		return rs;
+	}
 }

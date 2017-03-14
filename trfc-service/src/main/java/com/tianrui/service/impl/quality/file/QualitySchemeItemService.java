@@ -235,6 +235,7 @@ public class QualitySchemeItemService implements IQualitySchemeItemService {
 						resp.setItemcode(qi.getCode());
 						resp.setItemname(qi.getName());
 						resp.setUnits(qi.getUnits());
+						resp.setLine(qi.getLine());
 					}
 
 

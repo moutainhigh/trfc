@@ -18,6 +18,7 @@
 					<li><a href="/trfc/quality/sales/batchnum/main">销售批号维护</a></li>
 					<li><a href="/trfc/quality/sales/report/main">销售化验报告</a></li>
 					<li class="select">采购采样管理</li>
+					<li><a href="/trfc/quality/purchase/assay/main">采购化验报告</a></li>
 				</ul>
 				<!--tab切换标题end-->
 				<div class="top_opera">

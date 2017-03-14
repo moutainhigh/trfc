@@ -25,4 +25,10 @@ public interface IPurchaseSamplingService {
 	 * 获取采样车辆详情
 	 */
 	Result getDetailData(PurchaseSamplingReq req) throws Exception;
+	/**
+	 * 通过code查询数据
+	 * @param req
+	 * @return
+	 */
+	Result findByCode(PurchaseSamplingReq req) throws Exception;
 }

@@ -233,4 +233,10 @@
 			</if>
 		</where>
 	</select>
+	  <select id="findByCode" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from tr_purchase_db_sampling
+    where code = #{code,jdbcType=VARCHAR} and state="1"
+  </select>
 </mapper>
