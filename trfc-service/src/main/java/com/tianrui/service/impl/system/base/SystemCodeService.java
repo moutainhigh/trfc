@@ -172,8 +172,6 @@ public class SystemCodeService implements ISystemCodeService{
 					//确保判断的时间 与生成code是的时间一致
 					Date now = new Date(System.currentTimeMillis());
 
-					item.setModifier(req.getUserName());
-					item.setModifytime(now.getTime());
 					StringBuilder code = codeFactory(req, item,now);
 					//code不能为空
 					if(code!=null){

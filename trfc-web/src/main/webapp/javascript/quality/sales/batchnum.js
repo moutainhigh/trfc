@@ -25,6 +25,11 @@ $(function(){
 	$('#pageSize').change(function(){batchnumShowAction(1);});
 	//绑定编辑按钮
 	$('#list').on('click','tr [title="编辑"]',aditAction);
+	//绑定停用按钮
+	$('#list').on('dblclick','tr',function(){
+		var id = $(this).data('batchnum_obj').id;
+		window.location.href = URL.detailUrl+"?id="+id;
+	});
 	//获取用户id
 	var user = $('.user').attr("userid");
 	$('#seek_billsstate').change(function(){batchnumShowAction(1);});

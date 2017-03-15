@@ -12,20 +12,6 @@ $(function(){
 			getLineAndNameUrl:"/trfc/quality/sales/file/qualityItem/getLineAndName",
 			qschemeAutoCompleteSearch: "/trfc/quality/sales/file/qualityScheme/autoCompleteSearch",
 	};
-	var lineData = {"烧失量":qc0,
-					"质量系数":qc1,
-					"水分":qc2,
-					"外水分":qc3,
-					"分析基水分":qc4,
-					"分析基灰分":qc5,
-					"分析基挥发分":qc6,
-					"固定碳":qc7,
-					"焦渣特征":qc8,
-					"空气干燥基全硫":qc9,
-					"分析基低位发热量":qc10,
-					"收到基低位发热量":qc11,
-					"低位热量":qc12,
-	};
 	ShowAction(1);
 	//绑定搜索按键
 	$('#seek').click(function(){ShowAction(1);});
@@ -36,24 +22,134 @@ $(function(){
 	//点击新增按钮,初始化新增页面
 	$('#addBtn').click(initAddPage);
 	var userid = $('.user').attr('userid');
-	var Lines = {};
-	getLineAndName();
 	$('#add_sure').click(saveAction);
-
+	$('#edit_sure').click(updateAction);
+	initSelect();
+	//绑定删除按钮
+	$('#list').on('click','tr [title="删除"]',function(event){
+		event.stopPropagation();
+		deleteAction(this)});
+	//绑定编辑按钮
+	$('#list').on('click','tr [title="编辑"]',initEditPage);
+	//新增页面 质检方案
+	$('#add_qscheme').blur(function(){
+		var qschemeid = $('#add_qscheme').attr('qschemeid');
+		initAddItems($('#add_qschemeitem'),qschemeid);});
+	//新增页面 采购单号
+	$('#add_sampling').blur(function(){
+		var samplingid = $('#add_sampling').val();
+		getSamplingList($('#add_sampinglist'),samplingid)});
+	//编辑页面 
+	$('#edit_qscheme').blur(function(){
+		var qschemeid = $('#edit_qscheme').attr('qschemeid');
+		initAddItems($('#edit_qschemeitem'),qschemeid);});
+	$('#edit_sampling').blur(function(){
+		var samplingid = $('#edit_sampling').val();
+		getSamplingList($('#edit_sampinglist'),samplingid)});
+	// 表格内容每行单击出来下面的详细信息
+	$('#list').on('dblclick','tr',function(){
+		$('#detail').modal('show');
+		initDetailData(this);
+	});
 	
 	
+	function initDetailData(e){
+		var obj = $(e).data('obj');
+		$('#detail_code').val(obj.code);
+		$('#detail_qscheme').val(obj.qschemename);
+		initAddItems($('#detail_qschemeitem'),obj.qschemeid,obj);
+		$('#detail_sampling').val(obj.samplingid);
+		getSamplingList($('#detail_sampinglist'),obj.samplingid)
+		$('#detail_assaytime').val(getNowFormatDate(false,obj.assaytime));
+		$('#detail_createtime').val(getNowFormatDate(true,obj.createtime));
+		$('#detail_creator').val(obj.creator);
+		$('#detail_remark').val(obj.remark);
+	}
 	
+	function deleteAction(btn){
+		var id = $(btn).closest('tr').data('obj').id;
+		//弹出删除确认框
+		var index = layer.confirm('你确定要删除吗?', {
+			area: '600px', 
+			btn: ['确定','取消'] //按钮
+		}, function(){
+			//提交删除的数据
+			$.post(URL.deleteUrl,{id:id},function(result){
+				if('000000'==result.code){
+					ShowAction(1);
+					layer.close(index);
+				}else{
+					layer.msg(result.error,{icon:5});
+				}
+			});
+			//关闭对话框
+		}, function(){
+		});
+	}
+	function updateAction(){
+		var param = getEditData();
+		if(param){
+			$.post(URL.updateUrl,param,function(result){
+				if('000000'==result.code){
+					$('#edit_cancel').click();
+					ShowAction(1);
+				}else{
+					layer.msg(result.error,{icon:5});
+				}
+			});
+		}
+	}
 	function saveAction(){
 		var param = getAddData();
 		if(param){
-			
+			$.post(URL.saveUrl,param,function(result){
+				if('000000'==result.code){
+					updateCode();
+				}else{
+					layer.msg(result.error,{icon:5});
+				}
+			});
 		}
+	}
+	//获取编辑数据
+	function getEditData(){
+		var id = $('#edit_id').val();
+		var qschemeid = $('#edit_qscheme').attr('qschemeid');
+		var code = $('#edit_code').val();
+		var samplingid = $('#edit_sampling').val();
+		var assaytime = new Date($('#edit_assaytime').val()).getTime();
+		var createtime = Date.parseYMD_HMS($('#edit_createtime').val()).getTime();
+		var remark = $('#edit_remark').val();
+		var param = {
+				id:id,
+				qschemeid:qschemeid,
+				code:code,
+				samplingid:samplingid,
+				assaytime:assaytime,
+				createtime:createtime,
+				user:userid,
+				remark:remark
+		};
+		var divs = $('#edit_qschemeitem>div');
+		for(var i=0;i<divs.length;i++){
+			var obj = divs.eq(i).data('obj');
+			param[obj.line.toLowerCase()] = divs.eq(i).find('input').val();
+		}
+		return param;
 	}
 	//获取新增数据
 	function getAddData(){
 		var qschemeid = $('#add_qscheme').attr('qschemeid');
+		if(!qschemeid){
+			layer.alert('质检产品方案不能为空!');
+			return null;
+		}
 		var code = $('#add_code').val();
 		var samplingid = $('#add_sampling').val();
+		if(''==samplingid || $('#add_sampinglist').find('tr').length==0){
+			layer.alert('请填写有效单号!');
+			return null;
+		}
 		var assaytime = new Date($('#add_assaytime').val()).getTime();
 		var createtime = Date.parseYMD_HMS($('#add_createtime').val()).getTime();
 		var remark = $('#add_remark').val();
@@ -63,11 +159,17 @@ $(function(){
 				samplingid:samplingid,
 				assaytime:assaytime,
 				createtime:createtime,
+				user:userid,
 				remark:remark
 		};
+		var divs = $('#add_qschemeitem>div');
+		for(var i=0;i<divs.length;i++){
+			var obj = divs.eq(i).data('obj');
+			param[obj.line.toLowerCase()] = divs.eq(i).find('input').val();
+		}
 		return param;
 	}
-	
+
 	//加载下拉框
 	function initSelect(){
 		var cache = {};
@@ -111,22 +213,36 @@ $(function(){
 		});
 	}
 
-	function getLineAndName(){
-		$.post(URL.getLineAndNameUrl,{type:"0"},function(result){
+	function updateCode(){
+		var param = {
+				userid:userid,
+				code:"HY",
+				codeType:true
+		};
+		$.post(URL.updateCodeUrl,param,function(result){
 			if('000000'==result.code){
-				var list = result.data;
-				for(var i=0;i<list.length;i++){
-					var obj = list[i];
-					Lines[obj.line] = obj.name;
-				}
+				ShowAction(1);
+				$('#add_cancel').click();
 			}else{
 				layer.msg(result.error,{icon:5});
 			}
 		});
 	}
-
+	//初始化编辑页面
+	function initEditPage(){
+		var obj = $(this).closest('tr').data('obj');
+		$('#edit_id').val(obj.id);
+		$('#edit_code').val(obj.code);
+		$('#edit_qscheme').val(obj.qschemename).attr('qschemeid',obj.qschemeid);
+		initAddItems($('#edit_qschemeitem'),obj.qschemeid,obj);
+		$('#edit_sampling').val(obj.samplingid).blur();
+		$('#edit_assaytime').val(getNowFormatDate(false,obj.assaytime));
+		$('#edit_createtime').val(getNowFormatDate(true,obj.createtime));
+		$('#edit_creator').val(obj.creator);
+		$('#edit_remark').val(obj.remark);
+	}
+	//初始化新增页面
 	function initAddPage(){
-		initSelect();
 		var param = {
 				userid:userid,
 				code:"HY",
@@ -139,8 +255,8 @@ $(function(){
 				layer.msg(result.error,{icon:5});
 			}
 		});
-		$('#add_qscheme').val('').removeAttr('qschemeid').blur(function(){initAddItems();});
-		$('#add_sampling').val('').blur(function(){getSamplingList()});
+		$('#add_qscheme').val('').removeAttr('qschemeid')
+		$('#add_sampling').val('');
 		$('#add_assaytime').val(getNowFormatDate(false));
 		$('#add_createtime').val(getNowFormatDate(true));
 		$('#add_creator').val($('.user label').html());
@@ -149,36 +265,44 @@ $(function(){
 		$('#add_sampinglist').empty();
 	}
 	//获取质检项目列表
-	function initAddItems(){
-		var qschemeid = $('#add_qscheme').attr('qschemeid');
+	function initAddItems(tbody,qschemeid,obj){
+		//清空内容
+		tbody.empty();
 		if(qschemeid){
+			//通过质检方案id 获取项目列表
 			$.post(URL.inquireUrl,{schemeid:qschemeid,status:"1"},function(result){
 				if('000000'==result.code){
 					var list = result.data;
-					var tbody = $('#add_qschemeitem').empty();
 					for(var i=0;i<list.length;i++){
-						var div = '<div class="alt_edit_div" name="'+list[i].line+'">'
-							+'<label>'+list[i].itemname+'：</label>'
-							+' <input type="text">'
+						if(obj && list[i].line){
+							var div = '<div class="alt_edit_div">'
+							+'<label>'+(list[i].itemname || 0)+'：</label>'
+							+' <input type="text" value="'+obj[(list[i].line.toLowerCase())]+'">'
 							+' </div>';
+						}else{
+							var div = '<div class="alt_edit_div">'
+							+'<label>'+(list[i].itemname || '')+'：</label>'
+							+' <input type="text" value="0">'
+							+' </div>';
+						}
 						div = $(div);
 						tbody.append(div);
 						div.data('obj',list[i]);
 					}
 				}else{
 					layer.msg(result.error,{icon:5});
-				}
+				};
 			});
 		}
 	}
 	//获取采样项目列表
-	function getSamplingList(){
-		var samplingid = $('#add_sampling').val();
+	function getSamplingList(tbody,samplingid){
+		tbody.empty();
 		if(samplingid){
 			$.post(URL.findByCodeUrl,{code:samplingid},function(result){
 				if('000000'==result.code){
 					var obj = result.data;
-					$('#add_sampinglist').empty().append('<tr><td>'
+					tbody.append('<tr><td>'
 							+obj.code+'</td><td>'
 							+obj.assayname+'</td></tr>');
 				}else{
@@ -280,19 +404,19 @@ $(function(){
 				+'<td>'+(obj.qschemename || '')+'</td>'
 				+'<td>'+(obj.samplingid || '')+'</td>'
 				+'<td>'+(getNowFormatDate(false,obj.assaytime) || '')+'</td>'
-				+'<td>'+(1 || '')+'</td>'
-				+'<td>'+(2 || '')+'</td>'
-				+'<td>'+(3|| '')+'</td>'
-				+'<td>'+(4 || '')+'</td>'
-				+'<td>'+(5 || '')+'</td>'
-				+'<td>'+(6 || '')+'</td>'
-				+'<td>'+(7 || '')+'</td>'
-				+'<td>'+(8 || '')+'</td>'
-				+'<td>'+(9 || '')+'</td>'
-				+'<td>'+(10 || '')+'</td>'
-				+'<td>'+(11 || '')+'</td>'
-				+'<td>'+(12|| '')+'</td>'
-				+'<td>'+(13 || '')+'</td>'
+				+'<td>'+(obj.qc0 || '')+'</td>'
+				+'<td>'+(obj.qc1 || '')+'</td>'
+				+'<td>'+(obj.qc2 || '')+'</td>'
+				+'<td>'+(obj.qc3 || '')+'</td>'
+				+'<td>'+(obj.qc4 || '')+'</td>'
+				+'<td>'+(obj.qc5 || '')+'</td>'
+				+'<td>'+(obj.qc6 || '')+'</td>'
+				+'<td>'+(obj.qc7 || '')+'</td>'
+				+'<td>'+(obj.qc8 || '')+'</td>'
+				+'<td>'+(obj.qc9 || '')+'</td>'
+				+'<td>'+(obj.qc10 || '')+'</td>'
+				+'<td>'+(obj.qc11 || '')+'</td>'
+				+'<td>'+(obj.qc12 || '')+'</td>'
 				+'<td>'+(obj.creator || '')+'</td>'
 				+'<td>'+(getNowFormatDate(true,obj.createtime) || '')+'</td>'
 				+'<td>'+(obj.remark || '')+'</td>'

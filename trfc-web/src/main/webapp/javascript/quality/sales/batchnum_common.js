@@ -7,6 +7,7 @@
 			updateUrl:"/trfc/quality/sales/batchnum/update",
 			addUrl:"/trfc/quality/sales/batchnum/addMain",
 			editUrl:"/trfc/quality/sales/batchnum/editMain",
+			detailUrl:"/trfc/quality/sales/batchnum/detailMain",
 			saveUrl:"/trfc/quality/sales/batchnum/add",
 			materialAutoCompleteSearch:"/trfc/materiel/autoCompleteSearch",
 			userAutoCompleteSearch:"/trfc/system/auth/user/autoCompleteSearch"

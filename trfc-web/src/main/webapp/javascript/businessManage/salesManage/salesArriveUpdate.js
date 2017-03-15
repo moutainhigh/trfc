@@ -24,6 +24,8 @@
 		initAutoComplete();
 		//初始化按钮
 		bindEvent();
+		
+		$('#takeamount').trigger('input').trigger('propertychange');
 	}
 	function initAutoComplete(){
 		var cache = {};
@@ -189,7 +191,8 @@
 				}else if(trs.length >1 && trs.length <= 3){
 					var flag = true;
 					var bills = [];
-					var margin = 0;
+					var salessum = 0;
+					var marginsum = 0;
 					var div = '<div class="layer-content-radio-div">';
 					trs.each(function(i){
 						var rightData = $(trs[i]).data();
@@ -206,8 +209,9 @@
 								return;
 							}
 						}
+						marginsum += rightData.margin;
 						if(rightData.margin){
-							margin += rightData.margin;
+							salessum += rightData.salessum;
 						}
 						div += '<div><label><input name="billcode" type="radio">'+rightData.code+'</label></div>';
 					});
@@ -225,11 +229,23 @@
 								}else{
 									var index = $('.layer-content-radio-div input:radio:checked').closest('div').index();
 									var obj = $(trs[index]).data();
+									trs.sort(function(a,b){
+										var aData = $(a).data();
+										var bData = $(b).data();
+										if($('#maindeduction')[0].checked){
+											if(aData.billid == obj.billid){
+												return -1;
+											}
+										}
+										return aData.margin - bData.margin;
+									});
 									selectSalesApplication(obj, bills, trs);
+									$('#margin').val(marginsum);
 									if(!$('#maindeduction').is(':checked')){
-										$('#margin').val(margin);
+										$('#salessum').val(salessum);
 									}
 									layer.close(i);
+									$('#takeamount').trigger('input').trigger('propertychange');
 								}
 							}
 						});
@@ -259,8 +275,31 @@
 				saveDriver();
 			}
 		});
-		$('#takeamount').change(function(){
-			$('#advanceAmount').html($(this).val());
+		$('#takeamount').off('input propertychange').on('input propertychange', function(){
+			var marginsum = parseFloat($('#margin').val()) || 0;
+			var value = parseFloat($(this).val() || 0);
+			if(!$.isNumeric(value)){
+				layer.tips('提货量必须为数字!', this, {
+					  tips: [1, '#3595CC'],
+					  time: 2000
+					});
+				 $(this).val(''); return;
+			}else if(value > marginsum){
+				layer.msg('提货量不能大于'+marginsum+'!', {icon: 5}); $(this).val(''); return;
+			}
+			$('#salesApplicationDetailBody tr').each(function(){
+				var yl = $(this).find('td.yl').text(); yl = parseFloat(yl);
+				if(value > 0){
+					if(yl >= value){
+						$(this).find('td.yt').html(value);
+					}else{
+						$(this).find('td.yt').html(yl);
+					}
+				}else{
+					$(this).find('td.yt').html(0);
+				}
+				value -= yl;
+			});
 		});
 		$('#jumpPageNoBtn').off('click').on('click',function(){
 			var pageNo = $('input#jumpPageNo').val();pageNo = $.trim(pageNo);pageNo = parseInt(pageNo);
@@ -410,7 +449,7 @@
 			$('#salesApplicationDetailBody').append('<tr><td>'+(i+1)+'</td><td>'+(data.code || '')+'</td><td>'+(data.billtypename || '')+'</td>'
 					+'<td>'+(data.billtimeStr || '')+'</td><td>'+(data.materielname || '')+'</td>'
 					+'<td>'+(data.unit || '')+'</td><td>'+(data.salessum || '')+'</td>'
-					+'<td>'+(data.margin || 0)+'</td><td id="advanceAmount">0.00</td><td>'+(data.orgname || '')+'</td>'
+					+'<td class="yl">'+(data.margin || 0)+'</td><td class="yt">0</td><td>'+(data.orgname || '')+'</td>'
 					+'<td>'+(data.customername || '')+'</td><td>'+(data.departmentname || '')+'</td>'
 					+'<td>'+(data.salesmanname || '')+'</td><td>'+data.makebillname || ''+'</td></tr>');
 		});

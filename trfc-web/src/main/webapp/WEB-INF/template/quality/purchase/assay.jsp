@@ -205,7 +205,7 @@
                     </div>
                     <div class="alt_edit_div">
                         <label>单据编号：</label>
-                        <input type="text" id="add_code">
+                        <input type="text" id="add_code" readOnly="readonly">
                     </div>
                     <div class="alt_edit_div">
                         <label>采样单号：</label>
@@ -214,15 +214,15 @@
                     <div class="alt_edit_div">
                         <label>化验日期：</label>
                         <input type="text" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})" class="Wdate_cg"
-                               style="width:220px" id="add_assaytime"/>
+                               style="width:220px" id="add_assaytime" readOnly="readonly"/>
                     </div>
                     <div class="alt_edit_div">
                         <label> 制单时间：</label>
-                        <input type="text" id="add_createtime">
+                        <input type="text" id="add_createtime" readOnly="readonly">
                     </div>
                     <div class="alt_edit_div">
                         <label>制单人：</label>
-                        <input type="text" id="add_creator">
+                        <input type="text" id="add_creator" readOnly="readonly">
                     </div>
                     <div class="alt_edit_div">
                         <label>备注： </label>
@@ -283,50 +283,40 @@
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                         aria-hidden="true">&times;</span></button>
                 <div class="alt_head">
-                    <h5>化验管理</h5>
+                    <h5>采购化验管理编辑</h5>
                 </div>
             </div>
             <div class="modal-body">
-                <div class="alt_opera mb10">
-                    <ul>
-                        <li>
-                            <i class="iconfont colorlv">&#xe61b;</i>
-                            <h5>刷新</h5>
-                        </li>
-                        <li>
-                            <i class="iconfont colorblue">&#xe61d;</i>
-                            <h5>保存</h5>
-                        </li>
-                    </ul>
-                </div>
                 <div class="alt_edit">
                     <div class="alt_edit_div">
+                    <input type="hidden" id="edit_id"/>
                         <label>质检产品：</label>
-                        <input type="text">
+                        <input type="text" id="edit_qscheme" class="qschemeSel">
                     </div>
                     <div class="alt_edit_div">
                         <label>单据编号：</label>
-                        <input type="text" readonly="true">
+                        <input type="text" id="edit_code" readOnly="readonly">
                     </div>
                     <div class="alt_edit_div">
                         <label>采样单号：</label>
-                        <input type="text">
+                        <input type="text" id="edit_sampling">
                     </div>
                     <div class="alt_edit_div">
                         <label>化验日期：</label>
-                        <input type="text">
+                        <input type="text" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})" class="Wdate_cg"
+                               style="width:220px" id="edit_assaytime"  readOnly="readonly"/>
                     </div>
                     <div class="alt_edit_div">
                         <label> 制单时间：</label>
-                        <input type="text" readonly="true">
+                        <input type="text" id="edit_createtime"  readOnly="readonly">
                     </div>
                     <div class="alt_edit_div">
                         <label>制单人：</label>
-                        <input type="text" readonly="true">
+                        <input type="text" id="edit_creator"  readOnly="readonly">
                     </div>
                     <div class="alt_edit_div">
                         <label>备注： </label>
-                        <input type="text">
+                        <input type="text" id="edit_remark">
                     </div>
                 </div>
                 <div id="alt_tab">
@@ -339,48 +329,13 @@
                     <div class="cg_tabbox">
                         <!--tab切换的内容-->
                         <div class="cg_tabcont">
-                            <div class="alt_edit">
+                            <div class="alt_edit" id="edit_qschemeitem">
                                 <div class="alt_edit_div">
-                                    <label>外水分(Mar)：</label>
-                                    <input type="text" value="121221">
-                                </div>
-                                <div class="alt_edit_div">
-                                    <label>分析基水分Mad：</label>
-                                    <input type="text" value="121221">
-                                </div>
-                                <div class="alt_edit_div">
-                                    <label>分析基灰分Aad：</label>
+                                    <label>烧失量：</label>
                                     <input type="text">
                                 </div>
-                                <div class="alt_edit_div">
-                                    <label>分析基挥发分Vad：</label>
-                                    <input type="text" value="121221">
-                                </div>
-                                <div class="alt_edit_div">
-                                    <label>焦渣特征CRC：</label>
-                                    <input type="text" value="121221">
-                                </div>
-                                <div class="alt_edit_div">
-                                    <label>固定碳Fcad：</label>
-                                    <input type="text" value="121221" readonly="true">
-                                </div>
-                                <div class="alt_edit_div">
-                                    <label>空气干燥基全硫St,ad：</label>
-                                    <input type="text" value="121221">
-                                </div>
-                                <div class="alt_edit_div">
-                                    <label>分析基低位发热量Qnet,ad：</label>
-                                    <input type="text" value="121221">
-                                </div>
-                                <div class="alt_edit_div">
-                                    <label>收到基低位发热量Qnet,ar：</label>
-                                    <input type="text" value="121221">
-                                </div>
-                                <div class="alt_edit_div">
-                                    <label>低位热量：</label>
-                                    <input type="text" value="121221">
-                                </div>
                             </div>
+
                         </div>
                         <div class="cg_tabcont hide">
                             <table class="table table-bordered">
@@ -390,7 +345,7 @@
                                     <th> 化验类型</th>
                                 </tr>
                                 </thead>
-                                <tbody>
+                                <tbody id="edit_sampinglist">
                                 <tr>
                                     <td> 合计：</td>
                                     <td> 100</td>
@@ -403,14 +358,95 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary">确定</button>
+                <button type="button" class="btn btn-primary" id="edit_sure">确定</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal" id="edit_cancel">取消</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--编辑end-->
+<!--详情begin-->
+<div class="modal fade" id="detail" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document" style="width: 750px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <div class="alt_head">
+                    <h5>采购化验管理详情</h5>
+                </div>
+            </div>
+            <div class="modal-body">
+                <div class="alt_edit">
+                    <div class="alt_edit_div">
+                        <label>质检产品：</label>
+                        <input type="text" id="detail_qscheme" readOnly="readonly">
+                    </div>
+                    <div class="alt_edit_div">
+                        <label>单据编号：</label>
+                        <input type="text" id="detail_code" readOnly="readonly">
+                    </div>
+                    <div class="alt_edit_div">
+                        <label>采样单号：</label>
+                        <input type="text" id="detail_sampling" readOnly="readonly">
+                    </div>
+                    <div class="alt_edit_div">
+                        <label>化验日期：</label>
+                        <input type="text" id="detail_assaytime"  readOnly="readonly"/>
+                    </div>
+                    <div class="alt_edit_div">
+                        <label> 制单时间：</label>
+                        <input type="text" id="detail_createtime"  readOnly="readonly">
+                    </div>
+                    <div class="alt_edit_div">
+                        <label>制单人：</label>
+                        <input type="text" id="detail_creator"  readOnly="readonly">
+                    </div>
+                    <div class="alt_edit_div">
+                        <label>备注： </label>
+                        <input type="text" id="detail_remark"  readOnly="readonly">
+                    </div>
+                </div>
+                <div id="alt_tab">
+                    <div class="cg_tabtit">
+                        <ul>
+                            <li class="select">质检项目</li>
+                            <li>采样项目</li>
+                        </ul>
+                    </div>
+                    <div class="cg_tabbox">
+                        <!--tab切换的内容-->
+                        <div class="cg_tabcont">
+                            <div class="alt_edit" id="detail_qschemeitem">
+                                
+                            </div>
+
+                        </div>
+                        <div class="cg_tabcont hide">
+                            <table class="table table-bordered">
+                                <thead>
+                                <tr>
+                                    <th>采样编号</th>
+                                    <th> 化验类型</th>
+                                </tr>
+                                </thead>
+                                <tbody id="detail_sampinglist">
+                                <tr>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <!--tab切换的内容end-->
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
             </div>
         </div>
     </div>
 </div>
 <!--编辑end-->
-
 <script type="text/javascript">
     // 表格内容每行单击出来下面的详细信息
     var tabledata = $('.intel_table table tbody tr');

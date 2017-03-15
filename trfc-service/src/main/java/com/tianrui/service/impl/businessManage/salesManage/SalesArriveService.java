@@ -299,23 +299,6 @@ public class SalesArriveService implements ISalesArriveService {
 		SalesArriveResp resp = null;
 		if(StringUtils.isNotBlank(id)){
 			resp = copyBean2Resp(salesArriveMapper.selectByPrimaryKey(id), true);
-			List<SalesApplicationJoinNatice> list = salesApplicationJoinNaticeMapper.selectByNaticeId(resp.getId());
-			if(resp != null && CollectionUtils.isNotEmpty(list)){
-				for(SalesApplicationJoinNatice join : list){
-					SalesApplicationResp salesApplicationResp = salesApplicationService.findOne(join.getBillid(), false);
-					if(salesApplicationResp != null){
-						List<SalesApplicationDetailResp> listApplcationDetail = new ArrayList<SalesApplicationDetailResp>();
-						listApplcationDetail.add(salesApplicationDetailService.findOne(join.getBilldetailid()));
-						salesApplicationResp.setList(listApplcationDetail);
-					}
-					List<SalesApplicationResp> listApplication = resp.getListApplication();
-					if(CollectionUtils.isEmpty(listApplication)){
-						listApplication = new ArrayList<SalesApplicationResp>();
-					}
-					listApplication.add(salesApplicationResp);
-					resp.setListApplication(listApplication);
-				}
-			}
 		}
 		return resp;
 	}
@@ -335,28 +318,59 @@ public class SalesArriveService implements ISalesArriveService {
 			List<String> ids = new ArrayList<String>();
 			List<String> detailIds = new ArrayList<String>();
 			for(SalesArriveResp resp : listArrive){
-				ids.add(resp.getBillid());
-				detailIds.add(resp.getBilldetailid());
-			}
-			List<SalesApplicationResp> listApplication = salesApplicationService.selectByIds(ids);
-			if(CollectionUtils.isNotEmpty(listApplication)){
-				for(SalesArriveResp arriveResp : listArrive){
-					for(SalesApplicationResp applicationResp : listApplication){
-						if(StringUtils.equals(arriveResp.getBillid(), applicationResp.getId())){
-							arriveResp.setSalesApplication(applicationResp);
+				List<SalesApplicationJoinNatice> listJoin = salesApplicationJoinNaticeMapper.selectByNaticeId(resp.getId());
+				for(SalesApplicationJoinNatice join : listJoin){
+					ids.add(join.getBillid());
+					detailIds.add(join.getBilldetailid());
+				}
+				List<SalesApplicationResp> listApplication = salesApplicationService.selectByIds(ids, false);
+				List<SalesApplicationDetailResp> listApplicationDetail = salesApplicationDetailService.selectByIds(detailIds);
+				if(CollectionUtils.isNotEmpty(listApplication)){
+					for(SalesArriveResp arriveResp : listArrive){
+						List<SalesApplicationResp> list = arriveResp.getListApplication();
+						if(CollectionUtils.isEmpty(list)){
+							list = new ArrayList<SalesApplicationResp>();
 						}
+						for(SalesApplicationJoinNatice join : listJoin){
+							if(StringUtils.equals(arriveResp.getId(), join.getNaticeid())){
+								SalesApplicationResp application = null;
+								for(SalesApplicationResp applicationResp : listApplication){
+									if(StringUtils.equals(applicationResp.getId(), join.getBillid())){
+										application = applicationResp;
+									}
+								}
+								if(application != null){
+									List<SalesApplicationDetailResp> listDetail = application.getList();
+									if(CollectionUtils.isEmpty(listDetail)){
+										listDetail = new ArrayList<SalesApplicationDetailResp>();
+									}
+									for(SalesApplicationDetailResp detailResp : listApplicationDetail){
+										if(StringUtils.equals(detailResp.getId(), join.getBilldetailid())){
+											listDetail.add(detailResp);
+											application.setList(listDetail);
+										}
+									}
+								}
+								list.add(application);
+							}
+						}
+						arriveResp.setListApplication(list);
 					}
 				}
-			}
-			List<SalesApplicationDetailResp> listApplicationDetail = salesApplicationDetailService.selectByIds(detailIds);
-			if(CollectionUtils.isNotEmpty(listApplicationDetail)){
-				for(SalesArriveResp arriveResp : listArrive){
-					for(SalesApplicationDetailResp applicationDetailResp : listApplicationDetail){
-						if(StringUtils.equals(arriveResp.getBilldetailid(), applicationDetailResp.getId())){
-							arriveResp.setSalesApplicationDetail(applicationDetailResp);
+				/*if(CollectionUtils.isNotEmpty(listApplicationDetail)){
+					for(SalesArriveResp arriveResp : listArrive){
+						List<SalesApplicationResp> list = arriveResp.getListApplication();
+						for(SalesApplicationJoinNatice join : listJoin){
+							if(StringUtils.equals(arriveResp.getId(), join.getNaticeid())){
+								for(SalesApplicationDetailResp applicationDetailResp : listApplicationDetail){
+									if(StringUtils.equals(applicationDetailResp.getId(), join.getBilldetailid())){
+										arriveResp.setSalesApplicationDetail(applicationDetailResp);
+									}
+								}
+							}
 						}
 					}
-				}
+				}*/
 			}
 		}
 	}
@@ -378,8 +392,23 @@ public class SalesArriveService implements ISalesArriveService {
 			resp = new SalesArriveResp();
 			PropertyUtils.copyProperties(resp, bean);
 			if(setApplication){
-				resp.setSalesApplication(salesApplicationService.findOne(bean.getBillid(), false));
-				resp.setSalesApplicationDetail(salesApplicationDetailService.findOne(bean.getBilldetailid()));
+				List<SalesApplicationJoinNatice> list = salesApplicationJoinNaticeMapper.selectByNaticeId(resp.getId());
+				if(CollectionUtils.isNotEmpty(list)){
+					for(SalesApplicationJoinNatice join : list){
+						SalesApplicationResp salesApplicationResp = salesApplicationService.findOne(join.getBillid(), false);
+						if(salesApplicationResp != null){
+							List<SalesApplicationDetailResp> listApplcationDetail = new ArrayList<SalesApplicationDetailResp>();
+							listApplcationDetail.add(salesApplicationDetailService.findOne(join.getBilldetailid()));
+							salesApplicationResp.setList(listApplcationDetail);
+						}
+						List<SalesApplicationResp> listApplication = resp.getListApplication();
+						if(CollectionUtils.isEmpty(listApplication)){
+							listApplication = new ArrayList<SalesApplicationResp>();
+						}
+						listApplication.add(salesApplicationResp);
+						resp.setListApplication(listApplication);
+					}
+				}
 			}
 		}
 		return resp;
@@ -488,8 +517,8 @@ public class SalesArriveService implements ISalesArriveService {
 							result.setErrorCode(ErrorCode.VEHICLE_NOT_NOTICE);
 						}else{
 							SalesArriveResp resp = copyBean2Resp(listSales.get(0), true);
-							SalesApplicationResp salesApplicationResp = resp.getSalesApplication();
-							SalesApplicationDetailResp salesApplicationDetailResp = resp.getSalesApplicationDetail();
+							SalesApplicationResp salesApplicationResp = resp.getMainApplication();
+							SalesApplicationDetailResp salesApplicationDetailResp = resp.getMainApplicationDetail();
 							ApiSalesArriveResp api = new ApiSalesArriveResp();
 							api.setVehicleno(resp.getVehicleno());
 							api.setCustomerid(salesApplicationResp.getCustomerid());
