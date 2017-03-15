@@ -1618,6 +1618,19 @@ width: 180px;
 }
 
 
+.layer-content-radio-div {
+    padding: 15px 30px;
+}
+
+.layer-content-radio-div div {
+    margin: 6px;
+}
+
+.layer-content-radio-div div input {
+    margin-right: 6px;
+}
+
+
 ::-webkit-scrollbar {
     width: 10px;
     height: 10px;

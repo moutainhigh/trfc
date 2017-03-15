@@ -28,10 +28,11 @@ public interface ISalesArriveService {
 	/**
 	 * 新增销售提货通知单
 	 * @param save
+	 * @param bills 
 	 * @return
 	 * @throws Exception 
 	 */
-	Result add(SalesArriveSave save) throws Exception;
+	Result add(SalesArriveSave save, String bills) throws Exception;
 	/**
 	 * 查询销售提货通知单
 	 * @param query

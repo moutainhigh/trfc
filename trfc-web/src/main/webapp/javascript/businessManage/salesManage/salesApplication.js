@@ -591,10 +591,10 @@
 				.append('<td>'+(detailResp.materielname || '')+'</td>')
 				.append('<td>'+(detailResp.salessum || '')+'</td>')
 				.append('<td>'+(detailResp.taxprice || '')+'</td>')
-				.append('<td></td>')
-				.append('<td></td>')
-				.append('<td></td>')
-				.append('<td></td>')
+				.append('<td>'+(detailResp.storagequantity)+'</td>')
+				.append('<td>'+(detailResp.unstoragequantity)+'</td>')
+				.append('<td>'+(detailResp.pretendingtake)+'</td>')
+				.append('<td>'+(detailResp.margin)+'</td>')
 				.append('<td>'+(detailResp.remarks || '')+'</td>')
 				.appendTo('#moreBody');
 			}

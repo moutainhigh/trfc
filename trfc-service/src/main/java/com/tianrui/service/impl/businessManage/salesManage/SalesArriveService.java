@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.tianrui.api.intf.basicFile.measure.IDriverManageService;
 import com.tianrui.api.intf.basicFile.measure.IVehicleManageService;
 import com.tianrui.api.intf.businessManage.cardManage.ICardService;
@@ -33,10 +35,12 @@ import com.tianrui.api.resp.businessManage.salesManage.SalesApplicationResp;
 import com.tianrui.api.resp.businessManage.salesManage.SalesArriveResp;
 import com.tianrui.service.bean.basicFile.measure.VehicleManage;
 import com.tianrui.service.bean.businessManage.purchaseManage.PurchaseArrive;
+import com.tianrui.service.bean.businessManage.salesManage.SalesApplicationJoinNatice;
 import com.tianrui.service.bean.businessManage.salesManage.SalesArrive;
 import com.tianrui.service.bean.common.RFID;
 import com.tianrui.service.mapper.basicFile.measure.VehicleManageMapper;
 import com.tianrui.service.mapper.businessManage.purchaseManage.PurchaseArriveMapper;
+import com.tianrui.service.mapper.businessManage.salesManage.SalesApplicationJoinNaticeMapper;
 import com.tianrui.service.mapper.businessManage.salesManage.SalesArriveMapper;
 import com.tianrui.service.mapper.common.RFIDMapper;
 import com.tianrui.service.mongo.impl.CodeGenDaoImpl;
@@ -78,6 +82,8 @@ public class SalesArriveService implements ISalesArriveService {
 	private IDriverManageService driverManageService;
 	@Autowired
 	private ICardService cardService;
+	@Autowired
+	private SalesApplicationJoinNaticeMapper salesApplicationJoinNaticeMapper;
 	
 	@Override
 	public PaginationVO<SalesArriveResp> page(SalesArriveQuery query) throws Exception {
@@ -103,7 +109,7 @@ public class SalesArriveService implements ISalesArriveService {
 	
 	@Transactional
 	@Override
-	public Result add(SalesArriveSave save) throws Exception {
+	public Result add(SalesArriveSave save, String bills) throws Exception {
 		Result result = Result.getParamErrorResult();
 		if(save != null && StringUtils.isNotBlank(save.getBillid()) 
 				&& StringUtils.isNotBlank(save.getVehicleid())
@@ -179,8 +185,35 @@ public class SalesArriveService implements ISalesArriveService {
 			bean.setCreatetime(System.currentTimeMillis());
 			bean.setModifier(save.getCurrUId());
 			bean.setModifytime(System.currentTimeMillis());
+			JSONArray array = JSONArray.parseArray(bills);
+			List<SalesApplicationJoinNatice> list = new ArrayList<SalesApplicationJoinNatice>();
+			if(array != null && array.size() > 0){
+				for(Object object : array){
+					SalesApplicationJoinNatice join = new SalesApplicationJoinNatice();
+					JSONObject jsonObject = (JSONObject) object;
+					String billid = jsonObject.getString("billid");
+					String billdetailid = jsonObject.getString("billdetailid");
+					join.setId(UUIDUtil.getId());
+					join.setBillid(billid);
+					join.setBilldetailid(billdetailid);
+					join.setNaticeid(bean.getId());
+//					SalesApplicationResp application = salesApplicationService.findOne(billid, false);
+					SalesApplicationDetailResp applicationDetail = salesApplicationDetailService.findOne(billdetailid);
+					if(applicationDetail != null){
+						join.setBillsum(applicationDetail.getSalessum());
+					}
+					join.setTakeamount(bean.getTakeamount());
+					join.setState("1");
+					join.setCreator(bean.getCreator());
+					join.setCreatetime(System.currentTimeMillis());
+					join.setModifier(bean.getModifier());
+					join.setModifytime(System.currentTimeMillis());
+					list.add(join);
+				}
+			}
 			if(salesArriveMapper.insertSelective(bean) > 0 
-					&& StringUtils.equals(systemCodeService.updateCodeItem(codeReq).getCode(), ErrorCode.SYSTEM_SUCCESS.getCode())){
+					&& StringUtils.equals(systemCodeService.updateCodeItem(codeReq).getCode(), ErrorCode.SYSTEM_SUCCESS.getCode())
+					&& salesApplicationJoinNaticeMapper.insertBatch(list) > 0){
 				result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
 			}else{
 				result.setErrorCode(ErrorCode.OPERATE_ERROR);

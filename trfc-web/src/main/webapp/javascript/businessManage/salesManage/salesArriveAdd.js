@@ -182,6 +182,62 @@
 			getSalesApplicationData($.trim($('#jumpPageNo').val()) || 1);
 			$('#salesApplication').modal();
 		});
+		$('#returnApplication').off('click').on('click',function(){
+			if($('#salesApplication').is(':visible')){
+				var trs = $('#salesApplication').find('tr.active');
+				if(trs.length == 0){
+					layer.msg('至少选择一个订单！');return;
+				}else if(trs.length == 1){
+					var obj = trs.data();
+					selectSalesApplication(obj, [{
+						billid: obj.id,
+						billdetailid: obj.detailid
+					}]);
+				}else if(trs.length >1 && trs.length <= 3){
+					var flag = true;
+					var bills = [];
+					var div = '<div class="layer-content-radio-div">';
+					trs.each(function(i){
+						var rightData = $(trs[i]).data();
+						bills.push({
+							billid: rightData.id,
+							billdetailid: rightData.detailid
+						});
+						if(i > 0){
+							var leftData = $(trs[i-1]).data();
+							if(leftData.customerid == rightData.customerid && leftData.materielname == rightData.materielname){
+								
+							}else{
+								layer.msg('不能同时选择多个客户和物料！'); flag = false;
+							}
+						}
+						div += '<div><label><input name="billcode" type="radio">'+rightData.code+'</label></div>';
+					});
+					div += '</div>';
+					if(flag){
+						var i = layer.open({
+							type: '1',
+							area: ['400px', '250px'],
+							shadeClose: true,
+							content: div,
+							btn: ['确认', '取消'],
+							yes: function(index, layero){
+								if($('.layer-content-radio-div input[type="radio"]:checked').length == 0){
+									layer.msg('请选择主订单！', {icon: 5});return false;
+								}else{
+									var index = $('.layer-content-radio-div input:radio:checked').closest('div').index();
+									var obj = $(trs[index]).data();
+									selectSalesApplication(obj, bills);
+									layer.close(i);
+								}
+							}
+						});
+					}
+				}else if(trs.length > 3){
+					layer.msg('一次最多选择3个订单！');return;
+				}
+			}
+		});
 		$('#refreshBtn').off('click').on('click',function(){
 			window.location.reload();
 		});
@@ -301,7 +357,7 @@
 				var salesmanname = obj.salesmanname || '';
 				var creatorname = obj.creatorname || '';
 				var channelcode = obj.channelcode || '';
-				$('<tr>').attr('title','双击确定')
+				$('<tr>').append('<td><input type="checkbox"/></td>')
 						.append('<td>'+code+'</td>')
 						.append('<td>'+billtypename+'</td>')
 						.append('<td>'+customername+'</td>')
@@ -323,16 +379,26 @@
 		}else{
 			layer.msg('暂无数据');
 		}
-		$('#salesApplicationBody').find('tr').off('click').on('click',function(){
-			$(this).addClass('active').siblings().removeClass('active');
+		$('#salesApplicationBody>tr').find('td:eq(0)>input[type="checkbox"]').off('change').on('change',function(){
+			if(this.checked == true){
+				$(this).closest('tr').addClass('active');
+			}else{
+				$(this).closest('tr').removeClass('active');
+			}
+		}).off('click').on('click',function(e){
+			e.stopPropagation();
 		});
-		$('#salesApplicationBody').find('tr').off('dblclick').on('dblclick',function(){
-			var obj = $(this).data();
-			selectSalesApplication(obj);
+		$('#salesApplicationBody>tr').off('click').on('click',function(e){
+			e.stopPropagation();
+			$(this).find('td:eq(0)>input').trigger('click');
 		});
+//		$('#salesApplicationBody').find('tr').off('dblclick').on('dblclick',function(){
+//			var obj = $(this).data();
+//			selectSalesApplication(obj);
+//		});
 	}
-	function selectSalesApplication(obj){
-		$('#billcode').val(obj.code || '').attr('billid', obj.id || '').attr('billdetailid', obj.detailid || '');
+	function selectSalesApplication(obj, bills){
+		$('#billcode').val(obj.code || '').attr('billid', obj.id || '').attr('billdetailid', obj.detailid || '').attr('bills', JSON.stringify(bills));
 		$('#customername').val(obj.customername || '');
 		$('#channelcode').val(obj.channelcode || '');
 		$('#materielname').val(obj.materielname || '');
@@ -377,6 +443,7 @@
 		var spraycode = $('#spraycode').val(); spraycode = $.trim(spraycode);
 		var serialnumber = $('#serialnumber').val(); serialnumber = $.trim(serialnumber);
 		var icardid = $('#icardid').attr('icardid'); icardid = $.trim(icardid);
+		var bills = $('#billcode').attr('bills');
 		return {
 			billid:billid,
 			billdetailid:billdetailid,
@@ -389,7 +456,8 @@
 			remarks:remarks,
 			spraycode:spraycode,
 			serialnumber:serialnumber,
-			icardid:icardid
+			icardid:icardid,
+			bills:bills
 		};
 	}
 	//新增通知单
