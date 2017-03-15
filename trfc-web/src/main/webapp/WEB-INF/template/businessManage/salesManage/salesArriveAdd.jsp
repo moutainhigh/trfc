@@ -91,7 +91,7 @@
 									readonly="true">
 							</div>
 							<div class="daohuo_add_solo">
-								<label>余量：</label> <input id="" type="text" readonly="true">
+								<label>余量：</label> <input id="margin" type="text" readonly="true">
 							</div>
 							<div class="daohuo_add_solo">
 								<label>业务日期：</label> <input id="billtime" type="text"
@@ -158,6 +158,7 @@
 									<table class="table table-bordered">
 										<thead>
 											<tr>
+												<th>序号</th>
 												<th>销售订单号</th>
 												<th>订单类型</th>
 												<th>订单日期</th>
@@ -288,6 +289,7 @@
 		</div>
 	</div>
 	<!--订单号弹出end-->
+	
 	<!--车号新增begin-->
 	<div class="modal fade" id="vehicleAddView" tabindex="-1" role="dialog"
 		aria-labelledby="myModalLabel">

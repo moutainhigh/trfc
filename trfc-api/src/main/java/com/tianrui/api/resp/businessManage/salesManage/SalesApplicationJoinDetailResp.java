@@ -92,13 +92,13 @@ public class SalesApplicationJoinDetailResp extends BaseResp {
      * 仓库物料数量统计
      */
     //余量
-    private String margin;
+    private Double margin;
     //入库占用量
-    private String storagequantity;
+    private Double storagequantity;
     //未入库占用量
-    private String unstoragequantity;
+    private Double unstoragequantity;
     //到货占用量
-    private String arrivalquantity;
+    private Double pretendingtake;
     
 	public String getId() {
 		return id;
@@ -339,29 +339,29 @@ public class SalesApplicationJoinDetailResp extends BaseResp {
 	public void setUnit(String unit) {
 		this.unit = unit;
 	}
-	public String getMargin() {
+	public Double getMargin() {
 		return margin;
 	}
-	public void setMargin(String margin) {
+	public void setMargin(Double margin) {
 		this.margin = margin;
 	}
-	public String getStoragequantity() {
+	public Double getStoragequantity() {
 		return storagequantity;
 	}
-	public void setStoragequantity(String storagequantity) {
+	public void setStoragequantity(Double storagequantity) {
 		this.storagequantity = storagequantity;
 	}
-	public String getUnstoragequantity() {
+	public Double getUnstoragequantity() {
 		return unstoragequantity;
 	}
-	public void setUnstoragequantity(String unstoragequantity) {
+	public void setUnstoragequantity(Double unstoragequantity) {
 		this.unstoragequantity = unstoragequantity;
 	}
-	public String getArrivalquantity() {
-		return arrivalquantity;
+	public Double getPretendingtake() {
+		return pretendingtake;
 	}
-	public void setArrivalquantity(String arrivalquantity) {
-		this.arrivalquantity = arrivalquantity;
+	public void setPretendingtake(Double pretendingtake) {
+		this.pretendingtake = pretendingtake;
 	}
 
 }

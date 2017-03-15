@@ -296,10 +296,28 @@ public class SalesArriveService implements ISalesArriveService {
 
 	@Override
 	public SalesArriveResp findOne(String id) throws Exception {
+		SalesArriveResp resp = null;
 		if(StringUtils.isNotBlank(id)){
-			return copyBean2Resp(salesArriveMapper.selectByPrimaryKey(id), true);
+			resp = copyBean2Resp(salesArriveMapper.selectByPrimaryKey(id), true);
+			List<SalesApplicationJoinNatice> list = salesApplicationJoinNaticeMapper.selectByNaticeId(resp.getId());
+			if(resp != null && CollectionUtils.isNotEmpty(list)){
+				for(SalesApplicationJoinNatice join : list){
+					SalesApplicationResp salesApplicationResp = salesApplicationService.findOne(join.getBillid(), false);
+					if(salesApplicationResp != null){
+						List<SalesApplicationDetailResp> listApplcationDetail = new ArrayList<SalesApplicationDetailResp>();
+						listApplcationDetail.add(salesApplicationDetailService.findOne(join.getBilldetailid()));
+						salesApplicationResp.setList(listApplcationDetail);
+					}
+					List<SalesApplicationResp> listApplication = resp.getListApplication();
+					if(CollectionUtils.isEmpty(listApplication)){
+						listApplication = new ArrayList<SalesApplicationResp>();
+					}
+					listApplication.add(salesApplicationResp);
+					resp.setListApplication(listApplication);
+				}
+			}
 		}
-		return null;
+		return resp;
 	}
 	
 	@Override

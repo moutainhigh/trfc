@@ -192,10 +192,11 @@
 					selectSalesApplication(obj, [{
 						billid: obj.id,
 						billdetailid: obj.detailid
-					}]);
+					}], trs);
 				}else if(trs.length >1 && trs.length <= 3){
 					var flag = true;
 					var bills = [];
+					var margin = 0;
 					var div = '<div class="layer-content-radio-div">';
 					trs.each(function(i){
 						var rightData = $(trs[i]).data();
@@ -209,7 +210,11 @@
 								
 							}else{
 								layer.msg('不能同时选择多个客户和物料！'); flag = false;
+								return;
 							}
+						}
+						if(rightData.margin){
+							margin += rightData.margin;
 						}
 						div += '<div><label><input name="billcode" type="radio">'+rightData.code+'</label></div>';
 					});
@@ -227,7 +232,10 @@
 								}else{
 									var index = $('.layer-content-radio-div input:radio:checked').closest('div').index();
 									var obj = $(trs[index]).data();
-									selectSalesApplication(obj, bills);
+									selectSalesApplication(obj, bills, trs);
+									if(!$('#maindeduction').is(':checked')){
+										$('#margin').val(margin);
+									}
 									layer.close(i);
 								}
 							}
@@ -351,11 +359,15 @@
 				var customername = obj.customername || '';
 				var materielname = obj.materielname || '';
 				var salessum = obj.salessum || '';
+				var margin = obj.margin || 0;
+				var storagequantity = obj.storagequantity || 0;
+				var unstoragequantity = obj.unstoragequantity || 0;
+				var pretendingtake = obj.pretendingtake || 0;
 				var orgname = obj.orgname || '';
 				var billtimeStr = obj.billtimeStr || '';
 				var departmentname = obj.departmentname || '';
 				var salesmanname = obj.salesmanname || '';
-				var creatorname = obj.creatorname || '';
+				var makebillname = obj.makebillname || '';
 				var channelcode = obj.channelcode || '';
 				$('<tr>').append('<td><input type="checkbox"/></td>')
 						.append('<td>'+code+'</td>')
@@ -363,15 +375,15 @@
 						.append('<td>'+customername+'</td>')
 						.append('<td>'+materielname+'</td>')
 						.append('<td>'+salessum+'</td>')
-						.append('<td></td>')
-						.append('<td></td>')
-						.append('<td></td>')
-						.append('<td></td>')
+						.append('<td>'+margin+'</td>')
+						.append('<td>'+storagequantity+'</td>')
+						.append('<td>'+unstoragequantity+'</td>')
+						.append('<td>'+pretendingtake+'</td>')
 						.append('<td>'+orgname+'</td>')
 						.append('<td>'+billtimeStr+'</td>')
 						.append('<td>'+departmentname+'</td>')
 						.append('<td>'+salesmanname+'</td>')
-						.append('<td>'+creatorname+'</td>')
+						.append('<td>'+makebillname+'</td>')
 						.append('<td>'+channelcode+'</td>')
 						.data(obj)
 						.appendTo('#salesApplicationBody');
@@ -397,7 +409,7 @@
 //			selectSalesApplication(obj);
 //		});
 	}
-	function selectSalesApplication(obj, bills){
+	function selectSalesApplication(obj, bills, trs){
 		$('#billcode').val(obj.code || '').attr('billid', obj.id || '').attr('billdetailid', obj.detailid || '').attr('bills', JSON.stringify(bills));
 		$('#customername').val(obj.customername || '');
 		$('#channelcode').val(obj.channelcode || '');
@@ -405,15 +417,19 @@
 		$('#departmentname').val(obj.departmentname || '');
 		$('#unit').val(obj.unit || '');
 		$('#salessum').val(obj.salessum || '');
+		$('#margin').val(obj.margin || 0);
 		$('#billtime').val(obj.billtimeStr || '').attr('billtime', obj.billtime || '');
 		$('#salesApplication').modal('hide');
-		$('#salesApplicationDetailBody').empty()
-										.append('<tr><td>'+(obj.code || '')+'</td><td>'+(obj.billtypename || '')+'</td>'
-												+'<td>'+(obj.billtimeStr || '')+'</td><td>'+(obj.materielname || '')+'</td>'
-												+'<td>'+obj.unit || ''+'</td><td>'+(obj.salessum || '')+'</td>'
-												+'<td></td><td id="advanceAmount">0.00</td><td>'+(obj.orgname || '')+'</td>'
-												+'<td>'+(obj.customername || '')+'</td><td>'+(obj.departmentname || '')+'</td>'
-												+'<td>'+(obj.salesmanname || '')+'</td><td>'+obj.makerbillname || ''+'</td></tr>');
+		$('#salesApplicationDetailBody').empty();
+		trs.each(function(i){
+			var data = $(this).data();
+			$('#salesApplicationDetailBody').append('<tr><td>'+(i+1)+'</td><td>'+(data.code || '')+'</td><td>'+(data.billtypename || '')+'</td>'
+					+'<td>'+(data.billtimeStr || '')+'</td><td>'+(data.materielname || '')+'</td>'
+					+'<td>'+(data.unit || '')+'</td><td>'+(data.salessum || '')+'</td>'
+					+'<td>'+(data.margin || 0)+'</td><td id="advanceAmount">0.00</td><td>'+(data.orgname || '')+'</td>'
+					+'<td>'+(data.customername || '')+'</td><td>'+(data.departmentname || '')+'</td>'
+					+'<td>'+(data.salesmanname || '')+'</td><td>'+data.makebillname || ''+'</td></tr>');
+		});
 	}
 	function validate(params){
 		if(!params.billid || !params.billdetailid){

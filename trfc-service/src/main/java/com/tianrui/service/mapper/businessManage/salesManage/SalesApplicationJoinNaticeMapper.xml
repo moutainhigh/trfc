@@ -244,4 +244,9 @@
 		)
 	</foreach>
   </insert>
+  <select id="selectByNaticeId" parameterType="java.lang.String" resultMap="BaseResultMap">
+  	select <include refid="Base_Column_List"/>
+  	from tr_sales_application_join_natice
+  	where naticeid = #{naticeid,jdbcType=VARCHAR} and state = '1'
+  </select>
 </mapper>

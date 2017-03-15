@@ -8,6 +8,8 @@ public class SalesApplicationQuery extends BaseReq {
 
 	private String id;
 	
+	private String detailid;
+	
 	private String code;
 
     private String source;
@@ -46,6 +48,20 @@ public class SalesApplicationQuery extends BaseReq {
 
 	public void setId(String id) {
 		this.id = id;
+	}
+
+	/**
+	 * @return the detailid
+	 */
+	public String getDetailid() {
+		return detailid;
+	}
+
+	/**
+	 * @param detailid the detailid to set
+	 */
+	public void setDetailid(String detailid) {
+		this.detailid = detailid;
 	}
 
 	public String getCode() {

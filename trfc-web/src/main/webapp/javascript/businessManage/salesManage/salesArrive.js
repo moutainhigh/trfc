@@ -382,7 +382,7 @@
 			case 1:
 				$('<table>').addClass('table table-bordered')
 						.append('<thead><tr><th>订单编号</th><th>类型</th><th>客户</th><th>物料</th><th>订单量</th><th>余量</th><th>出库占用量</th><th>未出库占用量</th><th>预提量</th><th>订单日期</th><th>制单人</th></tr></thead>')
-						.append('<tbody><tr><td>'+(obj.billcode || '')+'</td><td>'+(salesApplication.billtypename || '')+'</td><td>'+(salesApplication.customername || '')+'</td><td>'+(salesApplicationDetail.materielname || '')+'</td><td>'+(salesApplicationDetail.salessum || '')+'</td><td></td><td></td><td></td><td>'+(obj.takeamount || '')+'</td><td>'+(salesApplication.billtimeStr || '')+'</td><td>'+(salesApplication.makebillname || '')+'</td></tr></tbody>')
+						.append('<tbody><tr><td>'+(obj.billcode || '')+'</td><td>'+(salesApplication.billtypename || '')+'</td><td>'+(salesApplication.customername || '')+'</td><td>'+(salesApplicationDetail.materielname || '')+'</td><td>'+(salesApplicationDetail.salessum || '')+'</td><td>'+(salesApplicationDetail.margin || 0)+'</td><td>'+(salesApplicationDetail.storagequantity || 0)+'</td><td>'+(salesApplicationDetail.unstoragequantity || 0)+'</td><td>'+(obj.takeamount || '')+'</td><td>'+(salesApplication.billtimeStr || '')+'</td><td>'+(salesApplication.makebillname || '')+'</td></tr></tbody>')
 						.appendTo($tabCont);
 				break;
 			case 2:

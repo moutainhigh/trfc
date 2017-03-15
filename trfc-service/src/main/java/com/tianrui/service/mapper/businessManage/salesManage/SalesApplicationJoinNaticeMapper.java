@@ -18,4 +18,6 @@ public interface SalesApplicationJoinNaticeMapper {
     int updateByPrimaryKey(SalesApplicationJoinNatice record);
 
 	int insertBatch(List<SalesApplicationJoinNatice> list);
+
+	List<SalesApplicationJoinNatice> selectByNaticeId(String naticeid);
 }
