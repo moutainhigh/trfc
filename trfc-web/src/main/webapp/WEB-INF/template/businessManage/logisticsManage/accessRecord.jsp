@@ -66,20 +66,12 @@
 							</div>
 							<div class="intel_sline">
 								<div class="intel_solo">
-									<label>物料：</label> <select id="materiel" class="form-control">
-										<option value="">请选择</option>
-										<c:forEach items="${materiel }" var="m">
-											<option value="${m.id }">${m.name }</option>
-										</c:forEach>
-									</select>
+									<label>物料：</label> <input id="materiel" type="text"
+										placeholder="请选择物料"/>
 								</div>
 								<div class="intel_solo">
-									<label>车号：</label> <select id="vehicle" class="form-control">
-										<option value="">请选择</option>
-										<c:forEach items="${vehicle }" var="v">
-											<option value="${v.id }">${v.vehicleno }</option>
-										</c:forEach>
-									</select>
+									<label>车号：</label> <input id="vehicle" type="text"
+										placeholder="请选择车号"/>
 								</div>
 							</div>
 						</div>

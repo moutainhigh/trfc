@@ -8,8 +8,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.tianrui.api.intf.basicFile.measure.IVehicleManageService;
-import com.tianrui.api.intf.basicFile.nc.IMaterielManageService;
 import com.tianrui.api.intf.businessManage.logisticsManage.IAccessRecordService1;
 import com.tianrui.api.req.businessManage.logisticsManage.AccessRecordQuery;
 import com.tianrui.api.resp.businessManage.logisticsManage.AccessRecordResp;
@@ -25,20 +23,10 @@ public class AccessRecordAction1 {
 	
 	@Autowired
 	private IAccessRecordService1 accessRecordService;
-	@Autowired
-	private IMaterielManageService materielManageService;
-	@Autowired
-	private IVehicleManageService vehiclemanageService;
 	
 	@RequestMapping("main")
 	public ModelAndView main(){
 		ModelAndView view = new ModelAndView("businessManage/logisticsManage/accessRecord");
-		try {
-			view.addObject("materiel", materielManageService.findListByParmas(null).getData());
-			view.addObject("vehicle", vehiclemanageService.findListByParmas(null).getData());
-		} catch (Exception e) {
-			logger.error(e.getMessage(), e);
-		}
 		return view;
 	}
 	
