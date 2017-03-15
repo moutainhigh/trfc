@@ -30,6 +30,7 @@ import com.tianrui.service.mapper.basicFile.nc.CustomerManageMapper;
 import com.tianrui.service.mapper.basicFile.nc.SupplierManageMapper;
 import com.tianrui.service.mapper.basicFile.other.OtherBdSupplierMapper;
 import com.tianrui.service.mapper.businessManage.financeManage.SalesChargeMapper;
+import com.tianrui.service.mapper.businessManage.financeManage.SalesLedgerMapper;
 import com.tianrui.service.mapper.quality.file.QualityColumnMapper;
 import com.tianrui.service.mapper.quality.file.QualitySchemeMapper;
 import com.tianrui.service.mapper.quality.purchase.PurchaseSamplingMapper;
@@ -81,6 +82,8 @@ public class DemoMapperTest2 {
 	PurchaseSamplingMapper purchaseSamplingMapper;
 	@Autowired
 	SalesChargeMapper salesChargeMapper;
+	@Autowired
+	SalesLedgerMapper salesLedgerMapper;
 	@Test
 	public void test() throws Exception{
 		SystemDataDictItemReq req = new SystemDataDictItemReq();
@@ -140,6 +143,7 @@ public class DemoMapperTest2 {
 		System.out.println(a);
 		
 	}
+	
 	
 	
 	@Test
