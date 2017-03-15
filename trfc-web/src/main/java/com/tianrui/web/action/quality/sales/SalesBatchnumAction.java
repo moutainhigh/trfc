@@ -38,11 +38,17 @@ public class SalesBatchnumAction {
 		return view;
 	}
 	//显示修改页面
-		@RequestMapping("/editMain")
-		public ModelAndView editMain(){
-			ModelAndView view = new ModelAndView("quality/sales/batchnum_edit");
-			return view;
-		}
+	@RequestMapping("/editMain")
+	public ModelAndView editMain(){
+		ModelAndView view = new ModelAndView("quality/sales/batchnum_edit");
+		return view;
+	}
+	//显示修改页面
+	@RequestMapping("/detailMain")
+	public ModelAndView detailMain(){
+		ModelAndView view = new ModelAndView("quality/sales/batchnum_detail");
+		return view;
+	}
 	/**
 	 * 获取分页数据
 	 */
@@ -134,7 +140,7 @@ public class SalesBatchnumAction {
 		}
 		return rs;
 	}
-	
+
 	/**
 	 * 获取原数据
 	 */
@@ -165,5 +171,5 @@ public class SalesBatchnumAction {
 		}
 		return rs;
 	}
-	
+
 }

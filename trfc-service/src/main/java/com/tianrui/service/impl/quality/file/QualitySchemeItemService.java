@@ -17,12 +17,14 @@ import com.tianrui.api.req.quality.file.QualitySchemeItemReq;
 import com.tianrui.api.resp.quality.file.QualityItemResp;
 import com.tianrui.api.resp.quality.file.QualitySchemeItemResp;
 import com.tianrui.service.bean.basicFile.nc.MaterielManage;
+import com.tianrui.service.bean.quality.file.QualityColumn;
 import com.tianrui.service.bean.quality.file.QualityItem;
 import com.tianrui.service.bean.quality.file.QualityScheme;
 import com.tianrui.service.bean.quality.file.QualitySchemeItem;
 import com.tianrui.service.bean.quality.sales.AssayReportItem;
 import com.tianrui.service.mapper.basicFile.nc.MaterielManageMapper;
 import com.tianrui.service.mapper.quality.file.MaterialSchemeMapper;
+import com.tianrui.service.mapper.quality.file.QualityColumnMapper;
 import com.tianrui.service.mapper.quality.file.QualityItemMapper;
 import com.tianrui.service.mapper.quality.file.QualitySchemeItemMapper;
 import com.tianrui.service.mapper.quality.file.QualitySchemeMapper;
@@ -46,6 +48,8 @@ public class QualitySchemeItemService implements IQualitySchemeItemService {
 	private MaterielManageMapper materielManageMapper;
 	@Resource
 	private AssayReportItemMapper assayReportItemMapper;
+	@Resource
+	private QualityColumnMapper qualityColumnMapper;
 
 
 	@Override
@@ -237,8 +241,10 @@ public class QualitySchemeItemService implements IQualitySchemeItemService {
 						resp.setUnits(qi.getUnits());
 						resp.setLine(qi.getLine());
 					}
-
-
+					QualityColumn qc = qualityColumnMapper.selectByPrimaryKey(resp.getLine());
+					if(qc!=null){
+						resp.setLine(qc.getVal());
+					}
 					resps.add(resp);
 				}
 			}
