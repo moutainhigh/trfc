@@ -17,6 +17,14 @@ public class SalesApplicationDetail {
     private String unit;
     //数量
     private Double salessum;
+    //余量
+    private Double margin;
+    //出库占用量
+    private Double storagequantity;
+    //未出库占用量
+    private Double unstoragequantity;
+    //预提占用
+    private Double pretendingtake;
     //含税单价
     private  Double taxprice;
     //不含税单价
@@ -90,7 +98,63 @@ public class SalesApplicationDetail {
         this.salessum = salessum;
     }
 
-    public Double getTaxprice() {
+    /**
+	 * @return the margin
+	 */
+	public Double getMargin() {
+		return margin;
+	}
+
+	/**
+	 * @param margin the margin to set
+	 */
+	public void setMargin(Double margin) {
+		this.margin = margin;
+	}
+
+	/**
+	 * @return the storagequantity
+	 */
+	public Double getStoragequantity() {
+		return storagequantity;
+	}
+
+	/**
+	 * @param storagequantity the storagequantity to set
+	 */
+	public void setStoragequantity(Double storagequantity) {
+		this.storagequantity = storagequantity;
+	}
+
+	/**
+	 * @return the unstoragequantity
+	 */
+	public Double getUnstoragequantity() {
+		return unstoragequantity;
+	}
+
+	/**
+	 * @param unstoragequantity the unstoragequantity to set
+	 */
+	public void setUnstoragequantity(Double unstoragequantity) {
+		this.unstoragequantity = unstoragequantity;
+	}
+
+	/**
+	 * @return the pretendingtake
+	 */
+	public Double getPretendingtake() {
+		return pretendingtake;
+	}
+
+	/**
+	 * @param pretendingtake the pretendingtake to set
+	 */
+	public void setPretendingtake(Double pretendingtake) {
+		this.pretendingtake = pretendingtake;
+	}
+
+	public Double getTaxprice() {
         return taxprice;
     }
 

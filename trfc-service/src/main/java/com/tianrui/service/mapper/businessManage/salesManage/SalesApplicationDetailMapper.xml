@@ -10,14 +10,18 @@
     <result column="warehousename" property="warehousename" jdbcType="VARCHAR" />
     <result column="unit" property="unit" jdbcType="VARCHAR" />
     <result column="salessum" property="salessum" jdbcType="DOUBLE" />
+    <result column="margin" property="margin" jdbcType="DOUBLE" />
+    <result column="storagequantity" property="storagequantity" jdbcType="DOUBLE" />
+    <result column="unstoragequantity" property="unstoragequantity" jdbcType="DOUBLE" />
+    <result column="pretendingtake" property="pretendingtake" jdbcType="DOUBLE" />
     <result column="taxprice" property="taxprice" jdbcType="DOUBLE" />
     <result column="untaxprice" property="untaxprice" jdbcType="DOUBLE" />
     <result column="taxrate" property="taxrate" jdbcType="DOUBLE" />
     <result column="remarks" property="remarks" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, salesid, materielid, materielname, warehouseid, warehousename, unit, salessum, taxprice, 
-    untaxprice, taxrate, remarks
+    id, salesid, materielid, materielname, warehouseid, warehousename, unit, salessum, 
+    margin, storagequantity, unstoragequantity, pretendingtake, taxprice, untaxprice, taxrate, remarks
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
@@ -32,24 +36,28 @@
   <insert id="insert" parameterType="com.tianrui.service.bean.businessManage.salesManage.SalesApplicationDetail" >
     insert into tr_sales_db_application_detail (id, salesid, materielid, 
       materielname, warehouseid, warehousename, unit, 
-      salessum, taxprice, untaxprice, 
-      taxrate, remarks)
+      salessum, margin, storagequantity, unstoragequantity, pretendingtake, 
+      taxprice, untaxprice, taxrate, remarks)
     values (#{id,jdbcType=VARCHAR}, #{salesid,jdbcType=VARCHAR}, #{materielid,jdbcType=VARCHAR}, 
       #{materielname,jdbcType=VARCHAR}, #{warehouseid,jdbcType=VARCHAR}, #{warehousename,jdbcType=VARCHAR}, 
-      #{unit,jdbcType=VARCHAR}, #{salessum,jdbcType=DOUBLE}, #{taxprice,jdbcType=DOUBLE}, #{untaxprice,jdbcType=DOUBLE}, 
+      #{unit,jdbcType=VARCHAR}, #{salessum,jdbcType=DOUBLE}, #{margin,jdbcType=DOUBLE}, #{storagequantity,jdbcType=DOUBLE}, 
+      #{unstoragequantity,jdbcType=DOUBLE}, #{pretendingtake,jdbcType=DOUBLE}, 
+      #{taxprice,jdbcType=DOUBLE}, #{untaxprice,jdbcType=DOUBLE}, 
       #{taxrate,jdbcType=DOUBLE}, #{remarks,jdbcType=VARCHAR})
   </insert>
   <insert id="insertBatch"  parameterType="java.util.List" >
     insert into tr_sales_db_application_detail (
       id, salesid, materielid, 
       materielname, warehouseid, warehousename, unit, 
-      salessum, taxprice, untaxprice, 
-      taxrate, remarks)
+      salessum, margin, storagequantity, unstoragequantity, pretendingtake, 
+      taxprice, untaxprice, taxrate, remarks)
        values
       <foreach collection="list" item="item" index="index" separator=",">
     (#{item.id,jdbcType=VARCHAR}, #{item.salesid,jdbcType=VARCHAR}, #{item.materielid,jdbcType=VARCHAR}, 
       #{item.materielname,jdbcType=VARCHAR}, #{item.warehouseid,jdbcType=VARCHAR}, #{item.warehousename,jdbcType=VARCHAR}, 
-      #{item.unit,jdbcType=VARCHAR}, #{item.salessum,jdbcType=DOUBLE}, #{item.taxprice,jdbcType=DOUBLE}, #{item.untaxprice,jdbcType=DOUBLE}, 
+      #{item.unit,jdbcType=VARCHAR}, #{item.salessum,jdbcType=DOUBLE}, #{margin,jdbcType=DOUBLE}, #{storagequantity,jdbcType=DOUBLE}, 
+      #{unstoragequantity,jdbcType=DOUBLE}, #{pretendingtake,jdbcType=DOUBLE}, 
+      #{item.taxprice,jdbcType=DOUBLE}, #{item.untaxprice,jdbcType=DOUBLE}, 
       #{item.taxrate,jdbcType=DOUBLE}, #{item.remarks,jdbcType=VARCHAR})
       </foreach>
   </insert>
@@ -79,6 +87,18 @@
       </if>
       <if test="salessum != null" >
         salessum,
+      </if>
+      <if test="margin != null" >
+        margin,
+      </if>
+      <if test="storagequantity != null" >
+        storagequantity,
+      </if>
+      <if test="unstoragequantity != null" >
+        unstoragequantity,
+      </if>
+      <if test="pretendingtake != null" >
+        pretendingtake,
       </if>
       <if test="taxprice != null" >
         taxprice,
@@ -118,6 +138,18 @@
       <if test="salessum != null" >
         #{salessum,jdbcType=DOUBLE},
       </if>
+      <if test="margin != null" >
+        #{margin,jdbcType=DOUBLE},
+      </if>
+      <if test="storagequantity != null" >
+        #{storagequantity,jdbcType=DOUBLE},
+      </if>
+      <if test="unstoragequantity != null" >
+        #{unstoragequantity,jdbcType=DOUBLE},
+      </if>
+      <if test="pretendingtake != null" >
+        #{pretendingtake,jdbcType=DOUBLE},
+      </if>
       <if test="taxprice != null" >
         #{taxprice,jdbcType=DOUBLE},
       </if>
@@ -156,6 +188,18 @@
       <if test="salessum != null" >
         salessum = #{salessum,jdbcType=DOUBLE},
       </if>
+      <if test="margin != null" >
+        margin = #{margin,jdbcType=DOUBLE},
+      </if>
+      <if test="storagequantity != null" >
+        storagequantity = #{storagequantity,jdbcType=DOUBLE},
+      </if>
+      <if test="unstoragequantity != null" >
+        unstoragequantity = #{unstoragequantity,jdbcType=DOUBLE},
+      </if>
+      <if test="pretendingtake != null" >
+        pretendingtake = #{pretendingtake,jdbcType=DOUBLE},
+      </if>
       <if test="taxprice != null" >
         taxprice = #{taxprice,jdbcType=DOUBLE},
       </if>
@@ -180,6 +224,10 @@
       warehousename = #{warehousename,jdbcType=VARCHAR},
       unit = #{unit,jdbcType=VARCHAR},
       salessum = #{salessum,jdbcType=DOUBLE},
+      margin = #{margin,jdbcType=DOUBLE},
+      storagequantity = #{storagequantity,jdbcType=DOUBLE},
+      unstoragequantity = #{unstoragequantity,jdbcType=DOUBLE},
+      pretendingtake = #{pretendingtake,jdbcType=DOUBLE},
       taxprice = #{taxprice,jdbcType=DOUBLE},
       untaxprice = #{untaxprice,jdbcType=DOUBLE},
       taxrate = #{taxrate,jdbcType=DOUBLE},

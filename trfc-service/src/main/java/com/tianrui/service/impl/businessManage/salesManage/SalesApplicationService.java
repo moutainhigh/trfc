@@ -335,11 +335,13 @@ public class SalesApplicationService implements ISalesApplicationService {
 	}
 	
 	@Override
-	public List<SalesApplicationResp> selectByIds(List<String> ids) throws Exception{
+	public List<SalesApplicationResp> selectByIds(List<String> ids, boolean isSetDetail) throws Exception{
 		List<SalesApplicationResp> listResp = null;
 		if(CollectionUtils.isNotEmpty(ids)){
 			listResp = copyBeanList2RespList(salesApplicationMapper.selectByIds(ids), false);
-			listRespSetListDetailResp(listResp);
+			if(isSetDetail){
+				listRespSetListDetailResp(listResp);
+			}
 		}
 		return listResp;
 	}

@@ -1,5 +1,9 @@
 package com.tianrui.api.resp.businessManage.salesManage;
 
+import java.util.List;
+
+import org.apache.commons.lang.StringUtils;
+
 import com.tianrui.api.resp.BaseResp;
 import com.tianrui.smartfactory.common.utils.DateUtil;
 /**
@@ -88,10 +92,8 @@ public class SalesArriveResp extends BaseResp {
     private Long modifytime;
     //最后修改时间Str
     private String modifytimeStr;
-    //销售订单
-    private SalesApplicationResp salesApplication;
-    //销售订单物料对应详情表
-    private SalesApplicationDetailResp salesApplicationDetail;
+    //销售订单列表
+    private List<SalesApplicationResp> listApplication;
 
 	public String getId() {
 		return id;
@@ -409,20 +411,64 @@ public class SalesArriveResp extends BaseResp {
 		this.modifytimeStr = modifytimeStr;
 	}
 
-	public SalesApplicationResp getSalesApplication() {
-		return salesApplication;
+	/**
+	 * @return the listApplication
+	 */
+	public List<SalesApplicationResp> getListApplication() {
+		return listApplication;
 	}
 
-	public void setSalesApplication(SalesApplicationResp salesApplication) {
-		this.salesApplication = salesApplication;
+	/**
+	 * @param listApplication the listApplication to set
+	 */
+	public void setListApplication(List<SalesApplicationResp> listApplication) {
+		this.listApplication = listApplication;
 	}
-    
-	public SalesApplicationDetailResp getSalesApplicationDetail() {
-		return salesApplicationDetail;
+	
+	public SalesApplicationResp getMainApplication(){
+		if (this.listApplication != null && this.listApplication.size() > 0) {
+			for (SalesApplicationResp resp : this.listApplication) {
+				if(StringUtils.equals(resp.getId(), this.billid)){
+					return resp;
+				}
+			}
+		}
+		return null;
 	}
-
-	public void setSalesApplicationDetail(SalesApplicationDetailResp salesApplicationDetail) {
-		this.salesApplicationDetail = salesApplicationDetail;
+	
+	public SalesApplicationDetailResp getMainApplicationDetail(){
+		if (this.listApplication != null && this.listApplication.size() > 0) {
+			for (SalesApplicationResp resp : this.listApplication) {
+				if(resp.getList() != null && StringUtils.equals(resp.getList().get(0).getId(), this.billdetailid)){
+					return resp.getList().get(0);
+				}
+			}
+		}
+		return null;
+	}
+	
+	public Double getBillSum(){
+		if (StringUtils.equals(this.maindeduction, "0")) {
+			Double billSum = 0.0;
+			if (this.listApplication != null && this.listApplication.size() > 0) {
+				for (SalesApplicationResp resp : this.listApplication) {
+					billSum += resp.getList().get(0).getSalessum();
+				}
+			}
+			return billSum;
+		}else{
+			return getMainApplicationDetail().getSalessum();
+		}
+	}
+	
+	public Double getYlSum(){
+		Double billSum = 0.0;
+		if (this.listApplication != null && this.listApplication.size() > 0) {
+			for (SalesApplicationResp resp : this.listApplication) {
+				billSum += resp.getList().get(0).getMargin();
+			}
+		}
+		return billSum;
 	}
 
 }

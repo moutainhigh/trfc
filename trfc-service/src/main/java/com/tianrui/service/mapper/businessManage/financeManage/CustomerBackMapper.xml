@@ -1,0 +1,462 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tianrui.service.mapper.businessManage.financeManage.CustomerBackMapper" >
+  <resultMap id="BaseResultMap" type="com.tianrui.service.bean.businessManage.financeManage.CustomerBack" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="code" property="code" jdbcType="VARCHAR" />
+    <result column="auditstatus" property="auditstatus" jdbcType="VARCHAR" />
+    <result column="orgid" property="orgid" jdbcType="VARCHAR" />
+    <result column="orgname" property="orgname" jdbcType="VARCHAR" />
+    <result column="customerid" property="customerid" jdbcType="VARCHAR" />
+    <result column="customername" property="customername" jdbcType="VARCHAR" />
+    <result column="chargetype" property="chargetype" jdbcType="VARCHAR" />
+    <result column="billdate" property="billdate" jdbcType="BIGINT" />
+    <result column="money" property="money" jdbcType="DOUBLE" />
+    <result column="moneybig" property="moneybig" jdbcType="VARCHAR" />
+    <result column="chargeunit" property="chargeunit" jdbcType="VARCHAR" />
+    <result column="makeid" property="makeid" jdbcType="VARCHAR" />
+    <result column="makebillname" property="makebillname" jdbcType="VARCHAR" />
+    <result column="makebilltime" property="makebilltime" jdbcType="BIGINT" />
+    <result column="auditid" property="auditid" jdbcType="VARCHAR" />
+    <result column="auditname" property="auditname" jdbcType="VARCHAR" />
+    <result column="audittime" property="audittime" jdbcType="BIGINT" />
+    <result column="state" property="state" jdbcType="VARCHAR" />
+    <result column="creator" property="creator" jdbcType="VARCHAR" />
+    <result column="createtime" property="createtime" jdbcType="BIGINT" />
+    <result column="modifier" property="modifier" jdbcType="VARCHAR" />
+    <result column="modifytime" property="modifytime" jdbcType="BIGINT" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="utc" property="utc" jdbcType="BIGINT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, code, auditstatus, orgid, orgname, customerid, customername, chargetype, billdate, 
+    money, moneybig, chargeunit, makeid, makebillname, makebilltime, auditid, auditname, 
+    audittime, state, creator, createtime, modifier, modifytime, remark, utc
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from tr_finance_db_customer_back
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from tr_finance_db_customer_back
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.tianrui.service.bean.businessManage.financeManage.CustomerBack" >
+    insert into tr_finance_db_customer_back (id, code, auditstatus, 
+      orgid, orgname, customerid, 
+      customername, chargetype, billdate, 
+      money, moneybig, chargeunit, 
+      makeid, makebillname, makebilltime, 
+      auditid, auditname, audittime, 
+      state, creator, createtime, 
+      modifier, modifytime, remark, 
+      utc)
+    values (#{id,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR}, #{auditstatus,jdbcType=VARCHAR}, 
+      #{orgid,jdbcType=VARCHAR}, #{orgname,jdbcType=VARCHAR}, #{customerid,jdbcType=VARCHAR}, 
+      #{customername,jdbcType=VARCHAR}, #{chargetype,jdbcType=VARCHAR}, #{billdate,jdbcType=BIGINT}, 
+      #{money,jdbcType=DOUBLE}, #{moneybig,jdbcType=VARCHAR}, #{chargeunit,jdbcType=VARCHAR}, 
+      #{makeid,jdbcType=VARCHAR}, #{makebillname,jdbcType=VARCHAR}, #{makebilltime,jdbcType=BIGINT}, 
+      #{auditid,jdbcType=VARCHAR}, #{auditname,jdbcType=VARCHAR}, #{audittime,jdbcType=BIGINT}, 
+      #{state,jdbcType=VARCHAR}, #{creator,jdbcType=VARCHAR}, #{createtime,jdbcType=BIGINT}, 
+      #{modifier,jdbcType=VARCHAR}, #{modifytime,jdbcType=BIGINT}, #{remark,jdbcType=VARCHAR}, 
+      #{utc,jdbcType=BIGINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.tianrui.service.bean.businessManage.financeManage.CustomerBack" >
+    insert into tr_finance_db_customer_back
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="code != null" >
+        code,
+      </if>
+      <if test="auditstatus != null" >
+        auditstatus,
+      </if>
+      <if test="orgid != null" >
+        orgid,
+      </if>
+      <if test="orgname != null" >
+        orgname,
+      </if>
+      <if test="customerid != null" >
+        customerid,
+      </if>
+      <if test="customername != null" >
+        customername,
+      </if>
+      <if test="chargetype != null" >
+        chargetype,
+      </if>
+      <if test="billdate != null" >
+        billdate,
+      </if>
+      <if test="money != null" >
+        money,
+      </if>
+      <if test="moneybig != null" >
+        moneybig,
+      </if>
+      <if test="chargeunit != null" >
+        chargeunit,
+      </if>
+      <if test="makeid != null" >
+        makeid,
+      </if>
+      <if test="makebillname != null" >
+        makebillname,
+      </if>
+      <if test="makebilltime != null" >
+        makebilltime,
+      </if>
+      <if test="auditid != null" >
+        auditid,
+      </if>
+      <if test="auditname != null" >
+        auditname,
+      </if>
+      <if test="audittime != null" >
+        audittime,
+      </if>
+      <if test="state != null" >
+        state,
+      </if>
+      <if test="creator != null" >
+        creator,
+      </if>
+      <if test="createtime != null" >
+        createtime,
+      </if>
+      <if test="modifier != null" >
+        modifier,
+      </if>
+      <if test="modifytime != null" >
+        modifytime,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+      <if test="utc != null" >
+        utc,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="code != null" >
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="auditstatus != null" >
+        #{auditstatus,jdbcType=VARCHAR},
+      </if>
+      <if test="orgid != null" >
+        #{orgid,jdbcType=VARCHAR},
+      </if>
+      <if test="orgname != null" >
+        #{orgname,jdbcType=VARCHAR},
+      </if>
+      <if test="customerid != null" >
+        #{customerid,jdbcType=VARCHAR},
+      </if>
+      <if test="customername != null" >
+        #{customername,jdbcType=VARCHAR},
+      </if>
+      <if test="chargetype != null" >
+        #{chargetype,jdbcType=VARCHAR},
+      </if>
+      <if test="billdate != null" >
+        #{billdate,jdbcType=BIGINT},
+      </if>
+      <if test="money != null" >
+        #{money,jdbcType=DOUBLE},
+      </if>
+      <if test="moneybig != null" >
+        #{moneybig,jdbcType=VARCHAR},
+      </if>
+      <if test="chargeunit != null" >
+        #{chargeunit,jdbcType=VARCHAR},
+      </if>
+      <if test="makeid != null" >
+        #{makeid,jdbcType=VARCHAR},
+      </if>
+      <if test="makebillname != null" >
+        #{makebillname,jdbcType=VARCHAR},
+      </if>
+      <if test="makebilltime != null" >
+        #{makebilltime,jdbcType=BIGINT},
+      </if>
+      <if test="auditid != null" >
+        #{auditid,jdbcType=VARCHAR},
+      </if>
+      <if test="auditname != null" >
+        #{auditname,jdbcType=VARCHAR},
+      </if>
+      <if test="audittime != null" >
+        #{audittime,jdbcType=BIGINT},
+      </if>
+      <if test="state != null" >
+        #{state,jdbcType=VARCHAR},
+      </if>
+      <if test="creator != null" >
+        #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=BIGINT},
+      </if>
+      <if test="modifier != null" >
+        #{modifier,jdbcType=VARCHAR},
+      </if>
+      <if test="modifytime != null" >
+        #{modifytime,jdbcType=BIGINT},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="utc != null" >
+        #{utc,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tianrui.service.bean.businessManage.financeManage.CustomerBack" >
+    update tr_finance_db_customer_back
+    <set >
+      <if test="code != null" >
+        code = #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="auditstatus != null" >
+        auditstatus = #{auditstatus,jdbcType=VARCHAR},
+      </if>
+      <if test="orgid != null" >
+        orgid = #{orgid,jdbcType=VARCHAR},
+      </if>
+      <if test="orgname != null" >
+        orgname = #{orgname,jdbcType=VARCHAR},
+      </if>
+      <if test="customerid != null" >
+        customerid = #{customerid,jdbcType=VARCHAR},
+      </if>
+      <if test="customername != null" >
+        customername = #{customername,jdbcType=VARCHAR},
+      </if>
+      <if test="chargetype != null" >
+        chargetype = #{chargetype,jdbcType=VARCHAR},
+      </if>
+      <if test="billdate != null" >
+        billdate = #{billdate,jdbcType=BIGINT},
+      </if>
+      <if test="money != null" >
+        money = #{money,jdbcType=DOUBLE},
+      </if>
+      <if test="moneybig != null" >
+        moneybig = #{moneybig,jdbcType=VARCHAR},
+      </if>
+      <if test="chargeunit != null" >
+        chargeunit = #{chargeunit,jdbcType=VARCHAR},
+      </if>
+      <if test="makeid != null" >
+        makeid = #{makeid,jdbcType=VARCHAR},
+      </if>
+      <if test="makebillname != null" >
+        makebillname = #{makebillname,jdbcType=VARCHAR},
+      </if>
+      <if test="makebilltime != null" >
+        makebilltime = #{makebilltime,jdbcType=BIGINT},
+      </if>
+      <if test="auditid != null" >
+        auditid = #{auditid,jdbcType=VARCHAR},
+      </if>
+      <if test="auditname != null" >
+        auditname = #{auditname,jdbcType=VARCHAR},
+      </if>
+      <if test="audittime != null" >
+        audittime = #{audittime,jdbcType=BIGINT},
+      </if>
+      <if test="state != null" >
+        state = #{state,jdbcType=VARCHAR},
+      </if>
+      <if test="creator != null" >
+        creator = #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        createtime = #{createtime,jdbcType=BIGINT},
+      </if>
+      <if test="modifier != null" >
+        modifier = #{modifier,jdbcType=VARCHAR},
+      </if>
+      <if test="modifytime != null" >
+        modifytime = #{modifytime,jdbcType=BIGINT},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="utc != null" >
+        utc = #{utc,jdbcType=BIGINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tianrui.service.bean.businessManage.financeManage.CustomerBack" >
+    update tr_finance_db_customer_back
+    set code = #{code,jdbcType=VARCHAR},
+      auditstatus = #{auditstatus,jdbcType=VARCHAR},
+      orgid = #{orgid,jdbcType=VARCHAR},
+      orgname = #{orgname,jdbcType=VARCHAR},
+      customerid = #{customerid,jdbcType=VARCHAR},
+      customername = #{customername,jdbcType=VARCHAR},
+      chargetype = #{chargetype,jdbcType=VARCHAR},
+      billdate = #{billdate,jdbcType=BIGINT},
+      money = #{money,jdbcType=DOUBLE},
+      moneybig = #{moneybig,jdbcType=VARCHAR},
+      chargeunit = #{chargeunit,jdbcType=VARCHAR},
+      makeid = #{makeid,jdbcType=VARCHAR},
+      makebillname = #{makebillname,jdbcType=VARCHAR},
+      makebilltime = #{makebilltime,jdbcType=BIGINT},
+      auditid = #{auditid,jdbcType=VARCHAR},
+      auditname = #{auditname,jdbcType=VARCHAR},
+      audittime = #{audittime,jdbcType=BIGINT},
+      state = #{state,jdbcType=VARCHAR},
+      creator = #{creator,jdbcType=VARCHAR},
+      createtime = #{createtime,jdbcType=BIGINT},
+      modifier = #{modifier,jdbcType=VARCHAR},
+      modifytime = #{modifytime,jdbcType=BIGINT},
+      remark = #{remark,jdbcType=VARCHAR},
+      utc = #{utc,jdbcType=BIGINT}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+   <select id="findCustomerBackPageCount" parameterType="com.tianrui.api.req.businessManage.financeManage.CustomerBackQuery"  resultType="java.lang.Long">
+  	select count(0) from tr_finance_db_customer_back
+  	<where>
+  		<if test="state != null and state != ''">
+  			and state = #{state,jdbcType=VARCHAR}
+  		</if>
+  		<if test="customername != null and customername != ''">
+  			and customername = #{customername,jdbcType=VARCHAR}
+  		</if>
+  		<if test="chargeunit != null and chargeunit != ''">
+  			and chargeunit = #{chargeunit,jdbcType=VARCHAR}
+  		</if>
+  		<if test="makebillname != null and makebillname != ''">
+  			and makebillname = #{makebillname,jdbcType=VARCHAR}
+  		</if>
+  		<if test="starttime != null and starttime != ''">
+  			and createtime <![CDATA[>=]]> #{starttime,jdbcType=BIGINT}
+  		</if>
+  		<if test="endtime != null and endtime != ''">
+  			and createtime <![CDATA[<]]> #{endtime,jdbcType=BIGINT}
+  		</if>
+  	</where>
+  </select>
+  <select id="findCustomerBackPage" parameterType="com.tianrui.api.req.businessManage.financeManage.CustomerBackQuery" resultMap="BaseResultMap">
+  	select
+  	<include refid="Base_Column_List" />
+  	from tr_finance_db_customer_back
+  	<where>
+  		<if test="state != null and state != ''">
+  			and state = #{state,jdbcType=VARCHAR}
+  		</if>
+  		<if test="customername != null and customername != ''">
+  			and customername = #{customername,jdbcType=VARCHAR}
+  		</if>
+  		<if test="chargeunit != null and chargeunit != ''">
+  			and chargeunit = #{chargeunit,jdbcType=VARCHAR}
+  		</if>
+  		<if test="makebillname != null and makebillname != ''">
+  			and makebillname = #{makebillname,jdbcType=VARCHAR}
+  		</if>
+  		<if test="starttime != null and starttime != ''">
+  			and createtime <![CDATA[>=]]> #{starttime,jdbcType=BIGINT}
+  		</if>
+  		<if test="endtime != null and endtime != ''">
+  			and createtime <![CDATA[<]]> #{endtime,jdbcType=BIGINT}
+  		</if>
+  	</where>
+  	order by createtime desc
+  	<if test="start != null and start >= 0">
+  		<if test="limit != null">
+			limit #{start,jdbcType=INTEGER},#{limit,jdbcType=INTEGER}
+  		</if>
+  	</if>
+  </select>
+  <select id="selectSelective" resultMap="BaseResultMap" parameterType="com.tianrui.service.bean.businessManage.financeManage.CustomerBack">
+  	select 
+  	<include refid="Base_Column_List" />
+    from tr_finance_db_customer_back
+  	<where>
+  	  <if test="id != null and id != ''" >
+        and id = #{id,jdbcType=VARCHAR}
+      </if>
+      <if test="code != null and code != ''" >
+        and code = #{code,jdbcType=VARCHAR}
+      </if>
+      <if test="auditstatus != null and auditstatus != ''" >
+        and auditstatus = #{auditstatus,jdbcType=VARCHAR}
+      </if>
+      <if test="orgid != null and orgid != ''" >
+        and orgid = #{orgid,jdbcType=VARCHAR}
+      </if>
+      <if test="orgname != null and orgname != ''" >
+        and orgname = #{orgname,jdbcType=VARCHAR}
+      </if>
+      <if test="customerid != null and customerid != ''" >
+        and customerid = #{customerid,jdbcType=VARCHAR}
+      </if>
+      <if test="customername != null and customername != ''" >
+        and customername = #{customername,jdbcType=VARCHAR}
+      </if>
+      <if test="chargetype != null and chargetype != ''" >
+        and chargetype = #{chargetype,jdbcType=VARCHAR}
+      </if>
+      <if test="billdate != null and billdate != ''" >
+        and billdate = #{billdate,jdbcType=BIGINT}
+      </if>
+      <if test="money != null and money != ''" >
+        and money = #{money,jdbcType=DOUBLE}
+      </if>
+      <if test="moneybig != null and moneybig != ''" >
+        and moneybig = #{moneybig,jdbcType=VARCHAR}
+      </if>
+      <if test="chargeunit != null and chargeunit != ''" >
+        and chargeunit = #{chargeunit,jdbcType=VARCHAR}
+      </if>
+      <if test="makeid != null and makeid != ''" >
+        and makeid = #{makeid,jdbcType=VARCHAR}
+      </if>
+      <if test="makebillname != null and makebillname != ''" >
+        and makebillname = #{makebillname,jdbcType=VARCHAR}
+      </if>
+      <if test="makebilltime != null and makebilltime != ''" >
+        and makebilltime = #{makebilltime,jdbcType=BIGINT}
+      </if>
+      <if test="auditid != null and auditid != ''" >
+        and auditid = #{auditid,jdbcType=VARCHAR}
+      </if>
+      <if test="auditname != null and auditname != ''" >
+        and auditname = #{auditname,jdbcType=VARCHAR}
+      </if>
+      <if test="audittime != null and audittime != ''" >
+        and audittime = #{audittime,jdbcType=BIGINT}
+      </if>
+      <if test="state != null and state != ''" >
+        and state = #{state,jdbcType=VARCHAR}
+      </if>
+      <if test="creator != null and creator != ''" >
+        and creator = #{creator,jdbcType=VARCHAR}
+      </if>
+      <if test="createtime != null and createtime != ''" >
+        and createtime = #{createtime,jdbcType=BIGINT}
+      </if>
+      <if test="modifier != null and modifier != ''" >
+        and modifier = #{modifier,jdbcType=VARCHAR}
+      </if>
+      <if test="modifytime != null and modifytime != ''" >
+        and modifytime = #{modifytime,jdbcType=BIGINT}
+      </if>
+      <if test="utc != null and utc != ''" >
+        and utc = #{utc,jdbcType=BIGINT}
+      </if>
+  	</where>
+  </select>
+</mapper>

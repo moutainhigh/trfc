@@ -31,9 +31,10 @@ public interface ISalesApplicationService {
 	//同步修改订单数据
 	Result updateDataWithDC(List<JSONObject> list) throws Exception;
 
-	List<SalesApplicationResp> selectByIds(List<String> ids) throws Exception;
+	List<SalesApplicationResp> selectByIds(List<String> ids, boolean isSetDetail) throws Exception;
 
 	PaginationVO<SalesApplicationJoinDetailResp> pageGroupMateriel(SalesApplicationQuery query) throws Exception;
+
 
 
 

@@ -7,7 +7,7 @@
 <title>提货通知单</title>
 <jsp:include page="../../common/base/header_busi.jsp"></jsp:include>
 <style type="text/css">
-table.table-bordered th,td {
+table.table-bordered th, td {
 	text-align: center;
 }
 </style>
@@ -54,7 +54,7 @@ table.table-bordered th,td {
 									<label>司机：</label> <input id="driver" type="text"
 										placeholder="请选择司机" />
 								</div>
-								</div>
+							</div>
 							<div class="intel_sline">
 								<div class="intel_solo">
 									<label>通知单号：</label> <input id="code" type="text"
@@ -113,9 +113,8 @@ table.table-bordered th,td {
 							<h5>刷新</h5>
 						</div>
 						<div class="intel_operasolo" id="addBtn">
-							<a href="addView"> <i class="iconfont coloradd">&#xe627;</i>
-								<h5>新增</h5>
-							</a>
+							<i class="iconfont coloradd">&#xe627;</i>
+							<h5>新增</h5>
 						</div>
 					</div>
 					<div class="intel_table">

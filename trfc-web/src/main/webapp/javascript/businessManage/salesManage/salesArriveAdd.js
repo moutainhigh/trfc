@@ -182,6 +182,83 @@
 			getSalesApplicationData($.trim($('#jumpPageNo').val()) || 1);
 			$('#salesApplication').modal();
 		});
+		$('#returnApplication').off('click').on('click',function(){
+			if($('#salesApplication').is(':visible')){
+				var trs = $('#salesApplication').find('tr.active');
+				if(trs.length == 0){
+					layer.msg('至少选择一个订单！');return;
+				}else if(trs.length == 1){
+					var obj = trs.data();
+					selectSalesApplication(obj, [{
+						billid: obj.id,
+						billdetailid: obj.detailid
+					}], trs);
+				}else if(trs.length >1 && trs.length <= 3){
+					var flag = true;
+					var bills = [];
+					var salessum = 0;
+					var marginsum = 0;
+					var div = '<div class="layer-content-radio-div">';
+					trs.each(function(i){
+						var rightData = $(trs[i]).data();
+						bills.push({
+							billid: rightData.id,
+							billdetailid: rightData.detailid
+						});
+						if(i > 0){
+							var leftData = $(trs[i-1]).data();
+							if(leftData.customerid == rightData.customerid && leftData.materielname == rightData.materielname){
+								
+							}else{
+								layer.msg('不能同时选择多个客户和物料！'); flag = false;
+								return;
+							}
+						}
+						marginsum += rightData.margin;
+						if(rightData.margin){
+							salessum += rightData.salessum;
+						}
+						div += '<div><label><input name="billcode" type="radio">'+rightData.code+'</label></div>';
+					});
+					div += '</div>';
+					if(flag){
+						var i = layer.open({
+							type: '1',
+							area: ['400px', '250px'],
+							shadeClose: true,
+							content: div,
+							btn: ['确认', '取消'],
+							yes: function(index, layero){
+								if($('.layer-content-radio-div input[type="radio"]:checked').length == 0){
+									layer.msg('请选择主订单！', {icon: 5});return false;
+								}else{
+									var index = $('.layer-content-radio-div input:radio:checked').closest('div').index();
+									var obj = $(trs[index]).data();
+									trs.sort(function(a,b){
+										var aData = $(a).data();
+										var bData = $(b).data();
+										if($('#maindeduction')[0].checked){
+											if(aData.billid == obj.billid){
+												return -1;
+											}
+										}
+										return aData.margin - bData.margin;
+									});
+									selectSalesApplication(obj, bills, trs);
+									$('#margin').val(marginsum);
+									if(!$('#maindeduction').is(':checked')){
+										$('#salessum').val(salessum);
+									}
+									layer.close(i);
+								}
+							}
+						});
+					}
+				}else if(trs.length > 3){
+					layer.msg('一次最多选择3个订单！');return;
+				}
+			}
+		});
 		$('#refreshBtn').off('click').on('click',function(){
 			window.location.reload();
 		});
@@ -207,8 +284,31 @@
 				saveDriver();
 			}
 		});
-		$('#takeamount').change(function(){
-			$('#advanceAmount').html($(this).val());
+		$('#takeamount').off('input propertychange').on('input propertychange', function(){
+			var marginsum = parseFloat($('#margin').val()) || 0;
+			var value = parseFloat($(this).val() || 0);
+			if(!$.isNumeric(value)){
+				layer.tips('提货量必须为数字!', this, {
+					  tips: [1, '#3595CC'],
+					  time: 2000
+					});
+				 $(this).val(''); return;
+			}else if(value > marginsum){
+				layer.msg('提货量不能大于'+marginsum+'!', {icon: 5}); $(this).val(''); return;
+			}
+			$('#salesApplicationDetailBody tr').each(function(){
+				var yl = $(this).find('td.yl').text(); yl = parseFloat(yl);
+				if(value > 0){
+					if(yl >= value){
+						$(this).find('td.yt').html(value);
+					}else{
+						$(this).find('td.yt').html(yl);
+					}
+				}else{
+					$(this).find('td.yt').html(0);
+				}
+				value -= yl;
+			});
 		});
 		$('#jumpPageNoBtn').off('click').on('click',function(){
 			var pageNo = $('input#jumpPageNo').val();pageNo = $.trim(pageNo);pageNo = parseInt(pageNo);
@@ -295,27 +395,31 @@
 				var customername = obj.customername || '';
 				var materielname = obj.materielname || '';
 				var salessum = obj.salessum || '';
+				var margin = obj.margin || 0;
+				var storagequantity = obj.storagequantity || 0;
+				var unstoragequantity = obj.unstoragequantity || 0;
+				var pretendingtake = obj.pretendingtake || 0;
 				var orgname = obj.orgname || '';
 				var billtimeStr = obj.billtimeStr || '';
 				var departmentname = obj.departmentname || '';
 				var salesmanname = obj.salesmanname || '';
-				var creatorname = obj.creatorname || '';
+				var makebillname = obj.makebillname || '';
 				var channelcode = obj.channelcode || '';
-				$('<tr>').attr('title','双击确定')
+				$('<tr>').append('<td><input type="checkbox"/></td>')
 						.append('<td>'+code+'</td>')
 						.append('<td>'+billtypename+'</td>')
 						.append('<td>'+customername+'</td>')
 						.append('<td>'+materielname+'</td>')
 						.append('<td>'+salessum+'</td>')
-						.append('<td></td>')
-						.append('<td></td>')
-						.append('<td></td>')
-						.append('<td></td>')
+						.append('<td>'+margin+'</td>')
+						.append('<td>'+storagequantity+'</td>')
+						.append('<td>'+unstoragequantity+'</td>')
+						.append('<td>'+pretendingtake+'</td>')
 						.append('<td>'+orgname+'</td>')
 						.append('<td>'+billtimeStr+'</td>')
 						.append('<td>'+departmentname+'</td>')
 						.append('<td>'+salesmanname+'</td>')
-						.append('<td>'+creatorname+'</td>')
+						.append('<td>'+makebillname+'</td>')
 						.append('<td>'+channelcode+'</td>')
 						.data(obj)
 						.appendTo('#salesApplicationBody');
@@ -323,31 +427,45 @@
 		}else{
 			layer.msg('暂无数据');
 		}
-		$('#salesApplicationBody').find('tr').off('click').on('click',function(){
-			$(this).addClass('active').siblings().removeClass('active');
+		$('#salesApplicationBody>tr').find('td:eq(0)>input[type="checkbox"]').off('change').on('change',function(){
+			if(this.checked == true){
+				$(this).closest('tr').addClass('active');
+			}else{
+				$(this).closest('tr').removeClass('active');
+			}
+		}).off('click').on('click',function(e){
+			e.stopPropagation();
 		});
-		$('#salesApplicationBody').find('tr').off('dblclick').on('dblclick',function(){
-			var obj = $(this).data();
-			selectSalesApplication(obj);
+		$('#salesApplicationBody>tr').off('click').on('click',function(e){
+			e.stopPropagation();
+			$(this).find('td:eq(0)>input').trigger('click');
 		});
+//		$('#salesApplicationBody').find('tr').off('dblclick').on('dblclick',function(){
+//			var obj = $(this).data();
+//			selectSalesApplication(obj);
+//		});
 	}
-	function selectSalesApplication(obj){
-		$('#billcode').val(obj.code || '').attr('billid', obj.id || '').attr('billdetailid', obj.detailid || '');
+	function selectSalesApplication(obj, bills, trs){
+		$('#billcode').val(obj.code || '').attr('billid', obj.id || '').attr('billdetailid', obj.detailid || '').attr('bills', JSON.stringify(bills));
 		$('#customername').val(obj.customername || '');
 		$('#channelcode').val(obj.channelcode || '');
 		$('#materielname').val(obj.materielname || '');
 		$('#departmentname').val(obj.departmentname || '');
 		$('#unit').val(obj.unit || '');
 		$('#salessum').val(obj.salessum || '');
+		$('#margin').val(obj.margin || 0);
 		$('#billtime').val(obj.billtimeStr || '').attr('billtime', obj.billtime || '');
 		$('#salesApplication').modal('hide');
-		$('#salesApplicationDetailBody').empty()
-										.append('<tr><td>'+(obj.code || '')+'</td><td>'+(obj.billtypename || '')+'</td>'
-												+'<td>'+(obj.billtimeStr || '')+'</td><td>'+(obj.materielname || '')+'</td>'
-												+'<td>'+obj.unit || ''+'</td><td>'+(obj.salessum || '')+'</td>'
-												+'<td></td><td id="advanceAmount">0.00</td><td>'+(obj.orgname || '')+'</td>'
-												+'<td>'+(obj.customername || '')+'</td><td>'+(obj.departmentname || '')+'</td>'
-												+'<td>'+(obj.salesmanname || '')+'</td><td>'+obj.makerbillname || ''+'</td></tr>');
+		$('#salesApplicationDetailBody').empty();
+		trs.each(function(i){
+			var data = $(this).data();
+			$('#salesApplicationDetailBody').append('<tr><td>'+(i+1)+'</td><td>'+(data.code || '')+'</td><td>'+(data.billtypename || '')+'</td>'
+					+'<td>'+(data.billtimeStr || '')+'</td><td>'+(data.materielname || '')+'</td>'
+					+'<td>'+(data.unit || '')+'</td><td>'+(data.salessum || '')+'</td>'
+					+'<td class="yl">'+(data.margin || 0)+'</td><td class="yt">0</td><td>'+(data.orgname || '')+'</td>'
+					+'<td>'+(data.customername || '')+'</td><td>'+(data.departmentname || '')+'</td>'
+					+'<td>'+(data.salesmanname || '')+'</td><td>'+data.makebillname || ''+'</td></tr>');
+		});
 	}
 	function validate(params){
 		if(!params.billid || !params.billdetailid){
@@ -377,6 +495,7 @@
 		var spraycode = $('#spraycode').val(); spraycode = $.trim(spraycode);
 		var serialnumber = $('#serialnumber').val(); serialnumber = $.trim(serialnumber);
 		var icardid = $('#icardid').attr('icardid'); icardid = $.trim(icardid);
+		var bills = $('#billcode').attr('bills');
 		return {
 			billid:billid,
 			billdetailid:billdetailid,
@@ -389,7 +508,8 @@
 			remarks:remarks,
 			spraycode:spraycode,
 			serialnumber:serialnumber,
-			icardid:icardid
+			icardid:icardid,
+			bills:bills
 		};
 	}
 	//新增通知单

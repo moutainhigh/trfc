@@ -94,7 +94,7 @@ public class YardManageService implements IYardManageService{
 			}
 			
 		}
-		return null;
+		return result;
 	}
 	
 	/**

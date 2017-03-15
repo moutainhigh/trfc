@@ -1,15 +1,16 @@
 ;(function($, win){
 	
+	
 	var URL = {
-			initAddUrl:"/trfc/customerbegin/initAdd",
-			addBtnUrl:"/trfc/customerbegin/add",
-			pageUrl:"/trfc/customerbegin/page",
-			auditUrl:"/trfc/customerbegin/audit",
-			deleteUrl:"/trfc/customerbegin/delete",
+			initAddUrl:"/trfc/customerback/initAdd",
+			addBtnUrl:"/trfc/customerback/add",
+			pageUrl:"/trfc/customerback/page",
+			auditUrl:"/trfc/customerback/audit",
+			deleteUrl:"/trfc/customerback/delete",
 			customerAutoCompleteSearch: "/trfc/customer/autoCompleteSearch"
 	};
 	
-	
+
 	init();
 	function init(){
 		//初始化autocomplete
@@ -23,13 +24,12 @@
 	
 	
 	function str2Long(dateStr){
-		var time = '';
 		if(dateStr){
-			var date = new Date(dateStr);
-			time = date.getTime();
+			var date=new Date(dateStr);
+			return date.getTime();
 		}
-		return time;
 	}
+	
 	
 	function initAutoComplete(){
 		var cache = {};
@@ -135,30 +135,35 @@
 		$('#initAdd').off('click').on('click',function(){
 			initAdd();
 		});
-		
-		$('#ensureAdd').off('click').on('click', function(){
+		$('#ensureAdd').off('click').on('click',function(){
 			if($('#add').is(':visible')){
 				this.disabled = true;
-				addCustomerBegin(this);
+				addCustomerBack(this);
 			}
 		});
 		// 表格内容每行单击出来下面的详细信息
 		$('#begins').on('dblclick','tr',function(){
 			$('#caigoubill').modal('show');
-			var begin=$(this).closest('tr').data();
-//			console.log(begin);
-			$('#detail_code').val(begin.code);
-			$('#detail_customer').val(begin.customername);
-			$('#detail_date').val(begin.billdate);
-			$('#detail_method').val(begin.paymentmethod);
-			$('#detail_payer').val(begin.payer);
-			$('#detail_unit').val(begin.collectionunit);
-			$('#detail_money').val(begin.money);
-			$('#detail_capital').val(begin.moneybig);
-			$('#detail_maker').val(begin.makebillname);
-			$('#detail_makebilltime').val(begin.billdate.substring(0,10));
-			$('#detail_remark').val(begin.remark);
-			if(begin.auditstatus=='0'){
+			var back=$(this).closest('tr').data();
+//			console.log(back);
+			$('#detail_code').val(back.code);
+			$('#detail_customer').val(back.customername);
+			$('#detail_date').val(new Date(back.billdate).format('yyyy-MM-dd hh:mm:ss'));
+			var chargetype=back.chargetype;
+			if(chargetype=='0'){
+				chargetype='收款';
+			}
+			if(chargetype='1'){
+				chargetype='退款';
+			}
+			$('#detail_method').val(chargetype);
+			$('#detail_unit').val(back.chargeunit);
+			$('#detail_money').val(back.money);
+			$('#detail_capital').val(back.moneybig);
+			$('#detail_maker').val(back.makebillname);
+			$('#detail_makebilltime').val(new Date(back.makebilltime).format('yyyy-MM-dd hh:mm:ss').substring(0,10));
+			$('#detail_remark').val(back.remark);
+			if(back.auditstatus=='0'){
 				$('#un_sh').show();
 				$('#sh').hide();
 			}else{
@@ -166,20 +171,18 @@
 				$('#un_sh').hide();
 			}
 		});
-		
 		//监听哪一行的审核按钮被点击了
 		$('#begins').on('click','tr #audit',function(){
 			layer.closeAll();
-			var obj = $(this).closest('tr').data();
-			audit(obj);	
-		});
-	    
+			var back=$(this).closest('tr').data();
+			audit(back);
+		} );
 		//监听哪一行的删除按钮被点击了
 		$('#begins').on('click','tr #delete',function(){
 			layer.closeAll();
-			var begin = $(this).closest('tr').data();
-			deleteBegin(begin);	
-		});
+			var back=$(this).closest('tr').data();
+			dele(back);
+		} );
 		
 		//新增页面金额输入框键盘按下事件
 		$('#money').focus(function(){
@@ -188,15 +191,15 @@
 			}
 			
 		}).keyup(function(){
-			
+	
 			 var regStrs = [  
 			        ['^0(\\d+)$', '$1'], //禁止录入整数部分两位以上，但首位为0  
-			        ['[^\\d\\.]+$', ''], //禁止录入任何非数字和点  
+			        ['[^\\d\\.]+$', '-'], //禁止录入任何非数字和点  
 			        ['\\.(\\d?)\\.+', '.$1'], //禁止录入两个以上的点  
-			        ['^(\\d+\\.\\d{3}).+', '$1'] //禁止录入小数点后两位以上  
+			        ['^(\\d+\\.\\d{3}).+', '$1'] //禁止录入小数点后三位以上  
 			    ];  
 			    for(var i=0; i<regStrs.length; i++){  
-			        var reg = new RegExp(regStrs[i][0]);  
+			        var reg = new RegExp(regStrs[i][0]); 
 			        this.value = this.value.replace(reg, regStrs[i][1]);  
 			    }  
 			
@@ -205,6 +208,9 @@
 					$('#money_capital').val('零元整');
 			}else{
 				var money_capital=DX(eval(''+num+''));
+				if(num.charAt(0)=='-'){
+					money_capital='欠'+money_capital.substring(1);
+				}
 				$('#money_capital').val(money_capital);
 			}
          }).change(function () {
@@ -239,7 +245,7 @@
 		        }else if(/^\d+\.\d{2}$/.test(v)){  
 		            v = v + '0'; 
 		        }else if(/^[^\d]+\d+\.?\d*$/.test(v)){  
-		            v = v.replace(/^[^\d]+(\d+\.?\d*)$/, '$1');  
+		            v = v.replace(/^[^\d]+(\d+\.?\d*)$/, '-$1');  
 		        }else if(/\d+/.test(v)){  
 		            v = v.replace(/^[^\d]*(\d+\.?\d*).*$/, '$1');  
 		            ty = false;  
@@ -256,10 +262,14 @@
 					$('#money_capital').val('零元整');
 			}else{
 				var money_capital=DX(eval(''+num+''));
+				if(num.charAt(0)=='-'){
+					money_capital='欠'+money_capital.substring(1);
+				}
 				$('#money_capital').val(money_capital);
 			}
 		});
 	}
+	
 	
 	
 	function queryData(pageNo){
@@ -270,7 +280,7 @@
 		var starttime=$('#s_starttime').val();starttime=$.trim(starttime);
 		var endtime=$('#s_endtime').val();endtime=$.trim(endtime);
 		var customername=$('#s_customer').val();customername=$.trim(customername);
-		var orgname=$('#branch option:checked').text();
+		var chargeunit=$('#branch option:checked').text();chargeunit=$.trim(chargeunit);
 		var makebillname=$('#makebillname').val();makebillname=$.trim(makebillname);
 		var pageNo=pageNo;
 		var pageSize = $('#pageSize').val();pageSize = $.trim(pageSize);
@@ -279,12 +289,13 @@
 				starttime:str2Long(starttime),
 				endtime:str2Long(endtime),
 				customername:customername,
-				orgname:orgname,
+				chargeunit:chargeunit,
 				makebillname:makebillname,
 				pageNo:pageNo,
 				pageSize:pageSize
 		};
 		
+//		console.log(params);
 		$.post(url,params,function(result){
 			if(result.code=='000000'){
 				var data=result.data;
@@ -314,44 +325,58 @@
 					return;
 				}
 				for(var i=0;i<list.length;i++){
-					var begin=list[i];
-					var status=begin.auditstatus;
+					var back=list[i];
+					var status=back.auditstatus;
 					switch(status){
 						case '0':
 							status='未审核';
 							break;
 						case '1':
-							status='已审核'
+							status='已审核';
 							break;
 						default:
 							status='';
 							break;
 					}
-					var tr=$('<tr><td>'+((pageNo-1)*pageSize+i+1)+'</td><td>'+begin.code+'</td><td id="if_audit'+i+'">'+status+'</td><td>'+
-							begin.billdate+'</td><td>'+begin.customername+'</td><td>'+begin.paymentmethod+'</td><td>'+
-							begin.money+'</td><td>'+begin.collectionunit+'</td><td>'+begin.payer+'</td><td>'+
-							begin.makebillname+'</td><td>'+begin.billdate.substring(0,10)+'</td><td>'+begin.remark+'</td><td>'+
+					var billdate=back.billdate;
+					billdate=new Date(billdate).format('yyyy-MM-dd hh:mm:ss');
+					var chargetype=back.chargetype;
+					switch(chargetype){
+						case '0':
+							chargetype='收款';
+							break;
+						case '1':
+							chargetype='退款';
+							break;
+						default:
+							chargetype='';
+							break;
+					}
+					var makebilltime=back.makebilltime;
+					makebilltime=new Date(makebilltime).format('yyyy-MM-dd hh:mm:ss');
+					var tr=$('<tr><td>'+((pageNo-1)*pageSize+i+1)+'</td><td>'+back.code+'</td><td id="if_audit'+i+'">'+status+'</td><td>'+
+							billdate+'</td><td>'+back.customername+'</td><td>'+chargetype+'</td><td>'+
+							back.money+'</td><td>'+back.chargeunit+'</td><td>'+
+							back.makebillname+'</td><td>'+makebilltime.substring(0,10)+'</td><td>'+back.remark+'</td><td>'+
 							'<span id="audit"><a data-toggle="modal" data-target="#edit"><i class="iconfont" data-toggle="tooltip" data-placement="left" title="审核">&#xe692;</i></a></span><span id="delete">'+
-							'<a data-toggle="modal" data-target="#dele"><i class="iconfont" data-toggle="tooltip" data-placement="left" title="删除">&#xe63d;</i></a> </span></td> '     
-					);
+							'<a data-toggle="modal" data-target="#dele"><i class="iconfont" data-toggle="tooltip" data-placement="left" title="删除">&#xe63d;</i></a> </span></td> '     );
 					tbody.append(tr);
+					tr.data(back);
 					if(status=='未审核'){
 						$('#if_audit'+i).addClass('colorred');
 					}
-					tr.data(begin);
 				}
-				
-				
 			}else{
 				layer.msg(result.error,{icon:5});
 			}
 		});
-		layer.close(index);
+		layer.close(index);	
 	}
 	
 	function pageCallback(pageNo){
 		queryData(pageNo+1);
 	}
+	
 	
 	function initAdd(){
 		var url=URL.initAddUrl;
@@ -359,15 +384,13 @@
 		$.post(url,param,function(result){
 			if(result.code=='000000'){
 				var data=result.data;
-//				console.log(data);
 				$('#code').val(data.code);
 				$('#a_customer').val('');
 				$('#a_billtimeStr').val(data.nowDate);
 				$('#paymentmethod').val('');
-				$('#payer').val('');
-				$('#collectionunit').val(data.collectionunit);
 				$('#money').val('0.00');
 				$('#money_capital').val('');
+				$('#chargeunit').val('1');	
 				$('#maker').val(data.makebillname);
 				$('#maketime').val(data.nowDate.substring(0,10));
 				$('#remark').val('');
@@ -377,69 +400,71 @@
 		});
 	}
 	
-	function getAddCustomerBegin(){
+	
+	function getAddCustomerBack(){
 		var code=$('#code').val();code=$.trim(code);
 		var customerid = $('#a_customer').attr('customerid');customerid = $.trim(customerid);
 		var customername=$('#a_customer').val();customername=$.trim(customername);
-		var billdate = $('#a_billtimeStr').val();billdate = $.trim(billdate);
-		var paymentmethod=$('#paymentmethod option:checked').text();paymentmethod=$.trim(paymentmethod);
-		var payer=$('#payer').val();payer=$.trim(payer);
+		var billdate=$('#a_billtimeStr').val();billdate=$.trim(billdate);
+		var chargetype=$('#paymentmethod').val();
 		var money=$('#money').val();
-		var moneybig=$('#money_capital').val();moneybig=$.trim(moneybig);
-		var collectionunit=$('#collectionunit').val();collectionunit=$.trim(collectionunit);
-		var makebillname=$('#maker').val();makebillname=$.trim(makebillname);
+		var moneybig=$('#money_capital').val();
+		var chargeunit=$('#chargeunit option:checked').text();chargeunit=$.trim(chargeunit);
+		var makebillname=$('#maker').val();
 		var remark=$('#remark').val();remark=$.trim(remark);
-		return{
+		return {
 			code:code,
 			customerid:customerid,
 			customername:customername,
-			billdate:billdate,
-			paymentmethod:paymentmethod,
-			payer:payer,
+			billdate:str2Long(billdate),
+			chargetype:chargetype,
 			money:money,
 			moneybig:moneybig,
-			user:userid,
-			collectionunit:collectionunit,
+			chargeunit:chargeunit,
 			makebillname:makebillname,
-			remark:remark
+			remark:remark,
+			user:userid
 		};
+		
 	}
 	
 	
-	
-	function addCustomerBegin(_this){
-//		console.log('addCustomerBegin');
+	function addCustomerBack(_this){
 		var url=URL.addBtnUrl;
-		var params=getAddCustomerBegin();
-		console.log(params);
+		var params=getAddCustomerBack();
+//		console.log(params);
 		if(validate(params)){
-			var index = layer.load(2, {
-				shade: [0.3,'#fff'] //0.1透明度的白色背景
-			});
 			$.post(url,params,function(result){
+				var index = layer.load(2, {
+					shade: [0.3,'#fff'] //0.1透明度的白色背景
+				});
 				if(result.code=='000000'){
 					win.location.reload();
 				}else{
-					layer.msg('该客户的期初已经录入!',{icon: 5});
-					_this.disabled = false;
+					layer.msg('该客户的退补已经录入!',{icon:5});
+					_this.disabled=false;
 				}
 				layer.close(index);
 			});
 		}else{
-			_this.disabled = false;
+			_this.disabled=false;
 		}
 		
-	}	
-	
+	}
 	
 	function validate(params){
-		if(!params.customerid){
-			layer.msg('请选择客户', {icon: 5});return false;
+		if(!params.customername){
+			layer.msg('请选择客户!',{icon:5});
+			$('#a_customer').focus();
+			return false;
 		}
-		if(!params.paymentmethod){
-			layer.msg('请选择收款方式', {icon: 5});return false;
+		if(!params.chargetype){
+			layer.msg('请选择收款类型!',{icon:5});
+			$('#chargetype').focus();
+			return false;
 		}
 		if(eval(params.money)==0){
+//			layer.msg('金额不能为零！',{icon:5});
 			layer.tips('金额不能为零!', $('#money'), {
 				  tips: [1, '#3595CC'],
 				  time: 2000
@@ -447,8 +472,52 @@
 			$('#money').focus();
 			return false;
 		}
+		if(params.chargetype==0){
+			if(eval(params.money)<0){
+//				layer.msg('金额不能小于零！',{icon:5});
+				layer.tips('金额不能小于零！', $('#money'), {
+					  tips: [1, '#3595CC'],
+					  time: 2000
+					});
+				$('#money').focus();
+				return false;
+			}
+		}
+		if(params.chargetype==1){
+			if(eval(params.money)>0){
+//				layer.msg('金额不能大于零！',{icon:5});
+				layer.tips('金额不能大于零！', $('#money'), {
+					  tips: [1, '#3595CC'],
+					  time: 2000
+					});
+				$('#money').focus();
+				return false;
+			}
+		}
 		return true;
 	}
+	
+	
+	Date.prototype.format = function(fmt) { 
+	     var o = { 
+	        "M+" : this.getMonth()+1,                 //月份 
+	        "d+" : this.getDate(),                    //日 
+	        "h+" : this.getHours(),                   //小时 
+	        "m+" : this.getMinutes(),                 //分 
+	        "s+" : this.getSeconds(),                 //秒 
+	        "q+" : Math.floor((this.getMonth()+3)/3), //季度 
+	        "S"  : this.getMilliseconds()             //毫秒 
+	    }; 
+	    if(/(y+)/.test(fmt)) {
+	            fmt=fmt.replace(RegExp.$1, (this.getFullYear()+"").substr(4 - RegExp.$1.length)); 
+	    }
+	     for(var k in o) {
+	        if(new RegExp("("+ k +")").test(fmt)){
+	             fmt = fmt.replace(RegExp.$1, (RegExp.$1.length==1) ? (o[k]) : (("00"+ o[k]).substr((""+ o[k]).length)));
+	         }
+	     }
+	    return fmt; 
+	}        
 	
 	
 	function DX(num) {
@@ -466,27 +535,25 @@
 		return strOutput.replace(/零角零分$/, '整').replace(/零[仟佰拾]/g, '零').replace(/零{2,}/g, '零').replace(/零([亿|万])/g, '$1').replace(/零+元/, '元').replace(/亿零{0,3}万/, '亿').replace(/^元/, "零元")
 	}
 	
-
 	
-	
-	
-	function audit(obj){
-		if(obj.auditstatus == '1'){
-			layer.msg('已审核的单据，不能继续审核！', {icon: 5});
+	function audit(back){
+		if(back.auditstatus=='1'){
+			layer.msg('已审核的单据，不能继续审核！',{icon:5});
 			return;
 		}
-		confirmOperation('您确定要审核么？', URL.auditUrl, {
-			id:obj.id
+		confirmOperation('您确定要审核吗？',URL.auditUrl,{
+			id:back.id
 		});
 	}
 	
-	function confirmOperation(confirmContent, url, params){
+	function confirmOperation(confirmContent, url, param){
 		layer.confirm(confirmContent, {
+			area: '600px', //弹出框宽度
 			btn: ['确认','取消'] //按钮
 		}, function(){
 			$.ajax({
 				url:url,
-				data:params,
+				data:param,
 				async:true,
 				cache:false,
 				dataType:'json',
@@ -502,36 +569,28 @@
 		});
 	}
 	
-	
-	function deleteBegin(begin){
-		if(begin.auditstatus=='1'){
-			layer.msg('已审核的单据，不能删除！', {icon: 5});
+	function dele(back){
+		if(back.auditstatus=='1'){
+			layer.msg('已审核的单据，不能删除！',{icon:5});
 			return;
 		}
-		
-		var bn=layer.open({
-	        content: '您确定要删除吗？',
-	        area: '600px',
-	        closeBtn:1,
-	        shadeClose:true,
-	        btn: ['确定', '取消'],
-	        yes: function(index, layero){
-	            //按钮【确定】的回调
-	        	confirmDelete(begin);
-				layer.close(bn);
-	        },btn2: function(index, layero){
-	            //按钮【取消】的回调
-	        }
-	        ,cancel: function(){
-	            //右上角关闭回调
-	        }
-	    });
+		layer.confirm('你确定要删除吗?', {
+            area: '600px', //弹出框宽度
+            btn: ['确定','取消'] //按钮文字
+        }, function(index){
+            // 确定按钮执行的操作，自定义
+            deleteBack(back);
+            //关闭对话框,插件必须的
+            layer.close(index);
+        }, function(){
+            // 取消按钮执行的操作，自定义
+        });
 	}
 	
-	function confirmDelete(begin){
+	function deleteBack(back){
 		var url=URL.deleteUrl;
 		var param={
-			id:begin.id	
+			id:back.id
 		};
 		$.post(url,param,function(result){
 			if(result.code=='000000'){
@@ -540,9 +599,7 @@
 				layer.msg(result.error,{icon:5});
 			}
 		});
+		
 	}
-	
-	
-	
 	
 })(jQuery, window);

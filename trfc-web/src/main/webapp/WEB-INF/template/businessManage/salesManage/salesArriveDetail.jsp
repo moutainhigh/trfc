@@ -15,7 +15,7 @@
 			<div class="intel_tab">
 				<!--tab切换标题-->
 				<ul class="intel_menu">
-					<li><a href="/trfc/salesApplication/main">销售申请单</a></li>
+					<li><a href="/trfc/getMainApplication()/main">销售申请单</a></li>
 					<li class="select"><a href="/trfc/salesArrive/main">提货通知单</a></li>
 				</ul>
 			</div>
@@ -56,37 +56,37 @@
 							</div>
 							<div class="daohuo_add_solo">
 								<label>客户：</label> <input
-									value="${salesArrive.salesApplication.customername }"
+									value="${salesArrive.getMainApplication().customername }"
 									type="text" readonly>
 							</div>
 							<div class="daohuo_add_solo">
 								<label>区域码：</label> <input
-									value="${salesArrive.salesApplication.channelcode }"
+									value="${salesArrive.getMainApplication().channelcode }"
 									type="text" readonly>
 							</div>
 							<div class="daohuo_add_solo">
 								<label>销售组织：</label> <input
-									value="${salesArrive.salesApplication.orgname }" type="text"
+									value="${salesArrive.getMainApplication().orgname }" type="text"
 									readonly>
 							</div>
 							<div class="daohuo_add_solo">
 								<label>物料：</label> <input
-									value="${salesArrive.salesApplication.detailResp.materielname }"
+									value="${salesArrive.getMainApplicationDetail().materielname }"
 									type="text" readonly>
 							</div>
 							<div class="daohuo_add_solo">
 								<label>部门：</label> <input
-									value="${salesArrive.salesApplication.departmentname }"
+									value="${salesArrive.getMainApplication().departmentname }"
 									type="text" readonly>
 							</div>
 							<div class="daohuo_add_solo">
 								<label>单位：</label> <input
-									value="${salesArrive.salesApplication.detailResp.unit }"
+									value="${salesArrive.getMainApplicationDetail().unit }"
 									type="text" readonly>
 							</div>
 							<div class="daohuo_add_solo">
 								<label>订单数量：</label> <input
-									value="${salesArrive.salesApplication.detailResp.salessum }"
+									value="${salesArrive.getMainApplicationDetail().salessum }"
 									type="text" readonly>
 							</div>
 							<div class="daohuo_add_solo">
@@ -111,7 +111,7 @@
 							</div>
 							<div class="daohuo_add_solo">
 								<label>业务日期：</label> <input
-									value="${salesArrive.salesApplication.makebilltimeStr }"
+									value="${salesArrive.getMainApplication().makebilltimeStr }"
 									type="text" readonly>
 							</div>
 							<div class="daohuo_add_solo">
@@ -155,6 +155,7 @@
 								<table class="table table-bordered">
 									<thead>
 										<tr>
+											<th>序号</th>
 											<th>订单编号</th>
 											<th>客户</th>
 											<th>物料</th>
@@ -165,15 +166,18 @@
 										</tr>
 									</thead>
 									<tbody>
-										<tr>
-											<td>${salesArrive.salesApplication.code }</td>
-											<td>${salesArrive.salesApplication.customername }</td>
-											<td>${salesArrive.salesApplication.detailResp.materielname }</td>
-											<td>${salesArrive.salesApplication.orgname }</td>
-											<td>${salesArrive.takeamount }</td>
-											<td>${salesArrive.salesApplication.detailResp.salessum }</td>
-											<td>${salesArrive.salesApplication.billtimeStr }</td>
-										</tr>
+										<c:forEach items="${salesArrive.listApplication }" var="application" varStatus="status">
+											<tr>
+												<td>${status.index + 1 }</td>
+												<td>${application.code }</td>
+												<td>${application.customername }</td>
+												<td>${application.list[0].materielname }</td>
+												<td>${application.orgname }</td>
+												<td>${salesArrive.takeamount }</td>
+												<td>${application.list[0].salessum }</td>
+												<td>${application.billtimeStr }</td>
+											</tr>
+										</c:forEach>
 									</tbody>
 								</table>
 							</div>

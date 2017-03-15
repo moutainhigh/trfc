@@ -10,6 +10,7 @@
     <link href="${staticBasePath}/css/bootstrap.css" rel="stylesheet">
     <link href="${staticBasePath}/css/base.css" rel="stylesheet">
     <link href="${staticBasePath}/css/style.css" rel="stylesheet">
+    <link href="${staticBasePath}/css/iconfont.css" rel="stylesheet">
 
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -48,7 +49,7 @@
                         <input type="text" placeholder="请输入手机号" id="user_account">
                     </div>
                     <div class="lgline3">
-                        <i class="iconfont">&#xe622;</i>
+                        <i class="iconfont">&#xe633;</i>
                         <input type="password" placeholder="请输入密码" id="user_password">
                     </div>
                  

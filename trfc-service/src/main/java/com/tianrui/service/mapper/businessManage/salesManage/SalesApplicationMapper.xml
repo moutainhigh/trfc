@@ -51,7 +51,7 @@
     s1.salesmanid, s1.salesmanname, s1.billtime, s1.orgid, s1.orgname, s1.transportcompanyid, s1.transportcompanyname, 
     s1.departmentid, s1.departmentname, s1.auditid, s1.auditname, s1.audittime, s1.state, s1.makerid, s1.makebillname, 
     s1.makebilltime, s1.remarks, s1.creator, s1.createtime, s1.modifier, s1.modifytime, s1.utc, s2.id as detailid, s2. materielname,
-    s2.salessum, s2.unit
+    s2.salessum, s2.unit, s2.margin, s2.storagequantity, s2.unstoragequantity, s2.pretendingtake
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
@@ -571,6 +571,12 @@
   	from tr_sales_db_application s1 left join tr_sales_db_application_detail s2 
   	on s1.id = s2.salesid
   	<where>
+  		<if test="id != null and id != ''">
+  			and s1.id = #{id,jdbcType=VARCHAR}
+  		</if>
+  		<if test="detailid != null and detailid != ''">
+  			and s2.id = #{detailid,jdbcType=VARCHAR}
+  		</if>
   		<if test="state != null and state != ''">
   			and s1.state = #{state,jdbcType=VARCHAR}
   		</if>

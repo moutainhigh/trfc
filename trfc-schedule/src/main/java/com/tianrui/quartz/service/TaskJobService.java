@@ -59,7 +59,7 @@ public class TaskJobService {
 				dataIds.add(rq.getDataid());
 				queueIds.add(rq.getId());
 			}
-			List<SalesApplicationResp> listSales = salesApplicationService.selectByIds(new ArrayList<String>(dataIds));
+			List<SalesApplicationResp> listSales = salesApplicationService.selectByIds(new ArrayList<String>(dataIds), true);
 			ApiResult apiResult = HttpUtils.post(ApiParamUtils.getApiParam(listSales), Constant.URL_RETURN_SALESAPPLICATION);
 			if(StringUtils.equals(apiResult.getCode(), ErrorCode.SYSTEM_SUCCESS.getCode())){
 				returnQueueMapper.deteleByIds(queueIds);

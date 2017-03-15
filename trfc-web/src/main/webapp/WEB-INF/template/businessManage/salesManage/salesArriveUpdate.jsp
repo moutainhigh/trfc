@@ -71,12 +71,12 @@
 							</div>
 							<div class="daohuo_add_solo">
 								<label>客户：</label> <input id="customername"
-									value="${salesArrive.salesApplication.customername }"
+									value="${salesArrive.getMainApplication().customername }"
 									type="text" readonly="true">
 							</div>
 							<div class="daohuo_add_solo">
 								<label>区域码：</label> <input id="channelcode"
-									value="${salesArrive.salesApplication.channelcode }"
+									value="${salesArrive.getMainApplication().channelcode }"
 									type="text" readonly="true">
 							</div>
 							<div class="daohuo_add_solo">
@@ -85,30 +85,30 @@
 							</div>
 							<div class="daohuo_add_solo">
 								<label>物料：</label> <input id="materielname"
-									value="${salesArrive.salesApplicationDetail.materielname }"
+									value="${salesArrive.getMainApplicationDetail().materielname }"
 									type="text" readonly="true">
 							</div>
 							<div class="daohuo_add_solo">
 								<label>部门：</label> <input id="departmentname"
-									value="${salesArrive.salesApplication.departmentname }"
+									value="${salesArrive.getMainApplication().departmentname }"
 									type="text" readonly="true">
 							</div>
 							<div class="daohuo_add_solo">
 								<label>单位：</label> <input id="unit" type="text"
-									value="${salesArrive.salesApplicationDetail.unit }"
+									value="${salesArrive.getMainApplicationDetail().unit }"
 									readonly="true">
 							</div>
 							<div class="daohuo_add_solo">
 								<label>订单数量：</label> <input id="salessum"
-									value="${salesArrive.salesApplicationDetail.salessum }"
+									value="${salesArrive.getBillSum() }"
 									type="text" readonly="true">
 							</div>
 							<div class="daohuo_add_solo">
-								<label>余量：</label> <input id="" type="text" readonly="true">
+								<label>余量：</label> <input id="margin" value="${salesArrive.getYlSum() }" type="text" readonly="true">
 							</div>
 							<div class="daohuo_add_solo">
 								<label>业务日期：</label> <input id="billtime"
-									value="${salesArrive.salesApplication.billtimeStr }"
+									value="${salesArrive.getMainApplication().billtimeStr }"
 									type="text" readonly="true">
 							</div>
 						</div>
@@ -182,6 +182,7 @@
 									<table class="table table-bordered">
 										<thead>
 											<tr>
+												<th>序号</th>
 												<th>销售订单号</th>
 												<th>订单类型</th>
 												<th>订单日期</th>
@@ -198,21 +199,24 @@
 											</tr>
 										</thead>
 										<tbody id="salesApplicationDetailBody">
-											<tr>
-												<td>${salesArrive.salesApplication.code }</td>
-												<td>${salesArrive.salesApplication.billtypename }</td>
-												<td>${salesArrive.salesApplication.billtimeStr }</td>
-												<td>${salesArrive.salesApplicationDetail.materielname }</td>
-												<td>${salesArrive.salesApplicationDetail.unit }</td>
-												<td>${salesArrive.salesApplicationDetail.salessum }</td>
-												<td></td>
-												<td id="advanceAmount">${salesArrive.takeamount }</td>
-												<td>${salesArrive.salesApplication.orgname }</td>
-												<td>${salesArrive.salesApplication.customername }</td>
-												<td>${salesArrive.salesApplication.departmentname }</td>
-												<td>${salesArrive.salesApplication.salesmanname }</td>
-												<td>${salesArrive.salesApplication.makebillname }</td>
-											</tr>
+											<c:forEach items="${salesArrive.listApplication }" var="application" varStatus="status">
+												<tr>
+													<td>${status.index + 1 }</td>
+													<td>${application.code }</td>
+													<td>${application.billtypename }</td>
+													<td>${application.billtimeStr }</td>
+													<td>${application.list[0].materielname }</td>
+													<td>${application.list[0].unit }</td>
+													<td>${application.list[0].salessum }</td>
+													<td class="yl">${application.list[0].margin }</td>
+													<td class="yt">${salesArrive.takeamount }</td>
+													<td>${application.orgname }</td>
+													<td>${application.customername }</td>
+													<td>${application.departmentname }</td>
+													<td>${application.salesmanname }</td>
+													<td>${application.makebillname }</td>
+												</tr>
+											</c:forEach>
 										</tbody>
 									</table>
 								</div>
@@ -224,7 +228,6 @@
 		</div>
 	</div>
 
-	</div>
 	<!--订单号弹出begin-->
 	<div class="modal fade" id="salesApplication" tabindex="-1"
 		role="dialog" aria-labelledby="myModalLabel">
@@ -244,30 +247,31 @@
 					<div class="dhadd_search">
 						<div class="dhsearch_solo">
 							<label>物料：</label> <input id="materiel" type="text"
-								placeholder="请选择物料">
+								placeholder="请选择物料" />
 						</div>
 						<div class="dhsearch_solo">
 							<label>客户：</label> <input id="customer" type="text"
-								placeholder="请选择客户">
+								placeholder="请选择客户" />
 						</div>
 						<div class="dhsearch_solo">
-							<label>订单号：</label> <input id="billcode" type="text"
+							<label>订单号：</label> <input id="applicationcode" type="text"
 								placeholder="请输入订单号">
 						</div>
 						<div class="dhsearch_solo">
 							<label>开始时间：</label> <input id="starttime" type="text"
 								onfocus="WdatePicker({dateFmt:'yyyy-MM-dd 00:00:00'})"
-								class="Wdate" style="width: 160px" readonly="readonly"
+								class="Wdate" style="width: 160px" readonly
 								placeholder="请选择开始时间" />
 						</div>
 						<div class="dhsearch_solo">
 							<label>结束时间：</label> <input id="endtime" type="text"
 								onfocus="WdatePicker({dateFmt:'yyyy-MM-dd 00:00:00'})"
-								class="Wdate" style="width: 160px" readonly="readonly"
+								class="Wdate" style="width: 160px" readonly
 								placeholder="请选择结束时间" />
 						</div>
 						<div class="dhsearch_solo">
 							<button id="searchBtn" class="btn btnblue ">搜索</button>
+							<button id="clearBtn" class="btn btnblue ">清空</button>
 						</div>
 					</div>
 					<div>
@@ -275,6 +279,7 @@
 							<table class="table table-hover" style="width: 100%;">
 								<thead>
 									<tr>
+										<th></th>
 										<th>销售订单号</th>
 										<th>订单类型</th>
 										<th>客户名称</th>
@@ -297,7 +302,6 @@
 							</table>
 						</div>
 					</div>
-
 					<!--分页效果开始-->
 					<div class="page">
 						<div class="page_date">
@@ -319,10 +323,15 @@
 					</div>
 					<!--分页效果结束-->
 				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary" id="returnApplication">确定</button>
+					<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+				</div>
 			</div>
 		</div>
 	</div>
 	<!--订单号弹出end-->
+	
 	<!--车号新增begin-->
 	<div class="modal fade" id="vehicleAddView" tabindex="-1" role="dialog"
 		aria-labelledby="myModalLabel">
