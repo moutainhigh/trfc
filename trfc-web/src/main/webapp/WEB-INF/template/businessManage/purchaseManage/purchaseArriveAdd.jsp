@@ -53,7 +53,8 @@
 							<div class="daohuo_add_solo">
 								<label class="colorred"><em class="colorred">*</em>订单号：</label>
 								<div class="input_withlogo">
-									<input id="billcode" type="text" readonly="readonly" placeholder="请选择订单"> <span
+									<input id="billcode" type="text" readonly="readonly"
+										placeholder="请选择订单"> <span
 										class="form-control-feedback"><i class="iconfont">&#xe608;</i></span>
 								</div>
 							</div>
@@ -86,8 +87,7 @@
 									readonly="true">
 							</div>
 							<div class="daohuo_add_solo">
-								<label>单位：</label> <input id="unit" type="text"
-									readonly="true">
+								<label>单位：</label> <input id="unit" type="text" readonly="true">
 							</div>
 							<div class="daohuo_add_solo">
 								<label>部门：</label> <input id="departmentname" type="text"
@@ -115,14 +115,14 @@
 									<div class="daohuo_add_div">
 										<div class="daohuo_add_solo">
 											<label class="colorred"><em class="colorred">*</em>车号：</label>
-											<input id="vehicle" type="text" placeholder="请选择车辆" /> 
-											<a data-toggle="modal" data-target="#vehicleAddView"><i
+											<input id="vehicle" type="text" placeholder="请选择车辆" /> <a
+												data-toggle="modal" data-target="#vehicleAddView"><i
 												class="iconfont">&#xe680;</i></a>
 										</div>
 										<div class="daohuo_add_solo">
-											<label>司机：</label> <input id="driver" type="text" placeholder="请选择司机" />
-											<a data-toggle="modal" data-target="#driverAddView"><i
-												class="iconfont">&#xe680;</i></a>
+											<label>司机：</label> <input id="driver" type="text"
+												placeholder="请选择司机" /> <a data-toggle="modal"
+												data-target="#driverAddView"><i class="iconfont">&#xe680;</i></a>
 										</div>
 										<div class="daohuo_add_solo">
 											<label>身份证号：</label> <input id="identityno" type="text"
@@ -134,7 +134,8 @@
 										</div>
 										<div class="daohuo_add_solo">
 											<label class="colorred"><em class="colorred">*</em>到货量：</label>
-											<input id="arrivalamount" type="text" placeholder="请输入到货量"> <span>吨</span>
+											<input id="arrivalamount" type="text" placeholder="请输入到货量">
+											<span>吨</span>
 										</div>
 										<div class="daohuo_add_solo">
 											<label>备注：</label> <input id="remark" type="text">
@@ -150,7 +151,6 @@
 		</div>
 	</div>
 
-	</div>
 	<!--订单号弹出begin-->
 	<div class="modal fade" id="altbill" tabindex="-1" role="dialog"
 		aria-labelledby="myModalLabel">
@@ -169,24 +169,28 @@
 				<div class="modal-body">
 					<div class="dhadd_search">
 						<div class="dhsearch_solo">
-							<label>物料：</label> <input id="materiel" type="text" placeholder="请选择物料" />
+							<label>物料：</label> <input id="materiel" type="text"
+								placeholder="请选择物料" />
 						</div>
 						<div class="dhsearch_solo">
-							<label>供应商：</label> <input id="supplier" type="text" placeholder="请选择供应商" />
+							<label>供应商：</label> <input id="supplier" type="text"
+								placeholder="请选择供应商" />
 						</div>
 						<div class="dhsearch_solo">
 							<label>订单号：</label> <input id="purchaseApplicationCode"
-								type="text" placeholder="请输入订单号"/>
+								type="text" placeholder="请输入订单号" />
 						</div>
 						<div class="dhsearch_solo">
 							<label>开始时间：</label> <input id="starttime" type="text"
 								onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:00:00',maxDate:'#F{$dp.$D(\'endtime\')}'})"
-								class="Wdate" style="width: 160px" readonly placeholder="请选择开始时间" />
+								class="Wdate" style="width: 160px" readonly
+								placeholder="请选择开始时间" />
 						</div>
 						<div class="dhsearch_solo">
 							<label>结束时间：</label> <input id="endtime" type="text"
 								onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:00:00',minDate:'#F{$dp.$D(\'starttime\')}'})"
-								class="Wdate" style="width: 160px" readonly placeholder="请选择结束时间" />
+								class="Wdate" style="width: 160px" readonly
+								placeholder="请选择结束时间" />
 						</div>
 						<div class="dhsearch_solo">
 							<button id="PurchaseApplicationSearchBtn" class="btn btnblue ">搜索</button>
@@ -276,28 +280,36 @@
 
 						</div>
 						<div class="alt_edit_div">
-							<label class="colorred">*车辆号码：</label> <input id="v_vehicleno" type="text" placeholder="请输入车牌号码">
+							<label class="colorred">*车辆号码：</label> <input id="v_vehicleno"
+								type="text" placeholder="请输入车牌号码">
 						</div>
 						<div class="alt_edit_div">
-							<label>车辆类型：</label> <input id="v_vehicletype" type="text" placeholder="请输入车辆类型">
+							<label>车辆类型：</label> <input id="v_vehicletype" type="text"
+								placeholder="请输入车辆类型">
 						</div>
 						<div class="alt_edit_div">
-							<label>运输单位：</label> <input id="v_transportunit" type="text" placeholder="请输入运输单位">
+							<label>运输单位：</label> <input id="v_transportunit" type="text"
+								placeholder="请输入运输单位">
 						</div>
 						<div class="alt_edit_div">
-							<label>最大载重： </label> <input id="v_maxweight" type="text" placeholder="请输入最大载重">
+							<label>最大载重： </label> <input id="v_maxweight" type="text"
+								placeholder="请输入最大载重">
 						</div>
 						<div class="alt_edit_div">
-							<label>皮重：</label> <input id="v_tareweight" type="text" placeholder="请输入皮重">
+							<label>皮重：</label> <input id="v_tareweight" type="text"
+								placeholder="请输入皮重">
 						</div>
 						<div class="alt_edit_div">
-							<label>车主： </label> <input id="v_ownername" type="text" placeholder="请输入车主">
+							<label>车主： </label> <input id="v_ownername" type="text"
+								placeholder="请输入车主">
 						</div>
 						<div class="alt_edit_div">
-							<label>电话：</label> <input id="v_telephone" type="text" placeholder="请输入电话">
+							<label>电话：</label> <input id="v_telephone" type="text"
+								placeholder="请输入电话">
 						</div>
 						<div class="alt_edit_div">
-							<label>地址： </label> <input id="v_address" type="text" placeholder="请输入地址">
+							<label>地址： </label> <input id="v_address" type="text"
+								placeholder="请输入地址">
 						</div>
 						<div class="alt_edit_div">
 							<label>所属组织：</label> <input id="v_orgname" orgid="${orgid }"
@@ -353,10 +365,12 @@
 								type="text" placeholder="请输入司机名称">
 						</div>
 						<div class="alt_edit_div">
-							<label>司机简称：</label> <input id="d_abbrname" type="text" placeholder="请输入司机简称">
+							<label>司机简称：</label> <input id="d_abbrname" type="text"
+								placeholder="请输入司机简称">
 						</div>
 						<div class="alt_edit_div">
-							<label>地址：</label> <input id="d_address" type="text" placeholder="请输入地址">
+							<label>地址：</label> <input id="d_address" type="text"
+								placeholder="请输入地址">
 						</div>
 						<div class="alt_edit_div">
 							<label>所属组织：</label> <input id="d_orgname" orgid="${orgid }"

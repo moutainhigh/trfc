@@ -8,7 +8,6 @@ $(function(){
 	$('#goBack').click(function(){window.location.replace(URL.mainUrl)});
 	//初始化 新增页面
 	initAdd();
-
 	//保存数据
 	function saveAction(){
 		var param = addData();
@@ -30,10 +29,10 @@ $(function(){
 	function addData(){
 		var code = $('#add_code').val();
 		var name = $('#add_name').val();
-		var supplierid = $('#add_supplier').val();
+		var supplierid = $('#add_supplier').attr('supplierid');
 		var supremark = $('#add_supremark').val();
-		var materialid = $('#add_material').val();
-		var schemeid = $('#add_scheme').val();
+		var materialid = $('#add_material').attr('materialid');
+		var schemeid = $('#add_scheme').attr('qschemeid');
 		var starttime = new Date($('#add_starttime').val());
 		starttime = starttime.getTime();
 		var endtime = new Date($('#add_endtime').val());
@@ -48,7 +47,7 @@ $(function(){
 		if($('#add_ref').prop('checked')){
 			ref = '0';
 		}
-		var createtime = new Date($('#add_createtime').val());
+		var createtime = Date.parseYMD_HMS($('#add_createtime').val());
 		createtime = createtime.getTime();
 		var remark = $('#add_remark').val();
 		var param = {
@@ -74,11 +73,6 @@ $(function(){
 
 	//初始化新增页面
 	function initAdd(){
-		supplierSelect();
-		materialSelect();
-		$('#add_supplier').select2();
-		$("#add_material").select2();
-		$("#add_scheme").select2();
 		//设置编码代号为FA
 		var code = 'SF';
 		//设置类型为编码
@@ -106,11 +100,9 @@ $(function(){
 		$('#add_createtime').val(createtime);
 		var user = $('.user').find('label').html();
 		$('#add_creator').val(user);
-
-		//绑定物料下拉框监听事件,当物料发生改变,获取对应的质检方案
-		$('#add_material').change(schemeSelect);
 		//绑定质检方案下拉框监听事件,当发生改变,获取方案详细
-		$('#add_scheme').change(getDetailData);
+		$('#add_scheme').blur(getDetailData);
+		initSelect();
 	}
 
 	//添加成功后,刷新标号(增1)
@@ -136,42 +128,11 @@ $(function(){
 	}
 
 
-	//获取下拉框数据并填充
-	function schemeSelect(){
 
-		//获取数据
-		var materialid = $('#add_material').val();
-		$selector = $.post(URL.getSchemeUrl,{invalid:"0",materialid:materialid},function(result){
-			if(result.code=='000000'){
-				//填充数据
-				fillSchemeSelect(result.data);
-			}else{
-				layer.msg(result.error, {icon:5});
-			}
-		});
-	}
-	//填充数据
-	function fillSchemeSelect(list){
-		var selecter = $('#add_scheme').html('');
-		//设置默认值
-		selecter.append("<option></option>");
-		if(list){
-			for(var i=0;i<list.length;i++){
-				var obj = list[i];
-				var msg = obj.name;
-				if(obj.spec){
-					msg = obj.name + '（'+obj.spec+'）';
-				}
-				var option = '<option value='+obj.id+'>'+msg+'</option>';
-				//追加数据
-				selecter.append(option);
-			}
-		}
-	}
 	//获取质检方案详细
 	function getDetailData(){
 		//获取方案id
-		var schemeid=$('#add_scheme').val();
+		var schemeid=$('#add_scheme').attr('qschemeid');
 		//判断是否为空
 		if(schemeid){
 			var param = {
@@ -205,7 +166,7 @@ $(function(){
 				var obj = list[i];
 				var tr = '<tr>'
 					+'<td>'+(i+1)+'</td>'
-					+'<td><input type="text" class="w80" value="'+obj.itemname+'">'
+					+'<td>'+(obj.itemname || '')
 					+'</td>'
 					+'<td><select class="form-control"></select></td>'
 					+'<td><input type="text" class="w80" value="'+obj.lowlimit+'"></td>'

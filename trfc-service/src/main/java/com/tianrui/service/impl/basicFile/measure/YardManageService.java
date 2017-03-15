@@ -142,7 +142,11 @@ public class YardManageService implements IYardManageService{
 		}
 		return result;
 	}
-	
+
+	@Override
+	public List<YardManageResp> autoCompleteSearch(String likeName) throws Exception {
+		return copyBeanList2RespList(yardManageMapper.autoCompleteSearch(likeName));
+	}
 	
 	/**
 	 * 集合转换

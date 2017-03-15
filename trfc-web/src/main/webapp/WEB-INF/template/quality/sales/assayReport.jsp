@@ -18,6 +18,8 @@
 				<ul class="intel_menu">
 					<li><a href="/trfc/quality/sales/batchnum/main">销售批号</a></li>
 					<li class="select">销售化验报告</li>
+					<li><a href="/trfc/quality/purchase/sampling/main">采购采样管理</a></li>
+					<li><a href="/trfc/quality/purchase/assay/main">采购化验报告</a></li>
 				</ul>
 				<!--tab切换标题end-->
 				<div class="top_opera">

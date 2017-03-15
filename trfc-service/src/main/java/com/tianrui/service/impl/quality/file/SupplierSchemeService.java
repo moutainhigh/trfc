@@ -301,16 +301,38 @@ public class SupplierSchemeService implements ISupplierSchemeService{
 			Result rs = Result.getParamErrorResult();
 			//判断参数和id不能为空
 			if(req!=null && StringUtils.isNotBlank(req.getId())){
-				SupplierScheme scheme = supplierSchemeMapper.selectOne(req.getId());
-				if(scheme!=null){
+				SupplierScheme c = supplierSchemeMapper.selectOne(req.getId());
+				if(c!=null){
 					//将结果转换为出参类型
 					SupplierSchemeResp resp = new SupplierSchemeResp();
-					PropertyUtils.copyProperties(resp, scheme);
+					PropertyUtils.copyProperties(resp, c);
 					//获取用户名
 					if(StringUtils.isNotBlank(resp.getCreator())){
 						SystemUser su = systemUserMapper.selectByPrimaryKey(resp.getCreator());
 						if(su!=null){
 							resp.setCreator(su.getName());
+						}
+					}
+					//获取供应商名称
+					if(StringUtils.isNotBlank(c.getSupplierid())){
+						SupplierManage sm = supplierManageMapper.selectByPrimaryKey(c.getSupplierid());
+						if(sm!=null){
+							resp.setSuppliername(sm.getName());
+						}
+					}
+					//获取物料名称
+					if(StringUtils.isNotBlank(c.getMaterialid())){
+						MaterielManage mm = materielManageMapper.selectByPrimaryKey(c.getMaterialid());
+						if(mm!=null){
+							resp.setMaterialname(mm.getName());
+						}
+					
+					}
+					//获取质检方案名称
+					if(StringUtils.isNotBlank(c.getSchemeid())){
+						QualityScheme qs = qualitySchemeMapper.selectOne(c.getSchemeid());
+						if(qs!=null){
+							resp.setSchemename(qs.getName());
 						}
 					}
 					//操作成功

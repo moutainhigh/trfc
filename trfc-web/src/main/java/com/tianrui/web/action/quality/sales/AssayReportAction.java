@@ -15,6 +15,7 @@ import com.tianrui.api.intf.system.base.ISystemCodeService;
 import com.tianrui.api.req.quality.file.QualitySchemeItemReq;
 import com.tianrui.api.req.quality.sales.AssayReportReq;
 import com.tianrui.api.req.system.base.GetCodeReq;
+import com.tianrui.smartfactory.common.constants.ErrorCode;
 import com.tianrui.smartfactory.common.vo.Result;
 
 @Controller
@@ -61,6 +62,7 @@ public class AssayReportAction {
 			rs = assayReportService.page(req);
 		} catch (Exception e) {
 			log.error(e.getMessage(),e);
+			rs.setErrorCode(ErrorCode.SYSTEM_ERROR);
 		}
 		return rs;
 	}
@@ -75,6 +77,7 @@ public class AssayReportAction {
 			rs = assayReportService.delete(req);
 		} catch (Exception e) {
 			log.error(e.getMessage(),e);
+			rs.setErrorCode(ErrorCode.SYSTEM_ERROR);
 		}
 		return rs;
 	}
@@ -89,6 +92,7 @@ public class AssayReportAction {
 			rs = assayReportService.add(req);
 		} catch (Exception e) {
 			log.error(e.getMessage(),e);
+			rs.setErrorCode(ErrorCode.SYSTEM_ERROR);
 		}
 		return rs;
 	}
@@ -104,6 +108,7 @@ public class AssayReportAction {
 			rs = assayReportService.update(req);
 		} catch (Exception e) {
 			log.error(e.getMessage(),e);
+			rs.setErrorCode(ErrorCode.SYSTEM_ERROR);
 		}
 		return rs;
 	}
@@ -118,6 +123,7 @@ public class AssayReportAction {
 			rs = assayReportService.findOne(req);
 		} catch (Exception e) {
 			log.error(e.getMessage(),e);
+			rs.setErrorCode(ErrorCode.SYSTEM_ERROR);
 		}
 		return rs;
 	}
@@ -147,6 +153,7 @@ public class AssayReportAction {
 			rs = systemCodeService.getCode(req);
 		} catch (Exception e) {
 			log.error(e.getMessage(),e);
+			rs.setErrorCode(ErrorCode.SYSTEM_ERROR);
 		}
 		return rs;
 	}
@@ -161,6 +168,7 @@ public class AssayReportAction {
 			rs = systemCodeService.updateCodeItem(req);
 		} catch (Exception e) {
 			log.error(e.getMessage(),e);
+			rs.setErrorCode(ErrorCode.SYSTEM_ERROR);
 		}
 		return rs;
 	}
@@ -175,6 +183,7 @@ public class AssayReportAction {
 			rs = qualitySchemeItemService.findDetailandVal(req);
 		} catch (Exception e) {
 			log.error(e.getMessage(),e);
+			rs.setErrorCode(ErrorCode.SYSTEM_ERROR);
 		}
 		return rs;
 	}
@@ -189,6 +198,7 @@ public class AssayReportAction {
 			rs = assayReportService.findReportMsg(req);
 		} catch (Exception e) {
 			log.error(e.getMessage(),e);
+			rs.setErrorCode(ErrorCode.SYSTEM_ERROR);
 		}
 		return rs;
 	}

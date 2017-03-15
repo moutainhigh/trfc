@@ -88,12 +88,12 @@ public class SalesArriveAction {
 
 	@RequestMapping("/add")
 	@ResponseBody
-	public Result add(SalesArriveSave save, HttpSession session){
+	public Result add(SalesArriveSave save, String bills, HttpSession session){
 		Result result = Result.getSuccessResult();
 		try {
 			SystemUserResp user = (SystemUserResp) session.getAttribute("systemUser");
 			save.setCurrUId(user.getId());
-			result = salesArriveService.add(save);
+			result = salesArriveService.add(save, bills);
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 			result.setErrorCode(ErrorCode.SYSTEM_ERROR);

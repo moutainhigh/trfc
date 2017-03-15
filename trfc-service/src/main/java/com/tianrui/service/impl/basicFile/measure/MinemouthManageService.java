@@ -147,6 +147,11 @@ public class MinemouthManageService implements IMinemouthManageService{
 		}
 		return result;
 	}
+
+	@Override
+	public List<MinemouthManageResp> autoCompleteSearch(String likeName) throws Exception {
+		return copyBeanList2RespList(minemouthManageMapper.autoCompleteSearch(likeName));
+	}
 	
 	/**
 	 * 集合转换

@@ -31,7 +31,12 @@
 				<li><a href="/trfc/quality/sales/batchnum/main"> <i
 						class="iconfont">&#xe615;</i> <label>质控管理</label>
 				</a></li>
-				<li><a href="/trfc/accessRecord/main"> <i
+				<li><a href="/trfc/customerbegin/main"> <i
+						class="iconfont">&#xe615;</i> <label>财务管理</label>
+				</a></li>
+				<li><a href="/trfc/poundNote/purchase/main"> <i
+						class="iconfont">&#xe615;</i> <label>磅单维护</label>
+				</a></li>				<li><a href="/trfc/accessRecord/main"> <i
 						class="iconfont">&#xe615;</i> <label>厂区物流</label>
 				</a></li>
 				<!-- <li><a> <i class="iconfont">&#xe614;</i> <label>其他业务</label>

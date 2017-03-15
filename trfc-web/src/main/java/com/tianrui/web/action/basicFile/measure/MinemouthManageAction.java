@@ -1,5 +1,7 @@
 package com.tianrui.web.action.basicFile.measure;
 
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +14,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.tianrui.api.intf.basicFile.measure.IMinemouthManageService;
 import com.tianrui.api.req.basicFile.measure.MinemouthManageQuery;
 import com.tianrui.api.req.basicFile.measure.MinemouthManageSave;
+import com.tianrui.api.resp.basicFile.measure.MinemouthManageResp;
 import com.tianrui.smartfactory.common.constants.ErrorCode;
 import com.tianrui.smartfactory.common.vo.Result;
 
@@ -98,6 +101,18 @@ public class MinemouthManageAction {
 			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
 		}
 		return result;
+	}
+	
+	@RequestMapping("/autoCompleteSearch")
+	@ResponseBody
+	public List<MinemouthManageResp> autoCompleteSearch(String term){
+		List<MinemouthManageResp> list = null;
+		try {
+			list = minemouthManageService.autoCompleteSearch(term.trim());
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+		}
+		return list;
 	}
 	
 }

@@ -1,17 +1,13 @@
 $(function(){
 	//加载列表
 	ShowAction(1);
-	//加载下拉框
-	supplierSelect();
-	materialSelect();
-	$(".supplierSelect").select2();
-	$(".materialSelect").select2();
+	initSelect();
 	$('#list').on("click","tr",showDetail);
 	//绑定刷新按钮
 	$('#fresh').click(function(){ShowAction(1);});
 	//绑定新增按钮
 	$('#addBtn').click(function(){window.location.replace(URL.addMainUrl)});
-
+	
 	//绑定跳转按钮
 	$("#jumpButton").click(jumpPageAction);
 	//监听每页记录 事件
@@ -103,8 +99,8 @@ $(function(){
 		if(isNaN(endtime)){
 			endtime=null;
 		}
-		var materialid = $('#seek_material').val();
-		var supplierid = $('#seek_supplier').val();
+		var materialid = $('#seek_material').attr('materialid');
+		var supplierid = $('#seek_supplier').attr('supplierid');
 		var code = $('#seek_code').val();
 		var invalid = $('#seek_invalid').val();
 		//放入params对象
@@ -194,7 +190,12 @@ $(function(){
 	function showDetail(){
 		$(".intel_result").css("display", "block");
 		var obj = $(this).data('obj');
-		$.post(URL.getDetailUrl,{schemeid:obj.schemeid},function(result){
+		var param = {
+				schemeid:obj.schemeid,
+				invalid:'0',
+				status:'1'
+		};
+		$.post(URL.getDetailUrl,param,function(result){
 			if('000000'==result.code){
 				var list = result.data;
 				var tbody = $('#detail_list').empty();

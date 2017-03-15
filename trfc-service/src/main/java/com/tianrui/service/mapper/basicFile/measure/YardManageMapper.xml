@@ -245,5 +245,17 @@
   		</if>
   	</if>
   </select>
-  
+	<select id="autoCompleteSearch" parameterType="java.lang.String"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from tr_yard_db_manage
+		where state = 1
+		<if test="likeName != null and likeName !=''">
+			and name like CONCAT('%',
+			#{likeName,jdbcType=VARCHAR}, '%')
+		</if>
+		order by createtime desc
+		limit 0,20
+	</select>
 </mapper>

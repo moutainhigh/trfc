@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.beanutils.PropertyUtils;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -347,5 +348,18 @@ public class SystemDataDictService implements ISystemDataDictService{
 			PropertyUtils.copyProperties(resp, bean);
 		}
 		return resp;
+	}
+
+
+	@Override
+	public Result autoCompleteSearch(SystemDataDictItemReq req) throws Exception{
+		Result rs = Result.getParamErrorResult();
+		if(req!=null && StringUtils.isNotBlank(req.getDictid())){
+			List<SystemDataDictItem> list = systemDataDictItemMapper.autoCompleteSearch(req);
+			List<SystemDataDictItemResp> resps = copyBeanList2RespList(list);
+			rs = Result.getSuccessResult();
+			rs.setData(resps);
+		}
+		return rs;
 	}
 }

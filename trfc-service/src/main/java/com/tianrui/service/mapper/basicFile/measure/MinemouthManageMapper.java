@@ -2,6 +2,8 @@ package com.tianrui.service.mapper.basicFile.measure;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.tianrui.api.req.basicFile.measure.MinemouthManageQuery;
 import com.tianrui.service.bean.basicFile.measure.MinemouthManage;
 
@@ -35,4 +37,12 @@ public interface MinemouthManageMapper {
      * @return
      */
 	List<MinemouthManage> findMinemouthPage(MinemouthManageQuery query);
+	/**
+	 * @Description 根据名称模糊查询
+	 * @author zhanggaohao
+	 * @version 2017年3月8日 下午12:01:20
+	 * @param likeName
+	 * @return
+	 */
+	List<MinemouthManage> autoCompleteSearch(@Param("likeName")String likeName);
 }

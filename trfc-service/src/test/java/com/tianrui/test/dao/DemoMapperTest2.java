@@ -11,26 +11,33 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.tianrui.api.intf.quality.file.IQualitySchemeService;
+import com.tianrui.api.intf.quality.purchase.IPurchaseSamplingService;
 import com.tianrui.api.intf.system.base.ISystemCodeService;
 import com.tianrui.api.req.basicFile.measure.YardManageQuery;
 import com.tianrui.api.req.basicFile.other.OtherBdSupplierReq;
 import com.tianrui.api.req.quality.file.QualitySchemeReq;
+import com.tianrui.api.req.quality.purchase.PurchaseSamplingReq;
 import com.tianrui.api.req.system.base.SystemCodeReq;
-import com.tianrui.api.resp.basicFile.nc.CustomerManageResp;
+import com.tianrui.api.req.system.base.SystemDataDictItemReq;
 import com.tianrui.service.bean.basicFile.measure.YardManage;
 import com.tianrui.service.bean.basicFile.nc.CustomerManage;
-import com.tianrui.service.bean.basicFile.nc.SupplierManage;
-import com.tianrui.service.bean.quality.file.QualityColumn;
+
+import com.tianrui.service.bean.businessManage.financeManage.SalesCharge;
 import com.tianrui.service.bean.quality.file.QualityScheme;
 import com.tianrui.service.bean.system.base.SystemDataDictItem;
 import com.tianrui.service.mapper.basicFile.measure.YardManageMapper;
 import com.tianrui.service.mapper.basicFile.nc.CustomerManageMapper;
 import com.tianrui.service.mapper.basicFile.nc.SupplierManageMapper;
 import com.tianrui.service.mapper.basicFile.other.OtherBdSupplierMapper;
+import com.tianrui.service.mapper.businessManage.financeManage.SalesChargeMapper;
 import com.tianrui.service.mapper.quality.file.QualityColumnMapper;
 import com.tianrui.service.mapper.quality.file.QualitySchemeMapper;
+import com.tianrui.service.mapper.quality.purchase.PurchaseSamplingMapper;
 import com.tianrui.service.mapper.system.base.SystemDataDictItemMapper;
 import com.tianrui.service.mapper.system.base.SystemDataDictMapper;
+import com.tianrui.smartfactory.common.constants.Constant;
+import com.tianrui.smartfactory.common.utils.UUIDUtil;
+import com.tianrui.smartfactory.common.vo.Result;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath*:spring/appliactionContext-service.xml" })
@@ -68,14 +75,20 @@ public class DemoMapperTest2 {
 	CustomerManageMapper customerManageMapper;
 	@Autowired
 	YardManageMapper YardManageMapper;
+	@Autowired
+	IPurchaseSamplingService purchaseSamplingService;
+	@Autowired
+	PurchaseSamplingMapper purchaseSamplingMapper;
+	@Autowired
+	SalesChargeMapper salesChargeMapper;
 	@Test
-	public void test(){
-		
-			List<QualityColumn> list= qualityColumnMapper.autoCompleteSearch("1");
-			System.out.println(list);
-		
-		
-		
+	public void test() throws Exception{
+		SystemDataDictItemReq req = new SystemDataDictItemReq();
+		req.setDictid("18cd562f6d3041e2be797d8b289d1242");
+		List<SystemDataDictItem> list = systemDataDictItemMapper.autoCompleteSearch(req);
+		for(SystemDataDictItem ss : list){
+			System.out.println(ss.getName());
+		}
 	}
 	
 	@Test
@@ -97,6 +110,36 @@ public class DemoMapperTest2 {
 		System.out.println(list.size());
 	}
 	
+	@Test
+	public void test5(){
+		SalesCharge bean=new SalesCharge();
+		bean.setId(UUIDUtil.getId());
+		bean.setCode("D22006201703100003");
+		bean.setAuditstatus("2");
+		bean.setOrgid(Constant.ORG_ID);
+		bean.setOrgname(Constant.ORG_NAME);
+		bean.setChargeunit(Constant.ORG_NAME);
+		bean.setState("1");
+		bean.setCustomerid("1002P110000000HS7G71");
+		bean.setCustomername("大石桥市旗口镇长屯村");
+		bean.setCreditmoney(55.46);
+		bean.setOrgmoney(474.87);
+		bean.setBilldate(System.currentTimeMillis());
+		bean.setCreator("金鑫测试");
+		bean.setCreatetime(System.currentTimeMillis());
+		bean.setModifier("金鑫测试");
+		bean.setModifytime(System.currentTimeMillis());
+		bean.setMakeid("f36941e550664546ba9739053e935a20");
+		bean.setMakebillname("金鑫测试");
+		bean.setMakebilltime(System.currentTimeMillis());
+		bean.setUtc(System.currentTimeMillis());
+		bean.setAuditid("12f08b7d0074493c8f588db86f0934ee");
+		bean.setAuditname("11");
+		bean.setAudittime(System.currentTimeMillis());
+		int a=salesChargeMapper.insertSelective(bean);
+		System.out.println(a);
+		
+	}
 	
 	
 	@Test

@@ -187,7 +187,7 @@ $(function(){
 		var assayorg = $('#add_assayorg').val();
 		var starttime = new Date($('#add_starttime').val());
 		var endtime = new Date($('#add_endtime').val());
-		var createtime = new Date($('#add_createtime').val());
+		var createtime = Date.parseYMD_HMS($('#add_createtime').val());
 		//获取user的id
 		var user = $('.user').attr("userid");
 		var data = {

@@ -1,7 +1,10 @@
 package com.tianrui.api.intf.basicFile.measure;
 
+import java.util.List;
+
 import com.tianrui.api.req.basicFile.measure.MinemouthManageQuery;
 import com.tianrui.api.req.basicFile.measure.MinemouthManageSave;
+import com.tianrui.api.resp.basicFile.measure.MinemouthManageResp;
 import com.tianrui.smartfactory.common.vo.Result;
 
 /**
@@ -38,4 +41,13 @@ public interface IMinemouthManageService {
 	 * @return
 	 */
 	Result deleteMinemouth(MinemouthManageQuery query);
+	/**
+	 * @Description 根据名称模糊查询
+	 * @author zhanggaohao
+	 * @version 2017年3月8日 上午11:59:25
+	 * @param trim
+	 * @return
+	 * @throws Exception 
+	 */
+	List<MinemouthManageResp> autoCompleteSearch(String trim) throws Exception;
 }

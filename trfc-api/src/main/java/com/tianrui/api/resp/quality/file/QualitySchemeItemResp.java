@@ -96,6 +96,7 @@ public class QualitySchemeItemResp extends BaseResp {
      * 状态(0:删除,1:正常)
      */
     private String state;
+    private String line;
 	public String getId() {
 		return id;
 	}
@@ -227,6 +228,12 @@ public class QualitySchemeItemResp extends BaseResp {
 	}
 	public void setTestval(String testval) {
 		this.testval = testval;
+	}
+	public String getLine() {
+		return line;
+	}
+	public void setLine(String line) {
+		this.line = line;
 	}
 
 	

@@ -17,6 +17,7 @@ import com.tianrui.api.resp.system.auth.SystemUserResp;
 //import com.tianrui.api.resp.system.auth.SystemUserResp;
 //import com.tianrui.service.bean.system.auth.SystemUser;
 import com.tianrui.service.impl.system.auth.SystemUserService;
+import com.tianrui.smartfactory.common.constants.ErrorCode;
 import com.tianrui.smartfactory.common.vo.Result;
 @Controller
 public class SystemLoginAction {
@@ -39,6 +40,7 @@ public class SystemLoginAction {
 			}
 		} catch (Exception e) {
 			log.error(e.getMessage(),e);
+			rs.setErrorCode(ErrorCode.SYSTEM_ERROR);
 		}
 		return rs;
 	}

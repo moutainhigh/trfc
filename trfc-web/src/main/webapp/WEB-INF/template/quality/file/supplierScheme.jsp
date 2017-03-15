@@ -53,13 +53,12 @@
 										style="width: 160px" id="seek_endtime" />
 								</div>
 								<div class="intel_solo">
-									<label>物料：</label> <input id="seek_material"
+									<label>物料：</label> <input id="seek_material" class="materialSel"
 										type = "text">
 								</div>
 								<div class="intel_solo">
-									<label>供应商：</label> <select id="seek_supplier"
-										class="supplierSelect form-control">
-									</select>
+									<label>供应商：</label> <input id="seek_supplier" class="supplierSel"
+										type = "text"/>
 								</div>
 								<div class="intel_solo">
 									<label>单据编号：</label> <input type="text" id="seek_code">

@@ -166,7 +166,10 @@
 		});
 		//保存
 		$('#addBtn').off('click').on('click',function(){
-			addPurchaseArrive();
+			if(!$(this).hasClass('disabled')){
+				$(this).addClass('disabled');
+				addPurchaseArrive();
+			}
 		});
 		//保存写卡
 		$('#addAndAddCardBtn').off('click').on('click',function(){
@@ -509,6 +512,7 @@
 						window.location.href = URL.purchaseArriveMain;
 					}else{
 						layer.msg(result.error, {icon: 5});
+						$('#addBtn').removeClass('disabled');
 					}
 				}
 			});

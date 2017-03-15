@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tianrui.service.mapper.businessManage.salesManage.SalesApplicationJoinNaticeMapper" >
+  <resultMap id="BaseResultMap" type="com.tianrui.service.bean.businessManage.salesManage.SalesApplicationJoinNatice" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="billid" property="billid" jdbcType="VARCHAR" />
+    <result column="billdetailid" property="billdetailid" jdbcType="VARCHAR" />
+    <result column="naticeid" property="naticeid" jdbcType="VARCHAR" />
+    <result column="billsum" property="billsum" jdbcType="DOUBLE" />
+    <result column="margin" property="margin" jdbcType="DOUBLE" />
+    <result column="outstoragequantity" property="outstoragequantity" jdbcType="DOUBLE" />
+    <result column="unoutstoragequantity" property="unoutstoragequantity" jdbcType="DOUBLE" />
+    <result column="pretendingtake" property="pretendingtake" jdbcType="DOUBLE" />
+    <result column="takeamount" property="takeamount" jdbcType="DOUBLE" />
+    <result column="state" property="state" jdbcType="VARCHAR" />
+    <result column="creator" property="creator" jdbcType="VARCHAR" />
+    <result column="createtime" property="createtime" jdbcType="BIGINT" />
+    <result column="modifier" property="modifier" jdbcType="VARCHAR" />
+    <result column="modifytime" property="modifytime" jdbcType="BIGINT" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, billid, billdetailid, naticeid, billsum, margin, outstoragequantity, unoutstoragequantity, 
+    pretendingtake, takeamount, state, creator, createtime, modifier, modifytime, remark
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from tr_sales_application_join_natice
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from tr_sales_application_join_natice
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.tianrui.service.bean.businessManage.salesManage.SalesApplicationJoinNatice" >
+    insert into tr_sales_application_join_natice (id, billid, billdetailid, 
+      naticeid, billsum, margin, 
+      outstoragequantity, unoutstoragequantity, pretendingtake, 
+      takeamount, state, creator, 
+      createtime, modifier, modifytime, 
+      remark)
+    values (#{id,jdbcType=VARCHAR}, #{billid,jdbcType=VARCHAR}, #{billdetailid,jdbcType=VARCHAR}, 
+      #{naticeid,jdbcType=VARCHAR}, #{billsum,jdbcType=DOUBLE}, #{margin,jdbcType=DOUBLE}, 
+      #{outstoragequantity,jdbcType=DOUBLE}, #{unoutstoragequantity,jdbcType=DOUBLE}, #{pretendingtake,jdbcType=DOUBLE}, 
+      #{takeamount,jdbcType=DOUBLE}, #{state,jdbcType=VARCHAR}, #{creator,jdbcType=VARCHAR}, 
+      #{createtime,jdbcType=BIGINT}, #{modifier,jdbcType=VARCHAR}, #{modifytime,jdbcType=BIGINT}, 
+      #{remark,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.tianrui.service.bean.businessManage.salesManage.SalesApplicationJoinNatice" >
+    insert into tr_sales_application_join_natice
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="billid != null" >
+        billid,
+      </if>
+      <if test="billdetailid != null" >
+        billdetailid,
+      </if>
+      <if test="naticeid != null" >
+        naticeid,
+      </if>
+      <if test="billsum != null" >
+        billsum,
+      </if>
+      <if test="margin != null" >
+        margin,
+      </if>
+      <if test="outstoragequantity != null" >
+        outstoragequantity,
+      </if>
+      <if test="unoutstoragequantity != null" >
+        unoutstoragequantity,
+      </if>
+      <if test="pretendingtake != null" >
+        pretendingtake,
+      </if>
+      <if test="takeamount != null" >
+        takeamount,
+      </if>
+      <if test="state != null" >
+        state,
+      </if>
+      <if test="creator != null" >
+        creator,
+      </if>
+      <if test="createtime != null" >
+        createtime,
+      </if>
+      <if test="modifier != null" >
+        modifier,
+      </if>
+      <if test="modifytime != null" >
+        modifytime,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="billid != null" >
+        #{billid,jdbcType=VARCHAR},
+      </if>
+      <if test="billdetailid != null" >
+        #{billdetailid,jdbcType=VARCHAR},
+      </if>
+      <if test="naticeid != null" >
+        #{naticeid,jdbcType=VARCHAR},
+      </if>
+      <if test="billsum != null" >
+        #{billsum,jdbcType=DOUBLE},
+      </if>
+      <if test="margin != null" >
+        #{margin,jdbcType=DOUBLE},
+      </if>
+      <if test="outstoragequantity != null" >
+        #{outstoragequantity,jdbcType=DOUBLE},
+      </if>
+      <if test="unoutstoragequantity != null" >
+        #{unoutstoragequantity,jdbcType=DOUBLE},
+      </if>
+      <if test="pretendingtake != null" >
+        #{pretendingtake,jdbcType=DOUBLE},
+      </if>
+      <if test="takeamount != null" >
+        #{takeamount,jdbcType=DOUBLE},
+      </if>
+      <if test="state != null" >
+        #{state,jdbcType=VARCHAR},
+      </if>
+      <if test="creator != null" >
+        #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=BIGINT},
+      </if>
+      <if test="modifier != null" >
+        #{modifier,jdbcType=VARCHAR},
+      </if>
+      <if test="modifytime != null" >
+        #{modifytime,jdbcType=BIGINT},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tianrui.service.bean.businessManage.salesManage.SalesApplicationJoinNatice" >
+    update tr_sales_application_join_natice
+    <set >
+      <if test="billid != null" >
+        billid = #{billid,jdbcType=VARCHAR},
+      </if>
+      <if test="billdetailid != null" >
+        billdetailid = #{billdetailid,jdbcType=VARCHAR},
+      </if>
+      <if test="naticeid != null" >
+        naticeid = #{naticeid,jdbcType=VARCHAR},
+      </if>
+      <if test="billsum != null" >
+        billsum = #{billsum,jdbcType=DOUBLE},
+      </if>
+      <if test="margin != null" >
+        margin = #{margin,jdbcType=DOUBLE},
+      </if>
+      <if test="outstoragequantity != null" >
+        outstoragequantity = #{outstoragequantity,jdbcType=DOUBLE},
+      </if>
+      <if test="unoutstoragequantity != null" >
+        unoutstoragequantity = #{unoutstoragequantity,jdbcType=DOUBLE},
+      </if>
+      <if test="pretendingtake != null" >
+        pretendingtake = #{pretendingtake,jdbcType=DOUBLE},
+      </if>
+      <if test="takeamount != null" >
+        takeamount = #{takeamount,jdbcType=DOUBLE},
+      </if>
+      <if test="state != null" >
+        state = #{state,jdbcType=VARCHAR},
+      </if>
+      <if test="creator != null" >
+        creator = #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        createtime = #{createtime,jdbcType=BIGINT},
+      </if>
+      <if test="modifier != null" >
+        modifier = #{modifier,jdbcType=VARCHAR},
+      </if>
+      <if test="modifytime != null" >
+        modifytime = #{modifytime,jdbcType=BIGINT},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tianrui.service.bean.businessManage.salesManage.SalesApplicationJoinNatice" >
+    update tr_sales_application_join_natice
+    set billid = #{billid,jdbcType=VARCHAR},
+      billdetailid = #{billdetailid,jdbcType=VARCHAR},
+      naticeid = #{naticeid,jdbcType=VARCHAR},
+      billsum = #{billsum,jdbcType=DOUBLE},
+      margin = #{margin,jdbcType=DOUBLE},
+      outstoragequantity = #{outstoragequantity,jdbcType=DOUBLE},
+      unoutstoragequantity = #{unoutstoragequantity,jdbcType=DOUBLE},
+      pretendingtake = #{pretendingtake,jdbcType=DOUBLE},
+      takeamount = #{takeamount,jdbcType=DOUBLE},
+      state = #{state,jdbcType=VARCHAR},
+      creator = #{creator,jdbcType=VARCHAR},
+      createtime = #{createtime,jdbcType=BIGINT},
+      modifier = #{modifier,jdbcType=VARCHAR},
+      modifytime = #{modifytime,jdbcType=BIGINT},
+      remark = #{remark,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <insert id="insertBatch" parameterType="java.util.List">
+	insert into tr_sales_application_join_natice (id, billid, billdetailid, naticeid, billsum, margin, outstoragequantity, unoutstoragequantity, 
+    pretendingtake, takeamount, state, creator, createtime, modifier, modifytime, remark)
+	values
+	<foreach collection="list" item="item" index="index" separator=",">
+		(#{item.id,jdbcType=VARCHAR},
+		#{item.billid,jdbcType=VARCHAR},
+		#{item.billdetailid,jdbcType=VARCHAR},
+		#{item.naticeid,jdbcType=VARCHAR},
+		#{item.billsum,jdbcType=DOUBLE},
+		#{item.margin,jdbcType=DOUBLE},
+		#{item.outstoragequantity,jdbcType=DOUBLE},
+		#{item.unoutstoragequantity,jdbcType=DOUBLE},
+		#{item.pretendingtake,jdbcType=DOUBLE},
+		#{item.takeamount,jdbcType=DOUBLE},
+		#{item.state,jdbcType=VARCHAR},
+		#{item.creator,jdbcType=VARCHAR},
+		#{item.createtime,jdbcType=BIGINT},
+		#{item.modifier,jdbcType=VARCHAR},
+		#{item.modifytime,jdbcType=BIGINT},
+		#{item.remark,jdbcType=VARCHAR}
+		)
+	</foreach>
+  </insert>
+</mapper>

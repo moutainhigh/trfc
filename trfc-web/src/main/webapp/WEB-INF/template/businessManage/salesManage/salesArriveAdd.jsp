@@ -185,7 +185,6 @@
 		</div>
 	</div>
 
-	</div>
 	<!--订单号弹出begin-->
 	<div class="modal fade" id="salesApplication" tabindex="-1"
 		role="dialog" aria-labelledby="myModalLabel">
@@ -237,6 +236,7 @@
 							<table class="table table-hover" style="width: 100%;">
 								<thead>
 									<tr>
+										<th></th>
 										<th>销售订单号</th>
 										<th>订单类型</th>
 										<th>客户名称</th>
@@ -259,7 +259,6 @@
 							</table>
 						</div>
 					</div>
-
 					<!--分页效果开始-->
 					<div class="page">
 						<div class="page_date">
@@ -280,6 +279,10 @@
 						<div class="page_btn" id="pagination"></div>
 					</div>
 					<!--分页效果结束-->
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary" id="returnApplication">确定</button>
+					<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
 				</div>
 			</div>
 		</div>

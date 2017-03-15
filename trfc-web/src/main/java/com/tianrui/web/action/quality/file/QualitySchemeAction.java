@@ -15,6 +15,7 @@ import com.tianrui.api.intf.quality.file.IQualitySchemeItemService;
 import com.tianrui.api.intf.quality.file.IQualitySchemeService;
 import com.tianrui.api.req.quality.file.QualitySchemeItemReq;
 import com.tianrui.api.req.quality.file.QualitySchemeReq;
+import com.tianrui.smartfactory.common.constants.ErrorCode;
 import com.tianrui.smartfactory.common.vo.Result;
 
 @Controller
@@ -66,6 +67,7 @@ public class QualitySchemeAction {
 			
 		} catch (Exception e) {
 			log.error(e.getMessage(),e);
+			rs.setErrorCode(ErrorCode.SYSTEM_ERROR);
 		}
 		return rs;
 	}
@@ -80,6 +82,7 @@ public class QualitySchemeAction {
 			rs = qualitySchemeService.delete(req);
 		} catch (Exception e) {
 			log.error(e.getMessage(),e);
+			rs.setErrorCode(ErrorCode.SYSTEM_ERROR);
 		}
 		return rs;
 	}
@@ -94,6 +97,7 @@ public class QualitySchemeAction {
 			rs = qualitySchemeService.add(req);
 		} catch (Exception e) {
 			log.error(e.getMessage(),e);
+			rs.setErrorCode(ErrorCode.SYSTEM_ERROR);
 		}
 		return rs;
 	}
@@ -109,6 +113,7 @@ public class QualitySchemeAction {
 			rs = qualitySchemeService.update(req);
 		} catch (Exception e) {
 			log.error(e.getMessage(),e);
+			rs.setErrorCode(ErrorCode.SYSTEM_ERROR);
 		}
 		return rs;
 	}
@@ -123,6 +128,7 @@ public class QualitySchemeAction {
 			rs = materielManageService.materialData();
 		} catch (Exception e) {
 			log.error(e.getMessage(),e);
+			rs.setErrorCode(ErrorCode.SYSTEM_ERROR);
 		}
 		return rs;
 	}
@@ -137,6 +143,7 @@ public class QualitySchemeAction {
 			rs = qualitySchemeService.billsData();
 		} catch (Exception e) {
 			log.error(e.getMessage(),e);
+			rs.setErrorCode(ErrorCode.SYSTEM_ERROR);
 		}
 		return rs;
 	}
@@ -153,6 +160,7 @@ public class QualitySchemeAction {
 			
 		} catch (Exception e) {
 			log.error(e.getMessage(),e);
+			rs.setErrorCode(ErrorCode.SYSTEM_ERROR);
 		}
 		return rs;
 	}
@@ -167,6 +175,7 @@ public class QualitySchemeAction {
 			rs = qualitySchemeItemService.delete(req);
 		} catch (Exception e) {
 			log.error(e.getMessage(),e);
+			rs.setErrorCode(ErrorCode.SYSTEM_ERROR);
 		}
 		return rs;
 	}
@@ -181,6 +190,7 @@ public class QualitySchemeAction {
 			rs = qualitySchemeItemService.deleteBatch(req);
 		} catch (Exception e) {
 			log.error(e.getMessage(),e);
+			rs.setErrorCode(ErrorCode.SYSTEM_ERROR);
 		}
 		return rs;
 	}
@@ -195,6 +205,7 @@ public class QualitySchemeAction {
 			rs = qualitySchemeItemService.add(req);
 		} catch (Exception e) {
 			log.error(e.getMessage(),e);
+			rs.setErrorCode(ErrorCode.SYSTEM_ERROR);
 		}
 		return rs;
 	}
@@ -209,6 +220,7 @@ public class QualitySchemeAction {
 			rs = qualitySchemeItemService.addBatch(req);
 		} catch (Exception e) {
 			log.error(e.getMessage(),e);
+			rs.setErrorCode(ErrorCode.SYSTEM_ERROR);
 		}
 		return rs;
 	}
@@ -223,6 +235,7 @@ public class QualitySchemeAction {
 			rs = qualitySchemeItemService.update(req);
 		} catch (Exception e) {
 			log.error(e.getMessage(),e);
+			rs.setErrorCode(ErrorCode.SYSTEM_ERROR);
 		}
 		return rs;
 	}
@@ -237,6 +250,7 @@ public class QualitySchemeAction {
 			rs = qualitySchemeItemService.updateBatch(req);
 		} catch (Exception e) {
 			log.error(e.getMessage(),e);
+			rs.setErrorCode(ErrorCode.SYSTEM_ERROR);
 		}
 		return rs;
 	}
@@ -252,6 +266,7 @@ public class QualitySchemeAction {
 			rs = qualitySchemeService.findById(req);
 		} catch (Exception e) {
 			log.error(e.getMessage(),e);
+			rs.setErrorCode(ErrorCode.SYSTEM_ERROR);
 		}
 		return rs;
 	}
@@ -268,6 +283,7 @@ public class QualitySchemeAction {
 			rs = qualitySchemeService.autoCompleteSearch(term.trim());
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
+			rs.setErrorCode(ErrorCode.SYSTEM_ERROR);
 		}
 		return rs;
 	}
@@ -282,6 +298,7 @@ public class QualitySchemeAction {
 			rs = qualitySchemeItemService.getOldItem(schemeid);
 		} catch (Exception e) {
 			log.error(e.getMessage(),e);
+			rs.setErrorCode(ErrorCode.SYSTEM_ERROR);
 		}
 		return rs;
 	}

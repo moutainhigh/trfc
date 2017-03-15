@@ -71,7 +71,7 @@
 							</div>
 							<div class="daohuo_add_solo">
 								<label>物料：</label> <input
-									value="${salesArrive.salesApplication.detailResp.materielname }"
+									value="${salesArrive.salesApplicationDetail.materielname }"
 									type="text" readonly>
 							</div>
 							<div class="daohuo_add_solo">
@@ -81,12 +81,12 @@
 							</div>
 							<div class="daohuo_add_solo">
 								<label>单位：</label> <input
-									value="${salesArrive.salesApplication.detailResp.unit }"
+									value="${salesArrive.salesApplicationDetail.unit }"
 									type="text" readonly>
 							</div>
 							<div class="daohuo_add_solo">
 								<label>订单数量：</label> <input
-									value="${salesArrive.salesApplication.detailResp.salessum }"
+									value="${salesArrive.salesApplicationDetail.salessum }"
 									type="text" readonly>
 							</div>
 							<div class="daohuo_add_solo">
@@ -168,10 +168,10 @@
 										<tr>
 											<td>${salesArrive.salesApplication.code }</td>
 											<td>${salesArrive.salesApplication.customername }</td>
-											<td>${salesArrive.salesApplication.detailResp.materielname }</td>
+											<td>${salesArrive.salesApplicationDetail.materielname }</td>
 											<td>${salesArrive.salesApplication.orgname }</td>
 											<td>${salesArrive.takeamount }</td>
-											<td>${salesArrive.salesApplication.detailResp.salessum }</td>
+											<td>${salesArrive.salesApplicationDetail.salessum }</td>
 											<td>${salesArrive.salesApplication.billtimeStr }</td>
 										</tr>
 									</tbody>
