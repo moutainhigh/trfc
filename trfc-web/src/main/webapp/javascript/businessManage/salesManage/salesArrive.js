@@ -1,12 +1,14 @@
 ;(function($, win){
 	//请求路径
 	var URL = {
-		pageUrl:"/trfc/salesArrive/page",
-		updateViewUrl:"/trfc/salesArrive/updateView",
-		auditUrl:"/trfc/salesArrive/audit",
-		unauditUrl:"/trfc/salesArrive/unaudit",
-		invalidUrl:"/trfc/salesArrive/invalid",
-		outfactoryUrl:"/trfc/salesArrive/outfactory",
+		page:"/trfc/salesArrive/page",
+		addView:"/trfc/salesArrive/addView",
+		updateView:"/trfc/salesArrive/updateView",
+		detailView:"/trfc/salesArrive/detailView",
+		audit:"/trfc/salesArrive/audit",
+		unaudit:"/trfc/salesArrive/unaudit",
+		invalid:"/trfc/salesArrive/invalid",
+		outfactory:"/trfc/salesArrive/outfactory",
 		vehicleAutoCompleteSearch: "/trfc/vehicle/autoCompleteSearch",
 		materielAutoCompleteSearch: "/trfc/materiel/autoCompleteSearch",
 		driverAutoCompleteSearch: "/trfc/driver/autoCompleteSearch",
@@ -177,11 +179,9 @@
 		$('#searchBtn').off('click').on('click',function(){
 			getData(1);
 		});
-//		$('#customer').off('click').on('click',function(){
-//			initCustomer(function(obj){
-//				$().val(obj.name).attr('customerid',obj.id);
-//			});
-//		});
+		$('#addBtn').off('click').on('click',function(){
+			window.open(URL.addView, '_blank');
+		});
 		$('#jumpPageNoBtn').off('click').on('click',function(){
 			var pageNo = $('input#jumpPageNo').val();pageNo = $.trim(pageNo);pageNo = parseInt(pageNo);
 			var pageMaxNo = $('input#jumpPageNo').attr('maxpageno');pageMaxNo = $.trim(pageMaxNo);pageMaxNo = parseInt(pageMaxNo);
@@ -234,7 +234,7 @@
 		var params = getParams();
 		params.pageNo = pageNo;
 		$.ajax({
-			url:URL.pageUrl,
+			url:URL.page,
 			data:params,
 			async:true,
 			cache:false,
@@ -275,8 +275,10 @@
 		if(list && list.length>0){
 			for(var i=0;i<list.length;i++){
 				var obj = list[i] || '';
-				var salesApplication = obj.salesApplication;
-				var salesApplicationDetail = obj.salesApplicationDetail;
+				var salesApplication = obj.listApplication.filter(function(x){
+					return x.id == this;
+				},obj.billid)[0];
+				var salesApplicationDetail = salesApplication.list[0];
 				var code = obj.code || '';
 				var auditstatus = obj.auditstatus || '';
 				switch (auditstatus) {
@@ -351,7 +353,7 @@
 			});
 			$('#dataBody').find('tr').off('dblclick').on('dblclick',function(){
 				var obj = $(this).closest('tr').data();
-				window.location.href = 'detailView?id='+obj.id;
+				window.open(URL.detailView+'?id='+obj.id, '_blank');
 			});
 		}else{
 			layer.msg('暂无数据');
@@ -380,10 +382,13 @@
 						.appendTo($tabCont);
 				break;
 			case 1:
+				var $tbody = $('<tbody>');
+				obj.listApplication.forEach(function(x, i, a){
+					$tbody.append('<tr><td>'+(i + 1)+'</td><td>'+(x.code || '')+'</td><td>'+(x.billtypename || '')+'</td><td>'+(x.customername || '')+'</td><td>'+(x.list[0].materielname || '')+'</td><td>'+(x.list[0].salessum || '')+'</td><td>'+(x.list[0].margin || 0)+'</td><td>'+(x.list[0].storagequantity || 0)+'</td><td>'+(x.list[0].unstoragequantity || 0)+'</td><td>'+(obj.takeamount || '')+'</td><td>'+(x.billtimeStr || '')+'</td><td>'+(x.makebillname || '')+'</td></tr>');
+				});
 				$('<table>').addClass('table table-bordered')
-						.append('<thead><tr><th>订单编号</th><th>类型</th><th>客户</th><th>物料</th><th>订单量</th><th>余量</th><th>出库占用量</th><th>未出库占用量</th><th>预提量</th><th>订单日期</th><th>制单人</th></tr></thead>')
-						.append('<tbody><tr><td>'+(obj.billcode || '')+'</td><td>'+(salesApplication.billtypename || '')+'</td><td>'+(salesApplication.customername || '')+'</td><td>'+(salesApplicationDetail.materielname || '')+'</td><td>'+(salesApplicationDetail.salessum || '')+'</td><td>'+(salesApplicationDetail.margin || 0)+'</td><td>'+(salesApplicationDetail.storagequantity || 0)+'</td><td>'+(salesApplicationDetail.unstoragequantity || 0)+'</td><td>'+(obj.takeamount || '')+'</td><td>'+(salesApplication.billtimeStr || '')+'</td><td>'+(salesApplication.makebillname || '')+'</td></tr></tbody>')
-						.appendTo($tabCont);
+							.append('<thead><tr><th>序号</th><th>订单编号</th><th>类型</th><th>客户</th><th>物料</th><th>订单量</th><th>余量</th><th>出库占用量</th><th>未出库占用量</th><th>预提量</th><th>订单日期</th><th>制单人</th></tr></thead>')
+							.append($tbody).appendTo($tabCont);
 				break;
 			case 2:
 				$('<table>').addClass('table table-bordered')
@@ -410,7 +415,7 @@
 			layer.msg('此单据已使用，无法继续编辑！', {icon: 5});
 			return;
 		}else{
-			window.location.href = URL.updateViewUrl+'?id='+obj.id;
+			window.open(URL.updateView+'?id='+obj.id, '_blank')
 		}
 	}
 	function audit(obj){
@@ -446,7 +451,7 @@
 			layer.msg('此单据已过重车，无法审核操作！', {icon: 5});
 			return;
 		}
-		confirmOperation('您确定要审核吗？', URL.auditUrl, {id: obj.id});
+		confirmOperation('您确定要审核吗？', URL.audit, {id: obj.id});
 	}
 	function unaudit(obj){
 		if(obj.auditstatus == '0'){
@@ -481,7 +486,7 @@
 			layer.msg('此单据已过重车,无法反审操作!', {icon: 5});
 			return;
 		}
-		confirmOperation('您确定要反审吗？',  URL.unauditUrl, {id: obj.id});
+		confirmOperation('您确定要反审吗？',  URL.unaudit, {id: obj.id});
 	}
 	function invalid(obj){
 		if(obj.status == '3'){
@@ -500,7 +505,7 @@
 			layer.msg('数据已入厂，不能进行作废操作！', {icon: 5});
 			return;
 		}
-		confirmOperation('您确定要作废吗？', URL.invalidUrl, {id: obj.id});
+		confirmOperation('您确定要作废吗？', URL.invalid, {id: obj.id});
 	}
 	function outfactory(obj){
 		if(obj.status == '3'){
@@ -515,7 +520,7 @@
 			layer.msg('数据未过重车，不能进行出厂操作！', {icon: 5});
 			return;
 		}
-		confirmOperation('您确定要出厂吗？', URL.outfactoryUrl, {id: obj.id});
+		confirmOperation('您确定要出厂吗？', URL.outfactory, {id: obj.id});
 	}
 	function confirmOperation(confirmContent, url, params){
 		layer.confirm(confirmContent, {

@@ -71,12 +71,12 @@
 							</div>
 							<div class="daohuo_add_solo">
 								<label>客户：</label> <input id="customername"
-									value="${salesArrive.salesApplication.customername }"
+									value="${salesArrive.getMainApplication().customername }"
 									type="text" readonly="true">
 							</div>
 							<div class="daohuo_add_solo">
 								<label>区域码：</label> <input id="channelcode"
-									value="${salesArrive.salesApplication.channelcode }"
+									value="${salesArrive.getMainApplication().channelcode }"
 									type="text" readonly="true">
 							</div>
 							<div class="daohuo_add_solo">
@@ -85,30 +85,30 @@
 							</div>
 							<div class="daohuo_add_solo">
 								<label>物料：</label> <input id="materielname"
-									value="${salesArrive.salesApplicationDetail.materielname }"
+									value="${salesArrive.getMainApplicationDetail().materielname }"
 									type="text" readonly="true">
 							</div>
 							<div class="daohuo_add_solo">
 								<label>部门：</label> <input id="departmentname"
-									value="${salesArrive.salesApplication.departmentname }"
+									value="${salesArrive.getMainApplication().departmentname }"
 									type="text" readonly="true">
 							</div>
 							<div class="daohuo_add_solo">
 								<label>单位：</label> <input id="unit" type="text"
-									value="${salesArrive.salesApplicationDetail.unit }"
+									value="${salesArrive.getMainApplicationDetail().unit }"
 									readonly="true">
 							</div>
 							<div class="daohuo_add_solo">
 								<label>订单数量：</label> <input id="salessum"
-									value="${salesArrive.salesApplicationDetail.salessum }"
+									value="${salesArrive.getBillSum() }"
 									type="text" readonly="true">
 							</div>
 							<div class="daohuo_add_solo">
-								<label>余量：</label> <input id="margin" value="${salesArrive.salesApplicationDetail.margin }" type="text" readonly="true">
+								<label>余量：</label> <input id="margin" value="${salesArrive.getYlSum() }" type="text" readonly="true">
 							</div>
 							<div class="daohuo_add_solo">
 								<label>业务日期：</label> <input id="billtime"
-									value="${salesArrive.salesApplication.billtimeStr }"
+									value="${salesArrive.getMainApplication().billtimeStr }"
 									type="text" readonly="true">
 							</div>
 						</div>
@@ -208,8 +208,8 @@
 													<td>${application.list[0].materielname }</td>
 													<td>${application.list[0].unit }</td>
 													<td>${application.list[0].salessum }</td>
-													<td>${application.list[0].margin }</td>
-													<td id="advanceAmount">${salesArrive.takeamount }</td>
+													<td class="yl">${application.list[0].margin }</td>
+													<td class="yt">${salesArrive.takeamount }</td>
 													<td>${application.orgname }</td>
 													<td>${application.customername }</td>
 													<td>${application.departmentname }</td>
