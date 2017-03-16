@@ -21,7 +21,7 @@
            <li><a href="/trfc/salescharge/main">销售收款</a></li>
            <li class="select"><a href="/trfc/customerback/main">客户退补</a></li>
            <li><a href="/trfc/salesledger/main">收款台账</a></li>
-           <li><a href="/trfc/customerbegin/main">销售明细</a></li>
+           <li><a href="/trfc/salesdetail/main">销售明细</a></li>
         </ul>
         <!--tab切换标题end-->
     </div>

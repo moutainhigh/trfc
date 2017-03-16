@@ -3,12 +3,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<title>收款台账</title>
-<style type="text/css">
-	.auditing{
-		color: #006400;
-	}
-</style>
+<title>销售明细</title>
 <!-- 引用公共header部分 -->
 <jsp:include page="../../common/base/header_busi.jsp"></jsp:include>
 </head>
@@ -25,8 +20,8 @@
            <li><a href="/trfc/customerbegin/main">客户期初</a></li>
            <li><a href="/trfc/salescharge/main">销售收款</a></li>
            <li><a href="/trfc/customerback/main">客户退补</a></li>
-           <li class="select"><a href="/trfc/salesledger/main">收款台账</a></li>
-           <li><a href="/trfc/salesdetail/main">销售明细</a></li>
+           <li><a href="/trfc/salesledger/main">收款台账</a></li>
+           <li class="select"><a href="/trfc/salesdetail/main">销售明细</a></li>
         </ul>
         <!--tab切换标题end-->
     </div>
@@ -62,28 +57,6 @@
 						<label>客户：</label> <input id="s_customer" type="text"
 									placeholder="请选择客户">
 						</div>
-						<div class="intel_solo">
-                            <label>类型：</label>
-                            <select id="chargetype" class="form-control">
-                            	<option value="2" selected="selected">请选择</option>
-                            	<option value="0">期初</option>
-                            	<option value="1">收款</option>
-                            </select>
-                        </div>
-                        <div class="intel_solo">
-                            <label>单据状态：</label>
-                            <select id="auditstatus" class="form-control">
-                            	<option value="4" selected="selected">请选择</option>
-                            	<option value="0">未审核</option>
-                            	<option value="1">审核中</option>
-                            	<option value="2">已审核</option>
-                            	<option value="3">已退回</option>
-                            </select>
-                        </div>
-                        <div class="intel_solo">
-                            <label>制单人：</label>
-                            <input type="text" placeholder="请输入制单人" id="code">
-                        </div>
                         <div class="intel_solo">
                             <div class="intel_sbtn">
                                 <button class="btn btnblue " id="searchBtn">搜索</button>
@@ -105,16 +78,14 @@
                     <tr>
                         <th>序号</th>
                         <th>单据编码</th>
-                        <th>审批状态</th>
-                        <th>单据日期</th>
+                        <th>订单号</th>
+                        <th>提货单号</th>
                         <th>客户名称</th>
+                        <th>发货单位</th>
+                        <th>单价</th>
+                        <th>数量</th>
                         <th>金额</th>
-                        <th>类型</th>
-                        <th>收款单位</th>
-                        <th>付款人</th>
-                        <th>制单人</th>
-                        <th>制单日期</th>
-                        <th>备注</th>
+                        <th>消费时间</th>
                     </tr>
                     </thead>
                     <tbody id="charges">
@@ -126,8 +97,6 @@
                         <td>粉煤灰1</td>
                         <td>粉煤灰1</td>
                         <td>未入厂</td>
-                        <td>粉煤灰1</td>
-                        <td>粉煤灰1</td>
                         <td>粉煤灰1</td>
                         <td>粉煤灰1</td>
                         <td>粉煤灰1</td>
@@ -179,7 +148,7 @@
 <!-- 引用公共footer部分 -->
 <jsp:include page="../../common/base/footer_busi.jsp"></jsp:include>
 <script type="text/javascript"
-		src="/javascript/businessManage/financeManage/salesLedger.js"></script>
+		src="/javascript/businessManage/financeManage/salesDetail.js"></script>
 
 
 
