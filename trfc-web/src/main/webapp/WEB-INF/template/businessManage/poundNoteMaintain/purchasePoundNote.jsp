@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>index</title>
+<title>采购磅单维护</title>
 <!-- 引用公共header部分 -->
 <jsp:include page="../../common/base/header_busi.jsp"></jsp:include>
 </head>
@@ -19,6 +19,7 @@
 				<!--tab切换标题-->
 				<ul class="intel_menu">
 					<li class="select"><a href="/trfc/poundNote/purchase/main">采购磅单维护</a></li>
+					<li><a href="/trfc/poundNote/sales/main">销售磅单维护</a></li>
 				</ul>
 			</div>
 			<!--tab切换的内容-->
@@ -41,7 +42,7 @@
 									<label>通知单号：</label> <input id="noticecode" type="text" placeholder="请输入通知单号">
 								</div>
 								<div class="intel_solo">
-									<label>净重：</label> <select id="operator" class="mini_select form-control">
+									<label>净重：</label> <select id="operator" class="mini_select form-control" style="padding: 0px;">
 										<option value="0">大于</option>
 										<option value="1">大于等于</option>
 										<option value="2">小于</option>

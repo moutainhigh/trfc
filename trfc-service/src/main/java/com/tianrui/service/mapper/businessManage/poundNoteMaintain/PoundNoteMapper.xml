@@ -37,6 +37,7 @@
     <result column="originalnetweight" property="originalnetweight" jdbcType="DOUBLE" />
     <result column="deductionweight" property="deductionweight" jdbcType="DOUBLE" />
     <result column="deductionother" property="deductionother" jdbcType="DOUBLE" />
+    <result column="batchnumberid" property="batchnumberid" jdbcType="VARCHAR" />
     <result column="serialnumber" property="serialnumber" jdbcType="VARCHAR" />
     <result column="lighttime" property="lighttime" jdbcType="BIGINT" />
     <result column="weighttime" property="weighttime" jdbcType="BIGINT" />
@@ -94,6 +95,7 @@
     <result column="originalnetweight" property="originalnetweight" jdbcType="DOUBLE" />
     <result column="deductionweight" property="deductionweight" jdbcType="DOUBLE" />
     <result column="deductionother" property="deductionother" jdbcType="DOUBLE" />
+    <result column="batchnumberid" property="batchnumberid" jdbcType="VARCHAR" />
     <result column="serialnumber" property="serialnumber" jdbcType="VARCHAR" />
     <result column="lighttime" property="lighttime" jdbcType="BIGINT" />
     <result column="weighttime" property="weighttime" jdbcType="BIGINT" />
@@ -112,7 +114,7 @@
     noticeid, noticecode, arrivepoundnotecode, senddepartmentid, senddepartmentname, driverid, drivername, driveridentityno, vehicleid, vehicleno, 
     receivedepartmentid, receivedepartmentname, minemouthid, minemouthname, warehouseid, 
     warehousename, yardid, yardname, receiverpersonid, receiverpersonname, receivertime, pickupquantity, 
-    grossweight, tareweight, netweight, originalnetweight, deductionweight, deductionother, 
+    grossweight, tareweight, netweight, originalnetweight, deductionweight, deductionother, batchnumberid,
     serialnumber, lighttime, weighttime, makerid, makebillname, makebilltime, state, creator, 
     createtime, modifier, modifytime, remark
   </sql>
@@ -121,7 +123,7 @@
     noticeid, p0.noticecode, p0.arrivepoundnotecode, p0.senddepartmentid, p0.senddepartmentname, p0.driverid, p0.drivername, p0.driveridentityno, p0.vehicleid, p0.vehicleno, p0.
     receivedepartmentid, p0.receivedepartmentname, p0.minemouthid, p0.minemouthname, p0.warehouseid, p0.
     warehousename, p0.yardid, p0.yardname, p0.receiverpersonid, p0.receiverpersonname, p0.receivertime, p0.pickupquantity, p0.
-    grossweight, p0.tareweight, p0.netweight, p0.originalnetweight, p0.deductionweight, p0.deductionother, p0.
+    grossweight, p0.tareweight, p0.netweight, p0.originalnetweight, p0.deductionweight, p0.deductionother, p0.batchnumberid, p0.
     serialnumber, p0.lighttime, p0.weighttime, p0.makerid, p0.makebillname, p0.makebilltime, p0.state, p0.creator, p0.
     createtime, p0.modifier, p0.modifytime, p0.remark, p1.supplierid, p1.suppliername, p1.supplierremark, p2.materielname, p2.purchasesum as billsum
   </sql>
@@ -146,7 +148,7 @@
       warehousename, yardid, yardname, 
       receiverpersonid, receiverpersonname, receivertime, pickupquantity, 
       grossweight, tareweight, netweight, 
-      originalnetweight, deductionweight, deductionother, 
+      originalnetweight, deductionweight, deductionother, batchnumberid,
       serialnumber, lighttime, weighttime, 
       makerid, makebillname, makebilltime, state,
       creator, createtime, modifier, 
@@ -164,7 +166,7 @@
       #{receiverpersonid,jdbcType=VARCHAR}, #{receiverpersonname,jdbcType=VARCHAR}, #{receivertime,jdbcType=BIGINT}, #{pickupquantity,jdbcType=DOUBLE}, 
       #{grossweight,jdbcType=DOUBLE}, #{tareweight,jdbcType=DOUBLE}, #{netweight,jdbcType=DOUBLE}, 
       #{originalnetweight,jdbcType=DOUBLE}, #{deductionweight,jdbcType=DOUBLE}, #{deductionother,jdbcType=DOUBLE}, 
-      #{serialnumber,jdbcType=VARCHAR}, #{lighttime,jdbcType=BIGINT}, #{weighttime,jdbcType=BIGINT}, 
+      #{batchnumberid,jdbcType=VARCHAR},  #{serialnumber,jdbcType=VARCHAR}, #{lighttime,jdbcType=BIGINT}, #{weighttime,jdbcType=BIGINT}, 
       #{makerid,jdbcType=VARCHAR}, #{makebillname,jdbcType=VARCHAR}, #{makebilltime,jdbcType=BIGINT}, #{state,jdbcType=BIGINT}, 
       #{creator,jdbcType=VARCHAR}, #{createtime,jdbcType=BIGINT}, #{modifier,jdbcType=VARCHAR}, 
       #{modifytime,jdbcType=BIGINT}, #{remark,jdbcType=VARCHAR})
@@ -288,6 +290,9 @@
       </if>
       <if test="deductionother != null" >
         deductionother,
+      </if>
+      <if test="batchnumberid != null" >
+        batchnumberid,
       </if>
       <if test="serialnumber != null" >
         serialnumber,
@@ -444,6 +449,9 @@
       <if test="deductionother != null" >
         #{deductionother,jdbcType=DOUBLE},
       </if>
+      <if test="batchnumberid != null" >
+        #{batchnumberid,jdbcType=VARCHAR},
+      </if>
       <if test="serialnumber != null" >
         #{serialnumber,jdbcType=VARCHAR},
       </if>
@@ -599,6 +607,9 @@
       <if test="deductionother != null" >
         deductionother = #{deductionother,jdbcType=DOUBLE},
       </if>
+      <if test="batchnumberid != null" >
+        batchnumberid = #{batchnumberid,jdbcType=VARCHAR},
+      </if>
       <if test="serialnumber != null" >
         serialnumber = #{serialnumber,jdbcType=VARCHAR},
       </if>
@@ -678,6 +689,7 @@
       originalnetweight = #{originalnetweight,jdbcType=DOUBLE},
       deductionweight = #{deductionweight,jdbcType=DOUBLE},
       deductionother = #{deductionother,jdbcType=DOUBLE},
+      batchnumberid = #{batchnumberid,jdbcType=VARCHAR},
       serialnumber = #{serialnumber,jdbcType=VARCHAR},
       lighttime = #{lighttime,jdbcType=BIGINT},
       weighttime = #{weighttime,jdbcType=BIGINT},
@@ -698,7 +710,7 @@
 		left join tr_purchase_db_application p1 on p0.billid = p1.id
 		left join tr_purchase_db_application_detail p2 on p0.billdetailid = p2.id
 		left join tr_purchase_db_arrive p3 on p0.noticeid = p3.id and p2.id = p3.billdetailid
-	<where>
+	<where> (billtype = '0' or billtype = '1')
 		<if test="supplierid != null and supplierid != ''">
 			and p1.supplierid = #{supplierid,jdbcType=VARCHAR}
 		</if>
@@ -706,7 +718,7 @@
 			and p2.materielid = #{materielid,jdbcType=VARCHAR}
 		</if>
 		<if test="vehicleid != null and vehicleid != ''">
-			and p3.vehicleid = #{vehicleid,jdbcType=VARCHAR}
+			and p0.vehicleid = #{vehicleid,jdbcType=VARCHAR}
 		</if>
 		<if test="billcode != null and billcode != ''">
 			and p0.billcode = #{billcode,jdbcType=VARCHAR}
@@ -756,7 +768,7 @@
 		left join tr_purchase_db_application p1 on p0.billid = p1.id
 		left join tr_purchase_db_application_detail p2 on p0.billdetailid = p2.id
 		left join tr_purchase_db_arrive p3 on p0.noticeid = p3.id and p2.id = p3.billdetailid
-	<where>
+	<where> (billtype = '0' or billtype = '1')
 		<if test="supplierid != null and supplierid != ''">
 			and p1.supplierid = #{supplierid,jdbcType=VARCHAR}
 		</if>
@@ -764,7 +776,7 @@
 			and p2.materielid = #{materielid,jdbcType=VARCHAR}
 		</if>
 		<if test="vehicleid != null and vehicleid != ''">
-			and p3.vehicleid = #{vehicleid,jdbcType=VARCHAR}
+			and p0.vehicleid = #{vehicleid,jdbcType=VARCHAR}
 		</if>
 		<if test="billcode != null and billcode != ''">
 			and p0.billcode = #{billcode,jdbcType=VARCHAR}
@@ -827,4 +839,7 @@
 		left join tr_purchase_db_application_detail p2 on p0.billdetailid = p2.id
 	where p0.id = #{id,jdbcType=VARCHAR} and p0.state = '1'
   </select>
+	<select id="salesPage" parameterType="com.tianrui.api.req.businessManage.poundNoteMaintain.PoundNoteQuery" resultMap="BaseRespResultMap">
+	  	
+	</select>
 </mapper>

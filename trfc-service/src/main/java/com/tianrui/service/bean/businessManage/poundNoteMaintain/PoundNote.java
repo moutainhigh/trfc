@@ -83,7 +83,9 @@ public class PoundNote {
     private Double deductionweight;
 	//扣杂
     private Double deductionother;
-	//出厂编号
+	//销售批号id
+    private String batchnumberid;
+    //出厂编号
     private String serialnumber;
 	//轻车时间
     private Long lighttime;
@@ -450,7 +452,21 @@ public class PoundNote {
         this.deductionother = deductionother;
     }
 
-    public String getSerialnumber() {
+    /**
+	 * @return the batchnumberid
+	 */
+	public String getBatchnumberid() {
+		return batchnumberid;
+	}
+
+	/**
+	 * @param batchnumberid the batchnumberid to set
+	 */
+	public void setBatchnumberid(String batchnumberid) {
+		this.batchnumberid = batchnumberid;
+	}
+
+	public String getSerialnumber() {
         return serialnumber;
     }
 

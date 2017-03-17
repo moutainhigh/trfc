@@ -38,11 +38,11 @@ public class AccessRecordService1 implements IAccessRecordService1 {
 	@Override
 	public PaginationVO<AccessRecordResp> page(AccessRecordQuery query) throws Exception{
 		PaginationVO<AccessRecordResp> page = null;
-		if(query != null){
+		if (query != null) {
 			page = new PaginationVO<AccessRecordResp>();
 			query.setState("1");
 			long count = accessRecordMapper.findAccessRecordPageCount(query);
-			if(count > 0){
+			if (count > 0) {
 				query.setStart((query.getPageNo() - 1) * query.getPageSize());
 				query.setLimit(query.getPageSize());
 				List<AccessRecord> list = accessRecordMapper.findAccessRecordPage(query);
@@ -57,23 +57,23 @@ public class AccessRecordService1 implements IAccessRecordService1 {
 	
 	private void SetPurchaseViewData(List<AccessRecordResp> list, String type) throws Exception{
 		List<String> ids = new ArrayList<>();
-		for(AccessRecordResp resp : list){
+		for (AccessRecordResp resp : list) {
 			if (StringUtils.equals(resp.getBusinesstype(), type)) {
 				ids.add(resp.getNoticeid());
 			}
 		}
 		List<PurchaseArriveResp> listArrive = purchaseArriveService.selectByIds(ids);
-		if(CollectionUtils.isNotEmpty(listArrive)){
-			for(AccessRecordResp resp : list){
-				for(PurchaseArriveResp arriveResp : listArrive){
-					if(StringUtils.equals(resp.getNoticeid(), arriveResp.getId())){
+		if (CollectionUtils.isNotEmpty(listArrive)) {
+			for (AccessRecordResp resp : list) {
+				for (PurchaseArriveResp arriveResp : listArrive) {
+					if (StringUtils.equals(resp.getNoticeid(), arriveResp.getId())) {
 						resp.setVehicleno(arriveResp.getVehicleno());
 						resp.setMaterielname(arriveResp.getPurchaseApplicationDetailResp().getMaterielname());
 						resp.setRfid(arriveResp.getVehiclerfid());
 						resp.setOtherparty(arriveResp.getPurchaseApplicationResp().getSuppliername());
-						if(StringUtils.isNotBlank(arriveResp.getIcardid())){
+						if (StringUtils.isNotBlank(arriveResp.getIcardid())) {
 							CardResp card = cardService.findOne(arriveResp.getIcardid());
-							if(card != null){
+							if (card != null) {
 								resp.setIcardno(card.getCardno());
 								resp.setIcardcode(card.getCardcode());
 							}
@@ -86,23 +86,23 @@ public class AccessRecordService1 implements IAccessRecordService1 {
 	
 	private void SetSalesViewData(List<AccessRecordResp> list, String type) throws Exception{
 		List<String> ids = new ArrayList<>();
-		for(AccessRecordResp resp : list){
+		for (AccessRecordResp resp : list) {
 			if (StringUtils.equals(resp.getBusinesstype(), type)) {
 				ids.add(resp.getNoticeid());
 			}
 		}
 		List<SalesArriveResp> salesList = salesArriveService.selectByIds(ids);
-		if(CollectionUtils.isNotEmpty(salesList)){
-			for(AccessRecordResp resp : list){
-				for(SalesArriveResp salesResp : salesList){
-					if(StringUtils.equals(resp.getNoticeid(), salesResp.getId())){
+		if (CollectionUtils.isNotEmpty(salesList)) {
+			for (AccessRecordResp resp : list) {
+				for (SalesArriveResp salesResp : salesList) {
+					if (StringUtils.equals(resp.getNoticeid(), salesResp.getId())) {
 						resp.setVehicleno(salesResp.getVehicleno());
 						resp.setMaterielname(salesResp.getMainApplicationDetail().getMaterielname());
 						resp.setRfid(salesResp.getVehiclerfid());
 						resp.setOtherparty(salesResp.getMainApplication().getCustomername());
-						if(StringUtils.isNotBlank(salesResp.getIcardid())){
+						if (StringUtils.isNotBlank(salesResp.getIcardid())) {
 							CardResp card = cardService.findOne(salesResp.getIcardid());
-							if(card != null){
+							if (card != null) {
 								resp.setIcardno(card.getCardno());
 								resp.setIcardcode(card.getCardcode());
 							}
@@ -115,12 +115,12 @@ public class AccessRecordService1 implements IAccessRecordService1 {
 	
 	private List<AccessRecordResp> copyBeanList2RespList(List<AccessRecord> list, boolean setNotice) throws Exception {
 		List<AccessRecordResp> listResp = null;
-		if(CollectionUtils.isNotEmpty(list)){
+		if (CollectionUtils.isNotEmpty(list)) {
 			listResp = new ArrayList<AccessRecordResp>();
-			for(AccessRecord sa : list){
+			for (AccessRecord sa : list) {
 				listResp.add(copyBean2Resp(sa, setNotice));
 			}
-			if(setNotice){
+			if (setNotice) {
 				//set采购信息
 				SetPurchaseViewData(listResp, "1");
 				//set销售信息
@@ -132,10 +132,10 @@ public class AccessRecordService1 implements IAccessRecordService1 {
 	
 	private AccessRecordResp copyBean2Resp(AccessRecord bean, boolean setNotice) throws Exception {
 		AccessRecordResp resp = null;
-		if(bean != null){
+		if (bean != null) {
 			resp = new AccessRecordResp();
 			PropertyUtils.copyProperties(resp, bean);
-//			if(setNotice){
+//			if (setNotice) {
 //				groupSetViewData(resp);
 //			}
 		}
@@ -143,7 +143,7 @@ public class AccessRecordService1 implements IAccessRecordService1 {
 	}
 	
 //	private AccessRecordResp groupSetViewData(AccessRecordResp resp) throws Exception{
-//		if(resp != null){
+//		if (resp != null) {
 //			switch (resp.getBusinesstype()) {
 //			case "1":
 //				//采购
@@ -166,9 +166,9 @@ public class AccessRecordService1 implements IAccessRecordService1 {
 //		resp.setMaterielname(arriveResp.getPurchaseApplicationDetailResp().getMaterielname());
 //		resp.setRfid(arriveResp.getVehiclerfid());
 //		resp.setOtherparty(arriveResp.getPurchaseApplicationResp().getSuppliername());
-//		if(StringUtils.isNotBlank(arriveResp.getIcardid())){
+//		if (StringUtils.isNotBlank(arriveResp.getIcardid())) {
 //			CardResp card = cardService.findOne(arriveResp.getIcardid());
-//			if(card != null){
+//			if (card != null) {
 //				resp.setIcardno(card.getCardno());
 //				resp.setIcardcode(card.getCardcode());
 //			}
@@ -182,9 +182,9 @@ public class AccessRecordService1 implements IAccessRecordService1 {
 //		resp.setMaterielname(salesResp.getSalesApplication().getDetailResp().getMaterielname());
 //		resp.setRfid(salesResp.getVehiclerfid());
 //		resp.setOtherparty(salesResp.getSalesApplication().getCustomername());
-//		if(StringUtils.isNotBlank(salesResp.getIcardid())){
+//		if (StringUtils.isNotBlank(salesResp.getIcardid())) {
 //			CardResp card = cardService.findOne(salesResp.getIcardid());
-//			if(card != null){
+//			if (card != null) {
 //				resp.setIcardno(card.getCardno());
 //				resp.setIcardcode(card.getCardcode());
 //			}

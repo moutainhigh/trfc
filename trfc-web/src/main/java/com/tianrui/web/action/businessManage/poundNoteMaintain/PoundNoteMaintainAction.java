@@ -165,4 +165,22 @@ public class PoundNoteMaintainAction {
 		return view;
 	}
 	
+	@RequestMapping("/sales/main")
+	public ModelAndView salesMain(){
+		ModelAndView view = new ModelAndView("businessManage/poundNoteMaintain/salesPoundNote");
+		return view;
+	}
+	@RequestMapping("/sales/page")
+	public Result salesPage(PoundNoteQuery query){
+		Result result = Result.getSuccessResult();
+		try {
+			PaginationVO<PoundNoteResp> page = poundNoteService.salesPage(query);
+			result.setData(page);
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
+		}
+		return result;
+	}
+	
 }

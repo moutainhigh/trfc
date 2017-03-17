@@ -262,4 +262,22 @@ public class PoundNoteService implements IPoundNoteService {
 		return resp;
 	}
 
+	@Override
+	public PaginationVO<PoundNoteResp> salesPage(PoundNoteQuery query) {
+		PaginationVO<PoundNoteResp> page = null;
+		if (query != null) {
+			page = new PaginationVO<PoundNoteResp>();
+			query.setState("1");
+			long count = poundNoteMapper.purchasePageCount(query);
+			if (count > 0) {
+				List<PoundNoteResp> list = poundNoteMapper.purchasePage(query);
+				page.setList(list);
+			}
+			page.setTotal(count);
+			page.setPageNo(query.getPageNo());
+			page.setPageSize(query.getPageSize());
+		}
+		return page;
+	}
+
 }

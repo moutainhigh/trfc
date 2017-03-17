@@ -59,5 +59,13 @@ public interface IPoundNoteService {
 	 * @return
 	 */
 	Result purchaseInvalid(PoundNoteQuery query);
+	/**
+	 * @Description 查询销售磅单
+	 * @author zhanggaohao
+	 * @version 2017年3月17日 上午11:09:14
+	 * @param query
+	 * @return
+	 */
+	PaginationVO<PoundNoteResp> salesPage(PoundNoteQuery query);
 	
 }

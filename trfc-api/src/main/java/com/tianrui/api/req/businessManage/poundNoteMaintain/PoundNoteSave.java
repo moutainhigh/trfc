@@ -79,7 +79,9 @@ public class PoundNoteSave extends BaseReq {
     private Double deductionweight;
 	//扣杂
     private Double deductionother;
-	//出厂编号
+	//销售批号id
+    private String batchnumberid;
+    //出厂编号
     private String serialnumber;
 	//轻车时间
     private Long lighttime;
@@ -522,6 +524,18 @@ public class PoundNoteSave extends BaseReq {
 	 */
 	public void setDeductionother(Double deductionother) {
 		this.deductionother = deductionother;
+	}
+	/**
+	 * @return the batchnumberid
+	 */
+	public String getBatchnumberid() {
+		return batchnumberid;
+	}
+	/**
+	 * @param batchnumberid the batchnumberid to set
+	 */
+	public void setBatchnumberid(String batchnumberid) {
+		this.batchnumberid = batchnumberid;
 	}
 	/**
 	 * @return the serialnumber
