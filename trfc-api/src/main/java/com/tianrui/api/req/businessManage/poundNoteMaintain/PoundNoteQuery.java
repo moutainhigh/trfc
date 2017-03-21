@@ -35,6 +35,10 @@ public class PoundNoteQuery extends BaseReq {
 	private String operator;
 	//净重
 	private Double netweight;
+	//出厂编号id
+	private String batchnumberid;
+	//出厂编号
+	private String serialnumber;
 	//状态（0：删除，1：正常）
 	private String state;
 	//开始时间
@@ -228,6 +232,34 @@ public class PoundNoteQuery extends BaseReq {
 	 */
 	public void setNetweight(Double netweight) {
 		this.netweight = netweight;
+	}
+
+	/**
+	 * @return the batchnumberid
+	 */
+	public String getBatchnumberid() {
+		return batchnumberid;
+	}
+
+	/**
+	 * @return the serialnumber
+	 */
+	public String getSerialnumber() {
+		return serialnumber;
+	}
+
+	/**
+	 * @param batchnumberid the batchnumberid to set
+	 */
+	public void setBatchnumberid(String batchnumberid) {
+		this.batchnumberid = batchnumberid;
+	}
+
+	/**
+	 * @param serialnumber the serialnumber to set
+	 */
+	public void setSerialnumber(String serialnumber) {
+		this.serialnumber = serialnumber;
 	}
 
 	/**

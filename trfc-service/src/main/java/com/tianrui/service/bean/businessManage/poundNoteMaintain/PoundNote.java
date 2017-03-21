@@ -27,6 +27,8 @@ public class PoundNote {
     private String billcode;
     //订单详情id
     private String billdetailid;
+    //主单扣量（0：否，1：是）
+    private String maindeduction;
 	//通知单id
     private String noticeid;
 	//通知单code
@@ -67,6 +69,10 @@ public class PoundNote {
     private String receiverpersonid;
 	//收料人名称
     private String receiverpersonname;
+	//过磅员id
+    private String weigherid;
+	//过磅员名称
+    private String weighername;
     //收货时间
     private Long receivertime;
 	//预提量
@@ -202,6 +208,20 @@ public class PoundNote {
 	 */
 	public void setBilldetailid(String billdetailid) {
 		this.billdetailid = billdetailid;
+	}
+
+	/**
+	 * @return the maindeduction
+	 */
+	public String getMaindeduction() {
+		return maindeduction;
+	}
+
+	/**
+	 * @param maindeduction the maindeduction to set
+	 */
+	public void setMaindeduction(String maindeduction) {
+		this.maindeduction = maindeduction;
 	}
 
 	public String getNoticeid() {
@@ -383,6 +403,34 @@ public class PoundNote {
     }
 
     /**
+	 * @return the weigherid
+	 */
+	public String getWeigherid() {
+		return weigherid;
+	}
+
+	/**
+	 * @param weigherid the weigherid to set
+	 */
+	public void setWeigherid(String weigherid) {
+		this.weigherid = weigherid;
+	}
+
+	/**
+	 * @return the weighername
+	 */
+	public String getWeighername() {
+		return weighername;
+	}
+
+	/**
+	 * @param weighername the weighername to set
+	 */
+	public void setWeighername(String weighername) {
+		this.weighername = weighername;
+	}
+
+	/**
 	 * @return the receivertime
 	 */
 	public Long getReceivertime() {

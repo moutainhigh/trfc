@@ -2,7 +2,7 @@
 	var URL = {
 			page: '/trfc/poundNote/sales/page',
 			addView: '/trfc/poundNote/sales/addView',
-			returnAddView: '/trfc/poundNote/sales/returnAddView',
+			updateSerialNumberView: '/trfc/poundNote/sales/updateSerialNumberView',
 			detail: '/trfc/poundNote/sales/detail',
 			redcollide: '/trfc/poundNote/sales/redcollide',
 			invalid: '/trfc/poundNote/sales/invalid',
@@ -28,7 +28,7 @@
 		//初始化按钮事件
 		initBindEvent();
 		//初始化列表
-		//getDataFormAjax(1);
+		getDataFormAjax(1);
 	}
 	//初始化autocomplete
 	function initAutoComplete(){
@@ -165,6 +165,7 @@
 	//获取采购磅单查询条件
 	function getSearchParams(){
 		var code = $('#code').val() || '';code = $.trim(code);
+		var serialnumber = $('#serialnumber').val() || '';serialnumber = $.trim(serialnumber);
 		var billcode = $('#billcode').val() || '';billcode = $.trim(billcode);
 		var noticecode = $('#noticecode').val() || '';noticecode = $.trim(noticecode);
 		var operator = $('#operator').val() || '';operator = $.trim(operator);
@@ -177,21 +178,27 @@
 		var starttime = $('#starttime').val() || '';starttime = $.trim(starttime);
 		var endtime = $('#endtime').val() || '';endtime = $.trim(endtime);
 		var pageSize = $('#pageSize').val() || '';pageSize = $.trim(pageSize);
-		return {
-			code: code,
-			billcode: billcode,
-			noticecode: noticecode,
-			operator: operator,
-			netweight: netweight,
-			status: status,
-			returnstatus: returnstatus,
-			customerid: customerid,
-			materielid: materielid,
-			vehicleid: vehicleid,
-			starttime: str2Long(starttime),
-			endtime: str2Long(endtime),
-			pageSize: pageSize
+		var params = {
+				code: code,
+				serialnumber:serialnumber,
+				billcode: billcode,
+				noticecode: noticecode,
+				operator: operator,
+				netweight: netweight,
+				status: status,
+				returnstatus: returnstatus,
+				supplierid: customerid,
+				materielid: materielid,
+				vehicleid: vehicleid,
+				starttime: str2Long(starttime),
+				endtime: str2Long(endtime),
+				pageSize: pageSize
+			}; 
+		if(status == '0'){
+			delete params.status;
+			params.redcollide = '1';
 		}
+		return params;
 	}
 	
 	function validate(params){
@@ -271,18 +278,17 @@
 				default: break;
 				}
 				var putinwarehousecode = obj.putinwarehousecode || '';
+				var billcode = obj.billcode || '';
 				var noticecode = obj.noticecode || '';
-				var suppliername = obj.suppliername || '';
-				var supplierremark = obj.supplierremark || '';
+				var customername = obj.customername || '';
 				var receivedepartmentname = obj.receivedepartmentname || '';
-				var minemouthname = obj.minemouthname || '';
 				var materielname = obj.materielname || '';
 				var vehicleno = obj.vehicleno || '';
 				var grossweight = obj.grossweight;
 				var tareweight = obj.tareweight;
 				var netweight = obj.netweight;
-				var deductionweight = obj.deductionweight;
-				var deductionother = obj.deductionother;
+				var serialnumber = obj.serialnumber || '';
+				var weighername = obj.weighername || '';
 				var lighttimeStr = obj.lighttimeStr || '';
 				var weighttimeStr = obj.weighttimeStr || '';
 				var makebillname = obj.makebillname || '';
@@ -293,32 +299,31 @@
 						.append('<td'+(obj.redcollide == '0' ? ' class="colorred"' : '')+'>'+redcollide+'</td>')
 						.append('<td'+(obj.status == '1' || obj.status == '3' ? ' class="colorred"' : '')+'>'+status+'</td>')
 						.append('<td>'+putinwarehousecode+'</td>')
+						.append('<td>'+billcode+'</td>')
 						.append('<td>'+noticecode+'</td>')
-						.append('<td>'+suppliername+'</td>')
+						.append('<td>'+customername+'</td>')
 						.append('<td>'+receivedepartmentname+'</td>')
-						.append('<td>'+minemouthname+'</td>')
 						.append('<td>'+materielname+'</td>')
 						.append('<td>'+vehicleno+'</td>')
 						.append('<td>'+grossweight+'</td>')
 						.append('<td>'+tareweight+'</td>')
 						.append('<td>'+netweight+'</td>')
-						.append('<td>'+deductionweight+'</td>')
-						.append('<td>'+deductionother+'</td>')
+						.append('<td>'+serialnumber+'</td>')
+						.append('<td>'+weighername+'</td>')
 						.append('<td>'+lighttimeStr+'</td>')
 						.append('<td>'+weighttimeStr+'</td>')
-						.append('<td>'+supplierremark+'</td>')
 						.append('<td>'+makebillname+'</td>')
 						.append('<td>'+makebilltimeStr+'</td>')
-						.append('<td><span><a class="returnAdd"><i class="iconfont" data-toggle="tooltip" data-placement="bottom" title="退货补增">&#xe65e;</i></a></span>'
+						.append('<td><span><a class="updateSerialNumberView"><i class="iconfont" data-toggle="tooltip" data-placement="bottom" title="批号编辑">&#xe65e;</i></a></span>'
 									+'<span><a class="redcollide"><i class="iconfont" data-toggle="tooltip" data-placement="bottom" title="红冲">&#xe631;</i></a></span>'
 									+'<span><a class="invalid"><i class="iconfont" data-toggle="tooltip" data-placement="bottom" title="作废">&#xe60c;</i></a></span></td>')
 						.data(obj)
 						.appendTo('#dataBody');
 			}
-			$('#dataBody>tr>td>span a.returnAdd').off('click').on('click', function(){
-				//退货补增
+			$('#dataBody>tr>td>span a.updateSerialNumberView').off('click').on('click', function(){
+				//批号编辑
 				var obj = $(this).closest('tr').data();
-				returnAddView(obj);
+				updateSerialNumberView(obj);
 			});
 			$('#dataBody>tr>td>span a.redcollide').off('click').on('click', function(){
 				//红冲
@@ -331,6 +336,7 @@
 				invalidOper(obj);
 			});
 			$('#dataBody>tr').off('dblclick').on('dblclick', function(){
+				var obj = $(this).closest('tr').data();
 				//详情
 				window.open(URL.detail + '?id=' + obj.id);
 			});
@@ -338,18 +344,21 @@
 			layer.msg("暂无数据.");
 		}
 	}
-	//退货补增
-	function returnAddView(obj){
-		if(obj.status == '2'){
-			layer.msg('退货数据，不能进行退货补增操作！', {icon: 5});
+	//出厂编号
+	function updateSerialNumberView(obj){
+		if(obj.status == '3'){
+			layer.msg('该单据已作废！', {icon: 5});
 			return;
 		}
-		window.open(URL.returnAddView + '?id=' + obj.id);
+		window.open(URL.updateSerialNumberView + '?id=' + obj.id);
 	}
 	//红冲
 	function redcollideOper(obj){
-		if(obj.status == '2'){
-			layer.msg('退货数据，不能进行红冲操作！', {icon: 5});
+		if(obj.status == '3'){
+			layer.msg('该单据已作废！', {icon: 5});
+			return;
+		}else if(obj.redcollide == '1'){
+			layer.msg('已红冲的单据不能红冲操作！', {icon: 5});
 			return;
 		}else if(obj.returnstatus == '0'){
 			layer.msg('数据未推单，不能进行红冲操作！', {icon: 5});
@@ -361,7 +370,10 @@
 	}
 	//作废
 	function invalidOper(obj){
-		if(obj.returnstatus == '2'){
+		if(obj.status == '3'){
+			layer.msg('该单据已作废！', {icon: 5});
+			return;
+		}else if(obj.returnstatus == '2'){
 			layer.msg('已推单的单据不能作废操作！', {icon: 5});
 			return;
 		}else if(obj.status == '3'){
