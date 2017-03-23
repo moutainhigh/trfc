@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>index</title>
+<title>采购计量单详细信息</title>
 <!-- 引用公共header部分 -->
 <jsp:include page="../../common/base/header_busi.jsp"></jsp:include>
 </head>
@@ -39,7 +39,6 @@
 					</div>
 					<div class="daohuo_add">
 						<h5>采购计量单详细信息</h5>
-
 						<div class="daohuo_add_div">
 							<div class="daohuo_add_solo">
 								<label>过磅单号：</label> <input type="text" value="${poundNote.code }"

@@ -24,7 +24,7 @@ public interface IPoundNoteService {
 	 * @return
 	 * @throws Exception 
 	 */
-	Result addPurchase(PoundNoteSave save) throws Exception;
+	Result addPurchasePoundNote(PoundNoteSave save) throws Exception;
 	/**
 	 * @Description 根据id查询磅单
 	 * @author zhanggaohao
@@ -44,7 +44,7 @@ public interface IPoundNoteService {
 	 */
 	Result returnAddPoundNote(PoundNoteSave save) throws Exception;
 	/**
-	 * @Description 红冲
+	 * @Description 采购红冲
 	 * @author zhanggaohao
 	 * @version 2017年3月9日 下午2:48:06
 	 * @param query
@@ -52,7 +52,7 @@ public interface IPoundNoteService {
 	 */
 	Result purchaseRedcollide(PoundNoteQuery query);
 	/**
-	 * @Description 作废
+	 * @Description 采购作废
 	 * @author zhanggaohao
 	 * @version 2017年3月9日 下午2:48:32
 	 * @param query
@@ -67,5 +67,39 @@ public interface IPoundNoteService {
 	 * @return
 	 */
 	PaginationVO<PoundNoteResp> salesPage(PoundNoteQuery query);
+	/**
+	 * @Description 销售计量单新增
+	 * @author zhanggaohao
+	 * @version 2017年3月19日 下午3:11:52
+	 * @param save
+	 * @param bills 
+	 * @return
+	 * @throws Exception 
+	 */
+	Result addSalesPoundNote(PoundNoteSave save, String bills) throws Exception;
+	/**
+	 * @Description 销售红冲
+	 * @author zhanggaohao
+	 * @version 2017年3月21日 上午9:50:10
+	 * @param query
+	 * @return
+	 */
+	Result salesRedcollide(PoundNoteQuery query);
+	/**
+	 * @Description 销售作废
+	 * @author zhanggaohao
+	 * @version 2017年3月21日 上午9:50:45
+	 * @param query
+	 * @return
+	 */
+	Result salesInvalid(PoundNoteQuery query);
+	/**
+	 * @Description 修改销售计量单出厂编号
+	 * @author zhanggaohao
+	 * @version 2017年3月21日 下午2:41:23
+	 * @param query
+	 * @return
+	 */
+	Result updateSerialNumber(PoundNoteQuery query);
 	
 }
