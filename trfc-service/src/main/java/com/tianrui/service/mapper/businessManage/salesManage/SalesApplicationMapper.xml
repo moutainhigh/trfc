@@ -51,7 +51,7 @@
     s1.salesmanid, s1.salesmanname, s1.billtime, s1.orgid, s1.orgname, s1.transportcompanyid, s1.transportcompanyname, 
     s1.departmentid, s1.departmentname, s1.auditid, s1.auditname, s1.audittime, s1.state, s1.makerid, s1.makebillname, 
     s1.makebilltime, s1.remarks, s1.creator, s1.createtime, s1.modifier, s1.modifytime, s1.utc, s2.id as detailid, s2. materielname,
-    s2.salessum, s2.unit, s2.margin, s2.storagequantity, s2.unstoragequantity, s2.pretendingtake
+    s2.salessum, s2.unit, s2.margin, s2.storagequantity, s2.unstoragequantity, s2.pretendingtake, s2.taxprice
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 

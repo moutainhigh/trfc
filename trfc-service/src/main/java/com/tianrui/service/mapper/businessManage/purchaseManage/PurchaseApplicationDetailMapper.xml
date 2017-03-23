@@ -11,12 +11,13 @@
     <result column="materielspec" property="materielspec" jdbcType="VARCHAR" />
     <result column="materieltype" property="materieltype" jdbcType="VARCHAR" />
     <result column="purchasesum" property="purchasesum" jdbcType="DOUBLE" />
+    <result column="price" property="price" jdbcType="DOUBLE" />
     <result column="unit" property="unit" jdbcType="VARCHAR" />
     <result column="remark" property="remark" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, purchaseid, orgid, orgname, materielid, materielname, materielspec, materieltype, 
-    purchasesum, unit, remark
+    purchasesum, price, unit, remark
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
@@ -32,11 +33,11 @@
     insert into tr_purchase_db_application_detail (id, purchaseid, orgid, 
       orgname, materielid, materielname, 
       materielspec, materieltype, purchasesum, 
-      unit, remark)
+      price, unit, remark)
     values (#{id,jdbcType=VARCHAR}, #{purchaseid,jdbcType=VARCHAR}, #{orgid,jdbcType=VARCHAR}, 
       #{orgname,jdbcType=VARCHAR}, #{materielid,jdbcType=VARCHAR}, #{materielname,jdbcType=VARCHAR}, 
       #{materielspec,jdbcType=VARCHAR}, #{materieltype,jdbcType=VARCHAR}, #{purchasesum,jdbcType=DOUBLE}, 
-      #{unit,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR})
+      #{price,jdbcType=DOUBLE}, #{unit,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.tianrui.service.bean.businessManage.purchaseManage.PurchaseApplicationDetail" >
     insert into tr_purchase_db_application_detail
@@ -67,6 +68,9 @@
       </if>
       <if test="purchasesum != null" >
         purchasesum,
+      </if>
+      <if test="price != null" >
+        price,
       </if>
       <if test="unit != null" >
         unit,
@@ -103,6 +107,9 @@
       <if test="purchasesum != null" >
         #{purchasesum,jdbcType=DOUBLE},
       </if>
+      <if test="price != null" >
+        #{price,jdbcType=DOUBLE},
+      </if>
       <if test="unit != null" >
         #{unit,jdbcType=VARCHAR},
       </if>
@@ -138,6 +145,9 @@
       <if test="purchasesum != null" >
         purchasesum = #{purchasesum,jdbcType=DOUBLE},
       </if>
+      <if test="price != null" >
+        price = #{price,jdbcType=DOUBLE},
+      </if>
       <if test="unit != null" >
         unit = #{unit,jdbcType=VARCHAR},
       </if>
@@ -157,6 +167,7 @@
       materielspec = #{materielspec,jdbcType=VARCHAR},
       materieltype = #{materieltype,jdbcType=VARCHAR},
       purchasesum = #{purchasesum,jdbcType=DOUBLE},
+      price = #{price,jdbcType=DOUBLE},
       unit = #{unit,jdbcType=VARCHAR},
       remark = #{remark,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
@@ -193,6 +204,9 @@
       <if test="purchasesum != null and purchasesum != ''" >
         and purchasesum = #{purchasesum,jdbcType=DOUBLE}
       </if>
+      <if test="price != null and price != ''" >
+        and price = #{price,jdbcType=DOUBLE}
+      </if>
       <if test="unit != null and unit != ''" >
         and unit = #{unit,jdbcType=VARCHAR}
       </if>
@@ -220,12 +234,13 @@
     insert into tr_purchase_db_application_detail (
       id, purchaseid, orgid, orgname, materielid,
        materielname, materielspec, materieltype, purchasesum,
-        unit, remark)
+       price, unit, remark)
        values
       <foreach collection="toSaveItem" item="item" index="index" separator=",">
     (#{item.id,jdbcType=VARCHAR}, #{item.purchaseid,jdbcType=VARCHAR}, #{item.orgid,jdbcType=VARCHAR}, 
       #{item.orgname,jdbcType=VARCHAR}, #{item.materielid,jdbcType=VARCHAR},
-       #{item.materielname,jdbcType=VARCHAR}, #{item.materielspec,jdbcType=VARCHAR}, #{item.materieltype,jdbcType=VARCHAR}, #{item.purchasesum,jdbcType=DOUBLE}, #{item.unit,jdbcType=VARCHAR}, 
+       #{item.materielname,jdbcType=VARCHAR}, #{item.materielspec,jdbcType=VARCHAR}, #{item.materieltype,jdbcType=VARCHAR},
+        #{item.purchasesum,jdbcType=DOUBLE} #{item.price,jdbcType=DOUBLE}, #{item.unit,jdbcType=VARCHAR}, 
       #{item.remark,jdbcType=VARCHAR})
       </foreach>
   </insert>

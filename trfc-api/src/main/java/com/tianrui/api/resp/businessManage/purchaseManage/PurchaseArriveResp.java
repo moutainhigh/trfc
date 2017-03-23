@@ -48,6 +48,8 @@ public class PurchaseArriveResp extends BaseResp {
     private String abnormaltimeStr;
 	//到货量
     private Double arrivalamount;
+    //实际签收量
+    private Double signamount;
 	//单位 default='吨'
     private String unit;
 	//制单人id
@@ -211,6 +213,18 @@ public class PurchaseArriveResp extends BaseResp {
 	}
 	public void setArrivalamount(Double arrivalamount) {
 		this.arrivalamount = arrivalamount;
+	}
+	/**
+	 * @return the signamount
+	 */
+	public Double getSignamount() {
+		return signamount;
+	}
+	/**
+	 * @param signamount the signamount to set
+	 */
+	public void setSignamount(Double signamount) {
+		this.signamount = signamount;
 	}
 	public String getUnit() {
 		return unit;

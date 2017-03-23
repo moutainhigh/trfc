@@ -27,7 +27,8 @@ public class Constant {
     public final static String apiAuthKey ="@#!tr2017!#$";
     // md5篡改
     public final static String apiAuthSign ="trapi20170107";
-    
+    // 成功
+    public final static String SUCCESS ="000000";
     
     //redis 缓存的前缀
     //public final static String PRE_REDIS ="wl2_";
@@ -42,8 +43,9 @@ public class Constant {
     public final static String ORG_NAME ="天瑞集团汝州水泥有限公司";
     
     //接口URL
-    public final static  String URL_DOMAIN = "http://172.20.10.77:8080";
+//    public final static  String URL_DOMAIN = "http://172.20.10.77:8080";
+    public final static  String URL_DOMAIN = "http://localhost:8080";
     public final static String URL_RETURN_SALESAPPLICATION = URL_DOMAIN + "/api/boOrder/orderReturn";
-    
-    
+    public final static String URL_RETURN_SALESOUTBOUNDCATION=URL_DOMAIN+"/api/saleoutboundorder/orderReturn";
+    public final static String URL_RETURN_PURCHASESTORAGEATION=URL_DOMAIN+"/api/purchasestorage/orderReturn";
 }
