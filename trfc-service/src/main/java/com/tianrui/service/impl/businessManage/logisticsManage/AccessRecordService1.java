@@ -21,6 +21,7 @@ import com.tianrui.api.resp.businessManage.salesManage.SalesArriveResp;
 import com.tianrui.service.bean.businessManage.logisticsManage.AccessRecord;
 import com.tianrui.service.mapper.businessManage.logisticsManage.AccessRecordMapper1;
 import com.tianrui.smartfactory.common.vo.PaginationVO;
+import com.tianrui.smartfactory.common.vo.Result;
 
 @Service
 public class AccessRecordService1 implements IAccessRecordService1 {
@@ -140,6 +141,31 @@ public class AccessRecordService1 implements IAccessRecordService1 {
 //			}
 		}
 		return resp;
+	}
+
+	@Override
+	public Result findOne(AccessRecordQuery query) throws Exception {
+		Result rs = Result.getParamErrorResult();
+		if(query!=null){
+			AccessRecord record = accessRecordMapper.selectByPrimaryKey(query.getId());
+//			if(record!=null){
+//				AccessRecordResp resp = new AccessRecordResp();
+//				PropertyUtils.copyProperties(resp, record);
+//				if(StringUtils.isNotBlank(record.getNoticeid())){
+//					SalesArriveResp sar = salesArriveService.findOne(record.getNoticeid());
+//					if(sar!=null){
+//						resp.setRfid(sar.getVehiclerfid());
+//						resp.setVehicleno(sar.getVehicleno());
+//						resp.setOtherparty(sar.getUnit());
+//						resp.setIcardno(sar.getIcardno());
+//						resp.setSpraycode(sar.getSpraycode());
+//					}
+//				}
+				rs = Result.getSuccessResult();
+				rs.setData(record);
+//			}
+		}
+		return rs;
 	}
 	
 //	private AccessRecordResp groupSetViewData(AccessRecordResp resp) throws Exception{

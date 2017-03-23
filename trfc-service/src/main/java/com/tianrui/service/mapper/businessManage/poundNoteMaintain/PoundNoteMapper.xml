@@ -839,6 +839,12 @@
 		left join tr_purchase_db_application_detail p2 on p0.billdetailid = p2.id
 	where p0.id = #{id,jdbcType=VARCHAR} and p0.state = '1'
   </select>
+  <select id="findByBillid" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from tr_pound_db_note
+    where billid = #{billid,jdbcType=VARCHAR} and state = '1'
+  </select>
 	<select id="salesPage" parameterType="com.tianrui.api.req.businessManage.poundNoteMaintain.PoundNoteQuery" resultMap="BaseRespResultMap">
 	  	
 	</select>

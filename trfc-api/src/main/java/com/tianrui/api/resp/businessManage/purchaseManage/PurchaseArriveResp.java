@@ -60,6 +60,8 @@ public class PurchaseArriveResp extends BaseResp {
     private String makebilltimeStr;
     //IC卡id
     private String icardid;
+    //IC卡号
+    private String icardno;
     //状态：（0：删除，1：正常）
     private String state;
 	//创建人
@@ -344,6 +346,12 @@ public class PurchaseArriveResp extends BaseResp {
 	 */
 	public void setType(String type) {
 		this.type = type;
+	}
+	public String getIcardno() {
+		return icardno;
+	}
+	public void setIcardno(String icardno) {
+		this.icardno = icardno;
 	}
     
 }

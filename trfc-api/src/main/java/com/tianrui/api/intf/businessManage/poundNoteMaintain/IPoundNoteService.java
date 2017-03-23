@@ -67,5 +67,5 @@ public interface IPoundNoteService {
 	 * @return
 	 */
 	PaginationVO<PoundNoteResp> salesPage(PoundNoteQuery query);
-	
+	Result findByBillid(String billid) throws Exception;
 }

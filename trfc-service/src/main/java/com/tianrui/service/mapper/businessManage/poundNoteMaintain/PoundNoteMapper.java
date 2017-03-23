@@ -42,4 +42,5 @@ public interface PoundNoteMapper {
 	 * @return
 	 */
 	PoundNoteResp findOne(String id);
+	PoundNote findByBillid(String billid);
 }

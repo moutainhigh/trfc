@@ -238,6 +238,19 @@ public class PoundNoteService implements IPoundNoteService {
 		return resp;
 	}
 	
+	public Result findByBillid(String billid) throws Exception{
+		Result rs = Result.getParamErrorResult();
+		if(StringUtils.isNotBlank(billid)){
+			PoundNote note = poundNoteMapper.findByBillid(billid);
+			PoundNoteResp resp = new PoundNoteResp();
+			PropertyUtils.copyProperties(resp, note);
+			rs = Result.getSuccessResult();
+			rs.setData(resp);
+		}
+		return rs;
+	}
+	
+	
 	@SuppressWarnings("unused")
 	private List<PoundNoteResp> copyBeanList2RespList(List<PoundNote> list, boolean setApplication) throws Exception {
 		List<PoundNoteResp> listResp = null;

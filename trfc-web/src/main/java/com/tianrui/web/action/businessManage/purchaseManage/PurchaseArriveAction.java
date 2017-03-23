@@ -147,7 +147,20 @@ public class PurchaseArriveAction {
 		}
 		return view;
 	}
-	
+
+	@RequestMapping("findOne")
+	@ResponseBody
+	public Result findOne(PurchaseArriveSave update, HttpSession session){
+		Result result = Result.getSuccessResult();
+		try {
+			PurchaseArriveResp resp  = purchaseArriveService.findOne(update.getId());
+			result.setData(resp);
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
+		}
+		return result;
+	}
 	@RequestMapping("audit")
 	@ResponseBody
 	public Result audit(PurchaseArriveSave update, HttpSession session){

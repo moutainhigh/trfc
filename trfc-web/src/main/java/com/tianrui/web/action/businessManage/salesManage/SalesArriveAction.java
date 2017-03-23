@@ -176,7 +176,21 @@ public class SalesArriveAction {
 		}
 		return result;
 	}
-	
+	@RequestMapping("/findOne")
+	@ResponseBody
+	public Result findOne(SalesArriveQuery query, HttpSession session){
+		Result result = Result.getSuccessResult();
+		try {
+			SystemUserResp user = (SystemUserResp) session.getAttribute("systemUser");
+			query.setCurrUId(user.getId());
+			SalesArriveResp resp = salesArriveService.findOne(query.getId());
+			result.setData(resp);
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
+		}
+		return result;
+	}
 	@RequestMapping("/outfactory")
 	@ResponseBody
 	public Result outfactory(SalesArriveQuery query, HttpSession session){

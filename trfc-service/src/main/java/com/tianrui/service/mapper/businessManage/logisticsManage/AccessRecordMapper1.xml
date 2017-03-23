@@ -231,6 +231,7 @@
   	  <if test="state != null and state != ''" >
   	  	and state = #{state,jdbcType=VARCHAR}
   	  </if>
+
   	  <choose>
   	  	<when test="businesstype != null and businesstype != ''">
 		  	and businesstype = #{businesstype,jdbcType=VARCHAR}
@@ -239,6 +240,9 @@
 				and EXISTS(select id from tr_purchase_db_arrive p1 where p1.id=noticeid
 				<if test="vehicleid != null and vehicleid != ''">
 					and p1.vehicleid = #{vehicleid,jdbcType=VARCHAR}
+				</if>
+				<if test="icardno != null and icardno != ''">
+					and p1.icardno = #{icardno,jdbcType=VARCHAR}
 				</if>
 				<if test="materielid != null and materielid != ''">
 					and EXISTS(select id from tr_purchase_db_application_detail p2 where p1.billdetailid=p2.id
@@ -251,6 +255,9 @@
 				and EXISTS(select id from tr_sales_db_arrive s1 where s1.id=noticeid
 				<if test="vehicleid != null and vehicleid != ''">
 					and s1.vehicleid = #{vehicleid,jdbcType=VARCHAR}
+				</if>
+				<if test="icardno != null and icardno != ''">
+					and p1.icardno = #{icardno,jdbcType=VARCHAR}
 				</if>
 				<if test="materielid != null and materielid != ''">
 					and EXISTS(select id from tr_sales_db_application_detail s2 where s1.billid=s2.id
@@ -266,6 +273,9 @@
 				<if test="vehicleid != null and vehicleid != ''">
 					and p1.vehicleid = #{vehicleid,jdbcType=VARCHAR}
 				</if>
+				<if test="icardno != null and icardno != ''">
+					and p1.icardno = #{icardno,jdbcType=VARCHAR}
+				</if>
 				<if test="materielid != null and materielid != ''">
 					and EXISTS(select id from tr_purchase_db_application_detail p2 where p1.billdetailid=p2.id
 							and p2.materielid = #{materielid,jdbcType=VARCHAR}
@@ -276,6 +286,9 @@
 			<if test="vehicleid != null and vehicleid != ''">
 				and s1.vehicleid = #{vehicleid,jdbcType=VARCHAR}
 			</if>
+			<if test="icardno != null and icardno != ''">
+					and p1.icardno = #{icardno,jdbcType=VARCHAR}
+				</if>
 			<if test="materielid != null and materielid != ''">
 				and EXISTS(select id from tr_sales_db_application_detail s2 where s1.billid=s2.id
 						and s2.materielid = #{materielid,jdbcType=VARCHAR}
@@ -317,6 +330,9 @@
 				<if test="vehicleid != null and vehicleid != ''">
 					and p1.vehicleid = #{vehicleid,jdbcType=VARCHAR}
 				</if>
+				<if test="icardno != null and icardno != ''">
+					and p1.icardno = #{icardno,jdbcType=VARCHAR}
+				</if>
 				<if test="materielid != null and materielid != ''">
 					and EXISTS(select id from tr_purchase_db_application_detail p2 where p1.billdetailid=p2.id
 							and p2.materielid = #{materielid,jdbcType=VARCHAR}
@@ -328,6 +344,9 @@
 				and EXISTS(select id from tr_sales_db_arrive s1 where s1.id=noticeid
 				<if test="vehicleid != null and vehicleid != ''">
 					and s1.vehicleid = #{vehicleid,jdbcType=VARCHAR}
+				</if>
+				<if test="icardno != null and icardno != ''">
+					and p1.icardno = #{icardno,jdbcType=VARCHAR}
 				</if>
 				<if test="materielid != null and materielid != ''">
 					and EXISTS(select id from tr_sales_db_application_detail s2 where s1.billid=s2.id
@@ -343,6 +362,9 @@
 				<if test="vehicleid != null and vehicleid != ''">
 					and p1.vehicleid = #{vehicleid,jdbcType=VARCHAR}
 				</if>
+				<if test="icardno != null and icardno != ''">
+					and p1.icardno = #{icardno,jdbcType=VARCHAR}
+				</if>
 				<if test="materielid != null and materielid != ''">
 					and EXISTS(select id from tr_purchase_db_application_detail p2 where p1.billdetailid=p2.id
 							and p2.materielid = #{materielid,jdbcType=VARCHAR}
@@ -352,6 +374,9 @@
 			or EXISTS(select id from tr_sales_db_arrive s1 where s1.id=noticeid
 				<if test="vehicleid != null and vehicleid != ''">
 					and s1.vehicleid = #{vehicleid,jdbcType=VARCHAR}
+				</if>
+				<if test="icardno != null and icardno != ''">
+					and p1.icardno = #{icardno,jdbcType=VARCHAR}
 				</if>
 				<if test="materielid != null and materielid != ''">
 					and EXISTS(select id from tr_sales_db_application_detail s2 where s1.billid=s2.id
