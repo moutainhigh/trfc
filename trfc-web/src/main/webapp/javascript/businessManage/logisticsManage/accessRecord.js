@@ -119,8 +119,8 @@
 	//获取搜索参数
 	function getParams(){
 		var code = $('#code').val();code = $.trim(code);
-		var materielid = $('#materiel').val();materielid = $.trim(materielid);
-		var vehicleid = $('#vehicle').val();vehicleid = $.trim(vehicleid);
+		var materielid = $('#materiel').attr('materielid');materielid = $.trim(materielid);
+		var vehicleid = $('#vehicle').attr('vehicleid');vehicleid = $.trim(vehicleid);
 		var businesstype = $('#businesstype').val();businesstype = $.trim(businesstype);
 		var accesstype = $('#accesstype').val();accesstype = $.trim(accesstype);
 		var starttime = $('#starttime').val();starttime = $.trim(starttime);
@@ -205,39 +205,4 @@
 			layer.msg('暂无数据.');
 		}
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 })(jQuery, window);

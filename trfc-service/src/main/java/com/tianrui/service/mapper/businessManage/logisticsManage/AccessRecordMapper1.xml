@@ -253,7 +253,7 @@
 					and s1.vehicleid = #{vehicleid,jdbcType=VARCHAR}
 				</if>
 				<if test="materielid != null and materielid != ''">
-					and EXISTS(select id from tr_sales_db_application_detail s2 where s1.billid=s2.id
+					and EXISTS(select id from tr_sales_db_application_detail s2 where s1.billdetailid=s2.id
 							and s2.materielid = #{materielid,jdbcType=VARCHAR}
 					)
 				</if>
@@ -277,7 +277,7 @@
 				and s1.vehicleid = #{vehicleid,jdbcType=VARCHAR}
 			</if>
 			<if test="materielid != null and materielid != ''">
-				and EXISTS(select id from tr_sales_db_application_detail s2 where s1.billid=s2.id
+				and EXISTS(select id from tr_sales_db_application_detail s2 where s1.billdetailid=s2.id
 						and s2.materielid = #{materielid,jdbcType=VARCHAR}
 				)
 			</if>
@@ -330,7 +330,7 @@
 					and s1.vehicleid = #{vehicleid,jdbcType=VARCHAR}
 				</if>
 				<if test="materielid != null and materielid != ''">
-					and EXISTS(select id from tr_sales_db_application_detail s2 where s1.billid=s2.id
+					and EXISTS(select id from tr_sales_db_application_detail s2 where s1.billdetailid=s2.id
 							and s2.materielid = #{materielid,jdbcType=VARCHAR}
 					)
 				</if>
@@ -354,7 +354,7 @@
 					and s1.vehicleid = #{vehicleid,jdbcType=VARCHAR}
 				</if>
 				<if test="materielid != null and materielid != ''">
-					and EXISTS(select id from tr_sales_db_application_detail s2 where s1.billid=s2.id
+					and EXISTS(select id from tr_sales_db_application_detail s2 where s1.billdetailid=s2.id
 							and s2.materielid = #{materielid,jdbcType=VARCHAR}
 					)
 				</if>
