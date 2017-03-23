@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tianrui.service.mapper.businessManage.purchaseManage.PurchaseStorageListMapper" >
+  <resultMap id="BaseResultMap" type="com.tianrui.service.bean.businessManage.purchaseManage.PurchaseStorageList" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="nc_id" property="ncId" jdbcType="VARCHAR" />
+    <result column="pk_org" property="pkOrg" jdbcType="VARCHAR" />
+    <result column="ccustomerid" property="ccustomerid" jdbcType="VARCHAR" />
+    <result column="dbilldate" property="dbilldate" jdbcType="VARCHAR" />
+    <result column="cdptid" property="cdptid" jdbcType="VARCHAR" />
+    <result column="ntotalnum" property="ntotalnum" jdbcType="VARCHAR" />
+    <result column="billmaker" property="billmaker" jdbcType="VARCHAR" />
+    <result column="creationtime" property="creationtime" jdbcType="VARCHAR" />
+    <result column="cvendorid" property="cvendorid" jdbcType="VARCHAR" />
+    <result column="ts" property="ts" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, nc_id, pk_org, ccustomerid, dbilldate, cdptid, ntotalnum, billmaker, creationtime, 
+    cvendorid, ts, status
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from tr_purchase_storage_list
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from tr_purchase_storage_list
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.tianrui.service.bean.businessManage.purchaseManage.PurchaseStorageList" >
+    insert into tr_purchase_storage_list (id, nc_id, pk_org, 
+      ccustomerid, dbilldate, cdptid, 
+      ntotalnum, billmaker, creationtime, 
+      cvendorid, ts, status)
+    values (#{id,jdbcType=VARCHAR}, #{ncId,jdbcType=VARCHAR}, #{pkOrg,jdbcType=VARCHAR}, 
+      #{ccustomerid,jdbcType=VARCHAR}, #{dbilldate,jdbcType=VARCHAR}, #{cdptid,jdbcType=VARCHAR}, 
+      #{ntotalnum,jdbcType=VARCHAR}, #{billmaker,jdbcType=VARCHAR}, #{creationtime,jdbcType=VARCHAR}, 
+      #{cvendorid,jdbcType=VARCHAR}, #{ts,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.tianrui.service.bean.businessManage.purchaseManage.PurchaseStorageList" >
+    insert into tr_purchase_storage_list
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="ncId != null" >
+        nc_id,
+      </if>
+      <if test="pkOrg != null" >
+        pk_org,
+      </if>
+      <if test="ccustomerid != null" >
+        ccustomerid,
+      </if>
+      <if test="dbilldate != null" >
+        dbilldate,
+      </if>
+      <if test="cdptid != null" >
+        cdptid,
+      </if>
+      <if test="ntotalnum != null" >
+        ntotalnum,
+      </if>
+      <if test="billmaker != null" >
+        billmaker,
+      </if>
+      <if test="creationtime != null" >
+        creationtime,
+      </if>
+      <if test="cvendorid != null" >
+        cvendorid,
+      </if>
+      <if test="ts != null" >
+        ts,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="ncId != null" >
+        #{ncId,jdbcType=VARCHAR},
+      </if>
+      <if test="pkOrg != null" >
+        #{pkOrg,jdbcType=VARCHAR},
+      </if>
+      <if test="ccustomerid != null" >
+        #{ccustomerid,jdbcType=VARCHAR},
+      </if>
+      <if test="dbilldate != null" >
+        #{dbilldate,jdbcType=VARCHAR},
+      </if>
+      <if test="cdptid != null" >
+        #{cdptid,jdbcType=VARCHAR},
+      </if>
+      <if test="ntotalnum != null" >
+        #{ntotalnum,jdbcType=VARCHAR},
+      </if>
+      <if test="billmaker != null" >
+        #{billmaker,jdbcType=VARCHAR},
+      </if>
+      <if test="creationtime != null" >
+        #{creationtime,jdbcType=VARCHAR},
+      </if>
+      <if test="cvendorid != null" >
+        #{cvendorid,jdbcType=VARCHAR},
+      </if>
+      <if test="ts != null" >
+        #{ts,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tianrui.service.bean.businessManage.purchaseManage.PurchaseStorageList" >
+    update tr_purchase_storage_list
+    <set >
+      <if test="ncId != null" >
+        nc_id = #{ncId,jdbcType=VARCHAR},
+      </if>
+      <if test="pkOrg != null" >
+        pk_org = #{pkOrg,jdbcType=VARCHAR},
+      </if>
+      <if test="ccustomerid != null" >
+        ccustomerid = #{ccustomerid,jdbcType=VARCHAR},
+      </if>
+      <if test="dbilldate != null" >
+        dbilldate = #{dbilldate,jdbcType=VARCHAR},
+      </if>
+      <if test="cdptid != null" >
+        cdptid = #{cdptid,jdbcType=VARCHAR},
+      </if>
+      <if test="ntotalnum != null" >
+        ntotalnum = #{ntotalnum,jdbcType=VARCHAR},
+      </if>
+      <if test="billmaker != null" >
+        billmaker = #{billmaker,jdbcType=VARCHAR},
+      </if>
+      <if test="creationtime != null" >
+        creationtime = #{creationtime,jdbcType=VARCHAR},
+      </if>
+      <if test="cvendorid != null" >
+        cvendorid = #{cvendorid,jdbcType=VARCHAR},
+      </if>
+      <if test="ts != null" >
+        ts = #{ts,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tianrui.service.bean.businessManage.purchaseManage.PurchaseStorageList" >
+    update tr_purchase_storage_list
+    set nc_id = #{ncId,jdbcType=VARCHAR},
+      pk_org = #{pkOrg,jdbcType=VARCHAR},
+      ccustomerid = #{ccustomerid,jdbcType=VARCHAR},
+      dbilldate = #{dbilldate,jdbcType=VARCHAR},
+      cdptid = #{cdptid,jdbcType=VARCHAR},
+      ntotalnum = #{ntotalnum,jdbcType=VARCHAR},
+      billmaker = #{billmaker,jdbcType=VARCHAR},
+      creationtime = #{creationtime,jdbcType=VARCHAR},
+      cvendorid = #{cvendorid,jdbcType=VARCHAR},
+      ts = #{ts,jdbcType=VARCHAR},
+      status = #{status,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <select id="selectIncrementalData" resultMap="BaseResultMap" parameterType="com.tianrui.service.bean.businessManage.purchaseManage.PurchaseStorageList" >
+    select 
+    <include refid="Base_Column_List" />
+    from tr_purchase_storage_list
+    where      
+       pk_org=#{pkOrg}
+       <if test="ts != null" >
+       		<![CDATA[
+       		and ts > #{ts,jdbcType=TIMESTAMP}
+       		and status !=1
+       		]]>
+       </if>
+       <if test="ts == null" >
+       	  and status !=1
+       </if>
+       order by creationtime desc 
+  </select>
+</mapper>

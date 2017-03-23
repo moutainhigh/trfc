@@ -47,5 +47,5 @@ public class Constant {
     public final static  String URL_DOMAIN = "http://localhost:8080";
     public final static String URL_RETURN_SALESAPPLICATION = URL_DOMAIN + "/api/boOrder/orderReturn";
     public final static String URL_RETURN_SALESOUTBOUNDCATION=URL_DOMAIN+"/api/saleoutboundorder/orderReturn";
-    
+    public final static String URL_RETURN_PURCHASESTORAGEATION=URL_DOMAIN+"/api/purchasestorage/orderReturn";
 }
