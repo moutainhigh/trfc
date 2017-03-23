@@ -18,4 +18,6 @@ public interface SalesOutboundOrderMapper {
     int updateByPrimaryKey(SalesOutboundOrder record);
 
 	List<SalesOutboundOrder> selectIncrementalData(SalesOutboundOrder query);
+	
+	int insertBatch(List<SalesOutboundOrder> list);
 }

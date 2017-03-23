@@ -123,4 +123,18 @@
              #{item}
     </foreach >
   </select>
+  <insert id="insertBatch" parameterType="java.util.List">
+	insert into tr_sale_outbound_order_item (id, sale_outbound_order_id, cmaterialoid, cunitid, nnum, ts, create_time)
+	values
+	<foreach collection="list" item="item" index="index" separator=",">
+		(#{item.id,jdbcType=VARCHAR}, 
+		#{item.saleOutboundOrderId,jdbcType=VARCHAR},
+		#{item.cmaterialoid,jdbcType=VARCHAR},
+		#{item.cunitid,jdbcType=VARCHAR},
+		#{item.nnum,jdbcType=VARCHAR},
+		#{item.ts,jdbcType=VARCHAR},
+		#{item.createTime,jdbcType=VARCHAR}
+		)
+	</foreach>
+  </insert>
 </mapper>

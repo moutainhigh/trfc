@@ -20,4 +20,6 @@ public interface SalesOutboundOrderItemMapper {
     int updateByPrimaryKey(SalesOutboundOrderItem record);
 
 	List<SalesOutboundOrderItem> selectByOrderIds(@Param("ids") List<String> ids);
+	
+	int insertBatch(List<SalesOutboundOrderItem> list);
 }

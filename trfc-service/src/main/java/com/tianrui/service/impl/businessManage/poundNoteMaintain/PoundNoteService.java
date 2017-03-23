@@ -8,6 +8,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
@@ -28,20 +29,31 @@ import com.tianrui.service.bean.basicFile.measure.YardManage;
 import com.tianrui.service.bean.basicFile.nc.WarehouseManage;
 import com.tianrui.service.bean.businessManage.poundNoteMaintain.PoundNote;
 import com.tianrui.service.bean.businessManage.purchaseManage.PurchaseApplication;
+import com.tianrui.service.bean.businessManage.purchaseManage.PurchaseApplicationDetail;
+import com.tianrui.service.bean.businessManage.purchaseManage.PurchaseStorageList;
+import com.tianrui.service.bean.businessManage.purchaseManage.PurchaseStorageListItem;
 import com.tianrui.service.bean.businessManage.salesManage.SalesApplication;
 import com.tianrui.service.bean.businessManage.salesManage.SalesApplicationDetail;
 import com.tianrui.service.bean.businessManage.salesManage.SalesApplicationJoinPoundNote;
+import com.tianrui.service.bean.businessManage.salesManage.SalesOutboundOrder;
+import com.tianrui.service.bean.businessManage.salesManage.SalesOutboundOrderItem;
 import com.tianrui.service.mapper.basicFile.measure.DriverManageMapper;
 import com.tianrui.service.mapper.basicFile.measure.MinemouthManageMapper;
 import com.tianrui.service.mapper.basicFile.measure.VehicleManageMapper;
 import com.tianrui.service.mapper.basicFile.measure.YardManageMapper;
 import com.tianrui.service.mapper.basicFile.nc.WarehouseManageMapper;
 import com.tianrui.service.mapper.businessManage.poundNoteMaintain.PoundNoteMapper;
+import com.tianrui.service.mapper.businessManage.purchaseManage.PurchaseApplicationDetailMapper;
 import com.tianrui.service.mapper.businessManage.purchaseManage.PurchaseApplicationMapper;
+import com.tianrui.service.mapper.businessManage.purchaseManage.PurchaseStorageListItemMapper;
+import com.tianrui.service.mapper.businessManage.purchaseManage.PurchaseStorageListMapper;
 import com.tianrui.service.mapper.businessManage.salesManage.SalesApplicationDetailMapper;
 import com.tianrui.service.mapper.businessManage.salesManage.SalesApplicationJoinPoundNoteMapper;
 import com.tianrui.service.mapper.businessManage.salesManage.SalesApplicationMapper;
+import com.tianrui.service.mapper.businessManage.salesManage.SalesOutboundOrderItemMapper;
+import com.tianrui.service.mapper.businessManage.salesManage.SalesOutboundOrderMapper;
 import com.tianrui.smartfactory.common.constants.ErrorCode;
+import com.tianrui.smartfactory.common.utils.DateUtil;
 import com.tianrui.smartfactory.common.utils.UUIDUtil;
 import com.tianrui.smartfactory.common.vo.PaginationVO;
 import com.tianrui.smartfactory.common.vo.Result;
@@ -53,6 +65,8 @@ public class PoundNoteService implements IPoundNoteService {
 	private PoundNoteMapper poundNoteMapper;
 	@Autowired
 	private PurchaseApplicationMapper purchaseApplicationMapper;
+	@Autowired
+	private PurchaseApplicationDetailMapper purchaseApplicationDetailMapper;
 	@Autowired
 	private ISystemCodeService systemCodeService;
 	@Autowired
@@ -75,6 +89,14 @@ public class PoundNoteService implements IPoundNoteService {
 	private ISalesApplicationService salesApplicationService;
 	@Autowired
 	private ISalesApplicationDetailService salesApplicationDetailService;
+	@Autowired
+	private SalesOutboundOrderMapper salesOutboundOrderMapper;
+	@Autowired
+	private SalesOutboundOrderItemMapper salesOutboundOrderItemMapper;
+	@Autowired
+	private PurchaseStorageListMapper purchaseStorageListMapper;
+	@Autowired
+	private PurchaseStorageListItemMapper purchaseStorageListItemMapper;
 	
 	@Override
 	public PaginationVO<PoundNoteResp> purchasePage(PoundNoteQuery query) throws Exception {
@@ -94,6 +116,7 @@ public class PoundNoteService implements IPoundNoteService {
 		return page;
 	}
 
+	@Transactional
 	@Override
 	public Result addPurchasePoundNote(PoundNoteSave save) throws Exception {
 		Result result = Result.getParamErrorResult();
@@ -106,8 +129,11 @@ public class PoundNoteService implements IPoundNoteService {
 			codeReq.setCodeType(true);
 			codeReq.setUserid(save.getMakerid());
 			bean.setCode(systemCodeService.getCode(codeReq).getData().toString());
+			PurchaseApplication purchaseApplication = null;
+			PurchaseApplicationDetail purchaseApplicationDetail = null;
 			if (StringUtils.isNotBlank(save.getBillid()) && StringUtils.isNotBlank(save.getBilldetailid())) {
-				PurchaseApplication purchaseApplication = purchaseApplicationMapper.selectByPrimaryKey(save.getBillid());
+				purchaseApplication = purchaseApplicationMapper.selectByPrimaryKey(save.getBillid());
+				purchaseApplicationDetail = purchaseApplicationDetailMapper.selectByPrimaryKey(save.getBilldetailid());
 				if (purchaseApplication != null) {
 					bean.setBillcode(purchaseApplication.getCode());
 					bean.setReceivedepartmentid(purchaseApplication.getOrgid());
@@ -127,8 +153,41 @@ public class PoundNoteService implements IPoundNoteService {
 			bean.setCreatetime(System.currentTimeMillis());
 			bean.setModifier(save.getMakerid());
 			bean.setModifytime(System.currentTimeMillis());
+			PurchaseStorageList storage = new PurchaseStorageList();
+			GetCodeReq codeReq1 = new GetCodeReq();
+			codeReq1.setCode("DH");
+			codeReq1.setCodeType(true);
+			codeReq1.setUserid(save.getMakerid());
+			storage.setId(UUIDUtil.getId());
+			storage.setCode(systemCodeService.getCode(codeReq1).getData().toString());
+			storage.setNcId(bean.getBillid());
+			if(purchaseApplication != null){
+				storage.setPkOrg(purchaseApplication.getOrgid());
+				storage.setCdptid(purchaseApplication.getDepartmentid());
+				storage.setCvendorid(purchaseApplication.getSupplierid());
+			}
+			storage.setDbilldate(DateUtil.getNowDateString("yyyy-MM-dd HH:mm:ss"));
+			storage.setBillmaker(bean.getMakerid());
+			storage.setCreationtime(DateUtil.getNowDateString("yyyy-MM-dd HH:mm:ss"));
+			storage.setTs(storage.getCreationtime());
+			storage.setStatus("0");
+			PurchaseStorageListItem storageItem = new PurchaseStorageListItem();
+			storageItem.setId(UUIDUtil.getId());
+			storageItem.setPurchaseStorageListId(storage.getId());
+			storageItem.setPkOrg(storage.getPkOrg());
+			if(purchaseApplicationDetail != null){
+				storageItem.setCmaterialoid(purchaseApplicationDetail.getMaterielid());
+				storageItem.setCastunitid(purchaseApplicationDetail.getUnit());
+				storageItem.setNunm("" + bean.getNetweight());
+			}
+			storageItem.setNshouldnum("" + bean.getOriginalnetweight());
+			storageItem.setPkCreqwareid(bean.getWarehouseid());
+			storageItem.setTs(storage.getTs());
+			storageItem.setCreateTime(System.currentTimeMillis());
 			if (poundNoteMapper.insertSelective(bean) > 0 
-					&& StringUtils.equals(systemCodeService.updateCodeItem(codeReq).getCode(), ErrorCode.SYSTEM_SUCCESS.getCode())) {
+					&& StringUtils.equals(systemCodeService.updateCodeItem(codeReq).getCode(), ErrorCode.SYSTEM_SUCCESS.getCode())
+					&& purchaseStorageListMapper.insertSelective(storage) > 0
+					&& purchaseStorageListItemMapper.insertSelective(storageItem) > 0) {
 				result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
 			} else {
 				result.setErrorCode(ErrorCode.OPERATE_ERROR);
@@ -344,6 +403,7 @@ public class PoundNoteService implements IPoundNoteService {
 		return page;
 	}
 
+	@Transactional
 	@Override
 	public Result addSalesPoundNote(PoundNoteSave save, String bills) throws Exception {
 		Result result = Result.getParamErrorResult();
@@ -379,38 +439,95 @@ public class PoundNoteService implements IPoundNoteService {
 			bean.setModifytime(System.currentTimeMillis());
 			JSONArray array = JSONArray.parseArray(bills);
 			List<SalesApplicationJoinPoundNote> list = new ArrayList<SalesApplicationJoinPoundNote>();
-			if(array != null && array.size() > 0){
-				for(Object object : array){
-					SalesApplicationJoinPoundNote join = new SalesApplicationJoinPoundNote();
-					JSONObject jsonObject = (JSONObject) object;
-					String billid = jsonObject.getString("billid");
-					String billdetailid = jsonObject.getString("billdetailid");
-					join.setId(UUIDUtil.getId());
-					join.setBillid(billid);
-					join.setBilldetailid(billdetailid);
-					join.setPoundnoteid(bean.getId());
-					SalesApplicationDetail applicationDetail = salesApplicationDetailMapper.selectByPrimaryKey(billdetailid);
-					if(applicationDetail != null){
-						join.setBillsum(applicationDetail.getSalessum());
-					}
-					join.setTakeamount(bean.getPickupquantity());
-					join.setState("1");
-					join.setCreator(bean.getCreator());
-					join.setCreatetime(System.currentTimeMillis());
-					join.setModifier(bean.getModifier());
-					join.setModifytime(System.currentTimeMillis());
-					list.add(join);
-				}
-			}
-			if (poundNoteMapper.insertSelective(bean) > 0 
+			List<SalesOutboundOrder> orderList = new ArrayList<SalesOutboundOrder>();
+			List<SalesOutboundOrderItem> orderItemList = new ArrayList<SalesOutboundOrderItem>();
+			GetCodeReq codeReq1 = new GetCodeReq();
+			codeReq1.setCode("A6XC");
+			codeReq1.setCodeType(true);
+			codeReq1.setUserid(save.getMakerid());
+			parseBeanList(bean, array, list, orderList, orderItemList, systemCodeService.getCode(codeReq1).getData().toString());
+			if (poundNoteMapper.insertSelective(bean) > 0
+					&& salesApplicationJoinPoundNoteMapper.insertBatch(list) > 0 
 					&& StringUtils.equals(systemCodeService.updateCodeItem(codeReq).getCode(), ErrorCode.SYSTEM_SUCCESS.getCode())
-					&& salesApplicationJoinPoundNoteMapper.insertBatch(list) > 0) {
+					&& salesOutboundOrderMapper.insertBatch(orderList) > 0
+					&& salesOutboundOrderItemMapper.insertBatch(orderItemList) > 0
+					&& StringUtils.equals(systemCodeService.updateCodeItem(codeReq1).getCode(), ErrorCode.SYSTEM_SUCCESS.getCode())) {
 				result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
 			} else {
 				result.setErrorCode(ErrorCode.OPERATE_ERROR);
 			}
 		}
 		return result;
+	}
+	//格式化待存储对象集合
+	private void parseBeanList(PoundNote bean, JSONArray array, List<SalesApplicationJoinPoundNote> list,
+			List<SalesOutboundOrder> orderList, List<SalesOutboundOrderItem> orderItemList, String code) throws Exception {
+		if(array != null && array.size() > 0){
+			double netWeight = bean.getPickupquantity();
+			for(Object object : array){
+				SalesApplicationJoinPoundNote join = new SalesApplicationJoinPoundNote();
+				JSONObject jsonObject = (JSONObject) object;
+				String billid = jsonObject.getString("billid");
+				String billdetailid = jsonObject.getString("billdetailid");
+				join.setId(UUIDUtil.getId());
+				join.setBillid(billid);
+				join.setBilldetailid(billdetailid);
+				join.setPoundnoteid(bean.getId());
+				SalesApplication application = salesApplicationMapper.selectByPrimaryKey(billid);
+				SalesApplicationDetail applicationDetail = salesApplicationDetailMapper.selectByPrimaryKey(billdetailid);
+				if(application != null && applicationDetail != null){
+					SalesOutboundOrder order = new SalesOutboundOrder();
+					order.setId(UUIDUtil.getId());
+					order.setCode(code);
+					order.setNcId(billid);
+					order.setBilldate(DateUtil.parse(application.getBilltime(), "yyyy-MM-dd HH:mm:ss"));
+					order.setPkOrg(application.getOrgid());
+					order.setCdptid(application.getDepartmentid());
+					order.setCbizid(application.getSalesmanid());
+					order.setCdilivertypeid(application.getTransportcompanyid());
+					order.setBillmaker(bean.getMakerid());
+					order.setDmakedate(DateUtil.getNowDateString("yyyy-MM-dd HH:mm:ss"));
+					order.setTs(DateUtil.getNowDateString("yyyy-MM-dd HH:mm:ss"));
+					order.setStatus("0");
+					order.setCreateTime(System.currentTimeMillis());
+					orderList.add(order);
+					SalesOutboundOrderItem orderItem = new SalesOutboundOrderItem();
+					orderItem.setId(UUIDUtil.getId());
+					orderItem.setSaleOutboundOrderId(order.getId());
+					orderItem.setCmaterialoid(applicationDetail.getMaterielid());
+					orderItem.setCunitid(applicationDetail.getUnit());
+					Double margin = applicationDetail.getMargin();
+					if(margin == null){
+						margin = 0D;
+					}
+					if(netWeight > 0){
+						if(netWeight > margin){
+							orderItem.setNnum("" + margin);
+						}else{
+							orderItem.setNnum("" + netWeight);
+						}
+					}else{
+						orderItem.setNnum("0");
+					}
+					netWeight -= margin;
+					orderItem.setTs(order.getTs());
+					orderItem.setCreateTime(System.currentTimeMillis());
+					orderItemList.add(orderItem);
+					join.setBillsum(applicationDetail.getSalessum());
+					if (StringUtils.equals(billid, bean.getBillid())) {
+						bean.setPutinwarehouseid(order.getId());
+						bean.setPutinwarehousecode(order.getCode());
+					}
+				}
+				join.setTakeamount(bean.getPickupquantity());
+				join.setState("1");
+				join.setCreator(bean.getCreator());
+				join.setCreatetime(System.currentTimeMillis());
+				join.setModifier(bean.getModifier());
+				join.setModifytime(System.currentTimeMillis());
+				list.add(join);
+			}
+		}
 	}
 
 	@Override

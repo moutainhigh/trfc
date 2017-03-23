@@ -7,6 +7,8 @@ import java.util.List;
  */
 public class SalesOutboundOrder {
     private String id;
+    //单据编号
+    private String code;
     //销售订单NC主键
     private String ncId;
     //单据日期
@@ -44,7 +46,21 @@ public class SalesOutboundOrder {
         this.id = id == null ? null : id.trim();
     }
 
-    public String getNcId() {
+    /**
+	 * @return the code
+	 */
+	public String getCode() {
+		return code;
+	}
+
+	/**
+	 * @param code the code to set
+	 */
+	public void setCode(String code) {
+		this.code = code;
+	}
+
+	public String getNcId() {
         return ncId;
     }
 

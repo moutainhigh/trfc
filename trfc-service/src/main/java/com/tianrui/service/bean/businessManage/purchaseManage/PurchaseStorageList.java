@@ -9,6 +9,8 @@ import java.util.List;
  */
 public class PurchaseStorageList {
     private String id;
+    //采购入库单编号
+    private String code;
     //采购单NC主键
     private String ncId;
     //库存组织
@@ -42,7 +44,21 @@ public class PurchaseStorageList {
         this.id = id == null ? null : id.trim();
     }
 
-    public String getNcId() {
+    /**
+	 * @return the code
+	 */
+	public String getCode() {
+		return code;
+	}
+
+	/**
+	 * @param code the code to set
+	 */
+	public void setCode(String code) {
+		this.code = code;
+	}
+
+	public String getNcId() {
         return ncId;
     }
 

@@ -243,7 +243,7 @@
 								return;
 							}
 						}
-						marginsum += rightData.margin;
+						marginsum += (rightData.margin || 0);
 						if(rightData.margin){
 							salessum += rightData.salessum;
 						}
@@ -540,7 +540,7 @@
 	}
 	
 	//获取出厂编号搜索条件
-	function getSalesApplicationParams(){
+	function getBatchNumberParams(){
 		var factorycode = $('#factorycode').val();factorycode = $.trim(factorycode);
 		var materielid = $('#materiel1').attr('materielid');materielid = $.trim(materielid);
 		var starttime = $('#starttime').val();starttime = $.trim(starttime);
@@ -559,7 +559,7 @@
 		var index = layer.load(2, {
 			shade: [0.3,'#fff'] //0.1透明度的白色背景
 		});
-		var params = getSalesApplicationParams();
+		var params = getBatchNumberParams();
 		params.pageNo = pageNo;
 		$.ajax({
 			url:URL.batchNumberPage,

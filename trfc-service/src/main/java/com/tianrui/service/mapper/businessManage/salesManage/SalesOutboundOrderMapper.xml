@@ -3,6 +3,7 @@
 <mapper namespace="com.tianrui.service.mapper.businessManage.salesManage.SalesOutboundOrderMapper" >
   <resultMap id="BaseResultMap" type="com.tianrui.service.bean.businessManage.salesManage.SalesOutboundOrder" >
     <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="code" property="code" jdbcType="VARCHAR" />
     <result column="nc_id" property="ncId" jdbcType="VARCHAR" />
     <result column="billdate" property="billdate" jdbcType="VARCHAR" />
     <result column="pk_org" property="pkOrg" jdbcType="VARCHAR" />
@@ -18,7 +19,7 @@
     <result column="create_time" property="createTime" jdbcType="BIGINT" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, nc_id, billdate, pk_org, cdptid, cbizid, ntotalnum, cdilivertypeid, billmaker, 
+    id, code, nc_id, billdate, pk_org, cdptid, cbizid, ntotalnum, cdilivertypeid, billmaker, 
     dmakedate, ctrantypeid, ts, status, create_time
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
@@ -32,7 +33,7 @@
     where id = #{id,jdbcType=VARCHAR}
   </delete>
   <insert id="insert" parameterType="com.tianrui.service.bean.businessManage.salesManage.SalesOutboundOrder" >
-    insert into tr_sale_outbound_order (id, nc_id, billdate, 
+    insert into tr_sale_outbound_order (id, code, nc_id, billdate, 
       pk_org, cdptid, cbizid, 
       ntotalnum, cdilivertypeid, billmaker, 
       dmakedate, ctrantypeid, ts, 
@@ -48,6 +49,9 @@
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         id,
+      </if>
+      <if test="code != null" >
+        code,
       </if>
       <if test="ncId != null" >
         nc_id,
@@ -137,6 +141,9 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.tianrui.service.bean.businessManage.salesManage.SalesOutboundOrder" >
     update tr_sale_outbound_order
     <set >
+      <if test="code != null" >
+        code = #{code,jdbcType=VARCHAR},
+      </if>
       <if test="ncId != null" >
         nc_id = #{ncId,jdbcType=VARCHAR},
       </if>
@@ -181,7 +188,8 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.tianrui.service.bean.businessManage.salesManage.SalesOutboundOrder" >
     update tr_sale_outbound_order
-    set nc_id = #{ncId,jdbcType=VARCHAR},
+    set code = #{code,jdbcType=VARCHAR},
+      ncId = #{ncId,jdbcType=VARCHAR},
       billdate = #{billdate,jdbcType=VARCHAR},
       pk_org = #{pkOrg,jdbcType=VARCHAR},
       cdptid = #{cdptid,jdbcType=VARCHAR},
@@ -213,4 +221,27 @@
        </if>
        order by create_time desc 
   </select>
+  <insert id="insertBatch" parameterType="java.util.List">
+	insert into tr_sale_outbound_order (id, code, nc_id, billdate, pk_org, cdptid, cbizid, ntotalnum, cdilivertypeid, billmaker, 
+    dmakedate, ctrantypeid, ts, status, create_time)
+	values
+	<foreach collection="list" item="item" index="index" separator=",">
+		(#{item.id,jdbcType=VARCHAR}, 
+		#{item.code,jdbcType=VARCHAR},
+		#{item.ncId,jdbcType=VARCHAR},
+		#{item.billdate,jdbcType=VARCHAR},
+		#{item.pkOrg,jdbcType=VARCHAR},
+		#{item.cdptid,jdbcType=VARCHAR},
+		#{item.cbizid,jdbcType=VARCHAR},
+		#{item.ntotalnum,jdbcType=VARCHAR},
+		#{item.cdilivertypeid,jdbcType=VARCHAR},
+		#{item.billmaker,jdbcType=VARCHAR},
+		#{item.dmakedate,jdbcType=VARCHAR},
+		#{item.ctrantypeid,jdbcType=VARCHAR},
+		#{item.ts,jdbcType=VARCHAR},
+		#{item.status,jdbcType=VARCHAR},
+		#{item.createTime,jdbcType=VARCHAR}
+		)
+	</foreach>
+  </insert>
 </mapper>
