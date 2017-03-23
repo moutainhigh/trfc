@@ -59,7 +59,8 @@ public class AccessRecordResp extends BaseResp {
     private String icardno;
     //IC卡面编号
     private String icardcode;
-    
+    //喷码
+    private String spraycode;
 	public String getId() {
 		return id;
 	}
@@ -205,5 +206,11 @@ public class AccessRecordResp extends BaseResp {
 	}
 	public void setIcardcode(String icardcode) {
 		this.icardcode = icardcode;
+	}
+	public String getSpraycode() {
+		return spraycode;
+	}
+	public void setSpraycode(String spraycode) {
+		this.spraycode = spraycode;
 	}
 }

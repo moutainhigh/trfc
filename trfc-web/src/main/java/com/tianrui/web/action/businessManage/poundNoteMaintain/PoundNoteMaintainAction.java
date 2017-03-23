@@ -153,7 +153,18 @@ public class PoundNoteMaintainAction {
 		}
 		return result;
 	}
-	
+	@RequestMapping("/purchase/findByBillid")
+	@ResponseBody
+	public Result findByBillid(String billid){
+		Result result = Result.getParamErrorResult();
+		try {
+			result = poundNoteService.findByBillid(billid);
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
+		}
+		return result;
+	}
 	@RequestMapping("/purchase/detail")
 	public ModelAndView purchasePoundNoteDetail(String id){
 		ModelAndView view = new ModelAndView("businessManage/poundNoteMaintain/purchasePoundNoteDetail");

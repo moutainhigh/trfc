@@ -41,7 +41,7 @@ public interface PoundNoteMapper {
 	 * @param id
 	 * @return
 	 */
-	PoundNoteResp findOne(String id); 
+	PoundNoteResp findOne(String id);
 	/**
 	 * @Description 查询销售磅单
 	 * @author zhanggaohao
@@ -58,4 +58,5 @@ public interface PoundNoteMapper {
 	 * @return
 	 */
 	long salesPageCount(PoundNoteQuery query);
+	PoundNote findByBillid(String billid);
 }

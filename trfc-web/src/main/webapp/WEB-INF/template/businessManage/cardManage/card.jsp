@@ -14,7 +14,8 @@
 			<div class="intel_tab">
 				<!--tab切换标题-->
 				<ul class="intel_menu">
-					<li class="select"><a href="/trfc/card/main">IC卡注册</a></li>
+					<li><a href="/trfc/card/main">IC卡注册</a></li>
+					<li class="select"><a href="/trfc/cardReissue/main">补卡业务</a></li>
 				</ul>
 			</div>
 			<!--tab切换的内容-->
@@ -144,7 +145,8 @@
 								</div>
 								<div class="alt_edit_div">
 									<label><em class="colorred">*</em>登记人：</label> <input
-										id="add_registrar" value="${user.name }" registrar="${user.id }" type="text" readonly>
+										id="add_registrar" value="${user.name }"
+										registrar="${user.id }" type="text" readonly>
 								</div>
 								<div class="alt_edit_div">
 									<label><em class="colorred">*</em>注册时间：</label> <input
@@ -269,6 +271,8 @@
 	</div>
 	<!--删除end-->
 	<jsp:include page="../../common/base/footer_busi.jsp"></jsp:include>
+	<script type="text/javascript"
+		src="/javascript/quality/purchase/cardReader.js"></script>
 	<script type="text/javascript"
 		src="/javascript/businessManage/cardManage/card.js"></script>
 </body>
