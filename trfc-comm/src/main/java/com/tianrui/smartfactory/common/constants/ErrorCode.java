@@ -60,6 +60,15 @@ public enum ErrorCode {
 	SYSTEM_USER_ERROR8("E200008","该用户编码已经存在."),
 	SYSTEM_USER_ERROR9("E200009","原密码错误."),
 	
+	SYSTEM_MENU_ERROR6("E200106","找不到相关菜单记录."),
+	SYSTEM_MENU_ERROR7("E200107","该菜单名称已经存在."),
+	SYSTEM_MENU_ERROR8("E200008","该菜单编码已经存在."),
+	
+	SYSTEM_ROLE_ERROR6("E200206","找不到相关角色记录."),
+	SYSTEM_ROLE_ERROR7("E200207","该角色名称已经存在."),
+	SYSTEM_ROLE_ERROR8("E200008","该角色编码已经存在."),
+	
+	
 	SYSTEM_AUTH_API_ERROR6("E200101","系统访问接口与子系统类型不匹配."),
 	;
 	

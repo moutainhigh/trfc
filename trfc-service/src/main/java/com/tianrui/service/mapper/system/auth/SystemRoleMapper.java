@@ -35,5 +35,5 @@ public interface SystemRoleMapper {
      * @param queryReq
      * @return
      */
-    long countByCondition(SystemUserQueryReq queryReq );
+    Long countByCondition(SystemRoleQueryReq queryReq );
 }

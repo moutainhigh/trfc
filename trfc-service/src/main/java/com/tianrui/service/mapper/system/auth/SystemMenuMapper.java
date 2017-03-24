@@ -36,5 +36,5 @@ public interface SystemMenuMapper {
      * @param queryReq
      * @return
      */
-    long countByCondition(SystemUserQueryReq queryReq );
+    long countByCondition(SystemMenuQueryReq queryReq );
 }
