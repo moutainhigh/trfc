@@ -59,4 +59,12 @@ public interface PoundNoteMapper {
 	 */
 	long salesPageCount(PoundNoteQuery query);
 	PoundNote findByBillid(String billid);
+	/**
+	 * @Description 根据出入库单号修改推单状态
+	 * @author zhanggaohao
+	 * @version 2017年3月24日 上午8:42:54
+	 * @param record
+	 * @return
+	 */
+	int updateByOrderCode(PoundNote record);
 }

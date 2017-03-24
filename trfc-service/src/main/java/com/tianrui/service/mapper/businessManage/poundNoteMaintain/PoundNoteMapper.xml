@@ -30,6 +30,9 @@
     <result column="yardname" property="yardname" jdbcType="VARCHAR" />
     <result column="receiverpersonid" property="receiverpersonid" jdbcType="VARCHAR" />
     <result column="receiverpersonname" property="receiverpersonname" jdbcType="VARCHAR" />
+    <result column="weigherid" property="weigherid" jdbcType="VARCHAR" />
+    <result column="weighername" property="weighername" jdbcType="VARCHAR" />
+    <result column="receivertime" property="receivertime" jdbcType="BIGINT" />
     <result column="pickupquantity" property="pickupquantity" jdbcType="DOUBLE" />
     <result column="grossweight" property="grossweight" jdbcType="DOUBLE" />
     <result column="tareweight" property="tareweight" jdbcType="DOUBLE" />
@@ -87,6 +90,8 @@
     <result column="yardname" property="yardname" jdbcType="VARCHAR" />
     <result column="receiverpersonid" property="receiverpersonid" jdbcType="VARCHAR" />
     <result column="receiverpersonname" property="receiverpersonname" jdbcType="VARCHAR" />
+    <result column="weigherid" property="weigherid" jdbcType="VARCHAR" />
+    <result column="weighername" property="weighername" jdbcType="VARCHAR" />
     <result column="receivertime" property="receivertime" jdbcType="BIGINT" />
     <result column="pickupquantity" property="pickupquantity" jdbcType="DOUBLE" />
     <result column="grossweight" property="grossweight" jdbcType="DOUBLE" />
@@ -113,7 +118,7 @@
     id, code, returnstatus, redcollide, status, billtype, putinwarehouseid, putinwarehousecode, billid, billcode, billdetailid,
     noticeid, noticecode, arrivepoundnotecode, senddepartmentid, senddepartmentname, driverid, drivername, driveridentityno, vehicleid, vehicleno, 
     receivedepartmentid, receivedepartmentname, minemouthid, minemouthname, warehouseid, 
-    warehousename, yardid, yardname, receiverpersonid, receiverpersonname, receivertime, pickupquantity, 
+    warehousename, yardid, yardname, receiverpersonid, receiverpersonname, weigherid, weighername, receivertime, pickupquantity, 
     grossweight, tareweight, netweight, originalnetweight, deductionweight, deductionother, batchnumberid,
     serialnumber, lighttime, weighttime, makerid, makebillname, makebilltime, state, creator, 
     createtime, modifier, modifytime, remark
@@ -122,7 +127,7 @@
     p0.id, p0.code, p0.returnstatus, p0.redcollide, p0.status, p0.billtype, p0.putinwarehouseid, p0.putinwarehousecode, p0.billid, p0.billcode, p2.id as billdetailid, p0.
     noticeid, p0.noticecode, p0.arrivepoundnotecode, p0.senddepartmentid, p0.senddepartmentname, p0.driverid, p0.drivername, p0.driveridentityno, p0.vehicleid, p0.vehicleno, p0.
     receivedepartmentid, p0.receivedepartmentname, p0.minemouthid, p0.minemouthname, p0.warehouseid, p0.
-    warehousename, p0.yardid, p0.yardname, p0.receiverpersonid, p0.receiverpersonname, p0.receivertime, p0.pickupquantity, p0.
+    warehousename, p0.yardid, p0.yardname, p0.receiverpersonid, p0.receiverpersonname, p0.weigherid, p0.weighername, p0.receivertime, p0.pickupquantity, p0.
     grossweight, p0.tareweight, p0.netweight, p0.originalnetweight, p0.deductionweight, p0.deductionother, p0.batchnumberid, p0.
     serialnumber, p0.lighttime, p0.weighttime, p0.makerid, p0.makebillname, p0.makebilltime, p0.state, p0.creator, p0.
     createtime, p0.modifier, p0.modifytime, p0.remark
@@ -146,7 +151,7 @@
       receivedepartmentid, receivedepartmentname, 
       minemouthid, minemouthname, warehouseid, 
       warehousename, yardid, yardname, 
-      receiverpersonid, receiverpersonname, receivertime, pickupquantity, 
+      receiverpersonid, receiverpersonname, weigherid, weighername, receivertime, pickupquantity, 
       grossweight, tareweight, netweight, 
       originalnetweight, deductionweight, deductionother, batchnumberid,
       serialnumber, lighttime, weighttime, 
@@ -163,7 +168,8 @@
       #{receivedepartmentid,jdbcType=VARCHAR}, #{receivedepartmentname,jdbcType=VARCHAR}, 
       #{minemouthid,jdbcType=VARCHAR}, #{minemouthname,jdbcType=VARCHAR}, #{warehouseid,jdbcType=VARCHAR}, 
       #{warehousename,jdbcType=VARCHAR}, #{yardid,jdbcType=VARCHAR}, #{yardname,jdbcType=VARCHAR}, 
-      #{receiverpersonid,jdbcType=VARCHAR}, #{receiverpersonname,jdbcType=VARCHAR}, #{receivertime,jdbcType=BIGINT}, #{pickupquantity,jdbcType=DOUBLE}, 
+      #{receiverpersonid,jdbcType=VARCHAR}, #{receiverpersonname,jdbcType=VARCHAR}, #{weigherid,jdbcType=VARCHAR}, 
+      #{weighername,jdbcType=VARCHAR}, #{receivertime,jdbcType=BIGINT}, #{pickupquantity,jdbcType=DOUBLE}, 
       #{grossweight,jdbcType=DOUBLE}, #{tareweight,jdbcType=DOUBLE}, #{netweight,jdbcType=DOUBLE}, 
       #{originalnetweight,jdbcType=DOUBLE}, #{deductionweight,jdbcType=DOUBLE}, #{deductionother,jdbcType=DOUBLE}, 
       #{batchnumberid,jdbcType=VARCHAR},  #{serialnumber,jdbcType=VARCHAR}, #{lighttime,jdbcType=BIGINT}, #{weighttime,jdbcType=BIGINT}, 
@@ -266,6 +272,12 @@
       </if>
       <if test="receiverpersonname != null" >
         receiverpersonname,
+      </if>
+      <if test="weigherid != null" >
+        weigherid,
+      </if>
+      <if test="weighername != null" >
+        weighername,
       </if>
       <if test="receivertime != null" >
         receivertime,
@@ -425,6 +437,12 @@
       <if test="receiverpersonname != null" >
         #{receiverpersonname,jdbcType=VARCHAR},
       </if>
+      <if test="weigherid != null" >
+        #{weigherid,jdbcType=VARCHAR},
+      </if>
+      <if test="weighername != null" >
+        #{weighername,jdbcType=VARCHAR},
+      </if>
       <if test="receivertime != null" >
         #{receivertime,jdbcType=BIGINT},
       </if>
@@ -583,7 +601,13 @@
       <if test="receiverpersonname != null" >
         receiverpersonname = #{receiverpersonname,jdbcType=VARCHAR},
       </if>
-      <if test="receiverpersonname != null" >
+      <if test="weigherid != null" >
+        weigherid = #{weigherid,jdbcType=VARCHAR},
+      </if>
+      <if test="weighername != null" >
+        weighername = #{weighername,jdbcType=VARCHAR},
+      </if>
+      <if test="receivertime != null" >
         receivertime = #{receivertime,jdbcType=BIGINT},
       </if>
       <if test="pickupquantity != null" >
@@ -681,6 +705,8 @@
       yardname = #{yardname,jdbcType=VARCHAR},
       receiverpersonid = #{receiverpersonid,jdbcType=VARCHAR},
       receiverpersonname = #{receiverpersonname,jdbcType=VARCHAR},
+      weigherid = #{weigherid,jdbcType=VARCHAR},
+      weighername = #{weighername,jdbcType=VARCHAR},
       receivertime = #{receivertime,jdbcType=BIGINT},
       pickupquantity = #{pickupquantity,jdbcType=DOUBLE},
       grossweight = #{grossweight,jdbcType=DOUBLE},
@@ -990,4 +1016,9 @@
 			</if>
 		</where>
 	</select>
+	<update id="updateByOrderCode" parameterType="com.tianrui.service.bean.businessManage.poundNoteMaintain.PoundNote" >
+    update tr_pound_db_note
+    set returnstatus = #{returnstatus,jdbcType=VARCHAR}
+    where putinwarehousecode = #{putinwarehousecode,jdbcType=VARCHAR} 
+    </update>
 </mapper>

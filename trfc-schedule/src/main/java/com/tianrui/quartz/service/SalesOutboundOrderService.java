@@ -16,8 +16,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.tianrui.quartz.common.ApiParamUtils;
 import com.tianrui.quartz.common.HttpUtils;
+import com.tianrui.service.bean.businessManage.poundNoteMaintain.PoundNote;
 import com.tianrui.service.bean.businessManage.salesManage.SalesOutboundOrder;
 import com.tianrui.service.bean.businessManage.salesManage.SalesOutboundOrderItem;
+import com.tianrui.service.mapper.businessManage.poundNoteMaintain.PoundNoteMapper;
 import com.tianrui.service.mapper.businessManage.salesManage.SalesOutboundOrderItemMapper;
 import com.tianrui.service.mapper.businessManage.salesManage.SalesOutboundOrderMapper;
 import com.tianrui.smartfactory.common.api.ApiResult;
@@ -38,7 +40,8 @@ public class SalesOutboundOrderService implements ISalesOutboundOrderService{
 	private SalesOutboundOrderMapper salesOutboundOrderMapper;
 	@Autowired
 	private SalesOutboundOrderItemMapper salesOutboundOrderItemMapper;
-	
+	@Autowired
+	private PoundNoteMapper poundNoteMapper;
 	
 	
 	/**
@@ -98,6 +101,10 @@ public class SalesOutboundOrderService implements ISalesOutboundOrderService{
 				if(apiResult!=null && StringUtils.equals(apiResult.getCode(),Constant.SUCCESS )){
 					order.setStatus("1");
 					if(salesOutboundOrderMapper.updateByPrimaryKeySelective(order)>0){
+						PoundNote pn = new PoundNote();
+						pn.setPutinwarehousecode(order.getCode());
+						pn.setReturnstatus("2");
+						poundNoteMapper.updateByOrderCode(pn);
 						log.info("操作成功！");
  					}else{
 						log.error(ErrorCode.OPERATE_ERROR.getMsg());

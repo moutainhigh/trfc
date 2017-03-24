@@ -272,7 +272,7 @@
 				var status = '';
 				switch (obj.status) {
 				case '0': status = '计量系统';break;
-				case '1': status = '补增入库';break;
+				case '1': status = '补增出库';break;
 				case '2': status = '计量退货';break;
 				case '3': status = '作废';break;
 				default: break;
@@ -296,7 +296,7 @@
 				$('<tr>').append('<td>'+(i+1)+'</td>')
 						.append('<td>'+code+'</td>')
 						.append('<td'+(obj.returnstatus == '0' ? ' class="colorred"' : '')+'>'+returnstatus+'</td>')
-						.append('<td'+(obj.redcollide == '0' ? ' class="colorred"' : '')+'>'+redcollide+'</td>')
+						.append('<td'+(obj.redcollide == '1' ? ' class="colorred"' : '')+'>'+redcollide+'</td>')
 						.append('<td'+(obj.status == '1' || obj.status == '3' ? ' class="colorred"' : '')+'>'+status+'</td>')
 						.append('<td>'+putinwarehousecode+'</td>')
 						.append('<td>'+billcode+'</td>')
