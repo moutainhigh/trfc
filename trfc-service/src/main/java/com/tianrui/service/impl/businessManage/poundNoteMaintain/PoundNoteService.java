@@ -15,6 +15,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.tianrui.api.intf.businessManage.poundNoteMaintain.IPoundNoteService;
 import com.tianrui.api.intf.businessManage.salesManage.ISalesApplicationDetailService;
 import com.tianrui.api.intf.businessManage.salesManage.ISalesApplicationService;
+import com.tianrui.api.intf.system.auth.ISystemUserService;
 import com.tianrui.api.intf.system.base.ISystemCodeService;
 import com.tianrui.api.req.businessManage.poundNoteMaintain.PoundNoteQuery;
 import com.tianrui.api.req.businessManage.poundNoteMaintain.PoundNoteSave;
@@ -22,6 +23,7 @@ import com.tianrui.api.req.system.base.GetCodeReq;
 import com.tianrui.api.resp.businessManage.poundNoteMaintain.PoundNoteResp;
 import com.tianrui.api.resp.businessManage.salesManage.SalesApplicationDetailResp;
 import com.tianrui.api.resp.businessManage.salesManage.SalesApplicationResp;
+import com.tianrui.api.resp.system.auth.SystemUserResp;
 import com.tianrui.service.bean.basicFile.measure.DriverManage;
 import com.tianrui.service.bean.basicFile.measure.MinemouthManage;
 import com.tianrui.service.bean.basicFile.measure.VehicleManage;
@@ -97,6 +99,8 @@ public class PoundNoteService implements IPoundNoteService {
 	private PurchaseStorageListMapper purchaseStorageListMapper;
 	@Autowired
 	private PurchaseStorageListItemMapper purchaseStorageListItemMapper;
+	@Autowired
+	private ISystemUserService systemUserService;
 	
 	@Override
 	public PaginationVO<PoundNoteResp> purchasePage(PoundNoteQuery query) throws Exception {
@@ -196,7 +200,7 @@ public class PoundNoteService implements IPoundNoteService {
 		return result;
 	}
 
-	private void setDetails(PoundNoteSave save, PoundNote bean) {
+	private void setDetails(PoundNoteSave save, PoundNote bean) throws Exception {
 		if (StringUtils.isNotBlank(save.getVehicleid())) {
 			VehicleManage vehicle = vehicleManageMapper.selectByPrimaryKey(save.getVehicleid());
 			if (vehicle != null) {
@@ -230,7 +234,10 @@ public class PoundNoteService implements IPoundNoteService {
 		}
 		//收料员
 		if (StringUtils.isNotBlank(save.getReceiverpersonid())) {
-			
+			SystemUserResp user = systemUserService.getUser(save.getReceiverpersonid());
+			if(user != null){
+				bean.setReceiverpersonname(user.getName());
+			}
 		}
 	}
 

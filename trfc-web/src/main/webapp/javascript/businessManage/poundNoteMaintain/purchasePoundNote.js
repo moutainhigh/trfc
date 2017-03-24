@@ -337,6 +337,7 @@
 			});
 			$('#dataBody>tr').off('dblclick').on('dblclick', function(){
 				//详情
+				var obj = $(this).closest('tr').data();
 				window.open(URL.detail + '?id=' + obj.id);
 			});
 		}else{
