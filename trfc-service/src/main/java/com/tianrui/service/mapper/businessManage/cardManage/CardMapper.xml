@@ -277,4 +277,10 @@
   		</if>
   	</if>
   </select>
+    <select id="selectByCardno" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from tr_card_db_manage
+    where cardno = #{cardno,jdbcType=VARCHAR} and state = '1'
+  </select>
 </mapper>

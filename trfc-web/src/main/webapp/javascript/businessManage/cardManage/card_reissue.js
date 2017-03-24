@@ -15,16 +15,18 @@ $(function() {
 		ShowAction(1);
 	});
 	$('#list').on('dblclick','tr',function() {
-		var id = $(this).data('obj').id;
+		var id = $(this).data('obj').accessid;
 		window.location.href = URL.detail + '?id=' + id;
 	});
+
 	$('#seek_reader').click(function() {
 		//打开读卡器
 		readerOpen();
 		//开打卡片获取卡号
 		var cardno = openCard();
 		if(cardno){
-			ShowAction(1, cardno)
+			$('#seek_icardno').val(cardno);
+			ShowAction(1);
 			//蜂鸣
 			readerBeep();
 		}
@@ -34,76 +36,76 @@ $(function() {
 	//加载下拉框
 	function initAutoComplete(){
 		var cache = {};
-	    $("#seek_material").autocomplete({
-	    	source: function( request, response ) {
-	    		var term = request.term;
-	    		var materiel = cache['materiel'] || {};
-	    		if ( term in materiel ) {
-	    			response( materiel[ term ] );
-	    			return;
-	    		}
-	    		$.post( URL.materielAutoCompleteSearch, request, function( data, status, xhr ) {
-	    			materiel[ term ] = data;
-	    			response( data );
-	    		});
-	    	},
-	    	response: function( event, ui ) {
-	    		if(ui.content && ui.content.length > 0){
-		    		ui.content.forEach(function(x,i,a){
-		    			x.label = x.name;
-		    			x.value = x.id;
-		    		});
-	    		}
-	    	},
-	    	select: function( event, ui ) {
-	    		$(this).val(ui.item.name).attr('materielid', ui.item.id);
-	    		return false;
-    		}
-	    }).off('click').on('click',function(){
-	    	$(this).autocomplete('search',' ');
-	    }).on('input propertychange',function(){
-	    	$(this).removeAttr('materielid');
-	    }).change(function(){
-    		if(!$(this).attr('materielid')){
-    			$(this).val('');
-    		}
-	    });
-	    $("#seek_vehicle").autocomplete({
-	    	source: function( request, response ) {
-	    		var term = request.term;
-	    		var vehicle = cache['vehicle'] || {};
-	    		if ( term in vehicle ) {
-	    			response( vehicle[ term ] );
-	    			return;
-	    		}
-	    		$.post( URL.vehicleAutoCompleteSearch, request, function( data, status, xhr ) {
-	    			vehicle[ term ] = data;
-	    			response( data );
-	    		});
-	    	},
-	    	response: function( event, ui ) {
-	    		if(ui.content && ui.content.length > 0){
-	    			ui.content.forEach(function(x,i,a){
-	    				x.label = x.vehicleno;
-	    				x.value = x.id;
-	    			});
-	    		}
-	    	},
-	    	select: function( event, ui ) {
-	    		$(this).val(ui.item.vehicleno).attr('vehicleid', ui.item.id);
-	    		return false;
-	    	}
-	    }).off('click').on('click',function(){
-	    	$(this).autocomplete('search',' ');
-	    }).on('input propertychange',function(){
-	    	$(this).removeAttr('vehicleid');
-	    }).change(function(){
-	    	if(!$(this).attr('vehicleid')){
-	    		$(this).val('');
-	    	}
-	    });
+		$("#seek_material").autocomplete({
+			source: function( request, response ) {
+				var term = request.term;
+				var materiel = cache['materiel'] || {};
+				if ( term in materiel ) {
+					response( materiel[ term ] );
+					return;
+				}
+				$.post( URL.materielAutoCompleteSearch, request, function( data, status, xhr ) {
+					materiel[ term ] = data;
+					response( data );
+				});
+			},
+			response: function( event, ui ) {
+				if(ui.content && ui.content.length > 0){
+					ui.content.forEach(function(x,i,a){
+						x.label = x.name;
+						x.value = x.id;
+					});
+				}
+			},
+			select: function( event, ui ) {
+				$(this).val(ui.item.name).attr('materielid', ui.item.id);
+				return false;
+			}
+		}).off('click').on('click',function(){
+			$(this).autocomplete('search',' ');
+		}).on('input propertychange',function(){
+			$(this).removeAttr('materielid');
+		}).change(function(){
+			if(!$(this).attr('materielid')){
+				$(this).val('');
+			}
+		});
+		$("#seek_vehicle").autocomplete({
+			source: function( request, response ) {
+				var term = request.term;
+				var vehicle = cache['vehicle'] || {};
+				if ( term in vehicle ) {
+					response( vehicle[ term ] );
+					return;
+				}
+				$.post( URL.vehicleAutoCompleteSearch, request, function( data, status, xhr ) {
+					vehicle[ term ] = data;
+					response( data );
+				});
+			},
+			response: function( event, ui ) {
+				if(ui.content && ui.content.length > 0){
+					ui.content.forEach(function(x,i,a){
+						x.label = x.vehicleno;
+						x.value = x.id;
+					});
+				}
+			},
+			select: function( event, ui ) {
+				$(this).val(ui.item.vehicleno).attr('vehicleid', ui.item.id);
+				return false;
+			}
+		}).off('click').on('click',function(){
+			$(this).autocomplete('search',' ');
+		}).on('input propertychange',function(){
+			$(this).removeAttr('vehicleid');
+		}).change(function(){
+			if(!$(this).attr('vehicleid')){
+				$(this).val('');
+			}
+		});
 	}
-	
+
 	//将日期字符串转变为时间戳
 	function str2Long(dateStr){
 		var time = '';
@@ -113,7 +115,7 @@ $(function() {
 		}
 		return time;
 	}
-	
+
 //	页面跳转
 	function jumpPageAction() {
 		//获取总页数
@@ -134,15 +136,12 @@ $(function() {
 	}
 
 //	展示数据列表
-	function ShowAction(pageNo,card) {
+	function ShowAction(pageNo) {
 		//启动缓冲动画
 		var index = layer.load(2, {
 			shade: [0.3,'#fff'] //0.1透明度的白色背景
 		});
-		var icardno = '';
-		if(card){
-			icardno = card;
-		}
+		var icardno = $('#seek_icardno').val();
 		var code = $('#seek_access').val();code = $.trim(code);
 		var materielid = $('#seek_material').attr('materielid');materielid = $.trim(materielid);
 		var vehicleid = $('#seek_vehicle').attr('vehicleid');vehicleid = $.trim(vehicleid);
@@ -201,16 +200,19 @@ $(function() {
 	}
 //	展示列表
 	function showPageData(list,pageSize,pageNo) {
+		//业务类型
 		var BT = {
 				'1':'采购',
 				'2':'销售',
 				'3':'其他入库',
 				'4':'其他出库'
 		};
+		//门禁类型
 		var AT = {
 				'1':'入厂',
 				'2':'出厂'
 		};
+		//IC卡类型
 		var CY = {
 				'0':'IC采样卡',
 				'1':'IC过磅卡'
@@ -293,5 +295,5 @@ $(function() {
 		return currentdate;
 	}
 
-	
+
 });

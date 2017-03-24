@@ -8,38 +8,80 @@ $(function() {
 			findPurchaseDateil:'/trfc/purchaseApplication/findOne',
 			findPoundDateil:'/trfc/poundNote/purchase/findByBillid'
 	};
-
-
+	var ST = {
+		'0':'未入厂',	
+		'1':'一次过磅',	
+		'2':'二次过磅',	
+		'3':'作废',	
+		'4':'发卡',	
+		'5':'出厂',
+		'6':'入厂',
+		'7':'装车'
+	};
+	//获取id
+	var id = getId();
+	//详情切换
 	var cg_li = $('.cg_tabtit ul li');
 	cg_li.click(function () {
 		$(this).addClass('select').siblings().removeClass('select');
 		var index = cg_li.index(this);
 		$('.cg_tabbox > .cg_tabcont').eq(index).show().siblings().hide();
 	});
-	var id = getId();
+	$('#readCard').click(readcard);
 	initPage();
-
+	
+	
+	
+	//读卡
+	function readcard() {
+		//切换至读卡详情
+		$('.cg_tabtit ul li').eq(2).click();
+		//打开读卡器
+		readerOpen();
+		//开打卡片获取卡号
+		var cardno = openCard();
+		if(cardno){
+			//蜂鸣
+			readerBeep();
+			var inputs4 = $('#icard_detail > div > input');
+			inputs4.eq(0).val(cardno);
+			inputs4.eq(2).val(getICCardData(7));
+			inputs4.eq(3).val(getICCardData(4));
+			inputs4.eq(4).val(getICCardData(5));
+			inputs4.eq(6).val(getICCardData(3));
+			inputs4.eq(11).val(getICCardData(6));
+			inputs4.eq(12).val(getICCardData(8));
+		}
+		//关闭读卡器
+		readerClose();
+		
+	}
+	
 	//获取id
 	function getId() {
 		var href = window.location.href;
 		var strs = href.split('?id=');
 		return strs[1];
 	}
+	
 	//初始化页面
 	function initPage() {
-		$.post(URL.findOne,{id:id},function(result) {
+		$.post(URL.getAccessData,{id:id},function(result) {
 			if('000000' === result.code){
 				var record = result.data;
 				//判断业务类型
 				if(record.businesstype === '1') {
-					showSalesData(record);
-				}else if(record.businesstype === '2') {
 					showPurchaseData(record);
+				}else if(record.businesstype === '2') {
+					showSalesData(record);
 				}else if(record.businesstype === '3') {
 
 				}else if(record.businesstype === '4') {
 
 				}
+				//读卡信息
+				var inputs4 = $('#icard_detail > div > input');
+				inputs4.val('');
 			}
 		});
 
@@ -51,10 +93,10 @@ $(function() {
 		});
 	};
 
-	function showSalesData(record) {
+	function showPurchaseData(record) {
 		$('#business_detail').append('<div class="daohuo_add_solo">'
 				+'<label>供应商备注：</label>'
-				+'<input type="text"  readOnly="readOnly">'
+				+'<input type="text"  readOnly="true">'
 				+'</div>');
 		var inputs1 = $('#business_detail > div > input');
 		var labels1 = $('#business_detail > div > label');
@@ -68,161 +110,121 @@ $(function() {
 		labels2.eq(4).html('供应商：');
 		labels2.eq(9).html('到货量：');
 		var inputs3 = $('#pound_detail > div > input');
-		$.post(URL.findPurchase,{id:record.noticeid},function(result) {
-			if('000000' === result.code) {
-				if(result.data) {
-					var arrive = result.data;
-					$.post(URL.findPurchaseDateil,{id:arrive.billid},function(result) {
-						if('000000' === result.code) {
-							var detail = result.data;
-							$.post(URL.findPoundDateil,{billid:arrive.billid},function(result) {
-								if('000000' === result.code) {
-									var pound = result.data;
-									inputs1.eq(0).val(record.code);
-									inputs1.eq(1).val(record.noticecode);
-									inputs1.eq(2).val(getNowFormatDate(true,record.entertime));
-									inputs1.eq(3).val(arrive.vehicleno);
-									inputs1.eq(4).val(detail.listdetail[0].materielname);
-									inputs1.eq(5).val(detail.suppliername);
-									inputs1.eq(6).val(detail.sumnum);
-									inputs1.eq(7).val(arrive.vehiclerfid);
-									inputs1.eq(8).val(arrive.icordno);
-									inputs1.eq(9).val(detail.minemouthname);
-									inputs1.eq(10).val(detail.supplierremark);
-									inputs2.eq(0).val(record.noticecode);
-									inputs2.eq(1).val(detail.code);
-									inputs2.eq(2).val(getNowFormatDate(true,arrive.makebilltime));
-									inputs2.eq(3).val(detail.orgname);
-									inputs2.eq(4).val(detail.suppliername);
-									inputs2.eq(5).val(detail.listdetail[0].materielname);
-									inputs2.eq(6).val(arrive.vehicleno);
-									inputs2.eq(7).val(arrive.drivername);
-									inputs2.eq(8).val(arrive.driveridentityno);
-									inputs2.eq(9).val(detail.departmentname);
-									inputs2.eq(10).val(detail.departmentname);
-									inputs2.eq(11).val(arrive.status);
-									inputs2.eq(12).val(getNowFormatDate(true,detail.makebilltime));
-									inputs2.eq(13).val(detail.makebillname);
-									inputs2.eq(14).val(detail.remark);
-									inputs3.eq(0).val(pound.code);
-									inputs3.eq(1).val('待开发');
-									inputs3.eq(2).val(detail.suppliername);
-									inputs3.eq(3).val(detail.listdetail[0].materielname);
-									inputs3.eq(4).val('待开发');
-									inputs3.eq(5).val(arrive.vehicleno);
-									inputs3.eq(6).val(pound.grossweight);
-									inputs3.eq(7).val(pound.tareweight);
-									inputs3.eq(8).val(pound.netweight);
-									inputs3.eq(9).val(arrive.drivername);
-									inputs3.eq(10).val(arrive.driveridentityno);
-									inputs3.eq(11).val(pound.weighername);
-									inputs3.eq(12).val(getNowFormatDate(true, pound.lighttime));
-									inputs3.eq(13).val(getNowFormatDate(true, pound.weighttime));
-									inputs3.eq(14).val(record.noticecode);
-									inputs3.eq(15).val(detail.code);
-									inputs3.eq(16).val(detail.sumnum);
-									inputs3.eq(17).val(pound.remark);
-								}else{
-									layer.msg(result.error,{icon:5});
-								}
-							});
-						}else{
-							layer.msg(result.error,{icon:5});
-						}
-					});
-				}
-			}else{
-				layer.msg(result.error,{icon:5});
-			}
-		});
+		//业务详情
+		inputs1.eq(0).val(record.accesscode);
+		inputs1.eq(1).val(record.noticecode);
+		inputs1.eq(2).val(getNowFormatDate(true,record.entertime));
+		inputs1.eq(3).val(record.vehicleno);
+		inputs1.eq(4).val(record.materielname);
+		inputs1.eq(5).val(record.suppliername);
+		inputs1.eq(6).val(record.arrivalamount);
+		inputs1.eq(7).val(record.rfid);
+		inputs1.eq(8).val(record.icardno);
+		inputs1.eq(9).val(record.minemouthname);
+		inputs1.eq(10).val(record.supplierremark);
+		//订单详情
+		inputs2.eq(0).val(record.noticecode);
+		inputs2.eq(1).val(record.applicationcode);
+		inputs2.eq(2).val(record.billtime);
+		inputs2.eq(3).val(record.orgname);
+		inputs2.eq(4).val(record.suppliername);
+		inputs2.eq(5).val(record.materielname);
+		inputs2.eq(6).val(record.vehicleno);
+		inputs2.eq(7).val(record.drivername);
+		inputs2.eq(8).val(record.driveridentityno);
+		inputs2.eq(9).val(record.arrivalamount);
+		inputs2.eq(10).val(record.departmentname);
+		inputs2.eq(11).val(ST[record.status]);
+		inputs2.eq(12).val(record.makebilltime);
+		inputs2.eq(13).val(record.makebillname);
+		inputs2.eq(14).val(record.applicationremark);
+		//磅单详情
+		inputs3.eq(0).val(record.poundcode);
+		inputs3.eq(1).val(record.receivedepartmentname);
+		inputs3.eq(2).val(record.suppliername);
+		inputs3.eq(3).val(record.materielname);
+		inputs3.eq(4).val(record.warehousename);
+		inputs3.eq(5).val(record.vehicleno);
+		inputs3.eq(6).val(record.grossweight);
+		inputs3.eq(7).val(record.tareweight);
+		inputs3.eq(8).val(record.netweight);
+		inputs3.eq(9).val(record.drivername);
+		inputs3.eq(10).val(record.driveridentityno);
+		inputs3.eq(11).val(record.weighername);
+		inputs3.eq(12).val(getNowFormatDate(true, record.lighttime));
+		inputs3.eq(13).val(getNowFormatDate(true, record.weighttime));
+		inputs3.eq(14).val(record.noticecode);
+		inputs3.eq(15).val(record.applicationcode);
+		inputs3.eq(16).val(record.purchasesum);
+		inputs3.eq(17).val(record.price);
 	}
-	function showPurchaseData(record) {
-		$('#pound_detail').append('<div class="daohuo_add_solo"><label>订单一量：</label><input type="text" value="0.000"  readOnly="readOnly"></div>')
-				.append('<div class="daohuo_add_solo"><label>订单二量：</label><input type="text" value="0.000" readOnly="readOnly"></div>')
-				.append('<div class="daohuo_add_solo"><label>订单三量：</label><input type="text" value="0.000"  readOnly="readOnly"></div>')
-				.append('<div class="daohuo_add_solo"><label>订单一单价：</label><input type="text" value="0.000"  readOnly="readOnly"></div>')
-				.append('<div class="daohuo_add_solo"><label>订单二单价：</label><input type="text" value="0.000"  readOnly="readOnly"></div>')
-				.append('<div class="daohuo_add_solo"><label>订单三单价：</label><input type="text" value="0.000"  readOnly="readOnly"></div>')
-				.append('<div class="daohuo_add_solo"><label>订单一金额：</label><input type="text" value="0.000"  readOnly="readOnly"></div>')
-				.append('<div class="daohuo_add_solo"><label>订单二金额：</label><input type="text" value="0.000"  readOnly="readOnly"></div>')
-				.append('<div class="daohuo_add_solo"><label>订单三金额：</label><input type="text" value="0.000"  readOnly="readOnly"></div>')
+	function showSalesData(record) {
+		$('#pound_detail').append('<div class="daohuo_add_solo"><label>订单一量：</label><input type="text" value="0.000"  readOnly="true"></div>')
+		.append('<div class="daohuo_add_solo"><label>订单二量：</label><input type="text" value="0.000" readOnly="true"></div>')
+		.append('<div class="daohuo_add_solo"><label>订单三量：</label><input type="text" value="0.000"  readOnly="true"></div>')
+		.append('<div class="daohuo_add_solo"><label>订单一单价：</label><input type="text" value="0.000"  readOnly="true"></div>')
+		.append('<div class="daohuo_add_solo"><label>订单二单价：</label><input type="text" value="0.000"  readOnly="true"></div>')
+		.append('<div class="daohuo_add_solo"><label>订单三单价：</label><input type="text" value="0.000"  readOnly="true"></div>')
+		.append('<div class="daohuo_add_solo"><label>订单一金额：</label><input type="text" value="0.000"  readOnly="true"></div>')
+		.append('<div class="daohuo_add_solo"><label>订单二金额：</label><input type="text" value="0.000"  readOnly="true"></div>')
+		.append('<div class="daohuo_add_solo"><label>订单三金额：</label><input type="text" value="0.000"  readOnly="true"></div>')
 		var inputs1 = $('#business_detail > div > input');
 		var inputs2 = $('#arrive_detail > div > input');
 		var inputs3 = $('#pound_detail > div > input');
 		var labels3 = $('#pound_detail > div > label');
-		labels3.eq(1).html('收货单位：');
+		labels3.eq(1).html('发货单位：');
 		labels3.eq(2).html('客户：');
 		labels3.eq(4).html('批号：');
 		labels3.eq(15).html('订单一：');
 		labels3.eq(16).html('订单二：');
 		labels3.eq(17).html('订单三：');
-		$.post(URL.findPurchase,{id:record.noticeid},function(result) {
-			if('000000' === result.code) {
-				if(result.data) {
-					var arrive = result.data;
-					$.post(URL.findPurchaseDateil,{id:arrive.billid},function(result) {
-						if('000000' === result.code) {
-							var detail = result.data;
-							$.post(URL.findPoundDateil,{billid:arrive.billid},function(result) {
-								if('000000' === result.code) {
-									var pound = result.data;
-									inputs1.eq(0).val(record.code);
-									inputs1.eq(1).val(record.noticecode);
-									inputs1.eq(2).val(getNowFormatDate(true,record.entertime));
-									inputs1.eq(3).val(arrive.vehicleno);
-									inputs1.eq(4).val(detail.listdetail[0].materielname);
-									inputs1.eq(5).val(detail.suppliername);
-									inputs1.eq(6).val(detail.sumnum);
-									inputs1.eq(7).val(arrive.vehiclerfid);
-									inputs1.eq(8).val(arrive.icordno);
-									inputs1.eq(9).val(detail.minemouthname);
-									inputs1.eq(10).val(detail.supplierremark);
-									inputs2.eq(0).val(record.noticecode);
-									inputs2.eq(1).val(detail.code);
-									inputs2.eq(2).val(getNowFormatDate(true,arrive.makebilltime));
-									inputs2.eq(3).val(detail.orgname);
-									inputs2.eq(4).val(detail.suppliername);
-									inputs2.eq(5).val(detail.listdetail[0].materielname);
-									inputs2.eq(6).val(arrive.vehicleno);
-									inputs2.eq(7).val(arrive.drivername);
-									inputs2.eq(8).val(arrive.driveridentityno);
-									inputs2.eq(9).val(detail.departmentname);
-									inputs2.eq(10).val(detail.departmentname);
-									inputs2.eq(11).val(arrive.status);
-									inputs2.eq(12).val(getNowFormatDate(true,detail.makebilltime));
-									inputs2.eq(13).val(detail.makebillname);
-									inputs2.eq(14).val(detail.remark);
-									inputs3.eq(0).val(pound.code);
-									inputs3.eq(1).val('待开发');
-									inputs3.eq(2).val(detail.suppliername);
-									inputs3.eq(3).val(detail.listdetail[0].materielname);
-									inputs3.eq(4).val('待开发');
-									inputs3.eq(5).val(arrive.vehicleno);
-									inputs3.eq(6).val(pound.grossweight);
-									inputs3.eq(7).val(pound.tareweight);
-									inputs3.eq(8).val(pound.netweight);
-									inputs3.eq(9).val(arrive.drivername);
-									inputs3.eq(10).val(arrive.driveridentityno);
-									inputs3.eq(11).val(pound.weighername);
-									inputs3.eq(12).val(getNowFormatDate(true, pound.lighttime));
-									inputs3.eq(13).val(getNowFormatDate(true, pound.weighttime));
-									inputs3.eq(14).val(record.noticecode);
-									inputs3.eq(15).val(detail.code);
-									inputs3.eq(16).val(detail.sumnum);
-									inputs3.eq(17).val(pound.remark);
-								}else{
-									layer.msg(result.error,{icon:5});
-								}
-							});
-						}else{
-							layer.msg(result.error,{icon:5});
-						}
-					});
-				}
-			}else{
-				layer.msg(result.error,{icon:5});
-			}
-		});
+		//业务详情
+		inputs1.eq(0).val(record.accesscode);
+		inputs1.eq(1).val(record.noticecode);
+		inputs1.eq(2).val(getNowFormatDate(true,record.entertime));
+		inputs1.eq(3).val(record.vehicleno);
+		inputs1.eq(4).val(record.materielname);
+		inputs1.eq(5).val(record.customername);
+		inputs1.eq(6).val(record.takeamount);
+		inputs1.eq(7).val(record.rfid);
+		inputs1.eq(8).val(record.icardno);
+		inputs1.eq(9).val(record.spraycode);
+		//订单详情
+		inputs2.eq(0).val(record.noticecode);
+		inputs2.eq(1).val(record.applicationcode);
+		inputs2.eq(2).val(record.billtime);
+		inputs2.eq(3).val(record.orgname);
+		inputs2.eq(4).val(record.customername);
+		inputs2.eq(5).val(record.materielname);
+		inputs2.eq(6).val(record.vehicleno);
+		inputs2.eq(7).val(record.drivername);
+		inputs2.eq(8).val(record.driveridentityno);
+		inputs2.eq(9).val(record.takeamount);
+		inputs2.eq(10).val(record.departmentname);
+		inputs2.eq(11).val(ST[record.status]);
+		inputs2.eq(12).val(record.makebilltime);
+		inputs2.eq(13).val(record.makebillname);
+		inputs2.eq(14).val(record.applicationremark);
+		//磅单详情
+		inputs3.eq(0).val(record.poundcode);
+		inputs3.eq(1).val(record.senddepartmentname);
+		inputs3.eq(2).val(record.customername);
+		inputs3.eq(3).val(record.materielname);
+		inputs3.eq(4).val(record.batchnum);
+		inputs3.eq(5).val(record.vehicleno);
+		inputs3.eq(6).val(record.grossweight);
+		inputs3.eq(7).val(record.tareweight);
+		inputs3.eq(8).val(record.netweight);
+		inputs3.eq(9).val(record.drivername);
+		inputs3.eq(10).val(record.driveridentityno);
+		inputs3.eq(11).val(record.weighername);
+		inputs3.eq(12).val(getNowFormatDate(true, record.lighttime));
+		inputs3.eq(13).val(getNowFormatDate(true, record.weighttime));
+		inputs3.eq(14).val(record.noticecode);
+		inputs3.eq(15).val(record.applicationcode);
+		inputs3.eq(18).val(record.purchasesum || 0.00);
+		inputs3.eq(21).val(record.price || 0.00);
+		inputs3.eq(24).val(record.purchasesum*record.price || 0.00)
 	}
 
 	//获取时间 param(true:返回yyyy-MM-dd hh:mm:ss fasle:返回yyyy-MM-dd)

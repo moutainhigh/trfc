@@ -18,8 +18,12 @@ import com.tianrui.api.resp.businessManage.purchaseManage.PurchaseArriveResp;
 import com.tianrui.api.resp.businessManage.salesManage.SalesArriveResp;
 import com.tianrui.service.bean.businessManage.cardManage.Card;
 import com.tianrui.service.bean.businessManage.logisticsManage.AccessRecord;
+import com.tianrui.service.bean.businessManage.poundNoteMaintain.PoundNote;
+import com.tianrui.service.bean.quality.sales.SalesBatchnum;
 import com.tianrui.service.mapper.businessManage.cardManage.CardMapper;
 import com.tianrui.service.mapper.businessManage.logisticsManage.AccessRecordMapper1;
+import com.tianrui.service.mapper.businessManage.poundNoteMaintain.PoundNoteMapper;
+import com.tianrui.service.mapper.quality.sales.SalesBatchnumMapper;
 import com.tianrui.smartfactory.common.constants.ErrorCode;
 import com.tianrui.smartfactory.common.vo.PaginationVO;
 import com.tianrui.smartfactory.common.vo.Result;
@@ -34,21 +38,115 @@ public class CardReissueService implements ICardReissueService {
 	private ISalesArriveService salesArriveService;
 	@Autowired
 	private CardMapper cardMapper;
+	@Autowired
+	private PoundNoteMapper poundNoteMapper;
+	@Autowired
+	private SalesBatchnumMapper salesBatchnumMapper;
 	
 	
 	@Override
 	public Result getAccessData(CardReissueReq req) throws Exception {
 		Result rs = Result.getParamErrorResult();
 		if(req != null) {
-			AccessRecord ar = accessRecordMapper.selectByPrimaryKey(req.getId());
-			if(ar!=null){
-				CardReissueResp resp = new CardReissueResp();
-				PropertyUtils.copyProperties(resp, ar);
-				if(StringUtils.isNotBlank(ar.getNoticeid())){
-					SalesArriveResp sar = salesArriveService.findOne(ar.getNoticeid());
-					resp.setVehicleno(sar.getVehicleno());
-					resp.setMaterielname("待开发");
-//					resp.setOtherparty("待开发");
+			CardReissueResp resp = new CardReissueResp();
+			AccessRecord record = accessRecordMapper.selectByPrimaryKey(req.getId());
+			if(record!=null){
+				resp.setAccesscode(record.getCode());
+				resp.setEntertime(record.getEntertime());
+				resp.setNoticecode(record.getNoticecode());
+				resp.setBusinesstype(record.getBusinesstype());
+				if(StringUtils.isNotBlank(record.getNoticeid())){
+					//判断业务类型为  采购 
+					if(( "1" ).equals(record.getBusinesstype())){
+						PurchaseArriveResp par = purchaseArriveService.findOne(record.getNoticeid());
+						resp.setVehicleno(par.getVehicleno());
+						resp.setMaterielname(par.getPurchaseApplicationDetailResp().getMaterielname());
+						resp.setSuppliername(par.getPurchaseApplicationResp().getSuppliername());
+						resp.setSupplierremark(par.getPurchaseApplicationResp().getSupplierremark());
+						resp.setRfid(par.getVehiclerfid());
+						resp.setMinemouthname(par.getPurchaseApplicationResp().getMinemouthname());
+						resp.setApplicationcode(par.getPurchaseApplicationResp().getCode());
+						resp.setBilltime(par.getPurchaseApplicationResp().getBilltimeStr());
+						resp.setOrgname(par.getPurchaseApplicationResp().getOrgname());
+						resp.setDrivername(par.getDrivername());
+						resp.setDriveridentityno(par.getDriveridentityno());
+						resp.setArrivalamount(par.getArrivalamount());
+						resp.setStatus(par.getStatus());
+						resp.setMakebilltime(par.getPurchaseApplicationResp().getMakebilltimeStr());
+						resp.setMakebillname(par.getPurchaseApplicationResp().getMakebillname());
+						resp.setDepartmentname(par.getPurchaseApplicationResp().getDepartmentname());
+						resp.setApplicationremark(par.getPurchaseApplicationResp().getRemark());
+						resp.setPurchasesum(par.getPurchaseApplicationDetailResp().getPurchasesum());
+						resp.setPrice(par.getPurchaseApplicationDetailResp().getPrice());
+						String applicationid = par.getPurchaseApplicationResp().getId();
+						if(StringUtils.isNotBlank(applicationid)){
+							PoundNote pound = poundNoteMapper.findByBillid(applicationid);
+							if(pound!=null){
+								resp.setPoundcode(pound.getCode());
+								resp.setWarehousename(pound.getWarehousename());
+								resp.setGrossweight(pound.getGrossweight());
+								resp.setTareweight(pound.getTareweight());
+								resp.setNetweight(pound.getNetweight());
+								resp.setWeighername(pound.getWeighername());
+								resp.setLighttime(pound.getLighttime());
+								resp.setWeighttime(pound.getWeighttime());
+							}
+						}
+						//获取ic卡信息
+						if(StringUtils.isNotBlank(par.getIcardid())){
+							Card card = cardMapper.selectByPrimaryKey(par.getIcardid());
+							resp.setIcardno(card.getCardno());
+							resp.setIcardcode(card.getCardcode());
+						}
+						//判断业务类型为 销售
+					}else if(( "2" ).equals(record.getBusinesstype())){
+						SalesArriveResp par = salesArriveService.findOne(record.getNoticeid());
+						resp.setVehicleno(par.getVehicleno());
+						resp.setMaterielname(par.getMainApplicationDetail().getMaterielname());
+						resp.setCustomername(par.getMainApplication().getCustomername());
+						resp.setSpraycode(par.getSpraycode());
+						resp.setRfid(par.getVehiclerfid());
+						resp.setApplicationcode(par.getMainApplication().getCode());
+						resp.setBilltime(par.getMainApplication().getBilltimeStr());
+						resp.setOrgname(par.getMainApplication().getOrgname());
+						resp.setDrivername(par.getDrivername());
+						resp.setDriveridentityno(par.getDriveridentityno());
+						resp.setStatus(par.getStatus());
+						resp.setTakeamount(par.getTakeamount());
+						resp.setMakebilltime(par.getMainApplication().getMakebilltimeStr());
+						resp.setMakebillname(par.getMainApplication().getMakebillname());
+						resp.setDepartmentname(par.getMainApplication().getDepartmentname());
+						resp.setPrice(par.getMainApplicationDetail().getTaxprice());
+						resp.setApplicationremark(par.getMainApplication().getRemarks());
+						resp.setPurchasesum(par.getMainApplicationDetail().getSalessum());
+						String applicationid = par.getMainApplication().getId();
+						if(StringUtils.isNotBlank(applicationid)){
+							PoundNote pound = poundNoteMapper.findByBillid(applicationid);
+							if(pound!=null){
+								resp.setPoundcode(pound.getCode());
+								resp.setWarehousename(pound.getWarehousename());
+								resp.setGrossweight(pound.getGrossweight());
+								resp.setTareweight(pound.getTareweight());
+								resp.setNetweight(pound.getNetweight());
+								resp.setWeighername(pound.getWeighername());
+								resp.setLighttime(pound.getLighttime());
+								resp.setWeighttime(pound.getWeighttime());
+								//获取编号
+								if(StringUtils.isNotBlank(pound.getBatchnumberid())){
+									SalesBatchnum batch = salesBatchnumMapper.selectByPrimaryKey(pound.getBatchnumberid());
+									if(batch!=null){
+										resp.setBatchnum(batch.getFactorycode());
+									}
+								}
+							}
+						}
+						//获取ic卡信息
+						if(StringUtils.isNotBlank(par.getIcardid())){
+							Card card = cardMapper.selectByPrimaryKey(par.getIcardid());
+							resp.setIcardno(card.getCardno());
+							resp.setIcardcode(card.getCardcode());
+						}
+					}
 				}
 				rs = Result.getSuccessResult();
 				rs.setData(resp);
@@ -94,6 +192,7 @@ public class CardReissueService implements ICardReissueService {
 		if(list2 !=null && list2.size()>0){
 			for(AccessRecord record : list2){
 				CardReissueResp resp = new CardReissueResp();
+				resp.setAccessid(record.getId());
 				resp.setAccesscode(record.getCode());
 				resp.setBusinesstype(record.getBusinesstype());
 				resp.setAccesstype(record.getAccesstype());
@@ -151,7 +250,10 @@ public class CardReissueService implements ICardReissueService {
 		query.setCode(req.getAccesscode());
 		query.setBusinesstype(req.getBusinesstype());
 		query.setAccesstype(req.getAccesstype());
-		query.setIcardno(req.getIcardno());
+		if(StringUtils.isNotBlank(req.getIcardno())){
+			Card card = cardMapper.selectByCardno(req.getIcardno());
+			query.setIcardid(card.getId());
+		}
 		return query;
 	}
 	

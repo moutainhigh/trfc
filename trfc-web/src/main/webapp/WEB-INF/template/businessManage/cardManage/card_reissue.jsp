@@ -44,16 +44,14 @@
 										<option value="">请选择</option>
 										<option value="1">采购</option>
 										<option value="2">销售</option>
-										<option value="">其他入库</option>
-										<option value="">其他出库</option>
-										<option value="">工程车</option>
+										<option value="3">其他入库</option>
+										<option value="4">其他出库</option>
 									</select>
 								</div>
 								<div class="intel_solo">
 									<label>状态：</label> <select class="form-control" id="seek_type">
 										<option value="1">入厂</option>
 										<option value="2">出厂</option>
-										<option value="">作废</option>
 									</select>
 								</div>
 								<div class="intel_solo">
@@ -78,12 +76,9 @@
 							<h5>刷新</h5>
 						</div>
 						<div class="intel_operasolo" id="seek_reader">
+						<input type="hidden" id="seek_icardno">
 							<i class="iconfont colorlv">&#xe601;</i>
 							<h5>读卡查找</h5>
-						</div>
-						<div class="intel_operasolo" id="examine">
-							<i class="iconfont colorlv">&#xe681;</i>
-							<h5>查看</h5>
 						</div>
 					</div>
 					<div class="intel_table">

@@ -28,4 +28,5 @@ public interface CardMapper {
 	List<Card> findCardPage(CardReq req);
 
 	List<Card> selectSelective(Card card);
+	Card selectByCardno(String cardno);
 }

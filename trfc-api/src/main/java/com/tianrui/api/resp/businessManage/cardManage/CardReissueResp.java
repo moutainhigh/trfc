@@ -8,7 +8,8 @@ public class CardReissueResp extends BaseResp {
 	 * 
 	 */
 	private static final long serialVersionUID = -553010288589400583L;
-	
+	//门禁id
+	private String accessid;
     //门禁单号
     private String accesscode;
     //类型
@@ -30,7 +31,7 @@ public class CardReissueResp extends BaseResp {
     //供应商备注
     private String supplierremark;
     //净重
-    private String netweight;
+    private Double netweight;
     //RFID
     private String rfid;
     //矿口
@@ -52,7 +53,7 @@ public class CardReissueResp extends BaseResp {
     //身份证号
     private String driveridentityno;
     //到货量
-    private String arrivalamount;
+    private Double arrivalamount;
     //部门
     private String departmentname;
     //状态(第一次过磅,二次过磅,....)
@@ -63,7 +64,7 @@ public class CardReissueResp extends BaseResp {
     private String makebillname;
     //通知单备注
     private String applicationremark;
-    //通知单号
+    //过磅单号
     private String poundcode;
     //收获单位
     private String receivedepartmentname;
@@ -72,23 +73,23 @@ public class CardReissueResp extends BaseResp {
     //仓库
     private String warehousename;
     //毛重
-    private String grossweight;
+    private Double grossweight;
     //皮重
-    private String tareweight;
+    private Double tareweight;
     //提货量
-    private String takeamount;
+    private Double takeamount;
     //预提量
-    private String pickupquantity;
+    private Double pickupquantity;
     //过磅员
     private String weighername;
     //轻车时间
-    private String lighttime;
+    private Long lighttime;
     //重车时间
-    private String weighttime;
+    private Long weighttime;
     //订单量
-    private String purchasesum;
+    private Double purchasesum;
     //订单单价
-    private String price;
+    private Double price;
     //客户
     private String customername;
     //喷码
@@ -157,10 +158,10 @@ public class CardReissueResp extends BaseResp {
 	public void setSupplierremark(String supplierremark) {
 		this.supplierremark = supplierremark;
 	}
-	public String getNetweight() {
+	public Double getNetweight() {
 		return netweight;
 	}
-	public void setNetweight(String netweight) {
+	public void setNetweight(Double netweight) {
 		this.netweight = netweight;
 	}
 	public String getRfid() {
@@ -223,10 +224,10 @@ public class CardReissueResp extends BaseResp {
 	public void setDriveridentityno(String driveridentityno) {
 		this.driveridentityno = driveridentityno;
 	}
-	public String getArrivalamount() {
+	public Double getArrivalamount() {
 		return arrivalamount;
 	}
-	public void setArrivalamount(String arrivalamount) {
+	public void setArrivalamount(Double arrivalamount) {
 		this.arrivalamount = arrivalamount;
 	}
 	public String getDepartmentname() {
@@ -283,28 +284,28 @@ public class CardReissueResp extends BaseResp {
 	public void setWarehousename(String warehousename) {
 		this.warehousename = warehousename;
 	}
-	public String getGrossweight() {
+	public Double getGrossweight() {
 		return grossweight;
 	}
-	public void setGrossweight(String grossweight) {
+	public void setGrossweight(Double grossweight) {
 		this.grossweight = grossweight;
 	}
-	public String getTareweight() {
+	public Double getTareweight() {
 		return tareweight;
 	}
-	public void setTareweight(String tareweight) {
+	public void setTareweight(Double tareweight) {
 		this.tareweight = tareweight;
 	}
-	public String getTakeamount() {
+	public Double getTakeamount() {
 		return takeamount;
 	}
-	public void setTakeamount(String takeamount) {
+	public void setTakeamount(Double takeamount) {
 		this.takeamount = takeamount;
 	}
-	public String getPickupquantity() {
+	public Double getPickupquantity() {
 		return pickupquantity;
 	}
-	public void setPickupquantity(String pickupquantity) {
+	public void setPickupquantity(Double pickupquantity) {
 		this.pickupquantity = pickupquantity;
 	}
 	public String getWeighername() {
@@ -313,28 +314,28 @@ public class CardReissueResp extends BaseResp {
 	public void setWeighername(String weighername) {
 		this.weighername = weighername;
 	}
-	public String getLighttime() {
+	public Long getLighttime() {
 		return lighttime;
 	}
-	public void setLighttime(String lighttime) {
+	public void setLighttime(Long lighttime) {
 		this.lighttime = lighttime;
 	}
-	public String getWeighttime() {
+	public Long getWeighttime() {
 		return weighttime;
 	}
-	public void setWeighttime(String weighttime) {
+	public void setWeighttime(Long weighttime) {
 		this.weighttime = weighttime;
 	}
-	public String getPurchasesum() {
+	public Double getPurchasesum() {
 		return purchasesum;
 	}
-	public void setPurchasesum(String purchasesum) {
+	public void setPurchasesum(Double purchasesum) {
 		this.purchasesum = purchasesum;
 	}
-	public String getPrice() {
+	public Double getPrice() {
 		return price;
 	}
-	public void setPrice(String price) {
+	public void setPrice(Double price) {
 		this.price = price;
 	}
 	public String getCustomername() {
@@ -361,5 +362,11 @@ public class CardReissueResp extends BaseResp {
 	public void setCompanyname(String companyname) {
 		this.companyname = companyname;
 	}
-    
+	public String getAccessid() {
+		return accessid;
+	}
+	public void setAccessid(String accessid) {
+		this.accessid = accessid;
+	}
+
 }
