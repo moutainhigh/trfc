@@ -58,5 +58,17 @@ public class PurchaseApplicationAction {
 		}
 		return result;
 	}
-	
+	@RequestMapping("/findOne")
+	@ResponseBody
+	public Result findOne(PurchaseApplicationQuery query){
+		Result result = Result.getSuccessResult();
+		try {
+			PurchaseApplicationResp resp = purchaseApplicationService.findOne(query.getId());
+			result.setData(resp);
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
+		}
+		return result;
+	}
 }

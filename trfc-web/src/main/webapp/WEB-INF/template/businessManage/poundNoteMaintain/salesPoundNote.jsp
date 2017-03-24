@@ -51,10 +51,10 @@
 									<label>过磅单号：</label> <input id="code" type="text" placeholder="请输入过磅单号">
 								</div>
 								<div class="intel_solo">
-									<label>批号：</label> <input id="" type="text" placeholder="请输入批号">
+									<label>批号：</label> <input id="serialnumber" type="text" placeholder="请输入批号">
 								</div>
 								<div class="intel_solo">
-									<label>通知单号：</label> <input id="" type="text" placeholder="请输入通知单号">
+									<label>通知单号：</label> <input id="noticecode" type="text" placeholder="请输入通知单号">
 								</div>
 								<div class="intel_solo">
 									<label>客户：</label> <input id="customer" type="text" placeholder="请选择客户">
@@ -111,11 +111,10 @@
 					</div>
 					<div class="intel_table">
 						<!--用户表格begin-->
-						<table class="fancyTable" id="myTable04" cellpadding="0"
-							cellspacing="0">
+						<table class="table table-hover">
 							<thead>
 								<tr>
-									<th></th>
+									<th>序号</th>
 									<th>过磅单号</th>
 									<th>推单状态</th>
 									<th>是否红冲</th>
@@ -139,69 +138,28 @@
 									<th>操作</th>
 								</tr>
 							</thead>
-							<tbody>
-								<tr>
-									<td>1</td>
-									<td>154541990</td>
-									<td class="colorred">3.推单</td>
-									<td>是:22</td>
-									<td class="colorred">入库入库</td>
-									<td>200</td>
-									<td>1,990</td>
-									<td>3.11</td>
-									<td>22</td>
-									<td>3.11</td>
-									<td>22</td>
-									<td>70% New Visits%</td>
-									<td>70% New Visits%</td>
-									<td>12像素大小</td>
-									<td>3.11</td>
-									<td>3.11</td>
-									<td>22</td>
-									<td>70% New Visits%</td>
-									<td>70% New Visits%</td>
-									<td>12像素大小</td>
-									<td>1,990</td>
-									<td><span> <a data-toggle="modal" data-target="#edit">
-												<i class="iconfont" data-toggle="tooltip"
-												data-placement="bottom" title="批号编辑">&#xe625;</i>
-										</a>
-									</span> <span> <a data-toggle="modal" data-target="#dele"><i
-												class="iconfont" data-toggle="tooltip"
-												data-placement="bottom" title="退货补增">&#xe65e;</i> </a>
-									</span> <span> <a data-toggle="modal" data-target="#dele"><i
-												class="iconfont" data-toggle="tooltip"
-												data-placement="bottom" title="红冲">&#xe631;</i> </a>
-									</span> <span> <a data-toggle="modal" data-target="#dele"><i
-												class="iconfont" data-toggle="tooltip"
-												data-placement="bottom" title="作废">&#xe60c;</i> </a>
-									</span></td>
-								</tr>
+							<tbody id="dataBody">
 							</tbody>
 						</table>
 						<!--用户表格end-->
 					</div>
 					<!--分页效果开始-->
-					<div class=" row fr">
+					<div class="page">
 						<div class="page_date">
-							<label>数据共：</label><i class="colorred">100</i><label>条</label>
+							<label>数据共：</label><i id="total" class="colorred">100</i><label>条</label>
 						</div>
 						<div class="page_date">
-							<label>跳到第：</label> <input type="text"> <label>页</label>
-							<button class="btn btn-default">确定</button>
+							<label>跳到第：</label> <input id="jumpPageNo" type="text"> <label>页</label>
+							<button id="jumpPageNoBtn" class="btn btn-default">确定</button>
 						</div>
-						<div class="page_btn">
-							<ul class="pagination">
-								<li><a href="#">&laquo;上一页</a></li>
-								<li><a href="#">1</a></li>
-								<li><a href="#">2</a></li>
-								<li><a href="#">3</a></li>
-								<li><a href="#">...</a></li>
-								<li><a href="#">4</a></li>
-								<li><a href="#">5</a></li>
-								<li><a href="#">下一页&raquo;</a></li>
-							</ul>
+						<div class="page_date">
+							<label>每页记录：</label> <select id="pageSize" class="form-control">
+								<option value="10">10</option>
+								<option value="20">20</option>
+								<option value="30">30</option>
+							</select>
 						</div>
+						<div class="page_btn" id="pagination"></div>
 					</div>
 					<!--分页效果结束-->
 				</div>

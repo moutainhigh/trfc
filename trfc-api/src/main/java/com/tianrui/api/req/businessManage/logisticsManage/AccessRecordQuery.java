@@ -28,6 +28,8 @@ public class AccessRecordQuery extends BaseReq {
     private Long starttime;
     //结束时间
     private Long endtime;
+    //IC卡id
+    private String icardid;
     //起始页数
     private Integer start;
     //条数
@@ -98,4 +100,11 @@ public class AccessRecordQuery extends BaseReq {
 	public void setLimit(Integer limit) {
 		this.limit = limit;
 	}
+	public String getIcardid() {
+		return icardid;
+	}
+	public void setIcardid(String icardid) {
+		this.icardid = icardid;
+	}
+
 }

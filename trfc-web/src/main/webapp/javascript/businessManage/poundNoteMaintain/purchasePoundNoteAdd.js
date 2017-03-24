@@ -10,6 +10,7 @@
 			warehouseAutoCompleteSearch: "/trfc/warehouse/autoCompleteSearch",
 			minemouthAutoCompleteSearch: "/trfc/minemouth/autoCompleteSearch",
 			yardAutoCompleteSearch: "/trfc/yard/autoCompleteSearch",
+			systemUserAutoCompleteSearch: "/trfc/system/auth/user/autoCompleteSearch"
 	};
 	//日期字符串转为时间戳
 	function str2Long(dateStr){
@@ -29,41 +30,75 @@
 	}
 	function initAutoComplete(){
 		var cache = {};
-			$("#vehicle").autocomplete({
+		$("#receiverperson").autocomplete({
 	    	source: function( request, response ) {
 	    		var term = request.term;
-	    		var vehicle = cache['vehicle'] || {};
-	    		if ( term in vehicle ) {
-	    			response( vehicle[ term ] );
+	    		var systemUser = cache['systemUser'] || {};
+	    		if ( term in systemUser ) {
+	    			response( systemUser[ term ] );
 	    			return;
 	    		}
-	    		$.post( URL.vehicleAutoCompleteSearch, request, function( data, status, xhr ) {
-	    			vehicle[ term ] = data;
-	    			response( data );
+	    		$.post( URL.systemUserAutoCompleteSearch, {nameLike: $.trim(term)}, function( data, status, xhr ) {
+	    			systemUser[ term ] = data.data;
+	    			response( data.data );
 	    		});
 	    	},
 	    	response: function( event, ui ) {
 	    		if(ui.content && ui.content.length > 0){
 		    		ui.content.forEach(function(x,i,a){
-		    			x.label = x.vehicleno;
+		    			x.label = x.name;
 		    			x.value = x.id;
 		    		});
 	    		}
 	    	},
 	    	select: function( event, ui ) {
-	    		$(this).val(ui.item.vehicleno).attr('vehicleid', ui.item.id);
-	    		$('#rfid').val(ui.item.rfid);
+	    		$(this).val(ui.item.name).attr('receiverpersonid', ui.item.id);
 	    		return false;
     		}
 	    }).off('click').on('click',function(){
 	    	$(this).autocomplete('search',' ');
 	    }).on('input propertychange',function(){
-	    	$(this).removeAttr('vehicleid');
+	    	$(this).removeAttr('receiverpersonid');
 	    }).change(function(){
-    		if(!$(this).attr('vehicleid')){
+    		if(!$(this).attr('receiverpersonid')){
     			$(this).val('');
     		}
 	    });
+		$("#vehicle").autocomplete({
+			source: function( request, response ) {
+				var term = request.term;
+				var vehicle = cache['vehicle'] || {};
+				if ( term in vehicle ) {
+					response( vehicle[ term ] );
+					return;
+				}
+				$.post( URL.vehicleAutoCompleteSearch, request, function( data, status, xhr ) {
+					vehicle[ term ] = data;
+					response( data );
+				});
+			},
+			response: function( event, ui ) {
+				if(ui.content && ui.content.length > 0){
+					ui.content.forEach(function(x,i,a){
+						x.label = x.vehicleno;
+						x.value = x.id;
+					});
+				}
+			},
+			select: function( event, ui ) {
+				$(this).val(ui.item.vehicleno).attr('vehicleid', ui.item.id);
+				$('#rfid').val(ui.item.rfid);
+				return false;
+			}
+		}).off('click').on('click',function(){
+			$(this).autocomplete('search',' ');
+		}).on('input propertychange',function(){
+			$(this).removeAttr('vehicleid');
+		}).change(function(){
+			if(!$(this).attr('vehicleid')){
+				$(this).val('');
+			}
+		});
 		$("#driver").autocomplete({
 	    	source: function( request, response ) {
 	    		var term = request.term;

@@ -21,6 +21,7 @@
     <result column="abnormaltime" property="abnormaltime" jdbcType="BIGINT" />
     <result column="unit" property="unit" jdbcType="VARCHAR" />
     <result column="takeamount" property="takeamount" jdbcType="DOUBLE" />
+    <result column="actualtakeamount" property="actualtakeamount" jdbcType="DOUBLE" />
     <result column="spraycode" property="spraycode" jdbcType="VARCHAR" />
     <result column="serialnumber" property="serialnumber" jdbcType="VARCHAR" />
     <result column="icardid" property="icardid" jdbcType="VARCHAR" />
@@ -39,7 +40,7 @@
   <sql id="Base_Column_List" >
     id, code, auditstatus, source, status, vehicleid, vehicleno, vehiclerfid, driverid, drivername, 
     driveridentityno, billid, billcode, billdetailid, abnormalperson, abnormalpersonname, abnormaltime, 
-    unit, takeamount, spraycode, serialnumber, icardid, icardno, state, maindeduction, 
+    unit, takeamount, actualtakeamount, spraycode, serialnumber, icardid, icardno, state, maindeduction, 
     makerid, makebillname, makebilltime, remarks, creator, createtime, modifier, modifytime
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
@@ -58,7 +59,7 @@
       vehicleno, vehiclerfid, driverid, drivername, 
       driveridentityno, billid, billcode, billdetailid,
       abnormalperson, abnormalpersonname, abnormaltime, 
-      unit, takeamount, spraycode, 
+      unit, takeamount, actualtakeamount, spraycode, 
       serialnumber, icardid, icardno, 
       state, maindeduction, makerid, makebillname, 
       makebilltime, remarks, creator, 
@@ -69,7 +70,7 @@
       #{vehicleno,jdbcType=VARCHAR}, #{vehiclerfid,jdbcType=VARCHAR}, #{driverid,jdbcType=VARCHAR}, #{drivername,jdbcType=VARCHAR}, 
       #{driveridentityno,jdbcType=VARCHAR}, #{billid,jdbcType=VARCHAR}, #{billcode,jdbcType=VARCHAR},  #{billdetailid,jdbcType=VARCHAR}, 
       #{abnormalperson,jdbcType=VARCHAR}, #{abnormalpersonname,jdbcType=VARCHAR}, #{abnormaltime,jdbcType=BIGINT}, 
-      #{unit,jdbcType=VARCHAR}, #{takeamount,jdbcType=DOUBLE}, #{spraycode,jdbcType=VARCHAR}, 
+      #{unit,jdbcType=VARCHAR}, #{takeamount,jdbcType=DOUBLE}, #{actualtakeamount,jdbcType=DOUBLE}, #{spraycode,jdbcType=VARCHAR}, 
       #{serialnumber,jdbcType=VARCHAR}, #{icardid,jdbcType=VARCHAR}, #{icardno,jdbcType=VARCHAR}, 
       #{state,jdbcType=VARCHAR}, #{maindeduction,jdbcType=VARCHAR}, #{makerid,jdbcType=VARCHAR}, #{makebillname,jdbcType=VARCHAR}, 
       #{makebilltime,jdbcType=BIGINT}, #{remarks,jdbcType=VARCHAR}, #{creator,jdbcType=VARCHAR}, 
@@ -135,6 +136,9 @@
       </if>
       <if test="takeamount != null" >
         takeamount,
+      </if>
+      <if test="actualtakeamount != null" >
+        actualtakeamount,
       </if>
       <if test="spraycode != null" >
         spraycode,
@@ -237,6 +241,9 @@
       <if test="takeamount != null" >
         #{takeamount,jdbcType=DOUBLE},
       </if>
+      <if test="actualtakeamount != null" >
+        #{actualtakeamount,jdbcType=DOUBLE},
+      </if>
       <if test="spraycode != null" >
         #{spraycode,jdbcType=VARCHAR},
       </if>
@@ -338,6 +345,9 @@
       <if test="takeamount != null" >
         takeamount = #{takeamount,jdbcType=DOUBLE},
       </if>
+      <if test="actualtakeamount != null" >
+        actualtakeamount = #{actualtakeamount,jdbcType=DOUBLE},
+      </if>
       <if test="spraycode != null" >
         spraycode = #{spraycode,jdbcType=VARCHAR},
       </if>
@@ -403,6 +413,7 @@
       abnormaltime = #{abnormaltime,jdbcType=BIGINT},
       unit = #{unit,jdbcType=VARCHAR},
       takeamount = #{takeamount,jdbcType=DOUBLE},
+      actualtakeamount = #{actualtakeamount,jdbcType=DOUBLE},
       spraycode = #{spraycode,jdbcType=VARCHAR},
       serialnumber = #{serialnumber,jdbcType=VARCHAR},
       icardid = #{icardid,jdbcType=VARCHAR},
@@ -480,6 +491,9 @@
       </if>
       <if test="takeamount != null and takeamount != ''" >
         and takeamount = #{takeamount,jdbcType=DOUBLE}
+      </if>
+      <if test="actualtakeamount != null and actualtakeamount != ''" >
+        and actualtakeamount = #{actualtakeamount,jdbcType=DOUBLE}
       </if>
       <if test="spraycode != null and spraycode != ''" >
         and spraycode = #{spraycode,jdbcType=VARCHAR}

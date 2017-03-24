@@ -1,7 +1,8 @@
 .Wdate{
 	border:#999 1px solid;
 	height:20px;
-	background: #fff url(cel.png) no-repeat 97% 50%;
+	background:#fff url(cel.png) no-repeat 97% 50%;
+    background-size: 16px;
 }
 .Wdate::-ms-clear{display:none;}
 
@@ -13,4 +14,10 @@
     border:#999 1px solid;
     height:20px;
     background:#fff url(cel.png) no-repeat 177px 4px;
+}
+.Wdate_add{
+    border:#999 1px solid;
+    height:20px;
+    background:#fff url(cel.png) no-repeat 97% 50%;
+    background-size: 16px;
 }

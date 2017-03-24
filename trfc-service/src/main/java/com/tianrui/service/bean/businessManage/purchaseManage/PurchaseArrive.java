@@ -41,6 +41,8 @@ public class PurchaseArrive {
     private Long abnormaltime;
 	//到货量
     private Double arrivalamount;
+    //实际签收量
+    private Double signamount;
 	//单位 default='吨'
     private String unit;
 	//制单人id
@@ -208,7 +210,21 @@ public class PurchaseArrive {
         this.arrivalamount = arrivalamount;
     }
 
-    public String getUnit() {
+    /**
+	 * @return the signamount
+	 */
+	public Double getSignamount() {
+		return signamount;
+	}
+
+	/**
+	 * @param signamount the signamount to set
+	 */
+	public void setSignamount(Double signamount) {
+		this.signamount = signamount;
+	}
+
+	public String getUnit() {
         return unit;
     }
 

@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tianrui.service.mapper.businessManage.purchaseManage.PurchaseStorageListItemMapper" >
+  <resultMap id="BaseResultMap" type="com.tianrui.service.bean.businessManage.purchaseManage.PurchaseStorageListItem" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="purchase_storage_list_id" property="purchaseStorageListId" jdbcType="VARCHAR" />
+    <result column="pk_org" property="pkOrg" jdbcType="VARCHAR" />
+    <result column="cmaterialoid" property="cmaterialoid" jdbcType="VARCHAR" />
+    <result column="castunitid" property="castunitid" jdbcType="VARCHAR" />
+    <result column="nunm" property="nunm" jdbcType="VARCHAR" />
+    <result column="nshouldnum" property="nshouldnum" jdbcType="VARCHAR" />
+    <result column="pk_creqwareid" property="pkCreqwareid" jdbcType="VARCHAR" />
+    <result column="ts" property="ts" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="BIGINT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, purchase_storage_list_id, pk_org, cmaterialoid, castunitid, nunm, nshouldnum, pk_creqwareid, ts, create_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from tr_purchase_storage_list_item
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from tr_purchase_storage_list_item
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.tianrui.service.bean.businessManage.purchaseManage.PurchaseStorageListItem" >
+    insert into tr_purchase_storage_list_item (id, purchase_storage_list_id, pk_org, 
+      cmaterialoid, castunitid, nunm, 
+      nshouldnum, pk_creqwareid, 
+      ts, create_time)
+    values (#{id,jdbcType=VARCHAR}, #{purchaseStorageListId,jdbcType=VARCHAR}, #{pkOrg,jdbcType=VARCHAR}, 
+      #{cmaterialoid,jdbcType=VARCHAR}, #{castunitid,jdbcType=VARCHAR}, #{nunm,jdbcType=VARCHAR}, 
+      #{nshouldnum,jdbcType=VARCHAR}, #{pkCreqwareid,jdbcType=VARCHAR}, 
+      #{ts,jdbcType=VARCHAR}, #{createTime,jdbcType=BIGINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.tianrui.service.bean.businessManage.purchaseManage.PurchaseStorageListItem" >
+    insert into tr_purchase_storage_list_item
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="purchaseStorageListId != null" >
+        purchase_storage_list_id,
+      </if>
+      <if test="pkOrg != null" >
+        pk_org,
+      </if>
+      <if test="cmaterialoid != null" >
+        cmaterialoid,
+      </if>
+      <if test="castunitid != null" >
+        castunitid,
+      </if>
+      <if test="nunm != null" >
+        nunm,
+      </if>
+      <if test="nshouldnum != null" >
+        nshouldnum,
+      </if>
+      <if test="pkCreqwareid != null" >
+        pk_creqwareid,
+      </if>
+      <if test="ts != null" >
+        ts,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="purchaseStorageListId != null" >
+        #{purchaseStorageListId,jdbcType=VARCHAR},
+      </if>
+      <if test="pkOrg != null" >
+        #{pkOrg,jdbcType=VARCHAR},
+      </if>
+      <if test="cmaterialoid != null" >
+        #{cmaterialoid,jdbcType=VARCHAR},
+      </if>
+      <if test="castunitid != null" >
+        #{castunitid,jdbcType=VARCHAR},
+      </if>
+      <if test="nunm != null" >
+        #{nunm,jdbcType=VARCHAR},
+      </if>
+      <if test="nshouldnum != null" >
+        #{nshouldnum,jdbcType=VARCHAR},
+      </if>
+      <if test="pkCreqwareid != null" >
+        #{pkCreqwareid,jdbcType=VARCHAR},
+      </if>
+      <if test="ts != null" >
+        #{ts,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tianrui.service.bean.businessManage.purchaseManage.PurchaseStorageListItem" >
+    update tr_purchase_storage_list_item
+    <set >
+      <if test="purchaseStorageListId != null" >
+        purchase_storage_list_id = #{purchaseStorageListId,jdbcType=VARCHAR},
+      </if>
+      <if test="pkOrg != null" >
+        pk_org = #{pkOrg,jdbcType=VARCHAR},
+      </if>
+      <if test="cmaterialoid != null" >
+        cmaterialoid = #{cmaterialoid,jdbcType=VARCHAR},
+      </if>
+      <if test="castunitid != null" >
+        castunitid = #{castunitid,jdbcType=VARCHAR},
+      </if>
+      <if test="nunm != null" >
+        nunm = #{nunm,jdbcType=VARCHAR},
+      </if>
+      <if test="nshouldnum != null" >
+        nshouldnum = #{nshouldnum,jdbcType=VARCHAR},
+      </if>
+      <if test="pkCreqwareid != null" >
+        pk_creqwareid = #{pkCreqwareid,jdbcType=VARCHAR},
+      </if>
+      <if test="ts != null" >
+        ts = #{ts,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=BIGINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tianrui.service.bean.businessManage.purchaseManage.PurchaseStorageListItem" >
+    update tr_purchase_storage_list_item
+    set purchase_storage_list_id = #{purchaseStorageListId,jdbcType=VARCHAR},
+      pk_org = #{pkOrg,jdbcType=VARCHAR},
+      cmaterialoid = #{cmaterialoid,jdbcType=VARCHAR},
+      castunitid = #{castunitid,jdbcType=VARCHAR},
+      nunm = #{nunm,jdbcType=VARCHAR},
+      nshouldnum = #{nshouldnum,jdbcType=VARCHAR},
+      pk_creqwareid = #{pkCreqwareid,jdbcType=VARCHAR},
+      ts = #{ts,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=BIGINT}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <select id="selectByOrderIds" parameterType="java.util.List" resultMap="BaseResultMap">
+  	select 
+  		<include refid="Base_Column_List"/>
+  	from tr_purchase_storage_list_item
+  	where purchase_storage_list_id in
+  	<foreach collection="ids" item="item" index="index" separator="," open="(" close=")">
+  		#{item}
+  	</foreach>
+  </select>
+</mapper>

@@ -87,6 +87,8 @@ public class SalesApplicationJoinDetailResp extends BaseResp {
     private Double salessum;
     //单位
     private String unit;
+    //单价
+    private Double taxprice;
 
     /**
      * 仓库物料数量统计
@@ -338,6 +340,18 @@ public class SalesApplicationJoinDetailResp extends BaseResp {
 	}
 	public void setUnit(String unit) {
 		this.unit = unit;
+	}
+	/**
+	 * @return the taxprice
+	 */
+	public Double getTaxprice() {
+		return taxprice;
+	}
+	/**
+	 * @param taxprice the taxprice to set
+	 */
+	public void setTaxprice(Double taxprice) {
+		this.taxprice = taxprice;
 	}
 	public Double getMargin() {
 		return margin;

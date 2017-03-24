@@ -43,6 +43,8 @@ public class SalesArrive {
     private String unit;
     //提货量
     private Double takeamount;
+    //实际提货量
+    private Double actualtakeamount;
     //喷码
     private String spraycode;
     //出厂编号
@@ -224,7 +226,21 @@ public class SalesArrive {
         this.takeamount = takeamount;
     }
 
-    public String getSpraycode() {
+    /**
+	 * @return the actualtakeamount
+	 */
+	public Double getActualtakeamount() {
+		return actualtakeamount;
+	}
+
+	/**
+	 * @param actualtakeamount the actualtakeamount to set
+	 */
+	public void setActualtakeamount(Double actualtakeamount) {
+		this.actualtakeamount = actualtakeamount;
+	}
+
+	public String getSpraycode() {
         return spraycode;
     }
 

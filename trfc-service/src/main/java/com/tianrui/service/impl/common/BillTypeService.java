@@ -35,7 +35,7 @@ public class BillTypeService implements IBillTypeService {
 
 	@Override
 	public List<BillTypeResp> autoCompleteSearch(String trim) throws Exception {
-		return copyBeanList2RespList(billTypeMapper.autoCompleteSearch(trim));
+		return copyBeanList2RespList(billTypeMapper.autoCompleteSearch(trim, "1"));
 	}
 
 	private List<BillTypeResp> copyBeanList2RespList(List<BillType> list) throws Exception {

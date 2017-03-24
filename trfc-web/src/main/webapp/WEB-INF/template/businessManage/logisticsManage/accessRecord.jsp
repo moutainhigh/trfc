@@ -32,7 +32,7 @@
 							<div class="intel_sline">
 								<div class="intel_solo">
 									<label>门禁单号：</label>
-									<input id="code" type="text"/>
+									<input id="code" type="text" placeholder="请输入门禁单号"/>
 								</div>
 								<div class="intel_solo">
 									<label>业务类型：</label> <select id="businesstype" class="form-control">
@@ -53,10 +53,10 @@
 								<div class="intel_solo">
 									<label>创建时间：</label> <input id="starttime" type="text" readonly
 										onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:00:00',maxDate:'#F{$dp.$D(\'endtime\')}'})"
-										class="Wdate" style="width: 160px" /> <i>-</i> <input
+										class="Wdate" style="width: 160px" placeholder="请选择开始时间"/> <i>-</i> <input
 										 id="endtime" type="text" readonly
 										onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:00:00',minDate:'#F{$dp.$D(\'starttime\')}'})"
-										class="Wdate" style="width: 160px" />
+										class="Wdate" style="width: 160px" placeholder="请选择结束时间"/>
 								</div>
 								<div class="intel_solo">
 									<div class="intel_sbtn">

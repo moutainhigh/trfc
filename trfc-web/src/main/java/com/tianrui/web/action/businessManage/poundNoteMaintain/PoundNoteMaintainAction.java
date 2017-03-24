@@ -74,13 +74,13 @@ public class PoundNoteMaintainAction {
 	
 	@RequestMapping("/purchase/addPoundNote")
 	@ResponseBody
-	public Result addPurchase(PoundNoteSave save, HttpSession session){
+	public Result addPurchasePoundNote(PoundNoteSave save, HttpSession session){
 		Result result = Result.getParamErrorResult();
 		try {
 			SystemUserResp user = (SystemUserResp) session.getAttribute("systemUser");
 			save.setMakerid(user.getId());
 			save.setMakebillname(user.getName());
-			result = poundNoteService.addPurchase(save);
+			result = poundNoteService.addPurchasePoundNote(save);
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
 			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
@@ -153,7 +153,18 @@ public class PoundNoteMaintainAction {
 		}
 		return result;
 	}
-	
+	@RequestMapping("/purchase/findByBillid")
+	@ResponseBody
+	public Result findByBillid(String billid){
+		Result result = Result.getParamErrorResult();
+		try {
+			result = poundNoteService.findByBillid(billid);
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
+		}
+		return result;
+	}
 	@RequestMapping("/purchase/detail")
 	public ModelAndView purchasePoundNoteDetail(String id){
 		ModelAndView view = new ModelAndView("businessManage/poundNoteMaintain/purchasePoundNoteDetail");
@@ -170,7 +181,9 @@ public class PoundNoteMaintainAction {
 		ModelAndView view = new ModelAndView("businessManage/poundNoteMaintain/salesPoundNote");
 		return view;
 	}
+	
 	@RequestMapping("/sales/page")
+	@ResponseBody
 	public Result salesPage(PoundNoteQuery query){
 		Result result = Result.getSuccessResult();
 		try {
@@ -181,6 +194,107 @@ public class PoundNoteMaintainAction {
 			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
 		}
 		return result;
+	}
+	
+	@RequestMapping("/sales/addView")
+	public ModelAndView salesAddView(HttpSession session){
+		ModelAndView view = new ModelAndView("businessManage/poundNoteMaintain/salesPoundNoteAdd");
+		try {
+			SystemUserResp user = (SystemUserResp) session.getAttribute("systemUser");
+			GetCodeReq codeReq = new GetCodeReq();
+			codeReq.setCode("CK");
+			codeReq.setCodeType(true);
+			codeReq.setUserid(user.getId());
+			view.addObject("code", systemCodeService.getCode(codeReq).getData());
+			view.addObject("nowDate", DateUtil.getNowDateString("yyyy-MM-dd HH:mm:ss"));
+			view.addObject("makebillname", user.getName());
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+		}
+		return view;
+	}
+	
+	@RequestMapping("/sales/addPoundNote")
+	@ResponseBody
+	public Result addSalesPoundNote(PoundNoteSave save, String bills, HttpSession session){
+		Result result = Result.getParamErrorResult();
+		try {
+			SystemUserResp user = (SystemUserResp) session.getAttribute("systemUser");
+			save.setMakerid(user.getId());
+			save.setMakebillname(user.getName());
+			result = poundNoteService.addSalesPoundNote(save, bills);
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
+		}
+		return result;
+	}
+
+	@RequestMapping("/sales/updateSerialNumberView")
+	public ModelAndView updateSerialNumberView(String id){
+		ModelAndView view = new ModelAndView("businessManage/poundNoteMaintain/salesPoundNoteUpdateSerialNumber");
+		try {
+			view.addObject("poundNote", poundNoteService.findOne(id));
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+		}
+		return view;
+	}
+	
+	@RequestMapping("/sales/updateSerialNumber")
+	@ResponseBody
+	public Result addSalesPoundNote(PoundNoteQuery query, HttpSession session){
+		Result result = Result.getParamErrorResult();
+		try {
+			SystemUserResp user = (SystemUserResp) session.getAttribute("systemUser");
+			query.setCurrId(user.getId());
+			result = poundNoteService.updateSerialNumber(query);
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
+		}
+		return result;
+	}
+	
+	@RequestMapping("/sales/redcollide")
+	@ResponseBody
+	public Result salesRedcollide(PoundNoteQuery query, HttpSession session){
+		Result result = Result.getParamErrorResult();
+		try {
+			SystemUserResp user = (SystemUserResp) session.getAttribute("systemUser");
+			query.setCurrId(user.getId());
+			result = poundNoteService.salesRedcollide(query);
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
+		}
+		return result;
+	}
+	
+	@RequestMapping("/sales/invalid")
+	@ResponseBody
+	public Result salesInvalid(PoundNoteQuery query, HttpSession session){
+		Result result = Result.getParamErrorResult();
+		try {
+			SystemUserResp user = (SystemUserResp) session.getAttribute("systemUser");
+			query.setCurrId(user.getId());
+			result = poundNoteService.salesInvalid(query);
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
+		}
+		return result;
+	}
+	
+	@RequestMapping("/sales/detail")
+	public ModelAndView salesPoundNoteDetail(String id){
+		ModelAndView view = new ModelAndView("businessManage/poundNoteMaintain/salesPoundNoteDetail");
+		try {
+			view.addObject("poundNote", poundNoteService.findOne(id));
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+		}
+		return view;
 	}
 	
 }

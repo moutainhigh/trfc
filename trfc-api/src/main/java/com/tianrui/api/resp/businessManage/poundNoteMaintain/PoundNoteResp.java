@@ -1,6 +1,14 @@
 package com.tianrui.api.resp.businessManage.poundNoteMaintain;
 
+import java.util.List;
+
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
+
 import com.tianrui.api.resp.BaseResp;
+import com.tianrui.api.resp.businessManage.purchaseManage.PurchaseApplicationResp;
+import com.tianrui.api.resp.businessManage.salesManage.SalesApplicationDetailResp;
+import com.tianrui.api.resp.businessManage.salesManage.SalesApplicationResp;
 import com.tianrui.smartfactory.common.utils.DateUtil;
 
 public class PoundNoteResp extends BaseResp {
@@ -30,6 +38,8 @@ public class PoundNoteResp extends BaseResp {
     private Double billsum;
     //订单详情id
     private String billdetailid;
+    //主单扣量（0：否，1：是）
+    private String maindeduction;
 	//通知单id
     private String noticeid;
 	//通知单code
@@ -46,6 +56,10 @@ public class PoundNoteResp extends BaseResp {
     private String suppliername;
     //供应商备注
     private String supplierremark;
+    //客户id
+    private String customerid;
+    //客户名称
+    private String customername;
     //物料
     private String materielname;
     //司机id
@@ -78,6 +92,10 @@ public class PoundNoteResp extends BaseResp {
     private String receiverpersonid;
 	//收料人名称
     private String receiverpersonname;
+	//过磅员id
+    private String weigherid;
+	//过磅员名称
+    private String weighername;
     //收货时间
     private Long receivertime;
     //收货时间字符串
@@ -132,6 +150,10 @@ public class PoundNoteResp extends BaseResp {
     private String modifytimeStr;
 	//备注
     private String remark;
+    //订单详情
+    private List<PurchaseApplicationResp> purchaseApplicationList;
+    //订单详情
+    private List<SalesApplicationResp> salesApplicationList;
 	/**
 	 * @return the id
 	 */
@@ -277,6 +299,18 @@ public class PoundNoteResp extends BaseResp {
 		this.billdetailid = billdetailid;
 	}
 	/**
+	 * @return the maindeduction
+	 */
+	public String getMaindeduction() {
+		return maindeduction;
+	}
+	/**
+	 * @param maindeduction the maindeduction to set
+	 */
+	public void setMaindeduction(String maindeduction) {
+		this.maindeduction = maindeduction;
+	}
+	/**
 	 * @return the noticeid
 	 */
 	public String getNoticeid() {
@@ -371,6 +405,30 @@ public class PoundNoteResp extends BaseResp {
 	 */
 	public void setSupplierremark(String supplierremark) {
 		this.supplierremark = supplierremark;
+	}
+	/**
+	 * @return the customerid
+	 */
+	public String getCustomerid() {
+		return customerid;
+	}
+	/**
+	 * @return the customername
+	 */
+	public String getCustomername() {
+		return customername;
+	}
+	/**
+	 * @param customerid the customerid to set
+	 */
+	public void setCustomerid(String customerid) {
+		this.customerid = customerid;
+	}
+	/**
+	 * @param customername the customername to set
+	 */
+	public void setCustomername(String customername) {
+		this.customername = customername;
 	}
 	/**
 	 * @return the materielname
@@ -563,6 +621,30 @@ public class PoundNoteResp extends BaseResp {
 	 */
 	public void setReceiverpersonname(String receiverpersonname) {
 		this.receiverpersonname = receiverpersonname;
+	}
+	/**
+	 * @return the weigherid
+	 */
+	public String getWeigherid() {
+		return weigherid;
+	}
+	/**
+	 * @param weigherid the weigherid to set
+	 */
+	public void setWeigherid(String weigherid) {
+		this.weigherid = weigherid;
+	}
+	/**
+	 * @return the weighername
+	 */
+	public String getWeighername() {
+		return weighername;
+	}
+	/**
+	 * @param weighername the weighername to set
+	 */
+	public void setWeighername(String weighername) {
+		this.weighername = weighername;
 	}
 	/**
 	 * @return the receivertime
@@ -894,6 +976,30 @@ public class PoundNoteResp extends BaseResp {
 	public void setRemark(String remark) {
 		this.remark = remark;
 	}
+	/**
+	 * @return the purchaseApplicationList
+	 */
+	public List<PurchaseApplicationResp> getPurchaseApplicationList() {
+		return purchaseApplicationList;
+	}
+	/**
+	 * @param purchaseApplicationList the purchaseApplicationList to set
+	 */
+	public void setPurchaseApplicationList(List<PurchaseApplicationResp> purchaseApplicationList) {
+		this.purchaseApplicationList = purchaseApplicationList;
+	}
+	/**
+	 * @return the salesApplicationList
+	 */
+	public List<SalesApplicationResp> getSalesApplicationList() {
+		return salesApplicationList;
+	}
+	/**
+	 * @param salesApplicationList the salesApplicationList to set
+	 */
+	public void setSalesApplicationList(List<SalesApplicationResp> salesApplicationList) {
+		this.salesApplicationList = salesApplicationList;
+	}
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
@@ -920,5 +1026,48 @@ public class PoundNoteResp extends BaseResp {
 				+ ", makebilltimeStr=" + makebilltimeStr + ", state=" + state + ", creator=" + creator + ", createtime="
 				+ createtime + ", createtimeStr=" + createtimeStr + ", modifier=" + modifier + ", modifytime="
 				+ modifytime + ", modifytimeStr=" + modifytimeStr + ", remark=" + remark + "]";
+	}
+	
+	public SalesApplicationResp getMainApplication(){
+		if (this.salesApplicationList != null && this.salesApplicationList.size() > 0) {
+			for (SalesApplicationResp resp : this.salesApplicationList) {
+				if(StringUtils.equals(resp.getId(), this.billid)){
+					return resp;
+				}
+			}
+		}
+		return null;
+	}
+	
+	public SalesApplicationDetailResp getMainApplicationDetail(){
+		if (this.salesApplicationList != null && this.salesApplicationList.size() > 0) {
+			for (SalesApplicationResp resp : this.salesApplicationList) {
+				if(resp.getList() != null && StringUtils.equals(resp.getList().get(0).getId(), this.billdetailid)){
+					return resp.getList().get(0);
+				}
+			}
+		}
+		return null;
+	}
+
+	public SalesApplicationResp getOneApplication(){
+		if(CollectionUtils.isNotEmpty(salesApplicationList) && salesApplicationList.size() > 0){
+			return salesApplicationList.get(0);
+		}
+		return new SalesApplicationResp();
+	}
+	
+	public SalesApplicationResp getTwoApplication(){
+		if(CollectionUtils.isNotEmpty(salesApplicationList) && salesApplicationList.size() > 1){
+			return salesApplicationList.get(1);
+		}
+		return new SalesApplicationResp();
+	}
+	
+	public SalesApplicationResp getThreeApplication(){
+		if(CollectionUtils.isNotEmpty(salesApplicationList) && salesApplicationList.size() > 2){
+			return salesApplicationList.get(2);
+		}
+		return new SalesApplicationResp();
 	}
 }

@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tianrui.service.mapper.businessManage.salesManage.SalesOutboundOrderMapper" >
+  <resultMap id="BaseResultMap" type="com.tianrui.service.bean.businessManage.salesManage.SalesOutboundOrder" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="code" property="code" jdbcType="VARCHAR" />
+    <result column="nc_id" property="ncId" jdbcType="VARCHAR" />
+    <result column="billdate" property="billdate" jdbcType="VARCHAR" />
+    <result column="pk_org" property="pkOrg" jdbcType="VARCHAR" />
+    <result column="cdptid" property="cdptid" jdbcType="VARCHAR" />
+    <result column="cbizid" property="cbizid" jdbcType="VARCHAR" />
+    <result column="ntotalnum" property="ntotalnum" jdbcType="VARCHAR" />
+    <result column="cdilivertypeid" property="cdilivertypeid" jdbcType="VARCHAR" />
+    <result column="billmaker" property="billmaker" jdbcType="VARCHAR" />
+    <result column="dmakedate" property="dmakedate" jdbcType="VARCHAR" />
+    <result column="ctrantypeid" property="ctrantypeid" jdbcType="VARCHAR" />
+    <result column="ts" property="ts" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="BIGINT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, code, nc_id, billdate, pk_org, cdptid, cbizid, ntotalnum, cdilivertypeid, billmaker, 
+    dmakedate, ctrantypeid, ts, status, create_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from tr_sale_outbound_order
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from tr_sale_outbound_order
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.tianrui.service.bean.businessManage.salesManage.SalesOutboundOrder" >
+    insert into tr_sale_outbound_order (id, code, nc_id, billdate, 
+      pk_org, cdptid, cbizid, 
+      ntotalnum, cdilivertypeid, billmaker, 
+      dmakedate, ctrantypeid, ts, 
+      status, create_time)
+    values (#{id,jdbcType=VARCHAR}, #{ncId,jdbcType=VARCHAR}, #{billdate,jdbcType=VARCHAR}, 
+      #{pkOrg,jdbcType=VARCHAR}, #{cdptid,jdbcType=VARCHAR}, #{cbizid,jdbcType=VARCHAR}, 
+      #{ntotalnum,jdbcType=VARCHAR}, #{cdilivertypeid,jdbcType=VARCHAR}, #{billmaker,jdbcType=VARCHAR}, 
+      #{dmakedate,jdbcType=VARCHAR}, #{ctrantypeid,jdbcType=VARCHAR}, #{ts,jdbcType=VARCHAR}, 
+      #{status,jdbcType=VARCHAR}, #{createTime,jdbcType=BIGINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.tianrui.service.bean.businessManage.salesManage.SalesOutboundOrder" >
+    insert into tr_sale_outbound_order
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="code != null" >
+        code,
+      </if>
+      <if test="ncId != null" >
+        nc_id,
+      </if>
+      <if test="billdate != null" >
+        billdate,
+      </if>
+      <if test="pkOrg != null" >
+        pk_org,
+      </if>
+      <if test="cdptid != null" >
+        cdptid,
+      </if>
+      <if test="cbizid != null" >
+        cbizid,
+      </if>
+      <if test="ntotalnum != null" >
+        ntotalnum,
+      </if>
+      <if test="cdilivertypeid != null" >
+        cdilivertypeid,
+      </if>
+      <if test="billmaker != null" >
+        billmaker,
+      </if>
+      <if test="dmakedate != null" >
+        dmakedate,
+      </if>
+      <if test="ctrantypeid != null" >
+        ctrantypeid,
+      </if>
+      <if test="ts != null" >
+        ts,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="ncId != null" >
+        #{ncId,jdbcType=VARCHAR},
+      </if>
+      <if test="billdate != null" >
+        #{billdate,jdbcType=VARCHAR},
+      </if>
+      <if test="pkOrg != null" >
+        #{pkOrg,jdbcType=VARCHAR},
+      </if>
+      <if test="cdptid != null" >
+        #{cdptid,jdbcType=VARCHAR},
+      </if>
+      <if test="cbizid != null" >
+        #{cbizid,jdbcType=VARCHAR},
+      </if>
+      <if test="ntotalnum != null" >
+        #{ntotalnum,jdbcType=VARCHAR},
+      </if>
+      <if test="cdilivertypeid != null" >
+        #{cdilivertypeid,jdbcType=VARCHAR},
+      </if>
+      <if test="billmaker != null" >
+        #{billmaker,jdbcType=VARCHAR},
+      </if>
+      <if test="dmakedate != null" >
+        #{dmakedate,jdbcType=VARCHAR},
+      </if>
+      <if test="ctrantypeid != null" >
+        #{ctrantypeid,jdbcType=VARCHAR},
+      </if>
+      <if test="ts != null" >
+        #{ts,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tianrui.service.bean.businessManage.salesManage.SalesOutboundOrder" >
+    update tr_sale_outbound_order
+    <set >
+      <if test="code != null" >
+        code = #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="ncId != null" >
+        nc_id = #{ncId,jdbcType=VARCHAR},
+      </if>
+      <if test="billdate != null" >
+        billdate = #{billdate,jdbcType=VARCHAR},
+      </if>
+      <if test="pkOrg != null" >
+        pk_org = #{pkOrg,jdbcType=VARCHAR},
+      </if>
+      <if test="cdptid != null" >
+        cdptid = #{cdptid,jdbcType=VARCHAR},
+      </if>
+      <if test="cbizid != null" >
+        cbizid = #{cbizid,jdbcType=VARCHAR},
+      </if>
+      <if test="ntotalnum != null" >
+        ntotalnum = #{ntotalnum,jdbcType=VARCHAR},
+      </if>
+      <if test="cdilivertypeid != null" >
+        cdilivertypeid = #{cdilivertypeid,jdbcType=VARCHAR},
+      </if>
+      <if test="billmaker != null" >
+        billmaker = #{billmaker,jdbcType=VARCHAR},
+      </if>
+      <if test="dmakedate != null" >
+        dmakedate = #{dmakedate,jdbcType=VARCHAR},
+      </if>
+      <if test="ctrantypeid != null" >
+        ctrantypeid = #{ctrantypeid,jdbcType=VARCHAR},
+      </if>
+      <if test="ts != null" >
+        ts = #{ts,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=BIGINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tianrui.service.bean.businessManage.salesManage.SalesOutboundOrder" >
+    update tr_sale_outbound_order
+    set code = #{code,jdbcType=VARCHAR},
+      ncId = #{ncId,jdbcType=VARCHAR},
+      billdate = #{billdate,jdbcType=VARCHAR},
+      pk_org = #{pkOrg,jdbcType=VARCHAR},
+      cdptid = #{cdptid,jdbcType=VARCHAR},
+      cbizid = #{cbizid,jdbcType=VARCHAR},
+      ntotalnum = #{ntotalnum,jdbcType=VARCHAR},
+      cdilivertypeid = #{cdilivertypeid,jdbcType=VARCHAR},
+      billmaker = #{billmaker,jdbcType=VARCHAR},
+      dmakedate = #{dmakedate,jdbcType=VARCHAR},
+      ctrantypeid = #{ctrantypeid,jdbcType=VARCHAR},
+      ts = #{ts,jdbcType=VARCHAR},
+      status = #{status,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=BIGINT}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <select id="selectIncrementalData" resultMap="BaseResultMap" parameterType="com.tianrui.service.bean.businessManage.salesManage.SalesOutboundOrder" >
+    select 
+    <include refid="Base_Column_List" />
+    from tr_sale_outbound_order
+    where      
+       pk_org=#{pkOrg}
+       <if test="ts != null" >
+       		<![CDATA[
+       		and ts > #{ts,jdbcType=TIMESTAMP}
+       		and status !=1
+       		]]>
+       </if>
+       <if test="ts == null" >
+       	  and status !=1
+       </if>
+       order by create_time desc 
+  </select>
+  <insert id="insertBatch" parameterType="java.util.List">
+	insert into tr_sale_outbound_order (id, code, nc_id, billdate, pk_org, cdptid, cbizid, ntotalnum, cdilivertypeid, billmaker, 
+    dmakedate, ctrantypeid, ts, status, create_time)
+	values
+	<foreach collection="list" item="item" index="index" separator=",">
+		(#{item.id,jdbcType=VARCHAR}, 
+		#{item.code,jdbcType=VARCHAR},
+		#{item.ncId,jdbcType=VARCHAR},
+		#{item.billdate,jdbcType=VARCHAR},
+		#{item.pkOrg,jdbcType=VARCHAR},
+		#{item.cdptid,jdbcType=VARCHAR},
+		#{item.cbizid,jdbcType=VARCHAR},
+		#{item.ntotalnum,jdbcType=VARCHAR},
+		#{item.cdilivertypeid,jdbcType=VARCHAR},
+		#{item.billmaker,jdbcType=VARCHAR},
+		#{item.dmakedate,jdbcType=VARCHAR},
+		#{item.ctrantypeid,jdbcType=VARCHAR},
+		#{item.ts,jdbcType=VARCHAR},
+		#{item.status,jdbcType=VARCHAR},
+		#{item.createTime,jdbcType=VARCHAR}
+		)
+	</foreach>
+  </insert>
+</mapper>

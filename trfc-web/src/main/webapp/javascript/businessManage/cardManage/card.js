@@ -196,7 +196,17 @@
 		});
 		$('#add_read').off('click').on('click',function(){
 			if($('#addCardView').is(':visible')){
-				alert('此功能待开发...');
+				//打开读卡器
+				readerOpen();
+				//开打卡片获取卡号
+				var cardno = openCard();
+				if(cardno){
+					$('#add_cardno').val(cardno);
+					//蜂鸣
+					readerBeep();
+				}
+				//关闭读卡器
+				readerClose();
 			}
 		});
 	}

@@ -220,4 +220,32 @@
       remark = #{remark,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
+  <insert id="insertBatch" parameterType="java.util.List">
+	insert into tr_sales_application_join_poundnote (id, billid, billdetailid, poundnoteid, billsum, margin, outstoragequantity, unoutstoragequantity, 
+    pretendingtake, takeamount, state, creator, createtime, modifier, modifytime, remark)
+	values
+	<foreach collection="list" item="item" index="index" separator=",">
+		(#{item.id,jdbcType=VARCHAR},
+		#{item.billid,jdbcType=VARCHAR},
+		#{item.billdetailid,jdbcType=VARCHAR},
+		#{item.poundnoteid,jdbcType=VARCHAR},
+		#{item.billsum,jdbcType=DOUBLE},
+		#{item.margin,jdbcType=DOUBLE},
+		#{item.outstoragequantity,jdbcType=DOUBLE},
+		#{item.unoutstoragequantity,jdbcType=DOUBLE},
+		#{item.pretendingtake,jdbcType=DOUBLE},
+		#{item.takeamount,jdbcType=DOUBLE},
+		#{item.state,jdbcType=VARCHAR},
+		#{item.creator,jdbcType=VARCHAR},
+		#{item.createtime,jdbcType=BIGINT},
+		#{item.modifier,jdbcType=VARCHAR},
+		#{item.modifytime,jdbcType=BIGINT},
+		#{item.remark,jdbcType=VARCHAR}
+		)
+	</foreach>
+  </insert>
+  <select id="selectByPoundNoteId" parameterType="java.lang.String" resultMap="BaseResultMap">
+  	select <include refid="Base_Column_List" />
+  	from tr_sales_application_join_poundnote where state = 1 and poundnoteid = #{poundnoteid,jdbcType=VARCHAR}
+  </select>
 </mapper>

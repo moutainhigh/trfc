@@ -177,21 +177,26 @@
 		var starttime = $('#starttime').val() || '';starttime = $.trim(starttime);
 		var endtime = $('#endtime').val() || '';endtime = $.trim(endtime);
 		var pageSize = $('#pageSize').val() || '';pageSize = $.trim(pageSize);
-		return {
-			code: code,
-			billcode: billcode,
-			noticecode: noticecode,
-			operator: operator,
-			netweight: netweight,
-			status: status,
-			returnstatus: returnstatus,
-			supplierid: supplierid,
-			materielid: materielid,
-			vehicleid: vehicleid,
-			starttime: str2Long(starttime),
-			endtime: str2Long(endtime),
-			pageSize: pageSize
+		var params = {
+				code: code,
+				billcode: billcode,
+				noticecode: noticecode,
+				operator: operator,
+				netweight: netweight,
+				status: status,
+				returnstatus: returnstatus,
+				supplierid: supplierid,
+				materielid: materielid,
+				vehicleid: vehicleid,
+				starttime: str2Long(starttime),
+				endtime: str2Long(endtime),
+				pageSize: pageSize
+			}; 
+		if(status == '0'){
+			delete params.status;
+			params.redcollide = '1';
 		}
+		return params;
 	}
 	
 	function validate(params){
@@ -332,6 +337,7 @@
 			});
 			$('#dataBody>tr').off('dblclick').on('dblclick', function(){
 				//详情
+				var obj = $(this).closest('tr').data();
 				window.open(URL.detail + '?id=' + obj.id);
 			});
 		}else{
@@ -340,7 +346,10 @@
 	}
 	//退货补增
 	function returnAddView(obj){
-		if(obj.status == '2'){
+		if(obj.status == '3'){
+			layer.msg('该单据已作废！', {icon: 5});
+			return;
+		}else if(obj.status == '2'){
 			layer.msg('退货数据，不能进行退货补增操作！', {icon: 5});
 			return;
 		}
@@ -348,7 +357,13 @@
 	}
 	//红冲
 	function redcollideOper(obj){
-		if(obj.status == '2'){
+		if(obj.status == '3'){
+			layer.msg('该单据已作废！', {icon: 5});
+			return;
+		}else if(obj.redcollide == '1'){
+			layer.msg('已红冲的单据不能红冲操作！', {icon: 5});
+			return;
+		}else if(obj.status == '2'){
 			layer.msg('退货数据，不能进行红冲操作！', {icon: 5});
 			return;
 		}else if(obj.returnstatus == '0'){
@@ -361,7 +376,10 @@
 	}
 	//作废
 	function invalidOper(obj){
-		if(obj.returnstatus == '2'){
+		if(obj.status == '3'){
+			layer.msg('该单据已作废！', {icon: 5});
+			return;
+		}else if(obj.returnstatus == '2'){
 			layer.msg('已推单的单据不能作废操作！', {icon: 5});
 			return;
 		}else if(obj.status == '3'){

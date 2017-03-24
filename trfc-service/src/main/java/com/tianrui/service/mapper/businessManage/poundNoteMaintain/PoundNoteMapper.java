@@ -42,4 +42,29 @@ public interface PoundNoteMapper {
 	 * @return
 	 */
 	PoundNoteResp findOne(String id);
+	/**
+	 * @Description 查询销售磅单
+	 * @author zhanggaohao
+	 * @version 2017年3月18日 下午3:20:38
+	 * @param query
+	 * @return
+	 */
+	List<PoundNoteResp> salesPage(PoundNoteQuery query);
+	/**
+	 * @Description 查询销售磅单总条数
+	 * @author zhanggaohao
+	 * @version 2017年3月18日 下午3:20:22
+	 * @param query
+	 * @return
+	 */
+	long salesPageCount(PoundNoteQuery query);
+	PoundNote findByBillid(String billid);
+	/**
+	 * @Description 根据出入库单号修改推单状态
+	 * @author zhanggaohao
+	 * @version 2017年3月24日 上午8:42:54
+	 * @param record
+	 * @return
+	 */
+	int updateByOrderCode(PoundNote record);
 }

@@ -23,6 +23,8 @@ public class PurchaseApplicationDetail {
     private String materieltype;
 	//数量
     private Double purchasesum;
+    //单价
+    private Double price;
 	//单位 default='吨'
     private String unit;
 	//备注
@@ -100,7 +102,21 @@ public class PurchaseApplicationDetail {
         this.purchasesum = purchasesum;
     }
 
-    public String getUnit() {
+    /**
+	 * @return the price
+	 */
+	public Double getPrice() {
+		return price;
+	}
+
+	/**
+	 * @param price the price to set
+	 */
+	public void setPrice(Double price) {
+		this.price = price;
+	}
+
+	public String getUnit() {
 		return unit;
 	}
 
