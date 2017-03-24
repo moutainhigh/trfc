@@ -323,6 +323,9 @@ public class PoundNoteService implements IPoundNoteService {
 		PoundNoteResp resp = null;
 		if (StringUtils.isNotBlank(id)) {
 			resp = poundNoteMapper.findOne(id);
+			if(resp != null && StringUtils.equals(resp.getBilltype(), "0")){
+				
+			}
 			if(resp != null && StringUtils.equals(resp.getBilltype(), "2")){
 				resp.setSalesApplicationList(getSalesApplicationListByPoundNoteId(resp.getId()));
 			}

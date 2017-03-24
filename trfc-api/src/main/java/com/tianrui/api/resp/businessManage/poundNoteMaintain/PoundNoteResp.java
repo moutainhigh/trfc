@@ -6,6 +6,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 
 import com.tianrui.api.resp.BaseResp;
+import com.tianrui.api.resp.businessManage.purchaseManage.PurchaseApplicationResp;
 import com.tianrui.api.resp.businessManage.salesManage.SalesApplicationDetailResp;
 import com.tianrui.api.resp.businessManage.salesManage.SalesApplicationResp;
 import com.tianrui.smartfactory.common.utils.DateUtil;
@@ -149,6 +150,8 @@ public class PoundNoteResp extends BaseResp {
     private String modifytimeStr;
 	//备注
     private String remark;
+    //订单详情
+    private List<PurchaseApplicationResp> purchaseApplicationList;
     //订单详情
     private List<SalesApplicationResp> salesApplicationList;
 	/**
@@ -972,6 +975,18 @@ public class PoundNoteResp extends BaseResp {
 	 */
 	public void setRemark(String remark) {
 		this.remark = remark;
+	}
+	/**
+	 * @return the purchaseApplicationList
+	 */
+	public List<PurchaseApplicationResp> getPurchaseApplicationList() {
+		return purchaseApplicationList;
+	}
+	/**
+	 * @param purchaseApplicationList the purchaseApplicationList to set
+	 */
+	public void setPurchaseApplicationList(List<PurchaseApplicationResp> purchaseApplicationList) {
+		this.purchaseApplicationList = purchaseApplicationList;
 	}
 	/**
 	 * @return the salesApplicationList

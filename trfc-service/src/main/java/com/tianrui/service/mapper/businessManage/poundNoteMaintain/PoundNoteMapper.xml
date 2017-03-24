@@ -124,7 +124,7 @@
     createtime, modifier, modifytime, remark
   </sql>
   <sql id="Base_Column_List_P" >
-    p0.id, p0.code, p0.returnstatus, p0.redcollide, p0.status, p0.billtype, p0.putinwarehouseid, p0.putinwarehousecode, p0.billid, p0.billcode, p2.id as billdetailid, p0.
+    p0.id, p0.code, p0.returnstatus, p0.redcollide, p0.status, p0.billtype, p0.putinwarehouseid, p0.putinwarehousecode, p0.billid, p0.billcode, p0.billdetailid, p0.
     noticeid, p0.noticecode, p0.arrivepoundnotecode, p0.senddepartmentid, p0.senddepartmentname, p0.driverid, p0.drivername, p0.driveridentityno, p0.vehicleid, p0.vehicleno, p0.
     receivedepartmentid, p0.receivedepartmentname, p0.minemouthid, p0.minemouthname, p0.warehouseid, p0.
     warehousename, p0.yardid, p0.yardname, p0.receiverpersonid, p0.receiverpersonname, p0.weigherid, p0.weighername, p0.receivertime, p0.pickupquantity, p0.
@@ -859,7 +859,7 @@
   </select>
   <select id="findOne" parameterType="java.lang.String" resultMap="BaseRespResultMap">
   select 
-	<include refid="Base_Column_List_P"/>
+	<include refid="Base_Column_List_P"/> ,p2.materielname, p1.suppliername, p1.supplierremark
   	from tr_pound_db_note p0
 		left join tr_purchase_db_application p1 on p0.billid = p1.id
 		left join tr_purchase_db_application_detail p2 on p0.billdetailid = p2.id
