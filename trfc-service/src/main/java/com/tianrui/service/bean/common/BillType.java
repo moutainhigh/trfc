@@ -1,22 +1,25 @@
 package com.tianrui.service.bean.common;
 
 public class BillType {
+	//主键id
     private String id;
-
+    //订单类型code
     private String code;
-
+    //订单类型名称
     private String name;
-
+    //类型（0：采购，1：销售）
+    private String type;
+    //状态：（0：删除，1：显示）
     private String state;
-
+    //创建人
     private String creator;
-
+    //创建时间
     private Long createtime;
-
+    //最后修改人
     private String modifier;
-
+    //最后修改时间
     private Long modifytime;
-
+    //备注
     private String remarks;
 
     public String getId() {
@@ -43,7 +46,21 @@ public class BillType {
         this.name = name == null ? null : name.trim();
     }
 
-    public String getState() {
+    /**
+	 * @return the type
+	 */
+	public String getType() {
+		return type;
+	}
+
+	/**
+	 * @param type the type to set
+	 */
+	public void setType(String type) {
+		this.type = type;
+	}
+
+	public String getState() {
         return state;
     }
 

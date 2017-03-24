@@ -155,7 +155,7 @@ public class PoundNoteService implements IPoundNoteService {
 			bean.setModifytime(System.currentTimeMillis());
 			PurchaseStorageList storage = new PurchaseStorageList();
 			GetCodeReq codeReq1 = new GetCodeReq();
-			codeReq1.setCode("DH");
+			codeReq1.setCode("CGRK");
 			codeReq1.setCodeType(true);
 			codeReq1.setUserid(save.getMakerid());
 			storage.setId(UUIDUtil.getId());

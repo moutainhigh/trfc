@@ -125,7 +125,7 @@
     warehousename, p0.yardid, p0.yardname, p0.receiverpersonid, p0.receiverpersonname, p0.receivertime, p0.pickupquantity, p0.
     grossweight, p0.tareweight, p0.netweight, p0.originalnetweight, p0.deductionweight, p0.deductionother, p0.batchnumberid, p0.
     serialnumber, p0.lighttime, p0.weighttime, p0.makerid, p0.makebillname, p0.makebilltime, p0.state, p0.creator, p0.
-    createtime, p0.modifier, p0.modifytime, p0.remark, p1.supplierid, p1.suppliername, p1.supplierremark, p2.materielname, p2.purchasesum as billsum
+    createtime, p0.modifier, p0.modifytime, p0.remark
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
@@ -763,7 +763,7 @@
   </select>
   <select id="purchasePage" parameterType="com.tianrui.api.req.businessManage.poundNoteMaintain.PoundNoteQuery" resultMap="BaseRespResultMap">
   	select 
-	<include refid="Base_Column_List_P"/>
+	<include refid="Base_Column_List_P"/>, p1.supplierid, p1.suppliername, p1.supplierremark, p2.materielname, p2.purchasesum as billsum
   	from tr_pound_db_note p0
 		left join tr_purchase_db_application p1 on p0.billid = p1.id
 		left join tr_purchase_db_application_detail p2 on p0.billdetailid = p2.id
@@ -846,6 +846,148 @@
     where billid = #{billid,jdbcType=VARCHAR} and state = '1'
   </select>
 	<select id="salesPage" parameterType="com.tianrui.api.req.businessManage.poundNoteMaintain.PoundNoteQuery" resultMap="BaseRespResultMap">
-	  	
+		select
+		<include refid="Base_Column_List_P" />, p1.customerid, p1.customername, p2.materielname, p2.salessum as billsum
+		from tr_pound_db_note p0
+		left join tr_sales_db_application p1 on p0.billid = p1.id
+		left join tr_sales_db_application_detail p2 on p0.billdetailid = p2.id
+		left join tr_sales_db_arrive p3 on p0.noticeid = p3.id and p2.id = p3.billdetailid
+		<where>
+			billtype = '2'
+			<if test="supplierid != null and supplierid != ''">
+				and p1.customerid = #{supplierid,jdbcType=VARCHAR}
+			</if>
+			<if test="materielid != null and materielid != ''">
+				and p2.materielid = #{materielid,jdbcType=VARCHAR}
+			</if>
+			<if test="vehicleid != null and vehicleid != ''">
+				and p0.vehicleid = #{vehicleid,jdbcType=VARCHAR}
+			</if>
+			<if test="billcode != null and billcode != ''">
+				and p0.billcode = #{billcode,jdbcType=VARCHAR}
+			</if>
+			<if test="noticecode != null and noticecode != ''">
+				and p0.noticecode = #{noticecode,jdbcType=VARCHAR}
+			</if>
+			<if test="code != null and code != ''">
+				and p0.code = #{code,jdbcType=VARCHAR}
+			</if>
+			<if test="netweight != null and netweight != ''">
+				<if test="operator != null and operator != ''">
+					<choose>
+						<when test="operator == 0">
+							and p0.netweight <![CDATA[>]]> #{netweight,jdbcType=DOUBLE}
+						</when>
+						<when test="operator == 1">
+							and p0.netweight <![CDATA[>=]]> #{netweight,jdbcType=DOUBLE}
+						</when>
+						<when test="operator == 2">
+							and p0.netweight <![CDATA[<]]> #{netweight,jdbcType=DOUBLE}
+						</when>
+						<when test="operator == 3">
+							and p0.netweight <![CDATA[<=]]> #{netweight,jdbcType=DOUBLE}
+						</when>
+						<when test="operator == 4">
+							and p0.netweight <![CDATA[=]]> #{netweight,jdbcType=DOUBLE}
+						</when>
+					</choose>
+				</if>
+			</if>
+			<if test="returnstatus != null and returnstatus != ''">
+				and p0.returnstatus = #{returnstatus,jdbcType=VARCHAR}
+			</if>
+			<if test="redcollide != null and redcollide != ''">
+				and p0.redcollide = #{redcollide,jdbcType=VARCHAR}
+			</if>
+			<if test="status != null and status != ''">
+				and p0.status = #{status,jdbcType=VARCHAR}
+			</if>
+			<if test="state != null and state != ''">
+				and p0.state = #{state,jdbcType=VARCHAR}
+			</if>
+			<if test="starttime != null and starttime != ''">
+				and p0.makebilltime <![CDATA[>=]]>
+				#{starttime,jdbcType=BIGINT}
+			</if>
+			<if test="endtime != null and endtime != ''">
+				and p0.makebilltime <![CDATA[<]]>
+				#{endtime,jdbcType=BIGINT}
+			</if>
+		</where>
+		order by p0.makebilltime desc
+		<if test="start != null and start >= 0">
+			<if test="limit != null">
+				limit #{start,jdbcType=INTEGER},#{limit,jdbcType=INTEGER}
+			</if>
+		</if>
+	</select>
+	<select id="salesPageCount" parameterType="com.tianrui.api.req.businessManage.poundNoteMaintain.PoundNoteQuery" resultType="java.lang.Long">
+		select count(0)
+		from tr_pound_db_note p0
+		left join tr_sales_db_application p1 on p0.billid = p1.id
+		left join tr_sales_db_application_detail p2 on p0.billdetailid = p2.id
+		left join tr_sales_db_arrive p3 on p0.noticeid = p3.id and p2.id = p3.billdetailid
+		<where>
+			billtype = '2'
+			<if test="supplierid != null and supplierid != ''">
+				and p1.customerid = #{supplierid,jdbcType=VARCHAR}
+			</if>
+			<if test="materielid != null and materielid != ''">
+				and p2.materielid = #{materielid,jdbcType=VARCHAR}
+			</if>
+			<if test="vehicleid != null and vehicleid != ''">
+				and p0.vehicleid = #{vehicleid,jdbcType=VARCHAR}
+			</if>
+			<if test="billcode != null and billcode != ''">
+				and p0.billcode = #{billcode,jdbcType=VARCHAR}
+			</if>
+			<if test="noticecode != null and noticecode != ''">
+				and p0.noticecode = #{noticecode,jdbcType=VARCHAR}
+			</if>
+			<if test="code != null and code != ''">
+				and p0.code = #{code,jdbcType=VARCHAR}
+			</if>
+			<if test="netweight != null and netweight != ''">
+				<if test="operator != null and operator != ''">
+					<choose>
+						<when test="operator == 0">
+							and p0.netweight <![CDATA[>]]> #{netweight,jdbcType=DOUBLE}
+						</when>
+						<when test="operator == 1">
+							and p0.netweight <![CDATA[>=]]> #{netweight,jdbcType=DOUBLE}
+						</when>
+						<when test="operator == 2">
+							and p0.netweight <![CDATA[<]]> #{netweight,jdbcType=DOUBLE}
+						</when>
+						<when test="operator == 3">
+							and p0.netweight <![CDATA[<=]]> #{netweight,jdbcType=DOUBLE}
+						</when>
+						<when test="operator == 4">
+							and p0.netweight <![CDATA[=]]> #{netweight,jdbcType=DOUBLE}
+						</when>
+					</choose>
+				</if>
+			</if>
+			<if test="returnstatus != null and returnstatus != ''">
+				and p0.returnstatus = #{returnstatus,jdbcType=VARCHAR}
+			</if>
+			<if test="redcollide != null and redcollide != ''">
+				and p0.redcollide = #{redcollide,jdbcType=VARCHAR}
+			</if>
+			<if test="status != null and status != ''">
+				and p0.status = #{status,jdbcType=VARCHAR}
+			</if>
+			<if test="state != null and state != ''">
+				and p0.state = #{state,jdbcType=VARCHAR}
+			</if>
+			<if test="starttime != null and starttime != ''">
+				and p0.makebilltime <![CDATA[>=]]>
+				#{starttime,jdbcType=BIGINT}
+			</if>
+			<if test="endtime != null and endtime != ''">
+				and p0.makebilltime <![CDATA[<]]>
+				#{endtime,jdbcType=BIGINT}
+			</if>
+		</where>
 	</select>
 </mapper>

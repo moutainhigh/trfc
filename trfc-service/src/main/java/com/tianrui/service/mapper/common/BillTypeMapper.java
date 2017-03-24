@@ -21,5 +21,5 @@ public interface BillTypeMapper {
     
     List<BillType> selectSelective(BillType record);
 
-	List<BillType> autoCompleteSearch(@Param("likeName")String trim);
+	List<BillType> autoCompleteSearch(@Param("likeName")String trim, @Param("type")String type);
 }
