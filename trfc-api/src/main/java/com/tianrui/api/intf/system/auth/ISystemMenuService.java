@@ -41,7 +41,7 @@ public interface ISystemMenuService {
 	 * @return
 	 * @throws Exception
 	 */
-	Result addRole(SystemMenuSaveReq  req) throws Exception;
+	Result addMenu(SystemMenuSaveReq  req) throws Exception;
 	
 	/**
 	 * 编辑菜单
@@ -49,12 +49,12 @@ public interface ISystemMenuService {
 	 * @return
 	 * @throws Exception
 	 */	
-	Result editRole(SystemMenuSaveReq  req) throws Exception;
+	Result editMenu(SystemMenuSaveReq  req) throws Exception;
 	/**
 	 * 删除菜单
 	 * @param req
 	 * @return
 	 * @throws Exception
 	 */
-	Result delRole(SystemMenuQueryReq  req) throws Exception;
+	Result delMenu(SystemMenuQueryReq  req) throws Exception;
 }
