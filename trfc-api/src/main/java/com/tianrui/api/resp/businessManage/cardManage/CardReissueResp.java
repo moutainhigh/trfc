@@ -18,6 +18,8 @@ public class CardReissueResp extends BaseResp {
     private String accesstype;
     //通知单号
     private String noticecode;
+    //通知单id
+    private String noticeid;
     //入厂时间
     private Long entertime;
     //出场时间字符串
@@ -98,6 +100,12 @@ public class CardReissueResp extends BaseResp {
     private String batchnum;
     //公司名称
     private String companyname;
+    //物料类型
+    private String materieltype;
+    //车辆编号
+    private String vehiclecode;
+    
+    
 	public String getAccesscode() {
 		return accesscode;
 	}
@@ -367,6 +375,24 @@ public class CardReissueResp extends BaseResp {
 	}
 	public void setAccessid(String accessid) {
 		this.accessid = accessid;
+	}
+	public String getMaterieltype() {
+		return materieltype;
+	}
+	public void setMaterieltype(String materieltype) {
+		this.materieltype = materieltype;
+	}
+	public String getVehiclecode() {
+		return vehiclecode;
+	}
+	public void setVehiclecode(String vehiclecode) {
+		this.vehiclecode = vehiclecode;
+	}
+	public String getNoticeid() {
+		return noticeid;
+	}
+	public void setNoticeid(String noticeid) {
+		this.noticeid = noticeid;
 	}
 
 }

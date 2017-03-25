@@ -95,5 +95,13 @@ public interface ISalesArriveService {
 	 * @throws Exception
 	 */
 	List<SalesArriveResp> selectByIds(List<String> ids) throws Exception;
+	/**
+	 * 更新ic卡号到通知单
+	 * @author lxy 
+	 * @param save(id,icardid,icardno)
+	 * @return
+	 * @throws Exception
+	 */
+	Result updateCardno(SalesArriveSave save) throws Exception;
 
 }

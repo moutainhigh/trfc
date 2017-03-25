@@ -221,7 +221,27 @@ public class SalesArriveService implements ISalesArriveService {
 		}
 		return result;
 	}
-
+	
+	@Override
+	public Result updateCardno(SalesArriveSave save) throws Exception {
+		Result rs = Result.getParamErrorResult();
+		if(StringUtils.isNotBlank(save.getId())){
+			SalesArrive arrive = new SalesArrive();
+			arrive.setId(save.getId());
+			arrive.setIcardid(save.getIcardid());
+			arrive.setIcardno(save.getIcardno());
+			arrive.setModifytime(System.currentTimeMillis());
+			arrive.setModifier(save.getModifier());
+			int index = salesArriveMapper.updateByPrimaryKeySelective(arrive);
+			if(index==1){
+				rs = Result.getSuccessResult();
+			}else{
+				rs.setErrorCode(ErrorCode.OPERATE_ERROR);
+			}
+		}
+		return rs;
+	}
+	
 	@Override
 	public Result update(SalesArriveSave save) throws Exception {
 		Result result = Result.getParamErrorResult();

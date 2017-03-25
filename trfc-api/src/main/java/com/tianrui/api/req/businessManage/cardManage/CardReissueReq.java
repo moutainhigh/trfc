@@ -14,10 +14,13 @@ public class CardReissueReq extends BaseReq {
 	private Long starttime;
 	private Long endtime;
 	private String materialid;
+	private String noticeid;
 	private String vahicleid;
 	private String accesscode;
 	private String businesstype;
 	private String accesstype;
+	private String applicationid;
+	private String userid;
 	private int start;
 	private int limit;
 	public String getId() {
@@ -86,6 +89,25 @@ public class CardReissueReq extends BaseReq {
 	public void setLimit(int limit) {
 		this.limit = limit;
 	}
+	public String getNoticeid() {
+		return noticeid;
+	}
+	public void setNoticeid(String noticeid) {
+		this.noticeid = noticeid;
+	}
+	public String getApplicationid() {
+		return applicationid;
+	}
+	public void setApplicationid(String applicationid) {
+		this.applicationid = applicationid;
+	}
+	public String getUserid() {
+		return userid;
+	}
+	public void setUserid(String userid) {
+		this.userid = userid;
+	}
+	
 	
 	
 	

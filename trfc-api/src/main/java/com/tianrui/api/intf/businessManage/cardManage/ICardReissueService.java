@@ -12,5 +12,12 @@ public interface ICardReissueService {
 	 * 获取门禁列表
 	 */
 	Result page(CardReissueReq req) throws Exception;
-	
+	/**
+	 * 更新ic卡信息到 通知单
+	 * @param req
+	 * @author lxy
+	 * @return
+	 * @throws Exception
+	 */
+	Result updateCard(CardReissueReq req) throws Exception;
 }

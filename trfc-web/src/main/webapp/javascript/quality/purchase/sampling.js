@@ -249,15 +249,20 @@ $(function(){
 			}
 			//提示读卡成功
 			readerBeep();
-			var obj = {
-					id:'',
-					code:getICCardData(2),
-					car:getICCardData(3),
-					supplier:getICCardData(4),
-					material:getICCardData(5),
-					mine:getICCardData(6),
-					vehicle:getICCardData(7),
-					remark:getICCardData(8)};
+			try{
+				var obj = {
+						id:'',
+						code:getDataFromCard(29),
+						car:getDataFromCard(12),
+						supplier:getDataFromCard(5)+getDataFromCard(6),
+						material:getDataFromCard(8),
+						mine:getDataFromCard(28),
+						vehicle:getDataFromCard(4),
+						remark:getDataFromCard(24)
+				};
+			}catch (e) {
+				alert(e.Message);
+			}
 			//关闭读卡器
 			readerClose();
 			if(obj){
