@@ -82,6 +82,8 @@ public class SalesApplicationJoinDetailResp extends BaseResp {
     //字表id
     private String detailid;
     //物料名称
+    private String materielid;
+    //物料名称
     private String materielname;
     //包装类型
     private String packagetype;
@@ -324,6 +326,18 @@ public class SalesApplicationJoinDetailResp extends BaseResp {
 	}
 	public void setDetailid(String detailid) {
 		this.detailid = detailid;
+	}
+	/**
+	 * @return the materielid
+	 */
+	public String getMaterielid() {
+		return materielid;
+	}
+	/**
+	 * @param materielid the materielid to set
+	 */
+	public void setMaterielid(String materielid) {
+		this.materielid = materielid;
 	}
 	public String getMaterielname() {
 		return materielname;
