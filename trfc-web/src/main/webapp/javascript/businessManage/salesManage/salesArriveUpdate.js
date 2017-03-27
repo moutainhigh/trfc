@@ -12,8 +12,7 @@
 	};
 	function str2Long(str){
 		if(str){
-			var date = new Date(str);
-			return date.getTime();
+			return Date.parseYMD_HMS(str).getTime();
 		}
 		return undefined;
 	}
