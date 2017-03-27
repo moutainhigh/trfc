@@ -83,6 +83,8 @@ public class SalesApplicationJoinDetailResp extends BaseResp {
     private String detailid;
     //物料名称
     private String materielname;
+    //包装类型
+    private String packagetype;
     //订单数量
     private Double salessum;
     //单位
@@ -376,6 +378,12 @@ public class SalesApplicationJoinDetailResp extends BaseResp {
 	}
 	public void setPretendingtake(Double pretendingtake) {
 		this.pretendingtake = pretendingtake;
+	}
+	public String getPackagetype() {
+		return packagetype;
+	}
+	public void setPackagetype(String packagetype) {
+		this.packagetype = packagetype;
 	}
 
 }

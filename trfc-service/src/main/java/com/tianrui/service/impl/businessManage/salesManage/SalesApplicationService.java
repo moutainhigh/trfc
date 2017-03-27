@@ -101,6 +101,15 @@ public class SalesApplicationService implements ISalesApplicationService {
 				query.setStart((query.getPageNo()-1)*query.getPageSize());
 				query.setLimit(query.getPageSize());
 				List<SalesApplicationJoinDetailResp> list = salesApplicationMapper.findPageGroupMateriel(query);
+				//获取水泥包装类型
+				if(CollectionUtils.isNotEmpty(list)){
+					for(SalesApplicationJoinDetailResp resp : list){
+						MaterielManage materiel = materielManageMapper.selectByPrimaryKey(resp.getId());
+						if(materiel!=null){
+							resp.setPackagetype(materiel.getPackagetype());
+						}
+					}
+				}
 				page.setList(list);
 			}
 			page.setTotal(count);

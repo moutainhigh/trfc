@@ -49,19 +49,19 @@
 	    		}
 	    	},
 	    	select: function( event, ui ) {
-	    		$(this).val(ui.item.vehicleno).attr('vehicleid', ui.item.id);
-	    		$('#rfid').val(ui.item.rfid);
-	    		return false;
-    		}
-	    }).off('click').on('click',function(){
-	    	$(this).autocomplete('search',' ');
-	    }).on('input propertychange',function(){
-	    	$(this).removeAttr('vehicleid');
-	    }).change(function(){
-    		if(!$(this).attr('vehicleid')){
-    			$(this).val('');
-    		}
-	    });
+				$(this).val(ui.item.vehicleno).attr('vehicleid', ui.item.id).attr('vehiclecode',ui.item.code);
+				$('#rfid').val(ui.item.rfid);
+				return false;
+			}
+		}).off('click').on('click',function(){
+			$(this).autocomplete('search',' ');
+		}).on('input propertychange',function(){
+			$(this).removeAttr('vehicleid').removeAttr('vehiclecode');
+		}).change(function(){
+			if(!$(this).attr('vehicleid') && !$(this).attr('vehiclecode')){
+				$(this).val('');
+			}
+		});
 		$("#driver").autocomplete({
 	    	source: function( request, response ) {
 	    		var term = request.term;
@@ -269,7 +269,7 @@
 			}
 		});
 		$('#addAndAddCardBtn').off('click').on('click',function(){
-			alert('待开发.');
+			writeCardAction();
 		});
 		$('#backBtn').off('click').on('click',function(){
 			window.location.href = URL.mainUrl;
@@ -449,7 +449,7 @@
 		$('#billcode').val(obj.code || '').attr('billid', obj.id || '').attr('billdetailid', obj.detailid || '').attr('bills', JSON.stringify(bills));
 		$('#customername').val(obj.customername || '');
 		$('#channelcode').val(obj.channelcode || '');
-		$('#materielname').val(obj.materielname || '');
+		$('#materielname').val(obj.materielname || '').attr('packagetype',obj.packagetype || '1');
 		$('#departmentname').val(obj.departmentname || '');
 		$('#unit').val(obj.unit || '');
 		$('#salessum').val(obj.salessum || '');
@@ -479,6 +479,114 @@
 		}
 		return params;
 	}
+	//写卡并保存
+	function writeCardAction() {
+		//业务类型
+		var BT = {
+				'1':'采购',
+				'2':'销售',
+				'3':'其他入库',
+				'4':'其他出库'
+		};
+
+		//物料类型
+		var MT = {
+				'0':'袋装',
+				'1':'水泥散装',
+				'2':'其他散装'
+		};
+
+		var params = getSalesArriveParams();
+		var obj = getWriteCardParams();
+		//打开读卡器
+		readerOpen();
+		//开打卡片获取卡号
+		var cardno = openCard();
+		if(cardno){
+			//卡号放入待保存数据
+			params.icardno = cardno;
+			//蜂鸣
+			readerBeep();
+			if(validate(params)){
+				var index = layer.load(2, {
+					shade: [0.3,'#fff'] //0.1透明度的白色背景
+				});
+				$.ajax({
+					url:URL.addUrl,
+					data:params,
+					async:true,
+					cache:false,
+					dataType:'json',
+					type:'post',
+					success:function(result){
+						if(result.code == '000000'){
+							
+							//打开读卡器
+							readerOpen();
+							//开打卡片获取卡号
+							openCard();
+							try{
+								//写卡
+								writeDataToCard(obj.rfid.substr(0,16) || '', 1);
+								writeDataToCard(obj.rfid.substr(16) || '',2);
+								writeDataToCard(obj.vehicleno || '',4);
+								writeDataToCard((obj.customername).substr(0,16),5);
+								writeDataToCard((obj.customername).substr(16),6);
+								writeDataToCard(obj.materielname || '',8);
+								writeDataToCard(MT[obj.packagetype] || '',9);
+								writeDataToCard(BT[obj.businesstype] || '',10);
+								writeDataToCard(obj.arrivecode || '',12);
+								writeDataToCard(obj.batchnum || '',13);
+								writeDataToCard(obj.vehiclecode || '',18);
+								writeDataToCard(obj.takeamount || '',17);
+								layer.alert('写卡成功');
+							} catch (e) {
+								layer.alert('写卡失败!('+e.Message+')');
+							}
+							//关闭读卡器
+							readerClose();
+						}else{
+							layer.msg(result.error, {icon: 5});
+							$('#addBtn').removeClass('disabled');
+						}
+					}
+				});
+			}else{
+				layer.alert('写卡失败!');
+			}
+			//关闭读卡器
+			readerClose();
+		}
+	}
+
+	//获取读卡数据
+	function getWriteCardParams() {
+		var arrivecode = $('#billcode').val() || ''; billcode = $.trim(billcode);
+		var rfid = $('#rfid').val() || ''; rfid = $.trim(rfid);
+		var vehicleno = $('#vehicle').val() || '';vehicleno = $.trim(vehicleno);
+		var vehiclecode = $('#vehicle').attr('vehiclecode') || '';vehiclecode = $.trim(vehiclecode);
+		var customername = $('#customername').val() || '';customername = $.trim(customername);
+		var materielname = $('#materielname').val() || '';materielname = $.trim(materielname);
+		//设置业务类型为 采购
+		var businesstype = '1';
+		var takeamount = $('#takeamount').val() || 0;
+		var packagetype = $('#materielname').attr('packagetype');
+		var batchnum = $('#serialnumber').val(); batchnum = $.trim(batchnum);
+		return {
+			arrivecode:arrivecode,
+			rfid:rfid,
+			batchnum : batchnum,
+			packagetype:packagetype,
+			vehicleno:vehicleno,
+			customername:customername,
+			vehiclecode:vehiclecode,
+			materielname:materielname,
+			businesstype:businesstype,
+			takeamount:takeamount
+		};
+	}
+	
+	//获取新增通知单数据
 	function getSalesArriveParams(){
 		var billid = $('#billcode').attr('billid'); billid = $.trim(billid);
 		var billdetailid = $('#billcode').attr('billdetailid'); billdetailid = $.trim(billdetailid);
