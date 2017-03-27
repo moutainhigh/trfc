@@ -433,4 +433,10 @@
 			</if>
 		</where>
 	</select>
+	<select id="selectByNoticeId" parameterType="java.lang.String" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from tr_access_db_record_copy
+		where noticeid = #{jdbcType=VARCHAR} and accesstype = '1' and state = '1'
+	</select>
 </mapper>

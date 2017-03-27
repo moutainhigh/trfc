@@ -2,6 +2,7 @@ package com.tianrui.service.mapper.businessManage.poundNoteMaintain;
 
 import java.util.List;
 
+import com.tianrui.api.req.businessManage.poundNoteMaintain.ApiPoundNoteQuery;
 import com.tianrui.api.req.businessManage.poundNoteMaintain.PoundNoteQuery;
 import com.tianrui.api.resp.businessManage.poundNoteMaintain.PoundNoteResp;
 import com.tianrui.service.bean.businessManage.poundNoteMaintain.PoundNote;
@@ -75,4 +76,12 @@ public interface PoundNoteMapper {
 	 * @return
 	 */
 	List<PoundNote> selectSelective(PoundNote record);
+	/**
+	 * @Description 查询历史皮重
+	 * @author zhanggaohao
+	 * @version 2017年3月27日 下午3:57:43
+	 * @param record
+	 * @return
+	 */
+	List<Double> historyTareWeight(ApiPoundNoteQuery record);
 }

@@ -157,40 +157,6 @@ public class AccessRecordService implements IAccessRecordService {
 			} else {
 				result.setErrorCode(ErrorCode.RFID_NOT_EXIST);
 			}
-			
-			
-			
-			
-			
-//			VehicleManage vehicle = new VehicleManage();
-//			vehicle.setVehicleno(checkApi.getVehicleNo());
-//			vehicle.setRfid(checkApi.getRfid());
-//			vehicle.setState("1");
-//			List<VehicleManage> listVehicle = vehicleManageMapper.selectSelective(vehicle);
-//			if (listVehicle == null || listVehicle.size() == 0) {
-//				result.setErrorCode(ErrorCode.RFID_VEHICLE_NOT_EXIST);
-//				return result;
-//			}
-//			SalesArrive sa = new SalesArrive();
-//			sa.setVehicleid(listVehicle.get(0).getId());
-//			sa.setStatus("2");
-//			sa.setState("1");
-//			List<SalesArrive> listSalesArrive = salesArriveMapper.selectSelective(sa);
-//			if (listSalesArrive == null || listSalesArrive.size() == 0) {
-//				result.setErrorCode(ErrorCode.VEHICLE_NOT_NOTICE);
-//				return result;
-//			}
-//			AccessRecord access = new AccessRecord();
-//			access.setSalesarrivecode(listSalesArrive.get(0).getCode());
-//			access.setIcardcode(cardMapper.selectByPrimaryKey(listSalesArrive.get(0).getIcardid()).getCardcode());
-//			access.setAccesstype("1");
-//			access.setState("1");
-//			List<AccessRecord> listAccess = accessRecordMapper.selectSelective(access);
-//			if (listAccess == null || listAccess.size() == 0) {
-//				result.setErrorCode(ErrorCode.VEHICLE_NOTICE_NOT_ENTER);
-//				return result;
-//			}
-//			result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
 		}
 		return result;
 	}

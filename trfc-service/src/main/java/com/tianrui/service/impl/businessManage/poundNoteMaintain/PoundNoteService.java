@@ -51,6 +51,7 @@ import com.tianrui.service.mapper.basicFile.measure.MinemouthManageMapper;
 import com.tianrui.service.mapper.basicFile.measure.VehicleManageMapper;
 import com.tianrui.service.mapper.basicFile.measure.YardManageMapper;
 import com.tianrui.service.mapper.basicFile.nc.WarehouseManageMapper;
+import com.tianrui.service.mapper.businessManage.logisticsManage.AccessRecordMapper1;
 import com.tianrui.service.mapper.businessManage.poundNoteMaintain.PoundNoteMapper;
 import com.tianrui.service.mapper.businessManage.purchaseManage.PurchaseApplicationDetailMapper;
 import com.tianrui.service.mapper.businessManage.purchaseManage.PurchaseApplicationMapper;
@@ -118,6 +119,8 @@ public class PoundNoteService implements IPoundNoteService {
 	private SalesArriveMapper salesArriveMapper;
 	@Autowired
 	private SalesApplicationJoinNaticeMapper salesApplicationJoinNaticeMapper;
+	@Autowired
+	private AccessRecordMapper1 accessRecordMapper;
 
 	@Override
 	public PaginationVO<PoundNoteResp> purchasePage(PoundNoteQuery query) throws Exception {
@@ -214,6 +217,7 @@ public class PoundNoteService implements IPoundNoteService {
 			VehicleManage vehicle = vehicleManageMapper.selectByPrimaryKey(save.getVehicleid());
 			if (vehicle != null) {
 				bean.setVehicleno(vehicle.getVehicleno());
+				bean.setVehiclerfid(vehicle.getRfid());
 			}
 		}
 		if (StringUtils.isNotBlank(save.getDriverid())) {
@@ -657,6 +661,7 @@ public class PoundNoteService implements IPoundNoteService {
 		// 皮重
 		if (StringUtils.equals(query.getType(), "1")) {
 			bean.setVehicleno(query.getVehicleno());
+			bean.setVehiclerfid(arrive.getVehiclerfid());
 			bean.setNoticecode(query.getNotionformcode());
 			bean.setReturnstatus("0");
 			bean.setState("1");
@@ -890,6 +895,7 @@ public class PoundNoteService implements IPoundNoteService {
 		bean.setDriveridentityno(arrive.getDriveridentityno());
 		bean.setVehicleid(arrive.getVehicleid());
 		bean.setVehicleno(arrive.getVehicleno());
+		bean.setVehiclerfid(arrive.getVehiclerfid());
 		bean.setPickupquantity(arrive.getTakeamount());
 		bean.setGrossweight(Double.parseDouble(query.getNumber()));
 		bean.setWeighttime(DateUtil.parse(query.getTime(), "yyyy-MM-dd HH:mm:ss"));
@@ -909,13 +915,135 @@ public class PoundNoteService implements IPoundNoteService {
 
 	@Override
 	public Result validation(ApiPoundNoteValidation valid) {
+		Result result = Result.getParamErrorResult();
 		if(valid != null && StringUtils.isNotBlank(valid.getVehicleno())
 				&& StringUtils.isNotBlank(valid.getRfid())
 				&& StringUtils.isNotBlank(valid.getType())
 				&& StringUtils.isNotBlank(valid.getCurrid())){
-			
+			if(StringUtils.equals(valid.getType(), "1")){
+				result = validOneWeight(valid);
+			}else{
+				result = validTwoWeight(valid);
+			}
 		}
-		return null;
+		return result;
+	}
+
+	/**
+	 * @Description 一次过磅验证
+	 * @author zhanggaohao
+	 * @version 2017年3月27日 上午10:41:25
+	 * @param valid
+	 */
+	private Result validOneWeight(ApiPoundNoteValidation valid) {
+		Result result = Result.getErrorResult();
+		SalesArrive sa = new SalesArrive();
+		sa.setVehicleno(valid.getVehicleno());
+		sa.setVehiclerfid(valid.getRfid());
+		sa.setState("1");
+		sa.setStatus("6");
+		List<SalesArrive> listSales = salesArriveMapper.selectSelective(sa);
+		if(CollectionUtils.isEmpty(listSales)){
+			PurchaseArrive pa = new PurchaseArrive();
+			pa.setVehicleno(valid.getVehicleno());
+			pa.setVehiclerfid(valid.getRfid());
+			pa.setState("1");
+			pa.setStatus("6");
+			List<PurchaseArrive> listPurchase = purchaseArriveMapper.selectSelective(pa);
+			if(CollectionUtils.isEmpty(listPurchase)){
+				//该车辆没有通知单
+				result.setErrorCode(ErrorCode.VEHICLE_NOT_NOTICE);
+			}else{
+				validNoticeInfoAccessRecord(result, listPurchase.size(), listPurchase.get(0).getId());
+			}
+		}else{
+			validNoticeInfoAccessRecord(result, listSales.size(), listSales.get(0).getId());
+		}
+		return result;
+	}
+
+	//检验通知单是否有入厂门禁
+	private void validNoticeInfoAccessRecord(Result result, int noticeLength, String noticeId) {
+		if(noticeLength > 1){
+			result.setErrorCode(ErrorCode.VEHICLE_NOTICE_NOT_ONLY);
+		}else{
+			//验证是否有入场门禁记录
+			if(accessRecordMapper.selectByNoticeId(noticeId) != null){
+				result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+			}
+		}
+	}
+
+	/**
+	 * @Description 二次过磅验证
+	 * @author zhanggaohao
+	 * @version 2017年3月27日 上午10:41:36
+	 * @param valid
+	 */
+	private Result validTwoWeight(ApiPoundNoteValidation valid) {
+		Result result = Result.getErrorResult();
+		SalesArrive sa = new SalesArrive();
+		sa.setVehicleno(valid.getVehicleno());
+		sa.setVehiclerfid(valid.getRfid());
+		sa.setState("1");
+		sa.setStatus("6");
+		List<SalesArrive> listSales = salesArriveMapper.selectSelective(sa);
+		if(CollectionUtils.isEmpty(listSales)){
+			PurchaseArrive pa = new PurchaseArrive();
+			pa.setVehicleno(valid.getVehicleno());
+			pa.setVehiclerfid(valid.getRfid());
+			pa.setState("1");
+			pa.setStatus("6");
+			List<PurchaseArrive> listPurchase = purchaseArriveMapper.selectSelective(pa);
+			if(CollectionUtils.isEmpty(listPurchase)){
+				//该车辆没有通知单
+				result.setErrorCode(ErrorCode.VEHICLE_NOT_NOTICE);
+			}else{
+				//判断通知单是否唯一
+				if(listPurchase.size() > 1){
+					result.setErrorCode(ErrorCode.VEHICLE_NOTICE_NOT_ONLY);
+				}else{
+					PoundNote poundNote = new PoundNote();
+					poundNote.setNoticeid(listPurchase.get(0).getId());
+					List<PoundNote> listPoundNote = poundNoteMapper.selectSelective(poundNote);
+					//判断是否一次过磅
+					if(CollectionUtils.isNotEmpty(listPoundNote)
+							&& listPoundNote.get(0).getGrossweight() != null
+							&& listPoundNote.get(0).getGrossweight() > 0){
+						result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+					}else{
+						result.setErrorCode(ErrorCode.VEHICLE_NOTICE_NOT_ONE_WEIGHT);
+					}
+				}
+			}
+		}else{
+			//判断通知单是否唯一
+			if(listSales.size() > 1){
+				result.setErrorCode(ErrorCode.VEHICLE_NOTICE_NOT_ONLY);
+			}else{
+				//验证是否已装货
+				if(StringUtils.equals(listSales.get(0).getStatus(), "7")){
+					result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+				}else{
+					result.setErrorCode(ErrorCode.SALESARRIVE_NOT_LOAD);
+				}
+			}
+		}
+		return result;
+	}
+
+	@Override
+	public Result tareWeight(ApiPoundNoteQuery valid) {
+		Result result = Result.getParamErrorResult();
+		if(valid != null
+				&& StringUtils.isNotBlank(valid.getVehicleno())
+				&& StringUtils.isNotBlank(valid.getRfid())
+				&& StringUtils.isNotBlank(valid.getNumber())){
+			List<Double> list = poundNoteMapper.historyTareWeight(valid);
+			result.setData(list);
+			result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+		}
+		return result;
 	}
 
 }
