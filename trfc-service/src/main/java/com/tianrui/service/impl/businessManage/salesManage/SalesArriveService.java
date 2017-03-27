@@ -34,11 +34,15 @@ import com.tianrui.api.resp.businessManage.salesManage.SalesApplicationDetailRes
 import com.tianrui.api.resp.businessManage.salesManage.SalesApplicationResp;
 import com.tianrui.api.resp.businessManage.salesManage.SalesArriveResp;
 import com.tianrui.service.bean.basicFile.measure.VehicleManage;
+import com.tianrui.service.bean.businessManage.purchaseManage.PurchaseApplication;
+import com.tianrui.service.bean.businessManage.purchaseManage.PurchaseApplicationDetail;
 import com.tianrui.service.bean.businessManage.purchaseManage.PurchaseArrive;
 import com.tianrui.service.bean.businessManage.salesManage.SalesApplicationJoinNatice;
 import com.tianrui.service.bean.businessManage.salesManage.SalesArrive;
 import com.tianrui.service.bean.common.RFID;
 import com.tianrui.service.mapper.basicFile.measure.VehicleManageMapper;
+import com.tianrui.service.mapper.businessManage.purchaseManage.PurchaseApplicationDetailMapper;
+import com.tianrui.service.mapper.businessManage.purchaseManage.PurchaseApplicationMapper;
 import com.tianrui.service.mapper.businessManage.purchaseManage.PurchaseArriveMapper;
 import com.tianrui.service.mapper.businessManage.salesManage.SalesApplicationJoinNaticeMapper;
 import com.tianrui.service.mapper.businessManage.salesManage.SalesArriveMapper;
@@ -84,6 +88,10 @@ public class SalesArriveService implements ISalesArriveService {
 	private ICardService cardService;
 	@Autowired
 	private SalesApplicationJoinNaticeMapper salesApplicationJoinNaticeMapper;
+	@Autowired
+	private PurchaseApplicationMapper purchaseApplicationMapper;
+	@Autowired
+	private PurchaseApplicationDetailMapper purchaseApplicationDetailMapper;
 	
 	@Override
 	public PaginationVO<SalesArriveResp> page(SalesArriveQuery query) throws Exception {
@@ -529,39 +537,15 @@ public class SalesArriveService implements ISalesArriveService {
 				//判断RFID是否已注册且唯一
 				if(count == 1){
 					if(StringUtils.equals(query.getRfid(), list.get(0).getRfid())){
-						SalesArrive sa = new SalesArrive();
-						sa.setState("1");
-						sa.setVehicleid(list.get(0).getId());
-						List<SalesArrive> listSales = salesArriveMapper.selectSelective(sa);
-						if(listSales == null || listSales.size() == 0){
-							result.setErrorCode(ErrorCode.VEHICLE_NOT_NOTICE);
-						}else{
-							SalesArriveResp resp = copyBean2Resp(listSales.get(0), true);
-							SalesApplicationResp salesApplicationResp = resp.getMainApplication();
-							SalesApplicationDetailResp salesApplicationDetailResp = resp.getMainApplicationDetail();
-							ApiSalesArriveResp api = new ApiSalesArriveResp();
-							api.setVehicleno(resp.getVehicleno());
-							api.setCustomerid(salesApplicationResp.getCustomerid());
-							api.setCustomer(salesApplicationResp.getCustomername());
-							api.setMaterielid(salesApplicationDetailResp.getMaterielid());
-							api.setMateriel(salesApplicationDetailResp.getMaterielname());
-							if(StringUtils.isNotBlank(salesApplicationDetailResp.getMaterielname()) && salesApplicationDetailResp.getMaterielname().contains("水泥")){
-								if(salesApplicationDetailResp.getMaterielname().contains("袋装")){
-									api.setCementtype("1");
-									api.setBatchnumber(resp.getSerialnumber());
-								}
-								if(salesApplicationDetailResp.getMaterielname().contains("散装")){
-									api.setCementtype("2");
-								}
-							}
-							api.setServicetype("2");
-							api.setNotionformcode(resp.getCode());
-							api.setPrimary("");
-							api.setVehicleid(resp.getId());
-							api.setMinemouth("");
-							api.setNumber(String.valueOf(resp.getTakeamount()==null?"":resp.getTakeamount()));
+						ApiSalesArriveResp api = null;
+						if((api = getSalesArriveDetail(list.get(0).getId(), query.getRfid())) != null){
 							result.setData(api);
 							result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+						}else if((api = getPurchaseArriveDetail(list.get(0).getId(), query.getRfid())) != null){
+							result.setData(api);
+							result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+						}else{
+							result.setErrorCode(ErrorCode.VEHICLE_NOT_NOTICE);
 						}
 					}else{
 						result.setErrorCode(ErrorCode.RFID_VEHICLE_NOT_EXIST);
@@ -574,6 +558,77 @@ public class SalesArriveService implements ISalesArriveService {
 			}
 		}
 		return result;
+	}
+	
+	private ApiSalesArriveResp getPurchaseArriveDetail(String vehicleid, String vehiclerfid) {
+		ApiSalesArriveResp api = null;
+		PurchaseArrive pa = new PurchaseArrive();
+		pa.setState("1");
+		pa.setVehicleid(vehicleid);
+		pa.setVehiclerfid(vehiclerfid);
+		List<PurchaseArrive> listPurchase = purchaseArriveMapper.selectSelective(pa);
+		if(CollectionUtils.isNotEmpty(listPurchase)){
+			api = new ApiSalesArriveResp();
+			PurchaseApplication application = purchaseApplicationMapper.selectByPrimaryKey(listPurchase.get(0).getBillid());
+			PurchaseApplicationDetail applicationDetail = purchaseApplicationDetailMapper.selectByPrimaryKey(listPurchase.get(0).getBilldetailid());
+			api.setVehicleid(vehicleid);
+			api.setVehicleno(listPurchase.get(0).getVehicleno());
+			api.setCustomerid(application.getSupplierid());
+			api.setCustomer(application.getSuppliername());
+			api.setMaterielid(applicationDetail.getMaterielid());
+			api.setMateriel(applicationDetail.getMaterielname());
+			if(StringUtils.isNotBlank(applicationDetail.getMaterielname()) && applicationDetail.getMaterielname().contains("水泥")){
+				if(applicationDetail.getMaterielname().contains("袋装")){
+					api.setCementtype("1");
+				}
+				if(applicationDetail.getMaterielname().contains("散装")){
+					api.setCementtype("2");
+				}
+			}
+			api.setPrimary("");//是否原发？？？
+			api.setServicetype("1");
+			api.setNotionformcode(listPurchase.get(0).getCode());
+			api.setMinemouth(application.getMinemouthname());
+			api.setNumber(listPurchase.get(0).getArrivalamount() == null ? "" : listPurchase.get(0).getArrivalamount().toString());
+			api.setStatus(listPurchase.get(0).getStatus());
+		}
+		return api;
+	}
+
+	private ApiSalesArriveResp getSalesArriveDetail(String vehicleid, String vehiclerfid) throws Exception{
+		ApiSalesArriveResp api = null;
+		SalesArrive sa = new SalesArrive();
+		sa.setState("1");
+		sa.setVehicleid(vehicleid);
+		sa.setVehiclerfid(vehiclerfid);
+		List<SalesArrive> listSales = salesArriveMapper.selectSelective(sa);
+		if(CollectionUtils.isNotEmpty(listSales)){
+			api = new ApiSalesArriveResp();
+			SalesArriveResp resp = copyBean2Resp(listSales.get(0), true);
+			SalesApplicationResp salesApplicationResp = resp.getMainApplication();
+			SalesApplicationDetailResp salesApplicationDetailResp = resp.getMainApplicationDetail();
+			api.setVehicleno(resp.getVehicleno());
+			api.setCustomerid(salesApplicationResp.getCustomerid());
+			api.setCustomer(salesApplicationResp.getCustomername());
+			api.setMaterielid(salesApplicationDetailResp.getMaterielid());
+			api.setMateriel(salesApplicationDetailResp.getMaterielname());
+			if(StringUtils.isNotBlank(salesApplicationDetailResp.getMaterielname()) && salesApplicationDetailResp.getMaterielname().contains("水泥")){
+				if(salesApplicationDetailResp.getMaterielname().contains("袋装")){
+					api.setCementtype("1");
+					api.setBatchnumber(resp.getSerialnumber());
+				}
+				if(salesApplicationDetailResp.getMaterielname().contains("散装")){
+					api.setCementtype("2");
+				}
+			}
+			api.setServicetype("2");
+			api.setNotionformcode(resp.getCode());
+			api.setPrimary("");
+			api.setVehicleid(resp.getId());
+			api.setMinemouth("");
+			api.setNumber(String.valueOf(resp.getTakeamount()==null?"":resp.getTakeamount()));
+		}
+		return api;
 	}
 	
 	@Override

@@ -1017,8 +1017,177 @@
 		</where>
 	</select>
 	<update id="updateByOrderCode" parameterType="com.tianrui.service.bean.businessManage.poundNoteMaintain.PoundNote" >
-    update tr_pound_db_note
-    set returnstatus = #{returnstatus,jdbcType=VARCHAR}
-    where putinwarehousecode = #{putinwarehousecode,jdbcType=VARCHAR} 
+	    update tr_pound_db_note
+	    set returnstatus = #{returnstatus,jdbcType=VARCHAR}
+	    where putinwarehousecode = #{putinwarehousecode,jdbcType=VARCHAR} 
     </update>
+    <select id="selectSelective" parameterType="com.tianrui.service.bean.businessManage.poundNoteMaintain.PoundNote" resultMap="BaseResultMap">
+    	select
+    	<include refid="Base_Column_List" />
+    	from tr_pound_db_note
+    	<where>
+	      <if test="id != null" >
+	        and id = #{id,jdbcType=VARCHAR}
+	      </if>
+	      <if test="code != null" >
+	        and code = #{code,jdbcType=VARCHAR}
+	      </if>
+	      <if test="returnstatus != null" >
+	        and returnstatus = #{returnstatus,jdbcType=VARCHAR}
+	      </if>
+	      <if test="redcollide != null" >
+	        and redcollide = #{redcollide,jdbcType=VARCHAR}
+	      </if>
+	      <if test="status != null" >
+	        and status = #{status,jdbcType=VARCHAR}
+	      </if>
+	      <if test="billtype != null" >
+	        and billtype = #{billtype,jdbcType=VARCHAR}
+	      </if>
+	      <if test="putinwarehouseid != null" >
+	        and putinwarehouseid = #{putinwarehouseid,jdbcType=VARCHAR}
+	      </if>
+	      <if test="putinwarehousecode != null" >
+	        and putinwarehousecode = #{putinwarehousecode,jdbcType=VARCHAR}
+	      </if>
+	      <if test="billid != null" >
+	        and billid = #{billid,jdbcType=VARCHAR}
+	      </if>
+	      <if test="billcode != null" >
+	        and billcode = #{billcode,jdbcType=VARCHAR}
+	      </if>
+	      <if test="billdetailid != null" >
+	        and billdetailid = #{billdetailid,jdbcType=VARCHAR}
+	      </if>
+	      <if test="noticeid != null" >
+	        and noticeid = #{noticeid,jdbcType=VARCHAR}
+	      </if>
+	      <if test="noticecode != null" >
+	        and noticecode = #{noticecode,jdbcType=VARCHAR}
+	      </if>
+	      <if test="arrivepoundnotecode != null" >
+	        and arrivepoundnotecode = #{arrivepoundnotecode,jdbcType=VARCHAR}
+	      </if>
+	      <if test="senddepartmentid != null" >
+	        and senddepartmentid = #{senddepartmentid,jdbcType=VARCHAR}
+	      </if>
+	      <if test="senddepartmentname != null" >
+	        and senddepartmentname = #{senddepartmentname,jdbcType=VARCHAR}
+	      </if>
+	      <if test="driverid != null" >
+	        and driverid = #{driverid,jdbcType=VARCHAR}
+	      </if>
+	      <if test="drivername != null" >
+	        and drivername = #{drivername,jdbcType=VARCHAR}
+	      </if>
+	      <if test="driveridentityno != null" >
+	        and driveridentityno = #{driveridentityno,jdbcType=VARCHAR}
+	      </if>
+	      <if test="vehicleid != null" >
+	        and vehicleid = #{vehicleid,jdbcType=VARCHAR}
+	      </if>
+	      <if test="vehicleno != null" >
+	        and vehicleno = #{vehicleno,jdbcType=VARCHAR}
+	      </if>
+	      <if test="receivedepartmentid != null" >
+	        and receivedepartmentid = #{receivedepartmentid,jdbcType=VARCHAR}
+	      </if>
+	      <if test="receivedepartmentname != null" >
+	        and receivedepartmentname = #{receivedepartmentname,jdbcType=VARCHAR}
+	      </if>
+	      <if test="minemouthid != null" >
+	        and minemouthid = #{minemouthid,jdbcType=VARCHAR}
+	      </if>
+	      <if test="minemouthname != null" >
+	        and minemouthname = #{minemouthname,jdbcType=VARCHAR}
+	      </if>
+	      <if test="warehouseid != null" >
+	        and warehouseid = #{warehouseid,jdbcType=VARCHAR}
+	      </if>
+	      <if test="warehousename != null" >
+	        and warehousename = #{warehousename,jdbcType=VARCHAR}
+	      </if>
+	      <if test="yardid != null" >
+	        and yardid = #{yardid,jdbcType=VARCHAR}
+	      </if>
+	      <if test="yardname != null" >
+	        and yardname = #{yardname,jdbcType=VARCHAR}
+	      </if>
+	      <if test="receiverpersonid != null" >
+	        and receiverpersonid = #{receiverpersonid,jdbcType=VARCHAR}
+	      </if>
+	      <if test="receiverpersonname != null" >
+	        and receiverpersonname = #{receiverpersonname,jdbcType=VARCHAR}
+	      </if>
+	      <if test="weigherid != null" >
+	        and weigherid = #{weigherid,jdbcType=VARCHAR}
+	      </if>
+	      <if test="weighername != null" >
+	        and weighername = #{weighername,jdbcType=VARCHAR}
+	      </if>
+	      <if test="receivertime != null" >
+	        and receivertime = #{receivertime,jdbcType=BIGINT}
+	      </if>
+	      <if test="pickupquantity != null" >
+	        and pickupquantity = #{pickupquantity,jdbcType=DOUBLE}
+	      </if>
+	      <if test="grossweight != null" >
+	        and grossweight = #{grossweight,jdbcType=DOUBLE}
+	      </if>
+	      <if test="tareweight != null" >
+	        and tareweight = #{tareweight,jdbcType=DOUBLE}
+	      </if>
+	      <if test="netweight != null" >
+	        and netweight = #{netweight,jdbcType=DOUBLE}
+	      </if>
+	      <if test="originalnetweight != null" >
+	        and originalnetweight = #{originalnetweight,jdbcType=DOUBLE}
+	      </if>
+	      <if test="deductionweight != null" >
+	        and deductionweight = #{deductionweight,jdbcType=DOUBLE}
+	      </if>
+	      <if test="deductionother != null" >
+	        and deductionother = #{deductionother,jdbcType=DOUBLE}
+	      </if>
+	      <if test="batchnumberid != null" >
+	        and batchnumberid = #{batchnumberid,jdbcType=VARCHAR}
+	      </if>
+	      <if test="serialnumber != null" >
+	        and serialnumber = #{serialnumber,jdbcType=VARCHAR}
+	      </if>
+	      <if test="lighttime != null" >
+	        and lighttime = #{lighttime,jdbcType=BIGINT}
+	      </if>
+	      <if test="weighttime != null" >
+	        and weighttime = #{weighttime,jdbcType=BIGINT}
+	      </if>
+	      <if test="makerid != null" >
+	        and makerid = #{makerid,jdbcType=VARCHAR}
+	      </if>
+	      <if test="makebillname != null" >
+	        and makebillname = #{makebillname,jdbcType=VARCHAR}
+	      </if>
+	      <if test="makebilltime != null" >
+	        and makebilltime = #{makebilltime,jdbcType=BIGINT}
+	      </if>
+	      <if test="state != null" >
+	        and state = #{state,jdbcType=VARCHAR}
+	      </if>
+	      <if test="creator != null" >
+	        and creator = #{creator,jdbcType=VARCHAR}
+	      </if>
+	      <if test="createtime != null" >
+	        and createtime = #{createtime,jdbcType=BIGINT}
+	      </if>
+	      <if test="modifier != null" >
+	        and modifier = #{modifier,jdbcType=VARCHAR}
+	      </if>
+	      <if test="modifytime != null" >
+	        and modifytime = #{modifytime,jdbcType=BIGINT}
+	      </if>
+	      <if test="remark != null" >
+	        and remark = #{remark,jdbcType=VARCHAR}
+	      </if>
+    	</where>
+    </select>
 </mapper>

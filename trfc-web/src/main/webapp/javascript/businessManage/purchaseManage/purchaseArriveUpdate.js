@@ -213,12 +213,10 @@
 	}
 	//日期字符串转为时间戳
 	function str2Long(dateStr){
-		var time = '';
 		if(dateStr){
-			var date = new Date(dateStr);
-			time = date.getTime();
+			return Date.parseYMD_HMS(dateStr).getTime();
 		}
-		return time;
+		return '';
 	}
 	//获取采购订单搜索条件
 	function getPurchaseApplicationParams(){

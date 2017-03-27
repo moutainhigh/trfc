@@ -223,7 +223,7 @@
 		if(dateStr){
 			return Date.parseYMD_HMS(dateStr).getTime();
 		}
-	}
+		return time;	}
 	//获取采购订单搜索条件
 	function getPurchaseApplicationParams(){
 		var supplierid = $('#supplier').attr('supplierid');supplierid = $.trim(supplierid);

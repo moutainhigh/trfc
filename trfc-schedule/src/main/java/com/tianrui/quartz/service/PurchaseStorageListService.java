@@ -16,8 +16,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.tianrui.quartz.common.ApiParamUtils;
 import com.tianrui.quartz.common.HttpUtils;
+import com.tianrui.service.bean.businessManage.poundNoteMaintain.PoundNote;
 import com.tianrui.service.bean.businessManage.purchaseManage.PurchaseStorageList;
 import com.tianrui.service.bean.businessManage.purchaseManage.PurchaseStorageListItem;
+import com.tianrui.service.mapper.businessManage.poundNoteMaintain.PoundNoteMapper;
 import com.tianrui.service.mapper.businessManage.purchaseManage.PurchaseStorageListItemMapper;
 import com.tianrui.service.mapper.businessManage.purchaseManage.PurchaseStorageListMapper;
 import com.tianrui.smartfactory.common.api.ApiResult;
@@ -37,6 +39,8 @@ public class PurchaseStorageListService implements IPurchaseStorageListService{
 	private PurchaseStorageListMapper purchaseStorageListMapper;
 	@Autowired
 	private PurchaseStorageListItemMapper PurchaseStorageListItemMapper;
+	@Autowired
+	private PoundNoteMapper poundNoteMapper;
 	
 	/**
 	 * 获取采购入库单数据
@@ -97,6 +101,10 @@ public class PurchaseStorageListService implements IPurchaseStorageListService{
 				if(apiResult!=null && StringUtils.equals(apiResult.getCode(), Constant.SUCCESS)){
 					order.setStatus("1");
 					if(purchaseStorageListMapper.updateByPrimaryKeySelective(order)>0){
+						PoundNote pn = new PoundNote();
+						pn.setPutinwarehousecode(order.getCode());
+						pn.setReturnstatus("2");
+						poundNoteMapper.updateByOrderCode(pn);
 						Logger.info("操作成功!");
 					}else{
 						Logger.info(ErrorCode.OPERATE_ERROR.getMsg());

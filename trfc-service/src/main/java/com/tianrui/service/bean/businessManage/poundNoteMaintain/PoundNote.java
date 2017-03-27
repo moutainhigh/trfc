@@ -15,7 +15,7 @@ public class PoundNote {
     private String redcollide;
 	//单据状态：（0：计量系统，1：补增，2：作废）
     private String status;
-	//单据类型（0：采购到货通知单，1：采购退货通知单，销售提货通知单）
+	//单据类型（0：采购到货通知单，1：采购退货通知单，2：销售提货通知单）
     private String billtype;
 	//入库单id
     private String putinwarehouseid;

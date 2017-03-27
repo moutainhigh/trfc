@@ -75,4 +75,12 @@ public interface SalesArriveMapper {
 	 * @return
 	 */
 	SalesArrive hasPurchaseArrive(String vehicleno);
+	/**
+	 * @Description 根据通知单号查询通知单
+	 * @author zhanggaohao
+	 * @version 2017年3月25日 下午3:44:40
+	 * @param code
+	 * @return
+	 */
+	SalesArrive selectByCode(String code);
 }

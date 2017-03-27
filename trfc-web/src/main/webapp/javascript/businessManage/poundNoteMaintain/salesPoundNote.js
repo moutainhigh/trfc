@@ -12,12 +12,10 @@
 	};
 	//日期字符串转为时间戳
 	function str2Long(dateStr){
-		var time = '';
 		if(dateStr){
-			var date = new Date(dateStr);
-			time = date.getTime();
+			return Date.parseYMD_HMS(dateStr).getTime();
 		}
-		return time;
+		return '';
 	}
 	//初始化
 	init();
