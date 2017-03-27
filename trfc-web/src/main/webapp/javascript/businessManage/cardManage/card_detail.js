@@ -72,7 +72,8 @@ $(function() {
 				writeDataToCard(obj.vehiclecode || '',18);
 				writeDataToCard(obj.supperlierremark || '',24);
 				writeDataToCard(obj.minemouthname || obj.spraycode,28);
-				writeDataToCard(obj.arrivalamount || obj.takeamount,32);
+				writeDataToCard(obj.takeamount || '',32);
+				writeDataToCard(obj.arrivalamount || '',17);
 				updateCardno(cardno,obj);
 			} catch (e) {
 				alert(e.Message);
@@ -120,7 +121,7 @@ $(function() {
 				inputs4.eq(4).val(getDataFromCard(8));
 				inputs4.eq(5).val(getDataFromCard(9));
 				inputs4.eq(6).val(getDataFromCard(12));
-				inputs4.eq(7).val(getDataFromCard(32));
+				inputs4.eq(7).val(getDataFromCard(32) || getDataFromCard(17));
 				inputs4.eq(8).val('有效');
 				inputs4.eq(9).val(getDataFromCard(10));
 				inputs4.eq(10).val('');

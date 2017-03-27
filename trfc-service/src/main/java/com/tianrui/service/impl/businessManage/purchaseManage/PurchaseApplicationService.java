@@ -20,9 +20,11 @@ import com.tianrui.api.intf.businessManage.purchaseManage.IPurchaseApplicationSe
 import com.tianrui.api.req.businessManage.purchaseManage.PurchaseApplicationQuery;
 import com.tianrui.api.resp.businessManage.purchaseManage.PurchaseApplicationJoinDetailResp;
 import com.tianrui.api.resp.businessManage.purchaseManage.PurchaseApplicationResp;
+import com.tianrui.service.bean.basicFile.nc.MaterielManage;
 import com.tianrui.service.bean.businessManage.purchaseManage.PurchaseApplication;
 import com.tianrui.service.bean.businessManage.purchaseManage.PurchaseApplicationDetail;
 import com.tianrui.service.bean.common.BillType;
+import com.tianrui.service.mapper.basicFile.nc.MaterielManageMapper;
 import com.tianrui.service.mapper.businessManage.purchaseManage.PurchaseApplicationDetailMapper;
 import com.tianrui.service.mapper.businessManage.purchaseManage.PurchaseApplicationMapper;
 
@@ -51,6 +53,9 @@ public class PurchaseApplicationService implements IPurchaseApplicationService {
 	
 	@Autowired
 	private BillTypeMapper billTypeMapper;
+	
+	@Autowired
+	private MaterielManageMapper materielManageMapper;
 	
 	@Override
 	public PaginationVO<PurchaseApplicationResp> page(PurchaseApplicationQuery query) throws Exception{
@@ -86,6 +91,10 @@ public class PurchaseApplicationService implements IPurchaseApplicationService {
 				if(CollectionUtils.isNotEmpty(list)){
 					for(PurchaseApplicationJoinDetailResp resp : list){
 						resp.setSupplier(supplierManageService.findOne(resp.getSupplierid()));
+						MaterielManage m = materielManageMapper.selectByPrimaryKey(resp.getMaterielid());
+						if(m!=null){
+							resp.setPackagetype(m.getPackagetype());
+						}
 					}
 					page.setList(list);
 				}

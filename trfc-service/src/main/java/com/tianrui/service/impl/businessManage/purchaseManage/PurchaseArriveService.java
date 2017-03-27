@@ -25,8 +25,10 @@ import com.tianrui.api.resp.basicFile.measure.VehicleManageResp;
 import com.tianrui.api.resp.businessManage.purchaseManage.PurchaseApplicationDetailResp;
 import com.tianrui.api.resp.businessManage.purchaseManage.PurchaseApplicationResp;
 import com.tianrui.api.resp.businessManage.purchaseManage.PurchaseArriveResp;
+import com.tianrui.service.bean.businessManage.cardManage.Card;
 import com.tianrui.service.bean.businessManage.purchaseManage.PurchaseArrive;
 import com.tianrui.service.bean.businessManage.salesManage.SalesArrive;
+import com.tianrui.service.mapper.businessManage.cardManage.CardMapper;
 import com.tianrui.service.mapper.businessManage.purchaseManage.PurchaseArriveMapper;
 import com.tianrui.service.mapper.businessManage.salesManage.SalesArriveMapper;
 import com.tianrui.smartfactory.common.constants.ErrorCode;
@@ -53,6 +55,8 @@ public class PurchaseArriveService implements IPurchaseArriveService {
 	private IVehicleManageService vehicleManageService;
 	@Autowired
 	private IDriverManageService driverManageService;
+	@Autowired
+	private CardMapper cardMapper;
 	
 	@Override
 	public PaginationVO<PurchaseArriveResp> page(PurchaseArriveQuery query) throws Exception{
@@ -96,6 +100,13 @@ public class PurchaseArriveService implements IPurchaseArriveService {
 				result.setErrorCode(ErrorCode.PARAM_REPEAT_ERROR);
 				result.setError("此车辆己有提货通知单、待出厂后进行派车，现有车辆业务单据号为:"+listVehicle1.get(0).getCode()+"，如有疑问请与销售处联系！");
 				return result;
+			}
+			//获取ic卡信息
+			if(StringUtils.isNotBlank(save.getIcardno())){
+				Card card = cardMapper.selectByCardno(save.getIcardno());
+				if(card!=null){
+					sa.setIcardid(card.getId());
+				}
 			}
 			pa.setVehicleid(null);
 			pa.setDriverid(save.getDriverid());

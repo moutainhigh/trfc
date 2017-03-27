@@ -27,6 +27,8 @@ public class PurchaseArriveSave extends BaseReq {
     private String vehiclerfid;
     //ic卡id
     private String icardid;
+    //ic卡号
+    private String icardno;
 	//司机id
     private String driverid;
 	//司机名称
@@ -262,6 +264,12 @@ public class PurchaseArriveSave extends BaseReq {
 	}
 	public void setIcardid(String icardid) {
 		this.icardid = icardid;
+	}
+	public String getIcardno() {
+		return icardno;
+	}
+	public void setIcardno(String icardno) {
+		this.icardno = icardno;
 	}
     
 }

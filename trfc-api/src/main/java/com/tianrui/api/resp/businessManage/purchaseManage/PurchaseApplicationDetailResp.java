@@ -28,6 +28,8 @@ public class PurchaseApplicationDetailResp extends BaseResp {
     private String materieltype;
 	//数量
     private Double purchasesum;
+    //包装类型
+    private String packagetype;
     //单价
     private Double price;
 	//单位 default='吨'
@@ -111,6 +113,12 @@ public class PurchaseApplicationDetailResp extends BaseResp {
 	}
 	public void setRemark(String remark) {
 		this.remark = remark;
+	}
+	public String getPackagetype() {
+		return packagetype;
+	}
+	public void setPackagetype(String packagetype) {
+		this.packagetype = packagetype;
 	}
     
 }

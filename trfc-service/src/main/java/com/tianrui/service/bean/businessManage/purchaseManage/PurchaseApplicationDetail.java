@@ -21,6 +21,7 @@ public class PurchaseApplicationDetail {
     private String materielspec;
 	//物料类型
     private String materieltype;
+    private String packagetype;
 	//数量
     private Double purchasesum;
     //单价
@@ -131,4 +132,12 @@ public class PurchaseApplicationDetail {
     public void setRemark(String remark) {
         this.remark = remark == null ? null : remark.trim();
     }
+
+	public String getPackagetype() {
+		return packagetype;
+	}
+
+	public void setPackagetype(String packagetype) {
+		this.packagetype = packagetype;
+	}
 }

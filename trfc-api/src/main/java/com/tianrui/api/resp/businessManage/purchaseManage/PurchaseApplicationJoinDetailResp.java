@@ -100,6 +100,8 @@ public class PurchaseApplicationJoinDetailResp extends BaseResp {
     private String materielspec;
 	//物料类型
     private String materieltype;
+    //包装类型
+    private String packagetype;
 	//数量
     private Double purchasesum;
 	//单位 default='吨'
@@ -416,6 +418,12 @@ public class PurchaseApplicationJoinDetailResp extends BaseResp {
 	}
 	public void setArrivalquantity(String arrivalquantity) {
 		this.arrivalquantity = arrivalquantity;
+	}
+	public String getPackagetype() {
+		return packagetype;
+	}
+	public void setPackagetype(String packagetype) {
+		this.packagetype = packagetype;
 	}
     
 }
