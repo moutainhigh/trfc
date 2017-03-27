@@ -34,6 +34,7 @@ import com.tianrui.api.resp.businessManage.salesManage.SalesApplicationDetailRes
 import com.tianrui.api.resp.businessManage.salesManage.SalesApplicationResp;
 import com.tianrui.api.resp.businessManage.salesManage.SalesArriveResp;
 import com.tianrui.service.bean.basicFile.measure.VehicleManage;
+import com.tianrui.service.bean.businessManage.cardManage.Card;
 import com.tianrui.service.bean.businessManage.purchaseManage.PurchaseApplication;
 import com.tianrui.service.bean.businessManage.purchaseManage.PurchaseApplicationDetail;
 import com.tianrui.service.bean.businessManage.purchaseManage.PurchaseArrive;
@@ -41,6 +42,7 @@ import com.tianrui.service.bean.businessManage.salesManage.SalesApplicationJoinN
 import com.tianrui.service.bean.businessManage.salesManage.SalesArrive;
 import com.tianrui.service.bean.common.RFID;
 import com.tianrui.service.mapper.basicFile.measure.VehicleManageMapper;
+import com.tianrui.service.mapper.businessManage.cardManage.CardMapper;
 import com.tianrui.service.mapper.businessManage.purchaseManage.PurchaseApplicationDetailMapper;
 import com.tianrui.service.mapper.businessManage.purchaseManage.PurchaseApplicationMapper;
 import com.tianrui.service.mapper.businessManage.purchaseManage.PurchaseArriveMapper;
@@ -86,6 +88,8 @@ public class SalesArriveService implements ISalesArriveService {
 	private IDriverManageService driverManageService;
 	@Autowired
 	private ICardService cardService;
+	@Autowired
+	private CardMapper cardMapper;
 	@Autowired
 	private SalesApplicationJoinNaticeMapper salesApplicationJoinNaticeMapper;
 	@Autowired
@@ -166,10 +170,15 @@ public class SalesArriveService implements ISalesArriveService {
 				bean.setDrivername(driver.getName());
 				bean.setDriveridentityno(driver.getIdentityno());
 			}
-			CardResp card = cardService.findOne(save.getIcardid());
-			if(card != null){
-				bean.setIcardno(card.getCardno());
+			Card card = cardMapper.selectByCardno(save.getIcardno());
+			if(card!=null){
+				bean.setIcardid(card.getId());
+				bean.setIcardno(save.getIcardno());
 			}
+//			CardResp card = cardService.findOne(save.getIcardid());
+//			if(card != null){
+//				bean.setIcardno(card.getCardno());
+//			}
 			SalesApplicationResp salesApplicationResp = salesApplicationService.findOne(save.getBillid(), false);
 			if(salesApplicationResp != null){
 				bean.setBillcode(salesApplicationResp.getCode());

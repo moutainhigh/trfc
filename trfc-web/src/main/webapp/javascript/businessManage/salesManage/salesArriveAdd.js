@@ -12,8 +12,7 @@
 	};
 	function str2Long(str){
 		if(str){
-			var date = new Date(str);
-			return date.getTime();
+			return Date.parseYMD_HMS(str).getTime();
 		}
 		return undefined;
 	}
@@ -449,7 +448,7 @@
 		$('#billcode').val(obj.code || '').attr('billid', obj.id || '').attr('billdetailid', obj.detailid || '').attr('bills', JSON.stringify(bills));
 		$('#customername').val(obj.customername || '');
 		$('#channelcode').val(obj.channelcode || '');
-		$('#materielname').val(obj.materielname || '').attr('packagetype',obj.packagetype || '1');
+		$('#materielname').val(obj.materielname || '').attr('packagetype',obj.packagetype);
 		$('#departmentname').val(obj.departmentname || '');
 		$('#unit').val(obj.unit || '');
 		$('#salessum').val(obj.salessum || '');
@@ -508,9 +507,6 @@
 			//蜂鸣
 			readerBeep();
 			if(validate(params)){
-				var index = layer.load(2, {
-					shade: [0.3,'#fff'] //0.1透明度的白色背景
-				});
 				$.ajax({
 					url:URL.addUrl,
 					data:params,
@@ -567,8 +563,8 @@
 		var vehiclecode = $('#vehicle').attr('vehiclecode') || '';vehiclecode = $.trim(vehiclecode);
 		var customername = $('#customername').val() || '';customername = $.trim(customername);
 		var materielname = $('#materielname').val() || '';materielname = $.trim(materielname);
-		//设置业务类型为 采购
-		var businesstype = '1';
+		//设置业务类型为 销售
+		var businesstype = '2';
 		var takeamount = $('#takeamount').val() || 0;
 		var packagetype = $('#materielname').attr('packagetype');
 		var batchnum = $('#serialnumber').val(); batchnum = $.trim(batchnum);

@@ -104,7 +104,7 @@ public class SalesApplicationService implements ISalesApplicationService {
 				//获取水泥包装类型
 				if(CollectionUtils.isNotEmpty(list)){
 					for(SalesApplicationJoinDetailResp resp : list){
-						MaterielManage materiel = materielManageMapper.selectByPrimaryKey(resp.getId());
+						MaterielManage materiel = materielManageMapper.selectByPrimaryKey(resp.getMaterielid());
 						if(materiel!=null){
 							resp.setPackagetype(materiel.getPackagetype());
 						}

@@ -91,7 +91,8 @@
 									readonly="true">
 							</div>
 							<div class="daohuo_add_solo">
-								<label>余量：</label> <input id="margin" type="text" readonly="true">
+								<label>余量：</label> <input id="margin" type="text"
+									readonly="true">
 							</div>
 							<div class="daohuo_add_solo">
 								<label>业务日期：</label> <input id="billtime" type="text"
@@ -282,14 +283,15 @@
 					<!--分页效果结束-->
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-primary" id="returnApplication">确定</button>
+					<button type="button" class="btn btn-primary"
+						id="returnApplication">确定</button>
 					<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
 				</div>
 			</div>
 		</div>
 	</div>
 	<!--订单号弹出end-->
-	
+
 	<!--车号新增begin-->
 	<div class="modal fade" id="vehicleAddView" tabindex="-1" role="dialog"
 		aria-labelledby="myModalLabel">
@@ -445,6 +447,8 @@
 	</div>
 	<!--司机新增end-->
 	<jsp:include page="../../common/base/footer_busi.jsp"></jsp:include>
+	<script type="text/javascript"
+		src="/javascript/quality/purchase/cardReader.js"></script>
 	<script type="text/javascript"
 		src="/javascript/businessManage/salesManage/salesArriveAdd.js"></script>
 	<script type="text/javascript">
