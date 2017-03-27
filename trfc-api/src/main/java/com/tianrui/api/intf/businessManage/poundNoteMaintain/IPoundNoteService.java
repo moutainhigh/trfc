@@ -127,8 +127,17 @@ import com.tianrui.api.req.businessManage.poundNoteMaintain.PoundNoteQuery;
 		 * @version 2017年3月27日 上午9:09:55
 		 * @param valid
 		 * @return
+		 * @备注 一次过磅验证入厂门禁，二次过磅：采购验证一次过磅，销售验证装货
 		 */
 		Result validation(ApiPoundNoteValidation valid);
+		/**
+		 * @Description 历史皮重查询
+		 * @author zhanggaohao
+		 * @version 2017年3月27日 下午3:34:59
+		 * @param valid
+		 * @return
+		 */
+		Result tareWeight(ApiPoundNoteQuery valid);
 	
 	}
 

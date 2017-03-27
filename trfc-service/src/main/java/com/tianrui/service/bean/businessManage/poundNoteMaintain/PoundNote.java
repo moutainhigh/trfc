@@ -49,6 +49,8 @@ public class PoundNote {
     private String vehicleid;
 	//车牌号
     private String vehicleno;
+    //RFID
+    private String vehiclerfid;
 	//接收单位id
     private String receivedepartmentid;
 	//接收单位名称
@@ -322,7 +324,21 @@ public class PoundNote {
         this.vehicleno = vehicleno == null ? null : vehicleno.trim();
     }
 
-    public String getReceivedepartmentid() {
+    /**
+	 * @return the vehiclerfid
+	 */
+	public String getVehiclerfid() {
+		return vehiclerfid;
+	}
+
+	/**
+	 * @param vehiclerfid the vehiclerfid to set
+	 */
+	public void setVehiclerfid(String vehiclerfid) {
+		this.vehiclerfid = vehiclerfid;
+	}
+
+	public String getReceivedepartmentid() {
         return receivedepartmentid;
     }
 

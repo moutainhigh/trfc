@@ -21,4 +21,6 @@ public interface AccessRecordMapper1 {
 	long findAccessRecordPageCount(AccessRecordQuery query);
 
 	List<AccessRecord> findAccessRecordPage(AccessRecordQuery query);
+
+	AccessRecord selectByNoticeId(String noticeId);
 }

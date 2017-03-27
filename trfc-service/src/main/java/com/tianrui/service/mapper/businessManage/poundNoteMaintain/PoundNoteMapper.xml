@@ -20,6 +20,7 @@
     <result column="driveridentityno" property="driveridentityno" jdbcType="VARCHAR" />
     <result column="vehicleid" property="vehicleid" jdbcType="VARCHAR" />
     <result column="vehicleno" property="vehicleno" jdbcType="VARCHAR" />
+    <result column="vehiclerfid" property="vehiclerfid" jdbcType="VARCHAR" />
     <result column="receivedepartmentid" property="receivedepartmentid" jdbcType="VARCHAR" />
     <result column="receivedepartmentname" property="receivedepartmentname" jdbcType="VARCHAR" />
     <result column="minemouthid" property="minemouthid" jdbcType="VARCHAR" />
@@ -80,6 +81,7 @@
     <result column="driveridentityno" property="driveridentityno" jdbcType="VARCHAR" />
     <result column="vehicleid" property="vehicleid" jdbcType="VARCHAR" />
     <result column="vehicleno" property="vehicleno" jdbcType="VARCHAR" />
+    <result column="vehiclerfid" property="vehiclerfid" jdbcType="VARCHAR" />
     <result column="receivedepartmentid" property="receivedepartmentid" jdbcType="VARCHAR" />
     <result column="receivedepartmentname" property="receivedepartmentname" jdbcType="VARCHAR" />
     <result column="minemouthid" property="minemouthid" jdbcType="VARCHAR" />
@@ -118,7 +120,7 @@
     id, code, returnstatus, redcollide, status, billtype, putinwarehouseid, putinwarehousecode, billid, billcode, billdetailid,
     noticeid, noticecode, arrivepoundnotecode, senddepartmentid, senddepartmentname, driverid, drivername, driveridentityno, vehicleid, vehicleno, 
     receivedepartmentid, receivedepartmentname, minemouthid, minemouthname, warehouseid, 
-    warehousename, yardid, yardname, receiverpersonid, receiverpersonname, weigherid, weighername, receivertime, pickupquantity, 
+    vehiclerfid, warehousename, yardid, yardname, receiverpersonid, receiverpersonname, weigherid, weighername, receivertime, pickupquantity, 
     grossweight, tareweight, netweight, originalnetweight, deductionweight, deductionother, batchnumberid,
     serialnumber, lighttime, weighttime, makerid, makebillname, makebilltime, state, creator, 
     createtime, modifier, modifytime, remark
@@ -127,7 +129,7 @@
     p0.id, p0.code, p0.returnstatus, p0.redcollide, p0.status, p0.billtype, p0.putinwarehouseid, p0.putinwarehousecode, p0.billid, p0.billcode, p0.billdetailid, p0.
     noticeid, p0.noticecode, p0.arrivepoundnotecode, p0.senddepartmentid, p0.senddepartmentname, p0.driverid, p0.drivername, p0.driveridentityno, p0.vehicleid, p0.vehicleno, p0.
     receivedepartmentid, p0.receivedepartmentname, p0.minemouthid, p0.minemouthname, p0.warehouseid, p0.
-    warehousename, p0.yardid, p0.yardname, p0.receiverpersonid, p0.receiverpersonname, p0.weigherid, p0.weighername, p0.receivertime, p0.pickupquantity, p0.
+    vehiclerfid, p0.warehousename, p0.yardid, p0.yardname, p0.receiverpersonid, p0.receiverpersonname, p0.weigherid, p0.weighername, p0.receivertime, p0.pickupquantity, p0.
     grossweight, p0.tareweight, p0.netweight, p0.originalnetweight, p0.deductionweight, p0.deductionother, p0.batchnumberid, p0.
     serialnumber, p0.lighttime, p0.weighttime, p0.makerid, p0.makebillname, p0.makebilltime, p0.state, p0.creator, p0.
     createtime, p0.modifier, p0.modifytime, p0.remark
@@ -147,7 +149,7 @@
       redcollide, status, billtype, 
       putinwarehouseid, putinwarehousecode, billid, billcode, billdetailid, noticeid, 
       noticecode, arrivepoundnotecode, senddepartmentid, senddepartmentname, driverid, drivername, 
-      driveridentityno, vehicleid, vehicleno, 
+      driveridentityno, vehicleid, vehicleno, vehiclerfid,
       receivedepartmentid, receivedepartmentname, 
       minemouthid, minemouthname, warehouseid, 
       warehousename, yardid, yardname, 
@@ -164,7 +166,7 @@
       #{billcode,jdbcType=VARCHAR}, #{billdetailid,jdbcType=VARCHAR}, #{noticeid,jdbcType=VARCHAR}, 
       #{noticecode,jdbcType=VARCHAR}, #{arrivepoundnotecode,jdbcType=VARCHAR}, #{senddepartmentid,jdbcType=VARCHAR},
       #{senddepartmentname,jdbcType=VARCHAR}, #{driverid,jdbcType=VARCHAR}, #{drivername,jdbcType=VARCHAR}, 
-      #{driveridentityno,jdbcType=VARCHAR}, #{vehicleid,jdbcType=VARCHAR}, #{vehicleno,jdbcType=VARCHAR}, 
+      #{driveridentityno,jdbcType=VARCHAR}, #{vehicleid,jdbcType=VARCHAR}, #{vehicleno,jdbcType=VARCHAR}, #{vehiclerfid,jdbcType=VARCHAR}, 
       #{receivedepartmentid,jdbcType=VARCHAR}, #{receivedepartmentname,jdbcType=VARCHAR}, 
       #{minemouthid,jdbcType=VARCHAR}, #{minemouthname,jdbcType=VARCHAR}, #{warehouseid,jdbcType=VARCHAR}, 
       #{warehousename,jdbcType=VARCHAR}, #{yardid,jdbcType=VARCHAR}, #{yardname,jdbcType=VARCHAR}, 
@@ -242,6 +244,9 @@
       </if>
       <if test="vehicleno != null" >
         vehicleno,
+      </if>
+      <if test="vehiclerfid != null" >
+        vehiclerfid,
       </if>
       <if test="receivedepartmentid != null" >
         receivedepartmentid,
@@ -407,6 +412,9 @@
       <if test="vehicleno != null" >
         #{vehicleno,jdbcType=VARCHAR},
       </if>
+      <if test="vehiclerfid != null" >
+        #{vehiclerfid,jdbcType=VARCHAR},
+      </if>
       <if test="receivedepartmentid != null" >
         #{receivedepartmentid,jdbcType=VARCHAR},
       </if>
@@ -571,6 +579,9 @@
       <if test="vehicleno != null" >
         vehicleno = #{vehicleno,jdbcType=VARCHAR},
       </if>
+      <if test="vehiclerfid != null" >
+        vehiclerfid = #{vehiclerfid,jdbcType=VARCHAR},
+      </if>
       <if test="receivedepartmentid != null" >
         receivedepartmentid = #{receivedepartmentid,jdbcType=VARCHAR},
       </if>
@@ -695,6 +706,7 @@
       driveridentityno = #{driveridentityno,jdbcType=VARCHAR},
       vehicleid = #{vehicleid,jdbcType=VARCHAR},
       vehicleno = #{vehicleno,jdbcType=VARCHAR},
+      vehiclerfid = #{vehiclerfid,jdbcType=VARCHAR},
       receivedepartmentid = #{receivedepartmentid,jdbcType=VARCHAR},
       receivedepartmentname = #{receivedepartmentname,jdbcType=VARCHAR},
       minemouthid = #{minemouthid,jdbcType=VARCHAR},
@@ -1089,6 +1101,9 @@
 	      <if test="vehicleno != null" >
 	        and vehicleno = #{vehicleno,jdbcType=VARCHAR}
 	      </if>
+	      <if test="vehiclerfid != null" >
+	        and vehiclerfid = #{vehiclerfid,jdbcType=VARCHAR}
+	      </if>
 	      <if test="receivedepartmentid != null" >
 	        and receivedepartmentid = #{receivedepartmentid,jdbcType=VARCHAR}
 	      </if>
@@ -1189,5 +1204,11 @@
 	        and remark = #{remark,jdbcType=VARCHAR}
 	      </if>
     	</where>
+    </select>
+    <select id="historyTareWeight" parameterType="com.tianrui.api.req.businessManage.poundNoteMaintain.ApiPoundNoteQuery" resultType="java.lang.Double">
+    	select tareweight
+    	from tr_pound_db_note
+    	where vehicleno = #{vehicleno,jdbcType=VARCHAR} and vehiclerfid = #{rfid,jdbcType=VARCHAR} and state = '1'
+    	limit 0,#{number,jdbcType=INTEGER}
     </select>
 </mapper>

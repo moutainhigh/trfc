@@ -72,6 +72,8 @@ public class PoundNoteResp extends BaseResp {
     private String vehicleid;
 	//车牌号
     private String vehicleno;
+    //RFID
+    private String vehiclerfid;
 	//接收单位id
     private String receivedepartmentid;
 	//接收单位名称
@@ -501,6 +503,18 @@ public class PoundNoteResp extends BaseResp {
 	 */
 	public void setVehicleno(String vehicleno) {
 		this.vehicleno = vehicleno;
+	}
+	/**
+	 * @return the vehiclerfid
+	 */
+	public String getVehiclerfid() {
+		return vehiclerfid;
+	}
+	/**
+	 * @param vehiclerfid the vehiclerfid to set
+	 */
+	public void setVehiclerfid(String vehiclerfid) {
+		this.vehiclerfid = vehiclerfid;
 	}
 	/**
 	 * @return the receivedepartmentid
