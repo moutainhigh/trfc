@@ -41,7 +41,10 @@
 	}
 	//日期字符串转换成时间戳
 	function str2Long(dateStr){
-		return Date.parseYMD_HMS(dateStr).getTime();
+		if(dateStr){
+			return Date.parseYMD_HMS(dateStr).getTime();
+		}
+		return '';
 	}
 	//获取查询条件
 	function getParams(){
