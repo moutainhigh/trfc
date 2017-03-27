@@ -535,7 +535,9 @@
 								writeDataToCard(obj.batchnum || '',13);
 								writeDataToCard(obj.vehiclecode || '',18);
 								writeDataToCard(obj.takeamount || '',17);
-								layer.alert('写卡成功');
+								//蜂鸣
+								readerBeep();
+								window.location.href = URL.mainUrl;
 							} catch (e) {
 								layer.alert('写卡失败!('+e.Message+')');
 							}

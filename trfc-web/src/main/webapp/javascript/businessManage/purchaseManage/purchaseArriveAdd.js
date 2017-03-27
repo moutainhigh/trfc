@@ -520,7 +520,9 @@
 								writeDataToCard(obj.supperlierremark || '',24);
 								writeDataToCard(obj.minemouthname,28);
 								writeDataToCard(obj.arrivalamount || '',17);
-								layer.alert('写卡成功');
+								//蜂鸣
+								readerBeep();
+								window.location.href = URL.mainUrl;
 							} catch (e) {
 								layer.alert('写卡失败!('+e.Message+')');
 							}
