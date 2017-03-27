@@ -61,5 +61,13 @@ public interface PurchaseArriveMapper {
 	 * @return
 	 */
 	PurchaseArrive hasPurchaseArrive(String vehicleno);
+	/**
+	 * @Description 根据条件查询采购通知单
+	 * @author zhanggaohao
+	 * @version 2017年3月24日 下午2:07:38
+	 * @param pa
+	 * @return
+	 */
+	List<PurchaseArrive> selectSelective(PurchaseArrive pa);
     
 }

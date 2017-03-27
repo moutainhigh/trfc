@@ -67,4 +67,12 @@ public interface PoundNoteMapper {
 	 * @return
 	 */
 	int updateByOrderCode(PoundNote record);
+	/**
+	 * @Description 根据条件查询磅单
+	 * @author zhanggaohao
+	 * @version 2017年3月25日 下午3:18:54
+	 * @param record
+	 * @return
+	 */
+	List<PoundNote> selectSelective(PoundNote record);
 }

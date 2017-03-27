@@ -109,12 +109,7 @@
 	}
 	//将日期字符串转变为时间戳
 	function str2Long(dateStr){
-		var time = '';
-		if(dateStr){
-			var date = new Date(dateStr);
-			time = date.getTime();
-		}
-		return time;
+		return Date.parseYMD_HMS(dateStr).getTime();
 	}
 	//获取搜索参数
 	function getParams(){

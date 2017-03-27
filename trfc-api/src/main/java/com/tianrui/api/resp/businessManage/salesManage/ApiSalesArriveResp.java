@@ -46,6 +46,9 @@ public class ApiSalesArriveResp extends BaseResp {
 	private String minemouth="";
 	//预提量 单位吨
 	private String number="";
+	//通知单状态
+	private String status="";
+	
 	public String getVehicleno() {
 		return vehicleno;
 	}
@@ -123,6 +126,18 @@ public class ApiSalesArriveResp extends BaseResp {
 	}
 	public void setMaterielid(String materielid) {
 		this.materielid = materielid;
+	}
+	/**
+	 * @return the status
+	 */
+	public String getStatus() {
+		return status;
+	}
+	/**
+	 * @param status the status to set
+	 */
+	public void setStatus(String status) {
+		this.status = status;
 	}
 
 }

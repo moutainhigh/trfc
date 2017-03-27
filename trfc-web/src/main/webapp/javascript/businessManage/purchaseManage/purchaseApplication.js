@@ -74,12 +74,7 @@
 	}
 	
 	function str2Long(dateStr){
-		var time = '';
-		if(dateStr){
-			var date = new Date(dateStr);
-			time = date.getTime();
-		}
-		return time;
+		return Date.parseYMD_HMS(dateStr).getTime();
 	}
 	
 	function getParams(){
