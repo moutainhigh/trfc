@@ -1,247 +1,337 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.tianrui.service.mapper.businessManage.purchaseManage.PurchaseApplicationDetailMapper" >
-  <resultMap id="BaseResultMap" type="com.tianrui.service.bean.businessManage.purchaseManage.PurchaseApplicationDetail" >
-    <id column="id" property="id" jdbcType="VARCHAR" />
-    <result column="purchaseid" property="purchaseid" jdbcType="VARCHAR" />
-    <result column="orgid" property="orgid" jdbcType="VARCHAR" />
-    <result column="orgname" property="orgname" jdbcType="VARCHAR" />
-    <result column="materielid" property="materielid" jdbcType="VARCHAR" />
-    <result column="materielname" property="materielname" jdbcType="VARCHAR" />
-    <result column="materielspec" property="materielspec" jdbcType="VARCHAR" />
-    <result column="materieltype" property="materieltype" jdbcType="VARCHAR" />
-    <result column="purchasesum" property="purchasesum" jdbcType="DOUBLE" />
-    <result column="price" property="price" jdbcType="DOUBLE" />
-    <result column="unit" property="unit" jdbcType="VARCHAR" />
-    <result column="remark" property="remark" jdbcType="VARCHAR" />
-  </resultMap>
-  <sql id="Base_Column_List" >
-    id, purchaseid, orgid, orgname, materielid, materielname, materielspec, materieltype, 
-    purchasesum, price, unit, remark
-  </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
-    select 
-    <include refid="Base_Column_List" />
-    from tr_purchase_db_application_detail
-    where id = #{id,jdbcType=VARCHAR}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
-    delete from tr_purchase_db_application_detail
-    where id = #{id,jdbcType=VARCHAR}
-  </delete>
-  <insert id="insert" parameterType="com.tianrui.service.bean.businessManage.purchaseManage.PurchaseApplicationDetail" >
-    insert into tr_purchase_db_application_detail (id, purchaseid, orgid, 
-      orgname, materielid, materielname, 
-      materielspec, materieltype, purchasesum, 
-      price, unit, remark)
-    values (#{id,jdbcType=VARCHAR}, #{purchaseid,jdbcType=VARCHAR}, #{orgid,jdbcType=VARCHAR}, 
-      #{orgname,jdbcType=VARCHAR}, #{materielid,jdbcType=VARCHAR}, #{materielname,jdbcType=VARCHAR}, 
-      #{materielspec,jdbcType=VARCHAR}, #{materieltype,jdbcType=VARCHAR}, #{purchasesum,jdbcType=DOUBLE}, 
-      #{price,jdbcType=DOUBLE}, #{unit,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR})
-  </insert>
-  <insert id="insertSelective" parameterType="com.tianrui.service.bean.businessManage.purchaseManage.PurchaseApplicationDetail" >
-    insert into tr_purchase_db_application_detail
-    <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        id,
-      </if>
-      <if test="purchaseid != null" >
-        purchaseid,
-      </if>
-      <if test="orgid != null" >
-        orgid,
-      </if>
-      <if test="orgname != null" >
-        orgname,
-      </if>
-      <if test="materielid != null" >
-        materielid,
-      </if>
-      <if test="materielname != null" >
-        materielname,
-      </if>
-      <if test="materielspec != null" >
-        materielspec,
-      </if>
-      <if test="materieltype != null" >
-        materieltype,
-      </if>
-      <if test="purchasesum != null" >
-        purchasesum,
-      </if>
-      <if test="price != null" >
-        price,
-      </if>
-      <if test="unit != null" >
-        unit,
-      </if>
-      <if test="remark != null" >
-        remark,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        #{id,jdbcType=VARCHAR},
-      </if>
-      <if test="purchaseid != null" >
-        #{purchaseid,jdbcType=VARCHAR},
-      </if>
-      <if test="orgid != null" >
-        #{orgid,jdbcType=VARCHAR},
-      </if>
-      <if test="orgname != null" >
-        #{orgname,jdbcType=VARCHAR},
-      </if>
-      <if test="materielid != null" >
-        #{materielid,jdbcType=VARCHAR},
-      </if>
-      <if test="materielname != null" >
-        #{materielname,jdbcType=VARCHAR},
-      </if>
-      <if test="materielspec != null" >
-        #{materielspec,jdbcType=VARCHAR},
-      </if>
-      <if test="materieltype != null" >
-        #{materieltype,jdbcType=VARCHAR},
-      </if>
-      <if test="purchasesum != null" >
-        #{purchasesum,jdbcType=DOUBLE},
-      </if>
-      <if test="price != null" >
-        #{price,jdbcType=DOUBLE},
-      </if>
-      <if test="unit != null" >
-        #{unit,jdbcType=VARCHAR},
-      </if>
-      <if test="remark != null" >
-        #{remark,jdbcType=VARCHAR},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.tianrui.service.bean.businessManage.purchaseManage.PurchaseApplicationDetail" >
-    update tr_purchase_db_application_detail
-    <set >
-      <if test="purchaseid != null" >
-        purchaseid = #{purchaseid,jdbcType=VARCHAR},
-      </if>
-      <if test="orgid != null" >
-        orgid = #{orgid,jdbcType=VARCHAR},
-      </if>
-      <if test="orgname != null" >
-        orgname = #{orgname,jdbcType=VARCHAR},
-      </if>
-      <if test="materielid != null" >
-        materielid = #{materielid,jdbcType=VARCHAR},
-      </if>
-      <if test="materielname != null" >
-        materielname = #{materielname,jdbcType=VARCHAR},
-      </if>
-      <if test="materielspec != null" >
-        materielspec = #{materielspec,jdbcType=VARCHAR},
-      </if>
-      <if test="materieltype != null" >
-        materieltype = #{materieltype,jdbcType=VARCHAR},
-      </if>
-      <if test="purchasesum != null" >
-        purchasesum = #{purchasesum,jdbcType=DOUBLE},
-      </if>
-      <if test="price != null" >
-        price = #{price,jdbcType=DOUBLE},
-      </if>
-      <if test="unit != null" >
-        unit = #{unit,jdbcType=VARCHAR},
-      </if>
-      <if test="remark != null" >
-        remark = #{remark,jdbcType=VARCHAR},
-      </if>
-    </set>
-    where id = #{id,jdbcType=VARCHAR}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.tianrui.service.bean.businessManage.purchaseManage.PurchaseApplicationDetail" >
-    update tr_purchase_db_application_detail
-    set purchaseid = #{purchaseid,jdbcType=VARCHAR},
-      orgid = #{orgid,jdbcType=VARCHAR},
-      orgname = #{orgname,jdbcType=VARCHAR},
-      materielid = #{materielid,jdbcType=VARCHAR},
-      materielname = #{materielname,jdbcType=VARCHAR},
-      materielspec = #{materielspec,jdbcType=VARCHAR},
-      materieltype = #{materieltype,jdbcType=VARCHAR},
-      purchasesum = #{purchasesum,jdbcType=DOUBLE},
-      price = #{price,jdbcType=DOUBLE},
-      unit = #{unit,jdbcType=VARCHAR},
-      remark = #{remark,jdbcType=VARCHAR}
-    where id = #{id,jdbcType=VARCHAR}
-  </update>
-  <select id="selectSelective" parameterType="com.tianrui.service.bean.businessManage.purchaseManage.PurchaseApplicationDetail" resultMap="BaseResultMap">
- 	select 
-	<include refid="Base_Column_List" />
-	from tr_purchase_db_application_detail 
-	<where>
-	  <if test="id != null and id != ''" >
-        and id = #{id,jdbcType=VARCHAR}
-      </if>
-	  <if test="purchaseid != null and purchaseid != ''" >
-        and purchaseid = #{purchaseid,jdbcType=VARCHAR}
-      </if>
-      <if test="orgid != null and orgid != ''" >
-        and orgid = #{orgid,jdbcType=VARCHAR}
-      </if>
-      <if test="orgname != null and orgname != ''" >
-        and orgname = #{orgname,jdbcType=VARCHAR}
-      </if>
-      <if test="materielid != null and materielid != ''" >
-        and materielid = #{materielid,jdbcType=VARCHAR}
-      </if>
-      <if test="materielname != null and materielname != ''" >
-        and materielname = #{materielname,jdbcType=VARCHAR}
-      </if>
-      <if test="materielspec != null and materielspec != ''" >
-        and materielspec = #{materielspec,jdbcType=VARCHAR}
-      </if>
-      <if test="materieltype != null and materieltype != ''" >
-        and materieltype = #{materieltype,jdbcType=VARCHAR}
-      </if>
-      <if test="purchasesum != null and purchasesum != ''" >
-        and purchasesum = #{purchasesum,jdbcType=DOUBLE}
-      </if>
-      <if test="price != null and price != ''" >
-        and price = #{price,jdbcType=DOUBLE}
-      </if>
-      <if test="unit != null and unit != ''" >
-        and unit = #{unit,jdbcType=VARCHAR}
-      </if>
-      <if test="remark != null and remark != ''" >
-        and remark = #{remark,jdbcType=VARCHAR}
-      </if>
-	</where>
-  </select>
-  <select id="selectByPurchaseId" parameterType="java.lang.String" resultMap="BaseResultMap">
- 	select 
-	<include refid="Base_Column_List" />
-	from tr_purchase_db_application_detail 
-	where purchaseid = #{purchaseid,jdbcType=VARCHAR}
-  </select>
-  <select id="selectByIds" parameterType="java.util.List" resultMap="BaseResultMap">
-  	select
-  	<include refid="Base_Column_List" />
-  	from tr_purchase_db_application_detail
-  	where id in
-	<foreach item="item" index="index" collection="list" open="(" separator="," close=")">  
-		#{item}  
-	</foreach>
-  </select>
-  <insert id="insertBatch"  parameterType="java.util.List" >
-    insert into tr_purchase_db_application_detail (
-      id, purchaseid, orgid, orgname, materielid,
-       materielname, materielspec, materieltype, purchasesum,
-       price, unit, remark)
-       values
-      <foreach collection="toSaveItem" item="item" index="index" separator=",">
-    (#{item.id,jdbcType=VARCHAR}, #{item.purchaseid,jdbcType=VARCHAR}, #{item.orgid,jdbcType=VARCHAR}, 
-      #{item.orgname,jdbcType=VARCHAR}, #{item.materielid,jdbcType=VARCHAR},
-       #{item.materielname,jdbcType=VARCHAR}, #{item.materielspec,jdbcType=VARCHAR}, #{item.materieltype,jdbcType=VARCHAR},
-        #{item.purchasesum,jdbcType=DOUBLE} #{item.price,jdbcType=DOUBLE}, #{item.unit,jdbcType=VARCHAR}, 
-      #{item.remark,jdbcType=VARCHAR})
-      </foreach>
-  </insert>
+<mapper
+	namespace="com.tianrui.service.mapper.businessManage.purchaseManage.PurchaseApplicationDetailMapper">
+	<resultMap id="BaseResultMap"
+		type="com.tianrui.service.bean.businessManage.purchaseManage.PurchaseApplicationDetail">
+		<id column="id" property="id" jdbcType="VARCHAR" />
+		<result column="purchaseid" property="purchaseid" jdbcType="VARCHAR" />
+		<result column="orgid" property="orgid" jdbcType="VARCHAR" />
+		<result column="orgname" property="orgname" jdbcType="VARCHAR" />
+		<result column="materielid" property="materielid" jdbcType="VARCHAR" />
+		<result column="materielname" property="materielname" jdbcType="VARCHAR" />
+		<result column="materielspec" property="materielspec" jdbcType="VARCHAR" />
+		<result column="materieltype" property="materieltype" jdbcType="VARCHAR" />
+		<result column="purchasesum" property="purchasesum" jdbcType="DOUBLE" />
+		<result column="margin" property="margin" jdbcType="DOUBLE" />
+		<result column="storagequantity" property="storagequantity"
+			jdbcType="DOUBLE" />
+		<result column="unstoragequantity" property="unstoragequantity"
+			jdbcType="DOUBLE" />
+		<result column="pretendingtake" property="pretendingtake"
+			jdbcType="DOUBLE" />
+		<result column="price" property="price" jdbcType="DOUBLE" />
+		<result column="unit" property="unit" jdbcType="VARCHAR" />
+		<result column="remark" property="remark" jdbcType="VARCHAR" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, purchaseid, orgid, orgname, materielid, materielname, materielspec,
+		materieltype,
+		purchasesum, margin, storagequantity, unstoragequantity, pretendingtake, price,
+		unit, remark
+	</sql>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from tr_purchase_db_application_detail
+		where id = #{id,jdbcType=VARCHAR}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from tr_purchase_db_application_detail
+		where id = #{id,jdbcType=VARCHAR}
+	</delete>
+	<insert id="insert"
+		parameterType="com.tianrui.service.bean.businessManage.purchaseManage.PurchaseApplicationDetail">
+		insert into tr_purchase_db_application_detail (id, purchaseid, orgid,
+		orgname, materielid, materielname,
+		materielspec, materieltype, purchasesum, margin, storagequantity,
+		unstoragequantity, pretendingtake,
+		price, unit, remark)
+		values (#{id,jdbcType=VARCHAR}, #{purchaseid,jdbcType=VARCHAR},
+		#{orgid,jdbcType=VARCHAR},
+		#{orgname,jdbcType=VARCHAR}, #{materielid,jdbcType=VARCHAR}, #{materielname,jdbcType=VARCHAR},
+		#{materielspec,jdbcType=VARCHAR}, #{materieltype,jdbcType=VARCHAR},
+		#{purchasesum,jdbcType=DOUBLE},
+		#{margin,jdbcType=DOUBLE}, #{storagequantity,jdbcType=DOUBLE},
+		#{unstoragequantity,jdbcType=DOUBLE},
+		#{pretendingtake,jdbcType=DOUBLE},
+		#{price,jdbcType=DOUBLE}, #{unit,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR})
+	</insert>
+	<insert id="insertSelective"
+		parameterType="com.tianrui.service.bean.businessManage.purchaseManage.PurchaseApplicationDetail">
+		insert into tr_purchase_db_application_detail
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="purchaseid != null">
+				purchaseid,
+			</if>
+			<if test="orgid != null">
+				orgid,
+			</if>
+			<if test="orgname != null">
+				orgname,
+			</if>
+			<if test="materielid != null">
+				materielid,
+			</if>
+			<if test="materielname != null">
+				materielname,
+			</if>
+			<if test="materielspec != null">
+				materielspec,
+			</if>
+			<if test="materieltype != null">
+				materieltype,
+			</if>
+			<if test="purchasesum != null">
+				purchasesum,
+			</if>
+			<if test="margin != null">
+				margin,
+			</if>
+			<if test="storagequantity != null">
+				storagequantity,
+			</if>
+			<if test="unstoragequantity != null">
+				unstoragequantity,
+			</if>
+			<if test="pretendingtake != null">
+				pretendingtake,
+			</if>
+			<if test="price != null">
+				price,
+			</if>
+			<if test="unit != null">
+				unit,
+			</if>
+			<if test="remark != null">
+				remark,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=VARCHAR},
+			</if>
+			<if test="purchaseid != null">
+				#{purchaseid,jdbcType=VARCHAR},
+			</if>
+			<if test="orgid != null">
+				#{orgid,jdbcType=VARCHAR},
+			</if>
+			<if test="orgname != null">
+				#{orgname,jdbcType=VARCHAR},
+			</if>
+			<if test="materielid != null">
+				#{materielid,jdbcType=VARCHAR},
+			</if>
+			<if test="materielname != null">
+				#{materielname,jdbcType=VARCHAR},
+			</if>
+			<if test="materielspec != null">
+				#{materielspec,jdbcType=VARCHAR},
+			</if>
+			<if test="materieltype != null">
+				#{materieltype,jdbcType=VARCHAR},
+			</if>
+			<if test="purchasesum != null">
+				#{purchasesum,jdbcType=DOUBLE},
+			</if>
+			<if test="margin != null">
+				#{margin,jdbcType=DOUBLE},
+			</if>
+			<if test="storagequantity != null">
+				#{storagequantity,jdbcType=DOUBLE},
+			</if>
+			<if test="unstoragequantity != null">
+				#{unstoragequantity,jdbcType=DOUBLE},
+			</if>
+			<if test="pretendingtake != null">
+				#{pretendingtake,jdbcType=DOUBLE},
+			</if>
+			<if test="price != null">
+				#{price,jdbcType=DOUBLE},
+			</if>
+			<if test="unit != null">
+				#{unit,jdbcType=VARCHAR},
+			</if>
+			<if test="remark != null">
+				#{remark,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective"
+		parameterType="com.tianrui.service.bean.businessManage.purchaseManage.PurchaseApplicationDetail">
+		update tr_purchase_db_application_detail
+		<set>
+			<if test="purchaseid != null">
+				purchaseid = #{purchaseid,jdbcType=VARCHAR},
+			</if>
+			<if test="orgid != null">
+				orgid = #{orgid,jdbcType=VARCHAR},
+			</if>
+			<if test="orgname != null">
+				orgname = #{orgname,jdbcType=VARCHAR},
+			</if>
+			<if test="materielid != null">
+				materielid = #{materielid,jdbcType=VARCHAR},
+			</if>
+			<if test="materielname != null">
+				materielname = #{materielname,jdbcType=VARCHAR},
+			</if>
+			<if test="materielspec != null">
+				materielspec = #{materielspec,jdbcType=VARCHAR},
+			</if>
+			<if test="materieltype != null">
+				materieltype = #{materieltype,jdbcType=VARCHAR},
+			</if>
+			<if test="purchasesum != null">
+				purchasesum = #{purchasesum,jdbcType=DOUBLE},
+			</if>
+			<if test="margin != null">
+				margin = #{margin,jdbcType=DOUBLE},
+			</if>
+			<if test="storagequantity != null">
+				storagequantity = #{storagequantity,jdbcType=DOUBLE},
+			</if>
+			<if test="unstoragequantity != null">
+				unstoragequantity = #{unstoragequantity,jdbcType=DOUBLE},
+			</if>
+			<if test="pretendingtake != null">
+				pretendingtake = #{pretendingtake,jdbcType=DOUBLE},
+			</if>
+			<if test="price != null">
+				price = #{price,jdbcType=DOUBLE},
+			</if>
+			<if test="unit != null">
+				unit = #{unit,jdbcType=VARCHAR},
+			</if>
+			<if test="remark != null">
+				remark = #{remark,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where id = #{id,jdbcType=VARCHAR}
+	</update>
+	<update id="updateByPrimaryKey"
+		parameterType="com.tianrui.service.bean.businessManage.purchaseManage.PurchaseApplicationDetail">
+		update tr_purchase_db_application_detail
+		set purchaseid = #{purchaseid,jdbcType=VARCHAR},
+		orgid = #{orgid,jdbcType=VARCHAR},
+		orgname = #{orgname,jdbcType=VARCHAR},
+		materielid = #{materielid,jdbcType=VARCHAR},
+		materielname = #{materielname,jdbcType=VARCHAR},
+		materielspec = #{materielspec,jdbcType=VARCHAR},
+		materieltype = #{materieltype,jdbcType=VARCHAR},
+		purchasesum = #{purchasesum,jdbcType=DOUBLE},
+		margin = #{margin,jdbcType=DOUBLE},
+		storagequantity = #{storagequantity,jdbcType=DOUBLE},
+		unstoragequantity = #{unstoragequantity,jdbcType=DOUBLE},
+		pretendingtake = #{pretendingtake,jdbcType=DOUBLE},
+		price = #{price,jdbcType=DOUBLE},
+		unit = #{unit,jdbcType=VARCHAR},
+		remark = #{remark,jdbcType=VARCHAR}
+		where id = #{id,jdbcType=VARCHAR}
+	</update>
+	<select id="selectSelective"
+		parameterType="com.tianrui.service.bean.businessManage.purchaseManage.PurchaseApplicationDetail"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from tr_purchase_db_application_detail
+		<where>
+			<if test="id != null and id != ''">
+				and id = #{id,jdbcType=VARCHAR}
+			</if>
+			<if test="purchaseid != null and purchaseid != ''">
+				and purchaseid = #{purchaseid,jdbcType=VARCHAR}
+			</if>
+			<if test="orgid != null and orgid != ''">
+				and orgid = #{orgid,jdbcType=VARCHAR}
+			</if>
+			<if test="orgname != null and orgname != ''">
+				and orgname = #{orgname,jdbcType=VARCHAR}
+			</if>
+			<if test="materielid != null and materielid != ''">
+				and materielid = #{materielid,jdbcType=VARCHAR}
+			</if>
+			<if test="materielname != null and materielname != ''">
+				and materielname = #{materielname,jdbcType=VARCHAR}
+			</if>
+			<if test="materielspec != null and materielspec != ''">
+				and materielspec = #{materielspec,jdbcType=VARCHAR}
+			</if>
+			<if test="materieltype != null and materieltype != ''">
+				and materieltype = #{materieltype,jdbcType=VARCHAR}
+			</if>
+			<if test="purchasesum != null and purchasesum != ''">
+				and purchasesum = #{purchasesum,jdbcType=DOUBLE}
+			</if>
+			<if test="margin != null and margin != ''">
+				and margin = #{margin,jdbcType=DOUBLE}
+			</if>
+			<if test="storagequantity != null and storagequantity != ''">
+				and storagequantity = #{storagequantity,jdbcType=DOUBLE}
+			</if>
+			<if test="unstoragequantity != null and unstoragequantity != ''">
+				and unstoragequantity = #{unstoragequantity,jdbcType=DOUBLE}
+			</if>
+			<if test="pretendingtake != null and pretendingtake != ''">
+				and pretendingtake = #{pretendingtake,jdbcType=DOUBLE}
+			</if>
+			<if test="price != null and price != ''">
+				and price = #{price,jdbcType=DOUBLE}
+			</if>
+			<if test="unit != null and unit != ''">
+				and unit = #{unit,jdbcType=VARCHAR}
+			</if>
+			<if test="remark != null and remark != ''">
+				and remark = #{remark,jdbcType=VARCHAR}
+			</if>
+		</where>
+	</select>
+	<select id="selectByPurchaseId" parameterType="java.lang.String"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from tr_purchase_db_application_detail
+		where purchaseid = #{purchaseid,jdbcType=VARCHAR}
+	</select>
+	<select id="selectByIds" parameterType="java.util.List"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from tr_purchase_db_application_detail
+		where id in
+		<foreach item="item" index="index" collection="list" open="("
+			separator="," close=")">
+			#{item}
+		</foreach>
+	</select>
+	<insert id="insertBatch" parameterType="java.util.List">
+		insert into tr_purchase_db_application_detail (
+		id, purchaseid, orgid, orgname, materielid,
+		materielname, materielspec, materieltype, purchasesum,
+		margin, storagequantity, unstoragequantity, pretendingtake,
+		price, unit, remark)
+		values
+		<foreach collection="toSaveItem" item="item" index="index"
+			separator=",">
+			(#{item.id,jdbcType=VARCHAR}, #{item.purchaseid,jdbcType=VARCHAR}, #{item.orgid,jdbcType=VARCHAR},
+			#{item.orgname,jdbcType=VARCHAR},
+			#{item.materielid,jdbcType=VARCHAR},
+			#{item.materielname,jdbcType=VARCHAR},
+			#{item.materielspec,jdbcType=VARCHAR},
+			#{item.materieltype,jdbcType=VARCHAR},
+			#{item.purchasesum,jdbcType=DOUBLE}, 
+			#{item.margin,jdbcType=DOUBLE}, 
+			#{item.storagequantity,jdbcType=DOUBLE}, 
+			#{item.unstoragequantity,jdbcType=DOUBLE}, 
+			#{item.pretendingtake,jdbcType=DOUBLE}, 
+			#{item.price,jdbcType=DOUBLE},
+			#{item.unit,jdbcType=VARCHAR},
+			#{item.remark,jdbcType=VARCHAR})
+		</foreach>
+	</insert>
 </mapper>

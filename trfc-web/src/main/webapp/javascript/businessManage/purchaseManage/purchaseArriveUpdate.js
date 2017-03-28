@@ -468,7 +468,7 @@
 		var makebilltime = $('#makebilltime').val() || ''; makebilltime = $.trim(makebilltime); makebilltime = str2Long(makebilltime);
 		var unit = $('#unit').val(); unit = $.trim(unit);
 		var vehicleid = $('#vehicle').attr('vehicleid'); vehicleid = $.trim(vehicleid);
-		var driverid = $('#driverid').attr('driverid'); driverid = $.trim(driverid);
+		var driverid = $('#driver').attr('driverid'); driverid = $.trim(driverid);
 		var arrivalamount = $('#arrivalamount').val(); arrivalamount = $.trim(arrivalamount);
 		var remark = $('#remark').val(); remark = $.trim(remark);
 		if(!billid || !billcode || !billdetailid){

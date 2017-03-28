@@ -26,9 +26,11 @@ import com.tianrui.api.resp.businessManage.purchaseManage.PurchaseApplicationDet
 import com.tianrui.api.resp.businessManage.purchaseManage.PurchaseApplicationResp;
 import com.tianrui.api.resp.businessManage.purchaseManage.PurchaseArriveResp;
 import com.tianrui.service.bean.businessManage.cardManage.Card;
+import com.tianrui.service.bean.businessManage.purchaseManage.PurchaseApplicationDetail;
 import com.tianrui.service.bean.businessManage.purchaseManage.PurchaseArrive;
 import com.tianrui.service.bean.businessManage.salesManage.SalesArrive;
 import com.tianrui.service.mapper.businessManage.cardManage.CardMapper;
+import com.tianrui.service.mapper.businessManage.purchaseManage.PurchaseApplicationDetailMapper;
 import com.tianrui.service.mapper.businessManage.purchaseManage.PurchaseArriveMapper;
 import com.tianrui.service.mapper.businessManage.salesManage.SalesArriveMapper;
 import com.tianrui.smartfactory.common.constants.ErrorCode;
@@ -45,6 +47,8 @@ public class PurchaseArriveService implements IPurchaseArriveService {
 	private IPurchaseApplicationService purchaseApplicationService;
 	@Autowired
 	private IPurchaseApplicationDetailService purchaseApplicationDetailService;
+	@Autowired
+	private PurchaseApplicationDetailMapper purchaseApplicationDetailMapper;
 	@Autowired
 	private SalesArriveMapper salesArriveMapper;
 	@Autowired
@@ -153,7 +157,18 @@ public class PurchaseArriveService implements IPurchaseArriveService {
 			pa.setModifytime(System.currentTimeMillis());
 			if(purchaseArriveMapper.insertSelective(pa) > 0 
 					&& StringUtils.equals(systemCodeService.updateCodeItem(codeReq).getCode(), ErrorCode.SYSTEM_SUCCESS.getCode())){
-				result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+				if(StringUtils.isNotBlank(pa.getBilldetailid())){
+					PurchaseApplicationDetailResp detailResp = purchaseApplicationDetailService.findOne(pa.getBilldetailid());
+					PurchaseApplicationDetail detail = new PurchaseApplicationDetail();
+					detail.setId(detailResp.getId());
+					detail.setMargin(detailResp.getMargin() - pa.getArrivalamount());
+					detail.setPretendingtake(detailResp.getPretendingtake() + pa.getArrivalamount());
+					if(purchaseApplicationDetailMapper.updateByPrimaryKeySelective(detail) > 0){
+						result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+					}else{
+						result.setErrorCode(ErrorCode.OPERATE_ERROR);
+					}
+				}
 			}else{
 				result.setErrorCode(ErrorCode.OPERATE_ERROR);
 			}
@@ -164,47 +179,63 @@ public class PurchaseArriveService implements IPurchaseArriveService {
 	@Override
 	public Result update(PurchaseArriveSave update) throws Exception {
 		Result result = Result.getParamErrorResult();
-		if(update != null){
-			PurchaseArrive pa = new PurchaseArrive();
-			pa.setId(update.getId());
-			pa.setVehicleid(update.getVehicleid());
-			List<PurchaseArrive> listVehicle = purchaseArriveMapper.checkDriverAndVehicleIsUse(pa);
-			if(listVehicle != null && listVehicle.size() > 0){
-				result.setErrorCode(ErrorCode.PARAM_REPEAT_ERROR);
-				result.setError("此车辆己有到货通知单、待出厂后进行派车，现有车辆业务单据号为:"+listVehicle.get(0).getCode()+"，如有疑问请与销售处联系！");
-				return result;
-			}
-			SalesArrive sa = new SalesArrive();
-			sa.setVehicleid(update.getVehicleid());
-			List<SalesArrive> listVehicle1 = salesArriveMapper.checkDriverAndVehicleIsUse(sa);
-			if(listVehicle1 != null && listVehicle1.size() > 0){
-				result.setErrorCode(ErrorCode.PARAM_REPEAT_ERROR);
-				result.setError("此车辆己有提货通知单、待出厂后进行派车，现有车辆业务单据号为:"+listVehicle1.get(0).getCode()+"，如有疑问请与销售处联系！");
-				return result;
-			}
-			pa.setVehicleid(null);
-			pa.setDriverid(update.getDriverid());
-			List<PurchaseArrive> listDriver = purchaseArriveMapper.checkDriverAndVehicleIsUse(pa);
-			if(listDriver != null && listDriver.size() > 0){
-				result.setErrorCode(ErrorCode.PARAM_REPEAT_ERROR);
-				result.setError("此司机己有到货通知单、待出厂后进行派车，现有车辆业务单据号为:"+listDriver.get(0).getCode()+"，如有疑问请与销售处联系！");
-				return result;
-			}
-			sa.setVehicleid(null);
-			sa.setDriverid(update.getDriverid());
-			List<SalesArrive> listDriver1 = salesArriveMapper.checkDriverAndVehicleIsUse(sa);
-			if(listDriver1 != null && listDriver1.size() > 0){
-				result.setErrorCode(ErrorCode.PARAM_REPEAT_ERROR);
-				result.setError("此司机己有提货通知单、待出厂后进行派车，现有车辆业务单据号为:"+listDriver1.get(0).getCode()+"，如有疑问请与销售处联系！");
-				return result;
-			}
-			PropertyUtils.copyProperties(pa, update);
-			pa.setModifier(update.getCurrId());
-			pa.setModifytime(System.currentTimeMillis());
-			if(purchaseArriveMapper.updateByPrimaryKeySelective(pa) == 1){
-				result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+		if(update != null && StringUtils.isNotBlank(update.getId())){
+			PurchaseArrive purchaseArrive = purchaseArriveMapper.selectByPrimaryKey(update.getId());
+			if(purchaseArrive != null){
+				PurchaseArrive pa = new PurchaseArrive();
+				pa.setId(update.getId());
+				pa.setVehicleid(update.getVehicleid());
+				List<PurchaseArrive> listVehicle = purchaseArriveMapper.checkDriverAndVehicleIsUse(pa);
+				if(listVehicle != null && listVehicle.size() > 0){
+					result.setErrorCode(ErrorCode.PARAM_REPEAT_ERROR);
+					result.setError("此车辆己有到货通知单、待出厂后进行派车，现有车辆业务单据号为:"+listVehicle.get(0).getCode()+"，如有疑问请与销售处联系！");
+					return result;
+				}
+				SalesArrive sa = new SalesArrive();
+				sa.setVehicleid(update.getVehicleid());
+				List<SalesArrive> listVehicle1 = salesArriveMapper.checkDriverAndVehicleIsUse(sa);
+				if(listVehicle1 != null && listVehicle1.size() > 0){
+					result.setErrorCode(ErrorCode.PARAM_REPEAT_ERROR);
+					result.setError("此车辆己有提货通知单、待出厂后进行派车，现有车辆业务单据号为:"+listVehicle1.get(0).getCode()+"，如有疑问请与销售处联系！");
+					return result;
+				}
+				pa.setVehicleid(null);
+				pa.setDriverid(update.getDriverid());
+				List<PurchaseArrive> listDriver = purchaseArriveMapper.checkDriverAndVehicleIsUse(pa);
+				if(listDriver != null && listDriver.size() > 0){
+					result.setErrorCode(ErrorCode.PARAM_REPEAT_ERROR);
+					result.setError("此司机己有到货通知单、待出厂后进行派车，现有车辆业务单据号为:"+listDriver.get(0).getCode()+"，如有疑问请与销售处联系！");
+					return result;
+				}
+				sa.setVehicleid(null);
+				sa.setDriverid(update.getDriverid());
+				List<SalesArrive> listDriver1 = salesArriveMapper.checkDriverAndVehicleIsUse(sa);
+				if(listDriver1 != null && listDriver1.size() > 0){
+					result.setErrorCode(ErrorCode.PARAM_REPEAT_ERROR);
+					result.setError("此司机己有提货通知单、待出厂后进行派车，现有车辆业务单据号为:"+listDriver1.get(0).getCode()+"，如有疑问请与销售处联系！");
+					return result;
+				}
+				PropertyUtils.copyProperties(pa, update);
+				pa.setModifier(update.getCurrId());
+				pa.setModifytime(System.currentTimeMillis());
+				if(purchaseArriveMapper.updateByPrimaryKeySelective(pa) == 1){
+					if(StringUtils.isNotBlank(pa.getBilldetailid())){
+						PurchaseApplicationDetailResp detailResp = purchaseApplicationDetailService.findOne(pa.getBilldetailid());
+						PurchaseApplicationDetail detail = new PurchaseApplicationDetail();
+						detail.setId(detailResp.getId());
+						detail.setMargin(detailResp.getMargin() + (purchaseArrive.getArrivalamount() - pa.getArrivalamount()));
+						detail.setPretendingtake(detailResp.getPretendingtake() - (purchaseArrive.getArrivalamount() - pa.getArrivalamount()));
+						if(purchaseApplicationDetailMapper.updateByPrimaryKeySelective(detail) > 0){
+							result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+						}else{
+							result.setErrorCode(ErrorCode.OPERATE_ERROR);
+						}
+					}
+				}else{
+					result.setErrorCode(ErrorCode.OPERATE_ERROR);
+				}
 			}else{
-				result.setErrorCode(ErrorCode.OPERATE_ERROR);
+				result.setErrorCode(ErrorCode.SALESARRIVE_NOT_EXIST);
 			}
 		}
 		return result;

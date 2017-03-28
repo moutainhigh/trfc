@@ -279,8 +279,16 @@ public class PurchaseApplicationService implements IPurchaseApplicationService {
 					purchaseItem.setMaterielname(itemJon.getString("materialname"));
 					purchaseItem.setMaterielspec(itemJon.getString("materialspec"));
 					purchaseItem.setMaterieltype(itemJon.getString("materialtype"));
-					purchaseItem.setPurchasesum(Double.valueOf(itemJon.getString("number")));
-					purchaseItem.setPrice(Double.valueOf(itemJon.getString("price")));
+					if(StringUtils.isNotBlank(itemJon.getString("number"))){
+						purchaseItem.setPurchasesum(Double.valueOf(itemJon.getString("number")));
+					}
+					purchaseItem.setMargin(purchaseItem.getPurchasesum());
+					purchaseItem.setStoragequantity(0D);
+					purchaseItem.setUnstoragequantity(0D);
+					purchaseItem.setPretendingtake(0D);
+					if(StringUtils.isNotBlank(itemJon.getString("price"))){
+						purchaseItem.setPrice(Double.valueOf(itemJon.getString("price")));
+					}
 					purchaseItem.setUnit("吨");
 					purchaseItem.setRemark(itemJon.getString("remark"));
 					itemList.add(purchaseItem);

@@ -301,7 +301,7 @@
 				var margin = obj.margin || '';
 				var storagequantity = obj.storagequantity || '';
 				var unstoragequantity = obj.unstoragequantity || '';
-				var arrivalquantity = obj.arrivalquantity || '';
+				var pretendingtake = obj.pretendingtake || '';
 				var orgname = obj.orgname || '';
 				var billtimeStr = obj.billtimeStr || '';
 				var departmentname = obj.departmentname || '';
@@ -328,7 +328,7 @@
 				.append('<td>'+margin+'</td>')
 				.append('<td>'+storagequantity+'</td>')
 				.append('<td>'+unstoragequantity+'</td>')
-				.append('<td>'+arrivalquantity+'</td>')
+				.append('<td>'+pretendingtake+'</td>')
 				.append('<td>'+orgname+'</td>')
 				.append('<td>'+billtimeStr+'</td>')
 				.append('<td>'+departmentname+'</td>')

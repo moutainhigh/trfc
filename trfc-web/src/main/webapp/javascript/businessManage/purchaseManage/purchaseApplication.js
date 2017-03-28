@@ -53,6 +53,7 @@
 	function bindEvent(){
 		$('#refreshBtn').off('click').on('click',function(){
 			queryData(1);
+			$('#dataMore').hide();
 		});
 		$('#searchBtn').off('click').on('click',function(){
 			queryData(1);
@@ -210,6 +211,10 @@
 						var materielspec = detail.materielspec || '';
 						var materieltype = detail.materieltype || '';
 						var purchasesum = detail.purchasesum;
+						var margin = detail.margin;
+						var storagequantity = detail.storagequantity;
+						var unstoragequantity = detail.unstoragequantity;
+						var pretendingtake = detail.pretendingtake;
 						var remark = detail.remark || '';
 						$('<tr>').append('<td>'+(i+1)+'</td>')
 								.append('<td>'+orgname+'</td>')
@@ -217,10 +222,10 @@
 								.append('<td>'+materielspec+'</td>')
 								.append('<td>'+materieltype+'</td>')
 								.append('<td>'+purchasesum+'</td>')
-								.append('<td></td>')
-								.append('<td></td>')
-								.append('<td></td>')
-								.append('<td></td>')
+								.append('<td>'+storagequantity+'</td>')
+								.append('<td>'+unstoragequantity+'</td>')
+								.append('<td>'+pretendingtake+'</td>')
+								.append('<td>'+margin+'</td>')
 								.append('<td>'+remark+'</td>')
 								.appendTo('#moreBody');
 					}

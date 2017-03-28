@@ -123,12 +123,12 @@
 									<div class="daohuo_add_div">
 										<div class="daohuo_add_solo">
 											<label class="colorred"><em class="colorred">*</em>车号：</label>
-											<input id="vehicle" type="text" placeholder="请选择车辆" value="${purchaseArrive.vehicleno }" /> <a
+											<input id="vehicle" type="text" placeholder="请选择车辆" vehicleid="${purchaseArrive.vehicleid }" value="${purchaseArrive.vehicleno }" /> <a
 												data-toggle="modal" data-target="#vehicleAddView"><i
 												class="iconfont">&#xe680;</i></a>
 										</div>
 										<div class="daohuo_add_solo">
-											<label>司机：</label> <input id="driver" type="text" placeholder="请选择司机" value="${purchaseArrive.drivername }" />
+											<label>司机：</label> <input id="driver" type="text" placeholder="请选择司机" driverid="${purchaseArrive.driverid }" value="${purchaseArrive.drivername }" />
 											<a data-toggle="modal" data-target="#driverAddView"><i
 												class="iconfont">&#xe680;</i></a>
 										</div>

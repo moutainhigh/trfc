@@ -46,7 +46,7 @@
     p1.supplierid, p1.suppliername, p1.supplierremark, p1.minemouthid, p1.minemouthname, p1.departmentid, p1.departmentname, p1.buyerid, p1.buyername, p1.auditid,
     p1.auditname, p1.audittime, p1.state, p1.makerid, p1.makebillname, p1.makebilltime, p1.creator, p1.createtime, 
     p1.modifier, p1.modifytime, p1.remark, p2.id as detailid, p2.purchaseid, p2.materielid, p2.materielname, p2.materielspec, 
-    p2.materieltype, p2.purchasesum, p2.unit
+    p2.materieltype, p2.purchasesum, p2.margin, p2.storagequantity, p2.unstoragequantity, p2.pretendingtake, p2.unit
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 

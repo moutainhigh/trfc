@@ -118,7 +118,7 @@ public class PurchaseApplicationJoinDetailResp extends BaseResp {
     //未入库占用量
     private String unstoragequantity;
     //到货占用量
-    private String arrivalquantity;
+    private String pretendingtake;
     
 	public String getId() {
 		return id;
@@ -413,11 +413,11 @@ public class PurchaseApplicationJoinDetailResp extends BaseResp {
 	public void setUnstoragequantity(String unstoragequantity) {
 		this.unstoragequantity = unstoragequantity;
 	}
-	public String getArrivalquantity() {
-		return arrivalquantity;
+	public String getPretendingtake() {
+		return pretendingtake;
 	}
-	public void setArrivalquantity(String arrivalquantity) {
-		this.arrivalquantity = arrivalquantity;
+	public void setPretendingtake(String pretendingtake) {
+		this.pretendingtake = pretendingtake;
 	}
 	public String getPackagetype() {
 		return packagetype;
