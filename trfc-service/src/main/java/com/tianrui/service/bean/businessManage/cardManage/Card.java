@@ -2,29 +2,29 @@ package com.tianrui.service.bean.businessManage.cardManage;
 
 public class Card {
     private String id;
-
+    //单据编号
     private String code;
-
+    //卡序号
     private String cardno;
-
+    //卡面编号
     private String cardcode;
-
+    //卡状态（0：无效，1有效）
     private String cardstatus;
-
+    //卡类型（0：IC采样卡，1：IC过磅卡）
     private String cardtype;
-
+    //登记人
     private String registrar;
-
+    //状态：（0：删除，1：正常）
     private String state;
-
+    //备注
     private String remarks;
-
+    //创建人
     private String creator;
-
+    //创建时间
     private Long createtime;
-
+    //最后修改人
     private String modifier;
-
+    //最后修改时间
     private Long modifytime;
 
     public String getId() {

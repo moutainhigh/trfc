@@ -42,7 +42,7 @@ public interface SalesArriveMapper {
 	 * @param query
 	 * @return
 	 */
-	int checkICUse(SalesArriveQuery query);
+	SalesArrive checkICUse(String icardid);
 	/**
 	 * @Description 查询车辆等待数量
 	 * @author zhanggaohao

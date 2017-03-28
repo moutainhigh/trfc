@@ -618,4 +618,10 @@
     from tr_purchase_db_arrive
     where code = #{code,jdbcType=VARCHAR}
   </select>
+   <select id="checkICUse" resultMap="BaseResultMap" parameterType="java.lang.String">
+  	select 
+	<include refid="Base_Column_List" />
+  	from tr_purchase_db_arrive
+  	where icardid = #{icardid,jdbcType=VARCHAR} and state = "1" and status != '5' and status != '3'
+  </select>
 </mapper>

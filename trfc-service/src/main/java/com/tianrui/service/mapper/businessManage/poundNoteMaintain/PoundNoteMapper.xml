@@ -1211,4 +1211,10 @@
     	where vehicleno = #{vehicleno,jdbcType=VARCHAR} and vehiclerfid = #{rfid,jdbcType=VARCHAR} and state = '1'
     	limit 0,#{number,jdbcType=INTEGER}
     </select>
+    <select id="selectByNoticeId" parameterType="java.lang.String" resultMap="BaseResultMap">
+    	select 
+		<include refid="Base_Column_List" />
+    	from tr_pound_db_note
+    	where noticeid = #{noticeid,jdbcType=VARCHAR} and state = '1'
+    </select>
 </mapper>

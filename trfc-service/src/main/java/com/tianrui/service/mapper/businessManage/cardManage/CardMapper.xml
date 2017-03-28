@@ -281,6 +281,6 @@
     select 
     <include refid="Base_Column_List" />
     from tr_card_db_manage
-    where cardno = #{cardno,jdbcType=VARCHAR} and state = '1'
+    where cardno = #{cardno,jdbcType=VARCHAR} and state = '1' and cardstatus = '1'
   </select>
 </mapper>

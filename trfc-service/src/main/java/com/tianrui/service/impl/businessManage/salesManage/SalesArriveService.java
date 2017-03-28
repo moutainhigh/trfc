@@ -218,6 +218,10 @@ public class SalesArriveService implements ISalesArriveService {
 					SalesApplicationDetailResp applicationDetail = salesApplicationDetailService.findOne(billdetailid);
 					if(applicationDetail != null){
 						join.setBillsum(applicationDetail.getSalessum());
+						join.setMargin(applicationDetail.getMargin());
+						join.setOutstoragequantity(applicationDetail.getStoragequantity());
+						join.setUnoutstoragequantity(applicationDetail.getUnstoragequantity());
+						join.setPretendingtake(applicationDetail.getPretendingtake());
 					}
 					join.setTakeamount(bean.getTakeamount());
 					join.setState("1");

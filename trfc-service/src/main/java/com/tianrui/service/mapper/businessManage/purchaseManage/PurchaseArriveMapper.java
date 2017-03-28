@@ -69,5 +69,12 @@ public interface PurchaseArriveMapper {
 	 * @return
 	 */
 	List<PurchaseArrive> selectSelective(PurchaseArrive pa);
-    
+    /**
+     * @Description 通过IC卡id查询通知单
+     * @author zhanggaohao
+     * @version 2017年3月28日 下午1:57:17
+     * @param icardid
+     * @return
+     */
+	PurchaseArrive checkICUse(String icardid);
 }

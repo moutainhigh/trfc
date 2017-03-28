@@ -84,4 +84,12 @@ public interface PoundNoteMapper {
 	 * @return
 	 */
 	List<Double> historyTareWeight(ApiPoundNoteQuery record);
+	/**
+	 * @Description 根据通知单号查询绑定
+	 * @author zhanggaohao
+	 * @version 2017年3月28日 下午4:05:01
+	 * @param noticeId
+	 * @return
+	 */
+	PoundNote selectByNoticeId(String noticeId);
 }

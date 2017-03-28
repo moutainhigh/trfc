@@ -11,8 +11,10 @@ public class ApiDoorSystemSave extends BaseReq {
 	private static final long serialVersionUID = 2459911624693685605L;
 	//通知单号
 	private String notionformcode;
-	//Ic卡号
-	private String iccode;
+	//Ic卡序号
+	private String icardno;
+	//业务类型
+	private String servicetype;
 	//门禁类型 1入厂2出厂
 	private String type;
 	//记录时间
@@ -28,12 +30,26 @@ public class ApiDoorSystemSave extends BaseReq {
 		this.notionformcode = notionformcode;
 	}
 
-	public String getIccode() {
-		return iccode;
+	public String getIcardno() {
+		return icardno;
 	}
 
-	public void setIccode(String iccode) {
-		this.iccode = iccode;
+	public void setIcardno(String icardno) {
+		this.icardno = icardno;
+	}
+
+	/**
+	 * @return the servicetype
+	 */
+	public String getServicetype() {
+		return servicetype;
+	}
+
+	/**
+	 * @param servicetype the servicetype to set
+	 */
+	public void setServicetype(String servicetype) {
+		this.servicetype = servicetype;
 	}
 
 	public String getType() {
