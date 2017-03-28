@@ -539,6 +539,10 @@ public class SalesApplicationService implements ISalesApplicationService {
 					saleItem.setWarehousename(itemJon.getString("csendstordocName"));
 					saleItem.setUnit("吨");
 					saleItem.setSalessum(Double.valueOf(itemJon.getString("number")));
+					saleItem.setMargin(saleItem.getSalessum());
+					saleItem.setStoragequantity(0D);
+					saleItem.setUnstoragequantity(0D);
+					saleItem.setPretendingtake(0D);
 					saleItem.setTaxprice(Double.valueOf(itemJon.getString("nqtorigtaxprice")));
 					saleItem.setUntaxprice(Double.valueOf(itemJon.getString("nqtorigprice")));
 					saleItem.setTaxrate(Double.valueOf(itemJon.getString("ntaxrate")));

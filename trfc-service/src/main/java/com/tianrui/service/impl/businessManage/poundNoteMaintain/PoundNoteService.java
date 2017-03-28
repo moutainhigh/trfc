@@ -970,6 +970,8 @@ public class PoundNoteService implements IPoundNoteService {
 			//验证是否有入场门禁记录
 			if(accessRecordMapper.selectByNoticeId(noticeId) != null){
 				result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+			}else{
+				result.setErrorCode(ErrorCode.VEHICLE_NOTICE_NOT_ACCESSRECORD);
 			}
 		}
 	}

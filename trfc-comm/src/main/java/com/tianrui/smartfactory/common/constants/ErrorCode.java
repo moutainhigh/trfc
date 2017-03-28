@@ -46,8 +46,9 @@ public enum ErrorCode {
 	VEHICLE_NOTICE_NOT_ONLY("E10014","该车辆有多个通知单."),
 	VEHICLE_NOTICE_ALREADY_ENTER("E10015","该车辆绑定的通知单已经入场."),
 	VEHICLE_NOTICE_NOT_ENTER("E10016","该车辆绑定的通知单未入场."),
-	VEHICLE_NOTICE_NOT_ONE_WEIGHT("E10017","该车辆未过一次磅房."),
-	VEHICLE_NOTICE_NOT_TWO_WEIGHT("E10018","该车辆未过二次磅房."),
+	VEHICLE_NOTICE_NOT_ACCESSRECORD("E10017","该车辆绑定的通知单没有通过入厂门禁."),
+	VEHICLE_NOTICE_NOT_ONE_WEIGHT("E10018","该车辆未过一次磅房."),
+	VEHICLE_NOTICE_NOT_TWO_WEIGHT("E10019","该车辆未过二次磅房."),
 	
 	/**
 	 * 用户相关

@@ -6,9 +6,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 import com.alibaba.fastjson.JSON;
-import com.tianrui.api.req.basicFile.measure.VehicleManageApi;
-import com.tianrui.api.req.basicFile.nc.WarehouseManageQuery;
-import com.tianrui.api.req.businessManage.salesManage.ApiDoorQueueQuery;
+import com.tianrui.api.req.businessManage.poundNoteMaintain.ApiPoundNoteValidation;
 import com.tianrui.smartfactory.common.api.ApiParam;
 import com.tianrui.smartfactory.common.api.Head;
 import com.tianrui.smartfactory.common.constants.Constant;
@@ -17,8 +15,8 @@ import com.tianrui.smartfactory.common.vo.Result;
 
 public class TestApiWarehouse {
 
-	private static String domin="http://127.0.0.1/";
-	private static String uri="api/doorSystem/queueNumber";
+	private static String domin="http://localhost/";
+	private static String uri="api/poundNote/validation";
 	
 	public static void main(String[] args) throws Exception {
 		URL url = new URL(domin+uri);
@@ -48,9 +46,12 @@ public class TestApiWarehouse {
 		
 		
 	}
-	static ApiParam<ApiDoorQueueQuery> getParam1(){
-		ApiParam<ApiDoorQueueQuery> api =new ApiParam<ApiDoorQueueQuery>();
-		ApiDoorQueueQuery query = new ApiDoorQueueQuery();
+	static ApiParam<ApiPoundNoteValidation> getParam1(){
+		ApiParam<ApiPoundNoteValidation> api =new ApiParam<ApiPoundNoteValidation>();
+		ApiPoundNoteValidation query = new ApiPoundNoteValidation();
+		query.setVehicleno("豫GA2571");
+		query.setRfid("06D4A539303738202020AB01");
+		query.setType("1");
 		
 		Head head =new Head();
 		head.setCallSource("1");
@@ -65,11 +66,11 @@ public class TestApiWarehouse {
 		setMd5(api);
 		return api;
 	}
-	static void setkey( ApiParam api){
+	static <T> void setkey(ApiParam<T> api){
 		api.getHead().setKey(Md5Utils.MD5(Constant.apiAuthKey+api.getHead().getCallTime()));
 	}
 	
-	static void setMd5( ApiParam api){
+	static <T> void setMd5(ApiParam<T> api){
 		api.setSign(Constant.apiAuthSign);
 		api.setSign(Md5Utils.MD5(JSON.toJSONString(api)));
 	}
