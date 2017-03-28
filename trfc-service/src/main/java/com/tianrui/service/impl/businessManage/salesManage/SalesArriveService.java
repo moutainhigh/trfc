@@ -38,6 +38,7 @@ import com.tianrui.service.bean.businessManage.cardManage.Card;
 import com.tianrui.service.bean.businessManage.purchaseManage.PurchaseApplication;
 import com.tianrui.service.bean.businessManage.purchaseManage.PurchaseApplicationDetail;
 import com.tianrui.service.bean.businessManage.purchaseManage.PurchaseArrive;
+import com.tianrui.service.bean.businessManage.salesManage.SalesApplicationDetail;
 import com.tianrui.service.bean.businessManage.salesManage.SalesApplicationJoinNatice;
 import com.tianrui.service.bean.businessManage.salesManage.SalesArrive;
 import com.tianrui.service.bean.common.RFID;
@@ -46,6 +47,7 @@ import com.tianrui.service.mapper.businessManage.cardManage.CardMapper;
 import com.tianrui.service.mapper.businessManage.purchaseManage.PurchaseApplicationDetailMapper;
 import com.tianrui.service.mapper.businessManage.purchaseManage.PurchaseApplicationMapper;
 import com.tianrui.service.mapper.businessManage.purchaseManage.PurchaseArriveMapper;
+import com.tianrui.service.mapper.businessManage.salesManage.SalesApplicationDetailMapper;
 import com.tianrui.service.mapper.businessManage.salesManage.SalesApplicationJoinNaticeMapper;
 import com.tianrui.service.mapper.businessManage.salesManage.SalesArriveMapper;
 import com.tianrui.service.mapper.common.RFIDMapper;
@@ -70,6 +72,8 @@ public class SalesArriveService implements ISalesArriveService {
 	private ISalesApplicationService salesApplicationService;
 	@Autowired
 	private ISalesApplicationDetailService salesApplicationDetailService;
+	@Autowired
+	private SalesApplicationDetailMapper salesApplicationDetailMapper;
 	@Autowired
 	private VehicleManageMapper vehicleManageMapper;
 	@Autowired
@@ -175,10 +179,6 @@ public class SalesArriveService implements ISalesArriveService {
 				bean.setIcardid(card.getId());
 				bean.setIcardno(save.getIcardno());
 			}
-//			CardResp card = cardService.findOne(save.getIcardid());
-//			if(card != null){
-//				bean.setIcardno(card.getCardno());
-//			}
 			SalesApplicationResp salesApplicationResp = salesApplicationService.findOne(save.getBillid(), false);
 			if(salesApplicationResp != null){
 				bean.setBillcode(salesApplicationResp.getCode());
@@ -204,7 +204,9 @@ public class SalesArriveService implements ISalesArriveService {
 			bean.setModifytime(System.currentTimeMillis());
 			JSONArray array = JSONArray.parseArray(bills);
 			List<SalesApplicationJoinNatice> list = new ArrayList<SalesApplicationJoinNatice>();
+			boolean flag = false;
 			if(array != null && array.size() > 0){
+				Double takeamount = bean.getTakeamount();
 				for(Object object : array){
 					SalesApplicationJoinNatice join = new SalesApplicationJoinNatice();
 					JSONObject jsonObject = (JSONObject) object;
@@ -214,15 +216,6 @@ public class SalesArriveService implements ISalesArriveService {
 					join.setBillid(billid);
 					join.setBilldetailid(billdetailid);
 					join.setNaticeid(bean.getId());
-//					SalesApplicationResp application = salesApplicationService.findOne(billid, false);
-					SalesApplicationDetailResp applicationDetail = salesApplicationDetailService.findOne(billdetailid);
-					if(applicationDetail != null){
-						join.setBillsum(applicationDetail.getSalessum());
-						join.setMargin(applicationDetail.getMargin());
-						join.setOutstoragequantity(applicationDetail.getStoragequantity());
-						join.setUnoutstoragequantity(applicationDetail.getUnstoragequantity());
-						join.setPretendingtake(applicationDetail.getPretendingtake());
-					}
 					join.setTakeamount(bean.getTakeamount());
 					join.setState("1");
 					join.setCreator(bean.getCreator());
@@ -230,9 +223,42 @@ public class SalesArriveService implements ISalesArriveService {
 					join.setModifier(bean.getModifier());
 					join.setModifytime(System.currentTimeMillis());
 					list.add(join);
+//					SalesApplicationResp application = salesApplicationService.findOne(billid, false);
+					SalesApplicationDetailResp applicationDetailResp = salesApplicationDetailService.findOne(billdetailid);
+					if(applicationDetailResp != null){
+						join.setBillsum(applicationDetailResp.getSalessum());
+						join.setMargin(applicationDetailResp.getMargin());
+						join.setOutstoragequantity(applicationDetailResp.getStoragequantity());
+						join.setUnoutstoragequantity(applicationDetailResp.getUnstoragequantity());
+						join.setPretendingtake(applicationDetailResp.getPretendingtake());
+						//回写订单预提占用
+						if(takeamount > applicationDetailResp.getMargin()){
+							SalesApplicationDetail applicationDetail = new SalesApplicationDetail();
+							applicationDetail.setId(bean.getBilldetailid());
+							applicationDetail.setMargin(applicationDetailResp.getMargin() - applicationDetailResp.getMargin());
+							applicationDetail.setPretendingtake(applicationDetailResp.getPretendingtake() + applicationDetailResp.getMargin());
+							if(salesApplicationDetailMapper.updateByPrimaryKeySelective(applicationDetail) > 0){
+								flag = true;
+							}else{
+								flag = false;
+								break;
+							}
+						}else{
+							SalesApplicationDetail applicationDetail = new SalesApplicationDetail();
+							applicationDetail.setId(bean.getBilldetailid());
+							applicationDetail.setMargin(applicationDetailResp.getMargin() - takeamount);
+							applicationDetail.setPretendingtake(applicationDetailResp.getPretendingtake() + takeamount);
+							if(salesApplicationDetailMapper.updateByPrimaryKeySelective(applicationDetail) > 0){
+								flag = true;
+							}else{
+								flag = false;
+								break;
+							}
+						}
+					}
 				}
 			}
-			if(salesArriveMapper.insertSelective(bean) > 0 
+			if(flag && salesArriveMapper.insertSelective(bean) > 0 
 					&& StringUtils.equals(systemCodeService.updateCodeItem(codeReq).getCode(), ErrorCode.SYSTEM_SUCCESS.getCode())
 					&& salesApplicationJoinNaticeMapper.insertBatch(list) > 0){
 				result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
@@ -264,7 +290,7 @@ public class SalesArriveService implements ISalesArriveService {
 	}
 	
 	@Override
-	public Result update(SalesArriveSave save) throws Exception {
+	public Result update(SalesArriveSave save, String bills) throws Exception {
 		Result result = Result.getParamErrorResult();
 		if(save != null && StringUtils.isNotBlank(save.getBillid()) 
 				&& StringUtils.isNotBlank(save.getVehicleid())){

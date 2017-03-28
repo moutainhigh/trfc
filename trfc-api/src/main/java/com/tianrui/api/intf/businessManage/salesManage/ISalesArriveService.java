@@ -43,10 +43,11 @@ public interface ISalesArriveService {
 	/**
 	 * 修改销售提货通知单
 	 * @param save
+	 * @param bills 
 	 * @return
 	 * @throws Exception 
 	 */
-	Result update(SalesArriveSave save) throws Exception;
+	Result update(SalesArriveSave save, String bills) throws Exception;
 	/**
 	 * 审核销售提货通知单
 	 * @param query

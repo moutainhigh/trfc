@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.tianrui.api.intf.businessManage.logisticsManage.IAccessRecordService1;
 import com.tianrui.api.intf.businessManage.purchaseManage.IPurchaseArriveService;
 import com.tianrui.api.intf.businessManage.salesManage.ISalesArriveService;
+import com.tianrui.api.intf.system.base.ISystemCodeService;
 import com.tianrui.api.req.basicFile.measure.VehicleCheckApi;
 import com.tianrui.api.req.businessManage.logisticsManage.AccessRecordQuery;
 import com.tianrui.api.req.businessManage.salesManage.ApiDoorSystemSave;
@@ -32,7 +33,6 @@ import com.tianrui.service.bean.businessManage.salesManage.SalesApplicationDetai
 import com.tianrui.service.bean.businessManage.salesManage.SalesApplicationJoinNatice;
 import com.tianrui.service.bean.businessManage.salesManage.SalesArrive;
 import com.tianrui.service.bean.common.RFID;
-import com.tianrui.service.impl.system.base.SystemCodeService;
 import com.tianrui.service.mapper.basicFile.measure.VehicleManageMapper;
 import com.tianrui.service.mapper.businessManage.cardManage.CardMapper;
 import com.tianrui.service.mapper.businessManage.logisticsManage.AccessRecordMapper1;
@@ -66,7 +66,7 @@ public class AccessRecordService1 implements IAccessRecordService1 {
 	@Autowired
 	private CardMapper cardMapper;
 	@Autowired
-	private SystemCodeService systemCodeService;
+	private ISystemCodeService systemCodeService;
 	@Autowired
 	private PurchaseApplicationDetailMapper purchaseApplicationDetailMapper;
 	@Autowired

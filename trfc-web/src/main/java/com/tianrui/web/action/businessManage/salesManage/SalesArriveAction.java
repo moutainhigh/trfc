@@ -119,12 +119,12 @@ public class SalesArriveAction {
 
 	@RequestMapping("/update")
 	@ResponseBody
-	public Result update(SalesArriveSave save, HttpSession session){
+	public Result update(SalesArriveSave save, String bills, HttpSession session){
 		Result result = Result.getSuccessResult();
 		try {
 			SystemUserResp user = (SystemUserResp) session.getAttribute("systemUser");
 			save.setCurrUId(user.getId());
-			result = salesArriveService.update(save);
+			result = salesArriveService.update(save, bills);
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
