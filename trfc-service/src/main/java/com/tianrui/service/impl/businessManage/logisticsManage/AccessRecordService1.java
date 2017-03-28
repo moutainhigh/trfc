@@ -556,7 +556,7 @@ public class AccessRecordService1 implements IAccessRecordService1 {
 					Map<String, Object> map = validateHasBill(checkApi.getVehicleNo());
 					if (map != null && map.size() > 0) {
 						Object object = map.get("data");
-						if (!StringUtils.equals(CommonUtils.method(object, "status").toString(), "0")) {
+						if (StringUtils.equals(CommonUtils.method(object, "status").toString(), "0")) {
 							result.setData(map);
 							result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
 						} else {
