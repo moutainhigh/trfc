@@ -896,13 +896,49 @@ public class PoundNoteService implements IPoundNoteService {
 						&& StringUtils.equals(systemCodeService.updateCodeItem(codeReq1).getCode(),
 								ErrorCode.SYSTEM_SUCCESS.getCode())
 						&& salesArriveMapper.updateByPrimaryKeySelective(sa) > 0) {
-					result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+					ErrorCode ec = returnSalesStorage(orderList, orderItemList);
+					result.setErrorCode(ec);
 				} else {
 					result.setErrorCode(ErrorCode.OPERATE_ERROR);
 				}
 			}
 		}
 		return result;
+	}
+
+	//推送采购入库单
+	private ErrorCode returnSalesStorage(List<SalesOutboundOrder> orderList,
+			List<SalesOutboundOrderItem> orderItemList) {
+		ErrorCode ec = ErrorCode.OPERATE_ERROR;
+		List<SalesOutboundOrder> list = new ArrayList<SalesOutboundOrder>();
+		for(SalesOutboundOrder order : orderList){
+			for(SalesOutboundOrderItem orderItem : orderItemList){
+				if(StringUtils.equals(order.getId(), orderItem.getSaleOutboundOrderId())){
+					List<SalesOutboundOrderItem> item = new ArrayList<SalesOutboundOrderItem>();
+					item.add(orderItem);
+					order.setList(item);
+				}
+			}
+			list.clear();
+			list.add(order);
+			ApiResult apiResult = HttpUtils.post(ApiParamUtils.getApiParam(list), Constant.URL_RETURN_SALESOUTBOUNDCATION);
+			if(apiResult!=null && StringUtils.equals(apiResult.getCode(), Constant.SUCCESS)){
+				PoundNote pn = new PoundNote();
+				pn.setPutinwarehousecode(order.getCode());
+				pn.setReturnstatus("2");
+				if(poundNoteMapper.updateByOrderCode(pn) > 0){
+					ec = ErrorCode.SYSTEM_SUCCESS;
+				}
+			}else{
+				SalesOutboundOrder so = new SalesOutboundOrder(); 
+				so.setId(order.getId());
+				so.setStatus("0");
+				if(salesOutboundOrderMapper.updateByPrimaryKeySelective(so)>0){
+					ec = ErrorCode.SYSTEM_SUCCESS;
+				}
+			}
+		}
+		return ec;
 	}
 
 	private GetCodeReq setSalesBeanBody(ApiPoundNoteQuery query, SalesArrive arrive, SalesApplication application,
