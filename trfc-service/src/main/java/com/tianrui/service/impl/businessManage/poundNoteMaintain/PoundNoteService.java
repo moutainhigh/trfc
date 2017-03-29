@@ -65,6 +65,9 @@ import com.tianrui.service.mapper.businessManage.salesManage.SalesApplicationMap
 import com.tianrui.service.mapper.businessManage.salesManage.SalesArriveMapper;
 import com.tianrui.service.mapper.businessManage.salesManage.SalesOutboundOrderItemMapper;
 import com.tianrui.service.mapper.businessManage.salesManage.SalesOutboundOrderMapper;
+import com.tianrui.smartfactory.common.api.ApiResult;
+import com.tianrui.smartfactory.common.common.ApiParamUtils;
+import com.tianrui.smartfactory.common.common.HttpUtils;
 import com.tianrui.smartfactory.common.constants.Constant;
 import com.tianrui.smartfactory.common.constants.ErrorCode;
 import com.tianrui.smartfactory.common.utils.DateUtil;
@@ -635,22 +638,21 @@ public class PoundNoteService implements IPoundNoteService {
 				&& StringUtils.isNotBlank(query.getType()) && StringUtils.isNotBlank(query.getServicetype())
 				&& StringUtils.isNotBlank(query.getNotionformcode()) && StringUtils.isNotBlank(query.getNumber())
 				&& StringUtils.isNotBlank(query.getTime())) {
-			if (StringUtils.isNotBlank(query.getServicetype())) {
-				switch (query.getServicetype()) {
-				case "0":
-					result = savePurchasePoundNote(query);
-					break;
-				case "1":
-					result = saveSalesPoundNote(query);
-					break;
-				default:
-					break;
-				}
+			switch (query.getServicetype()) {
+			case "0":
+				result = savePurchasePoundNote(query);
+				break;
+			case "1":
+				result = saveSalesPoundNote(query);
+				break;
+			default:
+				break;
 			}
 		}
 		return result;
 	}
-
+	
+	//生成采购磅单
 	private Result savePurchasePoundNote(ApiPoundNoteQuery query) throws Exception {
 		Result result = Result.getSuccessResult();
 		PurchaseArrive arrive = purchaseArriveMapper.selectByCode(query.getNotionformcode());
@@ -686,6 +688,8 @@ public class PoundNoteService implements IPoundNoteService {
 						&& purchaseArriveMapper.updateByPrimaryKeySelective(pa) > 0
 						&& purchaseStorageListMapper.insertSelective(storage) > 0
 						&& purchaseStorageListItemMapper.insertSelective(storageItem) > 0) {
+					ErrorCode ec = returnPurchaseStorage(storage, storageItem);
+					result.setErrorCode(ec);
 				} else {
 					result.setErrorCode(ErrorCode.OPERATE_ERROR);
 				}
@@ -708,6 +712,35 @@ public class PoundNoteService implements IPoundNoteService {
 		return result;
 	}
 
+	//推送采购入库单
+	private ErrorCode returnPurchaseStorage(PurchaseStorageList storage,
+			PurchaseStorageListItem storageItem) {
+		ErrorCode ec = ErrorCode.OPERATE_ERROR;
+		List<PurchaseStorageList> list1 = new ArrayList<PurchaseStorageList>();
+		list1.add(storage);
+		List<PurchaseStorageListItem> itemList=new ArrayList<PurchaseStorageListItem>();
+		itemList.add(storageItem);
+		storage.setList(itemList);
+		ApiResult apiResult = HttpUtils.post(ApiParamUtils.getApiParam(list1), Constant.URL_RETURN_PURCHASESTORAGEATION);
+		if(apiResult!=null && StringUtils.equals(apiResult.getCode(), Constant.SUCCESS)){
+			PoundNote pn = new PoundNote();
+			pn.setPutinwarehousecode(storage.getCode());
+			pn.setReturnstatus("2");
+			if(poundNoteMapper.updateByOrderCode(pn) > 0){
+				ec = ErrorCode.SYSTEM_SUCCESS;
+			}
+		}else{
+			PurchaseStorageList ps = new PurchaseStorageList(); 
+			ps.setId(storage.getId());
+			ps.setStatus("0");
+			if(purchaseStorageListMapper.updateByPrimaryKeySelective(storage)>0){
+				ec = ErrorCode.SYSTEM_SUCCESS;
+			}
+		}
+		return ec;
+	}
+	
+	//初始化采购入库单字表
 	private PurchaseStorageListItem setPurchaseStorageItem(PurchaseApplicationDetail applicationDetail, PoundNote bean,
 			PurchaseStorageList storage) {
 		PurchaseStorageListItem storageItem = new PurchaseStorageListItem();
@@ -726,6 +759,7 @@ public class PoundNoteService implements IPoundNoteService {
 		return storageItem;
 	}
 
+	//初始化采购入库单
 	private PurchaseStorageList setPurchaseStorage(String currid, PurchaseApplication application, PoundNote bean)
 			throws Exception {
 		PurchaseStorageList storage = new PurchaseStorageList();
@@ -745,7 +779,7 @@ public class PoundNoteService implements IPoundNoteService {
 		storage.setBillmaker(bean.getMakerid());
 		storage.setCreationtime(DateUtil.getNowDateString("yyyy-MM-dd HH:mm:ss"));
 		storage.setTs(storage.getCreationtime());
-		storage.setStatus("0");
+		storage.setStatus("1");
 		return storage;
 	}
 
@@ -773,6 +807,7 @@ public class PoundNoteService implements IPoundNoteService {
 		bean.setDriveridentityno(arrive.getDriveridentityno());
 		bean.setVehicleid(arrive.getVehicleid());
 		bean.setVehicleno(arrive.getVehicleno());
+		bean.setVehiclerfid(query.getRfid());
 		bean.setReceivedepartmentid(Constant.ORG_ID);
 		bean.setReceivedepartmentname(Constant.ORG_NAME);
 		bean.setMinemouthid(application.getMinemouthid());
