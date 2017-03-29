@@ -988,23 +988,21 @@ public class PoundNoteService implements IPoundNoteService {
 		sa.setVehicleno(valid.getVehicleno());
 		sa.setVehiclerfid(valid.getRfid());
 		sa.setState("1");
-		sa.setStatus("6");
+		sa.setStatus("7");
 		List<SalesArrive> listSales = salesArriveMapper.selectSelective(sa);
 		if(CollectionUtils.isEmpty(listSales)){
 			PurchaseArrive pa = new PurchaseArrive();
 			pa.setVehicleno(valid.getVehicleno());
 			pa.setVehiclerfid(valid.getRfid());
 			pa.setState("1");
-			pa.setStatus("6");
+			pa.setStatus("1");
 			List<PurchaseArrive> listPurchase = purchaseArriveMapper.selectSelective(pa);
 			if(CollectionUtils.isEmpty(listPurchase)){
 				//该车辆没有通知单
 				result.setErrorCode(ErrorCode.VEHICLE_NOT_NOTICE);
 			}else{
 				//判断通知单是否唯一
-				if(listPurchase.size() > 1){
-					result.setErrorCode(ErrorCode.VEHICLE_NOTICE_NOT_ONLY);
-				}else{
+				if(listPurchase.size() == 1){
 					PoundNote poundNote = new PoundNote();
 					poundNote.setNoticeid(listPurchase.get(0).getId());
 					List<PoundNote> listPoundNote = poundNoteMapper.selectSelective(poundNote);
@@ -1016,19 +1014,16 @@ public class PoundNoteService implements IPoundNoteService {
 					}else{
 						result.setErrorCode(ErrorCode.VEHICLE_NOTICE_NOT_ONE_WEIGHT);
 					}
+				}else{
+					result.setErrorCode(ErrorCode.VEHICLE_NOTICE_NOT_ONLY);
 				}
 			}
 		}else{
 			//判断通知单是否唯一
-			if(listSales.size() > 1){
-				result.setErrorCode(ErrorCode.VEHICLE_NOTICE_NOT_ONLY);
+			if(listSales.size() == 1){
+				result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
 			}else{
-				//验证是否已装货
-				if(StringUtils.equals(listSales.get(0).getStatus(), "7")){
-					result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
-				}else{
-					result.setErrorCode(ErrorCode.SALESARRIVE_NOT_LOAD);
-				}
+				result.setErrorCode(ErrorCode.VEHICLE_NOTICE_NOT_ONLY);
 			}
 		}
 		return result;
