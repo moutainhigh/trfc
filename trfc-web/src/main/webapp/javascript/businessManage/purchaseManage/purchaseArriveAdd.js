@@ -200,6 +200,26 @@
 				saveDriver();
 			}
 		});
+		//校验到货量
+		$('#arrivalamount').off('input propertychange').on('input propertychange',function(){
+			var arrivalamount = $(this).val();
+			if(!arrivalamount || !$.isNumeric(arrivalamount)){
+				layer.tips('必须为数字，且不能为空！', this, {
+					  tips: [1, '#3595CC'],
+					  time: 2000
+				});
+				$(this).val('');
+			}else{
+				var margin = parseFloat($('#margin').val()) || 0;
+				if(arrivalamount > margin){
+					layer.tips('到货量不能大于余量！', this, {
+						  tips: [1, '#3595CC'],
+						  time: 2000
+					});
+					$(this).val('');
+				}
+			}
+		});
 		/**
 		 * 以下分页
 		 */
@@ -582,18 +602,6 @@
 		var driverid = $('#driver').attr('driverid'); driverid = $.trim(driverid);
 		var arrivalamount = $('#arrivalamount').val(); arrivalamount = $.trim(arrivalamount);
 		var remark = $('#remark').val(); remark = $.trim(remark);
-		if(!billid || !billcode || !billdetailid){
-			layer.msg('订单号不能为空!', {icon: 5});return false;
-		}
-		if(!vehicleid){
-			layer.msg('车辆不能为空!', {icon: 5});return false;
-		}
-		if(!driverid){
-			layer.msg('司机不能为空!', {icon: 5});return false;
-		}
-		if(!arrivalamount){
-			layer.msg('到货量不能为空!', {icon: 5});return false;
-		}
 		return {
 			billid:billid,
 			billcode:billcode,
@@ -606,10 +614,26 @@
 			remark:remark
 		};
 	}
+	//校验参数是否合法
+	function validate(params){
+		if(!params.billid || !params.billdetailid){
+			layer.msg('请选择订单！', {icon: 5}); return false;
+		}
+		if(!params.vehicleid){
+			layer.msg('车辆不能为空！', {icon: 5}); return false;
+		}
+		if(!params.driverid){
+			layer.msg('司机不能为空！', {icon: 5}); return false;
+		}
+		if(!params.arrivalamount){
+			layer.msg('到货量不能为空！', {icon: 5}); return false;
+		}
+		return params;
+	}
 	//新增到货通知单
 	function addPurchaseArrive(){
 		var params = getPurchaseArriveAddParams();
-		if(params){
+		if(validate(params)){
 			$.ajax({
 				url: URL.add,
 				data:params,

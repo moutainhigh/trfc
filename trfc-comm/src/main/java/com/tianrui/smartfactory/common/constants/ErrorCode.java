@@ -34,10 +34,12 @@ public enum ErrorCode {
 	CARD_REPEAT_REGISTER("E10032","此IC卡重复注册，请更换IC卡."),
 	CARD_IN_USE("E10033","IC卡正在使用中，请更换IC卡."),
 	/**
-	 * 销售通知单
+	 * 通知单
 	 */
-	SALESARRIVE_NOT_EXIST("E10020","该通知单不存在."),
-	SALESARRIVE_NOT_LOAD("E10021","该通知单还未完成装货."),
+	NOTICE_NOT_EXIST("E10020","该通知单不存在."),
+	NOTICE_NOT_AUDIT("E10021","该通知单未通过审核."),
+	NOTICE_ON_INVALID("E10022","该通知单已作废."),
+	NOTICE_NOT_LOAD("E10023","该通知单还未完成装货."),
 	/**
 	 * 车辆
 	 */

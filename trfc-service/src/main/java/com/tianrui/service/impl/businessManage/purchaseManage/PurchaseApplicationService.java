@@ -292,7 +292,6 @@ public class PurchaseApplicationService implements IPurchaseApplicationService {
 					purchaseItem.setUnit("吨");
 					purchaseItem.setRemark(itemJon.getString("remark"));
 					itemList.add(purchaseItem);
-					System.out.println(purchaseItem.getId());
 				}
 			}
 		}

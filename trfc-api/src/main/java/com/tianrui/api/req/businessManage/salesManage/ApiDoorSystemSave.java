@@ -14,6 +14,16 @@ public class ApiDoorSystemSave extends BaseReq {
 	//Ic卡序号
 	private String icardno;
 	//业务类型
+	//0采购到货   
+	//1采购退货
+	//2销售提货
+	//3销售退货
+	//4厂内倒运
+	//5其它入库
+	//6其它入库退货
+	//7其它出库
+	//8其它出库退货
+	//9工程车辆
 	private String servicetype;
 	//门禁类型 1入厂2出厂
 	private String type;

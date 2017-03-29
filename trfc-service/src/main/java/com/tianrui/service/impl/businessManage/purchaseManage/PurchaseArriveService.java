@@ -235,7 +235,7 @@ public class PurchaseArriveService implements IPurchaseArriveService {
 					result.setErrorCode(ErrorCode.OPERATE_ERROR);
 				}
 			}else{
-				result.setErrorCode(ErrorCode.SALESARRIVE_NOT_EXIST);
+				result.setErrorCode(ErrorCode.NOTICE_NOT_EXIST);
 			}
 		}
 		return result;
