@@ -281,11 +281,11 @@
 				var minemouthname = obj.minemouthname || '';
 				var materielname = obj.materielname || '';
 				var vehicleno = obj.vehicleno || '';
-				var grossweight = obj.grossweight;
-				var tareweight = obj.tareweight;
-				var netweight = obj.netweight;
-				var deductionweight = obj.deductionweight;
-				var deductionother = obj.deductionother;
+				var grossweight = obj.grossweight || 0;
+				var tareweight = obj.tareweight || 0;
+				var netweight = obj.netweight || 0;
+				var deductionweight = obj.deductionweight || 0;
+				var deductionother = obj.deductionother || 0;
 				var lighttimeStr = obj.lighttimeStr || '';
 				var weighttimeStr = obj.weighttimeStr || '';
 				var makebillname = obj.makebillname || '';
