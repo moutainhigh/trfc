@@ -1,19 +1,18 @@
 ;(function($, win){
 	var URL = {
-		addUrl:"/trfc/salesArrive/add",
-		pageUrl:"/trfc/salesApplication/pageGroupMateriel",
-		mainUrl:"/trfc/salesArrive/main",
-		addVehicleUrl:"/trfc/vehicle/add",
-		addDriverUrl:"/trfc/driver/add",
-		vehicleAutoCompleteSearch: "/trfc/vehicle/autoCompleteSearch",
-		driverAutoCompleteSearch: "/trfc/driver/autoCompleteSearch",
-		materielAutoCompleteSearch: "/trfc/materiel/autoCompleteSearch",
-		customerAutoCompleteSearch: "/trfc/customer/autoCompleteSearch"
+			addUrl:"/trfc/salesArrive/add",
+			pageUrl:"/trfc/salesApplication/pageGroupMateriel",
+			mainUrl:"/trfc/salesArrive/main",
+			addVehicleUrl:"/trfc/vehicle/add",
+			addDriverUrl:"/trfc/driver/add",
+			vehicleAutoCompleteSearch: "/trfc/vehicle/autoCompleteSearch",
+			driverAutoCompleteSearch: "/trfc/driver/autoCompleteSearch",
+			materielAutoCompleteSearch: "/trfc/materiel/autoCompleteSearch",
+			customerAutoCompleteSearch: "/trfc/customer/autoCompleteSearch"
 	};
 	function str2Long(str){
 		if(str){
-			var date = new Date(str);
-			return date.getTime();
+			return Date.parseYMD_HMS(str).getTime();
 		}
 		return undefined;
 	}
@@ -27,144 +26,144 @@
 	}
 	function initAutoComplete(){
 		var cache = {};
-			$("#vehicle").autocomplete({
-	    	source: function( request, response ) {
-	    		var term = request.term;
-	    		var vehicle = cache['vehicle'] || {};
-	    		if ( term in vehicle ) {
-	    			response( vehicle[ term ] );
-	    			return;
-	    		}
-	    		$.post( URL.vehicleAutoCompleteSearch, request, function( data, status, xhr ) {
-	    			vehicle[ term ] = data;
-	    			response( data );
-	    		});
-	    	},
-	    	response: function( event, ui ) {
-	    		if(ui.content && ui.content.length > 0){
-		    		ui.content.forEach(function(x,i,a){
-		    			x.label = x.vehicleno;
-		    			x.value = x.id;
-		    		});
-	    		}
-	    	},
-	    	select: function( event, ui ) {
-	    		$(this).val(ui.item.vehicleno).attr('vehicleid', ui.item.id);
-	    		$('#rfid').val(ui.item.rfid);
-	    		return false;
-    		}
-	    }).off('click').on('click',function(){
-	    	$(this).autocomplete('search',' ');
-	    }).on('input propertychange',function(){
-	    	$(this).removeAttr('vehicleid');
-	    }).change(function(){
-    		if(!$(this).attr('vehicleid')){
-    			$(this).val('');
-    		}
-	    });
+		$("#vehicle").autocomplete({
+			source: function( request, response ) {
+				var term = request.term;
+				var vehicle = cache['vehicle'] || {};
+				if ( term in vehicle ) {
+					response( vehicle[ term ] );
+					return;
+				}
+				$.post( URL.vehicleAutoCompleteSearch, request, function( data, status, xhr ) {
+					vehicle[ term ] = data;
+					response( data );
+				});
+			},
+			response: function( event, ui ) {
+				if(ui.content && ui.content.length > 0){
+					ui.content.forEach(function(x,i,a){
+						x.label = x.vehicleno;
+						x.value = x.id;
+					});
+				}
+			},
+			select: function( event, ui ) {
+				$(this).val(ui.item.vehicleno).attr('vehicleid', ui.item.id).attr('vehiclecode',ui.item.code);
+				$('#rfid').val(ui.item.rfid);
+				return false;
+			}
+		}).off('click').on('click',function(){
+			$(this).autocomplete('search',' ');
+		}).on('input propertychange',function(){
+			$(this).removeAttr('vehicleid').removeAttr('vehiclecode');
+		}).change(function(){
+			if(!$(this).attr('vehicleid') && !$(this).attr('vehiclecode')){
+				$(this).val('');
+			}
+		});
 		$("#driver").autocomplete({
-	    	source: function( request, response ) {
-	    		var term = request.term;
-	    		var driver = cache['driver'] || {};
-	    		if ( term in driver ) {
-	    			response( driver[ term ] );
-	    			return;
-	    		}
-	    		$.post( URL.driverAutoCompleteSearch, request, function( data, status, xhr ) {
-	    			driver[ term ] = data;
-	    			response( data );
-	    		});
-	    	},
-	    	response: function( event, ui ) {
-	    		if(ui.content && ui.content.length > 0){
-		    		ui.content.forEach(function(x,i,a){
-		    			x.label = x.name;
-		    			x.value = x.id;
-		    		});
-	    		}
-	    	},
-	    	select: function( event, ui ) {
-	    		$(this).val(ui.item.name).attr('driverid', ui.item.id);
-	    		$('#identityno').val(ui.item.identityno);
-	    		return false;
-    		}
-	    }).off('click').on('click',function(){
-	    	$(this).autocomplete('search',' ');
-	    }).on('input propertychange',function(){
-	    	$(this).removeAttr('driverid');
-	    }).change(function(){
-    		if(!$(this).attr('driverid')){
-    			$(this).val('');
-    		}
-	    });
-	    $("#materiel").autocomplete({
-	    	source: function( request, response ) {
-	    		var term = request.term;
-	    		var materiel = cache['materiel'] || {};
-	    		if ( term in materiel ) {
-	    			response( materiel[ term ] );
-	    			return;
-	    		}
-	    		$.post( URL.materielAutoCompleteSearch, request, function( data, status, xhr ) {
-	    			materiel[ term ] = data;
-	    			response( data );
-	    		});
-	    	},
-	    	response: function( event, ui ) {
-	    		if(ui.content && ui.content.length > 0){
-	    			ui.content.forEach(function(x,i,a){
-	    				x.label = x.name;
-	    				x.value = x.id;
-	    			});
-	    		}
-	    	},
-	    	select: function( event, ui ) {
-	    		$(this).val(ui.item.name).attr('materielid', ui.item.id);
-	    		return false;
-	    	}
-	    }).off('click').on('click',function(){
-	    	$(this).autocomplete('search',' ');
-	    }).on('input propertychange',function(){
-	    	$(this).removeAttr('materielid');
-	    }).change(function(){
-    		if(!$(this).attr('materielid')){
-    			$(this).val('');
-    		}
-	    });
-	    $("#customer").autocomplete({
-	    	source: function( request, response ) {
-	    		var term = request.term;
-	    		var customer = cache['customer'] || {};
-	    		if ( term in customer ) {
-	    			response( customer[ term ] );
-	    			return;
-	    		}
-	    		$.post( URL.customerAutoCompleteSearch, request, function( data, status, xhr ) {
-	    			customer[ term ] = data;
-	    			response( data );
-	    		});
-	    	},
-	    	response: function( event, ui ) {
-	    		if(ui.content && ui.content.length > 0){
-	    			ui.content.forEach(function(x,i,a){
-	    				x.label = x.name;
-	    				x.value = x.id;
-	    			});
-	    		}
-	    	},
-	    	select: function( event, ui ) {
-	    		$(this).val(ui.item.name).attr('customerid', ui.item.id);
-	    		return false;
-	    	}
-	    }).off('click').on('click',function(){
-	    	$(this).autocomplete('search',' ');
-	    }).on('input propertychange',function(){
-	    	$(this).removeAttr('customerid');
-	    }).change(function(){
-    		if(!$(this).attr('customerid')){
-    			$(this).val('');
-    		}
-	    });
+			source: function( request, response ) {
+				var term = request.term;
+				var driver = cache['driver'] || {};
+				if ( term in driver ) {
+					response( driver[ term ] );
+					return;
+				}
+				$.post( URL.driverAutoCompleteSearch, request, function( data, status, xhr ) {
+					driver[ term ] = data;
+					response( data );
+				});
+			},
+			response: function( event, ui ) {
+				if(ui.content && ui.content.length > 0){
+					ui.content.forEach(function(x,i,a){
+						x.label = x.name;
+						x.value = x.id;
+					});
+				}
+			},
+			select: function( event, ui ) {
+				$(this).val(ui.item.name).attr('driverid', ui.item.id);
+				$('#identityno').val(ui.item.identityno);
+				return false;
+			}
+		}).off('click').on('click',function(){
+			$(this).autocomplete('search',' ');
+		}).on('input propertychange',function(){
+			$(this).removeAttr('driverid');
+		}).change(function(){
+			if(!$(this).attr('driverid')){
+				$(this).val('');
+			}
+		});
+		$("#materiel").autocomplete({
+			source: function( request, response ) {
+				var term = request.term;
+				var materiel = cache['materiel'] || {};
+				if ( term in materiel ) {
+					response( materiel[ term ] );
+					return;
+				}
+				$.post( URL.materielAutoCompleteSearch, request, function( data, status, xhr ) {
+					materiel[ term ] = data;
+					response( data );
+				});
+			},
+			response: function( event, ui ) {
+				if(ui.content && ui.content.length > 0){
+					ui.content.forEach(function(x,i,a){
+						x.label = x.name;
+						x.value = x.id;
+					});
+				}
+			},
+			select: function( event, ui ) {
+				$(this).val(ui.item.name).attr('materielid', ui.item.id);
+				return false;
+			}
+		}).off('click').on('click',function(){
+			$(this).autocomplete('search',' ');
+		}).on('input propertychange',function(){
+			$(this).removeAttr('materielid');
+		}).change(function(){
+			if(!$(this).attr('materielid')){
+				$(this).val('');
+			}
+		});
+		$("#customer").autocomplete({
+			source: function( request, response ) {
+				var term = request.term;
+				var customer = cache['customer'] || {};
+				if ( term in customer ) {
+					response( customer[ term ] );
+					return;
+				}
+				$.post( URL.customerAutoCompleteSearch, request, function( data, status, xhr ) {
+					customer[ term ] = data;
+					response( data );
+				});
+			},
+			response: function( event, ui ) {
+				if(ui.content && ui.content.length > 0){
+					ui.content.forEach(function(x,i,a){
+						x.label = x.name;
+						x.value = x.id;
+					});
+				}
+			},
+			select: function( event, ui ) {
+				$(this).val(ui.item.name).attr('customerid', ui.item.id);
+				return false;
+			}
+		}).off('click').on('click',function(){
+			$(this).autocomplete('search',' ');
+		}).on('input propertychange',function(){
+			$(this).removeAttr('customerid');
+		}).change(function(){
+			if(!$(this).attr('customerid')){
+				$(this).val('');
+			}
+		});
 	}
 	//初始化按钮
 	function bindEvent(){
@@ -208,7 +207,7 @@
 						if(i > 0){
 							var leftData = $(trs[i-1]).data();
 							if(leftData.customerid == rightData.customerid && leftData.materielname == rightData.materielname){
-								
+
 							}else{
 								layer.msg('不能同时选择多个客户和物料！'); flag = false;
 								return;
@@ -269,7 +268,7 @@
 			}
 		});
 		$('#addAndAddCardBtn').off('click').on('click',function(){
-			alert('待开发.');
+			writeCardAction();
 		});
 		$('#backBtn').off('click').on('click',function(){
 			window.location.href = URL.mainUrl;
@@ -289,10 +288,10 @@
 			var value = parseFloat($(this).val() || 0);
 			if(!$.isNumeric(value)){
 				layer.tips('提货量必须为数字!', this, {
-					  tips: [1, '#3595CC'],
-					  time: 2000
-					});
-				 $(this).val(''); return;
+					tips: [1, '#3595CC'],
+					time: 2000
+				});
+				$(this).val(''); return;
 			}else if(value > marginsum){
 				layer.msg('提货量不能大于'+marginsum+'!', {icon: 5}); $(this).val(''); return;
 			}
@@ -344,7 +343,7 @@
 	}
 	function getSalesApplicationData(pageNo){
 		var index = layer.load(2, {
-		  shade: [0.3,'#fff'] //0.1透明度的白色背景
+			shade: [0.3,'#fff'] //0.1透明度的白色背景
 		});
 		var params = getSarelApplicationParams();
 		params.pageNo = pageNo;
@@ -364,17 +363,17 @@
 					$('#total').html(total);
 					$('#jumpPageNo').attr('maxPageNo',parseInt((total+pageSize-1)/pageSize));
 					$("#pagination").pagination(total, {
-					    callback: function(){
-					    	getSalesApplicationData(pageNo+1);
-					    },
-					    prev_text: '上一页',
-					    next_text: '下一页',
-					    items_per_page:pageSize,
-					    num_display_entries:4,
-					    current_page:pageNo-1,
-					    num_edge_entries:1,
-					    maxentries:total,
-					    link_to:"javascript:void(0)"
+						callback: function(){
+							getSalesApplicationData(pageNo+1);
+						},
+						prev_text: '上一页',
+						next_text: '下一页',
+						items_per_page:pageSize,
+						num_display_entries:4,
+						current_page:pageNo-1,
+						num_edge_entries:1,
+						maxentries:total,
+						link_to:"javascript:void(0)"
 					});
 				}else{
 					layer.msg(result.error, {icon: 5});
@@ -406,23 +405,23 @@
 				var makebillname = obj.makebillname || '';
 				var channelcode = obj.channelcode || '';
 				$('<tr>').append('<td><input type="checkbox"/></td>')
-						.append('<td>'+code+'</td>')
-						.append('<td>'+billtypename+'</td>')
-						.append('<td>'+customername+'</td>')
-						.append('<td>'+materielname+'</td>')
-						.append('<td>'+salessum+'</td>')
-						.append('<td>'+margin+'</td>')
-						.append('<td>'+storagequantity+'</td>')
-						.append('<td>'+unstoragequantity+'</td>')
-						.append('<td>'+pretendingtake+'</td>')
-						.append('<td>'+orgname+'</td>')
-						.append('<td>'+billtimeStr+'</td>')
-						.append('<td>'+departmentname+'</td>')
-						.append('<td>'+salesmanname+'</td>')
-						.append('<td>'+makebillname+'</td>')
-						.append('<td>'+channelcode+'</td>')
-						.data(obj)
-						.appendTo('#salesApplicationBody');
+				.append('<td>'+code+'</td>')
+				.append('<td>'+billtypename+'</td>')
+				.append('<td>'+customername+'</td>')
+				.append('<td>'+materielname+'</td>')
+				.append('<td>'+salessum+'</td>')
+				.append('<td>'+margin+'</td>')
+				.append('<td>'+storagequantity+'</td>')
+				.append('<td>'+unstoragequantity+'</td>')
+				.append('<td>'+pretendingtake+'</td>')
+				.append('<td>'+orgname+'</td>')
+				.append('<td>'+billtimeStr+'</td>')
+				.append('<td>'+departmentname+'</td>')
+				.append('<td>'+salesmanname+'</td>')
+				.append('<td>'+makebillname+'</td>')
+				.append('<td>'+channelcode+'</td>')
+				.data(obj)
+				.appendTo('#salesApplicationBody');
 			}
 		}else{
 			layer.msg('暂无数据');
@@ -441,15 +440,15 @@
 			$(this).find('td:eq(0)>input').trigger('click');
 		});
 //		$('#salesApplicationBody').find('tr').off('dblclick').on('dblclick',function(){
-//			var obj = $(this).data();
-//			selectSalesApplication(obj);
+//		var obj = $(this).data();
+//		selectSalesApplication(obj);
 //		});
 	}
 	function selectSalesApplication(obj, bills, trs){
 		$('#billcode').val(obj.code || '').attr('billid', obj.id || '').attr('billdetailid', obj.detailid || '').attr('bills', JSON.stringify(bills));
 		$('#customername').val(obj.customername || '');
 		$('#channelcode').val(obj.channelcode || '');
-		$('#materielname').val(obj.materielname || '');
+		$('#materielname').val(obj.materielname || '').attr('packagetype',obj.packagetype);
 		$('#departmentname').val(obj.departmentname || '');
 		$('#unit').val(obj.unit || '');
 		$('#salessum').val(obj.salessum || '');
@@ -479,6 +478,116 @@
 		}
 		return params;
 	}
+	//写卡并保存
+	function writeCardAction() {
+		//业务类型
+		var BT = {
+				'1':'采购',
+				'2':'销售',
+				'3':'其他入库',
+				'4':'其他出库'
+		};
+
+		//物料类型
+		var MT = {
+				'0':'袋装',
+				'1':'水泥散装',
+				'2':'其他散装'
+		};
+
+		var params = getSalesArriveParams();
+		var obj = getWriteCardParams();
+		if(initCardReader()) {
+			//打开读卡器
+			readerOpen();
+			//开打卡片获取卡号
+			var cardno = openCard();
+			if(cardno){
+				//卡号放入待保存数据
+				params.icardno = cardno;
+				//蜂鸣
+				readerBeep();
+				if(validate(params)){
+					$.ajax({
+						url:URL.addUrl,
+						data:params,
+						async:true,
+						cache:false,
+						dataType:'json',
+						type:'post',
+						success:function(result){
+							if(result.code == '000000'){
+								//打开读卡器
+								readerOpen();
+								//开打卡片获取卡号
+								openCard();
+								try{
+									//写卡
+									writeDataToCard(obj.rfid.substr(0,16) || '', 1);
+									writeDataToCard(obj.rfid.substr(16) || '',2);
+									writeDataToCard(obj.vehicleno || '',4);
+									writeDataToCard((obj.customername).substr(0,16),5);
+									writeDataToCard((obj.customername).substr(16),6);
+									writeDataToCard(obj.materielname || '',8);
+									writeDataToCard(MT[obj.packagetype] || '',9);
+									writeDataToCard(BT[obj.businesstype] || '',10);
+									writeDataToCard(obj.arrivecode || '',12);
+									writeDataToCard(obj.batchnum || '',13);
+									writeDataToCard(obj.vehiclecode || '',18);
+									writeDataToCard(obj.takeamount || '',17);
+									//蜂鸣
+									readerBeep();
+									window.location.href = URL.mainUrl;
+								} catch (e) {
+									layer.alert('写卡失败!('+e.Message+')');
+								}
+								//关闭读卡器
+								readerClose();
+							}else{
+								layer.msg(result.error, {icon: 5});
+								$('#addBtn').removeClass('disabled');
+							}
+						}
+					});
+				}else{
+					layer.alert('写卡失败!');
+				}
+			}
+			//关闭读卡器
+			readerClose();
+		}else{
+			layer.alert('当前游览器不支持!(只兼容IE游览器)');
+		}
+	}
+
+	//获取读卡数据
+	function getWriteCardParams() {
+		var arrivecode = $('#billcode').val() || ''; billcode = $.trim(billcode);
+		var rfid = $('#rfid').val() || ''; rfid = $.trim(rfid);
+		var vehicleno = $('#vehicle').val() || '';vehicleno = $.trim(vehicleno);
+		var vehiclecode = $('#vehicle').attr('vehiclecode') || '';vehiclecode = $.trim(vehiclecode);
+		var customername = $('#customername').val() || '';customername = $.trim(customername);
+		var materielname = $('#materielname').val() || '';materielname = $.trim(materielname);
+		//设置业务类型为 销售
+		var businesstype = '2';
+		var takeamount = $('#takeamount').val() || 0;
+		var packagetype = $('#materielname').attr('packagetype');
+		var batchnum = $('#serialnumber').val(); batchnum = $.trim(batchnum);
+		return {
+			arrivecode:arrivecode,
+			rfid:rfid,
+			batchnum : batchnum,
+			packagetype:packagetype,
+			vehicleno:vehicleno,
+			customername:customername,
+			vehiclecode:vehiclecode,
+			materielname:materielname,
+			businesstype:businesstype,
+			takeamount:takeamount
+		};
+	}
+
+	//获取新增通知单数据
 	function getSalesArriveParams(){
 		var billid = $('#billcode').attr('billid'); billid = $.trim(billid);
 		var billdetailid = $('#billcode').attr('billdetailid'); billdetailid = $.trim(billdetailid);

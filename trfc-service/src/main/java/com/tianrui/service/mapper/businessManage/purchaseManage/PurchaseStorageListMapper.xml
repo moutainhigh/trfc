@@ -3,6 +3,7 @@
 <mapper namespace="com.tianrui.service.mapper.businessManage.purchaseManage.PurchaseStorageListMapper" >
   <resultMap id="BaseResultMap" type="com.tianrui.service.bean.businessManage.purchaseManage.PurchaseStorageList" >
     <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="code" property="code" jdbcType="VARCHAR" />
     <result column="nc_id" property="ncId" jdbcType="VARCHAR" />
     <result column="pk_org" property="pkOrg" jdbcType="VARCHAR" />
     <result column="ccustomerid" property="ccustomerid" jdbcType="VARCHAR" />
@@ -16,7 +17,7 @@
     <result column="status" property="status" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, nc_id, pk_org, ccustomerid, dbilldate, cdptid, ntotalnum, billmaker, creationtime, 
+    id, code, nc_id, pk_org, ccustomerid, dbilldate, cdptid, ntotalnum, billmaker, creationtime, 
     cvendorid, ts, status
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
@@ -30,11 +31,11 @@
     where id = #{id,jdbcType=VARCHAR}
   </delete>
   <insert id="insert" parameterType="com.tianrui.service.bean.businessManage.purchaseManage.PurchaseStorageList" >
-    insert into tr_purchase_storage_list (id, nc_id, pk_org, 
+    insert into tr_purchase_storage_list (id, code, nc_id, pk_org, 
       ccustomerid, dbilldate, cdptid, 
       ntotalnum, billmaker, creationtime, 
       cvendorid, ts, status)
-    values (#{id,jdbcType=VARCHAR}, #{ncId,jdbcType=VARCHAR}, #{pkOrg,jdbcType=VARCHAR}, 
+    values (#{id,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR}, #{ncId,jdbcType=VARCHAR}, #{pkOrg,jdbcType=VARCHAR}, 
       #{ccustomerid,jdbcType=VARCHAR}, #{dbilldate,jdbcType=VARCHAR}, #{cdptid,jdbcType=VARCHAR}, 
       #{ntotalnum,jdbcType=VARCHAR}, #{billmaker,jdbcType=VARCHAR}, #{creationtime,jdbcType=VARCHAR}, 
       #{cvendorid,jdbcType=VARCHAR}, #{ts,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR})
@@ -44,6 +45,9 @@
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         id,
+      </if>
+      <if test="code != null" >
+        code,
       </if>
       <if test="ncId != null" >
         nc_id,
@@ -83,6 +87,9 @@
       <if test="id != null" >
         #{id,jdbcType=VARCHAR},
       </if>
+      <if test="code != null" >
+        #{code,jdbcType=VARCHAR},
+      </if>
       <if test="ncId != null" >
         #{ncId,jdbcType=VARCHAR},
       </if>
@@ -121,6 +128,9 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.tianrui.service.bean.businessManage.purchaseManage.PurchaseStorageList" >
     update tr_purchase_storage_list
     <set >
+      <if test="code != null" >
+        code = #{code,jdbcType=VARCHAR},
+      </if>
       <if test="ncId != null" >
         nc_id = #{ncId,jdbcType=VARCHAR},
       </if>
@@ -159,7 +169,8 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.tianrui.service.bean.businessManage.purchaseManage.PurchaseStorageList" >
     update tr_purchase_storage_list
-    set nc_id = #{ncId,jdbcType=VARCHAR},
+    set code = #{code,jdbcType=VARCHAR},
+      nc_id = #{ncId,jdbcType=VARCHAR},
       pk_org = #{pkOrg,jdbcType=VARCHAR},
       ccustomerid = #{ccustomerid,jdbcType=VARCHAR},
       dbilldate = #{dbilldate,jdbcType=VARCHAR},

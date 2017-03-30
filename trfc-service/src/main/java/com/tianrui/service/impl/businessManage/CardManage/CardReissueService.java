@@ -3,7 +3,6 @@ package com.tianrui.service.impl.businessManage.CardManage;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,13 +12,19 @@ import com.tianrui.api.intf.businessManage.purchaseManage.IPurchaseArriveService
 import com.tianrui.api.intf.businessManage.salesManage.ISalesArriveService;
 import com.tianrui.api.req.businessManage.cardManage.CardReissueReq;
 import com.tianrui.api.req.businessManage.logisticsManage.AccessRecordQuery;
+import com.tianrui.api.req.businessManage.purchaseManage.PurchaseArriveSave;
+import com.tianrui.api.req.businessManage.salesManage.SalesArriveSave;
 import com.tianrui.api.resp.businessManage.cardManage.CardReissueResp;
 import com.tianrui.api.resp.businessManage.purchaseManage.PurchaseArriveResp;
 import com.tianrui.api.resp.businessManage.salesManage.SalesArriveResp;
+import com.tianrui.service.bean.basicFile.measure.VehicleManage;
+import com.tianrui.service.bean.basicFile.nc.MaterielManage;
 import com.tianrui.service.bean.businessManage.cardManage.Card;
 import com.tianrui.service.bean.businessManage.logisticsManage.AccessRecord;
 import com.tianrui.service.bean.businessManage.poundNoteMaintain.PoundNote;
 import com.tianrui.service.bean.quality.sales.SalesBatchnum;
+import com.tianrui.service.mapper.basicFile.measure.VehicleManageMapper;
+import com.tianrui.service.mapper.basicFile.nc.MaterielManageMapper;
 import com.tianrui.service.mapper.businessManage.cardManage.CardMapper;
 import com.tianrui.service.mapper.businessManage.logisticsManage.AccessRecordMapper1;
 import com.tianrui.service.mapper.businessManage.poundNoteMaintain.PoundNoteMapper;
@@ -42,8 +47,14 @@ public class CardReissueService implements ICardReissueService {
 	private PoundNoteMapper poundNoteMapper;
 	@Autowired
 	private SalesBatchnumMapper salesBatchnumMapper;
-	
-	
+	@Autowired
+	private MaterielManageMapper materielManageMapper;
+	@Autowired
+	private VehicleManageMapper vehicleManageMapper;
+
+	/**
+	 * 获取详情
+	 */
 	@Override
 	public Result getAccessData(CardReissueReq req) throws Exception {
 		Result rs = Result.getParamErrorResult();
@@ -58,9 +69,21 @@ public class CardReissueService implements ICardReissueService {
 				if(StringUtils.isNotBlank(record.getNoticeid())){
 					//判断业务类型为  采购 
 					if(( "1" ).equals(record.getBusinesstype())){
+						//获取通知单详情
 						PurchaseArriveResp par = purchaseArriveService.findOne(record.getNoticeid());
 						resp.setVehicleno(par.getVehicleno());
+						//获取车辆信息
+						VehicleManage vm = vehicleManageMapper.selectByPrimaryKey(par.getVehicleid());
+						if(vm!=null){
+							resp.setVehiclecode(vm.getCode());
+						}
 						resp.setMaterielname(par.getPurchaseApplicationDetailResp().getMaterielname());
+						String materielid = par.getPurchaseApplicationDetailResp().getMaterielid();
+						//获取物料信息
+						if(StringUtils.isNotBlank(materielid)){
+							MaterielManage mm = materielManageMapper.selectByPrimaryKey(materielid);
+							resp.setMaterieltype(mm.getPackagetype());
+						}
 						resp.setSuppliername(par.getPurchaseApplicationResp().getSuppliername());
 						resp.setSupplierremark(par.getPurchaseApplicationResp().getSupplierremark());
 						resp.setRfid(par.getVehiclerfid());
@@ -72,15 +95,17 @@ public class CardReissueService implements ICardReissueService {
 						resp.setDriveridentityno(par.getDriveridentityno());
 						resp.setArrivalamount(par.getArrivalamount());
 						resp.setStatus(par.getStatus());
+						resp.setNoticeid(par.getId());
 						resp.setMakebilltime(par.getPurchaseApplicationResp().getMakebilltimeStr());
 						resp.setMakebillname(par.getPurchaseApplicationResp().getMakebillname());
 						resp.setDepartmentname(par.getPurchaseApplicationResp().getDepartmentname());
 						resp.setApplicationremark(par.getPurchaseApplicationResp().getRemark());
 						resp.setPurchasesum(par.getPurchaseApplicationDetailResp().getPurchasesum());
 						resp.setPrice(par.getPurchaseApplicationDetailResp().getPrice());
-						String applicationid = par.getPurchaseApplicationResp().getId();
+						//获取磅单详情
+						String applicationid = par.getId();
 						if(StringUtils.isNotBlank(applicationid)){
-							PoundNote pound = poundNoteMapper.findByBillid(applicationid);
+							PoundNote pound = poundNoteMapper.selectByNoticeId(applicationid);
 							if(pound!=null){
 								resp.setPoundcode(pound.getCode());
 								resp.setWarehousename(pound.getWarehousename());
@@ -102,10 +127,20 @@ public class CardReissueService implements ICardReissueService {
 					}else if(( "2" ).equals(record.getBusinesstype())){
 						SalesArriveResp par = salesArriveService.findOne(record.getNoticeid());
 						resp.setVehicleno(par.getVehicleno());
+						VehicleManage vm = vehicleManageMapper.selectByPrimaryKey(par.getVehicleid());
+						if(vm!=null){
+							resp.setVehiclecode(vm.getCode());
+						}
 						resp.setMaterielname(par.getMainApplicationDetail().getMaterielname());
+						String materielid = par.getMainApplicationDetail().getMaterielid();
+						if(StringUtils.isNotBlank(materielid)){
+							MaterielManage mm = materielManageMapper.selectByPrimaryKey(materielid);
+							resp.setMaterieltype(mm.getPackagetype());
+						}
 						resp.setCustomername(par.getMainApplication().getCustomername());
 						resp.setSpraycode(par.getSpraycode());
 						resp.setRfid(par.getVehiclerfid());
+						resp.setNoticeid(par.getId());
 						resp.setApplicationcode(par.getMainApplication().getCode());
 						resp.setBilltime(par.getMainApplication().getBilltimeStr());
 						resp.setOrgname(par.getMainApplication().getOrgname());
@@ -119,9 +154,9 @@ public class CardReissueService implements ICardReissueService {
 						resp.setPrice(par.getMainApplicationDetail().getTaxprice());
 						resp.setApplicationremark(par.getMainApplication().getRemarks());
 						resp.setPurchasesum(par.getMainApplicationDetail().getSalessum());
-						String applicationid = par.getMainApplication().getId();
+						String applicationid = par.getId();
 						if(StringUtils.isNotBlank(applicationid)){
-							PoundNote pound = poundNoteMapper.findByBillid(applicationid);
+							PoundNote pound = poundNoteMapper.selectByNoticeId(applicationid);
 							if(pound!=null){
 								resp.setPoundcode(pound.getCode());
 								resp.setWarehousename(pound.getWarehousename());
@@ -167,16 +202,20 @@ public class CardReissueService implements ICardReissueService {
 			PaginationVO<CardReissueResp> page = new PaginationVO<CardReissueResp>();
 			int pageNo = req.getPageNo();
 			int pageSize = req.getPageSize();
+			//转换类型
 			AccessRecordQuery query = card2AccessQuery(req);
 			query.setStart((pageNo-1)*pageSize);
 			query.setLimit(pageSize);
+			//获取数据总数
 			long count = accessRecordMapper.findAccessRecordPageCount(query);
 			page.setTotal(count);
 			page.setPageNo(pageNo);
 			page.setPageSize(pageSize);
 			List<CardReissueResp> resps = new ArrayList<CardReissueResp>();
+			//查询数据
 			if(count>0){
 				List<AccessRecord> list = accessRecordMapper.findAccessRecordPage(query);
+				//转换类型
 				access2cardResp(resps,list);
 			}
 			page.setList(resps);
@@ -231,13 +270,13 @@ public class CardReissueService implements ICardReissueService {
 							resp.setCardtype(card.getCardtype());
 						}
 					}
-					
+
 				}
 				list1.add(resp);
 			}
 		}
 	}
-	
+
 	/**
 	 * 转换类型 CardReissueReq --> AccessRecordQuery
 	 */
@@ -256,5 +295,34 @@ public class CardReissueService implements ICardReissueService {
 		}
 		return query;
 	}
-	
+
+	@Override
+	public Result updateCard(CardReissueReq req) throws Exception {
+		Result rs = Result.getParamErrorResult();
+		if(StringUtils.isNotBlank(req.getIcardno())){
+			//获取ic卡信息
+			Card card = cardMapper.selectByCardno(req.getIcardno());
+			if("1".equals(req.getBusinesstype())){
+				//设置参数
+				PurchaseArriveSave save = new PurchaseArriveSave();
+				save.setId(req.getNoticeid());
+				save.setIcardid(card.getId());
+				save.setCurrId(req.getUserid());
+				//更新数据
+				rs = purchaseArriveService.updateOperation(save);
+			}else if("2".equals(req.getBusinesstype())){
+				SalesArriveSave save = new SalesArriveSave();
+				save.setId(req.getNoticeid());
+				save.setIcardid(card.getId());
+				save.setIcardno(card.getCardno());
+				save.setModifier(req.getUserid());
+				rs = salesArriveService.updateCardno(save);
+			}
+		}
+		return rs;
+	}
+
+
+
+
 }

@@ -1,6 +1,7 @@
 package com.tianrui.api.resp.businessManage.purchaseManage;
 
 import com.tianrui.api.resp.BaseResp;
+import com.tianrui.api.resp.businessManage.poundNoteMaintain.PoundNoteResp;
 import com.tianrui.smartfactory.common.utils.DateUtil;
 /**
  * @Description 采购到货通知单Resp
@@ -84,6 +85,8 @@ public class PurchaseArriveResp extends BaseResp {
     private PurchaseApplicationResp purchaseApplicationResp;
     //采购申请单详情
     private PurchaseApplicationDetailResp purchaseApplicationDetailResp;
+    //磅单
+    private PoundNoteResp poundNoteResp;
     /**
      * 仓库物料数量统计
      */
@@ -98,6 +101,10 @@ public class PurchaseArriveResp extends BaseResp {
     
     //通知单类型 1:采购到货通知单，2：采购退货通知单，3：销售提货通知单
     private String type;
+    
+    //出入厂时间
+    private Long enterTime;
+    private Long outTime;
     
 	public String getId() {
 		return id;
@@ -366,6 +373,24 @@ public class PurchaseArriveResp extends BaseResp {
 	}
 	public void setIcardno(String icardno) {
 		this.icardno = icardno;
+	}
+	public PoundNoteResp getPoundNoteResp() {
+		return poundNoteResp;
+	}
+	public void setPoundNoteResp(PoundNoteResp poundNoteResp) {
+		this.poundNoteResp = poundNoteResp;
+	}
+	public Long getEnterTime() {
+		return enterTime;
+	}
+	public void setEnterTime(Long enterTime) {
+		this.enterTime = enterTime;
+	}
+	public Long getOutTime() {
+		return outTime;
+	}
+	public void setOutTime(Long outTime) {
+		this.outTime = outTime;
 	}
     
 }

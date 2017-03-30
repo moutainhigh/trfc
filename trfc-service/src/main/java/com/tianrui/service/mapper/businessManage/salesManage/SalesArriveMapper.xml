@@ -646,10 +646,11 @@
   		</if>
   	</where>
   </select>
-  <select id="checkICUse" resultType="java.lang.Integer" parameterType="com.tianrui.api.req.businessManage.salesManage.SalesArriveQuery">
-  	select count(0) 
+  <select id="checkICUse" parameterType="java.lang.String" resultMap="BaseResultMap">
+  	select 
+  	<include refid="Base_Column_List" />
   	from tr_sales_db_arrive
-  	where icardid = #{icardid,jdbcType=VARCHAR} and state = #{state,jdbcType=VARCHAR} and status != '5' and status != '3'
+  	where icardid = #{icardid,jdbcType=VARCHAR} and state = '1' and status != '5' and status != '3'
   </select>
   <select id="selectWaitingNumber" resultType="java.lang.Integer" parameterType="com.tianrui.api.req.businessManage.salesManage.SalesArriveQuery">
   	select count(0)
@@ -678,6 +679,12 @@
     select 
     <include refid="Base_Column_List" />
     from tr_sales_db_arrive
-    where vehicleno = #{vehicleno,jdbcType=VARCHAR} and state = '1' and status != '3'
+    where vehicleno = #{vehicleno,jdbcType=VARCHAR} and state = '1'
+  </select>
+  <select id="selectByCode" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from tr_sales_db_arrive
+    where code = #{code,jdbcType=VARCHAR}
   </select>
 </mapper>

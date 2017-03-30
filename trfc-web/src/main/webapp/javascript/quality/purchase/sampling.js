@@ -235,50 +235,59 @@ $(function(){
 	}
 	//获取采样车辆信息
 	function getSamplingCarData(tbody){
-		//打开读卡器
-		readerOpen();
-		//读卡
-		var cardId = openCard();
-		if(cardId){
-			if(cardIdArr.indexOf(cardId)<0){
-				cardIdArr.push(cardId);
+		if(initCardReader()) {
+			//打开读卡器
+			readerOpen();
+			//读卡
+			var cardId = openCard();
+			if(cardId){
+				if(cardIdArr.indexOf(cardId)<0){
+					cardIdArr.push(cardId);
+				}else{
+					readerClose();
+					layer.alert('此卡已读!');
+					return;
+				}
+				//提示读卡成功
+				readerBeep();
+				try{
+					var obj = {
+							id:'',
+							code:getDataFromCard(29),
+							car:getDataFromCard(12),
+							supplier:getDataFromCard(5)+getDataFromCard(6),
+							material:getDataFromCard(8),
+							mine:getDataFromCard(28),
+							vehicle:getDataFromCard(4),
+							remark:getDataFromCard(24)
+					};
+				}catch (e) {
+					alert(e.Message);
+				}
+				//关闭读卡器
+				readerClose();
+				if(obj){
+					var tr = '<tr>'
+						+'<td></td>'
+						+'<td>'+(obj.code || '')+'</td>'
+						+'<td>'+(obj.car || '')+'</td>'
+						+'<td>'+(obj.supplier || '')+'</td>'
+						+'<td>'+(obj.material || '')+'</td>'
+						+'<td>'+(obj.mine || '')+'</td>'
+						+'<td>'+(obj.vehicle || '')+'</td>'
+						+'<td>'+(obj.remark || '')+'</td>'
+						+'</tr>';
+					tr = $(tr);
+					tbody.append(tr);
+					tr.data('obj',obj);
+					tr.dblclick(function(){tr.remove();indexOfList(tbody);});
+					indexOfList(tbody);
+				}
 			}else{
 				readerClose();
-				layer.alert('此卡已读!');
-				return;
-			}
-			//提示读卡成功
-			readerBeep();
-			var obj = {
-					id:'',
-					code:getICCardData(2),
-					car:getICCardData(3),
-					supplier:getICCardData(4),
-					material:getICCardData(5),
-					mine:getICCardData(6),
-					vehicle:getICCardData(7),
-					remark:getICCardData(8)};
-			//关闭读卡器
-			readerClose();
-			if(obj){
-				var tr = '<tr>'
-					+'<td></td>'
-					+'<td>'+(obj.code || '')+'</td>'
-					+'<td>'+(obj.car || '')+'</td>'
-					+'<td>'+(obj.supplier || '')+'</td>'
-					+'<td>'+(obj.material || '')+'</td>'
-					+'<td>'+(obj.mine || '')+'</td>'
-					+'<td>'+(obj.vehicle || '')+'</td>'
-					+'<td>'+(obj.remark || '')+'</td>'
-					+'</tr>';
-				tr = $(tr);
-				tbody.append(tr);
-				tr.data('obj',obj);
-				tr.dblclick(function(){tr.remove();indexOfList(tbody);});
-				indexOfList(tbody);
 			}
 		}else{
-			readerClose();
+			layer.alert('当前游览器不支持!(只兼容IE游览器)');
 		}
 	}
 

@@ -14,12 +14,10 @@
 	};
 	//日期字符串转为时间戳
 	function str2Long(dateStr){
-		var time = '';
 		if(dateStr){
-			var date = new Date(dateStr);
-			time = date.getTime();
+			return Date.parseYMD_HMS(dateStr).getTime();
 		}
-		return time;
+		return '';
 	}
 	init();
 	function init(){
@@ -380,15 +378,6 @@
 			queryPurchaseApplication(1);
 		});
 	}
-	//日期字符串转为时间戳
-	function str2Long(dateStr){
-		var time = '';
-		if(dateStr){
-			var date = new Date(dateStr);
-			time = date.getTime();
-		}
-		return time;
-	}
 	//获取采购订单搜索条件
 	function getPurchaseApplicationParams(){
 		var supplierid = $('#supplier').attr('supplierid');supplierid = $.trim(supplierid);
@@ -568,7 +557,7 @@
 			layer.msg('皮重不能为空且不能为零！', {icon: 5}); return false;
 		}
 		if(!params.vehicleid){
-			layer.msg('请选择车辆！', {time:9999999,icon: 5}); return false;
+			layer.msg('请选择车辆！', {icon: 5}); return false;
 		}
 		return params;
 	}

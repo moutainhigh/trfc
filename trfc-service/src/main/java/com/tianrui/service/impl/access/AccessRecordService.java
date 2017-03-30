@@ -1,9 +1,10 @@
-package com.tianrui.service.impl.access;
+/*package com.tianrui.service.impl.access;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -46,21 +47,29 @@ public class AccessRecordService implements IAccessRecordService {
 	@Autowired
 	private PurchaseArriveMapper purchaseArriveMapper;
 	
-	/**
+	*//**
 	 * 新增数据
-	 */
+	 *//*
 	@Transactional
 	@Override
 	public Result add(ApiDoorSystemSave api) {
 		Result result = Result.getParamErrorResult();
-		if (api!=null && StringUtils.isNotBlank(api.getNotionformcode()) && StringUtils.isNotBlank(api.getIccode())
+		if (api!=null && StringUtils.isNotBlank(api.getNotionformcode()) && StringUtils.isNotBlank(api.getIcardno())
 				&& StringUtils.isNotBlank(api.getType()) && StringUtils.isNotBlank(api.getTime())) {
-			Card card = new Card();
-			card.setState("1");
-			card.setCardstatus("1");
-			card.setCardno(api.getIccode());
-			List<Card> listCard = cardMapper.selectSelective(card);
-			if (listCard != null && listCard.size() == 1) {
+			Card card = validationICard(api.getIcardno(), result);
+			if (card != null) {
+				switch (api.getServicetype()) {
+				case "0":
+					break;
+				case "0":
+					break;
+				default:
+					break;
+				}
+				
+				
+				
+				
 				SalesArrive sa = new SalesArrive();
 				sa.setCode(api.getNotionformcode());
 				List<SalesArrive> list = salesArriveMapper.selectSelective(sa);
@@ -68,7 +77,7 @@ public class AccessRecordService implements IAccessRecordService {
 					//入厂
 					if (StringUtils.equals(api.getType(), "1")) {
 						SalesArriveQuery query = new SalesArriveQuery();
-						query.setIcardid(listCard.get(0).getId());
+						query.setIcardid(card.getId());
 						query.setState("1");
 						//检测IC卡有没有被使用
 						int count = salesArriveMapper.checkICUse(query);
@@ -80,7 +89,7 @@ public class AccessRecordService implements IAccessRecordService {
 						//出厂
 						AccessRecord access = new AccessRecord();
 						access.setSalesarrivecode(api.getNotionformcode());
-						access.setIcardcode(api.getIccode());
+						access.setIcardcode(api.getIcardno());
 						access.setAccesstype("1");
 						List<AccessRecord> listAccess = accessRecordMapper.selectSelective(access);
 						if (listAccess == null || listAccess.size() == 0) {
@@ -91,7 +100,7 @@ public class AccessRecordService implements IAccessRecordService {
 					AccessRecord record = new AccessRecord();
 					record.setId(UUIDUtil.getId());
 					record.setSalesarrivecode(api.getNotionformcode());
-					record.setIcardcode(api.getIccode());
+					record.setIcardcode(api.getIcardno());
 					record.setAccesstype(api.getType());
 					record.setIntotime(api.getTime());
 					//此处添加 创建者 创建时间 修改者 修改时间
@@ -107,8 +116,8 @@ public class AccessRecordService implements IAccessRecordService {
 						sa.setCode(null);
 						if (StringUtils.equals(api.getType(), "1")) {
 							sa.setStatus("6");
-							sa.setIcardid(listCard.get(0).getId());
-							sa.setIcardno(listCard.get(0).getCardno());
+							sa.setIcardid(card.getId());
+							sa.setIcardno(card.getCardno());
 						} else {
 							sa.setStatus("5");
 						}
@@ -124,11 +133,28 @@ public class AccessRecordService implements IAccessRecordService {
 				} else {
 					result.setErrorCode(ErrorCode.SALESARRIVE_NOT_EXIST);
 				}
-			} else {
-				result.setErrorCode(ErrorCode.CARD_NOT_EXIST);
 			}
 		}
 		return result;
+	}
+
+	private Card validationICard(String icardno, Result result) {
+		Card card = new Card();
+		card.setState("1");
+		card.setCardstatus("1");
+		card.setCardno(icardno);
+		List<Card> list = cardMapper.selectSelective(card);
+		if(CollectionUtils.isNotEmpty(list)){
+			if(list.size() == 1){
+				return list.get(0);
+			}else{
+				result.setErrorCode(ErrorCode.CARD_REPEAT_REGISTER);
+				return null;
+			}
+		}else{
+			result.setErrorCode(ErrorCode.CARD_NOT_EXIST);
+			return null;
+		}
 	}
 
 	@Override
@@ -157,50 +183,16 @@ public class AccessRecordService implements IAccessRecordService {
 			} else {
 				result.setErrorCode(ErrorCode.RFID_NOT_EXIST);
 			}
-			
-			
-			
-			
-			
-//			VehicleManage vehicle = new VehicleManage();
-//			vehicle.setVehicleno(checkApi.getVehicleNo());
-//			vehicle.setRfid(checkApi.getRfid());
-//			vehicle.setState("1");
-//			List<VehicleManage> listVehicle = vehicleManageMapper.selectSelective(vehicle);
-//			if (listVehicle == null || listVehicle.size() == 0) {
-//				result.setErrorCode(ErrorCode.RFID_VEHICLE_NOT_EXIST);
-//				return result;
-//			}
-//			SalesArrive sa = new SalesArrive();
-//			sa.setVehicleid(listVehicle.get(0).getId());
-//			sa.setStatus("2");
-//			sa.setState("1");
-//			List<SalesArrive> listSalesArrive = salesArriveMapper.selectSelective(sa);
-//			if (listSalesArrive == null || listSalesArrive.size() == 0) {
-//				result.setErrorCode(ErrorCode.VEHICLE_NOT_NOTICE);
-//				return result;
-//			}
-//			AccessRecord access = new AccessRecord();
-//			access.setSalesarrivecode(listSalesArrive.get(0).getCode());
-//			access.setIcardcode(cardMapper.selectByPrimaryKey(listSalesArrive.get(0).getIcardid()).getCardcode());
-//			access.setAccesstype("1");
-//			access.setState("1");
-//			List<AccessRecord> listAccess = accessRecordMapper.selectSelective(access);
-//			if (listAccess == null || listAccess.size() == 0) {
-//				result.setErrorCode(ErrorCode.VEHICLE_NOTICE_NOT_ENTER);
-//				return result;
-//			}
-//			result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
 		}
 		return result;
 	}
-	/**
+	*//**
 	 * @Description 入厂验证
 	 * @author zhanggaohao
 	 * @version 2017年3月2日 下午3:49:33
 	 * @param checkApi
 	 * @return
-	 */
+	 *//*
 	@Override
 	public Result enterFactoryCheckApi(VehicleCheckApi checkApi) {
 		Result result = Result.getParamErrorResult();
@@ -230,13 +222,13 @@ public class AccessRecordService implements IAccessRecordService {
 		}
 		return result;
 	}
-	/**
+	*//**
 	 * @Description 验证RFID是否已注册
 	 * @author zhanggaohao
 	 * @version 2017年3月2日 上午9:36:57
 	 * @param rfid
 	 * @return
-	 */
+	 *//*
 	private boolean validateRFID(String rfid) {
 		boolean flag = false;
 		if (StringUtils.isNotBlank(rfid)) {
@@ -247,14 +239,14 @@ public class AccessRecordService implements IAccessRecordService {
 		}
 		return flag;
 	}
-	/**
+	*//**
 	 * @Description 验证车牌号是否与RFID已绑定
 	 * @author zhanggaohao
 	 * @version 2017年3月2日 上午9:48:26
 	 * @param vehicleno
 	 * @param rfid
 	 * @return
-	 */
+	 *//*
 	private boolean validateVehicle(String vehicleno, String rfid) {
 		boolean flag = false;
 		if (StringUtils.isNotBlank(vehicleno) && StringUtils.isNotBlank(rfid)) {
@@ -265,13 +257,13 @@ public class AccessRecordService implements IAccessRecordService {
 		}
 		return flag;
 	}
-	/**
+	*//**
 	 * @Description 验证是否有通知单
 	 * @author zhanggaohao
 	 * @version 2017年3月2日 上午9:52:35
 	 * @param vehicleNo
 	 * @return
-	 */
+	 *//*
 	private Map<String, Object> validateHasBill(String vehicleno) {
 		Map<String, Object> map = null;
 		if (StringUtils.isNotBlank(vehicleno)) {
@@ -294,13 +286,13 @@ public class AccessRecordService implements IAccessRecordService {
 		}
 		return map;
 	}
-	/**
+	*//**
 	 * @Description 验证是否有采购到货通知单
 	 * @author zhanggaohao
 	 * @version 2017年3月2日 上午9:57:02
 	 * @param vehicleno
 	 * @return
-	 */
+	 *//*
 	private PurchaseArrive hasPurchaseArrive(String vehicleno) {
 		PurchaseArrive bean = null;
 		if (StringUtils.isNotBlank(vehicleno)) {
@@ -308,13 +300,13 @@ public class AccessRecordService implements IAccessRecordService {
 		}
 		return bean;
 	}
-	/**
+	*//**
 	 * @Description 验证是否有销售提货通知单
 	 * @author zhanggaohao
 	 * @version 2017年3月2日 上午10:31:40
 	 * @param vehicleno
 	 * @return
-	 */
+	 *//*
 	private SalesArrive hasSalesArrive(String vehicleno) {
 		SalesArrive bean = null;
 		if (StringUtils.isNotBlank(vehicleno)) {
@@ -323,3 +315,4 @@ public class AccessRecordService implements IAccessRecordService {
 		return bean;
 	}
 }
+*/

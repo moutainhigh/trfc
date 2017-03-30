@@ -55,8 +55,8 @@
       <foreach collection="list" item="item" index="index" separator=",">
     (#{item.id,jdbcType=VARCHAR}, #{item.salesid,jdbcType=VARCHAR}, #{item.materielid,jdbcType=VARCHAR}, 
       #{item.materielname,jdbcType=VARCHAR}, #{item.warehouseid,jdbcType=VARCHAR}, #{item.warehousename,jdbcType=VARCHAR}, 
-      #{item.unit,jdbcType=VARCHAR}, #{item.salessum,jdbcType=DOUBLE}, #{margin,jdbcType=DOUBLE}, #{storagequantity,jdbcType=DOUBLE}, 
-      #{unstoragequantity,jdbcType=DOUBLE}, #{pretendingtake,jdbcType=DOUBLE}, 
+      #{item.unit,jdbcType=VARCHAR}, #{item.salessum,jdbcType=DOUBLE}, #{item.margin,jdbcType=DOUBLE}, #{item.storagequantity,jdbcType=DOUBLE}, 
+      #{item.unstoragequantity,jdbcType=DOUBLE}, #{item.pretendingtake,jdbcType=DOUBLE}, 
       #{item.taxprice,jdbcType=DOUBLE}, #{item.untaxprice,jdbcType=DOUBLE}, 
       #{item.taxrate,jdbcType=DOUBLE}, #{item.remarks,jdbcType=VARCHAR})
       </foreach>

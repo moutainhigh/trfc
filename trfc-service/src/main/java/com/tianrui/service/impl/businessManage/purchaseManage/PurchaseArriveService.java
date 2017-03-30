@@ -22,11 +22,18 @@ import com.tianrui.api.req.businessManage.purchaseManage.PurchaseArriveSave;
 import com.tianrui.api.req.system.base.GetCodeReq;
 import com.tianrui.api.resp.basicFile.measure.DriverManageResp;
 import com.tianrui.api.resp.basicFile.measure.VehicleManageResp;
+import com.tianrui.api.resp.businessManage.poundNoteMaintain.PoundNoteResp;
 import com.tianrui.api.resp.businessManage.purchaseManage.PurchaseApplicationDetailResp;
 import com.tianrui.api.resp.businessManage.purchaseManage.PurchaseApplicationResp;
 import com.tianrui.api.resp.businessManage.purchaseManage.PurchaseArriveResp;
+import com.tianrui.service.bean.businessManage.cardManage.Card;
+import com.tianrui.service.bean.businessManage.poundNoteMaintain.PoundNote;
+import com.tianrui.service.bean.businessManage.purchaseManage.PurchaseApplicationDetail;
 import com.tianrui.service.bean.businessManage.purchaseManage.PurchaseArrive;
 import com.tianrui.service.bean.businessManage.salesManage.SalesArrive;
+import com.tianrui.service.mapper.businessManage.cardManage.CardMapper;
+import com.tianrui.service.mapper.businessManage.poundNoteMaintain.PoundNoteMapper;
+import com.tianrui.service.mapper.businessManage.purchaseManage.PurchaseApplicationDetailMapper;
 import com.tianrui.service.mapper.businessManage.purchaseManage.PurchaseArriveMapper;
 import com.tianrui.service.mapper.businessManage.salesManage.SalesArriveMapper;
 import com.tianrui.smartfactory.common.constants.ErrorCode;
@@ -44,6 +51,8 @@ public class PurchaseArriveService implements IPurchaseArriveService {
 	@Autowired
 	private IPurchaseApplicationDetailService purchaseApplicationDetailService;
 	@Autowired
+	private PurchaseApplicationDetailMapper purchaseApplicationDetailMapper;
+	@Autowired
 	private SalesArriveMapper salesArriveMapper;
 	@Autowired
 	private ISystemUserService systemUserService;
@@ -53,7 +62,11 @@ public class PurchaseArriveService implements IPurchaseArriveService {
 	private IVehicleManageService vehicleManageService;
 	@Autowired
 	private IDriverManageService driverManageService;
-	
+	@Autowired
+	private CardMapper cardMapper;
+	@Autowired
+	private PoundNoteMapper poundNoteMapper;
+
 	@Override
 	public PaginationVO<PurchaseArriveResp> page(PurchaseArriveQuery query) throws Exception{
 		PaginationVO<PurchaseArriveResp> page = null;
@@ -96,6 +109,13 @@ public class PurchaseArriveService implements IPurchaseArriveService {
 				result.setErrorCode(ErrorCode.PARAM_REPEAT_ERROR);
 				result.setError("此车辆己有提货通知单、待出厂后进行派车，现有车辆业务单据号为:"+listVehicle1.get(0).getCode()+"，如有疑问请与销售处联系！");
 				return result;
+			}
+			//获取ic卡信息
+			if(StringUtils.isNotBlank(save.getIcardno())){
+				Card card = cardMapper.selectByCardno(save.getIcardno());
+				if(card!=null){
+					sa.setIcardid(card.getId());
+				}
 			}
 			pa.setVehicleid(null);
 			pa.setDriverid(save.getDriverid());
@@ -142,7 +162,18 @@ public class PurchaseArriveService implements IPurchaseArriveService {
 			pa.setModifytime(System.currentTimeMillis());
 			if(purchaseArriveMapper.insertSelective(pa) > 0 
 					&& StringUtils.equals(systemCodeService.updateCodeItem(codeReq).getCode(), ErrorCode.SYSTEM_SUCCESS.getCode())){
-				result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+				if(StringUtils.isNotBlank(pa.getBilldetailid())){
+					PurchaseApplicationDetailResp detailResp = purchaseApplicationDetailService.findOne(pa.getBilldetailid());
+					PurchaseApplicationDetail detail = new PurchaseApplicationDetail();
+					detail.setId(detailResp.getId());
+					detail.setMargin(detailResp.getMargin() - pa.getArrivalamount());
+					detail.setPretendingtake(detailResp.getPretendingtake() + pa.getArrivalamount());
+					if(purchaseApplicationDetailMapper.updateByPrimaryKeySelective(detail) > 0){
+						result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+					}else{
+						result.setErrorCode(ErrorCode.OPERATE_ERROR);
+					}
+				}
 			}else{
 				result.setErrorCode(ErrorCode.OPERATE_ERROR);
 			}
@@ -153,52 +184,68 @@ public class PurchaseArriveService implements IPurchaseArriveService {
 	@Override
 	public Result update(PurchaseArriveSave update) throws Exception {
 		Result result = Result.getParamErrorResult();
-		if(update != null){
-			PurchaseArrive pa = new PurchaseArrive();
-			pa.setId(update.getId());
-			pa.setVehicleid(update.getVehicleid());
-			List<PurchaseArrive> listVehicle = purchaseArriveMapper.checkDriverAndVehicleIsUse(pa);
-			if(listVehicle != null && listVehicle.size() > 0){
-				result.setErrorCode(ErrorCode.PARAM_REPEAT_ERROR);
-				result.setError("此车辆己有到货通知单、待出厂后进行派车，现有车辆业务单据号为:"+listVehicle.get(0).getCode()+"，如有疑问请与销售处联系！");
-				return result;
-			}
-			SalesArrive sa = new SalesArrive();
-			sa.setVehicleid(update.getVehicleid());
-			List<SalesArrive> listVehicle1 = salesArriveMapper.checkDriverAndVehicleIsUse(sa);
-			if(listVehicle1 != null && listVehicle1.size() > 0){
-				result.setErrorCode(ErrorCode.PARAM_REPEAT_ERROR);
-				result.setError("此车辆己有提货通知单、待出厂后进行派车，现有车辆业务单据号为:"+listVehicle1.get(0).getCode()+"，如有疑问请与销售处联系！");
-				return result;
-			}
-			pa.setVehicleid(null);
-			pa.setDriverid(update.getDriverid());
-			List<PurchaseArrive> listDriver = purchaseArriveMapper.checkDriverAndVehicleIsUse(pa);
-			if(listDriver != null && listDriver.size() > 0){
-				result.setErrorCode(ErrorCode.PARAM_REPEAT_ERROR);
-				result.setError("此司机己有到货通知单、待出厂后进行派车，现有车辆业务单据号为:"+listDriver.get(0).getCode()+"，如有疑问请与销售处联系！");
-				return result;
-			}
-			sa.setVehicleid(null);
-			sa.setDriverid(update.getDriverid());
-			List<SalesArrive> listDriver1 = salesArriveMapper.checkDriverAndVehicleIsUse(sa);
-			if(listDriver1 != null && listDriver1.size() > 0){
-				result.setErrorCode(ErrorCode.PARAM_REPEAT_ERROR);
-				result.setError("此司机己有提货通知单、待出厂后进行派车，现有车辆业务单据号为:"+listDriver1.get(0).getCode()+"，如有疑问请与销售处联系！");
-				return result;
-			}
-			PropertyUtils.copyProperties(pa, update);
-			pa.setModifier(update.getCurrId());
-			pa.setModifytime(System.currentTimeMillis());
-			if(purchaseArriveMapper.updateByPrimaryKeySelective(pa) == 1){
-				result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+		if(update != null && StringUtils.isNotBlank(update.getId())){
+			PurchaseArrive purchaseArrive = purchaseArriveMapper.selectByPrimaryKey(update.getId());
+			if(purchaseArrive != null){
+				PurchaseArrive pa = new PurchaseArrive();
+				pa.setId(update.getId());
+				pa.setVehicleid(update.getVehicleid());
+				List<PurchaseArrive> listVehicle = purchaseArriveMapper.checkDriverAndVehicleIsUse(pa);
+				if(listVehicle != null && listVehicle.size() > 0){
+					result.setErrorCode(ErrorCode.PARAM_REPEAT_ERROR);
+					result.setError("此车辆己有到货通知单、待出厂后进行派车，现有车辆业务单据号为:"+listVehicle.get(0).getCode()+"，如有疑问请与销售处联系！");
+					return result;
+				}
+				SalesArrive sa = new SalesArrive();
+				sa.setVehicleid(update.getVehicleid());
+				List<SalesArrive> listVehicle1 = salesArriveMapper.checkDriverAndVehicleIsUse(sa);
+				if(listVehicle1 != null && listVehicle1.size() > 0){
+					result.setErrorCode(ErrorCode.PARAM_REPEAT_ERROR);
+					result.setError("此车辆己有提货通知单、待出厂后进行派车，现有车辆业务单据号为:"+listVehicle1.get(0).getCode()+"，如有疑问请与销售处联系！");
+					return result;
+				}
+				pa.setVehicleid(null);
+				pa.setDriverid(update.getDriverid());
+				List<PurchaseArrive> listDriver = purchaseArriveMapper.checkDriverAndVehicleIsUse(pa);
+				if(listDriver != null && listDriver.size() > 0){
+					result.setErrorCode(ErrorCode.PARAM_REPEAT_ERROR);
+					result.setError("此司机己有到货通知单、待出厂后进行派车，现有车辆业务单据号为:"+listDriver.get(0).getCode()+"，如有疑问请与销售处联系！");
+					return result;
+				}
+				sa.setVehicleid(null);
+				sa.setDriverid(update.getDriverid());
+				List<SalesArrive> listDriver1 = salesArriveMapper.checkDriverAndVehicleIsUse(sa);
+				if(listDriver1 != null && listDriver1.size() > 0){
+					result.setErrorCode(ErrorCode.PARAM_REPEAT_ERROR);
+					result.setError("此司机己有提货通知单、待出厂后进行派车，现有车辆业务单据号为:"+listDriver1.get(0).getCode()+"，如有疑问请与销售处联系！");
+					return result;
+				}
+				PropertyUtils.copyProperties(pa, update);
+				pa.setModifier(update.getCurrId());
+				pa.setModifytime(System.currentTimeMillis());
+				if(purchaseArriveMapper.updateByPrimaryKeySelective(pa) == 1){
+					if(StringUtils.isNotBlank(pa.getBilldetailid())){
+						PurchaseApplicationDetailResp detailResp = purchaseApplicationDetailService.findOne(pa.getBilldetailid());
+						PurchaseApplicationDetail detail = new PurchaseApplicationDetail();
+						detail.setId(detailResp.getId());
+						detail.setMargin(detailResp.getMargin() + (purchaseArrive.getArrivalamount() - pa.getArrivalamount()));
+						detail.setPretendingtake(detailResp.getPretendingtake() - (purchaseArrive.getArrivalamount() - pa.getArrivalamount()));
+						if(purchaseApplicationDetailMapper.updateByPrimaryKeySelective(detail) > 0){
+							result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+						}else{
+							result.setErrorCode(ErrorCode.OPERATE_ERROR);
+						}
+					}
+				}else{
+					result.setErrorCode(ErrorCode.OPERATE_ERROR);
+				}
 			}else{
-				result.setErrorCode(ErrorCode.OPERATE_ERROR);
+				result.setErrorCode(ErrorCode.NOTICE_NOT_EXIST);
 			}
 		}
 		return result;
 	}
-	
+
 	@Override
 	public Result updateOperation(PurchaseArriveSave update) throws Exception {
 		Result result = Result.getParamErrorResult();
@@ -232,7 +279,7 @@ public class PurchaseArriveService implements IPurchaseArriveService {
 		}
 		return list;
 	}
-	
+
 	private void listRespSetListApplicationResp(List<PurchaseArriveResp> list) throws Exception {
 		if(CollectionUtils.isNotEmpty(list)){
 			List<String> ids = new ArrayList<String>();
@@ -240,6 +287,15 @@ public class PurchaseArriveService implements IPurchaseArriveService {
 			for(PurchaseArriveResp resp : list){
 				ids.add(resp.getBillid());
 				detailIds.add(resp.getBilldetailid());
+				//获取磅单信息
+				PoundNote pound = poundNoteMapper.selectByNoticeId(resp.getId());
+				if(pound!=null){
+					PoundNoteResp poundResp = new PoundNoteResp();
+					PropertyUtils.copyProperties(poundResp, pound);
+					resp.setPoundNoteResp(poundResp);
+				}
+				//获取出入厂时间
+				
 			}
 			List<PurchaseApplicationResp> listApplication = purchaseApplicationService.selectByIds(ids, false);
 			if(CollectionUtils.isNotEmpty(listApplication)){
@@ -274,7 +330,7 @@ public class PurchaseArriveService implements IPurchaseArriveService {
 		}
 		return listResp;
 	}
-	
+
 	private PurchaseArriveResp copyBean2Resp(PurchaseArrive bean, boolean setApplication) throws Exception {
 		PurchaseArriveResp resp = null;
 		if(bean != null){

@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.tianrui.api.intf.access.IAccessRecordService;
+import com.tianrui.api.intf.businessManage.logisticsManage.IAccessRecordService1;
 import com.tianrui.api.intf.businessManage.salesManage.ISalesArriveService;
 import com.tianrui.api.req.basicFile.measure.VehicleCheckApi;
 import com.tianrui.api.req.businessManage.salesManage.ApiDoorQueueQuery;
@@ -32,7 +32,7 @@ public class ApiDoorSystemAction {
 	private Logger log = LoggerFactory.getLogger(ApiDoorSystemAction.class);
 	
 	@Autowired
-	private IAccessRecordService accessRecordService;
+	private IAccessRecordService1 accessRecordService;
 	
 	@Autowired
 	private ISalesArriveService salesArriveService;
@@ -50,7 +50,7 @@ public class ApiDoorSystemAction {
 		apiDoor.setCurrUid(req.getHead().getUserId());
 		Result rs=Result.getErrorResult();
 		try {
-			rs = accessRecordService.add(apiDoor);
+			rs = accessRecordService.addAccessRecord(apiDoor);
 		} catch (Exception e) {
 			rs.setErrorCode(ErrorCode.SYSTEM_ERROR);
 			log.error(e.getMessage(),e);

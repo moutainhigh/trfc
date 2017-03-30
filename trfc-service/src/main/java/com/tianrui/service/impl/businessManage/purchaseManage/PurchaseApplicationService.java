@@ -20,9 +20,11 @@ import com.tianrui.api.intf.businessManage.purchaseManage.IPurchaseApplicationSe
 import com.tianrui.api.req.businessManage.purchaseManage.PurchaseApplicationQuery;
 import com.tianrui.api.resp.businessManage.purchaseManage.PurchaseApplicationJoinDetailResp;
 import com.tianrui.api.resp.businessManage.purchaseManage.PurchaseApplicationResp;
+import com.tianrui.service.bean.basicFile.nc.MaterielManage;
 import com.tianrui.service.bean.businessManage.purchaseManage.PurchaseApplication;
 import com.tianrui.service.bean.businessManage.purchaseManage.PurchaseApplicationDetail;
 import com.tianrui.service.bean.common.BillType;
+import com.tianrui.service.mapper.basicFile.nc.MaterielManageMapper;
 import com.tianrui.service.mapper.businessManage.purchaseManage.PurchaseApplicationDetailMapper;
 import com.tianrui.service.mapper.businessManage.purchaseManage.PurchaseApplicationMapper;
 
@@ -51,6 +53,9 @@ public class PurchaseApplicationService implements IPurchaseApplicationService {
 	
 	@Autowired
 	private BillTypeMapper billTypeMapper;
+	
+	@Autowired
+	private MaterielManageMapper materielManageMapper;
 	
 	@Override
 	public PaginationVO<PurchaseApplicationResp> page(PurchaseApplicationQuery query) throws Exception{
@@ -86,6 +91,10 @@ public class PurchaseApplicationService implements IPurchaseApplicationService {
 				if(CollectionUtils.isNotEmpty(list)){
 					for(PurchaseApplicationJoinDetailResp resp : list){
 						resp.setSupplier(supplierManageService.findOne(resp.getSupplierid()));
+						MaterielManage m = materielManageMapper.selectByPrimaryKey(resp.getMaterielid());
+						if(m!=null){
+							resp.setPackagetype(m.getPackagetype());
+						}
 					}
 					page.setList(list);
 				}
@@ -270,12 +279,19 @@ public class PurchaseApplicationService implements IPurchaseApplicationService {
 					purchaseItem.setMaterielname(itemJon.getString("materialname"));
 					purchaseItem.setMaterielspec(itemJon.getString("materialspec"));
 					purchaseItem.setMaterieltype(itemJon.getString("materialtype"));
-					purchaseItem.setPurchasesum(Double.valueOf(itemJon.getString("number")));
-					purchaseItem.setPrice(Double.valueOf(itemJon.getString("price")));
+					if(StringUtils.isNotBlank(itemJon.getString("number"))){
+						purchaseItem.setPurchasesum(Double.valueOf(itemJon.getString("number")));
+					}
+					purchaseItem.setMargin(purchaseItem.getPurchasesum());
+					purchaseItem.setStoragequantity(0D);
+					purchaseItem.setUnstoragequantity(0D);
+					purchaseItem.setPretendingtake(0D);
+					if(StringUtils.isNotBlank(itemJon.getString("price"))){
+						purchaseItem.setPrice(Double.valueOf(itemJon.getString("price")));
+					}
 					purchaseItem.setUnit("吨");
 					purchaseItem.setRemark(itemJon.getString("remark"));
 					itemList.add(purchaseItem);
-					System.out.println(purchaseItem.getId());
 				}
 			}
 		}

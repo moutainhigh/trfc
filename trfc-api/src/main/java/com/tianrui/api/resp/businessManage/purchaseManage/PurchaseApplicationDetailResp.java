@@ -28,6 +28,16 @@ public class PurchaseApplicationDetailResp extends BaseResp {
     private String materieltype;
 	//数量
     private Double purchasesum;
+    //余量
+    private Double margin;
+    //出库占用量
+    private Double storagequantity;
+    //未出库占用量
+    private Double unstoragequantity;
+    //预提占用
+    private Double pretendingtake;
+    //包装类型
+    private String packagetype;
     //单价
     private Double price;
 	//单位 default='吨'
@@ -89,6 +99,54 @@ public class PurchaseApplicationDetailResp extends BaseResp {
 		this.purchasesum = purchasesum;
 	}
 	/**
+	 * @return the margin
+	 */
+	public Double getMargin() {
+		return margin;
+	}
+	/**
+	 * @return the storagequantity
+	 */
+	public Double getStoragequantity() {
+		return storagequantity;
+	}
+	/**
+	 * @return the unstoragequantity
+	 */
+	public Double getUnstoragequantity() {
+		return unstoragequantity;
+	}
+	/**
+	 * @return the pretendingtake
+	 */
+	public Double getPretendingtake() {
+		return pretendingtake;
+	}
+	/**
+	 * @param margin the margin to set
+	 */
+	public void setMargin(Double margin) {
+		this.margin = margin;
+	}
+	/**
+	 * @param storagequantity the storagequantity to set
+	 */
+	public void setStoragequantity(Double storagequantity) {
+		this.storagequantity = storagequantity;
+	}
+	/**
+	 * @param unstoragequantity the unstoragequantity to set
+	 */
+	public void setUnstoragequantity(Double unstoragequantity) {
+		this.unstoragequantity = unstoragequantity;
+	}
+	/**
+	 * @param pretendingtake the pretendingtake to set
+	 */
+	public void setPretendingtake(Double pretendingtake) {
+		this.pretendingtake = pretendingtake;
+	}
+	/**
 	 * @return the price
 	 */
 	public Double getPrice() {
@@ -111,6 +169,12 @@ public class PurchaseApplicationDetailResp extends BaseResp {
 	}
 	public void setRemark(String remark) {
 		this.remark = remark;
+	}
+	public String getPackagetype() {
+		return packagetype;
+	}
+	public void setPackagetype(String packagetype) {
+		this.packagetype = packagetype;
 	}
     
 }

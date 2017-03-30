@@ -12,8 +12,7 @@
 	};
 	function str2Long(str){
 		if(str){
-			var date = new Date(str);
-			return date.getTime();
+			return Date.parseYMD_HMS(str).getTime();
 		}
 		return undefined;
 	}
@@ -483,6 +482,7 @@
 		var spraycode = $('#spraycode').val(); spraycode = $.trim(spraycode);
 		var serialnumber = $('#serialnumber').val(); serialnumber = $.trim(serialnumber);
 		var icardid = $('#icardid').attr('icardid'); icardid = $.trim(icardid);
+		var bills = $('#billcode').attr('bills');
 		return {
 			id:id,
 			billid:billid,
@@ -496,7 +496,8 @@
 			remarks:remarks,
 			spraycode:spraycode,
 			serialnumber:serialnumber,
-			icardid:icardid
+			icardid:icardid,
+			bills:bills
 		};
 	}
 	function saveSalesArrive(_this){

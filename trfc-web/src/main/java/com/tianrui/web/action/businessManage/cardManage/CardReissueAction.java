@@ -58,4 +58,17 @@ public class CardReissueAction {
 		}
 		return result;
 	}
+	
+	@ResponseBody
+	@RequestMapping("/updateCard")
+	public Result updateCard(CardReissueReq req){
+		Result result = Result.getSuccessResult();
+		try {
+			result = cardSeissueService.updateCard(req);
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
+		}
+		return result;
+	}
 }

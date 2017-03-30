@@ -213,12 +213,10 @@
 	}
 	//日期字符串转为时间戳
 	function str2Long(dateStr){
-		var time = '';
 		if(dateStr){
-			var date = new Date(dateStr);
-			time = date.getTime();
+			return Date.parseYMD_HMS(dateStr).getTime();
 		}
-		return time;
+		return '';
 	}
 	//获取采购订单搜索条件
 	function getPurchaseApplicationParams(){
@@ -470,7 +468,7 @@
 		var makebilltime = $('#makebilltime').val() || ''; makebilltime = $.trim(makebilltime); makebilltime = str2Long(makebilltime);
 		var unit = $('#unit').val(); unit = $.trim(unit);
 		var vehicleid = $('#vehicle').attr('vehicleid'); vehicleid = $.trim(vehicleid);
-		var driverid = $('#driverid').attr('driverid'); driverid = $.trim(driverid);
+		var driverid = $('#driver').attr('driverid'); driverid = $.trim(driverid);
 		var arrivalamount = $('#arrivalamount').val(); arrivalamount = $.trim(arrivalamount);
 		var remark = $('#remark').val(); remark = $.trim(remark);
 		if(!billid || !billcode || !billdetailid){

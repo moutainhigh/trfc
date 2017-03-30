@@ -165,6 +165,7 @@
 	function initBindEvent(){
 		$('#refreshBtn').off('click').on('click', function(){
 			initPageList(1);
+			$('#ind_tab').hide();
 		});
 		$('#searchBtn').off('click').on('click', function(){
 			initPageList(1);
@@ -189,12 +190,10 @@
 	}
 	//日期字符串转换成时间戳
 	function str2Long(dateStr){
-		var time = '';
 		if(dateStr){
-			var date = new Date(dateStr);
-			time = date.getTime();
+			return Date.parseYMD_HMS(dateStr).getTime();
 		}
-		return time;
+		return '';
 	}
 	//获取查询条件
 	function getParams(){
@@ -293,8 +292,8 @@
 				var status = '';
 				switch (obj.status) {
 				case '0': status = '未入厂'; break;
-				case '1': status = '空车'; break;
-				case '2': status = '重车'; break;
+				case '1': status = '重车'; break;
+				case '2': status = '空车'; break;
 				case '3': status = '作废'; break;
 				case '4': status = '发卡'; break;
 				case '5': status = '出厂'; break;

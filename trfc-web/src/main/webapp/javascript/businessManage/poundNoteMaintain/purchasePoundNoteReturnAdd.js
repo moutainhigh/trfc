@@ -8,12 +8,10 @@
 	};
 	//日期字符串转为时间戳
 	function str2Long(dateStr){
-		var time = '';
 		if(dateStr){
-			var date = new Date(dateStr);
-			time = date.getTime();
+			return Date.parseYMD_HMS(dateStr).getTime();
 		}
-		return time;
+		return '';
 	}
 	init();
 	function init(){
@@ -177,15 +175,6 @@
 				}
 			}
 		});
-	}
-	//日期字符串转为时间戳
-	function str2Long(dateStr){
-		var time = '';
-		if(dateStr){
-			var date = new Date(dateStr);
-			time = date.getTime();
-		}
-		return time;
 	}
 	//获取采购计量参数
 	function getPurchasePoundNoteParams(){

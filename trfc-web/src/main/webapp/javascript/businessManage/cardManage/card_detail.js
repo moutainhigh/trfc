@@ -1,6 +1,7 @@
 $(function() {
 	var URL = {
 			getAccessData : '/trfc/cardReissue/getAccessData',
+			updateCard : '/trfc/cardReissue/updateCard',
 			findOne: '/trfc/accessRecord/findOne',
 			findSales:'/trfc/salesArrive/findOne',
 			findPurchase:'/trfc/purchaseArrive/findOne',
@@ -9,15 +10,30 @@ $(function() {
 			findPoundDateil:'/trfc/poundNote/purchase/findByBillid'
 	};
 	var ST = {
-		'0':'未入厂',	
-		'1':'一次过磅',	
-		'2':'二次过磅',	
-		'3':'作废',	
-		'4':'发卡',	
-		'5':'出厂',
-		'6':'入厂',
-		'7':'装车'
+			'0':'未入厂',	
+			'1':'一次过磅',	
+			'2':'二次过磅',	
+			'3':'作废',	
+			'4':'发卡',	
+			'5':'出厂',
+			'6':'入厂',
+			'7':'装车'
 	};
+	//业务类型
+	var BT = {
+			'1':'采购',
+			'2':'销售',
+			'3':'其他入库',
+			'4':'其他出库'
+	};
+
+	//物料类型
+	var MT = {
+			'0':'袋装',
+			'1':'水泥散装',
+			'2':'其他散装'
+	};
+
 	//获取id
 	var id = getId();
 	//详情切换
@@ -28,14 +44,72 @@ $(function() {
 		$('.cg_tabbox > .cg_tabcont').eq(index).show().siblings().hide();
 	});
 	$('#readCard').click(readcard);
+	$('#cardReissue').click(writecard);
 	initPage();
-	
-	
-	
+
+	//写卡
+	function writecard(){
+		var obj = $('#business_detail').data('obj');
+		if(initCardReader()) {
+			//打开读卡器
+			readerOpen();
+			//开打卡片获取卡号
+			var cardno = openCard();
+			if(cardno){
+				//蜂鸣
+				readerBeep();
+				try{
+
+					writeDataToCard(obj.rfid.substr(0,16), 1);
+					writeDataToCard(obj.rfid.substr(16),2);
+					writeDataToCard(obj.vehicleno,4);
+					writeDataToCard((obj.suppliername || obj.customername).substr(0,16),5);
+					writeDataToCard((obj.suppliername || obj.customername).substr(16),6);
+					writeDataToCard(obj.materielname,8);
+					writeDataToCard(MT[obj.materieltype],9);
+					writeDataToCard(BT[obj.businesstype],10);
+					writeDataToCard(obj.noticecode,12);
+					writeDataToCard(obj.batchnum,13);
+					writeDataToCard(obj.vehiclecode || '',18);
+					writeDataToCard(obj.supperlierremark || '',24);
+					writeDataToCard(obj.minemouthname || obj.spraycode,28);
+					writeDataToCard(obj.takeamount || '',32);
+					writeDataToCard(obj.arrivalamount || '',17);
+					updateCardno(cardno,obj);
+				} catch (e) {
+					alert(e.Message);
+				}
+
+			}
+			//关闭读卡器
+			readerClose();
+			//	layer.alert('补卡成功');
+		}else{
+			layer.alert('当前游览器不支持!(只兼容IE游览器)');
+		}
+	}
+
+	//更新卡号到通知单
+	function updateCardno(cardno,obj) {
+		var param = {
+				icardno:cardno,
+				noticeid:obj.noticeid,
+				businesstype:obj.businesstype
+		};
+		$.post(URL.updateCard,param,function(result) {
+			if('000000' === result.code) {
+				layer.alert('补卡成功');
+			}else {
+				layer.msg(result.error,{icon:5});
+			}
+		});
+	}
+
 	//读卡
 	function readcard() {
 		//切换至读卡详情
 		$('.cg_tabtit ul li').eq(2).click();
+		if(initCardReader()) {
 		//打开读卡器
 		readerOpen();
 		//开打卡片获取卡号
@@ -43,32 +117,46 @@ $(function() {
 		if(cardno){
 			//蜂鸣
 			readerBeep();
-			var inputs4 = $('#icard_detail > div > input');
-			inputs4.eq(0).val(cardno);
-			inputs4.eq(2).val(getICCardData(7));
-			inputs4.eq(3).val(getICCardData(4));
-			inputs4.eq(4).val(getICCardData(5));
-			inputs4.eq(6).val(getICCardData(3));
-			inputs4.eq(11).val(getICCardData(6));
-			inputs4.eq(12).val(getICCardData(8));
+			try{
+				var inputs4 = $('#icard_detail > div > input');
+				inputs4.eq(0).val(cardno);
+				inputs4.eq(1).val(getDataFromCard(18));
+				inputs4.eq(2).val(getDataFromCard(4));
+				inputs4.eq(3).val(getDataFromCard(5)+getDataFromCard(6));
+				inputs4.eq(4).val(getDataFromCard(8));
+				inputs4.eq(5).val(getDataFromCard(9));
+				inputs4.eq(6).val(getDataFromCard(12));
+				inputs4.eq(7).val(getDataFromCard(32) || getDataFromCard(17));
+				inputs4.eq(8).val('有效');
+				inputs4.eq(9).val(getDataFromCard(10));
+				inputs4.eq(10).val('');
+				inputs4.eq(11).val(getDataFromCard(28));
+				inputs4.eq(12).val(getDataFromCard(24));
+			} catch (e) {
+				alert(e.Message);
+			}
 		}
 		//关闭读卡器
 		readerClose();
-		
+		}else{
+			layer.alert('当前游览器不支持!(只兼容IE游览器)');
+		}
+
 	}
-	
+
 	//获取id
 	function getId() {
 		var href = window.location.href;
 		var strs = href.split('?id=');
 		return strs[1];
 	}
-	
+
 	//初始化页面
 	function initPage() {
 		$.post(URL.getAccessData,{id:id},function(result) {
 			if('000000' === result.code){
 				var record = result.data;
+				$('#business_detail').data('obj',record);
 				//判断业务类型
 				if(record.businesstype === '1') {
 					showPurchaseData(record);
@@ -79,15 +167,17 @@ $(function() {
 				}else if(record.businesstype === '4') {
 
 				}
-				//读卡信息
+				//读卡信息 初始化
 				var inputs4 = $('#icard_detail > div > input');
 				inputs4.val('');
 			}
 		});
 
+		//返回按钮 返回到列表
 		$('#goBack').click(function() {
 			window.location.href = "/trfc/cardReissue/main";
 		});
+		//刷新
 		$('#fresh').click(function() {
 			window.location.reload();
 		});
@@ -172,12 +262,23 @@ $(function() {
 		var inputs2 = $('#arrive_detail > div > input');
 		var inputs3 = $('#pound_detail > div > input');
 		var labels3 = $('#pound_detail > div > label');
+
+
 		labels3.eq(1).html('发货单位：');
 		labels3.eq(2).html('客户：');
 		labels3.eq(4).html('批号：');
 		labels3.eq(15).html('订单一：');
 		labels3.eq(16).html('订单二：');
 		labels3.eq(17).html('订单三：');
+
+		$('#icard_detail').append('<div class="daohuo_add_solo"><label>Nice44：</label><input type="text" readOnly="true"></div>')
+		.append('<div class="daohuo_add_solo"><label>Nice45：</label><input type="text" readOnly="true"></div>')
+		.append('<div class="daohuo_add_solo"><label>Nice46：</label><input type="text" readOnly="true"></div>');
+		var labels4 = $('#icard_detail > div > label');
+		labels4.eq(6).html('提货单号：');
+		labels4.eq(7).html('预提量：');
+		labels4.eq(11).html('喷码：');
+		labels4.eq(12).html('袋数：');
 		//业务详情
 		inputs1.eq(0).val(record.accesscode);
 		inputs1.eq(1).val(record.noticecode);

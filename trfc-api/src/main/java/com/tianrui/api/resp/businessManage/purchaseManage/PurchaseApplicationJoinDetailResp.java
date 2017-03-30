@@ -100,6 +100,8 @@ public class PurchaseApplicationJoinDetailResp extends BaseResp {
     private String materielspec;
 	//物料类型
     private String materieltype;
+    //包装类型
+    private String packagetype;
 	//数量
     private Double purchasesum;
 	//单位 default='吨'
@@ -116,7 +118,7 @@ public class PurchaseApplicationJoinDetailResp extends BaseResp {
     //未入库占用量
     private String unstoragequantity;
     //到货占用量
-    private String arrivalquantity;
+    private String pretendingtake;
     
 	public String getId() {
 		return id;
@@ -411,11 +413,17 @@ public class PurchaseApplicationJoinDetailResp extends BaseResp {
 	public void setUnstoragequantity(String unstoragequantity) {
 		this.unstoragequantity = unstoragequantity;
 	}
-	public String getArrivalquantity() {
-		return arrivalquantity;
+	public String getPretendingtake() {
+		return pretendingtake;
 	}
-	public void setArrivalquantity(String arrivalquantity) {
-		this.arrivalquantity = arrivalquantity;
+	public void setPretendingtake(String pretendingtake) {
+		this.pretendingtake = pretendingtake;
+	}
+	public String getPackagetype() {
+		return packagetype;
+	}
+	public void setPackagetype(String packagetype) {
+		this.packagetype = packagetype;
 	}
     
 }

@@ -1,6 +1,8 @@
 	package com.tianrui.api.intf.businessManage.poundNoteMaintain;
 
-	import com.tianrui.api.req.businessManage.poundNoteMaintain.PoundNoteQuery;
+	import com.tianrui.api.req.businessManage.poundNoteMaintain.ApiPoundNoteQuery;
+import com.tianrui.api.req.businessManage.poundNoteMaintain.ApiPoundNoteValidation;
+import com.tianrui.api.req.businessManage.poundNoteMaintain.PoundNoteQuery;
 	import com.tianrui.api.req.businessManage.poundNoteMaintain.PoundNoteSave;
 	import com.tianrui.api.resp.businessManage.poundNoteMaintain.PoundNoteResp;
 	import com.tianrui.smartfactory.common.vo.PaginationVO;
@@ -67,8 +69,8 @@
 		 * @return
 		 */
 		PaginationVO<PoundNoteResp> salesPage(PoundNoteQuery query);
-		Result findByBillid(String billid) throws Exception;
-	/**
+
+		/**
 		 * @Description 销售计量单新增
 		 * @author zhanggaohao
 		 * @version 2017年3月19日 下午3:11:52
@@ -102,6 +104,32 @@
 		 * @return
 		 */
 		Result updateSerialNumber(PoundNoteQuery query);
+		/**
+		 * @Description 磅单上传接口
+		 * @author zhanggaohao
+		 * @version 2017年3月25日 上午10:00:44
+		 * @param query
+		 * @return
+		 * @throws Exception 
+		 */
+		Result savePoundNoteWeight(ApiPoundNoteQuery query) throws Exception;
+		/**
+		 * @Description 磅房验证
+		 * @author zhanggaohao
+		 * @version 2017年3月27日 上午9:09:55
+		 * @param valid
+		 * @return
+		 * @备注 一次过磅验证入厂门禁，二次过磅：采购验证一次过磅，销售验证装货
+		 */
+		Result validation(ApiPoundNoteValidation valid);
+		/**
+		 * @Description 历史皮重查询
+		 * @author zhanggaohao
+		 * @version 2017年3月27日 下午3:34:59
+		 * @param valid
+		 * @return
+		 */
+		Result tareWeight(ApiPoundNoteQuery valid);
 	
 	}
 

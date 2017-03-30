@@ -6,20 +6,23 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 import com.alibaba.fastjson.JSON;
-import com.tianrui.api.req.businessManage.poundNoteMaintain.ApiPoundNoteValidation;
+import com.tianrui.api.req.basicFile.measure.VehicleCheckApi;
+import com.tianrui.api.req.businessManage.salesManage.ApiDoorSystemSave;
 import com.tianrui.smartfactory.common.api.ApiParam;
 import com.tianrui.smartfactory.common.api.Head;
 import com.tianrui.smartfactory.common.constants.Constant;
+import com.tianrui.smartfactory.common.utils.DateUtil;
 import com.tianrui.smartfactory.common.utils.Md5Utils;
-import com.tianrui.smartfactory.common.vo.Result;
 
-public class TestApiWarehouse {
+public class TestApiDoorSystem {
 
-	private static String domin="http://localhost/";
-	private static String uri="api/poundNote/validation";
+	private static String domin = "http://localhost/";
+	private static String uri_info = "api/doorSystem/enterFactoryCheck";
+	private static String uri_leave = "api/doorSystem/leaveFactoryCheck";
+	private static String uri_record = "api/doorSystem/record";
 	
 	public static void main(String[] args) throws Exception {
-		URL url = new URL(domin+uri);
+		URL url = new URL(domin + uri_record);
 		// 打开url连接
 		HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 		// 设置url请求方式 ‘get’ 或者 ‘post’
@@ -35,37 +38,57 @@ public class TestApiWarehouse {
         byte[] bypes = params.toString().getBytes();
         connection.getOutputStream().write(bypes);// 输入参数
 		
-		
 		// 发送
 		BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
 		String response = in.readLine();
 		System.out.println(response);
 		
-		Result rs =JSON.parseObject(response, Result.class);
-		System.out.println("111111$$"+rs.getData());
-		
 		
 	}
-	static ApiParam<ApiPoundNoteValidation> getParam1(){
-		ApiParam<ApiPoundNoteValidation> api =new ApiParam<ApiPoundNoteValidation>();
-		ApiPoundNoteValidation query = new ApiPoundNoteValidation();
-		query.setVehicleno("豫GA2571");
-		query.setRfid("06D4A539303738202020AB01");
-		query.setType("1");
+	static ApiParam<ApiDoorSystemSave> getParam1(){
+		ApiParam<ApiDoorSystemSave> api =new ApiParam<ApiDoorSystemSave>();
+		
+		ApiDoorSystemSave req =new ApiDoorSystemSave();
+		req.setNotionformcode("DH201703300025");
+		req.setIcardno("1765017575");
+		req.setServicetype("0");
+		req.setType("2");
+		req.setTime(DateUtil.getNowDateString("yyyy-MM-dd HH:mm:ss"));
 		
 		Head head =new Head();
 		head.setCallSource("1");
 		head.setCallType("2");
-		head.setCallTime("2017-01-07 11:01:00");
+		head.setCallTime(DateUtil.getNowDateString("yyyy-MM-dd HH:mm:ss"));
 		head.setUserId("111111");
 		
-		api.setBody(query);
+		api.setBody(req);
 		api.setHead(head);
 		
 		setkey(api);
 		setMd5(api);
 		return api;
 	}
+	static ApiParam<VehicleCheckApi> getParam0(){
+		ApiParam<VehicleCheckApi> api =new ApiParam<VehicleCheckApi>();
+		
+		VehicleCheckApi req =new VehicleCheckApi();
+		req.setRfid("08D4A547413930373820AB01");
+		req.setVehicleNo("豫GA9078");
+		
+		Head head =new Head();
+		head.setCallSource("1");
+		head.setCallType("2");
+		head.setCallTime(DateUtil.getNowDateString("yyyy-MM-dd HH:mm:ss"));
+		head.setUserId("111111");
+		
+		api.setBody(req);
+		api.setHead(head);
+		
+		setkey(api);
+		setMd5(api);
+		return api;
+	}
+	
 	static <T> void setkey(ApiParam<T> api){
 		api.getHead().setKey(Md5Utils.MD5(Constant.apiAuthKey+api.getHead().getCallTime()));
 	}
@@ -74,5 +97,6 @@ public class TestApiWarehouse {
 		api.setSign(Constant.apiAuthSign);
 		api.setSign(Md5Utils.MD5(JSON.toJSONString(api)));
 	}
+	
 	
 }

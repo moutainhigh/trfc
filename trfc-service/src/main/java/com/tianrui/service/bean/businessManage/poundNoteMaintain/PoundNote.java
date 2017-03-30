@@ -15,7 +15,7 @@ public class PoundNote {
     private String redcollide;
 	//单据状态：（0：计量系统，1：补增，2：作废）
     private String status;
-	//单据类型（0：采购到货通知单，1：采购退货通知单，销售提货通知单）
+	//单据类型（0：采购到货通知单，1：采购退货通知单，2：销售提货通知单）
     private String billtype;
 	//入库单id
     private String putinwarehouseid;
@@ -49,6 +49,8 @@ public class PoundNote {
     private String vehicleid;
 	//车牌号
     private String vehicleno;
+    //RFID
+    private String vehiclerfid;
 	//接收单位id
     private String receivedepartmentid;
 	//接收单位名称
@@ -322,7 +324,21 @@ public class PoundNote {
         this.vehicleno = vehicleno == null ? null : vehicleno.trim();
     }
 
-    public String getReceivedepartmentid() {
+    /**
+	 * @return the vehiclerfid
+	 */
+	public String getVehiclerfid() {
+		return vehiclerfid;
+	}
+
+	/**
+	 * @param vehiclerfid the vehiclerfid to set
+	 */
+	public void setVehiclerfid(String vehiclerfid) {
+		this.vehiclerfid = vehiclerfid;
+	}
+
+	public String getReceivedepartmentid() {
         return receivedepartmentid;
     }
 
