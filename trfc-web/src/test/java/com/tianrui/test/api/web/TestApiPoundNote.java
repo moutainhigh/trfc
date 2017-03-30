@@ -6,21 +6,22 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 import com.alibaba.fastjson.JSON;
-import com.tianrui.api.req.basicFile.measure.VehicleManageApi;
+import com.tianrui.api.req.businessManage.poundNoteMaintain.ApiPoundNoteQuery;
+import com.tianrui.api.req.businessManage.poundNoteMaintain.ApiPoundNoteValidation;
 import com.tianrui.smartfactory.common.api.ApiParam;
 import com.tianrui.smartfactory.common.api.Head;
 import com.tianrui.smartfactory.common.constants.Constant;
+import com.tianrui.smartfactory.common.utils.DateUtil;
 import com.tianrui.smartfactory.common.utils.Md5Utils;
 
-public class TestApiVehicle {
+public class TestApiPoundNote {
 
 	private static String domin="http://127.0.0.1/";
-	private static String uri_login="api/system/login";
-	private static String uri_rfid="api/card/rfidReg";
-	private static String url_vehicle = "api/vehicle/vehicleCard";
+	private static String url_validation = "api/poundNote/validation";
+	private static String url_up_weight = "api/poundNote/up/weight";
 	
 	public static void main(String[] args) throws Exception {
-		URL url = new URL(domin+url_vehicle);
+		URL url = new URL(domin+url_up_weight);
 		// 打开url连接
 		HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 		// 设置url请求方式 ‘get’ 或者 ‘post’
@@ -36,7 +37,6 @@ public class TestApiVehicle {
         byte[] bypes = params.toString().getBytes();
         connection.getOutputStream().write(bypes);// 输入参数
 		
-		
 		// 发送
 		BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
 		String response = in.readLine();
@@ -44,12 +44,40 @@ public class TestApiVehicle {
 		
 		
 	}
-	static ApiParam<VehicleManageApi> getParam1(){
-		ApiParam<VehicleManageApi> api =new ApiParam<VehicleManageApi>();
+	//磅房上传
+	static ApiParam<ApiPoundNoteQuery> getParam1(){
+		ApiParam<ApiPoundNoteQuery> api =new ApiParam<ApiPoundNoteQuery>();
 		
-		VehicleManageApi req =new VehicleManageApi();
-		req.setRfid("06D4A539303738202020AB01");
-		req.setVehicleNo("豫GA2571");
+		ApiPoundNoteQuery req =new ApiPoundNoteQuery();
+		req.setRfid("08D4A547413930373820AB01");
+		req.setVehicleno("豫GA9078");
+		req.setType("1");
+		req.setServicetype("0");
+		req.setNotionformcode("DH201703300025");
+		req.setNumber("2");
+		req.setTime(DateUtil.getNowDateString("yyyy-MM-dd HH:mm:ss"));
+		
+		Head head =new Head();
+		head.setCallSource("1");
+		head.setCallType("2");
+		head.setCallTime("2017-01-07 11:01:00");
+		head.setUserId("111111");
+		
+		api.setBody(req);
+		api.setHead(head);
+		
+		setkey(api);
+		setMd5(api);
+		return api;
+	}
+	//磅房校验
+	static ApiParam<ApiPoundNoteValidation> getParam0(){
+		ApiParam<ApiPoundNoteValidation> api =new ApiParam<ApiPoundNoteValidation>();
+		
+		ApiPoundNoteValidation req =new ApiPoundNoteValidation();
+		req.setRfid("08D4A547413930373820AB01");
+		req.setVehicleno("豫GA9078");
+		req.setType("2");
 		
 		Head head =new Head();
 		head.setCallSource("1");
@@ -65,11 +93,11 @@ public class TestApiVehicle {
 		return api;
 	}
 	
-	static void setkey( ApiParam api){
+	static <T> void setkey(ApiParam<T> api){
 		api.getHead().setKey(Md5Utils.MD5(Constant.apiAuthKey+api.getHead().getCallTime()));
 	}
 	
-	static void setMd5( ApiParam api){
+	static <T> void setMd5(ApiParam<T> api){
 		api.setSign(Constant.apiAuthSign);
 		api.setSign(Md5Utils.MD5(JSON.toJSONString(api)));
 	}
