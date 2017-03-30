@@ -1,15 +1,10 @@
-package com.tianrui.api.req.system.auth;
+package com.tianrui.api.resp.system.auth;
 
-import com.tianrui.api.req.BaseReq;
-/**
- * 菜单管理req
- * @author lixp
- *
- */
-public class SystemMenuSaveReq extends BaseReq {
+import com.tianrui.api.resp.BaseResp;
 
-	private static final long serialVersionUID = 2174287526269962856L;
+public class SystemMenuResp extends BaseResp{
 	
+	private static final long serialVersionUID = 2384013071783516830L;
 	private String id;
     //模块编码
     private String code;
@@ -37,8 +32,6 @@ public class SystemMenuSaveReq extends BaseReq {
     private String linkgoal;
     //分组行
     private Integer grouping;
-    //当前登录用户id
-  	private String currUId;
 	public String getId() {
 		return id;
 	}
@@ -56,12 +49,6 @@ public class SystemMenuSaveReq extends BaseReq {
 	}
 	public void setName(String name) {
 		this.name = name;
-	}
-	public String getCurrUId() {
-		return currUId;
-	}
-	public void setCurrUId(String currUId) {
-		this.currUId = currUId;
 	}
 	public String getRoleType() {
 		return roleType;
@@ -129,5 +116,5 @@ public class SystemMenuSaveReq extends BaseReq {
 	public void setRoleid(String roleid) {
 		this.roleid = roleid;
 	}
-	
+    
 }

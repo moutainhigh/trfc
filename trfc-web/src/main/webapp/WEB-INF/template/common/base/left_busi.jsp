@@ -61,11 +61,11 @@
 						class="iconfont">&#xe617;</i> <label>其他档案</label>
 				</a></li>
 			</div>
-			<a href="#sys" data-toggle="collapse" class="menu_collap_tit"> <label>系统权限</label>
+			<a href="#sys" data-toggle="collapse" class="menu_collap_tit"> <label>系统设置</label>
 				<span><i class="iconfont">&#xe604;</i></span>
 			</a>
 			<div class="in" id="sys">
-				<li><a href="/trfc/system/auth/user/main"> <i
+				<li><a href="/trfc/system/auth/menu/main"> <i
 						class="iconfont">&#xe617;</i> <label>系统权限</label>
 				</a></li>
 				<li><a href="/trfc/system/base/code/main"> <i

@@ -40,7 +40,7 @@ public class YardManageService implements IYardManageService{
 		if(query!=null){
 			PaginationVO<YardManageResp> page = new PaginationVO<YardManageResp>();
 			query.setState("1");
-			Long count=yardManageMapper.findYardPageCount(query);
+			long count=yardManageMapper.findYardPageCount(query);
 			if(count>0){
 				query.setStart((query.getPageNo()-1)*query.getPageSize());
 				query.setLimit(query.getPageSize());
@@ -107,8 +107,8 @@ public class YardManageService implements IYardManageService{
 		if(save != null){
 			YardManage yard = new YardManage();
 			PropertyUtils.copyProperties(yard, save);
-			save.setModifier(save.getUser());
-			save.setModifytime(System.currentTimeMillis());
+			yard.setModifier(save.getUser());
+			yard.setModifytime(System.currentTimeMillis());
 			//执行修改方法，成功时提示信息
 			if(yardManageMapper.updateByPrimaryKeySelective(yard) > 0){
 				result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);

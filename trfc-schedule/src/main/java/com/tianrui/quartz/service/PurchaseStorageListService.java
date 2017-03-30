@@ -61,7 +61,7 @@ public class PurchaseStorageListService implements IPurchaseStorageListService{
 				}
 				//获取所有的子表数据
 				List<PurchaseStorageListItem> itemList=PurchaseStorageListItemMapper.selectByOrderIds(ids);
-				//遍历病赋值到主表
+				//遍历并赋值到主表
 				if(CollectionUtils.isNotEmpty(itemList)){
 					for (PurchaseStorageListItem listItem : itemList) {
 						PurchaseStorageList order=map.get(listItem.getPurchaseStorageListId());

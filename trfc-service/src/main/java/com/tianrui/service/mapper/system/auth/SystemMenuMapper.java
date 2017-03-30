@@ -3,7 +3,6 @@ package com.tianrui.service.mapper.system.auth;
 import java.util.List;
 
 import com.tianrui.api.req.system.auth.SystemMenuQueryReq;
-import com.tianrui.api.req.system.auth.SystemUserQueryReq;
 import com.tianrui.service.bean.system.auth.SystemMenu;
 
 /**
@@ -37,4 +36,6 @@ public interface SystemMenuMapper {
      * @return
      */
     long countByCondition(SystemMenuQueryReq queryReq );
+    
+    List<SystemMenu>  selectSelective(SystemMenu record);
 }

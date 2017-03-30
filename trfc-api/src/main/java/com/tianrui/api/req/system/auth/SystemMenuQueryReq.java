@@ -2,49 +2,27 @@ package com.tianrui.api.req.system.auth;
 
 import com.tianrui.api.req.BaseReq;
 /**
- * 用户登录
+ * 菜单管理req
  * @author lixp
- *
  */
 public class SystemMenuQueryReq extends BaseReq {
 
 	private static final long serialVersionUID = 2174287526269962856L;
-	private String codeLike;
-	private String accountLike;
-	private String nameLike;
-	
+    private String id;
+    //模块编码
+    private String code;
+    //模块名称
+    private String name;
+    //上级模块id
+    private String roleid;
+    //上级模块名称
+    private String roleType;
+    //有效性    默认无效 0无效 1有效
+    private Byte isvalid;
+	//当前登录用户id
 	private String currUId;
-	
-	private String id;
-	private String name;
-	private String code;
-	
 	private Integer start;
 	private Integer limit;
-
-	public String getCodeLike() {
-		return codeLike;
-	}
-
-	public void setCodeLike(String codeLike) {
-		this.codeLike = codeLike;
-	}
-
-	public String getAccountLike() {
-		return accountLike;
-	}
-
-	public void setAccountLike(String accountLike) {
-		this.accountLike = accountLike;
-	}
-
-	public String getNameLike() {
-		return nameLike;
-	}
-
-	public void setNameLike(String nameLike) {
-		this.nameLike = nameLike;
-	}
 
 	public String getCurrUId() {
 		return currUId;
@@ -92,6 +70,30 @@ public class SystemMenuQueryReq extends BaseReq {
 
 	public void setCode(String code) {
 		this.code = code;
+	}
+
+	public String getRoleType() {
+		return roleType;
+	}
+
+	public void setRoleType(String roleType) {
+		this.roleType = roleType;
+	}
+
+	public Byte getIsvalid() {
+		return isvalid;
+	}
+
+	public void setIsvalid(Byte isvalid) {
+		this.isvalid = isvalid;
+	}
+
+	public String getRoleid() {
+		return roleid;
+	}
+
+	public void setRoleid(String roleid) {
+		this.roleid = roleid;
 	}
 	
 	

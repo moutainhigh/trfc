@@ -1,22 +1,30 @@
 package com.tianrui.service.impl.system.auth;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.tianrui.api.intf.system.auth.ISystemMenuService;
 import com.tianrui.api.req.system.auth.SystemMenuQueryReq;
 import com.tianrui.api.req.system.auth.SystemMenuSaveReq;
+import com.tianrui.api.resp.system.auth.SystemMenuResp;
 import com.tianrui.service.bean.system.auth.SystemMenu;
-import com.tianrui.service.bean.system.auth.SystemUser;
 import com.tianrui.service.mapper.system.auth.SystemMenuMapper;
 import com.tianrui.smartfactory.common.constants.ErrorCode;
+import com.tianrui.smartfactory.common.utils.UUIDUtil;
 import com.tianrui.smartfactory.common.vo.PaginationVO;
 import com.tianrui.smartfactory.common.vo.Result;
-
+/**
+ * 菜单管理Service
+ * @author YangZhenFu
+ * @createtime 2017年3月27日 上午10:02:40
+ * @classname SystemMenuService.java
+ */
 @Service
 public class SystemMenuService implements ISystemMenuService {
 
@@ -27,15 +35,15 @@ public class SystemMenuService implements ISystemMenuService {
 	@Override
 	public Result page(SystemMenuQueryReq req) throws Exception {
 		Result rs =Result.getSuccessResult();
-		PaginationVO<SystemMenuQueryReq> page = null;
+		PaginationVO<SystemMenuResp> page = null;
 		if(req != null){
-			page = new PaginationVO<SystemMenuQueryReq>();
+			page = new PaginationVO<SystemMenuResp>();
 			long count = systemMenuMapper.countByCondition(req);
 			if(count > 0){
 				req.setStart((req.getPageNo()-1)*req.getPageSize());
 				req.setLimit(req.getPageSize());
 				List<SystemMenu> list = systemMenuMapper.selectByCondition(req);
-				//page.setList(copySystemUserBeanList2RespList(list));
+				page.setList(copySystemUserBeanList2RespList(list));
 			}
 			page.setPageNo(req.getPageNo());
 			page.setPageSize(req.getPageSize());
@@ -44,6 +52,8 @@ public class SystemMenuService implements ISystemMenuService {
 		rs.setData(page);
 		return rs;
 	}
+
+
 
 	@Override
 	public Result detail(SystemMenuQueryReq req) throws Exception {
@@ -61,47 +71,83 @@ public class SystemMenuService implements ISystemMenuService {
 		return rs;
 	}
 
+	@Transactional
 	@Override
 	public Result addMenu(SystemMenuSaveReq req) throws Exception {
-		Result rs =Result.getParamErrorResult();
+		Result rs =Result.getSuccessResult();
 		//参数不能为空交验
-		//菜单名称不能重复 
-		SystemMenuQueryReq query =new SystemMenuQueryReq();
-		query.setName(req.getName());
-		List<SystemMenu> list =systemMenuMapper.selectByCondition(query);
-		if( CollectionUtils.isEmpty(list) ){
-			//登录账户不能 重复
-			query =new SystemMenuQueryReq();
+		if(req!=null){
+			//菜单名称不能重复 
+			SystemMenu query =new SystemMenu();
+			query.setName(req.getName());
+			List<SystemMenu> _list =systemMenuMapper.selectSelective(query);
+			if( _list!=null && _list.size()>0 ){
+				rs.setErrorCode(ErrorCode.SYSTEM_MENU_ERROR7);
+				return rs;
+				
+			}
+			//菜单编号不能重复
+			query =new SystemMenu();
 			query.setCode(req.getCode());
-			list =systemMenuMapper.selectByCondition(query);
-			if( CollectionUtils.isEmpty(list) ){
-				//TODO 保存数据
-			}else{
+			List<SystemMenu> list =systemMenuMapper.selectSelective(query);
+			if( list!=null && list.size()>0){
 				rs.setErrorCode(ErrorCode.SYSTEM_MENU_ERROR8);
+				return rs;
+			}
+			//TODO 保存数据
+			SystemMenu bean=new SystemMenu();
+			PropertyUtils.copyProperties(bean, req);
+			bean.setId(UUIDUtil.getId());
+			bean.setCreator(req.getCurrUId());
+			bean.setCreatetime(System.currentTimeMillis());
+			bean.setModifier(req.getCurrUId());
+			bean.setModifytime(System.currentTimeMillis());
+			if(systemMenuMapper.insertSelective(bean)>0){
+				rs.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+				rs.setData(bean);
+			}else{
+				rs.setErrorCode(ErrorCode.OPERATE_ERROR);
 			}
 		}else{
-			rs.setErrorCode(ErrorCode.SYSTEM_MENU_ERROR7);
+			rs.setErrorCode(ErrorCode.PARAM_NULL_ERROR);
 		}
 		return rs;
 	}
 
+	@Transactional
 	@Override
 	public Result editMenu(SystemMenuSaveReq req) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		Result result=Result.getParamErrorResult();
+		//参数不能为空交验
+		if(req!=null && StringUtils.isNotBlank(req.getId())){
+			SystemMenu bean=new SystemMenu();
+			PropertyUtils.copyProperties(bean, req);
+			bean.setModifier(req.getCurrUId());
+			bean.setModifytime(System.currentTimeMillis());
+			if(systemMenuMapper.updateByPrimaryKeySelective(bean)>0){
+				result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+			}else{
+				result.setErrorCode(ErrorCode.OPERATE_ERROR);
+			}
+		}
+		return result;
 	}
 
+	@Transactional
 	@Override
 	public Result delMenu(SystemMenuQueryReq req) throws Exception {
 		Result rs =Result.getParamErrorResult();
 		//参数不能为空交验
-		if( req !=null && StringUtils.isBlank(req.getId()) ){
+		if( req !=null && StringUtils.isNotBlank(req.getId()) ){
 			//是否能查到数据
 			SystemMenu db=systemMenuMapper.selectByPrimaryKey(req.getId());
 			if(db !=null){
 				//TODO关联关系删除
-				systemMenuMapper.deleteByPrimaryKey(req.getId());
-				rs.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+				if(systemMenuMapper.deleteByPrimaryKey(req.getId())>0){
+					rs.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+				}else{
+					rs.setErrorCode(ErrorCode.OPERATE_ERROR);
+				}
 			}else{
 				rs.setErrorCode(ErrorCode.SYSTEM_MENU_ERROR6);
 			}
@@ -109,5 +155,40 @@ public class SystemMenuService implements ISystemMenuService {
 		return rs;
 	}
 	
+	
+	
+	/**
+	 * 集合转换
+	 * @param List<SystemMenu> list
+	 * @return List<SystemMenuResp> 
+	 * @throws Exception
+	 */
+	private List<SystemMenuResp> copySystemUserBeanList2RespList(List<SystemMenu> list) throws Exception {
+		List<SystemMenuResp> listResp = null;
+		if(list != null && list.size() > 0){
+			listResp = new ArrayList<SystemMenuResp>();
+			for(SystemMenu menu : list){
+				listResp.add(copyBeanList2RespList(menu));
+			}
+		}
+		return listResp;
+	}
+	
+	
+	
+	/**
+	 * 实体bean类型转换
+	 * @param SystemMenu bean
+	 * @return SystemMenuResp
+	 * @throws Exception
+	 */
+	private SystemMenuResp copyBeanList2RespList(SystemMenu bean) throws Exception {
+		SystemMenuResp resp = null;
+		if(bean != null){
+			resp = new SystemMenuResp();
+			PropertyUtils.copyProperties(resp, bean);
+		}
+		return resp;
+	}
 
 }
