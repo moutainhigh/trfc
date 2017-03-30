@@ -256,6 +256,9 @@ $(function(){
 				});
 				if(list){
 					showPageData(list,pageSize,pageNo);
+				}else{
+					 $('#list').empty();
+					 layer.msg('暂无数据');
 				}
 				//关闭缓冲图标
 				layer.close(index);
@@ -266,7 +269,7 @@ $(function(){
 	}
 //	展示列表
 	function showPageData(list,pageSize,pageNo){
-		
+		//车辆状态
 		var STATUS = {
 				'0':'未入厂',
 				'1':'一次过磅',
@@ -277,10 +280,6 @@ $(function(){
 				'6':'入厂',
 				'7':'装车'
 		};
-		var TYPE = {
-			'0':'到货通知单',
-			'1':'退货通知单'
-		};
 		//加载时清空列表和跳转值
 		$('#jumpPageNo').val('');
 		var tbody = $('#list').empty();
@@ -288,15 +287,15 @@ $(function(){
 			var obj = list[i];
 			var tr = '<tr>'
 				+'<td>'+((pageNo-1)*pageSize+i+1)+'</td>'
-				+'<td class="colorred">'+(obj.vehicleno || '')+'</td>'
-				+'<td>'+(STATUS[obj.status] || '')+'</td>'
-				+'<td>'+('到货' || '')+'</td>'
+				+'<td>'+(obj.vehicleno || '')+'</td>'
+				+'<td '+(obj.status==='3'?'class="colorred">':'class="colorblue">')+(STATUS[obj.status] || '')+'</td>'
+				+'<td class="colorblue">'+('到货' || '')+'</td>'
 				+'<td>'+(obj.makebilltimeStr || '')+'</td>'
-				+'<td>'+(obj.makebilltimeStr || '')+'</td>'
+				+'<td>'+(getNowFormatDate(true, obj.enterTime)|| '')+'</td>'
 				+'<td>'+(getNowFormatDate(true, obj.poundNoteResp.weighttime) || '')+'</td>'
 				+'<td>'+(getNowFormatDate(true, obj.poundNoteResp.lighttime) || '')+'</td>'
 				+'<td>'+(getNowFormatDate(true, obj.poundNoteResp.receivertime) || '')+'</td>'
-				+'<td>'+(obj.makebilltimeStr || '')+'</td>'
+				+'<td>'+(getNowFormatDate(true, obj.outTime) || '')+'</td>'
 				+'<td>'+(obj.code || '')+'</td>'
 				+'<td>'+(obj.billcode || '')+'</td>'
 				+'<td>'+(obj.purchaseApplicationResp.suppliername|| '')+'</td>'
@@ -306,8 +305,7 @@ $(function(){
 			tr=$(tr);
 			//追加
 			tbody.append(tr);
-			//将数据绑定到tr上
-			tr.data('obj',obj);
+			
 		}
 		
 	}

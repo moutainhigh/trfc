@@ -40,37 +40,27 @@
 									<label>订单号：</label> <input id="billcode" type="text">
 								</div>
 								<div class="intel_solo">
+									<label>供应商：</label> <input type="text" id="supplier" >
+										
+								</div>
+								<div class="intel_solo">
+									<label>车号：</label> <input type="text" id="vehicle" />
+										
+								</div>
+								<div class="intel_solo">
+									<label>物料：</label> <input type="text" id="materiel" />
+								</div>
+								<div class="intel_solo">
+									<label>司机：</label> <input type="text" id="driver" />
+								</div>
+								<div class="intel_solo">
 									<label>通知单号：</label> <input id="code" type="text">
-								</div>
-								<div class="intel_solo">
-									<label>供应商：</label> <select id="supplier" class="form-control">
-										<option value="">请选择</option>
-										<c:forEach items="${supplier }" var="s">
-											<option value="${s.id }">${s.name }</option>
-										</c:forEach>
-									</select>
-								</div>
-								<div class="intel_solo">
-									<label>车号：</label> <select idi="vehicle" class="form-control">
-										<option value="">请选择</option>
-										<c:forEach items="${vehicle }" var="v">
-											<option value="${v.id }">${v.vehicleno }</option>
-										</c:forEach>
-									</select>
 								</div>
 								<div class="intel_solo">
 									<label>审核状态：</label> <select id="auditstatus" class="form-control">
 										<option value="">请选择</option>
 										<option value="0">未审核</option>
 										<option value="1">已审核</option>
-									</select>
-								</div>
-								<div class="intel_solo">
-									<label>司机：</label> <select id="driver" class="form-control">
-										<option value="">请选择</option>
-										<c:forEach items="${driver }" var="d">
-											<option value="${d.id }">${d.name }</option>
-										</c:forEach>
 									</select>
 								</div>
 								<div class="intel_solo">

@@ -27,11 +27,14 @@ import com.tianrui.api.resp.businessManage.purchaseManage.PurchaseApplicationDet
 import com.tianrui.api.resp.businessManage.purchaseManage.PurchaseApplicationResp;
 import com.tianrui.api.resp.businessManage.purchaseManage.PurchaseArriveResp;
 import com.tianrui.service.bean.businessManage.cardManage.Card;
+import com.tianrui.service.bean.businessManage.logisticsManage.AccessRecord;
 import com.tianrui.service.bean.businessManage.poundNoteMaintain.PoundNote;
 import com.tianrui.service.bean.businessManage.purchaseManage.PurchaseApplicationDetail;
 import com.tianrui.service.bean.businessManage.purchaseManage.PurchaseArrive;
 import com.tianrui.service.bean.businessManage.salesManage.SalesArrive;
+import com.tianrui.service.mapper.access.AccessRecordMapper;
 import com.tianrui.service.mapper.businessManage.cardManage.CardMapper;
+import com.tianrui.service.mapper.businessManage.logisticsManage.AccessRecordMapper1;
 import com.tianrui.service.mapper.businessManage.poundNoteMaintain.PoundNoteMapper;
 import com.tianrui.service.mapper.businessManage.purchaseManage.PurchaseApplicationDetailMapper;
 import com.tianrui.service.mapper.businessManage.purchaseManage.PurchaseArriveMapper;
@@ -66,6 +69,8 @@ public class PurchaseArriveService implements IPurchaseArriveService {
 	private CardMapper cardMapper;
 	@Autowired
 	private PoundNoteMapper poundNoteMapper;
+	@Autowired
+	private AccessRecordMapper1 accessRecordMapper1;
 
 	@Override
 	public PaginationVO<PurchaseArriveResp> page(PurchaseArriveQuery query) throws Exception{
@@ -295,7 +300,11 @@ public class PurchaseArriveService implements IPurchaseArriveService {
 					resp.setPoundNoteResp(poundResp);
 				}
 				//获取出入厂时间
-				
+				AccessRecord access = accessRecordMapper1.selectByNoticeId(resp.getId());
+				if(access!=null){
+					resp.setEnterTime(access.getEntertime());
+					resp.setOutTime(access.getOuttime());
+				}
 			}
 			List<PurchaseApplicationResp> listApplication = purchaseApplicationService.selectByIds(ids, false);
 			if(CollectionUtils.isNotEmpty(listApplication)){
