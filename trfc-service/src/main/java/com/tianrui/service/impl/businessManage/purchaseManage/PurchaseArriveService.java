@@ -22,14 +22,17 @@ import com.tianrui.api.req.businessManage.purchaseManage.PurchaseArriveSave;
 import com.tianrui.api.req.system.base.GetCodeReq;
 import com.tianrui.api.resp.basicFile.measure.DriverManageResp;
 import com.tianrui.api.resp.basicFile.measure.VehicleManageResp;
+import com.tianrui.api.resp.businessManage.poundNoteMaintain.PoundNoteResp;
 import com.tianrui.api.resp.businessManage.purchaseManage.PurchaseApplicationDetailResp;
 import com.tianrui.api.resp.businessManage.purchaseManage.PurchaseApplicationResp;
 import com.tianrui.api.resp.businessManage.purchaseManage.PurchaseArriveResp;
 import com.tianrui.service.bean.businessManage.cardManage.Card;
+import com.tianrui.service.bean.businessManage.poundNoteMaintain.PoundNote;
 import com.tianrui.service.bean.businessManage.purchaseManage.PurchaseApplicationDetail;
 import com.tianrui.service.bean.businessManage.purchaseManage.PurchaseArrive;
 import com.tianrui.service.bean.businessManage.salesManage.SalesArrive;
 import com.tianrui.service.mapper.businessManage.cardManage.CardMapper;
+import com.tianrui.service.mapper.businessManage.poundNoteMaintain.PoundNoteMapper;
 import com.tianrui.service.mapper.businessManage.purchaseManage.PurchaseApplicationDetailMapper;
 import com.tianrui.service.mapper.businessManage.purchaseManage.PurchaseArriveMapper;
 import com.tianrui.service.mapper.businessManage.salesManage.SalesArriveMapper;
@@ -61,7 +64,9 @@ public class PurchaseArriveService implements IPurchaseArriveService {
 	private IDriverManageService driverManageService;
 	@Autowired
 	private CardMapper cardMapper;
-	
+	@Autowired
+	private PoundNoteMapper poundNoteMapper;
+
 	@Override
 	public PaginationVO<PurchaseArriveResp> page(PurchaseArriveQuery query) throws Exception{
 		PaginationVO<PurchaseArriveResp> page = null;
@@ -240,7 +245,7 @@ public class PurchaseArriveService implements IPurchaseArriveService {
 		}
 		return result;
 	}
-	
+
 	@Override
 	public Result updateOperation(PurchaseArriveSave update) throws Exception {
 		Result result = Result.getParamErrorResult();
@@ -274,7 +279,7 @@ public class PurchaseArriveService implements IPurchaseArriveService {
 		}
 		return list;
 	}
-	
+
 	private void listRespSetListApplicationResp(List<PurchaseArriveResp> list) throws Exception {
 		if(CollectionUtils.isNotEmpty(list)){
 			List<String> ids = new ArrayList<String>();
@@ -282,6 +287,15 @@ public class PurchaseArriveService implements IPurchaseArriveService {
 			for(PurchaseArriveResp resp : list){
 				ids.add(resp.getBillid());
 				detailIds.add(resp.getBilldetailid());
+				//获取磅单信息
+				PoundNote pound = poundNoteMapper.selectByNoticeId(resp.getId());
+				if(pound!=null){
+					PoundNoteResp poundResp = new PoundNoteResp();
+					PropertyUtils.copyProperties(poundResp, pound);
+					resp.setPoundNoteResp(poundResp);
+				}
+				//获取出入厂时间
+				
 			}
 			List<PurchaseApplicationResp> listApplication = purchaseApplicationService.selectByIds(ids, false);
 			if(CollectionUtils.isNotEmpty(listApplication)){
@@ -316,7 +330,7 @@ public class PurchaseArriveService implements IPurchaseArriveService {
 		}
 		return listResp;
 	}
-	
+
 	private PurchaseArriveResp copyBean2Resp(PurchaseArrive bean, boolean setApplication) throws Exception {
 		PurchaseArriveResp resp = null;
 		if(bean != null){

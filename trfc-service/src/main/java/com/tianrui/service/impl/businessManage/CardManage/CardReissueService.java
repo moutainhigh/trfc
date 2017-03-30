@@ -103,9 +103,9 @@ public class CardReissueService implements ICardReissueService {
 						resp.setPurchasesum(par.getPurchaseApplicationDetailResp().getPurchasesum());
 						resp.setPrice(par.getPurchaseApplicationDetailResp().getPrice());
 						//获取磅单详情
-						String applicationid = par.getPurchaseApplicationResp().getId();
+						String applicationid = par.getId();
 						if(StringUtils.isNotBlank(applicationid)){
-							PoundNote pound = poundNoteMapper.findByBillid(applicationid);
+							PoundNote pound = poundNoteMapper.selectByNoticeId(applicationid);
 							if(pound!=null){
 								resp.setPoundcode(pound.getCode());
 								resp.setWarehousename(pound.getWarehousename());
@@ -154,9 +154,9 @@ public class CardReissueService implements ICardReissueService {
 						resp.setPrice(par.getMainApplicationDetail().getTaxprice());
 						resp.setApplicationremark(par.getMainApplication().getRemarks());
 						resp.setPurchasesum(par.getMainApplicationDetail().getSalessum());
-						String applicationid = par.getMainApplication().getId();
+						String applicationid = par.getId();
 						if(StringUtils.isNotBlank(applicationid)){
-							PoundNote pound = poundNoteMapper.findByBillid(applicationid);
+							PoundNote pound = poundNoteMapper.selectByNoticeId(applicationid);
 							if(pound!=null){
 								resp.setPoundcode(pound.getCode());
 								resp.setWarehousename(pound.getWarehousename());

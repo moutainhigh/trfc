@@ -69,15 +69,7 @@ import com.tianrui.api.req.businessManage.poundNoteMaintain.PoundNoteQuery;
 		 * @return
 		 */
 		PaginationVO<PoundNoteResp> salesPage(PoundNoteQuery query);
-		/**
-		 * @Description 根据订单id查询磅单
-		 * @author xiaoyong
-		 * @version 2017年3月27日 上午9:10:15
-		 * @param billid
-		 * @return
-		 * @throws Exception
-		 */
-		Result findByBillid(String billid) throws Exception;
+
 		/**
 		 * @Description 销售计量单新增
 		 * @author zhanggaohao
