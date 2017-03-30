@@ -14,11 +14,11 @@ import com.tianrui.smartfactory.common.constants.Constant;
 import com.tianrui.smartfactory.common.utils.DateUtil;
 import com.tianrui.smartfactory.common.utils.Md5Utils;
 
-@SuppressWarnings("unused")
 public class TestApiDoorSystem {
 
 	private static String domin = "http://localhost/";
 	private static String uri_info = "api/doorSystem/enterFactoryCheck";
+	private static String uri_leave = "api/doorSystem/leaveFactoryCheck";
 	private static String uri_record = "api/doorSystem/record";
 	
 	public static void main(String[] args) throws Exception {
@@ -49,10 +49,10 @@ public class TestApiDoorSystem {
 		ApiParam<ApiDoorSystemSave> api =new ApiParam<ApiDoorSystemSave>();
 		
 		ApiDoorSystemSave req =new ApiDoorSystemSave();
-		req.setNotionformcode("DH201703290023");
+		req.setNotionformcode("DH201703300025");
 		req.setIcardno("1765017575");
 		req.setServicetype("0");
-		req.setType("1");
+		req.setType("2");
 		req.setTime(DateUtil.getNowDateString("yyyy-MM-dd HH:mm:ss"));
 		
 		Head head =new Head();

@@ -329,15 +329,7 @@ public class AccessRecordService1 implements IAccessRecordService1 {
 					PurchaseArrive pa = new PurchaseArrive();
 					pa.setId(purchase.getId());
 					pa.setStatus("5");
-					//回写订单的未入库占用量和入库占用量
-					PoundNote poundNote = poundNoteMapper.selectByNoticeId(purchase.getId());
-					PurchaseApplicationDetail applicationDetail = purchaseApplicationDetailMapper.selectByPrimaryKey(purchase.getBilldetailid());
-					PurchaseApplicationDetail save = new PurchaseApplicationDetail();
-					save.setId(applicationDetail.getId());
-					save.setStoragequantity(applicationDetail.getStoragequantity() + poundNote.getNetweight());
-					save.setUnstoragequantity(applicationDetail.getUnstoragequantity() - poundNote.getNetweight());
-					if(purchaseArriveMapper.updateByPrimaryKeySelective(pa) > 0
-							&& purchaseApplicationDetailMapper.updateByPrimaryKeySelective(save) > 0){
+					if(purchaseArriveMapper.updateByPrimaryKeySelective(pa) > 0){
 						AccessRecord access = accessRecordMapper.selectByNoticeId(purchase.getId());
 						ec = addOutAccessRecordApi(apiParam, access.getId());
 					}else{
@@ -423,49 +415,7 @@ public class AccessRecordService1 implements IAccessRecordService1 {
 					sa.setId(sales.getId());
 					sa.setState("5");
 					if(salesArriveMapper.updateByPrimaryKeySelective(sa) > 0){
-						//回写订单的未入库占用量和预提占用
-						List<SalesApplicationJoinNatice> list = salesApplicationJoinNaticeMapper.selectByNaticeId(sales.getId());
-						if(CollectionUtils.isNotEmpty(list)){
-							PoundNote poundNote = poundNoteMapper.selectByNoticeId(sales.getId());
-							boolean flag = false;
-							Double netWeight = poundNote.getNetweight();
-							for(SalesApplicationJoinNatice join : list){
-								SalesApplicationDetail applicationDetail = salesApplicationDetailMapper.selectByPrimaryKey(join.getBilldetailid());
-								if(netWeight > join.getMargin()){
-									if(applicationDetail != null){
-										SalesApplicationDetail sd = new SalesApplicationDetail();
-										sd.setId(join.getBilldetailid());
-										sd.setStoragequantity(applicationDetail.getStoragequantity() + join.getMargin());
-										sd.setUnstoragequantity(applicationDetail.getUnstoragequantity() - join.getMargin());
-										if(salesApplicationDetailMapper.updateByPrimaryKeySelective(sd) > 0){
-											flag = true;
-										}else{
-											flag = false;
-											break;
-										}
-										
-									}
-								}else{
-									SalesApplicationDetail sd = new SalesApplicationDetail();
-									sd.setId(join.getBilldetailid());
-									sd.setStoragequantity(applicationDetail.getStoragequantity() + netWeight);
-									sd.setUnstoragequantity(applicationDetail.getUnstoragequantity() - netWeight);
-									if(salesApplicationDetailMapper.updateByPrimaryKeySelective(sd) > 0){
-										flag = true;
-									}else{
-										flag = false;
-										break;
-									}
-								}
-								netWeight -= join.getMargin();
-							}
-							if(flag){
-								AccessRecord access = accessRecordMapper.selectByNoticeId(sales.getId());
-								ec = addOutAccessRecordApi(apiParam, access.getId());
-							}else{
-								ec = ErrorCode.OPERATE_ERROR;
-							}
-						}	
+						ec = ErrorCode.SYSTEM_SUCCESS;
 					}else{
 						ec = ErrorCode.OPERATE_ERROR;
 					}
@@ -536,12 +486,20 @@ public class AccessRecordService1 implements IAccessRecordService1 {
 				if (validateVehicle(checkApi.getVehicleNo(), checkApi.getRfid())) {
 					Map<String, Object> map = validateHasBill(checkApi.getVehicleNo());
 					if (map != null && map.size() > 0) {
-						Object object = map.get("data");
-						if (!StringUtils.equals(CommonUtils.method(object, "status").toString(), "2")) {
-							result.setData(map);
-							result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+						Object object = map.get("notice");
+						if (!StringUtils.equals(CommonUtils.method(object, "status").toString(), "3")) {
+							if (StringUtils.equals(CommonUtils.method(object, "auditstatus").toString(), "1")) {
+								if (StringUtils.equals(CommonUtils.method(object, "status").toString(), "2")) {
+									result.setData(map);
+									result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+								} else {
+									result.setErrorCode(ErrorCode.VEHICLE_NOTICE_NOT_TWO_WEIGHT);
+								}
+							} else {
+								result.setErrorCode(ErrorCode.NOTICE_NOT_AUDIT);
+							}
 						} else {
-							result.setErrorCode(ErrorCode.VEHICLE_NOTICE_NOT_TWO_WEIGHT);
+							result.setErrorCode(ErrorCode.NOTICE_ON_INVALID);
 						}
 					} else {
 						result.setErrorCode(ErrorCode.VEHICLE_NOT_NOTICE);

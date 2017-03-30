@@ -672,6 +672,7 @@ public class PoundNoteService implements IPoundNoteService {
 			if (CollectionUtils.isNotEmpty(list)) {
 				bean = list.get(0);
 				bean.setTareweight(Double.parseDouble(query.getNumber()));
+				bean.setNetweight(bean.getGrossweight() - bean.getTareweight());
 				bean.setLighttime(DateUtil.parse(query.getTime(), "yyyy-MM-dd HH:mm:ss"));
 				bean.setModifier(query.getCurrid());
 				bean.setModifytime(System.currentTimeMillis());
@@ -684,8 +685,13 @@ public class PoundNoteService implements IPoundNoteService {
 				PurchaseStorageListItem storageItem = setPurchaseStorageItem(applicationDetail, bean, storage);
 				bean.setPutinwarehouseid(storage.getId());
 				bean.setPutinwarehousecode(storage.getCode());
+				PurchaseApplicationDetail detail = new PurchaseApplicationDetail();
+				detail.setId(applicationDetail.getId());
+				detail.setStoragequantity(applicationDetail.getStoragequantity() + bean.getNetweight());
+				detail.setUnstoragequantity(applicationDetail.getUnstoragequantity() - bean.getNetweight());
 				if (poundNoteMapper.updateByPrimaryKeySelective(bean) > 0
 						&& purchaseArriveMapper.updateByPrimaryKeySelective(pa) > 0
+						&& purchaseApplicationDetailMapper.updateByPrimaryKeySelective(detail) > 0
 						&& purchaseStorageListMapper.insertSelective(storage) > 0
 						&& purchaseStorageListItemMapper.insertSelective(storageItem) > 0) {
 					ErrorCode ec = returnPurchaseStorage(storage, storageItem);
@@ -733,7 +739,7 @@ public class PoundNoteService implements IPoundNoteService {
 			PurchaseStorageList ps = new PurchaseStorageList(); 
 			ps.setId(storage.getId());
 			ps.setStatus("0");
-			if(purchaseStorageListMapper.updateByPrimaryKeySelective(storage)>0){
+			if(purchaseStorageListMapper.updateByPrimaryKeySelective(ps)>0){
 				ec = ErrorCode.SYSTEM_SUCCESS;
 			}
 		}
@@ -1059,14 +1065,12 @@ public class PoundNoteService implements IPoundNoteService {
 		sa.setVehicleno(valid.getVehicleno());
 		sa.setVehiclerfid(valid.getRfid());
 		sa.setState("1");
-		sa.setStatus("7");
 		List<SalesArrive> listSales = salesArriveMapper.selectSelective(sa);
 		if(CollectionUtils.isEmpty(listSales)){
 			PurchaseArrive pa = new PurchaseArrive();
 			pa.setVehicleno(valid.getVehicleno());
 			pa.setVehiclerfid(valid.getRfid());
 			pa.setState("1");
-			pa.setStatus("1");
 			List<PurchaseArrive> listPurchase = purchaseArriveMapper.selectSelective(pa);
 			if(CollectionUtils.isEmpty(listPurchase)){
 				//该车辆没有通知单
@@ -1074,14 +1078,18 @@ public class PoundNoteService implements IPoundNoteService {
 			}else{
 				//判断通知单是否唯一
 				if(listPurchase.size() == 1){
-					PoundNote poundNote = new PoundNote();
-					poundNote.setNoticeid(listPurchase.get(0).getId());
-					List<PoundNote> listPoundNote = poundNoteMapper.selectSelective(poundNote);
-					//判断是否一次过磅
-					if(CollectionUtils.isNotEmpty(listPoundNote)
-							&& listPoundNote.get(0).getGrossweight() != null
-							&& listPoundNote.get(0).getGrossweight() > 0){
-						result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+					if(StringUtils.equals(listPurchase.get(0).getStatus(), "1")){
+						PoundNote poundNote = new PoundNote();
+						poundNote.setNoticeid(listPurchase.get(0).getId());
+						List<PoundNote> listPoundNote = poundNoteMapper.selectSelective(poundNote);
+						//判断是否一次过磅
+						if(CollectionUtils.isNotEmpty(listPoundNote)
+								&& listPoundNote.get(0).getGrossweight() != null
+								&& listPoundNote.get(0).getGrossweight() > 0){
+							result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+						}else{
+							result.setErrorCode(ErrorCode.VEHICLE_NOTICE_NOT_ONE_WEIGHT);
+						}
 					}else{
 						result.setErrorCode(ErrorCode.VEHICLE_NOTICE_NOT_ONE_WEIGHT);
 					}
@@ -1092,7 +1100,11 @@ public class PoundNoteService implements IPoundNoteService {
 		}else{
 			//判断通知单是否唯一
 			if(listSales.size() == 1){
-				result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+				if(StringUtils.equals(listSales.get(0).getStatus(), "7")){
+					result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+				}else{
+					result.setErrorCode(ErrorCode.VEHICLE_NOTICE_NOT_LOAD);
+				}
 			}else{
 				result.setErrorCode(ErrorCode.VEHICLE_NOTICE_NOT_ONLY);
 			}
