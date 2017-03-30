@@ -20,18 +20,22 @@ $(function() {
 	});
 
 	$('#seek_reader').click(function() {
-		//打开读卡器
-		readerOpen();
-		//开打卡片获取卡号
-		var cardno = openCard();
-		if(cardno){
-			$('#seek_icardno').val(cardno);
-			ShowAction(1);
-			//蜂鸣
-			readerBeep();
+		if(initCardReader()) {
+			//打开读卡器
+			readerOpen();
+			//开打卡片获取卡号
+			var cardno = openCard();
+			if(cardno){
+				$('#seek_icardno').val(cardno);
+				ShowAction(1);
+				//蜂鸣
+				readerBeep();
+			}
+			//关闭读卡器
+			readerClose();
+		}else{
+			layer.alert('当前游览器不支持!(只兼容IE游览器)');
 		}
-		//关闭读卡器
-		readerClose();
 	});
 	//加载下拉框
 	function initAutoComplete(){

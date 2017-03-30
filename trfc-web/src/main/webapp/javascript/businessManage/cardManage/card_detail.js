@@ -46,51 +46,55 @@ $(function() {
 	$('#readCard').click(readcard);
 	$('#cardReissue').click(writecard);
 	initPage();
-	
+
 	//写卡
 	function writecard(){
 		var obj = $('#business_detail').data('obj');
-		//打开读卡器
-		readerOpen();
-		//开打卡片获取卡号
-		var cardno = openCard();
-		if(cardno){
-			//蜂鸣
-			readerBeep();
-			try{
+		if(initCardReader()) {
+			//打开读卡器
+			readerOpen();
+			//开打卡片获取卡号
+			var cardno = openCard();
+			if(cardno){
+				//蜂鸣
+				readerBeep();
+				try{
 
-				writeDataToCard(obj.rfid.substr(0,16), 1);
-				writeDataToCard(obj.rfid.substr(16),2);
-				writeDataToCard(obj.vehicleno,4);
-				writeDataToCard((obj.suppliername || obj.customername).substr(0,16),5);
-				writeDataToCard((obj.suppliername || obj.customername).substr(16),6);
-				writeDataToCard(obj.materielname,8);
-				writeDataToCard(MT[obj.materieltype],9);
-				writeDataToCard(BT[obj.businesstype],10);
-				writeDataToCard(obj.noticecode,12);
-				writeDataToCard(obj.batchnum,13);
-				writeDataToCard(obj.vehiclecode || '',18);
-				writeDataToCard(obj.supperlierremark || '',24);
-				writeDataToCard(obj.minemouthname || obj.spraycode,28);
-				writeDataToCard(obj.takeamount || '',32);
-				writeDataToCard(obj.arrivalamount || '',17);
-				updateCardno(cardno,obj);
-			} catch (e) {
-				alert(e.Message);
+					writeDataToCard(obj.rfid.substr(0,16), 1);
+					writeDataToCard(obj.rfid.substr(16),2);
+					writeDataToCard(obj.vehicleno,4);
+					writeDataToCard((obj.suppliername || obj.customername).substr(0,16),5);
+					writeDataToCard((obj.suppliername || obj.customername).substr(16),6);
+					writeDataToCard(obj.materielname,8);
+					writeDataToCard(MT[obj.materieltype],9);
+					writeDataToCard(BT[obj.businesstype],10);
+					writeDataToCard(obj.noticecode,12);
+					writeDataToCard(obj.batchnum,13);
+					writeDataToCard(obj.vehiclecode || '',18);
+					writeDataToCard(obj.supperlierremark || '',24);
+					writeDataToCard(obj.minemouthname || obj.spraycode,28);
+					writeDataToCard(obj.takeamount || '',32);
+					writeDataToCard(obj.arrivalamount || '',17);
+					updateCardno(cardno,obj);
+				} catch (e) {
+					alert(e.Message);
+				}
+
 			}
-
+			//关闭读卡器
+			readerClose();
+			//	layer.alert('补卡成功');
+		}else{
+			layer.alert('当前游览器不支持!(只兼容IE游览器)');
 		}
-		//关闭读卡器
-		readerClose();
-		//	layer.alert('补卡成功');
 	}
-	
+
 	//更新卡号到通知单
 	function updateCardno(cardno,obj) {
 		var param = {
-			icardno:cardno,
-			noticeid:obj.noticeid,
-			businesstype:obj.businesstype
+				icardno:cardno,
+				noticeid:obj.noticeid,
+				businesstype:obj.businesstype
 		};
 		$.post(URL.updateCard,param,function(result) {
 			if('000000' === result.code) {
@@ -100,11 +104,12 @@ $(function() {
 			}
 		});
 	}
-	
+
 	//读卡
 	function readcard() {
 		//切换至读卡详情
 		$('.cg_tabtit ul li').eq(2).click();
+		if(initCardReader()) {
 		//打开读卡器
 		readerOpen();
 		//开打卡片获取卡号
@@ -133,6 +138,9 @@ $(function() {
 		}
 		//关闭读卡器
 		readerClose();
+		}else{
+			layer.alert('当前游览器不支持!(只兼容IE游览器)');
+		}
 
 	}
 
@@ -164,7 +172,7 @@ $(function() {
 				inputs4.val('');
 			}
 		});
-		
+
 		//返回按钮 返回到列表
 		$('#goBack').click(function() {
 			window.location.href = "/trfc/cardReissue/main";

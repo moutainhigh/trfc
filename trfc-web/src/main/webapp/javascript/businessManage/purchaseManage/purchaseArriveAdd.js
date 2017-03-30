@@ -205,16 +205,16 @@
 			var arrivalamount = $(this).val();
 			if(!arrivalamount || !$.isNumeric(arrivalamount)){
 				layer.tips('必须为数字，且不能为空！', this, {
-					  tips: [1, '#3595CC'],
-					  time: 2000
+					tips: [1, '#3595CC'],
+					time: 2000
 				});
 				$(this).val('');
 			}else{
 				var margin = parseFloat($('#margin').val()) || 0;
 				if(arrivalamount > margin){
 					layer.tips('到货量不能大于余量！', this, {
-						  tips: [1, '#3595CC'],
-						  time: 2000
+						tips: [1, '#3595CC'],
+						time: 2000
 					});
 					$(this).val('');
 				}
@@ -502,63 +502,67 @@
 
 		var params = getPurchaseArriveAddParams();
 		var obj = getWriteCardParams();
-		//打开读卡器
-		readerOpen();
-		//开打卡片获取卡号
-		var cardno = openCard();
-		if(cardno){
-			//卡号放入待保存数据
-			params.icardno = cardno;
-			//蜂鸣
-			readerBeep();
-			if(params){
-				$.ajax({
-					url: URL.add,
-					data:params,
-					async:true,
-					cache:false,
-					dataType:'json',
-					type:'post',
-					success:function(result){
-						if(result.code == '000000'){
-							//打开读卡器
-							readerOpen();
-							//开打卡片获取卡号
-							openCard();
-							try{
-								//写卡
-								writeDataToCard(obj.rfid.substr(0,16) || '', 1);
-								writeDataToCard(obj.rfid.substr(16) || '',2);
-								writeDataToCard(obj.vehicleno || '',4);
-								writeDataToCard((obj.suppliername).substr(0,16),5);
-								writeDataToCard((obj.suppliername).substr(16),6);
-								writeDataToCard(obj.materielname || '',8);
-								writeDataToCard(MT['1'] || '',9);
-								writeDataToCard(BT[obj.businesstype] || '',10);
-								writeDataToCard(obj.arrivecode || '',12);
-								writeDataToCard(obj.vehiclecode || '',18);
-								writeDataToCard(obj.supperlierremark || '',24);
-								writeDataToCard(obj.minemouthname,28);
-								writeDataToCard(obj.arrivalamount || '',17);
-								//蜂鸣
-								readerBeep();
-								window.location.href = URL.mainUrl;
-							} catch (e) {
-								layer.alert('写卡失败!('+e.Message+')');
+		if(initCardReader()) {
+			//打开读卡器
+			readerOpen();
+			//开打卡片获取卡号
+			var cardno = openCard();
+			if(cardno){
+				//卡号放入待保存数据
+				params.icardno = cardno;
+				//蜂鸣
+				readerBeep();
+				if(params){
+					$.ajax({
+						url: URL.add,
+						data:params,
+						async:true,
+						cache:false,
+						dataType:'json',
+						type:'post',
+						success:function(result){
+							if(result.code == '000000'){
+								//打开读卡器
+								readerOpen();
+								//开打卡片获取卡号
+								openCard();
+								try{
+									//写卡
+									writeDataToCard(obj.rfid.substr(0,16) || '', 1);
+									writeDataToCard(obj.rfid.substr(16) || '',2);
+									writeDataToCard(obj.vehicleno || '',4);
+									writeDataToCard((obj.suppliername).substr(0,16),5);
+									writeDataToCard((obj.suppliername).substr(16),6);
+									writeDataToCard(obj.materielname || '',8);
+									writeDataToCard(MT['1'] || '',9);
+									writeDataToCard(BT[obj.businesstype] || '',10);
+									writeDataToCard(obj.arrivecode || '',12);
+									writeDataToCard(obj.vehiclecode || '',18);
+									writeDataToCard(obj.supperlierremark || '',24);
+									writeDataToCard(obj.minemouthname,28);
+									writeDataToCard(obj.arrivalamount || '',17);
+									//蜂鸣
+									readerBeep();
+									window.location.href = URL.mainUrl;
+								} catch (e) {
+									layer.alert('写卡失败!('+e.Message+')');
+								}
+								//关闭读卡器
+								readerClose();
+							}else{
+								layer.msg(result.error, {icon: 5});
+								$('#addBtn').removeClass('disabled');
 							}
-							//关闭读卡器
-							readerClose();
-						}else{
-							layer.msg(result.error, {icon: 5});
-							$('#addBtn').removeClass('disabled');
 						}
-					}
-				});
-			}else{
-				layer.alert('写卡失败!');
+					});
+				}else{
+					layer.alert('写卡失败!');
+				}
 			}
 			//关闭读卡器
 			readerClose();
+		}else{
+			layer.alert('当前游览器不支持!(只兼容IE游览器)');
 		}
 	}
 

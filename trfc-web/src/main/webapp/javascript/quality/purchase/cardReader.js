@@ -1,6 +1,13 @@
-
-var MWRFATL = new ActiveXObject("MWREADERRF.mwReaderRfCtrl.1"); //启用控件
-
+var MWRFATL;
+//初始化控件
+function initCardReader(){
+	try {
+		MWRFATL = new ActiveXObject("MWREADERRF.mwReaderRfCtrl.1"); //启用控件
+	} catch (e) {
+		return false;
+	}
+	return true;
+}
 //打开读卡器
 function readerOpen() {
 	try {
@@ -53,34 +60,34 @@ function openCard(){
 }
 //读取区域块内容
 function getDataFromCard(index){
-	
-		MWRFATL.cardVerifyPassword(0, Math.floor(index/4)); //加载密码认证,此函数传入的是扇区号
-		if (MWRFATL.LastRet != 0) {
-			layer.alert("验证密码失败");
-			return;
-		}
-		var msg = MWRFATL.cardRead(index);
-		if (MWRFATL.LastRet != 0) {
-			layer.alert("获取数据失败");
-			return;
-		}
 
-		return msg;
+	MWRFATL.cardVerifyPassword(0, Math.floor(index/4)); //加载密码认证,此函数传入的是扇区号
+	if (MWRFATL.LastRet != 0) {
+		layer.alert("验证密码失败");
+		return;
+	}
+	var msg = MWRFATL.cardRead(index);
+	if (MWRFATL.LastRet != 0) {
+		layer.alert("获取数据失败");
+		return;
+	}
+
+	return msg;
 
 }
 
 //msg:待写入的数据   index:局域块(64块)
 function writeDataToCard(msg,index){
-		MWRFATL.cardVerifyPassword(0, Math.floor(index/4)); //加载密码认证,此函数传入的是扇区号
-		if (MWRFATL.LastRet != 0) {
-			layer.alert("验证密码失败");
-			return;
-		}
-		MWRFATL.cardWrite(index,msg); //大卡座卡片发送指令(取随机数)
-		if (MWRFATL.LastRet != 0) {
-			layer.alert("写入数据失败");
-			return;
-		}
+	MWRFATL.cardVerifyPassword(0, Math.floor(index/4)); //加载密码认证,此函数传入的是扇区号
+	if (MWRFATL.LastRet != 0) {
+		layer.alert("验证密码失败");
+		return;
+	}
+	MWRFATL.cardWrite(index,msg); //大卡座卡片发送指令(取随机数)
+	if (MWRFATL.LastRet != 0) {
+		layer.alert("写入数据失败");
+		return;
+	}
 }
 
 
