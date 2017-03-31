@@ -26,7 +26,6 @@ import com.tianrui.api.resp.businessManage.salesManage.SalesArriveResp;
 import com.tianrui.service.bean.basicFile.measure.VehicleManage;
 import com.tianrui.service.bean.businessManage.cardManage.Card;
 import com.tianrui.service.bean.businessManage.logisticsManage.AccessRecord;
-import com.tianrui.service.bean.businessManage.poundNoteMaintain.PoundNote;
 import com.tianrui.service.bean.businessManage.purchaseManage.PurchaseApplicationDetail;
 import com.tianrui.service.bean.businessManage.purchaseManage.PurchaseArrive;
 import com.tianrui.service.bean.businessManage.salesManage.SalesApplicationDetail;
@@ -36,7 +35,6 @@ import com.tianrui.service.bean.common.RFID;
 import com.tianrui.service.mapper.basicFile.measure.VehicleManageMapper;
 import com.tianrui.service.mapper.businessManage.cardManage.CardMapper;
 import com.tianrui.service.mapper.businessManage.logisticsManage.AccessRecordMapper1;
-import com.tianrui.service.mapper.businessManage.poundNoteMaintain.PoundNoteMapper;
 import com.tianrui.service.mapper.businessManage.purchaseManage.PurchaseApplicationDetailMapper;
 import com.tianrui.service.mapper.businessManage.purchaseManage.PurchaseArriveMapper;
 import com.tianrui.service.mapper.businessManage.salesManage.SalesApplicationDetailMapper;
@@ -73,8 +71,6 @@ public class AccessRecordService1 implements IAccessRecordService1 {
 	private SalesApplicationDetailMapper salesApplicationDetailMapper;
 	@Autowired
 	private SalesApplicationJoinNaticeMapper salesApplicationJoinNaticeMapper;
-	@Autowired
-	private PoundNoteMapper poundNoteMapper;
 	@Autowired
 	private RFIDMapper rfidMapper;
 	@Autowired
@@ -415,7 +411,8 @@ public class AccessRecordService1 implements IAccessRecordService1 {
 					sa.setId(sales.getId());
 					sa.setState("5");
 					if(salesArriveMapper.updateByPrimaryKeySelective(sa) > 0){
-						ec = ErrorCode.SYSTEM_SUCCESS;
+						AccessRecord access = accessRecordMapper.selectByNoticeId(sales.getId());
+						ec = addOutAccessRecordApi(apiParam, access.getId());
 					}else{
 						ec = ErrorCode.OPERATE_ERROR;
 					}
@@ -464,6 +461,7 @@ public class AccessRecordService1 implements IAccessRecordService1 {
 		ErrorCode ec;
 		AccessRecord ar = new AccessRecord();
 		ar.setId(accessId);
+		ar.setAccesstype("2");
 		ar.setOutsource("");
 		ar.setOuttime(DateUtil.parse(apiParam.getTime(), "yyyy-MM-dd HH:mm:ss"));
 		ar.setModifier(apiParam.getCurrUid());
