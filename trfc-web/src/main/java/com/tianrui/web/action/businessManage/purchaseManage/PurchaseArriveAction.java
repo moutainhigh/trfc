@@ -44,6 +44,7 @@ public class PurchaseArriveAction {
 	public Result page(PurchaseArriveQuery query){
 		Result result = Result.getSuccessResult();
 		try {
+			query.setType("0");
 			PaginationVO<PurchaseArriveResp> page = purchaseArriveService.page(query);
 			result.setData(page);
 		} catch (Exception e) {
@@ -88,6 +89,7 @@ public class PurchaseArriveAction {
 		try {
 			SystemUserResp user = (SystemUserResp) session.getAttribute("systemUser");
 			save.setCurrId(user.getId());
+			save.setType("0");
 			result = purchaseArriveService.add(save);
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);

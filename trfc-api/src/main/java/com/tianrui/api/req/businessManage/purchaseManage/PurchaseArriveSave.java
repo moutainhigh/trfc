@@ -19,6 +19,8 @@ public class PurchaseArriveSave extends BaseReq {
     private String source;
 	//状态：（0：未入厂，1：一次过磅，2：二次过磅，3：作废，4：发卡，5：出厂，6：入厂，7：装车）
     private String status;
+    //单据类型（0：到货通知单，1：退货通知单）
+    private String type;
 	//车辆id
     private String vehicleid;
 	//车牌号
@@ -102,6 +104,18 @@ public class PurchaseArriveSave extends BaseReq {
 	}
 	public void setStatus(String status) {
 		this.status = status;
+	}
+	/**
+	 * @return the type
+	 */
+	public String getType() {
+		return type;
+	}
+	/**
+	 * @param type the type to set
+	 */
+	public void setType(String type) {
+		this.type = type;
 	}
 	public String getVehicleid() {
 		return vehicleid;

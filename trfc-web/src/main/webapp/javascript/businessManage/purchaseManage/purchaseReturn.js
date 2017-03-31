@@ -1,18 +1,134 @@
 ;(function($, win){
 	//访问路径
 	var URL = {
-			page: '/trfc/purchaseArrive/page',
+			page: '/trfc/purchaseReturn/page',
 			addView: '/trfc/purchaseArrive/addView',
 			updateView: '/trfc/purchaseArrive/updateView',
 			audit: '/trfc/purchaseArrive/audit',
 			unaudit: '/trfc/purchaseArrive/unaudit',
 			invalid: '/trfc/purchaseArrive/invalid',
-			outfactory: '/trfc/purchaseArrive/outfactory'
+			outfactory: '/trfc/purchaseArrive/outfactory',
+			
+			
+			supplierAutoCompleteSearch: "/trfc/supplier/autoCompleteSearch",
+			vehicleAutoCompleteSearch: "/trfc/vehicle/autoCompleteSearch",
+			driverAutoCompleteSearch: "/trfc/driver/autoCompleteSearch"
 	};
-	//初始化页面按钮绑定事件
-	initBindEvent();
-	//初始化加载页面数据
-	initPageList(1);
+	init();
+	function init(){
+		//初始化autocomplete
+		initAutoComplete();
+		//初始化页面按钮绑定事件
+		initBindEvent();
+		//初始化加载页面数据
+		initPageList(1);
+		//页面按钮绑定事件
+	}
+	function initAutoComplete(){
+		var cache = {};
+	    $("#supplier").autocomplete({
+	    	source: function( request, response ) {
+	    		var term = request.term;
+	    		var supplier = cache['supplier'] || {};
+	    		if ( term in supplier ) {
+	    			response( supplier[ term ] );
+	    			return;
+	    		}
+	    		$.post( URL.supplierAutoCompleteSearch, request, function( data, status, xhr ) {
+	    			supplier[ term ] = data;
+	    			response( data );
+	    		});
+	    	},
+	    	response: function( event, ui ) {
+	    		if(ui.content && ui.content.length > 0){
+		    		ui.content.forEach(function(x,i,a){
+		    			x.label = x.name;
+		    			x.value = x.id;
+		    		});
+	    		}
+	    	},
+	    	select: function( event, ui ) {
+	    		$(this).val(ui.item.name).attr('supplierid', ui.item.id).attr('select',true);
+	    		return false;
+    		}
+	    }).off('click').on('click',function(){
+	    	$(this).autocomplete('search',' ');
+	    }).on('input propertychange',function(){
+	    	$(this).removeAttr('supplierid');
+	    }).change(function(){
+    		if(!$(this).attr('supplierid')){
+    			$(this).val('');
+    		}
+	    });
+	    $("#vehicle").autocomplete({
+	    	source: function( request, response ) {
+	    		var term = request.term;
+	    		var vehicle = cache['vehicle'] || {};
+	    		if ( term in vehicle ) {
+	    			response( vehicle[ term ] );
+	    			return;
+	    		}
+	    		$.post( URL.vehicleAutoCompleteSearch, request, function( data, status, xhr ) {
+	    			vehicle[ term ] = data;
+	    			response( data );
+	    		});
+	    	},
+	    	response: function( event, ui ) {
+	    		if(ui.content && ui.content.length > 0){
+	    			ui.content.forEach(function(x,i,a){
+	    				x.label = x.vehicleno;
+	    				x.value = x.id;
+	    			});
+	    		}
+	    	},
+	    	select: function( event, ui ) {
+	    		$(this).val(ui.item.vehicleno).attr('vehicleid', ui.item.id);
+	    		return false;
+	    	}
+	    }).off('click').on('click',function(){
+	    	$(this).autocomplete('search',' ');
+	    }).on('input propertychange',function(){
+	    	$(this).removeAttr('vehicleid');
+	    }).change(function(){
+    		if(!$(this).attr('vehicleid')){
+    			$(this).val('');
+    		}
+	    });
+	    $("#driver").autocomplete({
+	    	source: function( request, response ) {
+	    		var term = request.term;
+	    		var driver = cache['driver'] || {};
+	    		if ( term in driver ) {
+	    			response( driver[ term ] );
+	    			return;
+	    		}
+	    		$.post( URL.driverAutoCompleteSearch, request, function( data, status, xhr ) {
+	    			driver[ term ] = data;
+	    			response( data );
+	    		});
+	    	},
+	    	response: function( event, ui ) {
+	    		if(ui.content && ui.content.length > 0){
+	    			ui.content.forEach(function(x,i,a){
+	    				x.label = x.name;
+	    				x.value = x.id;
+	    			});
+	    		}
+	    	},
+	    	select: function( event, ui ) {
+	    		$(this).val(ui.item.name).attr('driverid', ui.item.id);
+	    		return false;
+	    	}
+	    }).off('click').on('click',function(){
+	    	$(this).autocomplete('search',' ');
+	    }).on('input propertychange',function(){
+	    	$(this).removeAttr('driverid');
+	    }).change(function(){
+    		if(!$(this).attr('driverid')){
+    			$(this).val('');
+    		}
+	    });
+	}
 	//页面按钮绑定事件
 	function initBindEvent(){
 		$('#refreshBtn').off('click').on('click', function(){
@@ -152,7 +268,6 @@
 				case '7': status = '装车'; break;
 				default: break;
 				}
-				var vehicleno = obj.vehicleno || '';
 				var billcode = obj.billcode || '';
 				var suppliername = purchaseApplication.suppliername || '';
 				var materielname = purchaseApplicationDetail.materielname || '';
@@ -165,12 +280,10 @@
 				var supplierremark = purchaseApplication.supplierremark || '';
 				$('<tr>').append('<td>'+(i+1)+'</td>').append('<td>'+code+'</td>')
 						.append('<td>'+auditstatus+'</td>').append('<td>'+source+'</td>')
-						.append('<td>'+status+'</td>').append('<td>'+vehicleno+'</td>')
-						.append('<td>'+billcode+'</td>').append('<td>'+suppliername+'</td>')
-						.append('<td>'+materielname+'</td>').append('<td>'+minemouthname+'</td>')
-						.append('<td>'+makebilltimeStr+'</td>').append('<td>'+billtimeStr+'</td>')
-						.append('<td>'+abnormalpersonname+'</td>').append('<td>'+abnormaltimeStr+'</td>')
-						.append('<td>'+remark+'</td>').append('<td>'+supplierremark+'</td>')
+						.append('<td>'+status+'</td>').append('<td>'+billcode+'</td>')
+						.append('<td>'+suppliername+'</td>').append('<td>'+materielname+'</td>')
+						.append('<td></td>').append('<td></td>')
+						.append('<td>'+remark+'</td>')
 						.append('<td><span><i class="iconfont update" data-toggle="tooltip" data-placement="left" title="编辑">&#xe600;</i></span>'
 									+'<span><i class="iconfont audit" data-toggle="tooltip" data-placement="left" title="审核">&#xe692;</i></span>'
 									+'<span><i class="iconfont unaudit" data-toggle="tooltip" data-placement="left" title=" 反审">&#xe651;</i></span>'
@@ -225,7 +338,6 @@
 		$('#drivername').html(obj.drivername || '');
 		$('#driveridentityno').html(obj.driveridentityno || '');
 		$('#makebilltimeStr').html(obj.makebilltimeStr || '');
-		$('#makebillname').html(obj.makebillname || '');
 		$('#billno').html(obj.billcode || '');
 		$('#suppliername').html(purchaseApplication.suppliername || '');
 		$('#materielname').html(purchaseApplicationDetail.materielname || '');
