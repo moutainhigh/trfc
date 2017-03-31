@@ -1,8 +1,8 @@
 $(function(){
 	//访问路径
 	var URL = {
-			page: '/trfc/purchaseArrive/page',
-			supplierAutoCompleteSearch: "/trfc/supplier/autoCompleteSearch",
+			page: '/trfc/salesArrive/page',
+			customerAutoCompleteSearch: "/trfc/customer/autoCompleteSearch",
 			vehicleAutoCompleteSearch: "/trfc/vehicle/autoCompleteSearch",
 			materielAutoCompleteSearch: "/trfc/materiel/autoCompleteSearch",
 			driverAutoCompleteSearch: "/trfc/driver/autoCompleteSearch"
@@ -28,22 +28,22 @@ $(function(){
 	}
 	//获取查询条件
 	function getParams(){
-		var billcode = $('#billcode').val();billcode = $.trim(billcode);
-		var code = $('#code').val();code = $.trim(code);
-		var supplierid = $('#supplier').attr('supplierid');supplierid = $.trim(supplierid);
-		var vehicleid = $('#vehicle').attr('vehicleid');vehicleid = $.trim(vehicleid);
-		var auditstatus = $('#auditstatus').val();auditstatus = $.trim(auditstatus);
-		var materielid = $('#materiel').attr('materielid');materielid = $.trim(materielid);
-		var driverid = $('#driver').attr('driverid');driverid = $.trim(driverid);
-		var source = $('#source').val();source = $.trim(source);
-		var status = $('#status').val();status = $.trim(status);
-		var starttime = $('#starttime').val();starttime = $.trim(starttime);
-		var endtime = $('#endtime').val();endtime = $.trim(endtime);
-		var pageSize = $('#pageSize').val();pageSize = $.trim(pageSize);
+		var billcode = $('#billcode').val() || ''; billcode = $.trim(billcode);
+		var code = $('#code').val() || ''; code = $.trim(code);
+		var auditstatus = $('#auditstatus').val() || ''; auditstatus = $.trim(auditstatus);
+		var source = $('#source').val() || ''; source = $.trim(source);
+		var status = $('#status').val() || ''; status = $.trim(status);
+		var customerid = $('#customer').attr('customerid') || ''; customerid = $.trim(customerid);
+		var vehicleid = $('#vehicle').attr('vehicleid') || ''; vehicleid = $.trim(vehicleid);
+		var materielid = $('#materiel').attr('materielid') || ''; materielid = $.trim(materielid);
+		var driverid = $('#driver').attr('driverid') || ''; driverid = $.trim(driverid);
+		var starttime = $('#starttime').val() || ''; starttime = $.trim(starttime);
+		var endtime = $('#endtime').val() || ''; endtime = $.trim(endtime);
+		var pageSize = $('#pageSize').val() || ''; pageSize = $.trim(pageSize);
 		return {
 			billcode:billcode,
 			code:code,
-			supplierid:supplierid,
+			customerid:customerid,
 			vehicleid:vehicleid,
 			auditstatus:auditstatus,
 			materielid:materielid,
@@ -53,20 +53,20 @@ $(function(){
 			starttime:str2Long(starttime),
 			endtime:str2Long(endtime),
 			pageSize:pageSize
-		}
+		};
 	}
 	function initAutoComplete(){
 		var cache = {};
-	    $("#supplier").autocomplete({
+	    $("#customer").autocomplete({
 	    	source: function( request, response ) {
 	    		var term = request.term;
-	    		var supplier = cache['supplier'] || {};
-	    		if ( term in supplier ) {
-	    			response( supplier[ term ] );
+	    		var customer = cache['customer'] || {};
+	    		if ( term in customer ) {
+	    			response( customer[ term ] );
 	    			return;
 	    		}
-	    		$.post( URL.supplierAutoCompleteSearch, request, function( data, status, xhr ) {
-	    			supplier[ term ] = data;
+	    		$.post( URL.customerAutoCompleteSearch, request, function( data, status, xhr ) {
+	    			customer[ term ] = data;
 	    			response( data );
 	    		});
 	    	},
@@ -79,15 +79,15 @@ $(function(){
 	    		}
 	    	},
 	    	select: function( event, ui ) {
-	    		$(this).val(ui.item.name).attr('supplierid', ui.item.id).attr('select',true);
+	    		$(this).val(ui.item.name).attr('customerid', ui.item.id).attr('select',true);
 	    		return false;
     		}
 	    }).off('click').on('click',function(){
 	    	$(this).autocomplete('search',' ');
 	    }).on('input propertychange',function(){
-	    	$(this).removeAttr('supplierid');
+	    	$(this).removeAttr('customerid');
 	    }).change(function(){
-    		if(!$(this).attr('supplierid')){
+    		if(!$(this).attr('customerid')){
     			$(this).val('');
     		}
 	    });
@@ -285,6 +285,11 @@ $(function(){
 		var tbody = $('#list').empty();
 		for(var i=0;i<list.length;i++){
 			var obj = list[i];
+			var salesApplication = obj.listApplication.filter(function(x){
+				return x.id == this;
+			},obj.billid)[0];
+			var salesApplicationDetail = salesApplication.list[0];
+			
 			if(!obj.poundNoteResp){
 				obj.poundNoteResp = "";
 			}
@@ -292,17 +297,18 @@ $(function(){
 				+'<td>'+((pageNo-1)*pageSize+i+1)+'</td>'
 				+'<td>'+(obj.vehicleno || '')+'</td>'
 				+'<td '+(obj.status==='3'?'class="colorred">':'class="colorblue">')+(STATUS[obj.status] || '')+'</td>'
-				+'<td class="colorblue">'+('到货' || '')+'</td>'
 				+'<td>'+(obj.makebilltimeStr || '')+'</td>'
+				+'<td>'+(getNowFormatDate(true, obj.poundNoteResp.lighttime) || '')+'</td>'
 				+'<td>'+(getNowFormatDate(true, obj.enterTime)|| '')+'</td>'
 				+'<td>'+(getNowFormatDate(true, obj.poundNoteResp.weighttime) || '')+'</td>'
-				+'<td>'+(getNowFormatDate(true, obj.poundNoteResp.lighttime) || '')+'</td>'
-				+'<td>'+(getNowFormatDate(true, obj.poundNoteResp.receivertime) || '')+'</td>'
+				+'<td>'+(obj.startLoadingTime || '')+'</td>'
+				+'<td>'+(obj.endLoadingTime || '')+'</td>'
+				+'<td>'+(obj.sealTime || '')+'</td>'
 				+'<td>'+(getNowFormatDate(true, obj.outTime) || '')+'</td>'
 				+'<td>'+(obj.code || '')+'</td>'
 				+'<td>'+(obj.billcode || '')+'</td>'
-				+'<td>'+(obj.purchaseApplicationResp.suppliername|| '')+'</td>'
-				+'<td>'+(obj.purchaseApplicationDetailResp.materielname || '')+'</td>'
+				+'<td>'+(salesApplication.customername|| '')+'</td>'
+				+'<td>'+(salesApplicationDetail.materielname || '')+'</td>'
 				+'</tr>';
 			//转换为jquery对象
 			tr=$(tr);
@@ -315,6 +321,9 @@ $(function(){
 	//获取时间 param(true:返回yyyy-MM-dd hh:mm:ss fasle:返回yyyy-MM-dd)
 	//time(获取指定时间的字符串) 默认返回当前时间
 	function getNowFormatDate(param,time) {
+		if(typeof(time)=='undefined'){
+			return '';
+		}
 		var date ;
 //		判断time参数是否存在
 		if(time){

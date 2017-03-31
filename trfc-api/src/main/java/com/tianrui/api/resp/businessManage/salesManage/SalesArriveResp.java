@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 
 import com.tianrui.api.resp.BaseResp;
+import com.tianrui.api.resp.businessManage.poundNoteMaintain.PoundNoteResp;
 import com.tianrui.smartfactory.common.utils.DateUtil;
 /**
  * @Description 销售提货通知单Resp
@@ -96,7 +97,13 @@ public class SalesArriveResp extends BaseResp {
     private String modifytimeStr;
     //销售订单列表
     private List<SalesApplicationResp> listApplication;
-
+    
+    //磅单信息
+    private PoundNoteResp poundNoteResp;
+    //入厂时间
+    private Long enterTime;
+    //出厂时间
+    private Long outTime;
 	public String getId() {
 		return id;
 	}
@@ -485,6 +492,30 @@ public class SalesArriveResp extends BaseResp {
 			}
 		}
 		return billSum;
+	}
+
+	public PoundNoteResp getPoundNoteResp() {
+		return poundNoteResp;
+	}
+
+	public void setPoundNoteResp(PoundNoteResp poundNoteResp) {
+		this.poundNoteResp = poundNoteResp;
+	}
+
+	public Long getEnterTime() {
+		return enterTime;
+	}
+
+	public void setEnterTime(Long enterTime) {
+		this.enterTime = enterTime;
+	}
+
+	public Long getOutTime() {
+		return outTime;
+	}
+
+	public void setOutTime(Long outTime) {
+		this.outTime = outTime;
 	}
 
 }

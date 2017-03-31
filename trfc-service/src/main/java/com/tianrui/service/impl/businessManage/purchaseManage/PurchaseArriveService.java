@@ -32,7 +32,6 @@ import com.tianrui.service.bean.businessManage.poundNoteMaintain.PoundNote;
 import com.tianrui.service.bean.businessManage.purchaseManage.PurchaseApplicationDetail;
 import com.tianrui.service.bean.businessManage.purchaseManage.PurchaseArrive;
 import com.tianrui.service.bean.businessManage.salesManage.SalesArrive;
-import com.tianrui.service.mapper.access.AccessRecordMapper;
 import com.tianrui.service.mapper.businessManage.cardManage.CardMapper;
 import com.tianrui.service.mapper.businessManage.logisticsManage.AccessRecordMapper1;
 import com.tianrui.service.mapper.businessManage.poundNoteMaintain.PoundNoteMapper;
