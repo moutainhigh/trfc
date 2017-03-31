@@ -464,6 +464,7 @@ public class AccessRecordService1 implements IAccessRecordService1 {
 		ErrorCode ec;
 		AccessRecord ar = new AccessRecord();
 		ar.setId(accessId);
+		ar.setAccesstype("2");
 		ar.setOutsource("");
 		ar.setOuttime(DateUtil.parse(apiParam.getTime(), "yyyy-MM-dd HH:mm:ss"));
 		ar.setModifier(apiParam.getCurrUid());
