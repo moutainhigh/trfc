@@ -2,13 +2,14 @@ package com.tianrui.api.req.system.auth;
 
 import com.tianrui.api.req.BaseReq;
 /**
- * 用户登录
+ * 角色管理req
  * @author lixp
  *
  */
 public class SystemRoleQueryReq extends BaseReq {
 
 	private static final long serialVersionUID = 2174287526269962856L;
+	//当前用户id
 	private String currUId;
 	private String id;
 	
@@ -17,7 +18,9 @@ public class SystemRoleQueryReq extends BaseReq {
 	
 	private String name;
 	private String code;
-
+	//角色列表名称
+	private String rolename;
+	
 	public String getCurrUId() {
 		return currUId;
 	}
@@ -64,6 +67,14 @@ public class SystemRoleQueryReq extends BaseReq {
 
 	public void setCode(String code) {
 		this.code = code;
+	}
+
+	public String getRolename() {
+		return rolename;
+	}
+
+	public void setRolename(String rolename) {
+		this.rolename = rolename;
 	}
 	
 	

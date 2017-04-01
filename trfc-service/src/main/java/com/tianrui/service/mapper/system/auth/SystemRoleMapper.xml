@@ -5,6 +5,7 @@
     <id column="id" property="id" jdbcType="VARCHAR" />
     <result column="code" property="code" jdbcType="VARCHAR" />
     <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="rolename" property="rolename" jdbcType="VARCHAR" />
     <result column="role_type" property="roleType" jdbcType="VARCHAR" />
     <result column="isvalid" property="isvalid" jdbcType="TINYINT" />
     <result column="allow_edit" property="allowEdit" jdbcType="TINYINT" />
@@ -17,7 +18,7 @@
     <result column="utc" property="utc" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, code, name, role_type, isvalid, allow_edit, allow_del, info, creator, createtime, 
+    id, code, name, rolename, role_type, isvalid, allow_edit, allow_del, info, creator, createtime, 
     modifier, modifytime, utc
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
@@ -30,6 +31,23 @@
     select 
     	<include refid="Base_Column_List" />
     from tr_system_role
+    <where>
+   		<if test="name != null and name != ''">
+  			and name = #{name,jdbcType=VARCHAR}
+		</if>
+  		<if test="code != null and code != ''" >
+       		and code = #{code,jdbcType=VARCHAR}
+      	</if>
+   		<if test="rolename != null and rolename != ''" >
+       		and rolename = #{rolename,jdbcType=VARCHAR}
+      	</if>
+   	</where>
+   	order by createtime desc
+  	<if test="start != null and start >= 0">
+  		<if test="limit != null">
+			limit #{start,jdbcType=INTEGER},#{limit,jdbcType=INTEGER}
+  		</if>
+  	</if>
   </select>
   <select id="countByCondition" resultType="long" parameterType="com.tianrui.api.req.system.auth.SystemRoleQueryReq" >
     select 
@@ -41,11 +59,11 @@
     where id = #{id,jdbcType=VARCHAR}
   </delete>
   <insert id="insert" parameterType="com.tianrui.service.bean.system.auth.SystemRole" >
-    insert into tr_system_role (id, code, name, 
+    insert into tr_system_role (id, code, name, rolename,
       role_type, isvalid, allow_edit, 
       allow_del, info, creator, 
       createtime, modifier, modifytime)
-    values (#{id,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+    values (#{id,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{rolename,jdbcType=VARCHAR},
       #{roleType,jdbcType=VARCHAR}, #{isvalid,jdbcType=TINYINT}, #{allowEdit,jdbcType=TINYINT}, 
       #{allowDel,jdbcType=TINYINT}, #{info,jdbcType=VARCHAR}, #{creator,jdbcType=VARCHAR}, 
       #{createtime,jdbcType=BIGINT}, #{modifier,jdbcType=VARCHAR}, #{modifytime,jdbcType=BIGINT})
@@ -61,6 +79,9 @@
       </if>
       <if test="name != null" >
         name,
+      </if>
+      <if test="rolename != null" >
+        rolename,
       </if>
       <if test="roleType != null" >
         role_type,
@@ -100,6 +121,9 @@
       <if test="name != null" >
         #{name,jdbcType=VARCHAR},
       </if>
+      <if test="rolename != null" >
+        #{rolename,jdbcType=VARCHAR},
+      </if>
       <if test="roleType != null" >
         #{roleType,jdbcType=VARCHAR},
       </if>
@@ -138,6 +162,9 @@
       <if test="name != null" >
         name = #{name,jdbcType=VARCHAR},
       </if>
+      <if test="rolename != null" >
+        rolename = #{rolename,jdbcType=VARCHAR},
+      </if>
       <if test="roleType != null" >
         role_type = #{roleType,jdbcType=VARCHAR},
       </if>
@@ -172,6 +199,7 @@
     update tr_system_role
     set code = #{code,jdbcType=VARCHAR},
       name = #{name,jdbcType=VARCHAR},
+      rolename = #{rolename,jdbcType=VARCHAR},
       role_type = #{roleType,jdbcType=VARCHAR},
       isvalid = #{isvalid,jdbcType=TINYINT},
       allow_edit = #{allowEdit,jdbcType=TINYINT},
