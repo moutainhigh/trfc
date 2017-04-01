@@ -15,11 +15,6 @@
 		<div class="right">
 			<jsp:include page="../../common/base/right_head_busi.jsp"></jsp:include>
 			<div class="intel_tab">
-				<!--tab切换标题-->
-				<ul class="intel_menu">
-					<li class="select"><a href="">批号维护单新增</a></li>
-				</ul>
-				<!--tab切换标题end-->
 				<div class="top_opera">
 					<a><i class="iconfont" data-toggle="tooltip"
 						data-placement="left" title="首页">&#xe605;</i></a> <a><i
@@ -53,11 +48,11 @@
 						</div>
 					</div>
 					<div class="daohuo_add">
-						<h5>批号维护单录入</h5>
+						<h5>批号维护单编辑</h5>
 						<div class="daohuo_add_div">
 							<div class="daohuo_add_solo">
 								<label><span class="colorred">*</span>单据编号：</label> <input
-									id="edit_code" type="text" readonly="true" value="000">
+									id="edit_code" type="text"readonly="readonly" value="000">
 							</div>
 							<div class="daohuo_add_solo">
 								<label><span class="colorred">*</span>批号：</label> <input
@@ -72,17 +67,17 @@
 									id="edit_material" class="materialSel" >
 							</div>
 							<div class="daohuo_add_solo">
-								<label>生产日期：</label> <input type="text" readonly="true"
+								<label>生产日期：</label> <input type="text"readonly="readonly"
 									id="edit_producedtime" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})"
 									class="Wdate" />
 							</div>
 							<div class="daohuo_add_solo">
-								<label>试验日期：</label> <input type="text" readonly="true"
+								<label>试验日期：</label> <input type="text"readonly="readonly"
 									id="edit_testtime" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})"
 									class="Wdate" />
 							</div>
 							<div class="daohuo_add_solo">
-								<label>化验日期：</label> <input type="text" readonly="true"
+								<label>化验日期：</label> <input type="text"readonly="readonly"
 									id="edit_assaytime" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})"
 									class="Wdate" />
 							</div>
@@ -91,25 +86,25 @@
 									id="user_select" type = "text"> 							</div>
 							<div class="daohuo_add_solo">
 								<label><span class="colorred">*</span>化验单位：</label> <input
-									id="edit_assayorg" type="text" readonly="true" value="000">
+									id="edit_assayorg" type="text"readonly="readonly" value="000">
 							</div>
 							<div class="daohuo_add_solo">
-								<label>开始日期：</label> <input type="text" readonly="true"
+								<label>开始日期：</label> <input type="text"readonly="readonly"
 									id="edit_starttime" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})"
 									class="Wdate" />
 							</div>
 							<div class="daohuo_add_solo">
-								<label>结束日期：</label> <input type="text" readonly="true"
+								<label>结束日期：</label> <input type="text"readonly="readonly"
 									id="edit_endtime" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})"
 									class="Wdate" />
 							</div>
 							<div class="daohuo_add_solo">
-								<label>制单日期：</label> <input type="text" readonly="true"
+								<label>制单日期：</label> <input type="text"readonly="readonly"
 									id="edit_createtime" />
 							</div>
 							<div class="daohuo_add_solo">
 								<label>制单人：</label> <input type="text" value="admin"
-									id="edit_creator" readonly="true">
+									id="edit_creator"readonly="readonly">
 							</div>
 							<div class="daohuo_add_solo">
 								<label>备注：</label> <input type="text" value="admin" id="edit_remark" >

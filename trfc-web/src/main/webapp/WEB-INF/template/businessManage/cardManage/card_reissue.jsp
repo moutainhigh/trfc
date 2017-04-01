@@ -30,13 +30,13 @@
 						<div class="intel_sconditon">
 							<div class="intel_sline">
 								<div class="intel_solo">
-									<label>物料：</label> <input type="text" id="seek_material">
+									<label>物料：</label> <input type="text" id="seek_material" placeholder="请选择物料">
 								</div>
 								<div class="intel_solo">
-									<label>车号：</label> <input type="text" id="seek_vehicle">
+									<label>车号：</label> <input type="text" id="seek_vehicle" placeholder="请选择车号">
 								</div>
 								<div class="intel_solo">
-									<label>门禁单号：</label> <input type="text" id="seek_access">
+									<label>门禁单号：</label> <input type="text" id="seek_access" placeholder="请输入门禁单号">
 								</div>
 								<div class="intel_solo">
 									<label>业务类型：</label> <select class="form-control"
@@ -57,10 +57,10 @@
 								<div class="intel_solo">
 									<label>时间：</label> <input type="text"
 										onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:00:00'})"
-										class="Wdate" style="width: 160px" id="seek_starttime" /> <i>-</i>
+										class="Wdate" style="width: 160px" id="seek_starttime"  placeholder="请选择开始时间"/> <i>-</i>
 									<input type="text"
 										onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:00:00'})"
-										class="Wdate" style="width: 160px" id="seek_endtime" />
+										class="Wdate" style="width: 160px" id="seek_endtime"  placeholder="请选择结束时间"/>
 								</div>
 								<div class="intel_solo">
 									<div class="intel_sbtn">

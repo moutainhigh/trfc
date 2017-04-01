@@ -58,7 +58,7 @@
 							</div>
 							<div class="daohuo_add_solo">
 								<label><span class="colorred">*</span>供应商：</label> <input id="add_supplier"
-										class="supplierSel" type="text">
+										class="supplierSel" type="text" placeholder="请选择供应商">
 									
 							</div>
 							<div class="daohuo_add_solo">
@@ -66,22 +66,22 @@
 							</div>
 							<div class="daohuo_add_solo">
 								<label><span class="colorred">*</span>物料：</label> <input id="add_material"
-										class="materialSel" type="text">
+										class="materialSel" type="text" placeholder="请选择物料">
 							</div>
 							<div class="daohuo_add_solo">
 								<label><span class="colorred">*</span>质检方案：</label> <input id="add_scheme"
-										class="qschemeSel" type="text">
+										class="qschemeSel" type="text" placeholder="请选择质检方案">
 									
 							</div>
 							<div class="daohuo_add_solo">
-								<label>开始日期：</label> <input type="text" readonly="true"
+								<label>开始日期：</label> <input type="text" readonly="readonly"
 									onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})"
-									class="Wdate" id="add_starttime"/>
+									class="Wdate" id="add_starttime" placeholder="请选择开始日期"/>
 							</div>
 							<div class="daohuo_add_solo">
-								<label>结束日期：</label> <input type="text" readonly="true"
+								<label>结束日期：</label> <input type="text" readonly="readonly"
 									onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})"
-									class="Wdate" id="add_endtime"/>
+									class="Wdate" id="add_endtime" placeholder="请选择结束日期"/>
 							</div>
 							<div class="daohuo_add_solo">
 								<label>平均方式：</label> <select class="form-control" id="add_mean">

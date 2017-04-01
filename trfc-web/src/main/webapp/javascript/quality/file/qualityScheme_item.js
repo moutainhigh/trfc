@@ -81,10 +81,10 @@ $(function(){
 		}
 		var tr = '<tr>'
            +' <td> '+index+'</td>'
-           +' <td><div class="selct2_alt_div">'
-           +' <input class="itemSelect" type="text" style="width:220px;text-align:left;"'
+           +' <td>'
+           +' <input class="itemSelect" type="text" placeholder="请选择项目名称" style="width:220px;text-align:left;"'
            +' >'
-           +'  </div>'
+           +''
            +'  </td>'
            +'  <td><input type="text" style="width:350px;text-align:left;"></td>'
            +'</tr>';

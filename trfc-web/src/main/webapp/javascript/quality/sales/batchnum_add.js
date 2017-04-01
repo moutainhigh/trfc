@@ -21,12 +21,12 @@ $(function(){
 	$('#save').click(saveAction);
 	//刷新按钮绑定事件
 	$('#fresh').click(function(){window.location.reload();});
-	
+
 	//----------------------------------------------------------------
 
 	//添加一列
 	function addTR(index){
-		
+
 		var tbody = $('#material');
 		var trs = tbody.find('tr');
 		//只有最后一行的改变事件 才能触发添加
@@ -35,22 +35,24 @@ $(function(){
 		}
 		var tr = '<tr>'
 			+'<td>'+index+'</td>'
-			+'<td width="200px"><input type="text"'
+			+'<td width="200px"><input type="text"  placeholder="请选择物料"'
 			+'style="border: none; width: 100%; height: 100%" class="materialSel">'
 			+'</td>'
+			+'<td><input type="text"  placeholder="请输入出厂批号"'
+			+'style="border: none; width: 100%;" readonly="readonly"></td>'
+			+'<td><input readonly="readonly" type="text"'
+			+'style="border: none; width: 100%;"></td>'
 			+'<td><input type="text"'
-			+'	style="border: none; width: 100%;" readonly="true"></td>'
-			+'	<td><input readonly="true" type="text"'
-			+'		style="border: none; width: 100%;"></td>'
-			+'		<td><input type="text" readonly="true"'
-			+'			onfocus="WdatePicker({dateFmt:\'yyyy-MM-dd\'})" class="Wdate"'
-			+'				style="border: none; width: 100%;"></td>'
-			+'				<td><input type="text" readonly="true"'
-			+'					onfocus="WdatePicker({dateFmt:\'yyyy-MM-dd\'})" class="Wdate"'
-			+'						style="border: none; width: 100%;"></td>'
-			+'						<td><input readonly="true" type="text"'
-			+'							style="border: none; width: 100%;"></td>'
-			+'							</tr>';
+			+'onfocus="WdatePicker({dateFmt:\'yyyy-MM-dd\'})" class="Wdate"'
+			+'readonly="readonly" placeholder="请选择生产日期"'
+			+'style="border: none; width: 100%;"></td>'
+			+'<td><input type="text"'
+			+'onfocus="WdatePicker({dateFmt:\'yyyy-MM-dd\'})" class="Wdate"'
+			+'readonly="readonly" placeholder="请选择实验日期"'
+			+'style="border: none; width: 100%;"></td>'
+			+'<td><input readonly="readonly" type="text"'
+			+'style="border: none; width: 100%;"></td>'
+			+'</tr>';
 		tr = $(tr);
 		//将tr追加到tbody中
 		tbody.append(tr);	
@@ -103,7 +105,7 @@ $(function(){
 
 
 
-//加载需要复制的数据
+//	加载需要复制的数据
 	function loadOld(){
 		//获取id
 		var strs = href.split('id=');
@@ -112,7 +114,7 @@ $(function(){
 		$.post(URL.copyUrl,{id:materialId},function(result){
 			if(result.code=='000000'){
 				var obj = result.data;
-				
+
 				//制单日期
 				$('#add_createtime').val(getNowFormatDate(true));
 				//制单人
@@ -244,19 +246,19 @@ $(function(){
 	//当选择下拉框时,填充数据
 	function fillData(input){
 		//当下拉框的值为不为空时
-			var tr =  $(input).closest('tr');
-			console.log(input);
-			//添加一个属性,以便获取数据
-			var inputs = tr.attr("statu",true).find("input");
-			
-			//设置所有的input 的readonly属性
-			inputs.attr('readonly',false);
-			//获取当前行号,并增1
-			addTR(parseInt(tr.find('td:first').html())+1);
-			inputs.eq(2).val(5000);
-			inputs.eq(3).val(getNowFormatDate(false));
-			inputs.eq(4).val(getNowFormatDate(false));
-			
+		var tr =  $(input).closest('tr');
+		console.log(input);
+		//添加一个属性,以便获取数据
+		var inputs = tr.attr("statu",true).find("input");
+
+		//设置所有的input 的readonly属性
+		inputs.attr('readonly',false);
+		//获取当前行号,并增1
+		addTR(parseInt(tr.find('td:first').html())+1);
+		inputs.eq(2).val(5000);
+		inputs.eq(3).val(getNowFormatDate(false));
+		inputs.eq(4).val(getNowFormatDate(false));
+
 	}
 
 	//获取当月最后一天

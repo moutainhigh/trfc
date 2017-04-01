@@ -152,13 +152,11 @@
 							</div>
 							<div class="alt_edit_div">
 								<label>项目名称：</label>
-								<div class="selct2_alt_div">
 									<input id="add_item" type="text"
-										class="itemSelect">
-								</div>
+										class="itemSelect"  placeholder="请选择项目名称">
 							</div>
 							<div class="alt_onerow_div">
-								<label>类型：</label> <input type="text" readonly="true"
+								<label>类型：</label> <input type="text" readonly="readonly"
 									id="add_schemetype">
 							</div>
 							<div class="alt_onerow_div">
