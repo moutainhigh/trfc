@@ -21,6 +21,8 @@ public class PurchaseArriveResp extends BaseResp {
     private String source;
 	//状态：（0：未入厂，1：一次过磅，2：二次过磅，3：作废，4：发卡，5：出厂，6：入厂，7：装车）
     private String status;
+    //单据类型（0：到货通知单，1：退货通知单）
+    private String type;
 	//车辆id
     private String vehicleid;
 	//车牌号
@@ -99,9 +101,6 @@ public class PurchaseArriveResp extends BaseResp {
     //到货占用量
     private String arrivalquantity;
     
-    //通知单类型 1:采购到货通知单，2：采购退货通知单，3：销售提货通知单
-    private String type;
-    
     //出入厂时间
     private Long enterTime;
     private Long outTime;
@@ -135,6 +134,18 @@ public class PurchaseArriveResp extends BaseResp {
 	}
 	public void setStatus(String status) {
 		this.status = status;
+	}
+	/**
+	 * @return the type
+	 */
+	public String getType() {
+		return type;
+	}
+	/**
+	 * @param type the type to set
+	 */
+	public void setType(String type) {
+		this.type = type;
 	}
 	public String getVehicleid() {
 		return vehicleid;
@@ -355,18 +366,6 @@ public class PurchaseArriveResp extends BaseResp {
 	}
 	public void setArrivalquantity(String arrivalquantity) {
 		this.arrivalquantity = arrivalquantity;
-	}
-	/**
-	 * @return the type
-	 */
-	public String getType() {
-		return type;
-	}
-	/**
-	 * @param type the type to set
-	 */
-	public void setType(String type) {
-		this.type = type;
 	}
 	public String getIcardno() {
 		return icardno;

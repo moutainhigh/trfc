@@ -44,10 +44,10 @@
 							<div class="intel_sline">
 								<div class="intel_solo">
 									<label>物料：</label> <input id="seek_material"
-										class="materialSelect" type="text">
+										class="materialSelect" type="text" placeholder="请选择物料">
 								</div>
 								<div class="intel_solo">
-									<label>物料品种：</label> <input type="text" id="seek_materialtype">
+									<label>物料品种：</label> <input type="text" id="seek_materialtype" placeholder="请输入物料品种">
 								</div>
 								<div class="intel_solo">
 									<button class="btn btnblue" id="seek">搜索</button>
@@ -175,16 +175,16 @@
 								<label class="colorred">*物料：</label>
 								<div class=selct2_alt_div>
 									<input id="add_material" type = "text"
-										class="materialSelect">
+										class="materialSelect" placeholder="请选择物料">
 								</div>
 							</div>
 							<div class="alt_edit_div">
 								<label class="colorred">*物料品种：</label> <input type="text"
-									id="add_materialtype">
+									id="add_materialtype" placeholder="请输入物料品种">
 							</div>
 							<div class="alt_edit_div">
 								<label class="colorred">*强度等级：</label> <input type="text"
-									id="add_strength">
+									id="add_strength" placeholder="请输入强度等级">
 							</div>
 							<div class="alt_edit_div">
 								<label>混合材品种：</label> <input type="text" id="add_admixture">

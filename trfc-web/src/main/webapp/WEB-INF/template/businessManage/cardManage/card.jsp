@@ -59,7 +59,7 @@
 							<i class="iconfont colorlv">&#xe61b;</i> <span>刷新</span>
 						</div>
 						<div id="addBtn" class="intel_operasolo">
-							<i class="iconfont colorlv">&#xe627;</i> <span>新增</span>
+							<i class="iconfont coloradd">&#xe627;</i> <span>新增</span>
 						</div>
 					</div>
 					<div class="intel_table">

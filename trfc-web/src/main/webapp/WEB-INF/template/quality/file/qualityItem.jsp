@@ -56,7 +56,7 @@
 									</select>
 								</div>
 								<div class="intel_solo">
-									<label>关键字：</label> <input type="text" id="seek_key">
+									<label>关键字：</label> <input type="text" placeholder="请输入关键字" id="seek_key">
 								</div>
 								<div class="intel_solo">
 									<div class="intel_sbtn">

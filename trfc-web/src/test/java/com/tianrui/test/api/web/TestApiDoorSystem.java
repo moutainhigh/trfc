@@ -22,7 +22,7 @@ public class TestApiDoorSystem {
 	private static String uri_record = "api/doorSystem/record";
 	
 	public static void main(String[] args) throws Exception {
-		URL url = new URL(domin + uri_record);
+		URL url = new URL(domin + uri_info);
 		// 打开url连接
 		HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 		// 设置url请求方式 ‘get’ 或者 ‘post’
@@ -31,7 +31,7 @@ public class TestApiDoorSystem {
 		
 	    // 表单参数与get形式一样
 		connection.setDoOutput(true);// 是否输入参数
-        params.append("p").append("=").append(JSON.toJSONString(getParam1()));
+        params.append("p").append("=").append(JSON.toJSONString(getParam0()));
         
         String aa =params.toString();
         System.out.println(aa);

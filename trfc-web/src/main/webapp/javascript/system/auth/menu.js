@@ -571,15 +571,15 @@
 		}); 
 	
 		function getValue(){ 
-		　　var val = $('#cc').combotree('getValue'); 
-		　　var text = $('#cc').combotree('getText'); 
-		　　alert("val="+val+",text="+text); 
+			var val = $('#cc').combotree('getValue'); 
+			var text = $('#cc').combotree('getText'); 
+			alert("val="+val+",text="+text); 
 		} 
 		function setValue(){ 
-		　　$('#cc').combotree('setValue', '这是设定的值'); 
+			$('#cc').combotree('setValue', '这是设定的值'); 
 		} 
 		function disable(){ 
-		　　$('#cc').combotree('disable'); 
+			$('#cc').combotree('disable'); 
 		} 
 		function enable(){ 
 		$('#cc').combotree('enable'); 

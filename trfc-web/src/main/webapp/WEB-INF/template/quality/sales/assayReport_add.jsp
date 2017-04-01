@@ -46,64 +46,64 @@
 						<div class="daohuo_add_div">
 							<div class="daohuo_add_solo">
 								<label><em class="colorred">*</em>单据编号：</label> <input
-									type="text" readonly="true" value="011" id="add_code">
+									type="text" readonly="readonly" value="011" id="add_code">
 								<input type="checkbox" id="add_pstate"> <em>打印</em>
 							</div>
 							<div class="daohuo_add_solo">
 								<label><em class="colorred">*</em>批号：</label>
 								<div class="input_withlogo">
 									<input type="text" data-toggle="modal" data-target="#altbill"
-										id="add_batchcode"> <span
+										id="add_batchcode" placeholder="请选择批号"> <span
 										class="form-control-feedback"><i class="iconfont">&#xe608;</i></span>
 								</div>
 							</div>
 							<div class="daohuo_add_solo">
-								<label>生产日期：</label> <input type="text" readonly="true"
+								<label>生产日期：</label> <input type="text" readonly="readonly"
 									onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:00:00'})"
-									class="Wdate" id="add_producedtime" />
+									class="Wdate" id="add_producedtime"  placeholder="请选择生产日期"/>
 							</div>
 							<div class="daohuo_add_solo">
-								<label>试验日期：</label> <input type="text" readonly="true"
+								<label>试验日期：</label> <input type="text" readonly="readonly"
 									onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:00:00'})"
-									class="Wdate" id="add_testtime" />
+									class="Wdate" id="add_testtime"  placeholder="请选择试验日期"/>
 							</div>
 							<div class="daohuo_add_solo">
 								<label><em class="colorred">*</em>水泥品种：</label> <input
-									type="text" id="add_materialtype">
+									type="text" id="add_materialtype" placeholder="请选择水泥品种">
 							</div>
 							<div class="daohuo_add_solo">
-								<label>强度等级：</label> <input type="text" readonly="true"
+								<label>强度等级：</label> <input type="text" readonly="readonly"
 									id="add_strength">
 							</div>
 							<div class="daohuo_add_solo">
-								<label>混合材品种：</label> <input type="text" readonly="true"
+								<label>混合材品种：</label> <input type="text" readonly="readonly"
 									id="add_admixture">
 							</div>
 							<div class="daohuo_add_solo">
-								<label>混合材掺加量：</label> <input type="text" readonly="true"
+								<label>混合材掺加量：</label> <input type="text" readonly="readonly"
 									id="add_admixtureadd">
 							</div>
 							<div class="daohuo_add_solo">
-								<label>石膏种类：</label> <input type="text" readonly="true"
+								<label>石膏种类：</label> <input type="text" readonly="readonly"
 									id="add_gypsum">
 							</div>
 							<div class="daohuo_add_solo">
-								<label>石膏掺加量：</label> <input type="text" readonly="true"
+								<label>石膏掺加量：</label> <input type="text" readonly="readonly"
 									id="add_gypsumadd">
 							</div>
 							<div class="daohuo_add_solo">
-								<label>助磨剂种类：</label> <input type="text" readonly="true"
+								<label>助磨剂种类：</label> <input type="text" readonly="readonly"
 									id="add_aid">
 							</div>
 							<div class="daohuo_add_solo">
-								<label>助磨剂掺加量：</label> <input type="text" readonly="true"
+								<label>助磨剂掺加量：</label> <input type="text" readonly="readonly"
 									id="add_aidadd">
 							</div>
 							<div class="daohuo_add_solo">
-								<label>质检方案：</label> <input type="text" id="add_qscheme">
+								<label>质检方案：</label> <input type="text" placeholder="请选择质检方案" id="add_qscheme">
 							</div>
 							<div class="daohuo_add_solo">
-								<label>报告单位：</label> <input type="text" readonly="true"
+								<label>报告单位：</label> <input type="text" readonly="readonly"
 									id="add_reportorg">
 							</div>
 							<div class="daohuo_add_solo">
@@ -113,17 +113,17 @@
 								<label>地址：</label> <input type="text" id="add_addr">
 							</div>
 							<div class="daohuo_add_solo">
-								<label>制单日期：</label> <input type="text" readonly="true"
+								<label>制单日期：</label> <input type="text" readonly="readonly"
 									id="add_creattime">
 							</div>
 							<div class="daohuo_add_solo">
-								<label>制单人：</label> <input type="text" readonly="true"
+								<label>制单人：</label> <input type="text" readonly="readonly"
 									id="add_creator">
 							</div>
 							<div class="daohuo_add_solo">
-								<label>销售日期：</label> <input type="text" readonly="true"
+								<label>销售日期：</label> <input type="text" readonly="readonly"
 									onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:00:00'})"
-									class="Wdate" id="add_selldate" />
+									class="Wdate" id="add_selldate" placeholder="请选择销售日期"/>
 							</div>
 							<div class="daohuo_add_solo">
 								<label>备注：</label> <input type="text" id="add_remark">

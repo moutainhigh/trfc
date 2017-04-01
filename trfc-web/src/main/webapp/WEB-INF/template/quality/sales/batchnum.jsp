@@ -43,26 +43,25 @@
 							<div class="intel_sline">
 								<div class="intel_solo">
 									<label>开始时间：</label> <input type="text" id="seek_starttime"
-										readonly="true"
 										onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})"
-										class="Wdate" style="width: 160px" />
+										class="Wdate" style="width: 160px" readonly="readonly"
+										placeholder="请选择开始时间" />
 								</div>
 								<div class="intel_solo">
 									<label>结束时间：</label> <input type="text" id="seek_endtime"
-										readonly="true"
 										onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})"
-										class="Wdate" style="width: 160px" />
+										class="Wdate" style="width: 160px" readonly="readonly"
+										placeholder="请选择结束时间" />
 								</div>
 								<div class="intel_solo">
-									<label>单据编号：</label><input type="text" id="seek_code" />
+									<label>单据编号：</label><input type="text" id="seek_code" placeholder="请输入单据编号"/>
 								</div>
 								<div class="intel_solo">
-									<label>出厂编号：</label> <input type="text" id="seek_factorycode">
+									<label>出厂编号：</label> <input type="text" id="seek_factorycode" placeholder="请输入出厂编号">
 								</div>
 								<div class="intel_solo">
 									<label>物料：</label>
-									<input type = "text" id="seek_material"
-								>
+									<input type = "text" id="seek_material" placeholder="请选择物料">
 								</div>
 								<div class="intel_solo">
 									<label>单据状态：</label> <select class="form-control"

@@ -46,7 +46,7 @@
 						<div class="daohuo_add_div">
 							<div class="daohuo_add_solo">
 								<label><em class="colorred">*</em>单据编号：</label> <input
-									type="text" readonly="true" value="011" id="edit_code">
+									type="text" readonly="readonly" value="011" id="edit_code">
 								<input type="checkbox" id="edit_pstate"> <em>打印</em>
 							</div>
 							<div class="daohuo_add_solo">
@@ -58,12 +58,12 @@
 								</div>
 							</div>
 							<div class="daohuo_add_solo">
-								<label>生产日期：</label> <input type="text" readonly="true"
+								<label>生产日期：</label> <input type="text" readonly="readonly"
 									onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:00:00'})"
 									class="Wdate" id="edit_producedtime" />
 							</div>
 							<div class="daohuo_add_solo">
-								<label>试验日期：</label> <input type="text" readonly="true"
+								<label>试验日期：</label> <input type="text" readonly="readonly"
 									onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:00:00'})"
 									class="Wdate" id="edit_testtime" />
 							</div>
@@ -72,38 +72,38 @@
 									type="text" id="edit_materialtype">
 							</div>
 							<div class="daohuo_add_solo">
-								<label>强度等级：</label> <input type="text" readonly="true"
+								<label>强度等级：</label> <input type="text" readonly="readonly"
 									id="edit_strength">
 							</div>
 							<div class="daohuo_add_solo">
-								<label>混合材品种：</label> <input type="text" readonly="true"
+								<label>混合材品种：</label> <input type="text" readonly="readonly"
 									id="edit_admixture">
 							</div>
 							<div class="daohuo_add_solo">
-								<label>混合材掺加量：</label> <input type="text" readonly="true"
+								<label>混合材掺加量：</label> <input type="text" readonly="readonly"
 									id="edit_admixtureadd">
 							</div>
 							<div class="daohuo_add_solo">
-								<label>石膏种类：</label> <input type="text" readonly="true"
+								<label>石膏种类：</label> <input type="text" readonly="readonly"
 									id="edit_gypsum">
 							</div>
 							<div class="daohuo_add_solo">
-								<label>石膏掺加量：</label> <input type="text" readonly="true"
+								<label>石膏掺加量：</label> <input type="text" readonly="readonly"
 									id="edit_gypsumadd">
 							</div>
 							<div class="daohuo_add_solo">
-								<label>助磨剂种类：</label> <input type="text" readonly="true"
+								<label>助磨剂种类：</label> <input type="text" readonly="readonly"
 									id="edit_aid">
 							</div>
 							<div class="daohuo_add_solo">
-								<label>助磨剂掺加量：</label> <input type="text" readonly="true"
+								<label>助磨剂掺加量：</label> <input type="text" readonly="readonly"
 									id="edit_aidadd">
 							</div>
 							<div class="daohuo_add_solo">
 								<label>质检方案：</label> <input type="text" id="edit_qscheme">
 							</div>
 							<div class="daohuo_add_solo">
-								<label>报告单位：</label> <input type="text" readonly="true"
+								<label>报告单位：</label> <input type="text" readonly="readonly"
 									id="edit_reportorg">
 							</div>
 							<div class="daohuo_add_solo">
@@ -113,15 +113,15 @@
 								<label>地址：</label> <input type="text" id="edit_addr">
 							</div>
 							<div class="daohuo_add_solo">
-								<label>制单日期：</label> <input type="text" readonly="true"
+								<label>制单日期：</label> <input type="text" readonly="readonly"
 									id="edit_creattime">
 							</div>
 							<div class="daohuo_add_solo">
-								<label>制单人：</label> <input type="text" readonly="true"
+								<label>制单人：</label> <input type="text" readonly="readonly"
 									id="edit_creator">
 							</div>
 							<div class="daohuo_add_solo">
-								<label>销售日期：</label> <input type="text" readonly="true"
+								<label>销售日期：</label> <input type="text" readonly="readonly"
 									onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:00:00'})"
 									class="Wdate" id="edit_selldate" />
 							</div>

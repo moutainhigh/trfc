@@ -7,6 +7,7 @@
     <result column="auditstatus" property="auditstatus" jdbcType="VARCHAR" />
     <result column="source" property="source" jdbcType="VARCHAR" />
     <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="VARCHAR" />
     <result column="vehicleid" property="vehicleid" jdbcType="VARCHAR" />
     <result column="vehicleno" property="vehicleno" jdbcType="VARCHAR" />
     <result column="vehiclerfid" property="vehiclerfid" jdbcType="VARCHAR" />
@@ -34,13 +35,13 @@
     <result column="remark" property="remark" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, code, auditstatus, source, status, vehicleid, 
+    id, code, auditstatus, source, status, type, vehicleid, 
     vehicleno, vehiclerfid, driverid, drivername, driveridentityno, billid, billcode, 
     billdetailid, abnormalperson, abnormalpersonname, abnormaltime, arrivalamount, signamount, unit, makerid, 
     makebillname, makebilltime, icardid, state, creator, createtime, modifier, modifytime, remark
   </sql>
   <sql id="P_Base_Column_List" >
-    p1.id, p1.code, p1.auditstatus, p1.source, p1.status, p1.vehicleid, 
+    p1.id, p1.code, p1.auditstatus, p1.source, p1.status, p1.type, p1.vehicleid, 
     p1.vehicleno, p1.vehiclerfid, p1.driverid, p1.drivername, p1.driveridentityno, p1.billid, p1.billcode, 
     p1.billdetailid, p1.abnormalperson, p1.abnormalpersonname, p1.abnormaltime, p1.arrivalamount, p1.signamount, p1.unit, p1.makerid, 
     p1.makebillname, p1.makebilltime, p1.icardid, p1.state, p1.creator, p1.createtime, p1.modifier, p1.modifytime, p1.remark
@@ -57,7 +58,7 @@
   </delete>
   <insert id="insert" parameterType="com.tianrui.service.bean.businessManage.purchaseManage.PurchaseArrive" >
     insert into tr_purchase_db_arrive (id, code, auditstatus, 
-      source, status, vehicleid, vehicleno, 
+      source, status, type, vehicleid, vehicleno, 
       vehiclerfid, driverid, drivername, 
       driveridentityno, billid, billcode, billdetailid,
       abnormalperson, abnormalpersonname, abnormaltime, 
@@ -66,7 +67,8 @@
       createtime, modifier, modifytime, 
       remark)
     values (#{id,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR}, #{auditstatus,jdbcType=VARCHAR}, 
-      #{source,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, #{vehicleid,jdbcType=VARCHAR}, #{vehicleno,jdbcType=VARCHAR}, 
+      #{source,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, 
+      #{vehicleid,jdbcType=VARCHAR}, #{vehicleno,jdbcType=VARCHAR}, 
       #{vehiclerfid,jdbcType=VARCHAR}, #{driverid,jdbcType=VARCHAR}, #{drivername,jdbcType=VARCHAR}, 
       #{driveridentityno,jdbcType=VARCHAR}, #{billid,jdbcType=VARCHAR}, #{billcode,jdbcType=VARCHAR}, #{billdetailid,jdbcType=VARCHAR}, 
       #{abnormalperson,jdbcType=VARCHAR}, #{abnormalpersonname,jdbcType=VARCHAR}, #{abnormaltime,jdbcType=BIGINT}, 
@@ -92,6 +94,9 @@
       </if>
       <if test="status != null" >
         status,
+      </if>
+      <if test="type != null" >
+        type,
       </if>
       <if test="vehicleid != null" >
         vehicleid,
@@ -185,6 +190,9 @@
       <if test="status != null" >
         #{status,jdbcType=VARCHAR},
       </if>
+      <if test="type != null" >
+        #{type,jdbcType=VARCHAR},
+      </if>
       <if test="vehicleid != null" >
         #{vehicleid,jdbcType=VARCHAR},
       </if>
@@ -277,6 +285,9 @@
       <if test="status != null" >
         status = #{status,jdbcType=VARCHAR},
       </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=VARCHAR},
+      </if>
       <if test="vehicleid != null" >
         vehicleid = #{vehicleid,jdbcType=VARCHAR},
       </if>
@@ -361,6 +372,7 @@
       auditstatus = #{auditstatus,jdbcType=VARCHAR},
       source = #{source,jdbcType=VARCHAR},
       status = #{status,jdbcType=VARCHAR},
+      type = #{type,jdbcType=VARCHAR},
       vehicleid = #{vehicleid,jdbcType=VARCHAR},
       vehicleno = #{vehicleno,jdbcType=VARCHAR},
       vehiclerfid = #{vehiclerfid,jdbcType=VARCHAR},
@@ -407,6 +419,9 @@
       </if>
       <if test="status != null and status != ''" >
         and status = #{status,jdbcType=VARCHAR}
+      </if>
+      <if test="type != null and type != ''" >
+        and type = #{type,jdbcType=VARCHAR}
       </if>
       <if test="vehicleid != null and vehicleid != ''" >
         and vehicleid = #{vehicleid,jdbcType=VARCHAR}
@@ -504,6 +519,9 @@
   	  <if test="status != null and status !=''" >
         and p1.status = #{status,jdbcType=VARCHAR}
       </if>
+  	  <if test="type != null and type !=''" >
+        and p1.type = #{type,jdbcType=VARCHAR}
+      </if>
   	  <if test="supplierid != null and supplierid !=''" >
         and p2.supplierid = #{supplierid,jdbcType=VARCHAR}
       </if>
@@ -553,6 +571,9 @@
       </if>
   	  <if test="status != null and status !=''" >
         and p1.status = #{status,jdbcType=VARCHAR}
+      </if>
+  	  <if test="type != null and type !=''" >
+        and p1.type = #{type,jdbcType=VARCHAR}
       </if>
   	  <if test="supplierid != null and supplierid !=''" >
         and p2.supplierid = #{supplierid,jdbcType=VARCHAR}
@@ -610,7 +631,7 @@
   	select
   	<include refid="Base_Column_List" />
   	from tr_purchase_db_arrive
-  	where vehicleno = #{vehicleno,jdbcType=VARCHAR} and state = '1'
+  	where vehicleno = #{vehicleno,jdbcType=VARCHAR} and state = '1' and status = '0'
   </select>
     <select id="selectByCode" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 

@@ -71,7 +71,7 @@
 	    		}
 	    	},
 	    	select: function( event, ui ) {
-	    		$(this).val(ui.item.name).attr('vehicleid', ui.item.id);
+	    		$(this).val(ui.item.vehicleno).attr('vehicleid', ui.item.id);
 	    		return false;
 	    	}
 	    }).off('click').on('click',function(){

@@ -42,7 +42,7 @@
 					<div class="intel_sconditon">
 						<div class="intel_sline">
 							<div class="intel_solo">
-								<label>产品名称：</label> <input id="seek_material" class="materialSelect" type="text">
+								<label>产品名称：</label> <input id="seek_material" class="materialSelect" type="text" placeholder="请选择产品名称">
 							</div>
 							<div class="intel_solo">
 								<button class="btn btnblue " id="seek">搜索</button>
@@ -164,7 +164,7 @@
 								<label class="colorred">*产品名称：</label>
 								<div class=selct2_alt_div>
 									<input id="add_material" type="text"
-										class="materialSelect">
+										class="materialSelect" placeholder="请选择产品名称">
 								</div>
 							</div>
 						<div class="alt_edit_div">

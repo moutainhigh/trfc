@@ -28,6 +28,7 @@ import com.tianrui.api.req.system.base.GetCodeReq;
 import com.tianrui.api.resp.basicFile.measure.DriverManageResp;
 import com.tianrui.api.resp.basicFile.measure.VehicleManageResp;
 import com.tianrui.api.resp.businessManage.cardManage.CardResp;
+import com.tianrui.api.resp.businessManage.poundNoteMaintain.PoundNoteResp;
 import com.tianrui.api.resp.businessManage.salesManage.ApiDoorQueueResp;
 import com.tianrui.api.resp.businessManage.salesManage.ApiSalesArriveResp;
 import com.tianrui.api.resp.businessManage.salesManage.SalesApplicationDetailResp;
@@ -35,6 +36,8 @@ import com.tianrui.api.resp.businessManage.salesManage.SalesApplicationResp;
 import com.tianrui.api.resp.businessManage.salesManage.SalesArriveResp;
 import com.tianrui.service.bean.basicFile.measure.VehicleManage;
 import com.tianrui.service.bean.businessManage.cardManage.Card;
+import com.tianrui.service.bean.businessManage.logisticsManage.AccessRecord;
+import com.tianrui.service.bean.businessManage.poundNoteMaintain.PoundNote;
 import com.tianrui.service.bean.businessManage.purchaseManage.PurchaseApplication;
 import com.tianrui.service.bean.businessManage.purchaseManage.PurchaseApplicationDetail;
 import com.tianrui.service.bean.businessManage.purchaseManage.PurchaseArrive;
@@ -44,6 +47,8 @@ import com.tianrui.service.bean.businessManage.salesManage.SalesArrive;
 import com.tianrui.service.bean.common.RFID;
 import com.tianrui.service.mapper.basicFile.measure.VehicleManageMapper;
 import com.tianrui.service.mapper.businessManage.cardManage.CardMapper;
+import com.tianrui.service.mapper.businessManage.logisticsManage.AccessRecordMapper1;
+import com.tianrui.service.mapper.businessManage.poundNoteMaintain.PoundNoteMapper;
 import com.tianrui.service.mapper.businessManage.purchaseManage.PurchaseApplicationDetailMapper;
 import com.tianrui.service.mapper.businessManage.purchaseManage.PurchaseApplicationMapper;
 import com.tianrui.service.mapper.businessManage.purchaseManage.PurchaseArriveMapper;
@@ -100,6 +105,10 @@ public class SalesArriveService implements ISalesArriveService {
 	private PurchaseApplicationMapper purchaseApplicationMapper;
 	@Autowired
 	private PurchaseApplicationDetailMapper purchaseApplicationDetailMapper;
+	@Autowired
+	private PoundNoteMapper poundNoteMapper;
+	@Autowired
+	private AccessRecordMapper1 accessRecordMapper1;
 	
 	@Override
 	public PaginationVO<SalesArriveResp> page(SalesArriveQuery query) throws Exception {
@@ -389,6 +398,19 @@ public class SalesArriveService implements ISalesArriveService {
 				for(SalesApplicationJoinNatice join : listJoin){
 					ids.add(join.getBillid());
 					detailIds.add(join.getBilldetailid());
+					//获取磅单信息
+					PoundNote pound = poundNoteMapper.selectByNoticeId(resp.getId());
+					if(pound!=null){
+						PoundNoteResp poundResp = new PoundNoteResp();
+						PropertyUtils.copyProperties(poundResp, pound);
+						resp.setPoundNoteResp(poundResp);
+					}
+					//获取出入厂时间
+					AccessRecord access = accessRecordMapper1.selectByNoticeId(resp.getId());
+					if(access!=null){
+						resp.setEnterTime(access.getEntertime());
+						resp.setOutTime(access.getOuttime());
+					}
 				}
 				List<SalesApplicationResp> listApplication = salesApplicationService.selectByIds(ids, false);
 				List<SalesApplicationDetailResp> listApplicationDetail = salesApplicationDetailService.selectByIds(detailIds);

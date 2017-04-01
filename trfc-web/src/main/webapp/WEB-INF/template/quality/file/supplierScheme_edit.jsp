@@ -73,12 +73,12 @@
 									id="edit_scheme" class="qschemeSel" type="text">
 							</div>
 							<div class="daohuo_add_solo">
-								<label>开始日期：</label> <input type="text" readonly="true"
+								<label>开始日期：</label> <input type="text" readonly="readonly"
 									onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})" class="Wdate"
 									id="edit_starttime" />
 							</div>
 							<div class="daohuo_add_solo">
-								<label>结束日期：</label> <input type="text" readonly="true"
+								<label>结束日期：</label> <input type="text" readonly="readonly"
 									onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})" class="Wdate"
 									id="edit_endtime" />
 							</div>

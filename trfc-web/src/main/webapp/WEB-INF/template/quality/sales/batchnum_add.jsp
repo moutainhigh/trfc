@@ -66,34 +66,34 @@ select {
 						<h5>批号维护单录入</h5>
 						<div class="daohuo_add_div">
 							<div class="daohuo_add_solo">
-								<label>化验日期：</label> <input type="text" readonly="true"
-									id="add_assaytime"
-									onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})" class="Wdate" />
+								<label>化验日期：</label> <input type="text" id="add_assaytime"
+									onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})" class="Wdate"
+									readonly="readonly" placeholder="请选择化验日期" />
 							</div>
 							<div class="daohuo_add_solo">
-								<label>化验人：</label>  <input type = "text"
-									id="user_select">
+								<label>化验人：</label> <input type="text" id="user_select" placeholder="请选择化验人">
 							</div>
 							<div class="daohuo_add_solo">
 								<label><span class="colorred">*</span>化验单位：</label> <input
-									type="text" id="add_assayorg" readonly="true">
+									type="text" id="add_assayorg" readonly="readonly">
 							</div>
 							<div class="daohuo_add_solo">
-								<label>开始日期：</label> <input type="text" readonly="true"
+								<label>开始日期：</label> <input type="text"
 									onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})" class="Wdate"
-									id="add_starttime" />
+									readonly="readonly" placeholder="请选择开始日期" id="add_starttime" />
 							</div>
 							<div class="daohuo_add_solo">
-								<label>结束日期：</label> <input type="text" readonly="true"
-									onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})" class="Wdate"
+								<label>结束日期：</label> <input type="text" 
+									onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})" class="Wdate"
+									readonly="readonly" placeholder="请选择结束日期"
 									id="add_endtime" />
 							</div>
 							<div class="daohuo_add_solo">
-								<label>制单日期：</label> <input type="text" readonly="true"
+								<label>制单日期：</label> <input type="text" readonly="readonly"
 									id="add_createtime" />
 							</div>
 							<div class="daohuo_add_solo">
-								<label>制单人：</label> <input type="text" readonly="true"
+								<label>制单人：</label> <input type="text" readonly="readonly"
 									id="add_creator">
 							</div>
 

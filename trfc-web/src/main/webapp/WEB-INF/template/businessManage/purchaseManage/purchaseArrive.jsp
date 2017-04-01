@@ -21,6 +21,7 @@
 					<li><a href="/trfc/purchaseApplication/main">采购申请单</a></li>
 					<li class="select"><a href="/trfc/purchaseArrive/main">到货通知单</a></li>
 					<li><a href="/trfc/purchaseReturn/main">退货通知单</a></li>
+					<li><a href="/trfc/purchaseVehicle/main">采购车辆状态</a></li>
 				</ul>
 			</div>
 			<!--tab切换的内容-->
@@ -159,7 +160,7 @@
 									<thead>
 										<tr>
 											<th>车号</th>
-											<th>到货数量</th>
+											<th>退货数量</th>
 											<th>司机</th>
 											<th>身份证号</th>
 											<th>制单日期</th>
@@ -231,7 +232,6 @@
 							<!--tab切换的内容end-->
 						</div>
 					</div>
-
 					<!--分页效果开始-->
 					<div class="page">
 						<div class="page_date">
@@ -256,158 +256,18 @@
 			</div>
 			<!--tab切换的内容end-->
 		</div>
-		<!--查看详情begin-->
-		<div class="modal fade" id="caigoubill" tabindex="-1" role="dialog"
-			aria-labelledby="myModalLabel">
-			<div class="modal-dialog" role="document" style="width: 900px;">
-				<div class="modal-content">
-					<div class="modal-header">
-						<button type="button" class="close" data-dismiss="modal"
-							aria-label="Close">
-							<span aria-hidden="true">&times;</span>
-						</button>
-						<div class="alt_head">
-							<h5>采购申请单详细信息</h5>
-							<img src="${staticBasePath}/images/sh.png">
-						</div>
-					</div>
-					<div class="modal-body">
-						<div class="">
-							<div class="cg_div">
-								<div class="cg_solo">
-									<label>单据编号：</label> <input type="text">
-								</div>
-								<div class="cg_solo">
-									<label>单据来源：</label> <input type="text">
-								</div>
-								<div class="cg_solo">
-									<label>订单类型：</label> <input type="text">
-								</div>
-								<div class="cg_solo">
-									<label>订单日期：</label> <input type="text">
-								</div>
-								<div class="cg_solo">
-									<label>供应商：</label> <input type="text">
-								</div>
-								<div class="cg_solo">
-									<label>总数量：</label> <input type="text">
-								</div>
-								<div class="cg_solo">
-									<label>采购员：</label> <input type="text">
-								</div>
-								<div class="cg_solo">
-									<label>制单人： </label> <input type="text">
-								</div>
-								<div class="cg_solo">
-									<label> 制单日期：</label> <input type="text">
-								</div>
-								<div class="cg_bz">
-									<label>备注：</label> <input type="text">
-								</div>
-							</div>
-							<div class="cg_tabtit">
-								<ul>
-									<li class="select">订单明细</li>
-									<li>质检信息</li>
-									<li>质检信息</li>
-								</ul>
-							</div>
-							<div class="cg_tabbox">
-								<!--tab切换的内容-->
-								<div class="cg_tabcont">
-									<table class="table table-bordered">
-										<thead>
-											<tr>
-												<th>采购组织</th>
-												<th>物料</th>
-												<th>质检方案</th>
-												<th>数量</th>
-												<th>备注</th>
-											</tr>
-										</thead>
-										<tbody>
-											<tr>
-												<td>卫辉市天瑞水泥有限公司</td>
-												<td>粉煤炭</td>
-												<td>方案2</td>
-												<td>1000</td>
-												<td>豫GA1783</td>
-											</tr>
-											<tr>
-												<td>合计</td>
-												<td></td>
-												<td></td>
-												<td></td>
-												<td></td>
-											</tr>
-										</tbody>
-									</table>
-								</div>
-								<div class="cg_tabcont hide">1</div>
-								<!--tab切换的内容end-->
-							</div>
-						</div>
-
-					</div>
-					<div class="modal-footer">
-						<button type="button" class="btn btn-primary">确定</button>
-						<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-					</div>
-				</div>
-			</div>
-		</div>
 	</div>
-	<!--查看详情end-->
 	<!-- 引用公共footer部分 -->
 	<jsp:include page="../../common/base/footer_busi.jsp"></jsp:include>
 	<script type="text/javascript"
 		src="/javascript/businessManage/purchaseManage/purchaseArrive.js"></script>
 	<script type="text/javascript">
-		// 顶部tab切换菜单
-		var $tab_li = $('.intel_menu li');
-		$tab_li.click(function() {
-			$(this).addClass('select').siblings().removeClass('select');
-			var index = $tab_li.index(this);
-			$('.intel_tabbox > .intel_tabcont').eq(index).show().siblings()
-					.hide();
-		});
-		// 表格内容每行单击出来下面的详细信息
-		var tabledata = $('.intel_table table tbody tr');
-		tabledata.on("click", function() {
-			$(".intel_result").css("display", "block");
-		})
-		// 表格内容每行双击出来下面的详细信息
-		tabledata.on("dblclick", function() {
-			$('#caigoubill').modal('show');
-		})
-		// 左侧宽度改变 右边改变
-		var leftall = $(".left");
-		var leftmini = $(".leftmini");
-		leftall.on("click", function() {
-			$(this).css("display", "none");
-			leftmini.css("display", "block");
-			$(".right").css("margin-left", "100px");
-		});
-		leftmini.on("click", function() {
-			$(this).css("display", "none");
-			leftall.css("display", "block");
-			$(".right").css("margin-left", "200px");
-		});
 		// 首页底部的tab切换菜单
 		var ind_li = $('#ind_tab ul li');
 		ind_li.click(function() {
 			$(this).addClass('select').siblings().removeClass('select');
 			var index_li = ind_li.index(this);
 			$('#ind_tab .cg_tabbox > .cg_tabcont').eq(index_li).show()
-					.siblings().hide();
-		});
-
-		// 弹出信息的tab切换菜单
-		var alt_li = $('#alt_tab ul li');
-		alt_li.click(function() {
-			$(this).addClass('select').siblings().removeClass('select');
-			var index_alt = alt_li.index(this);
-			$('#alt_tab .cg_tabbox > .cg_tabcont').eq(index_alt).show()
 					.siblings().hide();
 		});
 	</script>

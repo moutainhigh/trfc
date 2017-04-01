@@ -42,9 +42,8 @@
 						<div class="intel_sconditon">
 							<div class="intel_sline">
 								<div class="intel_solo">
-									<label>物料：</label> <select class="form-control materialSelect"
-										id="seek_material">
-									</select>
+									<label>物料：</label> <input id="seek_material" type="text"
+										class="materialSelect" placeholder="请选择物料">
 								</div>
 								<div class="intel_solo">
 									<label>类型：</label> <select class="form-control" id="seek_type">
@@ -54,7 +53,7 @@
 									</select>
 								</div>
 								<div class="intel_solo">
-									<label>名称：</label> <input type="text" id="seek_namelike">
+									<label>名称：</label> <input type="text" id="seek_namelike" placeholder="请输入名称">
 								</div>
 								<div class="intel_solo">
 									<div class="intel_sbtn">
@@ -201,23 +200,21 @@
 					<div class="modal-body">
 						<div class="alt_edit">
 							<div class="alt_edit_div">
-								<label>编号：</label> <input type="text" readonly="true" value="11" id="add_code">
+								<label>编号：</label> <input type="text" readonly="true" value="11"
+									id="add_code">
 							</div>
 							<div class="alt_edit_div">
 								<label>名称：</label> <input type="text" id="add_name">
 							</div>
 							<div class="alt_edit_div">
-								<label>单据：</label><div class="selct2_alt_div">
-									<input id="add_bills" type="text"
-										class="billsSelect">
+								<label>单据：</label>
+								<div class="selct2_alt_div">
+									<input id="add_bills" type="text" class="billsSelect">
 								</div>
 							</div>
 							<div class="alt_edit_div">
-								<label>物料：</label> 
-								<div class=selct2_alt_div>
-									<input id="add_material" type="text"
-										class="materialSelect">
-								</div>
+								<label>物料：</label>
+									<input id="add_material" type="text" class="materialSelect" placeholder="请选择物料">
 							</div>
 							<div class="alt_edit_div">
 								<label>类型：</label> <select class="form-control" id="add_type">
@@ -239,7 +236,8 @@
 					</div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-primary" id="add_sure">确定</button>
-						<button type="button" class="btn btn-default" data-dismiss="modal" id="add_cancel">取消</button>
+						<button type="button" class="btn btn-default" data-dismiss="modal"
+							id="add_cancel">取消</button>
 					</div>
 				</div>
 			</div>
@@ -262,24 +260,22 @@
 					<div class="modal-body">
 						<div class="alt_edit">
 							<div class="alt_edit_div">
-							 <input type="hidden" id="edit_id"> 
-								<label>编号：</label> <input type="text" readonly="true" value="11" id="edit_code">
+								<input type="hidden" id="edit_id"> <label>编号：</label> <input
+									type="text" readonly="true" value="11" id="edit_code">
 							</div>
 							<div class="alt_edit_div">
 								<label>名称：</label> <input type="text" id="edit_name">
 							</div>
 							<div class="alt_edit_div">
-								<label>单据：</label> 
+								<label>单据：</label>
 								<div class=selct2_alt_div>
-								<input id="edit_bills" type="text"
-										class="billsSelect">
+									<input id="edit_bills" type="text" class="billsSelect">
 								</div>
 							</div>
 							<div class="alt_edit_div">
-								<label>物料：</label> 
+								<label>物料：</label>
 								<div class=selct2_alt_div>
-									<input id="edit_material" type = "text"
-										class="materialSelect">
+									<input id="edit_material" type="text" class="materialSelect">
 								</div>
 							</div>
 							<div class="alt_edit_div">
@@ -302,7 +298,8 @@
 					</div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-primary" id="edit_sure">确定</button>
-						<button type="button" class="btn btn-default" data-dismiss="modal" id="edit_cancel">取消</button>
+						<button type="button" class="btn btn-default" data-dismiss="modal"
+							id="edit_cancel">取消</button>
 					</div>
 				</div>
 			</div>
@@ -312,7 +309,7 @@
 		<jsp:include page="../../common/base/footer_busi.jsp"></jsp:include>
 		<script type="text/javascript"
 			src="/javascript/quality/file/qualityScheme.js"></script>
-		</div>
+	</div>
 </body>
 </html>
 

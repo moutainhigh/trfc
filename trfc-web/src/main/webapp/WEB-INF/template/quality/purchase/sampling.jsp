@@ -43,18 +43,18 @@
 								<div class="intel_solo">
 									<label>开始时间：</label> <input type="text" id="seek_starttime"
 										onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})"
-										class="Wdate" style="width: 160px" />
+										class="Wdate" style="width: 160px"  placeholder="请选择开始时间"/>
 								</div>
 								<div class="intel_solo">
 									<label>结束时间：</label> <input type="text" id="seek_endtime"
 										onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})"
-										class="Wdate" style="width: 160px" />
+										class="Wdate" style="width: 160px"  placeholder="请选择结束时间"/>
 								</div>
 								<div class="intel_solo">
-									<label>化验类型：</label> <input type="text" id="seek_assaytype" class="assaySel"> 
+									<label>化验类型：</label> <input type="text" placeholder="请选择化验类型" id="seek_assaytype" class="assaySel"> 
 								</div>
 								<div class="intel_solo">
-									<label>单据编号：</label> <input type="text" id="seek_code">
+									<label>单据编号：</label> <input type="text" id="seek_code"  placeholder="请输入单据编号">
 								</div>
 								<div class="intel_solo">
 									<button class="btn btnblue" id="seek">搜索</button>
@@ -209,7 +209,7 @@
 							</div>
 
 							<div class="alt_edit_div">
-								<label> 化验类型：</label> <input type="text" id="add_assaytype" class="assaySel">
+								<label> 化验类型：</label> <input type="text" placeholder="请选择化验类型" id="add_assaytype" class="assaySel">
 							</div>
 							<div class="alt_edit_div" style="width: 100%">
                         <label>备注： </label>
@@ -298,7 +298,7 @@
 							</div>
 
 							<div class="alt_edit_div">
-								<label> 化验类型：</label> <input type="text" id="edit_assaytype" class="assaySel">
+								<label> 化验类型：</label> <input type="text" id="edit_assaytype" placeholder="请选择化验类型" class="assaySel">
 							</div>
 							<div class="alt_edit_div" style="width: 100%">
                         <label>备注： </label>

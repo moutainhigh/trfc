@@ -21,6 +21,7 @@
 					<li class="select"><a href="/trfc/purchaseApplication/main">采购申请单</a></li>
 					<li><a href="/trfc/purchaseArrive/main">到货通知单</a></li>
 					<li><a href="/trfc/purchaseReturn/main">退货通知单</a></li>
+					<li><a href="/trfc/purchaseVehicle/main">采购车辆状态</a></li>
 				</ul>
 			</div>
 			<!--tab切换的内容-->
