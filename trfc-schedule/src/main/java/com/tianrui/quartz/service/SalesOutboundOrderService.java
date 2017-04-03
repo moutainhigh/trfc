@@ -14,14 +14,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.tianrui.api.intf.system.auth.ISystemUserService;
+import com.tianrui.api.resp.system.auth.SystemUserResp;
 import com.tianrui.quartz.common.ApiParamUtils;
 import com.tianrui.quartz.common.HttpUtils;
 import com.tianrui.service.bean.businessManage.poundNoteMaintain.PoundNote;
 import com.tianrui.service.bean.businessManage.salesManage.SalesOutboundOrder;
 import com.tianrui.service.bean.businessManage.salesManage.SalesOutboundOrderItem;
+import com.tianrui.service.bean.system.auth.SmUser;
 import com.tianrui.service.mapper.businessManage.poundNoteMaintain.PoundNoteMapper;
 import com.tianrui.service.mapper.businessManage.salesManage.SalesOutboundOrderItemMapper;
 import com.tianrui.service.mapper.businessManage.salesManage.SalesOutboundOrderMapper;
+import com.tianrui.service.mapper.system.auth.SmUserMapper;
 import com.tianrui.smartfactory.common.api.ApiResult;
 import com.tianrui.smartfactory.common.constants.Constant;
 import com.tianrui.smartfactory.common.constants.ErrorCode;
@@ -42,6 +46,10 @@ public class SalesOutboundOrderService implements ISalesOutboundOrderService{
 	private SalesOutboundOrderItemMapper salesOutboundOrderItemMapper;
 	@Autowired
 	private PoundNoteMapper poundNoteMapper;
+	@Autowired
+	private ISystemUserService systemUserService;
+	@Autowired
+	private SmUserMapper smUserMapper;
 	
 	
 	/**
@@ -92,10 +100,15 @@ public class SalesOutboundOrderService implements ISalesOutboundOrderService{
 	public void returnSalesOutboundOrder() throws Exception{
 		String orgId=Constant.ORG_ID;
 		List<SalesOutboundOrder> list=getSalesOutboundOrderList(orgId,null);
+		List<SmUser> smUserList = null;
 		if(CollectionUtils.isNotEmpty(list)){
 			List<SalesOutboundOrder> subList=new ArrayList<SalesOutboundOrder>();
 			for(int i=0;i<list.size();i++){
 				SalesOutboundOrder order=list.get(i);
+				smUserList = getSmUser(order.getBillmaker());
+				if(CollectionUtils.isNotEmpty(smUserList)){
+					order.setBillmaker(smUserList.get(0).getId());
+				}
 				subList.add(order);
 				ApiResult apiResult=HttpUtils.post(ApiParamUtils.getApiParam(subList),Constant.URL_RETURN_SALESOUTBOUNDCATION);
 				if(apiResult!=null && StringUtils.equals(apiResult.getCode(),Constant.SUCCESS )){
@@ -116,6 +129,17 @@ public class SalesOutboundOrderService implements ISalesOutboundOrderService{
 			}
 			log.info("同步完成");
 		}
+	}
+
+	private List<SmUser> getSmUser(String id) throws Exception {
+		List<SmUser> smUserList = null;
+		SystemUserResp user = systemUserService.getUser(id);
+		if(user != null){
+			SmUser smUser = new SmUser();
+			smUser.setCode(user.getCode());
+			smUserList = smUserMapper.selectSelective(smUser);
+		}
+		return smUserList;
 	}
 	
 	

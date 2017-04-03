@@ -17,6 +17,7 @@ import com.tianrui.api.req.businessManage.purchaseManage.PurchaseArriveSave;
 import com.tianrui.api.req.system.base.GetCodeReq;
 import com.tianrui.api.resp.businessManage.purchaseManage.PurchaseArriveResp;
 import com.tianrui.api.resp.system.auth.SystemUserResp;
+import com.tianrui.smartfactory.common.constants.Constant;
 import com.tianrui.smartfactory.common.constants.ErrorCode;
 import com.tianrui.smartfactory.common.utils.DateUtil;
 import com.tianrui.smartfactory.common.vo.PaginationVO;
@@ -73,8 +74,7 @@ public class PurchaseArriveAction {
 			codeReq.setCode("DR");
 			codeReq.setCodeType(false);
 			view.addObject("d_internalcode", systemCodeService.getCode(codeReq).getData());
-			view.addObject("orgid", "0");
-			view.addObject("orgname", "天瑞集团");
+			view.addObject("orgname", Constant.ORG_NAME);
 			view.addObject("nowDate", DateUtil.getNowDateString("yyyy-MM-dd HH:mm:ss"));
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
@@ -114,8 +114,7 @@ public class PurchaseArriveAction {
 			codeReq.setCode("DR");
 			codeReq.setCodeType(false);
 			view.addObject("d_internalcode", systemCodeService.getCode(codeReq).getData());
-			view.addObject("orgid", "0");
-			view.addObject("orgname", "天瑞集团");
+			view.addObject("orgname", Constant.ORG_NAME);
 			view.addObject("nowDate", DateUtil.getNowDateString("yyyy-MM-dd HH:mm:ss"));
 			view.addObject("purchaseArrive", purchaseArriveService.findOne(id));
 		} catch (Exception e) {
@@ -163,6 +162,7 @@ public class PurchaseArriveAction {
 		}
 		return result;
 	}
+	
 	@RequestMapping("audit")
 	@ResponseBody
 	public Result audit(PurchaseArriveSave update, HttpSession session){

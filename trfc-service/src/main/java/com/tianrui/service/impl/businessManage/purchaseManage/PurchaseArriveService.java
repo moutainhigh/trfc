@@ -99,87 +99,148 @@ public class PurchaseArriveService implements IPurchaseArriveService {
 		Result result = Result.getParamErrorResult();
 		if(save != null){
 			PurchaseArrive pa = new PurchaseArrive();
-			pa.setVehicleid(save.getVehicleid());
-			List<PurchaseArrive> listVehicle = purchaseArriveMapper.checkDriverAndVehicleIsUse(pa);
-			if(listVehicle != null && listVehicle.size() > 0){
-				result.setErrorCode(ErrorCode.PARAM_REPEAT_ERROR);
-				result.setError("此车辆己有到货通知单、待出厂后进行派车，现有车辆业务单据号为:"+listVehicle.get(0).getCode()+"，如有疑问请与销售处联系！");
-				return result;
-			}
-			SalesArrive sa = new SalesArrive();
-			sa.setVehicleid(save.getVehicleid());
-			List<SalesArrive> listVehicle1 = salesArriveMapper.checkDriverAndVehicleIsUse(sa);
-			if(listVehicle1 != null && listVehicle1.size() > 0){
-				result.setErrorCode(ErrorCode.PARAM_REPEAT_ERROR);
-				result.setError("此车辆己有提货通知单、待出厂后进行派车，现有车辆业务单据号为:"+listVehicle1.get(0).getCode()+"，如有疑问请与销售处联系！");
-				return result;
-			}
-			//获取ic卡信息
-			if(StringUtils.isNotBlank(save.getIcardno())){
-				Card card = cardMapper.selectByCardno(save.getIcardno());
-				if(card!=null){
-					sa.setIcardid(card.getId());
+			if(validDriverAndVehicle(save, result, pa)){
+				PropertyUtils.copyProperties(pa, save);
+				pa.setId(UUIDUtil.getId());
+				setNoticeBody(save, pa);
+				pa.setType("0");
+				GetCodeReq codeReq = new GetCodeReq();
+				codeReq.setCode("DH");
+				codeReq.setCodeType(true);
+				codeReq.setUserid(save.getCurrId());
+				pa.setCode(systemCodeService.getCode(codeReq).getData().toString());
+				pa.setAuditstatus("0");
+				pa.setStatus("0");
+				pa.setState("1");
+				pa.setSource("0");
+				pa.setMakerid(save.getCurrId());
+				pa.setMakebillname(systemUserService.getUser(save.getCurrId()).getName());
+				pa.setCreator(save.getCurrId());
+				pa.setCreatetime(System.currentTimeMillis());
+				pa.setModifier(save.getCurrId());
+				pa.setModifytime(System.currentTimeMillis());
+				if(purchaseArriveMapper.insertSelective(pa) > 0 
+						&& StringUtils.equals(systemCodeService.updateCodeItem(codeReq).getCode(), ErrorCode.SYSTEM_SUCCESS.getCode())){
+					if(StringUtils.isNotBlank(pa.getBilldetailid())){
+						PurchaseApplicationDetailResp detailResp = purchaseApplicationDetailService.findOne(pa.getBilldetailid());
+						PurchaseApplicationDetail detail = new PurchaseApplicationDetail();
+						detail.setId(detailResp.getId());
+						detail.setMargin(detailResp.getMargin() - pa.getArrivalamount());
+						detail.setPretendingtake(detailResp.getPretendingtake() + pa.getArrivalamount());
+						if(purchaseApplicationDetailMapper.updateByPrimaryKeySelective(detail) > 0){
+							result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+						}else{
+							result.setErrorCode(ErrorCode.OPERATE_ERROR);
+						}
+					}
+				}else{
+					result.setErrorCode(ErrorCode.OPERATE_ERROR);
 				}
 			}
-			pa.setVehicleid(null);
-			pa.setDriverid(save.getDriverid());
-			List<PurchaseArrive> listDriver = purchaseArriveMapper.checkDriverAndVehicleIsUse(pa);
-			if(listDriver != null && listDriver.size() > 0){
-				result.setErrorCode(ErrorCode.PARAM_REPEAT_ERROR);
-				result.setError("此司机己有到货通知单、待出厂后进行派车，现有车辆业务单据号为:"+listDriver.get(0).getCode()+"，如有疑问请与销售处联系！");
-				return result;
+		}
+		return result;
+	}
+
+	private void setNoticeBody(PurchaseArriveSave save, PurchaseArrive pa) throws Exception {
+		VehicleManageResp vehicle = vehicleManageService.findOne(save.getVehicleid());
+		if(vehicle != null){
+			pa.setVehicleno(vehicle.getVehicleno());
+			pa.setVehiclerfid(vehicle.getRfid());
+		}
+		DriverManageResp driver = driverManageService.findOne(save.getDriverid());
+		if(driver != null){
+			pa.setDrivername(driver.getName());
+			pa.setDriveridentityno(driver.getIdentityno());
+		}
+		//获取ic卡信息
+		if(StringUtils.isNotBlank(save.getIcardno())){
+			Card card = cardMapper.selectByCardno(save.getIcardno());
+			if(card!=null){
+				pa.setIcardid(card.getId());
 			}
-			sa.setVehicleid(null);
-			sa.setDriverid(save.getDriverid());
-			List<SalesArrive> listDriver1 = salesArriveMapper.checkDriverAndVehicleIsUse(sa);
-			if(listDriver1 != null && listDriver1.size() > 0){
-				result.setErrorCode(ErrorCode.PARAM_REPEAT_ERROR);
-				result.setError("此司机己有提货通知单、待出厂后进行派车，现有车辆业务单据号为:"+listDriver1.get(0).getCode()+"，如有疑问请与销售处联系！");
-				return result;
-			}
-			PropertyUtils.copyProperties(pa, save);
-			pa.setId(UUIDUtil.getId());
-			VehicleManageResp vehicle = vehicleManageService.findOne(save.getVehicleid());
-			if(vehicle != null){
-				pa.setVehicleno(vehicle.getVehicleno());
-				pa.setVehiclerfid(vehicle.getRfid());
-			}
-			DriverManageResp driver = driverManageService.findOne(save.getDriverid());
-			if(driver != null){
-				pa.setDrivername(driver.getName());
-				pa.setDriveridentityno(driver.getIdentityno());
-			}
-			GetCodeReq codeReq = new GetCodeReq();
-			codeReq.setCode("DH");
-			codeReq.setCodeType(true);
-			codeReq.setUserid(save.getCurrId());
-			pa.setCode(systemCodeService.getCode(codeReq).getData().toString());
-			pa.setAuditstatus("0");
-			pa.setStatus("0");
-			pa.setState("1");
-			pa.setSource("0");
-			pa.setMakerid(save.getCurrId());
-			pa.setMakebillname(systemUserService.getUser(save.getCurrId()).getName());
-			pa.setCreator(save.getCurrId());
-			pa.setCreatetime(System.currentTimeMillis());
-			pa.setModifier(save.getCurrId());
-			pa.setModifytime(System.currentTimeMillis());
-			if(purchaseArriveMapper.insertSelective(pa) > 0 
-					&& StringUtils.equals(systemCodeService.updateCodeItem(codeReq).getCode(), ErrorCode.SYSTEM_SUCCESS.getCode())){
-				if(StringUtils.isNotBlank(pa.getBilldetailid())){
-					PurchaseApplicationDetailResp detailResp = purchaseApplicationDetailService.findOne(pa.getBilldetailid());
-					PurchaseApplicationDetail detail = new PurchaseApplicationDetail();
-					detail.setId(detailResp.getId());
-					detail.setMargin(detailResp.getMargin() - pa.getArrivalamount());
-					detail.setPretendingtake(detailResp.getPretendingtake() + pa.getArrivalamount());
-					if(purchaseApplicationDetailMapper.updateByPrimaryKeySelective(detail) > 0){
-						result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+		}
+	}
+
+	private boolean validDriverAndVehicle(PurchaseArriveSave save, Result result, PurchaseArrive pa) {
+		boolean flag = true;
+		pa.setVehicleid(save.getVehicleid());
+		List<PurchaseArrive> listVehicle = purchaseArriveMapper.checkDriverAndVehicleIsUse(pa);
+		if(listVehicle != null && listVehicle.size() > 0){
+			result.setErrorCode(ErrorCode.PARAM_REPEAT_ERROR);
+			result.setError("此车辆己有到货通知单、待出厂后进行派车，现有车辆业务单据号为:"+listVehicle.get(0).getCode()+"，如有疑问请与销售处联系！");
+			flag = false;
+		}
+		SalesArrive sa = new SalesArrive();
+		sa.setVehicleid(save.getVehicleid());
+		List<SalesArrive> listVehicle1 = salesArriveMapper.checkDriverAndVehicleIsUse(sa);
+		if(listVehicle1 != null && listVehicle1.size() > 0){
+			result.setErrorCode(ErrorCode.PARAM_REPEAT_ERROR);
+			result.setError("此车辆己有提货通知单、待出厂后进行派车，现有车辆业务单据号为:"+listVehicle1.get(0).getCode()+"，如有疑问请与销售处联系！");
+			flag = false;
+		}
+		pa.setVehicleid(null);
+		pa.setDriverid(save.getDriverid());
+		List<PurchaseArrive> listDriver = purchaseArriveMapper.checkDriverAndVehicleIsUse(pa);
+		if(listDriver != null && listDriver.size() > 0){
+			result.setErrorCode(ErrorCode.PARAM_REPEAT_ERROR);
+			result.setError("此司机己有到货通知单、待出厂后进行派车，现有车辆业务单据号为:"+listDriver.get(0).getCode()+"，如有疑问请与销售处联系！");
+			flag = false;
+		}
+		sa.setVehicleid(null);
+		sa.setDriverid(save.getDriverid());
+		List<SalesArrive> listDriver1 = salesArriveMapper.checkDriverAndVehicleIsUse(sa);
+		if(listDriver1 != null && listDriver1.size() > 0){
+			result.setErrorCode(ErrorCode.PARAM_REPEAT_ERROR);
+			result.setError("此司机己有提货通知单、待出厂后进行派车，现有车辆业务单据号为:"+listDriver1.get(0).getCode()+"，如有疑问请与销售处联系！");
+			flag = false;
+		}
+		return flag;
+	}
+
+	@Transactional
+	@Override
+	public Result returnAdd(PurchaseArriveSave save) throws Exception {
+		Result result = Result.getParamErrorResult();
+		if(save != null){
+			if(StringUtils.isNotBlank(save.getPoundnoteid())){
+				PurchaseArrive pa = new PurchaseArrive();
+				if(validDriverAndVehicle(save, result, pa)){
+					PoundNote poundNote = poundNoteMapper.selectByPrimaryKey(save.getPoundnoteid());
+					if(poundNote != null){
+						PropertyUtils.copyProperties(pa, save);
+						pa.setId(UUIDUtil.getId());
+						pa.setType("1");
+						pa.setBillid(poundNote.getBillid());
+						pa.setBillcode(poundNote.getBillcode());
+						pa.setBilldetailid(poundNote.getBilldetailid());
+						pa.setPoundnotecode(poundNote.getCode());
+						setNoticeBody(save, pa);
+						GetCodeReq codeReq = new GetCodeReq();
+						codeReq.setCode("EH");
+						codeReq.setCodeType(true);
+						codeReq.setUserid(save.getCurrId());
+						pa.setCode(systemCodeService.getCode(codeReq).getData().toString());
+						pa.setAuditstatus("0");
+						pa.setStatus("0");
+						pa.setState("1");
+						pa.setSource("0");
+						pa.setMakerid(save.getCurrId());
+						pa.setMakebillname(systemUserService.getUser(save.getCurrId()).getName());
+						pa.setMakebilltime(System.currentTimeMillis());
+						pa.setCreator(save.getCurrId());
+						pa.setCreatetime(System.currentTimeMillis());
+						pa.setModifier(save.getCurrId());
+						pa.setModifytime(System.currentTimeMillis());
+						if(purchaseArriveMapper.insertSelective(pa) > 0 
+								&& StringUtils.equals(systemCodeService.updateCodeItem(codeReq).getCode(), ErrorCode.SYSTEM_SUCCESS.getCode())){
+							result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+						}else{
+							result.setErrorCode(ErrorCode.OPERATE_ERROR);
+						}
 					}else{
-						result.setErrorCode(ErrorCode.OPERATE_ERROR);
+						result.setErrorCode(ErrorCode.POUNDNOTE_NOT_EXIST);
 					}
 				}
-			}else{
-				result.setErrorCode(ErrorCode.OPERATE_ERROR);
 			}
 		}
 		return result;
@@ -193,55 +254,26 @@ public class PurchaseArriveService implements IPurchaseArriveService {
 			if(purchaseArrive != null){
 				PurchaseArrive pa = new PurchaseArrive();
 				pa.setId(update.getId());
-				pa.setVehicleid(update.getVehicleid());
-				List<PurchaseArrive> listVehicle = purchaseArriveMapper.checkDriverAndVehicleIsUse(pa);
-				if(listVehicle != null && listVehicle.size() > 0){
-					result.setErrorCode(ErrorCode.PARAM_REPEAT_ERROR);
-					result.setError("此车辆己有到货通知单、待出厂后进行派车，现有车辆业务单据号为:"+listVehicle.get(0).getCode()+"，如有疑问请与销售处联系！");
-					return result;
-				}
-				SalesArrive sa = new SalesArrive();
-				sa.setVehicleid(update.getVehicleid());
-				List<SalesArrive> listVehicle1 = salesArriveMapper.checkDriverAndVehicleIsUse(sa);
-				if(listVehicle1 != null && listVehicle1.size() > 0){
-					result.setErrorCode(ErrorCode.PARAM_REPEAT_ERROR);
-					result.setError("此车辆己有提货通知单、待出厂后进行派车，现有车辆业务单据号为:"+listVehicle1.get(0).getCode()+"，如有疑问请与销售处联系！");
-					return result;
-				}
-				pa.setVehicleid(null);
-				pa.setDriverid(update.getDriverid());
-				List<PurchaseArrive> listDriver = purchaseArriveMapper.checkDriverAndVehicleIsUse(pa);
-				if(listDriver != null && listDriver.size() > 0){
-					result.setErrorCode(ErrorCode.PARAM_REPEAT_ERROR);
-					result.setError("此司机己有到货通知单、待出厂后进行派车，现有车辆业务单据号为:"+listDriver.get(0).getCode()+"，如有疑问请与销售处联系！");
-					return result;
-				}
-				sa.setVehicleid(null);
-				sa.setDriverid(update.getDriverid());
-				List<SalesArrive> listDriver1 = salesArriveMapper.checkDriverAndVehicleIsUse(sa);
-				if(listDriver1 != null && listDriver1.size() > 0){
-					result.setErrorCode(ErrorCode.PARAM_REPEAT_ERROR);
-					result.setError("此司机己有提货通知单、待出厂后进行派车，现有车辆业务单据号为:"+listDriver1.get(0).getCode()+"，如有疑问请与销售处联系！");
-					return result;
-				}
-				PropertyUtils.copyProperties(pa, update);
-				pa.setModifier(update.getCurrId());
-				pa.setModifytime(System.currentTimeMillis());
-				if(purchaseArriveMapper.updateByPrimaryKeySelective(pa) == 1){
-					if(StringUtils.isNotBlank(pa.getBilldetailid())){
-						PurchaseApplicationDetailResp detailResp = purchaseApplicationDetailService.findOne(pa.getBilldetailid());
-						PurchaseApplicationDetail detail = new PurchaseApplicationDetail();
-						detail.setId(detailResp.getId());
-						detail.setMargin(detailResp.getMargin() + (purchaseArrive.getArrivalamount() - pa.getArrivalamount()));
-						detail.setPretendingtake(detailResp.getPretendingtake() - (purchaseArrive.getArrivalamount() - pa.getArrivalamount()));
-						if(purchaseApplicationDetailMapper.updateByPrimaryKeySelective(detail) > 0){
-							result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
-						}else{
-							result.setErrorCode(ErrorCode.OPERATE_ERROR);
+				if(validDriverAndVehicle(update, result, pa)){
+					PropertyUtils.copyProperties(pa, update);
+					pa.setModifier(update.getCurrId());
+					pa.setModifytime(System.currentTimeMillis());
+					if(purchaseArriveMapper.updateByPrimaryKeySelective(pa) == 1){
+						if(StringUtils.isNotBlank(pa.getBilldetailid())){
+							PurchaseApplicationDetailResp detailResp = purchaseApplicationDetailService.findOne(pa.getBilldetailid());
+							PurchaseApplicationDetail detail = new PurchaseApplicationDetail();
+							detail.setId(detailResp.getId());
+							detail.setMargin(detailResp.getMargin() + (purchaseArrive.getArrivalamount() - pa.getArrivalamount()));
+							detail.setPretendingtake(detailResp.getPretendingtake() - (purchaseArrive.getArrivalamount() - pa.getArrivalamount()));
+							if(purchaseApplicationDetailMapper.updateByPrimaryKeySelective(detail) > 0){
+								result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+							}else{
+								result.setErrorCode(ErrorCode.OPERATE_ERROR);
+							}
 						}
+					}else{
+						result.setErrorCode(ErrorCode.OPERATE_ERROR);
 					}
-				}else{
-					result.setErrorCode(ErrorCode.OPERATE_ERROR);
 				}
 			}else{
 				result.setErrorCode(ErrorCode.NOTICE_NOT_EXIST);
@@ -291,12 +323,22 @@ public class PurchaseArriveService implements IPurchaseArriveService {
 			for(PurchaseArriveResp resp : list){
 				ids.add(resp.getBillid());
 				detailIds.add(resp.getBilldetailid());
-				//获取磅单信息
-				PoundNote pound = poundNoteMapper.selectByNoticeId(resp.getId());
-				if(pound!=null){
-					PoundNoteResp poundResp = new PoundNoteResp();
-					PropertyUtils.copyProperties(poundResp, pound);
-					resp.setPoundNoteResp(poundResp);
+				if(StringUtils.equals(resp.getType(), "0")){
+					//获取磅单信息
+					PoundNote pound = poundNoteMapper.selectByNoticeId(resp.getId());
+					if(pound!=null){
+						PoundNoteResp poundResp = new PoundNoteResp();
+						PropertyUtils.copyProperties(poundResp, pound);
+						resp.setPoundNoteResp(poundResp);
+					}
+				}else{
+					//获取磅单信息
+					PoundNote pound = poundNoteMapper.selectByPrimaryKey(resp.getPoundnoteid());
+					if(pound!=null){
+						PoundNoteResp poundResp = new PoundNoteResp();
+						PropertyUtils.copyProperties(poundResp, pound);
+						resp.setPoundNoteResp(poundResp);
+					}
 				}
 				//获取出入厂时间
 				AccessRecord access = accessRecordMapper1.selectByNoticeId(resp.getId());
@@ -351,9 +393,43 @@ public class PurchaseArriveService implements IPurchaseArriveService {
 				if(StringUtils.isNotBlank(bean.getBilldetailid())){
 					resp.setPurchaseApplicationDetailResp(purchaseApplicationDetailService.findOne(bean.getBilldetailid()));
 				}
+				if(StringUtils.equals(resp.getType(), "0")){
+					//获取磅单信息
+					PoundNote pound = poundNoteMapper.selectByNoticeId(resp.getId());
+					if(pound!=null){
+						PoundNoteResp poundResp = new PoundNoteResp();
+						PropertyUtils.copyProperties(poundResp, pound);
+						resp.setPoundNoteResp(poundResp);
+					}
+				}else{
+					//获取磅单信息
+					PoundNote pound = poundNoteMapper.selectByPrimaryKey(resp.getPoundnoteid());
+					if(pound!=null){
+						PoundNoteResp poundResp = new PoundNoteResp();
+						PropertyUtils.copyProperties(poundResp, pound);
+						resp.setPoundNoteResp(poundResp);
+					}
+				}
 			}
 		}
 		return resp;
+	}
+
+	@Override
+	public Result delete(PurchaseArriveQuery query) {
+		Result result = Result.getParamErrorResult();
+		if(query != null
+				&& StringUtils.isNotBlank(query.getId())){
+			PurchaseArrive pa = new PurchaseArrive();
+			pa.setId(query.getId());
+			pa.setState("0");
+			pa.setModifier(query.getCurrid());
+			pa.setModifytime(System.currentTimeMillis());
+			if(purchaseArriveMapper.updateByPrimaryKeySelective(pa) > 0){
+				result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+			}
+		}
+		return result;
 	}
 
 }

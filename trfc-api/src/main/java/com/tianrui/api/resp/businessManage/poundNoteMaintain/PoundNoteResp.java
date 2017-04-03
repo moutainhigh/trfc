@@ -34,8 +34,14 @@ public class PoundNoteResp extends BaseResp {
     private String billid;
     //订单code
     private String billcode;
+    //部门
+    private String departmentname;
     //订单数量
     private Double billsum;
+    //单位
+    private String unit;
+    //订单余量
+    private Double margin;
     //订单详情id
     private String billdetailid;
     //主单扣量（0：否，1：是）
@@ -277,6 +283,18 @@ public class PoundNoteResp extends BaseResp {
 		this.billcode = billcode;
 	}
 	/**
+	 * @return the departmentname
+	 */
+	public String getDepartmentname() {
+		return departmentname;
+	}
+	/**
+	 * @param departmentname the departmentname to set
+	 */
+	public void setDepartmentname(String departmentname) {
+		this.departmentname = departmentname;
+	}
+	/**
 	 * @return the billsum
 	 */
 	public Double getBillsum() {
@@ -287,6 +305,30 @@ public class PoundNoteResp extends BaseResp {
 	 */
 	public void setBillsum(Double billsum) {
 		this.billsum = billsum;
+	}
+	/**
+	 * @return the unit
+	 */
+	public String getUnit() {
+		return unit;
+	}
+	/**
+	 * @param unit the unit to set
+	 */
+	public void setUnit(String unit) {
+		this.unit = unit;
+	}
+	/**
+	 * @return the margin
+	 */
+	public Double getMargin() {
+		return margin;
+	}
+	/**
+	 * @param margin the margin to set
+	 */
+	public void setMargin(Double margin) {
+		this.margin = margin;
 	}
 	/**
 	 * @return the billdetailid

@@ -43,6 +43,10 @@ public class PurchaseArriveSave extends BaseReq {
     private String billcode;
     //采购订单详情id
     private String billdetailid;
+    //磅单id
+    private String poundnoteid;
+    //磅单单号
+    private String poundnotecode;
 	//作废/强制出厂人
     private String abnormalperson;
 	//作废/强制出厂人名称
@@ -170,6 +174,30 @@ public class PurchaseArriveSave extends BaseReq {
 	}
 	public void setBilldetailid(String billdetailid) {
 		this.billdetailid = billdetailid;
+	}
+	/**
+	 * @return the poundnoteid
+	 */
+	public String getPoundnoteid() {
+		return poundnoteid;
+	}
+	/**
+	 * @return the poundnotecode
+	 */
+	public String getPoundnotecode() {
+		return poundnotecode;
+	}
+	/**
+	 * @param poundnoteid the poundnoteid to set
+	 */
+	public void setPoundnoteid(String poundnoteid) {
+		this.poundnoteid = poundnoteid;
+	}
+	/**
+	 * @param poundnotecode the poundnotecode to set
+	 */
+	public void setPoundnotecode(String poundnotecode) {
+		this.poundnotecode = poundnotecode;
 	}
 	public String getAbnormalperson() {
 		return abnormalperson;

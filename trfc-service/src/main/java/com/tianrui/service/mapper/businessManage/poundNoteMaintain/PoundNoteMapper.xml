@@ -801,7 +801,7 @@
   </select>
   <select id="purchasePage" parameterType="com.tianrui.api.req.businessManage.poundNoteMaintain.PoundNoteQuery" resultMap="BaseRespResultMap">
   	select 
-	<include refid="Base_Column_List_P"/>, p1.supplierid, p1.suppliername, p1.supplierremark, p2.materielname, p2.purchasesum as billsum
+	<include refid="Base_Column_List_P"/>, p1.supplierid, p1.suppliername, p1.supplierremark, p1.departmentname, p2.materielname, p2.purchasesum as billsum, p2.margin, p2.unit
   	from tr_pound_db_note p0
 		left join tr_purchase_db_application p1 on p0.billid = p1.id
 		left join tr_purchase_db_application_detail p2 on p0.billdetailid = p2.id
