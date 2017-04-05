@@ -331,7 +331,11 @@ public class AccessRecordService1 implements IAccessRecordService1 {
 					pa.setStatus("5");
 					if(purchaseArriveMapper.updateByPrimaryKeySelective(pa) > 0){
 						AccessRecord access = accessRecordMapper.selectByNoticeId(purchase.getId());
-						ec = addOutAccessRecordApi(apiParam, access.getId());
+						if(StringUtils.equals(access.getAccesstype(), "1")){
+							ec = addOutAccessRecordApi(apiParam, access.getId());
+						}else{
+							ec = ErrorCode.NOTICE_OUT_FACTORY;
+						}
 					}else{
 						ec = ErrorCode.OPERATE_ERROR;
 					}
@@ -381,7 +385,11 @@ public class AccessRecordService1 implements IAccessRecordService1 {
 					pa.setStatus("5");
 					if(purchaseArriveMapper.updateByPrimaryKeySelective(pa) > 0){
 						AccessRecord access = accessRecordMapper.selectByNoticeId(purchase.getId());
-						ec = addOutAccessRecordApi(apiParam, access.getId());
+						if(StringUtils.equals(access.getAccesstype(), "1")){
+							ec = addOutAccessRecordApi(apiParam, access.getId());
+						}else{
+							ec = ErrorCode.NOTICE_OUT_FACTORY;
+						}
 					}else{
 						ec = ErrorCode.OPERATE_ERROR;
 					}
@@ -465,7 +473,11 @@ public class AccessRecordService1 implements IAccessRecordService1 {
 					sa.setState("5");
 					if(salesArriveMapper.updateByPrimaryKeySelective(sa) > 0){
 						AccessRecord access = accessRecordMapper.selectByNoticeId(sales.getId());
-						ec = addOutAccessRecordApi(apiParam, access.getId());
+						if(StringUtils.equals(access.getAccesstype(), "1")){
+							ec = addOutAccessRecordApi(apiParam, access.getId());
+						}else{
+							ec = ErrorCode.NOTICE_OUT_FACTORY;
+						}
 					}else{
 						ec = ErrorCode.OPERATE_ERROR;
 					}

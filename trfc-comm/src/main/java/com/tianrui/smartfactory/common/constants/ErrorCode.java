@@ -40,6 +40,7 @@ public enum ErrorCode {
 	NOTICE_NOT_AUDIT("E10021","该通知单未通过审核."),
 	NOTICE_ON_INVALID("E10022","该通知单已作废."),
 	NOTICE_NOT_LOAD("E10023","该通知单还未完成装货."),
+	NOTICE_OUT_FACTORY("E10024","该通知单绑定的车辆已出厂."),
 	/**
 	 * 磅单
 	 */
