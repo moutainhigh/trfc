@@ -925,7 +925,7 @@ public class PoundNoteService implements IPoundNoteService {
 			List<PoundNote> list = poundNoteMapper.selectSelective(bean);
 			if (CollectionUtils.isNotEmpty(list)) {
 				bean = list.get(0);
-				bean.setTareweight(Double.parseDouble(query.getNumber()));
+				bean.setGrossweight(Double.parseDouble(query.getNumber()));
 				bean.setNetweight(bean.getGrossweight() - bean.getTareweight());
 				bean.setLighttime(DateUtil.parse(query.getTime(), "yyyy-MM-dd HH:mm:ss"));
 				bean.setModifier(query.getCurrid());
@@ -955,7 +955,7 @@ public class PoundNoteService implements IPoundNoteService {
 				codeReq1.setUserid(query.getCurrid());
 				parseBeanList(bean, array, listJoin, orderList, orderItemList,
 						systemCodeService.getCode(codeReq1).getData().toString());
-				if (poundNoteMapper.insertSelective(bean) > 0
+				if (poundNoteMapper.updateByPrimaryKeySelective(bean) > 0
 						&& salesApplicationJoinPoundNoteMapper.insertBatch(listJoin) > 0
 						&& salesOutboundOrderMapper.insertBatch(orderList) > 0
 						&& salesOutboundOrderItemMapper.insertBatch(orderItemList) > 0
@@ -1034,7 +1034,7 @@ public class PoundNoteService implements IPoundNoteService {
 		bean.setVehicleno(arrive.getVehicleno());
 		bean.setVehiclerfid(arrive.getVehiclerfid());
 		bean.setPickupquantity(arrive.getTakeamount());
-		bean.setGrossweight(Double.parseDouble(query.getNumber()));
+		bean.setTareweight(Double.parseDouble(query.getNumber()));
 		bean.setWeighttime(DateUtil.parse(query.getTime(), "yyyy-MM-dd HH:mm:ss"));
 		bean.setMakerid(query.getCurrid());
 		SystemUserResp user = systemUserService.getUser(query.getCurrid());
@@ -1086,7 +1086,7 @@ public class PoundNoteService implements IPoundNoteService {
 			pa.setVehiclerfid(valid.getRfid());
 			pa.setState("1");
 			pa.setStatus("6");
-			List<PurchaseArrive> listPurchase = purchaseArriveMapper.selectSelective(pa);
+			List<PurchaseArrive> listPurchase = purchaseArriveMapper.validNotice(pa);
 			if(CollectionUtils.isEmpty(listPurchase)){
 				//该车辆没有通知单
 				result.setErrorCode(ErrorCode.VEHICLE_NOT_NOTICE);
@@ -1125,12 +1125,14 @@ public class PoundNoteService implements IPoundNoteService {
 		sa.setVehicleno(valid.getVehicleno());
 		sa.setVehiclerfid(valid.getRfid());
 		sa.setState("1");
+		sa.setStatus("1");
 		List<SalesArrive> listSales = salesArriveMapper.selectSelective(sa);
 		if(CollectionUtils.isEmpty(listSales)){
 			PurchaseArrive pa = new PurchaseArrive();
 			pa.setVehicleno(valid.getVehicleno());
 			pa.setVehiclerfid(valid.getRfid());
 			pa.setState("1");
+			pa.setStatus("1");
 			List<PurchaseArrive> listPurchase = purchaseArriveMapper.selectSelective(pa);
 			if(CollectionUtils.isEmpty(listPurchase)){
 				//该车辆没有通知单

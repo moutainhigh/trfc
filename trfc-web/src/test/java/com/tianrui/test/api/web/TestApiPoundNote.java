@@ -49,12 +49,12 @@ public class TestApiPoundNote {
 		ApiParam<ApiPoundNoteQuery> api =new ApiParam<ApiPoundNoteQuery>();
 		
 		ApiPoundNoteQuery req =new ApiPoundNoteQuery();
-		req.setRfid("08D4A547413930373820AB01");
-		req.setVehicleno("豫GA9078");
-		req.setType("1");
-		req.setServicetype("0");
-		req.setNotionformcode("DH201703300025");
-		req.setNumber("2");
+		req.setRfid("E2004145291401971830563B");
+		req.setVehicleno("豫Q98765");
+		req.setType("2");
+		req.setServicetype("2");
+		req.setNotionformcode("TH201703310015");
+		req.setNumber("20");
 		req.setTime(DateUtil.getNowDateString("yyyy-MM-dd HH:mm:ss"));
 		
 		Head head =new Head();
@@ -75,9 +75,9 @@ public class TestApiPoundNote {
 		ApiParam<ApiPoundNoteValidation> api =new ApiParam<ApiPoundNoteValidation>();
 		
 		ApiPoundNoteValidation req =new ApiPoundNoteValidation();
-		req.setRfid("08D4A547413930373820AB01");
-		req.setVehicleno("豫GA9078");
-		req.setType("2");
+		req.setRfid("E2004145291401971830563B");
+		req.setVehicleno("豫Q98765");
+		req.setType("1");
 		
 		Head head =new Head();
 		head.setCallSource("1");
