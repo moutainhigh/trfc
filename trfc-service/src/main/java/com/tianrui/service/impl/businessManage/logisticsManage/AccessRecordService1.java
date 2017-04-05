@@ -274,6 +274,8 @@ public class AccessRecordService1 implements IAccessRecordService1 {
 				//采购到货通知单
 				case "0":
 					ec = setICardToPurchaseArrive(card, apiParam);
+				case "1":
+					ec = setICardToPurchaseReturnArrive(card, apiParam);
 					break;
 				//销售提货通知单
 				case "2":
@@ -312,7 +314,57 @@ public class AccessRecordService1 implements IAccessRecordService1 {
 						save.setPretendingtake(applicationDetail.getPretendingtake() - purchase.getArrivalamount());
 						if(purchaseArriveMapper.updateByPrimaryKeySelective(pa) > 0
 								&& purchaseApplicationDetailMapper.updateByPrimaryKeySelective(save) > 0){
-							ec = addInfoAccessRecordApi(apiParam, purchase.getId(), purchase.getCode());
+							ec = addInfoAccessRecordApi(apiParam, purchase.getId(), purchase.getCode(), "1");
+						}else{
+							ec = ErrorCode.OPERATE_ERROR;
+						}
+					}else{
+						ec = ErrorCode.CARD_IN_USE;
+					}
+				//出厂
+				}else{
+					//修改通知单状态
+					PurchaseArrive pa = new PurchaseArrive();
+					pa.setId(purchase.getId());
+					pa.setStatus("5");
+					if(purchaseArriveMapper.updateByPrimaryKeySelective(pa) > 0){
+						AccessRecord access = accessRecordMapper.selectByNoticeId(purchase.getId());
+						ec = addOutAccessRecordApi(apiParam, access.getId());
+					}else{
+						ec = ErrorCode.OPERATE_ERROR;
+					}
+				}
+			}else{
+				ec = ErrorCode.NOTICE_ON_INVALID;
+			}
+		}else{
+			ec = ErrorCode.NOTICE_NOT_AUDIT;
+		}
+		return ec;
+	}
+	
+	private ErrorCode setICardToPurchaseReturnArrive(Card card, ApiDoorSystemSave apiParam) throws Exception {
+		ErrorCode ec = ErrorCode.OPERATE_ERROR;
+		PurchaseArrive purchase = purchaseArriveMapper.selectByCode(apiParam.getNotionformcode());
+		if(StringUtils.equals(purchase.getAuditstatus(), "1")){
+			if(!StringUtils.equals(purchase.getStatus(), "3")){
+				//入厂
+				if(StringUtils.equals(apiParam.getType(), "1")){
+					PurchaseArrive pa = purchaseArriveMapper.checkICUse(card.getId());
+					if(pa == null){
+						//修改通知单状态并绑定IC卡
+						pa = new PurchaseArrive();
+						pa.setId(purchase.getId());
+						pa.setStatus("6");
+						pa.setIcardid(card.getId());
+						//回写订单的未入库占用量和预提占用
+						PurchaseApplicationDetail applicationDetail = purchaseApplicationDetailMapper.selectByPrimaryKey(purchase.getBilldetailid());
+						PurchaseApplicationDetail save = new PurchaseApplicationDetail();
+						save.setId(applicationDetail.getId());
+						save.setPretendingtake(applicationDetail.getPretendingtake() - purchase.getArrivalamount());
+						if(purchaseArriveMapper.updateByPrimaryKeySelective(pa) > 0
+								&& purchaseApplicationDetailMapper.updateByPrimaryKeySelective(save) > 0){
+							ec = addInfoAccessRecordApi(apiParam, purchase.getId(), purchase.getCode(), "1");
 						}else{
 							ec = ErrorCode.OPERATE_ERROR;
 						}
@@ -345,7 +397,7 @@ public class AccessRecordService1 implements IAccessRecordService1 {
 		ErrorCode ec = ErrorCode.OPERATE_ERROR;
 		SalesArrive sales = salesArriveMapper.selectByCode(apiParam.getNotionformcode());
 		if(StringUtils.equals(sales.getAuditstatus(), "1")){
-			if(StringUtils.equals(sales.getStatus(), "3")){
+			if(!StringUtils.equals(sales.getStatus(), "3")){
 				//入厂
 				if(StringUtils.equals(apiParam.getType(), "1")){
 					SalesArrive sa = salesArriveMapper.checkICUse(card.getId());
@@ -353,7 +405,7 @@ public class AccessRecordService1 implements IAccessRecordService1 {
 						//修改通知单状态并绑定IC卡
 						sa = new SalesArrive();
 						sa.setId(sales.getId());
-						sa.setState("6");
+						sa.setStatus("6");
 						sa.setIcardid(card.getId());
 						sa.setIcardno(card.getCardno());
 						if(salesArriveMapper.updateByPrimaryKeySelective(sa) > 0){
@@ -376,7 +428,6 @@ public class AccessRecordService1 implements IAccessRecordService1 {
 												flag = false;
 												break;
 											}
-											
 										}
 									}else{
 										SalesApplicationDetail sd = new SalesApplicationDetail();
@@ -393,7 +444,7 @@ public class AccessRecordService1 implements IAccessRecordService1 {
 									takeamount -= join.getMargin();
 								}
 								if(flag){
-									ec = addInfoAccessRecordApi(apiParam, sales.getId(), sales.getCode());
+									ec = addInfoAccessRecordApi(apiParam, sales.getId(), sales.getCode(), "2");
 								}else{
 									ec = ErrorCode.OPERATE_ERROR;
 								}
@@ -427,7 +478,7 @@ public class AccessRecordService1 implements IAccessRecordService1 {
 	}
 
 	//添加入厂门禁记录
-	private ErrorCode addInfoAccessRecordApi(ApiDoorSystemSave apiParam, String noticeid, String noticecode) throws Exception {
+	private ErrorCode addInfoAccessRecordApi(ApiDoorSystemSave apiParam, String noticeid, String noticecode, String businesstype) throws Exception {
 		ErrorCode ec;
 		AccessRecord access = new AccessRecord();
 		access.setId(UUIDUtil.getId());
@@ -436,7 +487,7 @@ public class AccessRecordService1 implements IAccessRecordService1 {
 		codeReq.setCodeType(true);
 		codeReq.setUserid(apiParam.getCurrUid());
 		access.setCode(systemCodeService.getCode(codeReq).getData().toString());
-		access.setBusinesstype("1");
+		access.setBusinesstype(businesstype);
 		access.setAccesstype("1");
 		access.setNoticeid(noticeid);
 		access.setNoticecode(noticecode);
