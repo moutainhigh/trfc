@@ -226,4 +226,18 @@ public class PurchaseArriveAction {
 		}
 		return result;
 	}
+	@RequestMapping("VehiclePage")
+	@ResponseBody
+	public Result VehiclePage(PurchaseArriveQuery query){
+		Result result = Result.getSuccessResult();
+		try {
+			query.setType("");
+			PaginationVO<PurchaseArriveResp> page = purchaseArriveService.page(query);
+			result.setData(page);
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
+		}
+		return result;
+	}
 }

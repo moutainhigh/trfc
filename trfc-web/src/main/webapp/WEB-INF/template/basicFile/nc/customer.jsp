@@ -71,6 +71,7 @@
 									<th>渠道类型内码</th>
 									<th>所属组织</th>
 									<th>描述</th>
+									<th>操作</th>
 								</tr>
 							</thead>
 							<tbody id="dataBody">

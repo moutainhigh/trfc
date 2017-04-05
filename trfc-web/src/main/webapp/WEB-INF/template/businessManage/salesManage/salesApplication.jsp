@@ -404,7 +404,7 @@ input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
 						</button>
 						<div class="alt_head">
 							<h5>销售订单详细信息</h5>
-							<img src="${basePath }/images/un_sh.png">
+							<img id="shImg" src="${basePath }/images/un_sh.png">
 						</div>
 					</div>
 					<div class="modal-body">

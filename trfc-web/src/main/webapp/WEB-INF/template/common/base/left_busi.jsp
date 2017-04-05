@@ -19,7 +19,7 @@
 				<!-- <li><a href="../cg/cg_index.html"> <i class="iconfont">&#xe617;</i>
 						<label>采购管理</label>
 				</a></li> -->
-				<li><a href="/trfc/purchaseApplication/main"> <i
+				<li class="active"><a href="/trfc/purchaseApplication/main"> <i
 						class="iconfont">&#xe617;</i> <label>采购管理</label>
 				</a></li>
 				<li><a href="/trfc/salesApplication/main"> <i
@@ -79,7 +79,7 @@
 <div class="leftmini hide">
 	 <div class="user">
         <a href="#" data-toggle="dropdown" data-target="#menu-messages" class="dropdown-toggle">
-            <img src="../images/tx.jpg" class="img-circle">
+            <img src="${staticBasePath}/images/tx.jpg" class="img-circle">
         </a>
     </div>
     <div class="menu2">
@@ -148,3 +148,21 @@
         </li>
     </ul> 
 </div>
+<script type="text/javascript">
+	var URLData = {
+		'0':[],	
+		'1':[],
+		'2':[],
+		'3':[],
+		'4':[],
+		'5':[],
+		'6':[],
+		'7':[],
+		'8':[],
+		'9':[],
+		'10':[],
+		'11':[],
+		'12':[],
+		'13':[]
+	};
+</script>

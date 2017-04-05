@@ -366,7 +366,7 @@ $(function(){
 			var invalid = obj.invalid;
 			var tr = '<tr>'
 				+'<td>'+((pageNo-1)*pageSize+i+1)+'</td>'
-				+'<td class="colorred">'+(obj.materialname || '')+'</td>'
+				+'<td>'+(obj.materialname || '')+'</td>'
 				+'<td>'+(obj.trademark || '')+'</td>'
 				+'<td>'+(obj.norm || '')+'</td>'
 				+'<td>'+(obj.certificate || '')+'</td>'

@@ -661,7 +661,7 @@
   	select
   	<include refid="Base_Column_List" />
   	from tr_purchase_db_arrive
-  	where vehicleno = #{vehicleno,jdbcType=VARCHAR} and state = '1' 
+  	where vehicleno = #{vehicleno,jdbcType=VARCHAR} and state = '1' and status!='3' and status!='5'
   </select>
     <select id="selectByCode" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 

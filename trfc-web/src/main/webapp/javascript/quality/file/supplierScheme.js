@@ -159,7 +159,7 @@ $(function(){
 			var invalid = obj.invalid;
 			var tr = '<tr>'
 				+'<td>'+((pageNo-1)*pageSize+i+1)+'</td>'
-				+'<td class="colorred">'+(obj.code || '')+'</td>'
+				+'<td>'+(obj.code || '')+'</td>'
 				+'<td>'+(obj.name || '')+'</td>'
 				+'<td>'+(obj.suppliername || '')+'</td>'
 				+'<td>'+(obj.materialname || '')+'</td>'

@@ -1,7 +1,7 @@
 $(function(){
 	//访问路径
 	var URL = {
-			page: '/trfc/purchaseArrive/page',
+			page: '/trfc/purchaseArrive/VehiclePage',
 			supplierAutoCompleteSearch: "/trfc/supplier/autoCompleteSearch",
 			vehicleAutoCompleteSearch: "/trfc/vehicle/autoCompleteSearch",
 			materielAutoCompleteSearch: "/trfc/materiel/autoCompleteSearch",
@@ -280,6 +280,7 @@ $(function(){
 				'6':'入厂',
 				'7':'装车'
 		};
+		var TYPE = {'0':'到货','1':'退货'};
 		//加载时清空列表和跳转值
 		$('#jumpPageNo').val('');
 		var tbody = $('#list').empty();
@@ -292,13 +293,13 @@ $(function(){
 				+'<td>'+((pageNo-1)*pageSize+i+1)+'</td>'
 				+'<td>'+(obj.vehicleno || '')+'</td>'
 				+'<td '+(obj.status==='3'?'class="colorred">':'class="colorblue">')+(STATUS[obj.status] || '')+'</td>'
-				+'<td class="colorblue">'+('到货' || '')+'</td>'
+				+'<td class="colorblue">'+(TYPE[obj.type] || '')+'</td>'
 				+'<td>'+(obj.makebilltimeStr || '')+'</td>'
-				+'<td>'+(getNowFormatDate(true, obj.enterTime)|| '')+'</td>'
-				+'<td>'+(getNowFormatDate(true, obj.poundNoteResp.weighttime) || '')+'</td>'
-				+'<td>'+(getNowFormatDate(true, obj.poundNoteResp.lighttime) || '')+'</td>'
-				+'<td>'+(getNowFormatDate(true, obj.poundNoteResp.receivertime) || '')+'</td>'
-				+'<td>'+(getNowFormatDate(true, obj.outTime) || '')+'</td>'
+				+'<td>'+(getNowFormatDate(true, obj.enterTime || '')|| '')+'</td>'
+				+'<td>'+(getNowFormatDate(true, obj.poundNoteResp.weighttime || ''))+'</td>'
+				+'<td>'+(getNowFormatDate(true, obj.poundNoteResp.lighttime || '') || '')+'</td>'
+				+'<td>'+(getNowFormatDate(true, obj.poundNoteResp.receivertime || '') || '')+'</td>'
+				+'<td>'+(getNowFormatDate(true, obj.outTime || '') || '')+'</td>'
 				+'<td>'+(obj.code || '')+'</td>'
 				+'<td>'+(obj.billcode || '')+'</td>'
 				+'<td>'+(obj.purchaseApplicationResp.suppliername|| '')+'</td>'
@@ -319,6 +320,8 @@ $(function(){
 //		判断time参数是否存在
 		if(time){
 			date = new Date(time);
+		}else if(time==''){
+			return '';
 		}else{
 			date = new Date();
 		}
