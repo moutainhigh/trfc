@@ -632,6 +632,8 @@ public class PoundNoteService implements IPoundNoteService {
 				result = savePurchasePoundNote(query);
 				break;
 			case "1":
+				result = savePurchaseReturnPoundNote(query);
+			case "2":
 				result = saveSalesPoundNote(query);
 				break;
 			default:
@@ -641,6 +643,73 @@ public class PoundNoteService implements IPoundNoteService {
 		return result;
 	}
 	
+	private Result savePurchaseReturnPoundNote(ApiPoundNoteQuery query) throws Exception {
+		Result result = Result.getSuccessResult();
+		PurchaseArrive arrive = purchaseArriveMapper.selectByCode(query.getNotionformcode());
+		PurchaseApplication application = purchaseApplicationMapper.selectByPrimaryKey(arrive.getBillid());
+		PurchaseApplicationDetail applicationDetail = purchaseApplicationDetailMapper
+				.selectByPrimaryKey(arrive.getBilldetailid());
+		PoundNote bean = new PoundNote();
+		// 皮重
+		if (StringUtils.equals(query.getType(), "1")) {
+			GetCodeReq codeReq = setPurchaseBeanBody(query, arrive, application, applicationDetail, bean);
+			// 更新通知单状态
+			PurchaseArrive pa = new PurchaseArrive();
+			pa.setId(arrive.getId());
+			pa.setStatus("1");
+			if (poundNoteMapper.insertSelective(bean) > 0
+					&& StringUtils.equals(systemCodeService.updateCodeItem(codeReq).getCode(),
+							ErrorCode.SYSTEM_SUCCESS.getCode())
+					&& purchaseArriveMapper.updateByPrimaryKeySelective(pa) > 0) {
+			} else {
+				result.setErrorCode(ErrorCode.OPERATE_ERROR);
+			}
+			// 毛重
+		} else {
+			bean.setVehicleno(query.getVehicleno());
+			bean.setVehiclerfid(arrive.getVehiclerfid());
+			bean.setNoticecode(query.getNotionformcode());
+			bean.setReturnstatus("0");
+			bean.setState("1");
+			bean.setBilltype("0");
+			List<PoundNote> list = poundNoteMapper.selectSelective(bean);
+			if (CollectionUtils.isNotEmpty(list)) {
+				bean = list.get(0);
+				bean.setTareweight(Double.parseDouble(query.getNumber()));
+				bean.setNetweight(bean.getGrossweight() - bean.getTareweight());
+				bean.setLighttime(DateUtil.parse(query.getTime(), "yyyy-MM-dd HH:mm:ss"));
+				bean.setModifier(query.getCurrid());
+				bean.setModifytime(System.currentTimeMillis());
+				// 更新通知单状态
+				PurchaseArrive pa = new PurchaseArrive();
+				pa.setId(arrive.getId());
+				pa.setStatus("2");
+				// 生成入库单
+				PurchaseStorageList storage = setPurchaseStorage(query.getCurrid(), application, bean);
+				PurchaseStorageListItem storageItem = setPurchaseStorageItem(applicationDetail, bean, storage);
+				storageItem.setNunm("-" + Math.abs(Double.parseDouble(storageItem.getNunm())));
+				storageItem.setNshouldnum("-" + Math.abs(Double.parseDouble(storageItem.getNshouldnum())));
+				bean.setPutinwarehouseid(storage.getId());
+				bean.setPutinwarehousecode(storage.getCode());
+				PurchaseApplicationDetail detail = new PurchaseApplicationDetail();
+				detail.setId(applicationDetail.getId());
+				detail.setStoragequantity(applicationDetail.getStoragequantity() - bean.getNetweight());
+				detail.setMargin(applicationDetail.getMargin() + bean.getNetweight());
+				if (poundNoteMapper.updateByPrimaryKeySelective(bean) > 0
+						&& purchaseArriveMapper.updateByPrimaryKeySelective(pa) > 0
+						&& purchaseApplicationDetailMapper.updateByPrimaryKeySelective(detail) > 0
+						&& purchaseStorageListMapper.insertSelective(storage) > 0
+						&& purchaseStorageListItemMapper.insertSelective(storageItem) > 0) {
+					ErrorCode ec = returnPurchaseStorage(storage, storageItem);
+					result.setErrorCode(ec);
+				} else {
+					result.setErrorCode(ErrorCode.OPERATE_ERROR);
+				}
+			}
+		}
+		return result;
+	}
+
 	//生成采购磅单
 	private Result savePurchasePoundNote(ApiPoundNoteQuery query) throws Exception {
 		Result result = Result.getSuccessResult();
