@@ -41,7 +41,7 @@ public interface IPurchaseArriveService {
 	 */
 	PurchaseArriveResp findOne(String id) throws Exception;
 	/**
-	 * @Description 新增通知单
+	 * @Description 新增到货通知单
 	 * @author zhanggaohao
 	 * @version 2017年2月17日 上午8:59:54
 	 * @param save
@@ -50,7 +50,7 @@ public interface IPurchaseArriveService {
 	 */
 	Result add(PurchaseArriveSave save) throws Exception;
 	/**
-	 * @Description 修改通知单
+	 * @Description 修改到货通知单
 	 * @author zhanggaohao
 	 * @version 2017年2月17日 上午9:07:32
 	 * @param update
@@ -67,5 +67,22 @@ public interface IPurchaseArriveService {
 	 * @throws Exception 
 	 */
 	List<PurchaseArriveResp> selectByIds(List<String> ids) throws Exception;
+	/**
+	 * @Description 新增退货通知单
+	 * @author zhanggaohao
+	 * @version 2017年4月1日 下午4:17:10
+	 * @param save
+	 * @return
+	 * @throws Exception 
+	 */
+	Result returnAdd(PurchaseArriveSave save) throws Exception;
+	/**
+	 * @Description 删除退货通知单
+	 * @author zhanggaohao
+	 * @version 2017年4月3日 上午10:20:39
+	 * @param query
+	 * @return
+	 */
+	Result delete(PurchaseArriveQuery query);
 
 }

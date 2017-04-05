@@ -14,14 +14,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.tianrui.api.intf.system.auth.ISystemUserService;
+import com.tianrui.api.resp.system.auth.SystemUserResp;
 import com.tianrui.quartz.common.ApiParamUtils;
 import com.tianrui.quartz.common.HttpUtils;
 import com.tianrui.service.bean.businessManage.poundNoteMaintain.PoundNote;
 import com.tianrui.service.bean.businessManage.purchaseManage.PurchaseStorageList;
 import com.tianrui.service.bean.businessManage.purchaseManage.PurchaseStorageListItem;
+import com.tianrui.service.bean.system.auth.SmUser;
 import com.tianrui.service.mapper.businessManage.poundNoteMaintain.PoundNoteMapper;
 import com.tianrui.service.mapper.businessManage.purchaseManage.PurchaseStorageListItemMapper;
 import com.tianrui.service.mapper.businessManage.purchaseManage.PurchaseStorageListMapper;
+import com.tianrui.service.mapper.system.auth.SmUserMapper;
 import com.tianrui.smartfactory.common.api.ApiResult;
 import com.tianrui.smartfactory.common.constants.Constant;
 import com.tianrui.smartfactory.common.constants.ErrorCode;
@@ -41,6 +45,10 @@ public class PurchaseStorageListService implements IPurchaseStorageListService{
 	private PurchaseStorageListItemMapper PurchaseStorageListItemMapper;
 	@Autowired
 	private PoundNoteMapper poundNoteMapper;
+	@Autowired
+	private ISystemUserService systemUserService;
+	@Autowired
+	private SmUserMapper smUserMapper;
 	
 	/**
 	 * 获取采购入库单数据
@@ -92,10 +100,15 @@ public class PurchaseStorageListService implements IPurchaseStorageListService{
 		String orgId=Constant.ORG_ID;
 		//获取采购入库单数据
 		List<PurchaseStorageList> list=getPurchaseStorageList(orgId,null);
+		List<SmUser> smUserList = null;
 		if(CollectionUtils.isNotEmpty(list)){
 			List<PurchaseStorageList> subList=new ArrayList<PurchaseStorageList>();
 			for(int i=0;i<list.size();i++){
 				PurchaseStorageList order=list.get(i);
+				smUserList = getSmUser(order.getBillmaker());
+				if(CollectionUtils.isNotEmpty(smUserList)){
+					order.setBillmaker(smUserList.get(0).getId());
+				}
 				subList.add(order);
 				ApiResult apiResult=HttpUtils.post(ApiParamUtils.getApiParam(subList), Constant.URL_RETURN_PURCHASESTORAGEATION);
 				if(apiResult!=null && StringUtils.equals(apiResult.getCode(), Constant.SUCCESS)){
@@ -117,6 +130,17 @@ public class PurchaseStorageListService implements IPurchaseStorageListService{
 			Logger.info("同步完成!");
 		}
 		
+	}
+
+	private List<SmUser> getSmUser(String id) throws Exception {
+		List<SmUser> smUserList = null;
+		SystemUserResp user = systemUserService.getUser(id);
+		if(user != null){
+			SmUser smUser = new SmUser();
+			smUser.setCode(user.getCode());
+			smUserList = smUserMapper.selectSelective(smUser);
+		}
+		return smUserList;
 	}
 
 }

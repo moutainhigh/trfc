@@ -12,7 +12,7 @@ public class ApiPoundNoteQuery extends BaseReq {
 	private String type;
 	//业务类型
 	//0采购到货   
-	//2采购退货
+	//1采购退货
 	//2销售提货
 	//3销售退货
 	//4厂内倒运

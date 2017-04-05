@@ -43,7 +43,13 @@ Date.parseYMD_HMS = function (dateStr) {
 		}
 		if(isNumber(year) && isNumber(month) && isNumber(day) 
 				&& isNumber(hour) && isNumber(minutes) && isNumber(seconds)){
-			return new Date(year, month, day, hour, minutes-1, seconds);
+			var year = parseInt(year);
+			var month = parseInt(month);
+			var day = parseInt(day);
+			var hour = parseInt(hour);
+			var minutes = parseInt(minutes);
+			var seconds = parseInt(seconds);
+			return new Date(year, month-1, day, hour, minutes, seconds);
 		}else{
 			console.error('The format is incorrect!');
 		}

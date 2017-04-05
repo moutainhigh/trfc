@@ -3,7 +3,6 @@ package com.tianrui.service.mapper.system.auth;
 import java.util.List;
 
 import com.tianrui.api.req.system.auth.SystemRoleQueryReq;
-import com.tianrui.api.req.system.auth.SystemUserQueryReq;
 import com.tianrui.service.bean.system.auth.SystemRole;
 
 /**

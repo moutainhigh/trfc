@@ -2,14 +2,13 @@
 	//访问路径
 	var URL = {
 			page: '/trfc/purchaseReturn/page',
-			addView: '/trfc/purchaseArrive/addView',
-			updateView: '/trfc/purchaseArrive/updateView',
-			audit: '/trfc/purchaseArrive/audit',
-			unaudit: '/trfc/purchaseArrive/unaudit',
-			invalid: '/trfc/purchaseArrive/invalid',
-			outfactory: '/trfc/purchaseArrive/outfactory',
-			
-			
+			addView: '/trfc/purchaseReturn/addView',
+			updateView: '/trfc/purchaseReturn/updateView',
+			audit: '/trfc/purchaseReturn/audit',
+			unaudit: '/trfc/purchaseReturn/unaudit',
+			invalid: '/trfc/purchaseReturn/invalid',
+			outfactory: '/trfc/purchaseReturn/outfactory',
+			deletenotice: '/trfc/purchaseReturn/delete',
 			supplierAutoCompleteSearch: "/trfc/supplier/autoCompleteSearch",
 			vehicleAutoCompleteSearch: "/trfc/vehicle/autoCompleteSearch",
 			driverAutoCompleteSearch: "/trfc/driver/autoCompleteSearch"
@@ -133,6 +132,7 @@
 	function initBindEvent(){
 		$('#refreshBtn').off('click').on('click', function(){
 			initPageList(1);
+			$('#ind_tab').hide();
 		});
 		$('#searchBtn').off('click').on('click', function(){
 			initPageList(1);
@@ -166,11 +166,10 @@
 	function getParams(){
 		var billcode = $('#billcode').val();billcode = $.trim(billcode);
 		var code = $('#code').val();code = $.trim(code);
-		var supplierid = $('#supplier').val();supplierid = $.trim(supplierid);
-		var vehicleid = $('#vehicle').val();vehicleid = $.trim(vehicleid);
+		var supplierid = $('#supplier').attr('supplierid');supplierid = $.trim(supplierid);
+		var vehicleid = $('#vehicle').attr('vehicleid');vehicleid = $.trim(vehicleid);
 		var auditstatus = $('#auditstatus').val();auditstatus = $.trim(auditstatus);
-		var materielid = $('#materiel').val();materielid = $.trim(materielid);
-		var driverid = $('#driver').val();driverid = $.trim(driverid);
+		var driverid = $('#driver').attr('driverid');driverid = $.trim(driverid);
 		var source = $('#source').val();source = $.trim(source);
 		var status = $('#status').val();status = $.trim(status);
 		var starttime = $('#starttime').val();starttime = $.trim(starttime);
@@ -182,7 +181,6 @@
 			supplierid:supplierid,
 			vehicleid:vehicleid,
 			auditstatus:auditstatus,
-			materielid:materielid,
 			driverid:driverid,
 			source:source,
 			status:status,
@@ -240,8 +238,9 @@
 		if(list && list.length > 0){
 			for(var i=0;i<list.length;i++){
 				var obj = list[i];
-				var purchaseApplication = obj.purchaseApplicationResp;
-				var purchaseApplicationDetail = obj.purchaseApplicationDetailResp;
+				var purchaseApplication = obj.purchaseApplicationResp || {};
+				var purchaseApplicationDetail = obj.purchaseApplicationDetailResp || {};
+				var poundNote = obj.poundNoteResp || {};
 				var code = obj.code || '';
 				var auditstatus = '';
 				switch (obj.auditstatus) {
@@ -271,6 +270,8 @@
 				var billcode = obj.billcode || '';
 				var suppliername = purchaseApplication.suppliername || '';
 				var materielname = purchaseApplicationDetail.materielname || '';
+				var poundnotecode = obj.poundnotecode || '';
+				var weighttime = poundNote.weighttime || '';
 				var minemouthname = purchaseApplication.minemouthname || '';
 				var makebilltimeStr = obj.makebilltimeStr || '';
 				var billtimeStr = purchaseApplication.makebilltimeStr || '';
@@ -282,13 +283,13 @@
 						.append('<td>'+auditstatus+'</td>').append('<td>'+source+'</td>')
 						.append('<td>'+status+'</td>').append('<td>'+billcode+'</td>')
 						.append('<td>'+suppliername+'</td>').append('<td>'+materielname+'</td>')
-						.append('<td></td>').append('<td></td>')
+						.append('<td>'+poundnotecode+'</td>').append('<td>'+weighttime+'</td>')
 						.append('<td>'+remark+'</td>')
-						.append('<td><span><i class="iconfont update" data-toggle="tooltip" data-placement="left" title="编辑">&#xe600;</i></span>'
-									+'<span><i class="iconfont audit" data-toggle="tooltip" data-placement="left" title="审核">&#xe692;</i></span>'
+						.append('<td><span><i class="iconfont audit" data-toggle="tooltip" data-placement="left" title="审核">&#xe692;</i></span>'
 									+'<span><i class="iconfont unaudit" data-toggle="tooltip" data-placement="left" title=" 反审">&#xe651;</i></span>'
 									+'<span><i class="iconfont invalid" data-toggle="tooltip" data-placement="left" title=" 作废">&#xe60c;</i></span>'
-									+'<span><i class="iconfont outfactory" data-toggle="tooltip" data-placement="left" title=" 出厂">&#xe63c;</i></span></td>')
+									+'<span><i class="iconfont outfactory" data-toggle="tooltip" data-placement="left" title=" 出厂">&#xe63c;</i></span>'
+									+'<span><i class="iconfont delete" data-toggle="tooltip" data-placement="left" title="删除">&#xe63d;</i></span></td>')
 						.data(obj).appendTo('#dataBody');
 			}
 			tableBindEvent();
@@ -305,34 +306,39 @@
 		$('#dataBody>tr').off('dblclick').on('dblclick',function(){
 			var obj = $(this).data();
 			//跳转到详情页面
-			window.location.href = '/trfc/purchaseArrive/detailView?id='+obj.id;
+			window.location.href = '/trfc/purchaseReturn/detailView?id='+obj.id;
 		});
-		$('#dataBody>tr').find('.update').off('click').on('click',function(){
-			var obj = $(this).closest('tr').data();
-			//跳转到修改页面
-			window.location.href = '/trfc/purchaseArrive/updateView?id='+obj.id;
-		});
-		$('#dataBody>tr').find('.audit').off('click').on('click',function(){
+		$('#dataBody>tr').find('.audit').off('click').on('click',function(e){
+			e.stopPropagation();
 			var obj = $(this).closest('tr').data();
 			auditOperation(obj);
 		});
-		$('#dataBody>tr').find('.unaudit').off('click').on('click',function(){
+		$('#dataBody>tr').find('.unaudit').off('click').on('click',function(e){
+			e.stopPropagation();
 			var obj = $(this).closest('tr').data();
 			unauditOperation(obj);
 		});
-		$('#dataBody>tr').find('.invalid').off('click').on('click',function(){
+		$('#dataBody>tr').find('.invalid').off('click').on('click',function(e){
+			e.stopPropagation();
 			var obj = $(this).closest('tr').data();
 			invalidOperation(obj);
 		});
-		$('#dataBody>tr').find('.outfactory').off('click').on('click',function(){
+		$('#dataBody>tr').find('.outfactory').off('click').on('click',function(e){
+			e.stopPropagation();
 			var obj = $(this).closest('tr').data();
 			outfactoryOperation(obj);
+		});
+		$('#dataBody>tr').find('.delete').off('click').on('click',function(e){
+			e.stopPropagation();
+			var obj = $(this).closest('tr').data();
+			deleteOperation(obj);
 		});
 	}
 	//显示更多
 	function showMore(obj){
 		var purchaseApplication = obj.purchaseApplicationResp || {};
 		var purchaseApplicationDetail = obj.purchaseApplicationDetailResp || {};
+		var poundnote = obj.poundNoteResp || {};
 		$('#vehicleno, #vehicleno2').html(obj.vehicleno || '');
 		$('#arrivalamount').html(obj.arrivalamount || '');
 		$('#drivername').html(obj.drivername || '');
@@ -344,6 +350,12 @@
 		$('#orgname').html(purchaseApplication.orgname || '');
 		$('#purchasesum').html(purchaseApplicationDetail.purchasesum || '');
 		$('#billtime').html(purchaseApplication.makebilltimeStr || '');
+		$('#poundnotecode').html(poundnote.code || '');
+		$('#grossweight').html(poundnote.grossweight || '');
+		$('#tareweight').html(poundnote.tareweight || '');
+		$('#netweight').html(poundnote.netweight || '');
+		$('#lighttime').html(poundnote.lighttimeStr || '');
+		$('#weighttime').html(poundnote.weighttimeStr || '');
 		$('#ind_tab').show();
 	}
 	//审核
@@ -453,6 +465,9 @@
 			return;
 		}
 		confirmOperation('您确定要强制出厂吗？', URL.outfactory, {id: obj.id});
+	}
+	function deleteOperation(obj){
+		confirmOperation('您确定要删除此单据吗？', URL.deletenotice, {id: obj.id});
 	}
 	//confirm选择公共方法
 	function confirmOperation(confirmContent, url, params){

@@ -41,6 +41,10 @@ public enum ErrorCode {
 	NOTICE_ON_INVALID("E10022","该通知单已作废."),
 	NOTICE_NOT_LOAD("E10023","该通知单还未完成装货."),
 	/**
+	 * 磅单
+	 */
+	POUNDNOTE_NOT_EXIST("E10100","该磅单不存在."),
+	/**
 	 * 车辆
 	 */
 	VEHICLE_EXIST("E10010","车辆已经存在."),
