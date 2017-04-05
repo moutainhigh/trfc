@@ -50,6 +50,7 @@
 								</div>
 								<div class="intel_solo">
 									<label>状态：</label> <select class="form-control" id="seek_type">
+										<option value="">请选择</option>
 										<option value="1">入厂</option>
 										<option value="2">出厂</option>
 									</select>

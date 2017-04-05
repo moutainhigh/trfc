@@ -53,12 +53,12 @@ $(function(){
 		if('停用'==audit){
 			return;
 		}
+		var id = $(this).closest('tr').data('batchnum_obj').id;
 		var index = layer.confirm('你确定要停用吗?', {
 			area: '600px', 
 			btn: ['确定','取消'] //按钮
 		}, function(){
 			//获取id
-			var id = $(this).closest('tr').data('batchnum_obj').id;
 			var param = {id:id,
 					billsstate:'0',
 						user:user};
@@ -98,12 +98,12 @@ $(function(){
 				return;
 			}
 		}
+		var id = $(bt).closest('tr').data('batchnum_obj').id;
 		var index = layer.confirm(msg, {
 			area: '600px', 
 			btn: ['确定','取消'] //按钮
 		}, function(){
 			//获取id
-			var id = $(bt).closest('tr').data('batchnum_obj').id;
 			var param = {id:id,
 						auditstate:auditstate,
 						user:user

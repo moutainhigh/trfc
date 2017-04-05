@@ -43,7 +43,7 @@
 							</div>
 							<div class="sys_fuzhusolo" id="showDeleteDict">
 								<a data-toggle="modal" data-target="#deledict"> <i
-									class="iconfont colorred">&#xe627;</i> <label>删除</label>
+									class="iconfont coloradd">&#xe627;</i> <label>删除</label>
 								</a>
 							</div>
 						</div>

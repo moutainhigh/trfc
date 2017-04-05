@@ -29,7 +29,7 @@
 						<div class="intel_sconditon">
 							<div class="intel_sline">
 								<div class="intel_solo">
-									<label>卡面编号：</label> <input id="cardcode" type="text">
+									<label>卡面编号：</label> <input id="cardcode" placeholder="请输入卡面编号" type="text">
 								</div>
 								<div class="intel_solo">
 									<label>卡状态：</label> <select id="cardstatus"

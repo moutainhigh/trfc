@@ -42,7 +42,7 @@
 						</div>
 					</div>
 					<div class="daohuo_add">
-						<h5>化验报告单编辑</h5>
+						<h5>化验报告单详情</h5>
 						<div class="daohuo_add_div">
 							<div class="daohuo_add_solo">
 								<label><em class="colorred">*</em>单据编号：</label> <input
