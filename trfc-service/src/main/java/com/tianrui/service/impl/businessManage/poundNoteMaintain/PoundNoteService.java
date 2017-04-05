@@ -1086,7 +1086,7 @@ public class PoundNoteService implements IPoundNoteService {
 			pa.setVehiclerfid(valid.getRfid());
 			pa.setState("1");
 			pa.setStatus("6");
-			List<PurchaseArrive> listPurchase = purchaseArriveMapper.validNotice(pa);
+			List<PurchaseArrive> listPurchase = purchaseArriveMapper.selectSelective(pa);
 			if(CollectionUtils.isEmpty(listPurchase)){
 				//该车辆没有通知单
 				result.setErrorCode(ErrorCode.VEHICLE_NOT_NOTICE);
