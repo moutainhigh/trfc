@@ -138,7 +138,11 @@ input[readOnly="true"]{
     cursor: pointer;
 }
 .intel_tab .intel_menu li.select,.intel_tab .intel_menu li:hover{
-    color: #0573c7;
+    color: #ffffff;
+    background: #166aa8;
+}
+.intel_tab .intel_menu li.select a,.intel_tab .intel_menu li:hover a{
+    color: #ffffff;
 }
 .intel_tab .top_opera{
     width: 170px;
