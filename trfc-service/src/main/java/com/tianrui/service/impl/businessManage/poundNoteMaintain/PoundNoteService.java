@@ -495,7 +495,7 @@ public class PoundNoteService implements IPoundNoteService {
 			List<SalesOutboundOrder> orderList, List<SalesOutboundOrderItem> orderItemList, String code)
 					throws Exception {
 		if (array != null && array.size() > 0) {
-			double netWeight = bean.getPickupquantity();
+			double netWeight = bean.getNetweight();
 			for (Object object : array) {
 				SalesApplicationJoinPoundNote join = new SalesApplicationJoinPoundNote();
 				JSONObject jsonObject = (JSONObject) object;
@@ -633,6 +633,7 @@ public class PoundNoteService implements IPoundNoteService {
 				break;
 			case "1":
 				result = savePurchaseReturnPoundNote(query);
+				break;
 			case "2":
 				result = saveSalesPoundNote(query);
 				break;
@@ -900,8 +901,8 @@ public class PoundNoteService implements IPoundNoteService {
 		SalesApplicationDetail applicationDetail = salesApplicationDetailMapper
 				.selectByPrimaryKey(arrive.getBilldetailid());
 		PoundNote bean = new PoundNote();
-		// 毛重
-		if (StringUtils.equals(query.getType(), "2")) {
+		// 皮重
+		if (StringUtils.equals(query.getType(), "1")) {
 			GetCodeReq codeReq = setSalesBeanBody(query, arrive, application, applicationDetail, bean);
 			// 更新通知单状态
 			SalesArrive sa = new SalesArrive();
@@ -914,17 +915,18 @@ public class PoundNoteService implements IPoundNoteService {
 			} else {
 				result.setErrorCode(ErrorCode.OPERATE_ERROR);
 			}
-			// 皮重
+		// 毛重
 		} else {
 			bean.setVehicleno(query.getVehicleno());
 			bean.setNoticecode(query.getNotionformcode());
 			bean.setReturnstatus("0");
 			bean.setState("1");
-			bean.setBilltype("0");
+			bean.setBilltype("2");
 			List<PoundNote> list = poundNoteMapper.selectSelective(bean);
 			if (CollectionUtils.isNotEmpty(list)) {
 				bean = list.get(0);
 				bean.setTareweight(Double.parseDouble(query.getNumber()));
+				bean.setNetweight(bean.getGrossweight() - bean.getTareweight());
 				bean.setLighttime(DateUtil.parse(query.getTime(), "yyyy-MM-dd HH:mm:ss"));
 				bean.setModifier(query.getCurrid());
 				bean.setModifytime(System.currentTimeMillis());

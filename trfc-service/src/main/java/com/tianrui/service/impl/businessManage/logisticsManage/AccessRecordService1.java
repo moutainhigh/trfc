@@ -274,6 +274,8 @@ public class AccessRecordService1 implements IAccessRecordService1 {
 				//采购到货通知单
 				case "0":
 					ec = setICardToPurchaseArrive(card, apiParam);
+					break;
+				//采购退货通知单
 				case "1":
 					ec = setICardToPurchaseReturnArrive(card, apiParam);
 					break;
