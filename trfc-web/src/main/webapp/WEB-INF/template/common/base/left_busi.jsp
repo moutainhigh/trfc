@@ -10,7 +10,7 @@
 		<label>菜单</label> <i class="iconfont fr">&#xe61a;</i>
 	</div>
 	<div class="menu_collap">
-		<ul class="typelist ">
+		<ul class="typelist " id="menulist">
 			<a href="#ityewu" data-toggle="collapse" class="menu_collap_tit">
 				<label>业务管理</label> <span><i class="iconfont">&#xe604;</i></span>
 			</a>
@@ -19,7 +19,7 @@
 				<!-- <li><a href="../cg/cg_index.html"> <i class="iconfont">&#xe617;</i>
 						<label>采购管理</label>
 				</a></li> -->
-				<li class="active"><a href="/trfc/purchaseApplication/main"> <i
+				<li><a href="/trfc/purchaseApplication/main"> <i
 						class="iconfont">&#xe617;</i> <label>采购管理</label>
 				</a></li>
 				<li><a href="/trfc/salesApplication/main"> <i
@@ -150,19 +150,28 @@
 </div>
 <script type="text/javascript">
 	var URLData = {
-		'0':[],	
-		'1':[],
-		'2':[],
-		'3':[],
-		'4':[],
-		'5':[],
-		'6':[],
-		'7':[],
-		'8':[],
-		'9':[],
-		'10':[],
-		'11':[],
-		'12':[],
-		'13':[]
+		'0':['purchaseApplication','purchaseArrive','purchaseReturn','purchaseVehicle'],	
+		'1':['salesApplication','salesArrive','salesVehicle'],
+		'2':['card','cardReissue'],
+		'3':['quality/sales/batchnum','quality/sales/report','quality/purchase/sampling','quality/purchase/assay'],
+		'4':['customerbegin','salescharge','customerback','salesledger','salesdetail'],
+		'5':['poundNote/purchase','poundNote/sales'],
+		'6':['accessRecord'],
+		'7':['customer','warehouse','supplier','materiel'],
+		'8':['transport','vehicle','driver','minemouth','yard'],
+		'9':['quality/sales/file/MaterialScheme','quality/sales/file/qualityScheme','quality/sales/file/qualityItem','quality/sales/file/supplierScheme','quality/sales/file/certification'],
+		'10':['basicFile/other/customer','other/otherVehicle','basicFile/other/material','basicFile/other/driver','basicFile/other/supplier'],
+		'11':['system/auth/menu','system/auth/user','system/auth/role'],
+		'12':['system/base/code','system/base/dataDict']
 	};
+	var href = window.location.href;
+	href = href.split('/trfc/')[1];
+	urlstr = href.substring(0,href.lastIndexOf('/'));
+	console.log(urlstr);
+	for(var i=0;i<13;i++){
+		if(URLData[i].indexOf(urlstr)>=0){
+			$('#menulist >div >li').eq(i).attr('class','active');
+			break;
+		}
+	}
 </script>
