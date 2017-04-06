@@ -362,7 +362,7 @@ $(function(){
 		//获取当前页面记录数
 		var pageSize = $('#pageSize').val();
 		//获取查询条件
-		var materialid = $('#seek_material').val();
+		var materialid = $('#seek_material').attr('materialid');
 		var materialtype = $('#seek_materialtype').val();
 		var params = {
 				materialid:materialid,

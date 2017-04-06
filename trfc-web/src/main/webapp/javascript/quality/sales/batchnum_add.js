@@ -40,7 +40,7 @@ $(function(){
 			+'</td>'
 			+'<td><input type="text"  placeholder="请输入出厂批号"'
 			+'style="border: none; width: 100%;" readonly="readonly"></td>'
-			+'<td><input readonly="readonly" type="text"'
+			+'<td><input readonly="readonly" type="text" placeholder="请输入数量"'
 			+'style="border: none; width: 100%;"></td>'
 			+'<td><input type="text"'
 			+'onfocus="WdatePicker({dateFmt:\'yyyy-MM-dd\'})" class="Wdate"'
@@ -189,6 +189,10 @@ $(function(){
 		var assayorg = $('#add_assayorg').val();
 		var starttime = new Date($('#add_starttime').val());
 		var endtime = new Date($('#add_endtime').val());
+		if(endtime<starttime){
+			layer.msg('结束日期不能小于开始日期!',{icon:5});
+			return null;
+		}
 		var createtime = Date.parseYMD_HMS($('#add_createtime').val());
 		//获取user的id
 		var user = $('.user').attr("userid");

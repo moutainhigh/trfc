@@ -27,7 +27,8 @@ public class ApiTest {
 	private static String domin="http://127.0.0.1/";
 	private static String uri_login="api/system/login";
 	private static String uri_rfid="api/card/rfidReg";
-//	private static String url_enterFactoryCheck = "api/doorSystem/enterFactoryCheck";
+	private static String url_enterFactoryCheck = "api/doorSystem/enterFactoryCheck";
+	private static String url_leaveFactoryCheck = "api/doorSystem/leaveFactoryCheck";
 	private static String url_record = "api/doorSystem/record";
 	private static String url_pound = "api/poundNote/validation";
 	private static String url_up_weight = "api/poundNote/up/weight";
@@ -37,13 +38,13 @@ public class ApiTest {
 		ApiParam<ApiPoundNoteQuery> api =new ApiParam<ApiPoundNoteQuery>();
 		
 		ApiPoundNoteQuery va =new ApiPoundNoteQuery();
-		va.setRfid("1234533");
+		va.setRfid("08D4A547413930373820AB01");
 		va.setType("1");
-		va.setVehicleno("GA11111");
-		va.setServicetype("0");
-		va.setNotionformcode("DH201703280020");
-		va.setNumber("2");
-		va.setTime("2017-03-29 16:10:00");
+		va.setVehicleno("豫GA9078");
+		va.setServicetype("2");
+		va.setNotionformcode("TH201704060018");
+		va.setNumber("1");
+		va.setTime("2017-04-06 14:12:00");
 		
 		Head head =new Head();
 		head.setCallSource("1");
@@ -61,9 +62,9 @@ public class ApiTest {
 		ApiParam<ApiPoundNoteValidation> api =new ApiParam<ApiPoundNoteValidation>();
 		
 		ApiPoundNoteValidation va =new ApiPoundNoteValidation();
-		va.setRfid("1234533");
+		va.setRfid("08D4A547413930373820AB01");
 		va.setType("2");
-		va.setVehicleno("GA11111");
+		va.setVehicleno("豫GA9078");
 		
 		Head head =new Head();
 		head.setCallSource("1");
@@ -76,14 +77,34 @@ public class ApiTest {
 		api.setHead(head);
 		return api;
 	}
-	//出厂验证
+	//入厂验证
+	static ApiParam<VehicleCheckApi> getParam5(){
+		ApiParam<VehicleCheckApi> api =new ApiParam<VehicleCheckApi>();
+		
+		VehicleCheckApi va =new VehicleCheckApi();
+		va.setRfid("08D4A547413930373820AB01");
+		va.setCurrUid("0001P110000000010J0E");
+		va.setVehicleNo("豫GA9078");
+		
+		Head head =new Head();
+		head.setCallSource("1");
+		head.setCallType("2");
+		head.setCallTime("2017-03-29 11:01:00");
+		head.setUserId("0001P110000000010J0E");
+		
+		
+		api.setBody(va);
+		api.setHead(head);
+		return api;
+	}
+	//过磅验证
 	static ApiParam<ApiPoundNoteValidation> getParam4(){
 		ApiParam<ApiPoundNoteValidation> api =new ApiParam<ApiPoundNoteValidation>();
 		
 		ApiPoundNoteValidation va =new ApiPoundNoteValidation();
-		va.setRfid("1234533");
-		va.setType("2");
-		va.setVehicleno("GA11111");
+		va.setRfid("08D4A547413930373820AB01");
+		va.setType("1");
+		va.setVehicleno("豫GA9078");
 		
 		Head head =new Head();
 		head.setCallSource("1");
@@ -133,19 +154,31 @@ public class ApiTest {
 	public static void main(String[] args) {
 		
 		//一次过磅
-//		ApiParam<ApiPoundNoteValidation> req =getParam3();
-//		setkey(req);
-//		setMd5(req);
-//		String param =JSON.toJSONString(req);
-//		System.out.println(httpPost(domin+url_pound,"p="+param));
-		
-		//上传磅单
-		ApiParam<ApiPoundNoteQuery> req =getParam();
+		ApiParam<ApiPoundNoteValidation> req =getParam3();
 		setkey(req);
 		setMd5(req);
 		String param =JSON.toJSONString(req);
-		System.out.println(httpPost(domin+url_up_weight,"p="+param));
+		System.out.println(httpPost(domin+url_pound,"p="+param));
 		
+		//上传磅单
+//		ApiParam<ApiPoundNoteQuery> req =getParam();
+//		setkey(req);
+//		setMd5(req);
+//		String param =JSON.toJSONString(req);
+//		System.out.println(httpPost(domin+url_up_weight,"p="+param));
+		
+		//入厂验证
+//		ApiParam<VehicleCheckApi> req =getParam5();
+//		setkey(req);
+//		setMd5(req);
+//		String param =JSON.toJSONString(req);
+//		System.out.println(httpPost(domin+url_enterFactoryCheck,"p="+param));
+		//离场
+//		ApiParam<VehicleCheckApi> req =getParam5();
+//		setkey(req);
+//		setMd5(req);
+//		String param =JSON.toJSONString(req);
+//		System.out.println(httpPost(domin+url_leaveFactoryCheck,"p="+param));
 		
 		//生成门禁
 //		ApiParam<ApiDoorSystemSave> req =getParam1();
@@ -170,11 +203,12 @@ public class ApiTest {
 //		req.setIccode("AB0D8F93BA080400015C61242F23081D");
 //		req.setType("1");
 //		req.setTime(DateUtil.getNowDateString("yyyy-MM-dd HH:mm:ss"));
-		req.setIcardno("1581381799");
-		req.setNotionformcode("DH201703280020");
-		req.setServicetype("0");
+		req.setIcardno("2035639959");
+		req.setNotionformcode("TH201704060018");
+		req.setServicetype("2");
+		//出入厂
 		req.setType("1");
-		req.setTime("2017-03-28 15:10:00");
+		req.setTime("2017-04-06 13:41:00");
 		req.setCurrUid("0001P110000000029VXC");
 		
 		Head head =new Head();

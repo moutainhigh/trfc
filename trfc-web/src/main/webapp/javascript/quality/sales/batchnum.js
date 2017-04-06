@@ -327,7 +327,7 @@ $(function(){
 				+'<td>'+(TEST[obj.teststate] || '')+'</td>'
 				+'<td>'+(obj.material || '')+'</td>'
 				+'<td>'+(obj.factorycode || '')+'</td>'
-				+'<td>'+(3000 || '')+'</td>'
+				+'<td>'+(obj.count || '')+'</td>'
 				+'<td>0</td>'
 				+'<td>'+(3000 || '')+'</td>'
 				+'<td>'+(assaytime || '')+'</td>'

@@ -167,7 +167,6 @@
 	var href = window.location.href;
 	href = href.split('/trfc/')[1];
 	urlstr = href.substring(0,href.lastIndexOf('/'));
-	console.log(urlstr);
 	for(var i=0;i<13;i++){
 		if(URLData[i].indexOf(urlstr)>=0){
 			$('#menulist >div >li').eq(i).attr('class','active');
