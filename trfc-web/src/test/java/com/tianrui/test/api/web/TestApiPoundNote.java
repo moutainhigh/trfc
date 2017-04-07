@@ -19,9 +19,10 @@ public class TestApiPoundNote {
 	private static String domin="http://127.0.0.1/";
 	private static String url_validation = "api/poundNote/validation";
 	private static String url_up_weight = "api/poundNote/up/weight";
+	private static String url_tare_weight = "api/poundNote/history/tareWeight";
 	
 	public static void main(String[] args) throws Exception {
-		URL url = new URL(domin+url_up_weight);
+		URL url = new URL(domin+url_tare_weight);
 		// 打开url连接
 		HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 		// 设置url请求方式 ‘get’ 或者 ‘post’
@@ -30,7 +31,7 @@ public class TestApiPoundNote {
 		
 	    // 表单参数与get形式一样
 		connection.setDoOutput(true);// 是否输入参数
-        params.append("p").append("=").append(JSON.toJSONString(getParam1()));
+        params.append("p").append("=").append(JSON.toJSONString(getParam2()));
         
         String aa =params.toString();
         System.out.println(aa);
@@ -43,6 +44,28 @@ public class TestApiPoundNote {
 		System.out.println(response);
 		
 		
+	}
+	//查询皮重
+	static ApiParam<ApiPoundNoteQuery> getParam2(){
+		ApiParam<ApiPoundNoteQuery> api =new ApiParam<ApiPoundNoteQuery>();
+		
+		ApiPoundNoteQuery req =new ApiPoundNoteQuery();
+		req.setRfid("08D4A547373531323120AB01");
+		req.setVehicleno("豫G75121");
+		req.setLimit(2);
+		
+		Head head =new Head();
+		head.setCallSource("1");
+		head.setCallType("2");
+		head.setCallTime("2017-01-07 11:01:00");
+		head.setUserId("111111");
+		
+		api.setBody(req);
+		api.setHead(head);
+		
+		setkey(api);
+		setMd5(api);
+		return api;
 	}
 	//磅房上传
 	static ApiParam<ApiPoundNoteQuery> getParam1(){

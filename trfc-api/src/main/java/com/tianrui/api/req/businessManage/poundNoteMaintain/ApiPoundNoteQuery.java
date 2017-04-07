@@ -30,6 +30,8 @@ public class ApiPoundNoteQuery extends BaseReq {
 	private String time;
 	//当前登录用户
 	private String currid;
+	//查询皮重的条数
+	private Integer limit;
 
 	/**
 	 * @return the vehicleno
@@ -141,6 +143,20 @@ public class ApiPoundNoteQuery extends BaseReq {
 	 */
 	public void setTime(String time) {
 		this.time = time;
+	}
+
+	/**
+	 * @return the limit
+	 */
+	public Integer getLimit() {
+		return limit;
+	}
+
+	/**
+	 * @param limit the limit to set
+	 */
+	public void setLimit(Integer limit) {
+		this.limit = limit;
 	}
 	
 }

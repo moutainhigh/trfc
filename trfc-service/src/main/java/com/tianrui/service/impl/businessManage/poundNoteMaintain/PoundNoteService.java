@@ -1222,7 +1222,7 @@ public class PoundNoteService implements IPoundNoteService {
 		if(valid != null
 				&& StringUtils.isNotBlank(valid.getVehicleno())
 				&& StringUtils.isNotBlank(valid.getRfid())
-				&& StringUtils.isNotBlank(valid.getNumber())){
+				&& valid.getLimit() != null && valid.getLimit() > 0){
 			List<Double> list = poundNoteMapper.historyTareWeight(valid);
 			result.setData(list);
 			result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
