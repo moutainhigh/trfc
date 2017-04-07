@@ -424,7 +424,7 @@
 						</div>
 						<div class="alt_edit_div">
 							<label class="colorred"> *身份证号：</label> <input id="d_identityno"
-								type="text" placeholder="请输入身份证号">
+								type="text" placeholder="请输入身份证号" maxlength="18">
 						</div>
 						<div class="alt_edit_div">
 							<label>有效性： </label> <input id="d_isvalid" type="checkbox"

@@ -205,7 +205,7 @@
 								<label>电话：</label> <input id="update_telephone" type="text">
 							</div>
 							<div class="alt_edit_div">
-								<label>身份证号：</label> <input id="update_identityno" type="text">
+								<label>身份证号：</label> <input id="update_identityno" type="text" maxlength="18">
 							</div>
 							<div class="alt_edit_div">
 								<label>有效性：</label> <input id="update_isvalid" type="checkbox"><span>有效</span>

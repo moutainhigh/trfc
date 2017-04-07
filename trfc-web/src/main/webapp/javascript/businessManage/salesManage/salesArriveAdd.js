@@ -293,7 +293,7 @@
 				});
 				$(this).val(''); return;
 			}else if(value > marginsum){
-				layer.msg('提货量不能大于'+marginsum+'!', {icon: 5}); $(this).val(''); return;
+				layer.msg('提货量不能大于余量!', {icon: 5}); $(this).val(''); return;
 			}
 			$('#salesApplicationDetailBody tr').each(function(){
 				var yl = $(this).find('td.yl').text(); yl = parseFloat(yl);
