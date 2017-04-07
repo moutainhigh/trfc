@@ -510,6 +510,8 @@ public class SalesApplicationService implements ISalesApplicationService {
 		//制单日期
 		item.setMakebilltime(DateUtil.parse(jsonItem.getString("singleData"), "yyyy-MM-dd HH:mm:ss"));
 		item.setRemarks(jsonItem.getString("remark"));
+		item.setCreatetime(System.currentTimeMillis());
+		item.setModifytime(System.currentTimeMillis());
 		//TS
 		if(StringUtils.isNotBlank(jsonItem.getString("ts"))){
 			item.setUtc(Long.valueOf(jsonItem.getString("ts")));

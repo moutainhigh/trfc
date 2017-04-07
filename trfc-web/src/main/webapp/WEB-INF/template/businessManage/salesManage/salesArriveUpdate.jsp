@@ -104,7 +104,7 @@
 									type="text" readonly="true">
 							</div>
 							<div class="daohuo_add_solo">
-								<label>余量：</label> <input id="margin" value="${salesArrive.getYlSum() }" type="text" readonly="true">
+								<label>余量：</label> <input id="margin" value="${salesArrive.getYlSum() + salesArrive.takeamount }" type="text" readonly="true">
 							</div>
 							<div class="daohuo_add_solo">
 								<label>业务日期：</label> <input id="billtime"

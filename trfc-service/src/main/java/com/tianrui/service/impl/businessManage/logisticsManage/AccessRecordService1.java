@@ -426,10 +426,10 @@ public class AccessRecordService1 implements IAccessRecordService1 {
 								Double takeamount = sales.getTakeamount();
 								for(SalesApplicationJoinNatice join : list){
 									SalesApplicationDetail applicationDetail = salesApplicationDetailMapper.selectByPrimaryKey(join.getBilldetailid());
-									if(takeamount > join.getMargin()){
-										if(applicationDetail != null){
+									if(applicationDetail != null && takeamount > 0){
+										if(takeamount > join.getMargin()){
 											SalesApplicationDetail sd = new SalesApplicationDetail();
-											sd.setId(join.getBilldetailid());
+											sd.setId(applicationDetail.getId());
 											sd.setUnstoragequantity(applicationDetail.getUnstoragequantity() + join.getMargin());
 											sd.setPretendingtake(applicationDetail.getPretendingtake() - join.getMargin());
 											if(salesApplicationDetailMapper.updateByPrimaryKeySelective(sd) > 0){
@@ -438,20 +438,21 @@ public class AccessRecordService1 implements IAccessRecordService1 {
 												flag = false;
 												break;
 											}
-										}
-									}else{
-										SalesApplicationDetail sd = new SalesApplicationDetail();
-										sd.setId(join.getBilldetailid());
-										sd.setUnstoragequantity(applicationDetail.getUnstoragequantity() + takeamount);
-										sd.setPretendingtake(applicationDetail.getPretendingtake() - takeamount);
-										if(salesApplicationDetailMapper.updateByPrimaryKeySelective(sd) > 0){
-											flag = true;
+											takeamount -= join.getMargin();
 										}else{
-											flag = false;
-											break;
+											SalesApplicationDetail sd = new SalesApplicationDetail();
+											sd.setId(applicationDetail.getId());
+											sd.setUnstoragequantity(applicationDetail.getUnstoragequantity() + takeamount);
+											sd.setPretendingtake(applicationDetail.getPretendingtake() - takeamount);
+											if(salesApplicationDetailMapper.updateByPrimaryKeySelective(sd) > 0){
+												flag = true;
+											}else{
+												flag = false;
+												break;
+											}
+											takeamount = 0D;
 										}
 									}
-									takeamount -= join.getMargin();
 								}
 								if(flag){
 									ec = addInfoAccessRecordApi(apiParam, sales.getId(), sales.getCode(), "2");
@@ -470,13 +471,13 @@ public class AccessRecordService1 implements IAccessRecordService1 {
 					//修改通知单状态并绑定IC卡
 					SalesArrive sa = new SalesArrive();
 					sa.setId(sales.getId());
-					sa.setState("5");
+					sa.setStatus("5");
 					if(salesArriveMapper.updateByPrimaryKeySelective(sa) > 0){
 						AccessRecord access = accessRecordMapper.selectByNoticeId(sales.getId());
-						if(StringUtils.equals(access.getAccesstype(), "1")){
+						if(access != null){
 							ec = addOutAccessRecordApi(apiParam, access.getId());
 						}else{
-							ec = ErrorCode.NOTICE_OUT_FACTORY;
+							ec = ErrorCode.VEHICLE_NOTICE_NOT_ENTER;
 						}
 					}else{
 						ec = ErrorCode.OPERATE_ERROR;

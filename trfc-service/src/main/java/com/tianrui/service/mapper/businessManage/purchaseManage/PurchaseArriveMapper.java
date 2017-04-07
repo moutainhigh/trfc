@@ -2,6 +2,8 @@ package com.tianrui.service.mapper.businessManage.purchaseManage;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.tianrui.api.req.businessManage.purchaseManage.PurchaseArriveQuery;
 import com.tianrui.service.bean.businessManage.purchaseManage.PurchaseArrive;
 
@@ -77,4 +79,13 @@ public interface PurchaseArriveMapper {
      * @return
      */
 	PurchaseArrive checkICUse(String icardid);
+	/**
+	 * @Description 根据车辆查询通知单
+	 * @author zhanggaohao
+	 * @version 2017年4月7日 下午2:41:57
+	 * @param vehicleno
+	 * @param vehiclerfid
+	 * @return
+	 */
+	List<PurchaseArrive> validNoticeByVehicle(@Param("vehicleno")String vehicleno, @Param("vehiclerfid")String vehiclerfid);
 }

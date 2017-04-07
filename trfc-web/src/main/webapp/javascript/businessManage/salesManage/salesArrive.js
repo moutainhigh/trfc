@@ -247,7 +247,7 @@
 					$('#total').html(total);
 					$('#jumpPageNo').attr('maxPageNo',parseInt((total+pageSize-1)/pageSize));
 					$("#pagination").pagination(total, {
-					    callback: function(){
+					    callback: function(pageNo){
 					    	getData(pageNo+1);
 					    },
 					    prev_text: '上一页',
@@ -364,8 +364,9 @@
 	}
 	//显示更多
 	function showMore(obj){
-		var salesApplication = obj.salesApplication;
-		var salesApplicationDetail = obj.salesApplicationDetail;
+		var salesApplication = obj.salesApplication || {};
+		var salesApplicationDetail = obj.salesApplicationDetail || {};
+		var poundNote = obj.poundNoteResp || {};
 		$('#dataMore').empty();
 		var $tabDiv = $('<div class="cg_tabtit"><ul><li class="select">物料信息</li><li>订单信息</li><li>过磅信息</li></ul></div>').appendTo('#dataMore');
 		var $tabCont = $('<div>').addClass('cg_tabbox').appendTo('#dataMore');
@@ -382,16 +383,16 @@
 			case 1:
 				var $tbody = $('<tbody>');
 				obj.listApplication.forEach(function(x, i, a){
-					$tbody.append('<tr><td>'+(i + 1)+'</td><td>'+(x.code || '')+'</td><td>'+(x.billtypename || '')+'</td><td>'+(x.customername || '')+'</td><td>'+(x.list[0].materielname || '')+'</td><td>'+(x.list[0].salessum || '')+'</td><td>'+(x.list[0].margin || 0)+'</td><td>'+(x.list[0].storagequantity || 0)+'</td><td>'+(x.list[0].unstoragequantity || 0)+'</td><td>'+(obj.takeamount || '')+'</td><td>'+(x.billtimeStr || '')+'</td><td>'+(x.makebillname || '')+'</td></tr>');
+					$tbody.append('<tr><td>'+(i + 1)+'</td><td>'+(x.code || '')+'</td><td>'+(x.billtypename || '')+'</td><td>'+(x.customername || '')+'</td><td>'+(x.list[0].materielname || '')+'</td><td>'+(x.list[0].salessum || '')+'</td><td>'+(x.list[0].margin || 0)+'</td><td>'+(x.list[0].storagequantity || 0)+'</td><td>'+(x.list[0].unstoragequantity || 0)+'</td><td>'+(x.list[0].pretendingtake || 0)+'</td><td>'+(x.billtimeStr || '')+'</td><td>'+(x.makebillname || '')+'</td></tr>');
 				});
 				$('<table>').addClass('table table-bordered')
-							.append('<thead><tr><th>序号</th><th>订单编号</th><th>类型</th><th>客户</th><th>物料</th><th>订单量</th><th>余量</th><th>出库占用量</th><th>未出库占用量</th><th>预提量</th><th>订单日期</th><th>制单人</th></tr></thead>')
+							.append('<thead><tr><th>序号</th><th>订单编号</th><th>类型</th><th>客户</th><th>物料</th><th>订单量</th><th>余量</th><th>出库占用量</th><th>未出库占用量</th><th>预提占用</th><th>订单日期</th><th>制单人</th></tr></thead>')
 							.append($tbody).appendTo($tabCont);
 				break;
 			case 2:
 				$('<table>').addClass('table table-bordered')
 						.append('<thead><tr><th>磅单号</th><th>车号</th><th>毛重</th><th>皮重</th><th>净重</th><th>轻车时间</th><th>重车时间</th></tr></thead>')
-						.append('<tbody><tr><td></td><td>'+(obj.vehicleno || '')+'</td><td></td><td></td><td></td><td></td><td></td></tr></tbody>')
+						.append('<tbody><tr><td>'+(poundNote.code || '')+'</td><td>'+(obj.vehicleno || '')+'</td><td>'+(poundNote.grossweight || '')+'</td><td>'+(poundNote.tareweight || '')+'</td><td>'+(poundNote.netweight || '')+'</td><td>'+(poundNote.lighttimeStr || '')+'</td><td>'+(poundNote.weighttimeStr || '')+'</td></tr></tbody>')
 						.appendTo($tabCont);
 				break;
 			default:

@@ -234,7 +234,7 @@ public class SalesArriveService implements ISalesArriveService {
 					list.add(join);
 //					SalesApplicationResp application = salesApplicationService.findOne(billid, false);
 					SalesApplicationDetailResp applicationDetailResp = salesApplicationDetailService.findOne(billdetailid);
-					if(applicationDetailResp != null){
+					if(applicationDetailResp != null && takeamount > 0){
 						join.setBillsum(applicationDetailResp.getSalessum());
 						join.setMargin(applicationDetailResp.getMargin());
 						join.setOutstoragequantity(applicationDetailResp.getStoragequantity());
@@ -243,7 +243,7 @@ public class SalesArriveService implements ISalesArriveService {
 						//回写订单预提占用
 						if(takeamount > applicationDetailResp.getMargin()){
 							SalesApplicationDetail applicationDetail = new SalesApplicationDetail();
-							applicationDetail.setId(bean.getBilldetailid());
+							applicationDetail.setId(applicationDetailResp.getId());
 							applicationDetail.setMargin(applicationDetailResp.getMargin() - applicationDetailResp.getMargin());
 							applicationDetail.setPretendingtake(applicationDetailResp.getPretendingtake() + applicationDetailResp.getMargin());
 							if(salesApplicationDetailMapper.updateByPrimaryKeySelective(applicationDetail) > 0){
@@ -252,9 +252,10 @@ public class SalesArriveService implements ISalesArriveService {
 								flag = false;
 								break;
 							}
+							takeamount -= applicationDetailResp.getMargin();
 						}else{
 							SalesApplicationDetail applicationDetail = new SalesApplicationDetail();
-							applicationDetail.setId(bean.getBilldetailid());
+							applicationDetail.setId(applicationDetailResp.getId());
 							applicationDetail.setMargin(applicationDetailResp.getMargin() - takeamount);
 							applicationDetail.setPretendingtake(applicationDetailResp.getPretendingtake() + takeamount);
 							if(salesApplicationDetailMapper.updateByPrimaryKeySelective(applicationDetail) > 0){
@@ -263,6 +264,7 @@ public class SalesArriveService implements ISalesArriveService {
 								flag = false;
 								break;
 							}
+							takeamount = 0D;
 						}
 					}
 				}

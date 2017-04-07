@@ -675,4 +675,11 @@
   	from tr_purchase_db_arrive
   	where icardid = #{icardid,jdbcType=VARCHAR} and state = "1" and status != '5' and status != '3'
   </select>
+  <select id="validNoticeByVehicle" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from tr_purchase_db_arrive
+    where vehicleno = #{vehicleno,jdbcType=VARCHAR} and vehiclerfid = #{vehiclerfid,jdbcType=VARCHAR} 
+    	and status != '3' and status != '5' and state = '1'
+  </select>
 </mapper>

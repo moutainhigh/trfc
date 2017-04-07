@@ -2,6 +2,8 @@ package com.tianrui.service.mapper.businessManage.salesManage;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.tianrui.api.req.businessManage.salesManage.SalesArriveQuery;
 import com.tianrui.service.bean.businessManage.salesManage.SalesArrive;
 
@@ -83,4 +85,13 @@ public interface SalesArriveMapper {
 	 * @return
 	 */
 	SalesArrive selectByCode(String code);
+	/**
+	 * @Description 根据车辆查询通知单
+	 * @author zhanggaohao
+	 * @version 2017年4月7日 下午2:35:58
+	 * @param vehicleno
+	 * @param vehiclerfid
+	 * @return
+	 */
+	List<SalesArrive> validNoticeByVehicle(@Param("vehicleno")String vehicleno, @Param("vehiclerfid")String vehiclerfid);
 }
