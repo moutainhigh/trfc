@@ -17,6 +17,7 @@ import com.tianrui.api.req.system.base.GetCodeReq;
 import com.tianrui.api.resp.basicFile.measure.DriverManageResp;
 import com.tianrui.service.bean.basicFile.measure.DriverManage;
 import com.tianrui.service.mapper.basicFile.measure.DriverManageMapper;
+import com.tianrui.smartfactory.common.constants.Constant;
 import com.tianrui.smartfactory.common.constants.ErrorCode;
 import com.tianrui.smartfactory.common.utils.UUIDUtil;
 import com.tianrui.smartfactory.common.vo.PaginationVO;
@@ -69,6 +70,8 @@ public class DriverManageService implements IDriverManageService {
 				driver.setCode(String.valueOf(systemCodeService.getCode(codeReq).getData()));
 				codeReq.setCodeType(false);
 				driver.setInternalcode(String.valueOf(systemCodeService.getCode(codeReq).getData()));
+				driver.setOrgid(Constant.ORG_ID);
+				driver.setOrgname(Constant.ORG_NAME);
 				driver.setCreator(save.getCurrId());
 				driver.setCreatetime(System.currentTimeMillis());
 				driver.setModifier(save.getCurrId());

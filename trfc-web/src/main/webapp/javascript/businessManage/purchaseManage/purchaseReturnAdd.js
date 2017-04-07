@@ -441,8 +441,6 @@
 				name:name,
 				abbrname:abbrname,
 				address:address,
-				orgid:orgid,
-				orgname:orgname,
 				telephone:telephone,
 				identityno:identityno,
 				isvalid:isvalid,
