@@ -38,12 +38,12 @@
 							</div>
 							<div class="sys_fuzhusolo" id="showEditDict">
 								<a data-toggle="modal" data-target="#editdict"> <i
-									class="iconfont coloradd">&#xe627;</i> <label>编辑</label>
+									class="iconfont coloradd">&#xe600;</i> <label>编辑</label>
 								</a>
 							</div>
 							<div class="sys_fuzhusolo" id="showDeleteDict">
 								<a data-toggle="modal" data-target="#deledict"> <i
-									class="iconfont coloradd">&#xe627;</i> <label>删除</label>
+									class="iconfont colorred">&#xe63d;</i> <label>删除</label>
 								</a>
 							</div>
 						</div>
