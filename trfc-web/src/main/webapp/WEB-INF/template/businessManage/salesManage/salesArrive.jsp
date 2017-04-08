@@ -92,11 +92,11 @@ table.table-bordered th, td {
 								</div>
 								<div class="intel_solo">
 									<label>创建时间：</label> <input id="starttime" type="text"
-										onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})"
+										onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',maxDate:'#F{$dp.$D(\'endtime\')}'})"
 										class="Wdate" style="width: 160px;" readonly
 										placeholder="请选择开始时间" /> <i>-</i> <input id="endtime"
 										type="text"
-										onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})"
+										onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',minDate:'#F{$dp.$D(\'starttime\')}'})"
 										class="Wdate" style="width: 160px;" readonly
 										placeholder="请选择结束时间" />
 								</div>

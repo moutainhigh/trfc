@@ -219,13 +219,13 @@
 						</div>
 						<div class="dhsearch_solo">
 							<label>开始时间：</label> <input id="starttime" type="text"
-								onfocus="WdatePicker({dateFmt:'yyyy-MM-dd 00:00:00'})"
+								onfocus="WdatePicker({dateFmt:'yyyy-MM-dd 00:00:00',maxDate:'#F{$dp.$D(\'endtime\')}'})"
 								class="Wdate" style="width: 160px" readonly
 								placeholder="请选择开始时间" />
 						</div>
 						<div class="dhsearch_solo">
 							<label>结束时间：</label> <input id="endtime" type="text"
-								onfocus="WdatePicker({dateFmt:'yyyy-MM-dd 00:00:00'})"
+								onfocus="WdatePicker({dateFmt:'yyyy-MM-dd 00:00:00',minDate:'#F{$dp.$D(\'starttime\')}'})"
 								class="Wdate" style="width: 160px" readonly
 								placeholder="请选择结束时间" />
 						</div>
