@@ -258,8 +258,10 @@
 			window.location.reload();
 		});
 		$('#updateBtn').off('click').on('click',function(){
-			this.disabled = true;
-			saveSalesArrive(this);
+			if(!$(this).hasClass('disabled')){
+				$(this).addClass('disabled');
+				saveSalesArrive();
+			}
 		});
 		$('#backBtn').off('click').on('click',function(){
 			window.location.href = URL.mainUrl;
@@ -460,8 +462,8 @@
 		if(!params.vehicleid){
 			layer.msg('请选择车辆！', {icon: 5});return false;
 		}
-		if(!params.takeamount){
-			layer.msg('请输入提货量！', {icon: 5});return false;
+		if(!params.takeamount || params.takeamount <= 0){
+			layer.msg('提货量不能为空且大于零！', {icon: 5});return false;
 		}
 		return params;
 	}
@@ -500,7 +502,7 @@
 			bills:bills
 		};
 	}
-	function saveSalesArrive(_this){
+	function saveSalesArrive(){
 		var params = getSalesArriveParams();
 		if(validate(params)){
 			var index = layer.load(2, {
@@ -518,11 +520,13 @@
 						window.location.href = URL.mainUrl;
 					}else{
 						layer.msg(result.error, {icon: 5});
-						_this.disabled = false;
+						$('#updateBtn').removeClass('disabled');
 						layer.close(index);
 					}
 				}
 			});
+		}else{
+			$('#updateBtn').removeClass('disabled');
 		}
 	}
 	//新增车辆

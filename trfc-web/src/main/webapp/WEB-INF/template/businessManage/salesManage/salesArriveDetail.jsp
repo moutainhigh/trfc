@@ -17,6 +17,7 @@
 				<ul class="intel_menu">
 					<li><a href="/trfc/getMainApplication()/main">销售申请单</a></li>
 					<li class="select"><a href="/trfc/salesArrive/main">提货通知单</a></li>
+					<li><a href="/trfc/salesVehicle/main">销售车辆状态</a></li>
 				</ul>
 			</div>
 			<!--tab切换的内容-->

@@ -494,10 +494,29 @@
 			remark:remark
 		};
 	}
+	//校验参数是否合法
+	function validate(params){
+		if(!params.billid || !params.billdetailid){
+			layer.msg('请选择订单！', {icon: 5}); return false;
+		}
+		if(!params.vehicleid){
+			layer.msg('车辆不能为空！', {icon: 5}); return false;
+		}
+		if(!params.driverid){
+			layer.msg('司机不能为空！', {icon: 5}); return false;
+		}
+		if(!params.arrivalamount || params.arrivalamount <= 0){
+			layer.msg('到货量不能为空且大于零！', {icon: 5});return false;
+		}
+		return params;
+	}
 	//修改到货通知单
 	function updatePurchaseArrive(){
 		var params = getPurchaseArriveAddParams();
-		if(params){
+		if(validate(params)){
+			var index = layer.load(2, {
+				shade: [0.3,'#fff'] //0.1透明度的白色背景
+			});
 			$.ajax({
 				url: URL.update,
 				data:params,
@@ -510,9 +529,13 @@
 						window.location.href = URL.purchaseArriveMain;
 					}else{
 						layer.msg(result.error, {icon: 5});
+						$('#updateBtn').removeClass('disabled');
+						layer.close(index);
 					}
 				}
 			});
+		}else{
+			$('#updateBtn').removeClass('disabled');
 		}
 	}
 })(jQuery, window);

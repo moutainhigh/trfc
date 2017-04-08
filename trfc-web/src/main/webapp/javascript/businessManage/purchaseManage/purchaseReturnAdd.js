@@ -494,8 +494,8 @@
 		if(!params.driverid){
 			layer.msg('司机不能为空！', {icon: 5}); return false;
 		}
-		if(!params.arrivalamount){
-			layer.msg('退货量不能为空！', {icon: 5}); return false;
+		if(!params.arrivalamount || params.arrivalamount <= 0){
+			layer.msg('退货量不能为空且大于零！', {icon: 5});return false;
 		}
 		return params;
 	}
@@ -503,6 +503,9 @@
 	function addPurchaseArrive(){
 		var params = getPurchaseArriveAddParams();
 		if(validate(params)){
+			var index = layer.load(2, {
+				shade: [0.3,'#fff'] //0.1透明度的白色背景
+			});
 			$.ajax({
 				url: URL.add,
 				data:params,
@@ -516,9 +519,12 @@
 					}else{
 						layer.msg(result.error, {icon: 5});
 						$('#addBtn').removeClass('disabled');
+						layer.close(index);
 					}
 				}
 			});
+		}else{
+			$('#addBtn').removeClass('disabled');
 		}
 	}
 })(jQuery, window);

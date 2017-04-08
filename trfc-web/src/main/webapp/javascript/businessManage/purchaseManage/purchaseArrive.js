@@ -373,6 +373,7 @@
 	function showMore(obj){
 		var purchaseApplication = obj.purchaseApplicationResp || {};
 		var purchaseApplicationDetail = obj.purchaseApplicationDetailResp || {};
+		var poundNoteResp = obj.poundNoteResp || {};
 		$('#vehicleno, #vehicleno2').html(obj.vehicleno || '');
 		$('#arrivalamount').html(obj.arrivalamount || '');
 		$('#drivername').html(obj.drivername || '');
@@ -385,6 +386,12 @@
 		$('#orgname').html(purchaseApplication.orgname || '');
 		$('#purchasesum').html(purchaseApplicationDetail.purchasesum || '');
 		$('#billtime').html(purchaseApplication.makebilltimeStr || '');
+		$('#poundnotecode').html(poundNoteResp.code || '');
+		$('#grossweight').html(poundNoteResp.grossweight || '');
+		$('#tareweight').html(poundNoteResp.tareweight || '');
+		$('#netweight').html(poundNoteResp.netweight || '');
+		$('#lighttime').html(poundNoteResp.lighttimeStr || '');
+		$('#weighttime').html(poundNoteResp.weighttimeStr || '');
 		$('#ind_tab').show();
 	}
 	//修改

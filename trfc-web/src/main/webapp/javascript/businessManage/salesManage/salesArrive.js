@@ -306,7 +306,7 @@
 				var vehicleno = obj.vehicleno || '';
 				var billcode = obj.billcode || '';
 				var customername = salesApplication.customername || '';
-				var materielname = salesApplicationDetail.materielname;
+				var materielname = salesApplicationDetail.materielname || '';
 				var billtimeStr = salesApplication.billtimeStr || '';
 				var channelcode = salesApplication.channelcode || '';
 				var makebillname = obj.makebillname || '';

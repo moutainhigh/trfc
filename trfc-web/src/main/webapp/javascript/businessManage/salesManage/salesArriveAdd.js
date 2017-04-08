@@ -473,8 +473,8 @@
 		if(!params.vehicleid){
 			layer.msg('请选择车辆！', {icon: 5});return false;
 		}
-		if(!params.takeamount){
-			layer.msg('请输入提货量！', {icon: 5});return false;
+		if(!params.takeamount || params.takeamount <= 0){
+			layer.msg('提货量不能为空且大于零！', {icon: 5});return false;
 		}
 		return params;
 	}
@@ -645,6 +645,8 @@
 					}
 				}
 			});
+		}else{
+			$('#addBtn').removeClass('disabled');
 		}
 	}
 	//新增车辆
