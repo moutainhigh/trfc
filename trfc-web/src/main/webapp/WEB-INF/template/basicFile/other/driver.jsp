@@ -46,10 +46,6 @@
                 <input type="text" id="driver_keyword">
             </div>
             <div class="intel_solo">
-                <label>所属组织：</label>
-                <input type="text" id="driver_organizename">
-            </div>
-            <div class="intel_solo">
                 <div class="intel_sbtn">
                     <button class="btn btnblue " id="searshBtn">搜索</button>
                 </div>

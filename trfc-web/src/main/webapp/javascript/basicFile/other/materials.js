@@ -260,12 +260,10 @@ function MaterialShowAction(pageNo){
 	}else{
 		innercode=keyword;
 	}
-	var orgname = $('#material_orgname1').val().trim();
 	var params = {
 			pageSize:pageSize,
 			name:name,
-			innercode:innercode,
-			orgname:orgname
+			innercode:innercode
 		};
 	//获取当前页面标记
 	params.pageNo=pageNo;

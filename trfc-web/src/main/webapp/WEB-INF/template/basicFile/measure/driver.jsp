@@ -45,9 +45,6 @@
 									<label>关键字：</label> <input id="keyword" type="text">
 								</div>
 								<div class="intel_solo">
-									<label>所属组织：</label> <input id="orgid" type="text">
-								</div>
-								<div class="intel_solo">
 									<div class="intel_sbtn">
 										<button id="searchBtn" class="btn btnblue ">搜索</button>
 									</div>

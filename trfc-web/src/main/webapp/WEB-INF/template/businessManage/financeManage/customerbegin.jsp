@@ -38,11 +38,11 @@
                     <div class="intel_sline">
                         <div class="intel_solo">
 							<label>开始时间：</label> <input id="s_starttime" type="text"
-								onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})"
+								onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',maxDate:'#F{$dp.$D(\'s_endtime\')}'})"
 								class="Wdate" style="width: 160px;" readonly
 								placeholder="请选择开始时间" /> <i>-</i> <input id="s_endtime"
 								type="text"
-								onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})"
+								onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',minDate:'#F{$dp.$D(\'s_starttime\')}'})"
 								class="Wdate" style="width: 160px;" readonly
 								placeholder="请选择结束时间" />
 						</div>
@@ -262,8 +262,7 @@
                     </div>
                     <div class="alt_edit_div">
                         <label>单据日期：</label>
-                        <input type="text" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:00:00'})" class="Wdate_cg"
-                               style="width:220px" id="detail_date" readonly="readonly"/>
+                        <input type="text" class="Wdate_cg" style="width:220px" id="detail_date" readonly="readonly"/>
                     </div>
                     <div class="alt_edit_div">
                         <label>收款方式：</label>

@@ -46,9 +46,6 @@
 									<label>关键字：</label> <input type="text" id="customer_keyword">
 								</div>
 								<div class="intel_solo">
-									<label>所属组织：</label> <input type="text" id="customer_orgname1">
-								</div>
-								<div class="intel_solo">
 									<div class="intel_sbtn">
 										<button class="btn btnblue ">搜索</button>
 									</div>

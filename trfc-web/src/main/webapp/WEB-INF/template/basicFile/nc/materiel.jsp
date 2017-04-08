@@ -43,9 +43,6 @@
 									<label>关键字：</label> <input id="keyword" type="text">
 								</div>
 								<div class="intel_solo">
-									<label>所属组织：</label> <input id="orgid" type="text">
-								</div>
-								<div class="intel_solo">
 									<label>业务类型：</label> <select id="type" class="form-control">
 										<option value="">请选择</option>
 										<option value="0">采购</option>

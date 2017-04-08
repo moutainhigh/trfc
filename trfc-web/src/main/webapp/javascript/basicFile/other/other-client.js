@@ -270,13 +270,10 @@ function CustomersShowAction(pageNo){
 	}else{
 		innercodelike=keyword;
 	}
-	//获取所属组织
-	var orgnamelike = $('#customer_orgname1').val().trim();
 	var params = {
 			pageSize:pageSize,
 			namelike:namelike,
-			innercodelike:innercodelike,
-			orgnamelike:orgnamelike
+			innercodelike:innercodelike
 	};
 	//获得当前页面标记
 	params.pageNo = pageNo;

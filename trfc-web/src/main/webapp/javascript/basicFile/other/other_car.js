@@ -55,12 +55,10 @@ function listOtherVehicleAction(pageNo){
 		innercode=keyword;
 	}
 	
-	var orgname = $('#vehicle_organizename').val();
 	var params={
 			pageSize:pageSize,
 			namelike:'%'+name+'%',
-			innercodelike:'%'+innercode+'%',
-			orgname:orgname
+			innercodelike:'%'+innercode+'%'
 	};
 	//获取当前页数
 	params.pageNo=pageNo;

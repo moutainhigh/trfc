@@ -109,12 +109,10 @@
 			innercode=keyword;
 		}
 		
-		var orgname = $('#driver_organizename').val();
 		var params={
 				pageSize:pageSize,
 				namelike:'%'+name+'%',
-				innercodelike:'%'+innercode+'%',
-				orgname:orgname
+				innercodelike:'%'+innercode+'%'
 		};
 		//获取当前页数
 		params.pageNo=pageNo;

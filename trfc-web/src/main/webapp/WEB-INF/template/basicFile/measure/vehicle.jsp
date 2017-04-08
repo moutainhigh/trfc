@@ -46,9 +46,6 @@
 								<label>关键字：</label> <input id="keyword" type="text">
 							</div>
 							<div class="intel_solo">
-								<label>本厂：</label> <input id="orgid" type="text">
-							</div>
-							<div class="intel_solo">
 								<label>车辆属性：</label> <select id="transporttype" class="form-control">
 									<option value="">请选择</option>
 									<option value="0">非倒运</option>

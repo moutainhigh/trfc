@@ -46,10 +46,6 @@
                 <input type="text" id="vehicle_keyword">
             </div>
             <div class="intel_solo">
-                <label>所属组织：</label>
-                <input type="text" id="vehicle_organizename">
-            </div>
-            <div class="intel_solo">
                 <div class="intel_sbtn">
                     <button class="btn btnblue ">搜索</button>
                 </div>
