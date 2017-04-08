@@ -218,13 +218,13 @@
 									</thead>
 									<tbody>
 										<tr>
-											<td></td>
+											<td id="poundnotecode"></td>
 											<td id="vehicleno2"></td>
-											<td></td>
-											<td></td>
-											<td></td>
-											<td></td>
-											<td></td>
+											<td id="grossweight"></td>
+											<td id="tareweight"></td>
+											<td id="netweight"></td>
+											<td id="lighttime"></td>
+											<td id="weighttime"></td>
 										</tr>
 									</tbody>
 								</table>
