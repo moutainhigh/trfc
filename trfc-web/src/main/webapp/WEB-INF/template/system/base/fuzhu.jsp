@@ -22,8 +22,8 @@
 			<div class="intel_tab">
 				<!--tab切换标题-->
 				<ul class="intel_menu">
-					<li class="select"><a href="/trfc/system/base/code/main">自定义编号</a></li>
-					<li><a href="/trfc/system/base/dataDict/main">辅助资料</a></li>
+					<li><a href="/trfc/system/base/code/main">自定义编号</a></li>
+					<li class="select"><a href="/trfc/system/base/dataDict/main">辅助资料</a></li>
 				</ul>
 			</div>
 			<div class="intel_tabbox">
