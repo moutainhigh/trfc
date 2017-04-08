@@ -574,7 +574,7 @@
 		and p1.makebilltime <![CDATA[>=]]> #{starttime,jdbcType=BIGINT}
 	  </if>
 	  <if test="endtime != null and endtime != ''">
-		and makebilltime <![CDATA[<]]> #{endtime,jdbcType=BIGINT}
+		and p1.makebilltime <![CDATA[<]]> #{endtime,jdbcType=BIGINT}
 	  </if>
   	</where>
   	order by p1.makebilltime
@@ -627,7 +627,7 @@
 		and p1.makebilltime <![CDATA[>=]]> #{starttime,jdbcType=BIGINT}
 	  </if>
 	  <if test="endtime != null and endtime != ''">
-		and makebilltime <![CDATA[<]]> #{endtime,jdbcType=BIGINT}
+		and p1.makebilltime <![CDATA[<]]> #{endtime,jdbcType=BIGINT}
 	  </if>
   	</where>
   </select>
