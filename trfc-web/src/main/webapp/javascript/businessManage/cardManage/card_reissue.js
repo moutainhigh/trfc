@@ -149,10 +149,17 @@ $(function() {
 		var vehicleid = $('#seek_vehicle').attr('vehicleid');vehicleid = $.trim(vehicleid);
 		var businesstype = $('#seek_business').val();businesstype = $.trim(businesstype);
 		var accesstype = $('#seek_type').val();accesstype = $.trim(accesstype);
-		var starttime = $('#seek_starttime').val();starttime = $.trim(starttime);
-		var endtime = $('#seek_endtime').val();endtime = $.trim(endtime);
 		//获取当前页面记录数
 		var pageSize = $('#pageSize').val();pageSize = $.trim(pageSize);
+		var starttime = $('#seek_starttime').val();starttime = $.trim(starttime);
+		var endtime = $('#seek_endtime').val();endtime = $.trim(endtime);
+		if(starttime && endtime){
+			if(str2Long(starttime)>str2Long(endtime)){
+				layer.msg('开始时间不能大于结束时间!',{icon:5});
+				layer.close(index);
+				return;
+			}
+		}
 		//获取查询条件
 		var params = {
 				icardno:icardno,

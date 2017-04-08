@@ -51,8 +51,8 @@ $(function(){
 		$('#detail').modal('show');
 		initDetailData(this);
 	});
-	
-	
+
+
 	function initDetailData(e){
 		var obj = $(e).data('obj');
 		$('#detail_code').val(obj.code);
@@ -65,7 +65,7 @@ $(function(){
 		$('#detail_creator').val(obj.creator);
 		$('#detail_remark').val(obj.remark);
 	}
-	
+
 	function deleteAction(btn){
 		var id = $(btn).closest('tr').data('obj').id;
 		//弹出删除确认框
@@ -165,7 +165,9 @@ $(function(){
 		var divs = $('#add_qschemeitem>div');
 		for(var i=0;i<divs.length;i++){
 			var obj = divs.eq(i).data('obj');
-			param[obj.line.toLowerCase()] = divs.eq(i).find('input').val();
+			if(obj.line){
+				param[obj.line.toLowerCase()] = divs.eq(i).find('input').val();
+			}
 		}
 		return param;
 	}
@@ -276,14 +278,14 @@ $(function(){
 					for(var i=0;i<list.length;i++){
 						if(obj && list[i].line){
 							var div = '<div class="alt_edit_div">'
-							+'<label>'+(list[i].itemname || 0)+'：</label>'
-							+' <input type="text" value="'+obj[(list[i].line.toLowerCase())]+'">'
-							+' </div>';
+								+'<label>'+(list[i].itemname || 0)+'：</label>'
+								+' <input type="text" value="'+obj[(list[i].line.toLowerCase())]+'">'
+								+' </div>';
 						}else{
 							var div = '<div class="alt_edit_div">'
-							+'<label>'+(list[i].itemname || '')+'：</label>'
-							+' <input type="text" value="0">'
-							+' </div>';
+								+'<label>'+(list[i].itemname || '')+'：</label>'
+								+' <input type="text" value="0">'
+								+' </div>';
 						}
 						div = $(div);
 						tbody.append(div);
@@ -340,15 +342,22 @@ $(function(){
 		//获取当前页面记录数
 		var pageSize = $('#pageSize').val();
 		//获取查询条件
-		var starttime = new Date($('#seek_starttime').val());
-		starttime = starttime.getTime();
-		if(isNaN(starttime)){
-			starttime=0;
+		var starttime = $('#seek_starttime').val();
+		if(starttime){
+			starttime = new Date(starttime);
+			starttime = starttime.getTime();
 		}
-		var endtime = new Date($('#seek_endtime').val());
-		endtime = endtime.getTime();
-		if(isNaN(endtime)){
-			endtime=0;
+		var endtime = $('#seek_endtime').val();
+		if(endtime){
+			endtime = new Date(endtime);
+			endtime = endtime.getTime();
+		}
+		if(starttime && endtime){
+			if(starttime>endtime){
+				layer.msg('开始时间不能大于结束时间!',{icon:5});
+				layer.close(index);
+				return;
+			}
 		}
 		var code = $('#seek_code').val();
 		var params = {

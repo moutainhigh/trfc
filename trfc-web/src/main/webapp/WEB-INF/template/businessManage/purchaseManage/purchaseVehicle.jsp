@@ -37,24 +37,24 @@
 					<div class="intel_sconditon">
 						<div class="intel_sline">
 							<div class="intel_solo">
-									<label>订单号：</label> <input id="billcode" type="text">
+									<label>订单号：</label> <input id="billcode" type="text" placeholder="请输入订单号">
 								</div>
 								<div class="intel_solo">
-									<label>供应商：</label> <input type="text" id="supplier" >
+									<label>供应商：</label> <input type="text" id="supplier" placeholder="请选择供应商">
 										
 								</div>
 								<div class="intel_solo">
-									<label>车号：</label> <input type="text" id="vehicle" />
+									<label>车号：</label> <input type="text" id="vehicle" placeholder="请选择车号"/>
 										
 								</div>
 								<div class="intel_solo">
-									<label>物料：</label> <input type="text" id="materiel" />
+									<label>物料：</label> <input type="text" id="materiel" placeholder="请选择物料"/>
 								</div>
 								<div class="intel_solo">
-									<label>司机：</label> <input type="text" id="driver" />
+									<label>司机：</label> <input type="text" id="driver" placeholder="请选择司机"/>
 								</div>
 								<div class="intel_solo">
-									<label>通知单号：</label> <input id="code" type="text">
+									<label>通知单号：</label> <input id="code" type="text"placeholder="请输入订单号"/>
 								</div>
 								<div class="intel_solo">
 									<label>审核状态：</label> <select id="auditstatus" class="form-control">
@@ -87,10 +87,10 @@
 								<div class="intel_solo">
 									<label>创建时间：</label> <input id="starttime" type="text" readonly
 										onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:00:00',maxDate:'#F{$dp.$D(\'endtime\')}'})"
-										class="Wdate" style="width: 160px" /> <i>-</i> <input
+										class="Wdate" style="width: 160px" placeholder="请选择开始时间"/> <i>-</i> <input
 										 id="endtime" type="text" readonly
 										onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:00:00',minDate:'#F{$dp.$D(\'starttime\')}'})"
-										class="Wdate" style="width: 160px" />
+										class="Wdate" style="width: 160px" placeholder="请选择结束时间"/>
 								</div>
 								<div class="intel_solo" id="searchBtn">
 									<div class="intel_sbtn">

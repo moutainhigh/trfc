@@ -437,23 +437,30 @@ $(function(){
 		//获取当前页面记录数
 		var pageSize = $('#pageSize').val();
 		//获取查询条件
-		var starttime = new Date($('#seek_starttime').val());
-		starttime = starttime.getTime();
-		if(isNaN(starttime)){
-			starttime=0;
+		var starttime = $('#seek_starttime').val();
+		if(starttime){
+			starttime = new Date(starttime);
+			starttime = starttime.getTime();
 		}
-		var endtime = new Date($('#seek_endtime').val());
-		endtime = endtime.getTime();
-		if(isNaN(endtime)){
-			endtime=0;
+		var endtime = $('#seek_endtime').val();
+		if(endtime){
+			endtime = new Date(endtime);
+			endtime = endtime.getTime();
+		}
+		if(starttime && endtime){
+			if(starttime>endtime){
+				layer.msg('开始时间不能大于结束时间!',{icon:5});
+				layer.close(index);
+				return;
+			}
 		}
 		var assaytype = $('#seek_assaytype').attr('assayid');
 		var code = $('#seek_code').val();
 
 		var params = {
 				pageSize:pageSize,
-				starttime:starttime,
-				endtime:endtime,
+				starttime:starttime || 0,
+				endtime:endtime || 0,
 				assaytype:assaytype,
 				code:code
 		};

@@ -244,6 +244,13 @@ $(function(){
 			endtime = new Date(endtime);
 			endtime = endtime.getTime();
 		}
+		if(starttime && endtime){
+			if(starttime>endtime){
+				layer.msg('开始时间不能大于结束时间!',{icon:5});
+				layer.close(index);
+				return;
+			}
+		}
 		var code = $('#seek_code').val();
 		var factorycode = $('#seek_factorycode').val();
 		var material = $('#seek_material').attr('materialid');

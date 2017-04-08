@@ -230,6 +230,11 @@ $(function(){
 		});
 		
 		var params = getParams();
+		if(params.starttime && params.endtime && params.starttime > params.endtime){
+			layer.msg('开始时间不能大于结束时间!',{icon:5});
+			layer.close(index);
+			return;
+		};
 		//获得当前页面标记
 		params.pageNo = pageNo;
 		$.post(URL.page,params,function(result){
