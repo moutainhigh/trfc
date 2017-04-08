@@ -42,16 +42,14 @@
 						<div class="intel_sconditon">
 							<div class="intel_sline">
 								<div class="intel_solo">
-									<label>开始时间：</label> <input type="text" id="seek_starttime"
-										onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})"
-										class="Wdate" style="width: 160px" readonly="readonly"
-										placeholder="请选择开始时间" />
+									<label>开始时间：</label> <input type="text"
+										onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:00:00',maxDate:'#F{$dp.$D(\'seek_endtime\')}'})" class="Wdate"
+										style="width: 160px" id="seek_starttime" placeholder="请选择开始时间"/>
 								</div>
 								<div class="intel_solo">
-									<label>结束时间：</label> <input type="text" id="seek_endtime"
-										onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})"
-										class="Wdate" style="width: 160px" readonly="readonly"
-										placeholder="请选择结束时间" />
+									<label>结束时间：</label> <input type="text"
+										onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:00:00',minDate:'#F{$dp.$D(\'seek_starttime\')}'})" class="Wdate"
+										style="width: 160px" id="seek_endtime" placeholder="请选择结束时间" />
 								</div>
 								<div class="intel_solo">
 									<label>单据编号：</label><input type="text" id="seek_code" placeholder="请输入单据编号"/>

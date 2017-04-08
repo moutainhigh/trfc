@@ -57,10 +57,10 @@
 								</div>
 								<div class="intel_solo">
 									<label>时间：</label> <input type="text"
-										onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:00:00'})"
+										onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:00:00',maxDate:'#F{$dp.$D(\'seek_endtime\')}'})"
 										class="Wdate" style="width: 160px" id="seek_starttime"  placeholder="请选择开始时间"/> <i>-</i>
 									<input type="text"
-										onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:00:00'})"
+										onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:00:00',minDate:'#F{$dp.$D(\'seek_starttime\')}'})"
 										class="Wdate" style="width: 160px" id="seek_endtime"  placeholder="请选择结束时间"/>
 								</div>
 								<div class="intel_solo">
