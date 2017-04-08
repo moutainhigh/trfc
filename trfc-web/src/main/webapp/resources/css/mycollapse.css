@@ -12,19 +12,13 @@
 }
 .menu_collap .typelist li{
     line-height: 50px;
-    /* padding-left: 43px; */
+    padding-left: 43px;
     margin: 0;
     cursor: pointer;
 }
 .menu_collap .typelist li i{
     font-size: 17px;
     margin-right: 8px;
-}
-.menu_collap .typelist li a {
-    display: block;
-    width: 100%;
-    height: 100%;
-    padding-left: 43px;
 }
 .menu_collap .typelist li.active,.menu_collap .typelist li:focus,.menu_collap .typelist li:hover{
     background: #f5f6fb;
@@ -60,4 +54,43 @@
 .sys_collap .typelist li.active,.sys_collap .typelist li:focus,.sys_collap .typelist li:hover{
     background: #ffffff;
     color: #0573c7;
+}
+
+.leftmini ul li{
+    height: 40px;
+    text-align: center;
+    line-height: 40px;
+    width: 100px;
+}
+.leftmini ul li.active,.leftmini ul li:focus,.leftmini ul li:hover{
+    background: #f5f6fb;
+    border-left: 4px solid #0573c7;
+    color: #0573c7;
+}
+.leftmini ul li.active a,.leftmini ul li:focus a,.leftmini ul li:hover a{
+    margin-left: -4px;
+}
+/*提示框 */
+.leftmini .tooltip .tooltip-inner {
+    max-width: 200px;
+    padding: 8px 15px;
+    color: #434e8d;
+    background-color: #ffffff;
+    border:1px solid #f8f8f8;
+    box-shadow: 1px 1px 4px #dddddd;
+    font-size: 14px;
+}
+.leftmini .tooltip.right .tooltip-arrow {
+    border-right-color: #dddddd;
+}
+.intel_table .tooltip .tooltip-inner {
+    max-width: 100px;
+    padding: 4px 15px;
+    color: #6f7a9a;
+    background-color: #fdfdfe;
+    border:1px solid #cdd4e6;
+    box-shadow: 1px 1px 4px #dde1ee;
+}
+.intel_table .tooltip.bottom .tooltip-arrow {
+    border-bottom-color: #cdd4e6
 }

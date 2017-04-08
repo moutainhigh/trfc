@@ -85,8 +85,8 @@
     <div class="menu2">
         <i class="iconfont">&#xe635;</i>
     </div>
-    <ul class="typelist">
-        <li class="active" data-toggle="tooltip" data-placement="right" title="采购管理">
+    <ul class="typelist" id="menu_imgs">
+        <li data-toggle="tooltip" data-placement="right" title="采购管理">
             <a href="/trfc/purchaseApplication/main">
                 <i class="iconfont">&#xe617;</i>
             </a>

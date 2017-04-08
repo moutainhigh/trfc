@@ -169,6 +169,7 @@ $(function(){
 		for(var i=0;i<13;i++){
 			if(URLData[i].indexOf(urlstr)>=0){
 				$('#menulist >div >li').eq(i).attr('class','active');
+				$('#menu_imgs >li').eq(i).attr('class','active');
 				break;
 			}
 		}

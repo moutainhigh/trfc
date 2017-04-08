@@ -354,10 +354,10 @@
 		<where>
 			state = "1"
 			<if test="starttime!=null and starttime!=''">
-				and starttime <![CDATA[>=#{starttime,jdbcType=BIGINT} ]]>
+				and createtime <![CDATA[>=#{starttime,jdbcType=BIGINT} ]]>
 			</if>
 			<if test="endtime!=null and endtime!=''">
-				and starttime <![CDATA[<= #{endtime,jdbcType=BIGINT} ]]>
+				and createtime <![CDATA[<= #{endtime,jdbcType=BIGINT} ]]>
 			</if>
 			<if test="code!=null and code!=''">
 				and code=#{code,jdbcType=VARCHAR}

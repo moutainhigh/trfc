@@ -40,17 +40,32 @@ $(function(){
 	//绑定搜索条件 报告天数 change事件
 	$('#seek_reportdays').change(function(){$('#seek').click();});
 	//28天报告
-	function daysReportAction(){
+	function daysReportAction(){ 
 		var obj = $(this).closest('tr').data('obj');
 		if(obj.reporttype=='0'){
-			$.post(URL.updateUrl,{id:obj.id,reporttype:'1'},function(result){
-				if('000000'==result.code){
-					ShowAction(1);
-				}else{
-					layer.msg(result.error,{icon:5});
-				}
+			//确认框
+			var index = layer.confirm('确定更改为28报告吗?', {
+				area: '600px', 
+				btn: ['确定','取消'] //按钮
+			}, function(){
+
+				$.post(URL.updateUrl,{id:obj.id,reporttype:'1'},function(result){
+					if('000000'==result.code){
+						ShowAction(1);
+					}else{
+						layer.msg(result.error,{icon:5});
+					}
+				});
+
+				//关闭对话框
+				layer.close(index);
+			}, function(){
 			});
+			
+		}else {
+			layer.msg('已是28天报告,无需重复操作',{icon:5});
 		}
+			
 	}
 	//反审
 	function denyAction(){
