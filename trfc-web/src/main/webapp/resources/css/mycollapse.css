@@ -28,6 +28,10 @@
 .menu_collap .typelist li.active a,.menu_collap .typelist li:focus a,.menu_collap .typelist li:hover a{
     margin-left: -4px;
 }
+.menu_collap .typelist li a ,.menu_collap .typelist li.active a,.menu_collap .typelist li:focus a,.menu_collap .typelist li:hover a{
+    width:100%;
+    display: block;
+}
 /*角色权限折叠菜单*/
 .sys_collap{
     margin-top: 5px;
