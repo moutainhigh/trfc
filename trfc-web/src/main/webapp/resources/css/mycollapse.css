@@ -15,6 +15,7 @@
     padding-left: 43px;
     margin: 0;
     cursor: pointer;
+    overflow: hidden;
 }
 .menu_collap .typelist li i{
     font-size: 17px;
@@ -28,9 +29,10 @@
 .menu_collap .typelist li.active a,.menu_collap .typelist li:focus a,.menu_collap .typelist li:hover a{
     margin-left: -4px;
 }
-.menu_collap .typelist li a ,.menu_collap .typelist li.active a,.menu_collap .typelist li:focus a,.menu_collap .typelist li:hover a{
-    width:100%;
-    display: block;
+.menu_collap .typelist li label{
+    width: 110px;
+    display: inline-block;
+
 }
 /*角色权限折叠菜单*/
 .sys_collap{
