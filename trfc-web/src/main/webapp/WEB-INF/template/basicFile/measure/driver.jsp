@@ -129,7 +129,7 @@
 									readonly>
 							</div>
 							<div class="alt_edit_div">
-								<label>司机名称：</label> <input id="add_name" type="text">
+								<label class="colorred">司机名称*：</label> <input id="add_name" type="text">
 							</div>
 							<div class="alt_edit_div">
 								<label>司机简称：</label> <input id="add_abbrname" type="text">
@@ -138,10 +138,10 @@
 								<label>地址：</label> <input id="add_address" type="text">
 							</div>
 							<div class="alt_edit_div">
-								<label>电话：</label> <input id="add_telephone" type="text">
+								<label class="colorred">电话*：</label> <input id="add_telephone" type="text">
 							</div>
 							<div class="alt_edit_div">
-								<label>身份证号：</label> <input id="add_identityno" type="text">
+								<label class="colorred">身份证号*：</label> <input id="add_identityno" type="text">
 							</div>
 							<div class="alt_edit_div">
 								<label>有效性：</label> <input id="add_isvalid" type="checkbox"><span>有效</span>
@@ -190,7 +190,7 @@
 									readonly>
 							</div>
 							<div class="alt_edit_div">
-								<label>司机名称：</label> <input id="update_name" type="text">
+								<label class="colorred">司机名称*：</label> <input id="update_name" type="text">
 							</div>
 							<div class="alt_edit_div">
 								<label>司机简称：</label> <input id="update_abbrname" type="text">
@@ -199,10 +199,10 @@
 								<label>地址：</label> <input id="update_address" type="text">
 							</div>
 							<div class="alt_edit_div">
-								<label>电话：</label> <input id="update_telephone" type="text">
+								<label class="colorred">电话*：</label> <input id="update_telephone" type="text">
 							</div>
 							<div class="alt_edit_div">
-								<label>身份证号：</label> <input id="update_identityno" type="text" maxlength="18">
+								<label class="colorred">身份证号*：</label> <input id="update_identityno" type="text" maxlength="18">
 							</div>
 							<div class="alt_edit_div">
 								<label>有效性：</label> <input id="update_isvalid" type="checkbox"><span>有效</span>

@@ -209,6 +209,9 @@
 		if(!params.tareweight || !$.isNumeric(params.tareweight)){
 			layer.msg('皮重不能为空且必须为数字！', {icon: 5});return false;
 		}
+		if(params.tareweight > params.grossweight){
+			layer.msg('皮重不能大于毛重！', {icon: 5}); return false;
+		}
 		if(!params.vehicleid){
 			layer.msg('车号不能为空！', {icon: 5});return false;
 		}
