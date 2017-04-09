@@ -685,6 +685,9 @@
 		if(!params.tareweight || params.tareweight == 0){
 			layer.msg('皮重不能为空且不能为零！', {icon: 5}); return false;
 		}
+		if(params.tareweight > params.grossweight){
+			layer.msg('皮重不能大于毛重！', {icon: 5}); return false;
+		}
 		if(parseFloat(params.netweight) < 0){
 			layer.msg('毛重不能小于净重！', {icon: 5}); return false;
 		}

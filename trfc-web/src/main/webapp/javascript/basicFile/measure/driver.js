@@ -45,51 +45,10 @@
 			});
 		});
 		$('#addDriverBtn').off('click').on('click',function(){
-			var _add_this = this;
+			var _addBtn = this;
 			if($('#addDriver').is(':visible')){
-				_add_this.disabled = true;
-				var code = $('#add_code').val();code = $.trim(code);
-				var internalcode = $('#add_internalcode').val();internalcode = $.trim(internalcode);
-				var name = $('#add_name').val();name = $.trim(name);
-				var abbrname = $('#add_abbrname').val();abbrname = $.trim(abbrname);
-				var address = $('#add_address').val();address = $.trim(address);
-				var telephone = $('#add_telephone').val();telephone = $.trim(telephone);
-				var identityno = $('#add_identityno').val();identityno = $.trim(identityno);
-				var isvalid = 0;
-				if($('#add_isvalid')[0].checked){
-					isvalid = 1;
-				}
-				var orgid = $('#add_orgname').attr('orgid');orgid = $.trim(orgid);
-				var orgname = $('#add_orgname').val();orgname = $.trim(orgname);
-				var remarks = $('#add_remarks').val();remarks = $.trim(remarks);
-				$.ajax({
-					url:URL.addUrl,
-					data:{
-						code:code,
-						internalcode:internalcode,
-						name:name,
-						abbrname:abbrname,
-						address:address,
-						telephone:telephone,
-						identityno:identityno,
-						isvalid:isvalid,
-						orgid:orgid,
-						orgname:orgname,
-						remarks:remarks
-					},
-					async:true,
-					cache:false,
-					dataType:'json',
-					type:'post',
-					success:function(result){
-						if(result.code == '000000'){
-							win.location.reload();
-						}else{
-							layer.msg(result.error, {icon: 5});
-						}
-						_add_this.disabled = false;
-					}
-				});
+				_addBtn.disabled = true;
+				addDriver(_addBtn);
 			}
 		});
 		$('#jumpPageNoBtn').off('click').on('click',function(){
@@ -241,32 +200,105 @@
 			layer.msg('暂无数据...');
 		}
 	}
-	
+	/**
+	 * 获取修改司机参数
+	 */
+	function getUpdateParams(){
+		var id = $('#driverid').val();id = $.trim(id);
+		var name = $('#update_name').val();name = $.trim(name);
+		var abbrname = $('#update_abbrname').val();abbrname = $.trim(abbrname);
+		var address = $('#update_address').val();address = $.trim(address);
+		var telephone = $('#update_telephone').val();telephone = $.trim(telephone);
+		var identityno = $('#update_identityno').val();identityno = $.trim(identityno);
+		var isvalid = 0;
+		if($('#update_isvalid')[0].checked){
+			isvalid = 1;
+		}
+		var remarks = $('#update_remarks').val();remarks = $.trim(remarks);
+		return {
+			id:id,
+			name:name,
+			abbrname:abbrname,
+			address:address,
+			telephone:telephone,
+			identityno:identityno,
+			isvalid:isvalid,
+			remarks:remarks
+		};
+	}
+	/**
+	 * 修改司机
+	 */
 	function updateData(){
 		if($('#updateDriver').is(':visible')){
-			var id = $('#driverid').val();id = $.trim(id);
-			var name = $('#update_name').val();name = $.trim(name);
-			var abbrname = $('#update_abbrname').val();abbrname = $.trim(abbrname);
-			var address = $('#update_address').val();address = $.trim(address);
-			var telephone = $('#update_telephone').val();telephone = $.trim(telephone);
-			var identityno = $('#update_identityno').val();identityno = $.trim(identityno);
-			var isvalid = 0;
-			if($('#update_isvalid')[0].checked){
-				isvalid = 1;
+			var params = getUpdateParams();
+			if(validate(params)){
+				$.ajax({
+					url:URL.updateUrl,
+					data:params,
+					async:true,
+					cache:false,
+					dataType:'json',
+					type:'post',
+					success:function(result){
+						if(result.code == '000000'){
+							win.location.reload();
+						}else{
+							layer.msg(result.error, {icon: 5});
+						}
+					}
+				});
 			}
-			var remarks = $('#update_remarks').val();remarks = $.trim(remarks);
+		}
+	}
+	/**
+	 * 获取司机新增参数
+	 */
+	function getAddParams(){
+		var name = $('#add_name').val();name = $.trim(name);
+		var abbrname = $('#add_abbrname').val();abbrname = $.trim(abbrname);
+		var address = $('#add_address').val();address = $.trim(address);
+		var telephone = $('#add_telephone').val();telephone = $.trim(telephone);
+		var identityno = $('#add_identityno').val();identityno = $.trim(identityno);
+		var isvalid = 0;
+		if($('#add_isvalid')[0].checked){
+			isvalid = 1;
+		}
+		var remarks = $('#add_remarks').val();remarks = $.trim(remarks);
+		return {
+			name:name,
+			abbrname:abbrname,
+			address:address,
+			telephone:telephone,
+			identityno:identityno,
+			isvalid:isvalid,
+			remarks:remarks
+		}
+	}
+	/**
+	 * 校验参数是否合法
+	 */
+	function validate(params){
+		if(!params.name){
+			layer.msg('司机名称不能为空!', {icon: 5});return;
+		}
+		if(!params.telephone){
+			layer.msg('司机电话不能为空!', {icon: 5});return;
+		}
+		if(!params.identityno){
+			layer.msg('身份证号不能为空!', {icon: 5});return;
+		}
+		return params;
+	}
+	/**
+	 * 新增司机
+	 */
+	function addDriver(_addBtn){
+		var params = getAddParams();
+		if(validate(params)){
 			$.ajax({
-				url:URL.updateUrl,
-				data:{
-					id:id,
-					name:name,
-					abbrname:abbrname,
-					address:address,
-					telephone:telephone,
-					identityno:identityno,
-					isvalid:isvalid,
-					remarks:remarks
-				},
+				url:URL.addUrl,
+				data:params,
 				async:true,
 				cache:false,
 				dataType:'json',
@@ -277,8 +309,11 @@
 					}else{
 						layer.msg(result.error, {icon: 5});
 					}
+					_addBtn.disabled = false;
 				}
 			});
+		}else{
+			_addBtn.disabled = false;
 		}
 	}
 })(jQuery, window);

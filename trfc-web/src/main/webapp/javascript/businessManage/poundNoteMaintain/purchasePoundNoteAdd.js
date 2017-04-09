@@ -556,6 +556,9 @@
 		if(!params.tareweight || params.tareweight == 0){
 			layer.msg('皮重不能为空且不能为零！', {icon: 5}); return false;
 		}
+		if(params.tareweight > params.grossweight){
+			layer.msg('皮重不能大于毛重！', {icon: 5}); return false;
+		}
 		if(!params.vehicleid){
 			layer.msg('请选择车辆！', {icon: 5}); return false;
 		}
