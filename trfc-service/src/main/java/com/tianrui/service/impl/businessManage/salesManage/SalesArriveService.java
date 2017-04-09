@@ -171,6 +171,25 @@ public class SalesArriveService implements ISalesArriveService {
 				result.setError("此司机己有到货通知单、待出厂后进行派车，现有车辆业务单据号为:"+listDriver1.get(0).getCode()+"，如有疑问请与销售处联系！");
 				return result;
 			}
+			//ic卡信息
+			if(StringUtils.isNotBlank(save.getIcardno())){
+				Card card = cardMapper.selectByCardno(save.getIcardno());
+				if(card!=null){
+					//ic卡是否占用
+					SalesArrive sales1 = salesArriveMapper.checkICUse(card.getId());
+					PurchaseArrive purchase1 = purchaseArriveMapper.checkICUse(card.getId());
+					if(sales1 == null && purchase1 == null) {
+						save.setIcardid(card.getId());
+					}else{
+						result.setErrorCode(ErrorCode.CARD_IN_USE);
+						return result;
+					}
+				}else{
+					result.setErrorCode(ErrorCode.CARD_NOT_EXIST);
+					return result;
+				}
+			}
+			
 			PropertyUtils.copyProperties(bean, save);
 			bean.setId(UUIDUtil.getId());
 			VehicleManageResp vehicle = vehicleManageService.findOne(save.getVehicleid());

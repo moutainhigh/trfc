@@ -152,13 +152,7 @@ public class PurchaseArriveService implements IPurchaseArriveService {
 			pa.setDrivername(driver.getName());
 			pa.setDriveridentityno(driver.getIdentityno());
 		}
-		//获取ic卡信息
-		if(StringUtils.isNotBlank(save.getIcardno())){
-			Card card = cardMapper.selectByCardno(save.getIcardno());
-			if(card!=null){
-				pa.setIcardid(card.getId());
-			}
-		}
+
 	}
 
 	private boolean validDriverAndVehicle(PurchaseArriveSave save, Result result, PurchaseArrive pa) {
@@ -193,6 +187,24 @@ public class PurchaseArriveService implements IPurchaseArriveService {
 			result.setErrorCode(ErrorCode.PARAM_REPEAT_ERROR);
 			result.setError("此司机己有提货通知单、待出厂后进行派车，现有车辆业务单据号为:"+listDriver1.get(0).getCode()+"，如有疑问请与销售处联系！");
 			flag = false;
+		}
+		//ic卡信息
+		if(StringUtils.isNotBlank(save.getIcardno())){
+			Card card = cardMapper.selectByCardno(save.getIcardno());
+			if(card!=null){
+				//ic卡是否占用
+				SalesArrive sales = salesArriveMapper.checkICUse(card.getId());
+				PurchaseArrive purchase = purchaseArriveMapper.checkICUse(card.getId());
+				if(sales == null && purchase == null) {
+					pa.setIcardid(card.getId());
+				}else{
+					result.setErrorCode(ErrorCode.CARD_IN_USE);
+					flag = false;
+				}
+			}else{
+				result.setErrorCode(ErrorCode.CARD_NOT_EXIST);
+				flag = false;
+			}
 		}
 		return flag;
 	}

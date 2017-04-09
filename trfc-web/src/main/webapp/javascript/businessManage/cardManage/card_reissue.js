@@ -203,7 +203,9 @@ $(function() {
 				//关闭缓冲图标
 				layer.close(index);
 			}else{
-				alert(result.error);
+				layer.msg(result.error,{icon:5});
+				//关闭缓冲图标
+				layer.close(index);
 			}
 		});
 	}

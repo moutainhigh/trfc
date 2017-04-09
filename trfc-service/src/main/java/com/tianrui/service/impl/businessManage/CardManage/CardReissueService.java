@@ -204,23 +204,27 @@ public class CardReissueService implements ICardReissueService {
 			int pageSize = req.getPageSize();
 			//转换类型
 			AccessRecordQuery query = card2AccessQuery(req);
-			query.setStart((pageNo-1)*pageSize);
-			query.setLimit(pageSize);
-			//获取数据总数
-			long count = accessRecordMapper.findAccessRecordPageCount(query);
-			page.setTotal(count);
-			page.setPageNo(pageNo);
-			page.setPageSize(pageSize);
-			List<CardReissueResp> resps = new ArrayList<CardReissueResp>();
-			//查询数据
-			if(count>0){
-				List<AccessRecord> list = accessRecordMapper.findAccessRecordPage(query);
-				//转换类型
-				access2cardResp(resps,list);
+			if(query != null){
+				query.setStart((pageNo-1)*pageSize);
+				query.setLimit(pageSize);
+				//获取数据总数
+				long count = accessRecordMapper.findAccessRecordPageCount(query);
+				page.setTotal(count);
+				page.setPageNo(pageNo);
+				page.setPageSize(pageSize);
+				List<CardReissueResp> resps = new ArrayList<CardReissueResp>();
+				//查询数据
+				if(count>0){
+					List<AccessRecord> list = accessRecordMapper.findAccessRecordPage(query);
+					//转换类型
+					access2cardResp(resps,list);
+				}
+				page.setList(resps);
+				rs = Result.getSuccessResult();
+				rs.setData(page);
+			}else{
+				rs.setErrorCode(ErrorCode.CARD_NOT_EXIST);
 			}
-			page.setList(resps);
-			rs = Result.getSuccessResult();
-			rs.setData(page);
 		}
 		return rs;
 	}
@@ -291,7 +295,12 @@ public class CardReissueService implements ICardReissueService {
 		query.setAccesstype(req.getAccesstype());
 		if(StringUtils.isNotBlank(req.getIcardno())){
 			Card card = cardMapper.selectByCardno(req.getIcardno());
-			query.setIcardid(card.getId());
+			if(card!=null){
+				query.setIcardid(card.getId());
+			}else{
+				//ic卡未注册 返回null
+				query = null;
+			}
 		}
 		return query;
 	}
