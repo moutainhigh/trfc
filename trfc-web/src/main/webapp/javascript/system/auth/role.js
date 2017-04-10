@@ -5,6 +5,8 @@
 			pageUrl:"/trfc/system/auth/role/page",
 			editUrl:"/trfc/system/auth/role/edit",
 			deleteUrl:"/trfc/system/auth/role/delete",
+			getCodeUrl:"/trfc/system/base/code/getCode",
+			updateCodeUrl:"/trfc/system/base/code/updateCode",
 	};
 	
 	
@@ -164,14 +166,18 @@
 	
 	
 	function initAddRole(){
-		var total=roleData.total;
-		if(total<10){
-			$('#code').val('00'+(total+1));
-		}else if(total>=10 && total<100){
-			$('#code').val('0'+(total+1));
-		}else{
-			$('#code').val(total+1);
-		}
+		var param = {
+				userid:userid,
+				code:"JS",
+				codeType:true
+		};
+		$.post(URL.getCodeUrl,param,function(result){
+			if('000000'==result.code){
+				$('#code').val(result.data);
+			}else{
+				layer.msg(result.error,{icon:5});
+			}
+		});
 		$('#name').val('');
 		$('#role_type').val(0);
 		$('#isvalid').prop('checked',true);
@@ -179,7 +185,20 @@
 		$('#allow_del').prop('checked',true);
 		$('#info').val('');
 	}
-	
+	function updateCode(){
+		var param = {
+				userid:userid,
+				code:"JS",
+				codeType:true
+		};
+		$.post(URL.updateCodeUrl,param,function(result){
+			if('000000'==result.code){
+				window.location.reload();
+			}else{
+				layer.msg(result.error,{icon:5});
+			}
+		});
+	}
 	function getAddRole(){
 		var code=$('#code').val();code=$.trim(code);
 		var name=$('#name').val();name=$.trim(name);
@@ -223,7 +242,7 @@
 			});
 			$.post(url,params,function(result){
 				if(result.code=='000000'){
-					win.location.reload();
+					updateCode();
 				}else{
 					layer.msg(result.error,{icon:5});
 					_this.disabled=false;
