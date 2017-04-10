@@ -65,28 +65,7 @@
                     </tr>
                     </thead>
                     <tbody id="menus">
-                    <tr id="1">
-                        <td>1</td>
-                        <td style="width: 200px;"><span controller="true">天瑞集团智能物流业务平台</span></td>
-                        <td>01</td>
-                        <td></td>
-                        <td>click</td>
-                        <td></td>
-                        <td><input type="checkbox" checked disabled="disabled"></td>
-                        <td>1</td>
-                        <td>
-                        <span><a data-toggle="modal" data-target="#edit">
-                            <i class="iconfont" data-toggle="tooltip" data-placement="left" title="编辑">&#xe600;</i></a>
-                        </span>
-						<span> <a data-toggle="modal" data-target="#add"><i
-												class="iconfont" data-toggle="tooltip" data-placement="left"
-												title="复制">&#xe61c;</i></a>
-						</span>
-                       <span><a data-toggle="modal" data-target="#dele">
-                           <i class="iconfont" data-toggle="tooltip" data-placement="left" title="删除">&#xe63d;</i></a>
-                       </span>
-                        </td>
-                    </tr>
+                    
                     <tr id="2" pid="1">
                         <td>2</td>
                         <td style="width: 200px;"><span controller="true">业务管理</span></td>
@@ -297,7 +276,7 @@
                     </div>
                     <div class="alt_edit_div">
                         <label>上级模块：</label>
-                        <input type="text" id="role_type"  class="easyui-combotree"  required="true"  style="width: 220px;">
+                        <input type="text" id="role_type" class="easyui-combotree"  required="false"  style="width: 220px;">
                     </div>
                     <div class="alt_edit_div">
                         <label>连接目标：</label>
@@ -377,7 +356,7 @@
                     </div>
                     <div class="alt_edit_div">
                         <label>上级模块：</label>
-                        <input type="text" id="update_role">
+                        <input type="text" id="update_role" class="easyui-combotree"  required="false"  style="width: 220px;">
                     </div>
                     <div class="alt_edit_div">
                         <label>连接目标：</label>

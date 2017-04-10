@@ -36,7 +36,7 @@
 			var menu=$(this).closest('tr').data();
 			$('#update_name').val(menu.name);
 			$('#update_code').val(menu.code);
-			$('#update_role').val(menu.roleType);
+			$('#update_role').combotree('setValue', menu.roleType);
 			var linkgoal=menu.linkgoal;
 			switch(linkgoal){
 				case 'Click':
@@ -568,6 +568,7 @@
 	
 	$(function(){ 
 		$('#role_type').combotree('loadData', data);
+		$('#update_role').combotree('loadData', data);
 		}); 
 	
 		function getValue(){ 
