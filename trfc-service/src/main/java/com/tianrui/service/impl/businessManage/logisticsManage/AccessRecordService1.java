@@ -554,7 +554,7 @@ public class AccessRecordService1 implements IAccessRecordService1 {
 						if (!StringUtils.equals(CommonUtils.method(object, "status").toString(), "3")) {
 							if (StringUtils.equals(CommonUtils.method(object, "auditstatus").toString(), "1")) {
 								if (StringUtils.equals(CommonUtils.method(object, "status").toString(), "2")) {
-									result.setData(map);
+									//result.setData(map);
 									result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
 								} else {
 									result.setErrorCode(ErrorCode.VEHICLE_NOTICE_NOT_TWO_WEIGHT);

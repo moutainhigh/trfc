@@ -805,11 +805,16 @@ public class PoundNoteService implements IPoundNoteService {
 		storage.setList(itemList);
 		ApiResult apiResult = HttpUtils.post(ApiParamUtils.getApiParam(list1), Constant.URL_RETURN_PURCHASESTORAGEATION);
 		if(apiResult!=null && StringUtils.equals(apiResult.getCode(), Constant.SUCCESS)){
-			PoundNote pn = new PoundNote();
-			pn.setPutinwarehousecode(storage.getCode());
-			pn.setReturnstatus("2");
-			if(poundNoteMapper.updateByOrderCode(pn) > 0){
-				ec = ErrorCode.SYSTEM_SUCCESS;
+			PurchaseStorageList storageUpdate = new PurchaseStorageList();
+			storageUpdate.setId(storage.getId());
+			storageUpdate.setStatus("1");
+			if(purchaseStorageListMapper.updateByPrimaryKeySelective(storageUpdate)>0){
+				PoundNote pn = new PoundNote();
+				pn.setPutinwarehousecode(storage.getCode());
+				pn.setReturnstatus("2");
+				if(poundNoteMapper.updateByOrderCode(pn) > 0){
+					ec = ErrorCode.SYSTEM_SUCCESS;
+				}
 			}
 		}else{
 			PurchaseStorageList ps = new PurchaseStorageList(); 
@@ -1016,11 +1021,16 @@ public class PoundNoteService implements IPoundNoteService {
 			list.add(order);
 			ApiResult apiResult = HttpUtils.post(ApiParamUtils.getApiParam(list), Constant.URL_RETURN_SALESOUTBOUNDCATION);
 			if(apiResult!=null && StringUtils.equals(apiResult.getCode(), Constant.SUCCESS)){
-				PoundNote pn = new PoundNote();
-				pn.setPutinwarehousecode(order.getCode());
-				pn.setReturnstatus("2");
-				if(poundNoteMapper.updateByOrderCode(pn) > 0){
-					ec = ErrorCode.SYSTEM_SUCCESS;
+				SalesOutboundOrder orderUpdate = new SalesOutboundOrder();
+				orderUpdate.setId(order.getId());
+				orderUpdate.setStatus("1");
+				if(salesOutboundOrderMapper.updateByPrimaryKeySelective(orderUpdate)>0){
+					PoundNote pn = new PoundNote();
+					pn.setPutinwarehousecode(order.getCode());
+					pn.setReturnstatus("2");
+					if(poundNoteMapper.updateByOrderCode(pn) > 0){
+						ec = ErrorCode.SYSTEM_SUCCESS;
+					}
 				}
 			}else{
 				SalesOutboundOrder so = new SalesOutboundOrder(); 

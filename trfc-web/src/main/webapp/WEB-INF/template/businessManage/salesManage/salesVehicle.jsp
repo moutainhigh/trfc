@@ -121,8 +121,8 @@ table.table-bordered th, td {
 									<th>车辆状态</th>
 									<th>派车时间</th>
 									<th>入厂时间</th>
-									<th>重车时间</th>
 									<th>轻车时间</th>
+									<th>重车时间</th>
 									<th>开始装车</th>
 									<th>结束装车</th>
 									<th>铅封时间</th>

@@ -32,10 +32,6 @@
 	            </property>  
 				<property name="features">
 					<list>
-						<value>PrettyFormat</value>
-						<value>WriteMapNullValue</value>
-						<value>WriteNullStringAsEmpty</value>
-						<value>WriteNullListAsEmpty</value>
 						<value>DisableCircularReferenceDetect</value>
 					</list>
 				</property>
