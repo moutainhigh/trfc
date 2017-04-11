@@ -439,6 +439,7 @@
 					shade: [0.3,'#fff'] //0.1透明度的白色背景
 				});
 				if(result.code=='000000'){
+					_this.disabled=false;
 					win.location.reload();
 				}else{
 					layer.msg('该客户的退补已经录入!',{icon:5});

@@ -761,6 +761,7 @@
 				type:'post',
 				success:function(result){
 					if(result.code == '000000'){
+						_this.disabled = false;
 						win.location.reload();
 					}else{
 						layer.msg(result.error, {icon: 5});
@@ -815,6 +816,7 @@
 				type:'post',
 				success:function(result){
 					if(result.code == '000000'){
+						_this.disabled = false;
 						win.location.reload();
 					}else{
 						layer.msg(result.error, {icon: 5});
