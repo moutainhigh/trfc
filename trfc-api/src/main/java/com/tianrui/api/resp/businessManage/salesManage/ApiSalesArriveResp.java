@@ -23,16 +23,17 @@ public class ApiSalesArriveResp extends BaseResp {
 	//水泥类型 1袋装2散装
 	private String cementtype="";
 	//业务类型 
-	//  1采购    
-	//	2销售
-	//	3其它入库
-	//	4其它出库
-	//	5厂内倒运
-	//	6工程车辆，
-	//	11采购退货
-	//	21销售退货
-	//	31其它入库退货
-	//	41其它出库退货
+	//0 采购到货   
+	//1 采购退货
+	//2 销售提货
+	//3 销售退货
+	//4 厂内倒运
+	//5 其它入库
+	//6 其它入库退货
+	//7 其它出库
+	//8 其它出库退货
+	//9 工程车辆
+
 	private String servicetype="";
 	//
 	private String notionformcode="";

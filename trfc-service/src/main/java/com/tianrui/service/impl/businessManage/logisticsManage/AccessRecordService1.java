@@ -598,7 +598,7 @@ public class AccessRecordService1 implements IAccessRecordService1 {
 						if (!StringUtils.equals(CommonUtils.method(object, "status").toString(), "3")) {
 							if (StringUtils.equals(CommonUtils.method(object, "auditstatus").toString(), "1")) {
 								if (StringUtils.equals(CommonUtils.method(object, "status").toString(), "0")) {
-									result.setData(map);
+									result.setData(map.get("type"));
 									result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
 								} else {
 									result.setErrorCode(ErrorCode.VEHICLE_NOTICE_ALREADY_ENTER);
