@@ -418,6 +418,7 @@
 			});
 			$.post(url,params,function(result){
 				if(result.code=='000000'){
+					_this.disabled = false;
 					win.location.reload();
 				}else{
 					layer.msg('该客户的期初已经录入!',{icon: 5});
