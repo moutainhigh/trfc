@@ -116,7 +116,6 @@
 //				console.log(data);
 				if(!list){
 					layer.msg('暂无数据.');
-					return;
 				}
 				var tbody=$('#roles').empty();
 				for(var i=0;i<list.length;i++){
