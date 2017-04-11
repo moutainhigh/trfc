@@ -30,6 +30,15 @@
 	                    <value>application/json;charset=UTF-8</value>  
 	                </list>  
 	            </property>  
+				<property name="features">
+					<list>
+						<value>PrettyFormat</value>
+						<value>WriteMapNullValue</value>
+						<value>WriteNullStringAsEmpty</value>
+						<value>WriteNullListAsEmpty</value>
+						<value>DisableCircularReferenceDetect</value>
+					</list>
+				</property>
 	        </bean>  
     	</mvc:message-converters>
 	</mvc:annotation-driven>  

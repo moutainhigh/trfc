@@ -692,9 +692,9 @@ public class PoundNoteService implements IPoundNoteService {
 			List<PoundNote> list = poundNoteMapper.selectSelective(bean);
 			if (CollectionUtils.isNotEmpty(list)) {
 				bean = list.get(0);
-				bean.setTareweight(Double.parseDouble(query.getNumber()));
+				bean.setGrossweight(Double.parseDouble(query.getNumber()));
 				bean.setNetweight(bean.getGrossweight() - bean.getTareweight());
-				bean.setLighttime(DateUtil.parse(query.getTime(), "yyyy-MM-dd HH:mm:ss"));
+				bean.setWeighttime(DateUtil.parse(query.getTime(), "yyyy-MM-dd HH:mm:ss"));
 				bean.setModifier(query.getCurrid());
 				bean.setModifytime(System.currentTimeMillis());
 				// 更新通知单状态
@@ -710,6 +710,7 @@ public class PoundNoteService implements IPoundNoteService {
 				bean.setPutinwarehousecode(storage.getCode());
 				PurchaseApplicationDetail detail = new PurchaseApplicationDetail();
 				detail.setId(applicationDetail.getId());
+				detail.setPretendingtake(applicationDetail.getPretendingtake() + bean.getNetweight());
 				detail.setStoragequantity(applicationDetail.getStoragequantity() - bean.getNetweight());
 				detail.setMargin(applicationDetail.getMargin() + bean.getNetweight());
 				if (poundNoteMapper.updateByPrimaryKeySelective(bean) > 0
@@ -894,8 +895,13 @@ public class PoundNoteService implements IPoundNoteService {
 		bean.setMinemouthid(application.getMinemouthid());
 		bean.setMinemouthname(application.getMinemouthname());
 		bean.setOriginalnetweight(arrive.getArrivalamount());
-		bean.setGrossweight(Double.parseDouble(query.getNumber()));
-		bean.setWeighttime(DateUtil.parse(query.getTime(), "yyyy-MM-dd HH:mm:ss"));
+		if(StringUtils.equals(query.getType(), "1")){
+			bean.setTareweight(Double.parseDouble(query.getNumber()));
+			bean.setLighttime(DateUtil.parse(query.getTime(), "yyyy-MM-dd HH:mm:ss"));
+		}else{
+			bean.setGrossweight(Double.parseDouble(query.getNumber()));
+			bean.setWeighttime(DateUtil.parse(query.getTime(), "yyyy-MM-dd HH:mm:ss"));
+		}
 		bean.setMakerid(query.getCurrid());
 		SystemUserResp user = systemUserService.getUser(query.getCurrid());
 		if (user != null) {
@@ -1102,9 +1108,9 @@ public class PoundNoteService implements IPoundNoteService {
 				//该车辆没有通知单
 				result.setErrorCode(ErrorCode.VEHICLE_NOT_NOTICE);
 			}else{
-				if(listSales.size() == 1){
-					if(StringUtils.equals(listSales.get(0).getStatus(), "6")){
-						validNoticeInfoAccessRecord(result, listSales.get(0).getId());
+				if(listPurchase.size() == 1){
+					if(StringUtils.equals(listPurchase.get(0).getStatus(), "6")){
+						validNoticeInfoAccessRecord(result, listPurchase.get(0).getId());
 					}else{
 						result.setErrorCode(ErrorCode.VEHICLE_NOTICE_NOT_ENTER);
 					}

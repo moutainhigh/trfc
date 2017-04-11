@@ -239,7 +239,8 @@ $(function(){
 		params.pageNo = pageNo;
 		$.post(URL.page,params,function(result){
 			if(result.code=='000000'){
-				var list = result.data.list;
+				list = result.data.list;
+				console.info(list);
 				var pageNo = result.data.pageNo;
 				var pageSize = result.data.pageSize;
 				var total = result.data.total;
@@ -270,7 +271,7 @@ $(function(){
 			}else{
 				alert(result.error);
 			}
-		});
+		},'json');
 	}
 //	展示列表
 	function showPageData(list,pageSize,pageNo){
