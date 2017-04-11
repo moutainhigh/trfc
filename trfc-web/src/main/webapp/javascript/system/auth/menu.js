@@ -568,7 +568,7 @@
 	
 	$(function(){ 
 		$('#role_type').combotree('loadData', data);
-		$('#update_role').combotree('loadData', data);
+		$('#role').combotree('loadData', data);
 		}); 
 	
 		function getValue(){ 

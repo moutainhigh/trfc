@@ -83,6 +83,9 @@ input[readOnly="true"]{
     border:3px solid #ecedf3;
     margin-right: 10px;
 }
+.user label{
+    color: #434e8d;
+}
 /* 用户弹出框 */
 .dropdown-menu{width: 200px;z-index: 99;color: #434e8d;}
 .dropdown-menu .divider{ margin:4px 0px;}
@@ -290,6 +293,7 @@ input[readOnly="true"]{
     text-align: center;
     line-height: 33px;
     white-space: nowrap;
+    color: #0573c7;
 }
 .intel_tabbox .intel_tabcont .intel_table table tbody i{
     font-size: 17px;
@@ -921,9 +925,12 @@ input[type="text"]:-ms-input-placeholder, input:-ms-input-placeholder{
 .alt_edit_div span{
     margin: 0 15px 0 5px;
 }
-.alt_edit_div span.combo {
+.alt_edit_div span.combo{
     margin: 0 0 0 0;
     padding: 0;
+}
+.alt_edit_div span.textbox-addon{
+    margin: 0 0 0 0;
 }
 .alt_edit_div  .form-control{
     display: inline-block;

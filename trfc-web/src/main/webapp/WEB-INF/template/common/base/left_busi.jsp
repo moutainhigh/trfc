@@ -16,54 +16,50 @@
 			</a>
 
 			<div class="in" id="ityewu">
-				<!-- <li><a href="../cg/cg_index.html"> <i class="iconfont">&#xe617;</i>
-						<label>采购管理</label>
-				</a></li> -->
+				
 				<li><a href="/trfc/purchaseApplication/main"> <i
 						class="iconfont">&#xe617;</i> <span>采购管理</span>
 				</a></li>
 				<li><a href="/trfc/salesApplication/main"> <i
 						class="iconfont">&#xe615;</i> <span>销售管理</span>
 				</a></li>
-				<li><a href="/trfc/card/main"> <i class="iconfont">&#xe613;</i>
-						<span>卡务管理</span>
+				<li><a href="/trfc/card/main"> <i 
+						class="iconfont">&#xe601;</i> <span>卡务管理</span>
 				</a></li>
 				<li><a href="/trfc/quality/sales/batchnum/main"> <i
 						class="iconfont">&#xe618;</i> <span>质控管理</span>
 				</a></li>
-				<li><a href="/trfc/customerbegin/main"> <i class="iconfont">&#xe612;</i>
-						<span>财务管理</span>
+				<li><a href="/trfc/customerbegin/main"> <i 
+						class="iconfont">&#xe612;</i><span>财务管理</span>
 				</a></li>
 				<li><a href="/trfc/poundNote/purchase/main"> <i
-						class="iconfont">&#xe631;</i> <span>磅单维护</span>
+						class="iconfont">&#xe62a;</i> <span>磅单维护</span>
 				</a></li>
-				<li><a href="/trfc/accessRecord/main"> <i class="iconfont">&#xe619;</i>
-						<span>厂区物流</span>
+				<li><a href="/trfc/accessRecord/main"> <i 
+						class="iconfont">&#xe629;</i> <span>厂区物流</span>
 				</a></li>
-				<!-- <li><a> <i class="iconfont">&#xe614;</i> <span>其他业务</span>
-				</a></li>
-				 -->
+				
 			</div>
 			<a href="#itdangan" data-toggle="collapse" class="menu_collap_tit">
 				<label>基础档案</label> <span><i class="iconfont">&#xe604;</i></span>
 			</a>
 
 			<div class="in" id="itdangan">
-				<li><a href="/trfc/customer/main"> <i class="iconfont">&#xe611;</i>
-						<span>NC档案</span>
+				<li><a href="/trfc/customer/main"> <i 
+						class="iconfont">&#xe670;</i> <span>NC档案</span>
 				</a></li>
-				<li><a href="/trfc/transport/main"> <i class="iconfont">&#xe611;</i>
-						<span>计量档案</span>
+				<li><a href="/trfc/transport/main"> <i 
+						class="iconfont">&#xe670;</i> <span>计量档案</span>
 				</a></li>
-				<li><a href="/trfc/quality/sales/file/MaterialScheme/main">
-						<i class="iconfont">&#xe611;</i> <span>质检档案</span>
+				<li><a href="/trfc/quality/sales/file/MaterialScheme/main"><i 
+						class="iconfont">&#xe670;</i> <span>质检档案</span>
 				</a></li>
 				<li><a href="/trfc/basicFile/other/customer/main"> <i
-						class="iconfont">&#xe611;</i> <span>其他档案</span>
+						class="iconfont">&#xe670;</i> <span>其他档案</span>
 				</a></li>
 			</div>
 			<a href="#sys" data-toggle="collapse" class="menu_collap_tit"> <label>系统设置</label>
-				<span><i class="iconfont">&#xe604;</i></span>
+				<span><i class="iconfont">&#xe604;</i> </span>
 			</a>
 			<div class="in" id="sys">
 				<li><a href="/trfc/system/auth/menu/main"> <i

@@ -21,19 +21,25 @@
     font-size: 17px;
     margin-right: 8px;
 }
+.menu_collap .typelist label,.menu_collap .typelist i{
+    color: #434e8d;
+}
 .menu_collap .typelist li.active,.menu_collap .typelist li:focus,.menu_collap .typelist li:hover{
     background: #f5f6fb;
     border-left: 4px solid #0573c7;
     color: #0573c7;
 }
+.menu_collap .typelist li.active label,.menu_collap .typelist li:focus label,.menu_collap .typelist li:hover label{
+    color: #0573c7;
+}
+.menu_collap .typelist li.active i,.menu_collap .typelist li:focus i,.menu_collap .typelist li:hover i{
+    color: #0573c7;
+}
 .menu_collap .typelist li.active a,.menu_collap .typelist li:focus a,.menu_collap .typelist li:hover a{
     margin-left: -4px;
+    color: #0573c7;
 }
-.menu_collap .typelist li label{
-    width: 110px;
-    display: inline-block;
 
-}
 /*角色权限折叠菜单*/
 .sys_collap{
     margin-top: 5px;

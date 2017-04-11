@@ -1,0 +1,32 @@
+.selct_zk_huayan{
+    position: relative;
+    display: inline;
+}
+.selct_zk_huayan .selectcontainer{
+    position: absolute;
+    left: 0;
+    top: 30;
+}
+.selectcontainer {
+	overflow: auto;
+    border: 1px solid #999999;
+}
+.selectcontainer li {
+    height: 30px;
+    line-height: 30px;
+    list-style: none;
+    padding-left: 10px;
+}
+.selectcontainer li:hover {
+    background: #5dbce6;
+}
+
+.selectcontainer ul {
+    margin: 0;
+    padding: 0;
+}
+.zk_table_int table input{
+    width: 100%;
+    border: none;
+
+}

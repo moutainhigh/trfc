@@ -1071,17 +1071,6 @@ td, th {
 }
 /*图标字体 结束*/
 /*border-box 设置开始*/
-* {
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box
-}
-
-:after, :before {
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box
-}
 /*border-box 设置结束*/
 /*全局样式设置 开始*/
 html {
@@ -6030,7 +6019,7 @@ button.close {
 
 .tooltip {
     position: absolute;
-    z-index: 9999;
+    z-index: 1070;
     display: block;
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-size: 12px;
