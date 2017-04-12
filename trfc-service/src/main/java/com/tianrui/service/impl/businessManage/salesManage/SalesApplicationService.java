@@ -185,6 +185,10 @@ public class SalesApplicationService implements ISalesApplicationService {
 				}
 				sd.setUnit(save.getUnit());
 				sd.setSalessum(save.getSalessum());
+				sd.setMargin(save.getSalessum());
+				sd.setStoragequantity(0D);
+				sd.setUnstoragequantity(0D);
+				sd.setPretendingtake(0D);
 				sd.setTaxprice(save.getTaxprice());
 				sd.setTaxrate(save.getTaxrate());
 				sd.setUntaxprice(save.getUntaxprice());

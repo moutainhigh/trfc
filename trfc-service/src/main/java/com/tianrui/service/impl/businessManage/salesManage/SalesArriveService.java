@@ -668,7 +668,7 @@ public class SalesArriveService implements ISalesArriveService {
 				}
 			}
 			api.setPrimary("");//是否原发？？？
-			api.setServicetype("1");
+			api.setServicetype(listPurchase.get(0).getType());
 			api.setNotionformcode(listPurchase.get(0).getCode());
 			api.setMinemouth(application.getMinemouthname());
 			api.setNumber(listPurchase.get(0).getArrivalamount() == null ? "" : listPurchase.get(0).getArrivalamount().toString());
