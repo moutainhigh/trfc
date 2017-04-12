@@ -25,7 +25,7 @@
 			var pageNo = $('input#jumpPageNo').val();pageNo = $.trim(pageNo);pageNo = parseInt(pageNo);
 			var pageMaxNo = $('input#jumpPageNo').attr('maxpageno');pageMaxNo = $.trim(pageMaxNo);pageMaxNo = parseInt(pageMaxNo);
 			if(!pageNo || !$.isNumeric(pageNo) || pageNo < 0 || pageNo > pageMaxNo){
-				layer.alert('此处必须为1-'+pageMaxNo+'的数字');
+				layer.msg('此处必须为1-'+pageMaxNo+'的数字');
 				$('input#jumpPageNo').val('');
 			}else{
 				$('input#jumpPageNo').val(pageNo);
@@ -114,7 +114,7 @@
 					//关闭读卡器
 					readerClose();
 				}else{
-					layer.alert('当前游览器不支持!(只兼容IE游览器)');
+					layer.msg('当前游览器不支持!(只兼容IE游览器)');
 				}
 			}
 		});
@@ -224,7 +224,7 @@
 					//关闭读卡器
 					readerClose();
 				}else{
-					layer.alert('当前游览器不支持!(只兼容IE游览器)');
+					layer.msg('当前游览器不支持!(只兼容IE游览器)');
 				}
 			}
 		});
@@ -281,7 +281,7 @@
 					    link_to:"javascript:void(0)"
 					});
 				}else{
-					alert(result.error);
+					layer.msg(result.error,{icon:5});
 				}
 				layer.close(index);
 			}

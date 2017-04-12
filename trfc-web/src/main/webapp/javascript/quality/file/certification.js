@@ -115,22 +115,22 @@ $(function(){
 	function getAddData(){
 		var materialid = $('#add_material').attr('materialid');
 		if(!materialid){
-			alert("物料不能为空!");
+			layer.msg("物料不能为空!");
 			return null;
 		};
 		var trademark = $('#add_trademark').val();
 		if(!trademark){
-			alert("商标不能为空!");
+			layer.msg("商标不能为空!");
 			return null;
 		}
 		var norm = $('#add_norm').val();
 		if(!norm){
-			alert("执行标准不能为空");
+			layer.msg("执行标准不能为空");
 			return null;
 		}
 		var certificate = $('#add_certificate').val();
 		if(!certificate){
-			alert("生产许可证号不能为空");
+			layer.msg("生产许可证号不能为空");
 			return null;
 		}
 		var factorysite = $('#add_factorysite').val();
@@ -160,22 +160,22 @@ $(function(){
 		var id = $('#edit_id').val();
 		var materialid = $('#edit_material').attr('materialid');
 		if(!materialid){
-			alert("物料不能为空!");
+			layer.msg("物料不能为空!");
 			return null;
 		};
 		var trademark = $('#edit_trademark').val();
 		if(!trademark){
-			alert("商标不能为空!");
+			layer.msg("商标不能为空!");
 			return null;
 		}
 		var norm = $('#edit_norm').val();
 		if(!norm){
-			alert("执行标准不能为空");
+			layer.msg("执行标准不能为空");
 			return null;
 		}
 		var certificate = $('#edit_certificate').val();
 		if(!certificate){
-			alert("生产许可证号不能为空");
+			layer.msg("生产许可证号不能为空");
 			return null;
 		}
 		var factorysite = $('#edit_factorysite').val();
@@ -296,7 +296,7 @@ $(function(){
 		var pageno = $('#jumpPageNo').val();
 		//判断跳转值是否在符合规范
 		if(!pageno || !$.isNumeric(pageno) || pageno<=0 || pageno>maxpageno){
-			alert('输入的数字必须在1~'+maxpageno+'之间');
+			layer.msg('输入的数字必须在1~'+maxpageno+'之间');
 		}else{
 			//加载指定的列表数据
 			ShowAction(pageno);
@@ -352,7 +352,7 @@ $(function(){
 				//关闭缓冲图标
 				layer.close(index);
 			}else{
-				alert(result.error);
+				layer.msg(result.error,{icon:5});
 			}
 		});
 	}

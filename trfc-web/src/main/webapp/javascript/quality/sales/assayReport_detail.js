@@ -86,7 +86,7 @@ $(function(){
 		}, function(){
 		});
 		}else{
-			layer.alert('只能对未审核的数据进行操作');
+			layer.msg('只能对未审核的数据进行操作');
 		}
 	}
 	//不同意
@@ -117,7 +117,7 @@ $(function(){
 			}, function(){
 			});
 		}else{
-			layer.alert('只能对审核中的数据进行操作');
+			layer.msg('只能对审核中的数据进行操作');
 		}
 	}
 	//审核

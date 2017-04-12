@@ -19,7 +19,7 @@ $(function(){
 			if(result.code=='000000'){
 				location.href=URL.redirectUrl;
 			}else{
-				alert(result.error);
+				alert(result.error,{icon:5});
 			}
 		});
 	}

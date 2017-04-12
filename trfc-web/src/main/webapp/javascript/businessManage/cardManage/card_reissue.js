@@ -34,7 +34,7 @@ $(function() {
 			//关闭读卡器
 			readerClose();
 		}else{
-			layer.alert('当前游览器不支持!(只兼容IE游览器)');
+			layer.msg('当前游览器不支持!(只兼容IE游览器)');
 		}
 	});
 	//加载下拉框
@@ -126,7 +126,7 @@ $(function() {
 		var pageno = $('#jumpPageNo').val();
 		//判断跳转值是否在符合规范
 		if(!pageno || !$.isNumeric(pageno) || pageno<=0 || pageno>maxpageno){
-			alert('输入的数字必须在1~'+maxpageno+'之间');
+			layer.msg('输入的数字必须在1~'+maxpageno+'之间');
 		}else{
 			//加载指定的列表数据
 			ShowAction(pageno);
@@ -199,6 +199,8 @@ $(function() {
 				$('#list').empty();
 				if(list){
 					showPageData(list,pageSize,pageNo);
+				}else{
+					layer.msg('暂无数据');
 				}
 				//关闭缓冲图标
 				layer.close(index);

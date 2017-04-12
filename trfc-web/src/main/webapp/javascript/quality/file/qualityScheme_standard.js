@@ -132,7 +132,7 @@ $(function(){
 		data.arrStr = JSON.stringify(arr);
 		//判断是否为空,为空则返回null
 		if('[]'==data.arrStr){
-			alert('质检项目详细不能为空!');
+			layer.msg('质检项目详细不能为空!');
 			data = null;
 		}
 		return data;
@@ -310,7 +310,7 @@ $(function(){
 				//关闭缓冲图标
 				layer.close(index);
 			}else{
-				alert(result.error);
+				layer.msg(result.error,{icon:5});
 			}
 		});
 	}

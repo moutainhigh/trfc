@@ -45,8 +45,7 @@ public class SystemMenu {
     private Long modifytime;
     //时间戳
     private Date utc;
-
-    public String getId() {
+    public String getId(){
         return id;
     }
 

@@ -130,17 +130,17 @@ $(function(){
 		var code = $('#add_code').val();
 		var batchnumid = $('#add_batchcode').attr('batchnumid');
 		if(!batchnumid){
-			alert("批号不能为空!");
+			layer.msg("批号不能为空!");
 			return null;
 		}
 		var mscheme = $('#add_materialtype').attr('mschemeid');
 		if(!mscheme){
-			alert("物料方案不能为空!");
+			layer.msg("物料方案不能为空!");
 			return null;
 		}
 		var qscheme = $('#add_qscheme').attr('qschemeid');
 		if(!qscheme){
-			alert("质检方案不能为空!")
+			layer.msg("质检方案不能为空!")
 			return null;
 		}
 		var reportorg = $('#add_reportorg').val();
@@ -294,7 +294,7 @@ $(function(){
 		var pageno = $('#jumpPageNo').val();
 		//判断跳转值是否在符合规范
 		if(!pageno || !$.isNumeric(pageno) || pageno<=0 || pageno>maxpageno){
-			alert('输入的数字必须在1~'+maxpageno+'之间');
+			layer.msg('输入的数字必须在1~'+maxpageno+'之间');
 		}else{
 			//加载指定的列表数据
 			batchnumShowAction(pageno);
@@ -365,7 +365,7 @@ $(function(){
 				}
 				layer.close(index);
 			}else{
-				alert(result.error);
+				layer.msg(result.error,{icon:5});
 			}
 		});
 	}

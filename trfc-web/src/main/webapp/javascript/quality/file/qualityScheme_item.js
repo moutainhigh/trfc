@@ -163,7 +163,7 @@ $(function(){
 		data.arrStr = JSON.stringify(arr);
 		//判断是否为空,为空则返回null
 		if('[]'==data.arrStr){
-			alert('物料详细不能为空!');
+			layer.msg('物料详细不能为空!');
 			data = null;
 		}
 		return data;
@@ -293,7 +293,7 @@ $(function(){
 
 		var itemid = $('#add_item').attr('itemid');
 		if(!itemid){
-			alert("项目明细不能为空");
+			layer.msg("项目明细不能为空");
 			return null;
 		}
 
@@ -318,7 +318,7 @@ $(function(){
 		var id = $('#edit_id').val();
 		var itemid = $('#edit_item').attr('itemid');
 		if(!itemid){
-			alert("项目明细不能为空");
+			layer.msg("项目明细不能为空");
 			return null;
 		}
 
@@ -386,7 +386,7 @@ $(function(){
 				//关闭缓冲图标
 				layer.close(index);
 			}else{
-				alert(result.error);
+				layer.msg(result.error,{icon:5});
 			}
 		});
 	}

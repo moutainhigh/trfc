@@ -259,7 +259,7 @@
        		and roleType = #{roleType,jdbcType=VARCHAR}
       	</if>
    	</where>
-   	order by createtime 
+   	order by code,deep,order_by 
   	<if test="start != null and start >= 0">
   		<if test="limit != null">
 			limit #{start,jdbcType=INTEGER},#{limit,jdbcType=INTEGER}

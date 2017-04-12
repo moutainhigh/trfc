@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.beanutils.PropertyUtils;
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.tianrui.api.intf.system.auth.ISystemMenuService;
 import com.tianrui.api.req.system.auth.SystemMenuQueryReq;
 import com.tianrui.api.req.system.auth.SystemMenuSaveReq;
+import com.tianrui.api.resp.system.auth.MenuTreeVo;
 import com.tianrui.api.resp.system.auth.SystemMenuResp;
 import com.tianrui.service.bean.system.auth.SystemMenu;
 import com.tianrui.service.mapper.system.auth.SystemMenuMapper;
@@ -52,9 +54,70 @@ public class SystemMenuService implements ISystemMenuService {
 		rs.setData(page);
 		return rs;
 	}
-
-
-
+	
+	@Override
+	public Result getTreeData() throws Exception {
+		Result rs = Result.getSuccessResult();
+		SystemMenuQueryReq queryReq = new SystemMenuQueryReq();
+		queryReq.setStart(0);
+		List<SystemMenu> list = systemMenuMapper.selectByCondition(queryReq);
+		rs.setData(getTreeDataStr(list));
+		return rs;
+	}
+	
+	
+	private List<MenuTreeVo> getTreeDataStr(List<SystemMenu> list){
+		List<MenuTreeVo> treeList = new ArrayList<MenuTreeVo>();
+		List<SystemMenu> childrenList = new ArrayList<SystemMenu>();
+		//先添加根菜单
+		for(SystemMenu menu : list){
+			MenuTreeVo tree = new MenuTreeVo();
+			tree.setId(menu.getId());
+			tree.setText(menu.getName());
+			if(StringUtils.isBlank(menu.getRoleid())){
+				treeList.add(tree);
+			}else{
+				childrenList.add(menu);
+			}
+		}
+		for(MenuTreeVo vo : treeList){
+			setChildMenu(childrenList, vo);
+		}
+		return treeList;
+	}
+	
+	private void setChildMenu(List<SystemMenu> menuList, MenuTreeVo treeVo){
+		for(SystemMenu menu : menuList){
+			MenuTreeVo tree = new MenuTreeVo();
+			tree.setId(menu.getId());
+			tree.setText(menu.getName());
+			if(StringUtils.equals(menu.getRoleid(), treeVo.getId())){
+				if(CollectionUtils.isNotEmpty(treeVo.getChildren())){
+					treeVo.getChildren().add(tree);
+				}else{
+					List<MenuTreeVo> childMenuList = new ArrayList<MenuTreeVo>();
+					childMenuList.add(tree);
+					treeVo.setChildren(childMenuList);
+				}
+				setChildMenu(menuList, tree);
+			}
+		}
+	}
+	
+	public List<MenuTreeVo> iterateMenus(List<MenuTreeVo> menuList,String pid){  
+        List<MenuTreeVo> result = new ArrayList<MenuTreeVo>();  
+        for (MenuTreeVo treeVo : menuList) { 
+            if(StringUtils.isNotBlank(treeVo.getPid())){  
+                if(StringUtils.equals(treeVo.getPid(), pid)){  
+                    List<MenuTreeVo> iterateMenu = iterateMenus(menuList,treeVo.getId());  
+                    treeVo.setChildren(iterateMenu);
+                    result.add(treeVo);  
+                }  
+            }
+        }  
+        return result;  
+    }  
+	
 	@Override
 	public Result detail(SystemMenuQueryReq req) throws Exception {
 		Result rs =Result.getParamErrorResult();
@@ -190,5 +253,10 @@ public class SystemMenuService implements ISystemMenuService {
 		}
 		return resp;
 	}
+
+
+
+
+	
 
 }

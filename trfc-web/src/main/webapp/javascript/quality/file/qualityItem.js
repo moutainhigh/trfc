@@ -271,17 +271,17 @@ $(function(){
 		var code = $('#add_code').val();
 		var ename = $('#add_ename').val();
 		if(!ename){
-			alert("英文代号不能为空!");
+			layer.msg("英文代号不能为空!");
 			return null;
 		};
 		var name = $('#add_name').val();
 		if(!name){
-			alert("名称不能为空!");
+			layer.msg("名称不能为空!");
 			return null;
 		}
 		var type = $('#add_type').val();
 		if(!type){
-			alert("类型不能为空");
+			layer.msg("类型不能为空");
 			return null;
 		}
 		var invlid = '1';
@@ -290,24 +290,24 @@ $(function(){
 		}
 		var line = $('#add_line').attr('columnid');
 		if(!line){
-			alert("对应行不能为空");
+			layer.msg("对应行不能为空");
 			return null;
 		}
 		var units = $('#add_units').val();
 		var formula = $('#add_formula').val();
 		var vgroups = $('#add_vgroups').val();
 		if(!vgroups){
-			alert("值分组不能为空");
+			layer.msg("值分组不能为空");
 			return null;
 		}
 		var vtype = $('#add_vtype').val();
 		if(!vtype){
-			alert("值类型不能为空");
+			layer.msg("值类型不能为空");
 			return null;
 		}
 		var vdays = $('#add_vdays').val();
 		if(!vdays){
-			alert("值天数不能为空");
+			layer.msg("值天数不能为空");
 			return null;
 		}
 		var remark = $('#add_remark').val();
@@ -334,17 +334,17 @@ $(function(){
 		var code = $('#edit_code').val();
 		var ename = $('#edit_ename').val();
 		if(!ename){
-			alert("英文代号不能为空!");
+			layer.msg("英文代号不能为空!");
 			return null;
 		};
 		var name = $('#edit_name').val();
 		if(!name){
-			alert("名称不能为空!");
+			layer.msg("名称不能为空!");
 			return null;
 		}
 		var type = $('#edit_type').val();
 		if(!type){
-			alert("类型不能为空");
+			layer.msg("类型不能为空");
 			return null;
 		}
 		var invlid = '1';
@@ -353,24 +353,24 @@ $(function(){
 		}
 		var line = $('#edit_line').attr('columnid');
 		if(!line){
-			alert("对应行不能为空");
+			layer.msg("对应行不能为空");
 			return null;
 		}
 		var units = $('#edit_units').val();
 		var formula = $('#edit_formula').val();
 		var vgroups = $('#edit_vgroups').val();
 		if(!vgroups){
-			alert("值分组不能为空");
+			layer.msg("值分组不能为空");
 			return null;
 		}
 		var vtype = $('#edit_vtype').val();
 		if(!vtype){
-			alert("值类型不能为空");
+			layer.msg("值类型不能为空");
 			return null;
 		}
 		var vdays = $('#edit_vdays').val();
 		if(!vdays){
-			alert("值天数不能为空");
+			layer.msg("值天数不能为空");
 			return null;
 		}
 		var remark = $('#edit_remark').val();
@@ -449,7 +449,7 @@ $(function(){
 		var pageno = $('#jumpPageNo').val();
 		//判断跳转值是否在符合规范
 		if(!pageno || !$.isNumeric(pageno) || pageno<=0 || pageno>maxpageno){
-			alert('输入的数字必须在1~'+maxpageno+'之间');
+			layer.msg('输入的数字必须在1~'+maxpageno+'之间');
 		}else{
 			//加载指定的列表数据
 			ShowAction(pageno);
@@ -523,7 +523,7 @@ $(function(){
 				//关闭缓冲图标
 				layer.close(index);
 			}else{
-				alert(result.error);
+				layer.msg(result.error,{icon:5});
 			}
 		});
 	}

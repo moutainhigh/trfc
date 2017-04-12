@@ -77,7 +77,7 @@ $(function() {
 					writeDataToCard(obj.arrivalamount || '',17);
 					updateCardno(cardno,obj);
 				} catch (e) {
-					alert(e.Message);
+					layer.msg(e.Message);
 				}
 
 			}
@@ -85,7 +85,7 @@ $(function() {
 			readerClose();
 			//	layer.alert('补卡成功');
 		}else{
-			layer.alert('当前游览器不支持!(只兼容IE游览器)');
+			layer.msg('当前游览器不支持!(只兼容IE游览器)');
 		}
 	}
 
@@ -98,7 +98,7 @@ $(function() {
 		};
 		$.post(URL.updateCard,param,function(result) {
 			if('000000' === result.code) {
-				layer.alert('补卡成功');
+				layer.msg('补卡成功');
 			}else {
 				layer.msg(result.error,{icon:5});
 			}
@@ -133,13 +133,13 @@ $(function() {
 				inputs4.eq(11).val(getDataFromCard(28));
 				inputs4.eq(12).val(getDataFromCard(24));
 			} catch (e) {
-				alert(e.Message);
+				layer.msg(e.Message);
 			}
 		}
 		//关闭读卡器
 		readerClose();
 		}else{
-			layer.alert('当前游览器不支持!(只兼容IE游览器)');
+			layer.msg('当前游览器不支持!(只兼容IE游览器)');
 		}
 
 	}

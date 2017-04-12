@@ -32,6 +32,8 @@ public class SystemMenuResp extends BaseResp{
     private String linkgoal;
     //分组行
     private Integer grouping;
+    //树结构数据
+    private String treeDataStr;
 	public String getId() {
 		return id;
 	}
@@ -115,6 +117,12 @@ public class SystemMenuResp extends BaseResp{
 	}
 	public void setRoleid(String roleid) {
 		this.roleid = roleid;
+	}
+	public String getTreeDataStr() {
+		return treeDataStr;
+	}
+	public void setTreeDataStr(String treeDataStr) {
+		this.treeDataStr = treeDataStr;
 	}
     
 }

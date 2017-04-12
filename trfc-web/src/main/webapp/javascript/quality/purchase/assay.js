@@ -141,13 +141,13 @@ $(function(){
 	function getAddData(){
 		var qschemeid = $('#add_qscheme').attr('qschemeid');
 		if(!qschemeid){
-			layer.alert('质检产品方案不能为空!');
+			layer.msg('质检产品方案不能为空!');
 			return null;
 		}
 		var code = $('#add_code').val();
 		var samplingid = $('#add_sampling').val();
 		if(''==samplingid || $('#add_sampinglist').find('tr').length==0){
-			layer.alert('请填写有效单号!');
+			layer.msg('请填写有效单号!');
 			return null;
 		}
 		var assaytime = new Date($('#add_assaytime').val()).getTime();
@@ -321,7 +321,7 @@ $(function(){
 		var pageno = $('#jumpPageNo').val();
 		//判断跳转值是否在符合规范
 		if(!pageno || !$.isNumeric(pageno) || pageno<=0 || pageno>maxpageno){
-			alert('输入的数字必须在1~'+maxpageno+'之间');
+			layer.msg('输入的数字必须在1~'+maxpageno+'之间');
 		}else{
 			//加载指定的列表数据
 			ShowAction(pageno);
@@ -396,7 +396,7 @@ $(function(){
 				//关闭缓冲图标
 				layer.close(index);
 			}else{
-				alert(result.error);
+				layer.msg(result.error,{icon:5});
 			}
 		});
 	}

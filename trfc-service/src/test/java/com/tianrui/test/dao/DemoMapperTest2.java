@@ -25,6 +25,7 @@ import com.tianrui.service.bean.basicFile.nc.CustomerManage;
 import com.tianrui.service.bean.businessManage.financeManage.SalesCharge;
 import com.tianrui.service.bean.quality.file.QualityScheme;
 import com.tianrui.service.bean.system.base.SystemDataDictItem;
+import com.tianrui.service.impl.system.auth.SystemMenuService;
 import com.tianrui.service.mapper.basicFile.measure.YardManageMapper;
 import com.tianrui.service.mapper.basicFile.nc.CustomerManageMapper;
 import com.tianrui.service.mapper.basicFile.nc.SupplierManageMapper;
@@ -84,14 +85,13 @@ public class DemoMapperTest2 {
 	SalesChargeMapper salesChargeMapper;
 	@Autowired
 	SalesLedgerMapper salesLedgerMapper;
+	@Autowired
+	SystemMenuService systemMenuService;
+	
 	@Test
 	public void test() throws Exception{
-		SystemDataDictItemReq req = new SystemDataDictItemReq();
-		req.setDictid("18cd562f6d3041e2be797d8b289d1242");
-		List<SystemDataDictItem> list = systemDataDictItemMapper.autoCompleteSearch(req);
-		for(SystemDataDictItem ss : list){
-			System.out.println(ss.getName());
-		}
+		Result rs = systemMenuService.getTreeData();
+		System.out.println(rs.getData());
 	}
 	
 	@Test

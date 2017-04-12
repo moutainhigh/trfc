@@ -265,22 +265,22 @@ $(function(){
 		var code = $('#add_code').val();
 		var materialid = $('#add_material').attr('materialid');
 		if(!materialid){
-			alert("物料不能为空!");
+			layer.msg("物料不能为空!");
 			return null;
 		};
 		var bills = $('#add_bills').attr('billsid');
 		if(!bills){
-			alert("单据类型不能为空!");
+			layer.msg("单据类型不能为空!");
 			return null;
 		};
 		var name = $('#add_name').val();
 		if(!name){
-			alert("名称不能为空!");
+			layer.msg("名称不能为空!");
 			return null;
 		}
 		var type = $('#add_type').val();
 		if(!type){
-			alert("类型不能为空");
+			layer.msg("类型不能为空");
 			return null;
 		}
 		var invalid = '1';
@@ -316,22 +316,22 @@ $(function(){
 		var code = $('#edit_code').val();
 		var materialid = $('#edit_material').attr('materialid');
 		if(!materialid){
-			alert("物料不能为空!");
+			layer.msg("物料不能为空!");
 			return null;
 		};
 		var bills = $('#edit_bills').attr('billsid');
 		if(!bills){
-			alert("单据类型不能为空!");
+			layer.msg("单据类型不能为空!");
 			return null;
 		};
 		var name = $('#edit_name').val();
 		if(!name){
-			alert("名称不能为空!");
+			layer.msg("名称不能为空!");
 			return null;
 		}
 		var type = $('#edit_type').val();
 		if(!type){
-			alert("类型不能为空");
+			layer.msg("类型不能为空");
 			return null;
 		}
 		var invalid = '1';
@@ -476,7 +476,7 @@ $(function(){
 		var pageno = $('#jumpPageNo').val();
 		//判断跳转值是否在符合规范
 		if(!pageno || !$.isNumeric(pageno) || pageno<=0 || pageno>maxpageno){
-			alert('输入的数字必须在1~'+maxpageno+'之间');
+			layer.msg('输入的数字必须在1~'+maxpageno+'之间');
 		}else{
 			//加载指定的列表数据
 			ShowAction(pageno);
@@ -538,11 +538,13 @@ $(function(){
 				});
 				if(list){
 					showPageData(list,pageSize,pageNo);
+				}else{
+					layer.msg('暂无数据');
 				}
 				//关闭缓冲图标
 				layer.close(index);
 			}else{
-				alert(result.error);
+				layer.msg(result.error,{icon:5});
 			}
 		});
 	}

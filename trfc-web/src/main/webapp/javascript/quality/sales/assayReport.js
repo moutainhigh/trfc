@@ -71,7 +71,7 @@ $(function(){
 	function denyAction(){
 		var obj = $(this).closest('tr').data('obj');
 		if((obj.auditstate!='2')){
-			layer.alert('数据未审核,不能对未审核的数据进行反审操作');
+			layer.msg('数据未审核,不能对未审核的数据进行反审操作');
 		}else{
 			//弹出反审确认框
 			var index = layer.confirm('你确定要进行反审吗?', {
@@ -151,7 +151,7 @@ $(function(){
 		var pageno = $('#jumpPageNo').val();
 		//判断跳转值是否在符合规范
 		if(!pageno || !$.isNumeric(pageno) || pageno<=0 || pageno>maxpageno){
-			layer.alert('输入的数字必须在1~'+maxpageno+'之间');
+			layer.msg('输入的数字必须在1~'+maxpageno+'之间');
 		}else{
 			//加载指定的列表数据
 			ShowAction(pageno);

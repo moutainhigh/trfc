@@ -27,6 +27,7 @@ import com.tianrui.api.req.basicFile.measure.YardManageQuery;
 import com.tianrui.api.req.businessManage.financeManage.SalesChargeQuery;
 import com.tianrui.api.req.businessManage.financeManage.SalesDetailSave;
 import com.tianrui.api.req.common.FileUploadReq;
+import com.tianrui.service.impl.system.auth.SystemMenuService;
 import com.tianrui.smartfactory.common.constants.Constant;
 import com.tianrui.smartfactory.common.vo.Result;
 
@@ -45,6 +46,15 @@ public class FileServiceTest {
 	private ISalesLedgerService salesLedgerService;
 	@Autowired
 	private ISalesDetailService salesDetailService;
+	@Autowired
+	SystemMenuService systemMenuService;
+	
+	@Test
+	public void test1221() throws Exception{
+		Result rs = systemMenuService.getTreeData();
+		System.out.println(rs.getData());
+	}
+	
 	@Test
 	public void saveTest()throws Exception{
 		FileUploadReq req = new FileUploadReq();

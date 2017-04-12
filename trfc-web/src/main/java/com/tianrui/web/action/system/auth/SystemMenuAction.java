@@ -92,5 +92,16 @@ public class SystemMenuAction {
 		}
 		return result;
 	}
-	
+	@RequestMapping(value="/treeData",method=RequestMethod.POST)
+	@ResponseBody
+	public Result treeData(){
+		Result result=Result.getSuccessResult();
+		try {
+			result=systemMenuService.getTreeData();
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			result.setErrorCode(ErrorCode.OPERATE_ERROR);
+		}
+		return result;
+	}
 }

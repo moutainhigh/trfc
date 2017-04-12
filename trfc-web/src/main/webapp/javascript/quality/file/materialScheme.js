@@ -37,7 +37,7 @@ $(function(){
 	//物料品种检测
 	function checkMaterialType(type){
 		if(!type){
-			alert("物料品种不能为空!");
+			layer.msg("物料品种不能为空!");
 			return false;
 		}
 		var bl = false;
@@ -54,7 +54,7 @@ $(function(){
 					if(result.data){
 						bl=true;
 					}else{
-						alert("物料品种已存在!");
+						layer.msg("物料品种已存在!");
 					}
 				}else{
 					layer.msg(result.error,{icon:5});
@@ -152,7 +152,7 @@ $(function(){
 	function getAddData(){
 		var materialid = $('#add_material').attr('materialid');
 		if(!materialid){
-			alert("物料不能为空!");
+			layer.msg("物料不能为空!");
 			return null;
 		};
 		var materialtype = $('#add_materialtype').val();
@@ -161,7 +161,7 @@ $(function(){
 		}
 		var strength = $('#add_strength').val();
 		if(!strength){
-			alert("强度不能为空");
+			layer.msg("强度不能为空");
 			return null;
 		}
 		var admixture = $('#add_admixture').val();
@@ -199,7 +199,7 @@ $(function(){
 		var id = $('#edit_id').val();
 		var materialid = $('#edit_material').attr('materialid');
 		if(!materialid){
-			alert("物料不能为空!");
+			layer.msg("物料不能为空!");
 			return null;
 		};
 		var materialtype = $('#edit_materialtype').val();
@@ -208,7 +208,7 @@ $(function(){
 		}
 		var strength = $('#edit_strength').val();
 		if(!strength){
-			alert("强度不能为空");
+			layer.msg("强度不能为空");
 			return null;
 		}
 		var admixture = $('#edit_admixture').val();
@@ -341,7 +341,7 @@ $(function(){
 		var pageno = $('#jumpPageNo').val();
 		//判断跳转值是否在符合规范
 		if(!pageno || !$.isNumeric(pageno) || pageno<=0 || pageno>maxpageno){
-			alert('输入的数字必须在1~'+maxpageno+'之间');
+			layer.msg('输入的数字必须在1~'+maxpageno+'之间');
 		}else{
 			//加载指定的列表数据
 			ShowAction(pageno);
@@ -398,7 +398,7 @@ $(function(){
 				//关闭缓冲图标
 				layer.close(index);
 			}else{
-				alert(result.error);
+				layer.msg(result.error,{icon:5});
 			}
 		});
 	}

@@ -5,6 +5,7 @@
 			pageUrl:"/trfc/system/auth/menu/page",
 			editUrl:"/trfc/system/auth/menu/edit",
 			deleteUrl:"/trfc/system/auth/menu/delete",
+			getTreeDataUrl:"/trfc/system/auth/menu/treeData",
 	};
 	
 	
@@ -12,13 +13,14 @@
 	function init(){
 		bindEvent();
 		queryData(1);
+		getTreeData();
 	}
 	
 	// 获取当前用户id
 	var userid=$('.user').attr('userid');
 	
 	var menuData={};
-	
+	var treeData=[];
 	function bindEvent(){
 		$('#refreshBtn').off('click').on('click',function(){
 			queryData(1);
@@ -36,7 +38,8 @@
 			var menu=$(this).closest('tr').data();
 			$('#update_name').val(menu.name);
 			$('#update_code').val(menu.code);
-			$('#update_role').combotree('setValue', menu.roleType);
+			$('#_easyui_textbox_input2').val(menu.roleType);
+			$('#update_role').combotree('loadData',treeData).combotree('setValue',menu.roleid);
 			var linkgoal=menu.linkgoal;
 			switch(linkgoal){
 				case 'Click':
@@ -76,9 +79,8 @@
 		$('#menus').on('click','tr .copy',function(){
 			var menu=$(this).closest('tr').data();
 			$('#name').val(menu.name);
-			$('#code').val('');
-			$('#code').focus();
-			$('#_easyui_textbox_input2').val(menu.roleType);
+			$('#code').val(menu.code);
+			$('#role_type').combotree('loadData',treeData).combotree('setValue',menu.roleid);
 			var linkgoal=menu.linkgoal;
 			switch(linkgoal){
 				case 'Click':
@@ -130,7 +132,13 @@
 		    });
 		});
 	}
-	
+	function getTreeData(){
+		$.post(URL.getTreeDataUrl,{},function(result){
+			if(result.code=='000000'){
+				treeData = result.data;
+			}
+		});
+	}
 	
 	function queryData(pageNo){
 		var index = layer.load(2, {
@@ -151,10 +159,10 @@
 					return;
 				}
 				var tbody=$('#menus').empty();
-				//根据code对list进行排序
-				list.sort(function(a,b){
-					return a.code.localeCompare(b.code);	
-				});
+//				//根据code对list进行排序
+//				list.sort(function(a,b){
+//					return a.code.localeCompare(b.code);	
+//				});
 				
 				for(var i=0;i<list.length;i++){
 					var menu=list[i];
@@ -218,10 +226,11 @@
 	function initAddMenu(){
 		$('#name').val('');
 		$('#code').val('');
-		$('#role_type').val('');
+		$('#role_type').combotree('loadData',treeData);
 		$('#linkgoal').val(1);
 		$('#uri').val('');
 		$('#isvalid').prop('checked',true);
+		$("#role_type").combotree('setValue',"业务管理");
 		$('#info').val('');
 		$('#order_by').val(parseInt(menuData.total)+1);
 		$('#param').val('');
@@ -234,6 +243,7 @@
 	function getAddMenu(){
 		var name=$('#name').val();name=$.trim(name);
 		var code=$('#code').val();code=$.trim(code);
+		var roleid = $('#role_type').val();roleid=$.trim(roleid);
 		var role_type=$('#_easyui_textbox_input1').val();role_type=$.trim(role_type);
 		var linkgoal=$('#linkgoal option:selected').text();
 		var uri=$('#uri').val();uri=$.trim(uri);
@@ -248,6 +258,7 @@
 		return {
 			name:name,
 			code:code,
+			roleid:roleid,
 			roleType:role_type,
 			linkgoal:linkgoal,
 			uri:uri,
@@ -371,211 +382,10 @@
 	}
 	
 	
-	//下拉树本地数据
-	var data=[{
-		"id":1,
-		"text":"天瑞信科厂区智能管理平台",
-		"children":[{
-			"id":11,
-			"text":"业务管理",
-			"children":[{
-				"id":111,
-				"text":"采购管理",
-				"children":[{
-					"id":1111,
-					"text":"采购申请单"
-				},{
-					"id":1112,
-					"text":"到货通知单"
-				},{
-					"id":1113,
-					"text":"退货通知单"
-				}]
-			},{
-				"id":112,
-				"text":"销售管理",
-				"children":[{
-					"id":1121,
-					"text":"销售申请单"
-				},{
-					"id":1122,
-					"text":"提货通知单"
-				}]
-			},{
-				"id":113,
-				"text":"卡务管理",
-				"children":[{
-					"id":1131,
-					"text":"IC卡注册"
-				},{
-					"id":1132,
-					"text":"补卡业务"
-				}]
-			},{
-				"id":114,
-				"text":"质控管理",
-				"children":[{
-					"id":1141,
-					"text":"销售批号维护"
-				},{
-					"id":1142,
-					"text":"销售化验报告"
-				},{
-					"id":1143,
-					"text":"采购采样管理"
-				},{
-					"id":1144,
-					"text":"采购化验报告"
-				}]
-			},{
-				"id":115,
-				"text":"财务管理",
-				"children":[{
-					"id":1151,
-					"text":"客户期初"
-				},{
-					"id":1152,
-					"text":"销售收款"
-				},{
-					"id":1153,
-					"text":"客户退补"
-				},{
-					"id":1154,
-					"text":"收款台账"
-				},{
-					"id":1154,
-					"text":"销售明细"
-				}]
-			},{
-				"id":116,
-				"text":"磅单维护",
-				"children":[{
-					"id":1161,
-					"text":"采购磅单维护"
-				},{
-					"id":1162,
-					"text":"销售榜单维护"
-				}]
-			},{
-				"id":117,
-				"text":"厂区物流",
-				"children":[{
-					"id":1171,
-					"text":"门禁记录"
-				}]
-			}]
-		},{
-			"id":12,
-			"text":"基础档案",
-			"children":[{
-				"id":121,
-				"text":"NC档案",
-				"children":[{
-					"id":1211,
-					"text":"客户管理"
-				},{
-					"id":1212,
-					"text":"仓库管理"
-				},{
-					"id":1213,
-					"text":"供应商管理"
-				},{
-					"id":1214,
-					"text":"物料管理"
-				}]
-			},{
-				"id":122,
-				"text":"计量档案",
-				"children":[{
-					"id":1221,
-					"text":"运输单位"
-				},{
-					"id":1222,
-					"text":"车辆管理"
-				},{
-					"id":1223,
-					"text":"司机管理"
-				},{
-					"id":1224,
-					"text":"矿口管理"
-				},{
-					"id":1225,
-					"text":"堆场管理"
-				}]
-			},{
-				"id":123,
-				"text":"质检档案",
-				"children":[{
-					"id":1231,
-					"text":"物料方案"
-				},{
-					"id":1232,
-					"text":"质检方案"
-				},{
-					"id":1233,
-					"text":"质检项目"
-				},{
-					"id":1234,
-					"text":"供应商标准方案"
-				},{
-					"id":1235,
-					"text":"合格证维护"
-				}]
-			},{
-				"id":124,
-				"text":"其他档案",
-				"children":[{
-					"id":1241,
-					"text":"其他客户"
-				},{
-					"id":1242,
-					"text":"其他车辆"
-				},{
-					"id":1243,
-					"text":"其他物料"
-				},{
-					"id":1244,
-					"text":"其他司机"
-				},{
-					"id":1245,
-					"text":"其他供应商"
-				}]
-			}]
-		},{
-			"id":13,
-			"text":"系统设置",
-			"children":[{
-				"id":131,
-				"text":"系统权限",
-				"children":[{
-					"id":1311,
-					"text":"菜单管理"
-				},{
-					"id":1312,
-					"text":"用户管理"
-				}]
-			},{
-				"id":132,
-				"text":"系统业务",
-				"children":[{
-					"id":1321,
-					"text":"自定义编号"
-				},{
-					"id":1322,
-					"text":"辅助资料"
-				}]
-			}]
-		}]
-	}];
-	
-	$(function(){ 
-		$('#role_type').combotree('loadData', data);
-		$('#role').combotree('loadData', data);
-		}); 
-	
+//
 		function getValue(){ 
-			var val = $('#cc').combotree('getValue'); 
-			var text = $('#cc').combotree('getText'); 
+			var val = $('#role_type').combotree('getValue'); 
+			var text = $('#role_type').combotree('getText'); 
 			alert("val="+val+",text="+text); 
 		} 
 		function setValue(){ 

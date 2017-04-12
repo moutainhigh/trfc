@@ -71,11 +71,11 @@ $(function(){
 		var bl = false;
 		//判断批号不能为空
 		if(!factorycode){
-			alert('批号不能为空');
+			layer.msg('批号不能为空',{icon:5});
 			return bl;
 			//设置批号的规范
 		}else if(factorycode.length<5 || factorycode.length>32 || reg.test(factorycode.substr(-5))){
-			alert('批号必须是5~32位且后5位必须是数字')
+			layer.msg('批号必须是5~32位且后5位必须是数字',{icon:5});
 			return bl;
 		}else{
 			//判断批号是否重复
@@ -92,7 +92,7 @@ $(function(){
 						if(result.data){
 							bl=true;
 						}else{
-							alert("批号已存在!");
+							layer.msg("批号已存在!");
 						}
 					}else{
 						layer.msg(result.error,{icon:5});
@@ -241,7 +241,7 @@ $(function(){
 		data.arrStr = JSON.stringify(arr);
 		//判断是否为空,为空则返回null
 		if('[]'==data.arrStr){
-			alert('物料详细不能为空!');
+			layer.msg('物料详细不能为空!',{icon:5});
 			data = null;
 		}
 		return data;

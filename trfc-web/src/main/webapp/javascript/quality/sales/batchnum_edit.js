@@ -112,7 +112,7 @@ $(function(){
 		};
 		//判断物料
 		if(!material){
-			alert('物料详细不能为空!');
+			layer.msg('物料详细不能为空!');
 			data = null;
 		}
 		return data;
@@ -124,10 +124,10 @@ $(function(){
 		var reg = new RegExp('\\D');
 		var bl = false;
 		if(!factorycode){
-			alert('批号不能为空');
+			layer.msg('批号不能为空');
 			return bl;
 		}else if(factorycode.length<5 || reg.test(factorycode.substr(-5))){
-			alert('批号必须是5~32位且后5位必须是数字')
+			layer.msg('批号必须是5~32位且后5位必须是数字')
 			return bl;
 		}else if(factorycode==$('#edit_factorycode').attr('factorycode')){
 			return true;
@@ -145,7 +145,7 @@ $(function(){
 						if(result.data){
 							bl=true;
 						}else{
-							alert("批号已存在!");
+							layer.msg("批号已存在!");
 						}
 					}else{
 						layer.msg(result.error,{icon:5});

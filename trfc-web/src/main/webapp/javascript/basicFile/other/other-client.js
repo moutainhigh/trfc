@@ -58,7 +58,7 @@ function addCustomerAction(){
 function toCheckName(name){
 	url = URL.checkNameUrl;
 	if(!name){
-		alert('名称不能为空');
+		layer.msg('名称不能为空');
 		return false;
 	}
 	param={name:name};
@@ -75,10 +75,10 @@ function toCheckName(name){
 				if(eval(result.data)){
 					bl =  true;
 				}else{
-					alert("名称已存在");
+					layer.msg("名称已存在");
 				}
 			}else{
-				alert(result.error);
+				layer.msg(result.error);
 			}
 		}
 	});
@@ -105,10 +105,10 @@ function deleteAction(){
 			if($(result.data)){
 				CustomersShowAction(1);
 			}else{
-				alert('删除失败');
+				layer.msg('删除失败');
 			}
 		}else{
-			alert(result.error);
+			layer.msg(result.error,{icon:5});
 		}
 	});
 }
@@ -144,7 +144,7 @@ function modifyAction(){
 		if(result.code=='000000'){
 			CustomersShowAction(1);
 		}else{
-			alert(result.error);
+			layer.msg(result.error,{icon:5});
 		}
 	});
 }
@@ -172,7 +172,7 @@ function toModify(){
 				$('#customer_modify_isvalid')[0].checked=false;
 			}
 		}else{
-			alert(result.error);
+			layer.msg(result.error,{icon:5});
 		}
 	});
 }
@@ -187,7 +187,7 @@ function jumpPageAction(){
 	var maxpageno = $('#jumpPageNo').attr('maxpageno');
 	var pageno = $('#jumpPageNo').val();
 	if(!pageno || !$.isNumeric(pageno) || pageno<=0 || pageno>maxpageno){
-		alert('输入的数字必须在1~'+maxpageno+'之间');
+		layer.msg('输入的数字必须在1~'+maxpageno+'之间');
 	}else{
 		CustomersShowAction(pageno);
 	}
@@ -227,7 +227,7 @@ function insert(){
 		if(result.code=='000000'){
 			CustomersShowAction(1);
 		}else{
-			alert(result.error);
+			layer.msg(result.error,{icon:5});
 		}
 	});
 }
@@ -245,7 +245,7 @@ function toInsert(){
 			$('#customer_code').val(data.code);
 			$('#customer_innercode').val(data.innercode);
 		}else{
-			alert(result.error);
+			layer.msg(result.error,{icon:5});
 		}
 	});
 }
@@ -304,7 +304,7 @@ function CustomersShowAction(pageNo){
 			}
 			layer.close(index);
 		}else{
-			alert(result.error);
+			layer.msg(result.error,{icon:5});
 		}
 	});
 	//layer.close(index);

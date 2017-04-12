@@ -130,7 +130,7 @@ $(function(){
 		var samplingtime = new Date($("#edit_samplingtime").val());
 		samplingtime = samplingtime.getTime();
 		if(isNaN(samplingtime)){
-			layer.alert("采样日期无效!");
+			layer.msg("采样日期无效!");
 			return null;
 		}
 		var id = $('#edit_id').val();
@@ -150,7 +150,7 @@ $(function(){
 		}
 		var arrstr = JSON.stringify(arr);
 		if(trs.length==0){
-			layer.alert("采样车辆信息不能为空!")
+			layer.msg("采样车辆信息不能为空!")
 			return null;
 		}
 
@@ -188,7 +188,7 @@ $(function(){
 		var samplingtime = new Date($("#add_samplingtime").val());
 		samplingtime = samplingtime.getTime();
 		if(isNaN(samplingtime)){
-			layer.alert("采购日期无效!");
+			layer.msg("采购日期无效!");
 			return null;
 		}
 		var createtime = Date.parseYMD_HMS($("#add_createtime").val()).getTime();
@@ -204,7 +204,7 @@ $(function(){
 		}
 		var arrstr = JSON.stringify(arr);
 		if(arrstr=='[]'){
-			layer.alert("采样车辆信息不能为空!")
+			layer.msg("采样车辆信息不能为空!")
 			return null;
 		}
 		var param = {
@@ -245,7 +245,7 @@ $(function(){
 					cardIdArr.push(cardId);
 				}else{
 					readerClose();
-					layer.alert('此卡已读!');
+					layer.msg('此卡已读!');
 					return;
 				}
 				//提示读卡成功
@@ -262,7 +262,7 @@ $(function(){
 							remark:getDataFromCard(24)
 					};
 				}catch (e) {
-					alert(e.Message);
+					msg(e.Message);
 				}
 				//关闭读卡器
 				readerClose();
@@ -287,7 +287,7 @@ $(function(){
 				readerClose();
 			}
 		}else{
-			layer.alert('当前游览器不支持!(只兼容IE游览器)');
+			layer.msg('当前游览器不支持!(只兼容IE游览器)');
 		}
 	}
 
@@ -416,7 +416,7 @@ $(function(){
 		var pageno = $('#jumpPageNo').val();
 		//判断跳转值是否在符合规范
 		if(!pageno || !$.isNumeric(pageno) || pageno<=0 || pageno>maxpageno){
-			alert('输入的数字必须在1~'+maxpageno+'之间');
+			layer.msg('输入的数字必须在1~'+maxpageno+'之间');
 		}else{
 			//加载指定的列表数据
 			ShowAction(pageno);
@@ -494,7 +494,7 @@ $(function(){
 				//关闭缓冲图标
 				layer.close(index);
 			}else{
-				alert(result.error);
+				layer.msg(result.error,{icon:5});
 			}
 		});
 	}

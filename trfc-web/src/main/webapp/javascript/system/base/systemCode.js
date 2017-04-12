@@ -52,7 +52,7 @@
 	//检测key值是否重复
 	function checkCode(code){
 		if(!code || code == ""){
-			alert("单据代号不可为空!");
+			layer.msg("单据代号不可为空!");
 			return false;
 		}
 		var url = URL.checkCodeUrl;
@@ -69,7 +69,7 @@
 					if(result.data){
 						bl=true;
 					}else{
-						alert("单据代号重复!");
+						layer.msg("单据代号重复!");
 					}
 				}else{
 					layer.msg(result.error,{icon:5});

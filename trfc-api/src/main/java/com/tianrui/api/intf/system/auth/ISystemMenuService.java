@@ -57,4 +57,9 @@ public interface ISystemMenuService {
 	 * @throws Exception
 	 */
 	Result delMenu(SystemMenuQueryReq  req) throws Exception;
+	/**
+	 * 获取下拉树数据
+	 */
+	Result getTreeData() throws Exception;
+	
 }
