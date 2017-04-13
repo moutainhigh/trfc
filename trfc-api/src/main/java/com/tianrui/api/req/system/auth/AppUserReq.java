@@ -9,10 +9,21 @@ import com.tianrui.api.req.BaseReq;
 public class AppUserReq extends BaseReq {
 
 	private static final long serialVersionUID = 7754051527490768321L;
+	//用户id
+	private String id;
+	//登录账户
 	private String account;
+	//登录密码
 	private String pswd;
+	//待修改密码
 	private String newPswd;
 	
+	public String getId() {
+		return id;
+	}
+	public void setId(String id) {
+		this.id = id;
+	}
 	public String getAccount() {
 		return account;
 	}

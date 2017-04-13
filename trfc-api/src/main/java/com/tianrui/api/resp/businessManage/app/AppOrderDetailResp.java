@@ -13,61 +13,99 @@ public class AppOrderDetailResp extends BaseReq{
 	private String id;
 	//订单编码
 	private String code;
-	//货物名称
-	private String cargoName;
-	//日期
-	private String data;
-	//客户名称
-	private String customName;
+	//物料
+	private String materialName;
+	//销售组织
+	private String orgName;
+	//客户
+	private String customerName;
+	//订单日期
+	private String billDateStr;
 	//余量
-	private String allowance;
-	//预提量
-	private String withholdingAmount;
+	private Double margin;
+	/**
+	 * @return the id
+	 */
 	public String getId() {
 		return id;
 	}
-	public void setId(String id) {
-		this.id = id;
-	}
+	/**
+	 * @return the code
+	 */
 	public String getCode() {
 		return code;
 	}
+	/**
+	 * @return the materialName
+	 */
+	public String getMaterialName() {
+		return materialName;
+	}
+	/**
+	 * @return the orgName
+	 */
+	public String getOrgName() {
+		return orgName;
+	}
+	/**
+	 * @return the customerName
+	 */
+	public String getCustomerName() {
+		return customerName;
+	}
+	/**
+	 * @return the billDateStr
+	 */
+	public String getBillDateStr() {
+		return billDateStr;
+	}
+	/**
+	 * @return the margin
+	 */
+	public Double getMargin() {
+		return margin;
+	}
+	/**
+	 * @param id the id to set
+	 */
+	public void setId(String id) {
+		this.id = id;
+	}
+	/**
+	 * @param code the code to set
+	 */
 	public void setCode(String code) {
 		this.code = code;
 	}
-	public String getCargoName() {
-		return cargoName;
+	/**
+	 * @param materialName the materialName to set
+	 */
+	public void setMaterialName(String materialName) {
+		this.materialName = materialName;
 	}
-	public void setCargoName(String cargoName) {
-		this.cargoName = cargoName;
+	/**
+	 * @param orgName the orgName to set
+	 */
+	public void setOrgName(String orgName) {
+		this.orgName = orgName;
 	}
-	public String getData() {
-		return data;
+	/**
+	 * @param customerName the customerName to set
+	 */
+	public void setCustomerName(String customerName) {
+		this.customerName = customerName;
 	}
-	public void setData(String data) {
-		this.data = data;
+	/**
+	 * @param billDateStr the billDateStr to set
+	 */
+	public void setBillDateStr(String billDateStr) {
+		this.billDateStr = billDateStr;
 	}
-	public String getCustomName() {
-		return customName;
-	}
-	public void setCustomName(String customName) {
-		this.customName = customName;
-	}
-	public String getAllowance() {
-		return allowance;
-	}
-	public void setAllowance(String allowance) {
-		this.allowance = allowance;
-	}
-	public String getWithholdingAmount() {
-		return withholdingAmount;
-	}
-	public void setWithholdingAmount(String withholdingAmount) {
-		this.withholdingAmount = withholdingAmount;
+	/**
+	 * @param margin the margin to set
+	 */
+	public void setMargin(Double margin) {
+		this.margin = margin;
 	}
 	
-	
-
-	
-
 }

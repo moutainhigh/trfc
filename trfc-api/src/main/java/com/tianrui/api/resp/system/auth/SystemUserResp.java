@@ -21,7 +21,8 @@ public class SystemUserResp implements Serializable{
     private String orgName;
     private String lastLogintimeStr;
 	
-	
+ 	//为APP服务的tokenId
+  	private String tokenId;
 	
 	
 	
@@ -96,6 +97,18 @@ public class SystemUserResp implements Serializable{
 	}
 	public void setLastLogintimeStr(String lastLogintimeStr) {
 		this.lastLogintimeStr = lastLogintimeStr;
+	}
+	/**
+	 * @return the tokenId
+	 */
+	public String getTokenId() {
+		return tokenId;
+	}
+	/**
+	 * @param tokenId the tokenId to set
+	 */
+	public void setTokenId(String tokenId) {
+		this.tokenId = tokenId;
 	}
 	
 	

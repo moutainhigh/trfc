@@ -26,7 +26,6 @@
         <!--登录头部行begin-->
         <div class="header">
             <label>欢迎来到天瑞物流！</label>
-            <a href="" ><label class="colorred">【请登录】</label></a>
         </div>
         <!--登录头部行end-->
     </div>

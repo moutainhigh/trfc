@@ -4,22 +4,25 @@ $(function(){
 		saveUrl:"/trfc/system/auth/user/addUser",
 		pageUrl:"/trfc/system/auth/user/page",
 	}
+	var pageSize = 10;
 	//列表数据加载
-	initData(1);
+	initData(1, pageSize);
 	//查询操作
-	$(".intel_search").on("click",".searchBtn",initData);
+	$(".searchBtn").off('click').on("click", function(){
+		initData(1, pageSize);
+	});
 	//分页操作
 	
 	//新增绑定
-	$(".right").on("click",".addButton",openAddWindow);
+	$(".right").off('click').on("click",".addButton",openAddWindow);
 	//新增弹出框 确认操作
-	$("#addModal").on("click",".submitBtn",addsubmit);
+	$("#addModal").off('click').on("click",".submitBtn",addsubmit);
 	//修改按钮绑定
 	//修改弹出框 确认操作
 	//删除按钮绑定
 	//删除操作
 	//刷新按钮
-	$(".right").on("click",".refreshButton",refreshLocation);
+	$(".right").off('click').on("click",".refreshButton",refreshLocation);
 	
 	
 	/**

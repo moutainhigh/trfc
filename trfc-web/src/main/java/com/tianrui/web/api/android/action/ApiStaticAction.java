@@ -6,11 +6,13 @@ import java.util.UUID;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.tianrui.api.intf.system.auth.ISystemUserService;
 import com.tianrui.api.req.businessManage.app.AppDriverSaveReq;
 import com.tianrui.api.req.businessManage.app.AppOrderReq;
 import com.tianrui.api.req.businessManage.app.AppOrderSaveReq;
@@ -49,20 +51,20 @@ public class ApiStaticAction {
 
 	private Logger log = LoggerFactory.getLogger(ApiStaticAction.class);
 	
+	@Autowired
+	private ISystemUserService systemUserService;
+	
 	@RequestMapping(value="/login",method=RequestMethod.POST)
 	@ApiParamRawType(AppUserReq.class)
 	@ResponseBody
 	public ApiResult login(ApiParam<AppUserReq> req){
-		Result rs=Result.getSuccessResult();
-		AppUserResp resp = new AppUserResp();
-		resp.setId(UUID.randomUUID().toString());
-		resp.setToken(UUID.randomUUID().toString());
-		resp.setMobile("13800000000");
-		resp.setUserName("张三");
-		resp.setOrgid("orgid");
-		resp.setRole("1");
-		rs.setData(resp);
-		
+		Result rs = Result.getSuccessResult();
+		try {
+			rs = systemUserService.appLogin(req.getBody());
+		} catch (Exception e) {
+			e.printStackTrace();
+			log.error(e.getMessage(), e);
+		}
 		return ApiResult.valueOf(rs);
 	}
 	
@@ -71,9 +73,13 @@ public class ApiStaticAction {
 	@ApiParamRawType(UserReq.class)
 	@ResponseBody
 	public ApiResult updatePswd(ApiParam<AppUserReq> req){
-		AppUserReq userReq =req.getBody();
-		Result rs=Result.getSuccessResult();
-		
+		Result rs = Result.getSuccessResult();
+		try {
+			rs = systemUserService.appUpdatePswd(req.getBody());
+		} catch (Exception e) {
+			e.printStackTrace();
+			log.error(e.getMessage(), e);
+		}
 		return ApiResult.valueOf(rs);
 	}
 	
@@ -121,11 +127,11 @@ public class ApiStaticAction {
 		AppOrderDetailResp resp =new AppOrderDetailResp();
 		resp.setId(UUIDUtil.getId());
 		resp.setCode("DD201702200001");
-		resp.setCargoName("水泥");
-		resp.setData("2017-02-20");
-		resp.setCustomName("客户张三");
-		resp.setAllowance("100");
-		resp.setWithholdingAmount("50");
+//		resp.setCargoName("水泥");
+//		resp.setData("2017-02-20");
+//		resp.setCustomName("客户张三");
+//		resp.setAllowance("100");
+//		resp.setWithholdingAmount("50");
 		rs.setData(resp);
 		return ApiResult.valueOf(rs);
 	}

@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.tianrui.api.intf.system.auth.ISystemUserService;
+import com.tianrui.api.req.system.auth.AppUserReq;
 import com.tianrui.api.req.system.auth.SystemUserPswdReq;
 import com.tianrui.api.req.system.auth.SystemUserQueryReq;
 import com.tianrui.api.req.system.auth.SystemUserSaveReq;
@@ -38,9 +39,9 @@ public class SystemUserService implements ISystemUserService {
 	@Override
 	public Result apiLogin(UserReq req) throws Exception {
 		Result rs =Result.getParamErrorResult();
-		if(req!=null && StringUtils.isNotBlank(req.getPswd()) && StringUtils.isNotBlank(req.getAccount())){
-			if( StringUtils.equals(req.getAccount(), "test") ){
-				if( StringUtils.equals(req.getPswd(), Md5Utils.MD5("123456")) ){
+		if (req!=null && StringUtils.isNotBlank(req.getPswd()) && StringUtils.isNotBlank(req.getAccount())) {
+			if ( StringUtils.equals(req.getAccount(), "test") ) {
+				if ( StringUtils.equals(req.getPswd(), Md5Utils.MD5("123456")) ) {
 					SystemUserResp userResp = new SystemUserResp();
 					userResp.setId("9999999999");
 					userResp.setName("测试员金鑫");
@@ -61,10 +62,10 @@ public class SystemUserService implements ISystemUserService {
 	public Result page(SystemUserQueryReq req) throws Exception {
 		Result rs =Result.getSuccessResult();
 		PaginationVO<SystemUserResp> page = null;
-		if(req != null){
+		if (req != null) {
 			page = new PaginationVO<SystemUserResp>();
 			long count = userMapper.countByCondition(req);
-			if(count > 0){
+			if (count > 0) {
 				req.setStart((req.getPageNo()-1)*req.getPageSize());
 				req.setLimit(req.getPageSize());
 				List<SystemUser> list = userMapper.selectByCondition(req);
@@ -82,9 +83,9 @@ public class SystemUserService implements ISystemUserService {
 	public Result detail(SystemUserQueryReq req) throws Exception {
 		Result rs =Result.getParamErrorResult();
 		//主键不能为空
-		if( req !=null && StringUtils.isNotBlank(req.getId())){
+		if ( req !=null && StringUtils.isNotBlank(req.getId())) {
 			SystemUser db=userMapper.selectByPrimaryKey(req.getId());
-			if( db !=null ){
+			if ( db !=null ) {
 				rs.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
 				rs.setData(copySystemUserBean2Resp(db));
 			}else{
@@ -98,17 +99,17 @@ public class SystemUserService implements ISystemUserService {
 	public Result addUser(SystemUserSaveReq req) throws Exception {
 		Result rs =Result.getParamErrorResult();
 		//参数不能为空交验
-		if( validateReq(req,1) ){
+		if ( validateReq(req,1) ) {
 			//用户编码不能重复 
 			SystemUserQueryReq query =new SystemUserQueryReq();
 			query.setAccount(req.getAccount());
 			List<SystemUser> list =userMapper.selectByCondition(query);
-			if( CollectionUtils.isEmpty(list) ){
+			if ( CollectionUtils.isEmpty(list) ) {
 				//登录账户不能 重复
 				query =new SystemUserQueryReq();
 				query.setCode(req.getCode());
 				list =userMapper.selectByCondition(query);
-				if( CollectionUtils.isEmpty(list) ){
+				if ( CollectionUtils.isEmpty(list) ) {
 					//保存数据
 					SystemUser save =new SystemUser();
 					save.setId(UUIDUtil.getId());
@@ -117,7 +118,7 @@ public class SystemUserService implements ISystemUserService {
 					save.setName(req.getName());
 					save.setAccount(req.getAccount());
 					//是否有效
-					if( StringUtils.equals(req.getIsvalid(), BusinessConstants.USER_VALID_STR)){
+					if ( StringUtils.equals(req.getIsvalid(), BusinessConstants.USER_VALID_STR)) {
 						save.setIsvalid(BusinessConstants.USER_VALID_BYTE);
 					}else{
 						save.setIsvalid(BusinessConstants.USER_INVALID_BYTE);
@@ -144,20 +145,20 @@ public class SystemUserService implements ISystemUserService {
 	public Result editUser(SystemUserSaveReq req) throws Exception {
 		Result rs =Result.getParamErrorResult();
 		//参数不能为空交验
-		if( validateReq(req,2) ){
+		if ( validateReq(req,2) ) {
 			//用户需要能查询到
 			SystemUser db=userMapper.selectByPrimaryKey(req.getId());
-			if( db !=null ){
+			if ( db !=null ) {
 				//用户编码不能重复 
 				SystemUserQueryReq query =new SystemUserQueryReq();
 				query.setAccount(req.getAccount());
 				List<SystemUser> list =userMapper.selectByCondition(query);
-				if( CollectionUtils.isEmpty(list)  || list.size()==1 ){
+				if ( CollectionUtils.isEmpty(list)  || list.size()==1 ) {
 					//登录账户不能 重复
 					query =new SystemUserQueryReq();
 					query.setCode(req.getCode());
 					list =userMapper.selectByCondition(query);
-					if( CollectionUtils.isEmpty(list) || list.size()==1){
+					if ( CollectionUtils.isEmpty(list) || list.size()==1) {
 						//保存数据
 						SystemUser update =new SystemUser();
 						update.setId(UUIDUtil.getId());
@@ -166,7 +167,7 @@ public class SystemUserService implements ISystemUserService {
 						update.setName(req.getName());
 						update.setAccount(req.getAccount());
 						//是否有效
-						if( StringUtils.equals(req.getIsvalid(), BusinessConstants.USER_VALID_STR)){
+						if ( StringUtils.equals(req.getIsvalid(), BusinessConstants.USER_VALID_STR)) {
 							update.setIsvalid(BusinessConstants.USER_VALID_BYTE);
 						}else{
 							update.setIsvalid(BusinessConstants.USER_INVALID_BYTE);
@@ -192,10 +193,10 @@ public class SystemUserService implements ISystemUserService {
 	public Result delUser(SystemUserQueryReq req) throws Exception {
 		Result rs =Result.getParamErrorResult();
 		//参数不能为空交验
-		if( req !=null && StringUtils.isBlank(req.getId()) ){
+		if ( req !=null && StringUtils.isBlank(req.getId()) ) {
 			//是否能查到数据
 			SystemUser db=userMapper.selectByPrimaryKey(req.getId());
-			if(db !=null){
+			if (db !=null) {
 				//TODO关联关系删除
 				userMapper.deleteByPrimaryKey(req.getId());
 				rs.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
@@ -210,10 +211,10 @@ public class SystemUserService implements ISystemUserService {
 	public Result resetUser(SystemUserQueryReq req) throws Exception {
 		Result rs =Result.getParamErrorResult();
 		//参数不能为空交验
-		if( req !=null && StringUtils.isBlank(req.getId()) ){
+		if ( req !=null && StringUtils.isBlank(req.getId()) ) {
 			//是否能查到数据
 			SystemUser db=userMapper.selectByPrimaryKey(req.getId());
-			if(db !=null){
+			if (db !=null) {
 				//重置密码
 				SystemUser update =new SystemUser();
 				update.setId(req.getId());
@@ -231,14 +232,14 @@ public class SystemUserService implements ISystemUserService {
 	public Result login(UserReq req) throws Exception {
 		Result rs =Result.getParamErrorResult();
 		//参数不能为空
-		if(req!=null && StringUtils.isNotBlank(req.getPswd()) && StringUtils.isNotBlank(req.getAccount())){
+		if (req!=null && StringUtils.isNotBlank(req.getPswd()) && StringUtils.isNotBlank(req.getAccount())) {
 			SystemUserQueryReq query =new SystemUserQueryReq();
 			query.setAccount(req.getAccount());
 			List<SystemUser> list =userMapper.selectByCondition(query);
-			if( CollectionUtils.isNotEmpty(list) ){
+			if ( CollectionUtils.isNotEmpty(list) ) {
 				//验证密码
-				if(StringUtils.equals(list.get(0).getPassword(),req.getPswd() )){
-					if( list.get(0).getIsvalid()==BusinessConstants.USER_VALID_BYTE ){
+				if (StringUtils.equals(list.get(0).getPassword(),req.getPswd() )) {
+					if ( list.get(0).getIsvalid()==BusinessConstants.USER_VALID_BYTE ) {
 						rs.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
 						rs.setData(copySystemUserBean2Resp(list.get(0)));
 					}else{
@@ -258,13 +259,13 @@ public class SystemUserService implements ISystemUserService {
 	public Result editPswd(SystemUserPswdReq req) throws Exception {
 		Result rs =Result.getParamErrorResult();
 		//参数不能为空交验
-		if( req !=null && StringUtils.isBlank(req.getId())
+		if ( req !=null && StringUtils.isBlank(req.getId())
 				&& StringUtils.isBlank(req.getOldPswd())
-				&& StringUtils.isBlank(req.getNewPswd()) ){
+				&& StringUtils.isBlank(req.getNewPswd()) ) {
 			//是否能查到数据
 			SystemUser db=userMapper.selectByPrimaryKey(req.getId());
-			if(db !=null){
-				if( StringUtils.equals(db.getPassword(), req.getOldPswd()) ){
+			if (db !=null) {
+				if ( StringUtils.equals(db.getPassword(), req.getOldPswd()) ) {
 					//修改密码
 					SystemUser update =new SystemUser();
 					update.setId(req.getId());
@@ -285,7 +286,7 @@ public class SystemUserService implements ISystemUserService {
 	//包装返回对象
 	private SystemUserResp copySystemUserBean2Resp(SystemUser bean) throws Exception {
 		SystemUserResp resp = null;
-		if(bean != null){
+		if (bean != null) {
 			resp =new SystemUserResp();
 			PropertyUtils.copyProperties(resp, bean);
 			//TODO 自定义属性添加
@@ -295,9 +296,9 @@ public class SystemUserService implements ISystemUserService {
 	//包装返回对象集合  
 	private List<SystemUserResp> copySystemUserBeanList2RespList(List<SystemUser> list) throws Exception {
 		List<SystemUserResp> resp = null;
-		if(CollectionUtils.isNotEmpty(list)){
+		if (CollectionUtils.isNotEmpty(list)) {
 			resp = new ArrayList<SystemUserResp>();
-			for(SystemUser item:list){
+			for(SystemUser item:list) {
 				resp.add(copySystemUserBean2Resp(item));
 			}
 		}
@@ -309,24 +310,24 @@ public class SystemUserService implements ISystemUserService {
 	 * @param type  1:新增  2:修改 3:删除
 	 * @return
 	 */
-	private boolean validateReq(SystemUserSaveReq req,int type){
+	private boolean validateReq(SystemUserSaveReq req,int type) {
 		boolean rs=false;
-		if(req!=null){
-			if(   type==1 
+		if (req!=null) {
+			if (   type==1 
 					&& StringUtils.isNotBlank(req.getCode())
 					&& StringUtils.isNotBlank(req.getName()) 
 					&& StringUtils.isNotBlank(req.getAccount()) 
 					&& StringUtils.isNotBlank(req.getPassword()) 
 					&& StringUtils.isNotBlank(req.getOrgId()) 
-					&& StringUtils.isNotBlank(req.getIsvalid()) ){
+					&& StringUtils.isNotBlank(req.getIsvalid()) ) {
 				rs =true;
-			}else if(type==2
+			}else if (type==2
 					&& StringUtils.isNotBlank(req.getId())
 					&& StringUtils.isNotBlank(req.getCode())
 					&& StringUtils.isNotBlank(req.getName()) 
 					&& StringUtils.isNotBlank(req.getAccount()) 
 					&& StringUtils.isNotBlank(req.getOrgId()) 
-					&& StringUtils.isNotBlank(req.getIsvalid()) ){
+					&& StringUtils.isNotBlank(req.getIsvalid()) ) {
 				rs =true;
 			}
 		}
@@ -337,7 +338,7 @@ public class SystemUserService implements ISystemUserService {
 	public SystemUserResp getUser(String id) throws Exception{
 		SystemUser db = null;
 		//主键不能为空
-		if(StringUtils.isNotBlank(id)){
+		if (StringUtils.isNotBlank(id)) {
 			db = userMapper.selectByPrimaryKey(id);
 		}
 		return copySystemUserBean2Resp(db);
@@ -348,7 +349,7 @@ public class SystemUserService implements ISystemUserService {
 		Result rs = Result.getSuccessResult();
 		List<SystemUserResp> resps = new ArrayList<SystemUserResp>();
 		List<SystemUser> list = userMapper.autoCompleteSearch(req);
-		for(SystemUser su : list){
+		for(SystemUser su : list) {
 			SystemUserResp resp = new SystemUserResp();
 			PropertyUtils.copyProperties(resp,su);
 			resps.add(resp);
@@ -386,4 +387,64 @@ public class SystemUserService implements ISystemUserService {
 		return user;
 	}
 
+	@Override
+	public Result appLogin(AppUserReq req) throws Exception {
+		Result result = Result.getParamErrorResult();
+		if (req != null && StringUtils.isNotBlank(req.getAccount())
+				&& StringUtils.isNotBlank(req.getPswd())) {
+			SystemUserQueryReq query =new SystemUserQueryReq();
+			query.setAccount(req.getAccount());
+			List<SystemUser> list =userMapper.selectByCondition(query);
+			if (CollectionUtils.isNotEmpty(list)) {
+				//验证密码
+				if (StringUtils.equals(list.get(0).getPassword(), req.getPswd())) {
+					if (list.get(0).getIsvalid()==BusinessConstants.USER_VALID_BYTE ) {
+						String tokenId =UUIDUtil.getId();
+						SystemUserResp user = get(list.get(0).getId(), true);
+						//缓存默认保存一天
+						String key =CacheHelper.buildKey(CacheModule.MEMBERLOGIN_APP, tokenId);
+						cacheClient.saveObject(key, user, 7*24*60*60);
+						user.setTokenId(tokenId);
+						result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+						result.setData(user);
+					}else{
+						result.setErrorCode(ErrorCode.SYSTEM_USER_ERROR5);
+					}
+				}else{
+					result.setErrorCode(ErrorCode.SYSTEM_USER_ERROR2);
+				}
+			}else{
+				result.setErrorCode(ErrorCode.SYSTEM_USER_ERROR1);
+			}
+		}
+		return null;
+	}
+	
+	@Override
+	public Result appUpdatePswd(AppUserReq req) throws Exception {
+		Result result = Result.getParamErrorResult();
+		if (req != null && StringUtils.isNotBlank(req.getId())
+				&& StringUtils.isNotBlank(req.getPswd())) {
+			SystemUser db=userMapper.selectByPrimaryKey(req.getId());
+			if(db != null){
+				if ( StringUtils.equals(db.getPassword(), req.getPswd()) ) {
+					//修改密码
+					SystemUser update =new SystemUser();
+					update.setId(req.getId());
+					update.setPassword(req.getNewPswd());
+					if(userMapper.updateByPrimaryKeySelective(update) > 0){
+						result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+					}else{
+						result.setErrorCode(ErrorCode.SYSTEM_USER_ERROR10);
+					}
+				}else{
+					//原密码错误
+					result.setErrorCode(ErrorCode.SYSTEM_USER_ERROR9);
+				}
+			}else{
+				result.setErrorCode(ErrorCode.SYSTEM_USER_ERROR1);
+			}
+		}
+		return result;
+	}
 }
