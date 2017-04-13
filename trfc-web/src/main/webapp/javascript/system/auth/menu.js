@@ -308,7 +308,7 @@
 			$.post(url,params,function(result){
 				if(result.code=='000000'){
 					_this.disabled=false;
-					win.location.reload();
+					win.location.reload(true);
 				}else{
 					layer.msg(result.error,{icon:5});
 					_this.disabled=false;
@@ -384,7 +384,7 @@
 			$.post(url,params,function(result){
 				if(result.code=='000000'){
 					_this.disabled=false;
-					win.location.reload();
+					win.location.reload(true);
 				}else{
 					layer.msg(result.error,{icon:5});
 					_this.disabled=false;

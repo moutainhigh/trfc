@@ -114,7 +114,7 @@ $(function(){
 	 * 页面重新刷新
 	 */
 	function refreshLocation(){
-		window.location.reload();
+		window.location.reload(true);
 	}
 	
 });

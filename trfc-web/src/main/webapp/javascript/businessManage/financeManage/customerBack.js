@@ -440,7 +440,7 @@
 				});
 				if(result.code=='000000'){
 					_this.disabled=false;
-					win.location.reload();
+					win.location.reload(true);
 				}else{
 					layer.msg('该客户的退补已经录入!',{icon:5});
 					_this.disabled=false;
@@ -561,7 +561,7 @@
 				type:'post',
 				success:function(result){
 					if(result.code == '000000'){
-						win.location.reload();
+						win.location.reload(true);
 					}else{
 						layer.msg(result.error, {icon: 5});
 					}

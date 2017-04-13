@@ -182,7 +182,7 @@
 				type:'post',
 				success:function(result){
 					if(result.code == '000000'){
-						win.location.reload();
+						win.location.reload(true);
 					}else{
 						alert(result.error);
 					}

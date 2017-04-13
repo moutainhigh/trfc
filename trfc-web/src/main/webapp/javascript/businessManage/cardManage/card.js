@@ -201,7 +201,7 @@
 					success:function(result){
 						if(result.code == '000000'){
 							$('#delCardView').modal('hide');
-							win.location.reload();
+							win.location.reload(true);
 						}else{
 							layer.msg(result.error, {icon: 5});
 						}

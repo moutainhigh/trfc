@@ -255,7 +255,7 @@
 			}
 		});
 		$('#refreshBtn').off('click').on('click',function(){
-			window.location.reload();
+			window.location.reload(true);
 		});
 		$('#updateBtn').off('click').on('click',function(){
 			if(!$(this).hasClass('disabled')){

@@ -11,7 +11,7 @@ $(function(){
 	$('#goBack').click(function(){
 		window.location.href=URL.mainUrl;
 	});
-	$('#fresh').click(function(){window.location.reload();});
+	$('#fresh').click(function(){window.location.reload(true);});
 	//获取用户名
 	var userid = $('.user').attr('userid');
 	var id = getId();

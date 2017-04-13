@@ -26,7 +26,7 @@ $(function(){
 		window.location.href=URL.mainUrl;
 	});
 	$('#fresh').click(function(){
-		window.location.reload();
+		window.location.reload(true);
 	});
 	//选择批号是 对批号列表进行初始话
 	$('#add_batchcode').click(function(){batchnumShowAction(1);});

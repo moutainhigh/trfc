@@ -20,7 +20,7 @@ PAGE.mod.main = {
 		bindEvent:function(){
 			var _this = this;
 			$('#refreshBtn').off('click').on('click',function(){
-				window.location.reload();
+				window.location.reload(true);
 			});
 			$('#readCardBtn').off('click').on('click',function(){
 				//读卡
