@@ -30,7 +30,7 @@
 						class="iconfont">&#xe618;</i> <span>质控管理</span>
 				</a></li>
 				<li><a href="/trfc/customerbegin/main"> <i 
-						class="iconfont">&#xe612;</i><span>财务管理</span>
+						class="iconfont">&#xe612;</i> <span>财务管理</span>
 				</a></li>
 				<li><a href="/trfc/poundNote/purchase/main"> <i
 						class="iconfont">&#xe62a;</i> <span>磅单维护</span>
@@ -87,9 +87,14 @@
                 <i class="iconfont">&#xe617;</i>
             </a>
         </li>
+         <li data-toggle="tooltip" data-placement="right" title="销售管理">
+            <a href="/trfc/purchaseApplication/main">
+                <i class="iconfont">&#xe615;</i>
+            </a>
+        </li>
         <li data-toggle="tooltip" data-placement="right" title="卡务管理">
             <a href="/trfc/card/main">
-                <i class="iconfont">&#xe613;</i>
+                <i class="iconfont">&#xe601;</i>
             </a>
         </li>
         <li data-toggle="tooltip" data-placement="right" title="质控管理">
@@ -104,32 +109,32 @@
         </li>
         <li data-toggle="tooltip" data-placement="right" title="磅单维护">
             <a href="/trfc/poundNote/purchase/main">
-                <i class="iconfont">&#xe631;</i>
+                <i class="iconfont">&#xe62a;</i>
             </a>
         </li>
         <li data-toggle="tooltip" data-placement="right" title="厂区物流">
             <a href="/trfc/accessRecord/main">
-                <i class="iconfont">&#xe619;</i>
+                <i class="iconfont">&#xe629;</i>
             </a>
         </li>
         <li data-toggle="tooltip" data-placement="right" title="NC档案">
             <a href="/trfc/customer/main">
-                <i class="iconfont">&#xe611;</i>
+                <i class="iconfont">&#xe670;</i>
             </a>
         </li>
         <li data-toggle="tooltip" data-placement="right" title="计量档案">
             <a href="/trfc/transport/main">
-                <i class="iconfont">&#xe611;</i>
+                <i class="iconfont">&#xe670;</i>
             </a>
         </li>
         <li data-toggle="tooltip" data-placement="right" title="质检档案">
             <a href="/trfc/quality/sales/file/MaterialScheme/main">
-                <i class="iconfont">&#xe611;</i>
+                <i class="iconfont">&#xe670;</i>
             </a>
         </li>
         <li data-toggle="tooltip" data-placement="right" title="其他档案">
             <a href="/trfc/basicFile/other/customer/main">
-                <i class="iconfont">&#xe611;</i>
+                <i class="iconfont">&#xe670;</i>
             </a>
         </li>
         <li data-toggle="tooltip" data-placement="right" title="系统权限">
