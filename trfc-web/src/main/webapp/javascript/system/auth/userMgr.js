@@ -101,7 +101,7 @@ $(function(){
 				if( rs && rs.code =="000000" ){
 					$("#addModal").modal("hide");
 				}else{
-					alert(rs.error);
+					layer.msg(rs.error,{icon:5});
 				}
 			}
 		});

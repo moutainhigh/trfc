@@ -28,7 +28,7 @@ public class SystemMenu {
     //参数
     private String param;
     //菜单图片
-    private Byte imgType;
+    private String imgType;
     //说明
     private String info;
     //连接目标
@@ -245,7 +245,7 @@ public class SystemMenu {
      *
      * @mbggenerated
      */
-    public Byte getImgType() {
+    public String getImgType() {
         return imgType;
     }
 
@@ -257,7 +257,7 @@ public class SystemMenu {
      *
      * @mbggenerated
      */
-    public void setImgType(Byte imgType) {
+    public void setImgType(String imgType) {
         this.imgType = imgType;
     }
 

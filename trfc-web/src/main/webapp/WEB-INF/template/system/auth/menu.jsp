@@ -14,6 +14,7 @@
 <jsp:include page="../../common/base/header_busi.jsp"></jsp:include>
 <script type="text/javascript" src="${staticBasePath }/js/jquery.easyui.min.js"></script>
 <link href="${staticBasePath}/css/easyui.css" rel="stylesheet">
+<link href="${staticBasePath}/css/icon.css" rel="stylesheet">
 </head>
 <body>
 <div class="it_admin">
@@ -313,6 +314,11 @@
                         <input type="text" id="param">
                     </div>
                     <div class="alt_edit_div">
+                        <label>图标：</label>
+                        <i class="iconfont" id="iconid"></i>
+                        <button class="btn btnblue btn_little" data-toggle="modal" data-target="#iconselect">选择图标</button>
+                    </div>
+                    <div class="alt_edit_div">
                         <label>分组行：</label>
                         <select class="form-control" id="group">
 							<option value="0" name="type">==请选择==</option>
@@ -393,6 +399,11 @@
                         <input type="text" id="update_param">
                     </div>
                     <div class="alt_edit_div">
+                        <label>图标：</label>
+                        <i class="iconfont" id="iconid"></i>
+                        <button class="btn btnblue btn_little" data-toggle="modal" data-target="#iconselect">选择图标</button>
+                    </div>
+                    <div class="alt_edit_div">
                         <label>分组行：</label>
                         <select class="form-control" id="update_grouping">
 							<option value="0" name="type">==请选择==</option>
@@ -413,9 +424,343 @@
     </div>
 </div>
 <!--编辑end-->
-<!--删除begin-->
+<!--图标选择begin-->
+<div class="modal fade" id="iconselect" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document" style="width: 450px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">菜单图标管理</h4>
+            </div>
+            <div class="modal-body">
+                <div class="menu_icon" id="menu_icons">
+                     <ul>
+            
+                <li>
+                <i class="icon iconfont" icon_id="#xe608;">&#xe608;</i>
+                </li>
+            
+                <li>
+                <i class="icon iconfont" icon_id="#xe60d;">&#xe60d;</i>
+                </li>
+            
+                <li>
+                <i class="icon iconfont" icon_id="#xe603;">&#xe603;</i>
+                </li>
+            
+                <li>
+                <i class="icon iconfont" icon_id="#xe601;">&#xe601;</i>
+                </li>
+            
+                <li>
+                <i class="icon iconfont" icon_id="#xe61b;">&#xe61b;</i>
+                </li>
+            
+                <li>
+                <i class="icon iconfont" icon_id="#xe63a;">&#xe63a;</i>
+                </li>
+            
+                <li>
+                <i class="icon iconfont" icon_id="#xe60f;">&#xe60f;</i>
+                </li>
+            
+                <li>
+                <i class="icon iconfont" icon_id="#xe625;">&#xe625;</i>
+                </li>
+            
+                <li>
+                <i class="icon iconfont" icon_id="#xe726;">&#xe726;</i>
+                </li>
+            
+                <li>
+                <i class="icon iconfont" icon_id="#xe692;">&#xe692;</i>
+                </li>
+            
+                <li>
+                <i class="icon iconfont" icon_id="#xe619;">&#xe619;</i>
+                </li>
+            
+                <li>
+                <i class="icon iconfont" icon_id="#xe633;">&#xe633;</i>
+                </li>
+            
+                <li>
+                <i class="icon iconfont" icon_id="#xe61e;">&#xe61e;</i>
+                </li>
+            
+                <li>
+                <i class="icon iconfont" icon_id="#xe61d;">&#xe61d;</i>
+                </li>
+            
+                <li>
+                <i class="icon iconfont" icon_id="#xe61f;">&#xe61f;</i>
+                </li>
+            
+                <li>
+                <i class="icon iconfont" icon_id="#xe600;">&#xe600;</i>
+                </li>
+            
+                <li>
+                <i class="icon iconfont" icon_id="#xe680;">&#xe680;</i>
+                </li>
+            
+                <li>
+                <i class="icon iconfont" icon_id="#xe63d;">&#xe63d;</i>
+                </li>
+            
+                <li>
+                <i class="icon iconfont" icon_id="#xe622;">&#xe622;</i>
+                </li>
+            
+                <li>
+                <i class="icon iconfont" icon_id="#xe604;">&#xe604;</i>
+                </li>
+            
+                <li>
+                <i class="icon iconfont" icon_id="#xe61a;">&#xe61a;</i>
+                </li>
+            
+                <li>
+                <i class="icon iconfont" icon_id="#xe61c;">&#xe61c;</i>
+                </li>
+            
+                <li>
+                <i class="icon iconfont" icon_id="#xe853;">&#xe853;</i>
+                </li>
+            
+                <li>
+                <i class="icon iconfont" icon_id="#xe610;">&#xe610;</i>
+                </li>
+            
+                <li>
+                <i class="icon iconfont" icon_id="#xe602;">&#xe602;</i>
+                </li>
+            
+                <li>
+                <i class="icon iconfont" icon_id="#xe66e;">&#xe66e;</i>
+                </li>
+            
+                <li>
+                <i class="icon iconfont" icon_id="#xe7e6;">&#xe7e6;</i>
+                </li>
+            
+                <li>
+                <i class="icon iconfont" icon_id="#xe647;">&#xe647;</i>
+                </li>
+            
+                <li>
+                <i class="icon iconfont" icon_id="#xe611;">&#xe611;</i>
+                </li>
+            
+                <li>
+                <i class="icon iconfont" icon_id="#xe63c;">&#xe63c;</i>
+                </li>
+            
+                <li>
+                <i class="icon iconfont" icon_id="#xe628;">&#xe628;</i>
+                </li>
+            
+                <li>
+                <i class="icon iconfont" icon_id="#xe612;">&#xe612;</i>
+                </li>
+            
+                <li>
+                <i class="icon iconfont" icon_id="#xe629;">&#xe629;</i>
+                </li>
+            
+                <li>
+                <i class="icon iconfont" icon_id="#xe695;">&#xe695;</i>
+                </li>
+            
+                <li>
+                <i class="icon iconfont" icon_id="#xe62f;">&#xe62f;</i>
+                </li>
+            
+                <li>
+                <i class="icon iconfont" icon_id="#xe6c8;">&#xe6c8;</i>
+                </li>
+            
+                <li>
+                <i class="icon iconfont" icon_id="#xe605;">&#xe605;</i>
+                </li>
+            
+                <li>
+                <i class="icon iconfont" icon_id="#xe613;">&#xe613;</i>
+                </li>
+            
+                <li>
+                <i class="icon iconfont" icon_id="#xe635;">&#xe635;</i>
+                </li>
+            
+                <li>
+                <i class="icon iconfont" icon_id="#xe609;">&#xe609;</i>
+                </li>
+            
+                <li>
+                <i class="icon iconfont" icon_id="#xe654;">&#xe654;</i>
+                </li>
+            
+                <li>
+                <i class="icon iconfont" icon_id="#xe62b;">&#xe62b;</i>
+                </li>
+            
+                <li>
+                <i class="icon iconfont" icon_id="#xe621;">&#xe621;</i>
+                </li>
+            
+                <li>
+                <i class="icon iconfont" icon_id="#xe681;">&#xe681;</i>
+                </li>
+            
+                <li>
+                <i class="icon iconfont" icon_id="#xe626;">&#xe626;</i>
+                </li>
+            
+                <li>
+                <i class="icon iconfont" icon_id="#xe60c;">&#xe60c;</i>
+                </li>
+            
+                <li>
+                <i class="icon iconfont" icon_id="#xe636;">&#xe636;</i>
+                </li>
+            
+                <li>
+                <i class="icon iconfont" icon_id="#xe614;">&#xe614;</i>
+                </li>
+            
+                <li>
+                <i class="icon iconfont" icon_id="#xe66f;">&#xe66f;</i>
+                </li>
+            
+                <li>
+                <i class="icon iconfont" icon_id="#xe60e;">&#xe60e;</i>
+                </li>
+            
+                <li>
+                <i class="icon iconfont" icon_id="#xe627;">&#xe627;</i>
+                </li>
+            
+                <li>
+                <i class="icon iconfont" icon_id="#xe620;">&#xe620;</i>
+                </li>
+            
+                <li>
+                <i class="icon iconfont" icon_id="#xe606;">&#xe606;</i>
+                </li>
+            
+                <li>
+                <i class="icon iconfont" icon_id="#xe615;">&#xe615;</i>
+                </li>
+            
+                <li>
+                <i class="icon iconfont" icon_id="#xe60a;">&#xe60a;</i>
+                </li>
+            
+                <li>
+                <i class="icon iconfont" icon_id="#xe634;">&#xe634;</i>
+                </li>
+            
+                <li>
+                <i class="icon iconfont" icon_id="#xe638;">&#xe638;</i>
+                </li>
+            
+                <li>
+                <i class="icon iconfont" icon_id="#xe631;">&#xe631;</i>
+                </li>
+            
+                <li>
+                <i class="icon iconfont" icon_id="#xe748;">&#xe748;</i>
+                </li>
+            
+                <li>
+                <i class="icon iconfont" icon_id="#xe651;">&#xe651;</i>
+                </li>
+            
+                <li>
+                <i class="icon iconfont" icon_id="#xe623;">&#xe623;</i>
+                </li>
+            
+                <li>
+                <i class="icon iconfont" icon_id="#xe717;">&#xe717;</i>
+                </li>
+            
+                <li>
+                <i class="icon iconfont" icon_id="#xe616;">&#xe616;</i>
+                </li>
+            
+                <li>
+                <i class="icon iconfont" icon_id="#xe617;">&#xe617;</i>
+                </li>
+            
+                <li>
+                <i class="icon iconfont" icon_id="#xe618;">&#xe618;</i>
+                </li>
+            
+                <li>
+                <i class="icon iconfont" icon_id="#xe60b;">&#xe60b;</i>
+                </li>
+            
+                <li>
+                <i class="icon iconfont" icon_id="#xe65e;">&#xe65e;</i>
+                </li>
+            
+                <li>
+                <i class="icon iconfont" icon_id="#xe670;">&#xe670;</i>
+                </li>
+            
+                <li>
+                <i class="icon iconfont" icon_id="#xe607;">&#xe607;</i>
+                </li>
+            
+                <li>
+                <i class="icon iconfont" icon_id="#xe668;">&#xe668;</i>
+                </li>
+            
+                <li>
+                <i class="icon iconfont" icon_id="#xe624;">&#xe624;</i>
+                </li>
+            
+                <li>
+                <i class="icon iconfont" icon_id="#xe65a;">&#xe65a;</i>
+                </li>
+            
+                <li>
+                <i class="icon iconfont" icon_id="#xe637;">&#xe637;</i>
+                </li>
+            
+                <li>
+                <i class="icon iconfont" icon_id="#xe74b;">&#xe74b;</i>
+                </li>
+            
+                <li>
+                <i class="icon iconfont" icon_id="#xe652;">&#xe652;</i>
+                </li>
+            
+                <li>
+                <i class="icon iconfont" icon_id="#xe64e;">&#xe64e;</i>
+                </li>
+            
+                <li>
+                <i class="icon iconfont" icon_id="#xe62a;">&#xe62a;</i>
+                </li>
+            
+        </ul>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal" id="quding">确定</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--图标选择end-->
 <!--详细end-->
+<script type="text/javascript">
 
+
+
+</script>
 <!-- 引用公共footer部分 -->
 <jsp:include page="../../common/base/footer_busi.jsp"></jsp:include>
 <script type="text/javascript"

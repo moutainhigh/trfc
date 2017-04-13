@@ -30,7 +30,7 @@ public class SystemMenuSaveReq extends BaseReq {
     //参数
     private String param;
     //菜单图片
-    private Byte imgType;
+    private String imgType;
     //说明
     private String info;
     //连接目标
@@ -99,10 +99,10 @@ public class SystemMenuSaveReq extends BaseReq {
 	public void setParam(String param) {
 		this.param = param;
 	}
-	public Byte getImgType() {
+	public String getImgType() {
 		return imgType;
 	}
-	public void setImgType(Byte imgType) {
+	public void setImgType(String imgType) {
 		this.imgType = imgType;
 	}
 	public String getInfo() {

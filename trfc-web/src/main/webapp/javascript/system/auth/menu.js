@@ -22,6 +22,25 @@
 	var menuData={};
 	var treeData=[];
 	function bindEvent(){
+		// 菜单图标选择效果
+		var icon_li = $('.menu_icon ul li');
+		icon_li.on("click", function () {
+		    $(this).addClass('select').siblings().removeClass('select');
+		});
+		// 菜单图标弹出框选中的代码，赋值给新增弹出框
+		$('.iconselect').on('hide.bs.modal',
+		        function() {
+		            var icon_data = $('#menu_icons > ul > li.select > i').text();
+		            $("#iconid").text(icon_data);
+		});
+
+		// 新增弹出框获取的图标代码，赋值给页面树形目录
+		$("#quding").on("click", function () {
+			var icon_data = $('#menu_icons > ul > li.select > i').text();
+		    $("#iconid").text(icon_data);
+		});
+		
+		
 		$('#refreshBtn').off('click').on('click',function(){
 			queryData(1);
 		});
@@ -255,6 +274,7 @@
 		var info=$('#info').val();info=$.trim(info);
 		var param=$('#param').val();param=$.trim(param);
 		var group=$('#group option:selected').text();
+		var imgType = $('#menu_icons > ul > li.select > i').attr('icon_id');
 		return {
 			name:name,
 			code:code,
@@ -262,6 +282,7 @@
 			roleType:role_type,
 			linkgoal:linkgoal,
 			uri:uri,
+			imgType:imgType,
 			isvalid:isvalid,
 			orderBy:order_by,
 			info:info,

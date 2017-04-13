@@ -42,7 +42,7 @@
 								</a>
 							</div>
 							<div class="sys_fuzhusolo" id="showDeleteDict">
-								<a data-toggle="modal" data-target="#deledict"> <i
+								<a> <i
 									class="iconfont colorred">&#xe63d;</i> <label>删除</label>
 								</a>
 							</div>
@@ -124,8 +124,7 @@
 												data-toggle="modal" data-target="#edititem"><i
 													class="iconfont" data-toggle="tooltip"
 													data-placement="left" title="编辑">&#xe600;</i></a></span> <span
-											class="dele_item"> <a data-toggle="modal"
-												data-target="#deleitem"><i class="iconfont"
+											class="dele_item"> <a><i class="iconfont"
 													data-toggle="tooltip" data-placement="left" title="删除">&#xe63d;</i></a>
 										</span></td>
 									</tr>

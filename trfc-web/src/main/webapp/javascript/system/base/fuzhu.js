@@ -14,7 +14,7 @@ $(function(){
 	//绑定数据字典类别编辑页面确认按钮点击事件
 	$('#editdict .btn-primary').click(editDataDict);
 	//绑定数据字典类别删除页面确认按钮点击事件
-	$('#deledict .btn-primary').click(deleteDataDict);
+	$('#showDeleteDict').click(deleteDataDict);
 	//绑定数据字典明细新增按钮点击事件
 	$('#showAddItem').click(showAddItemAction);
 	//绑定新增数据字典明细页面确认按钮点击事件
@@ -219,18 +219,32 @@ function editDataDict() {
 }
 //删除数据字典类别
 function deleteDataDict() {
-//	console.log('deleteDataDict');
 	var url=URL.deleteDictUrl;
 	var param={id:dictData.dict.id};
-//	console.log(param);
-	$('#deledict .btn-primary').attr('data-dismiss','modal');
-	$.post(url,param,function(result){
-		if(result.code == '000000'){
-			listSystemDataDicts();
-		}else{
-			layer.msg('此条数据不能被删除哦！',{icon: 5});
-		}
-	});
+	var bn=layer.open({
+        content: '您确定要删除吗？',
+        area: '600px',
+        closeBtn:1,
+        shadeClose:true,
+        btn: ['确定', '取消'],
+        yes: function(index, layero){
+            //按钮【确定】的回调
+        	$.post(url,param,function(result){
+        		if(result.code == '000000'){
+        			listSystemDataDicts();
+        		}else{
+        			layer.msg('此条数据不能被删除哦！',{icon: 5});
+        		}
+        	});
+			layer.close(bn);
+        },btn2: function(index, layero){
+            //按钮【取消】的回调
+        }
+        ,cancel: function(){
+            //右上角关闭回调
+        }
+    });
+	
 }
 //获取新增数据字典明细时需要的编号
 function showAddItemAction() {
