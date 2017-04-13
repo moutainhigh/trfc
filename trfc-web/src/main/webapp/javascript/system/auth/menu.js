@@ -343,6 +343,7 @@
 	function getUpdateMenu(){
 		var name=$('#update_name').val();name=$.trim(name);
 		var code=$('#update_code').val();code=$.trim(code);
+		var roleid = $('#update_role').val();roleid=$.trim(roleid);
 		var role_type=$('#_easyui_textbox_input2').val();role_type=$.trim(role_type);
 		var linkgoal=$('#update_linkgoal option:selected').text();
 		var uri=$('#update_uri').val();uri=$.trim(uri);
@@ -350,6 +351,7 @@
 		if($('#update_isvalid')[0].checked){
 			isvalid = 1;
 		}
+		
 		var order_by=$('#update_orderBy').val();order_by=$.trim(order_by);
 		var info=$('#update_info').val();info=$.trim(info);
 		var param=$('#update_param').val();param=$.trim(param);
@@ -363,6 +365,7 @@
 			uri:uri,
 			imgType:imgType,
 			isvalid:isvalid,
+			roleid:roleid,
 			orderBy:order_by,
 			info:info,
 			param:param,

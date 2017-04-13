@@ -6,7 +6,7 @@
 $(function(){
 
 
-
+	initMenu();
 	var menu_ctrl = $(".left .menu");
 	var menu_ctrlmini = $(".leftmini .menu2");
 	var leftall = $(".left");
@@ -142,9 +142,8 @@ $(function(){
 	collap_bg(menu_li);
 	var juese_li = $('.sys_collap ul li');
 	collap_bg(juese_li);
-	
+
 	//左侧菜单栏选中效果
-	menuSelected();
 	function menuSelected(){
 
 
@@ -174,8 +173,48 @@ $(function(){
 			}
 		}
 	};
-
-
+	
+	function initMenu() {
+		var url = '/trfc/system/auth/menu/page';
+		var params={
+				pageNo:1,
+				pageSize:100
+		};
+		$.post(url,params,function(result) {
+			showMenu(result.data.list);	
+			menuSelected();
+		});
+	}
+	function showMenu(list){
+		//获取深度为1的 菜单
+		var menu1 = $.grep(list,function(value) {
+			return value.deep == 1;
+		});
+		
+		var menuBody = $('#menulist').empty();
+		var menuImg = $('#menu_imgs').empty();
+		for(i in menu1) {
+			//追加菜单
+			menuBody.append('<a href="#ityewu" data-toggle="collapse" class="menu_collap_tit"><label>'
+					+menu1[i].name+'</label> <span><i class="iconfont">&#xe604;</i></span></a>');
+			var $div_li = $('<div class="in" id="ityewu">').appendTo(menuBody);
+			//获取子菜单
+			var menu2 = $.grep(list,function(value) {
+				return value.roleid == menu1[i].id;
+			});
+			for(j in menu2) {
+				//获取子菜单
+				var menu3 = $.grep(list,function(value) {
+					return value.roleid == menu2[j].id;
+				});
+					var img = menu2[j].imgType ? '&'+menu2[j].imgType : '';
+					var url = menu3.length>0?'href='+menu3[0].uri:'';
+					$div_li.append('<li><a '+url+'> <i class="iconfont">'+img+'</i> <span>'+menu2[j].name+'</span></a></li>');
+					menuImg.append(' <li data-toggle="tooltip" data-placement="right" title="'+menu2[j].name+'"><a '+url+'><i class="iconfont">'+img+'</i></a></li>');
+			}
+		}
+		
+	}
 //	layer删除
 	/*$('.delete').on('click', function(){
     layer.open({

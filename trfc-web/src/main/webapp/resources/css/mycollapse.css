@@ -21,7 +21,7 @@
     font-size: 17px;
     margin-right: 8px;
 }
-.menu_collap .typelist label,.menu_collap .typelist i{
+.menu_collap .typelist span,.menu_collap .typelist i,.menu_collap .typelist label{
     color: #434e8d;
 }
 .menu_collap .typelist li.active,.menu_collap .typelist li:focus,.menu_collap .typelist li:hover{
@@ -39,7 +39,10 @@
     margin-left: -4px;
     color: #0573c7;
 }
-
+.menu_collap .typelist li a{
+    width: 100%;
+    display: inline-block;
+}
 /*角色权限折叠菜单*/
 .sys_collap{
     margin-top: 5px;

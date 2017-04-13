@@ -157,6 +157,11 @@ public class SystemMenuService implements ISystemMenuService {
 				rs.setErrorCode(ErrorCode.SYSTEM_MENU_ERROR8);
 				return rs;
 			}
+			//获取深度
+			SystemMenu sm = systemMenuMapper.selectByPrimaryKey(req.getRoleid());
+			if(sm!=null){
+				req.setDeep(sm.getDeep()+1);
+			}
 			//TODO 保存数据
 			SystemMenu bean=new SystemMenu();
 			PropertyUtils.copyProperties(bean, req);
@@ -184,6 +189,13 @@ public class SystemMenuService implements ISystemMenuService {
 		//参数不能为空交验
 		if(req!=null && StringUtils.isNotBlank(req.getId())){
 			SystemMenu bean=new SystemMenu();
+			
+			//获取深度
+			SystemMenu sm = systemMenuMapper.selectByPrimaryKey(req.getRoleid());
+			if(sm!=null){
+				req.setDeep(sm.getDeep()+1);
+			}
+			
 			PropertyUtils.copyProperties(bean, req);
 			bean.setModifier(req.getCurrUId());
 			bean.setModifytime(System.currentTimeMillis());

@@ -756,11 +756,7 @@
 </div>
 <!--图标选择end-->
 <!--详细end-->
-<script type="text/javascript">
 
-
-
-</script>
 <!-- 引用公共footer部分 -->
 <jsp:include page="../../common/base/footer_busi.jsp"></jsp:include>
 <script type="text/javascript"
