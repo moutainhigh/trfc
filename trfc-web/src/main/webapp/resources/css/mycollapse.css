@@ -29,7 +29,7 @@
     border-left: 4px solid #0573c7;
     color: #0573c7;
 }
-.menu_collap .typelist li.active label,.menu_collap .typelist li:focus label,.menu_collap .typelist li:hover label{
+.menu_collap .typelist li.active span,.menu_collap .typelist li:focus span,.menu_collap .typelist li:hover span{
     color: #0573c7;
 }
 .menu_collap .typelist li.active i,.menu_collap .typelist li:focus i,.menu_collap .typelist li:hover i{

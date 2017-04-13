@@ -27,17 +27,12 @@
 		icon_li.on("click", function () {
 		    $(this).addClass('select').siblings().removeClass('select');
 		});
-		// 菜单图标弹出框选中的代码，赋值给新增弹出框
-		$('.iconselect').on('hide.bs.modal',
-		        function() {
-		            var icon_data = $('#menu_icons > ul > li.select > i').text();
-		            $("#iconid").text(icon_data);
-		});
-
+	
 		// 新增弹出框获取的图标代码，赋值给页面树形目录
 		$("#quding").on("click", function () {
-			var icon_data = $('#menu_icons > ul > li.select > i').text();
-		    $("#iconid").text(icon_data);
+			var icon = $('#menu_icons > ul > li.select > i');
+		    $("#iconid").text(icon.text()).attr("img_type",icon.attr('icon_id'));
+		    $("#edit_iconid").text(icon.text()).attr("img_type",icon.attr('icon_id'));
 		});
 		
 		
@@ -82,6 +77,11 @@
 			$('#update_isvalid')[0].checked=false;
 			if(menu.isvalid==1){
 				$('#update_isvalid')[0].checked=true;
+			}
+			if(menu.imgType){
+				$('#edit_iconid').html('&'+menu.imgType);
+			}else{
+				$('#edit_iconid').html('');
 			}
 			$('#update_orderBy').val(menu.orderBy);
 			$('#update_info').val(menu.info);
@@ -185,15 +185,19 @@
 				
 				for(var i=0;i<list.length;i++){
 					var menu=list[i];
+					var img = '';
+					if(menu.imgType){
+						img = '&'+menu.imgType;
+					}
 					if(!menu.roleType){//判断是否是一级节点
-						var tr=$('<tr id="'+menu.name+'"><td>'+(i+1)+'</td><td style="width: 200px;"><span controller="true">'+menu.name+'</span></td><td>'+
+						var tr=$('<tr id="'+menu.name+'"><td>'+(i+1)+'</td><td style="width: 200px;"><span controller="true"><i class="iconfont">'+img+'</i>'+menu.name+'</span></td><td>'+
 								menu.code+'</td><td>'+menu.roleType+'</td><td>'+menu.linkgoal+'</td><td>'+menu.uri+'</td><td><input type="checkbox" disabled id="list_isvalid'+i+
 								'" ></td><td>'+menu.orderBy+'</td><td><span class="update"><a data-toggle="modal" data-target="#edit"><i class="iconfont" data-toggle="tooltip" data-placement="left" title="编辑">&#xe600;</i></a>'+
 								'</span><span class="copy"> <a data-toggle="modal" data-target="#add"><i class="iconfont" data-toggle="tooltip" data-placement="left" title="复制">&#xe61c;</i></a>'+'</span><span class="delete"><a data-toggle="modal" data-target="#dele">'+
 								'<i class="iconfont" data-toggle="tooltip" data-placement="left" title="删除">&#xe63d;</i></a>'+'</span></td></tr>'
 						);
 					}else{
-						var tr=$('<tr id="'+menu.name+'" pid="'+menu.roleType+'"><td>'+(i+1)+'</td><td style="width: 200px;"><span controller="true">'+menu.name+'</span></td><td>'+
+						var tr=$('<tr id="'+menu.name+'" pid="'+menu.roleType+'"><td>'+(i+1)+'</td><td style="width: 200px;"><span controller="true"><i class="iconfont">'+img+'</i>'+menu.name+'</span></td><td>'+
 								menu.code+'</td><td>'+menu.roleType+'</td><td>'+menu.linkgoal+'</td><td>'+menu.uri+'</td><td><input type="checkbox" disabled id="list_isvalid'+i+
 								'" ></td><td>'+menu.orderBy+'</td><td><span class="update"><a data-toggle="modal" data-target="#edit"><i class="iconfont" data-toggle="tooltip" data-placement="left" title="编辑">&#xe600;</i></a>'+
 								'</span><span class="copy"> <a data-toggle="modal" data-target="#add"><i class="iconfont" data-toggle="tooltip" data-placement="left" title="复制">&#xe61c;</i></a>'+'</span><span class="delete"><a data-toggle="modal" data-target="#dele">'+
@@ -254,8 +258,8 @@
 		$('#order_by').val(parseInt(menuData.total)+1);
 		$('#param').val('');
 		$('#group').val(0);
-		
-	
+		$('#menu_icons > ul > li').removeClass('select');
+		$("#iconid").text('');
 		
 	}
 	
@@ -274,7 +278,7 @@
 		var info=$('#info').val();info=$.trim(info);
 		var param=$('#param').val();param=$.trim(param);
 		var group=$('#group option:selected').text();
-		var imgType = $('#menu_icons > ul > li.select > i').attr('icon_id');
+		var imgType = $('#iconid').attr('img_type');
 		return {
 			name:name,
 			code:code,
@@ -350,12 +354,14 @@
 		var info=$('#update_info').val();info=$.trim(info);
 		var param=$('#update_param').val();param=$.trim(param);
 		var group=$('#update_grouping option:selected').text();
+		var imgType = $('#edit_iconid').attr('img_type');
 		return {
 			name:name,
 			code:code,
 			roleType:role_type,
 			linkgoal:linkgoal,
 			uri:uri,
+			imgType:imgType,
 			isvalid:isvalid,
 			orderBy:order_by,
 			info:info,

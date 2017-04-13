@@ -400,7 +400,7 @@
                     </div>
                     <div class="alt_edit_div">
                         <label>图标：</label>
-                        <i class="iconfont" id="iconid"></i>
+                        <i class="iconfont" id="edit_iconid"></i>
                         <button class="btn btnblue btn_little" data-toggle="modal" data-target="#iconselect">选择图标</button>
                     </div>
                     <div class="alt_edit_div">
