@@ -6,7 +6,7 @@
 $(function(){
 
 
-	initMenu();
+	//initMenu();
 	var menu_ctrl = $(".left .menu");
 	var menu_ctrlmini = $(".leftmini .menu2");
 	var leftall = $(".left");
@@ -143,6 +143,8 @@ $(function(){
 	var juese_li = $('.sys_collap ul li');
 	collap_bg(juese_li);
 
+	
+	menuSelected();
 	//左侧菜单栏选中效果
 	function menuSelected(){
 
@@ -182,10 +184,15 @@ $(function(){
 		};
 		$.post(url,params,function(result) {
 			showMenu(result.data.list);	
-			menuSelected();
+			//menuSelected(result.data.list);
 		});
 	}
 	function showMenu(list){
+		//获取地址
+		var href = window.location.href;
+		href = href.split('/trfc/')[1];
+		urlstr = href.substring(0,href.lastIndexOf('/'));
+		
 		//获取深度为1的 菜单
 		var menu1 = $.grep(list,function(value) {
 			return value.deep == 1;
@@ -209,7 +216,16 @@ $(function(){
 				});
 					var img = menu2[j].imgType ? '&'+menu2[j].imgType : '';
 					var url = menu3.length>0?'href='+menu3[0].uri:'';
-					$div_li.append('<li><a '+url+'> <i class="iconfont">'+img+'</i> <span>'+menu2[j].name+'</span></a></li>');
+					
+					var li_selected = '';
+					if(menu3.length>0){
+						for(f in menu3){
+							if(menu3[f].uri.indexOf(urlstr)>=0){
+								li_selected = 'class="active"';
+							}
+						}
+					}
+					$div_li.append('<li '+li_selected+'><a '+url+'> <i class="iconfont">'+img+'</i> <span>'+menu2[j].name+'</span></a></li>');
 					menuImg.append(' <li data-toggle="tooltip" data-placement="right" title="'+menu2[j].name+'"><a '+url+'><i class="iconfont">'+img+'</i></a></li>');
 			}
 		}
