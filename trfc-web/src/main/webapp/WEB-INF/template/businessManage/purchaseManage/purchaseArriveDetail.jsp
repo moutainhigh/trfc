@@ -12,15 +12,6 @@
 		<jsp:include page="../../common/base/left_busi.jsp"></jsp:include>
 		<div class="right">
 			<jsp:include page="../../common/base/right_head_busi.jsp"></jsp:include>
-			<div class="intel_tab">
-				<!--tab切换标题-->
-				<ul class="intel_menu">
-					<li><a href="/trfc/purchaseApplication/main">采购申请单</a></li>
-					<li class="select"><a href="/trfc/purchaseArrive/main">到货通知单</a></li>
-					<li><a href="/trfc/purchaseReturn/main">退货通知单</a></li>
-					<li><a href="/trfc/purchaseVehicle/main">采购车辆状态</a></li>
-				</ul>
-			</div>
 			<!--tab切换的内容-->
 			<div class="intel_tabbox">
 				<!--到货通知单begin-->

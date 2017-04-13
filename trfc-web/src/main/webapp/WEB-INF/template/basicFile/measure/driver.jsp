@@ -14,16 +14,6 @@
 		<div class="right">
 			<!-- 引用公共right部分 -->
 			<jsp:include page="../../common/base/right_head_busi.jsp"></jsp:include>
-			<div class="intel_tab">
-				<!--tab切换标题-->
-				<ul class="intel_menu">
-					<li><a href="/trfc/transport/main">运输单位</a></li>
-					<li><a href="/trfc/vehicle/main">车辆管理</a></li>
-					<li class="select"><a href="/trfc/driver/main">司机管理</a></li>
-					<li><a href="/trfc/minemouth/main">矿口管理</a></li>
-					<li><a href="/trfc/yard/main">堆场管理</a></li>
-				</ul>
-			</div>
 			<!--tab切换的内容-->
 			<div class="intel_tabbox">
 				<!--采购申请单begin-->

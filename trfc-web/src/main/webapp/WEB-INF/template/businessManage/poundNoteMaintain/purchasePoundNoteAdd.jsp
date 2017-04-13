@@ -14,13 +14,6 @@
 		<div class="right">
 			<!-- 引用公共right部分 -->
 			<jsp:include page="../../common/base/right_head_busi.jsp"></jsp:include>
-			<div class="intel_tab">
-				<!--tab切换标题-->
-				<ul class="intel_menu">
-					<li class="select"><a href="/trfc/poundNote/purchase/main">采购磅单维护</a></li>
-					<li><a href="/trfc/poundNote/sales/main">销售磅单维护</a></li>
-				</ul>
-			</div>
 			<!--tab切换的内容-->
 			<div class="intel_tabbox">
 				<!--到货通知单begin-->

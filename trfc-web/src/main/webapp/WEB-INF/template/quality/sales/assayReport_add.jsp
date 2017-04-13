@@ -12,12 +12,6 @@
 		<jsp:include page="../../common/base/left_busi.jsp"></jsp:include>
 		<div class="right">
 			<jsp:include page="../../common/base/right_head_busi.jsp"></jsp:include>
-			<div class="intel_tab">
-				<!--tab切换标题-->
-				<ul class="intel_menu">
-					<li class="select">销售化验报告-新增</li>
-				</ul>
-			</div>
 			<div class="intel_tabbox">
 				<!--采购申请单begin-->
 				<div class="intel_tabcont hide"></div>

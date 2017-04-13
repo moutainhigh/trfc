@@ -12,17 +12,7 @@
 		<!-- 引用公共left部分 -->
 		<jsp:include page="../../common/base/left_busi.jsp"></jsp:include>
 		<div class="right">
-			<div class="intel_tab">
-				<!--tab切换标题-->
-				<ul class="intel_menu">
-					<!--    <li>菜单管理</li>
-        <li>角色管理</li>
-        <li>角色权限</li> -->
-        			<li><a href="/trfc/system/auth/menu/main">菜单管理</a></li>
-					<li class="select"><a href="/trfc/system/auth/user/main">用户管理</a></li>
-					<li><a href="/trfc/system/auth/role/main">角色管理</a></li>
-				</ul>
-			</div>
+			
 			<!--tab切换的内容-->
 			<div class="intel_tabbox">
 				<!--页面begin-->
