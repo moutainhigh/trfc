@@ -16,6 +16,9 @@ import com.tianrui.api.req.system.auth.SystemUserSaveReq;
 import com.tianrui.api.req.system.auth.UserReq;
 import com.tianrui.api.resp.system.auth.SystemUserResp;
 import com.tianrui.service.bean.system.auth.SystemUser;
+import com.tianrui.service.cache.CacheClient;
+import com.tianrui.service.cache.CacheHelper;
+import com.tianrui.service.cache.CacheModule;
 import com.tianrui.service.mapper.system.auth.SystemUserMapper;
 import com.tianrui.smartfactory.common.constants.BusinessConstants;
 import com.tianrui.smartfactory.common.constants.Constant;
@@ -29,6 +32,8 @@ import com.tianrui.smartfactory.common.vo.Result;
 public class SystemUserService implements ISystemUserService {
 	@Autowired
 	SystemUserMapper userMapper;
+	@Autowired
+	CacheClient cacheClient;
 
 	@Override
 	public Result apiLogin(UserReq req) throws Exception {
@@ -350,6 +355,35 @@ public class SystemUserService implements ISystemUserService {
 		}
 		rs.setData(resps);
 		return rs;
+	}
+
+	@Override
+	public SystemUserResp get(String id, boolean isFlush) throws Exception {
+		SystemUserResp user = null;
+		if (StringUtils.isNotBlank(id)) {
+			String key = CacheHelper.buildKey(CacheModule.MEMBERVO, id);
+			if (isFlush) {
+				user = getUser(id);
+				cacheClient.saveObject(key, user);
+			} else {
+				user = get(id);
+			}
+		}
+		return user;
+	}
+	
+	@Override
+	public SystemUserResp get(String id) throws Exception{
+		SystemUserResp user = null;
+		if (StringUtils.isNotBlank(id)) {
+			String key = CacheHelper.buildKey(CacheModule.MEMBERVO, id);
+			user = cacheClient.getObj(key, SystemUserResp.class);
+			if (user == null) {
+				user = getUser(id);
+				cacheClient.saveObject(key, user);
+			}
+		}
+		return user;
 	}
 
 }
