@@ -162,7 +162,7 @@
 	function initBindEvent(){
 		//刷新
 		$('#refreshBtn').off('click').on('click',function(){
-			window.location.reload();
+			window.location.reload(true);
 		});
 		//保存
 		$('#addBtn').off('click').on('click',function(){

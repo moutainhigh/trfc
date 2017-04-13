@@ -21,7 +21,7 @@ var params = {};
 	//搜索按钮绑定 点击事件
 	$('[class="btn btnblue"]').click(function(){showPage(1);});
 	//刷新按钮绑定点击事件
-	$('#freshButton').click(function(){window.location.reload();});
+	$('#freshButton').click(function(){window.location.reload(true);});
 	//绑定列表中的修改按钮点击事件
 	$('#supplier_list').on('click','tr [title="编辑"]',toModify);
 	//绑定修改确认按钮 点击事件

@@ -21,7 +21,7 @@ $(function(){
 	$('.btnblue').click(searchAction);
 	
 	//6刷新按
-	$('#freshButton').click(function(){window.location.reload();});
+	$('#freshButton').click(function(){window.location.reload(true);});
 	
 	//7跳转页面
 	$('#jumpButton').click(jumpPageAction);

@@ -259,7 +259,7 @@
 			}
 		});
 		$('#refreshBtn').off('click').on('click',function(){
-			window.location.reload();
+			window.location.reload(true);
 		});
 		$('#addBtn').off('click').on('click',function(){
 			if(!$(this).hasClass('disabled')){

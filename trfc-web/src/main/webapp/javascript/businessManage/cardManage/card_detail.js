@@ -179,7 +179,7 @@ $(function() {
 		});
 		//刷新
 		$('#fresh').click(function() {
-			window.location.reload();
+			window.location.reload(true);
 		});
 	};
 

@@ -13,7 +13,7 @@ $(function(){
 	//搜索按钮绑定 点击事件
 	$('.btnblue').click(searchAction);
 	//刷新按钮绑定点击事件
-	$('#freshButton').click(function(){window.location.reload();});
+	$('#freshButton').click(function(){window.location.reload(true);});
 	//绑定列表中的修改按钮点击事件
 	$('#customer_list').on('click','tr .customer_modify',toModify);
 	//绑定修改确认按钮 点击事件

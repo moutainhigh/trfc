@@ -483,7 +483,7 @@
 				type:'post',
 				success:function(result){
 					if(result.code == '000000'){
-						window.location.reload();
+						window.location.reload(true);
 					}else{
 						layer.msg(result.error, {icon: 5});
 					}

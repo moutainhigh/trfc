@@ -193,7 +193,7 @@
 		};
 		$.post(URL.updateCodeUrl,param,function(result){
 			if('000000'==result.code){
-				window.location.reload();
+				window.location.reload(true);
 			}else{
 				layer.msg(result.error,{icon:5});
 			}
@@ -306,7 +306,7 @@
 			$.post(url,params,function(result){
 				if(result.code=='000000'){
 					_this.disbaled=false;
-					win.location.reload();
+					win.location.reload(true);
 				}else{
 					layer.msg(result.error,{icon:5});
 					_this.disbaled=false;

@@ -20,7 +20,7 @@ $(function(){
 	//保存按钮绑定时间
 	$('#save').click(saveAction);
 	//刷新按钮绑定事件
-	$('#fresh').click(function(){window.location.reload();});
+	$('#fresh').click(function(){window.location.reload(true);});
 
 	//----------------------------------------------------------------
 
