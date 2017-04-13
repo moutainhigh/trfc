@@ -14,15 +14,6 @@
 		<div class="right">
 			<!-- 引用公共right部分 -->
 			<jsp:include page="../../common/base/right_head_busi.jsp"></jsp:include>
-			<div class="intel_tab">
-				<!--tab切换标题-->
-				<ul class="intel_menu">
-					<li><a href="/trfc/customer/main">客戶管理</a></li>
-					<li><a href="/trfc/warehouse/main">仓库管理</a></li>
-					<li><a href="/trfc/supplier/main">供应商管理</a></li>
-					<li class="select"><a href="/trfc/materiel/main">物料管理</a></li>
-				</ul>
-			</div>
 			<!--tab切换的内容-->
 			<div class="intel_tabbox">
 				<div id="test" class="intel_tabcont">

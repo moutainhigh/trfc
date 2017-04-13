@@ -15,12 +15,6 @@
 		<div class="right">
 			<!-- 引用公共right部分 -->
 			<jsp:include page="../../common/base/right_head_busi.jsp"></jsp:include>
-			<div class="intel_tab">
-				<!--tab切换标题-->
-				<ul class="intel_menu">
-					<li class="select"><a href="/trfc/accessRecord/main">门禁记录</a></li>
-				</ul>
-			</div>
 			<!--tab切换的内容-->
 			<div class="intel_tabbox">
 				<div id="test" class="intel_tabcont">

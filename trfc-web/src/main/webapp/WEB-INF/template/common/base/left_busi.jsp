@@ -149,3 +149,12 @@
         </li>
     </ul> 
 </div>
+<div class="intel_tab">
+        <!--tab切换标题-->
+        <ul class="intel_menu">
+           
+        </ul>
+        <!--tab切换标题end-->
+    </div>
+
+

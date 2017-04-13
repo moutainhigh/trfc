@@ -19,13 +19,7 @@
 		<div class="right">
 			<!-- 引用公共right部分 -->
 			<jsp:include page="../../common/base/right_head_busi.jsp"></jsp:include>
-			<div class="intel_tab">
-				<!--tab切换标题-->
-				<ul class="intel_menu">
-					<li><a href="/trfc/system/base/code/main">自定义编号</a></li>
-					<li class="select"><a href="/trfc/system/base/dataDict/main">辅助资料</a></li>
-				</ul>
-			</div>
+			
 			<div class="intel_tabbox">
 				<div class="intel_tabcont">
 					<div class="fuzhu_list width_fuzhu">
@@ -164,7 +158,7 @@
 							<span aria-hidden="true">&times;</span>
 						</button>
 						<div class="alt_head">
-							<h5>辅助资料类别-添加</h5>
+							<h5>辅助资料类别-新增</h5>
 						</div>
 					</div>
 					<div class="modal-body">

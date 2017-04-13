@@ -271,7 +271,7 @@ $(function(){
 		var code = $('#add_code').val();
 		var ename = $('#add_ename').val();
 		if(!ename){
-			layer.msg("英文代号不能为空!");
+			layer.msg("符号表示不能为空!");
 			return null;
 		};
 		var name = $('#add_name').val();

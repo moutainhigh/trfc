@@ -6,7 +6,7 @@
 $(function(){
 
 
-	//initMenu();
+	initMenu();
 	var menu_ctrl = $(".left .menu");
 	var menu_ctrlmini = $(".leftmini .menu2");
 	var leftall = $(".left");
@@ -142,39 +142,8 @@ $(function(){
 	collap_bg(menu_li);
 	var juese_li = $('.sys_collap ul li');
 	collap_bg(juese_li);
-
 	
-	menuSelected();
-	//左侧菜单栏选中效果
-	function menuSelected(){
-
-
-		var URLData = {
-				'0':['purchaseApplication','purchaseArrive','purchaseReturn','purchaseVehicle'],	
-				'1':['salesApplication','salesArrive','salesVehicle'],
-				'2':['card','cardReissue'],
-				'3':['quality/sales/batchnum','quality/sales/report','quality/purchase/sampling','quality/purchase/assay'],
-				'4':['customerbegin','salescharge','customerback','salesledger','salesdetail'],
-				'5':['poundNote/purchase','poundNote/sales'],
-				'6':['accessRecord'],
-				'7':['customer','warehouse','supplier','materiel'],
-				'8':['transport','vehicle','driver','minemouth','yard'],
-				'9':['quality/sales/file/MaterialScheme','quality/sales/file/qualityScheme','quality/sales/file/qualityItem','quality/sales/file/supplierScheme','quality/sales/file/certification'],
-				'10':['basicFile/other/customer','other/otherVehicle','basicFile/other/material','basicFile/other/driver','basicFile/other/supplier'],
-				'11':['system/auth/menu','system/auth/user','system/auth/role'],
-				'12':['system/base/code','system/base/dataDict']
-		};
-		var href = window.location.href;
-		href = href.split('/trfc/')[1];
-		urlstr = href.substring(0,href.lastIndexOf('/'));
-		for(var i=0;i<13;i++){
-			if(URLData[i].indexOf(urlstr)>=0){
-				$('#menulist >div >li').eq(i).attr('class','active');
-				$('#menu_imgs >li').eq(i).attr('class','active');
-				break;
-			}
-		}
-	};
+	$("[data-toggle='tooltip']").tooltip();
 	
 	function initMenu() {
 		var url = '/trfc/system/auth/menu/page';
@@ -184,7 +153,6 @@ $(function(){
 		};
 		$.post(url,params,function(result) {
 			showMenu(result.data.list);	
-			//menuSelected(result.data.list);
 		});
 	}
 	function showMenu(list){
@@ -192,12 +160,12 @@ $(function(){
 		var href = window.location.href;
 		href = href.split('/trfc/')[1];
 		urlstr = href.substring(0,href.lastIndexOf('/'));
-		
+
 		//获取深度为1的 菜单
 		var menu1 = $.grep(list,function(value) {
 			return value.deep == 1;
 		});
-		
+
 		var menuBody = $('#menulist').empty();
 		var menuImg = $('#menu_imgs').empty();
 		for(i in menu1) {
@@ -214,22 +182,50 @@ $(function(){
 				var menu3 = $.grep(list,function(value) {
 					return value.roleid == menu2[j].id;
 				});
-					var img = menu2[j].imgType ? '&'+menu2[j].imgType : '';
-					var url = menu3.length>0?'href='+menu3[0].uri:'';
-					
-					var li_selected = '';
-					if(menu3.length>0){
-						for(f in menu3){
-							if(menu3[f].uri.indexOf(urlstr)>=0){
-								li_selected = 'class="active"';
-							}
+				var img = menu2[j].imgType ? '&'+menu2[j].imgType : '';
+				var url = menu3.length>0?'href='+menu3[0].uri:'';
+
+				//菜单选中效果
+				var li_selected = '';
+
+				if(menu3.length>0){
+					for(f in menu3){
+						var hh = menu3[f].uri;
+						hh = hh.split('/trfc/')[1];
+						hh = hh.substring(0,hh.lastIndexOf('/'));
+						if(hh == urlstr){
+							li_selected = 'class="active"';
 						}
 					}
-					$div_li.append('<li '+li_selected+'><a '+url+'> <i class="iconfont">'+img+'</i> <span>'+menu2[j].name+'</span></a></li>');
-					menuImg.append(' <li data-toggle="tooltip" data-placement="right" title="'+menu2[j].name+'"><a '+url+'><i class="iconfont">'+img+'</i></a></li>');
+
+				}
+
+				if(li_selected){
+					var tab_ul = $('.intel_menu').empty();
+					for(f in menu3){
+						var hh = menu3[f].uri;
+						var href_select = '';
+						if(hh){
+							href_select = 'href='+hh;
+						}
+							hh = hh.split('/trfc/')[1];
+							hh = hh.substring(0,hh.lastIndexOf('/'));
+						if(hh == urlstr){
+							tab_ul.append('<li class="select"><a '+href_select+'>'
+									+menu3[f].name+'</a></li>');
+						}else{
+							tab_ul.append('<li><a '+href_select+'>'
+									+menu3[f].name+'</a></li>');
+						}
+					}
+				}
+				$div_li.append('<li '+li_selected+'><a '+url+'> <i class="iconfont">'
+						+img+'</i> <span>'+menu2[j].name+'</span></a></li>');
+				menuImg.append(' <li data-toggle="tooltip" data-placement="right" title="'
+						+menu2[j].name+'"><a '+url+'><i class="iconfont">'+img+'</i></a></li>');
 			}
 		}
-		
+
 	}
 //	layer删除
 	/*$('.delete').on('click', function(){

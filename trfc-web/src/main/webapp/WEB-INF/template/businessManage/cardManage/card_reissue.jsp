@@ -11,13 +11,6 @@
 		<jsp:include page="../../common/base/left_busi.jsp"></jsp:include>
 		<div class="right">
 			<jsp:include page="../../common/base/right_head_busi.jsp"></jsp:include>
-			<div class="intel_tab">
-				<!--tab切换标题-->
-				<ul class="intel_menu">
-					<li><a href="/trfc/card/main">IC卡注册</a></li>
-					<li class="select"><a href="/trfc/cardReissue/main">补卡业务</a></li>
-				</ul>
-			</div>
 
 			<!--tab切换的内容-->
 			<div class="intel_tabbox">

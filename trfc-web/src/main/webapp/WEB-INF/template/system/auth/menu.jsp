@@ -23,15 +23,7 @@
 <div class="right">
 <!-- 引用公共right部分 -->
 			<jsp:include page="../../common/base/right_head_busi.jsp"></jsp:include>
-    <div class="intel_tab">
-        <!--tab切换标题-->
-        <ul class="intel_menu">
-           <li class="select"><a href="/trfc/system/auth/menu/main">菜单管理</a></li>
-           <li><a href="/trfc/system/auth/user/main">用户管理</a></li>
-           <li><a href="/trfc/system/auth/role/main">角色管理</a></li>
-        </ul>
-        <!--tab切换标题end-->
-    </div>
+    
 
     <!--tab切换的内容-->
     <div class="intel_tabbox">
@@ -744,7 +736,7 @@
                 <li>
                 <i class="icon iconfont" icon_id="#xe62a;">&#xe62a;</i>
                 </li>
-            
+                
         </ul>
                 </div>
             </div>

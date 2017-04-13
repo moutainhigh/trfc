@@ -13,23 +13,6 @@
 		<jsp:include page="../../common/base/left_busi.jsp"></jsp:include>
 		<div class="right">
 			<jsp:include page="../../common/base/right_head_busi.jsp"></jsp:include>
-			<div class="intel_tab">
-				<!--tab切换标题-->
-				<ul class="intel_menu">
-					<li class="select">销售批号维护</li>
-					<li><a href="/trfc/quality/sales/report/main">销售化验报告</a></li>
-					<li><a href="/trfc/quality/purchase/sampling/main">采购采样管理</a></li>
-					<li><a href="/trfc/quality/purchase/assay/main">采购化验报告</a></li>
-				</ul>
-				<!--tab切换标题end-->
-				<div class="top_opera">
-					<a><i class="iconfont" data-toggle="tooltip"
-						data-placement="left" title="首页">&#xe605;</i></a> <a><i
-						class="iconfont" data-toggle="tooltip" data-placement="left"
-						title="控制面板">&#xe606;</i></a> <a><i class="iconfont"
-						data-toggle="tooltip" data-placement="left" title="退出">&#xe607;</i></a>
-				</div>
-			</div>
 
 			<!--tab切换的内容-->
 			<div class="intel_tabbox">
