@@ -54,8 +54,6 @@ table.table-bordered th, td {
 									<label>司机：</label> <input id="driver" type="text"
 										placeholder="请选择司机" />
 								</div>
-							</div>
-							<div class="intel_sline">
 								<div class="intel_solo">
 									<label>通知单号：</label> <input id="code" type="text"
 										placeholder="请输入通知单号" />

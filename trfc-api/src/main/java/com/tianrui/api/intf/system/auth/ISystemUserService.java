@@ -1,5 +1,6 @@
 package com.tianrui.api.intf.system.auth;
 
+import com.tianrui.api.req.system.auth.AppUserReq;
 import com.tianrui.api.req.system.auth.SystemUserPswdReq;
 import com.tianrui.api.req.system.auth.SystemUserQueryReq;
 import com.tianrui.api.req.system.auth.SystemUserSaveReq;
@@ -112,4 +113,21 @@ public interface ISystemUserService {
 	 * @throws Exception
 	 */
 	SystemUserResp get(String id) throws Exception;
+	/**
+	 * @Description app登录接口
+	 * @author zhanggaohao
+	 * @version 2017年4月13日 下午3:11:07
+	 * @param body
+	 * @throws Exception 
+	 */
+	Result appLogin(AppUserReq req) throws Exception;
+	/**
+	 * @Description app修改密码接口
+	 * @author zhanggaohao
+	 * @version 2017年4月13日 下午3:49:39
+	 * @param req
+	 * @return
+	 * @throws Exception
+	 */
+	Result appUpdatePswd(AppUserReq req) throws Exception;
 }
