@@ -197,6 +197,9 @@ public class SystemMenuService implements ISystemMenuService {
 			}
 			
 			PropertyUtils.copyProperties(bean, req);
+			if(bean.getImgType()==null){
+				bean.setImgType("");
+			}
 			bean.setModifier(req.getCurrUId());
 			bean.setModifytime(System.currentTimeMillis());
 			if(systemMenuMapper.updateByPrimaryKeySelective(bean)>0){

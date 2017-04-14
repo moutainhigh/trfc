@@ -46,7 +46,6 @@
                 <table id="table_menu" class="table table-bordered" data-options="">
                     <thead>
                     <tr>
-                        <th>序号</th>
                         <th style="width: 200px;">模块(菜单)名称</th>
                         <th>模块编码</th>
                         <th>上级模块</th>
@@ -60,7 +59,6 @@
                     <tbody id="menus">
                     
                     <tr id="2" pid="1">
-                        <td>2</td>
                         <td style="width: 200px;"><span controller="true">业务管理</span></td>
                         <td>0101</td>
                         <td>天瑞集团智能物流业务平台</td>
@@ -307,7 +305,7 @@
                     </div>
                     <div class="alt_edit_div">
                         <label>图标：</label>
-                        <i class="iconfont" id="iconid"></i>
+                        <i class="iconfont" id="iconid"> </i>
                         <button class="btn btnblue btn_little" data-toggle="modal" data-target="#iconselect">选择图标</button>
                     </div>
                     <div class="alt_edit_div">
