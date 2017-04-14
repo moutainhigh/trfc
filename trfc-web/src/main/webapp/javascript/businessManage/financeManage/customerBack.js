@@ -548,26 +548,40 @@
 	}
 	
 	function confirmOperation(confirmContent, url, param){
-		layer.confirm(confirmContent, {
-			area: '600px', //弹出框宽度
-			btn: ['确认','取消'] //按钮
-		}, function(){
-			$.ajax({
-				url:url,
-				data:param,
-				async:true,
-				cache:false,
-				dataType:'json',
-				type:'post',
-				success:function(result){
-					if(result.code == '000000'){
-						win.location.reload(true);
-					}else{
-						layer.msg(result.error, {icon: 5});
+		
+		var bn=layer.open({
+			content: confirmContent,
+			area: '600px',
+			closeBtn:1,
+			shadeClose:true,
+			btn: ['确定', '取消'],
+			yes: function(index, layero){
+				//按钮【确定】的回调
+				//数据存到服务器
+				$.ajax({
+					url:url,
+					data:param,
+					async:true,
+					cache:false,
+					dataType:'json',
+					type:'post',
+					success:function(result){
+						if(result.code == '000000'){
+							win.location.reload(true);
+						}else{
+							layer.msg(result.error, {icon: 5});
+						}
 					}
-				}
-			});
+				});
+				layer.close(bn);
+			},btn2: function(index, layero){
+				//按钮【取消】的回调
+			}
+			,cancel: function(){
+				//右上角关闭回调
+			}
 		});
+		
 	}
 	
 	function dele(back){
@@ -575,17 +589,25 @@
 			layer.msg('已审核的单据，不能删除！',{icon:5});
 			return;
 		}
-		layer.confirm('你确定要删除吗?', {
-            area: '600px', //弹出框宽度
-            btn: ['确定','取消'] //按钮文字
-        }, function(index){
-            // 确定按钮执行的操作，自定义
-            deleteBack(back);
-            //关闭对话框,插件必须的
-            layer.close(index);
-        }, function(){
-            // 取消按钮执行的操作，自定义
-        });
+		
+		var bn=layer.open({
+			content: '你确定要删除吗?',
+			area: '600px',
+			closeBtn:1,
+			shadeClose:true,
+			btn: ['确定', '取消'],
+			yes: function(index, layero){
+				//按钮【确定】的回调
+				//数据存到服务器
+				deleteBack(back);
+				layer.close(bn);
+			},btn2: function(index, layero){
+				//按钮【取消】的回调
+			}
+			,cancel: function(){
+				//右上角关闭回调
+			}
+		});
 	}
 	
 	function deleteBack(back){

@@ -238,7 +238,7 @@ $(function() {
 			var invalid = obj.invalid;
 			var tr = '<tr>'
 				+'<td>'+((pageNo-1)*pageSize+i+1)+'</td>'
-				+'<td class="colorred">'+(obj.accesscode || '')+'</td>'
+				+'<td>'+(obj.accesscode || '')+'</td>'
 				+'<td>'+(BT[obj.businesstype] || '')+'</td>'
 				+'<td>'+(AT[obj.accesstype] || '')+'</td>'
 				+'<td>'+(obj.vehicleno || '')+'</td>'

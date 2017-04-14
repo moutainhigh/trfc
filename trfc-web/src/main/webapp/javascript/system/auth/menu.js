@@ -418,20 +418,20 @@
 	
 	
 //
-		function getValue(){ 
-			var val = $('#role_type').combotree('getValue'); 
-			var text = $('#role_type').combotree('getText'); 
-			alert("val="+val+",text="+text); 
-		} 
-		function setValue(){ 
-			$('#cc').combotree('setValue', '这是设定的值'); 
-		} 
-		function disable(){ 
-			$('#cc').combotree('disable'); 
-		} 
-		function enable(){ 
-		$('#cc').combotree('enable'); 
-		}
+//		function getValue(){ 
+//			var val = $('#role_type').combotree('getValue'); 
+//			var text = $('#role_type').combotree('getText'); 
+//			alert("val="+val+",text="+text); 
+//		} 
+//		function setValue(){ 
+//			$('#cc').combotree('setValue', '这是设定的值'); 
+//		} 
+//		function disable(){ 
+//			$('#cc').combotree('disable'); 
+//		} 
+//		function enable(){ 
+//		$('#cc').combotree('enable'); 
+//		}
 
 	
 })(jQuery, window);

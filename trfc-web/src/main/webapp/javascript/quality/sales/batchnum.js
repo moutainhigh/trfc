@@ -304,6 +304,10 @@ $(function(){
 				0:"待审核",
 				1:"已审核"
 		};
+		var AUDITCOL = {
+				0:'',
+				1:'class="colorred"'
+		}
 		var BILLS = {
 				0:"停用",
 				1:"启用"	
@@ -328,9 +332,9 @@ $(function(){
 			}
 			var tr = '<tr>'
 				+'<td>'+((pageNo-1)*pageSize+i+1)+'</td>'
-				+'<td class="colorred">'+(obj.code || '')+'</td>'
-				+'<td class="colorred">'+(AUDIT[obj.auditstate] || '')+'</td>'
-				+'<td class="colorred">'+(BILLS[obj.billsstate] || '')+'</td>'
+				+'<td>'+(obj.code || '')+'</td>'
+				+'<td '+AUDITCOL[obj.auditstate]+'>'+(AUDIT[obj.auditstate] || '')+'</td>'
+				+'<td>'+(BILLS[obj.billsstate] || '')+'</td>'
 				+'<td>'+(TEST[obj.teststate] || '')+'</td>'
 				+'<td>'+(obj.material || '')+'</td>'
 				+'<td>'+(obj.factorycode || '')+'</td>'

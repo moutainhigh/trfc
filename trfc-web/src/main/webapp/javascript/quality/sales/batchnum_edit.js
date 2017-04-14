@@ -62,16 +62,32 @@ $(function(){
 		var param = getData();
 		if(param){
 			//弹出对话框
-			if(confirm('确定要修改吗?')){
-				$.post(URL.updateUrl,param,function(result){
-					if(result.code=='000000'){
-						//保存成功后,跳转到列表页面
-						window.location.assign("/trfc/quality/sales/batchnum/main");
-					}else{
-						layer.msg(result.error,{icon:5});
-					}
-				});
-			}
+			var bn=layer.open({
+				content: '您确定要修改吗？',
+				area: '600px',
+				closeBtn:1,
+				shadeClose:true,
+				btn: ['确定', '取消'],
+				yes: function(index, layero){
+					//按钮【确定】的回调
+					//数据存到服务器
+					$.post(URL.updateUrl,param,function(result){
+						if(result.code=='000000'){
+							//保存成功后,跳转到列表页面
+							window.location.assign("/trfc/quality/sales/batchnum/main");
+						}else{
+							layer.msg(result.error,{icon:5});
+						}
+					});
+					layer.close(bn);
+				},btn2: function(index, layero){
+					//按钮【取消】的回调
+				}
+				,cancel: function(){
+					//右上角关闭回调
+				}
+			});
+			
 		}
 	}
 	//获取需保存的参数

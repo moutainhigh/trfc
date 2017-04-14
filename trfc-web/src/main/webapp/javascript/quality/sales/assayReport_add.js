@@ -50,15 +50,32 @@ $(function(){
 	$('#save').click(function(){
 		var data = getAddData();
 		if(data){
-			$.post(URL.saveUrl,data,function(result){
-				if('000000'==result.code){
-					//更新编码计数
-					updateCode();
-					
-				}else{
-					layer.msg(result.error,{icon:5});
+			var bn=layer.open({
+				content: '您确定要保存吗？',
+				area: '600px',
+				closeBtn:1,
+				shadeClose:true,
+				btn: ['确定', '取消'],
+				yes: function(index, layero){
+					//按钮【确定】的回调
+					$.post(URL.saveUrl,data,function(result){
+						if('000000'==result.code){
+							//更新编码计数
+							updateCode();
+
+						}else{
+							layer.msg(result.error,{icon:5});
+						}
+					});
+					layer.close(bn);
+				},btn2: function(index, layero){
+					//按钮【取消】的回调
+				}
+				,cancel: function(){
+					//右上角关闭回调
 				}
 			});
+
 		}
 	});
 	//获取编号
@@ -71,9 +88,9 @@ $(function(){
 	if(id){
 		initCopyPage();
 	}
-	
+
 	//-------------------------------------------------------------------------------
-	
+
 	function initCopyPage(){
 		$.post(URL.findOneUrl,{id:id},function(result){
 			if('000000'==result.code){
@@ -92,12 +109,12 @@ $(function(){
 				$('#add_selldate').val(getNowFormatDate(false,obj.selldate));
 				$('#add_qscheme').val(obj.qschemename).attr('qschemeid',obj.qschemeid);
 				showDetail(obj.qschemeid,id);
-			
+
 			}else{
 				layer.msg(result.error,{icon:5});
 			}
 		});
-		
+
 	}
 	function initPage(){
 		var username = $(".user label").html();
@@ -206,7 +223,7 @@ $(function(){
 		}
 		return JSON.stringify(arr);
 	}
-	
+
 	//添加成功后,刷新标号(增1)
 	function updateCode(){
 		//设置编码代号
@@ -225,10 +242,10 @@ $(function(){
 			}
 		});
 	}
-	
-	
-	
-	
+
+
+
+
 	//当物料方案改变时 填充数据
 	function fillMSDetail(obj){
 		$('#add_strength').val(obj.strength);
@@ -385,7 +402,7 @@ $(function(){
 				audittime = getNowFormatDate(true,obj.audittime);
 			}
 			var tr = '<tr>'
-				+'<td class="colorred">'+(obj.code || '')+'</td>'
+				+'<td>'+(obj.code || '')+'</td>'
 				+'<td>'+(obj.material || '')+'</td>'
 				+'<td>'+(obj.factorycode || '')+'</td>'
 				+'<td>'+(obj.count || '')+'</td>'
@@ -436,12 +453,12 @@ $(function(){
 		}).off('click').on('click',function(){
 			$(this).autocomplete('search',' ');
 		}).on('input propertychange',function(){
-	    	$(this).removeAttr('qschemeid');
-	    }).change(function(){
-    		if(!$(this).attr('qschemeid')){
-    			$(this).val('');
-    		}
-	    });
+			$(this).removeAttr('qschemeid');
+		}).change(function(){
+			if(!$(this).attr('qschemeid')){
+				$(this).val('');
+			}
+		});
 		$("#add_materialtype").autocomplete({
 			//获取数据
 			source: function( request, response ) {
@@ -479,12 +496,12 @@ $(function(){
 		}).off('click').on('click',function(){
 			$(this).autocomplete('search',' ');
 		}).on('input propertychange',function(){
-	    	$(this).removeAttr('mschemeid');
-	    }).change(function(){
-    		if(!$(this).attr('mschemeid')){
-    			$(this).val('');
-    		}
-	    });
+			$(this).removeAttr('mschemeid');
+		}).change(function(){
+			if(!$(this).attr('mschemeid')){
+				$(this).val('');
+			}
+		});
 		$("#select_material").autocomplete({
 			//数据源
 			source: function( request, response ) {
@@ -517,12 +534,12 @@ $(function(){
 		}).off('click').on('click',function(){
 			$(this).autocomplete('search',' ');
 		}).on('input propertychange',function(){
-	    	$(this).removeAttr('materialid');
-	    }).change(function(){
-    		if(!$(this).attr('materialid')){
-    			$(this).val('');
-    		}
-	    });
+			$(this).removeAttr('materialid');
+		}).change(function(){
+			if(!$(this).attr('materialid')){
+				$(this).val('');
+			}
+		});
 	};
 	//获取时间 param(true:返回yyyy-MM-dd hh:mm:ss fasle:返回yyyy-MM-dd)
 //	time(获取指定时间的字符串) 默认返回当前时间

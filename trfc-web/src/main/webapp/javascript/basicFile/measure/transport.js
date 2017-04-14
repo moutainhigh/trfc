@@ -182,7 +182,7 @@
 		var maxpageno = $('#jumpPageNo').attr('maxpageno');
 		var pageno = $('#jumpPageNo').val();
 		if(!pageno || !$.isNumeric(pageno) || pageno<=0 || pageno>maxpageno){
-			alert('输入的数字必须在1~'+maxpageno+'之间');
+			layer.msg('输入的数字必须在1~'+maxpageno+'之间');
 		}else{
 			queryData(pageno);
 			$('#jumpPageNo').val('');

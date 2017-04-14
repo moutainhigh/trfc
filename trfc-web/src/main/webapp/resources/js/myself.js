@@ -191,10 +191,12 @@ $(function(){
 				if(menu3.length>0){
 					for(f in menu3){
 						var hh = menu3[f].uri;
-						hh = hh.split('/trfc/')[1];
-						hh = hh.substring(0,hh.lastIndexOf('/'));
-						if(hh == urlstr){
-							li_selected = 'class="active"';
+						if(hh){
+							hh = hh.split('/trfc/')[1];
+							hh = hh.substring(0,hh.lastIndexOf('/'));
+							if(hh == urlstr){
+								li_selected = 'class="active"';
+							}
 						}
 					}
 
@@ -207,9 +209,9 @@ $(function(){
 						var href_select = '';
 						if(hh){
 							href_select = 'href='+hh;
-						}
 							hh = hh.split('/trfc/')[1];
 							hh = hh.substring(0,hh.lastIndexOf('/'));
+						}
 						if(hh == urlstr){
 							tab_ul.append('<li class="select"><a '+href_select+'>'
 									+menu3[f].name+'</a></li>');

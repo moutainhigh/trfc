@@ -507,7 +507,7 @@ $(function(){
 			var obj = list[i];
 			var tr = '<tr>'
 				+'<td>'+((pageNo-1)*pageSize+i+1)+'</td>'
-				+'<td class="colorred">'+(obj.code || '')+'</td>'
+				+'<td>'+(obj.code || '')+'</td>'
 				+'<td>'+(getNowFormatDate(false,obj.samplingtime) || '')+'</td>'
 				+'<td>'+(obj.assayname || '')+'</td>'
 				+'<td>'+(obj.creator || '')+'</td>'

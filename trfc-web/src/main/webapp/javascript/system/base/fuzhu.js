@@ -436,6 +436,6 @@ function deleteItem() {
 }
 //刷新页面
 function refreshPage() {
-	listSystemDataDicts();
+	$('#dicts li.data_selected').click();
 }
 
