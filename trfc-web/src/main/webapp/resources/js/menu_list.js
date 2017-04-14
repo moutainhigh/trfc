@@ -10,7 +10,7 @@ $(function() {
 		};
 		$.post(url,params,function(result) {
 			showMenu(result.data.list);	
-			$("[data-toggle='tooltip']").tooltip();
+			$(".tool").tooltip();
 		});
 	}
 	function showMenu(list){
@@ -81,7 +81,7 @@ $(function() {
 				}
 				$div_li.append('<li '+li_selected+'><a '+url+'> <i class="iconfont">'
 						+img+'</i> <span>'+menu2[j].name+'</span></a></li>');
-				menuImg.append(' <li data-toggle="tooltip" data-placement="right" title="'
+				menuImg.append(' <li data-toggle="tooltip" class="tool" data-placement="right" title="'
 						+menu2[j].name+'"><a '+url+'><i class="iconfont">'+img+'</i></a></li>');
 			}
 		}
