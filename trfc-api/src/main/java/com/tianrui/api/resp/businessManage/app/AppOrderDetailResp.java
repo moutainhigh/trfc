@@ -17,7 +17,7 @@ public class AppOrderDetailResp extends BaseReq{
 	private String materialName;
 	//销售组织
 	private String orgName;
-	//客户
+	//客户/供应商
 	private String customerName;
 	//订单日期
 	private String billDateStr;

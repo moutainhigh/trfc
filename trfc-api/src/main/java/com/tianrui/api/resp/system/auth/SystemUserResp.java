@@ -24,7 +24,8 @@ public class SystemUserResp implements Serializable{
  	//为APP服务的tokenId
   	private String tokenId;
 	
-	
+	//身份类型
+  	private String identityTypes;
 	
 	public String getId() {
 		return id;
@@ -109,6 +110,18 @@ public class SystemUserResp implements Serializable{
 	 */
 	public void setTokenId(String tokenId) {
 		this.tokenId = tokenId;
+	}
+	/**
+	 * @return the identityTypes
+	 */
+	public String getIdentityTypes() {
+		return identityTypes;
+	}
+	/**
+	 * @param identityTypes the identityTypes to set
+	 */
+	public void setIdentityTypes(String identityTypes) {
+		this.identityTypes = identityTypes;
 	}
 	
 	

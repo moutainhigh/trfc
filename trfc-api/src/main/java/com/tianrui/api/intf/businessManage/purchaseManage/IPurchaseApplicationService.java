@@ -3,7 +3,9 @@ package com.tianrui.api.intf.businessManage.purchaseManage;
 import java.util.List;
 
 import com.alibaba.fastjson.JSONObject;
+import com.tianrui.api.req.businessManage.app.AppOrderReq;
 import com.tianrui.api.req.businessManage.purchaseManage.PurchaseApplicationQuery;
+import com.tianrui.api.resp.businessManage.app.AppOrderResp;
 import com.tianrui.api.resp.businessManage.purchaseManage.PurchaseApplicationJoinDetailResp;
 import com.tianrui.api.resp.businessManage.purchaseManage.PurchaseApplicationResp;
 import com.tianrui.smartfactory.common.vo.PaginationVO;
@@ -58,4 +60,12 @@ public interface IPurchaseApplicationService {
 	Result findMaxUtc(PurchaseApplicationQuery cardApi) throws Exception;
 
 	Result updateDataWithDC(List<JSONObject> list) throws Exception;
+	/**
+	 * @Description app采购订单接口
+	 * @author zhanggaohao
+	 * @version 2017年4月14日 下午2:20:56
+	 * @param req
+	 * @return
+	 */
+	PaginationVO<AppOrderResp> appToPage(AppOrderReq req);
 }
