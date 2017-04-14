@@ -2,8 +2,8 @@ package com.tianrui.web.api.android.action;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
+import org.apache.commons.codec.binary.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.tianrui.api.intf.businessManage.purchaseManage.IPurchaseApplicationService;
+import com.tianrui.api.intf.businessManage.salesManage.ISalesApplicationService;
 import com.tianrui.api.intf.system.auth.ISystemUserService;
 import com.tianrui.api.req.businessManage.app.AppDriverSaveReq;
 import com.tianrui.api.req.businessManage.app.AppOrderReq;
@@ -25,15 +27,15 @@ import com.tianrui.api.resp.businessManage.app.AppDriverResp;
 import com.tianrui.api.resp.businessManage.app.AppMsgCountResp;
 import com.tianrui.api.resp.businessManage.app.AppMsgResp;
 import com.tianrui.api.resp.businessManage.app.AppNoticeOrderDetailResp;
-import com.tianrui.api.resp.businessManage.app.AppOrderDetailResp;
 import com.tianrui.api.resp.businessManage.app.AppOrderResp;
 import com.tianrui.api.resp.businessManage.app.AppOverListDetailResp;
 import com.tianrui.api.resp.businessManage.app.AppVehicleInFactoryResp;
 import com.tianrui.api.resp.businessManage.app.AppVehicleResp;
 import com.tianrui.api.resp.businessManage.app.AppVersionResp;
-import com.tianrui.api.resp.system.auth.AppUserResp;
+import com.tianrui.api.resp.system.auth.SystemUserResp;
 import com.tianrui.smartfactory.common.api.ApiParam;
 import com.tianrui.smartfactory.common.api.ApiResult;
+import com.tianrui.smartfactory.common.constants.Constant;
 import com.tianrui.smartfactory.common.utils.UUIDUtil;
 import com.tianrui.smartfactory.common.vo.PaginationVO;
 import com.tianrui.smartfactory.common.vo.Result;
@@ -53,6 +55,10 @@ public class ApiStaticAction {
 	
 	@Autowired
 	private ISystemUserService systemUserService;
+	@Autowired
+	private ISalesApplicationService salesApplicationService;
+	@Autowired
+	private IPurchaseApplicationService purchaseApplicationService;
 	
 	@RequestMapping(value="/login",method=RequestMethod.POST)
 	@ApiParamRawType(AppUserReq.class)
@@ -62,7 +68,6 @@ public class ApiStaticAction {
 		try {
 			rs = systemUserService.appLogin(req.getBody());
 		} catch (Exception e) {
-			e.printStackTrace();
 			log.error(e.getMessage(), e);
 		}
 		return ApiResult.valueOf(rs);
@@ -77,11 +82,33 @@ public class ApiStaticAction {
 		try {
 			rs = systemUserService.appUpdatePswd(req.getBody());
 		} catch (Exception e) {
-			e.printStackTrace();
 			log.error(e.getMessage(), e);
 		}
 		return ApiResult.valueOf(rs);
 	}
+	
+	
+	/**
+	 * 问题： 
+	 * 
+	 * 用户分类：客户/供应商
+	 * 
+	 * 根据id查询客户获取实体
+	 * 
+	 * 根据实体判定用户身份类型
+	 * 
+	 * 根据用户身份类型查询相应结果信息
+	 * 
+	 * 
+	 * 
+	 * 
+	 * 以上问题解决方案：
+	 * 
+	 * 用户实体及用户表     增加身份类型字段 identityTypes
+	 * 
+	 */
+	
+	
 	
 	/**
 	 * 订单列表
@@ -91,26 +118,23 @@ public class ApiStaticAction {
 	@RequestMapping(value="/orderPage",method=RequestMethod.POST)
 	@ApiParamRawType(AppOrderReq.class)
 	@ResponseBody
-	public ApiResult orderPage(ApiParam<AppOrderReq> req){
-		AppOrderReq userReq =req.getBody();
-		Result rs=Result.getSuccessResult();
-		PaginationVO<AppOrderResp> page=new PaginationVO<AppOrderResp>();
-		
-		List<AppOrderResp> list =new ArrayList<AppOrderResp>();
-		AppOrderResp item =new AppOrderResp();
-		item.setId(UUIDUtil.getId());
-		item.setCode("DD201702200001");
-		item.setCargoName("水泥");
-		item.setData("2017-02-20");
-		item.setCustomName("客户张三");
-		list.add(item);
-		
-		page.setPageNo(1);
-		page.setTotal(19);
-		page.setList(list);
-		
-		
-		rs.setData(page);
+	public ApiResult orderPage(ApiParam<AppOrderReq> appParam){
+		Result rs = Result.getErrorResult();
+		try {
+			AppOrderReq req = appParam.getBody();
+			SystemUserResp user = systemUserService.get(appParam.getHead().getUserId());
+			PaginationVO<AppOrderResp> page = null;
+			if(StringUtils.equals(user.getIdentityTypes(), Constant.USER_SUPPLIER)){
+				page = purchaseApplicationService.appToPage(req);
+				rs.setData(page);
+			}
+			if(StringUtils.equals(user.getIdentityTypes(), Constant.USER_CUSTOMER)){
+				page = salesApplicationService.appToPage(req);
+				rs.setData(page);
+			}
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+		}
 		return ApiResult.valueOf(rs);
 	}
 	/**
@@ -122,17 +146,13 @@ public class ApiStaticAction {
 	@ApiParamRawType(AppOrderReq.class)
 	@ResponseBody
 	public ApiResult orderDetail(ApiParam<AppOrderReq> req){
-		AppOrderReq userReq =req.getBody();
-		Result rs=Result.getSuccessResult();
-		AppOrderDetailResp resp =new AppOrderDetailResp();
-		resp.setId(UUIDUtil.getId());
-		resp.setCode("DD201702200001");
-//		resp.setCargoName("水泥");
-//		resp.setData("2017-02-20");
-//		resp.setCustomName("客户张三");
-//		resp.setAllowance("100");
-//		resp.setWithholdingAmount("50");
-		rs.setData(resp);
+		Result rs = Result.getSuccessResult();
+		try {
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			log.error(e.getMessage(), e);
+		}
 		return ApiResult.valueOf(rs);
 	}
 	
@@ -155,9 +175,9 @@ public class ApiStaticAction {
 		AppOrderResp item =new AppOrderResp();
 		item.setId(UUIDUtil.getId());
 		item.setCode("DH201702200001");
-		item.setCargoName("水泥");
-		item.setData("2017-02-20");
-		item.setCustomName("客户张三");
+//		item.setCargoName("水泥");
+//		item.setData("2017-02-20");
+//		item.setCustomName("客户张三");
 		list.add(item);
 		
 		page.setPageNo(1);
@@ -212,9 +232,9 @@ public class ApiStaticAction {
 		AppOrderResp item =new AppOrderResp();
 		item.setId(UUIDUtil.getId());
 		item.setCode("GB201702200001");
-		item.setCargoName("水泥");
-		item.setData("2017-02-20");
-		item.setCustomName("客户张三");
+//		item.setCargoName("水泥");
+//		item.setData("2017-02-20");
+//		item.setCustomName("客户张三");
 		list.add(item);
 		
 		page.setPageNo(1);

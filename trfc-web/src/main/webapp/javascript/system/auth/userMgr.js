@@ -14,7 +14,9 @@ $(function(){
 	//分页操作
 	
 	//新增绑定
-	$(".right").off('click').on("click",".addButton",openAddWindow);
+	$(".addButton").off('click').on("click",function(){
+		openAddWindow();
+	});
 	//新增弹出框 确认操作
 	$("#addModal").off('click').on("click",".submitBtn",addsubmit);
 	//修改按钮绑定
@@ -102,7 +104,7 @@ $(function(){
 			dataType:"json",
 			success:function(rs){
 				if( rs && rs.code =="000000" ){
-					$("#addModal").modal("hide");
+					window.location.reload(true);
 				}else{
 					layer.msg(rs.error,{icon:5});
 				}

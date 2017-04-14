@@ -48,4 +48,29 @@ public class Constant {
     public final static String URL_RETURN_SALESAPPLICATION = URL_DOMAIN + "/api/boOrder/orderReturn";
     public final static String URL_RETURN_SALESOUTBOUNDCATION=URL_DOMAIN+"/api/saleoutboundorder/orderReturn";
     public final static String URL_RETURN_PURCHASESTORAGEATION=URL_DOMAIN+"/api/purchasestorage/orderReturn";
+    
+    
+    
+    
+    //用户身份类型
+    //客户
+    public final static String USER_CUSTOMER = "1";
+    //供应商
+    public final static String USER_SUPPLIER = "2";
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 }

@@ -3,8 +3,10 @@ package com.tianrui.api.intf.businessManage.salesManage;
 import java.util.List;
 
 import com.alibaba.fastjson.JSONObject;
+import com.tianrui.api.req.businessManage.app.AppOrderReq;
 import com.tianrui.api.req.businessManage.salesManage.SalesApplicationQuery;
 import com.tianrui.api.req.businessManage.salesManage.SalesApplicationSave;
+import com.tianrui.api.resp.businessManage.app.AppOrderResp;
 import com.tianrui.api.resp.businessManage.salesManage.SalesApplicationJoinDetailResp;
 import com.tianrui.api.resp.businessManage.salesManage.SalesApplicationResp;
 import com.tianrui.smartfactory.common.vo.PaginationVO;
@@ -34,6 +36,14 @@ public interface ISalesApplicationService {
 	List<SalesApplicationResp> selectByIds(List<String> ids, boolean isSetDetail) throws Exception;
 
 	PaginationVO<SalesApplicationJoinDetailResp> pageGroupMateriel(SalesApplicationQuery query) throws Exception;
+	/**
+	 * @Description app销售订单接口
+	 * @author zhanggaohao
+	 * @version 2017年4月14日 下午3:08:47
+	 * @param req
+	 * @return
+	 */
+	PaginationVO<AppOrderResp> appToPage(AppOrderReq req);
 
 
 
