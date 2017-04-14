@@ -6,23 +6,43 @@ $(function(){
 	//绑定数据字典类别增加按钮点击事件
 	$('#showAddDict').click(showAddDictAction);
 	//绑定增加数据字典类别页面确认按钮点击事件
-	$('#adddict .btn-primary').click(addDictAction);
+	$('#adddict .btn-primary').on('click',function(){
+		if($('#adddict').is(':visible')){
+			this.disabled = true;
+			addDictAction(this);
+		}
+	});
 	//绑定数据字典类别编辑按钮点击事件
 	$('#showEditDict').click(showEditDictAction);
 	//监听数据字典类别点击事件，显示数据字典明细列表
 	$('#dicts').on('click','li',showSystemDataDictItems);
 	//绑定数据字典类别编辑页面确认按钮点击事件
-	$('#editdict .btn-primary').click(editDataDict);
+	$('#editdict .btn-primary').on('click',function(){
+		if($('#editdict').is(':visible')){
+			this.disabled = true;
+			editDataDict(this);
+		}
+	});
 	//绑定数据字典类别删除页面确认按钮点击事件
 	$('#showDeleteDict').click(deleteDataDict);
 	//绑定数据字典明细新增按钮点击事件
 	$('#showAddItem').click(showAddItemAction);
 	//绑定新增数据字典明细页面确认按钮点击事件
-	$('#additem .btn-primary').click(addItemAction);
+	$('#additem .btn-primary').on('click',function(){
+		if($('#additem').is(':visible')){
+			this.disabled = true;
+			addItemAction(this);
+		}
+	});
 	//绑定数据字典明细编辑按钮点击事件
 	$('#items').on('click','tr .update_item',updateItemAction);
 	//绑定数据字典明细编辑页面确认按钮点击事件
-	$('#edititem .btn-primary').click(updateItem);
+	$('#edititem .btn-primary').on('click',function(){
+		if($('#edititem').is(':visible')){
+			this.disabled = true;
+			updateItem(this);
+		}
+	});
 	//绑定数据字典明细删除按钮点击事件
 	$('#items').on('click','tr .dele_item',deleteItemAction);
 	//绑定数据字典明细删除页面确认按钮点击事件
@@ -93,16 +113,10 @@ function showAddDictAction() {
 	$('#dict_info').val('');
 }
 //增加数据字典类别
-function addDictAction() {
-//	console.log('addDictAction');
-	
+function addDictAction(_this) {
 	var url=URL.addDictUrl;
 	var code=$('#dict_code').val().trim();
 	var name=$('#dict_name').val().trim();
-	if(!name){
-		$('#adddict .btn-primary').attr('data-dismiss','modal');
-		return;
-	}
 	var type=$('#dict_type').val();
 	var info=$('#dict_info').val().trim();
 	var params={
@@ -111,17 +125,35 @@ function addDictAction() {
 			type:type,
 			info:info
 	};
-//	console.log(params);
-	$('#adddict .btn-primary').attr('data-dismiss','modal');
-	$.post(url,params,function(result){
-		if(result.code == '000000'){
-			listSystemDataDicts();
-			
-		}else{
-		   layer.msg(result.error, {icon: 5});
-		}
-	});
+	if(validate(params)){
+		var index=layer.load(2,{
+			shade:[0.3,'#fff']
+		});
+		$.post(url,params,function(result){
+			if(result.code == '000000'){
+				_this.disabled=false;
+				location.reload(true);
+			}else{
+			   layer.msg(result.error, {icon: 5});
+				_this.disabled=false;
+			}
+			layer.close(index);
+		});
+	}else{
+		_this.disabled=false;
+	}
+	
 }
+function validate(params){
+	if(!params.name){
+		layer.msg('名称不能为空!',{icon:5});
+		return false;
+	}
+	return true;
+}	
+
+
+
 //将原来的数据字典类别信息显示到编辑页面
 function showEditDictAction() {
 //	console.log('showEditDictAction');
@@ -188,16 +220,13 @@ function showSystemDataDictItems() {
 	layer.close(index);
 }
 //修改数据字典类别
-function editDataDict() {
+function editDataDict(_this) {
 //	console.log('editDataDict');
 	
 	var url=URL.editDictUrl;
 	var code=$('#update_dict_code').val().trim();
 	var name=$('#update_dict_name').val().trim();
-	if(!name){
-		$('#editdict .btn-primary').attr('data-dismiss','modal');
-		return;
-	}
+	
 	var type=$('#update_dict_type').val();
 	var info=$('#update_dict_info').val().trim();
 	var params={
@@ -207,15 +236,24 @@ function editDataDict() {
 			type:type,
 			info:info
 	};
-//	console.log(params);
-	$('#editdict .btn-primary').attr('data-dismiss','modal');
-	$.post(url,params,function(result){
-		if(result.code == '000000'){
-			listSystemDataDicts();
-		}else{
-		   layer.msg(result.error, {icon: 5});
-		}
-	});
+	if(validate(params)){
+		var index=layer.load(2,{
+			shade:[0.3,'#fff']
+		});
+		$.post(url,params,function(result){
+			if(result.code == '000000'){
+				_this.disabled=false;
+				location.reload(true);
+			}else{
+			   layer.msg(result.error, {icon: 5});
+				_this.disabled=false;
+			}
+			layer.close(index);
+		});
+	}else{
+		_this.disabled=false;
+	}
+	
 }
 //删除数据字典类别
 function deleteDataDict() {
@@ -265,16 +303,11 @@ function showAddItemAction() {
 	
 }
 //新增数据字典明细
-function addItemAction() {
-//	console.log('addItemAction');
+function addItemAction(_this) {
 	
 	var url=URL.addItemUrl;
 	var code=$('#item_code').val().trim();
 	var name=$('#item_name').val().trim();
-	if(!name){
-		$('#additem .btn-primary').attr('data-dismiss','modal');
-		return;
-	}
 	var isvalid = 0;
 	if($('#item_addisvalid').prop('checked')){
 		isvalid = 1;
@@ -288,24 +321,33 @@ function addItemAction() {
 			isvalid:isvalid,
 			info:info
 	};
-//	console.log(params);
 	
-	$('#additem .btn-primary').attr('data-dismiss','modal');
-	$.post(url,params,function(result){
-		if(result.code == '000000'){
-			$('.data_selected').click();
-		}else{
-			layer.msg(result.error, {icon: 5});
-		}
-	});
+	if(validate(params)){
+		var index=layer.load(2,{
+			shade:[0.3,'#fff']
+		});
+		$.post(url,params,function(result){
+			if(result.code == '000000'){
+				_this.disabled=false;
+//				$('#additem .btn-primary').attr('data-dismiss','modal');
+//				$('.data_selected').click();
+				location.reload(true);
+			}else{
+			   layer.msg(result.error, {icon: 5});
+				_this.disabled=false;
+			}
+			layer.close(index);
+		});
+	}else{
+		_this.disabled=false;
+	}
+	
 }
 //将原来的数据字典明细信息显示到编辑页面
 function updateItemAction() {
-//	console.log('updateItemAction');
 	var tr=$(this).parent().parent();
 	var item=tr.data(item);
 	itemData.id=item.id;
-//	console.log(item);
 	$('#update_item_code').val(item.code);
 	$('#update_item_name').val(item.name);
 	$('#update_item_isvalid')[0].checked=false;
@@ -315,15 +357,10 @@ function updateItemAction() {
 	$('#update_item_info').val(item.info);
 }
 //修改数据字典明细
-function updateItem() {
-//	console.log('updateItem');
+function updateItem(_this) {
 	var url=URL.editItemUrl;
 	var code=$('#update_item_code').val().trim();
 	var name=$('#update_item_name').val().trim();
-	if(!name){
-		$('#edititem .btn-primary').attr('data-dismiss','modal');
-		return;
-	}
 	var isvalid = 0;
 	if($('#update_item_isvalid').prop('checked')){
 		isvalid = 1;
@@ -336,15 +373,24 @@ function updateItem() {
 			isvalid:isvalid,
 			info:info
 	};
-//	console.log(params);
-	$('#edititem .btn-primary').attr('data-dismiss','modal');
-	$.post(url,params,function(result){
-		if(result.code == '000000'){
-			$('.data_selected').click();
-		}else{
-		   layer.msg(result.error, {icon: 5});
-		}
-	});
+	if(validate(params)){
+		var index=layer.load(2,{
+			shade:[0.3,'#fff']
+		});
+		$.post(url,params,function(result){
+			if(result.code == '000000'){
+				_this.disabled=false;
+				location.reload(true);
+			}else{
+			   layer.msg(result.error, {icon: 5});
+				_this.disabled=false;
+			}
+			layer.close(index);
+		});
+	}else{
+		_this.disabled=false;
+	}
+	
 }
 //获取删除时所需要的id
 function deleteItemAction() {
