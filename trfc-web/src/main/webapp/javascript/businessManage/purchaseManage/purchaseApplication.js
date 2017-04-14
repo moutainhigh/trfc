@@ -149,9 +149,12 @@
 				var obj = list[i] || '';
 				var code = obj.code || '';
 				var auditstatus = obj.auditstatus || '';
+				//设置字体颜色 (LXY)
+				var color = '';
 				switch (auditstatus) {
 				case '0':
 					auditstatus = '未审核';
+					color = 'class="colorred"';
 					break;
 				case '1':
 					auditstatus = '已审核';
@@ -184,7 +187,7 @@
 				var remark = obj.remark || '';
 				$('<tr>').append('<td>'+(i+1)+'</td>')
 						.append('<td>'+code+'</td>')
-						.append('<td class="colorred">'+auditstatus+'</td>')
+						.append('<td '+color+'>'+auditstatus+'</td>')
 						.append('<td>'+source+'</td>')
 						.append('<td>'+billtypename+'</td>')
 						.append('<td>'+suppliername+'</td>')

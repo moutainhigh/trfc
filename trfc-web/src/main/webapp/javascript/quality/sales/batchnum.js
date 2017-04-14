@@ -305,8 +305,8 @@ $(function(){
 				1:"已审核"
 		};
 		var AUDITCOL = {
-				0:'',
-				1:'class="colorred"'
+				1:'',
+				0:'class="colorred"'
 		}
 		var BILLS = {
 				0:"停用",

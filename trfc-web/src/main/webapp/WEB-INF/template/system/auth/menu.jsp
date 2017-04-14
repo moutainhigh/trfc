@@ -267,7 +267,7 @@
                     </div>
                     <div class="alt_edit_div">
                         <label>上级模块：</label>
-                        <input type="text" id="role_type" class="easyui-combotree"  required="true"  style="width: 220px;">
+                        <input type="text" id="role_type" class="easyui-combotree"  required="true"  style="width: 220px; height:28px">
                     </div>
                     <div class="alt_edit_div">
                         <label>连接目标：</label>

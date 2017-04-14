@@ -277,8 +277,10 @@
 				var purchaseApplicationDetail = obj.purchaseApplicationDetailResp;
 				var code = obj.code || '';
 				var auditstatus = '';
+				//设置字体颜色 (LXY)
+				var color = '';
 				switch (obj.auditstatus) {
-				case '0': auditstatus = '未审核'; break;
+				case '0': auditstatus = '未审核'; color = 'class="colorred"';break;
 				case '1': auditstatus = '已审核'; break;
 				default: break;
 				}
@@ -313,7 +315,7 @@
 				var remark = obj.remark || '';
 				var supplierremark = purchaseApplication.supplierremark || '';
 				$('<tr>').append('<td>'+(i+1)+'</td>').append('<td>'+code+'</td>')
-						.append('<td>'+auditstatus+'</td>').append('<td>'+source+'</td>')
+						.append('<td '+color+'>'+auditstatus+'</td>').append('<td>'+source+'</td>')
 						.append('<td>'+status+'</td>').append('<td>'+vehicleno+'</td>')
 						.append('<td>'+billcode+'</td>').append('<td>'+suppliername+'</td>')
 						.append('<td>'+materielname+'</td>').append('<td>'+minemouthname+'</td>')
