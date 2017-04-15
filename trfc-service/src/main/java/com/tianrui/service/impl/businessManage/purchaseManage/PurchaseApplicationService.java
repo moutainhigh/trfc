@@ -19,6 +19,7 @@ import com.tianrui.api.intf.businessManage.purchaseManage.IPurchaseApplicationDe
 import com.tianrui.api.intf.businessManage.purchaseManage.IPurchaseApplicationService;
 import com.tianrui.api.req.businessManage.app.AppOrderReq;
 import com.tianrui.api.req.businessManage.purchaseManage.PurchaseApplicationQuery;
+import com.tianrui.api.resp.businessManage.app.AppOrderDetailResp;
 import com.tianrui.api.resp.businessManage.app.AppOrderResp;
 import com.tianrui.api.resp.businessManage.purchaseManage.PurchaseApplicationJoinDetailResp;
 import com.tianrui.api.resp.businessManage.purchaseManage.PurchaseApplicationResp;
@@ -317,5 +318,26 @@ public class PurchaseApplicationService implements IPurchaseApplicationService {
 			page.setTotal(count);
 		}
 		return page;
+	}
+
+	@Override
+	public AppOrderDetailResp appToDetail(AppOrderReq req) {
+		AppOrderDetailResp resp = null;
+		if(req != null 
+				&& StringUtils.isNotBlank(req.getId())
+				&& StringUtils.isNotBlank(req.getDetailid())){
+			resp = new AppOrderDetailResp();
+			PurchaseApplication application = purchaseApplicationMapper.selectByPrimaryKey(req.getId());
+			PurchaseApplicationDetail applicationDetail = purchaseApplicationDetailMapper.selectByPrimaryKey(req.getDetailid());
+			resp.setId(application.getId());
+			resp.setDetailid(applicationDetail.getId());
+			resp.setCode(application.getCode());
+			resp.setMaterialName(applicationDetail.getMaterielname());
+			resp.setOrgName(application.getOrgname());
+			resp.setCustomerName(application.getSuppliername());
+			resp.setBillDateStr(DateUtil.parse(application.getBilltime(), "yyyy-MM-dd HH:mm:ss"));
+			resp.setMargin(applicationDetail.getMargin());
+		}
+		return resp;
 	}
 }

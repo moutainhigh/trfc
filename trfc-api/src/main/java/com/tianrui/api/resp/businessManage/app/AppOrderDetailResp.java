@@ -11,6 +11,8 @@ public class AppOrderDetailResp extends BaseReq{
 	private static final long serialVersionUID = 280565475561660076L;
 
 	private String id;
+	//订单子表id
+	private String detailid;
 	//订单编码
 	private String code;
 	//物料
@@ -28,6 +30,12 @@ public class AppOrderDetailResp extends BaseReq{
 	 */
 	public String getId() {
 		return id;
+	}
+	/**
+	 * @return the detailid
+	 */
+	public String getDetailid() {
+		return detailid;
 	}
 	/**
 	 * @return the code
@@ -70,6 +78,12 @@ public class AppOrderDetailResp extends BaseReq{
 	 */
 	public void setId(String id) {
 		this.id = id;
+	}
+	/**
+	 * @param detailid the detailid to set
+	 */
+	public void setDetailid(String detailid) {
+		this.detailid = detailid;
 	}
 	/**
 	 * @param code the code to set

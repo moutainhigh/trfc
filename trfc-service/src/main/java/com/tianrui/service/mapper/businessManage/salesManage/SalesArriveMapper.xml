@@ -694,4 +694,96 @@
     where vehicleno = #{vehicleno,jdbcType=VARCHAR} and vehiclerfid = #{vehiclerfid,jdbcType=VARCHAR} 
     	and status != '3' and status != '5' and state = '1'
   </select>
+  <select id="findAppNoticePage" resultType="com.tianrui.api.resp.businessManage.app.AppNoticeOrderResp" parameterType="com.tianrui.api.req.businessManage.app.AppNoticeOrderReq">
+  	select s1.id, s1.code, s1.billcode as billCode, s2.billtime, s1.makebilltime as noticetime, s1.vehicleno, 
+  		s3.materielname as materialName, s1.takeamount as number, s1.source, s1.status
+  	from tr_sales_db_arrive s1 
+  	left join tr_sales_db_application s2 on s1.billid = s2.id
+  	left join tr_sales_db_application_detail s3 on s2.id = s3.salesid
+  	<where>
+      <if test="code != null and code != '' ">
+        and s1.code = #{code,jdbcType=VARCHAR}
+      </if>
+      <if test="status != null and status != '' ">
+        and s1.status = #{status,jdbcType=VARCHAR}
+      </if>
+      <if test="vehicleid != null and vehicleid != '' ">
+        and s1.vehicleid = #{vehicleid,jdbcType=VARCHAR}
+      </if>
+      <if test="customerid != null and customerid != '' ">
+        and s2.customerid = #{customerid,jdbcType=VARCHAR}
+      </if>
+      <if test="billcode != null and billcode != '' ">
+        and s2.code = #{billcode,jdbcType=VARCHAR}
+      </if>
+      <if test="materielid != null and materielid != '' ">
+        and s3.materielid = #{materielid,jdbcType=VARCHAR}
+      </if>
+      <if test="starttime != null and starttime != ''">
+		and s1.makebilltime <![CDATA[>=]]> #{starttime,jdbcType=BIGINT}
+	  </if>
+	  <if test="endtime != null and endtime != ''">
+		and s1.makebilltime <![CDATA[<]]> #{endtime,jdbcType=BIGINT}
+	  </if>
+  	</where>
+  	<if test="orderColumn != null and orderColumn != ''">
+  		order by #{orderColumn,jdbcType=VARCHAR} 
+  		<choose>
+  			<when test="orderAsc == 'DESC'">
+  				DESC
+  			</when>
+  			<otherwise>
+  				ASC
+  			</otherwise>
+  		</choose>
+  	</if>
+  	<if test="start != null and start >= 0">
+  		<if test="limit != null">
+			limit #{start,jdbcType=INTEGER},#{limit,jdbcType=INTEGER}
+  		</if>
+  	</if>
+  </select>
+  <select id="findAppNoticePageCount" resultType="java.lang.Long" parameterType="com.tianrui.api.req.businessManage.app.AppNoticeOrderReq">
+  	select count(0)
+  	from tr_sales_db_arrive s1 
+  	left join tr_sales_db_application s2 on s1.billid = s2.id
+  	left join tr_sales_db_application_detail s3 on s2.id = s3.salesid
+  	<where>
+      <if test="code != null and code != '' ">
+        and s1.code = #{code,jdbcType=VARCHAR}
+      </if>
+      <if test="status != null and status != '' ">
+        and s1.status = #{status,jdbcType=VARCHAR}
+      </if>
+      <if test="vehicleid != null and vehicleid != '' ">
+        and s1.vehicleid = #{vehicleid,jdbcType=VARCHAR}
+      </if>
+      <if test="customerid != null and customerid != '' ">
+        and s2.customerid = #{customerid,jdbcType=VARCHAR}
+      </if>
+      <if test="billcode != null and billcode != '' ">
+        and s2.code = #{billcode,jdbcType=VARCHAR}
+      </if>
+      <if test="materielid != null and materielid != '' ">
+        and s3.materielid = #{materielid,jdbcType=VARCHAR}
+      </if>
+      <if test="starttime != null and starttime != ''">
+		and s1.makebilltime <![CDATA[>=]]> #{starttime,jdbcType=BIGINT}
+	  </if>
+	  <if test="endtime != null and endtime != ''">
+		and s1.makebilltime <![CDATA[<]]> #{endtime,jdbcType=BIGINT}
+	  </if>
+  	</where>
+  	<if test="orderColumn != null and orderColumn != ''">
+  		order by #{orderColumn,jdbcType=VARCHAR} 
+  		<choose>
+  			<when test="orderAsc == 'DESC'">
+  				DESC
+  			</when>
+  			<otherwise>
+  				ASC
+  			</otherwise>
+  		</choose>
+  	</if>
+  </select>
 </mapper>

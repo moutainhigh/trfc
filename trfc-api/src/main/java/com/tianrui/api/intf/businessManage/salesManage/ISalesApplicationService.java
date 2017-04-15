@@ -6,6 +6,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.tianrui.api.req.businessManage.app.AppOrderReq;
 import com.tianrui.api.req.businessManage.salesManage.SalesApplicationQuery;
 import com.tianrui.api.req.businessManage.salesManage.SalesApplicationSave;
+import com.tianrui.api.resp.businessManage.app.AppOrderDetailResp;
 import com.tianrui.api.resp.businessManage.app.AppOrderResp;
 import com.tianrui.api.resp.businessManage.salesManage.SalesApplicationJoinDetailResp;
 import com.tianrui.api.resp.businessManage.salesManage.SalesApplicationResp;
@@ -44,6 +45,14 @@ public interface ISalesApplicationService {
 	 * @return
 	 */
 	PaginationVO<AppOrderResp> appToPage(AppOrderReq req);
+	/**
+	 * @Description app销售订单详情接口
+	 * @author zhanggaohao
+	 * @version 2017年4月14日 下午4:08:51
+	 * @param req
+	 * @return
+	 */
+	AppOrderDetailResp appToDetail(AppOrderReq req);
 
 
 

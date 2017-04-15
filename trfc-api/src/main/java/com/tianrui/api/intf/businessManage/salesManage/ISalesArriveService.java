@@ -2,10 +2,12 @@ package com.tianrui.api.intf.businessManage.salesManage;
 
 import java.util.List;
 
+import com.tianrui.api.req.businessManage.app.AppNoticeOrderReq;
 import com.tianrui.api.req.businessManage.salesManage.ApiDoorQueueQuery;
 import com.tianrui.api.req.businessManage.salesManage.ApiSalesArriveQuery;
 import com.tianrui.api.req.businessManage.salesManage.SalesArriveQuery;
 import com.tianrui.api.req.businessManage.salesManage.SalesArriveSave;
+import com.tianrui.api.resp.businessManage.app.AppNoticeOrderResp;
 import com.tianrui.api.resp.businessManage.salesManage.SalesArriveResp;
 import com.tianrui.smartfactory.common.vo.PaginationVO;
 import com.tianrui.smartfactory.common.vo.Result;
@@ -104,5 +106,13 @@ public interface ISalesArriveService {
 	 * @throws Exception
 	 */
 	Result updateCardno(SalesArriveSave save) throws Exception;
+	/**
+	 * @Description app销售通知单分页接口
+	 * @author zhanggaohao
+	 * @version 2017年4月14日 下午5:02:34
+	 * @param req
+	 * @return
+	 */
+	PaginationVO<AppNoticeOrderResp> appToPage(AppNoticeOrderReq req);
 
 }

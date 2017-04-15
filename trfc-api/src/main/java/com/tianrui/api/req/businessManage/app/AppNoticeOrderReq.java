@@ -2,14 +2,11 @@ package com.tianrui.api.req.businessManage.app;
 
 import com.tianrui.api.req.BaseReq;
 
-public class AppOrderReq extends BaseReq{
+public class AppNoticeOrderReq extends BaseReq{
 
 	private static final long serialVersionUID = 280565475561660076L;
-	private String userId;
 	//订单 通知单 过磅单id
 	private String id;
-	//订单子表id
-	private String detailid;
 	//是否显示 0：删除， 1：显示   默认显示
 	private String state = "1";
 	//排序方式
@@ -20,6 +17,8 @@ public class AppOrderReq extends BaseReq{
     private Integer start;
     //条数
     private Integer limit;
+    //用户id
+	private String userId;
 	
 	public String getUserId() {
 		return userId;
@@ -32,12 +31,6 @@ public class AppOrderReq extends BaseReq{
 	}
 	public void setId(String id) {
 		this.id = id;
-	}
-	public String getDetailid() {
-		return detailid;
-	}
-	public void setDetailid(String detailid) {
-		this.detailid = detailid;
 	}
 	public String getState() {
 		return state;

@@ -13,9 +13,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.tianrui.api.intf.businessManage.purchaseManage.IPurchaseApplicationService;
+import com.tianrui.api.intf.businessManage.purchaseManage.IPurchaseArriveService;
 import com.tianrui.api.intf.businessManage.salesManage.ISalesApplicationService;
+import com.tianrui.api.intf.businessManage.salesManage.ISalesArriveService;
 import com.tianrui.api.intf.system.auth.ISystemUserService;
 import com.tianrui.api.req.businessManage.app.AppDriverSaveReq;
+import com.tianrui.api.req.businessManage.app.AppNoticeOrderReq;
 import com.tianrui.api.req.businessManage.app.AppOrderReq;
 import com.tianrui.api.req.businessManage.app.AppOrderSaveReq;
 import com.tianrui.api.req.businessManage.app.AppQueryReq;
@@ -27,6 +30,7 @@ import com.tianrui.api.resp.businessManage.app.AppDriverResp;
 import com.tianrui.api.resp.businessManage.app.AppMsgCountResp;
 import com.tianrui.api.resp.businessManage.app.AppMsgResp;
 import com.tianrui.api.resp.businessManage.app.AppNoticeOrderDetailResp;
+import com.tianrui.api.resp.businessManage.app.AppNoticeOrderResp;
 import com.tianrui.api.resp.businessManage.app.AppOrderResp;
 import com.tianrui.api.resp.businessManage.app.AppOverListDetailResp;
 import com.tianrui.api.resp.businessManage.app.AppVehicleInFactoryResp;
@@ -36,6 +40,7 @@ import com.tianrui.api.resp.system.auth.SystemUserResp;
 import com.tianrui.smartfactory.common.api.ApiParam;
 import com.tianrui.smartfactory.common.api.ApiResult;
 import com.tianrui.smartfactory.common.constants.Constant;
+import com.tianrui.smartfactory.common.constants.ErrorCode;
 import com.tianrui.smartfactory.common.utils.UUIDUtil;
 import com.tianrui.smartfactory.common.vo.PaginationVO;
 import com.tianrui.smartfactory.common.vo.Result;
@@ -59,6 +64,10 @@ public class ApiStaticAction {
 	private ISalesApplicationService salesApplicationService;
 	@Autowired
 	private IPurchaseApplicationService purchaseApplicationService;
+	@Autowired
+	private ISalesArriveService salesArriveService;
+	@Autowired
+	private IPurchaseArriveService purchaseArriveService;
 	
 	@RequestMapping(value="/login",method=RequestMethod.POST)
 	@ApiParamRawType(AppUserReq.class)
@@ -69,6 +78,7 @@ public class ApiStaticAction {
 			rs = systemUserService.appLogin(req.getBody());
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
+			rs.setErrorCode(ErrorCode.SYSTEM_ERROR);
 		}
 		return ApiResult.valueOf(rs);
 	}
@@ -83,6 +93,7 @@ public class ApiStaticAction {
 			rs = systemUserService.appUpdatePswd(req.getBody());
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
+			rs.setErrorCode(ErrorCode.SYSTEM_ERROR);
 		}
 		return ApiResult.valueOf(rs);
 	}
@@ -134,6 +145,7 @@ public class ApiStaticAction {
 			}
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
+			rs.setErrorCode(ErrorCode.SYSTEM_ERROR);
 		}
 		return ApiResult.valueOf(rs);
 	}
@@ -145,13 +157,20 @@ public class ApiStaticAction {
 	@RequestMapping(value="/orderDetail",method=RequestMethod.POST)
 	@ApiParamRawType(AppOrderReq.class)
 	@ResponseBody
-	public ApiResult orderDetail(ApiParam<AppOrderReq> req){
+	public ApiResult orderDetail(ApiParam<AppOrderReq> appParam){
 		Result rs = Result.getSuccessResult();
 		try {
-			
+			AppOrderReq req = appParam.getBody();
+			SystemUserResp user = systemUserService.get(appParam.getHead().getUserId());
+			if(StringUtils.equals(user.getIdentityTypes(), Constant.USER_SUPPLIER)){
+				rs.setData(purchaseApplicationService.appToDetail(req));
+			}
+			if(StringUtils.equals(user.getIdentityTypes(), Constant.USER_CUSTOMER)){
+				rs.setData(salesApplicationService.appToDetail(req));
+			}
 		} catch (Exception e) {
-			e.printStackTrace();
 			log.error(e.getMessage(), e);
+			rs.setErrorCode(ErrorCode.SYSTEM_ERROR);
 		}
 		return ApiResult.valueOf(rs);
 	}
@@ -166,26 +185,24 @@ public class ApiStaticAction {
 	@RequestMapping(value="/noticeOderPage",method=RequestMethod.POST)
 	@ApiParamRawType(AppOrderReq.class)
 	@ResponseBody
-	public ApiResult noticeOderPage(ApiParam<AppOrderReq> req){
-		AppOrderReq userReq =req.getBody();
-		Result rs=Result.getSuccessResult();
-		PaginationVO<AppOrderResp> page=new PaginationVO<AppOrderResp>();
-		
-		List<AppOrderResp> list =new ArrayList<AppOrderResp>();
-		AppOrderResp item =new AppOrderResp();
-		item.setId(UUIDUtil.getId());
-		item.setCode("DH201702200001");
-//		item.setCargoName("水泥");
-//		item.setData("2017-02-20");
-//		item.setCustomName("客户张三");
-		list.add(item);
-		
-		page.setPageNo(1);
-		page.setTotal(19);
-		page.setList(list);
-		
-		
-		rs.setData(page);
+	public ApiResult noticeOderPage(ApiParam<AppNoticeOrderReq> appParam){
+		Result rs = Result.getErrorResult();
+		try {
+			AppNoticeOrderReq req = appParam.getBody();
+			SystemUserResp user = systemUserService.get(appParam.getHead().getUserId());
+			PaginationVO<AppNoticeOrderResp> page = null;
+			if(StringUtils.equals(user.getIdentityTypes(), Constant.USER_SUPPLIER)){
+				page = purchaseArriveService.appToPage(req);
+				rs.setData(page);
+			}
+			if(StringUtils.equals(user.getIdentityTypes(), Constant.USER_CUSTOMER)){
+				page = salesArriveService.appToPage(req);
+				rs.setData(page);
+			}
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			rs.setErrorCode(ErrorCode.SYSTEM_ERROR);
+		}
 		return ApiResult.valueOf(rs);
 	}
 	/**

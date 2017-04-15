@@ -20,6 +20,7 @@ import com.tianrui.api.intf.businessManage.salesManage.ISalesApplicationService;
 import com.tianrui.api.intf.businessManage.salesManage.ISalesArriveService;
 import com.tianrui.api.intf.system.auth.ISystemUserService;
 import com.tianrui.api.intf.system.base.ISystemCodeService;
+import com.tianrui.api.req.businessManage.app.AppNoticeOrderReq;
 import com.tianrui.api.req.businessManage.salesManage.ApiDoorQueueQuery;
 import com.tianrui.api.req.businessManage.salesManage.ApiSalesArriveQuery;
 import com.tianrui.api.req.businessManage.salesManage.SalesArriveQuery;
@@ -27,6 +28,7 @@ import com.tianrui.api.req.businessManage.salesManage.SalesArriveSave;
 import com.tianrui.api.req.system.base.GetCodeReq;
 import com.tianrui.api.resp.basicFile.measure.DriverManageResp;
 import com.tianrui.api.resp.basicFile.measure.VehicleManageResp;
+import com.tianrui.api.resp.businessManage.app.AppNoticeOrderResp;
 import com.tianrui.api.resp.businessManage.cardManage.CardResp;
 import com.tianrui.api.resp.businessManage.poundNoteMaintain.PoundNoteResp;
 import com.tianrui.api.resp.businessManage.salesManage.ApiDoorQueueResp;
@@ -726,6 +728,25 @@ public class SalesArriveService implements ISalesArriveService {
 		resp.setSmallticket(codeGenDaoImpl.codeGen(1));
 		result.setData(resp);
 		return result;
+	}
+
+	@Override
+	public PaginationVO<AppNoticeOrderResp> appToPage(AppNoticeOrderReq req) {
+		PaginationVO<AppNoticeOrderResp> page = null;
+		if(req != null){
+			page = new PaginationVO<AppNoticeOrderResp>();
+			req.setStart((req.getPageNo() - 1) * req.getPageSize());
+			req.setLimit(req.getPageSize());
+			long count = salesArriveMapper.findAppNoticePageCount(req);
+			if(count > 0){
+				List<AppNoticeOrderResp> list = salesArriveMapper.findAppNoticePage(req);
+				page.setList(list);
+			}
+			page.setPageNo(req.getPageNo());
+			page.setPageSize(req.getPageSize());
+			page.setTotal(count);
+		}
+		return page;
 	}
 
 }

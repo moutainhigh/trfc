@@ -4,7 +4,9 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
+import com.tianrui.api.req.businessManage.app.AppNoticeOrderReq;
 import com.tianrui.api.req.businessManage.salesManage.SalesArriveQuery;
+import com.tianrui.api.resp.businessManage.app.AppNoticeOrderResp;
 import com.tianrui.service.bean.businessManage.salesManage.SalesArrive;
 
 public interface SalesArriveMapper {
@@ -94,4 +96,20 @@ public interface SalesArriveMapper {
 	 * @return
 	 */
 	List<SalesArrive> validNoticeByVehicle(@Param("vehicleno")String vehicleno, @Param("vehiclerfid")String vehiclerfid);
+	/**
+	 * @Description app采购通知单分页接口
+	 * @author zhanggaohao
+	 * @version 2017年4月15日 下午2:24:18
+	 * @param req
+	 * @return
+	 */
+	long findAppNoticePageCount(AppNoticeOrderReq req);
+	/**
+	 * @Description app采购通知单分页接口
+	 * @author zhanggaohao
+	 * @version 2017年4月15日 下午2:24:58
+	 * @param req
+	 * @return
+	 */
+	List<AppNoticeOrderResp> findAppNoticePage(AppNoticeOrderReq req);
 }

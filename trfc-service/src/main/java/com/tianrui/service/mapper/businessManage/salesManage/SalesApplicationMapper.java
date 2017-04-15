@@ -2,7 +2,9 @@ package com.tianrui.service.mapper.businessManage.salesManage;
 
 import java.util.List;
 
+import com.tianrui.api.req.businessManage.app.AppOrderReq;
 import com.tianrui.api.req.businessManage.salesManage.SalesApplicationQuery;
+import com.tianrui.api.resp.businessManage.app.AppOrderResp;
 import com.tianrui.api.resp.businessManage.salesManage.SalesApplicationJoinDetailResp;
 import com.tianrui.service.bean.businessManage.salesManage.SalesApplication;
 
@@ -34,4 +36,8 @@ public interface SalesApplicationMapper {
 	Long  findMaxUtc();
 	
 	List<SalesApplication> selectByIds(List<String> list);
+
+	long findAppToPageGroupMaterielCount(AppOrderReq req);
+
+	List<AppOrderResp> findAppToPageGroupMateriel(AppOrderReq req);
 }

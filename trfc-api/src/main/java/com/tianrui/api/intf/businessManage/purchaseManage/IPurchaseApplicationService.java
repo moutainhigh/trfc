@@ -5,6 +5,7 @@ import java.util.List;
 import com.alibaba.fastjson.JSONObject;
 import com.tianrui.api.req.businessManage.app.AppOrderReq;
 import com.tianrui.api.req.businessManage.purchaseManage.PurchaseApplicationQuery;
+import com.tianrui.api.resp.businessManage.app.AppOrderDetailResp;
 import com.tianrui.api.resp.businessManage.app.AppOrderResp;
 import com.tianrui.api.resp.businessManage.purchaseManage.PurchaseApplicationJoinDetailResp;
 import com.tianrui.api.resp.businessManage.purchaseManage.PurchaseApplicationResp;
@@ -68,4 +69,12 @@ public interface IPurchaseApplicationService {
 	 * @return
 	 */
 	PaginationVO<AppOrderResp> appToPage(AppOrderReq req);
+	/**
+	 * @Description app采购订单详情接口
+	 * @author zhanggaohao
+	 * @version 2017年4月14日 下午4:08:23
+	 * @param req
+	 * @return
+	 */
+	AppOrderDetailResp appToDetail(AppOrderReq req);
 }

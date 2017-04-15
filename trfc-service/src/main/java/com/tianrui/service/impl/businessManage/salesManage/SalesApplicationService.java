@@ -23,6 +23,7 @@ import com.tianrui.api.req.businessManage.salesManage.SalesApplicationDetailSave
 import com.tianrui.api.req.businessManage.salesManage.SalesApplicationQuery;
 import com.tianrui.api.req.businessManage.salesManage.SalesApplicationSave;
 import com.tianrui.api.req.system.base.GetCodeReq;
+import com.tianrui.api.resp.businessManage.app.AppOrderDetailResp;
 import com.tianrui.api.resp.businessManage.app.AppOrderResp;
 import com.tianrui.api.resp.businessManage.salesManage.SalesApplicationDetailResp;
 import com.tianrui.api.resp.businessManage.salesManage.SalesApplicationJoinDetailResp;
@@ -564,7 +565,41 @@ public class SalesApplicationService implements ISalesApplicationService {
 
 	@Override
 	public PaginationVO<AppOrderResp> appToPage(AppOrderReq req) {
-		// TODO Auto-generated method stub
-		return null;
+		PaginationVO<AppOrderResp> page = null;
+		if(req != null){
+			page = new PaginationVO<AppOrderResp>();
+			req.setStart((req.getPageNo()-1)*req.getPageSize());
+			req.setLimit(req.getPageSize());
+			long count = salesApplicationMapper.findAppToPageGroupMaterielCount(req);
+			if(count > 0){
+				List<AppOrderResp> list = salesApplicationMapper.findAppToPageGroupMateriel(req);
+				page.setList(list);
+			}
+			page.setPageNo(req.getPageNo());
+			page.setPageSize(req.getPageSize());
+			page.setTotal(count);
+		}
+		return page;
+	}
+
+	@Override
+	public AppOrderDetailResp appToDetail(AppOrderReq req) {
+		AppOrderDetailResp resp = null;
+		if(req != null 
+				&& StringUtils.isNotBlank(req.getId())
+				&& StringUtils.isNotBlank(req.getDetailid())){
+			resp = new AppOrderDetailResp();
+			SalesApplication application = salesApplicationMapper.selectByPrimaryKey(req.getId());
+			SalesApplicationDetail applicationDetail = salesApplicationDetailMapper.selectByPrimaryKey(req.getDetailid());
+			resp.setId(application.getId());
+			resp.setDetailid(applicationDetail.getId());
+			resp.setCode(application.getCode());
+			resp.setMaterialName(applicationDetail.getMaterielname());
+			resp.setOrgName(application.getOrgname());
+			resp.setCustomerName(application.getCustomername());
+			resp.setBillDateStr(DateUtil.parse(application.getBilltime(), "yyyy-MM-dd HH:mm:ss"));
+			resp.setMargin(applicationDetail.getMargin());
+		}
+		return resp;
 	}
 }

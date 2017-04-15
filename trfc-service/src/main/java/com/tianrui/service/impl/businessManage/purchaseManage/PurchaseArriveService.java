@@ -17,11 +17,13 @@ import com.tianrui.api.intf.businessManage.purchaseManage.IPurchaseApplicationSe
 import com.tianrui.api.intf.businessManage.purchaseManage.IPurchaseArriveService;
 import com.tianrui.api.intf.system.auth.ISystemUserService;
 import com.tianrui.api.intf.system.base.ISystemCodeService;
+import com.tianrui.api.req.businessManage.app.AppNoticeOrderReq;
 import com.tianrui.api.req.businessManage.purchaseManage.PurchaseArriveQuery;
 import com.tianrui.api.req.businessManage.purchaseManage.PurchaseArriveSave;
 import com.tianrui.api.req.system.base.GetCodeReq;
 import com.tianrui.api.resp.basicFile.measure.DriverManageResp;
 import com.tianrui.api.resp.basicFile.measure.VehicleManageResp;
+import com.tianrui.api.resp.businessManage.app.AppNoticeOrderResp;
 import com.tianrui.api.resp.businessManage.poundNoteMaintain.PoundNoteResp;
 import com.tianrui.api.resp.businessManage.purchaseManage.PurchaseApplicationDetailResp;
 import com.tianrui.api.resp.businessManage.purchaseManage.PurchaseApplicationResp;
@@ -442,6 +444,25 @@ public class PurchaseArriveService implements IPurchaseArriveService {
 			}
 		}
 		return result;
+	}
+
+	@Override
+	public PaginationVO<AppNoticeOrderResp> appToPage(AppNoticeOrderReq req) {
+		PaginationVO<AppNoticeOrderResp> page = null;
+		if(req != null){
+			page = new PaginationVO<AppNoticeOrderResp>();
+			req.setStart((req.getPageNo() - 1) * req.getPageSize());
+			req.setLimit(req.getPageSize());
+			long count = purchaseArriveMapper.findAppNoticePageCount(req);
+			if(count > 0){
+				List<AppNoticeOrderResp> list = purchaseArriveMapper.findAppNoticePage(req);
+				page.setList(list);
+			}
+			page.setPageNo(req.getPageNo());
+			page.setPageSize(req.getPageSize());
+			page.setTotal(count);
+		}
+		return page;
 	}
 
 }

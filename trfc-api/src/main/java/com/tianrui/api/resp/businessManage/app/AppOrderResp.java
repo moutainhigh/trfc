@@ -18,7 +18,7 @@ public class AppOrderResp extends BaseReq{
 	//物料名称
 	private String materialName;
 	//总量
-	private String billSum;
+	private Double billSum;
 	//余量
 	private Double margin;
 	
@@ -49,7 +49,7 @@ public class AppOrderResp extends BaseReq{
 	/**
 	 * @return the billSum
 	 */
-	public String getBillSum() {
+	public Double getBillSum() {
 		return billSum;
 	}
 	/**
@@ -85,7 +85,7 @@ public class AppOrderResp extends BaseReq{
 	/**
 	 * @param billSum the billSum to set
 	 */
-	public void setBillSum(String billSum) {
+	public void setBillSum(Double billSum) {
 		this.billSum = billSum;
 	}
 	/**
