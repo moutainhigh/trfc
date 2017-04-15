@@ -91,36 +91,25 @@
 						<!--用户表格end-->
 					</div>
 
-					<!--分页效果开始
-    <div class="row">
-        <div class="col-md-12">
-            <div class="page_middle">
-                <div class="page_date">
-                    <label>数据共：</label><i class="colorred">100</i><label>条</label>
-                </div>
-                <div class="page_date">
-                    <label>跳到第：</label>
-                    <input type="text">
-                    <label>页</label>
-                    <button class="btn btn-default">确定</button>
-                </div>
-                <div class="page_btn">
-                    <ul class="pagination">
-                        <li><a href="#">&laquo;上一页</a></li>
-                        <li><a href="#">1</a></li>
-                        <li><a href="#">2</a></li>
-                        <li><a href="#">3</a></li>
-                        <li><a href="#">...</a></li>
-                        <li><a href="#">4</a></li>
-                        <li><a href="#">5</a></li>
-                        <li><a href="#">下一页&raquo;</a></li>
-                    </ul>
-                </div>
-            </div>
-
-        </div>
-    </div>
-    	分页效果结束-->
+				<!--分页效果开始-->
+					<div class=" row fr">
+						<div class="page_date">
+							<label>数据共：</label><i class="colorred" id="total">100</i><label>条</label>
+						</div>
+						<div class="page_date">
+							<label>跳到第：</label> <input type="text" id="jumpPageNo"> <label>页</label>
+							<button class="btn btn-default" id="jumpButton">确定</button>
+						</div>
+						<div class="page_date">
+							<label>每页记录：</label> <select id="pageSize" class="form-control">
+								<option value="10">10</option>
+								<option value="20">20</option>
+								<option value="30">30</option>
+							</select>
+						</div>
+						<div class="page_btn" id="pagination"></div>
+					</div>
+					<!--分页效果结束-->
 				</div>
 				<!--tab切换的内容end-->
 			</div>

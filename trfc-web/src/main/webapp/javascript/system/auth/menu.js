@@ -35,7 +35,12 @@
 		    $("#edit_iconid").text(icon.text()).attr("img_type",icon.attr('icon_id'));
 		});
 		
-		
+		$("#iconid").dblclick(function() {
+	    	$("#iconid").text(""),removeAttr("img_type");
+	    });
+		$("#edit_iconid").dblclick(function(){
+	    	$("#edit_iconid").text(""),removeAttr("img_type");
+	    });
 		$('#refreshBtn').off('click').on('click',function(){
 			queryData(1);
 		});
@@ -189,15 +194,15 @@
 					if(menu.imgType){
 						img = '&'+menu.imgType;
 					}
-					if(!menu.roleType){//判断是否是一级节点
-						var tr=$('<tr id="'+menu.name+'"><td>'+(i+1)+'</td><td style="width: 200px;"><span controller="true"><i class="iconfont">'+img+'</i>'+menu.name+'</span></td><td>'+
+					if(!menu.roleid){//判断是否是一级节点
+						var tr=$('<tr id="'+menu.id+'" pid=""><td style="width: 200px;"><span controller="true"><i class="iconfont">'+img+'</i>'+menu.name+'</span></td><td>'+
 								menu.code+'</td><td>'+menu.roleType+'</td><td>'+menu.linkgoal+'</td><td>'+menu.uri+'</td><td><input type="checkbox" disabled id="list_isvalid'+i+
 								'" ></td><td>'+menu.orderBy+'</td><td><span class="update"><a data-toggle="modal" data-target="#edit"><i class="iconfont" data-toggle="tooltip" data-placement="left" title="编辑">&#xe600;</i></a>'+
 								'</span><span class="copy"> <a data-toggle="modal" data-target="#add"><i class="iconfont" data-toggle="tooltip" data-placement="left" title="复制">&#xe61c;</i></a>'+'</span><span class="delete"><a data-toggle="modal" data-target="#dele">'+
 								'<i class="iconfont" data-toggle="tooltip" data-placement="left" title="删除">&#xe63d;</i></a>'+'</span></td></tr>'
 						);
 					}else{
-						var tr=$('<tr id="'+menu.name+'" pid="'+menu.roleType+'"><td>'+(i+1)+'</td><td style="width: 200px;"><span controller="true"><i class="iconfont">'+img+'</i>'+menu.name+'</span></td><td>'+
+						var tr=$('<tr id="'+menu.id+'" pid="'+menu.roleid+'"><td style="width: 200px;"><span controller="true"><i class="iconfont">'+img+'</i>'+menu.name+'</span></td><td>'+
 								menu.code+'</td><td>'+menu.roleType+'</td><td>'+menu.linkgoal+'</td><td>'+menu.uri+'</td><td><input type="checkbox" disabled id="list_isvalid'+i+
 								'" ></td><td>'+menu.orderBy+'</td><td><span class="update"><a data-toggle="modal" data-target="#edit"><i class="iconfont" data-toggle="tooltip" data-placement="left" title="编辑">&#xe600;</i></a>'+
 								'</span><span class="copy"> <a data-toggle="modal" data-target="#add"><i class="iconfont" data-toggle="tooltip" data-placement="left" title="复制">&#xe61c;</i></a>'+'</span><span class="delete"><a data-toggle="modal" data-target="#dele">'+
@@ -216,16 +221,17 @@
 				  //树形表格treeTable插件调用
 			    var option = {
 			        theme: 'vsStyle',
-			        expandLevel: 5,
-			        column: 1,
+			        expandLevel: 3,
+			        column: 0,
 			        beforeExpand: function ($treeTable, id) {
 			            //判断id是否已经有了孩子节点，如果有了就不再加载，这样就可以起到缓存的作用
 			            if ($('.' + id, $treeTable).length) {
 			                return;
 			            }
-			            //这里的html可以是ajax请求
-			            $treeTable.addChilds(html);var html = '<tr id="8" pId="6"><td>5.1</td><td>可以是ajax请求来的内容</td></tr>'
-			                    + '<tr id="9" pId="6"><td>5.2</td><td>动态的内容</td></tr>';
+//			            //这里的html可以是ajax请求
+//			            var html = '<tr id="8" pId="6"><td>5.1</td><td>可以是ajax请求来的内容</td></tr>'
+//			            	+ '<tr id="9" pId="6"><td>5.2</td><td>动态的内容</td></tr>';
+//			            $treeTable.addChilds(html);
 			        },
 			        onSelect: function ($treeTable, id) {
 			            window.console && console.log('onSelect:' + id);
@@ -412,20 +418,20 @@
 	
 	
 //
-		function getValue(){ 
-			var val = $('#role_type').combotree('getValue'); 
-			var text = $('#role_type').combotree('getText'); 
-			alert("val="+val+",text="+text); 
-		} 
-		function setValue(){ 
-			$('#cc').combotree('setValue', '这是设定的值'); 
-		} 
-		function disable(){ 
-			$('#cc').combotree('disable'); 
-		} 
-		function enable(){ 
-		$('#cc').combotree('enable'); 
-		}
+//		function getValue(){ 
+//			var val = $('#role_type').combotree('getValue'); 
+//			var text = $('#role_type').combotree('getText'); 
+//			alert("val="+val+",text="+text); 
+//		} 
+//		function setValue(){ 
+//			$('#cc').combotree('setValue', '这是设定的值'); 
+//		} 
+//		function disable(){ 
+//			$('#cc').combotree('disable'); 
+//		} 
+//		function enable(){ 
+//		$('#cc').combotree('enable'); 
+//		}
 
 	
 })(jQuery, window);

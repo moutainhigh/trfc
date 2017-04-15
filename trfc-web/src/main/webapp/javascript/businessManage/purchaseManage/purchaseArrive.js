@@ -177,7 +177,7 @@
 			var pageNo = $('input#jumpPageNo').val();pageNo = $.trim(pageNo);pageNo = parseInt(pageNo);
 			var pageMaxNo = $('input#jumpPageNo').attr('maxpageno');pageMaxNo = $.trim(pageMaxNo);pageMaxNo = parseInt(pageMaxNo);
 			if(!pageNo || !$.isNumeric(pageNo) || pageNo < 0 || pageNo > pageMaxNo){
-				alert('此处必须为1-'+pageMaxNo+'的数字');
+				layer.msg('此处必须为1-'+pageMaxNo+'的数字');
 				$('input#jumpPageNo').val('');
 			}else{
 				$('input#jumpPageNo').val(pageNo);
@@ -277,8 +277,10 @@
 				var purchaseApplicationDetail = obj.purchaseApplicationDetailResp;
 				var code = obj.code || '';
 				var auditstatus = '';
+				//设置字体颜色 (LXY)
+				var color = '';
 				switch (obj.auditstatus) {
-				case '0': auditstatus = '未审核'; break;
+				case '0': auditstatus = '未审核'; color = 'class="colorred"';break;
 				case '1': auditstatus = '已审核'; break;
 				default: break;
 				}
@@ -313,7 +315,7 @@
 				var remark = obj.remark || '';
 				var supplierremark = purchaseApplication.supplierremark || '';
 				$('<tr>').append('<td>'+(i+1)+'</td>').append('<td>'+code+'</td>')
-						.append('<td>'+auditstatus+'</td>').append('<td>'+source+'</td>')
+						.append('<td '+color+'>'+auditstatus+'</td>').append('<td>'+source+'</td>')
 						.append('<td>'+status+'</td>').append('<td>'+vehicleno+'</td>')
 						.append('<td>'+billcode+'</td>').append('<td>'+suppliername+'</td>')
 						.append('<td>'+materielname+'</td>').append('<td>'+minemouthname+'</td>')
@@ -517,24 +519,37 @@
 	}
 	//confirm选择公共方法
 	function confirmOperation(confirmContent, url, params){
-		layer.confirm(confirmContent, {
-			btn: ['确认','取消'] //按钮
-		}, function(){
-			$.ajax({
-				url:url,
-				data:params,
-				async:true,
-				cache:false,
-				dataType:'json',
-				type:'post',
-				success:function(result){
-					if(result.code == '000000'){
-						window.location.reload(true);
-					}else{
-						layer.msg(result.error, {icon: 5});
+		var bn=layer.open({
+			content: confirmContent,
+			area: '600px',
+			closeBtn:1,
+			shadeClose:true,
+			btn: ['确定', '取消'],
+			yes: function(index, layero){
+				//按钮【确定】的回调
+				//数据存到服务器
+				$.ajax({
+					url:url,
+					data:params,
+					async:true,
+					cache:false,
+					dataType:'json',
+					type:'post',
+					success:function(result){
+						if(result.code == '000000'){
+							window.location.reload(true);
+						}else{
+							layer.msg(result.error, {icon: 5});
+						}
 					}
-				}
-			});
+				});
+				layer.close(bn);
+			},btn2: function(index, layero){
+				//按钮【取消】的回调
+			}
+			,cancel: function(){
+				//右上角关闭回调
+			}
 		});
 	}
 })(jQuery, window);

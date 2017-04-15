@@ -181,34 +181,34 @@
 					<div class="dhadd_search">
 						<div class="dhsearch_solo">
 							<label>开始时间：</label> <input type="text"
-								onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:00:00'})"
-								class="Wdate" style="width: 160px" id="select_starttime" />
+								onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:00:00',maxDate:'#F{$dp.$D(\'select_endtime\')}'})"
+								class="Wdate" style="width: 160px" id="select_starttime" placeholder="请选择开始时间"/>
 						</div>
 						<div class="dhsearch_solo">
 							<label>结束时间：</label> <input type="text"
-								onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:00:00'})"
-								class="Wdate" style="width: 160px" id="select_endtime" />
+								onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:00:00',minDate:'#F{$dp.$D(\'select_starttime\')}'})"
+								class="Wdate" style="width: 160px" id="select_endtime" placeholder="请选择结束时间"/>
 						</div>
 						<div class="dhsearch_solo">
-							<label>状态：</label> <select id="select_billsstate">
+							<label>状态：</label> <select id="select_billsstate" class="form-control">
 							<option value="">请选择</option>
 							<option value="1">启用</option>
 							<option value="0">停用</option>
 							</select>
 						</div>
 						<div class="dhsearch_solo">
-							<label>批号：</label> <input type="text" id="select_factorycode">
+							<label>批号：</label> <input type="text" id="select_factorycode" placeholder="请输入批号">
 						</div>
 						<div class="dhsearch_solo">
-							<label>物料名称：</label> <input type="text" id="select_material">
+							<label>物料名称：</label> <input type="text" id="select_material" placeholder="请选择物料名称">
 						</div>
 						<div class="dhsearch_solo">
 							<button class="btn btnblue " id="select_seek">搜索</button>
 						</div>
 					</div>
-					<div style="width: 750px;overflow-x: scroll">
+					<div style="width: 750px;">
 						<div class="dh_alttable">
-							<table class="table table-hover">
+							<table class="table table-hover" id="hh">
 								<thead>
 									<tr>
 										<th>单据编号</th>
@@ -233,7 +233,7 @@
 						</div>
 					</div>
 					<!--分页效果开始-->
-					<div class=" row fr">
+					<div class="page">
 						<div class="page_date">
 							<label>数据共：</label><i class="colorred" id="total">100</i><label>条</label>
 						</div>

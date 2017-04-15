@@ -182,7 +182,7 @@
 						$('#if_audit'+i).addClass('colorred');
 					}
 					if(status=='审核中'){
-						$('#if_audit'+i).addClass('auditing');
+						$('#if_audit'+i).addClass('colorblue');
 					}
 					tr.data(ledger);
 				}

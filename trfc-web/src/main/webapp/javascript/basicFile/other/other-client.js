@@ -48,10 +48,26 @@ function modifyCustomerAction(){
 function addCustomerAction(){
 	var name = $('#customer_name').val().trim();
 	if(toCheckName(name)){
-		if(confirm("确定要保存吗!")){
-			$('#customer_add_hide').click();
-			insert();
-		}
+		var bn=layer.open({
+			content: '您确定要保存吗？',
+			area: '600px',
+			closeBtn:1,
+			shadeClose:true,
+			btn: ['确定', '取消'],
+			yes: function(index, layero){
+				//按钮【确定】的回调
+				//数据存到服务器
+				$('#customer_add_hide').click();
+				insert();
+				layer.close(bn);
+			},btn2: function(index, layero){
+				//按钮【取消】的回调
+			}
+			,cancel: function(){
+				//右上角关闭回调
+			}
+		});
+		
 	}
 }
 //检测名字是否重复信息
@@ -140,13 +156,32 @@ function modifyAction(){
 	if(name==obj.name&&info==obj.info&&orgname==obj.orgname&&remark==obj.remark&&isvalid==obj.isvalid){
 		return;
 	}
-	$.post(url,params,function(result){
-		if(result.code=='000000'){
-			CustomersShowAction(1);
-		}else{
-			layer.msg(result.error,{icon:5});
+	var bn=layer.open({
+		content: '您确定要修改吗？',
+		area: '600px',
+		closeBtn:1,
+		shadeClose:true,
+		btn: ['确定', '取消'],
+		yes: function(index, layero){
+			//按钮【确定】的回调
+			//数据存到服务器
+			$.post(url,params,function(result){
+				if(result.code=='000000'){
+					CustomersShowAction(1);
+				}else{
+					layer.msg(result.error,{icon:5});
+				}
+			});
+			layer.close(bn);
+		},btn2: function(index, layero){
+			//按钮【取消】的回调
+		}
+		,cancel: function(){
+			//右上角关闭回调
 		}
 	});
+	
+	
 }
 //修改时 获取原数据
 function toModify(){

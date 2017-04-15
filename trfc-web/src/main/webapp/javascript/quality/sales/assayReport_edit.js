@@ -311,7 +311,7 @@ $(function(){
 				audittime = getNowFormatDate(true,obj.audittime);
 			}
 			var tr = '<tr>'
-				+'<td class="colorred">'+(obj.code || '')+'</td>'
+				+'<td>'+(obj.code || '')+'</td>'
 				+'<td>'+(obj.material || '')+'</td>'
 				+'<td>'+(obj.factorycode || '')+'</td>'
 				+'<td>'+(obj.count || '')+'</td>'

@@ -17,7 +17,9 @@ import com.alibaba.fastjson.JSONObject;
 import com.tianrui.api.intf.basicFile.nc.ISupplierManageService;
 import com.tianrui.api.intf.businessManage.purchaseManage.IPurchaseApplicationDetailService;
 import com.tianrui.api.intf.businessManage.purchaseManage.IPurchaseApplicationService;
+import com.tianrui.api.req.businessManage.app.AppOrderReq;
 import com.tianrui.api.req.businessManage.purchaseManage.PurchaseApplicationQuery;
+import com.tianrui.api.resp.businessManage.app.AppOrderResp;
 import com.tianrui.api.resp.businessManage.purchaseManage.PurchaseApplicationJoinDetailResp;
 import com.tianrui.api.resp.businessManage.purchaseManage.PurchaseApplicationResp;
 import com.tianrui.service.bean.basicFile.nc.MaterielManage;
@@ -296,5 +298,24 @@ public class PurchaseApplicationService implements IPurchaseApplicationService {
 			}
 		}
 		return itemList;
+	}
+
+	@Override
+	public PaginationVO<AppOrderResp> appToPage(AppOrderReq req) {
+		PaginationVO<AppOrderResp> page = null;
+		if(req != null){
+			page = new PaginationVO<AppOrderResp>();
+			req.setStart((req.getPageNo()-1)*req.getPageSize());
+			req.setLimit(req.getPageSize());
+			long count = purchaseApplicationMapper.findAppToPageGroupMaterielCount(req);
+			if(count > 0){
+				List<AppOrderResp> list = purchaseApplicationMapper.findAppToPageGroupMateriel(req);
+				page.setList(list);
+			}
+			page.setPageNo(req.getPageNo());
+			page.setPageSize(req.getPageSize());
+			page.setTotal(count);
+		}
+		return page;
 	}
 }

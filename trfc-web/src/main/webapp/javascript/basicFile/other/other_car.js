@@ -305,10 +305,25 @@ function updatekeyUpAction() {
 //检测新增名称是否存在
 function addCheckNameAction(){
 	if(addCheckName()){
-		if(confirm("确定要保存吗!")){
-			addVehicle();
-			$('#add_vehicle').attr('data-dismiss','modal');
-		}
+		var bn=layer.open({
+			content: '您确定要保存吗？',
+			area: '600px',
+			closeBtn:1,
+			shadeClose:true,
+			btn: ['确定', '取消'],
+			yes: function(index, layero){
+				//按钮【确定】的回调
+				//数据存到服务器
+				addVehicle();
+				$('#add_vehicle').attr('data-dismiss','modal');
+				layer.close(bn);
+			},btn2: function(index, layero){
+				//按钮【取消】的回调
+			}
+			,cancel: function(){
+				//右上角关闭回调
+			}
+		});
 	}else{
 		$('#add_vehicle').removeAttr('data-dismiss');
 	}
@@ -348,10 +363,25 @@ function addCheckName(){
 //检测修改名称是否存在
 function updateCheckNameAction(){
 	if(updateCheckName()){
-		if(confirm("确定要保存吗!")){
-			updateVehicle();
-			$('#update_vehicle').attr('data-dismiss','modal');
-		}
+		var bn=layer.open({
+			content: '您确定要修改吗？',
+			area: '600px',
+			closeBtn:1,
+			shadeClose:true,
+			btn: ['确定', '取消'],
+			yes: function(index, layero){
+				//按钮【确定】的回调
+				//数据存到服务器
+				updateVehicle();
+				$('#update_vehicle').attr('data-dismiss','modal');
+				layer.close(bn);
+			},btn2: function(index, layero){
+				//按钮【取消】的回调
+			}
+			,cancel: function(){
+				//右上角关闭回调
+			}
+		});
 	}else{
 		$('#edit .btn-primary').removeAttr('data-dismiss');
 	}

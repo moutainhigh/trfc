@@ -11,29 +11,39 @@ $(function(){
 	//绑定搜索按钮
 	$('#seek').click(function(){batchnumShowAction(1);});
 	//绑定删除按钮
-	$('#list').on('click','tr [title="删除"]',deleteAction);
+	$('#list').on('click','tr [title="删除"]',function() {
+		deleteAction(this);
+	});
 	//绑定审查按钮
 	$('#list').on('click','tr [title="审核"]',function(){updateAudit(this,"1");});
 	//绑定反审按钮
 	$('#list').on('click','tr [title="反审"]',function(){updateAudit(this,'0');});
-	
+
 	//绑定停用按钮
-	$('#list').on('click','tr [title="停用"]',updateStopState);
+	$('#list').on('click','tr [title="停用"]',function(){
+		updateStopState(this);
+	});
 	//绑定复制按钮
 	$('#list').on('click','tr [title="复制"]',copyAction);
 	//监听每页记录 事件
 	$('#pageSize').change(function(){batchnumShowAction(1);});
 	//绑定编辑按钮
 	$('#list').on('click','tr [title="编辑"]',aditAction);
-	//绑定停用按钮
+	//双击 显示详情
 	$('#list').on('dblclick','tr',function(){
 		var id = $(this).data('batchnum_obj').id;
 		window.location.href = URL.detailUrl+"?id="+id;
 	});
+	//绑定刷新按钮
+	$('#fresh').click(function() {
+		batchnumShowAction(1);
+	});
+	
+	
 	//获取用户id
 	var user = $('.user').attr("userid");
 	$('#seek_billsstate').change(function(){batchnumShowAction(1);});
-	
+
 	//--------------------------------------------------------------------------------
 	//编辑
 	function aditAction(){
@@ -45,15 +55,16 @@ $(function(){
 		//跳转到新增页面
 		window.location.replace(URL.addUrl+"?id="+$(this).closest('tr').data('batchnum_obj').id);
 	}
-	
+
 	//停用
-	function updateStopState(){
-		var audit = $(this).closest('tr').find('td').eq(3).html();
+	function updateStopState(obj){
+		var audit = $(obj).closest('tr').find('td').eq(3).html();
 		//判断是否已经停用
 		if('停用'==audit){
+			layer.msg('该数据已停用,无需重复操作!');
 			return;
 		}
-		var id = $(this).closest('tr').data('batchnum_obj').id;
+		var id = $(obj).closest('tr').data('batchnum_obj').id;
 		var index = layer.confirm('你确定要停用吗?', {
 			area: '600px', 
 			btn: ['确定','取消'] //按钮
@@ -61,7 +72,7 @@ $(function(){
 			//获取id
 			var param = {id:id,
 					billsstate:'0',
-						user:user};
+					user:user};
 			//提交数据到服务器
 			$.post(URL.updateUrl,param,function(result){
 				if(result.code=='000000'){
@@ -75,11 +86,11 @@ $(function(){
 			layer.close(index);
 		}, function(){
 		});
-		
-		
+
+
 	}
-	
-	
+
+
 	//审核(bt:当前元素 auditstate:数据)
 	function updateAudit(bt,auditstate){
 		var audit = $(bt).closest('tr').find('td').eq(2).html();
@@ -88,6 +99,7 @@ $(function(){
 		if(auditstate=='1'){
 			msg = '你确定要审核吗?';
 			if(audit=='已审核'){
+				layer.msg('该数据已审核,无需重复操作!')
 				return;
 			}
 		}
@@ -95,6 +107,7 @@ $(function(){
 		if(auditstate=='0'){
 			msg = '你确定要反审吗?';
 			if(audit=='待审核'){
+				layer.msg('该数据未审核,不能进行反审操作!')
 				return;
 			}
 		}
@@ -105,9 +118,9 @@ $(function(){
 		}, function(){
 			//获取id
 			var param = {id:id,
-						auditstate:auditstate,
-						user:user
-					};
+					auditstate:auditstate,
+					user:user
+			};
 			//更新数据到服务器
 			$.post(URL.updateUrl,param,function(result){
 				if(result.code=='000000'){
@@ -121,11 +134,11 @@ $(function(){
 			layer.close(index);
 		}, function(){
 		});
-		
+
 	}
 	//删除action
-	function deleteAction(){
-		var id = $(this).closest('tr').data('batchnum_obj').id;
+	function deleteAction(obj){
+		var id = $(obj).closest('tr').data('batchnum_obj').id;
 		//弹出删除确认框
 		var index = layer.confirm('你确定要删除吗?', {
 			area: '600px', 
@@ -304,6 +317,10 @@ $(function(){
 				0:"待审核",
 				1:"已审核"
 		};
+		var AUDITCOL = {
+				1:'',
+				0:'class="colorred"'
+		}
 		var BILLS = {
 				0:"停用",
 				1:"启用"	
@@ -328,9 +345,9 @@ $(function(){
 			}
 			var tr = '<tr>'
 				+'<td>'+((pageNo-1)*pageSize+i+1)+'</td>'
-				+'<td class="colorred">'+(obj.code || '')+'</td>'
-				+'<td class="colorred">'+(AUDIT[obj.auditstate] || '')+'</td>'
-				+'<td class="colorred">'+(BILLS[obj.billsstate] || '')+'</td>'
+				+'<td>'+(obj.code || '')+'</td>'
+				+'<td '+AUDITCOL[obj.auditstate]+'>'+(AUDIT[obj.auditstate] || '')+'</td>'
+				+'<td>'+(BILLS[obj.billsstate] || '')+'</td>'
 				+'<td>'+(TEST[obj.teststate] || '')+'</td>'
 				+'<td>'+(obj.material || '')+'</td>'
 				+'<td>'+(obj.factorycode || '')+'</td>'

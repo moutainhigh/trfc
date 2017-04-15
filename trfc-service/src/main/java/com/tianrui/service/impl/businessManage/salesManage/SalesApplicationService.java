@@ -17,11 +17,13 @@ import com.alibaba.fastjson.JSONObject;
 import com.tianrui.api.intf.businessManage.salesManage.ISalesApplicationDetailService;
 import com.tianrui.api.intf.businessManage.salesManage.ISalesApplicationService;
 import com.tianrui.api.intf.system.base.ISystemCodeService;
+import com.tianrui.api.req.businessManage.app.AppOrderReq;
 import com.tianrui.api.req.businessManage.salesManage.SalesApplicationDetailQuery;
 import com.tianrui.api.req.businessManage.salesManage.SalesApplicationDetailSave;
 import com.tianrui.api.req.businessManage.salesManage.SalesApplicationQuery;
 import com.tianrui.api.req.businessManage.salesManage.SalesApplicationSave;
 import com.tianrui.api.req.system.base.GetCodeReq;
+import com.tianrui.api.resp.businessManage.app.AppOrderResp;
 import com.tianrui.api.resp.businessManage.salesManage.SalesApplicationDetailResp;
 import com.tianrui.api.resp.businessManage.salesManage.SalesApplicationJoinDetailResp;
 import com.tianrui.api.resp.businessManage.salesManage.SalesApplicationResp;
@@ -558,5 +560,11 @@ public class SalesApplicationService implements ISalesApplicationService {
 			}
 		}
 		return itemList;
+	}
+
+	@Override
+	public PaginationVO<AppOrderResp> appToPage(AppOrderReq req) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

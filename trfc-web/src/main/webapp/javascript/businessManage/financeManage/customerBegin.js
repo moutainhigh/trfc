@@ -482,25 +482,39 @@
 	}
 	
 	function confirmOperation(confirmContent, url, params){
-		layer.confirm(confirmContent, {
-			btn: ['确认','取消'] //按钮
-		}, function(){
-			$.ajax({
-				url:url,
-				data:params,
-				async:true,
-				cache:false,
-				dataType:'json',
-				type:'post',
-				success:function(result){
-					if(result.code == '000000'){
-						win.location.reload(true);
-					}else{
-						layer.msg(result.error, {icon: 5});
+		var bn=layer.open({
+			content: confirmContent,
+			area: '600px',
+			closeBtn:1,
+			shadeClose:true,
+			btn: ['确定', '取消'],
+			yes: function(index, layero){
+				//按钮【确定】的回调
+				//数据存到服务器
+				$.ajax({
+					url:url,
+					data:params,
+					async:true,
+					cache:false,
+					dataType:'json',
+					type:'post',
+					success:function(result){
+						if(result.code == '000000'){
+							win.location.reload(true);
+						}else{
+							layer.msg(result.error, {icon: 5});
+						}
 					}
-				}
-			});
+				});
+				layer.close(bn);
+			},btn2: function(index, layero){
+				//按钮【取消】的回调
+			}
+			,cancel: function(){
+				//右上角关闭回调
+			}
 		});
+		
 	}
 	
 	

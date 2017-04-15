@@ -231,7 +231,7 @@
 			var pageNo = $('input#jumpPageNo').val();pageNo = $.trim(pageNo);pageNo = parseInt(pageNo);
 			var pageMaxNo = $('input#jumpPageNo').attr('maxpageno');pageMaxNo = $.trim(pageMaxNo);pageMaxNo = parseInt(pageMaxNo);
 			if(!pageNo || !$.isNumeric(pageNo) || pageNo < 0 || pageNo > pageMaxNo){
-				alert('此处必须为1-'+pageMaxNo+'的数字');
+				layer.msg('此处必须为1-'+pageMaxNo+'的数字');
 				$('input#jumpPageNo').val('');
 			}else{
 				$('input#jumpPageNo').val(pageNo);
@@ -302,7 +302,7 @@
 						link_to:"javascript:void(0)"
 					});
 				}else{
-					alert(result.error);
+					layer.msg(result.error);
 				}
 				layer.close(index);
 			}

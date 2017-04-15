@@ -332,7 +332,7 @@ $(function(){
 			var invlid = obj.invlid;
 			var tr = '<tr>'
 				+'<td>'+(i+1)+'</td>'
-				+'<td class="colorred">'+(DATA.schemeobj.name || '')+'</td>'
+				+'<td>'+(DATA.schemeobj.name || '')+'</td>'
 				+'<td>'+(obj.materialname || '')+'</td>'
 				+'<td>'+(obj.itemcode || '')+'</td>'
 				+'<td>'+(obj.itemname || '')+'</td>'

@@ -272,7 +272,7 @@ $(function(){
 				+'<td>'+(PSTATE[obj.pstate] || '')+'</td>'
 				+'<td>'+(obj.materialtype || '')+'</td>'
 				+'<td>'+(obj.materialname || '')+'</td>'
-				+'<td class="colorblue">'+(obj.batchcode || '')+'</td>'
+				+'<td>'+(obj.batchcode || '')+'</td>'
 				+'<td>'+(producetime || '')+'</td>'
 				+'<td>'+(testtime || '')+'</td>'
 				+'<td>'+(selldate || '')+'</td>'
@@ -307,8 +307,10 @@ $(function(){
 			tbody.append(tr);
 			//将数据绑定到tr上
 			tr.data('obj',obj);
-			if(obj.auditstate!=2){
+			if(obj.auditstate==0){
 				tr.find('td').eq(2).addClass('colorred');
+			}else if(obj.auditstate==1){
+				tr.find('td').eq(2).addClass('colorblue');
 			}
 			if(obj.pstate=='0'){
 				tr.find('td').eq(3).addClass('colorred');

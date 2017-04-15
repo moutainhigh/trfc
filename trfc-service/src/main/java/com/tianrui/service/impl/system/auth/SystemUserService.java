@@ -113,7 +113,7 @@ public class SystemUserService implements ISystemUserService {
 					//保存数据
 					SystemUser save =new SystemUser();
 					save.setId(UUIDUtil.getId());
-					save.setOrgid(req.getOrgId());
+					save.setOrgid(Constant.ORG_ID);
 					save.setCode(req.getCode());
 					save.setName(req.getName());
 					save.setAccount(req.getAccount());
@@ -123,7 +123,7 @@ public class SystemUserService implements ISystemUserService {
 					}else{
 						save.setIsvalid(BusinessConstants.USER_INVALID_BYTE);
 					}
-					save.setSource("脱机");
+					save.setSource("0");
 					save.setPassword(req.getPassword());
 					save.setCreatetime(System.currentTimeMillis());
 					save.setModifier(req.getCurrUId());
@@ -318,7 +318,6 @@ public class SystemUserService implements ISystemUserService {
 					&& StringUtils.isNotBlank(req.getName()) 
 					&& StringUtils.isNotBlank(req.getAccount()) 
 					&& StringUtils.isNotBlank(req.getPassword()) 
-					&& StringUtils.isNotBlank(req.getOrgId()) 
 					&& StringUtils.isNotBlank(req.getIsvalid()) ) {
 				rs =true;
 			}else if (type==2
@@ -326,7 +325,6 @@ public class SystemUserService implements ISystemUserService {
 					&& StringUtils.isNotBlank(req.getCode())
 					&& StringUtils.isNotBlank(req.getName()) 
 					&& StringUtils.isNotBlank(req.getAccount()) 
-					&& StringUtils.isNotBlank(req.getOrgId()) 
 					&& StringUtils.isNotBlank(req.getIsvalid()) ) {
 				rs =true;
 			}

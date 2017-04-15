@@ -297,12 +297,26 @@
 	//检测新增名称是否存在
 	function addCheckNameAction(){
 		if(addCheckName()){
-			if(confirm("确定要保存吗!")){
-				addDriver();
-				$('#add_driver').attr('data-dismiss','modal');
-			}else{
-				$('#add_driver').removeAttr('data-dismiss');
-			}
+			var bn=layer.open({
+				content: '您确定要保存吗？',
+				area: '600px',
+				closeBtn:1,
+				shadeClose:true,
+				btn: ['确定', '取消'],
+				yes: function(index, layero){
+					//按钮【确定】的回调
+					//数据存到服务器
+					addDriver();
+					$('#add_driver').attr('data-dismiss','modal');
+					layer.close(bn);
+				},btn2: function(index, layero){
+					$('#add_driver').removeAttr('data-dismiss');
+				}
+				,cancel: function(){
+					//右上角关闭回调
+				}
+			});
+			
 		}else{
 			$('#add_driver').removeAttr('data-dismiss');
 		}
@@ -343,12 +357,27 @@
 	//检测修改名称是否存在
 	function updateCheckNameAction(){
 		if(updateCheckName()){
-			if(confirm("确定要保存吗!")){
-				updateDriver();
-				$('#edit_driver').attr('data-dismiss','modal');
-			}else{
-				$('#edit .btn-primary').removeAttr('data-dismiss');
-			}
+			var bn=layer.open({
+				content: '您确定要修改吗？',
+				area: '600px',
+				closeBtn:1,
+				shadeClose:true,
+				btn: ['确定', '取消'],
+				yes: function(index, layero){
+					//按钮【确定】的回调
+					//数据存到服务器
+					updateDriver();
+					$('#edit_driver').attr('data-dismiss','modal');
+					layer.close(bn);
+				},btn2: function(index, layero){
+					//按钮【取消】的回调
+					$('#edit .btn-primary').removeAttr('data-dismiss');
+				}
+				,cancel: function(){
+					//右上角关闭回调
+				}
+			});
+			
 		}else{
 			$('#edit .btn-primary').removeAttr('data-dismiss');
 		}
