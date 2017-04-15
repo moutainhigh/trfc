@@ -82,7 +82,9 @@ public class CardReissueService implements ICardReissueService {
 						//获取物料信息
 						if(StringUtils.isNotBlank(materielid)){
 							MaterielManage mm = materielManageMapper.selectByPrimaryKey(materielid);
-							resp.setMaterieltype(mm.getPackagetype());
+							if(mm!=null){
+								resp.setMaterieltype(mm.getPackagetype());
+							}
 						}
 						resp.setSuppliername(par.getPurchaseApplicationResp().getSuppliername());
 						resp.setSupplierremark(par.getPurchaseApplicationResp().getSupplierremark());

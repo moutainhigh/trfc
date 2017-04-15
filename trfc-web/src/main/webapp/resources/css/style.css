@@ -316,6 +316,10 @@ input[readOnly="true"]{
     cursor: pointer;
     min-width: 100px;
     white-space: nowrap;
+    max-width: 400px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
 }
 .intel_tabbox .intel_tabcont .intel_table table tbody tr.select{
     background: #ffffff;
@@ -1691,4 +1695,16 @@ width: 180px;
 }
 .menu_icon ul li i{
     font-size: 22px;
+}
+.icon_selected{
+    border: 1px solid #999999;
+    border-radius: 5px;
+    cursor: pointer;
+    line-height: 28px;
+    display: inline-block;
+    width: 30px;
+    height: 28px;
+    margin-right: 8px;
+    vertical-align: middle;
+    text-align: center;
 }

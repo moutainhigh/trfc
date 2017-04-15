@@ -47,11 +47,23 @@ $(function(){
 	//--------------------------------------------------------------------------------
 	//编辑
 	function aditAction(){
+		var audit = $(this).closest('tr').find('td').eq(3).html();
+		//判断是否已经停用
+		if('停用'==audit){
+			layer.msg('该数据已停用,无法进行该操作!');
+			return;
+		}
 		//跳转到编辑页面
 		window.location.replace(URL.editUrl+"?id="+$(this).closest('tr').data('batchnum_obj').id);
 	}
 	//复制
 	function copyAction(){
+		var audit = $(this).closest('tr').find('td').eq(3).html();
+		//判断是否已经停用
+		if('停用'==audit){
+			layer.msg('该数据已停用,无法进行该操作!');
+			return;
+		}
 		//跳转到新增页面
 		window.location.replace(URL.addUrl+"?id="+$(this).closest('tr').data('batchnum_obj').id);
 	}
@@ -94,6 +106,12 @@ $(function(){
 	//审核(bt:当前元素 auditstate:数据)
 	function updateAudit(bt,auditstate){
 		var audit = $(bt).closest('tr').find('td').eq(2).html();
+		var state = $(bt).closest('tr').find('td').eq(3).html();
+		if('停用' == state){
+			layer.msg('该数据已停用,无法执行该操作!')
+			return;
+		}
+		
 		var msg = '';
 		//是否是审核
 		if(auditstate=='1'){
