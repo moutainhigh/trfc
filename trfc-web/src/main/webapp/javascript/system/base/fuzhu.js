@@ -298,7 +298,7 @@ function showAddItemAction() {
 //	console.log(total);
 	$('#item_code').val(parseInt(item_code)+1);
 	$('#item_name').val('');
-	$('#item_addisvalid').removeAttr('checked');
+	$('#item_addisvalid').prop('checked','true');
 	$('#item_info').val('');
 	
 }
