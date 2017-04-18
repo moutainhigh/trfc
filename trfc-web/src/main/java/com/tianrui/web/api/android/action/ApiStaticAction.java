@@ -28,13 +28,11 @@ import com.tianrui.api.req.businessManage.app.AppQueryReq;
 import com.tianrui.api.req.businessManage.app.AppUserEditReq;
 import com.tianrui.api.req.businessManage.app.AppVersionReq;
 import com.tianrui.api.req.system.auth.AppUserReq;
-import com.tianrui.api.req.system.auth.UserReq;
 import com.tianrui.api.resp.businessManage.app.AppDriverResp;
 import com.tianrui.api.resp.businessManage.app.AppMsgCountResp;
 import com.tianrui.api.resp.businessManage.app.AppMsgResp;
 import com.tianrui.api.resp.businessManage.app.AppNoticeOrderResp;
 import com.tianrui.api.resp.businessManage.app.AppOrderResp;
-import com.tianrui.api.resp.businessManage.app.AppOverListDetailResp;
 import com.tianrui.api.resp.businessManage.app.AppVehicleInFactoryResp;
 import com.tianrui.api.resp.businessManage.app.AppVehicleResp;
 import com.tianrui.api.resp.businessManage.app.AppVersionResp;
@@ -140,6 +138,7 @@ public class ApiStaticAction {
 			PaginationVO<AppOrderResp> page = null;
 			SystemUserResp user = systemUserService.get(appParam.getHead().getUserId());
 			if(user != null){
+				req.setUserId(user.getId());
 				if(StringUtils.equals(user.getIdentityTypes(), Constant.USER_SUPPLIER)){
 					page = purchaseApplicationService.appToPage(req);
 					rs.setData(page);
@@ -171,6 +170,7 @@ public class ApiStaticAction {
 			AppOrderReq req = appParam.getBody();
 			SystemUserResp user = systemUserService.get(appParam.getHead().getUserId());
 			if(user != null){
+				req.setUserId(user.getId());
 				if(StringUtils.equals(user.getIdentityTypes(), Constant.USER_SUPPLIER)){
 					rs.setData(purchaseApplicationService.appToDetail(req));
 				}
@@ -204,6 +204,7 @@ public class ApiStaticAction {
 			SystemUserResp user = systemUserService.get(appParam.getHead().getUserId());
 			PaginationVO<AppNoticeOrderResp> page = null;
 			if(user != null){
+				req.setUserId(user.getId());
 				if(StringUtils.equals(user.getIdentityTypes(), Constant.USER_SUPPLIER)){
 					page = purchaseArriveService.appToPage(req);
 					rs.setData(page);
@@ -232,13 +233,15 @@ public class ApiStaticAction {
 	public ApiResult noticeOderDetail(ApiParam<AppNoticeOrderReq> appParam){
 		Result rs = Result.getErrorResult();
 		try {
+			AppNoticeOrderReq req = appParam.getBody();
 			SystemUserResp user = systemUserService.get(appParam.getHead().getUserId());
 			if(user != null){
+				req.setUserId(user.getId());
 				if(StringUtils.equals(user.getIdentityTypes(), Constant.USER_SUPPLIER)){
-					rs = purchaseArriveService.appToDetail(appParam.getBody());
+					rs = purchaseArriveService.appToDetail(req);
 				}
 				if(StringUtils.equals(user.getIdentityTypes(), Constant.USER_CUSTOMER)){
-					rs = salesArriveService.appToDetail(appParam.getBody());
+					rs = salesArriveService.appToDetail(req);
 				}
 			}else{
 				rs.setErrorCode(ErrorCode.SYSTEM_USER_ERROR1);
@@ -261,11 +264,11 @@ public class ApiStaticAction {
 		Result rs = Result.getSuccessResult();
 		try {
 			AppPoundOrderReq req = appParam.getBody();
-			PaginationVO<AppPoundOrderResp> page = null;
 			SystemUserResp user = systemUserService.get(appParam.getHead().getUserId());
 			if(user != null){
+				req.setUserId(user.getId());
 				req.setIdentityTypes(user.getIdentityTypes());
-				page = poundNoteService.appToPage(req);
+				PaginationVO<AppPoundOrderResp> page = poundNoteService.appToPage(req);
 				rs.setData(page);
 			}else{
 				rs.setErrorCode(ErrorCode.SYSTEM_USER_ERROR1);
@@ -286,10 +289,22 @@ public class ApiStaticAction {
 	@ApiParamRawType(AppPoundOrderReq.class)
 	@ResponseBody
 	public ApiResult overListDetail(ApiParam<AppPoundOrderReq> appParam){
-		AppPoundOrderReq req = appParam.getBody();
-		Result rs=Result.getSuccessResult();
-		AppPoundOrderResp resp =new AppPoundOrderResp();
-		rs.setData(resp);
+		Result rs = Result.getSuccessResult();
+		try {
+			AppPoundOrderReq req = appParam.getBody();
+			SystemUserResp user = systemUserService.get(appParam.getHead().getUserId());
+			if(user != null){
+				req.setUserId(user.getId());
+				req.setIdentityTypes(user.getIdentityTypes());
+				PaginationVO<AppPoundOrderResp> page = poundNoteService.appToPage(req);
+				rs.setData(page);
+			}else{
+				rs.setErrorCode(ErrorCode.SYSTEM_USER_ERROR1);
+			}
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			rs.setErrorCode(ErrorCode.SYSTEM_ERROR);
+		}
 		return ApiResult.valueOf(rs);
 	}
 	

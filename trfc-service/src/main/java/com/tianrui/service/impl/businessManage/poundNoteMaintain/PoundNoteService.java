@@ -1252,12 +1252,46 @@ public class PoundNoteService implements IPoundNoteService {
 	public PaginationVO<AppPoundOrderResp> appToPage(AppPoundOrderReq req) {
 		PaginationVO<AppPoundOrderResp> page = null;
 		if(req != null){
-			page = new PaginationVO<AppPoundOrderResp>();
 			if(StringUtils.equals(req.getIdentityTypes(), Constant.USER_SUPPLIER)){
-				
+				page = appPurchasePage(req);
+			}
+			if(StringUtils.equals(req.getIdentityTypes(), Constant.USER_CUSTOMER)){
+				page = appSalesPage(req);
 			}
 		}
-		return null;
+		return page;
+	}
+
+	private PaginationVO<AppPoundOrderResp> appPurchasePage(AppPoundOrderReq req) {
+		PaginationVO<AppPoundOrderResp> page = null;
+		if(req != null){
+			page = new PaginationVO<AppPoundOrderResp>();
+			long count = poundNoteMapper.appPurchasePageCount(req);
+			if(count > 0){
+				List<AppPoundOrderResp> list = poundNoteMapper.appPurchasePage(req);
+				page.setList(list);
+			}
+			page.setPageNo(req.getPageNo());
+			page.setPageSize(req.getPageSize());
+			page.setTotal(count);
+		}
+		return page;
+	}
+
+	private PaginationVO<AppPoundOrderResp> appSalesPage(AppPoundOrderReq req) {
+		PaginationVO<AppPoundOrderResp> page = null;
+		if(req != null){
+			page = new PaginationVO<AppPoundOrderResp>();
+			long count = poundNoteMapper.appSalesPageCount(req);
+			if(count > 0){
+				List<AppPoundOrderResp> list = poundNoteMapper.appSalesPage(req);
+				page.setList(list);
+			}
+			page.setPageNo(req.getPageNo());
+			page.setPageSize(req.getPageSize());
+			page.setTotal(count);
+		}
+		return page;
 	}
 
 }

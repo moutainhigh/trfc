@@ -2,6 +2,8 @@ package com.tianrui.service.mapper.businessManage.poundNoteMaintain;
 
 import java.util.List;
 
+import com.tianrui.api.req.businessManage.app.AppPoundOrderReq;
+import com.tianrui.api.req.businessManage.app.AppPoundOrderResp;
 import com.tianrui.api.req.businessManage.poundNoteMaintain.ApiPoundNoteQuery;
 import com.tianrui.api.req.businessManage.poundNoteMaintain.PoundNoteQuery;
 import com.tianrui.api.resp.businessManage.poundNoteMaintain.PoundNoteResp;
@@ -91,4 +93,36 @@ public interface PoundNoteMapper {
 	 * @return
 	 */
 	PoundNote selectByNoticeId(String noticeId);
+	/**
+	 * @Description app采购磅单分页查询
+	 * @author zhanggaohao
+	 * @version 2017年4月18日 上午9:38:02
+	 * @param req
+	 * @return
+	 */
+	long appPurchasePageCount(AppPoundOrderReq req);
+	/**
+	 * @Description app采购磅单分页查询
+	 * @author zhanggaohao
+	 * @version 2017年4月18日 上午9:38:02
+	 * @param req
+	 * @return
+	 */
+	List<AppPoundOrderResp> appPurchasePage(AppPoundOrderReq req);
+	/**
+	 * @Description app销售磅单分页查询
+	 * @author zhanggaohao
+	 * @version 2017年4月18日 上午9:38:02
+	 * @param req
+	 * @return
+	 */
+	long appSalesPageCount(AppPoundOrderReq req);
+	/**
+	 * @Description app销售磅单分页查询
+	 * @author zhanggaohao
+	 * @version 2017年4月18日 上午9:38:02
+	 * @param req
+	 * @return
+	 */
+	List<AppPoundOrderResp> appSalesPage(AppPoundOrderReq req);
 }

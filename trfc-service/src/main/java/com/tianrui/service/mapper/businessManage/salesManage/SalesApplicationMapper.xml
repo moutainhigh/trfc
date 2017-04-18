@@ -697,6 +697,9 @@
 		<if test="materielid != null and materielid != ''">
 			and s2.materielid = #{materielid, jdbcType=VARCHAR}
 		</if>
+      	<if test="userId != null and userId != ''">
+			and s1.customerid = #{userId,jdbcType=VARCHAR}
+	  	</if>
       	<if test="starttime != null and starttime != ''">
 			and s1.billtime <![CDATA[>=]]> #{starttime,jdbcType=BIGINT}
 	  	</if>
@@ -704,17 +707,6 @@
 			and s1.billtime <![CDATA[<]]> #{endtime,jdbcType=BIGINT}
 	 	</if>
   	</where>
-  	<if test="orderColumn != null and orderColumn != ''">
-  		order by #{orderColumn,jdbcType=VARCHAR} 
-  		<choose>
-  			<when test="orderAsc == 'DESC'">
-  				DESC
-  			</when>
-  			<otherwise>
-  				ASC
-  			</otherwise>
-  		</choose>
-  	</if>
   </select>
   <select id="findAppToPageGroupMaterielCount" parameterType="com.tianrui.api.req.businessManage.app.AppOrderReq" resultType="com.tianrui.api.resp.businessManage.app.AppOrderResp">
   	select
@@ -730,6 +722,9 @@
 		<if test="materielid != null and materielid != ''">
 			and s2.materielid = #{materielid, jdbcType=VARCHAR}
 		</if>
+      	<if test="userId != null and userId != ''">
+			and s1.customerid = #{userId,jdbcType=VARCHAR}
+	  	</if>
       	<if test="starttime != null and starttime != ''">
 			and s1.billtime <![CDATA[>=]]> #{starttime,jdbcType=BIGINT}
 	  	</if>

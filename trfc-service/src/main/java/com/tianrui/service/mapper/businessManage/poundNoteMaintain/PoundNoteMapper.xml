@@ -1217,4 +1217,182 @@
     	from tr_pound_db_note
     	where noticeid = #{noticeid,jdbcType=VARCHAR} and state = '1'
     </select>
+    <select id="appPurchasePage" parameterType="com.tianrui.api.req.businessManage.app.AppPoundOrderReq" resultType="com.tianrui.api.req.businessManage.app.AppPoundOrderResp">
+    	select p1.id, p1.code, p1.billcode, p1.noticecode, p1.vehicleno, p2.materielname, p1.lighttime, p1.weighttime, 
+    			p1.pickupquantity, p1.grossweight, p1.tareweight, p1.netweight, p1.serialnumber
+    	from tr_pound_db_note p1
+    	left tr_purchase_db_application p2 on p1.billid = p2.id
+    	left tr_purchase_db_application_detail p3 on p1.billdetailid = p3.id
+    	<where>
+    		billtype = '0' or billtype = '1'
+	      <if test="code != null code != ''">
+	        and p1.code = #{code,jdbcType=VARCHAR}
+	      </if>
+	      <if test="billcode != null billcode != ''">
+	        and p1.billcode = #{billcode,jdbcType=VARCHAR}
+	      </if>
+	      <if test="noticecode != null noticecode != ''">
+	        and p1.noticecode = #{noticecode,jdbcType=VARCHAR}
+	      </if>
+	      <if test="materielid != null materielid != ''">
+	        and p3.materielid = #{materielid,jdbcType=VARCHAR}
+	      </if>
+	      <if test="vehicleno != null vehicleno != ''">
+	        and p1.vehicleno = #{vehicleno,jdbcType=VARCHAR}
+	      </if>
+	      <if test="state != null state != ''">
+	        and p1.state = #{state,jdbcType=VARCHAR}
+	      </if>
+	      <if test="userId != null userId != ''">
+	        and p2.supplierid = #{userId,jdbcType=VARCHAR}
+	      </if>
+		  <if test="starttime != null and starttime != ''">
+			and p1.makebilltime <![CDATA[>=]]> #{starttime,jdbcType=BIGINT}
+		  </if>
+		  <if test="endtime != null and endtime != ''">
+			and p1.makebilltime <![CDATA[<]]> #{endtime,jdbcType=BIGINT}
+		  </if>
+		</where>
+	  	<if test="orderColumn != null and orderColumn != ''">
+	  		order by #{orderColumn,jdbcType=VARCHAR} 
+	  		<choose>
+	  			<when test="orderAsc == 'DESC'">
+	  				DESC
+	  			</when>
+	  			<otherwise>
+	  				ASC
+	  			</otherwise>
+	  		</choose>
+	  	</if>
+		<if test="start != null and start >= 0">
+			<if test="limit != null">
+				limit #{start,jdbcType=INTEGER},#{limit,jdbcType=INTEGER}
+			</if>
+		</if>
+    </select>
+    <select id="appPurchasePageCount" parameterType="com.tianrui.api.req.businessManage.app.AppPoundOrderReq" resultType="com.tianrui.api.req.businessManage.app.AppPoundOrderResp">
+    	select count(0)
+    	from tr_pound_db_note p1
+    	left tr_purchase_db_application p2 on p1.billid = p2.id
+    	left tr_purchase_db_application_detail p3 on p1.billdetailid = p3.id
+    	<where>
+    		billtype = '0' or billtype = '1'
+	      <if test="code != null code != ''">
+	        and p1.code = #{code,jdbcType=VARCHAR}
+	      </if>
+	      <if test="billcode != null billcode != ''">
+	        and p1.billcode = #{billcode,jdbcType=VARCHAR}
+	      </if>
+	      <if test="noticecode != null noticecode != ''">
+	        and p1.noticecode = #{noticecode,jdbcType=VARCHAR}
+	      </if>
+	      <if test="materielid != null materielid != ''">
+	        and p3.materielid = #{materielid,jdbcType=VARCHAR}
+	      </if>
+	      <if test="vehicleno != null vehicleno != ''">
+	        and p1.vehicleno = #{vehicleno,jdbcType=VARCHAR}
+	      </if>
+	      <if test="state != null state != ''">
+	        and p1.state = #{state,jdbcType=VARCHAR}
+	      </if>
+	      <if test="userId != null userId != ''">
+	        and p2.supplierid = #{userId,jdbcType=VARCHAR}
+	      </if>
+		  <if test="starttime != null and starttime != ''">
+			and p1.makebilltime <![CDATA[>=]]> #{starttime,jdbcType=BIGINT}
+		  </if>
+		  <if test="endtime != null and endtime != ''">
+			and p1.makebilltime <![CDATA[<]]> #{endtime,jdbcType=BIGINT}
+		  </if>
+		</where>
+    </select>
+    <select id="appSalesPage" parameterType="com.tianrui.api.req.businessManage.app.AppPoundOrderReq" resultType="com.tianrui.api.req.businessManage.app.AppPoundOrderResp">
+    	select p1.id, p1.code, p1.billcode, p1.noticecode, p1.vehicleno, p2.materielname, p1.lighttime, p1.weighttime, 
+    			p1.pickupquantity, p1.grossweight, p1.tareweight, p1.netweight, p1.serialnumber
+    	from tr_pound_db_note p1
+    	left tr_sales_db_application p2 on p1.billid = p2.id
+    	left tr_sales_db_application_detail p3 on p1.billdetailid = p3.id
+    	<where>
+    		billtype = '2'
+	      <if test="code != null code != ''">
+	        and p1.code = #{code,jdbcType=VARCHAR}
+	      </if>
+	      <if test="billcode != null billcode != ''">
+	        and p1.billcode = #{billcode,jdbcType=VARCHAR}
+	      </if>
+	      <if test="noticecode != null noticecode != ''">
+	        and p1.noticecode = #{noticecode,jdbcType=VARCHAR}
+	      </if>
+	      <if test="materielid != null materielid != ''">
+	        and p3.materielid = #{materielid,jdbcType=VARCHAR}
+	      </if>
+	      <if test="vehicleno != null vehicleno != ''">
+	        and p1.vehicleno = #{vehicleno,jdbcType=VARCHAR}
+	      </if>
+	      <if test="state != null state != ''">
+	        and p1.state = #{state,jdbcType=VARCHAR}
+	      </if>
+	      <if test="userId != null userId != ''">
+	        and p2.customerid = #{userId,jdbcType=VARCHAR}
+	      </if>
+		  <if test="starttime != null and starttime != ''">
+			and p1.makebilltime <![CDATA[>=]]> #{starttime,jdbcType=BIGINT}
+		  </if>
+		  <if test="endtime != null and endtime != ''">
+			and p1.makebilltime <![CDATA[<]]> #{endtime,jdbcType=BIGINT}
+		  </if>
+		</where>
+	  	<if test="orderColumn != null and orderColumn != ''">
+	  		order by #{orderColumn,jdbcType=VARCHAR} 
+	  		<choose>
+	  			<when test="orderAsc == 'DESC'">
+	  				DESC
+	  			</when>
+	  			<otherwise>
+	  				ASC
+	  			</otherwise>
+	  		</choose>
+	  	</if>
+		<if test="start != null and start >= 0">
+			<if test="limit != null">
+				limit #{start,jdbcType=INTEGER},#{limit,jdbcType=INTEGER}
+			</if>
+		</if>
+    </select>
+    <select id="appSalesPageCount" parameterType="com.tianrui.api.req.businessManage.app.AppPoundOrderReq" resultType="com.tianrui.api.req.businessManage.app.AppPoundOrderResp">
+    	select count(0)
+    	from tr_pound_db_note p1
+    	left tr_sales_db_application p2 on p1.billid = p2.id
+    	left tr_sales_db_application_detail p3 on p1.billdetailid = p3.id
+    	<where> 
+    		billtype = '2'
+	      <if test="code != null code != ''">
+	        and p1.code = #{code,jdbcType=VARCHAR}
+	      </if>
+	      <if test="billcode != null billcode != ''">
+	        and p1.billcode = #{billcode,jdbcType=VARCHAR}
+	      </if>
+	      <if test="noticecode != null noticecode != ''">
+	        and p1.noticecode = #{noticecode,jdbcType=VARCHAR}
+	      </if>
+	      <if test="materielid != null materielid != ''">
+	        and p3.materielid = #{materielid,jdbcType=VARCHAR}
+	      </if>
+	      <if test="vehicleno != null vehicleno != ''">
+	        and p1.vehicleno = #{vehicleno,jdbcType=VARCHAR}
+	      </if>
+	      <if test="state != null state != ''">
+	        and p1.state = #{state,jdbcType=VARCHAR}
+	      </if>
+	      <if test="userId != null userId != ''">
+	        and p2.customerid = #{userId,jdbcType=VARCHAR}
+	      </if>
+		  <if test="starttime != null and starttime != ''">
+			and p1.makebilltime <![CDATA[>=]]> #{starttime,jdbcType=BIGINT}
+		  </if>
+		  <if test="endtime != null and endtime != ''">
+			and p1.makebilltime <![CDATA[<]]> #{endtime,jdbcType=BIGINT}
+		  </if>
+		</where>
+    </select>
 </mapper>

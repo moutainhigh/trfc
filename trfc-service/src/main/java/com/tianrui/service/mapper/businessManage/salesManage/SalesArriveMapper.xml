@@ -780,16 +780,5 @@
 		and s1.makebilltime <![CDATA[<]]> #{endtime,jdbcType=BIGINT}
 	  </if>
   	</where>
-  	<if test="orderColumn != null and orderColumn != ''">
-  		order by #{orderColumn,jdbcType=VARCHAR} 
-  		<choose>
-  			<when test="orderAsc == 'DESC'">
-  				DESC
-  			</when>
-  			<otherwise>
-  				ASC
-  			</otherwise>
-  		</choose>
-  	</if>
   </select>
 </mapper>
