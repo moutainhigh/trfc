@@ -34,19 +34,19 @@
     from tr_system_user
     <where>
    	  <if test="codeLike != null and codeLike !=''" >
-        and code like CONCAT('%',#{codeLike},'%')  
+        and code like CONCAT('%',#{codeLike,jdbcType=VARCHAR},'%')  
       </if>
    	  <if test="accountLike != null and accountLike !=''" >
-        and account like CONCAT('%',#{accountLike},'%')  
+        and account like CONCAT('%',#{accountLike,jdbcType=VARCHAR},'%')  
       </if>
    	  <if test="nameLike != null and nameLike !=''" >
-        and name like CONCAT('%',#{nameLike},'%')  
+        and name like CONCAT('%',#{nameLike,jdbcType=VARCHAR},'%')  
       </if>
    	  <if test="code != null and code !=''" >
-        and code = #{code}
+        and code = #{code,jdbcType=VARCHAR}
       </if>
    	  <if test="account!= null and account !=''" >
-        and account = #{account}
+        and account = #{account,jdbcType=VARCHAR}
       </if>
    	</where>
    	order by utc desc
@@ -62,13 +62,13 @@
     from tr_system_user
    	<where>
    	  <if test="codeLike != null and codeLike !=''" >
-        and code like CONCAT('%',#{codeLike},'%')  
+        and code like CONCAT('%',#{codeLike,jdbcType=VARCHAR},'%')  
       </if>
    	  <if test="accountLike != null and accountLike !=''" >
-        and account like CONCAT('%',#{accountLike},'%')  
+        and account like CONCAT('%',#{accountLike,jdbcType=VARCHAR},'%')  
       </if>
    	  <if test="nameLike != null and nameLike !=''" >
-        and name like CONCAT('%',#{nameLike},'%')  
+        and name like CONCAT('%',#{nameLike,jdbcType=VARCHAR},'%')  
       </if>
    	</where>
   </select>

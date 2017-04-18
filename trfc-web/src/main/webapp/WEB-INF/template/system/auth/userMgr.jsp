@@ -72,7 +72,7 @@
 									<th>操作</th>
 								</tr>
 							</thead>
-							<tbody>
+							<tbody id="list">
 								<tr>
 									<td>1</td>
 									<td>000</td>
@@ -244,7 +244,7 @@
 					</div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-primary submitBtn">确定</button>
-						<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+						<button type="button" class="btn btn-default" data-dismiss="modal" id="add_cancel">取消</button>
 					</div>
 				</div>
 			</div>
@@ -267,29 +267,29 @@
 					<div class="modal-body">
 						<div class="alt_edit">
 							<div class="alt_edit_div">
-								<label>用户编号：</label> <input type="text" value=" 000"
+								<label>用户编号：</label> <input type="text" value=" 000" id="edit_code"
 									readonly="true">
 							</div>
 							<div class="alt_edit_div">
-								<label>登录账户：</label> <input type="text" value=" 000"
+								<label>登录账户：</label> <input type="text" value=" 000" id="edit_account"
 									readonly="true">
 							</div>
 							<div class="alt_edit_div">
-								<label>用户名称：</label> <input type="text" value=" 000"
+								<label>用户名称：</label> <input type="text" value=" 000" id="edit_name"
 									readonly="true">
 							</div>
 							<div class="alt_edit_div">
-								<label>登录密码：</label> <input type="password" value=" 000"
-									readonly="true">
+								<label>登录密码：</label> <input type="password" value="000" id="edit_psd"
+									>
 							</div>
 							<div class="alt_edit_div">
-								<label>所属组织：</label> <input type="text">
+								<label>所属组织：</label> <input type="text" id="edit_org">
 							</div>
 							<div class="alt_edit_div">
-								<label>说明：</label> <input type="text">
+								<label>说明：</label> <input type="text" id="edit_remark">
 							</div>
 							<div class="alt_edit_div">
-								<label>选项：</label> <input type="checkbox"><span>有效</span>
+								<label>选项：</label> <input type="checkbox" id="edit_isvalid"><span>有效</span>
 								<em class="colorred">注：无效用户不能登录。</em>
 							</div>
 
@@ -303,31 +303,7 @@
 			</div>
 		</div>
 		<!--编辑end-->
-		<!--删除begin-->
-		<div class="modal fade" id="dele" tabindex="-1" role="dialog"
-			aria-labelledby="myModalLabel">
-			<div class="modal-dialog" role="document" style="width: 400px;">
-				<div class="modal-content">
-					<div class="modal-header">
-						<button type="button" class="close" data-dismiss="modal"
-							aria-label="Close">
-							<span aria-hidden="true">&times;</span>
-						</button>
-						<h4 class="modal-title">提示</h4>
-					</div>
-					<div class="modal-body">
-						<div class="alert_qf">
-							<img src="${staticBasePath}/images/tishi.png"><label>注：删除操作不可恢复，您确定要继续么？</label>
-						</div>
-					</div>
-					<div class="modal-footer">
-						<button type="button" class="btn btn-primary">确定</button>
-						<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-					</div>
-				</div>
-			</div>
-		</div>
-		<!--删除end-->
+		
 	</div>
 	<script type="text/javascript" src="${staticBasePath}/js/md5.js"></script>
 	<script type="text/javascript" src="/javascript/system/auth/userMgr.js"></script>

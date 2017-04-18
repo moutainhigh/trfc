@@ -60,6 +60,18 @@ public class SystemUserAction {
 		}
 		return rs;
 	}
+	//删除数据
+		@RequestMapping(value="/deleteUser",method=RequestMethod.POST)
+		@ResponseBody
+		public Result deleteUser(SystemUserQueryReq req){
+			Result rs= Result.getErrorResult();
+			try {
+				rs = systemUserService.delUser(req);
+			} catch (Exception e) {
+				log.error(e.getMessage(),e);
+			}
+			return rs;
+		}
 	
 	//详情
 	@RequestMapping(value="/detail",method=RequestMethod.POST)

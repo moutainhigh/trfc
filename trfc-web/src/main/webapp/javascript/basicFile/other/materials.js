@@ -136,10 +136,10 @@ function toModify(){
 			$('#material_modify_orgname').val(obj.orgname);
 			$('#material_modify_remark').val(obj.remark);
 			//$('#material_modify_isvalid').removeAtter('checked');
-			//$('#material_modify_isvalid')[0].checked=false;
+			$('#material_modify_isvalid')[0].checked=false;
 			if(obj.isvalid==1){
-				//$('#material_modify_isvalid')[0].checked=true;
-				$('#material_modify_isvalid').attr('checked','checked');
+				$('#material_modify_isvalid')[0].checked=true;
+				//$('#material_modify_isvalid').attr('checked','checked');
 				
 			}
 		}else{

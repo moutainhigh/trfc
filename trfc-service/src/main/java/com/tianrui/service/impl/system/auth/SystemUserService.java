@@ -193,7 +193,7 @@ public class SystemUserService implements ISystemUserService {
 	public Result delUser(SystemUserQueryReq req) throws Exception {
 		Result rs =Result.getParamErrorResult();
 		//参数不能为空交验
-		if ( req !=null && StringUtils.isBlank(req.getId()) ) {
+		if ( req !=null && StringUtils.isNotBlank(req.getId()) ) {
 			//是否能查到数据
 			SystemUser db=userMapper.selectByPrimaryKey(req.getId());
 			if (db !=null) {
