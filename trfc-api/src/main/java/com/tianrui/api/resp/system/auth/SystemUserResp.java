@@ -131,8 +131,17 @@ public class SystemUserResp implements Serializable{
 	public void setPassword(String password) {
 		this.password = password;
 	}
+	/**
+	 * @return the mobilePhone
+	 */
+	public String getMobilePhone() {
+		return mobilePhone;
+	}
+	/**
+	 * @param mobilePhone the mobilePhone to set
+	 */
+	public void setMobilePhone(String mobilePhone) {
+		this.mobilePhone = mobilePhone;
+	}
 	
-	
-	
-
 }
