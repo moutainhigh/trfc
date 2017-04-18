@@ -1,6 +1,8 @@
 	package com.tianrui.api.intf.businessManage.poundNoteMaintain;
 
-	import com.tianrui.api.req.businessManage.poundNoteMaintain.ApiPoundNoteQuery;
+	import com.tianrui.api.req.businessManage.app.AppPoundOrderReq;
+import com.tianrui.api.req.businessManage.app.AppPoundOrderResp;
+import com.tianrui.api.req.businessManage.poundNoteMaintain.ApiPoundNoteQuery;
 import com.tianrui.api.req.businessManage.poundNoteMaintain.ApiPoundNoteValidation;
 import com.tianrui.api.req.businessManage.poundNoteMaintain.PoundNoteQuery;
 	import com.tianrui.api.req.businessManage.poundNoteMaintain.PoundNoteSave;
@@ -130,6 +132,14 @@ import com.tianrui.api.req.businessManage.poundNoteMaintain.PoundNoteQuery;
 		 * @return
 		 */
 		Result tareWeight(ApiPoundNoteQuery valid);
+		/**
+		 * @Description app磅单分页接口
+		 * @author zhanggaohao
+		 * @version 2017年4月17日 下午5:07:21
+		 * @param body
+		 * @return
+		 */
+		PaginationVO<AppPoundOrderResp> appToPage(AppPoundOrderReq req);
 	
 	}
 

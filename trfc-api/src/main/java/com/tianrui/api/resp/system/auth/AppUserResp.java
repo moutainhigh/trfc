@@ -11,7 +11,9 @@ public class AppUserResp implements Serializable{
 	private String userName;
 	private String mobile;
 	private String orgid;
-	private String role;
+    private String orgName;
+    //身份类型：1客户，2供应商，3普通用户
+	private String identityTypes;
 	public String getId() {
 		return id;
 	}
@@ -42,11 +44,23 @@ public class AppUserResp implements Serializable{
 	public void setOrgid(String orgid) {
 		this.orgid = orgid;
 	}
-	public String getRole() {
-		return role;
+	/**
+	 * @return the orgName
+	 */
+	public String getOrgName() {
+		return orgName;
 	}
-	public void setRole(String role) {
-		this.role = role;
+	/**
+	 * @param orgName the orgName to set
+	 */
+	public void setOrgName(String orgName) {
+		this.orgName = orgName;
+	}
+	public String getIdentityTypes() {
+		return identityTypes;
+	}
+	public void setIdentityTypes(String identityTypes) {
+		this.identityTypes = identityTypes;
 	}
 		
 	

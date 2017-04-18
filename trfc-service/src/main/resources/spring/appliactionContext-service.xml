@@ -29,5 +29,5 @@
      </bean>
      <import resource="applicationContext-db.xml"/>
   	 <import resource="applicationContext-mongo.xml"/>
-    <!--    <import resource="applicationContext-cache.xml"/> -->
+    <import resource="applicationContext-cache.xml"/>
 </beans>

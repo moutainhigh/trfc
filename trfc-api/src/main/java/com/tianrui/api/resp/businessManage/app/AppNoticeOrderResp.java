@@ -24,7 +24,7 @@ public class AppNoticeOrderResp extends BaseReq{
 	//物料名称
 	private String materialName;
 	//预提量
-	private String number;
+	private Double number;
 	//来源
 	private String source;
 	//状态
@@ -74,7 +74,7 @@ public class AppNoticeOrderResp extends BaseReq{
 	/**
 	 * @return the number
 	 */
-	public String getNumber() {
+	public Double getNumber() {
 		return number;
 	}
 	/**
@@ -134,7 +134,7 @@ public class AppNoticeOrderResp extends BaseReq{
 	/**
 	 * @param number the number to set
 	 */
-	public void setNumber(String number) {
+	public void setNumber(Double number) {
 		this.number = number;
 	}
 	/**

@@ -683,7 +683,7 @@
 		#{item}  
 	</foreach>
   </select>
-  <select id="findPageGroupMaterielCount" parameterType="com.tianrui.api.req.businessManage.app.AppOrderReq" resultType="java.lang.Long">
+  <select id="findAppToPageGroupMateriel" parameterType="com.tianrui.api.req.businessManage.app.AppOrderReq" resultType="java.lang.Long">
   	select count(0)
   	from tr_sales_db_application s1 left join tr_sales_db_application_detail s2 
   	on s1.id = s2.salesid
@@ -691,6 +691,18 @@
   		<if test="state != null and state != ''">
   			and s1.state = #{state,jdbcType=VARCHAR}
   		</if>
+		<if test="code != null and code != ''">
+			and s1.code = #{code, jdbcType=VARCHAR}
+		</if>
+		<if test="materielid != null and materielid != ''">
+			and s2.materielid = #{materielid, jdbcType=VARCHAR}
+		</if>
+      	<if test="starttime != null and starttime != ''">
+			and s1.billtime <![CDATA[>=]]> #{starttime,jdbcType=BIGINT}
+	  	</if>
+	  	<if test="endtime != null and endtime != ''">
+			and s1.billtime <![CDATA[<]]> #{endtime,jdbcType=BIGINT}
+	 	</if>
   	</where>
   	<if test="orderColumn != null and orderColumn != ''">
   		order by #{orderColumn,jdbcType=VARCHAR} 
@@ -704,7 +716,7 @@
   		</choose>
   	</if>
   </select>
-  <select id="findPageGroupMateriel" parameterType="com.tianrui.api.req.businessManage.app.AppOrderReq" resultType="com.tianrui.api.resp.businessManage.app.AppOrderResp">
+  <select id="findAppToPageGroupMaterielCount" parameterType="com.tianrui.api.req.businessManage.app.AppOrderReq" resultType="com.tianrui.api.resp.businessManage.app.AppOrderResp">
   	select
   	s1.id, s2.id as detailid, s1.code, s2.materielname as materialName, s2.salessum as billSum, s2.margin
   	from tr_sales_db_application s1 left join tr_sales_db_application_detail s2 on s1.id = s2.salesid
@@ -712,6 +724,18 @@
   		<if test="state != null and state != ''">
   			and s1.state = #{state,jdbcType=VARCHAR}
   		</if>
+		<if test="code != null and code != ''">
+			and s1.code = #{code, jdbcType=VARCHAR}
+		</if>
+		<if test="materielid != null and materielid != ''">
+			and s2.materielid = #{materielid, jdbcType=VARCHAR}
+		</if>
+      	<if test="starttime != null and starttime != ''">
+			and s1.billtime <![CDATA[>=]]> #{starttime,jdbcType=BIGINT}
+	  	</if>
+	  	<if test="endtime != null and endtime != ''">
+			and s1.billtime <![CDATA[<]]> #{endtime,jdbcType=BIGINT}
+	 	</if>
   	</where>
   	<if test="orderColumn != null and orderColumn != ''">
   		order by #{orderColumn,jdbcType=VARCHAR} 

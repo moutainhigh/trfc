@@ -15,11 +15,14 @@ import com.tianrui.api.req.system.auth.SystemUserPswdReq;
 import com.tianrui.api.req.system.auth.SystemUserQueryReq;
 import com.tianrui.api.req.system.auth.SystemUserSaveReq;
 import com.tianrui.api.req.system.auth.UserReq;
+import com.tianrui.api.resp.system.auth.AppUserResp;
 import com.tianrui.api.resp.system.auth.SystemUserResp;
+import com.tianrui.service.bean.system.auth.Organization;
 import com.tianrui.service.bean.system.auth.SystemUser;
 import com.tianrui.service.cache.CacheClient;
 import com.tianrui.service.cache.CacheHelper;
 import com.tianrui.service.cache.CacheModule;
+import com.tianrui.service.mapper.system.auth.OrganizationMapper;
 import com.tianrui.service.mapper.system.auth.SystemUserMapper;
 import com.tianrui.smartfactory.common.constants.BusinessConstants;
 import com.tianrui.smartfactory.common.constants.Constant;
@@ -33,6 +36,8 @@ import com.tianrui.smartfactory.common.vo.Result;
 public class SystemUserService implements ISystemUserService {
 	@Autowired
 	SystemUserMapper userMapper;
+	@Autowired
+	OrganizationMapper organizationMapper;
 	@Autowired
 	CacheClient cacheClient;
 
@@ -289,7 +294,12 @@ public class SystemUserService implements ISystemUserService {
 		if (bean != null) {
 			resp =new SystemUserResp();
 			PropertyUtils.copyProperties(resp, bean);
-			//TODO 自定义属性添加
+			if(StringUtils.isNotBlank(bean.getOrgid())){
+				Organization org = organizationMapper.selectByPrimaryKey(bean.getOrgid());
+				if(org != null){
+					resp.setOrgName(org.getName());
+				}
+			}
 		}
 		return resp;
 	}
@@ -392,7 +402,7 @@ public class SystemUserService implements ISystemUserService {
 				&& StringUtils.isNotBlank(req.getPswd())) {
 			SystemUserQueryReq query =new SystemUserQueryReq();
 			query.setAccount(req.getAccount());
-			List<SystemUser> list =userMapper.selectByCondition(query);
+			List<SystemUser> list = userMapper.selectByCondition(query);
 			if (CollectionUtils.isNotEmpty(list)) {
 				//验证密码
 				if (StringUtils.equals(list.get(0).getPassword(), req.getPswd())) {
@@ -404,7 +414,15 @@ public class SystemUserService implements ISystemUserService {
 						cacheClient.saveObject(key, user, 7*24*60*60);
 						user.setTokenId(tokenId);
 						result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
-						result.setData(user);
+						AppUserResp resp = new AppUserResp();
+						resp.setId(user.getId());
+						resp.setToken(user.getTokenId());
+						resp.setUserName(user.getName());
+						resp.setMobile(user.getMobilePhone());
+						resp.setOrgid(user.getOrgid());
+						resp.setOrgName(user.getOrgName());
+						resp.setIdentityTypes(user.getIdentityTypes());
+						result.setData(resp);
 					}else{
 						result.setErrorCode(ErrorCode.SYSTEM_USER_ERROR5);
 					}
@@ -415,9 +433,9 @@ public class SystemUserService implements ISystemUserService {
 				result.setErrorCode(ErrorCode.SYSTEM_USER_ERROR1);
 			}
 		}
-		return null;
+		return result;
 	}
-	
+
 	@Override
 	public Result appUpdatePswd(AppUserReq req) throws Exception {
 		Result result = Result.getParamErrorResult();

@@ -31,6 +31,7 @@ import com.tianrui.api.resp.businessManage.purchaseManage.PurchaseArriveResp;
 import com.tianrui.service.bean.businessManage.cardManage.Card;
 import com.tianrui.service.bean.businessManage.logisticsManage.AccessRecord;
 import com.tianrui.service.bean.businessManage.poundNoteMaintain.PoundNote;
+import com.tianrui.service.bean.businessManage.purchaseManage.PurchaseApplication;
 import com.tianrui.service.bean.businessManage.purchaseManage.PurchaseApplicationDetail;
 import com.tianrui.service.bean.businessManage.purchaseManage.PurchaseArrive;
 import com.tianrui.service.bean.businessManage.salesManage.SalesArrive;
@@ -38,9 +39,11 @@ import com.tianrui.service.mapper.businessManage.cardManage.CardMapper;
 import com.tianrui.service.mapper.businessManage.logisticsManage.AccessRecordMapper1;
 import com.tianrui.service.mapper.businessManage.poundNoteMaintain.PoundNoteMapper;
 import com.tianrui.service.mapper.businessManage.purchaseManage.PurchaseApplicationDetailMapper;
+import com.tianrui.service.mapper.businessManage.purchaseManage.PurchaseApplicationMapper;
 import com.tianrui.service.mapper.businessManage.purchaseManage.PurchaseArriveMapper;
 import com.tianrui.service.mapper.businessManage.salesManage.SalesArriveMapper;
 import com.tianrui.smartfactory.common.constants.ErrorCode;
+import com.tianrui.smartfactory.common.utils.DateUtil;
 import com.tianrui.smartfactory.common.utils.UUIDUtil;
 import com.tianrui.smartfactory.common.vo.PaginationVO;
 import com.tianrui.smartfactory.common.vo.Result;
@@ -52,6 +55,8 @@ public class PurchaseArriveService implements IPurchaseArriveService {
 	private PurchaseArriveMapper purchaseArriveMapper;
 	@Autowired
 	private IPurchaseApplicationService purchaseApplicationService;
+	@Autowired
+	private PurchaseApplicationMapper purchaseApplicationMapper;
 	@Autowired
 	private IPurchaseApplicationDetailService purchaseApplicationDetailService;
 	@Autowired
@@ -463,6 +468,38 @@ public class PurchaseArriveService implements IPurchaseArriveService {
 			page.setTotal(count);
 		}
 		return page;
+	}
+
+	@Override
+	public Result appToDetail(AppNoticeOrderReq req) {
+		Result result = Result.getParamErrorResult();
+		if(req != null && StringUtils.isNotBlank(req.getId())){
+			AppNoticeOrderResp resp = new AppNoticeOrderResp();
+			PurchaseArrive pa = purchaseArriveMapper.selectByPrimaryKey(req.getId());
+			if(pa != null){
+				resp.setId(pa.getId());
+				resp.setCode(pa.getCode());
+				resp.setNoticetime(DateUtil.parse(pa.getMakebilltime(), "yyyy-MM-dd HH:mm:ss"));
+				resp.setVehicleno(pa.getVehicleno());
+				resp.setNumber(pa.getArrivalamount());
+				resp.setSource(pa.getSource());
+				resp.setStatus(pa.getStatus());
+				PurchaseApplication application = purchaseApplicationMapper.selectByPrimaryKey(pa.getBillid());
+				if(application != null){
+					resp.setBillCode(application.getCode());
+					resp.setBilltime(DateUtil.parse(application.getBilltime(), "yyyy-MM-dd HH:mm:ss"));
+				}
+				PurchaseApplicationDetail applicationDetail = purchaseApplicationDetailMapper.selectByPrimaryKey(pa.getBilldetailid());
+				if(applicationDetail != null){
+					resp.setMaterialName(applicationDetail.getMaterielname());
+				}
+				result.setData(resp);
+				result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+			}else{
+				result.setErrorCode(ErrorCode.NOTICE_NOT_EXIST);
+			}
+		}
+		return result;
 	}
 
 }

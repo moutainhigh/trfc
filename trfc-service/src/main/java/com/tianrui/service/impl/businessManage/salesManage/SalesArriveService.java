@@ -43,6 +43,7 @@ import com.tianrui.service.bean.businessManage.poundNoteMaintain.PoundNote;
 import com.tianrui.service.bean.businessManage.purchaseManage.PurchaseApplication;
 import com.tianrui.service.bean.businessManage.purchaseManage.PurchaseApplicationDetail;
 import com.tianrui.service.bean.businessManage.purchaseManage.PurchaseArrive;
+import com.tianrui.service.bean.businessManage.salesManage.SalesApplication;
 import com.tianrui.service.bean.businessManage.salesManage.SalesApplicationDetail;
 import com.tianrui.service.bean.businessManage.salesManage.SalesApplicationJoinNatice;
 import com.tianrui.service.bean.businessManage.salesManage.SalesArrive;
@@ -56,10 +57,12 @@ import com.tianrui.service.mapper.businessManage.purchaseManage.PurchaseApplicat
 import com.tianrui.service.mapper.businessManage.purchaseManage.PurchaseArriveMapper;
 import com.tianrui.service.mapper.businessManage.salesManage.SalesApplicationDetailMapper;
 import com.tianrui.service.mapper.businessManage.salesManage.SalesApplicationJoinNaticeMapper;
+import com.tianrui.service.mapper.businessManage.salesManage.SalesApplicationMapper;
 import com.tianrui.service.mapper.businessManage.salesManage.SalesArriveMapper;
 import com.tianrui.service.mapper.common.RFIDMapper;
 import com.tianrui.service.mongo.impl.CodeGenDaoImpl;
 import com.tianrui.smartfactory.common.constants.ErrorCode;
+import com.tianrui.smartfactory.common.utils.DateUtil;
 import com.tianrui.smartfactory.common.utils.UUIDUtil;
 import com.tianrui.smartfactory.common.vo.PaginationVO;
 import com.tianrui.smartfactory.common.vo.Result;
@@ -77,6 +80,8 @@ public class SalesArriveService implements ISalesArriveService {
 	private SalesArriveMapper salesArriveMapper;
 	@Autowired
 	private ISalesApplicationService salesApplicationService;
+	@Autowired
+	private SalesApplicationMapper salesApplicationMapper;
 	@Autowired
 	private ISalesApplicationDetailService salesApplicationDetailService;
 	@Autowired
@@ -747,6 +752,38 @@ public class SalesArriveService implements ISalesArriveService {
 			page.setTotal(count);
 		}
 		return page;
+	}
+
+	@Override
+	public Result appToDetail(AppNoticeOrderReq req) {
+		Result result = Result.getParamErrorResult();
+		if(req != null && StringUtils.isNotBlank(req.getId())){
+			AppNoticeOrderResp resp = new AppNoticeOrderResp();
+			SalesArrive sa = salesArriveMapper.selectByPrimaryKey(req.getId());
+			if(sa != null){
+				resp.setId(sa.getId());
+				resp.setCode(sa.getCode());
+				resp.setNoticetime(DateUtil.parse(sa.getMakebilltime(), "yyyy-MM-dd HH:mm:ss"));
+				resp.setVehicleno(sa.getVehicleno());
+				resp.setNumber(sa.getTakeamount());
+				resp.setSource(sa.getSource());
+				resp.setStatus(sa.getStatus());
+				SalesApplication application = salesApplicationMapper.selectByPrimaryKey(sa.getBillid());
+				if(application != null){
+					resp.setBillCode(application.getCode());
+					resp.setBilltime(DateUtil.parse(application.getBilltime(), "yyyy-MM-dd HH:mm:ss"));
+				}
+				SalesApplicationDetail applicationDetail = salesApplicationDetailMapper.selectByPrimaryKey(sa.getBilldetailid());
+				if(applicationDetail != null){
+					resp.setMaterialName(applicationDetail.getMaterielname());
+				}
+				result.setData(resp);
+				result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+			}else{
+				result.setErrorCode(ErrorCode.NOTICE_NOT_EXIST);
+			}
+		}
+		return result;
 	}
 
 }

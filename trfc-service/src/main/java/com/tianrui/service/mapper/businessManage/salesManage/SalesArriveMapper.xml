@@ -704,20 +704,23 @@
       <if test="code != null and code != '' ">
         and s1.code = #{code,jdbcType=VARCHAR}
       </if>
+      <if test="state != null and state != '' ">
+        and s1.state = #{state,jdbcType=VARCHAR}
+      </if>
       <if test="status != null and status != '' ">
         and s1.status = #{status,jdbcType=VARCHAR}
-      </if>
-      <if test="vehicleid != null and vehicleid != '' ">
-        and s1.vehicleid = #{vehicleid,jdbcType=VARCHAR}
-      </if>
-      <if test="customerid != null and customerid != '' ">
-        and s2.customerid = #{customerid,jdbcType=VARCHAR}
       </if>
       <if test="billcode != null and billcode != '' ">
         and s2.code = #{billcode,jdbcType=VARCHAR}
       </if>
+      <if test="vehicleid != null and vehicleid != '' ">
+        and s1.vehicleid = #{vehicleid,jdbcType=VARCHAR}
+      </if>
       <if test="materielid != null and materielid != '' ">
         and s3.materielid = #{materielid,jdbcType=VARCHAR}
+      </if>
+      <if test="userId != null and userId != '' ">
+        and s1.makerid = #{userId,jdbcType=VARCHAR}
       </if>
       <if test="starttime != null and starttime != ''">
 		and s1.makebilltime <![CDATA[>=]]> #{starttime,jdbcType=BIGINT}
@@ -752,20 +755,23 @@
       <if test="code != null and code != '' ">
         and s1.code = #{code,jdbcType=VARCHAR}
       </if>
+      <if test="state != null and state != '' ">
+        and s1.state = #{state,jdbcType=VARCHAR}
+      </if>
       <if test="status != null and status != '' ">
         and s1.status = #{status,jdbcType=VARCHAR}
-      </if>
-      <if test="vehicleid != null and vehicleid != '' ">
-        and s1.vehicleid = #{vehicleid,jdbcType=VARCHAR}
-      </if>
-      <if test="customerid != null and customerid != '' ">
-        and s2.customerid = #{customerid,jdbcType=VARCHAR}
       </if>
       <if test="billcode != null and billcode != '' ">
         and s2.code = #{billcode,jdbcType=VARCHAR}
       </if>
+      <if test="vehicleid != null and vehicleid != '' ">
+        and s1.vehicleid = #{vehicleid,jdbcType=VARCHAR}
+      </if>
       <if test="materielid != null and materielid != '' ">
         and s3.materielid = #{materielid,jdbcType=VARCHAR}
+      </if>
+      <if test="userId != null and userId != '' ">
+        and s1.makerid = #{userId,jdbcType=VARCHAR}
       </if>
       <if test="starttime != null and starttime != ''">
 		and s1.makebilltime <![CDATA[>=]]> #{starttime,jdbcType=BIGINT}

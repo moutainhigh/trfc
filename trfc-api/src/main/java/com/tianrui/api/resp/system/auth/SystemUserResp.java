@@ -24,8 +24,10 @@ public class SystemUserResp implements Serializable{
  	//为APP服务的tokenId
   	private String tokenId;
 	
-	//身份类型
+	//身份类型：1客户，2供应商，3普通用户
   	private String identityTypes;
+  	//手机号码
+  	private String mobilePhone;
 	
 	public String getId() {
 		return id;

@@ -19,6 +19,8 @@ import com.tianrui.api.intf.businessManage.salesManage.ISalesApplicationDetailSe
 import com.tianrui.api.intf.businessManage.salesManage.ISalesApplicationService;
 import com.tianrui.api.intf.system.auth.ISystemUserService;
 import com.tianrui.api.intf.system.base.ISystemCodeService;
+import com.tianrui.api.req.businessManage.app.AppPoundOrderReq;
+import com.tianrui.api.req.businessManage.app.AppPoundOrderResp;
 import com.tianrui.api.req.businessManage.poundNoteMaintain.ApiPoundNoteQuery;
 import com.tianrui.api.req.businessManage.poundNoteMaintain.ApiPoundNoteValidation;
 import com.tianrui.api.req.businessManage.poundNoteMaintain.PoundNoteQuery;
@@ -1244,6 +1246,18 @@ public class PoundNoteService implements IPoundNoteService {
 			result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
 		}
 		return result;
+	}
+
+	@Override
+	public PaginationVO<AppPoundOrderResp> appToPage(AppPoundOrderReq req) {
+		PaginationVO<AppPoundOrderResp> page = null;
+		if(req != null){
+			page = new PaginationVO<AppPoundOrderResp>();
+			if(StringUtils.equals(req.getIdentityTypes(), Constant.USER_SUPPLIER)){
+				
+			}
+		}
+		return null;
 	}
 
 }

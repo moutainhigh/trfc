@@ -2,15 +2,21 @@ package com.tianrui.api.req.businessManage.app;
 
 import com.tianrui.api.req.BaseReq;
 
-public class AppNoticeOrderReq extends BaseReq{
+public class AppPoundOrderReq extends BaseReq{
 
 	private static final long serialVersionUID = 280565475561660076L;
-	//订单 通知单 过磅单id
+	//当前登录用户id
+	private String userId;
+	//当前登录用户身份类型
+	private String identityTypes;
+	//磅单id
 	private String id;
-	//状态
-	private String status;
-	//订单号
+	//磅单编号 
+	private String code;
+	//订单编号
 	private String billcode;
+	//通知单号
+	private String noticecode;
 	//物料
 	private String materielid;
 	//车号
@@ -29,8 +35,18 @@ public class AppNoticeOrderReq extends BaseReq{
     private Integer start;
     //条数
     private Integer limit;
-    //用户id
-	private String userId;
+	/**
+	 * @return the userId
+	 */
+	public String getUserId() {
+		return userId;
+	}
+	/**
+	 * @return the identityTypes
+	 */
+	public String getIdentityTypes() {
+		return identityTypes;
+	}
 	/**
 	 * @return the id
 	 */
@@ -38,16 +54,22 @@ public class AppNoticeOrderReq extends BaseReq{
 		return id;
 	}
 	/**
-	 * @return the status
+	 * @return the code
 	 */
-	public String getStatus() {
-		return status;
+	public String getCode() {
+		return code;
 	}
 	/**
 	 * @return the billcode
 	 */
 	public String getBillcode() {
 		return billcode;
+	}
+	/**
+	 * @return the noticecode
+	 */
+	public String getNoticecode() {
+		return noticecode;
 	}
 	/**
 	 * @return the materielid
@@ -104,10 +126,16 @@ public class AppNoticeOrderReq extends BaseReq{
 		return limit;
 	}
 	/**
-	 * @return the userId
+	 * @param userId the userId to set
 	 */
-	public String getUserId() {
-		return userId;
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
+	/**
+	 * @param identityTypes the identityTypes to set
+	 */
+	public void setIdentityTypes(String identityTypes) {
+		this.identityTypes = identityTypes;
 	}
 	/**
 	 * @param id the id to set
@@ -116,16 +144,22 @@ public class AppNoticeOrderReq extends BaseReq{
 		this.id = id;
 	}
 	/**
-	 * @param status the status to set
+	 * @param code the code to set
 	 */
-	public void setStatus(String status) {
-		this.status = status;
+	public void setCode(String code) {
+		this.code = code;
 	}
 	/**
 	 * @param billcode the billcode to set
 	 */
 	public void setBillcode(String billcode) {
 		this.billcode = billcode;
+	}
+	/**
+	 * @param noticecode the noticecode to set
+	 */
+	public void setNoticecode(String noticecode) {
+		this.noticecode = noticecode;
 	}
 	/**
 	 * @param materielid the materielid to set
@@ -180,12 +214,6 @@ public class AppNoticeOrderReq extends BaseReq{
 	 */
 	public void setLimit(Integer limit) {
 		this.limit = limit;
-	}
-	/**
-	 * @param userId the userId to set
-	 */
-	public void setUserId(String userId) {
-		this.userId = userId;
 	}
 	
 }

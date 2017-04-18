@@ -114,5 +114,13 @@ public interface ISalesArriveService {
 	 * @return
 	 */
 	PaginationVO<AppNoticeOrderResp> appToPage(AppNoticeOrderReq req);
+	/**
+	 * @Description app销售通知单详情
+	 * @author zhanggaohao
+	 * @version 2017年4月15日 下午5:02:23
+	 * @param req
+	 * @return
+	 */
+	Result appToDetail(AppNoticeOrderReq req);
 
 }

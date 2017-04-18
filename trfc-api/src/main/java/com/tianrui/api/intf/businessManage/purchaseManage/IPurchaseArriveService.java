@@ -94,5 +94,13 @@ public interface IPurchaseArriveService {
 	 * @return
 	 */
 	PaginationVO<AppNoticeOrderResp> appToPage(AppNoticeOrderReq req);
+	/**
+	 * @Description app采购通知单详情接口
+	 * @author zhanggaohao
+	 * @version 2017年4月15日 下午5:02:06
+	 * @param req
+	 * @return
+	 */
+	Result appToDetail(AppNoticeOrderReq req);
 
 }

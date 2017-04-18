@@ -681,8 +681,20 @@
 	left join tr_purchase_db_application_detail p2 on p1.id = p2.purchaseid
 	<where>
 		<if test="state != null and state != ''">
-			p1.state = #{state, jdbcType=VARCHAR}
+			and p1.state = #{state, jdbcType=VARCHAR}
 		</if>
+		<if test="code != null and code != ''">
+			and p1.code = #{code, jdbcType=VARCHAR}
+		</if>
+		<if test="materielid != null and materielid != ''">
+			and p2.materielid = #{materielid, jdbcType=VARCHAR}
+		</if>
+      	<if test="starttime != null and starttime != ''">
+			and p1.billtime <![CDATA[>=]]> #{starttime,jdbcType=BIGINT}
+	  	</if>
+	  	<if test="endtime != null and endtime != ''">
+			and p1.billtime <![CDATA[<]]> #{endtime,jdbcType=BIGINT}
+	 	</if>
 	</where>
   	<if test="orderColumn != null and orderColumn != ''">
   		order by #{orderColumn,jdbcType=VARCHAR} 
@@ -703,8 +715,20 @@
 	left join tr_purchase_db_application_detail p2 on p1.id = p2.purchaseid
 	<where>
 		<if test="state != null and state != ''">
-			p1.state = #{state, jdbcType=VARCHAR}
+			and p1.state = #{state, jdbcType=VARCHAR}
 		</if>
+		<if test="code != null and code != ''">
+			and p1.code = #{code, jdbcType=VARCHAR}
+		</if>
+		<if test="materielid != null and materielid != ''">
+			and p2.materielid = #{materielid, jdbcType=VARCHAR}
+		</if>
+      	<if test="starttime != null and starttime != ''">
+			and p1.billtime <![CDATA[>=]]> #{starttime,jdbcType=BIGINT}
+	  	</if>
+	  	<if test="endtime != null and endtime != ''">
+			and p1.billtime <![CDATA[<]]> #{endtime,jdbcType=BIGINT}
+	 	</if>
 	</where>
   	<if test="orderColumn != null and orderColumn != ''">
   		order by #{orderColumn,jdbcType=VARCHAR} 
