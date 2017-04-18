@@ -140,6 +140,14 @@ import com.tianrui.api.req.businessManage.poundNoteMaintain.PoundNoteQuery;
 		 * @return
 		 */
 		PaginationVO<AppPoundOrderResp> appToPage(AppPoundOrderReq req);
+		/**
+		 * @Description app磅单详情接口
+		 * @author zhanggaohao
+		 * @version 2017年4月18日 上午10:02:34
+		 * @param req
+		 * @return
+		 */
+		Result appToDetail(AppPoundOrderReq req);
 	
 	}
 

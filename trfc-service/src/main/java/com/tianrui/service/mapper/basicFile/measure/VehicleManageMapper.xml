@@ -478,4 +478,33 @@
 		from tr_vehicle_db_manage
 		where vehicleno = #{vehicleno,jdbcType=VARCHAR} and RFID = #{rfid,jdbcType=VARCHAR} and state = '1'
 	</select>
+	<select id="appQueryVehiclePage" parameterType="com.tianrui.api.req.businessManage.app.AppQueryReq" resultType="com.tianrui.api.resp.businessManage.app.AppVehicleResp">
+		select id, vehicleno as vehicle
+		from tr_vehicle_db_manage
+		<where>
+			<if test="vehicleno != null and vehicleno != ''">
+				and vehicleno like CONCAT('%', #{key,jdbcType=VARCHAR}, '%')
+			</if>
+			<if test="state != null and state != ''">
+				and state = #{state,jdbcType=VARCHAR}
+			</if>
+		</where>
+		<if test="start != null and start >= 0">
+			<if test="limit != null">
+				limit #{start,jdbcType=INTEGER},#{limit,jdbcType=INTEGER}
+			</if>
+		</if>
+	</select>
+	<select id="appQueryVehiclePageCount" parameterType="com.tianrui.api.req.businessManage.app.AppQueryReq" resultType="java.lang.Long">
+		select count(0)
+		from tr_vehicle_db_manage
+		<where>
+			<if test="vehicleno != null and vehicleno != ''">
+				and vehicleno like CONCAT('%', #{key,jdbcType=VARCHAR}, '%')
+			</if>
+			<if test="state != null and state != ''">
+				and state = #{state,jdbcType=VARCHAR}
+			</if>
+		</where>
+	</select>
 </mapper>

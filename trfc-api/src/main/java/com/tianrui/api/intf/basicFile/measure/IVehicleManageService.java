@@ -2,11 +2,13 @@ package com.tianrui.api.intf.basicFile.measure;
 
 import com.tianrui.api.req.basicFile.measure.VehicleManageQuery;
 import com.tianrui.api.req.basicFile.measure.VehicleManageSave;
+import com.tianrui.api.req.businessManage.app.AppQueryReq;
 
 import java.util.List;
 
 import com.tianrui.api.req.basicFile.measure.VehicleManageApi;
 import com.tianrui.api.resp.basicFile.measure.VehicleManageResp;
+import com.tianrui.api.resp.businessManage.app.AppVehicleResp;
 import com.tianrui.smartfactory.common.vo.PaginationVO;
 import com.tianrui.smartfactory.common.vo.Result;
 
@@ -39,5 +41,13 @@ public interface IVehicleManageService {
 	Result vehicleCheck(VehicleManageApi vehicleManageApi);
 
 	List<VehicleManageResp> autoCompleteSearch(String term) throws Exception;
+	/**
+	 * @Description app车辆分页查询接口
+	 * @author zhanggaohao
+	 * @version 2017年4月18日 上午10:56:49
+	 * @param req
+	 * @return
+	 */
+	PaginationVO<AppVehicleResp> appToPage(AppQueryReq req);
 
 }

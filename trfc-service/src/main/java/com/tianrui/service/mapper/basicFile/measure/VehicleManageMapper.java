@@ -5,6 +5,8 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 import com.tianrui.api.req.basicFile.measure.VehicleManageQuery;
+import com.tianrui.api.req.businessManage.app.AppQueryReq;
+import com.tianrui.api.resp.businessManage.app.AppVehicleResp;
 import com.tianrui.service.bean.basicFile.measure.VehicleManage;
 
 public interface VehicleManageMapper {
@@ -29,5 +31,9 @@ public interface VehicleManageMapper {
 	List<VehicleManage> autoCompleteSearch(@Param("likeName")String likeName);
 
 	VehicleManage validateVehicle(@Param("vehicleno")String vehicleno, @Param("rfid")String rfid);
+
+	long appQueryVehiclePageCount(AppQueryReq req);
+
+	List<AppVehicleResp> appQueryVehiclePage(AppQueryReq req);
     
 }

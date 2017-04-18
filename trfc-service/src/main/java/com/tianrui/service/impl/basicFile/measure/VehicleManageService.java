@@ -15,9 +15,11 @@ import com.tianrui.api.intf.system.base.ISystemCodeService;
 import com.tianrui.api.req.basicFile.measure.BlacklistManageReq;
 import com.tianrui.api.req.basicFile.measure.VehicleManageQuery;
 import com.tianrui.api.req.basicFile.measure.VehicleManageSave;
+import com.tianrui.api.req.businessManage.app.AppQueryReq;
 import com.tianrui.api.req.system.base.GetCodeReq;
 import com.tianrui.api.req.basicFile.measure.VehicleManageApi;
 import com.tianrui.api.resp.basicFile.measure.VehicleManageResp;
+import com.tianrui.api.resp.businessManage.app.AppVehicleResp;
 import com.tianrui.service.bean.basicFile.measure.VehicleManage;
 import com.tianrui.service.bean.businessManage.salesManage.SalesArrive;
 import com.tianrui.service.bean.common.RFID;
@@ -360,6 +362,25 @@ public class VehicleManageService implements IVehicleManageService {
 			}
 		}
 		return result;
+	}
+
+	@Override
+	public PaginationVO<AppVehicleResp> appToPage(AppQueryReq req) {
+		PaginationVO<AppVehicleResp> page = null;
+		if (req != null) {
+			page = new PaginationVO<AppVehicleResp>();
+			long count = vehicleManageMapper.appQueryVehiclePageCount(req);
+			if (count > 0) {
+				req.setStart((req.getPageNo() - 1) * req.getPageSize());
+				req.setLimit(req.getPageSize());
+				List<AppVehicleResp> list = this.vehicleManageMapper.appQueryVehiclePage(req);
+				page.setList(list);
+			}
+			page.setTotal(count);
+			page.setPageNo(req.getPageNo());
+			page.setPageSize(req.getPageSize());
+		}
+		return page;
 	}
 
 }

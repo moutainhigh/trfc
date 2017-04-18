@@ -306,10 +306,10 @@ public class PurchaseApplicationService implements IPurchaseApplicationService {
 		PaginationVO<AppOrderResp> page = null;
 		if(req != null){
 			page = new PaginationVO<AppOrderResp>();
-			req.setStart((req.getPageNo()-1)*req.getPageSize());
-			req.setLimit(req.getPageSize());
 			long count = purchaseApplicationMapper.findAppToPageGroupMaterielCount(req);
 			if(count > 0){
+				req.setStart((req.getPageNo() - 1) * req.getPageSize());
+				req.setLimit(req.getPageSize());
 				List<AppOrderResp> list = purchaseApplicationMapper.findAppToPageGroupMateriel(req);
 				page.setList(list);
 			}

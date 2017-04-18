@@ -9,6 +9,8 @@ public class AppDriverSaveReq extends BaseReq{
 	private String userId;
 	//姓名
 	private String name;
+	//简称
+	private String abbrname;
 	//电话
 	private String mobile;
 	//地址
@@ -28,6 +30,12 @@ public class AppDriverSaveReq extends BaseReq{
 	}
 	public void setName(String name) {
 		this.name = name;
+	}
+	public String getAbbrname() {
+		return abbrname;
+	}
+	public void setAbbrname(String abbrname) {
+		this.abbrname = abbrname;
 	}
 	public String getMobile() {
 		return mobile;

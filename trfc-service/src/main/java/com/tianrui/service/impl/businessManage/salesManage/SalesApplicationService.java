@@ -568,10 +568,10 @@ public class SalesApplicationService implements ISalesApplicationService {
 		PaginationVO<AppOrderResp> page = null;
 		if(req != null){
 			page = new PaginationVO<AppOrderResp>();
-			req.setStart((req.getPageNo()-1)*req.getPageSize());
-			req.setLimit(req.getPageSize());
 			long count = salesApplicationMapper.findAppToPageGroupMaterielCount(req);
 			if(count > 0){
+				req.setStart((req.getPageNo() - 1) * req.getPageSize());
+				req.setLimit(req.getPageSize());
 				List<AppOrderResp> list = salesApplicationMapper.findAppToPageGroupMateriel(req);
 				page.setList(list);
 			}

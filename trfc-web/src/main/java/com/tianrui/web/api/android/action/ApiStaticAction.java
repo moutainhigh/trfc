@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.tianrui.api.intf.basicFile.measure.IDriverManageService;
+import com.tianrui.api.intf.basicFile.measure.IVehicleManageService;
 import com.tianrui.api.intf.businessManage.poundNoteMaintain.IPoundNoteService;
 import com.tianrui.api.intf.businessManage.purchaseManage.IPurchaseApplicationService;
 import com.tianrui.api.intf.businessManage.purchaseManage.IPurchaseArriveService;
@@ -37,6 +39,7 @@ import com.tianrui.api.resp.businessManage.app.AppVehicleInFactoryResp;
 import com.tianrui.api.resp.businessManage.app.AppVehicleResp;
 import com.tianrui.api.resp.businessManage.app.AppVersionResp;
 import com.tianrui.api.resp.system.auth.SystemUserResp;
+import com.tianrui.service.impl.basicFile.measure.VehicleManageService;
 import com.tianrui.smartfactory.common.api.ApiParam;
 import com.tianrui.smartfactory.common.api.ApiResult;
 import com.tianrui.smartfactory.common.constants.Constant;
@@ -70,6 +73,10 @@ public class ApiStaticAction {
 	private IPurchaseArriveService purchaseArriveService;
 	@Autowired
 	private IPoundNoteService poundNoteService;
+	@Autowired
+	private IVehicleManageService vehicleManageService;
+	@Autowired
+	private IDriverManageService driverManageService;
 	
 	@RequestMapping(value="/login",method=RequestMethod.POST)
 	@ApiParamRawType(AppUserReq.class)
@@ -289,15 +296,13 @@ public class ApiStaticAction {
 	@ApiParamRawType(AppPoundOrderReq.class)
 	@ResponseBody
 	public ApiResult overListDetail(ApiParam<AppPoundOrderReq> appParam){
-		Result rs = Result.getSuccessResult();
+		Result rs = Result.getErrorResult();
 		try {
 			AppPoundOrderReq req = appParam.getBody();
 			SystemUserResp user = systemUserService.get(appParam.getHead().getUserId());
 			if(user != null){
-				req.setUserId(user.getId());
 				req.setIdentityTypes(user.getIdentityTypes());
-				PaginationVO<AppPoundOrderResp> page = poundNoteService.appToPage(req);
-				rs.setData(page);
+				rs = poundNoteService.appToDetail(req);
 			}else{
 				rs.setErrorCode(ErrorCode.SYSTEM_USER_ERROR1);
 			}
@@ -317,25 +322,15 @@ public class ApiStaticAction {
 	@RequestMapping(value="/vehicleList",method=RequestMethod.POST)
 	@ApiParamRawType(AppQueryReq.class)
 	@ResponseBody
-	public ApiResult vehicleList(ApiParam<AppQueryReq> req){
-		AppQueryReq userReq =req.getBody();
-		Result rs=Result.getSuccessResult();
-		
-		
-		PaginationVO<AppVehicleResp> page=new PaginationVO<AppVehicleResp>();
-		
-		List<AppVehicleResp> list =new ArrayList<AppVehicleResp>();
-		AppVehicleResp item =new AppVehicleResp();
-		item.setId(UUIDUtil.getId());
-		item.setVehicle("临A12345");
-		list.add(item);
-		
-		page.setPageNo(1);
-		page.setTotal(19);
-		page.setList(list);
-		
-		
-		rs.setData(page);
+	public ApiResult vehicleList(ApiParam<AppQueryReq> appParam){
+		Result rs = Result.getSuccessResult();
+		try {
+			PaginationVO<AppVehicleResp> page = vehicleManageService.appToPage(appParam.getBody());
+			rs.setData(page);
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			rs.setErrorCode(ErrorCode.SYSTEM_ERROR);
+		}
 		return ApiResult.valueOf(rs);
 	}
 	
@@ -347,23 +342,15 @@ public class ApiStaticAction {
 	@RequestMapping(value="/driverList",method=RequestMethod.POST)
 	@ApiParamRawType(AppQueryReq.class)
 	@ResponseBody
-	public ApiResult driverList(ApiParam<AppQueryReq> req){
-		AppQueryReq userReq =req.getBody();
-		PaginationVO<AppDriverResp> page=new PaginationVO<AppDriverResp>();
-		
-		Result rs=Result.getSuccessResult();
-		List<AppDriverResp> list =new ArrayList<AppDriverResp>();
-		AppDriverResp item =new AppDriverResp();
-		item.setId(UUIDUtil.getId());
-		item.setIdNo("4104821987xxxx6756");
-		item.setName("李先生");
-		list.add(item);
-		
-		page.setPageNo(1);
-		page.setTotal(19);
-		page.setList(list);
-		
-		rs.setData(page);
+	public ApiResult driverList(ApiParam<AppQueryReq> appParam){
+		Result rs = Result.getSuccessResult();
+		try {
+			PaginationVO<AppDriverResp> page = driverManageService.appToPage(appParam.getBody());
+			rs.setData(page);
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			rs.setErrorCode(ErrorCode.SYSTEM_ERROR);
+		}
 		return ApiResult.valueOf(rs);
 	}
 	/**
@@ -374,10 +361,26 @@ public class ApiStaticAction {
 	@RequestMapping(value="/orderCrate",method=RequestMethod.POST)
 	@ApiParamRawType(AppOrderSaveReq.class)
 	@ResponseBody
-	public ApiResult orderCrate(ApiParam<AppOrderSaveReq> req){
-		AppOrderSaveReq userReq =req.getBody();
-		Result rs=Result.getSuccessResult();
-		
+	public ApiResult orderCrate(ApiParam<AppOrderSaveReq> appParam){
+		Result rs = Result.getErrorResult();
+		try {
+			AppOrderSaveReq req = appParam.getBody();
+			SystemUserResp user = systemUserService.get(appParam.getHead().getUserId());
+			if(user != null){
+				req.setUserId(user.getId());
+				if(StringUtils.equals(user.getIdentityTypes(), Constant.USER_SUPPLIER)){
+					rs = purchaseArriveService.appToAddNotice(req);
+				}
+				if(StringUtils.equals(user.getIdentityTypes(), Constant.USER_CUSTOMER)){
+					rs = salesArriveService.appToAddNotice(req);
+				}
+			}else{
+				rs.setErrorCode(ErrorCode.SYSTEM_USER_ERROR1);
+			}
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			rs.setErrorCode(ErrorCode.SYSTEM_ERROR);
+		}
 		return ApiResult.valueOf(rs);
 	}
 	
@@ -389,10 +392,14 @@ public class ApiStaticAction {
 	@RequestMapping(value="/driverCreate",method=RequestMethod.POST)
 	@ApiParamRawType(AppDriverSaveReq.class)
 	@ResponseBody
-	public ApiResult driverCreate(ApiParam<AppDriverSaveReq> req){
-		AppDriverSaveReq userReq =req.getBody();
-		Result rs=Result.getSuccessResult();
-
+	public ApiResult driverCreate(ApiParam<AppDriverSaveReq> appParam){
+		Result rs = Result.getErrorResult();
+		try {
+			rs = driverManageService.appDriverCreate(appParam.getBody());
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			rs.setErrorCode(ErrorCode.SYSTEM_ERROR);
+		}
 		return ApiResult.valueOf(rs);
 	}
 	/**
@@ -403,21 +410,26 @@ public class ApiStaticAction {
 	@RequestMapping(value="/vehicleInFactory",method=RequestMethod.POST)
 	@ApiParamRawType(AppOrderReq.class)
 	@ResponseBody
-	public ApiResult vehicleInFactory(ApiParam<AppOrderReq> req){
-		AppOrderReq userReq =req.getBody();
-		PaginationVO<AppVehicleInFactoryResp> page=new PaginationVO<AppVehicleInFactoryResp>();
-		Result rs=Result.getSuccessResult();
-		List<AppVehicleInFactoryResp> list =new ArrayList<AppVehicleInFactoryResp>();
-		AppVehicleInFactoryResp item =new AppVehicleInFactoryResp();
-		item.setMaterName("水泥525");
-		item.setVehicleCount("20");
-		list.add(item);
-		
-		page.setPageNo(1);
-		page.setTotal(19);
-		page.setList(list);
-		
-		rs.setData(page);
+	public ApiResult vehicleInFactory(ApiParam<AppOrderReq> appParam){
+		Result rs = Result.getErrorResult();
+		try {
+			AppOrderReq req = appParam.getBody();
+			SystemUserResp user = systemUserService.get(appParam.getHead().getUserId());
+			if(user != null){
+				req.setUserId(user.getId());
+				if(StringUtils.equals(user.getIdentityTypes(), Constant.USER_SUPPLIER)){
+					rs = purchaseArriveService.appInfoFactoryVehicleAndMaterial(req);
+				}
+				if(StringUtils.equals(user.getIdentityTypes(), Constant.USER_CUSTOMER)){
+					rs = salesArriveService.appInfoFactoryVehicleAndMaterial(req);
+				}
+			}else{
+				rs.setErrorCode(ErrorCode.SYSTEM_USER_ERROR1);
+			}
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			rs.setErrorCode(ErrorCode.SYSTEM_ERROR);
+		}
 		return ApiResult.valueOf(rs);
 	}
 	
@@ -494,9 +506,13 @@ public class ApiStaticAction {
 	@ApiParamRawType(AppUserEditReq.class)
 	@ResponseBody
 	public ApiResult userEdit(ApiParam<AppUserEditReq> req){
-		AppUserEditReq userReq =req.getBody();
-		Result rs=Result.getSuccessResult();
-		
+		Result rs = Result.getSuccessResult();
+		try {
+			rs = systemUserService.appUpdateUser(req.getBody());
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			rs.setErrorCode(ErrorCode.SYSTEM_ERROR);
+		}
 		return ApiResult.valueOf(rs);
 	}
 	

@@ -13,8 +13,11 @@ import com.tianrui.api.intf.basicFile.measure.IDriverManageService;
 import com.tianrui.api.intf.system.base.ISystemCodeService;
 import com.tianrui.api.req.basicFile.measure.DriverManageQuery;
 import com.tianrui.api.req.basicFile.measure.DriverManageSave;
+import com.tianrui.api.req.businessManage.app.AppDriverSaveReq;
+import com.tianrui.api.req.businessManage.app.AppQueryReq;
 import com.tianrui.api.req.system.base.GetCodeReq;
 import com.tianrui.api.resp.basicFile.measure.DriverManageResp;
+import com.tianrui.api.resp.businessManage.app.AppDriverResp;
 import com.tianrui.service.bean.basicFile.measure.DriverManage;
 import com.tianrui.service.mapper.basicFile.measure.DriverManageMapper;
 import com.tianrui.smartfactory.common.constants.Constant;
@@ -171,6 +174,48 @@ public class DriverManageService implements IDriverManageService {
 			PropertyUtils.copyProperties(resp, bean);
 		}
 		return resp;
+	}
+
+	@Override
+	public PaginationVO<AppDriverResp> appToPage(AppQueryReq req) {
+		PaginationVO<AppDriverResp> page = null;
+		if (req != null) {
+			page = new PaginationVO<AppDriverResp>();
+			long count = driverManageMapper.appQueryDriverPageCount(req);
+			if (count > 0) {
+				req.setStart((req.getPageNo() - 1) * req.getPageSize());
+				req.setLimit(req.getPageSize());
+				List<AppDriverResp> list = this.driverManageMapper.appQueryDriverPage(req);
+				page.setList(list);
+			}
+			page.setTotal(count);
+			page.setPageNo(req.getPageNo());
+			page.setPageSize(req.getPageSize());
+		}
+		return page;
+	}
+
+	@Override
+	public Result appDriverCreate(AppDriverSaveReq req) {
+		Result result = Result.getParamErrorResult();
+		if(req != null
+				&& StringUtils.isNotBlank(req.getName())
+				&& StringUtils.isNotBlank(req.getIdNo())){
+			DriverManage bean = new DriverManage();
+			bean.setId(UUIDUtil.getId());
+			bean.setName(req.getName());
+			bean.setAbbrname(req.getAbbrname());
+			bean.setTelephone(req.getMobile());
+			bean.setAddress(req.getAddr());
+			bean.setIdentityno(req.getIdNo());
+			bean.setRemarks(req.getRemark());
+			if(driverManageMapper.insertSelective(bean) > 0){
+				result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+			}else{
+				result.setErrorCode(ErrorCode.OPERATE_ERROR);
+			}
+		}
+		return result;
 	}
 
 }

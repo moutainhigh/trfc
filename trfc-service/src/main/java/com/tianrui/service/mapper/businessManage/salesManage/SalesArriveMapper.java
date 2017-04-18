@@ -5,8 +5,10 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 import com.tianrui.api.req.businessManage.app.AppNoticeOrderReq;
+import com.tianrui.api.req.businessManage.app.AppOrderReq;
 import com.tianrui.api.req.businessManage.salesManage.SalesArriveQuery;
 import com.tianrui.api.resp.businessManage.app.AppNoticeOrderResp;
+import com.tianrui.api.resp.businessManage.app.AppVehicleInFactoryResp;
 import com.tianrui.service.bean.businessManage.salesManage.SalesArrive;
 
 public interface SalesArriveMapper {
@@ -97,7 +99,7 @@ public interface SalesArriveMapper {
 	 */
 	List<SalesArrive> validNoticeByVehicle(@Param("vehicleno")String vehicleno, @Param("vehiclerfid")String vehiclerfid);
 	/**
-	 * @Description app采购通知单分页接口
+	 * @Description app销售通知单分页接口
 	 * @author zhanggaohao
 	 * @version 2017年4月15日 下午2:24:18
 	 * @param req
@@ -105,11 +107,19 @@ public interface SalesArriveMapper {
 	 */
 	long findAppNoticePageCount(AppNoticeOrderReq req);
 	/**
-	 * @Description app采购通知单分页接口
+	 * @Description app销售通知单分页接口
 	 * @author zhanggaohao
 	 * @version 2017年4月15日 下午2:24:58
 	 * @param req
 	 * @return
 	 */
 	List<AppNoticeOrderResp> findAppNoticePage(AppNoticeOrderReq req);
+	/**
+	 * @Description app销售在厂车辆查询接口
+	 * @author zhanggaohao
+	 * @version 2017年4月18日 下午2:14:29
+	 * @param req
+	 * @return
+	 */
+	List<AppVehicleInFactoryResp> appInfoFactoryVehicleAndMaterial(AppOrderReq req);
 }

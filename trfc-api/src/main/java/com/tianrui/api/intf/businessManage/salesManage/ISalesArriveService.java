@@ -3,6 +3,8 @@ package com.tianrui.api.intf.businessManage.salesManage;
 import java.util.List;
 
 import com.tianrui.api.req.businessManage.app.AppNoticeOrderReq;
+import com.tianrui.api.req.businessManage.app.AppOrderReq;
+import com.tianrui.api.req.businessManage.app.AppOrderSaveReq;
 import com.tianrui.api.req.businessManage.salesManage.ApiDoorQueueQuery;
 import com.tianrui.api.req.businessManage.salesManage.ApiSalesArriveQuery;
 import com.tianrui.api.req.businessManage.salesManage.SalesArriveQuery;
@@ -122,5 +124,21 @@ public interface ISalesArriveService {
 	 * @return
 	 */
 	Result appToDetail(AppNoticeOrderReq req);
+	/**
+	 * @Description app销售在厂车辆查询接口
+	 * @author zhanggaohao
+	 * @version 2017年4月18日 下午1:59:57
+	 * @param req
+	 * @return
+	 */
+	Result appInfoFactoryVehicleAndMaterial(AppOrderReq req);
+	/**
+	 * @Description app销售通知单新增接口
+	 * @author zhanggaohao
+	 * @version 2017年4月18日 下午2:43:50
+	 * @param req
+	 * @return
+	 */
+	Result appToAddNotice(AppOrderSaveReq req);
 
 }

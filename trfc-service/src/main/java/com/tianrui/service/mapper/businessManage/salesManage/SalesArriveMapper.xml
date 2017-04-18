@@ -781,4 +781,19 @@
 	  </if>
   	</where>
   </select>
+  <select id="appInfoFactoryVehicleAndMaterial" parameterType="com.tianrui.api.req.businessManage.app.AppOrderReq" resultType="com.tianrui.api.resp.businessManage.app.AppVehicleInFactoryResp">
+  	select s3.materielname as materName, count(s1.vehicleno) as vehicleCount
+	from tr_sales_db_arrive s1
+		left join tr_sales_db_application s2 on s1.billid = s2.id
+		left join tr_sales_db_application_detail s3 on s1.billdetailid = s3.id
+	<where>
+  	  <if test="state != null and state !=''" >
+        and s1.state = #{state,jdbcType=VARCHAR}
+      </if>
+  	  <if test="userId != null and userId !=''" >
+        and s2.supplierid = #{userId,jdbcType=VARCHAR}
+      </if>
+	</where>
+	group by s3.materielname
+  </select>
 </mapper>

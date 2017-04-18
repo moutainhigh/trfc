@@ -1268,6 +1268,8 @@ public class PoundNoteService implements IPoundNoteService {
 			page = new PaginationVO<AppPoundOrderResp>();
 			long count = poundNoteMapper.appPurchasePageCount(req);
 			if(count > 0){
+				req.setStart((req.getPageNo() - 1) * req.getPageSize());
+				req.setLimit(req.getPageSize());
 				List<AppPoundOrderResp> list = poundNoteMapper.appPurchasePage(req);
 				page.setList(list);
 			}
@@ -1284,6 +1286,8 @@ public class PoundNoteService implements IPoundNoteService {
 			page = new PaginationVO<AppPoundOrderResp>();
 			long count = poundNoteMapper.appSalesPageCount(req);
 			if(count > 0){
+				req.setStart((req.getPageNo() - 1) * req.getPageSize());
+				req.setLimit(req.getPageSize());
 				List<AppPoundOrderResp> list = poundNoteMapper.appSalesPage(req);
 				page.setList(list);
 			}
@@ -1292,6 +1296,38 @@ public class PoundNoteService implements IPoundNoteService {
 			page.setTotal(count);
 		}
 		return page;
+	}
+
+	@Override
+	public Result appToDetail(AppPoundOrderReq req) {
+		Result result = Result.getParamErrorResult();
+		if(req != null && StringUtils.isNotBlank(req.getId())){
+			PoundNote poundNote = poundNoteMapper.selectByPrimaryKey(req.getId());
+			AppPoundOrderResp resp = new AppPoundOrderResp();
+			resp.setId(poundNote.getId());
+			resp.setCode(poundNote.getCode());
+			resp.setBillcode(poundNote.getBillcode());
+			resp.setNoticecode(poundNote.getNoticecode());
+			resp.setVehicleno(poundNote.getVehicleno());
+			resp.setLighttime(poundNote.getLighttime());
+			resp.setWeighttime(poundNote.getWeighttime());
+			resp.setPickupquantity(poundNote.getPickupquantity());
+			resp.setGrossweight(poundNote.getGrossweight());
+			resp.setTareweight(poundNote.getTareweight());
+			resp.setNetweight(poundNote.getNetweight());
+			resp.setSerialnumber(poundNote.getSerialnumber());
+			if(StringUtils.equals(req.getIdentityTypes(), Constant.USER_SUPPLIER)){
+				PurchaseApplicationDetail purchaseApplicationDetail = purchaseApplicationDetailMapper.selectByPrimaryKey(poundNote.getBilldetailid());
+				resp.setMaterielname(purchaseApplicationDetail.getMaterielname());
+			}
+			if(StringUtils.equals(req.getIdentityTypes(), Constant.USER_CUSTOMER)){
+				SalesApplicationDetail salesApplicationDetail = salesApplicationDetailMapper.selectByPrimaryKey(poundNote.getBilldetailid());
+				resp.setMaterielname(salesApplicationDetail.getMaterielname());
+			}
+			result.setData(resp);
+			result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+		}
+		return result;
 	}
 
 }

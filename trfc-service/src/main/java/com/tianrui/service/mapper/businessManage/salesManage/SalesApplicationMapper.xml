@@ -683,7 +683,7 @@
 		#{item}  
 	</foreach>
   </select>
-  <select id="findAppToPageGroupMateriel" parameterType="com.tianrui.api.req.businessManage.app.AppOrderReq" resultType="java.lang.Long">
+  <select id="findAppToPageGroupMaterielCount" parameterType="com.tianrui.api.req.businessManage.app.AppOrderReq" resultType="java.lang.Long">
   	select count(0)
   	from tr_sales_db_application s1 left join tr_sales_db_application_detail s2 
   	on s1.id = s2.salesid
@@ -708,7 +708,7 @@
 	 	</if>
   	</where>
   </select>
-  <select id="findAppToPageGroupMaterielCount" parameterType="com.tianrui.api.req.businessManage.app.AppOrderReq" resultType="com.tianrui.api.resp.businessManage.app.AppOrderResp">
+  <select id="findAppToPageGroupMateriel" parameterType="com.tianrui.api.req.businessManage.app.AppOrderReq" resultType="com.tianrui.api.resp.businessManage.app.AppOrderResp">
   	select
   	s1.id, s2.id as detailid, s1.code, s2.materielname as materialName, s2.salessum as billSum, s2.margin
   	from tr_sales_db_application s1 left join tr_sales_db_application_detail s2 on s1.id = s2.salesid

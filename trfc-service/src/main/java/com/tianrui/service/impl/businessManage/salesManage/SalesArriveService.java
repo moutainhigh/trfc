@@ -21,6 +21,8 @@ import com.tianrui.api.intf.businessManage.salesManage.ISalesArriveService;
 import com.tianrui.api.intf.system.auth.ISystemUserService;
 import com.tianrui.api.intf.system.base.ISystemCodeService;
 import com.tianrui.api.req.businessManage.app.AppNoticeOrderReq;
+import com.tianrui.api.req.businessManage.app.AppOrderReq;
+import com.tianrui.api.req.businessManage.app.AppOrderSaveReq;
 import com.tianrui.api.req.businessManage.salesManage.ApiDoorQueueQuery;
 import com.tianrui.api.req.businessManage.salesManage.ApiSalesArriveQuery;
 import com.tianrui.api.req.businessManage.salesManage.SalesArriveQuery;
@@ -740,10 +742,10 @@ public class SalesArriveService implements ISalesArriveService {
 		PaginationVO<AppNoticeOrderResp> page = null;
 		if(req != null){
 			page = new PaginationVO<AppNoticeOrderResp>();
-			req.setStart((req.getPageNo() - 1) * req.getPageSize());
-			req.setLimit(req.getPageSize());
 			long count = salesArriveMapper.findAppNoticePageCount(req);
 			if(count > 0){
+				req.setStart((req.getPageNo() - 1) * req.getPageSize());
+				req.setLimit(req.getPageSize());
 				List<AppNoticeOrderResp> list = salesArriveMapper.findAppNoticePage(req);
 				page.setList(list);
 			}
@@ -784,6 +786,22 @@ public class SalesArriveService implements ISalesArriveService {
 			}
 		}
 		return result;
+	}
+
+	@Override
+	public Result appInfoFactoryVehicleAndMaterial(AppOrderReq req) {
+		Result result = Result.getParamErrorResult();
+		if(req != null && StringUtils.isNotBlank(req.getUserId())){
+			result.setData(salesArriveMapper.appInfoFactoryVehicleAndMaterial(req));
+			result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+		}
+		return result;
+	}
+
+	@Override
+	public Result appToAddNotice(AppOrderSaveReq req) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

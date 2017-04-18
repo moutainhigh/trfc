@@ -1270,7 +1270,7 @@
 			</if>
 		</if>
     </select>
-    <select id="appPurchasePageCount" parameterType="com.tianrui.api.req.businessManage.app.AppPoundOrderReq" resultType="com.tianrui.api.req.businessManage.app.AppPoundOrderResp">
+    <select id="appPurchasePageCount" parameterType="com.tianrui.api.req.businessManage.app.AppPoundOrderReq" resultType="java.lang.Long">
     	select count(0)
     	from tr_pound_db_note p1
     	left tr_purchase_db_application p2 on p1.billid = p2.id
@@ -1359,7 +1359,7 @@
 			</if>
 		</if>
     </select>
-    <select id="appSalesPageCount" parameterType="com.tianrui.api.req.businessManage.app.AppPoundOrderReq" resultType="com.tianrui.api.req.businessManage.app.AppPoundOrderResp">
+    <select id="appSalesPageCount" parameterType="com.tianrui.api.req.businessManage.app.AppPoundOrderReq" resultType="java.lang.Long">
     	select count(0)
     	from tr_pound_db_note p1
     	left tr_sales_db_application p2 on p1.billid = p2.id

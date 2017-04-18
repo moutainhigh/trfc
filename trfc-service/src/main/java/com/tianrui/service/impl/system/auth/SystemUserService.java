@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.tianrui.api.intf.system.auth.ISystemUserService;
+import com.tianrui.api.req.businessManage.app.AppUserEditReq;
 import com.tianrui.api.req.system.auth.AppUserReq;
 import com.tianrui.api.req.system.auth.SystemUserPswdReq;
 import com.tianrui.api.req.system.auth.SystemUserQueryReq;
@@ -459,6 +460,24 @@ public class SystemUserService implements ISystemUserService {
 				}
 			}else{
 				result.setErrorCode(ErrorCode.SYSTEM_USER_ERROR1);
+			}
+		}
+		return result;
+	}
+
+	@Override
+	public Result appUpdateUser(AppUserEditReq req) {
+		Result result = Result.getParamErrorResult();
+		if(req != null
+				&& StringUtils.isNotBlank(req.getUserId())
+				&& StringUtils.isNotBlank(req.getNickName())){
+			SystemUser user = new SystemUser();
+			user.setId(req.getUserId());
+			user.setName(req.getNickName());
+			if(userMapper.updateByPrimaryKeySelective(user) > 0){
+				result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+			}else{
+				result.setErrorCode(ErrorCode.OPERATE_ERROR);
 			}
 		}
 		return result;
