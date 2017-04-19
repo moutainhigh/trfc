@@ -138,7 +138,8 @@ public interface ISalesArriveService {
 	 * @version 2017年4月18日 下午2:43:50
 	 * @param req
 	 * @return
+	 * @throws Exception 
 	 */
-	Result appToAddNotice(AppOrderSaveReq req);
+	Result appToAddNotice(AppOrderSaveReq req) throws Exception;
 
 }

@@ -118,7 +118,8 @@ public interface IPurchaseArriveService {
 	 * @version 2017年4月18日 下午2:43:19
 	 * @param req
 	 * @return
+	 * @throws Exception 
 	 */
-	Result appToAddNotice(AppOrderSaveReq req);
+	Result appToAddNotice(AppOrderSaveReq req) throws Exception;
 
 }

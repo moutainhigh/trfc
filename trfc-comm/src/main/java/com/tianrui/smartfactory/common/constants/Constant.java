@@ -57,6 +57,11 @@ public class Constant {
     public final static String USER_CUSTOMER = "1";
     //供应商
     public final static String USER_SUPPLIER = "2";
+    //APP版本
+    //安卓
+    public final static String APP_ANDROID = "android";
+    //苹果
+    public final static String APP_IOS = "ios";
     
     
     

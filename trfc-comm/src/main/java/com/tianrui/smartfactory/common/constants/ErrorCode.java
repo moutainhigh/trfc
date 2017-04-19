@@ -83,6 +83,10 @@ public enum ErrorCode {
 	
 	
 	SYSTEM_AUTH_API_ERROR6("E200101","系统访问接口与子系统类型不匹配."),
+	
+	
+	//APP版本
+	APP_VERSION_EXIST("E300000","未找到该系统适配的版本！");
 	;
 	
 	private String code;

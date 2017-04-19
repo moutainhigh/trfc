@@ -149,163 +149,169 @@ public class SalesArriveService implements ISalesArriveService {
 				&& StringUtils.isNotBlank(save.getVehicleid())
 				&& StringUtils.isNotBlank(save.getBilldetailid())){
 			SalesArrive bean = new SalesArrive();
-			bean.setVehicleid(save.getVehicleid());
-			List<SalesArrive> listVehicle = salesArriveMapper.checkDriverAndVehicleIsUse(bean);
-			if(listVehicle != null && listVehicle.size() > 0){
-				result.setErrorCode(ErrorCode.PARAM_REPEAT_ERROR);
-				result.setError("此车辆己有提货通知单、待出厂后进行派车，现有车辆业务单据号为:"+listVehicle.get(0).getCode()+"，如有疑问请与销售处联系！");
-				return result;
-			}
-			PurchaseArrive pa = new PurchaseArrive();
-			pa.setVehicleid(save.getVehicleid());
-			List<PurchaseArrive> listVehicle1 = purchaseArriveMapper.checkDriverAndVehicleIsUse(pa);
-			if(listVehicle1 != null && listVehicle1.size() > 0){
-				result.setErrorCode(ErrorCode.PARAM_REPEAT_ERROR);
-				result.setError("此车辆己有到货通知单、待出厂后进行派车，现有车辆业务单据号为:"+listVehicle1.get(0).getCode()+"，如有疑问请与销售处联系！");
-				return result;
-			}
-			bean.setVehicleid(null);
-			bean.setDriverid(save.getDriverid());
-			List<SalesArrive> listDriver = salesArriveMapper.checkDriverAndVehicleIsUse(bean);
-			if(listDriver != null && listDriver.size() > 0){
-				result.setErrorCode(ErrorCode.PARAM_REPEAT_ERROR);
-				result.setError("此司机己有提货通知单、待出厂后进行派车，现有车辆业务单据号为:"+listDriver.get(0).getCode()+"，如有疑问请与销售处联系！");
-				return result;
-			}
-			pa.setVehicleid(null);
-			pa.setDriverid(save.getDriverid());
-			List<PurchaseArrive> listDriver1 = purchaseArriveMapper.checkDriverAndVehicleIsUse(pa);
-			if(listDriver1 != null && listDriver1.size() > 0){
-				result.setErrorCode(ErrorCode.PARAM_REPEAT_ERROR);
-				result.setError("此司机己有到货通知单、待出厂后进行派车，现有车辆业务单据号为:"+listDriver1.get(0).getCode()+"，如有疑问请与销售处联系！");
-				return result;
-			}
-			//ic卡信息
-			if(StringUtils.isNotBlank(save.getIcardno())){
+			if(validVehicleAndDriver(save, result, bean)){
+				PropertyUtils.copyProperties(bean, save);
+				bean.setId(UUIDUtil.getId());
+				VehicleManageResp vehicle = vehicleManageService.findOne(save.getVehicleid());
+				if(vehicle != null){
+					bean.setVehicleno(vehicle.getVehicleno());
+					bean.setVehiclerfid(vehicle.getRfid());
+				}
+				DriverManageResp driver = driverManageService.findOne(save.getDriverid());
+				if(driver != null){
+					bean.setDrivername(driver.getName());
+					bean.setDriveridentityno(driver.getIdentityno());
+				}
 				Card card = cardMapper.selectByCardno(save.getIcardno());
 				if(card!=null){
-					//ic卡是否占用
-					SalesArrive sales1 = salesArriveMapper.checkICUse(card.getId());
-					PurchaseArrive purchase1 = purchaseArriveMapper.checkICUse(card.getId());
-					if(sales1 == null && purchase1 == null) {
-						save.setIcardid(card.getId());
-					}else{
-						result.setErrorCode(ErrorCode.CARD_IN_USE);
-						return result;
-					}
-				}else{
-					result.setErrorCode(ErrorCode.CARD_NOT_EXIST);
-					return result;
+					bean.setIcardid(card.getId());
+					bean.setIcardno(save.getIcardno());
 				}
-			}
-			
-			PropertyUtils.copyProperties(bean, save);
-			bean.setId(UUIDUtil.getId());
-			VehicleManageResp vehicle = vehicleManageService.findOne(save.getVehicleid());
-			if(vehicle != null){
-				bean.setVehicleno(vehicle.getVehicleno());
-				bean.setVehiclerfid(vehicle.getRfid());
-			}
-			DriverManageResp driver = driverManageService.findOne(save.getDriverid());
-			if(driver != null){
-				bean.setDrivername(driver.getName());
-				bean.setDriveridentityno(driver.getIdentityno());
-			}
-			Card card = cardMapper.selectByCardno(save.getIcardno());
-			if(card!=null){
-				bean.setIcardid(card.getId());
-				bean.setIcardno(save.getIcardno());
-			}
-			SalesApplicationResp salesApplicationResp = salesApplicationService.findOne(save.getBillid(), false);
-			if(salesApplicationResp != null){
-				bean.setBillcode(salesApplicationResp.getCode());
-			}
-			SalesApplicationDetailResp salesApplicationDetailResp = salesApplicationDetailService.findOne(save.getBilldetailid());
-			if(salesApplicationDetailResp != null){
-				bean.setUnit(salesApplicationDetailResp.getUnit());
-			}
-			GetCodeReq codeReq = new GetCodeReq();
-			codeReq.setCode("TH");
-			codeReq.setCodeType(true);
-			codeReq.setUserid(save.getCurrUId());
-			bean.setCode(systemCodeService.getCode(codeReq).getData().toString());
-			bean.setAuditstatus("0");
-			bean.setStatus("0");
-			bean.setState("1");
-			bean.setSource("0");
-			bean.setMakerid(save.getCurrUId());
-			bean.setMakebillname(systemUserService.getUser(save.getCurrUId()).getName());
-			bean.setCreator(save.getCurrUId());
-			bean.setCreatetime(System.currentTimeMillis());
-			bean.setModifier(save.getCurrUId());
-			bean.setModifytime(System.currentTimeMillis());
-			JSONArray array = JSONArray.parseArray(bills);
-			List<SalesApplicationJoinNatice> list = new ArrayList<SalesApplicationJoinNatice>();
-			boolean flag = false;
-			if(array != null && array.size() > 0){
-				Double takeamount = bean.getTakeamount();
-				for(Object object : array){
-					SalesApplicationJoinNatice join = new SalesApplicationJoinNatice();
-					JSONObject jsonObject = (JSONObject) object;
-					String billid = jsonObject.getString("billid");
-					String billdetailid = jsonObject.getString("billdetailid");
-					join.setId(UUIDUtil.getId());
-					join.setBillid(billid);
-					join.setBilldetailid(billdetailid);
-					join.setNaticeid(bean.getId());
-					join.setTakeamount(bean.getTakeamount());
-					join.setState("1");
-					join.setCreator(bean.getCreator());
-					join.setCreatetime(System.currentTimeMillis());
-					join.setModifier(bean.getModifier());
-					join.setModifytime(System.currentTimeMillis());
-					list.add(join);
+				SalesApplicationResp salesApplicationResp = salesApplicationService.findOne(save.getBillid(), false);
+				if(salesApplicationResp != null){
+					bean.setBillcode(salesApplicationResp.getCode());
+				}
+				SalesApplicationDetailResp salesApplicationDetailResp = salesApplicationDetailService.findOne(save.getBilldetailid());
+				if(salesApplicationDetailResp != null){
+					bean.setUnit(salesApplicationDetailResp.getUnit());
+				}
+				GetCodeReq codeReq = new GetCodeReq();
+				codeReq.setCode("TH");
+				codeReq.setCodeType(true);
+				codeReq.setUserid(save.getCurrUId());
+				bean.setCode(systemCodeService.getCode(codeReq).getData().toString());
+				bean.setAuditstatus("0");
+				bean.setStatus("0");
+				bean.setState("1");
+				bean.setSource("0");
+				bean.setMakerid(save.getCurrUId());
+				bean.setMakebillname(systemUserService.getUser(save.getCurrUId()).getName());
+				bean.setCreator(save.getCurrUId());
+				bean.setCreatetime(System.currentTimeMillis());
+				bean.setModifier(save.getCurrUId());
+				bean.setModifytime(System.currentTimeMillis());
+				JSONArray array = JSONArray.parseArray(bills);
+				List<SalesApplicationJoinNatice> list = new ArrayList<SalesApplicationJoinNatice>();
+				boolean flag = false;
+				if(array != null && array.size() > 0){
+					Double takeamount = bean.getTakeamount();
+					for(Object object : array){
+						SalesApplicationJoinNatice join = new SalesApplicationJoinNatice();
+						JSONObject jsonObject = (JSONObject) object;
+						String billid = jsonObject.getString("billid");
+						String billdetailid = jsonObject.getString("billdetailid");
+						join.setId(UUIDUtil.getId());
+						join.setBillid(billid);
+						join.setBilldetailid(billdetailid);
+						join.setNaticeid(bean.getId());
+						join.setTakeamount(bean.getTakeamount());
+						join.setState("1");
+						join.setCreator(bean.getCreator());
+						join.setCreatetime(System.currentTimeMillis());
+						join.setModifier(bean.getModifier());
+						join.setModifytime(System.currentTimeMillis());
+						list.add(join);
 //					SalesApplicationResp application = salesApplicationService.findOne(billid, false);
-					SalesApplicationDetailResp applicationDetailResp = salesApplicationDetailService.findOne(billdetailid);
-					if(applicationDetailResp != null && takeamount > 0){
-						join.setBillsum(applicationDetailResp.getSalessum());
-						join.setMargin(applicationDetailResp.getMargin());
-						join.setOutstoragequantity(applicationDetailResp.getStoragequantity());
-						join.setUnoutstoragequantity(applicationDetailResp.getUnstoragequantity());
-						join.setPretendingtake(applicationDetailResp.getPretendingtake());
-						//回写订单预提占用
-						if(takeamount > applicationDetailResp.getMargin()){
-							SalesApplicationDetail applicationDetail = new SalesApplicationDetail();
-							applicationDetail.setId(applicationDetailResp.getId());
-							applicationDetail.setMargin(applicationDetailResp.getMargin() - applicationDetailResp.getMargin());
-							applicationDetail.setPretendingtake(applicationDetailResp.getPretendingtake() + applicationDetailResp.getMargin());
-							if(salesApplicationDetailMapper.updateByPrimaryKeySelective(applicationDetail) > 0){
-								flag = true;
+						SalesApplicationDetailResp applicationDetailResp = salesApplicationDetailService.findOne(billdetailid);
+						if(applicationDetailResp != null && takeamount > 0){
+							join.setBillsum(applicationDetailResp.getSalessum());
+							join.setMargin(applicationDetailResp.getMargin());
+							join.setOutstoragequantity(applicationDetailResp.getStoragequantity());
+							join.setUnoutstoragequantity(applicationDetailResp.getUnstoragequantity());
+							join.setPretendingtake(applicationDetailResp.getPretendingtake());
+							//回写订单预提占用
+							if(takeamount > applicationDetailResp.getMargin()){
+								SalesApplicationDetail applicationDetail = new SalesApplicationDetail();
+								applicationDetail.setId(applicationDetailResp.getId());
+								applicationDetail.setMargin(applicationDetailResp.getMargin() - applicationDetailResp.getMargin());
+								applicationDetail.setPretendingtake(applicationDetailResp.getPretendingtake() + applicationDetailResp.getMargin());
+								if(salesApplicationDetailMapper.updateByPrimaryKeySelective(applicationDetail) > 0){
+									flag = true;
+								}else{
+									flag = false;
+									break;
+								}
+								takeamount -= applicationDetailResp.getMargin();
 							}else{
-								flag = false;
-								break;
+								SalesApplicationDetail applicationDetail = new SalesApplicationDetail();
+								applicationDetail.setId(applicationDetailResp.getId());
+								applicationDetail.setMargin(applicationDetailResp.getMargin() - takeamount);
+								applicationDetail.setPretendingtake(applicationDetailResp.getPretendingtake() + takeamount);
+								if(salesApplicationDetailMapper.updateByPrimaryKeySelective(applicationDetail) > 0){
+									flag = true;
+								}else{
+									flag = false;
+									break;
+								}
+								takeamount = 0D;
 							}
-							takeamount -= applicationDetailResp.getMargin();
-						}else{
-							SalesApplicationDetail applicationDetail = new SalesApplicationDetail();
-							applicationDetail.setId(applicationDetailResp.getId());
-							applicationDetail.setMargin(applicationDetailResp.getMargin() - takeamount);
-							applicationDetail.setPretendingtake(applicationDetailResp.getPretendingtake() + takeamount);
-							if(salesApplicationDetailMapper.updateByPrimaryKeySelective(applicationDetail) > 0){
-								flag = true;
-							}else{
-								flag = false;
-								break;
-							}
-							takeamount = 0D;
 						}
 					}
 				}
-			}
-			if(flag && salesArriveMapper.insertSelective(bean) > 0 
-					&& StringUtils.equals(systemCodeService.updateCodeItem(codeReq).getCode(), ErrorCode.SYSTEM_SUCCESS.getCode())
-					&& salesApplicationJoinNaticeMapper.insertBatch(list) > 0){
-				result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
-			}else{
-				result.setErrorCode(ErrorCode.OPERATE_ERROR);
+				if(flag && salesArriveMapper.insertSelective(bean) > 0 
+						&& StringUtils.equals(systemCodeService.updateCodeItem(codeReq).getCode(), ErrorCode.SYSTEM_SUCCESS.getCode())
+						&& salesApplicationJoinNaticeMapper.insertBatch(list) > 0){
+					result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+				}else{
+					result.setErrorCode(ErrorCode.OPERATE_ERROR);
+				}
 			}
 		}
 		return result;
+	}
+
+	private boolean validVehicleAndDriver(SalesArriveSave save, Result result, SalesArrive bean) {
+		boolean flag = true;
+		bean.setVehicleid(save.getVehicleid());
+		List<SalesArrive> listVehicle = salesArriveMapper.checkDriverAndVehicleIsUse(bean);
+		if(listVehicle != null && listVehicle.size() > 0){
+			result.setErrorCode(ErrorCode.PARAM_REPEAT_ERROR);
+			result.setError("此车辆己有提货通知单、待出厂后进行派车，现有车辆业务单据号为:"+listVehicle.get(0).getCode()+"，如有疑问请与销售处联系！");
+			flag = false;
+		}
+		PurchaseArrive pa = new PurchaseArrive();
+		pa.setVehicleid(save.getVehicleid());
+		List<PurchaseArrive> listVehicle1 = purchaseArriveMapper.checkDriverAndVehicleIsUse(pa);
+		if(listVehicle1 != null && listVehicle1.size() > 0){
+			result.setErrorCode(ErrorCode.PARAM_REPEAT_ERROR);
+			result.setError("此车辆己有到货通知单、待出厂后进行派车，现有车辆业务单据号为:"+listVehicle1.get(0).getCode()+"，如有疑问请与销售处联系！");
+			flag = false;
+		}
+		bean.setVehicleid(null);
+		bean.setDriverid(save.getDriverid());
+		List<SalesArrive> listDriver = salesArriveMapper.checkDriverAndVehicleIsUse(bean);
+		if(listDriver != null && listDriver.size() > 0){
+			result.setErrorCode(ErrorCode.PARAM_REPEAT_ERROR);
+			result.setError("此司机己有提货通知单、待出厂后进行派车，现有车辆业务单据号为:"+listDriver.get(0).getCode()+"，如有疑问请与销售处联系！");
+			flag = false;
+		}
+		pa.setVehicleid(null);
+		pa.setDriverid(save.getDriverid());
+		List<PurchaseArrive> listDriver1 = purchaseArriveMapper.checkDriverAndVehicleIsUse(pa);
+		if(listDriver1 != null && listDriver1.size() > 0){
+			result.setErrorCode(ErrorCode.PARAM_REPEAT_ERROR);
+			result.setError("此司机己有到货通知单、待出厂后进行派车，现有车辆业务单据号为:"+listDriver1.get(0).getCode()+"，如有疑问请与销售处联系！");
+			flag = false;
+		}
+		//ic卡信息
+		if(StringUtils.isNotBlank(save.getIcardno())){
+			Card card = cardMapper.selectByCardno(save.getIcardno());
+			if(card!=null){
+				//ic卡是否占用
+				SalesArrive sales1 = salesArriveMapper.checkICUse(card.getId());
+				PurchaseArrive purchase1 = purchaseArriveMapper.checkICUse(card.getId());
+				if(sales1 == null && purchase1 == null) {
+					save.setIcardid(card.getId());
+				}else{
+					result.setErrorCode(ErrorCode.CARD_IN_USE);
+					flag = false;
+				}
+			}else{
+				result.setErrorCode(ErrorCode.CARD_NOT_EXIST);
+				flag = false;
+			}
+		}
+		return flag;
 	}
 	
 	@Override
@@ -335,66 +341,37 @@ public class SalesArriveService implements ISalesArriveService {
 				&& StringUtils.isNotBlank(save.getVehicleid())){
 			SalesArrive bean = new SalesArrive();
 			bean.setId(save.getId());
-			bean.setVehicleid(save.getVehicleid());
-			List<SalesArrive> listVehicle = salesArriveMapper.checkDriverAndVehicleIsUse(bean);
-			if(listVehicle != null && listVehicle.size() > 0){
-				result.setErrorCode(ErrorCode.PARAM_REPEAT_ERROR);
-				result.setError("此车辆己有提货通知单、待出厂后进行派车，现有车辆业务单据号为:"+listVehicle.get(0).getCode()+"，如有疑问请与销售处联系！");
-				return result;
-			}
-			PurchaseArrive pa = new PurchaseArrive();
-			pa.setVehicleid(save.getVehicleid());
-			List<PurchaseArrive> listVehicle1 = purchaseArriveMapper.checkDriverAndVehicleIsUse(pa);
-			if(listVehicle1 != null && listVehicle1.size() > 0){
-				result.setErrorCode(ErrorCode.PARAM_REPEAT_ERROR);
-				result.setError("此车辆己有到货通知单、待出厂后进行派车，现有车辆业务单据号为:"+listVehicle1.get(0).getCode()+"，如有疑问请与销售处联系！");
-				return result;
-			}
-			bean.setVehicleid(null);
-			bean.setDriverid(save.getDriverid());
-			List<SalesArrive> listDriver = salesArriveMapper.checkDriverAndVehicleIsUse(bean);
-			if(listDriver != null && listDriver.size() > 0){
-				result.setErrorCode(ErrorCode.PARAM_REPEAT_ERROR);
-				result.setError("此司机己有提货通知单、待出厂后进行派车，现有车辆业务单据号为:"+listDriver.get(0).getCode()+"，如有疑问请与销售处联系！");
-				return result;
-			}
-			pa.setVehicleid(null);
-			pa.setDriverid(save.getDriverid());
-			List<PurchaseArrive> listDriver1 = purchaseArriveMapper.checkDriverAndVehicleIsUse(pa);
-			if(listDriver1 != null && listDriver1.size() > 0){
-				result.setErrorCode(ErrorCode.PARAM_REPEAT_ERROR);
-				result.setError("此司机己有到货通知单、待出厂后进行派车，现有车辆业务单据号为:"+listDriver1.get(0).getCode()+"，如有疑问请与销售处联系！");
-				return result;
-			}
-			PropertyUtils.copyProperties(bean, save);
-			VehicleManageResp vehicle = vehicleManageService.findOne(save.getVehicleid());
-			if(vehicle != null){
-				bean.setVehicleno(vehicle.getVehicleno());
-				bean.setVehiclerfid(vehicle.getRfid());
-			}
-			DriverManageResp driver = driverManageService.findOne(save.getDriverid());
-			if(driver != null){
-				bean.setDrivername(driver.getName());
-				bean.setDriveridentityno(driver.getIdentityno());
-			}
-			CardResp card = cardService.findOne(save.getIcardid());
-			if(card != null){
-				bean.setIcardno(card.getCardno());
-			}
-			SalesApplicationResp salesApplicationResp = salesApplicationService.findOne(save.getBillid(), false);
-			if(salesApplicationResp != null){
-				bean.setBillcode(salesApplicationResp.getCode());
-			}
-			SalesApplicationDetailResp salesApplicationDetailResp = salesApplicationDetailService.findOne(save.getBilldetailid());
-			if(salesApplicationDetailResp != null){
-				bean.setUnit(salesApplicationDetailResp.getUnit());
-			}
-			bean.setModifier(save.getCurrUId());
-			bean.setModifytime(save.getCreatetime());
-			if(salesArriveMapper.updateByPrimaryKeySelective(bean) > 0){
-				result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
-			}else{
-				result.setErrorCode(ErrorCode.OPERATE_ERROR);
+			if(validVehicleAndDriver(save, result, bean)){
+				PropertyUtils.copyProperties(bean, save);
+				VehicleManageResp vehicle = vehicleManageService.findOne(save.getVehicleid());
+				if(vehicle != null){
+					bean.setVehicleno(vehicle.getVehicleno());
+					bean.setVehiclerfid(vehicle.getRfid());
+				}
+				DriverManageResp driver = driverManageService.findOne(save.getDriverid());
+				if(driver != null){
+					bean.setDrivername(driver.getName());
+					bean.setDriveridentityno(driver.getIdentityno());
+				}
+				CardResp card = cardService.findOne(save.getIcardid());
+				if(card != null){
+					bean.setIcardno(card.getCardno());
+				}
+				SalesApplicationResp salesApplicationResp = salesApplicationService.findOne(save.getBillid(), false);
+				if(salesApplicationResp != null){
+					bean.setBillcode(salesApplicationResp.getCode());
+				}
+				SalesApplicationDetailResp salesApplicationDetailResp = salesApplicationDetailService.findOne(save.getBilldetailid());
+				if(salesApplicationDetailResp != null){
+					bean.setUnit(salesApplicationDetailResp.getUnit());
+				}
+				bean.setModifier(save.getCurrUId());
+				bean.setModifytime(save.getCreatetime());
+				if(salesArriveMapper.updateByPrimaryKeySelective(bean) > 0){
+					result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+				}else{
+					result.setErrorCode(ErrorCode.OPERATE_ERROR);
+				}
 			}
 		}
 		return result;
@@ -799,9 +776,89 @@ public class SalesArriveService implements ISalesArriveService {
 	}
 
 	@Override
-	public Result appToAddNotice(AppOrderSaveReq req) {
-		// TODO Auto-generated method stub
-		return null;
+	public Result appToAddNotice(AppOrderSaveReq req) throws Exception {
+		Result result = Result.getParamErrorResult();
+		if(req != null
+				&& StringUtils.isNotBlank(req.getUserId())
+				&& StringUtils.isNotBlank(req.getBillId())
+				&& StringUtils.isNotBlank(req.getBillDetailId())
+				&& StringUtils.isNotBlank(req.getVehicleId())
+				&& StringUtils.isNotBlank(req.getDriverId())
+				&& StringUtils.isNotBlank(req.getNumber())){
+			SalesArriveSave save = new SalesArriveSave();
+			save.setVehicleid(req.getVehicleId());
+			save.setDriverid(req.getDriverId());
+			SalesArrive bean = new SalesArrive();
+			if(validVehicleAndDriver(save, result, bean)){
+				VehicleManageResp vehicle = vehicleManageService.findOne(save.getVehicleid());
+				if(vehicle != null){
+					bean.setVehicleno(vehicle.getVehicleno());
+					bean.setVehiclerfid(vehicle.getRfid());
+				}
+				DriverManageResp driver = driverManageService.findOne(save.getDriverid());
+				if(driver != null){
+					bean.setDrivername(driver.getName());
+					bean.setDriveridentityno(driver.getIdentityno());
+				}
+				SalesApplicationResp salesApplicationResp = salesApplicationService.findOne(save.getBillid(), false);
+				if(salesApplicationResp != null){
+					bean.setBillcode(salesApplicationResp.getCode());
+				}
+				SalesApplicationDetailResp salesApplicationDetailResp = salesApplicationDetailService.findOne(save.getBilldetailid());
+				if(salesApplicationDetailResp != null){
+					bean.setUnit(salesApplicationDetailResp.getUnit());
+				}
+				bean.setId(UUIDUtil.getId());
+				bean.setBillid(req.getBillId());
+				bean.setBilldetailid(req.getBillDetailId());
+				bean.setVehicleid(req.getVehicleId());
+				bean.setDriverid(req.getDriverId());
+				bean.setTakeamount(Double.parseDouble(req.getNumber()));
+				GetCodeReq codeReq = new GetCodeReq();
+				codeReq.setCode("TH");
+				codeReq.setCodeType(true);
+				codeReq.setUserid(save.getCurrUId());
+				bean.setCode(systemCodeService.getCode(codeReq).getData().toString());
+				bean.setAuditstatus("0");
+				bean.setStatus("0");
+				bean.setState("1");
+				bean.setSource("0");
+				bean.setMakerid(save.getCurrUId());
+				bean.setMakebillname(systemUserService.getUser(save.getCurrUId()).getName());
+				bean.setCreator(save.getCurrUId());
+				bean.setCreatetime(System.currentTimeMillis());
+				bean.setModifier(save.getCurrUId());
+				bean.setModifytime(System.currentTimeMillis());
+				SalesApplicationJoinNatice join = new SalesApplicationJoinNatice();
+				join.setId(UUIDUtil.getId());
+				join.setBillid(bean.getBillid());
+				join.setBilldetailid(bean.getBilldetailid());
+				join.setNaticeid(bean.getId());
+				join.setTakeamount(bean.getTakeamount());
+				join.setState("1");
+				join.setCreator(bean.getCreator());
+				join.setCreatetime(System.currentTimeMillis());
+				join.setModifier(bean.getModifier());
+				join.setModifytime(System.currentTimeMillis());
+				if(salesArriveMapper.insertSelective(bean) > 0 
+						&& StringUtils.equals(systemCodeService.updateCodeItem(codeReq).getCode(), ErrorCode.SYSTEM_SUCCESS.getCode())
+						&& salesApplicationJoinNaticeMapper.insertSelective(join) > 0){
+					SalesApplicationDetail applicationDetail = salesApplicationDetailMapper.selectByPrimaryKey(bean.getBilldetailid());
+					SalesApplicationDetail detail = new SalesApplicationDetail();
+					detail.setId(applicationDetail.getId());
+					detail.setMargin(applicationDetail.getMargin() - bean.getTakeamount());
+					detail.setPretendingtake(applicationDetail.getPretendingtake() + bean.getTakeamount());
+					if(salesApplicationDetailMapper.updateByPrimaryKeySelective(detail) > 0){
+						result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+					}else{
+						result.setErrorCode(ErrorCode.OPERATE_ERROR);
+					}
+				}else{
+					result.setErrorCode(ErrorCode.OPERATE_ERROR);
+				}
+			}
+		}
+		return result;
 	}
 
 }

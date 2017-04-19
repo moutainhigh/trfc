@@ -515,9 +515,69 @@ public class PurchaseArriveService implements IPurchaseArriveService {
 	}
 
 	@Override
-	public Result appToAddNotice(AppOrderSaveReq req) {
-		// TODO Auto-generated method stub
-		return null;
+	public Result appToAddNotice(AppOrderSaveReq req) throws Exception {
+		Result result = Result.getParamErrorResult();
+		if(req != null
+				&& StringUtils.isNotBlank(req.getUserId())
+				&& StringUtils.isNotBlank(req.getBillId())
+				&& StringUtils.isNotBlank(req.getBillDetailId())
+				&& StringUtils.isNotBlank(req.getVehicleId())
+				&& StringUtils.isNotBlank(req.getDriverId())
+				&& StringUtils.isNotBlank(req.getNumber())){
+			PurchaseArriveSave save = new PurchaseArriveSave();
+			save.setVehicleid(req.getVehicleId());
+			save.setDriverid(req.getDriverId());
+			PurchaseArrive bean = new PurchaseArrive();
+			if(validDriverAndVehicle(save, result, bean)){
+				bean.setId(UUIDUtil.getId());
+				bean.setBillid(req.getBillId());
+				bean.setBilldetailid(req.getBillDetailId());
+				bean.setVehicleid(req.getVehicleId());
+				bean.setDriverid(req.getDriverId());
+				if(StringUtils.isNotBlank(req.getNumber())){
+					bean.setArrivalamount(Double.parseDouble(req.getNumber()));
+				}
+				setNoticeBody(save, bean);
+				PurchaseApplication application = purchaseApplicationMapper.selectByPrimaryKey(req.getBillId());
+				if(application != null){
+					bean.setBillcode(application.getCode());
+					bean.setType("0");
+					GetCodeReq codeReq = new GetCodeReq();
+					codeReq.setCode("DH");
+					codeReq.setCodeType(true);
+					codeReq.setUserid(save.getCurrId());
+					bean.setCode(systemCodeService.getCode(codeReq).getData().toString());
+					bean.setAuditstatus("0");
+					bean.setStatus("0");
+					bean.setState("1");
+					bean.setSource("0");
+					bean.setMakerid(save.getCurrId());
+					bean.setMakebillname(systemUserService.getUser(save.getCurrId()).getName());
+					bean.setCreator(save.getCurrId());
+					bean.setCreatetime(System.currentTimeMillis());
+					bean.setModifier(save.getCurrId());
+					bean.setModifytime(System.currentTimeMillis());
+					if(purchaseArriveMapper.insertSelective(bean) > 0 
+							&& StringUtils.equals(systemCodeService.updateCodeItem(codeReq).getCode(), ErrorCode.SYSTEM_SUCCESS.getCode())){
+						if(StringUtils.isNotBlank(bean.getBilldetailid())){
+							PurchaseApplicationDetailResp detailResp = purchaseApplicationDetailService.findOne(bean.getBilldetailid());
+							PurchaseApplicationDetail detail = new PurchaseApplicationDetail();
+							detail.setId(detailResp.getId());
+							detail.setMargin(detailResp.getMargin() - bean.getArrivalamount());
+							detail.setPretendingtake(detailResp.getPretendingtake() + bean.getArrivalamount());
+							if(purchaseApplicationDetailMapper.updateByPrimaryKeySelective(detail) > 0){
+								result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+							}else{
+								result.setErrorCode(ErrorCode.OPERATE_ERROR);
+							}
+						}
+					}else{
+						result.setErrorCode(ErrorCode.OPERATE_ERROR);
+					}
+				}
+			}
+		}
+		return result;
 	}
 
 }

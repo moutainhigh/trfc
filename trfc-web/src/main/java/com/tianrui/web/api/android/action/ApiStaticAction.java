@@ -19,6 +19,7 @@ import com.tianrui.api.intf.businessManage.purchaseManage.IPurchaseApplicationSe
 import com.tianrui.api.intf.businessManage.purchaseManage.IPurchaseArriveService;
 import com.tianrui.api.intf.businessManage.salesManage.ISalesApplicationService;
 import com.tianrui.api.intf.businessManage.salesManage.ISalesArriveService;
+import com.tianrui.api.intf.common.IAppVersionService;
 import com.tianrui.api.intf.system.auth.ISystemUserService;
 import com.tianrui.api.req.businessManage.app.AppDriverSaveReq;
 import com.tianrui.api.req.businessManage.app.AppNoticeOrderReq;
@@ -35,11 +36,8 @@ import com.tianrui.api.resp.businessManage.app.AppMsgCountResp;
 import com.tianrui.api.resp.businessManage.app.AppMsgResp;
 import com.tianrui.api.resp.businessManage.app.AppNoticeOrderResp;
 import com.tianrui.api.resp.businessManage.app.AppOrderResp;
-import com.tianrui.api.resp.businessManage.app.AppVehicleInFactoryResp;
 import com.tianrui.api.resp.businessManage.app.AppVehicleResp;
-import com.tianrui.api.resp.businessManage.app.AppVersionResp;
 import com.tianrui.api.resp.system.auth.SystemUserResp;
-import com.tianrui.service.impl.basicFile.measure.VehicleManageService;
 import com.tianrui.smartfactory.common.api.ApiParam;
 import com.tianrui.smartfactory.common.api.ApiResult;
 import com.tianrui.smartfactory.common.constants.Constant;
@@ -77,6 +75,8 @@ public class ApiStaticAction {
 	private IVehicleManageService vehicleManageService;
 	@Autowired
 	private IDriverManageService driverManageService;
+	@Autowired
+	private IAppVersionService appVersionService;
 	
 	@RequestMapping(value="/login",method=RequestMethod.POST)
 	@ApiParamRawType(AppUserReq.class)
@@ -92,7 +92,6 @@ public class ApiStaticAction {
 		return ApiResult.valueOf(rs);
 	}
 	
-	
 	@RequestMapping(value="/updatePswd",method=RequestMethod.POST)
 	@ApiParamRawType(AppUserReq.class)
 	@ResponseBody
@@ -106,29 +105,6 @@ public class ApiStaticAction {
 		}
 		return ApiResult.valueOf(rs);
 	}
-	
-	
-	/**
-	 * 问题： 
-	 * 
-	 * 用户分类：客户/供应商
-	 * 
-	 * 根据id查询客户获取实体
-	 * 
-	 * 根据实体判定用户身份类型
-	 * 
-	 * 根据用户身份类型查询相应结果信息
-	 * 
-	 * 
-	 * 
-	 * 
-	 * 以上问题解决方案：
-	 * 
-	 * 用户实体及用户表     增加身份类型字段 identityTypes
-	 * 
-	 */
-	
-	
 	
 	/**
 	 * 订单列表
@@ -163,6 +139,7 @@ public class ApiStaticAction {
 		}
 		return ApiResult.valueOf(rs);
 	}
+	
 	/**
 	 * 订单详情
 	 * @param req
@@ -193,8 +170,6 @@ public class ApiStaticAction {
 		}
 		return ApiResult.valueOf(rs);
 	}
-	
-	
 	
 	/**
 	 * 通知单列表
@@ -229,6 +204,7 @@ public class ApiStaticAction {
 		}
 		return ApiResult.valueOf(rs);
 	}
+	
 	/**
 	 * 通知单详情
 	 * @param req
@@ -259,6 +235,7 @@ public class ApiStaticAction {
 		}
 		return ApiResult.valueOf(rs);
 	}
+	
 	/**
 	 * 过榜单分页
 	 * @param req
@@ -313,7 +290,6 @@ public class ApiStaticAction {
 		return ApiResult.valueOf(rs);
 	}
 	
-	
 	/**
 	 * 车牌号查询
 	 * @param req
@@ -353,6 +329,7 @@ public class ApiStaticAction {
 		}
 		return ApiResult.valueOf(rs);
 	}
+	
 	/**
 	 * 派单
 	 * @param req
@@ -402,6 +379,7 @@ public class ApiStaticAction {
 		}
 		return ApiResult.valueOf(rs);
 	}
+	
 	/**
 	 * 在厂车辆查询
 	 * @param req
@@ -433,7 +411,6 @@ public class ApiStaticAction {
 		return ApiResult.valueOf(rs);
 	}
 	
-
 	/**
 	 * 未读消息数量
 	 * @param req
@@ -443,7 +420,6 @@ public class ApiStaticAction {
 	@ApiParamRawType(AppQueryReq.class)
 	@ResponseBody
 	public ApiResult countMsgUnread(ApiParam<AppQueryReq> req){
-		AppQueryReq userReq =req.getBody();
 		Result rs=Result.getSuccessResult();
 		AppMsgCountResp item =new AppMsgCountResp();
 		item.setMsgCount("20");
@@ -460,7 +436,6 @@ public class ApiStaticAction {
 	@ApiParamRawType(AppQueryReq.class)
 	@ResponseBody
 	public ApiResult msgList(ApiParam<AppQueryReq> req){
-		AppQueryReq userReq =req.getBody();
 		PaginationVO<AppMsgResp> page=new PaginationVO<AppMsgResp>();
 		Result rs=Result.getSuccessResult();
 		List<AppMsgResp> list =new ArrayList<AppMsgResp>();
@@ -480,6 +455,7 @@ public class ApiStaticAction {
 		rs.setData(page);
 		return ApiResult.valueOf(rs);
 	}
+	
 	/**
 	 * 版本是否需要更新查询
 	 * @param req
@@ -488,12 +464,14 @@ public class ApiStaticAction {
 	@RequestMapping(value="/versionQuery",method=RequestMethod.POST)
 	@ApiParamRawType(AppVersionReq.class)
 	@ResponseBody
-	public ApiResult versionQuery(ApiParam<AppVersionReq> req){
-		AppVersionReq userReq =req.getBody();
-		Result rs=Result.getSuccessResult();
-		AppVersionResp item =new AppVersionResp();
-		item.setUpdateFlag("0");
-		rs.setData(item);
+	public ApiResult versionQuery(ApiParam<AppVersionReq> appParam){
+		Result rs=Result.getErrorResult();
+		try {
+			rs = appVersionService.validVersionApp(appParam.getBody());
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			rs.setErrorCode(ErrorCode.SYSTEM_ERROR);
+		}
 		return ApiResult.valueOf(rs);
 	}
 	
@@ -505,16 +483,15 @@ public class ApiStaticAction {
 	@RequestMapping(value="/userEdit",method=RequestMethod.POST)
 	@ApiParamRawType(AppUserEditReq.class)
 	@ResponseBody
-	public ApiResult userEdit(ApiParam<AppUserEditReq> req){
+	public ApiResult userEdit(ApiParam<AppUserEditReq> appParam){
 		Result rs = Result.getSuccessResult();
 		try {
-			rs = systemUserService.appUpdateUser(req.getBody());
+			rs = systemUserService.appUpdateUser(appParam.getBody());
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 			rs.setErrorCode(ErrorCode.SYSTEM_ERROR);
 		}
 		return ApiResult.valueOf(rs);
 	}
-	
 	
 }
