@@ -239,8 +239,7 @@ $(function(){
 		params.pageNo = pageNo;
 		$.post(URL.page,params,function(result){
 			if(result.code=='000000'){
-				list = result.data.list;
-				console.info(list);
+				var list = result.data.list;
 				var pageNo = result.data.pageNo;
 				var pageSize = result.data.pageSize;
 				var total = result.data.total;

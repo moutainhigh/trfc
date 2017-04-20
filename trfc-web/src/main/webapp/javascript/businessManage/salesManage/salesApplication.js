@@ -58,6 +58,7 @@
 	    	$(this).autocomplete('search',' ');
 	    }).on('input propertychange',function(){
 	    	$(this).removeAttr('billtypeid');
+	    	$(this).removeAttr('billtypeid');
 	    }).change(function(){
     		if(!$(this).attr('billtypeid')){
     			$(this).val('');
@@ -91,6 +92,7 @@
 	    }).off('click').on('click',function(){
 	    	$(this).autocomplete('search',' ');
 	    }).on('input propertychange',function(){
+	    	$(this).removeAttr('materielid');
 	    	$(this).removeAttr('materielid');
 	    }).change(function(){
     		if(!$(this).attr('materielid')){
@@ -126,6 +128,7 @@
 	    	$(this).autocomplete('search',' ');
 	    }).on('input propertychange',function(){
 	    	$(this).removeAttr('warehouseid');
+	    	$(this).removeAttr('warehouseid');
 	    }).change(function(){
     		if(!$(this).attr('warehouseid')){
     			$(this).val('');
@@ -159,6 +162,7 @@
 	    }).off('click').on('click',function(){
 	    	$(this).autocomplete('search',' ');
 	    }).on('input propertychange',function(){
+	    	$(this).removeAttr('customerid');
 	    	$(this).removeAttr('customerid');
 	    }).change(function(){
     		if(!$(this).attr('customerid')){
@@ -196,6 +200,7 @@
 	    }).off('click').on('click',function(){
 	    	$(this).autocomplete('search',' ');
 	    }).on('input propertychange',function(){
+	    	$(this).removeAttr('customerid');
 	    	$(this).removeAttr('customerid');
 	    }).change(function(){
     		if(!$(this).attr('customerid')){
@@ -236,6 +241,7 @@
 	    }).off('click').on('click',function(){
 	    	$(this).autocomplete('search',' ');
 	    }).on('input propertychange',function(){
+	    	$(this).removeAttr('customerid');
 	    	$(this).removeAttr('customerid');
 	    }).change(function(){
     		if(!$(this).attr('customerid')){
