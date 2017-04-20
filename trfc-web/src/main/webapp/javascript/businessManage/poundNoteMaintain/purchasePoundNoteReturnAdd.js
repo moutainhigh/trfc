@@ -50,7 +50,7 @@
     		}
 	    }).off('click').on('click',function(){
 	    	$(this).autocomplete('search',' ');
-	    }).on('input propertychange',function(){
+	    }).off('input keydown').on('input keydown',function(){
 	    	$(this).removeAttr('vehicleid');
 	    }).change(function(){
     		if(!$(this).attr('vehicleid')){
@@ -85,7 +85,7 @@
     		}
 	    }).off('click').on('click',function(){
 	    	$(this).autocomplete('search',' ');
-	    }).on('input propertychange',function(){
+	    }).off('input keydown').on('input keydown',function(){
 	    	$(this).removeAttr('driverid');
 	    }).change(function(){
     		if(!$(this).attr('driverid')){
@@ -119,7 +119,7 @@
 	    	}
 	    }).off('click').on('click',function(){
 	    	$(this).autocomplete('search',' ');
-	    }).on('input propertychange',function(){
+	    }).off('input keydown').on('input keydown',function(){
 	    	$(this).removeAttr('warehouseid');
 	    }).change(function(){
 	    	if(!$(this).attr('warehouseid')){
@@ -143,7 +143,7 @@
 		/**
 		 * 自动计算净重
 		 */
-		$('#grossweight').off('input propertychange').on('input propertychange',function(){
+		$('#grossweight').off('input keydown').on('input keydown',function(){
 			var grossweight = $(this).val();
 			if(!grossweight || !$.isNumeric(grossweight)){
 				layer.tips('必须为数字，且不能为空！', this, {
@@ -159,7 +159,7 @@
 				}
 			}
 		});
-		$('#tareweight').off('input propertychange').on('input propertychange',function(){
+		$('#tareweight').off('input keydown').on('input keydown',function(){
 			var tareweight = $(this).val();
 			if(!tareweight || !$.isNumeric(tareweight)){
 				layer.tips('必须为数字，且不能为空！', this, {

@@ -117,7 +117,7 @@ $(function(){
 			}
 		}).off('click').on('click',function(){
 			$(this).autocomplete('search',' ');
-		}).on('input propertychange',function(){
+		}).off('input keydown').on('input keydown',function(){
 	    	$(this).removeAttr('materialid');
 	    }).change(function(){
     		if(!$(this).attr('materialid')){
@@ -159,7 +159,7 @@ $(function(){
 			}
 		}).off('click').on('click',function(){
 			$(this).autocomplete('search',' ');
-		}).on('input propertychange',function(){
+		}).off('input keydown').on('input keydown',function(){
 	    	$(this).removeAttr('billsid');
 	    }).change(function(){
     		if(!$(this).attr('billsid')){

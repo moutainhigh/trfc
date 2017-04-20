@@ -67,7 +67,7 @@ $(function() {
 			}
 		}).off('click').on('click',function(){
 			$(this).autocomplete('search',' ');
-		}).on('input propertychange',function(){
+		}).off('input keydown').on('input keydown',function(){
 			$(this).removeAttr('materielid');
 		}).change(function(){
 			if(!$(this).attr('materielid')){
@@ -101,7 +101,7 @@ $(function() {
 			}
 		}).off('click').on('click',function(){
 			$(this).autocomplete('search',' ');
-		}).on('input propertychange',function(){
+		}).off('input keydown').on('input keydown',function(){
 			$(this).removeAttr('vehicleid');
 		}).change(function(){
 			if(!$(this).attr('vehicleid')){
