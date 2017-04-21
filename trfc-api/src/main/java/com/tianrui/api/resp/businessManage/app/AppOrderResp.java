@@ -17,6 +17,8 @@ public class AppOrderResp extends BaseReq{
 	private String code;
 	//物料名称
 	private String materialName;
+	//客户/供应商
+	private String customerName;
 	//总量
 	private Double billSum;
 	//余量
@@ -93,6 +95,18 @@ public class AppOrderResp extends BaseReq{
 	 */
 	public void setMargin(Double margin) {
 		this.margin = margin;
+	}
+	/**
+	 * @return the customerName
+	 */
+	public String getCustomerName() {
+		return customerName;
+	}
+	/**
+	 * @param customerName the customerName to set
+	 */
+	public void setCustomerName(String customerName) {
+		this.customerName = customerName;
 	}
 
 }

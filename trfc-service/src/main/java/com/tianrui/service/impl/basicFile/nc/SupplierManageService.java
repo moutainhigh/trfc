@@ -15,6 +15,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.tianrui.api.intf.basicFile.nc.ISupplierManageService;
 import com.tianrui.api.req.basicFile.nc.SupplierManageQuery;
 import com.tianrui.api.req.basicFile.nc.SupplierManageSave;
+import com.tianrui.api.req.businessManage.handset.HandSetRequestParam;
 import com.tianrui.api.resp.basicFile.nc.SupplierManageResp;
 import com.tianrui.service.bean.basicFile.nc.SupplierManage;
 import com.tianrui.service.mapper.basicFile.nc.SupplierManageMapper;
@@ -192,18 +193,14 @@ public class SupplierManageService implements ISupplierManageService {
 		}
 		return supplier;
 	}
+
+	@Override
+	public Result HandSetQueryAll(HandSetRequestParam req) {
+		Result result = Result.getParamErrorResult();
+		if(req != null){
+			
+		}
+		return result;
+	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
 

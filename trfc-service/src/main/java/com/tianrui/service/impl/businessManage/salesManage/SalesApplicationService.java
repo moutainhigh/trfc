@@ -583,23 +583,29 @@ public class SalesApplicationService implements ISalesApplicationService {
 	}
 
 	@Override
-	public AppOrderDetailResp appToDetail(AppOrderReq req) {
-		AppOrderDetailResp resp = null;
+	public Result appToDetail(AppOrderReq req) {
+		Result result = Result.getParamErrorResult();
 		if(req != null 
 				&& StringUtils.isNotBlank(req.getId())
 				&& StringUtils.isNotBlank(req.getDetailid())){
-			resp = new AppOrderDetailResp();
 			SalesApplication application = salesApplicationMapper.selectByPrimaryKey(req.getId());
 			SalesApplicationDetail applicationDetail = salesApplicationDetailMapper.selectByPrimaryKey(req.getDetailid());
-			resp.setId(application.getId());
-			resp.setDetailid(applicationDetail.getId());
-			resp.setCode(application.getCode());
-			resp.setMaterialName(applicationDetail.getMaterielname());
-			resp.setOrgName(application.getOrgname());
-			resp.setCustomerName(application.getCustomername());
-			resp.setBillDateStr(DateUtil.parse(application.getBilltime(), "yyyy-MM-dd HH:mm:ss"));
-			resp.setMargin(applicationDetail.getMargin());
+			if(application != null && applicationDetail != null){
+				AppOrderDetailResp resp = new AppOrderDetailResp();
+				resp.setId(application.getId());
+				resp.setDetailid(applicationDetail.getId());
+				resp.setCode(application.getCode());
+				resp.setMaterialName(applicationDetail.getMaterielname());
+				resp.setOrgName(application.getOrgname());
+				resp.setCustomerName(application.getCustomername());
+				resp.setBillDateStr(DateUtil.parse(application.getBilltime(), "yyyy-MM-dd HH:mm:ss"));
+				resp.setMargin(applicationDetail.getMargin());
+				result.setData(resp);
+				result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+			}else{
+				result.setErrorCode(ErrorCode.APPLICATION_NOT_EXIST);
+			}
 		}
-		return resp;
+		return result;
 	}
 }

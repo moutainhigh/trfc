@@ -119,7 +119,7 @@ public class ApiStaticAction {
 		try {
 			AppOrderReq req = appParam.getBody();
 			PaginationVO<AppOrderResp> page = null;
-			SystemUserResp user = systemUserService.get(appParam.getHead().getUserId());
+			SystemUserResp user = systemUserService.getUser(appParam.getHead().getUserId());
 			if(user != null){
 				req.setUserId(user.getId());
 				if(StringUtils.equals(user.getIdentityTypes(), Constant.USER_SUPPLIER)){
@@ -152,14 +152,14 @@ public class ApiStaticAction {
 		Result rs = Result.getErrorResult();
 		try {
 			AppOrderReq req = appParam.getBody();
-			SystemUserResp user = systemUserService.get(appParam.getHead().getUserId());
+			SystemUserResp user = systemUserService.getUser(appParam.getHead().getUserId());
 			if(user != null){
 				req.setUserId(user.getId());
 				if(StringUtils.equals(user.getIdentityTypes(), Constant.USER_SUPPLIER)){
-					rs.setData(purchaseApplicationService.appToDetail(req));
+					rs = purchaseApplicationService.appToDetail(req);
 				}
 				if(StringUtils.equals(user.getIdentityTypes(), Constant.USER_CUSTOMER)){
-					rs.setData(salesApplicationService.appToDetail(req));
+					rs = salesApplicationService.appToDetail(req);
 				}
 			}else{
 				rs.setErrorCode(ErrorCode.SYSTEM_USER_ERROR1);
@@ -183,7 +183,7 @@ public class ApiStaticAction {
 		Result rs = Result.getSuccessResult();
 		try {
 			AppNoticeOrderReq req = appParam.getBody();
-			SystemUserResp user = systemUserService.get(appParam.getHead().getUserId());
+			SystemUserResp user = systemUserService.getUser(appParam.getHead().getUserId());
 			PaginationVO<AppNoticeOrderResp> page = null;
 			if(user != null){
 				req.setUserId(user.getId());
@@ -217,7 +217,7 @@ public class ApiStaticAction {
 		Result rs = Result.getErrorResult();
 		try {
 			AppNoticeOrderReq req = appParam.getBody();
-			SystemUserResp user = systemUserService.get(appParam.getHead().getUserId());
+			SystemUserResp user = systemUserService.getUser(appParam.getHead().getUserId());
 			if(user != null){
 				req.setUserId(user.getId());
 				if(StringUtils.equals(user.getIdentityTypes(), Constant.USER_SUPPLIER)){
@@ -248,7 +248,7 @@ public class ApiStaticAction {
 		Result rs = Result.getSuccessResult();
 		try {
 			AppPoundOrderReq req = appParam.getBody();
-			SystemUserResp user = systemUserService.get(appParam.getHead().getUserId());
+			SystemUserResp user = systemUserService.getUser(appParam.getHead().getUserId());
 			if(user != null){
 				req.setUserId(user.getId());
 				req.setIdentityTypes(user.getIdentityTypes());
@@ -276,7 +276,7 @@ public class ApiStaticAction {
 		Result rs = Result.getErrorResult();
 		try {
 			AppPoundOrderReq req = appParam.getBody();
-			SystemUserResp user = systemUserService.get(appParam.getHead().getUserId());
+			SystemUserResp user = systemUserService.getUser(appParam.getHead().getUserId());
 			if(user != null){
 				req.setIdentityTypes(user.getIdentityTypes());
 				rs = poundNoteService.appToDetail(req);
@@ -342,7 +342,7 @@ public class ApiStaticAction {
 		Result rs = Result.getErrorResult();
 		try {
 			AppOrderSaveReq req = appParam.getBody();
-			SystemUserResp user = systemUserService.get(appParam.getHead().getUserId());
+			SystemUserResp user = systemUserService.getUser(appParam.getHead().getUserId());
 			if(user != null){
 				req.setUserId(user.getId());
 				if(StringUtils.equals(user.getIdentityTypes(), Constant.USER_SUPPLIER)){
@@ -392,7 +392,7 @@ public class ApiStaticAction {
 		Result rs = Result.getErrorResult();
 		try {
 			AppOrderReq req = appParam.getBody();
-			SystemUserResp user = systemUserService.get(appParam.getHead().getUserId());
+			SystemUserResp user = systemUserService.getUser(appParam.getHead().getUserId());
 			if(user != null){
 				req.setUserId(user.getId());
 				if(StringUtils.equals(user.getIdentityTypes(), Constant.USER_SUPPLIER)){

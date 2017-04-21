@@ -33,6 +33,12 @@ public enum ErrorCode {
 	CARD_NOT_EXIST("E10031","IC卡不存在，请先注册."),
 	CARD_REPEAT_REGISTER("E10032","此IC卡重复注册，请更换IC卡."),
 	CARD_IN_USE("E10033","IC卡正在使用中，请更换IC卡."),
+	
+	/**
+	 * 订单
+	 */
+	APPLICATION_NOT_EXIST("E11001", "该订单不存在."),
+	
 	/**
 	 * 通知单
 	 */

@@ -1218,32 +1218,32 @@
     	where noticeid = #{noticeid,jdbcType=VARCHAR} and state = '1'
     </select>
     <select id="appPurchasePage" parameterType="com.tianrui.api.req.businessManage.app.AppPoundOrderReq" resultType="com.tianrui.api.req.businessManage.app.AppPoundOrderResp">
-    	select p1.id, p1.code, p1.billcode, p1.noticecode, p1.vehicleno, p2.materielname, p1.lighttime, p1.weighttime, 
+    	select p1.id, p1.code, p1.billcode, p1.noticecode, p1.vehicleno, p3.materielname, p1.lighttime, p1.weighttime, 
     			p1.pickupquantity, p1.grossweight, p1.tareweight, p1.netweight, p1.serialnumber
     	from tr_pound_db_note p1
-    	left tr_purchase_db_application p2 on p1.billid = p2.id
-    	left tr_purchase_db_application_detail p3 on p1.billdetailid = p3.id
+    	left join tr_purchase_db_application p2 on p1.billid = p2.id
+    	left join tr_purchase_db_application_detail p3 on p1.billdetailid = p3.id
     	<where>
     		billtype = '0' or billtype = '1'
-	      <if test="code != null code != ''">
+	      <if test="code != null and code != ''">
 	        and p1.code = #{code,jdbcType=VARCHAR}
 	      </if>
-	      <if test="billcode != null billcode != ''">
+	      <if test="billcode != null and billcode != ''">
 	        and p1.billcode = #{billcode,jdbcType=VARCHAR}
 	      </if>
-	      <if test="noticecode != null noticecode != ''">
+	      <if test="noticecode != null and noticecode != ''">
 	        and p1.noticecode = #{noticecode,jdbcType=VARCHAR}
 	      </if>
-	      <if test="materielid != null materielid != ''">
+	      <if test="materielid != null and materielid != ''">
 	        and p3.materielid = #{materielid,jdbcType=VARCHAR}
 	      </if>
-	      <if test="vehicleno != null vehicleno != ''">
-	        and p1.vehicleno = #{vehicleno,jdbcType=VARCHAR}
+	      <if test="vehicleid != null and vehicleid != ''">
+	        and p1.vehicleid = #{vehicleid,jdbcType=VARCHAR}
 	      </if>
-	      <if test="state != null state != ''">
+	      <if test="state != null and state != ''">
 	        and p1.state = #{state,jdbcType=VARCHAR}
 	      </if>
-	      <if test="userId != null userId != ''">
+	      <if test="userId != null and userId != ''">
 	        and p2.supplierid = #{userId,jdbcType=VARCHAR}
 	      </if>
 		  <if test="starttime != null and starttime != ''">
@@ -1273,29 +1273,29 @@
     <select id="appPurchasePageCount" parameterType="com.tianrui.api.req.businessManage.app.AppPoundOrderReq" resultType="java.lang.Long">
     	select count(0)
     	from tr_pound_db_note p1
-    	left tr_purchase_db_application p2 on p1.billid = p2.id
-    	left tr_purchase_db_application_detail p3 on p1.billdetailid = p3.id
+    	left join tr_purchase_db_application p2 on p1.billid = p2.id
+    	left join tr_purchase_db_application_detail p3 on p1.billdetailid = p3.id
     	<where>
     		billtype = '0' or billtype = '1'
-	      <if test="code != null code != ''">
+	      <if test="code != null and code != ''">
 	        and p1.code = #{code,jdbcType=VARCHAR}
 	      </if>
-	      <if test="billcode != null billcode != ''">
+	      <if test="billcode != null and billcode != ''">
 	        and p1.billcode = #{billcode,jdbcType=VARCHAR}
 	      </if>
-	      <if test="noticecode != null noticecode != ''">
+	      <if test="noticecode != null and noticecode != ''">
 	        and p1.noticecode = #{noticecode,jdbcType=VARCHAR}
 	      </if>
-	      <if test="materielid != null materielid != ''">
+	      <if test="materielid != null and materielid != ''">
 	        and p3.materielid = #{materielid,jdbcType=VARCHAR}
 	      </if>
-	      <if test="vehicleno != null vehicleno != ''">
-	        and p1.vehicleno = #{vehicleno,jdbcType=VARCHAR}
+	      <if test="vehicleid != null and vehicleid != ''">
+	        and p1.vehicleid = #{vehicleid,jdbcType=VARCHAR}
 	      </if>
-	      <if test="state != null state != ''">
+	      <if test="state != null and state != ''">
 	        and p1.state = #{state,jdbcType=VARCHAR}
 	      </if>
-	      <if test="userId != null userId != ''">
+	      <if test="userId != null and userId != ''">
 	        and p2.supplierid = #{userId,jdbcType=VARCHAR}
 	      </if>
 		  <if test="starttime != null and starttime != ''">
@@ -1307,32 +1307,32 @@
 		</where>
     </select>
     <select id="appSalesPage" parameterType="com.tianrui.api.req.businessManage.app.AppPoundOrderReq" resultType="com.tianrui.api.req.businessManage.app.AppPoundOrderResp">
-    	select p1.id, p1.code, p1.billcode, p1.noticecode, p1.vehicleno, p2.materielname, p1.lighttime, p1.weighttime, 
+    	select p1.id, p1.code, p1.billcode, p1.noticecode, p1.vehicleno, p3.materielname, p1.lighttime, p1.weighttime, 
     			p1.pickupquantity, p1.grossweight, p1.tareweight, p1.netweight, p1.serialnumber
     	from tr_pound_db_note p1
-    	left tr_sales_db_application p2 on p1.billid = p2.id
-    	left tr_sales_db_application_detail p3 on p1.billdetailid = p3.id
+    	left join tr_sales_db_application p2 on p1.billid = p2.id
+    	left join tr_sales_db_application_detail p3 on p1.billdetailid = p3.id
     	<where>
     		billtype = '2'
-	      <if test="code != null code != ''">
+	      <if test="code != null and code != ''">
 	        and p1.code = #{code,jdbcType=VARCHAR}
 	      </if>
-	      <if test="billcode != null billcode != ''">
+	      <if test="billcode != null and billcode != ''">
 	        and p1.billcode = #{billcode,jdbcType=VARCHAR}
 	      </if>
-	      <if test="noticecode != null noticecode != ''">
+	      <if test="noticecode != null and noticecode != ''">
 	        and p1.noticecode = #{noticecode,jdbcType=VARCHAR}
 	      </if>
-	      <if test="materielid != null materielid != ''">
+	      <if test="materielid != null and materielid != ''">
 	        and p3.materielid = #{materielid,jdbcType=VARCHAR}
 	      </if>
-	      <if test="vehicleno != null vehicleno != ''">
-	        and p1.vehicleno = #{vehicleno,jdbcType=VARCHAR}
+	      <if test="vehicleid != null and vehicleid != ''">
+	        and p1.vehicleid = #{vehicleid,jdbcType=VARCHAR}
 	      </if>
-	      <if test="state != null state != ''">
+	      <if test="state != null and state != ''">
 	        and p1.state = #{state,jdbcType=VARCHAR}
 	      </if>
-	      <if test="userId != null userId != ''">
+	      <if test="userId != null and userId != ''">
 	        and p2.customerid = #{userId,jdbcType=VARCHAR}
 	      </if>
 		  <if test="starttime != null and starttime != ''">
@@ -1362,29 +1362,29 @@
     <select id="appSalesPageCount" parameterType="com.tianrui.api.req.businessManage.app.AppPoundOrderReq" resultType="java.lang.Long">
     	select count(0)
     	from tr_pound_db_note p1
-    	left tr_sales_db_application p2 on p1.billid = p2.id
-    	left tr_sales_db_application_detail p3 on p1.billdetailid = p3.id
+    	left join tr_sales_db_application p2 on p1.billid = p2.id
+    	left join tr_sales_db_application_detail p3 on p1.billdetailid = p3.id
     	<where> 
     		billtype = '2'
-	      <if test="code != null code != ''">
+	      <if test="code != null and code != ''">
 	        and p1.code = #{code,jdbcType=VARCHAR}
 	      </if>
-	      <if test="billcode != null billcode != ''">
+	      <if test="billcode != null and billcode != ''">
 	        and p1.billcode = #{billcode,jdbcType=VARCHAR}
 	      </if>
-	      <if test="noticecode != null noticecode != ''">
+	      <if test="noticecode != null and noticecode != ''">
 	        and p1.noticecode = #{noticecode,jdbcType=VARCHAR}
 	      </if>
-	      <if test="materielid != null materielid != ''">
+	      <if test="materielid != null and materielid != ''">
 	        and p3.materielid = #{materielid,jdbcType=VARCHAR}
 	      </if>
-	      <if test="vehicleno != null vehicleno != ''">
-	        and p1.vehicleno = #{vehicleno,jdbcType=VARCHAR}
+	      <if test="vehicleid != null and vehicleid != ''">
+	        and p1.vehicleid = #{vehicleid,jdbcType=VARCHAR}
 	      </if>
-	      <if test="state != null state != ''">
+	      <if test="state != null and state != ''">
 	        and p1.state = #{state,jdbcType=VARCHAR}
 	      </if>
-	      <if test="userId != null userId != ''">
+	      <if test="userId != null and userId != ''">
 	        and p2.customerid = #{userId,jdbcType=VARCHAR}
 	      </if>
 		  <if test="starttime != null and starttime != ''">

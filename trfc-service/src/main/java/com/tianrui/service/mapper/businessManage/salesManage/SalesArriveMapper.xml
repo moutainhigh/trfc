@@ -696,7 +696,7 @@
   </select>
   <select id="findAppNoticePage" resultType="com.tianrui.api.resp.businessManage.app.AppNoticeOrderResp" parameterType="com.tianrui.api.req.businessManage.app.AppNoticeOrderReq">
   	select s1.id, s1.code, s1.billcode as billCode, s2.billtime, s1.makebilltime as noticetime, s1.vehicleno, 
-  		s3.materielname as materialName, s1.takeamount as number, s1.source, s1.status
+  		s3.materielname as materialName, s2.customername as customerName, s1.takeamount as number, s1.source, s1.status
   	from tr_sales_db_arrive s1 
   	left join tr_sales_db_application s2 on s1.billid = s2.id
   	left join tr_sales_db_application_detail s3 on s2.id = s3.salesid

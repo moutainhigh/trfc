@@ -5,7 +5,6 @@ import java.util.List;
 import com.alibaba.fastjson.JSONObject;
 import com.tianrui.api.req.businessManage.app.AppOrderReq;
 import com.tianrui.api.req.businessManage.purchaseManage.PurchaseApplicationQuery;
-import com.tianrui.api.resp.businessManage.app.AppOrderDetailResp;
 import com.tianrui.api.resp.businessManage.app.AppOrderResp;
 import com.tianrui.api.resp.businessManage.purchaseManage.PurchaseApplicationJoinDetailResp;
 import com.tianrui.api.resp.businessManage.purchaseManage.PurchaseApplicationResp;
@@ -76,5 +75,5 @@ public interface IPurchaseApplicationService {
 	 * @param req
 	 * @return
 	 */
-	AppOrderDetailResp appToDetail(AppOrderReq req);
+	Result appToDetail(AppOrderReq req);
 }

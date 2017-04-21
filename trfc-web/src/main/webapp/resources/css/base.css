@@ -199,5 +199,19 @@ input[type=text]::-webkit-input-placeholder {
 
 /*媒体查询*/
 
+@media (max-width: 1200px) {
 
+}
+@media (max-width: 1380px) {
+    .dh_alttable{
+        height: 280px;
+    }
 
+}
+
+@media (min-width: 1400px) {
+    .dh_alttable{
+        height: 400px;
+    }
+
+}
