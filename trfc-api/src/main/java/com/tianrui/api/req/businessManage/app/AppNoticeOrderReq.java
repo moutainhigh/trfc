@@ -7,6 +7,8 @@ public class AppNoticeOrderReq extends BaseReq{
 	private static final long serialVersionUID = 280565475561660076L;
 	//订单 通知单 过磅单id
 	private String id;
+	//通知单号
+	private String code;
 	//状态
 	private String status;
 	//订单号
@@ -14,7 +16,7 @@ public class AppNoticeOrderReq extends BaseReq{
 	//物料
 	private String materielid;
 	//车号
-	private String vehicleno;
+	private String vehicleid;
 	//开始时间
 	private Long starttime;
 	//结束时间
@@ -38,6 +40,12 @@ public class AppNoticeOrderReq extends BaseReq{
 		return id;
 	}
 	/**
+	 * @return the code
+	 */
+	public String getCode() {
+		return code;
+	}
+	/**
 	 * @return the status
 	 */
 	public String getStatus() {
@@ -56,10 +64,10 @@ public class AppNoticeOrderReq extends BaseReq{
 		return materielid;
 	}
 	/**
-	 * @return the vehicleno
+	 * @return the vehicleid
 	 */
-	public String getVehicleno() {
-		return vehicleno;
+	public String getVehicleid() {
+		return vehicleid;
 	}
 	/**
 	 * @return the starttime
@@ -116,6 +124,12 @@ public class AppNoticeOrderReq extends BaseReq{
 		this.id = id;
 	}
 	/**
+	 * @param code the code to set
+	 */
+	public void setCode(String code) {
+		this.code = code;
+	}
+	/**
 	 * @param status the status to set
 	 */
 	public void setStatus(String status) {
@@ -134,10 +148,10 @@ public class AppNoticeOrderReq extends BaseReq{
 		this.materielid = materielid;
 	}
 	/**
-	 * @param vehicleno the vehicleno to set
+	 * @param vehicleid the vehicleid to set
 	 */
-	public void setVehicleno(String vehicleno) {
-		this.vehicleno = vehicleno;
+	public void setVehicleid(String vehicleid) {
+		this.vehicleid = vehicleid;
 	}
 	/**
 	 * @param starttime the starttime to set

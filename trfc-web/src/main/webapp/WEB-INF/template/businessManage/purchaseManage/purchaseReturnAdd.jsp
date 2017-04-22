@@ -148,7 +148,7 @@
 	<div class="modal fade" id="altbill" tabindex="-1" role="dialog"
 		aria-labelledby="myModalLabel">
 		<div class="modal-dialog" role="document"
-			style="width: 1500px; height: 800px;">
+			style="width: 75%;">
 			<div class="modal-content">
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal"
@@ -190,9 +190,9 @@
 							<button id="clearBtn" class="btn btnblue ">清空</button>
 						</div>
 					</div>
-					<div>
-						<div class="dh_alttable" style="width: 100%;">
-							<table class="table table-hover" style="width: 100%;">
+					<div style="width: 100%">
+						<div class="dh_alttable">
+							<table class="table table-hover">
 								<thead>
 									<tr>
 										<th>序号</th>

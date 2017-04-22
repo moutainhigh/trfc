@@ -196,19 +196,34 @@ public class DriverManageService implements IDriverManageService {
 	}
 
 	@Override
-	public Result appDriverCreate(AppDriverSaveReq req) {
+	public Result appDriverCreate(AppDriverSaveReq req) throws Exception {
 		Result result = Result.getParamErrorResult();
 		if(req != null
 				&& StringUtils.isNotBlank(req.getName())
 				&& StringUtils.isNotBlank(req.getIdNo())){
 			DriverManage bean = new DriverManage();
 			bean.setId(UUIDUtil.getId());
+			GetCodeReq codeReq = new GetCodeReq();
+			codeReq.setCode("DR");
+			codeReq.setCodeType(true);
+			codeReq.setUserid(req.getUserId());
+			bean.setCode(String.valueOf(systemCodeService.getCode(codeReq).getData()));
+			codeReq.setCodeType(false);
+			bean.setInternalcode(String.valueOf(systemCodeService.getCode(codeReq).getData()));
 			bean.setName(req.getName());
 			bean.setAbbrname(req.getAbbrname());
 			bean.setTelephone(req.getMobile());
 			bean.setAddress(req.getAddr());
 			bean.setIdentityno(req.getIdNo());
+			bean.setIsvalid("1");
+			bean.setOrgid(Constant.ORG_ID);
+			bean.setOrgname(Constant.ORG_NAME);
+			bean.setState("1");
 			bean.setRemarks(req.getRemark());
+			bean.setCreator(req.getUserId());
+			bean.setCreatetime(System.currentTimeMillis());
+			bean.setModifier(req.getUserId());
+			bean.setModifytime(System.currentTimeMillis());
 			if(driverManageMapper.insertSelective(bean) > 0){
 				result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
 			}else{

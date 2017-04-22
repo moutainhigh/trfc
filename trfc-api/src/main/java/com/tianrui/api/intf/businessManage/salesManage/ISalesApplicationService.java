@@ -6,7 +6,6 @@ import com.alibaba.fastjson.JSONObject;
 import com.tianrui.api.req.businessManage.app.AppOrderReq;
 import com.tianrui.api.req.businessManage.salesManage.SalesApplicationQuery;
 import com.tianrui.api.req.businessManage.salesManage.SalesApplicationSave;
-import com.tianrui.api.resp.businessManage.app.AppOrderDetailResp;
 import com.tianrui.api.resp.businessManage.app.AppOrderResp;
 import com.tianrui.api.resp.businessManage.salesManage.SalesApplicationJoinDetailResp;
 import com.tianrui.api.resp.businessManage.salesManage.SalesApplicationResp;
@@ -52,7 +51,7 @@ public interface ISalesApplicationService {
 	 * @param req
 	 * @return
 	 */
-	AppOrderDetailResp appToDetail(AppOrderReq req);
+	Result appToDetail(AppOrderReq req);
 
 
 

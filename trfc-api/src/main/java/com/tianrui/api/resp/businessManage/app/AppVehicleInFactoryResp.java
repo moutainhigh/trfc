@@ -10,7 +10,7 @@ public class AppVehicleInFactoryResp extends BaseReq{
 
 	private static final long serialVersionUID = 280565475561660076L;
 
-
+	//物料
     private String materName;
     //名称
     private String vehicleCount;

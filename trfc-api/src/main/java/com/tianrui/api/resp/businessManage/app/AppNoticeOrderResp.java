@@ -23,6 +23,8 @@ public class AppNoticeOrderResp extends BaseReq{
 	private String vehicleno;
 	//物料名称
 	private String materialName;
+	//客户/供应商
+	private String customerName ;
 	//预提量
 	private Double number;
 	//来源
@@ -148,6 +150,18 @@ public class AppNoticeOrderResp extends BaseReq{
 	 */
 	public void setStatus(String status) {
 		this.status = status;
+	}
+	/**
+	 * @return the customerName
+	 */
+	public String getCustomerName() {
+		return customerName;
+	}
+	/**
+	 * @param customerName the customerName to set
+	 */
+	public void setCustomerName(String customerName) {
+		this.customerName = customerName;
 	}
 
 }

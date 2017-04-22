@@ -8,37 +8,37 @@ package com.tianrui.service.bean.basicFile.measure;
  */
 public class DriverManage {
     private String id;
-
+    //司机编号
     private String code;
-
+    //司机内码
     private String internalcode;
-
+    //司机名称
     private String name;
-
+    //司机简称
     private String abbrname;
-
+    //地址
     private String address;
-
+    //电话
     private String telephone;
-
+    //身份证号
     private String identityno;
-
+    //有效性（0：无效，1：有效）
     private String isvalid;
-
+    //组织id
     private String orgid;
-
+    //组织名称
     private String orgname;
-    
+    //状态：（0：删除，1：正常）
     private String state;
-
+    //备注
     private String remarks;
-
+    //创建人
     private String creator;
-
+    //创建时间
     private Long createtime;
-
+    //最后修改人
     private String modifier;
-
+    //最后修改时间
     private Long modifytime;
 
     public String getId() {

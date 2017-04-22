@@ -414,7 +414,6 @@ public class SystemUserService implements ISystemUserService {
 						String key =CacheHelper.buildKey(CacheModule.MEMBERLOGIN_APP, tokenId);
 						cacheClient.saveObject(key, user, 7*24*60*60);
 						user.setTokenId(tokenId);
-						result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
 						AppUserResp resp = new AppUserResp();
 						resp.setId(user.getId());
 						resp.setToken(user.getTokenId());
@@ -424,6 +423,7 @@ public class SystemUserService implements ISystemUserService {
 						resp.setOrgName(user.getOrgName());
 						resp.setIdentityTypes(user.getIdentityTypes());
 						result.setData(resp);
+						result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
 					}else{
 						result.setErrorCode(ErrorCode.SYSTEM_USER_ERROR5);
 					}

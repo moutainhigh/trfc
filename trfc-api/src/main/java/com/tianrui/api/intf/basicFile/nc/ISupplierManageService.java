@@ -5,6 +5,7 @@ import java.util.List;
 import com.alibaba.fastjson.JSONObject;
 import com.tianrui.api.req.basicFile.nc.SupplierManageQuery;
 import com.tianrui.api.req.basicFile.nc.SupplierManageSave;
+import com.tianrui.api.req.businessManage.handset.HandSetRequestParam;
 import com.tianrui.api.resp.basicFile.nc.SupplierManageResp;
 import com.tianrui.smartfactory.common.vo.PaginationVO;
 import com.tianrui.smartfactory.common.vo.Result;
@@ -45,5 +46,13 @@ public interface ISupplierManageService {
 	 * @throws Exception 
 	 */
 	List<SupplierManageResp> autoCompleteSearch(String likeName) throws Exception;
+	/**
+	 * @Description 手持机获取供应商集合接口
+	 * @author zhanggaohao
+	 * @version 2017年4月21日 下午1:42:45
+	 * @param req
+	 * @return
+	 */
+	Result HandSetQueryAll(HandSetRequestParam req);
 
 }

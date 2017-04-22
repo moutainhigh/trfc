@@ -183,7 +183,7 @@
 	<div class="modal fade" id="altchuchang" tabindex="-1" role="dialog"
 		aria-labelledby="myModalLabel">
 		<div class="modal-dialog" role="document"
-			style="width: 1500px; height: 800px;">
+			style="width: 70%;">
 			<div class="modal-content">
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal"

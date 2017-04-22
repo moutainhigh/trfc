@@ -209,11 +209,10 @@ input[readOnly="true"]{
     position: relative;
 }
 .intel_search .intel_solo{
-    text-align: right;
-    float: left;
     margin:5px 15px 5px 0;
     font-size: 12px;
-    position: relative;
+    width:250px;
+    float:left;
 }
 .intel_search .intel_solo ul{
     display: none;
@@ -222,32 +221,33 @@ input[readOnly="true"]{
     overflow: hidden;
 }
 .intel_search .intel_solo label{
-     width: 80px;
-     text-align: right;
- }
-
-.intel_search .intel_solo select{
-    width: 156px;
     display: inline-block;
+    width: 80px;
+    text-align: right;
+    line-height:30px;
+}
+
+.intel_search .intel_solo .form-control{
+    display: inline-block;
+    width: 160px;
     font-size: 12px;
     height: 30px;
 }
 .intel_search .intel_solo input[type="text"]{
-    width: 160px;
     display: inline-block;
+    width: 160px;
     font-size: 12px;
-}
-.intel_search .intel_solo .intel_sbtn{
-    float: left;
-    padding: 0 0 0 80px;
-}
+
+}.intel_search .intel_solo .intel_sbtn{
+     float: left;
+     padding: 0 0 0 70px;
+ }
 .intel_search .intel_solo .intel_sbtn button{
-    margin:0 10px 0 15px;
+    margin:0 5px 0 15px;
     line-height: 28px;
     padding: 0px 18px;
     float: left;
 }
-
 .intel_search .intel_solo .intel_sbtn input[type="checkbox"]{
     width: 20px;
     height: 20px;
@@ -344,37 +344,6 @@ input[readOnly="true"]{
     width: 860px;
     margin: 20px 10px 20px 0;
     float: right;
-}
-.page_date{
-    display: inline-block;
-    margin-right:30px;
-    outline: none;
-}
-.page_date i{
-    margin-right: 2px;
-}
-.page_date input[type='text']{
-    height: 26px;
-    line-height: 20px;
-    padding:0px 8px;
-    width: 40px;
-    text-align: center;
-}
-.page_date button{
-    height: 26px;
-    line-height: 20px;
-    padding:0px 8px;
-    text-align: center;
-    font-size: 12px;
-    vertical-align: top;
-    margin-left: 10px;
-    background: #ffffff;
-    border: 1px solid #cccccc;
-}
-.page_date .form-control{
-    width: 80px;
-    height: 26px;
-    padding: 0 15px;
 }
 /*登录*/
 .header{
@@ -678,12 +647,13 @@ input[type="text"]:-ms-input-placeholder, input:-ms-input-placeholder{
 
 /*分页效果*/
 .page_date{
-    display: inline-block;
     margin-right:30px;
-    outline: none;
+    display: inline-block;
+}
+.page_date label{
+    display: inline;
 }
 .page_date i{
-    color: red;
     margin-right: 2px;
 }
 .page_date input[type='text']{
@@ -703,6 +673,11 @@ input[type="text"]:-ms-input-placeholder, input:-ms-input-placeholder{
     margin-left: 10px;
     background: #ffffff;
     border: 1px solid #cccccc;
+}
+.page_date .form-control{
+    width: 80px;
+    height: 26px;
+    padding: 0 15px;
 }
 .page_btn{
     display: inline-block;
@@ -828,7 +803,7 @@ input[type="text"]:-ms-input-placeholder, input:-ms-input-placeholder{
 }
 .alt_head img{
     position: absolute;
-    left: 520px;
+    left: 550px;
     top:-10px;
 }
 .cg_div{
@@ -842,13 +817,13 @@ input[type="text"]:-ms-input-placeholder, input:-ms-input-placeholder{
     width: 275px;
 }
 .cg_div label{
-    width: 110px;
+    width: 100px;
     text-align: right;
 }
 .cg_div .cg_solo input{
     line-height: 30px;
     padding:0px 10px;
-    width: 160px;
+    width: 170px;
     height: 30px;
 }
 .cg_div .cg_solo .form-control{
@@ -1124,7 +1099,6 @@ width: 180px;
 }
 .dh_alttable{
     width: 100%;
-    height: 400px;
     overflow: scroll;
 }
 .dh_alttable table tr{

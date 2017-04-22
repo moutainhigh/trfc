@@ -24,7 +24,7 @@
 		//初始化按钮
 		bindEvent();
 		
-		$('#takeamount').trigger('input').trigger('propertychange');
+		$('#takeamount').trigger('input').trigger('keydown');
 	}
 	function initAutoComplete(){
 		var cache = {};
@@ -56,7 +56,7 @@
     		}
 	    }).off('click').on('click',function(){
 	    	$(this).autocomplete('search',' ');
-	    }).on('input propertychange',function(){
+	    }).off('input keydown').on('input keydown',function(){
 	    	$(this).removeAttr('vehicleid');
 	    }).change(function(){
     		if(!$(this).attr('vehicleid')){
@@ -91,7 +91,7 @@
     		}
 	    }).off('click').on('click',function(){
 	    	$(this).autocomplete('search',' ');
-	    }).on('input propertychange',function(){
+	    }).off('input keydown').on('input keydown',function(){
 	    	$(this).removeAttr('driverid');
 	    }).change(function(){
     		if(!$(this).attr('driverid')){
@@ -125,7 +125,7 @@
 	    	}
 	    }).off('click').on('click',function(){
 	    	$(this).autocomplete('search',' ');
-	    }).on('input propertychange',function(){
+	    }).off('input keydown').on('input keydown',function(){
 	    	$(this).removeAttr('materielid');
 	    }).change(function(){
     		if(!$(this).attr('materielid')){
@@ -159,7 +159,7 @@
 	    	}
 	    }).off('click').on('click',function(){
 	    	$(this).autocomplete('search',' ');
-	    }).on('input propertychange',function(){
+	    }).off('input keydown').on('input keydown',function(){
 	    	$(this).removeAttr('customerid');
 	    }).change(function(){
     		if(!$(this).attr('customerid')){
@@ -244,7 +244,7 @@
 										$('#salessum').val(salessum);
 									}
 									layer.close(i);
-									$('#takeamount').trigger('input').trigger('propertychange');
+									$('#takeamount').trigger('input').trigger('keydown');
 								}
 							}
 						});
@@ -276,7 +276,7 @@
 				saveDriver();
 			}
 		});
-		$('#takeamount').off('input propertychange').on('input propertychange', function(){
+		$('#takeamount').off('input keydown').on('input keydown', function(){
 			var marginsum = parseFloat($('#margin').val()) || 0;
 			var value = parseFloat($(this).val() || 0);
 			if(!$.isNumeric(value)){

@@ -52,7 +52,7 @@
     		}
 	    }).off('click').on('click',function(){
 	    	$(this).autocomplete('search',' ');
-	    }).on('input propertychange',function(){
+	    }).off('input keydown').on('input keydown',function(){
 	    	$(this).removeAttr('vehicleid');
 	    }).change(function(){
     		if(!$(this).attr('vehicleid')){
@@ -87,7 +87,7 @@
     		}
 	    }).off('click').on('click',function(){
 	    	$(this).autocomplete('search',' ');
-	    }).on('input propertychange',function(){
+	    }).off('input keydown').on('input keydown',function(){
 	    	$(this).removeAttr('driverid');
 	    }).change(function(){
     		if(!$(this).attr('driverid')){
@@ -121,7 +121,7 @@
 			}
 		}).off('click').on('click',function(){
 			$(this).autocomplete('search',' ');
-		}).on('input propertychange',function(){
+		}).off('input keydown').on('input keydown',function(){
 			$(this).removeAttr('materielid');
 		}).change(function(){
 			if(!$(this).attr('materielid')){
@@ -155,7 +155,7 @@
 			}
 		}).off('click').on('click',function(){
 			$(this).autocomplete('search',' ');
-		}).on('input propertychange',function(){
+		}).off('input keydown').on('input keydown',function(){
 			$(this).removeAttr('customerid');
 		}).change(function(){
 			if(!$(this).attr('customerid')){
@@ -286,7 +286,7 @@
 				}
 			}
 		});
-		$('#pickupquantity').off('input propertychange').on('input propertychange',function(){
+		$('#pickupquantity').off('input keydown').on('input keydown',function(){
 			var pickupquantity = $(this).val();
 			if(!pickupquantity || !$.isNumeric(pickupquantity)){
 				layer.tips('必须为数字，且不能为空！', this, {
@@ -299,7 +299,7 @@
 		/**
 		 * 自动计算净重
 		 */
-		$('#grossweight').off('input propertychange').on('input propertychange',function(){
+		$('#grossweight').off('input keydown').on('input keydown',function(){
 			var grossweight = $(this).val();
 			if(!grossweight || !$.isNumeric(grossweight)){
 				layer.tips('必须为数字，且不能为空！', this, {
@@ -315,7 +315,7 @@
 				}
 			}
 		});
-		$('#tareweight').off('input propertychange').on('input propertychange',function(){
+		$('#tareweight').off('input keydown').on('input keydown',function(){
 			var tareweight = $(this).val();
 			if(!tareweight || !$.isNumeric(tareweight)){
 				layer.tips('必须为数字，且不能为空！', this, {
@@ -331,7 +331,7 @@
 				}
 			}
 		});
-		$('#pickupquantity').off('input propertychange').on('input propertychange', function(){
+		$('#pickupquantity').off('input keydown').on('input keydown', function(){
 			var marginsum = parseFloat($('#margin').val()) || 0;
 			var value = parseFloat($(this).val() || 0);
 			if(!$.isNumeric(value)){

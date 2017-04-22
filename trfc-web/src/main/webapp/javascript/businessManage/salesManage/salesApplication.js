@@ -56,8 +56,7 @@
     		}
 	    }).off('click').on('click',function(){
 	    	$(this).autocomplete('search',' ');
-	    }).on('input propertychange',function(){
-	    	$(this).removeAttr('billtypeid');
+	    }).off('input keydown').on('input keydown',function(){
 	    	$(this).removeAttr('billtypeid');
 	    }).change(function(){
     		if(!$(this).attr('billtypeid')){
@@ -91,7 +90,7 @@
 	    	}
 	    }).off('click').on('click',function(){
 	    	$(this).autocomplete('search',' ');
-	    }).on('input propertychange',function(){
+	    }).off('input keydown').on('input keydown',function(){
 	    	$(this).removeAttr('materielid');
 	    	$(this).removeAttr('materielid');
 	    }).change(function(){
@@ -126,7 +125,7 @@
 	    	}
 	    }).off('click').on('click',function(){
 	    	$(this).autocomplete('search',' ');
-	    }).on('input propertychange',function(){
+	    }).off('input keydown').on('input keydown',function(){
 	    	$(this).removeAttr('warehouseid');
 	    	$(this).removeAttr('warehouseid');
 	    }).change(function(){
@@ -161,7 +160,7 @@
 	    	}
 	    }).off('click').on('click',function(){
 	    	$(this).autocomplete('search',' ');
-	    }).on('input propertychange',function(){
+	    }).off('input keydown').on('input keydown',function(){
 	    	$(this).removeAttr('customerid');
 	    	$(this).removeAttr('customerid');
 	    }).change(function(){
@@ -199,7 +198,7 @@
 	    	}
 	    }).off('click').on('click',function(){
 	    	$(this).autocomplete('search',' ');
-	    }).on('input propertychange',function(){
+	    }).off('input keydown').on('input keydown',function(){
 	    	$(this).removeAttr('customerid');
 	    	$(this).removeAttr('customerid');
 	    }).change(function(){
@@ -240,7 +239,7 @@
 	    	}
 	    }).off('click').on('click',function(){
 	    	$(this).autocomplete('search',' ');
-	    }).on('input propertychange',function(){
+	    }).off('input keydown').on('input keydown',function(){
 	    	$(this).removeAttr('customerid');
 	    	$(this).removeAttr('customerid');
 	    }).change(function(){
@@ -528,7 +527,7 @@
 	}
 	
 	function addChangeNum(_$){
-		_$.off('input propertychange').on('input propertychange', function() {
+		_$.off('input keydown').on('input keydown', function() {
 			var salessum = $('#a_salessum').val();
 			var taxprice = $('#a_taxprice').val();
 			var taxrate = $('#a_taxrate').val();
@@ -543,7 +542,7 @@
 	}
 	
 	function updateChangeNum(_$){
-		_$.off('input propertychange').on('input propertychange', function() {
+		_$.off('input keydown').on('input keydown', function() {
 			var salessum = $('#u_salessum').val();
 			var taxprice = $('#u_taxprice').val();
 			var taxrate = $('#u_taxrate').val();

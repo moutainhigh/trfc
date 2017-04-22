@@ -47,7 +47,8 @@ public interface IDriverManageService {
 	 * @version 2017年4月18日 上午11:27:48
 	 * @param body
 	 * @return
+	 * @throws Exception 
 	 */
-	Result appDriverCreate(AppDriverSaveReq req);
+	Result appDriverCreate(AppDriverSaveReq req) throws Exception;
 
 }

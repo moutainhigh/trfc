@@ -54,7 +54,7 @@
 			}
 		}).off('click').on('click',function(){
 			$(this).autocomplete('search',' ');
-		}).on('input propertychange',function(){
+		}).off('input keydown').on('input keydown',function(){
 			$(this).removeAttr('vehicleid').removeAttr('vehiclecode');
 		}).change(function(){
 			if(!$(this).attr('vehicleid') && !$(this).attr('vehiclecode')){
@@ -89,7 +89,7 @@
 			}
 		}).off('click').on('click',function(){
 			$(this).autocomplete('search',' ');
-		}).on('input propertychange',function(){
+		}).off('input keydown').on('input keydown',function(){
 			$(this).removeAttr('driverid');
 		}).change(function(){
 			if(!$(this).attr('driverid')){
@@ -123,7 +123,7 @@
 			}
 		}).off('click').on('click',function(){
 			$(this).autocomplete('search',' ');
-		}).on('input propertychange',function(){
+		}).off('input keydown').on('input keydown',function(){
 			$(this).removeAttr('materielid');
 		}).change(function(){
 			if(!$(this).attr('materielid')){
@@ -157,7 +157,7 @@
 			}
 		}).off('click').on('click',function(){
 			$(this).autocomplete('search',' ');
-		}).on('input propertychange',function(){
+		}).off('input keydown').on('input keydown',function(){
 			$(this).removeAttr('customerid');
 		}).change(function(){
 			if(!$(this).attr('customerid')){
@@ -283,7 +283,7 @@
 				saveDriver();
 			}
 		});
-		$('#takeamount').off('input propertychange').on('input propertychange', function(){
+		$('#takeamount').off('input keydown').on('input keydown', function(){
 			var marginsum = parseFloat($('#margin').val()) || 0;
 			var value = parseFloat($(this).val() || 0);
 			if(!$.isNumeric(value)){

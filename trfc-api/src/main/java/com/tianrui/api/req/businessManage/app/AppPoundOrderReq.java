@@ -20,7 +20,7 @@ public class AppPoundOrderReq extends BaseReq{
 	//物料
 	private String materielid;
 	//车号
-	private String vehicleno;
+	private String vehicleid;
 	//开始时间
 	private Long starttime;
 	//结束时间
@@ -78,10 +78,10 @@ public class AppPoundOrderReq extends BaseReq{
 		return materielid;
 	}
 	/**
-	 * @return the vehicleno
+	 * @return the vehicleid
 	 */
-	public String getVehicleno() {
-		return vehicleno;
+	public String getVehicleid() {
+		return vehicleid;
 	}
 	/**
 	 * @return the starttime
@@ -168,10 +168,10 @@ public class AppPoundOrderReq extends BaseReq{
 		this.materielid = materielid;
 	}
 	/**
-	 * @param vehicleno the vehicleno to set
+	 * @param vehicleno the vehicleid to set
 	 */
-	public void setVehicleno(String vehicleno) {
-		this.vehicleno = vehicleno;
+	public void setVehicleid(String vehicleid) {
+		this.vehicleid = vehicleid;
 	}
 	/**
 	 * @param starttime the starttime to set

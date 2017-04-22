@@ -709,9 +709,10 @@
   	</where>
   </select>
   <select id="findAppToPageGroupMateriel" parameterType="com.tianrui.api.req.businessManage.app.AppOrderReq" resultType="com.tianrui.api.resp.businessManage.app.AppOrderResp">
-  	select
-  	s1.id, s2.id as detailid, s1.code, s2.materielname as materialName, s2.salessum as billSum, s2.margin
-  	from tr_sales_db_application s1 left join tr_sales_db_application_detail s2 on s1.id = s2.salesid
+  	select s1.id, s2.id as detailid, s1.code, s2.materielname as materialName,
+  		s1.customername as customerName, s2.salessum as billSum, s2.margin
+  	from tr_sales_db_application s1 
+  	left join tr_sales_db_application_detail s2 on s1.id = s2.salesid
   	<where>
   		<if test="state != null and state != ''">
   			and s1.state = #{state,jdbcType=VARCHAR}
