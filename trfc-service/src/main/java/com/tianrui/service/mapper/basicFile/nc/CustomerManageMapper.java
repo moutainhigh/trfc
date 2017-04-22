@@ -5,6 +5,8 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 import com.tianrui.api.req.basicFile.nc.CustomerManageQuery;
+import com.tianrui.api.req.businessManage.handset.HandSetRequestParam;
+import com.tianrui.api.resp.businessManage.handset.HandSetReturnResp;
 import com.tianrui.service.bean.basicFile.nc.CustomerManage;
 
 public interface CustomerManageMapper {
@@ -31,4 +33,12 @@ public interface CustomerManageMapper {
 	Long findMaxUtc();
 
 	List<CustomerManage> autoCompleteSearch(@Param("likeName")String likeName);
+	/**
+	 * @Description 手持机获取客户集合接口
+	 * @author zhanggaohao
+	 * @version 2017年4月21日 下午2:48:41
+	 * @param req
+	 * @return
+	 */
+	List<HandSetReturnResp> handSetQueryAll(HandSetRequestParam req);
 }

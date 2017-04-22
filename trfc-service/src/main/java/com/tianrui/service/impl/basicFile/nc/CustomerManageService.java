@@ -15,7 +15,9 @@ import com.alibaba.fastjson.JSONObject;
 import com.tianrui.api.intf.basicFile.nc.ICustomerManageService;
 import com.tianrui.api.req.basicFile.nc.CustomerManageQuery;
 import com.tianrui.api.req.basicFile.nc.CustomerManageSave;
+import com.tianrui.api.req.businessManage.handset.HandSetRequestParam;
 import com.tianrui.api.resp.basicFile.nc.CustomerManageResp;
+import com.tianrui.api.resp.businessManage.handset.HandSetReturnResp;
 import com.tianrui.service.bean.basicFile.nc.CustomerManage;
 /**
  * 客户管理Service
@@ -194,6 +196,12 @@ public class CustomerManageService implements ICustomerManageService {
 			item.setUtc(Long.valueOf(jsonItem.getString("ts")));
 		}
 		return item;
+	}
+
+	@Override
+	public List<HandSetReturnResp> handSetQueryAll(HandSetRequestParam req) {
+		List<HandSetReturnResp> list = customerManageMapper.handSetQueryAll(req);
+		return list;
 	}
 	
 }

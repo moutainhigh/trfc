@@ -45,6 +45,7 @@ import com.tianrui.smartfactory.common.constants.ErrorCode;
 import com.tianrui.smartfactory.common.utils.UUIDUtil;
 import com.tianrui.smartfactory.common.vo.PaginationVO;
 import com.tianrui.smartfactory.common.vo.Result;
+import com.tianrui.web.smvc.ApiAuthValidation;
 import com.tianrui.web.smvc.ApiParamRawType;
 
 
@@ -94,6 +95,7 @@ public class ApiStaticAction {
 	
 	@RequestMapping(value="/updatePswd",method=RequestMethod.POST)
 	@ApiParamRawType(AppUserReq.class)
+	@ApiAuthValidation(callType="3")
 	@ResponseBody
 	public ApiResult updatePswd(ApiParam<AppUserReq> req){
 		Result rs = Result.getErrorResult();
@@ -113,6 +115,7 @@ public class ApiStaticAction {
 	 */
 	@RequestMapping(value="/orderPage",method=RequestMethod.POST)
 	@ApiParamRawType(AppOrderReq.class)
+	@ApiAuthValidation(callType="3")
 	@ResponseBody
 	public ApiResult orderPage(ApiParam<AppOrderReq> appParam){
 		Result rs = Result.getSuccessResult();

@@ -54,45 +54,49 @@ public class ApiParamInterceptor implements HandlerInterceptor{
 		String jsonParam = request.getParameter("p");
 		request.setAttribute("p", jsonParam);
 		if( StringUtils.isNotBlank(jsonParam) ){
-			HandlerMethod handlerMethod = (HandlerMethod) handler;
 
+			HandlerMethod handlerMethod = (HandlerMethod) handler;
+			ApiNotTokenValidation notValidToken = handlerMethod.getMethodAnnotation(ApiNotTokenValidation.class);
 			ApiParamRawType apiRawType = handlerMethod.getMethodAnnotation(ApiParamRawType.class);
 			ApiAuthValidation apiAuth = handlerMethod.getMethodAnnotation(ApiAuthValidation.class);
-			
 			//日志初始化
 			LoggerFactory.getLogger("access").info("APP Access[{}] - {} ", request.getRequestURL(),
 					jsonParam);
 			PerformanceCache.set(System.currentTimeMillis());
 			
-			if( apiRawType !=null ){
-				ApiParam<?> appParamObj =  JsonUtil.getApiParam(jsonParam, apiRawType.value());
-				// 将转换后的ApiParam对象临时存储在线程缓存内
-				AppParamCache.set(appParamObj);
-				//验证签名串
-				if( !JsonUtil.validateSign(jsonParam.trim(), appParamObj.getSign(), Constant.apiAuthSign) ){
-					// 防篡改失败 验证失败
-					LoggerFactory.getLogger(Constant.ACCESS).warn("拦截到非法的API请求[apiSign校验失败] - {}", jsonParam);
-					writeJsonResponse(response,ApiResult.valueOf(ErrorCode.PARAM_CHECK_CODE_ERROR));
-				//验证key
-				}else if( !JsonUtil.validateKey(appParamObj.getHead().getKey(), appParamObj.getHead().getCallTime(), Constant.apiAuthKey)  ){
-					// key验证失败
-					writeJsonResponse(response,ApiResult.valueOf(ErrorCode.PARAM_TOKEN_ERROR));
-				}else{
-					if( apiAuth !=null ){
-						String allowcallType =apiAuth.callType();
-						if( StringUtils.isBlank(appParamObj.getHead().getUserId())  ){
-							// TODO 用户 权限验证.  用户存在验证
-							writeJsonResponse(response,ApiResult.valueOf(ErrorCode.PARAM_NULL_USER_ERROR));
-						}else if(!allowcallType.equals(appParamObj.getHead().getCallType())){
-							writeJsonResponse(response,ApiResult.valueOf(ErrorCode.SYSTEM_AUTH_API_ERROR6));
+			if(notValidToken == null){
+				if( apiRawType !=null ){
+					ApiParam<?> appParamObj =  JsonUtil.getApiParam(jsonParam, apiRawType.value());
+					// 将转换后的ApiParam对象临时存储在线程缓存内
+					AppParamCache.set(appParamObj);
+					//验证签名串
+					if( !JsonUtil.validateSign(jsonParam.trim(), appParamObj.getSign(), Constant.apiAuthSign) ){
+						// 防篡改失败 验证失败
+						LoggerFactory.getLogger(Constant.ACCESS).warn("拦截到非法的API请求[apiSign校验失败] - {}", jsonParam);
+						writeJsonResponse(response,ApiResult.valueOf(ErrorCode.PARAM_CHECK_CODE_ERROR));
+						//验证key
+					}else if( !JsonUtil.validateKey(appParamObj.getHead().getKey(), appParamObj.getHead().getCallTime(), Constant.apiAuthKey)  ){
+						// key验证失败
+						writeJsonResponse(response,ApiResult.valueOf(ErrorCode.PARAM_KEY_ERROR));
+					}else{
+						if( apiAuth !=null ){
+							String allowcallType =apiAuth.callType();
+							if( StringUtils.isBlank(appParamObj.getHead().getUserId())  ){
+								// TODO 用户 权限验证.  用户存在验证
+								writeJsonResponse(response,ApiResult.valueOf(ErrorCode.PARAM_NULL_USER_ERROR));
+							}else if(!allowcallType.equals(appParamObj.getHead().getCallType())){
+								writeJsonResponse(response,ApiResult.valueOf(ErrorCode.SYSTEM_AUTH_API_ERROR6));
+							}else{
+								flag=true;
+							}
+							//访问用户登录接口	
 						}else{
 							flag=true;
 						}
-					//访问用户登录接口	
-					}else{
-					    flag=true;
 					}
 				}
+			}else{
+				flag=true;
 			}
 		}else{
 			//参数异常  jsonParam为空

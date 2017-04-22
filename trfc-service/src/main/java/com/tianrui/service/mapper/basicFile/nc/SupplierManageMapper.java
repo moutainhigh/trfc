@@ -5,6 +5,8 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 import com.tianrui.api.req.basicFile.nc.SupplierManageQuery;
+import com.tianrui.api.req.businessManage.handset.HandSetRequestParam;
+import com.tianrui.api.resp.businessManage.handset.HandSetReturnResp;
 import com.tianrui.service.bean.basicFile.nc.SupplierManage;
 /**
  * 供应商管理Mapper接口
@@ -40,4 +42,12 @@ public interface SupplierManageMapper {
     int insertBatch(List<SupplierManage> list);
     
     List<SupplierManage> autoCompleteSearch(@Param("likeName")String likeName);
+    /**
+     * @Description 手持机获取供应商集合接口
+     * @author zhanggaohao
+     * @version 2017年4月21日 下午2:35:05
+     * @param req
+     * @return
+     */
+	List<HandSetReturnResp> handSetQueryAll(HandSetRequestParam req);
 }

@@ -11,6 +11,9 @@ public class Head {
 	private String callTime;
 	//用户加密标识
 	private String key;
+	//TOKEN
+	private String token;
+	
 	public String getUserId() {
 		return userId;
 	}
@@ -41,7 +44,11 @@ public class Head {
 	public void setKey(String key) {
 		this.key = key;
 	}
-	
-	
+	public String getToken() {
+		return token;
+	}
+	public void setToken(String token) {
+		this.token = token;
+	}
 	
 }

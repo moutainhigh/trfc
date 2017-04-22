@@ -5,7 +5,9 @@ import java.util.List;
 import com.alibaba.fastjson.JSONObject;
 import com.tianrui.api.req.basicFile.nc.CustomerManageQuery;
 import com.tianrui.api.req.basicFile.nc.CustomerManageSave;
+import com.tianrui.api.req.businessManage.handset.HandSetRequestParam;
 import com.tianrui.api.resp.basicFile.nc.CustomerManageResp;
+import com.tianrui.api.resp.businessManage.handset.HandSetReturnResp;
 import com.tianrui.smartfactory.common.vo.PaginationVO;
 import com.tianrui.smartfactory.common.vo.Result;
 
@@ -30,5 +32,13 @@ public interface ICustomerManageService {
 	Result updateDataWithDC(List<JSONObject> list )throws Exception;
 
 	List<CustomerManageResp> autoCompleteSearch(String trim) throws Exception;
+	/**
+	 * @Description 手持机获取客户集合接口
+	 * @author zhanggaohao
+	 * @version 2017年4月21日 下午2:46:34
+	 * @param req
+	 * @return
+	 */
+	List<HandSetReturnResp> handSetQueryAll(HandSetRequestParam req);
 
 }

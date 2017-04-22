@@ -46,13 +46,20 @@ public class SystemUserService implements ISystemUserService {
 	public Result apiLogin(UserReq req) throws Exception {
 		Result rs =Result.getParamErrorResult();
 		if (req!=null && StringUtils.isNotBlank(req.getPswd()) && StringUtils.isNotBlank(req.getAccount())) {
-			if ( StringUtils.equals(req.getAccount(), "test") ) {
-				if ( StringUtils.equals(req.getPswd(), Md5Utils.MD5("123456")) ) {
-					SystemUserResp userResp = new SystemUserResp();
-					userResp.setId("9999999999");
-					userResp.setName("测试员金鑫");
-					rs.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
-					rs.setData(userResp);
+			SystemUserQueryReq query =new SystemUserQueryReq();
+			query.setAccount(req.getAccount());
+			List<SystemUser> list = userMapper.selectByCondition(query);
+			if (CollectionUtils.isNotEmpty(list)) {
+				if (StringUtils.equals(list.get(0).getPassword(),req.getPswd() )) {
+					if ( list.get(0).getIsvalid()==BusinessConstants.USER_VALID_BYTE ) {
+						rs.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+						SystemUserResp resp = new SystemUserResp();
+						resp.setId(list.get(0).getId());
+						resp.setName(list.get(0).getName());
+						rs.setData(resp);
+					}else{
+						rs.setErrorCode(ErrorCode.SYSTEM_USER_ERROR2);
+					}
 				}else{
 					rs.setErrorCode(ErrorCode.SYSTEM_USER_ERROR2);
 				}
@@ -241,7 +248,7 @@ public class SystemUserService implements ISystemUserService {
 		if (req!=null && StringUtils.isNotBlank(req.getPswd()) && StringUtils.isNotBlank(req.getAccount())) {
 			SystemUserQueryReq query =new SystemUserQueryReq();
 			query.setAccount(req.getAccount());
-			List<SystemUser> list =userMapper.selectByCondition(query);
+			List<SystemUser> list = userMapper.selectByCondition(query);
 			if ( CollectionUtils.isNotEmpty(list) ) {
 				//验证密码
 				if (StringUtils.equals(list.get(0).getPassword(),req.getPswd() )) {

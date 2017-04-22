@@ -12,7 +12,7 @@ $(function(){
 		var url = URL.loginUrl;
 		var account = $('#user_account').val();
 		var pswd = $('#user_password').val();
-		var params = {account:account,pswd:pswd};
+		var params = {account:account,pswd:md5(pswd)};
 		
 		
 		$.post(url,params,function(result){

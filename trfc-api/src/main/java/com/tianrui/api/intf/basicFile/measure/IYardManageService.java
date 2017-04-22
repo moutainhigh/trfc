@@ -4,7 +4,9 @@ import java.util.List;
 
 import com.tianrui.api.req.basicFile.measure.YardManageQuery;
 import com.tianrui.api.req.basicFile.measure.YardManageSave;
+import com.tianrui.api.req.businessManage.handset.HandSetRequestParam;
 import com.tianrui.api.resp.basicFile.measure.YardManageResp;
+import com.tianrui.api.resp.businessManage.handset.HandSetReturnResp;
 import com.tianrui.smartfactory.common.vo.Result;
 
 /**
@@ -50,4 +52,12 @@ public interface IYardManageService {
 	 * @throws Exception
 	 */
 	List<YardManageResp> autoCompleteSearch(String likeName) throws Exception;
+	/**
+	 * @Description 手持机获取堆场集合接口
+	 * @author zhanggaohao
+	 * @version 2017年4月21日 下午2:56:59
+	 * @param req
+	 * @return
+	 */
+	List<HandSetReturnResp> handSetQueryAll(HandSetRequestParam req);
 }

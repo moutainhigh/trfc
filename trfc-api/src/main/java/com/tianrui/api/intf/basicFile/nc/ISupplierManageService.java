@@ -7,6 +7,7 @@ import com.tianrui.api.req.basicFile.nc.SupplierManageQuery;
 import com.tianrui.api.req.basicFile.nc.SupplierManageSave;
 import com.tianrui.api.req.businessManage.handset.HandSetRequestParam;
 import com.tianrui.api.resp.basicFile.nc.SupplierManageResp;
+import com.tianrui.api.resp.businessManage.handset.HandSetReturnResp;
 import com.tianrui.smartfactory.common.vo.PaginationVO;
 import com.tianrui.smartfactory.common.vo.Result;
 /**
@@ -53,6 +54,6 @@ public interface ISupplierManageService {
 	 * @param req
 	 * @return
 	 */
-	Result HandSetQueryAll(HandSetRequestParam req);
+	List<HandSetReturnResp> handSetQueryAll(HandSetRequestParam req);
 
 }

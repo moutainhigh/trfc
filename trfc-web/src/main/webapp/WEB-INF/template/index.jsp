@@ -63,6 +63,7 @@
 <script type="text/javascript" src="${staticBasePath}/js/jquery-1.11.1.js"></script>
 <script type="text/javascript" src="${staticBasePath}/js/bootstrap.js"></script>
 <script type="text/javascript" src="${staticBasePath}/js/cookie_util.js"></script>
+<script type="text/javascript" src="${staticBasePath}/js/md5.js"></script>
 <script type="text/javascript" src="/javascript/index.js"></script>
 </body>
 </html>

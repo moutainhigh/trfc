@@ -5,6 +5,8 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 import com.tianrui.api.req.basicFile.nc.WarehouseManageQuery;
+import com.tianrui.api.req.businessManage.handset.HandSetRequestParam;
+import com.tianrui.api.resp.businessManage.handset.HandSetReturnResp;
 import com.tianrui.service.bean.basicFile.nc.WarehouseManage;
 /**
  * 仓库管理Mapper接口
@@ -36,4 +38,12 @@ public interface WarehouseManageMapper {
 	Long findMaxUtc();
 
 	List<WarehouseManage> autoCompleteSearch(@Param("likeName")String trim);
+	/**
+	 * @Description 手持机获取仓库集合接口
+	 * @author zhanggaohao
+	 * @version 2017年4月21日 下午2:53:47
+	 * @param req
+	 * @return
+	 */
+	List<HandSetReturnResp> handSetQueryAll(HandSetRequestParam req);
 }

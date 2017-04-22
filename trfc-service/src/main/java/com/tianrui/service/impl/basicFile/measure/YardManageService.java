@@ -11,7 +11,9 @@ import org.springframework.stereotype.Service;
 import com.tianrui.api.intf.basicFile.measure.IYardManageService;
 import com.tianrui.api.req.basicFile.measure.YardManageQuery;
 import com.tianrui.api.req.basicFile.measure.YardManageSave;
+import com.tianrui.api.req.businessManage.handset.HandSetRequestParam;
 import com.tianrui.api.resp.basicFile.measure.YardManageResp;
+import com.tianrui.api.resp.businessManage.handset.HandSetReturnResp;
 import com.tianrui.service.bean.basicFile.measure.YardManage;
 import com.tianrui.service.mapper.basicFile.measure.YardManageMapper;
 import com.tianrui.smartfactory.common.constants.ErrorCode;
@@ -180,5 +182,12 @@ public class YardManageService implements IYardManageService{
 			PropertyUtils.copyProperties(resp, bean);
 		}
 		return resp;
+	}
+
+
+	@Override
+	public List<HandSetReturnResp> handSetQueryAll(HandSetRequestParam req) {
+		List<HandSetReturnResp> list = yardManageMapper.handSetQueryAll(req);
+		return list;
 	}
 }

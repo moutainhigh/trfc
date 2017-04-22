@@ -5,7 +5,9 @@ import java.util.List;
 import com.alibaba.fastjson.JSONObject;
 import com.tianrui.api.req.basicFile.nc.WarehouseManageQuery;
 import com.tianrui.api.req.basicFile.nc.WarehouseManageSave;
+import com.tianrui.api.req.businessManage.handset.HandSetRequestParam;
 import com.tianrui.api.resp.basicFile.nc.WarehouseManageResp;
+import com.tianrui.api.resp.businessManage.handset.HandSetReturnResp;
 import com.tianrui.smartfactory.common.vo.PaginationVO;
 import com.tianrui.smartfactory.common.vo.Result;
 /**
@@ -64,6 +66,14 @@ public interface IWarehouseManageService {
 	 * @throws Exception 
 	 */
 	List<WarehouseManageResp> autoCompleteSearch(String trim) throws Exception;
+	/**
+	 * @Description 手持机获取仓库集合接口
+	 * @author zhanggaohao
+	 * @version 2017年4月21日 下午2:52:00
+	 * @param req
+	 * @return
+	 */
+	List<HandSetReturnResp> handSetQueryAll(HandSetRequestParam req);
 	
 	
 	

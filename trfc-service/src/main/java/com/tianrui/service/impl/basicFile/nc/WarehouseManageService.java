@@ -15,7 +15,9 @@ import com.alibaba.fastjson.JSONObject;
 import com.tianrui.api.intf.basicFile.nc.IWarehouseManageService;
 import com.tianrui.api.req.basicFile.nc.WarehouseManageQuery;
 import com.tianrui.api.req.basicFile.nc.WarehouseManageSave;
+import com.tianrui.api.req.businessManage.handset.HandSetRequestParam;
 import com.tianrui.api.resp.basicFile.nc.WarehouseManageResp;
+import com.tianrui.api.resp.businessManage.handset.HandSetReturnResp;
 import com.tianrui.service.bean.basicFile.nc.WarehouseManage;
 import com.tianrui.service.mapper.basicFile.nc.WarehouseManageMapper;
 import com.tianrui.smartfactory.common.constants.ErrorCode;
@@ -206,6 +208,12 @@ public class WarehouseManageService implements IWarehouseManageService {
 		item.setUtc(Long.valueOf(jsonItem.getString("ts")));
 		item.setRemarks(jsonItem.getString("remark"));
 		return item;
+	}
+
+	@Override
+	public List<HandSetReturnResp> handSetQueryAll(HandSetRequestParam req) {
+		List<HandSetReturnResp> list = warehouseManageMapper.handSetQueryAll(req);
+		return list;
 	}
 	
 }
