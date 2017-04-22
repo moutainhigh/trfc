@@ -23,13 +23,16 @@
 						<div class="intel_sconditon">
 							<div class="intel_sline">
 								<div class="intel_solo">
-									<label>物料：</label> <input type="text" id="seek_material" placeholder="请选择物料">
+									<label>物料：</label> <input type="text" id="seek_material"
+										placeholder="请选择物料">
 								</div>
 								<div class="intel_solo">
-									<label>车号：</label> <input type="text" id="seek_vehicle" placeholder="请选择车号">
+									<label>车号：</label> <input type="text" id="seek_vehicle"
+										placeholder="请选择车号">
 								</div>
 								<div class="intel_solo">
-									<label>门禁单号：</label> <input type="text" id="seek_access" placeholder="请输入门禁单号">
+									<label>门禁单号：</label> <input type="text" id="seek_access"
+										placeholder="请输入门禁单号">
 								</div>
 								<div class="intel_solo">
 									<label>业务类型：</label> <select class="form-control"
@@ -51,10 +54,11 @@
 								<div class="intel_solo">
 									<label>时间：</label> <input type="text"
 										onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:00:00',maxDate:'#F{$dp.$D(\'seek_endtime\')}'})"
-										class="Wdate" style="width: 160px" id="seek_starttime"  placeholder="请选择开始时间"/> <i>-</i>
-									<input type="text"
+										class="Wdate" style="width: 160px" id="seek_starttime"
+										placeholder="请选择开始时间" /> <i>-</i> <input type="text"
 										onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:00:00',minDate:'#F{$dp.$D(\'seek_starttime\')}'})"
-										class="Wdate" style="width: 160px" id="seek_endtime"  placeholder="请选择结束时间"/>
+										class="Wdate" style="width: 160px" id="seek_endtime"
+										placeholder="请选择结束时间" />
 								</div>
 								<div class="intel_solo">
 									<div class="intel_sbtn">
@@ -70,8 +74,8 @@
 							<h5>刷新</h5>
 						</div>
 						<div class="intel_operasolo" id="seek_reader">
-						<input type="hidden" id="seek_icardno">
-							<i class="iconfont colorlv">&#xe601;</i>
+							<input type="hidden" id="seek_icardno"> <i
+								class="iconfont colorlv">&#xe601;</i>
 							<h5>读卡查找</h5>
 						</div>
 					</div>
@@ -159,15 +163,14 @@
 				</div>
 				<!--采购申请单end-->
 
-				
+
 			</div>
 		</div>
 	</div>
 
 
 	<jsp:include page="../../common/base/footer_busi.jsp"></jsp:include>
-	<script type="text/javascript"
-		src="/javascript/quality/purchase/cardReader.js"></script>
+	<script type="text/javascript" src="${staticBasePath}/js/cardReader.js"></script>
 	<script type="text/javascript"
 		src="/javascript/businessManage/cardManage/card_reissue.js"></script>
 </body>

@@ -2,86 +2,57 @@ package com.tianrui.api.req.businessManage.otherManage;
 
 import com.tianrui.api.req.BaseReq;
 
-/**
- * 其他入库通知单 (入参)
- * @author lxy
- *
- */
-public class OtherRKArriveReq extends BaseReq {
+public class OtherArriveReq extends BaseReq {
 
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 8489827741263023073L;
+	private static final long serialVersionUID = 8693577159505750320L;
 	
-	/**
-     * 主键id
-     */
     private String id;
 
-    /**
-     * 通知单号
-     */
     private String code;
 
-    /**
-     * 供应�?
-     */
+    private String businesstype;
+
     private String supplierid;
 
-    /**
-     * 审核状�??
-     */
     private String auditstatus;
 
-    /**
-     * 单位(货物来源)
-     */
+    private String enteryard;
+
+    private String leaveyard;
+
+    private String reason;
+
+    private String senddepartmentid;
+
+    private String custormerid;
+
+    private Long starttime;
+
+    private Long endtime;
+
     private String datasource;
 
-    /**
-     * 物料
-     */
     private String materielid;
 
-    /**
-     * 状�??(0：未入厂�?1：一次过磅，2：二次过磅，3：作废，4：发卡，5：出厂，6：入厂，7：装�?)
-     */
     private String status;
 
-    /**
-     * 货物
-     */
     private String cargo;
 
-    /**
-     * 收货单位
-     */
     private String receivedepartmentid;
 
-    /**
-     * 车辆
-     */
     private String vehicleid;
 
-    /**
-     * 矿口
-     */
     private String warehouseid;
 
-    /**
-     * 司机
-     */
     private String driverid;
 
-    /**
-     * 数量
-     */
-    private Long count;
+    private String icardid;
 
-    /**
-     * 备注
-     */
+    private Double count;
+
     private String remark;
 
     /**
@@ -104,24 +75,11 @@ public class OtherRKArriveReq extends BaseReq {
 	/**
 	 * 开始时间
 	 */
-	private Long starttime;
+	private Long startDate;
 	/**
 	 * 结束时间
 	 */
-	private Long endtime;
-	
-	public Long getStarttime() {
-		return starttime;
-	}
-	public void setStarttime(Long starttime) {
-		this.starttime = starttime;
-	}
-	public Long getEndtime() {
-		return endtime;
-	}
-	public void setEndtime(Long endtime) {
-		this.endtime = endtime;
-	}
+	private Long endDate;
 	public String getId() {
 		return id;
 	}
@@ -134,6 +92,12 @@ public class OtherRKArriveReq extends BaseReq {
 	public void setCode(String code) {
 		this.code = code;
 	}
+	public String getBusinesstype() {
+		return businesstype;
+	}
+	public void setBusinesstype(String businesstype) {
+		this.businesstype = businesstype;
+	}
 	public String getSupplierid() {
 		return supplierid;
 	}
@@ -145,6 +109,48 @@ public class OtherRKArriveReq extends BaseReq {
 	}
 	public void setAuditstatus(String auditstatus) {
 		this.auditstatus = auditstatus;
+	}
+	public String getEnteryard() {
+		return enteryard;
+	}
+	public void setEnteryard(String enteryard) {
+		this.enteryard = enteryard;
+	}
+	public String getLeaveyard() {
+		return leaveyard;
+	}
+	public void setLeaveyard(String leaveyard) {
+		this.leaveyard = leaveyard;
+	}
+	public String getReason() {
+		return reason;
+	}
+	public void setReason(String reason) {
+		this.reason = reason;
+	}
+	public String getSenddepartmentid() {
+		return senddepartmentid;
+	}
+	public void setSenddepartmentid(String senddepartmentid) {
+		this.senddepartmentid = senddepartmentid;
+	}
+	public String getCustormerid() {
+		return custormerid;
+	}
+	public void setCustormerid(String custormerid) {
+		this.custormerid = custormerid;
+	}
+	public Long getStarttime() {
+		return starttime;
+	}
+	public void setStarttime(Long starttime) {
+		this.starttime = starttime;
+	}
+	public Long getEndtime() {
+		return endtime;
+	}
+	public void setEndtime(Long endtime) {
+		this.endtime = endtime;
 	}
 	public String getDatasource() {
 		return datasource;
@@ -194,10 +200,16 @@ public class OtherRKArriveReq extends BaseReq {
 	public void setDriverid(String driverid) {
 		this.driverid = driverid;
 	}
-	public Long getCount() {
+	public String getIcardid() {
+		return icardid;
+	}
+	public void setIcardid(String icardid) {
+		this.icardid = icardid;
+	}
+	public Double getCount() {
 		return count;
 	}
-	public void setCount(Long count) {
+	public void setCount(Double count) {
 		this.count = count;
 	}
 	public String getRemark() {
@@ -230,5 +242,18 @@ public class OtherRKArriveReq extends BaseReq {
 	public void setLimit(int limit) {
 		this.limit = limit;
 	}
+	public Long getStartDate() {
+		return startDate;
+	}
+	public void setStartDate(Long startDate) {
+		this.startDate = startDate;
+	}
+	public Long getEndDate() {
+		return endDate;
+	}
+	public void setEndDate(Long endDate) {
+		this.endDate = endDate;
+	}
 	
+
 }

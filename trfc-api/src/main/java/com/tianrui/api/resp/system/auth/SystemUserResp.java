@@ -16,7 +16,6 @@ public class SystemUserResp implements Serializable{
 	private Integer logincount;
 	private Long lastLogintime;
     private String source;
-    private String password;
     
     private String orgName;
     private String lastLogintimeStr;
@@ -124,12 +123,6 @@ public class SystemUserResp implements Serializable{
 	 */
 	public void setIdentityTypes(String identityTypes) {
 		this.identityTypes = identityTypes;
-	}
-	public String getPassword() {
-		return password;
-	}
-	public void setPassword(String password) {
-		this.password = password;
 	}
 	/**
 	 * @return the mobilePhone

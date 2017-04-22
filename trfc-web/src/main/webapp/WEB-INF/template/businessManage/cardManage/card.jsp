@@ -264,8 +264,7 @@
 	</div>
 	<!--删除end-->
 	<jsp:include page="../../common/base/footer_busi.jsp"></jsp:include>
-	<script type="text/javascript"
-		src="/javascript/quality/purchase/cardReader.js"></script>
+	<script type="text/javascript" src="${staticBasePath}/js/cardReader.js"></script>
 	<script type="text/javascript"
 		src="/javascript/businessManage/cardManage/card.js"></script>
 </body>

@@ -440,8 +440,7 @@
 	</div>
 	<!--司机新增end-->
 	<jsp:include page="../../common/base/footer_busi.jsp"></jsp:include>
-	<script type="text/javascript"
-		src="/javascript/quality/purchase/cardReader.js"></script>
+<script type="text/javascript" src="${staticBasePath}/js/cardReader.js"></script>
 	<script type="text/javascript"
 		src="/javascript/businessManage/salesManage/salesArriveAdd.js"></script>
 	<script type="text/javascript">

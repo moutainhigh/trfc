@@ -1,0 +1,518 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper
+	namespace="com.tianrui.service.mapper.businessManage.otherManage.OtherArriveMapper">
+	<resultMap id="BaseResultMap"
+		type="com.tianrui.service.bean.businessManage.otherManage.OtherArrive">
+		<id column="id" property="id" jdbcType="VARCHAR" />
+		<result column="code" property="code" jdbcType="VARCHAR" />
+		<result column="businesstype" property="businesstype" jdbcType="VARCHAR" />
+		<result column="supplierid" property="supplierid" jdbcType="VARCHAR" />
+		<result column="auditstatus" property="auditstatus" jdbcType="VARCHAR" />
+		<result column="enteryard" property="enteryard" jdbcType="VARCHAR" />
+		<result column="leaveyard" property="leaveyard" jdbcType="VARCHAR" />
+		<result column="reason" property="reason" jdbcType="VARCHAR" />
+		<result column="senddepartmentid" property="senddepartmentid"
+			jdbcType="VARCHAR" />
+		<result column="custormerid" property="custormerid" jdbcType="VARCHAR" />
+		<result column="starttime" property="starttime" jdbcType="BIGINT" />
+		<result column="endtime" property="endtime" jdbcType="BIGINT" />
+		<result column="datasource" property="datasource" jdbcType="VARCHAR" />
+		<result column="materielid" property="materielid" jdbcType="VARCHAR" />
+		<result column="status" property="status" jdbcType="VARCHAR" />
+		<result column="cargo" property="cargo" jdbcType="VARCHAR" />
+		<result column="receivedepartmentid" property="receivedepartmentid"
+			jdbcType="VARCHAR" />
+		<result column="vehicleid" property="vehicleid" jdbcType="VARCHAR" />
+		<result column="warehouseid" property="warehouseid" jdbcType="VARCHAR" />
+		<result column="driverid" property="driverid" jdbcType="VARCHAR" />
+		<result column="icardid" property="icardid" jdbcType="VARCHAR" />
+		<result column="count" property="count" jdbcType="DOUBLE" />
+		<result column="remark" property="remark" jdbcType="VARCHAR" />
+		<result column="creator" property="creator" jdbcType="VARCHAR" />
+		<result column="createtime" property="createtime" jdbcType="BIGINT" />
+		<result column="modifier" property="modifier" jdbcType="VARCHAR" />
+		<result column="modifytime" property="modifytime" jdbcType="BIGINT" />
+		<result column="utc" property="utc" jdbcType="BIGINT" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, code, businesstype, supplierid, auditstatus, enteryard,
+		leaveyard,
+		reason, senddepartmentid,
+		custormerid, starttime, endtime,
+		datasource, materielid, status, cargo,
+		receivedepartmentid,
+		vehicleid,
+		warehouseid, driverid, icardid, count, remark, creator, createtime,
+		modifier,
+		modifytime, utc
+	</sql>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from tr_other_db_arrive
+		where id = #{id,jdbcType=VARCHAR}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from
+		tr_other_db_arrive
+		where id = #{id,jdbcType=VARCHAR}
+	</delete>
+	<insert id="insert"
+		parameterType="com.tianrui.service.bean.businessManage.otherManage.OtherArrive">
+		insert into tr_other_db_arrive (id, code, businesstype,
+		supplierid, auditstatus, enteryard,
+		leaveyard, reason,
+		senddepartmentid,
+		custormerid, starttime, endtime,
+		datasource,
+		materielid, status,
+		cargo, receivedepartmentid, vehicleid,
+		warehouseid,
+		driverid, icardid,
+		count, remark, creator,
+		createtime, modifier,
+		modifytime,
+		utc)
+		values (#{id,jdbcType=VARCHAR},
+		#{code,jdbcType=VARCHAR},
+		#{businesstype,jdbcType=VARCHAR},
+		#{supplierid,jdbcType=VARCHAR}, #{auditstatus,jdbcType=VARCHAR},
+		#{enteryard,jdbcType=VARCHAR},
+		#{leaveyard,jdbcType=VARCHAR},
+		#{reason,jdbcType=VARCHAR},
+		#{senddepartmentid,jdbcType=VARCHAR},
+		#{custormerid,jdbcType=VARCHAR}, #{starttime,jdbcType=BIGINT},
+		#{endtime,jdbcType=BIGINT},
+		#{datasource,jdbcType=VARCHAR},
+		#{materielid,jdbcType=VARCHAR},
+		#{status,jdbcType=VARCHAR},
+		#{cargo,jdbcType=VARCHAR}, #{receivedepartmentid,jdbcType=VARCHAR},
+		#{vehicleid,jdbcType=VARCHAR},
+		#{warehouseid,jdbcType=VARCHAR},
+		#{driverid,jdbcType=VARCHAR}, #{icardid,jdbcType=VARCHAR},
+		#{count,jdbcType=DOUBLE}, #{remark,jdbcType=VARCHAR},
+		#{creator,jdbcType=VARCHAR},
+		#{createtime,jdbcType=BIGINT},
+		#{modifier,jdbcType=VARCHAR}, #{modifytime,jdbcType=BIGINT},
+		#{utc,jdbcType=BIGINT})
+	</insert>
+	<insert id="insertSelective"
+		parameterType="com.tianrui.service.bean.businessManage.otherManage.OtherArrive">
+		insert into tr_other_db_arrive
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="code != null">
+				code,
+			</if>
+			<if test="businesstype != null">
+				businesstype,
+			</if>
+			<if test="supplierid != null">
+				supplierid,
+			</if>
+			<if test="auditstatus != null">
+				auditstatus,
+			</if>
+			<if test="enteryard != null">
+				enteryard,
+			</if>
+			<if test="leaveyard != null">
+				leaveyard,
+			</if>
+			<if test="reason != null">
+				reason,
+			</if>
+			<if test="senddepartmentid != null">
+				senddepartmentid,
+			</if>
+			<if test="custormerid != null">
+				custormerid,
+			</if>
+			<if test="starttime != null">
+				starttime,
+			</if>
+			<if test="endtime != null">
+				endtime,
+			</if>
+			<if test="datasource != null">
+				datasource,
+			</if>
+			<if test="materielid != null">
+				materielid,
+			</if>
+			<if test="status != null">
+				status,
+			</if>
+			<if test="cargo != null">
+				cargo,
+			</if>
+			<if test="receivedepartmentid != null">
+				receivedepartmentid,
+			</if>
+			<if test="vehicleid != null">
+				vehicleid,
+			</if>
+			<if test="warehouseid != null">
+				warehouseid,
+			</if>
+			<if test="driverid != null">
+				driverid,
+			</if>
+			<if test="icardid != null">
+				icardid,
+			</if>
+			<if test="count != null">
+				count,
+			</if>
+			<if test="remark != null">
+				remark,
+			</if>
+			<if test="creator != null">
+				creator,
+			</if>
+			<if test="createtime != null">
+				createtime,
+			</if>
+			<if test="modifier != null">
+				modifier,
+			</if>
+			<if test="modifytime != null">
+				modifytime,
+			</if>
+			<if test="utc != null">
+				utc,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=VARCHAR},
+			</if>
+			<if test="code != null">
+				#{code,jdbcType=VARCHAR},
+			</if>
+			<if test="businesstype != null">
+				#{businesstype,jdbcType=VARCHAR},
+			</if>
+			<if test="supplierid != null">
+				#{supplierid,jdbcType=VARCHAR},
+			</if>
+			<if test="auditstatus != null">
+				#{auditstatus,jdbcType=VARCHAR},
+			</if>
+			<if test="enteryard != null">
+				#{enteryard,jdbcType=VARCHAR},
+			</if>
+			<if test="leaveyard != null">
+				#{leaveyard,jdbcType=VARCHAR},
+			</if>
+			<if test="reason != null">
+				#{reason,jdbcType=VARCHAR},
+			</if>
+			<if test="senddepartmentid != null">
+				#{senddepartmentid,jdbcType=VARCHAR},
+			</if>
+			<if test="custormerid != null">
+				#{custormerid,jdbcType=VARCHAR},
+			</if>
+			<if test="starttime != null">
+				#{starttime,jdbcType=BIGINT},
+			</if>
+			<if test="endtime != null">
+				#{endtime,jdbcType=BIGINT},
+			</if>
+			<if test="datasource != null">
+				#{datasource,jdbcType=VARCHAR},
+			</if>
+			<if test="materielid != null">
+				#{materielid,jdbcType=VARCHAR},
+			</if>
+			<if test="status != null">
+				#{status,jdbcType=VARCHAR},
+			</if>
+			<if test="cargo != null">
+				#{cargo,jdbcType=VARCHAR},
+			</if>
+			<if test="receivedepartmentid != null">
+				#{receivedepartmentid,jdbcType=VARCHAR},
+			</if>
+			<if test="vehicleid != null">
+				#{vehicleid,jdbcType=VARCHAR},
+			</if>
+			<if test="warehouseid != null">
+				#{warehouseid,jdbcType=VARCHAR},
+			</if>
+			<if test="driverid != null">
+				#{driverid,jdbcType=VARCHAR},
+			</if>
+			<if test="icardid != null">
+				#{icardid,jdbcType=VARCHAR},
+			</if>
+			<if test="count != null">
+				#{count,jdbcType=DOUBLE},
+			</if>
+			<if test="remark != null">
+				#{remark,jdbcType=VARCHAR},
+			</if>
+			<if test="creator != null">
+				#{creator,jdbcType=VARCHAR},
+			</if>
+			<if test="createtime != null">
+				#{createtime,jdbcType=BIGINT},
+			</if>
+			<if test="modifier != null">
+				#{modifier,jdbcType=VARCHAR},
+			</if>
+			<if test="modifytime != null">
+				#{modifytime,jdbcType=BIGINT},
+			</if>
+			<if test="utc != null">
+				#{utc,jdbcType=BIGINT},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective"
+		parameterType="com.tianrui.service.bean.businessManage.otherManage.OtherArrive">
+		update tr_other_db_arrive
+		<set>
+			<if test="code != null">
+				code = #{code,jdbcType=VARCHAR},
+			</if>
+			<if test="businesstype != null">
+				businesstype = #{businesstype,jdbcType=VARCHAR},
+			</if>
+			<if test="supplierid != null">
+				supplierid = #{supplierid,jdbcType=VARCHAR},
+			</if>
+			<if test="auditstatus != null">
+				auditstatus = #{auditstatus,jdbcType=VARCHAR},
+			</if>
+			<if test="enteryard != null">
+				enteryard = #{enteryard,jdbcType=VARCHAR},
+			</if>
+			<if test="leaveyard != null">
+				leaveyard = #{leaveyard,jdbcType=VARCHAR},
+			</if>
+			<if test="reason != null">
+				reason = #{reason,jdbcType=VARCHAR},
+			</if>
+			<if test="senddepartmentid != null">
+				senddepartmentid = #{senddepartmentid,jdbcType=VARCHAR},
+			</if>
+			<if test="custormerid != null">
+				custormerid = #{custormerid,jdbcType=VARCHAR},
+			</if>
+			<if test="starttime != null">
+				starttime = #{starttime,jdbcType=BIGINT},
+			</if>
+			<if test="endtime != null">
+				endtime = #{endtime,jdbcType=BIGINT},
+			</if>
+			<if test="datasource != null">
+				datasource = #{datasource,jdbcType=VARCHAR},
+			</if>
+			<if test="materielid != null">
+				materielid = #{materielid,jdbcType=VARCHAR},
+			</if>
+			<if test="status != null">
+				status = #{status,jdbcType=VARCHAR},
+			</if>
+			<if test="cargo != null">
+				cargo = #{cargo,jdbcType=VARCHAR},
+			</if>
+			<if test="receivedepartmentid != null">
+				receivedepartmentid =
+				#{receivedepartmentid,jdbcType=VARCHAR},
+			</if>
+			<if test="vehicleid != null">
+				vehicleid = #{vehicleid,jdbcType=VARCHAR},
+			</if>
+			<if test="warehouseid != null">
+				warehouseid = #{warehouseid,jdbcType=VARCHAR},
+			</if>
+			<if test="driverid != null">
+				driverid = #{driverid,jdbcType=VARCHAR},
+			</if>
+			<if test="icardid != null">
+				icardid = #{icardid,jdbcType=VARCHAR},
+			</if>
+			<if test="count != null">
+				count = #{count,jdbcType=DOUBLE},
+			</if>
+			<if test="remark != null">
+				remark = #{remark,jdbcType=VARCHAR},
+			</if>
+			<if test="creator != null">
+				creator = #{creator,jdbcType=VARCHAR},
+			</if>
+			<if test="createtime != null">
+				createtime = #{createtime,jdbcType=BIGINT},
+			</if>
+			<if test="modifier != null">
+				modifier = #{modifier,jdbcType=VARCHAR},
+			</if>
+			<if test="modifytime != null">
+				modifytime = #{modifytime,jdbcType=BIGINT},
+			</if>
+			<if test="utc != null">
+				utc = #{utc,jdbcType=BIGINT},
+			</if>
+		</set>
+		where id = #{id,jdbcType=VARCHAR}
+	</update>
+	<update id="updateByPrimaryKey"
+		parameterType="com.tianrui.service.bean.businessManage.otherManage.OtherArrive">
+		update tr_other_db_arrive
+		set code =
+		#{code,jdbcType=VARCHAR},
+		businesstype =
+		#{businesstype,jdbcType=VARCHAR},
+		supplierid =
+		#{supplierid,jdbcType=VARCHAR},
+		auditstatus =
+		#{auditstatus,jdbcType=VARCHAR},
+		enteryard =
+		#{enteryard,jdbcType=VARCHAR},
+		leaveyard =
+		#{leaveyard,jdbcType=VARCHAR},
+		reason = #{reason,jdbcType=VARCHAR},
+		senddepartmentid = #{senddepartmentid,jdbcType=VARCHAR},
+		custormerid =
+		#{custormerid,jdbcType=VARCHAR},
+		starttime =
+		#{starttime,jdbcType=BIGINT},
+		endtime = #{endtime,jdbcType=BIGINT},
+		datasource = #{datasource,jdbcType=VARCHAR},
+		materielid =
+		#{materielid,jdbcType=VARCHAR},
+		status = #{status,jdbcType=VARCHAR},
+		cargo = #{cargo,jdbcType=VARCHAR},
+		receivedepartmentid =
+		#{receivedepartmentid,jdbcType=VARCHAR},
+		vehicleid =
+		#{vehicleid,jdbcType=VARCHAR},
+		warehouseid =
+		#{warehouseid,jdbcType=VARCHAR},
+		driverid =
+		#{driverid,jdbcType=VARCHAR},
+		icardid = #{icardid,jdbcType=VARCHAR},
+		count = #{count,jdbcType=DOUBLE},
+		remark = #{remark,jdbcType=VARCHAR},
+		creator = #{creator,jdbcType=VARCHAR},
+		createtime =
+		#{createtime,jdbcType=BIGINT},
+		modifier = #{modifier,jdbcType=VARCHAR},
+		modifytime = #{modifytime,jdbcType=BIGINT},
+		utc =
+		#{utc,jdbcType=BIGINT}
+		where id = #{id,jdbcType=VARCHAR}
+	</update>
+	<select id="page"
+		parameterType="com.tianrui.api.req.businessManage.otherManage.OtherArriveReq"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from tr_other_db_arrive
+		<where>
+			<if test="businesstype != null and businesstype != ''">
+				businesstype = #{businesstype,jdbcType=VARCHAR}
+			</if>
+			<if test="code != null and code != '' ">
+				and code = #{code,jdbcType=VARCHAR}
+			</if>
+			<if test="supplierid != null and supplierid != '' ">
+				and supplierid = #{supplierid,jdbcType=VARCHAR}
+			</if>
+			<if test="auditstatus != null and auditstatus != '' ">
+				and auditstatus = #{auditstatus,jdbcType=VARCHAR}
+			</if>
+			<if test="warehouseid != null and warehouseid != '' ">
+				and warehouseid = #{warehouseid,jdbcType=VARCHAR}
+			</if>
+			<if test="vehicleid != null and vehicleid != '' ">
+				and vehicleid = #{vehicleid,jdbcType=VARCHAR}
+			</if>
+			<if test="cargo != null and cargo != '' ">
+				and cargo = #{cargo,jdbcType=VARCHAR}
+			</if>
+			<if test="starttime != null and starttime != ''">
+				and createtime <![CDATA[>=]]>
+				#{starttime,jdbcType=BIGINT}
+			</if>
+			<if test="endtime != null and endtime != ''">
+				and createtime <![CDATA[<]]>
+				#{endtime,jdbcType=BIGINT}
+			</if>
+		</where>
+		order by createtime desc
+		<if test="start != null and start &gt;= 0">
+			<if test="limit != null">
+				limit #{start,jdbcType=INTEGER},#{limit,jdbcType=INTEGER}
+			</if>
+		</if>
+	</select>
+	<select id="count"
+		parameterType="com.tianrui.api.req.businessManage.otherManage.OtherArriveReq"
+		resultType="java.lang.Long">
+		select count(0)
+		from tr_other_db_arrive
+		<where>
+			<if test="businesstype != null and businesstype != ''">
+				businesstype = #{businesstype,jdbcType=VARCHAR}
+			</if>
+			<if test="code != null and code != '' ">
+				and code = #{code,jdbcType=VARCHAR}
+			</if>
+			<if test="supplierid != null and supplierid != '' ">
+				and supplierid = #{supplierid,jdbcType=VARCHAR}
+			</if>
+			<if test="auditstatus != null and auditstatus != '' ">
+				and auditstatus = #{auditstatus,jdbcType=VARCHAR}
+			</if>
+			<if test="warehouseid != null and warehouseid != '' ">
+				and warehouseid = #{warehouseid,jdbcType=VARCHAR}
+			</if>
+			<if test="vehicleid != null and vehicleid != '' ">
+				and vehicleid = #{vehicleid,jdbcType=VARCHAR}
+			</if>
+			<if test="cargo != null and cargo != '' ">
+				and cargo = #{cargo,jdbcType=VARCHAR}
+			</if>
+			<if test="starttime != null and starttime != ''">
+				and createtime <![CDATA[>=]]>
+				#{starttime,jdbcType=BIGINT}
+			</if>
+			<if test="endtime != null and endtime != ''">
+				and createtime <![CDATA[<]]>
+				#{endtime,jdbcType=BIGINT}
+			</if>
+		</where>
+	</select>
+	<select id="checkDriverAndVehicleAndIcardIsUse"
+		parameterType="com.tianrui.service.bean.businessManage.otherManage.OtherArrive"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from tr_other_db_arrive
+		<where>
+			status != '5' and status != '3'
+			<if test="id != null and id != ''">
+				and id != #{id,jdbcType=VARCHAR}
+			</if>
+			<if test="vehicleid != null and vehicleid != ''">
+				and vehicleid = #{vehicleid,jdbcType=VARCHAR}
+			</if>
+			<if test="icardid != null and icardid != ''">
+				and icardid = #{icardid,jdbcType=VARCHAR}
+			</if>
+			<if test="driverid != null and driverid != ''">
+				and driverid = #{driverid,jdbcType=VARCHAR}
+			</if>
+
+		</where>
+	</select>
+
+</mapper>

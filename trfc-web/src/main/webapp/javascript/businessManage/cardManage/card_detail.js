@@ -88,7 +88,9 @@ $(function() {
 			layer.msg('当前游览器不支持!(只兼容IE游览器)');
 		}
 	}
-
+	
+	
+	
 	//更新卡号到通知单
 	function updateCardno(cardno,obj) {
 		var param = {

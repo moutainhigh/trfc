@@ -10,9 +10,25 @@ $(function() {
 		};
 		$.post(url,params,function(result) {
 			showMenu(result.data.list);	
+			var menu_a = $('#menulist > a');
+			collapse_left(menu_a);
+			
 			$(".tool").tooltip();
 		});
 	}
+	
+	function collapse_left(options){
+		options.on("click", function () {
+			if ($(this).hasClass("collapsed")) {
+				$(this).find("span i").html("&#xe604;")
+			}
+			else {
+				$(this).find("span i").html("&#xe61f;")
+			}
+		});
+	}
+	
+	
 	function showMenu(list){
 		//获取地址
 		var href = window.location.href;
@@ -28,9 +44,9 @@ $(function() {
 		var menuImg = $('#menu_imgs').empty();
 		for(i in menu1) {
 			//追加菜单
-			menuBody.append('<a href="#ityewu" data-toggle="collapse" class="menu_collap_tit"><label>'
+			menuBody.append('<a href="#ityewu'+i+'" data-toggle="collapse" class="menu_collap_tit"><label>'
 					+menu1[i].name+'</label> <span><i class="iconfont">&#xe604;</i></span></a>');
-			var $div_li = $('<div class="in" id="ityewu">').appendTo(menuBody);
+			var $div_li = $('<div class="in" id="ityewu'+i+'">').appendTo(menuBody);
 			//获取子菜单
 			var menu2 = $.grep(list,function(value) {
 				return value.roleid == menu1[i].id;

@@ -1,104 +1,60 @@
 package com.tianrui.service.bean.businessManage.otherManage;
 
-/**
- * @author Administrator
- *
- */
-public class OtherRKArrive {
-	
-	/**
-     * 主键id
-     */
+public class OtherArrive {
     private String id;
 
-    /**
-     * 通知单号
-     */
     private String code;
 
-    /**
-     * 供应�?
-     */
+    private String businesstype;
+
     private String supplierid;
 
-    /**
-     * 审核状�??
-     */
     private String auditstatus;
 
-    /**
-     * 单位(货物来源)
-     */
+    private String enteryard;
+
+    private String leaveyard;
+
+    private String reason;
+
+    private String senddepartmentid;
+
+    private String custormerid;
+
+    private Long starttime;
+
+    private Long endtime;
+
     private String datasource;
 
-    /**
-     * 物料
-     */
     private String materielid;
 
-    /**
-     * 状�??(0：未入厂�?1：一次过磅，2：二次过磅，3：作废，4：发卡，5：出厂，6：入厂，7：装�?)
-     */
     private String status;
 
-    /**
-     * 货物
-     */
     private String cargo;
 
-    /**
-     * 收货单位
-     */
     private String receivedepartmentid;
 
-    /**
-     * 车辆
-     */
     private String vehicleid;
 
-    /**
-     * 矿口
-     */
     private String warehouseid;
 
-    /**
-     * 司机
-     */
     private String driverid;
 
-    /**
-     * 数量
-     */
-    private Long count;
+    private String icardid;
 
-    /**
-     * 备注
-     */
+    private Double count;
+
     private String remark;
 
-    /**
-     * 创建�?
-     */
     private String creator;
 
-    /**
-     * 创建时间
-     */
     private Long createtime;
 
-    /**
-     * 修改�?
-     */
     private String modifier;
 
-    /**
-     * 修改时间
-     */
     private Long modifytime;
 
-    /**
-     * 时间�?
-     */
     private Long utc;
 
     public String getId() {
@@ -117,6 +73,14 @@ public class OtherRKArrive {
         this.code = code == null ? null : code.trim();
     }
 
+    public String getBusinesstype() {
+        return businesstype;
+    }
+
+    public void setBusinesstype(String businesstype) {
+        this.businesstype = businesstype == null ? null : businesstype.trim();
+    }
+
     public String getSupplierid() {
         return supplierid;
     }
@@ -131,6 +95,62 @@ public class OtherRKArrive {
 
     public void setAuditstatus(String auditstatus) {
         this.auditstatus = auditstatus == null ? null : auditstatus.trim();
+    }
+
+    public String getEnteryard() {
+        return enteryard;
+    }
+
+    public void setEnteryard(String enteryard) {
+        this.enteryard = enteryard == null ? null : enteryard.trim();
+    }
+
+    public String getLeaveyard() {
+        return leaveyard;
+    }
+
+    public void setLeaveyard(String leaveyard) {
+        this.leaveyard = leaveyard == null ? null : leaveyard.trim();
+    }
+
+    public String getReason() {
+        return reason;
+    }
+
+    public void setReason(String reason) {
+        this.reason = reason == null ? null : reason.trim();
+    }
+
+    public String getSenddepartmentid() {
+        return senddepartmentid;
+    }
+
+    public void setSenddepartmentid(String senddepartmentid) {
+        this.senddepartmentid = senddepartmentid == null ? null : senddepartmentid.trim();
+    }
+
+    public String getCustormerid() {
+        return custormerid;
+    }
+
+    public void setCustormerid(String custormerid) {
+        this.custormerid = custormerid == null ? null : custormerid.trim();
+    }
+
+    public Long getStarttime() {
+        return starttime;
+    }
+
+    public void setStarttime(Long starttime) {
+        this.starttime = starttime;
+    }
+
+    public Long getEndtime() {
+        return endtime;
+    }
+
+    public void setEndtime(Long endtime) {
+        this.endtime = endtime;
     }
 
     public String getDatasource() {
@@ -197,11 +217,19 @@ public class OtherRKArrive {
         this.driverid = driverid == null ? null : driverid.trim();
     }
 
-    public Long getCount() {
+    public String getIcardid() {
+        return icardid;
+    }
+
+    public void setIcardid(String icardid) {
+        this.icardid = icardid == null ? null : icardid.trim();
+    }
+
+    public Double getCount() {
         return count;
     }
 
-    public void setCount(Long count) {
+    public void setCount(Double count) {
         this.count = count;
     }
 

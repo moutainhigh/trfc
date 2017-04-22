@@ -17,27 +17,27 @@ import com.tianrui.smartfactory.common.constants.ErrorCode;
 import com.tianrui.smartfactory.common.vo.Result;
 
 @Controller
-@RequestMapping("trfc/otherRKArrive")
-public class OtherRKArriveAction {
-	Logger logger = LoggerFactory.getLogger(OtherRKArriveAction.class);
+@RequestMapping("trfc/otherCKArrive")
+public class OtherCKArriveAction {
+	Logger logger = LoggerFactory.getLogger(OtherCKArriveAction.class);
 	
 	@Autowired
 	private IOtherArriveService otherArriveService;
 	
 	@RequestMapping("main")
 	public ModelAndView main(){
-		ModelAndView view = new ModelAndView("businessManage/otherManage/otherRKArrive");
+		ModelAndView view = new ModelAndView("businessManage/otherManage/otherCKArrive");
 		return view;
 	}
 	
 	@RequestMapping("addMain")
 	public ModelAndView addHTML(){
-		ModelAndView view = new ModelAndView("businessManage/otherManage/otherRKArrive_add");
+		ModelAndView view = new ModelAndView("businessManage/otherManage/otherCKArrive_add");
 		return view;
 	}
 	@RequestMapping("editMain")
 	public ModelAndView editHTML(){
-		ModelAndView view = new ModelAndView("businessManage/otherManage/otherRKArrive_edit");
+		ModelAndView view = new ModelAndView("businessManage/otherManage/otherCKArrive_edit");
 		return view;
 	}
 	
@@ -78,7 +78,7 @@ public class OtherRKArriveAction {
 		try {
 			SystemUserResp user = (SystemUserResp) session.getAttribute("systemUser");
 			req.setUserid(user.getId());
-			req.setBusinesstype("1");
+			req.setBusinesstype("2");
 			rs = otherArriveService.add(req);
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
@@ -92,7 +92,7 @@ public class OtherRKArriveAction {
 	public Result page(OtherArriveReq req){
 		Result rs = Result.getSuccessResult();
 		try {
-			req.setBusinesstype("1");
+			req.setBusinesstype("2");
 			rs = otherArriveService.page(req);
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);

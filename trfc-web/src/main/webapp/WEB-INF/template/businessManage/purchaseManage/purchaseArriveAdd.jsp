@@ -397,8 +397,7 @@
 	<!--司机新增end-->
 	<!-- 引用公共footer部分 -->
 	<jsp:include page="../../common/base/footer_busi.jsp"></jsp:include>
-	<script type="text/javascript"
-		src="/javascript/quality/purchase/cardReader.js"></script>
+	<script type="text/javascript" src="${staticBasePath}/js/cardReader.js"></script>
 	<script type="text/javascript"
 		src="/javascript/businessManage/purchaseManage/purchaseArriveAdd.js"></script>
 </body>

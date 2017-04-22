@@ -368,6 +368,7 @@
 	}
 	function delblacklist(id){
 		layer.confirm('注：确定要从黑名单中删除吗？', {
+			area: '600px',
 			btn: ['确认','取消'] //按钮
 		}, function(){
 			$.ajax({

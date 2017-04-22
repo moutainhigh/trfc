@@ -80,8 +80,8 @@ $(function(){
 	});
 
 //	页面所有表格每行tr选中背景变白
-	var tabletr = $('.intel_table table tr');
-	tabletr.on("click", function () {
+	var tabletr = $('.intel_table table tbody');
+	tabletr.on("click","tr", function () {
 		$(this).addClass("select").siblings().removeClass("select");
 	});
 
@@ -102,20 +102,20 @@ $(function(){
 	});
 
 //	左侧通用二级折叠菜单的加减号显示隐藏
-	function collapse_left(options){
-		options.on("click", function () {
-			if ($(this).hasClass("collapsed")) {
-				$(this).find("span i").html("&#xe604;")
-			}
-			else {
-				$(this).find("span i").html("&#xe61f;")
-			}
-		});
-	}
-	var menu_a = $('.left .menu_collap a');
-	collapse_left(menu_a);
+//	function collapse_left(options){
+//		options.on("click", function () {
+//			if ($(this).hasClass("collapsed")) {
+//				$(this).find("span i").html("&#xe604;")
+//			}
+//			else {
+//				$(this).find("span i").html("&#xe61f;")
+//			}
+//		});
+//	}
+//	var menu_a = $('#menulist > a');
+//	collapse_left(menu_a);
 
-//	内页二级折叠菜单的加减号显示隐藏
+	//内页二级折叠菜单的加减号显示隐藏
 	function collapse_qx(options){
 		options.on("click", function () {
 			if ($(this).hasClass("collapsed")) {
