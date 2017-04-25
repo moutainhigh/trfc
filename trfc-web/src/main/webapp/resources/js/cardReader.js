@@ -111,18 +111,17 @@ function getDataFromCardHex(index){
 
 //msg:待写入的数据   index:局域块(64块)
 function writeDataToCardHex(msg,index){
-	if(msg){
-		msg = '';
-	}
-	MWRFATL.cardVerifyPassword(0, Math.floor(index/4)); //加载密码认证,此函数传入的是扇区号
-	if (MWRFATL.LastRet != 0) {
-		layer.msg("验证密码失败");
-		return;
-	}
-	MWRFATL.cardWriteHex(index,msg); //大卡座卡片发送指令(取随机数)
-	if (MWRFATL.LastRet != 0) {
-		layer.msg("写入数据失败");
-		return;
+	if(msg && msg.length==32){
+		MWRFATL.cardVerifyPassword(0, Math.floor(index/4)); //加载密码认证,此函数传入的是扇区号
+		if (MWRFATL.LastRet != 0) {
+			layer.msg("验证密码失败");
+			return;
+		}
+		MWRFATL.cardWriteHex(index,msg); //大卡座卡片发送指令(取随机数)
+		if (MWRFATL.LastRet != 0) {
+			layer.msg("写入数据失败");
+			return;
+		}
 	}
 }
 //将对象写入卡
@@ -167,7 +166,7 @@ function readObjFromCard() {
 			'1':'水泥散装',
 			'2':'其他散装'
 	};
-	
+
 	var rfid = getDataFromCard(1);
 	var vehicleno = getDataFromCard(2);
 	var vehicleid = getDataFromCardHex(4);
@@ -189,7 +188,7 @@ function readObjFromCard() {
 	}else{
 		supplierid = id;
 	}
-		var supplierramark = getDataFromCard(50);
+	var supplierramark = getDataFromCard(50);
 
 	var warehouseid = getDataFromCardHex(34);
 	warehouseid += getDataFromCardHex(52);
