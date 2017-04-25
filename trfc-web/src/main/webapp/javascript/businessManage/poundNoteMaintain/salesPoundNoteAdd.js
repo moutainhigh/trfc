@@ -493,14 +493,13 @@
 		}else{
 			layer.msg('暂无数据');
 		}
-		$('#salesApplicationBody>tr').find('td:eq(0)>input[type="checkbox"]').off('change').on('change',function(){
+		$('#salesApplicationBody>tr').find('td:eq(0)>input[type="checkbox"]').off('click').on('click',function(e){
+			e.stopPropagation();
 			if(this.checked == true){
 				$(this).closest('tr').addClass('active');
 			}else{
 				$(this).closest('tr').removeClass('active');
 			}
-		}).off('click').on('click',function(e){
-			e.stopPropagation();
 		});
 		$('#salesApplicationBody>tr').off('click').on('click',function(e){
 			e.stopPropagation();
