@@ -5,7 +5,9 @@ import java.util.List;
 import com.alibaba.fastjson.JSONObject;
 import com.tianrui.api.req.basicFile.nc.MaterielManageQuery;
 import com.tianrui.api.req.basicFile.nc.MaterielManageSave;
+import com.tianrui.api.req.businessManage.app.AppQueryReq;
 import com.tianrui.api.resp.basicFile.nc.MaterielManageResp;
+import com.tianrui.api.resp.businessManage.app.AppMaterialResp;
 import com.tianrui.smartfactory.common.vo.PaginationVO;
 import com.tianrui.smartfactory.common.vo.Result;
 
@@ -62,4 +64,12 @@ public interface IMaterielManageService {
 	 * @throws Exception
 	 */
 	List<MaterielManageResp> autoCompleteSearch(String likeName) throws Exception;
+	/**
+	 * @Description app物料列表
+	 * @author zhanggaohao
+	 * @version 2017年4月25日 上午9:39:33
+	 * @param req
+	 * @return
+	 */
+	public PaginationVO<AppMaterialResp> materialList(AppQueryReq req);
 }

@@ -5,6 +5,8 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 import com.tianrui.api.req.basicFile.nc.MaterielManageQuery;
+import com.tianrui.api.req.businessManage.app.AppQueryReq;
+import com.tianrui.api.resp.businessManage.app.AppMaterialResp;
 import com.tianrui.service.bean.basicFile.nc.MaterielManage;
 
 /**
@@ -37,4 +39,20 @@ public interface MaterielManageMapper {
     Long findMaxUtc();
     
     List<MaterielManage> autoCompleteSearch(@Param("likeName")String likeName);
+    /**
+     * @Description app物料列表
+     * @author zhanggaohao
+     * @version 2017年4月25日 上午9:45:17
+     * @param req
+     * @return
+     */
+	long appQueryPageCount(AppQueryReq req);
+	/**
+     * @Description app物料列表
+     * @author zhanggaohao
+     * @version 2017年4月25日 上午9:45:17
+     * @param req
+     * @return
+     */
+	List<AppMaterialResp> appQueryPage(AppQueryReq req);
 }

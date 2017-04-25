@@ -15,8 +15,10 @@ import com.alibaba.fastjson.JSONObject;
 import com.tianrui.api.intf.basicFile.nc.IMaterielManageService;
 import com.tianrui.api.req.basicFile.nc.MaterielManageQuery;
 import com.tianrui.api.req.basicFile.nc.MaterielManageSave;
+import com.tianrui.api.req.businessManage.app.AppQueryReq;
 import com.tianrui.api.resp.basicFile.nc.MaterielManageResp;
 import com.tianrui.api.resp.basicFile.nc.MaterielManageVO;
+import com.tianrui.api.resp.businessManage.app.AppMaterialResp;
 import com.tianrui.service.bean.basicFile.nc.MaterielManage;
 import com.tianrui.service.mapper.basicFile.nc.MaterielManageMapper;
 import com.tianrui.smartfactory.common.constants.Constant;
@@ -208,5 +210,24 @@ public class MaterielManageService implements IMaterielManageService {
 		Result rs = Result.getSuccessResult();
 		rs.setData(list2);
 		return rs;
+	}
+
+	@Override
+	public PaginationVO<AppMaterialResp> materialList(AppQueryReq req) {
+		PaginationVO<AppMaterialResp> page = null;
+		if(req != null){
+			page = new PaginationVO<AppMaterialResp>();
+			long count = materielManageMapper.appQueryPageCount(req);
+			if (count > 0) {
+				req.setStart((req.getPageNo() - 1) * req.getPageSize());
+				req.setLimit(req.getPageSize());
+				List<AppMaterialResp> list = materielManageMapper.appQueryPage(req);
+				page.setList(list);
+			}
+			page.setTotal(count);
+			page.setPageNo(req.getPageNo());
+			page.setPageSize(req.getPageSize());
+		}
+		return page;
 	}
 }
