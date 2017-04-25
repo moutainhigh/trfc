@@ -211,7 +211,6 @@ input[readOnly="true"]{
 .intel_search .intel_solo{
     margin:5px 15px 5px 0;
     font-size: 12px;
-    width:250px;
     float:left;
 }
 .intel_search .intel_solo ul{
@@ -221,14 +220,14 @@ input[readOnly="true"]{
     overflow: hidden;
 }
 .intel_search .intel_solo label{
-    display: inline-block;
+    display: inline;
     width: 80px;
     text-align: right;
     line-height:30px;
 }
 
 .intel_search .intel_solo .form-control{
-    display: inline-block;
+    display: inline;
     width: 160px;
     font-size: 12px;
     height: 30px;
