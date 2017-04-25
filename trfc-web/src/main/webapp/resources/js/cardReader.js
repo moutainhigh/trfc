@@ -166,7 +166,17 @@ function readObjFromCard() {
 			'1':'水泥散装',
 			'2':'其他散装'
 	};
-
+	//状态
+	var STATUS = {
+		'0' : '未入厂',
+		'1' : '一次过磅',
+		'2' : '二次过磅',
+		'3' : '作废',
+		'4' : '发卡',
+		'5' : '出厂',
+		'6' : '入厂',
+		'7' : '装车'
+	};
 	var rfid = getDataFromCard(1);
 	var vehicleno = getDataFromCard(2);
 	var vehicleid = getDataFromCardHex(4);
@@ -263,7 +273,7 @@ function readObjFromCard() {
 		arrivalamount : arrivalamount,
 		minemouthname : minemouthname,
 		takeamount : takeamount,
-		status : status,
+		status : STATUS[status],
 		supplierid : supplierid,
 		supplierramark : supplierramark,
 		warehouseid : warehouseid,

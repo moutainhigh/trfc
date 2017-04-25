@@ -1,7 +1,7 @@
 $(function() {
-	
+
 	initMenu();
-	
+
 	function initMenu() {
 		var url = '/trfc/system/auth/menu/page';
 		var params={
@@ -12,11 +12,11 @@ $(function() {
 			showMenu(result.data.list);	
 			var menu_a = $('#menulist > a');
 			collapse_left(menu_a);
-			
+
 			$(".tool").tooltip();
 		});
 	}
-	
+
 	function collapse_left(options){
 		options.on("click", function () {
 			if ($(this).hasClass("collapsed")) {
@@ -27,8 +27,8 @@ $(function() {
 			}
 		});
 	}
-	
-	
+
+
 	function showMenu(list){
 		//获取地址
 		var href = window.location.href;
@@ -42,7 +42,7 @@ $(function() {
 
 		var menuBody = $('#menulist').empty();
 		var menuImg = $('#menu_imgs').empty();
-		for(i in menu1) {
+		for(var i = 0; i<menu1.length; i++) {
 			//追加菜单
 			menuBody.append('<a href="#ityewu'+i+'" data-toggle="collapse" class="menu_collap_tit"><label>'
 					+menu1[i].name+'</label> <span><i class="iconfont">&#xe604;</i></span></a>');
@@ -51,7 +51,7 @@ $(function() {
 			var menu2 = $.grep(list,function(value) {
 				return value.roleid == menu1[i].id;
 			});
-			for(j in menu2) {
+			for(var j = 0;j<menu2.length;j++) {
 				//获取子菜单
 				var menu3 = $.grep(list,function(value) {
 					return value.roleid == menu2[j].id;
@@ -63,7 +63,7 @@ $(function() {
 				var li_selected = '';
 
 				if(menu3.length>0){
-					for(f in menu3){
+					for(var f = 0;f<menu3.length;f++){
 						var hh = menu3[f].uri;
 						if(hh){
 							hh = hh.split('/trfc/')[1];
@@ -78,7 +78,7 @@ $(function() {
 
 				if(li_selected){
 					var tab_ul = $('.intel_menu').empty();
-					for(f in menu3){
+					for(var f = 0;f<menu3.length;f++){
 						var hh = menu3[f].uri;
 						var href_select = '';
 						if(hh){
@@ -101,9 +101,9 @@ $(function() {
 						+menu2[j].name+'"><a '+url+'><i class="iconfont">'+img+'</i></a></li>');
 			}
 		}
-		
+
 	}
 
-	
-	
+
+
 });
