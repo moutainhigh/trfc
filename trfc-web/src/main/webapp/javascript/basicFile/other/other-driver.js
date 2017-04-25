@@ -204,18 +204,18 @@
 	}
 	
 	function addDriver() {
-		var code=$('#driver_code').val().trim();
-		var innercode=$('#driver_innercode').val().trim();
-		var name=$('#driver_name').val().trim();
-		var info=$('#driver_info').val().trim();
-		var idcard=$('#driver_idcard').val().trim();
-		var telphone=$('#driver_telphone').val().trim();
-		var orgname=$('#driver_orgname').val().trim();
+		var code=$('#driver_code').val(); code = $.trim(code);
+		var innercode=$('#driver_innercode').val(); innercode = $.trim(innercode);
+		var name=$('#driver_name').val(); name = $.trim(name);
+		var info=$('#driver_info').val(); info = $.trim(info);
+		var idcard=$('#driver_idcard').val(); idcard = $.trim(idcard);
+		var telphone=$('#driver_telphone').val(); telphone = $.trim(telphone);
+		var orgname=$('#driver_orgname').val(); orgname = $.trim(orgname);
 		var isvalid = 0;
 		if($('#driver_isvalid').prop('checked')){
 			isvalid = 1;
 		};
-		var remark=$('#driver_remark').val().trim();
+		var remark=$('#driver_remark').val(); remark = $.trim(remark);
 		
 		var url=URL.addOtherDriverUrl;
 		var params={
@@ -243,11 +243,11 @@
 	
 	function updateDriver() {
 		var url=URL.editOtherDriverUrl;
-		var name=$('#update_driver_name').val().trim();
-		var info=$('#update_driver_info').val().trim();
-		var telphone=$('#update_driver_telphone').val().trim();
-		var orgname=$('#update_driver_orgname').val().trim();
-		var remark=$('#update_driver_remark').val().trim();
+		var name=$('#update_driver_name').val(); name = $.trim(name);
+		var info=$('#update_driver_info').val(); info = $.trim(info);
+		var telphone=$('#update_driver_telphone').val(); telphone = $.trim(telphone);
+		var orgname=$('#update_driver_orgname').val(); orgname = $.trim(orgname);
+		var remark=$('#update_driver_remark').val(); remark = $.trim(remark);
 		var isvalid = 0;
 		if($('#update_driver_isvalid').prop('checked')){
 			isvalid = 1;

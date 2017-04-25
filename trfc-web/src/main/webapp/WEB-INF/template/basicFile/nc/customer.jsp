@@ -22,20 +22,17 @@
 							<div class="intel_bgblue"></div>
 						</div>
 						<div class="intel_sconditon">
-							<div class="intel_solo">
-								<label>查询条件：</label> <select id="qtp" class="form-control">
-									<option value="mc">名称</option>
-									<option value="nm">内码</option>
-									<option value="py">拼音码</option>
-								</select>
-							</div>
 							<div class="intel_sline">
+								<div class="intel_solo">
+									<label>查询条件：</label> <select id="qtp" class="form-control">
+										<option value="mc">名称</option>
+										<option value="nm">内码</option>
+										<option value="py">拼音码</option>
+									</select>
+								</div>
 								<div class="intel_solo">
 									<label>关键字：</label> <input id="keyword" type="text">
 								</div>
-								<!-- <div class="intel_solo">
-									<label>所属组织：</label> <input id="orgid" type="text">
-								</div> -->
 								<div class="intel_solo">
 									<div class="intel_sbtn">
 										<button class="btn btnblue" id="searchBtn">搜索</button>

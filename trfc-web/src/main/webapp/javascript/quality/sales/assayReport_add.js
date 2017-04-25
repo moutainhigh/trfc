@@ -452,7 +452,7 @@ $(function(){
 			}
 		}).off('click').on('click',function(){
 			$(this).autocomplete('search',' ');
-		}).off('input keydown').on('input keydown',function(){
+		}).on('input keydown',function(){
 			$(this).removeAttr('qschemeid');
 		}).change(function(){
 			if(!$(this).attr('qschemeid')){
@@ -495,7 +495,7 @@ $(function(){
 			}
 		}).off('click').on('click',function(){
 			$(this).autocomplete('search',' ');
-		}).off('input keydown').on('input keydown',function(){
+		}).on('input keydown',function(){
 			$(this).removeAttr('mschemeid');
 		}).change(function(){
 			if(!$(this).attr('mschemeid')){
@@ -533,7 +533,7 @@ $(function(){
 			}
 		}).off('click').on('click',function(){
 			$(this).autocomplete('search',' ');
-		}).off('input keydown').on('input keydown',function(){
+		}).on('input keydown',function(){
 			$(this).removeAttr('materialid');
 		}).change(function(){
 			if(!$(this).attr('materialid')){

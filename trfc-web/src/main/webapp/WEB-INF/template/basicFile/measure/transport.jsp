@@ -24,14 +24,14 @@
 							<div class="intel_bgblue"></div>
 						</div>
 						<div class="intel_sconditon">
-							<div class="intel_solo">
-								<label>查询条件：</label> <select class="form-control"
-									id="transport_query">
-									<option value="name">名称</option>
-									<option value="internalcode">内码</option>
-								</select>
-							</div>
 							<div class="intel_sline">
+								<div class="intel_solo">
+									<label>查询条件：</label> <select class="form-control"
+										id="transport_query">
+										<option value="name">名称</option>
+										<option value="internalcode">内码</option>
+									</select>
+								</div>
 								<div class="intel_solo">
 									<label>关键字：</label> <input type="text" id="transport_keyword">
 								</div>

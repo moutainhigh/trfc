@@ -50,7 +50,7 @@
     		}
 	    }).off('click').on('click',function(){
 	    	$(this).autocomplete('search',' ');
-	    }).off('input keydown').on('input keydown',function(){
+	    }).on('input keydown',function(){
 	    	$(this).removeAttr('vehicleid');
 	    }).change(function(){
     		if(!$(this).attr('vehicleid')){
@@ -85,7 +85,7 @@
     		}
 	    }).off('click').on('click',function(){
 	    	$(this).autocomplete('search',' ');
-	    }).off('input keydown').on('input keydown',function(){
+	    }).on('input keydown',function(){
 	    	$(this).removeAttr('driverid');
 	    }).change(function(){
     		if(!$(this).attr('driverid')){
@@ -119,7 +119,7 @@
 	    	}
 	    }).off('click').on('click',function(){
 	    	$(this).autocomplete('search',' ');
-	    }).off('input keydown').on('input keydown',function(){
+	    }).on('input keydown',function(){
 	    	$(this).removeAttr('warehouseid');
 	    }).change(function(){
 	    	if(!$(this).attr('warehouseid')){

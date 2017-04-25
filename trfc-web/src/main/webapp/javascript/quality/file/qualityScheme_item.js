@@ -211,7 +211,7 @@ $(function(){
 			}
 		}).off('click').on('click',function(){
 			$(this).autocomplete('search',' ');
-		}).off('input keydown').on('input keydown',function(){
+		}).on('input keydown',function(){
 	    	$(this).removeAttr('itemid');
 	    }).change(function(){
     		if(!$(this).attr('itemid')){

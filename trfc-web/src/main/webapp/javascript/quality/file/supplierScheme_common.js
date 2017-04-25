@@ -102,7 +102,7 @@ function initSelect(){
 			}
 		}).off('click').on('click',function(){
 			$(this).autocomplete('search',' ');
-		}).off('input keydown').on('input keydown',function(){
+		}).on('input keydown',function(){
 			$(this).removeAttr('qschemeid');
 		}).change(function(){
 			if(!$(this).attr('qschemeid')){
@@ -140,7 +140,7 @@ function initSelect(){
 			}
 		}).off('click').on('click',function(){
 			$(this).autocomplete('search',' ');
-		}).off('input keydown').on('input keydown',function(){
+		}).on('input keydown',function(){
 			$(this).removeAttr('supplierid');
 		}).change(function(){
 			if(!$(this).attr('supplierid')){
@@ -180,7 +180,7 @@ function initSelect(){
 			}
 		}).off('click').on('click',function(){
 			$(this).autocomplete('search',' ');
-		}).off('input keydown').on('input keydown',function(){
+		}).on('input keydown',function(){
 			$(this).removeAttr('materialid');
 		}).change(function(){
 			if(!$(this).attr('materialid')){

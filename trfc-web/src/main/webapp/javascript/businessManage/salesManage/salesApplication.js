@@ -56,7 +56,7 @@
     		}
 	    }).off('click').on('click',function(){
 	    	$(this).autocomplete('search',' ');
-	    }).off('input keydown').on('input keydown',function(){
+	    }).on('input keydown',function(){
 	    	$(this).removeAttr('billtypeid');
 	    }).change(function(){
     		if(!$(this).attr('billtypeid')){
@@ -90,8 +90,7 @@
 	    	}
 	    }).off('click').on('click',function(){
 	    	$(this).autocomplete('search',' ');
-	    }).off('input keydown').on('input keydown',function(){
-	    	$(this).removeAttr('materielid');
+	    }).on('input keydown',function(){
 	    	$(this).removeAttr('materielid');
 	    }).change(function(){
     		if(!$(this).attr('materielid')){
@@ -125,8 +124,7 @@
 	    	}
 	    }).off('click').on('click',function(){
 	    	$(this).autocomplete('search',' ');
-	    }).off('input keydown').on('input keydown',function(){
-	    	$(this).removeAttr('warehouseid');
+	    }).on('input keydown',function(){
 	    	$(this).removeAttr('warehouseid');
 	    }).change(function(){
     		if(!$(this).attr('warehouseid')){
@@ -160,8 +158,7 @@
 	    	}
 	    }).off('click').on('click',function(){
 	    	$(this).autocomplete('search',' ');
-	    }).off('input keydown').on('input keydown',function(){
-	    	$(this).removeAttr('customerid');
+	    }).on('input keydown',function(){
 	    	$(this).removeAttr('customerid');
 	    }).change(function(){
     		if(!$(this).attr('customerid')){
@@ -198,8 +195,7 @@
 	    	}
 	    }).off('click').on('click',function(){
 	    	$(this).autocomplete('search',' ');
-	    }).off('input keydown').on('input keydown',function(){
-	    	$(this).removeAttr('customerid');
+	    }).on('input keydown',function(){
 	    	$(this).removeAttr('customerid');
 	    }).change(function(){
     		if(!$(this).attr('customerid')){
@@ -239,8 +235,7 @@
 	    	}
 	    }).off('click').on('click',function(){
 	    	$(this).autocomplete('search',' ');
-	    }).off('input keydown').on('input keydown',function(){
-	    	$(this).removeAttr('customerid');
+	    }).on('input keydown',function(){
 	    	$(this).removeAttr('customerid');
 	    }).change(function(){
     		if(!$(this).attr('customerid')){

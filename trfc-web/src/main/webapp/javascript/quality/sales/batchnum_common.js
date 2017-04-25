@@ -49,7 +49,7 @@ function userSelect(){
 		}
 	}).off('click').on('click',function(){
 		$(this).autocomplete('search',' ');
-	}).off('input keydown').on('input keydown',function(){
+	}).on('input keydown',function(){
     	$(this).removeAttr('assayerid');
     }).change(function(){
 		if(!$(this).attr('assayerid')){
@@ -91,7 +91,7 @@ function materialSelect(){
 		}
 	}).off('click').on('click',function(){
 		$(this).autocomplete('search',' ');
-	}).off('input keydown').on('input keydown',function(){
+	}).on('input keydown',function(){
     	$(this).removeAttr('materialid');
     }).change(function(){
 		if(!$(this).attr('materialid')){

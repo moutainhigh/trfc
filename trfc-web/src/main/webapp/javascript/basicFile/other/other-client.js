@@ -38,7 +38,7 @@ var URL = {
 };
 //提交修改信息,-->检测名字-->提交
 function modifyCustomerAction(){
-	var name = $('#customer_modify_name').val().trim();
+	var name = $('#customer_modify_name').val(); name = $.trim(name);
 	if(name==pageData.obj.name||toCheckName(name)){
         $('#customer_modify_cancel').click();      
 		modifyAction();
@@ -46,7 +46,7 @@ function modifyCustomerAction(){
 }
 //提交新增信息,-->检测名字-->提交
 function addCustomerAction(){
-	var name = $('#customer_name').val().trim();
+	var name = $('#customer_name').val(); name = $.trim(name);
 	if(toCheckName(name)){
 		var bn=layer.open({
 			content: '您确定要保存吗？',
@@ -230,17 +230,17 @@ function jumpPageAction(){
 //获取需要提交的数据
 function getInsertData(){
 	var params = {};
-	var code = $('#customer_code').val().trim();
-	var innercode = $('#customer_innercode').val().trim();
-	var name = $('#customer_name').val().trim();
-	var info = $('#customer_info').val().trim();
-	var orgName = $('#customer_orgname').val().trim();
+	var code = $('#customer_code').val(); code = $.trim(code);
+	var innercode = $('#customer_innercode').val(); innercode = $.trim(innercode);
+	var name = $('#customer_name').val(); name = $.trim(name);
+	var info = $('#customer_info').val(); info = $.trim(info);
+	var orgName = $('#customer_orgname').val(); orgName = $.trim(orgName);
 	var userName = $('.user label').html();
 	var isvalid = 0;
 	if($('#customer_isvalid').prop('checked')){
 		isvalid = 1;
 	};
-	var remark = $("#customer_remark").val().trim();
+	var remark = $("#customer_remark").val(); remark = $.trim(remark);
 	var obj = pageData.obj;
 	params = {
 			code:code,
@@ -299,7 +299,7 @@ function CustomersShowAction(pageNo){
 	var namelike = '';
 	var innercodelike='';
 	//获取查询条件
-	var keyword = $('#customer_keyword').val().trim();
+	var keyword = $('#customer_keyword').val(); keyword = $.trim(keyword);
 	if($('#customer_query').val()=='name'){
 		namelike=keyword;
 	}else{

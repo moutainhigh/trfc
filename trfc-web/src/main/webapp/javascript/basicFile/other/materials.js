@@ -254,7 +254,7 @@ function MaterialShowAction(pageNo){
 	var name='';
 	var innercode='';
 	//获取查询条件
-	var keyword=$('#material_keyword').val().trim();
+	var keyword=$('#material_keyword').val(); keyword = $.trim(keyword);
 	if($('#material_query').val()=='name'){
 		name=keyword;
 	}else{
