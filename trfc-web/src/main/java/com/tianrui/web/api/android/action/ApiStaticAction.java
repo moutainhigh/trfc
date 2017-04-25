@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.tianrui.api.intf.basicFile.measure.IDriverManageService;
 import com.tianrui.api.intf.basicFile.measure.IVehicleManageService;
+import com.tianrui.api.intf.basicFile.nc.IMaterielManageService;
 import com.tianrui.api.intf.businessManage.poundNoteMaintain.IPoundNoteService;
 import com.tianrui.api.intf.businessManage.purchaseManage.IPurchaseApplicationService;
 import com.tianrui.api.intf.businessManage.purchaseManage.IPurchaseArriveService;
@@ -32,6 +33,7 @@ import com.tianrui.api.req.businessManage.app.AppUserEditReq;
 import com.tianrui.api.req.businessManage.app.AppVersionReq;
 import com.tianrui.api.req.system.auth.AppUserReq;
 import com.tianrui.api.resp.businessManage.app.AppDriverResp;
+import com.tianrui.api.resp.businessManage.app.AppMaterialResp;
 import com.tianrui.api.resp.businessManage.app.AppMsgCountResp;
 import com.tianrui.api.resp.businessManage.app.AppMsgResp;
 import com.tianrui.api.resp.businessManage.app.AppNoticeOrderResp;
@@ -78,6 +80,8 @@ public class ApiStaticAction {
 	private IDriverManageService driverManageService;
 	@Autowired
 	private IAppVersionService appVersionService;
+	@Autowired
+	private IMaterielManageService materielManageService;
 	
 	@RequestMapping(value="/login",method=RequestMethod.POST)
 	@ApiParamRawType(AppUserReq.class)
@@ -490,6 +494,27 @@ public class ApiStaticAction {
 		Result rs = Result.getSuccessResult();
 		try {
 			rs = systemUserService.appUpdateUser(appParam.getBody());
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			rs.setErrorCode(ErrorCode.SYSTEM_ERROR);
+		}
+		return ApiResult.valueOf(rs);
+	}
+	
+
+	/**
+	 * 物料列表
+	 * @param req
+	 * @return
+	 */
+	@RequestMapping(value="/materialList",method=RequestMethod.POST)
+	@ApiParamRawType(AppQueryReq.class)
+	@ResponseBody
+	public ApiResult materialList(ApiParam<AppQueryReq> appParam){
+		Result rs = Result.getSuccessResult();
+		try {
+			PaginationVO<AppMaterialResp> page = materielManageService.materialList(appParam.getBody());
+			rs.setData(page);
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 			rs.setErrorCode(ErrorCode.SYSTEM_ERROR);

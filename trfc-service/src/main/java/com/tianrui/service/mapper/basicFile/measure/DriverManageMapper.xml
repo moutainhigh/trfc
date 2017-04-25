@@ -371,7 +371,7 @@
 		select id, name, identityno as idNo
 		from tr_driver_db_manage
 		<where>
-			<if test="name != null and name != ''">
+			<if test="key != null and key != ''">
 				and name like CONCAT('%', #{key,jdbcType=VARCHAR}, '%')
 			</if>
 			<if test="state != null and state != ''">
@@ -389,7 +389,7 @@
 		select count(0)
 		from tr_driver_db_manage
 		<where>
-			<if test="name != null and name != ''">
+			<if test="key != null and key != ''">
 				and name like CONCAT('%', #{key,jdbcType=VARCHAR}, '%')
 			</if>
 			<if test="state != null and state != ''">
