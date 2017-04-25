@@ -24,7 +24,7 @@
 						<div class="intel_sconditon">
 							<div class="intel_sline">
 								<div class="intel_solo">
-									<label>供应商：</label> <input type="text" id="seek_supplier" placeholder="请选择供应商">
+									<label>客户：</label> <input type="text" id="seek_customer" placeholder="请选择客户">
 								</div>
 								<div class="intel_solo">
 									<label>货物：</label> <input type="text" id="seek_cargo" placeholder="请输入货物">
@@ -254,7 +254,7 @@
 									<label>通知单号：</label> <input type="text" id="detail_code">
 								</div>
 								<div class="cg_solo">
-									<label>供应商：</label> <input type="text" id="detail_supplier">
+									<label>客户：</label> <input type="text" id="detail_customer">
 								</div>
 								<div class="cg_solo">
 									<label>单位：</label> <input type="text" id="detail_datasource">
@@ -314,7 +314,7 @@
 									<label> 车辆编号：</label> <input type="text" id="detail_card_vehiclecode">
 								</div>
 								<div class="cg_solo">
-									<label> 供应商：</label> <input type="text" id="detail_card_supplier">
+									<label> 客户：</label> <input type="text" id="detail_card_customer">
 								</div>
 								<div class="cg_solo">
 									<label> 物料：</label> <input type="text" id="detail_card_materiel">

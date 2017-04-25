@@ -76,5 +76,17 @@ public class CustomerManageAction {
 		}
 		return list;
 	}
-	
+	@RequestMapping("/findOne")
+	@ResponseBody
+	public CustomerManageResp findOne(String id){
+		CustomerManageResp resp = null;
+		try {
+			CustomerManageQuery query = new CustomerManageQuery();
+			query.setId(id);
+			resp = customerManageService.findOne(query);
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+		}
+		return resp;
+	}
 }

@@ -7,7 +7,7 @@ $(function() {
 			findOne:"/trfc/otherCKArrive/findOne",
 			update:"/trfc/otherCKArrive/updateOperation",
 			updateVeiw:"/trfc/otherCKArrive/editMain",
-			supplierAutoCompleteSearch: "/trfc/supplier/autoCompleteSearch",
+			customerAutoCompleteSearch: "/trfc/customer/autoCompleteSearch",
 			vehicleAutoCompleteSearch: "/trfc/vehicle/autoCompleteSearch",
 			warehouseAutoCompleteSearch: "/trfc/warehouse/autoCompleteSearch",
 	};
@@ -189,7 +189,7 @@ $(function() {
 					}
 
 					$('#detail_code').val(obj.code);
-					$('#detail_supplier').val(obj.suppliername);
+					$('#detail_customer').val(obj.customername);
 					$('#detail_datasource').val(obj.datasource);
 					$('#detail_materiel').val(obj.materielname);
 					$('#detail_cargo').val(obj.cargo);
@@ -241,16 +241,16 @@ $(function() {
 	//加载下拉框
 	function initAutoComplete(){
 		var cache = {};
-		$("#seek_supplier").autocomplete({
+		$("#seek_customer").autocomplete({
 			source: function( request, response ) {
 				var term = request.term;
-				var supplier = cache['supplier'] || {};
-				if ( term in supplier ) {
-					response( supplier[ term ] );
+				var customer = cache['customer'] || {};
+				if ( term in customer ) {
+					response( customer[ term ] );
 					return;
 				}
-				$.post( URL.supplierAutoCompleteSearch, request, function( data, status, xhr ) {
-					supplier[ term ] = data;
+				$.post( URL.customerAutoCompleteSearch, request, function( data, status, xhr ) {
+					customer[ term ] = data;
 					response( data );
 				});
 			},
@@ -263,15 +263,15 @@ $(function() {
 				}
 			},
 			select: function( event, ui ) {
-				$(this).val(ui.item.name).attr('supplierid', ui.item.id).attr('select',true);
+				$(this).val(ui.item.name).attr('customerid', ui.item.id).attr('select',true);
 				return false;
 			}
 		}).off('click').on('click',function(){
 			$(this).autocomplete('search',' ');
 		}).on('input propertychange',function(){
-			$(this).removeAttr('supplierid');
+			$(this).removeAttr('customerid');
 		}).change(function(){
-			if(!$(this).attr('supplierid')){
+			if(!$(this).attr('customerid')){
 				$(this).val('');
 			}
 		});
@@ -375,7 +375,7 @@ $(function() {
 
 	//获取查询条件
 	function getSeekData(){
-		var supplierid = $('#seek_supplier').attr('supplierid');
+		var customerid = $('#seek_customer').attr('customerid');
 		var cargo = $('#seek_cargo').val();cargo = $.trim(cargo);
 		var warehouse = $('#seek_warehouse').attr('warehouseid');
 		var vehicleid = $('#seek_vehicleno').attr('vehicleid');
@@ -387,7 +387,7 @@ $(function() {
 		var endtime = $('#seek_endtime').val();endtime = $.trim(endtime);
 
 		return {
-			supplierid:supplierid,
+			customerid:customerid,
 			cargo:cargo,
 			warehouse:warehouse,
 			vehicleid:vehicleid,
@@ -481,12 +481,12 @@ $(function() {
 				+'<td>'+(obj.code || '')+'</td>'
 				+'<td '+color1+'>'+(auditstatus || '')+'</td>'
 				+'<td '+color2+'>'+(STATUS[obj.status] || '')+'</td>'
-				+'<td>'+(obj.suppliername || '')+'</td>'
+				+'<td>'+(obj.customername || '')+'</td>'
 				+'<td>'+(obj.datasource || '')+'</td>'
 				+'<td>'+(obj.materielname || '')+'</td>'
 				+'<td>'+(obj.cargo || '')+'</td>'
 				+'<td>'+(obj.warehousename || '')+'</td>'
-				+'<td>'+(obj.receivedepartmentname || '')+'</td>'
+				+'<td>'+(obj.senddepartmentname || '')+'</td>'
 				+'<td>'+(getNowFormatDate(true, obj.createtime) || '')+'</td>'
 				+'<td>'+(obj.remark || '')+'</td>'
 				+'<td>'

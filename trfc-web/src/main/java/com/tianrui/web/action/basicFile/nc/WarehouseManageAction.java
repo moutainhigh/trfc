@@ -96,4 +96,17 @@ public class WarehouseManageAction {
 		return list;
 	}
 	
+	@RequestMapping("/findOne")
+	@ResponseBody
+	public WarehouseManageResp findOne(String id){
+		WarehouseManageResp resp = null;
+		try {
+			WarehouseManageQuery req = new WarehouseManageQuery();
+			req.setId(id);
+			resp = warehouseManageService.findOne(req);
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+		}
+		return resp;
+	}
 }

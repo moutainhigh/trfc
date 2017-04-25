@@ -14,7 +14,7 @@
 		<result column="reason" property="reason" jdbcType="VARCHAR" />
 		<result column="senddepartmentid" property="senddepartmentid"
 			jdbcType="VARCHAR" />
-		<result column="custormerid" property="custormerid" jdbcType="VARCHAR" />
+		<result column="customerid" property="customerid" jdbcType="VARCHAR" />
 		<result column="starttime" property="starttime" jdbcType="BIGINT" />
 		<result column="endtime" property="endtime" jdbcType="BIGINT" />
 		<result column="datasource" property="datasource" jdbcType="VARCHAR" />
@@ -39,7 +39,7 @@
 		id, code, businesstype, supplierid, auditstatus, enteryard,
 		leaveyard,
 		reason, senddepartmentid,
-		custormerid, starttime, endtime,
+		customerid, starttime, endtime,
 		datasource, materielid, status, cargo,
 		receivedepartmentid,
 		vehicleid,
@@ -65,7 +65,7 @@
 		supplierid, auditstatus, enteryard,
 		leaveyard, reason,
 		senddepartmentid,
-		custormerid, starttime, endtime,
+		customerid, starttime, endtime,
 		datasource,
 		materielid, status,
 		cargo, receivedepartmentid, vehicleid,
@@ -83,7 +83,7 @@
 		#{leaveyard,jdbcType=VARCHAR},
 		#{reason,jdbcType=VARCHAR},
 		#{senddepartmentid,jdbcType=VARCHAR},
-		#{custormerid,jdbcType=VARCHAR}, #{starttime,jdbcType=BIGINT},
+		#{customerid,jdbcType=VARCHAR}, #{starttime,jdbcType=BIGINT},
 		#{endtime,jdbcType=BIGINT},
 		#{datasource,jdbcType=VARCHAR},
 		#{materielid,jdbcType=VARCHAR},
@@ -129,8 +129,8 @@
 			<if test="senddepartmentid != null">
 				senddepartmentid,
 			</if>
-			<if test="custormerid != null">
-				custormerid,
+			<if test="customerid != null">
+				customerid,
 			</if>
 			<if test="starttime != null">
 				starttime,
@@ -215,8 +215,8 @@
 			<if test="senddepartmentid != null">
 				#{senddepartmentid,jdbcType=VARCHAR},
 			</if>
-			<if test="custormerid != null">
-				#{custormerid,jdbcType=VARCHAR},
+			<if test="customerid != null">
+				#{customerid,jdbcType=VARCHAR},
 			</if>
 			<if test="starttime != null">
 				#{starttime,jdbcType=BIGINT},
@@ -302,8 +302,8 @@
 			<if test="senddepartmentid != null">
 				senddepartmentid = #{senddepartmentid,jdbcType=VARCHAR},
 			</if>
-			<if test="custormerid != null">
-				custormerid = #{custormerid,jdbcType=VARCHAR},
+			<if test="customerid != null">
+				customerid = #{customerid,jdbcType=VARCHAR},
 			</if>
 			<if test="starttime != null">
 				starttime = #{starttime,jdbcType=BIGINT},
@@ -380,8 +380,8 @@
 		#{leaveyard,jdbcType=VARCHAR},
 		reason = #{reason,jdbcType=VARCHAR},
 		senddepartmentid = #{senddepartmentid,jdbcType=VARCHAR},
-		custormerid =
-		#{custormerid,jdbcType=VARCHAR},
+		customerid =
+		#{customerid,jdbcType=VARCHAR},
 		starttime =
 		#{starttime,jdbcType=BIGINT},
 		endtime = #{endtime,jdbcType=BIGINT},
@@ -425,6 +425,9 @@
 			</if>
 			<if test="supplierid != null and supplierid != '' ">
 				and supplierid = #{supplierid,jdbcType=VARCHAR}
+			</if>
+			<if test="customerid != null and customerid != '' ">
+				and customerid = #{customerid,jdbcType=VARCHAR}
 			</if>
 			<if test="auditstatus != null and auditstatus != '' ">
 				and auditstatus = #{auditstatus,jdbcType=VARCHAR}

@@ -16,6 +16,7 @@ import com.tianrui.api.resp.businessManage.otherManage.OtherArriveResp;
 import com.tianrui.api.resp.businessManage.poundNoteMaintain.PoundNoteResp;
 import com.tianrui.service.bean.basicFile.measure.DriverManage;
 import com.tianrui.service.bean.basicFile.measure.VehicleManage;
+import com.tianrui.service.bean.basicFile.nc.CustomerManage;
 import com.tianrui.service.bean.basicFile.nc.MaterielManage;
 import com.tianrui.service.bean.basicFile.nc.SupplierManage;
 import com.tianrui.service.bean.basicFile.nc.WarehouseManage;
@@ -28,6 +29,7 @@ import com.tianrui.service.bean.system.auth.Organization;
 import com.tianrui.service.bean.system.auth.SystemUser;
 import com.tianrui.service.mapper.basicFile.measure.DriverManageMapper;
 import com.tianrui.service.mapper.basicFile.measure.VehicleManageMapper;
+import com.tianrui.service.mapper.basicFile.nc.CustomerManageMapper;
 import com.tianrui.service.mapper.basicFile.nc.MaterielManageMapper;
 import com.tianrui.service.mapper.basicFile.nc.SupplierManageMapper;
 import com.tianrui.service.mapper.basicFile.nc.WarehouseManageMapper;
@@ -60,6 +62,8 @@ public class OtherArriveService implements IOtherArriveService {
 	private DriverManageMapper driverManageMapper;
 	@Autowired
 	private VehicleManageMapper vehicleManageMapper;
+	@Autowired
+	private CustomerManageMapper customerManageMapper;
 	@Autowired
 	private OrganizationMapper organizationMapper;
 	@Autowired
@@ -97,7 +101,7 @@ public class OtherArriveService implements IOtherArriveService {
 		}
 		return rs;
 	}
-	
+
 	@Override
 	public Result updateOperation(OtherArriveReq req) throws Exception {
 		Result rs = Result.getParamErrorResult();
@@ -120,7 +124,7 @@ public class OtherArriveService implements IOtherArriveService {
 		}
 		return rs;
 	}
-	
+
 	@Override
 	public Result add(OtherArriveReq req) throws Exception {
 		Result rs = Result.getParamErrorResult();
@@ -203,6 +207,14 @@ public class OtherArriveService implements IOtherArriveService {
 				resp.setMaterielname(materiel.getName());
 			}
 		}
+		//获取客户名称
+		if(StringUtils.isNotBlank(oa.getCustomerid())){
+			CustomerManage customer = customerManageMapper.selectByPrimaryKey(oa.getCustomerid());
+			if(customer!=null){
+				resp.setCustormername(customer.getName());
+			}
+		}
+
 		//获取供应商名称
 		if(StringUtils.isNotBlank(oa.getSupplierid())){
 			SupplierManage supplier = supplierManageMapper.selectByPrimaryKey(oa.getSupplierid());
@@ -217,7 +229,13 @@ public class OtherArriveService implements IOtherArriveService {
 				resp.setReceivedepartmentname(org.getName());
 			}
 		}
-
+		//获取组织名称
+		if(StringUtils.isNotBlank(oa.getSenddepartmentid())){
+			Organization org = organizationMapper.selectByPrimaryKey(oa.getSenddepartmentid());
+			if(org!=null){
+				resp.setSenddepartmentname(org.getName());
+			}
+		}
 		//获取司机信息
 		if(StringUtils.isNotBlank(oa.getDriverid())){
 			DriverManage driver = driverManageMapper.selectByPrimaryKey(oa.getDriverid());
@@ -319,7 +337,7 @@ public class OtherArriveService implements IOtherArriveService {
 				flag = false;
 			}
 		}
-		
+
 		oa.setDriverid(req.getDriverid());
 		List<OtherArrive> listDriver2 = otherArriveMapper.checkDriverAndVehicleAndIcardIsUse(oa);
 		if(listDriver2!=null && listDriver2.size()>0){
@@ -347,6 +365,6 @@ public class OtherArriveService implements IOtherArriveService {
 		return flag;
 	}
 
-	
+
 
 }

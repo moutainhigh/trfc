@@ -191,4 +191,15 @@ public class VehicleManageAction {
 		return list;
 	}
 	
+	@RequestMapping("/findOne")
+	@ResponseBody
+	public VehicleManageResp findOne(String id){
+		VehicleManageResp resp = null;
+		try {
+			resp = vehicleManageService.findOne(id);
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+		}
+		return resp;
+	}
 }

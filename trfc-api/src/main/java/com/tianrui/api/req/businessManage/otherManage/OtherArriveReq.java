@@ -27,7 +27,7 @@ public class OtherArriveReq extends BaseReq {
 
     private String senddepartmentid;
 
-    private String custormerid;
+    private String customerid;
 
     private Long starttime;
 
@@ -133,12 +133,6 @@ public class OtherArriveReq extends BaseReq {
 	}
 	public void setSenddepartmentid(String senddepartmentid) {
 		this.senddepartmentid = senddepartmentid;
-	}
-	public String getCustormerid() {
-		return custormerid;
-	}
-	public void setCustormerid(String custormerid) {
-		this.custormerid = custormerid;
 	}
 	public Long getStarttime() {
 		return starttime;
@@ -253,6 +247,12 @@ public class OtherArriveReq extends BaseReq {
 	}
 	public void setEndDate(Long endDate) {
 		this.endDate = endDate;
+	}
+	public String getCustomerid() {
+		return customerid;
+	}
+	public void setCustomerid(String customerid) {
+		this.customerid = customerid;
 	}
 	
 

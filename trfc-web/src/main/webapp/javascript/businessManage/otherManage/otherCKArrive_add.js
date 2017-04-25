@@ -1,8 +1,8 @@
 $(function() {
 	URL = {	
-			mainUrl:"/trfc/otherRKArrive/main",
-			addUrl:"/trfc/otherRKArrive/add",
-			findOne:"/trfc/otherRKArrive/findOne",
+			mainUrl:"/trfc/otherCKArrive/main",
+			addUrl:"/trfc/otherCKArrive/add",
+			findOne:"/trfc/otherCKArrive/findOne",
 			getCodeUrl:"/trfc/quality/sales/report/getCode",
 			updateCodeUrl:"/trfc/quality/sales/report/updateCode",
 			addVehicle: '/trfc/vehicle/add',
@@ -10,7 +10,7 @@ $(function() {
 			vehicleAutoCompleteSearch: "/trfc/vehicle/autoCompleteSearch",
 			driverAutoCompleteSearch: "/trfc/driver/autoCompleteSearch",
 			materielAutoCompleteSearch: "/trfc/materiel/autoCompleteSearch",
-			supplierAutoCompleteSearch: "/trfc/supplier/autoCompleteSearch",
+			customerAutoCompleteSearch: "/trfc/customer/autoCompleteSearch",
 			warehouseAutoCompleteSearch: "/trfc/warehouse/autoCompleteSearch",
 	};
 	//获取用户名
@@ -54,11 +54,11 @@ $(function() {
 	}
 
 	function getAddData() {
-		var supplierid = $('#add_supplier').attr('supplierid');
+		var customerid = $('#add_customer').attr('customerid');
 		var datasource = $('#add_datasource').val().trim();
 		var materielid = $('#add_materiel').attr('materielid');
 		var cargo = $('#add_cargo').val().trim();
-		var receivedepartmentid = $('#add_receivedepartment').attr('orgid');
+		var senddepartmentid = $('#add_senddepartment').attr('orgid');
 		var vehicleid = $('#add_vehicle').attr('vehicleid');
 		var warehouseid = $('#add_warehouse').attr('warehouseid');
 		var driverid = $('#add_driver').attr('driverid');
@@ -66,11 +66,11 @@ $(function() {
 		var createtime = $('#add_createtime').val().trim();
 		var remark = $('#add_remark').val().trim();
 		return {
-			supplierid:supplierid,
+			customerid:customerid,
 			datasource:datasource,
 			materielid:materielid,
 			cargo:cargo,
-			receivedepartmentid:receivedepartmentid,
+			senddepartmentid:senddepartmentid,
 			vehicleid:vehicleid,
 			warehouseid:warehouseid,
 			driverid:driverid,
@@ -81,8 +81,8 @@ $(function() {
 
 	}
 	function validata(params) {
-		if(!params.supplierid){
-			layer.msg('供应商不能为空!');return false;
+		if(!params.customerid){
+			layer.msg('客户不能为空!');return false;
 		}
 		if(!params.cargo){
 			layer.msg('货物不能为空!');return false;
@@ -240,16 +240,16 @@ $(function() {
 				$(this).val('');
 			}
 		});
-		$("#add_supplier").autocomplete({
+		$("#add_customer").autocomplete({
 			source: function( request, response ) {
 				var term = request.term;
-				var supplier = cache['supplier'] || {};
-				if ( term in supplier ) {
-					response( supplier[ term ] );
+				var customer = cache['customer'] || {};
+				if ( term in customer ) {
+					response( customer[ term ] );
 					return;
 				}
-				$.post( URL.supplierAutoCompleteSearch, request, function( data, status, xhr ) {
-					supplier[ term ] = data;
+				$.post( URL.customerAutoCompleteSearch, request, function( data, status, xhr ) {
+					customer[ term ] = data;
 					response( data );
 				});
 			},
@@ -262,15 +262,15 @@ $(function() {
 				}
 			},
 			select: function( event, ui ) {
-				$(this).val(ui.item.name).attr('supplierid', ui.item.id);
+				$(this).val(ui.item.name).attr('customerid', ui.item.id);
 				return false;
 			}
 		}).off('click').on('click',function(){
 			$(this).autocomplete('search',' ');
 		}).on('input propertychange',function(){
-			$(this).removeAttr('supplierid');
+			$(this).removeAttr('customerid');
 		}).change(function(){
-			if(!$(this).attr('supplierid')){
+			if(!$(this).attr('customerid')){
 				$(this).val('');
 			}
 		});
@@ -473,7 +473,7 @@ $(function() {
 		var user = $('.user label').html();
 		$('#add_creator').val(user);
 		$('#add_createtime').val(getNowFormatDate(true));
-		$('#add_receivedepartment').val('天瑞集团汝州水泥有限公司').attr('orgid','0001PP1000000000BSF6');
+		$('#add_senddepartment').val('天瑞集团汝州水泥有限公司').attr('orgid','0001PP1000000000BSF6');
 		var href = window.location.href;
 		hrefStrs = href.split('?id=');
 		var id = hrefStrs[1];
@@ -488,11 +488,11 @@ $(function() {
 				success:function(result){
 					if(result.code == '000000'){
 						var obj = result.data;
-						$('#add_supplier').val(obj.suppliername).attr('supplierid',obj.supplierid);
+						$('#add_customer').val(obj.customername).attr('customerid',obj.customerid);
 						$('#add_datasource').val(obj.datasource);
 						$('#add_materiel').val(obj.materielname).attr('materielid',obj.materielid);
 						$('#add_cargo').val(obj.cargo);
-						$('#add_receivedepartment').val(obj.receivedepartmentname).attr('orgid',obj.receivedepartmentid);
+						$('#add_senddepartment').val(obj.senddepartmentname).attr('orgid',obj.senddepartmentid);
 						$('#add_vehicle').val(obj.vehicleno).attr('vehicleid',obj.vehicleid);
 						$('#add_warehouse').val(obj.warehousename).attr('warehouseid',obj.warehouseid);
 						$('#add_driver').val(obj.drivername).attr('driverid',obj.driverid);

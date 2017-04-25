@@ -77,4 +77,15 @@ public class SupplierManageAction {
 		return list;
 	}
 	
+	@RequestMapping("/findOne")
+	@ResponseBody
+	public SupplierManageResp findOne(String id){
+		SupplierManageResp resp = null;
+		try {
+			resp = supplierManageService.findOne(id);
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+		}
+		return resp;
+	}
 }

@@ -211,8 +211,7 @@ input[readOnly="true"]{
 .intel_search .intel_solo{
     margin:5px 15px 5px 0;
     font-size: 12px;
-    width:250px;
-    float:left;
+    display: inline-block;
 }
 .intel_search .intel_solo ul{
     display: none;
@@ -225,6 +224,7 @@ input[readOnly="true"]{
     width: 80px;
     text-align: right;
     line-height:30px;
+    max-width:none;
 }
 
 .intel_search .intel_solo .form-control{
@@ -232,6 +232,7 @@ input[readOnly="true"]{
     width: 160px;
     font-size: 12px;
     height: 30px;
+
 }
 .intel_search .intel_solo input[type="text"]{
     display: inline-block;
@@ -239,14 +240,13 @@ input[readOnly="true"]{
     font-size: 12px;
 
 }.intel_search .intel_solo .intel_sbtn{
-     float: left;
-     padding: 0 0 0 70px;
+     padding: 0 0 0 10px;
+     margin:0;
  }
 .intel_search .intel_solo .intel_sbtn button{
     margin:0 5px 0 15px;
     line-height: 28px;
     padding: 0px 18px;
-    float: left;
 }
 .intel_search .intel_solo .intel_sbtn input[type="checkbox"]{
     width: 20px;
@@ -337,8 +337,8 @@ input[readOnly="true"]{
 }
 /*分页效果*/
 .page{
-    width: 1000px;
-    margin: 20px auto;
+    width: 1050px;
+    margin: 12px auto;
 }
 .page_middle{
     width: 860px;
@@ -1013,7 +1013,7 @@ width: 180px;
     position: relative;
 }
 .daohuo_add .daohuo_add_div label{
-    width: 120px;
+    width: 110px;
     text-align: right;
     line-height: 30px;
 }
@@ -1076,10 +1076,12 @@ width: 180px;
     float: left;
     margin:5px 1px 5px 0;
     font-size: 12px;
+    display: inline-block;
 }
 .dhadd_search .dhsearch_solo label{
     width: 85px;
     text-align: right;
+    max-width: none;
 }
 .dhadd_search .dhsearch_solo select{
     width: 156px;
@@ -1099,7 +1101,7 @@ width: 180px;
 }
 .dh_alttable{
     width: 100%;
-    overflow: scroll;
+    overflow: auto;
 }
 .dh_alttable table tr{
     white-space: nowrap;

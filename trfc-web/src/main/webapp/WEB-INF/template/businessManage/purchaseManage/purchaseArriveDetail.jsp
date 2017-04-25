@@ -73,8 +73,8 @@
 									type="text" readonly>
 							</div>
 							<div class="daohuo_add_solo">
-								<label>车号：</label> <input
-									value="${purchaseArrive.vehicleno }" type="text" readonly>
+								<label>车号：</label> <input value="${purchaseArrive.vehicleno }"
+									type="text" readonly>
 							</div>
 							<div class="daohuo_add_solo">
 								<label>司机：</label> <input value="${purchaseArrive.drivername }"
@@ -82,15 +82,16 @@
 							</div>
 							<div class="daohuo_add_solo">
 								<label>身份证号：</label> <input
-									value="${purchaseArrive.driveridentityno }" type="text" readonly>
+									value="${purchaseArrive.driveridentityno }" type="text"
+									readonly>
 							</div>
 							<div class="daohuo_add_solo">
-								<label>RFID：</label> <input value="${purchaseArrive.vehiclerfid }"
-									type="text" readonly>
+								<label>RFID：</label> <input
+									value="${purchaseArrive.vehiclerfid }" type="text" readonly>
 							</div>
 							<div class="daohuo_add_solo">
-								<label>到货量：</label> <input value="${purchaseArrive.arrivalamount }"
-									type="text" readonly>
+								<label>到货量：</label> <input
+									value="${purchaseArrive.arrivalamount }" type="text" readonly>
 							</div>
 							<div class="daohuo_add_solo">
 								<label>部门：</label> <input
@@ -156,7 +157,50 @@
 								</table>
 							</div>
 							<div class="cg_tabcont hide">
-								
+								<div class="alt_edit_div">
+									<label>车号：</label> <input type="text" id="detail_vehicleno"
+										readOnly="true">
+								</div>
+								<div class="alt_edit_div">
+									<label>供应商：</label> <input type="text" id="detail_suppliername"
+										readOnly="true">
+								</div>
+								<div class="alt_edit_div">
+									<label>物料：</label> <input type="text" id="detail_materielname"
+										readOnly="true">
+								</div>
+								<div class="alt_edit_div">
+									<label>业务类型：</label> <input type="text" id="detail_businesstype"
+										readOnly="true">
+								</div>
+								<div class="alt_edit_div">
+									<label>通知单号：</label> <input type="text" id="detail_notice"
+										readOnly="true">
+								</div>
+								<div class="alt_edit_div">
+									<label>是否原发确认：</label> <input type="text" id="detail_suremount"
+										readOnly="true">
+								</div>
+								<div class="alt_edit_div">
+									<label>车辆ID：</label> <input type="text" id="detail_vehicleid"
+										readOnly="true">
+								</div>
+								<div class="alt_edit_div">
+									<label>整车退货：</label> <input type="text" id="detail_return"
+										readOnly="true">
+								</div>
+								<div class="alt_edit_div">
+									<label>到货量：</label> <input type="text" id="detail_arrivalamount"
+										readOnly="true">
+								</div>
+								<div class="alt_edit_div">
+									<label>发卡状态：</label> <input type="text" id="detail_status"
+										readOnly="true">
+								</div>
+								<div class="alt_edit_div">
+									<label>RFCard：</label> <input type="text" id="detail_rfcard"
+										readOnly="true">
+								</div>
 							</div>
 						</div>
 					</div>
@@ -165,6 +209,7 @@
 		</div>
 	</div>
 	<jsp:include page="../../common/base/footer_busi.jsp"></jsp:include>
+	<script type="text/javascript" src="${staticBasePath}/js/cardReader.js"></script>
 	<script type="text/javascript"
 		src="/javascript/businessManage/purchaseManage/purchaseArriveDetail.js"></script>
 	<script type="text/javascript">

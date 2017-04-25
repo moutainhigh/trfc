@@ -148,9 +148,9 @@ public class OtherArriveResp extends BaseResp {
 
 	private String senddepartmentname;
 
-	private String custormerid;
+	private String customerid;
 
-	private String custormername;
+	private String customername;
 
 	private Long starttime;
 
@@ -430,20 +430,13 @@ public class OtherArriveResp extends BaseResp {
 		this.senddepartmentname = senddepartmentname;
 	}
 
-	public String getCustormerid() {
-		return custormerid;
-	}
-
-	public void setCustormerid(String custormerid) {
-		this.custormerid = custormerid;
-	}
 
 	public String getCustormername() {
-		return custormername;
+		return customername;
 	}
 
-	public void setCustormername(String custormername) {
-		this.custormername = custormername;
+	public void setCustormername(String customername) {
+		this.customername = customername;
 	}
 
 	public Long getStarttime() {
@@ -468,6 +461,14 @@ public class OtherArriveResp extends BaseResp {
 
 	public void setIcardid(String icardid) {
 		this.icardid = icardid;
+	}
+
+	public String getCustomerid() {
+		return customerid;
+	}
+
+	public void setCustomerid(String customerid) {
+		this.customerid = customerid;
 	}
 
 	

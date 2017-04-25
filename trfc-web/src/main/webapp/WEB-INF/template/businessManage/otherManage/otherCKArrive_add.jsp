@@ -3,7 +3,7 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-   <title>其他入库通知单-新增</title>
+   <title>其他出库通知单-新增</title>
 <jsp:include page="../../common/base/header_busi.jsp"></jsp:include>
 </head>
 <body>
@@ -50,15 +50,15 @@
                 </div>
             </div>
             <div class="daohuo_add">
-                <h5>其他入库通知单新增 </h5>
+                <h5>其他出库通知单新增 </h5>
                 <div class="daohuo_add_div">
                     <div class="daohuo_add_solo">
                         <label class="colorred">*通知单号：</label>
                         <input type="text" readonly="true" id="add_code">
                     </div>
                     <div class="daohuo_add_solo">
-                        <label class="colorred">*供应商：</label>
-                        <input type="text" id="add_supplier" placeholder="请选择供应商">
+                        <label class="colorred">*客户：</label>
+                        <input type="text" id="add_customer" placeholder="请选择客户">
                     </div>
                     <div class="daohuo_add_solo">
                         <label class="colorred">*单位：</label>
@@ -73,8 +73,8 @@
                         <input type="text" id="add_cargo" placeholder="请输入货物名称">
                     </div>
                     <div class="daohuo_add_solo">
-                        <label class="colorred">*收货单位：</label>
-                        <input type="text" id="add_receivedepartment" readonly="true">
+                        <label class="colorred">*发货单位：</label>
+                        <input type="text" id="add_senddepartment" readonly="true">
                     </div>
                     <div class="daohuo_add_solo">
                         <label class="colorred">*车号：</label>
@@ -275,20 +275,8 @@
 </div>
 <!--司机新增end-->
 
-<script type="text/javascript">
-    $( function() {
-        var availableTags = [
-            "上海欧瑞仪器设备有限公司",
-            "上海对接口",
-            "尾矿进口量为几个鸡",
-            "我德歌功"
-        ];
-        $( "#gongying" ).autocomplete({
-            source: availableTags
-        });
-    } );
 
-</script>
+
 <jsp:include page="../../common/base/footer_busi.jsp"></jsp:include>
 <script type="text/javascript"
 		src="/javascript/businessManage/otherManage/otherCKArrive_add.js"></script>

@@ -19,7 +19,7 @@ public class OtherArrive {
 
     private String senddepartmentid;
 
-    private String custormerid;
+    private String customerid;
 
     private Long starttime;
 
@@ -127,14 +127,6 @@ public class OtherArrive {
 
     public void setSenddepartmentid(String senddepartmentid) {
         this.senddepartmentid = senddepartmentid == null ? null : senddepartmentid.trim();
-    }
-
-    public String getCustormerid() {
-        return custormerid;
-    }
-
-    public void setCustormerid(String custormerid) {
-        this.custormerid = custormerid == null ? null : custormerid.trim();
     }
 
     public Long getStarttime() {
@@ -280,4 +272,12 @@ public class OtherArrive {
     public void setUtc(Long utc) {
         this.utc = utc;
     }
+
+	public String getCustomerid() {
+		return customerid;
+	}
+
+	public void setCustomerid(String customerid) {
+		this.customerid = customerid;
+	}
 }

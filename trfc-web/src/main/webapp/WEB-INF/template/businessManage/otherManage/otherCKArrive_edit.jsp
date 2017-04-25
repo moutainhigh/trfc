@@ -3,7 +3,7 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-   <title>其他入库通知单-编辑</title>
+   <title>其他出库通知单-编辑</title>
 <jsp:include page="../../common/base/header_busi.jsp"></jsp:include>
 </head>
 <body>
@@ -50,7 +50,7 @@
                 </div>
             </div>
             <div class="daohuo_add">
-                <h5>其他入库通知单编辑 </h5>
+                <h5>其他出库通知单编辑 </h5>
                 <div class="daohuo_add_div">
                     <div class="daohuo_add_solo">
                         <label class="colorred">*通知单号：</label>
