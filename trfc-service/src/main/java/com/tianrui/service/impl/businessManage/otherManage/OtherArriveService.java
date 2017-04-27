@@ -213,7 +213,7 @@ public class OtherArriveService implements IOtherArriveService {
 		if(StringUtils.isNotBlank(oa.getCustomerid())){
 			CustomerManage customer = customerManageMapper.selectByPrimaryKey(oa.getCustomerid());
 			if(customer!=null){
-				resp.setCustormername(customer.getName());
+				resp.setCustomername(customer.getName());
 			}
 		}
 

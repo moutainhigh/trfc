@@ -314,13 +314,10 @@
 									<label> 射频卡号：</label> <input type="text" id="detail_cardno">
 								</div>
 								<div class="cg_solo">
-									<label> 车辆编号：</label> <input type="text" id="detail_card_vehicleno">
-								</div>
-								<div class="cg_solo">
-									<label> 车辆名称：</label> <input type="text" id="detail_card_vehiclename">
-								</div>
-								<div class="cg_solo">
 									<label> 车辆编号：</label> <input type="text" id="detail_card_vehiclecode">
+								</div>
+								<div class="cg_solo">
+									<label> 车辆名称：</label> <input type="text" id="detail_card_vehicleno">
 								</div>
 								<div class="cg_solo">
 									<label> 客户：</label> <input type="text" id="detail_card_customer">

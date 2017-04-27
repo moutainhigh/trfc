@@ -62,14 +62,9 @@ $(function() {
 		window.location.href = URL.addUrl;
 	});
 	
-	//详情模块 刷新功能
+	//详情模块 读卡功能
 	$('#readCardBtn').click(function() {
-		//启动缓冲动画
-		var index = layer.load(2, {
-			shade: [0.3,'#fff'] //0.1透明度的白色背景
-		});
 		readCardAction();
-		layer.close(index);
 	});
 	
 	//跳转按钮

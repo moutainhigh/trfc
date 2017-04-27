@@ -119,6 +119,8 @@ function getDataFromCardHex(index){
 function writeDataToCardHex( msg , index ) {
 	if(!msg || msg.length!=32){
 		msg = '00000000000000000000000000000000';
+	}else{
+		msg = $.trim(msg);
 	}
 		MWRFATL.cardVerifyPassword(0, Math.floor(index/4)); //加载密码认证,此函数传入的是扇区号
 		if (MWRFATL.LastRet != 0) {
@@ -136,7 +138,7 @@ function writeDataToCardHex( msg , index ) {
 function writeObjToCard(obj) {
 	writeDataToCard(obj.rfid,1);
 	writeDataToCard(obj.vehicleno,2);
-	writeDataToCardHex(obj.vehicleid,4);
+	writeDataToCardHex(obj.vehicleid.toUpperCase(),4);
 	writeDataToCard(obj.materielname,5);
 	writeDataToCard(obj.packagetype,6);
 	writeDataToCard(obj.businesstype,8);

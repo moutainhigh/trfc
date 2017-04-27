@@ -68,6 +68,11 @@ $(function() {
 	$('#addBtn').click(function() {
 		window.location.href = URL.addUrl;
 	});
+	
+	//详情模块 读卡功能
+	$('#readCardBtn').click(function() {
+		readCardAction();
+	});
 
 	//绑定列表复制,编辑按钮
 	$('#tbody_list').on('click','tr [title="复制"]',function(event) {
@@ -174,6 +179,39 @@ $(function() {
 		}
 	}
 
+	//展示读卡信息
+	function readCardAction (){
+
+		if(initCardReader()) {
+			//打开读卡器
+			readerOpen();
+			//开打卡片获取卡号
+			var cardno = openCard();
+			if(cardno){
+				//蜂鸣
+				readerBeep();
+				try{
+					var obj = readObjFromCard();
+					$('#detail_cardno').val(cardno);
+					$('#detail_card_vehiclecode').val(obj.vehicleobj.code);
+					$('#detail_card_vehiclename').val(obj.vehicleno);
+					$('#detail_card_customer').val(obj.customerobj.name);
+					$('#detail_card_materiel').val(obj.materielname);
+					$('#detail_card_bussnesstype').val(obj.status);
+					$('#detail_card_note').val(obj.notice);
+					$('#detail_card_status').val(obj.packagetype);
+					$('#detail_card_count').val(obj.takeamount);
+				} catch (e) {
+					layer.msg(e.Message);
+				}
+			}
+			//关闭读卡器
+			readerClose();
+			}else{
+				layer.msg('当前游览器不支持!(只兼容IE游览器)');
+			}
+	}
+	
 	function initDetailVeiw(id) {
 		$.ajax({
 			url:URL.findOne,
@@ -200,7 +238,7 @@ $(function() {
 					$('#detail_datasource').val(obj.datasource);
 					$('#detail_materiel').val(obj.materielname);
 					$('#detail_cargo').val(obj.cargo);
-					$('#detail_receivedepartment').val(obj.receivedepartmentname);
+					$('#detail_receivedepartment').val(obj.senddepartmentname);
 					$('#detail_vehicleno').val(obj.vehicleno);
 					$('#detail_warehouse').val(obj.warehousename);
 					$('#detail_driver').val(obj.drivername);

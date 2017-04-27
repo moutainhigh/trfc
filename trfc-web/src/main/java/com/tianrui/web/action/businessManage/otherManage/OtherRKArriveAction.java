@@ -78,7 +78,7 @@ public class OtherRKArriveAction {
 		try {
 			SystemUserResp user = (SystemUserResp) session.getAttribute("systemUser");
 			req.setUserid(user.getId());
-			req.setBusinesstype("1");
+			req.setBusinesstype("3");
 			req.setCodekey("QRN");
 			rs = otherArriveService.add(req);
 		} catch (Exception e) {
@@ -93,7 +93,7 @@ public class OtherRKArriveAction {
 	public Result page(OtherArriveReq req){
 		Result rs = Result.getSuccessResult();
 		try {
-			req.setBusinesstype("1");
+			req.setBusinesstype("3");
 			rs = otherArriveService.page(req);
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);

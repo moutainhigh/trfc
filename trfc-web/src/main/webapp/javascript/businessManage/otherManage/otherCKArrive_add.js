@@ -44,6 +44,93 @@ $(function() {
 	$('#refresh').click(function() {
 		window.location.reload(true);
 	});
+	
+	$('#writeCard').click(function() {
+		writeCardAction();
+	});
+
+	
+	//写卡功能
+	function  writeCardAction() {
+		var obj = getWriteCardData();
+		var params = getAddData();
+		if(initCardReader()) {
+			//打开读卡器
+			readerOpen();
+			//开打卡片获取卡号
+			var cardno = openCard();
+			if(cardno){
+				//卡号放入待保存数据
+				params.icardno = cardno;
+				//蜂鸣
+				readerBeep();
+				if(params && validata(params)){
+					layer.confirm('注：确定要保存写卡吗？', {
+						area: '600px',
+						btn: ['确认','取消'] //按钮
+					}, function(){
+						$.ajax({
+							url:URL.addUrl,
+							data:params,
+							async:true,
+							cache:false,
+							dataType:'json',
+							type:'post',
+							success:function(result){
+								if(result.code == '000000'){
+									try{
+										//写卡
+										writeObjToCard(obj);
+										//蜂鸣
+										readerBeep();
+										window.location.href = URL.mainUrl;
+									} catch (e) {
+										layer.msg('写卡失败!('+e.Message+')');
+									}
+								}else{
+									layer.msg(result.error, {icon: 5});
+								}
+								readerClose();
+							}
+						});
+					});
+				}else{
+					//关闭读卡器
+					readerClose();
+				}
+			}
+		}else{
+			layer.alert('当前游览器不支持!(只兼容IE游览器)');
+		}
+	};
+	
+	//获取写卡信息
+	function getWriteCardData() {
+		var arrivecode = $('#add_code').val() || ''; arrivecode = $.trim(arrivecode);
+		var rfid = $('#add_rfid').val() || ''; rfid = $.trim(rfid);
+		var vehicleno = $('#add_vehicle').val() || '';vehicleno = $.trim(vehicleno);
+		var vehicleid = $('#add_vehicle').attr('vehicleid') || '';vehicleid = $.trim(vehicleid);
+		var customerid = $('#add_customer').attr('customerid') || '';customerid = $.trim(customerid);
+		var materielname = $('#add_materiel').val() || '';materielname = $.trim(materielname);
+		//设置业务类型为 其他出库
+		var businesstype = '4';
+		var supplierremark = $('#add_supplier').attr('supplierremark') || '';supplierremark = $.trim(supplierremark);
+		var takeamount = $('#add_count').val() || 0;
+		var packagetype = $('#add_materiel').attr('packagetype') || '';packagetype = $.trim(packagetype);
+		return {
+			notice:arrivecode,
+			rfid:rfid,
+			packagetype:packagetype,
+			vehicleno:vehicleno,
+			vehicleid:vehicleid,
+			customerid:customerid,
+			materielname:materielname,
+			businesstype:businesstype,
+			status:'0',
+			supplierremark:supplierremark,
+			takeamount:takeamount
+		};
+	}
 
 	//日期字符串转为时间戳
 	function str2Long(dateStr){
@@ -452,7 +539,7 @@ $(function() {
 	}
 	function initAddData(){
 		//设置编码代号为FA
-		var code = 'QRN';
+		var code = 'QCN';
 		//设置类型为编码
 		var codeType = true;
 		var param = {

@@ -36,10 +36,6 @@
                             <i class="iconfont colorblue">&#xe61d;</i>
                             <h5>保存</h5>
                         </li>
-                        <li id="writeCard">
-                            <i class="iconfont colorblue">&#xe601;</i>
-                            <h5>保存写卡</h5>
-                        </li>
                         <li id="goback">
                             <a>
                                 <i class="iconfont colorblue">&#xe61e;</i>
@@ -57,8 +53,8 @@
                         <input type="text" readonly="true" id="add_code">
                     </div>
                     <div class="daohuo_add_solo">
-                        <label class="colorred">*供应商：</label>
-                        <input type="text" id="add_supplier" placeholder="请选择供应商">
+                        <label class="colorred">*客户：</label>
+                        <input type="text" id="add_customer" placeholder="请选择供应商">
                     </div>
                     <div class="daohuo_add_solo">
                         <label class="colorred">*单位：</label>
@@ -73,8 +69,8 @@
                         <input type="text" id="add_cargo" placeholder="请输入货物名称">
                     </div>
                     <div class="daohuo_add_solo">
-                        <label class="colorred">*收货单位：</label>
-                        <input type="text" id="add_receivedepartment" readonly="true">
+                        <label class="colorred">*发货单位：</label>
+                        <input type="text" id="add_senddepartment" readonly="true">
                     </div>
                     <div class="daohuo_add_solo">
                         <label class="colorred">*车号：</label>

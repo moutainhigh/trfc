@@ -9,7 +9,7 @@ $(function() {
 			vehicleAutoCompleteSearch: "/trfc/vehicle/autoCompleteSearch",
 			driverAutoCompleteSearch: "/trfc/driver/autoCompleteSearch",
 			materielAutoCompleteSearch: "/trfc/materiel/autoCompleteSearch",
-			supplierAutoCompleteSearch: "/trfc/supplier/autoCompleteSearch",
+			customerAutoCompleteSearch: "/trfc/customer/autoCompleteSearch",
 			warehouseAutoCompleteSearch: "/trfc/warehouse/autoCompleteSearch",
 	};
 	//获取用户名
@@ -47,33 +47,36 @@ $(function() {
 
 	function getEditData() {
 		var id = $('#add_code').attr('objid');
-		var supplierid = $('#add_supplier').attr('supplierid');
+		var customerid = $('#add_customer').attr('customerid');
 		var datasource = $('#add_datasource').val();
 		var materielid = $('#add_materiel').attr('materielid');
 		var cargo = $('#add_cargo').val();
+		var senddepartmentid = $('#add_senddepartment').attr('orgid');
 		var vehicleid = $('#add_vehicle').attr('vehicleid');
 		var warehouseid = $('#add_warehouse').attr('warehouseid');
 		var driverid = $('#add_driver').attr('driverid');
 		var count = $('#add_count').val();
+		var createtime = $('#add_createtime').val();
 		var remark = $('#add_remark').val();
 		return {
 			id:id,
-			supplierid:supplierid,
+			customerid:customerid,
 			datasource:datasource,
 			materielid:materielid,
 			cargo:cargo,
+			senddepartmentid:senddepartmentid,
 			vehicleid:vehicleid,
 			warehouseid:warehouseid,
 			driverid:driverid,
 			count:count,
+			createtime:str2Long(createtime),
 			remark:remark
 		};
-
 	}
 
 	function validata(params) {
-		if(!params.supplierid){
-			layer.msg('供应商不能为空!');return false;
+		if(!params.customerid){
+			layer.msg('客户不能为空!');return false;
 		}
 		if(!params.cargo){
 			layer.msg('货物不能为空!');return false;
@@ -95,7 +98,13 @@ $(function() {
 		}
 		return true;
 	}
-
+	//日期字符串转为时间戳
+	function str2Long(dateStr){
+		if(dateStr){
+			return Date.parseYMD_HMS(dateStr).getTime();
+		}
+		return '';
+	}
 	function saveEditAction() {
 		var params = getEditData();
 		if(params && validata(params)){
@@ -230,16 +239,16 @@ $(function() {
 				$(this).val('');
 			}
 		});
-		$("#add_supplier").autocomplete({
+		$("#add_customer").autocomplete({
 			source: function( request, response ) {
 				var term = request.term;
-				var supplier = cache['supplier'] || {};
-				if ( term in supplier ) {
-					response( supplier[ term ] );
+				var customer = cache['customer'] || {};
+				if ( term in customer ) {
+					response( customer[ term ] );
 					return;
 				}
-				$.post( URL.supplierAutoCompleteSearch, request, function( data, status, xhr ) {
-					supplier[ term ] = data;
+				$.post( URL.customerAutoCompleteSearch, request, function( data, status, xhr ) {
+					customer[ term ] = data;
 					response( data );
 				});
 			},
@@ -252,15 +261,15 @@ $(function() {
 				}
 			},
 			select: function( event, ui ) {
-				$(this).val(ui.item.name).attr('supplierid', ui.item.id);
+				$(this).val(ui.item.name).attr('customerid', ui.item.id);
 				return false;
 			}
 		}).off('click').on('click',function(){
 			$(this).autocomplete('search',' ');
 		}).on('input propertychange',function(){
-			$(this).removeAttr('supplierid');
+			$(this).removeAttr('customerid');
 		}).change(function(){
-			if(!$(this).attr('supplierid')){
+			if(!$(this).attr('customerid')){
 				$(this).val('');
 			}
 		});
@@ -458,11 +467,11 @@ $(function() {
 					if(result.code == '000000'){
 						var obj = result.data;
 						$('#add_code').val(obj.code).attr('objid',obj.id);
-						$('#add_supplier').val(obj.suppliername).attr('supplierid',obj.supplierid);
+						$('#add_customer').val(obj.customername).attr('customerid',obj.customerid);
 						$('#add_datasource').val(obj.datasource);
 						$('#add_materiel').val(obj.materielname).attr('materielid',obj.materielid);
 						$('#add_cargo').val(obj.cargo);
-						$('#add_receivedepartment').val(obj.receivedepartmentname);
+						$('#add_senddepartment').val(obj.senddepartmentname);
 						$('#add_vehicle').val(obj.vehicleno).attr('vehicleid',obj.vehicleid).attr('sourceData',obj.vehicleid);
 						$('#add_warehouse').val(obj.warehousename).attr('warehouseid',obj.warehouseid);
 						$('#add_driver').val(obj.drivername).attr('driverid',obj.driverid).attr('sourceData',obj.driverid);

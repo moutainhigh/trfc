@@ -78,7 +78,7 @@ public class OtherCKArriveAction {
 		try {
 			SystemUserResp user = (SystemUserResp) session.getAttribute("systemUser");
 			req.setUserid(user.getId());
-			req.setBusinesstype("2");
+			req.setBusinesstype("4");
 			req.setCodekey("QCN");
 			System.out.println(req.getCustomerid());
 			rs = otherArriveService.add(req);
@@ -94,7 +94,7 @@ public class OtherCKArriveAction {
 	public Result page(OtherArriveReq req){
 		Result rs = Result.getSuccessResult();
 		try {
-			req.setBusinesstype("2");
+			req.setBusinesstype("4");
 			System.out.println(req.getCustomerid());
 			rs = otherArriveService.page(req);
 		} catch (Exception e) {

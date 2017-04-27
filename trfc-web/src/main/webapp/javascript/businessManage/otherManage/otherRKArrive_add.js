@@ -64,7 +64,7 @@ $(function() {
 				//蜂鸣
 				readerBeep();
 				if(params && validata(params)){
-					layer.confirm('注：确定要保存吗？', {
+					layer.confirm('注：确定要保存写卡吗？', {
 						area: '600px',
 						btn: ['确认','取消'] //按钮
 					}, function(){
@@ -98,6 +98,8 @@ $(function() {
 					readerClose();
 				}
 			}
+		}else{
+			layer.alert('当前游览器不支持!(只兼容IE游览器)');
 		}
 
 	};

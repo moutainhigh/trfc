@@ -431,13 +431,7 @@ public class OtherArriveResp extends BaseResp {
 	}
 
 
-	public String getCustormername() {
-		return customername;
-	}
 
-	public void setCustormername(String customername) {
-		this.customername = customername;
-	}
 
 	public Long getStarttime() {
 		return starttime;
@@ -469,6 +463,14 @@ public class OtherArriveResp extends BaseResp {
 
 	public void setCustomerid(String customerid) {
 		this.customerid = customerid;
+	}
+
+	public String getCustomername() {
+		return customername;
+	}
+
+	public void setCustomername(String customername) {
+		this.customername = customername;
 	}
 
 	
