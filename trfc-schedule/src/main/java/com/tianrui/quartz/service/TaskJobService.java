@@ -17,8 +17,10 @@ import com.tianrui.api.resp.businessManage.salesManage.SalesApplicationResp;
 import com.tianrui.api.resp.system.auth.SystemUserResp;
 import com.tianrui.quartz.common.ApiParamUtils;
 import com.tianrui.quartz.common.HttpUtils;
+import com.tianrui.service.bean.businessManage.salesManage.SalesApplication;
 import com.tianrui.service.bean.common.ReturnQueue;
 import com.tianrui.service.bean.system.auth.SmUser;
+import com.tianrui.service.mapper.businessManage.salesManage.SalesApplicationMapper;
 import com.tianrui.service.mapper.common.ReturnQueueMapper;
 import com.tianrui.service.mapper.system.auth.SmUserMapper;
 import com.tianrui.smartfactory.common.api.ApiResult;
@@ -32,6 +34,8 @@ public class TaskJobService {
 	private ReturnQueueMapper returnQueueMapper;
 	@Autowired
 	private ISalesApplicationService salesApplicationService;
+	@Autowired
+	private SalesApplicationMapper salesApplicationMapper;
 	@Autowired
 	private ISystemUserService systemUserService;
 	@Autowired
@@ -90,7 +94,14 @@ public class TaskJobService {
 			}
 			ApiResult apiResult = HttpUtils.post(ApiParamUtils.getApiParam(listSales), Constant.URL_RETURN_SALESAPPLICATION);
 			if(StringUtils.equals(apiResult.getCode(), ErrorCode.SYSTEM_SUCCESS.getCode())){
-				returnQueueMapper.deteleByIds(queueIds);
+				if(returnQueueMapper.deteleByIds(queueIds) > 0){
+					SalesApplication application = new SalesApplication();
+					for(ReturnQueue queue : list){
+						application.setId(queue.getDataid());
+						application.setSource("0");
+						salesApplicationMapper.updateByPrimaryKeySelective(application);
+					}
+				}
 			}
 		}
 	}

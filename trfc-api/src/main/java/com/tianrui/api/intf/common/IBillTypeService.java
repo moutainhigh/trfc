@@ -4,11 +4,10 @@ import java.util.List;
 
 import com.tianrui.api.req.common.BillTypeQuery;
 import com.tianrui.api.resp.common.BillTypeResp;
-import com.tianrui.smartfactory.common.vo.Result;
 
 public interface IBillTypeService {
 
-	Result findListByParmas(BillTypeQuery query) throws Exception;
+	List<BillTypeResp> findListByParmas(BillTypeQuery query) throws Exception;
 	/**
 	 * @Description 根据名称模糊查询
 	 * @author zhanggaohao

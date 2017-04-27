@@ -9,6 +9,8 @@ public class BillType {
     private String name;
     //类型（0：采购，1：销售）
     private String type;
+    //是否默认显示（0：否，1：是）
+    private String defaultshow;
     //状态：（0：删除，1：显示）
     private String state;
     //创建人
@@ -46,18 +48,20 @@ public class BillType {
         this.name = name == null ? null : name.trim();
     }
 
-    /**
-	 * @return the type
-	 */
 	public String getType() {
 		return type;
 	}
 
-	/**
-	 * @param type the type to set
-	 */
 	public void setType(String type) {
 		this.type = type;
+	}
+
+	public String getDefaultshow() {
+		return defaultshow;
+	}
+
+	public void setDefaultshow(String defaultshow) {
+		this.defaultshow = defaultshow;
 	}
 
 	public String getState() {
