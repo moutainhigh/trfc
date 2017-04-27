@@ -286,6 +286,8 @@
 							$('#a_code').val(data.code);
 							$('#a_billtimeStr').val(data.nowDate);
 							addChangeNum($('#a_salessum, #a_taxprice, #a_taxrate, #a_untaxprice'));
+							$("#a_billtype").val(data.initBillType.name);
+							$("#a_billtype").attr('billtypeid', data.initBillType.id);
 							$('#addView').modal();
 						}else{
 							layer.msg("初始化失败，请稍后重试！");

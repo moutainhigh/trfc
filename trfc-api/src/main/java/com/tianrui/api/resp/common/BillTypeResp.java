@@ -13,6 +13,8 @@ public class BillTypeResp extends BaseResp {
     private String name;
     //类型（0：采购，1：销售）
     private String type;
+    //是否默认显示（0：否，1：是）
+    private String defaultshow;
     //状态：（0：删除，1：显示）
     private String state;
     //创建人
@@ -48,6 +50,12 @@ public class BillTypeResp extends BaseResp {
 	 */
 	public String getType() {
 		return type;
+	}
+	/**
+	 * @return the show
+	 */
+	public String getDefaultshow() {
+		return defaultshow;
 	}
 	/**
 	 * @return the state
@@ -110,6 +118,12 @@ public class BillTypeResp extends BaseResp {
 		this.type = type;
 	}
 	/**
+	 * @param show the show to set
+	 */
+	public void setDefaultshow(String defaultshow) {
+		this.defaultshow = defaultshow;
+	}
+	/**
 	 * @param state the state to set
 	 */
 	public void setState(String state) {
@@ -145,5 +159,5 @@ public class BillTypeResp extends BaseResp {
 	public void setRemarks(String remarks) {
 		this.remarks = remarks;
 	}
-
+	
 }
