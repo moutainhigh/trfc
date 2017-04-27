@@ -24,7 +24,8 @@ public class OtherArriveReq extends BaseReq {
     private String leaveyard;
 
     private String reason;
-
+    //编号key
+    private String codekey;
     private String senddepartmentid;
 
     private String customerid;
@@ -48,7 +49,8 @@ public class OtherArriveReq extends BaseReq {
     private String warehouseid;
 
     private String driverid;
-
+    
+    private String icardno;
     private String icardid;
 
     private Double count;
@@ -253,6 +255,18 @@ public class OtherArriveReq extends BaseReq {
 	}
 	public void setCustomerid(String customerid) {
 		this.customerid = customerid;
+	}
+	public String getIcardno() {
+		return icardno;
+	}
+	public void setIcardno(String icardno) {
+		this.icardno = icardno;
+	}
+	public String getCodekey() {
+		return codekey;
+	}
+	public void setCodekey(String codekey) {
+		this.codekey = codekey;
 	}
 	
 

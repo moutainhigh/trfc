@@ -9,7 +9,7 @@ $(function() {
 			updateVeiw:"/trfc/otherRKArrive/editMain",
 			supplierAutoCompleteSearch: "/trfc/supplier/autoCompleteSearch",
 			vehicleAutoCompleteSearch: "/trfc/vehicle/autoCompleteSearch",
-			warehouseAutoCompleteSearch: "/trfc/warehouse/autoCompleteSearch",
+			warehouseAutoCompleteSearch: "/trfc/warehouse/autoCompleteSearch", 
 	};
 	//业务类型
 	var STATUS = {
@@ -61,7 +61,25 @@ $(function() {
 	$('#addBtn').click(function() {
 		window.location.href = URL.addUrl;
 	});
-
+	
+	//详情模块 刷新功能
+	$('#readCardBtn').click(function() {
+		//启动缓冲动画
+		var index = layer.load(2, {
+			shade: [0.3,'#fff'] //0.1透明度的白色背景
+		});
+		readCardAction();
+		layer.close(index);
+	});
+	
+	//跳转按钮
+	$('#jumpButton').click(function() {
+		jumpPageAction();
+	});
+	$('#pageSize').change(function() {
+		ShowAction(1);
+	});
+	
 	//绑定列表复制,编辑按钮
 	$('#tbody_list').on('click','tr [title="复制"]',function(event) {
 		event.stopPropagation();
@@ -141,6 +159,39 @@ $(function() {
 		}
 	});
 
+	//展示读卡信息
+	function readCardAction (){
+
+		if(initCardReader()) {
+			//打开读卡器
+			readerOpen();
+			//开打卡片获取卡号
+			var cardno = openCard();
+			if(cardno){
+				//蜂鸣
+				readerBeep();
+				try{
+					var obj = readObjFromCard();
+					$('#detail_cardno').val(cardno);
+					$('#detail_card_vehiclecode').val(obj.vehicleobj.code);
+					$('#detail_card_vehiclename').val(obj.vehicleno);
+					$('#detail_card_supplier').val(obj.supplierobj.name);
+					$('#detail_card_materiel').val(obj.materielname);
+					$('#detail_card_bussnesstype').val(obj.status);
+					$('#detail_card_note').val(obj.notice);
+					$('#detail_card_status').val(obj.packagetype);
+					$('#detail_card_count').val(obj.arrivalamount);
+				} catch (e) {
+					layer.msg(e.Message);
+				}
+			}
+			//关闭读卡器
+			readerClose();
+			}else{
+				layer.msg('当前游览器不支持!(只兼容IE游览器)');
+			}
+	}
+	
 	function updateAction(params,msg) {
 		if(params){
 			var index =	layer.confirm(msg, {

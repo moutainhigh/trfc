@@ -26,10 +26,13 @@ public class CardReissueResp extends BaseResp {
     private String outtimeStr;
     //车牌号
     private String vehicleno;
+    //车辆id
+    private String vehicleid;
     //物料名称
     private String materielname;
     //供应商
     private String suppliername;
+    private String supplierid;
     //供应商备注
     private String supplierremark;
     //净重
@@ -94,6 +97,7 @@ public class CardReissueResp extends BaseResp {
     private Double price;
     //客户
     private String customername;
+    private String customerid;
     //喷码
     private String spraycode;
     //批号
@@ -393,6 +397,24 @@ public class CardReissueResp extends BaseResp {
 	}
 	public void setNoticeid(String noticeid) {
 		this.noticeid = noticeid;
+	}
+	public String getVehicleid() {
+		return vehicleid;
+	}
+	public void setVehicleid(String vehicleid) {
+		this.vehicleid = vehicleid;
+	}
+	public String getSupplierid() {
+		return supplierid;
+	}
+	public void setSupplierid(String supplierid) {
+		this.supplierid = supplierid;
+	}
+	public String getCustomerid() {
+		return customerid;
+	}
+	public void setCustomerid(String customerid) {
+		this.customerid = customerid;
 	}
 
 }

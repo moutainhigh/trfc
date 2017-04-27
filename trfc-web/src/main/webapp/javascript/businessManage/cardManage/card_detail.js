@@ -50,6 +50,21 @@ $(function() {
 	//写卡
 	function writecard(){
 		var obj = $('#business_detail').data('obj');
+		var cardData = {
+				rfid:obj.rfid,
+				vehicleno:obj.vehicleno,
+				supplierid:obj.supplierid,
+				customerid:obj.customerid,
+				materielname:obj.materielname,
+				packagetype:obj.materieltype,
+				batchnum:obj.batchnum,
+				notice:obj.noticecode,
+				businesstype:obj.businesstype,
+				supperlierremark:obj.supperlierremark,
+				minemouthname:obj.minemouthname,
+				takeamount:obj.takeamount,
+				arrivalamount:obj.arrivalamount,
+		}
 		if(initCardReader()) {
 			//打开读卡器
 			readerOpen();
@@ -60,21 +75,7 @@ $(function() {
 				readerBeep();
 				try{
 
-					writeDataToCard(obj.rfid.substr(0,16), 1);
-					writeDataToCard(obj.rfid.substr(16),2);
-					writeDataToCard(obj.vehicleno,4);
-					writeDataToCard((obj.suppliername || obj.customername).substr(0,16),5);
-					writeDataToCard((obj.suppliername || obj.customername).substr(16),6);
-					writeDataToCard(obj.materielname,8);
-					writeDataToCard(MT[obj.materieltype],9);
-					writeDataToCard(BT[obj.businesstype],10);
-					writeDataToCard(obj.noticecode,12);
-					writeDataToCard(obj.batchnum,13);
-					writeDataToCard(obj.vehiclecode || '',18);
-					writeDataToCard(obj.supperlierremark || '',24);
-					writeDataToCard(obj.minemouthname || obj.spraycode,28);
-					writeDataToCard(obj.takeamount || '',32);
-					writeDataToCard(obj.arrivalamount || '',17);
+					writeObjToCard(cardData);
 					updateCardno(cardno,obj);
 				} catch (e) {
 					layer.msg(e.Message);
@@ -121,19 +122,20 @@ $(function() {
 			readerBeep();
 			try{
 				var inputs4 = $('#icard_detail > div > input');
+				var obj = readObjFromCard();
 				inputs4.eq(0).val(cardno);
-				inputs4.eq(1).val(getDataFromCard(18));
-				inputs4.eq(2).val(getDataFromCard(4));
-				inputs4.eq(3).val(getDataFromCard(5)+getDataFromCard(6));
-				inputs4.eq(4).val(getDataFromCard(8));
-				inputs4.eq(5).val(getDataFromCard(9));
-				inputs4.eq(6).val(getDataFromCard(12));
-				inputs4.eq(7).val(getDataFromCard(32) || getDataFromCard(17));
-				inputs4.eq(8).val('有效');
-				inputs4.eq(9).val(getDataFromCard(10));
-				inputs4.eq(10).val('');
-				inputs4.eq(11).val(getDataFromCard(28));
-				inputs4.eq(12).val(getDataFromCard(24));
+				inputs4.eq(1).val(obj.vehicleobj.code);
+				inputs4.eq(2).val(obj.vehicleno);
+				inputs4.eq(3).val(obj.supplierobj.name || obj.customerobj.name);
+				inputs4.eq(4).val(obj.materielname);
+				inputs4.eq(5).val(obj.packagetype);
+				inputs4.eq(6).val(obj.notice);
+				inputs4.eq(7).val(obj.takeamount || obj.arrivalamount);
+				inputs4.eq(8).val(obj.status);
+				inputs4.eq(9).val(obj.businesstype);
+				inputs4.eq(10).val(obj.handset);
+				inputs4.eq(11).val(obj.warehousename || obj.spraycode);
+				inputs4.eq(12).val(obj.supplierremark);
 			} catch (e) {
 				layer.msg(e.Message);
 			}

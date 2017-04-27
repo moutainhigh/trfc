@@ -79,6 +79,7 @@ public class OtherRKArriveAction {
 			SystemUserResp user = (SystemUserResp) session.getAttribute("systemUser");
 			req.setUserid(user.getId());
 			req.setBusinesstype("1");
+			req.setCodekey("QRN");
 			rs = otherArriveService.add(req);
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);

@@ -36,14 +36,99 @@ $(function() {
 	$('#saveBtn').click(function() {
 		saveDataAction();
 	});
-	
+
 	$('#goback').click(function() {
 		window.location.href = URL.mainUrl;
 	});
-	
+
 	$('#refresh').click(function() {
 		window.location.reload(true);
 	});
+
+	$('#writeCard').click(function() {
+		writeCardAction();
+	});
+
+	//写卡功能
+	function  writeCardAction() {
+		var obj = getWriteCardData();
+		var params = getAddData();
+		if(initCardReader()) {
+			//打开读卡器
+			readerOpen();
+			//开打卡片获取卡号
+			var cardno = openCard();
+			if(cardno){
+				//卡号放入待保存数据
+				params.icardno = cardno;
+				//蜂鸣
+				readerBeep();
+				if(params && validata(params)){
+					layer.confirm('注：确定要保存吗？', {
+						area: '600px',
+						btn: ['确认','取消'] //按钮
+					}, function(){
+						$.ajax({
+							url:URL.addUrl,
+							data:params,
+							async:true,
+							cache:false,
+							dataType:'json',
+							type:'post',
+							success:function(result){
+								if(result.code == '000000'){
+									try{
+										//写卡
+										writeObjToCard(obj);
+										//蜂鸣
+										readerBeep();
+										window.location.href = URL.mainUrl;
+									} catch (e) {
+										layer.alert('写卡失败!('+e.Message+')');
+									}
+								}else{
+									layer.msg(result.error, {icon: 5});
+								}
+								readerClose();
+							}
+						});
+					});
+				}else{
+					//关闭读卡器
+					readerClose();
+				}
+			}
+		}
+
+	};
+
+	//获取写卡信息
+	function getWriteCardData() {
+		var arrivecode = $('#add_code').val() || ''; arrivecode = $.trim(arrivecode);
+		var rfid = $('#add_rfid').val() || ''; rfid = $.trim(rfid);
+		var vehicleno = $('#add_vehicle').val() || '';vehicleno = $.trim(vehicleno);
+		var vehicleid = $('#add_vehicle').attr('vehicleid') || '';vehicleid = $.trim(vehicleid);
+		var supplierid = $('#add_supplier').attr('supplierid') || '';supplierid = $.trim(supplierid);
+		var materielname = $('#add_materiel').val() || '';materielname = $.trim(materielname);
+		//设置业务类型为 其他入库
+		var businesstype = '3';
+		var supplierremark = $('#add_supplier').attr('supplierremark') || '';supplierremark = $.trim(supplierremark);
+		var arrivalamount = $('#add_count').val() || 0;
+		var packagetype = $('#add_materiel').attr('packagetype') || '';packagetype = $.trim(packagetype);
+		return {
+			notice:arrivecode,
+			rfid:rfid,
+			packagetype:packagetype,
+			vehicleno:vehicleno,
+			vehicleid:vehicleid,
+			supplierid:supplierid,
+			materielname:materielname,
+			businesstype:businesstype,
+			status:'0',
+			supplierremark:supplierremark,
+			arrivalamount:arrivalamount
+		};
+	}
 
 	//日期字符串转为时间戳
 	function str2Long(dateStr){
@@ -55,16 +140,16 @@ $(function() {
 
 	function getAddData() {
 		var supplierid = $('#add_supplier').attr('supplierid');
-		var datasource = $('#add_datasource').val().trim();
+		var datasource = $('#add_datasource').val();
 		var materielid = $('#add_materiel').attr('materielid');
-		var cargo = $('#add_cargo').val().trim();
+		var cargo = $('#add_cargo').val();
 		var receivedepartmentid = $('#add_receivedepartment').attr('orgid');
 		var vehicleid = $('#add_vehicle').attr('vehicleid');
 		var warehouseid = $('#add_warehouse').attr('warehouseid');
 		var driverid = $('#add_driver').attr('driverid');
-		var count = $('#add_count').val().trim();
-		var createtime = $('#add_createtime').val().trim();
-		var remark = $('#add_remark').val().trim();
+		var count = $('#add_count').val();
+		var createtime = $('#add_createtime').val();
+		var remark = $('#add_remark').val();
 		return {
 			supplierid:supplierid,
 			datasource:datasource,
@@ -105,7 +190,7 @@ $(function() {
 		return true;
 	}
 
-	
+
 	function saveDataAction() {
 		var params = getAddData();
 		if(params && validata(params)){
@@ -228,7 +313,7 @@ $(function() {
 				}
 			},
 			select: function( event, ui ) {
-				$(this).val(ui.item.name).attr('materielid', ui.item.id);
+				$(this).val(ui.item.name).attr('materielid', ui.item.id).attr('packagetype',ui.item.packagetype);
 				return false;
 			}
 		}).off('click').on('click',function(){
@@ -262,7 +347,7 @@ $(function() {
 				}
 			},
 			select: function( event, ui ) {
-				$(this).val(ui.item.name).attr('supplierid', ui.item.id);
+				$(this).val(ui.item.name).attr('supplierid', ui.item.id).attr('supplierremark',ui.item.remarks);
 				return false;
 			}
 		}).off('click').on('click',function(){
@@ -311,18 +396,18 @@ $(function() {
 	}
 
 	function saveDriverData() {
-		var name = $('#driver_name').val().trim();
-		var abbrname = $('#driver_abbrname').val().trim();
-		var address = $('#driver_address').val().trim();
-		var orgname = $('#driver_org').val().trim();
-		var orgid = $('#driver_org').attr('orgid').trim();
-		var telephone = $('#driver_telephone').val().trim();
-		var identityno = $('#driver_identityno').val().trim();
+		var name = $('#driver_name').val();
+		var abbrname = $('#driver_abbrname').val();
+		var address = $('#driver_address').val();
+		var orgname = $('#driver_org').val();
+		var orgid = $('#driver_org').attr('orgid');
+		var telephone = $('#driver_telephone').val();
+		var identityno = $('#driver_identityno').val();
 		var isvalid = '0';
 		if($('#driver_isvalid').get(0).checked){
 			isvalid = '1';
 		}
-		var remarks = $('#driver_remarks').val().trim();
+		var remarks = $('#driver_remarks').val();
 		var params = {
 				name:name,
 				abbrname:abbrname,
@@ -345,20 +430,20 @@ $(function() {
 	}
 
 	function saveVehicleData() {
-		var vehicletype = $('#vehicle_vehicletype').val().trim();
-		var transportunit = $('#vehicle_transportunit').val().trim();
-		var maxweight = $('#vehicle_maxweight').val().trim();
-		var tareweight = $('#vehicle_tareweight').val().trim();
-		var owner = $('#vehicle_owner').val().trim();
-		var telephone = $('#vehicle_telephone').val().trim();
-		var address = $('#vehicle_address').val().trim();
-		var org = $('#vehicle_org').val().trim();
+		var vehicletype = $('#vehicle_vehicletype').val();
+		var transportunit = $('#vehicle_transportunit').val();
+		var maxweight = $('#vehicle_maxweight').val();
+		var tareweight = $('#vehicle_tareweight').val();
+		var owner = $('#vehicle_owner').val();
+		var telephone = $('#vehicle_telephone').val();
+		var address = $('#vehicle_address').val();
+		var org = $('#vehicle_org').val();
 		var isvalid = '0';
 		if($('#vehicle_isvalid')[0].checked){
 			isvalid = '1';
 		}
-		var remarks = $('#vehicle_remarks').val().trim();
-		var vehicleno = $('#vehicle_vehicleno').val().trim();
+		var remarks = $('#vehicle_remarks').val();
+		var vehicleno = $('#vehicle_vehicleno').val();
 		var params = {
 				vehicletype:vehicletype,
 				transportunit:transportunit,

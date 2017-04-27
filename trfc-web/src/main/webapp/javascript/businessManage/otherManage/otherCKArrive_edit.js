@@ -48,14 +48,14 @@ $(function() {
 	function getEditData() {
 		var id = $('#add_code').attr('objid');
 		var supplierid = $('#add_supplier').attr('supplierid');
-		var datasource = $('#add_datasource').val().trim();
+		var datasource = $('#add_datasource').val();
 		var materielid = $('#add_materiel').attr('materielid');
-		var cargo = $('#add_cargo').val().trim();
+		var cargo = $('#add_cargo').val();
 		var vehicleid = $('#add_vehicle').attr('vehicleid');
 		var warehouseid = $('#add_warehouse').attr('warehouseid');
 		var driverid = $('#add_driver').attr('driverid');
-		var count = $('#add_count').val().trim();
-		var remark = $('#add_remark').val().trim();
+		var count = $('#add_count').val();
+		var remark = $('#add_remark').val();
 		return {
 			id:id,
 			supplierid:supplierid,
@@ -301,18 +301,18 @@ $(function() {
 	}
 
 	function saveDriverData() {
-		var name = $('#driver_name').val().trim();
-		var abbrname = $('#driver_abbrname').val().trim();
-		var address = $('#driver_address').val().trim();
-		var orgname = $('#driver_org').val().trim();
-		var orgid = $('#driver_org').attr('orgid').trim();
-		var telephone = $('#driver_telephone').val().trim();
-		var identityno = $('#driver_identityno').val().trim();
+		var name = $('#driver_name').val();
+		var abbrname = $('#driver_abbrname').val();
+		var address = $('#driver_address').val();
+		var orgname = $('#driver_org').val();
+		var orgid = $('#driver_org').attr('orgid');
+		var telephone = $('#driver_telephone').val();
+		var identityno = $('#driver_identityno').val();
 		var isvalid = '0';
 		if($('#driver_isvalid').get(0).checked){
 			isvalid = '1';
 		}
-		var remarks = $('#driver_remarks').val().trim();
+		var remarks = $('#driver_remarks').val();
 		var params = {
 				name:name,
 				abbrname:abbrname,
@@ -335,20 +335,20 @@ $(function() {
 	}
 
 	function saveVehicleData() {
-		var vehicletype = $('#vehicle_vehicletype').val().trim();
-		var transportunit = $('#vehicle_transportunit').val().trim();
-		var maxweight = $('#vehicle_maxweight').val().trim();
-		var tareweight = $('#vehicle_tareweight').val().trim();
-		var owner = $('#vehicle_owner').val().trim();
-		var telephone = $('#vehicle_telephone').val().trim();
-		var address = $('#vehicle_address').val().trim();
-		var org = $('#vehicle_org').val().trim();
+		var vehicletype = $('#vehicle_vehicletype').val();
+		var transportunit = $('#vehicle_transportunit').val();
+		var maxweight = $('#vehicle_maxweight').val();
+		var tareweight = $('#vehicle_tareweight').val();
+		var owner = $('#vehicle_owner').val();
+		var telephone = $('#vehicle_telephone').val();
+		var address = $('#vehicle_address').val();
+		var org = $('#vehicle_org').val();
 		var isvalid = '0';
 		if($('#vehicle_isvalid')[0].checked){
 			isvalid = '1';
 		}
-		var remarks = $('#vehicle_remarks').val().trim();
-		var vehicleno = $('#vehicle_vehicleno').val().trim();
+		var remarks = $('#vehicle_remarks').val();
+		var vehicleno = $('#vehicle_vehicleno').val();
 		var params = {
 				vehicletype:vehicletype,
 				transportunit:transportunit,

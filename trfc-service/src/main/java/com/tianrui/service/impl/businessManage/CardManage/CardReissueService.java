@@ -72,6 +72,7 @@ public class CardReissueService implements ICardReissueService {
 						//获取通知单详情
 						PurchaseArriveResp par = purchaseArriveService.findOne(record.getNoticeid());
 						resp.setVehicleno(par.getVehicleno());
+						resp.setVehicleid(par.getVehicleid());
 						//获取车辆信息
 						VehicleManage vm = vehicleManageMapper.selectByPrimaryKey(par.getVehicleid());
 						if(vm!=null){
@@ -87,6 +88,7 @@ public class CardReissueService implements ICardReissueService {
 							}
 						}
 						resp.setSuppliername(par.getPurchaseApplicationResp().getSuppliername());
+						resp.setSupplierid(par.getPurchaseApplicationResp().getSupplierid());
 						resp.setSupplierremark(par.getPurchaseApplicationResp().getSupplierremark());
 						resp.setRfid(par.getVehiclerfid());
 						resp.setMinemouthname(par.getPurchaseApplicationResp().getMinemouthname());
@@ -129,6 +131,7 @@ public class CardReissueService implements ICardReissueService {
 					}else if(( "2" ).equals(record.getBusinesstype())){
 						SalesArriveResp par = salesArriveService.findOne(record.getNoticeid());
 						resp.setVehicleno(par.getVehicleno());
+						resp.setVehicleid(par.getVehicleid());
 						VehicleManage vm = vehicleManageMapper.selectByPrimaryKey(par.getVehicleid());
 						if(vm!=null){
 							resp.setVehiclecode(vm.getCode());
@@ -140,6 +143,7 @@ public class CardReissueService implements ICardReissueService {
 							resp.setMaterieltype(mm.getPackagetype());
 						}
 						resp.setCustomername(par.getMainApplication().getCustomername());
+						resp.setCustomerid(par.getMainApplication().getCustomerid());
 						resp.setSpraycode(par.getSpraycode());
 						resp.setRfid(par.getVehiclerfid());
 						resp.setNoticeid(par.getId());

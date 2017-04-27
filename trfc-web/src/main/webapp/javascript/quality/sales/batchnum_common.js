@@ -26,7 +26,7 @@ function userSelect(){
 				response( systemUser[ term ] );
 				return;
 			}
-			request.nameLike = request.term.trim();
+			request.nameLike = request.term;
 			$.post( URL.userAutoCompleteSearch, request, function( result ) {
 				systemUser[ term ] = result.data;
 				response( result.data );

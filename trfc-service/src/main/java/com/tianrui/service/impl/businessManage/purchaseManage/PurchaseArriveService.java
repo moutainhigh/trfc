@@ -205,7 +205,7 @@ public class PurchaseArriveService implements IPurchaseArriveService {
 				SalesArrive sales = salesArriveMapper.checkICUse(card.getId());
 				PurchaseArrive purchase = purchaseArriveMapper.checkICUse(card.getId());
 				if(sales == null && purchase == null) {
-					pa.setIcardid(card.getId());
+					save.setIcardid(card.getId());
 				}else{
 					result.setErrorCode(ErrorCode.CARD_IN_USE);
 					flag = false;

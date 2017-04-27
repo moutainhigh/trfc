@@ -248,6 +248,15 @@
 						</div>
 					</div>
 					<div class="modal-body">
+					<div class="alt_opera mb10">
+							<ul>
+								<li id="readCardBtn"><i class="iconfont colorblue">&#xe61d;</i>
+									<h5>读卡</h5></li>
+								<li id="backBtn" data-dismiss="modal"><a> <i class="iconfont colorblue">&#xe61e;</i>
+										<h5>返回</h5>
+								</a></li>
+							</ul>
+						</div>
 						<div class="">
 							<div class="cg_div">
 								<div class="cg_solo">
@@ -335,9 +344,7 @@
 						</div>
 
 					</div>
-					<div class="modal-footer">
-						<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-					</div>
+					
 				</div>
 			</div>
 		</div>
@@ -346,6 +353,7 @@
 
 <!-- 引用公共footer部分 -->
 <jsp:include page="../../common/base/footer_busi.jsp"></jsp:include>
+<script type="text/javascript" src="${staticBasePath}/js/cardReader.js"></script>
 <script type="text/javascript"
 		src="/javascript/businessManage/otherManage/otherCKArrive.js"></script>
 </body>

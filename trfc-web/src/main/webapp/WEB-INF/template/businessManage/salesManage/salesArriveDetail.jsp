@@ -59,8 +59,8 @@
 							</div>
 							<div class="daohuo_add_solo">
 								<label>销售组织：</label> <input
-									value="${salesArrive.getMainApplication().orgname }" type="text"
-									readonly>
+									value="${salesArrive.getMainApplication().orgname }"
+									type="text" readonly>
 							</div>
 							<div class="daohuo_add_solo">
 								<label>物料：</label> <input
@@ -83,8 +83,8 @@
 									type="text" readonly>
 							</div>
 							<div class="daohuo_add_solo">
-								<label>车号：</label> <input
-									value="${salesArrive.vehicleno }" type="text" readonly>
+								<label>车号：</label> <input value="${salesArrive.vehicleno }"
+									type="text" readonly>
 							</div>
 							<div class="daohuo_add_solo">
 								<label>RFID：</label> <input value="${salesArrive.vehiclerfid }"
@@ -159,7 +159,8 @@
 										</tr>
 									</thead>
 									<tbody>
-										<c:forEach items="${salesArrive.listApplication }" var="application" varStatus="status">
+										<c:forEach items="${salesArrive.listApplication }"
+											var="application" varStatus="status">
 											<tr>
 												<td>${status.index + 1 }</td>
 												<td>${application.code }</td>
@@ -175,7 +176,62 @@
 								</table>
 							</div>
 							<div class="cg_tabcont hide"></div>
-							<div class="cg_tabcont hide"></div>
+							<div class="cg_tabcont hide">
+								<div class="alt_edit_div">
+									<label>射频卡号：</label> <input type="text" id="detail_cardno"
+										readOnly="true">
+								</div>
+								<div class="alt_edit_div">
+									<label>车辆编号：</label> <input type="text" id="detail_vehiclecode"
+										readOnly="true">
+								</div>
+								<div class="alt_edit_div">
+									<label>车辆名称：</label> <input type="text" id="detail_vehicleno"
+										readOnly="true">
+								</div>
+								<div class="alt_edit_div">
+									<label>客户：</label> <input type="text" id="detail_customername"
+										readOnly="true">
+								</div>
+								<div class="alt_edit_div">
+									<label>物料：</label> <input type="text" id="detail_materielname"
+										readOnly="true">
+								</div>
+								<div class="alt_edit_div">
+									<label>物料状态：</label> <input type="text" id="detail_packagetype"
+										readOnly="true">
+								</div>
+
+								<div class="alt_edit_div">
+									<label>提货单号：</label> <input type="text" id="detail_notice"
+										readOnly="true">
+								</div>
+								<div class="alt_edit_div">
+									<label>预提量：</label> <input type="text" id="detail_takeamount"
+										readOnly="true">
+								</div>
+								<div class="alt_edit_div">
+									<label>袋数：</label> <input type="text" id="detail_bags"
+										readOnly="true">
+								</div>
+								<div class="alt_edit_div">
+									<label>喷码：</label> <input type="text" id="detail_spraycode"
+										readOnly="true">
+								</div>
+
+								<div class="alt_edit_div">
+									<label>发卡状态：</label> <input type="text" id="detail_status"
+										readOnly="true">
+								</div>
+								<div class="alt_edit_div">
+									<label>业务类型：</label> <input type="text" id="detail_businesstype"
+										readOnly="true">
+								</div>
+								<div class="alt_edit_div">
+									<label>手持机确认：</label> <input type="text" id="detail_handset"
+										readOnly="true">
+								</div>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -183,6 +239,7 @@
 		</div>
 	</div>
 	<jsp:include page="../../common/base/footer_busi.jsp"></jsp:include>
+	<script type="text/javascript" src="${staticBasePath}/js/cardReader.js"></script>
 	<script type="text/javascript"
 		src="/javascript/businessManage/salesManage/salesArriveDetail.js"></script>
 	<script type="text/javascript">

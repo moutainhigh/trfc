@@ -507,10 +507,6 @@
 						type:'post',
 						success:function(result){
 							if(result.code == '000000'){
-								//打开读卡器
-								readerOpen();
-								//开打卡片获取卡号
-								openCard();
 								try{
 									//写卡
 									writeObjToCard(obj);
@@ -520,20 +516,21 @@
 								} catch (e) {
 									layer.alert('写卡失败!('+e.Message+')');
 								}
-								//关闭读卡器
-								readerClose();
 							}else{
 								layer.msg(result.error, {icon: 5});
 								$('#addBtn').removeClass('disabled');
 							}
+							//关闭读卡器
+							readerClose();
 						}
 					});
 				}else{
 					$('#addBtn').removeClass('disabled');
+					//关闭读卡器
+					readerClose();
 				}
 			}
-			//关闭读卡器
-			readerClose();
+			
 		}else{
 			layer.alert('当前游览器不支持!(只兼容IE游览器)');
 		}

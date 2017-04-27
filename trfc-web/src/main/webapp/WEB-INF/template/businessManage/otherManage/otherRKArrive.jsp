@@ -24,36 +24,44 @@
 						<div class="intel_sconditon">
 							<div class="intel_sline">
 								<div class="intel_solo">
-									<label>供应商：</label> <input type="text" id="seek_supplier" placeholder="请选择供应商">
+									<label>供应商：</label> <input type="text" id="seek_supplier"
+										placeholder="请选择供应商">
 								</div>
 								<div class="intel_solo">
-									<label>货物：</label> <input type="text" id="seek_cargo" placeholder="请输入货物">
+									<label>货物：</label> <input type="text" id="seek_cargo"
+										placeholder="请输入货物">
 								</div>
 								<div class="intel_solo">
-									<label>仓库：</label> <input type="text" id="seek_warehouse" placeholder="请选择仓库">
+									<label>仓库：</label> <input type="text" id="seek_warehouse"
+										placeholder="请选择仓库">
 								</div>
 								<div class="intel_solo">
-									<label>车号：</label> <input type="text" id="seek_vehicleno" placeholder="请选择车号">
+									<label>车号：</label> <input type="text" id="seek_vehicleno"
+										placeholder="请选择车号">
 								</div>
 								<div class="intel_solo">
-									<label>通知单号：</label> <input type="text" id="seek_code" placeholder="请输入通知单号">
+									<label>通知单号：</label> <input type="text" id="seek_code"
+										placeholder="请输入通知单号">
 								</div>
 								<div class="intel_solo">
-									<label>审核状态：</label> <select class="form-control" id="seek_auditstatus">
+									<label>审核状态：</label> <select class="form-control"
+										id="seek_auditstatus">
 										<option value="">请选择</option>
 										<option value="0">未审核</option>
 										<option value="1">已审核</option>
 									</select>
 								</div>
 								<div class="intel_solo">
-									<label>开始时间：</label> <input type="text" readonly="readonly" placeholder="请选择开始时间"
+									<label>开始时间：</label> <input type="text" readonly="readonly"
+										placeholder="请选择开始时间"
 										onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:00:00',maxDate:'#F{$dp.$D(\'seek_endtime\')}'})"
-										class="Wdate" style="width: 160px" id="seek_starttime"/>
+										class="Wdate" style="width: 160px" id="seek_starttime" />
 								</div>
 								<div class="intel_solo">
-									<label>结束时间：</label> <input type="text" readonly="readonly" placeholder="请选择结束时间"
+									<label>结束时间：</label> <input type="text" readonly="readonly"
+										placeholder="请选择结束时间"
 										onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:00:00',minDate:'#F{$dp.$D(\'seek_starttime\')}'})"
-										class="Wdate" style="width: 160px" id="seek_endtime"/>
+										class="Wdate" style="width: 160px" id="seek_endtime" />
 								</div>
 								<div class="intel_solo">
 									<div class="intel_sbtn">
@@ -73,7 +81,7 @@
 								<h5>新增</h5>
 							</a>
 						</div>
-						
+
 					</div>
 					<div class="intel_table">
 						<!--用户表格begin-->
@@ -248,6 +256,15 @@
 						</div>
 					</div>
 					<div class="modal-body">
+						<div class="alt_opera mb10">
+							<ul>
+								<li id="readCardBtn"><i class="iconfont colorblue">&#xe61d;</i>
+									<h5>读卡</h5></li>
+								<li id="backBtn" data-dismiss="modal"><a> <i class="iconfont colorblue">&#xe61e;</i>
+										<h5>返回</h5>
+								</a></li>
+							</ul>
+						</div>
 						<div class="">
 							<div class="cg_div">
 								<div class="cg_solo">
@@ -266,7 +283,8 @@
 									<label>货物：</label> <input type="text" id="detail_cargo">
 								</div>
 								<div class="cg_solo">
-									<label>收货单位：</label> <input type="text" id="detail_receivedepartment">
+									<label>收货单位：</label> <input type="text"
+										id="detail_receivedepartment">
 								</div>
 								<div class="cg_solo">
 									<label>车号：</label> <input type="text" id="detail_vehicleno">
@@ -287,7 +305,8 @@
 									<label>数量： </label> <input type="text" id="detail_count">
 								</div>
 								<div class="cg_solo">
-									<label>单位： </label> <input type="text" id="detail_unit" value="吨">
+									<label>单位： </label> <input type="text" id="detail_unit"
+										value="吨">
 								</div>
 								<div class="cg_solo">
 									<label>制单人： </label> <input type="text" id="detail_creator">
@@ -299,28 +318,31 @@
 									<label> 状态：</label> <input type="text" id="detail_status">
 								</div>
 								<div class="cg_solo" style="width: 540px;">
-									<label> 备注：</label> <input type="text" style="width: 400px;" id="detail_remark">
+									<label> 备注：</label> <input type="text" style="width: 400px;"
+										id="detail_remark">
 								</div>
 								<div class="cg_solo">
 									<label> 射频卡号：</label> <input type="text" id="detail_cardno">
 								</div>
 								<div class="cg_solo">
-									<label> 车辆编号：</label> <input type="text" id="detail_card_vehicleno">
+									<label> 车辆编号：</label> <input type="text"
+										id="detail_card_vehiclecode">
 								</div>
 								<div class="cg_solo">
-									<label> 车辆名称：</label> <input type="text" id="detail_card_vehiclename">
+									<label> 车辆名称：</label> <input type="text"
+										id="detail_card_vehiclename">
 								</div>
 								<div class="cg_solo">
-									<label> 车辆编号：</label> <input type="text" id="detail_card_vehiclecode">
+									<label> 供应商：</label> <input type="text"
+										id="detail_card_supplier">
 								</div>
 								<div class="cg_solo">
-									<label> 供应商：</label> <input type="text" id="detail_card_supplier">
+									<label> 物料：</label> <input type="text"
+										id="detail_card_materiel">
 								</div>
 								<div class="cg_solo">
-									<label> 物料：</label> <input type="text" id="detail_card_materiel">
-								</div>
-								<div class="cg_solo">
-									<label> 物料状态：</label> <input type="text" id="detail_card_status">
+									<label> 物料状态：</label> <input type="text"
+										id="detail_card_status">
 								</div>
 								<div class="cg_solo">
 									<label> 通知单号：</label> <input type="text" id="detail_card_note">
@@ -329,14 +351,12 @@
 									<label> 数量：</label> <input type="text" id="detail_card_count">
 								</div>
 								<div class="cg_solo">
-									<label> 发卡状态：</label> <input type="text" id="detail_card_bussnesstype">
+									<label> 发卡状态：</label> <input type="text"
+										id="detail_card_bussnesstype">
 								</div>
 							</div>
 						</div>
 
-					</div>
-					<div class="modal-footer">
-						<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
 					</div>
 				</div>
 			</div>
@@ -344,9 +364,11 @@
 		<!--查看详情end-->
 
 
-<!-- 引用公共footer部分 -->
-<jsp:include page="../../common/base/footer_busi.jsp"></jsp:include>
-<script type="text/javascript"
-		src="/javascript/businessManage/otherManage/otherRKArrive.js"></script>
+		<!-- 引用公共footer部分 -->
+		<jsp:include page="../../common/base/footer_busi.jsp"></jsp:include>
+		<script type="text/javascript"
+			src="${staticBasePath}/js/cardReader.js"></script>
+		<script type="text/javascript"
+			src="/javascript/businessManage/otherManage/otherRKArrive.js"></script>
 </body>
 </html>

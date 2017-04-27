@@ -115,10 +115,10 @@ function showAddDictAction() {
 //增加数据字典类别
 function addDictAction(_this) {
 	var url=URL.addDictUrl;
-	var code=$('#dict_code').val().trim();
-	var name=$('#dict_name').val().trim();
+	var code=$('#dict_code').val();
+	var name=$('#dict_name').val();
 	var type=$('#dict_type').val();
-	var info=$('#dict_info').val().trim();
+	var info=$('#dict_info').val();
 	var params={
 			code:code,
 			name:name,
@@ -224,11 +224,11 @@ function editDataDict(_this) {
 //	console.log('editDataDict');
 	
 	var url=URL.editDictUrl;
-	var code=$('#update_dict_code').val().trim();
-	var name=$('#update_dict_name').val().trim();
+	var code=$('#update_dict_code').val();
+	var name=$('#update_dict_name').val();
 	
 	var type=$('#update_dict_type').val();
-	var info=$('#update_dict_info').val().trim();
+	var info=$('#update_dict_info').val();
 	var params={
 			id:dictData.dict.id,
 			code:code,
@@ -306,13 +306,13 @@ function showAddItemAction() {
 function addItemAction(_this) {
 	
 	var url=URL.addItemUrl;
-	var code=$('#item_code').val().trim();
-	var name=$('#item_name').val().trim();
+	var code=$('#item_code').val();
+	var name=$('#item_name').val();
 	var isvalid = 0;
 	if($('#item_addisvalid').prop('checked')){
 		isvalid = 1;
 	};
-	var info=$('#item_info').val().trim();
+	var info=$('#item_info').val();
 	var dictid=dictData.dict.id;
 	var params={
 			dictid:dictid,
@@ -359,13 +359,13 @@ function updateItemAction() {
 //修改数据字典明细
 function updateItem(_this) {
 	var url=URL.editItemUrl;
-	var code=$('#update_item_code').val().trim();
-	var name=$('#update_item_name').val().trim();
+	var code=$('#update_item_code').val();
+	var name=$('#update_item_name').val();
 	var isvalid = 0;
 	if($('#update_item_isvalid').prop('checked')){
 		isvalid = 1;
 	};
-	var info=$('#update_item_info').val().trim();
+	var info=$('#update_item_info').val();
 	var params={
 			id:itemData.id,
 			code:code,

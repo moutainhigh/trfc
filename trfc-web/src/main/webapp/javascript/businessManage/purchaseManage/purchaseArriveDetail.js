@@ -46,12 +46,12 @@ PAGE.mod.main = {
 							$('#detail_materielname').val(obj.materielname);
 							$('#detail_businesstype').val(obj.businesstype);
 							$('#detail_notice').val(obj.notice);
-							$('#detail_suremount').val('待补充');
+							$('#detail_suremount').val(obj.suremount);
 							$('#detail_vehicleid').val(obj.vehicleid);
-							$('#detail_return').val('待补充');
+							$('#detail_return').val(obj.salesReturn);
 							$('#detail_arrivalamount').val(obj.arrivalamount);
 							$('#detail_status').val(obj.status);
-							$('#detail_rfcard').val('待补充');
+							$('#detail_rfcard').val(obj.rfid);
 						} catch (e) {
 							layer.msg(e.Message);
 						}

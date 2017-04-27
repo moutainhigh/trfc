@@ -132,7 +132,7 @@ public class OtherArriveService implements IOtherArriveService {
 		if(req!=null && validDriverAndVehicle(req,rs,oa)){
 			PropertyUtils.copyProperties(oa, req);
 			GetCodeReq codeReq = new GetCodeReq();
-			codeReq.setCode("QRN");
+			codeReq.setCode(req.getCodekey());
 			codeReq.setCodeType(true);
 			codeReq.setUserid(req.getUserid());
 			oa.setCode(String.valueOf(systemCodeService.getCode(codeReq).getData()));
@@ -168,6 +168,8 @@ public class OtherArriveService implements IOtherArriveService {
 			req.setLimit(pageSize*pageNo);
 			//获取数据总数
 			long total = otherArriveMapper.count(req);
+			pagevo.setPageNo(pageNo);
+			pagevo.setPageSize(pageSize);
 			pagevo.setTotal(total);
 			List<OtherArriveResp> resps = new ArrayList<OtherArriveResp>();
 			//判断是否有数据可以查询
@@ -320,14 +322,15 @@ public class OtherArriveService implements IOtherArriveService {
 		}
 
 		//ic卡信息
-		if(StringUtils.isNotBlank(req.getIcardid())){
-			Card card = cardMapper.selectByPrimaryKey(req.getIcardid());
+		if(StringUtils.isNotBlank(req.getIcardno())){
+			Card card = cardMapper.selectByCardno(req.getIcardno());
 			if(card!=null){
 				//ic卡是否占用
 				SalesArrive sales = salesArriveMapper.checkICUse(card.getId());
 				PurchaseArrive purchase = purchaseArriveMapper.checkICUse(card.getId());
 				if(sales == null && purchase == null) {
-					pa.setIcardid(card.getId());
+					//获取icard id
+					req.setIcardid(card.getId());
 				}else{
 					result.setErrorCode(ErrorCode.CARD_IN_USE);
 					flag = false;

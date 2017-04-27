@@ -446,7 +446,7 @@
 	}
 	function selectSalesApplication(obj, bills, trs){
 		$('#billcode').val(obj.code || '').attr('billid', obj.id || '').attr('billdetailid', obj.detailid || '').attr('bills', JSON.stringify(bills));
-		$('#customername').val(obj.customername || '');
+		$('#customername').val(obj.customername || '').attr('customerid',obj.customerid);
 		$('#channelcode').val(obj.channelcode || '');
 		$('#materielname').val(obj.materielname || '').attr('packagetype',obj.packagetype);
 		$('#departmentname').val(obj.departmentname || '');
@@ -480,20 +480,6 @@
 	}
 	//写卡并保存
 	function writeCardAction() {
-		//业务类型
-		var BT = {
-				'1':'采购',
-				'2':'销售',
-				'3':'其他入库',
-				'4':'其他出库'
-		};
-
-		//物料类型
-		var MT = {
-				'0':'袋装',
-				'1':'水泥散装',
-				'2':'其他散装'
-		};
 
 		var params = getSalesArriveParams();
 		var obj = getWriteCardParams();
@@ -517,24 +503,9 @@
 						type:'post',
 						success:function(result){
 							if(result.code == '000000'){
-								//打开读卡器
-								readerOpen();
-								//开打卡片获取卡号
-								openCard();
 								try{
 									//写卡
-									writeDataToCard(obj.rfid.substr(0,16) || '', 1);
-									writeDataToCard(obj.rfid.substr(16) || '',2);
-									writeDataToCard(obj.vehicleno || '',4);
-									writeDataToCard((obj.customername).substr(0,16),5);
-									writeDataToCard((obj.customername).substr(16),6);
-									writeDataToCard(obj.materielname || '',8);
-									writeDataToCard(MT[obj.packagetype] || '',9);
-									writeDataToCard(BT[obj.businesstype] || '',10);
-									writeDataToCard(obj.arrivecode || '',12);
-									writeDataToCard(obj.batchnum || '',13);
-									writeDataToCard(obj.vehiclecode || '',18);
-									writeDataToCard(obj.takeamount || '',17);
+									writeObjToCard(obj);
 									//蜂鸣
 									readerBeep();
 									window.location.href = URL.mainUrl;
@@ -547,14 +518,14 @@
 								layer.msg(result.error, {icon: 5});
 								$('#addBtn').removeClass('disabled');
 							}
+							//关闭读卡器
+							readerClose();
 						}
 					});
 				}else{
 					layer.alert('写卡失败!');
 				}
 			}
-			//关闭读卡器
-			readerClose();
 		}else{
 			layer.alert('当前游览器不支持!(只兼容IE游览器)');
 		}
@@ -565,8 +536,8 @@
 		var arrivecode = $('#billcode').val() || ''; billcode = $.trim(billcode);
 		var rfid = $('#rfid').val() || ''; rfid = $.trim(rfid);
 		var vehicleno = $('#vehicle').val() || '';vehicleno = $.trim(vehicleno);
-		var vehiclecode = $('#vehicle').attr('vehiclecode') || '';vehiclecode = $.trim(vehiclecode);
-		var customername = $('#customername').val() || '';customername = $.trim(customername);
+		var vehicleid = $('#vehicle').attr('vehicleid') || '';vehicleid = $.trim(vehicleid);
+		var customerid = $('#customername').attr('customerid') || '';customerid = $.trim(customerid);
 		var materielname = $('#materielname').val() || '';materielname = $.trim(materielname);
 		//设置业务类型为 销售
 		var businesstype = '2';
@@ -574,13 +545,14 @@
 		var packagetype = $('#materielname').attr('packagetype');
 		var batchnum = $('#serialnumber').val(); batchnum = $.trim(batchnum);
 		return {
-			arrivecode:arrivecode,
+			notice:arrivecode,
 			rfid:rfid,
 			batchnum : batchnum,
 			packagetype:packagetype,
+			vehicleid:vehicleid,
+			customerid:customerid,
+			status:'0',
 			vehicleno:vehicleno,
-			customername:customername,
-			vehiclecode:vehiclecode,
 			materielname:materielname,
 			businesstype:businesstype,
 			takeamount:takeamount

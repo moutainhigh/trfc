@@ -79,6 +79,7 @@ public class OtherCKArriveAction {
 			SystemUserResp user = (SystemUserResp) session.getAttribute("systemUser");
 			req.setUserid(user.getId());
 			req.setBusinesstype("2");
+			req.setCodekey("QCN");
 			System.out.println(req.getCustomerid());
 			rs = otherArriveService.add(req);
 		} catch (Exception e) {
