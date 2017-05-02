@@ -39,4 +39,12 @@ public interface SystemUserMapper {
      * @return List<SystemUser>
      */
     List<SystemUser> autoCompleteSearch(SystemUserQueryReq queryReq );
+    /**
+     * @Description 根据组织查询所有用户
+     * @author zhanggaohao
+     * @version 2017年4月28日 上午10:53:36
+     * @param orgid
+     * @return
+     */
+	List<SystemUser> queryAllUserByOrgId(String orgid);
 }

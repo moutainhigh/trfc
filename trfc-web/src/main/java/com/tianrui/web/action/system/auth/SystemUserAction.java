@@ -11,9 +11,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.tianrui.api.intf.system.auth.ISystemUserService;
 import com.tianrui.api.req.system.auth.SystemUserQueryReq;
 import com.tianrui.api.req.system.auth.SystemUserSaveReq;
-import com.tianrui.service.impl.system.auth.SystemUserService;
+import com.tianrui.smartfactory.common.constants.Constant;
 import com.tianrui.smartfactory.common.vo.Result;
 import com.tianrui.web.util.CurrUserUtils;
 @Controller
@@ -23,7 +24,7 @@ public class SystemUserAction {
 	private Logger log = LoggerFactory.getLogger(SystemUserAction.class);
 	
 	@Resource
-	private SystemUserService systemUserService;
+	private ISystemUserService systemUserService;
 	
 	//显示当前页
 	@RequestMapping("main")
@@ -94,6 +95,20 @@ public class SystemUserAction {
 		Result rs= Result.getErrorResult();
 		try {
 			rs = systemUserService.autoCompleteSearch(req);
+		} catch (Exception e) {
+			log.error(e.getMessage(),e);
+		}
+		return rs;
+	}
+	/**
+	 * 获取所有用户列表
+	 */
+	@RequestMapping(value="/queryAllUser",method=RequestMethod.POST)
+	@ResponseBody
+	public Result autoCompleteSearch(){
+		Result rs= Result.getErrorResult();
+		try {
+			rs = systemUserService.queryAllUser(Constant.ORG_ID);
 		} catch (Exception e) {
 			log.error(e.getMessage(),e);
 		}
