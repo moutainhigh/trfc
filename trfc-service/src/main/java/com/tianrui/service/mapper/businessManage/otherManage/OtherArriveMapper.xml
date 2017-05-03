@@ -426,8 +426,20 @@
 			<if test="supplierid != null and supplierid != '' ">
 				and supplierid = #{supplierid,jdbcType=VARCHAR}
 			</if>
+			<if test="materielid != null and materielid != '' ">
+				and materielid = #{materielid,jdbcType=VARCHAR}
+			</if>
+			<if test="driverid != null and driverid != '' ">
+				and driverid = #{driverid,jdbcType=VARCHAR}
+			</if>
 			<if test="customerid != null and customerid != '' ">
 				and customerid = #{customerid,jdbcType=VARCHAR}
+			</if>
+			<if test="enteryard != null and enteryard != '' ">
+				and enteryard = #{enteryard,jdbcType=VARCHAR}
+			</if>
+			<if test="leaveyard != null and leaveyard != '' ">
+				and leaveyard = #{leaveyard,jdbcType=VARCHAR}
 			</if>
 			<if test="auditstatus != null and auditstatus != '' ">
 				and auditstatus = #{auditstatus,jdbcType=VARCHAR}
@@ -471,6 +483,21 @@
 			</if>
 			<if test="supplierid != null and supplierid != '' ">
 				and supplierid = #{supplierid,jdbcType=VARCHAR}
+			</if>
+			<if test="materielid != null and materielid != '' ">
+				and materielid = #{materielid,jdbcType=VARCHAR}
+			</if>
+			<if test="driverid != null and driverid != '' ">
+				and driverid = #{driverid,jdbcType=VARCHAR}
+			</if>
+			<if test="customerid != null and customerid != '' ">
+				and customerid = #{customerid,jdbcType=VARCHAR}
+			</if>
+			<if test="enteryard != null and enteryard != '' ">
+				and enteryard = #{enteryard,jdbcType=VARCHAR}
+			</if>
+			<if test="leaveyard != null and leaveyard != '' ">
+				and leaveyard = #{leaveyard,jdbcType=VARCHAR}
 			</if>
 			<if test="auditstatus != null and auditstatus != '' ">
 				and auditstatus = #{auditstatus,jdbcType=VARCHAR}

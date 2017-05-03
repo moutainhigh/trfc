@@ -423,7 +423,7 @@ $(function() {
 	function getSeekData(){
 		var supplierid = $('#seek_supplier').attr('supplierid');
 		var cargo = $('#seek_cargo').val();cargo = $.trim(cargo);
-		var warehouse = $('#seek_warehouse').attr('warehouseid');
+		var warehouseid = $('#seek_warehouse').attr('warehouseid');
 		var vehicleid = $('#seek_vehicleno').attr('vehicleid');
 		var code = $('#seek_code').val();code = $.trim(code);
 		var auditstatus = $('#seek_auditstatus').val();
@@ -435,7 +435,7 @@ $(function() {
 		return {
 			supplierid:supplierid,
 			cargo:cargo,
-			warehouse:warehouse,
+			warehouseid:warehouseid,
 			vehicleid:vehicleid,
 			code:code,
 			auditstatus:auditstatus,
@@ -480,7 +480,7 @@ $(function() {
 					link_to:"javascript:void(0)"
 				});
 				$('#tbody_list').empty();
-				if(list){
+				if(list && list.length>0){
 					showPageData(list,pageSize,pageNo);
 				}else{
 					layer.msg('暂无数据');
@@ -520,8 +520,6 @@ $(function() {
 				color2 = 'class="colorred"';
 			}
 
-
-			var invalid = obj.invalid;
 			var tr = '<tr>'
 				+'<td>'+((pageNo-1)*pageSize+i+1)+'</td>'
 				+'<td>'+(obj.code || '')+'</td>'

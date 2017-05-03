@@ -268,90 +268,90 @@
 						<div class="">
 							<div class="cg_div">
 								<div class="cg_solo">
-									<label>通知单号：</label> <input type="text" id="detail_code">
+									<label>通知单号：</label> <input type="text" readonly="true" id="detail_code">
 								</div>
 								<div class="cg_solo">
-									<label>供应商：</label> <input type="text" id="detail_supplier">
+									<label>供应商：</label> <input type="text" readonly="true" id="detail_supplier">
 								</div>
 								<div class="cg_solo">
-									<label>单位：</label> <input type="text" id="detail_datasource">
+									<label>单位：</label> <input type="text" readonly="true" id="detail_datasource">
 								</div>
 								<div class="cg_solo">
-									<label>物料：</label> <input type="text" id="detail_materiel">
+									<label>物料：</label> <input type="text" readonly="true" id="detail_materiel">
 								</div>
 								<div class="cg_solo">
-									<label>货物：</label> <input type="text" id="detail_cargo">
+									<label>货物：</label> <input type="text" readonly="true" id="detail_cargo">
 								</div>
 								<div class="cg_solo">
-									<label>收货单位：</label> <input type="text"
+									<label>收货单位：</label> <input type="text" readonly="true"
 										id="detail_receivedepartment">
 								</div>
 								<div class="cg_solo">
-									<label>车号：</label> <input type="text" id="detail_vehicleno">
+									<label>车号：</label> <input type="text" readonly="true" id="detail_vehicleno">
 								</div>
 								<div class="cg_solo">
-									<label>RFID： </label> <input type="text" id="detail_rfid">
+									<label>RFID： </label> <input type="text" readonly="true" id="detail_rfid">
 								</div>
 								<div class="cg_solo">
-									<label>仓库： </label> <input type="text" id="detail_warehouse">
+									<label>仓库： </label> <input type="text" readonly="true" id="detail_warehouse">
 								</div>
 								<div class="cg_solo">
-									<label>司机： </label> <input type="text" id="detail_driver">
+									<label>司机： </label> <input type="text" readonly="true" id="detail_driver">
 								</div>
 								<div class="cg_solo">
-									<label>身份证号： </label> <input type="text" id="detail_identityno">
+									<label>身份证号： </label> <input type="text" readonly="true" id="detail_identityno">
 								</div>
 								<div class="cg_solo">
-									<label>数量： </label> <input type="text" id="detail_count">
+									<label>数量： </label> <input type="text" readonly="true" id="detail_count">
 								</div>
 								<div class="cg_solo">
-									<label>单位： </label> <input type="text" id="detail_unit"
+									<label>单位： </label> <input type="text" readonly="true" id="detail_unit"
 										value="吨">
 								</div>
 								<div class="cg_solo">
-									<label>制单人： </label> <input type="text" id="detail_creator">
+									<label>制单人： </label> <input type="text" readonly="true" id="detail_creator">
 								</div>
 								<div class="cg_solo">
-									<label> 制单日期：</label> <input type="text" id="detail_createtime">
+									<label> 制单日期：</label> <input type="text" readonly="true" id="detail_createtime">
 								</div>
 								<div class="cg_solo">
-									<label> 状态：</label> <input type="text" id="detail_status">
+									<label> 状态：</label> <input type="text" readonly="true" id="detail_status">
 								</div>
 								<div class="cg_solo" style="width: 540px;">
-									<label> 备注：</label> <input type="text" style="width: 400px;"
+									<label> 备注：</label> <input type="text" readonly="true" style="width: 400px;"
 										id="detail_remark">
 								</div>
 								<div class="cg_solo">
-									<label> 射频卡号：</label> <input type="text" id="detail_cardno">
+									<label> 射频卡号：</label> <input type="text" readonly="true" id="detail_cardno">
 								</div>
 								<div class="cg_solo">
-									<label> 车辆编号：</label> <input type="text"
+									<label> 车辆编号：</label> <input type="text" readonly="true"
 										id="detail_card_vehiclecode">
 								</div>
 								<div class="cg_solo">
-									<label> 车辆名称：</label> <input type="text"
+									<label> 车辆名称：</label> <input type="text" readonly="true"
 										id="detail_card_vehiclename">
 								</div>
 								<div class="cg_solo">
-									<label> 供应商：</label> <input type="text"
+									<label> 供应商：</label> <input type="text" readonly="true"
 										id="detail_card_supplier">
 								</div>
 								<div class="cg_solo">
-									<label> 物料：</label> <input type="text"
+									<label> 物料：</label> <input type="text" readonly="true"
 										id="detail_card_materiel">
 								</div>
 								<div class="cg_solo">
-									<label> 物料状态：</label> <input type="text"
+									<label> 物料状态：</label> <input type="text" readonly="true"
 										id="detail_card_status">
 								</div>
 								<div class="cg_solo">
-									<label> 通知单号：</label> <input type="text" id="detail_card_note">
+									<label> 通知单号：</label> <input type="text" readonly="true" id="detail_card_note">
 								</div>
 								<div class="cg_solo">
-									<label> 数量：</label> <input type="text" id="detail_card_count">
+									<label> 数量：</label> <input type="text" readonly="true" id="detail_card_count">
 								</div>
 								<div class="cg_solo">
-									<label> 发卡状态：</label> <input type="text"
+									<label> 发卡状态：</label> <input type="text" readonly="true"
 										id="detail_card_bussnesstype">
 								</div>
 							</div>

@@ -2,14 +2,14 @@ $(function() {
 
 	//请求路径
 	var URL = {
-			page: '/trfc/otherCKArrive/page',
-			addUrl:'/trfc/otherCKArrive/addMain',
-			findOne:"/trfc/otherCKArrive/findOne",
-			update:"/trfc/otherCKArrive/updateOperation",
-			updateVeiw:"/trfc/otherCKArrive/editMain",
-			customerAutoCompleteSearch: "/trfc/customer/autoCompleteSearch",
+			page: '/trfc/otherDYArrive/page',
+			addUrl:'/trfc/otherDYArrive/addMain',
+			findOne:"/trfc/otherDYArrive/findOne",
+			update:"/trfc/otherDYArrive/updateOperation",
+			updateVeiw:"/trfc/otherDYArrive/editMain",
 			vehicleAutoCompleteSearch: "/trfc/vehicle/autoCompleteSearch",
-			warehouseAutoCompleteSearch: "/trfc/warehouse/autoCompleteSearch",
+			materielAutoCompleteSearch: "/trfc/materiel/autoCompleteSearch", 
+			yardAutoCompleteSearch: "/trfc/yard/autoCompleteSearch", 
 	};
 	//业务类型
 	var STATUS = {
@@ -28,14 +28,7 @@ $(function() {
 	$('#seek').click(function() {
 		ShowAction(1);
 	});
-	//跳转按钮
-	$('#jumpButton').click(function() {
-		jumpPageAction();
-	});
-	$('#pageSize').change(function() {
-		ShowAction(1);
-	});
-	
+
 	// 表格内容每行单击出来下面的详细信息
 	var tabledata = $('#tbody_list');
 	tabledata.on("click",'tr', function () {
@@ -69,11 +62,20 @@ $(function() {
 		window.location.href = URL.addUrl;
 	});
 	
-	//详情模块 读卡功能
-	$('#readCardBtn').click(function() {
-		readCardAction();
+	//绑定刷新按钮
+	$('#refresh').click(function() {
+		ShowAction(1);
 	});
-
+	
+	
+	//跳转按钮
+	$('#jumpButton').click(function() {
+		jumpPageAction();
+	});
+	$('#pageSize').change(function() {
+		ShowAction(1);
+	});
+	
 	//绑定列表复制,编辑按钮
 	$('#tbody_list').on('click','tr [title="复制"]',function(event) {
 		event.stopPropagation();
@@ -85,10 +87,7 @@ $(function() {
 		var obj = $(this).closest('tr').data('obj');
 		if(obj.status=='3'){
 			layer.msg('已作废,无法进行该操作!');
-		}else if(obj.auditstatus == '1'){
-			layer.msg('已审核,无法进行编辑操作!');
 		}else{
-		
 			window.location.href = URL.updateVeiw + '?id=' + obj.id;
 		}
 	});
@@ -156,6 +155,7 @@ $(function() {
 		}
 	});
 
+	
 	function updateAction(params,msg) {
 		if(params){
 			var index =	layer.confirm(msg, {
@@ -182,39 +182,6 @@ $(function() {
 		}
 	}
 
-	//展示读卡信息
-	function readCardAction (){
-
-		if(initCardReader()) {
-			//打开读卡器
-			readerOpen();
-			//开打卡片获取卡号
-			var cardno = openCard();
-			if(cardno){
-				//蜂鸣
-				readerBeep();
-				try{
-					var obj = readObjFromCard();
-					$('#detail_cardno').val(cardno);
-					$('#detail_card_vehiclecode').val(obj.vehicleobj.code);
-					$('#detail_card_vehicleno').val(obj.vehicleno);
-					$('#detail_card_customer').val(obj.customerobj.name);
-					$('#detail_card_materiel').val(obj.materielname);
-					$('#detail_card_bussnesstype').val(obj.status);
-					$('#detail_card_note').val(obj.notice);
-					$('#detail_card_status').val(obj.packagetype);
-					$('#detail_card_count').val(obj.takeamount);
-				} catch (e) {
-					layer.msg(e.Message);
-				}
-			}
-			//关闭读卡器
-			readerClose();
-			}else{
-				layer.msg('当前游览器不支持!(只兼容IE游览器)');
-			}
-	}
-	
 	function initDetailVeiw(id) {
 		$.ajax({
 			url:URL.findOne,
@@ -235,19 +202,25 @@ $(function() {
 					default:
 
 					}
+					
+					var starttime = '';
+					if(obj.starttime){
+						starttime = getNowFormatDate(true, obj.starttime);
+					}
+					var endtime = '';
+					if(obj.endtime){
+						endtime = getNowFormatDate(true, obj.endtime);
+					}
 
 					$('#detail_code').val(obj.code);
-					$('#detail_customer').val(obj.customername);
-					$('#detail_datasource').val(obj.datasource);
+					$('#detail_enteryard').val(obj.enteryerdname);
+					$('#detail_leaveyard').val(obj.leaveyerdname);
 					$('#detail_materiel').val(obj.materielname);
-					$('#detail_cargo').val(obj.cargo);
-					$('#detail_receivedepartment').val(obj.senddepartmentname);
+					$('#detail_org').val(obj.receivedepartmentname);
 					$('#detail_vehicleno').val(obj.vehicleno);
-					$('#detail_warehouse').val(obj.warehousename);
-					$('#detail_driver').val(obj.drivername);
 					$('#detail_rfid').val(obj.rfid);
-					$('#detail_identityno').val(obj.driveridentityno);
-					$('#detail_count').val(obj.count);
+					$('#detail_starttime').val(starttime);
+					$('#detail_endtime').val(endtime);
 					$('#detail_creator').val(obj.creatorname);
 					$('#detail_createtime').val(getNowFormatDate(true, obj.createtime));
 					$('#detail_status').val(STATUS[obj.status]);
@@ -289,16 +262,16 @@ $(function() {
 	//加载下拉框
 	function initAutoComplete(){
 		var cache = {};
-		$("#seek_customer").autocomplete({
+		$(".yardSelect").autocomplete({
 			source: function( request, response ) {
 				var term = request.term;
-				var customer = cache['customer'] || {};
-				if ( term in customer ) {
-					response( customer[ term ] );
+				var yard = cache['yard'] || {};
+				if ( term in yard ) {
+					response( yard[ term ] );
 					return;
 				}
-				$.post( URL.customerAutoCompleteSearch, request, function( data, status, xhr ) {
-					customer[ term ] = data;
+				$.post( URL.yardAutoCompleteSearch, request, function( data, status, xhr ) {
+					yard[ term ] = data;
 					response( data );
 				});
 			},
@@ -311,28 +284,28 @@ $(function() {
 				}
 			},
 			select: function( event, ui ) {
-				$(this).val(ui.item.name).attr('customerid', ui.item.id).attr('select',true);
+				$(this).val(ui.item.name).attr('yardid', ui.item.id).attr('select',true);
 				return false;
 			}
 		}).off('click').on('click',function(){
 			$(this).autocomplete('search',' ');
 		}).on('input propertychange',function(){
-			$(this).removeAttr('customerid');
+			$(this).removeAttr('yardid');
 		}).change(function(){
-			if(!$(this).attr('customerid')){
+			if(!$(this).attr('yardid')){
 				$(this).val('');
 			}
 		});
-		$("#seek_warehouse").autocomplete({
+		$("#seek_materiel").autocomplete({
 			source: function( request, response ) {
 				var term = request.term;
-				var warehouse = cache['warehouse'] || {};
-				if ( term in warehouse ) {
-					response( warehouse[ term ] );
+				var materiel = cache['materiel'] || {};
+				if ( term in materiel ) {
+					response( materiel[ term ] );
 					return;
 				}
-				$.post( URL.warehouseAutoCompleteSearch, request, function( data, status, xhr ) {
-					warehouse[ term ] = data;
+				$.post( URL.materielAutoCompleteSearch, request, function( data, status, xhr ) {
+					materiel[ term ] = data;
 					response( data );
 				});
 			},
@@ -345,20 +318,20 @@ $(function() {
 				}
 			},
 			select: function( event, ui ) {
-				$(this).val(ui.item.name).attr('warehouseid', ui.item.id);
+				$(this).val(ui.item.name).attr('materielid', ui.item.id);
 				return false;
 			}
 		}).off('click').on('click',function(){
 			$(this).autocomplete('search',' ');
 		}).on('input propertychange',function(){
-			$(this).removeAttr('warehouseid');
+			$(this).removeAttr('materielid');
 		}).change(function(){
-			if(!$(this).attr('warehouseid')){
+			if(!$(this).attr('materielid')){
 				$(this).val('');
 			}
 		});
 
-		$("#seek_vehicleno").autocomplete({
+		$("#seek_vehicle").autocomplete({
 			source: function( request, response ) {
 				var term = request.term;
 				var vehicle = cache['vehicle'] || {};
@@ -423,10 +396,10 @@ $(function() {
 
 	//获取查询条件
 	function getSeekData(){
-		var customerid = $('#seek_customer').attr('customerid');
-		var cargo = $('#seek_cargo').val();cargo = $.trim(cargo);
-		var warehouse = $('#seek_warehouse').attr('warehouseid');
-		var vehicleid = $('#seek_vehicleno').attr('vehicleid');
+		var enteryard = $('#seek_enteryard').attr('yardid');
+		var leaveyard = $('#seek_leaveyard').attr('yardid');
+		var materielid = $('#seek_materiel').attr('materielid');
+		var vehicleid = $('#seek_vehicle').attr('vehicleid');
 		var code = $('#seek_code').val();code = $.trim(code);
 		var auditstatus = $('#seek_auditstatus').val();
 		//获取当前页面记录数
@@ -435,9 +408,9 @@ $(function() {
 		var endtime = $('#seek_endtime').val();endtime = $.trim(endtime);
 
 		return {
-			customerid:customerid,
-			cargo:cargo,
-			warehouse:warehouse,
+			enteryard:enteryard,
+			leaveyard:leaveyard,
+			materielid:materielid,
 			vehicleid:vehicleid,
 			code:code,
 			auditstatus:auditstatus,
@@ -521,20 +494,28 @@ $(function() {
 			if(obj.status=='3'){
 				color2 = 'class="colorred"';
 			}
+			var starttime = '';
+			if(obj.starttime){
+				starttime = getNowFormatDate(true, obj.starttime);
+			}
+			var endtime = '';
+			if(obj.endtime){
+				endtime = getNowFormatDate(true, obj.endtime);
+			}
 
 			var tr = '<tr>'
 				+'<td>'+((pageNo-1)*pageSize+i+1)+'</td>'
 				+'<td>'+(obj.code || '')+'</td>'
 				+'<td '+color1+'>'+(auditstatus || '')+'</td>'
 				+'<td '+color2+'>'+(STATUS[obj.status] || '')+'</td>'
-				+'<td>'+(obj.customername || '')+'</td>'
-				+'<td>'+(obj.datasource || '')+'</td>'
+				+'<td>'+(obj.vehicleno || '')+'</td>'
+				+'<td>'+(obj.leaveyerdname || '')+'</td>'
+				+'<td>'+(obj.enteryerdname || '')+'</td>'
 				+'<td>'+(obj.materielname || '')+'</td>'
-				+'<td>'+(obj.cargo || '')+'</td>'
-				+'<td>'+(obj.warehousename || '')+'</td>'
-				+'<td>'+(obj.senddepartmentname || '')+'</td>'
+				+'<td>'+starttime+'</td>'
+				+'<td>'+endtime+'</td>'
+				+'<td>'+(obj.creatorname || '')+'</td>'
 				+'<td>'+(getNowFormatDate(true, obj.createtime) || '')+'</td>'
-				+'<td>'+(obj.remark || '')+'</td>'
 				+'<td>'
 				+'<span>'
 				+'<i class="iconfont"'
