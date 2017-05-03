@@ -2,12 +2,6 @@ package com.tianrui.api.intf.system.auth;
 
 import com.tianrui.api.req.system.auth.SystemMenuQueryReq;
 import com.tianrui.api.req.system.auth.SystemMenuSaveReq;
-import com.tianrui.api.req.system.auth.SystemRoleQueryReq;
-import com.tianrui.api.req.system.auth.SystemUserPswdReq;
-import com.tianrui.api.req.system.auth.SystemUserQueryReq;
-import com.tianrui.api.req.system.auth.SystemUserSaveReq;
-import com.tianrui.api.req.system.auth.UserReq;
-import com.tianrui.api.resp.system.auth.SystemUserResp;
 import com.tianrui.smartfactory.common.vo.Result;
 
 /**

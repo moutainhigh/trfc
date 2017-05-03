@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.tianrui.api.intf.system.auth.ISystemMenuService;
 import com.tianrui.api.req.system.auth.SystemMenuQueryReq;
 import com.tianrui.api.req.system.auth.SystemMenuSaveReq;
-import com.tianrui.api.resp.system.auth.MenuTreeVo;
+import com.tianrui.api.resp.system.auth.ComboTreeVo;
 import com.tianrui.api.resp.system.auth.SystemMenuResp;
 import com.tianrui.service.bean.system.auth.SystemMenu;
 import com.tianrui.service.mapper.system.auth.SystemMenuMapper;
@@ -66,12 +66,12 @@ public class SystemMenuService implements ISystemMenuService {
 	}
 	
 	
-	private List<MenuTreeVo> getTreeDataStr(List<SystemMenu> list){
-		List<MenuTreeVo> treeList = new ArrayList<MenuTreeVo>();
+	private List<ComboTreeVo> getTreeDataStr(List<SystemMenu> list){
+		List<ComboTreeVo> treeList = new ArrayList<ComboTreeVo>();
 		List<SystemMenu> childrenList = new ArrayList<SystemMenu>();
 		//先添加根菜单
 		for(SystemMenu menu : list){
-			MenuTreeVo tree = new MenuTreeVo();
+			ComboTreeVo tree = new ComboTreeVo();
 			tree.setId(menu.getId());
 			tree.setText(menu.getName());
 			if(StringUtils.isBlank(menu.getRoleid())){
@@ -80,22 +80,22 @@ public class SystemMenuService implements ISystemMenuService {
 				childrenList.add(menu);
 			}
 		}
-		for(MenuTreeVo vo : treeList){
+		for(ComboTreeVo vo : treeList){
 			setChildMenu(childrenList, vo);
 		}
 		return treeList;
 	}
 	
-	private void setChildMenu(List<SystemMenu> menuList, MenuTreeVo treeVo){
+	private void setChildMenu(List<SystemMenu> menuList, ComboTreeVo treeVo){
 		for(SystemMenu menu : menuList){
-			MenuTreeVo tree = new MenuTreeVo();
+			ComboTreeVo tree = new ComboTreeVo();
 			tree.setId(menu.getId());
 			tree.setText(menu.getName());
 			if(StringUtils.equals(menu.getRoleid(), treeVo.getId())){
 				if(CollectionUtils.isNotEmpty(treeVo.getChildren())){
 					treeVo.getChildren().add(tree);
 				}else{
-					List<MenuTreeVo> childMenuList = new ArrayList<MenuTreeVo>();
+					List<ComboTreeVo> childMenuList = new ArrayList<ComboTreeVo>();
 					childMenuList.add(tree);
 					treeVo.setChildren(childMenuList);
 				}
@@ -104,12 +104,12 @@ public class SystemMenuService implements ISystemMenuService {
 		}
 	}
 	
-	public List<MenuTreeVo> iterateMenus(List<MenuTreeVo> menuList,String pid){  
-        List<MenuTreeVo> result = new ArrayList<MenuTreeVo>();  
-        for (MenuTreeVo treeVo : menuList) { 
+	public List<ComboTreeVo> iterateMenus(List<ComboTreeVo> menuList,String pid){  
+        List<ComboTreeVo> result = new ArrayList<ComboTreeVo>();  
+        for (ComboTreeVo treeVo : menuList) { 
             if(StringUtils.isNotBlank(treeVo.getPid())){  
                 if(StringUtils.equals(treeVo.getPid(), pid)){  
-                    List<MenuTreeVo> iterateMenu = iterateMenus(menuList,treeVo.getId());  
+                    List<ComboTreeVo> iterateMenu = iterateMenus(menuList,treeVo.getId());  
                     treeVo.setChildren(iterateMenu);
                     result.add(treeVo);  
                 }  

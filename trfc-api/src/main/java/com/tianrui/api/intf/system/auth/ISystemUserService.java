@@ -139,4 +139,12 @@ public interface ISystemUserService {
 	 * @return
 	 */
 	Result appUpdateUser(AppUserEditReq req);
+	/**
+	 * @Description 获取所有用户列表
+	 * @author zhanggaohao
+	 * @version 2017年4月27日 下午5:25:37
+	 * @param orgid
+	 * @return
+	 */
+	Result queryAllUser(String orgid);
 }

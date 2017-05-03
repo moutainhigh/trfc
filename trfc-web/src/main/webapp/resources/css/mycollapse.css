@@ -109,3 +109,11 @@
 .intel_table .tooltip.bottom .tooltip-arrow {
     border-bottom-color: #cdd4e6
 }
+
+/* 右侧折叠样式*/
+.intel_tabcont .sys_collap a.menu_collap_tit{
+    font-size: 13px;
+}
+.intel_tabcont .typelist li label{
+    font-size: 12px;
+}

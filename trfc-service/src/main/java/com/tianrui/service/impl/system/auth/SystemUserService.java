@@ -489,4 +489,14 @@ public class SystemUserService implements ISystemUserService {
 		}
 		return result;
 	}
+
+	public Result queryAllUser(String orgid) {
+		Result result = Result.getParamErrorResult();
+		if(StringUtils.isNotBlank(orgid)){
+			List<SystemUser> list = userMapper.queryAllUserByOrgId(orgid);
+			result.setData(list);
+			result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+		}
+		return result;
+	}
 }
