@@ -342,10 +342,10 @@ public class ApiStaticAction {
 	 * @param req
 	 * @return
 	 */
-	@RequestMapping(value="/orderCrate",method=RequestMethod.POST)
+	@RequestMapping(value="/orderCreate",method=RequestMethod.POST)
 	@ApiParamRawType(AppOrderSaveReq.class)
 	@ResponseBody
-	public ApiResult orderCrate(ApiParam<AppOrderSaveReq> appParam){
+	public ApiResult orderCreate(ApiParam<AppOrderSaveReq> appParam){
 		Result rs = Result.getErrorResult();
 		try {
 			AppOrderSaveReq req = appParam.getBody();

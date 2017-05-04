@@ -17,8 +17,6 @@ public interface ISystemRoleService {
 	 * @throws Exception
 	 */
 	Result page(SystemRoleQueryReq req) throws Exception;
-	
-	
 	/**
 	 * 角色详情查询
 	 * @param req
@@ -26,8 +24,6 @@ public interface ISystemRoleService {
 	 * @throws Exception
 	 */
 	Result detail(SystemRoleQueryReq req) throws Exception;
-	
-	
 	/**
 	 * 添加角色
 	 * @param req
@@ -35,7 +31,6 @@ public interface ISystemRoleService {
 	 * @throws Exception
 	 */
 	Result addRole(SystemRoleSaveReq  req) throws Exception;
-	
 	/**
 	 * 编辑角色
 	 * @param req
@@ -50,5 +45,13 @@ public interface ISystemRoleService {
 	 * @throws Exception
 	 */
 	Result delRole(SystemRoleQueryReq  req) throws Exception;
+	/**
+	 * @Description 查询所有角色
+	 * @author zhanggaohao
+	 * @version 2017年5月2日 下午2:19:07
+	 * @return
+	 * @throws Exception 
+	 */
+	Result queryAllRole() throws Exception;
 	
 }

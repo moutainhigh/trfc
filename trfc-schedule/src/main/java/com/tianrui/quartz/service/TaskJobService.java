@@ -1,6 +1,7 @@
 package com.tianrui.quartz.service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -17,15 +18,23 @@ import com.tianrui.api.resp.businessManage.salesManage.SalesApplicationResp;
 import com.tianrui.api.resp.system.auth.SystemUserResp;
 import com.tianrui.quartz.common.ApiParamUtils;
 import com.tianrui.quartz.common.HttpUtils;
+import com.tianrui.service.bean.basicFile.nc.CustomerManage;
+import com.tianrui.service.bean.basicFile.nc.SupplierManage;
 import com.tianrui.service.bean.businessManage.salesManage.SalesApplication;
 import com.tianrui.service.bean.common.ReturnQueue;
 import com.tianrui.service.bean.system.auth.SmUser;
+import com.tianrui.service.bean.system.auth.SystemUser;
+import com.tianrui.service.mapper.basicFile.nc.CustomerManageMapper;
+import com.tianrui.service.mapper.basicFile.nc.SupplierManageMapper;
 import com.tianrui.service.mapper.businessManage.salesManage.SalesApplicationMapper;
 import com.tianrui.service.mapper.common.ReturnQueueMapper;
 import com.tianrui.service.mapper.system.auth.SmUserMapper;
+import com.tianrui.service.mapper.system.auth.SystemUserMapper;
 import com.tianrui.smartfactory.common.api.ApiResult;
+import com.tianrui.smartfactory.common.constants.BusinessConstants;
 import com.tianrui.smartfactory.common.constants.Constant;
 import com.tianrui.smartfactory.common.constants.ErrorCode;
+import com.tianrui.smartfactory.common.utils.Md5Utils;
 
 @Service
 public class TaskJobService {
@@ -40,6 +49,12 @@ public class TaskJobService {
 	private ISystemUserService systemUserService;
 	@Autowired
 	private SmUserMapper smUserMapper;
+	@Autowired
+	private CustomerManageMapper customerManageMapper;
+	@Autowired
+	private SupplierManageMapper supplierManageMapper;
+	@Autowired
+	private SystemUserMapper systemUserMapper;
 
 	public void returnDataCenter() throws Exception{
 		List<ReturnQueue> list = returnQueueMapper.selectSelective(null);
@@ -115,5 +130,59 @@ public class TaskJobService {
 			smUserList = smUserMapper.selectSelective(smUser);
 		}
 		return smUserList;
+	}
+
+	@Transactional
+	public void customer_supplier_user() throws Exception {
+		List<CustomerManage> customerList = customerManageMapper.findCustomerNotSystemUser();
+		List<SupplierManage> supplierList = supplierManageMapper.findSupplierNotSystemUser();
+		List<SystemUser> list = new ArrayList<SystemUser>();
+		if(CollectionUtils.isNotEmpty(customerList)){
+			list.clear();
+			for(CustomerManage cm : customerList){
+				SystemUser user = new SystemUser();
+				user.setId(cm.getId());
+				user.setCode("");
+				user.setName(cm.getName());
+				user.setAccount(cm.getCode());
+				user.setPassword(Md5Utils.MD5("666666"));
+				user.setIdentityTypes("1");
+				user.setMobilePhone(" ");
+				user.setOrgid(Constant.ORG_ID);
+				user.setSource("1");
+				user.setIsvalid(BusinessConstants.USER_VALID_BYTE);
+				user.setCreator("0000");
+				user.setCreatetime(System.currentTimeMillis());
+				user.setUtc(new Date());
+				list.add(user);
+			}
+			int count = systemUserMapper.insertBatch(list);
+			System.out.println("客户同步到用户表成功：共"+count+"条！");
+		}
+		if(CollectionUtils.isNotEmpty(supplierList)){
+			list.clear();
+			for(SupplierManage sm : supplierList){
+				if (systemUserMapper.selectByPrimaryKey(sm.getId()) == null) {
+					SystemUser user = new SystemUser();
+					user.setId(sm.getId());
+					user.setCode("");
+					user.setAccount(sm.getCode());
+					user.setName(sm.getName());
+					user.setPassword(Md5Utils.MD5("666666"));
+					user.setIdentityTypes("2");
+					user.setMobilePhone(" ");
+					user.setOrgid(Constant.ORG_ID);
+					user.setSource("1");
+					user.setIsvalid(BusinessConstants.USER_VALID_BYTE);
+					user.setCreator("0000");
+					user.setCreatetime(System.currentTimeMillis());
+					user.setUtc(new Date());
+					list.add(user);
+				}
+			}
+			int count = systemUserMapper.insertBatch(list);
+			System.out.println("供应商同步到用户表成功：共"+count+"条！");
+		}
+		
 	}
 }

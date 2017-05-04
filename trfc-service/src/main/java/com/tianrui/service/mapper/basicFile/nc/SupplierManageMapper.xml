@@ -28,6 +28,15 @@
 		state, remarks, creator, createtime,
 		modifier, modifytime,utc
 	</sql>
+	<sql id="Base_Column_List_S">
+		s.id, s.code, s.internalcode, s.name, s.abbrname,
+		s.pinyincode, s.orgid,
+		s.orgname,
+		s.minemouth, s.drivercheck,
+		s.state,
+		s.remarks, s.creator, s.createtime,
+		s.modifier, s.modifytime, s.utc
+	</sql>
 	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
 		parameterType="java.lang.String">
 		select
@@ -425,5 +434,12 @@
 		select id, name
 		from tr_supplier_db_manage
 		where state = 1
+	</select>
+	<select id="findSupplierNotSystemUser" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List_S" />
+		from tr_supplier_db_manage s
+		where NOT EXISTS(select id from
+		tr_system_user where id = s.id);
 	</select>
 </mapper>

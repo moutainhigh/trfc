@@ -22,6 +22,10 @@ public class SystemUserQueryReq extends BaseReq {
 	private Integer limit;
 	
 	private String currUId;
+	//角色id
+	private String roleid;
+	//角色查詢用戶模糊匹配
+	private String key;
 
 	public String getCodeLike() {
 		return codeLike;
@@ -94,7 +98,21 @@ public class SystemUserQueryReq extends BaseReq {
 	public void setAccount(String account) {
 		this.account = account;
 	}
-	
-	
+
+	public String getRoleid() {
+		return roleid;
+	}
+
+	public void setRoleid(String roleid) {
+		this.roleid = roleid;
+	}
+
+	public String getKey() {
+		return key;
+	}
+
+	public void setKey(String key) {
+		this.key = key;
+	}
 	
 }

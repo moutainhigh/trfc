@@ -212,5 +212,13 @@ public class SystemRoleService implements ISystemRoleService {
 		return resp;
 	}
 
+	@Override
+	public Result queryAllRole() throws Exception {
+		Result result = Result.getSuccessResult();
+		List<SystemRole> list = roleMapper.queryAllRole();
+		result.setData(copySystemUserBeanList2RespList(list));
+		return result;
+	}
+
 
 }

@@ -41,4 +41,6 @@ public interface CustomerManageMapper {
 	 * @return
 	 */
 	List<HandSetReturnResp> handSetQueryAll(HandSetRequestParam req);
+	
+	List<CustomerManage> findCustomerNotSystemUser();
 }

@@ -4,13 +4,15 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>用户权限</title>
+<title>角色权限</title>
 <!-- 引用公共header部分 -->
 <jsp:include page="../../common/base/header_busi.jsp"></jsp:include>
 <link href="${staticBasePath}/css/easyui.css" rel="stylesheet">
 <link href="${staticBasePath}/css/icon.css" rel="stylesheet">
 <script type="text/javascript"
-	src="${staticBasePath }/js/jquery.easyui.min.js"></script>
+	src="${staticBasePath }/js/jquery.easyui.min.js">
+	
+</script>
 <style type="text/css">
 .sys_collap .typelist li.active {
 	background: #434e8d;
@@ -31,41 +33,101 @@
 				<div class="intel_tabcont">
 					<div class="juese_qx">
 						<div class="juese_user">
-							<h5>用户列表</h5>
-							<div class="user_listsearch">
-								<label>关键字</label> <input type="text" style="width: 90px;">
-								<button class="btn btndartblue ">搜索</button>
-							</div>
-
+							<h5>角色</h5>
 							<div class="sys_collap">
 								<ul class="typelist ">
-									<div class="menu_collap_tit">
-										<span><i class="iconfont">&#xe6c8;</i></span> <label><i
-											class="iconfont">&#xe60a;</i>所有用户</label>
-									</div>
-									<div class="in" id="userList">
-										<!-- <li><i class="iconfont">&#xe620;</i><label>张三</label></li> -->
-									</div>
+									<a href="#jsqx_juese" data-toggle="collapse"
+										class="menu_collap_tit"> <span><i class="iconfont">&#xe6c8;</i></span>
+										<label><i class="iconfont">&#xe60a;</i>${orgname }</label>
+									</a>
+									<div class="in" id="roleList"></div>
 								</ul>
 							</div>
 						</div>
 						<div class="juese_opera">
 							<div class="juese_title">
-								<h5>用户授权 - 张三（001）</h5>
+								<h5>角色授权 - 门岗(018)</h5>
 							</div>
 							<!--角色授权切换标题-->
-							<div class="juese_usertab">
+							<div class="juese_tab">
 								<ul>
-									<li class="select">模块权限</li>
-									<li>工作平台权限</li>
+									<li class="select">角色成员</li>
+									<li>模块权限</li>
+									<li>数据权限</li>
 								</ul>
 							</div>
 							<!--角色授权切换标题-->
 
 							<!--tab切换的内容-->
-							<div id="tabContent" class="juese_tabbox">
+							<div class="juese_tabbox">
+								<!--角色成员-->
+								<div class="juese_tabcont">
+									<div class="intel_opera">
+										<div class="intel_operasolo">
+											<i class="iconfont colorlv">&#xe61b;</i>
+											<h5>刷新</h5>
+										</div>
+										<div class="intel_operasolo" id="addUserToRole">
+											<a> <i
+												class="iconfont coloradd" style="font-weight: bold">&#xe621;</i>
+												<h5>新增成员</h5>
+											</a>
+										</div>
+										<div class="intel_operasolo" id="deleteUserToRole">
+											<a data-toggle="modal" data-target="#dele"> <i
+												class="iconfont colorred" style="font-weight: bold">&#xe62b;</i>
+												<h5>删除成员</h5>
+											</a>
+										</div>
+									</div>
+									<div class="juese_qxsearch">
+										<div class="js_solo">
+											<label>查询条件：</label> <select id="qtp" class="form-control">
+												<option value="bh">编号</option>
+												<option value="zh">账户</option>
+												<!-- <option value="sf">身份</option> -->
+											</select>
+										</div>
+										<div class="js_solo">
+											<label>关键字：</label> <input id="keyword" type="text">
+										</div>
+										<div class="js_solo">
+											<button class="btn btnblue" id="searchUser">搜索</button>
+										</div>
+									</div>
+									<div class="intel_table">
+										<!--角色成员表格begin-->
+										<table class="table table-hover">
+											<thead>
+												<tr>
+													<th></th>
+													<th></th>
+													<th>编号</th>
+													<th>用户名称</th>
+													<th>身份</th>
+													<th>公司</th>
+													<th>说明</th>
+												</tr>
+											</thead>
+											<tbody id="userBody">
+												<tr>
+													<td>1</td>
+													<td><input type="checkbox"></td>
+													<td>201601010138</td>
+													<td>王小二</td>
+													<td>客商APP</td>
+													<td>河南省XXXX公司</td>
+													<td>粉煤灰1</td>
+												</tr>
+											</tbody>
+										</table>
+										<!--角色成员表格end-->
+									</div>
+								</div>
+								<!--角色成员end-->
+
 								<!--模块权限begin-->
-								<div class="juese_tabcont ">
+								<div class="juese_tabcont hide">
 									<div class="intel_opera">
 										<div class="intel_operasolo">
 											<i class="iconfont colorlv">&#xe61b;</i>
@@ -89,7 +151,8 @@
 											data-options="">
 											<thead>
 												<tr>
-													<th>模块(菜单)名称</th>
+													<th></th>
+													<th style="width: 200px;">模块(菜单)名称</th>
 													<th>模块编码</th>
 													<th>模块分类</th>
 													<th>排序</th>
@@ -98,6 +161,7 @@
 											</thead>
 											<tbody>
 												<tr id="1">
+													<td>1</td>
 													<td style="width: 200px;"><input type="checkbox"
 														checked> <span controller="true">天瑞集团智能物流业务平台</span></td>
 													<td>01</td>
@@ -106,6 +170,7 @@
 													<td></td>
 												</tr>
 												<tr id="2" pid="1">
+													<td>2</td>
 													<td style="width: 200px;"><input type="checkbox"
 														checked><span controller="true">业务管理</span></td>
 													<td>0101</td>
@@ -114,6 +179,7 @@
 													<td></td>
 												</tr>
 												<tr id="3" pid="2">
+													<td>3</td>
 													<td style="width: 200px;"><input type="checkbox"
 														checked><span controller="true">采购管理</span></td>
 													<td>010101</td>
@@ -122,14 +188,16 @@
 													<td></td>
 												</tr>
 												<tr id="4" pid="3">
+													<td>4</td>
 													<td style="width: 200px;"><input type="checkbox"
 														checked><span controller="true">采购申请单</span></td>
 													<td>01010101</td>
 													<td>3</td>
-													<td>3</td>
+													<td>4</td>
 													<td></td>
 												</tr>
 												<tr id="5" pid="3">
+													<td>5</td>
 													<td style="width: 200px;"><input type="checkbox"><span
 														controller="true">到货通知单</span></td>
 													<td>01010102</td>
@@ -138,6 +206,7 @@
 													<td></td>
 												</tr>
 												<tr id="6" pid="2">
+													<td>6</td>
 													<td style="width: 200px;"><input type="checkbox"><span
 														controller="true">销售管理</span></td>
 													<td>01010101</td>
@@ -145,6 +214,7 @@
 													<td>3</td>
 												</tr>
 												<tr id="7" pid="1">
+													<td>7</td>
 													<td style="width: 200px;"><input type="checkbox"><span
 														controller="true">基础档案</span></td>
 													<td>0102</td>
@@ -153,6 +223,7 @@
 													<td></td>
 												</tr>
 												<tr id="8" pid="7">
+													<td>8</td>
 													<td style="width: 200px;"><input type="checkbox"><span
 														controller="true">NC档案</span></td>
 													<td>010201</td>
@@ -162,31 +233,35 @@
 												</tr>
 											</tbody>
 										</table>
-									</div>
-									<!--分页效果开始-->
-									<div class="page_middle">
-										<div class="page_date">
-											<label>数据共：</label><i class="colorred">15500</i><label>条</label>
-										</div>
-										<div class="page_date">
-											<label>跳到第：</label> <input type="text"> <label>页</label>
-											<button class="btn btn-default">确定</button>
-										</div>
-										<div class="page_btn">
-											<ul class="pagination">
-												<li><a href="#">&laquo;上一页</a></li>
-												<li><a href="#">441</a></li>
-												<li><a href="#">255</a></li>
-												<li><a href="#">553</a></li>
-												<li><a href="#">...</a></li>
-												<li><a href="#">4444</a></li>
-												<li><a href="#">53333</a></li>
-												<li><a href="#">下一页&raquo;</a></li>
-											</ul>
-										</div>
-									</div>
+										<!--分页效果开始-->
+										<div class="row">
+											<div class="col-md-12">
+												<div class="page_middle">
+													<div class="page_date">
+														<label>数据共：</label><i class="colorred">100</i><label>条</label>
+													</div>
+													<div class="page_date">
+														<label>跳到第：</label> <input type="text"> <label>页</label>
+														<button class="btn btn-default">确定</button>
+													</div>
+													<div class="page_btn">
+														<ul class="pagination">
+															<li><a href="#">&laquo;上一页</a></li>
+															<li><a href="#">1</a></li>
+															<li><a href="#">2</a></li>
+															<li><a href="#">3</a></li>
+															<li><a href="#">...</a></li>
+															<li><a href="#">4</a></li>
+															<li><a href="#">5</a></li>
+															<li><a href="#">下一页&raquo;</a></li>
+														</ul>
+													</div>
+												</div>
 
-									<!--分页效果结束-->
+											</div>
+										</div>
+										<!--分页效果结束-->
+									</div>
 								</div>
 								<!--模块权限end-->
 								<div class="juese_tabcont hide">
@@ -208,32 +283,61 @@
 											</a>
 										</div>
 									</div>
-									<div class="juese_work">
-										<div class="juese_sysplat">
-											<div class="juese_plattit">
-												<h5>想拥有工作平台数据权限（请点击勾选）</h5>
-												<span class="qx_seltall "><input type="checkbox">全选</span>
-												<span class="qx_cancelall "><input type="checkbox">反选</span>
-											</div>
-											<div class="juese_altuser_list">
-												<ul>
-													<li class="select"><i class="iconfont">&#xe620;</i>三丰</li>
-													<li><i class="iconfont">&#xe620;</i>张三丰</li>
-													<li><i class="iconfont">&#xe620;</i>00000</li>
-													<li><i class="iconfont">&#xe620;</i>张三丰</li>
-													<li><i class="iconfont">&#xe620;</i>张三丰</li>
-													<li><i class="iconfont">&#xe620;</i>张三丰</li>
-													<li><i class="iconfont">&#xe620;</i>张三丰</li>
-													<li><i class="iconfont">&#xe620;</i>张三丰</li>
-												</ul>
-											</div>
+									<div class="juese_qxsearch">
+										<div class="js_solo">
+											<label>授权项目列表：</label> <select class="form-control">
+												<option>组织机构</option>
+												<option>客户</option>
+												<option>供应商</option>
+											</select>
 										</div>
 									</div>
+									<div class="juese_qxdata">
+										<ul>
+											<li><input type="checkbox"><i class="iconfont">&#xe60a;</i>
+												北京科普斯特自动化仪表有限公司</li>
+											<li><input type="checkbox"><i class="iconfont">&#xe60a;</i>
+												北京科普斯特自动化仪表有限公司</li>
+											<li><input type="checkbox"><i class="iconfont">&#xe60a;</i>
+												北京科普斯特自动化仪表有限公司</li>
+											<li><input type="checkbox"><i class="iconfont">&#xe60a;</i>
+												北京科普斯特自动化仪表有限公司</li>
+										</ul>
+									</div>
+									<!--分页效果开始-->
+									<div class="row">
+										<div class="col-md-12">
+											<div class="page_middle">
+												<div class="page_date">
+													<label>数据共：</label><i class="colorred">100</i><label>条</label>
+												</div>
+												<div class="page_date">
+													<label>跳到第：</label> <input type="text"> <label>页</label>
+													<button class="btn btn-default">确定</button>
+												</div>
+												<div class="page_btn">
+													<ul class="pagination">
+														<li><a href="#">&laquo;上一页</a></li>
+														<li><a href="#">1</a></li>
+														<li><a href="#">2</a></li>
+														<li><a href="#">3</a></li>
+														<li><a href="#">...</a></li>
+														<li><a href="#">4</a></li>
+														<li><a href="#">5</a></li>
+														<li><a href="#">下一页&raquo;</a></li>
+													</ul>
+												</div>
+											</div>
 
+										</div>
+									</div>
+									<!--分页效果结束-->
 								</div>
 							</div>
 							<!--tab切换的内容end-->
+
 						</div>
+
 					</div>
 
 				</div>
@@ -241,7 +345,7 @@
 		</div>
 	</div>
 	<!--角色用户新增begin-->
-	<div class="modal fade" id="add" tabindex="-1" role="dialog"
+	<div class="modal fade" id="addUserView" tabindex="-1" role="dialog"
 		aria-labelledby="myModalLabel">
 		<div class="modal-dialog" role="document" style="width: 760px;">
 			<div class="modal-content">
@@ -254,33 +358,40 @@
 						<h5>添加用户到角色</h5>
 					</div>
 				</div>
-				<div class="modal-body">
-					<div class="juese_qxsearch">
-						<div class="js_solo">
-							<label>关键字：</label> <input type="text">
+				<div class="modal-body" style="max-height:500px;">
+					<div class="jsqx_select">
+						<div class="juese_qxsearch">
+							<div class="js_solo">
+								<label>关键字：</label> <input id="key" type="text">
+							</div>
+							<div class="js_solo">
+								<button class="btn btnblue" id="searchKeyUser">搜索</button>
+							</div>
 						</div>
-						<div class="js_solo">
-							<button class="btn btnblue ">搜索</button>
+						<div class="juese_altuser">
+							<label>成员</label> <span class="qx_seltall "><input
+								type="checkbox" name="jsqx_seltall">全选</span> <span
+								class="qx_cancelall "><input type="checkbox"
+								name="jsqx_cancelall">反选</span>
+						</div>
+
+						<div class="juese_altuser_list">
+							<ul>
+								<li class="select"><i class="iconfont">&#xe620;</i>三丰</li>
+								<li><i class="iconfont">&#xe620;</i>张三丰</li>
+								<li><i class="iconfont">&#xe620;</i>00000</li>
+								<li><i class="iconfont">&#xe620;</i>张三丰</li>
+								<li><i class="iconfont">&#xe620;</i>张三丰</li>
+								<li><i class="iconfont">&#xe620;</i>张三丰</li>
+								<li><i class="iconfont">&#xe620;</i>张三丰</li>
+								<li><i class="iconfont">&#xe620;</i>张三丰</li>
+							</ul>
 						</div>
 					</div>
-					<div class="juese_altuser">
-						<label>成员</label> <span class="fr"><input type="checkbox">全选/反选</span>
-					</div>
-					<div class="juese_altuser_list">
-						<ul>
-							<li class="select"><i class="iconfont">&#xe620;</i>三丰</li>
-							<li><i class="iconfont">&#xe620;</i>张三丰</li>
-							<li><i class="iconfont">&#xe620;</i>00000</li>
-							<li><i class="iconfont">&#xe620;</i>张三丰</li>
-							<li><i class="iconfont">&#xe620;</i>张三丰</li>
-							<li><i class="iconfont">&#xe620;</i>张三丰</li>
-							<li><i class="iconfont">&#xe620;</i>张三丰</li>
-							<li><i class="iconfont">&#xe620;</i>张三丰</li>
-						</ul>
-					</div>
+
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-primary">确定</button>
+					<button type="button" class="btn btn-primary" id="addUserBtn">确定</button>
 					<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
 				</div>
 			</div>
@@ -288,7 +399,7 @@
 	</div>
 	<!--角色用户新增end-->
 	<!--删除begin-->
-	<div class="modal fade" id="dele" tabindex="-1" role="dialog"
+	<!-- <div class="modal fade" id="dele" tabindex="-1" role="dialog"
 		aria-labelledby="myModalLabel">
 		<div class="modal-dialog" role="document" style="width: 400px;">
 			<div class="modal-content">
@@ -310,10 +421,10 @@
 				</div>
 			</div>
 		</div>
-	</div>
+	</div> -->
 	<!--删除end-->
 	<!--模块权限重置begin-->
-	<div class="modal fade" id="module_reset" tabindex="-1" role="dialog"
+	<!-- <div class="modal fade" id="module_reset" tabindex="-1" role="dialog"
 		aria-labelledby="myModalLabel">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
@@ -335,7 +446,7 @@
 				</div>
 			</div>
 		</div>
-	</div>
+	</div> -->
 	<!--模块权限重置end-->
 	<!--模块权限授权begin-->
 	<div class="modal fade" id="module_sq" tabindex="-1" role="dialog"
@@ -365,15 +476,10 @@
 	<!-- 引用公共footer部分 -->
 	<jsp:include page="../../common/base/footer_busi.jsp"></jsp:include>
 	<script type="text/javascript"
-		src="/javascript/system/auth/userPermissions.js"></script>
+		src="/javascript/system/auth/rolePermissions.js"></script>
 	<script type="text/javascript">
-		// 角色添加用户弹出框选中取消
-		//    var juese_altuser_list = $('.juese_altuser_list ul li');
-		//    juese_altuser_list.on("click", function () {
-		//        $(this).toggleClass("select")
-		//    });
 		// 模块权限表格每行选中背景变白
-		var tabletr = $('#juese_module tr');
+		var tabletr = $('.intel_table table tr');
 		tabletr.on("click", function() {
 			$(this).addClass("select").siblings().removeClass("select");
 		});
@@ -393,7 +499,7 @@
 				window.console && console.log('onSelect:' + id);
 			}
 		};
-		$('#juese_module').treeTable(option);
+		$('.intel_table table').treeTable(option);
 
 		// 顶部tab切换菜单
 		var $tab_li = $('.intel_menu li');
@@ -403,7 +509,7 @@
 			$('.intel_tabbox > .intel_tabcont').eq(index).show().siblings()
 					.hide();
 		});
-		// 角色权限的权限按钮tab切换菜单
+		// 角色权限的四个权限tab切换菜单
 		var js_li = $('.juese_tab ul li');
 		js_li.click(function() {
 			$(this).addClass('select').siblings().removeClass('select');
@@ -411,23 +517,7 @@
 			$('.juese_tabbox > .juese_tabcont').eq(index).show().siblings()
 					.hide();
 		});
-		// 用户权限的权限按钮tab切换菜单
-		var js_userli = $('.juese_usertab ul li');
-		js_userli.click(function() {
-			$(this).addClass('select').siblings().removeClass('select');
-			var index = js_userli.index(this);
-			$('.juese_tabbox > .juese_tabcont').eq(index).show().siblings()
-					.hide();
-		});
-		// 表格内容每行单击出来下面的详细信息
-		var tabledata = $('.intel_table table tbody tr');
-		tabledata.on("click", function() {
-			$(".intel_result").css("display", "block");
-		})
-		// 表格内容每行双击出来下面的详细信息
-		tabledata.on("dblclick", function() {
-			$('#caigoubill').modal('show');
-		})
+
 		// 首页底部的tab切换菜单
 		var ind_li = $('#ind_tab ul li');
 		ind_li.click(function() {

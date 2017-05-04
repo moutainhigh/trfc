@@ -1289,6 +1289,8 @@ width: 180px;
 }
 .juese_altuser_list{
     padding: 0px 0px;
+    max-height: 400px;
+    overflow-y: auto;
 }
 .juese_altuser_list ul li{
     padding: 0px;
