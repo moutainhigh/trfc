@@ -50,4 +50,6 @@ public interface SupplierManageMapper {
      * @return
      */
 	List<HandSetReturnResp> handSetQueryAll(HandSetRequestParam req);
+	
+    List<SupplierManage> findSupplierNotSystemUser();
 }

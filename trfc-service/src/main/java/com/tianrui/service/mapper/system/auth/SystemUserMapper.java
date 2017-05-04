@@ -47,4 +47,12 @@ public interface SystemUserMapper {
      * @return
      */
 	List<SystemUser> queryAllUserByOrgId(String orgid);
+	/**
+	 * @Description 批量添加用户
+	 * @author zhanggaohao
+	 * @version 2017年5月2日 下午4:22:29
+	 * @param list
+	 * @return
+	 */
+	int insertBatch(List<SystemUser> list);
 }

@@ -19,6 +19,7 @@ import com.tianrui.api.req.system.auth.SystemUserQueryReq;
 import com.tianrui.api.req.system.auth.SystemUserSaveReq;
 import com.tianrui.api.resp.system.auth.SystemUserResp;
 import com.tianrui.smartfactory.common.constants.Constant;
+import com.tianrui.smartfactory.common.constants.ErrorCode;
 import com.tianrui.smartfactory.common.vo.Result;
 import com.tianrui.web.util.CurrUserUtils;
 @Controller
@@ -111,12 +112,13 @@ public class SystemUserAction {
 	 */
 	@RequestMapping(value="/queryAllUser",method=RequestMethod.POST)
 	@ResponseBody
-	public Result autoCompleteSearch(){
+	public Result queryAllUser(){
 		Result rs= Result.getErrorResult();
 		try {
 			rs = systemUserService.queryAllUser(Constant.ORG_ID);
 		} catch (Exception e) {
 			log.error(e.getMessage(),e);
+			rs.setErrorCode(ErrorCode.SYSTEM_ERROR);
 		}
 		return rs;
 	}

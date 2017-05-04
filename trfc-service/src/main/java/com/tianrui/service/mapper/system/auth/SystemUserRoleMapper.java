@@ -1,5 +1,9 @@
 package com.tianrui.service.mapper.system.auth;
 
+import java.util.List;
+
+import com.tianrui.api.req.system.auth.SystemUserQueryReq;
+import com.tianrui.api.resp.system.auth.SystemUserRoleResp;
 import com.tianrui.service.bean.system.auth.SystemUserRole;
 /**
  * @Description 用户与角色关系Mapper
@@ -18,4 +22,8 @@ public interface SystemUserRoleMapper {
     int updateByPrimaryKeySelective(SystemUserRole record);
 
     int updateByPrimaryKey(SystemUserRole record);
+
+	List<SystemUserRoleResp> queryUserByRole(SystemUserQueryReq req);
+	
+	List<SystemUserRoleResp> queryAllUserByRole(SystemUserQueryReq req);
 }

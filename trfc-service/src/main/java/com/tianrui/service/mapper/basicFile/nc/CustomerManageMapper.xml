@@ -42,6 +42,20 @@
 		departmentname, state, remarks, creator, createtime, modifier, utc,
 		modifytime
 	</sql>
+	<sql id="Base_Column_List_C">
+		c.id, c.code, c.internalcode, c.name, c.abbrname,
+		c.pinyincode,
+		c.customertype, c.orgid,
+		c.orgname,
+		c.channeltype,
+		c.channelcode, c.salesmanid,
+		c.salesmanname, c.transportcompanyid,
+		c.transportcompanyname,
+		c.departmentid,
+		c.departmentname, c.state,
+		c.remarks, c.creator, c.createtime, c.modifier, c.utc,
+		c.modifytime
+	</sql>
 	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
 		parameterType="java.lang.String">
 		select
@@ -560,5 +574,10 @@
 		select id, name
 		from tr_customer_db_manage
 		where state = 1
+	</select>
+	<select id="findCustomerNotSystemUser" resultMap="BaseResultMap">
+		select <include refid="Base_Column_List_C"/>
+		from tr_customer_db_manage c
+		where NOT EXISTS(select id from tr_system_user where id = c.id);
 	</select>
 </mapper>

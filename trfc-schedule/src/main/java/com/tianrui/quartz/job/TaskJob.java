@@ -34,5 +34,14 @@ public class TaskJob {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-	}  
+	} 
+	
+	@Scheduled(cron="0/10 * *  * * ? ")   //每10秒执行一次  
+	public void customer_supplier_user(){
+		 try {
+			taskJobService.customer_supplier_user();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	} 
 }

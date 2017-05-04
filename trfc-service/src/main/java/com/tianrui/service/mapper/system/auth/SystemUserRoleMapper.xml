@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.tianrui.service.mapper.system.auth.SystemUserRoleMapper" >
   <resultMap id="BaseResultMap" type="com.tianrui.service.bean.system.auth.SystemUserRole" >
-    <id column=" id" property="id" jdbcType="VARCHAR" />
+    <id column="id" property="id" jdbcType="VARCHAR" />
     <result column="userid" property="userid" jdbcType="VARCHAR" />
     <result column="roleid" property="roleid" jdbcType="VARCHAR" />
     <result column="isvalid" property="isvalid" jdbcType="VARCHAR" />
@@ -13,20 +13,20 @@
     <result column="remark" property="remark" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    " id", userid, roleid, isvalid, creator, createtime, modifier, modifytime, remark
+    id, userid, roleid, isvalid, creator, createtime, modifier, modifytime, remark
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
     <include refid="Base_Column_List" />
     from tr_system_user_role
-    where " id" = #{id,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from tr_system_user_role
-    where " id" = #{id,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
   </delete>
   <insert id="insert" parameterType="com.tianrui.service.bean.system.auth.SystemUserRole" >
-    insert into tr_system_user_role (" id", userid, roleid, 
+    insert into tr_system_user_role (id, userid, roleid, 
       isvalid, creator, createtime, 
       modifier, modifytime, remark
       )
@@ -39,7 +39,7 @@
     insert into tr_system_user_role
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
-        " id",
+        id,
       </if>
       <if test="userid != null" >
         userid,
@@ -124,7 +124,7 @@
         remark = #{remark,jdbcType=VARCHAR},
       </if>
     </set>
-    where " id" = #{id,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.tianrui.service.bean.system.auth.SystemUserRole" >
     update tr_system_user_role
@@ -136,6 +136,50 @@
       modifier = #{modifier,jdbcType=VARCHAR},
       modifytime = #{modifytime,jdbcType=BIGINT},
       remark = #{remark,jdbcType=VARCHAR}
-    where " id" = #{id,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
   </update>
+  <select id="queryUserByRole" parameterType="com.tianrui.api.req.system.auth.SystemUserQueryReq" resultType="com.tianrui.api.resp.system.auth.SystemUserRoleResp">
+	select t2.id as userid, t2.code as usercode, t2.name as username, t1.remark as userremark
+	from tr_system_user_role t1 LEFT JOIN tr_system_user t2 on t1.userid = t2.id
+	<where>
+		t1.roleid = #{roleid,jdbcType=VARCHAR}
+		<if test="codeLike != null and codeLike != ''" >
+			and code like CONCAT('%', #{codeLike,jdbcType=VARCHAR}, '%')
+		</if>
+		<if test="nameLike != null and nameLike != ''" >
+			and name like CONCAT('%', #{nameLike,jdbcType=VARCHAR}, '%')
+		</if>
+	</where>
+  </select>
+  <select id="queryAllUserByRole" parameterType="com.tianrui.api.req.system.auth.SystemUserQueryReq" resultType="com.tianrui.api.resp.system.auth.SystemUserRoleResp">
+  	SELECT
+		t1.id as userid,
+		t1.`name` as username,
+	
+	IF (
+		t2.id IS NOT NULL
+		AND t3.isvalid = 1,
+		'1',
+		'0'
+	) AS userHasRole
+	FROM
+		tr_system_user t1
+	LEFT JOIN (
+		SELECT
+			id,
+			userid,
+			roleid
+		FROM
+			tr_system_user_role
+		WHERE
+			roleid = #{roleid,jdbcType=VARCHAR}
+	) t2 ON t1.id = t2.userid
+	LEFT JOIN tr_system_role t3 ON t2.roleid = t3.id
+	WHERE
+		t1.isvalid = 1 and t1.identityTypes = 3
+	<if test="key != null and key != ''">
+		and (t1.code like CONCAT('%', #{key,jdbcType=VARCHAR}, '%')
+		or t1.name like CONCAT('%', #{key,jdbcType=VARCHAR}, '%'))
+	</if>
+  </select>
 </mapper>

@@ -552,7 +552,7 @@ public class PurchaseArriveService implements IPurchaseArriveService {
 					bean.setState("1");
 					bean.setSource("0");
 					bean.setMakerid(save.getCurrId());
-					bean.setMakebillname(systemUserService.getUser(save.getCurrId()).getName());
+					bean.setMakebillname(systemUserService.getUser(req.getUserId()).getName());
 					bean.setCreator(save.getCurrId());
 					bean.setCreatetime(System.currentTimeMillis());
 					bean.setModifier(save.getCurrId());

@@ -35,4 +35,11 @@ public interface SystemRoleMapper {
      * @return
      */
     Long countByCondition(SystemRoleQueryReq queryReq );
+    /**
+     * @Description 查询所有角色列表
+     * @author zhanggaohao
+     * @version 2017年5月2日 下午2:31:22
+     * @return
+     */
+	List<SystemRole> queryAllRole();
 }

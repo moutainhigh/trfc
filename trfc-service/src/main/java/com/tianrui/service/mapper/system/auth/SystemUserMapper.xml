@@ -293,7 +293,43 @@
 		select
 		<include refid="Base_Column_List" />
 		from tr_system_user
-		where orgid = #{orgid,jdbcType=VARCHAR}
+		where orgid = #{orgid,jdbcType=VARCHAR} and isvalid = 1
 		order by createtime desc
 	</select>
+	<insert id="insertBatch" parameterType="java.util.List">
+		insert into tr_system_user 
+		(
+			id, 
+			code, 
+			name,
+			account, 
+			password, 
+			identityTypes, 
+			mobilePhone, 
+			orgid,
+			source, 
+			isvalid, 
+			creator, 
+			createtime,
+			utc
+		)
+		values
+		<foreach collection="list" item="item" index="index"
+			separator=",">
+			(#{item.id},
+			#{item.code},
+			#{item.name},
+			#{item.account},
+			#{item.password},
+			#{item.identityTypes},
+			#{item.mobilePhone},
+			#{item.orgid},
+			#{item.source},
+			#{item.isvalid},
+			#{item.creator},
+			#{item.createtime},
+			#{item.utc}
+			)
+		</foreach>
+	</insert>
 </mapper>

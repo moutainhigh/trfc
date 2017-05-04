@@ -211,4 +211,10 @@
       modifytime = #{modifytime,jdbcType=BIGINT}
     where id = #{id,jdbcType=VARCHAR}
   </update>
+  <select id="queryAllRole" resultMap="BaseResultMap">
+ 	select 
+    	<include refid="Base_Column_List" />
+    from tr_system_role 
+    where isvalid = 1
+  </select>
 </mapper>

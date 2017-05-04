@@ -89,6 +89,21 @@ public class SystemRoleAction {
 		}
 		return result;
 	}
-	
+
+	/**
+	 * 获取所有用户列表
+	 */
+	@RequestMapping(value="/queryAllRole",method=RequestMethod.POST)
+	@ResponseBody
+	public Result queryAllRole(){
+		Result result= Result.getErrorResult();
+		try {
+			result = systemRoleService.queryAllRole();
+		} catch (Exception e) {
+			log.error(e.getMessage(),e);
+			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
+		}
+		return result;
+	}
 	
 }
