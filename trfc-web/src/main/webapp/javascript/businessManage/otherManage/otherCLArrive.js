@@ -70,6 +70,12 @@ $(function() {
 		ShowAction(1);
 	});
 	
+	//刷新按钮
+	$('#refresh').click(function() {
+		ShowAction(1);
+	});
+	
+	
 	//绑定列表复制,编辑按钮
 	$('#tbody_list').on('click','tr [title="复制"]',function(event) {
 		event.stopPropagation();

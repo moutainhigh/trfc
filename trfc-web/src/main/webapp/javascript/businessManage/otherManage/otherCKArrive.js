@@ -35,6 +35,10 @@ $(function() {
 	$('#pageSize').change(function() {
 		ShowAction(1);
 	});
+	//刷新按钮
+	$('#refresh').click(function() {
+		ShowAction(1);
+	});
 	
 	// 表格内容每行单击出来下面的详细信息
 	var tabledata = $('#tbody_list');

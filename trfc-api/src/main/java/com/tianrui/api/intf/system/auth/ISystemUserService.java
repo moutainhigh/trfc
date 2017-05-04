@@ -1,5 +1,7 @@
 package com.tianrui.api.intf.system.auth;
 
+import java.util.List;
+
 import com.tianrui.api.req.businessManage.app.AppUserEditReq;
 import com.tianrui.api.req.system.auth.AppUserReq;
 import com.tianrui.api.req.system.auth.SystemUserPswdReq;
@@ -94,7 +96,7 @@ public interface ISystemUserService {
 	 * @return List<SystemUserResp>
 	 * @throws Exception
 	 */
-	Result autoCompleteSearch(SystemUserQueryReq req) throws Exception;
+	List<SystemUserResp> autoCompleteSearch(SystemUserQueryReq req) throws Exception;
 	/**
 	 * @Description 根据id获取用户
 	 * @author zhanggaohao

@@ -36,10 +36,6 @@
                             <i class="iconfont colorblue">&#xe61d;</i>
                             <h5>保存</h5>
                         </li>
-                        <li id="writeCard">
-                            <i class="iconfont colorblue">&#xe601;</i>
-                            <h5>保存写卡</h5>
-                        </li>
                         <li id="goback">
                             <a>
                                 <i class="iconfont colorblue">&#xe61e;</i>

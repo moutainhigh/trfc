@@ -114,7 +114,7 @@ function getDataFromCardHex(index){
 	return (msg == '00000000000000000000000000000000') ? '':msg;
 
 }
-
+//16进制的数据
 //msg:待写入的数据   index:局域块(64块)
 function writeDataToCardHex( msg , index ) {
 	if(!msg || msg.length!=32){
@@ -154,6 +154,7 @@ function writeObjToCard(obj) {
 	writeDataToCard(obj.warehousename,34);
 	writeDataToCard(obj.spraycode,52);
 }
+//获取卡中数据,返回对象
 function readObjFromCard() {
 	//业务类型
 	var BT = {

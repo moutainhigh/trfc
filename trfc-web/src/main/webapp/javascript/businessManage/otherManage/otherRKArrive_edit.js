@@ -29,7 +29,7 @@ $(function() {
 		saveVehicleData();
 	});
 	$('#driver_sure').click(function() {
-		saveDriverData();$('#driver_cancel').click();
+		saveDriverData();
 	});
 
 	$('#saveBtn').click(function() {
@@ -326,6 +326,10 @@ $(function() {
 		}
 		$.post(URL.addDriver,params,function(result) {
 			if(result.code=='000000'){
+				layer.msg(result.error, {icon: 1});
+				var driver = result.data;
+				$('#add_driver').val(driver.name).attr('driverid',driver.id);
+				$('#add_identityno').val(driver.identityno);
 				$('#driver_cancel').click();
 			}else{
 				layer.msg(result.error,{icon:5});
@@ -364,6 +368,9 @@ $(function() {
 		}
 		$.post(URL.addVehicle,params,function(result) {
 			if(result.code == '000000'){
+				layer.msg(result.error, {icon: 1});
+				var vehicle = result.data;
+				$('#add_vehicle').val(vehicle.vehicleno).attr('vehicleid',vehicle.id);
 				$('#vehicle_cancel').click();
 			}else{
 				layer.msg(result.error,{icon:5});

@@ -60,6 +60,7 @@ public class DriverManageService implements IDriverManageService {
 		Result result = Result.getParamErrorResult();
 		if(save != null){
 			DriverManage driver = new DriverManage();
+			if(StringUtils.isNotBlank(save.getIdentityno()) && save.getIdentityno().length()==18){
 			driver.setIdentityno(save.getIdentityno());
 			driver.setState("1");
 			List<DriverManage> list = driverManageMapper.selectSelective(driver);
@@ -90,6 +91,9 @@ public class DriverManageService implements IDriverManageService {
 				}
 			}else{
 				result.setErrorCode(ErrorCode.PARAM_REPEAT_ERROR);
+			}
+			}else{
+				result.setError("身份证号码必须为18位!");
 			}
 		}
 		return result;

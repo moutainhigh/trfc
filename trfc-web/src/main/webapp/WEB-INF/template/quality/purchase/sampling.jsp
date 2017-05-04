@@ -169,7 +169,7 @@
 							<span aria-hidden="true">&times;</span>
 						</button>
 						<div class="alt_head">
-							<h5>物料方案新增</h5>
+							<h5>采购采样管理新增</h5>
 						</div>
 					</div>
 					<div class="modal-body">
@@ -269,7 +269,7 @@
 							<span aria-hidden="true">&times;</span>
 						</button>
 						<div class="alt_head">
-							<h5>物料方案编辑</h5>
+							<h5>采购采样管理编辑</h5>
 						</div>
 					</div>
 					<div class="modal-body">
@@ -364,7 +364,7 @@
 							<span aria-hidden="true">&times;</span>
 						</button>
 						<div class="alt_head">
-							<h5>物料方案详情</h5>
+							<h5>采购采样管理详情</h5>
 						</div>
 					</div>
 					<div class="modal-body">

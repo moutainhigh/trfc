@@ -1,5 +1,8 @@
 package com.tianrui.web.action.system.auth;
 
+
+import java.util.List;
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
@@ -14,6 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.tianrui.api.intf.system.auth.ISystemUserService;
 import com.tianrui.api.req.system.auth.SystemUserQueryReq;
 import com.tianrui.api.req.system.auth.SystemUserSaveReq;
+import com.tianrui.api.resp.system.auth.SystemUserResp;
 import com.tianrui.smartfactory.common.constants.Constant;
 import com.tianrui.smartfactory.common.vo.Result;
 import com.tianrui.web.util.CurrUserUtils;
@@ -94,7 +98,9 @@ public class SystemUserAction {
 	public Result autoCompleteSearch(SystemUserQueryReq req){
 		Result rs= Result.getErrorResult();
 		try {
-			rs = systemUserService.autoCompleteSearch(req);
+			List<SystemUserResp> list = systemUserService.autoCompleteSearch(req);
+			rs = Result.getSuccessResult();
+			rs.setData(list);
 		} catch (Exception e) {
 			log.error(e.getMessage(),e);
 		}

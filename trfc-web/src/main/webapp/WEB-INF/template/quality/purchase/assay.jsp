@@ -3,7 +3,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>采购采样管理</title>
+<title>采购化验管理</title>
 <jsp:include page="../../common/base/header_busi.jsp"></jsp:include>
 </head>
 <body>
@@ -174,7 +174,7 @@
 							<span aria-hidden="true">&times;</span>
 						</button>
 						<div class="alt_head">
-							<h5>物料方案新增</h5>
+							<h5>采购化验管理新增</h5>
 						</div>
 					</div>
 					<div class="modal-body">
@@ -347,7 +347,7 @@
 		<!--详情begin-->
 		<div class="modal fade" id="detail" tabindex="-1" role="dialog"
 			aria-labelledby="myModalLabel">
-			<div class="modal-dialog" role="document" style="width: 750px;">
+			<div class="modal-dialog" role="document" style="width: 1000px;">
 				<div class="modal-content">
 					<div class="modal-header">
 						<button type="button" class="close" data-dismiss="modal"

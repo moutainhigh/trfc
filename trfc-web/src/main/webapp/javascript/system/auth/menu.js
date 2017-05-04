@@ -35,24 +35,32 @@
 		    $("#edit_iconid").text(icon.text()).attr("img_type",icon.attr('icon_id'));
 		});
 		
+		//图标
 		$("#iconid").dblclick(function() {
 	    	$("#iconid").text(""),removeAttr("img_type");
 	    });
 		$("#edit_iconid").dblclick(function(){
 	    	$("#edit_iconid").text(""),removeAttr("img_type");
 	    });
+		
+		//刷新
 		$('#refreshBtn').off('click').on('click',function(){
 			queryData(1);
 		});
+		
+		//新增
 		$('#initAdd').off('click').on('click',function(){
 			initAddMenu();
 		});
+		//保存
 		$('#ensureAdd').off('click').on('click',function(){
 			if($('#add').is(':visible')){
 				this.disabled = true;
 				addMenuAction(this);
 			}
 		});
+		
+		
 		$('#menus').on('click','tr .update',function(){
 			var menu=$(this).closest('tr').data();
 			$('#update_name').val(menu.name);
@@ -94,12 +102,16 @@
 			$('#update_grouping').val(menu.grouping);
 			menuData.id=menu.id;
 		});
+		
+		//编辑
 		$('#ensureEdit').off('click').on('click',function(){
 			if($('#edit').is(':visible')){
 				this.disabled = true;
 				updateMenuAction(this);
 			}
 		});
+		
+		//复制
 		$('#menus').on('click','tr .copy',function(){
 			var menu=$(this).closest('tr').data();
 			$('#name').val(menu.name);
@@ -156,6 +168,8 @@
 		    });
 		});
 	}
+	
+	//获取树结构数据
 	function getTreeData(){
 		$.post(URL.getTreeDataUrl,{},function(result){
 			if(result.code=='000000'){
@@ -164,6 +178,7 @@
 		});
 	}
 	
+	//树形表结构
 	function queryData(pageNo){
 		var index = layer.load(2, {
 			shade: [0.3,'#fff'] //0.1透明度的白色背景
@@ -325,6 +340,7 @@
 		}
 	}
 	
+	//检测
 	function validate(params){
 		if(!params.name){
 			layer.msg('模块名称不能为空！',{icon:5});
@@ -404,6 +420,7 @@
 		}
 	}
 	
+	//删除
 	function deleteMenu(){
 		var url=URL.deleteUrl;
 		var param={id:menuData.id};

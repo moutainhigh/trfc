@@ -266,7 +266,7 @@ $(function(){
 	function fillData(input){
 		//当下拉框的值为不为空时
 		var tr =  $(input).closest('tr');
-		console.log(input);
+		//console.log(input);
 		//添加一个属性,以便获取数据
 		var inputs = tr.attr("statu",true).find("input");
 

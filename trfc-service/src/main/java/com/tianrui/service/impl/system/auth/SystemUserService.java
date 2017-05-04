@@ -361,8 +361,7 @@ public class SystemUserService implements ISystemUserService {
 	}
 
 	@Override
-	public Result autoCompleteSearch(SystemUserQueryReq req) throws Exception {
-		Result rs = Result.getSuccessResult();
+	public List<SystemUserResp> autoCompleteSearch(SystemUserQueryReq req) throws Exception {
 		List<SystemUserResp> resps = new ArrayList<SystemUserResp>();
 		List<SystemUser> list = userMapper.autoCompleteSearch(req);
 		for(SystemUser su : list) {
@@ -370,8 +369,7 @@ public class SystemUserService implements ISystemUserService {
 			PropertyUtils.copyProperties(resp,su);
 			resps.add(resp);
 		}
-		rs.setData(resps);
-		return rs;
+		return resps;
 	}
 
 	@Override

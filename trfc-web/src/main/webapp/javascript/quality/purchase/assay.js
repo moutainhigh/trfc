@@ -278,12 +278,12 @@ $(function(){
 					for(var i=0;i<list.length;i++){
 						if(obj && list[i].line){
 							var div = '<div class="alt_edit_div">'
-								+'<label>'+(list[i].itemname || 0)+'：</label>'
+								+'<label style="width: 150px;">'+(list[i].itemname || 0)+'：</label>'
 								+' <input type="text" value="'+obj[(list[i].line.toLowerCase())]+'">'
 								+' </div>';
 						}else{
 							var div = '<div class="alt_edit_div">'
-								+'<label>'+(list[i].itemname || '')+'：</label>'
+								+'<label style="width: 100px;">'+(list[i].itemname || '')+'：</label>'
 								+' <input type="text" value="0">'
 								+' </div>';
 						}

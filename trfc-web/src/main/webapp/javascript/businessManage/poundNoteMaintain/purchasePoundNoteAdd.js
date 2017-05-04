@@ -37,8 +37,8 @@
 	    			return;
 	    		}
 	    		$.post( URL.systemUserAutoCompleteSearch, {nameLike: $.trim(term)}, function( data, status, xhr ) {
-	    			systemUser[ term ] = data.data;
-	    			response( data.data );
+	    			systemUser[ term ] = data;
+	    			response( data );
 	    		});
 	    	},
 	    	response: function( event, ui ) {
