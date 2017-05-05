@@ -30,7 +30,7 @@ public class QualitySchemeAction {
 	private IQualitySchemeItemService qualitySchemeItemService;
 	@Resource
 	private IQualityItemService qualityItemService;
-	
+
 	//显示页面
 	@RequestMapping("/main")
 	public ModelAndView show(){
@@ -38,23 +38,23 @@ public class QualitySchemeAction {
 		return view;
 	}
 	//显示页面
-		@RequestMapping("/item")
-		public ModelAndView item(){
-			ModelAndView view = new ModelAndView("quality/file/qualityScheme_item");
-			return view;
-		}
-		//显示页面
-		@RequestMapping("/standard")
-		public ModelAndView standard(){
-			ModelAndView view = new ModelAndView("quality/file/qualityScheme_standard");
-			return view;
-		}
-		//显示页面
-				@RequestMapping("/addBatchMain")
-				public ModelAndView addBatchMain(){
-					ModelAndView view = new ModelAndView("quality/file/qualityScheme_item_addBatch");
-					return view;
-				}
+	@RequestMapping("/item")
+	public ModelAndView item(){
+		ModelAndView view = new ModelAndView("quality/file/qualityScheme_item");
+		return view;
+	}
+	//显示页面
+	@RequestMapping("/standard")
+	public ModelAndView standard(){
+		ModelAndView view = new ModelAndView("quality/file/qualityScheme_standard");
+		return view;
+	}
+	//显示页面
+	@RequestMapping("/addBatchMain")
+	public ModelAndView addBatchMain(){
+		ModelAndView view = new ModelAndView("quality/file/qualityScheme_item_addBatch");
+		return view;
+	}
 	/**
 	 * 获取分页数据
 	 */
@@ -64,7 +64,7 @@ public class QualitySchemeAction {
 		Result rs = Result.getErrorResult();
 		try {
 			rs = qualitySchemeService.page(req);
-			
+
 		} catch (Exception e) {
 			log.error(e.getMessage(),e);
 			rs.setErrorCode(ErrorCode.SYSTEM_ERROR);
@@ -118,21 +118,6 @@ public class QualitySchemeAction {
 		return rs;
 	}
 	/**
-	 * 获取下拉框数据
-	 */
-	@ResponseBody
-	@RequestMapping("/selector")
-	public Result materialData(){
-		Result rs = Result.getErrorResult();
-		try {
-			rs = materielManageService.materialData();
-		} catch (Exception e) {
-			log.error(e.getMessage(),e);
-			rs.setErrorCode(ErrorCode.SYSTEM_ERROR);
-		}
-		return rs;
-	}
-	/**
 	 * 获取单据类型下拉框数据
 	 */
 	@ResponseBody
@@ -157,7 +142,7 @@ public class QualitySchemeAction {
 		Result rs = Result.getErrorResult();
 		try {
 			rs = qualitySchemeItemService.findBySchemeId(req);
-			
+
 		} catch (Exception e) {
 			log.error(e.getMessage(),e);
 			rs.setErrorCode(ErrorCode.SYSTEM_ERROR);
@@ -180,7 +165,7 @@ public class QualitySchemeAction {
 		return rs;
 	}
 	/**
-	 * 删除数据
+	 * 删除子数据
 	 */
 	@ResponseBody
 	@RequestMapping("/deleteBatchItem")
@@ -210,8 +195,8 @@ public class QualitySchemeAction {
 		return rs;
 	}
 	/**
- 	* 批量新增数据
- 	*/
+	 * 批量新增数据
+	 */
 	@ResponseBody
 	@RequestMapping("/addBatchItem")
 	public Result addBatchItem(QualitySchemeItemReq req){

@@ -32,10 +32,6 @@ public interface ISalesBatchnumService {
 	 */
 	Result checkFactoryCode(SalesBatchnumReq req) throws Exception;
 	/**
-	 * 获取化验人下拉框数据
-	 */
-	Result assayerData() throws Exception;
-	/**
 	 * @Description 根据名称模糊查询
 	 * @author zhanggaohao
 	 * @version 2017年2月24日 上午10:25:41
@@ -44,5 +40,9 @@ public interface ISalesBatchnumService {
 	 * @throws Exception 
 	 */
 	Result autoCompleteSearch(String likeName) throws Exception;
+	/**
+	 * 获取化验人下拉框数据
+	 */
+	Result assayerData() throws Exception;
 
 	}

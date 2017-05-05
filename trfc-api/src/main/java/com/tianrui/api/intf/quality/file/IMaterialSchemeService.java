@@ -29,7 +29,7 @@ public interface IMaterialSchemeService {
 	Result checkMaterialType(MaterialSchemeReq req) throws Exception;
 	/**
 	 * @Description 根据名称模糊查询
-	 * @author zhanggaohao
+	 * @author lxy
 	 * @version 2017年2月24日 上午10:25:41
 	 * @param likeName
 	 * @return

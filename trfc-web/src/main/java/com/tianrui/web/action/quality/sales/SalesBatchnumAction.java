@@ -110,21 +110,7 @@ public class SalesBatchnumAction {
 		}
 		return rs;
 	}
-	/**
-	 * 新增页面预加载数据
-	 */
-	@ResponseBody
-	@RequestMapping("/selector")
-	public Result materialData(){
-		Result rs = Result.getErrorResult();
-		try {
-			rs = materielManageService.materialData();
-		} catch (Exception e) {
-			log.error(e.getMessage(),e);
-			rs.setErrorCode(ErrorCode.SYSTEM_ERROR);
-		}
-		return rs;
-	}
+
 	/**
 	 * 获取化验人下拉框数据
 	 */

@@ -51,10 +51,10 @@ public interface IMaterielManageService {
 	Result findMaxUtc(MaterielManageQuery query) throws Exception;
 	
 	Result updateDataWithDC(List<JSONObject> list )throws Exception;
-	/**
-	 * 获取物料数据(selector)
-	 */
-	Result materialData() throws Exception;
+//	/**
+//	 * 获取物料数据(selector)
+//	 */
+//	Result materialData() throws Exception;
 	/**
 	 * @Description 根据名称模糊查询
 	 * @author zhanggaohao

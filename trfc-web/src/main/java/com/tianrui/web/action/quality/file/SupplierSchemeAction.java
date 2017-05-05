@@ -114,21 +114,6 @@ public class SupplierSchemeAction {
 		return rs;
 	}
 	/**
-	 * 获取物料数据
-	 */
-	@ResponseBody
-	@RequestMapping("/getMaterialData")
-	public Result getMaterialData(SupplierSchemeReq req){
-		Result rs = Result.getErrorResult();
-		try {
-			rs = materielManageService.materialData();
-		} catch (Exception e) {
-			log.error(e.getMessage(),e);
-			rs.setErrorCode(ErrorCode.SYSTEM_ERROR);
-		}
-		return rs;
-	}
-	/**
 	 * 获取供应商数据
 	 */
 	@ResponseBody
