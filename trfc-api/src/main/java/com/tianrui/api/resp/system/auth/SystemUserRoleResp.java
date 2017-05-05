@@ -5,6 +5,8 @@ import com.tianrui.api.resp.BaseResp;
 public class SystemUserRoleResp extends BaseResp {
 
 	private static final long serialVersionUID = -8430470030272964889L;
+	//关系表主键id
+	private String id;
 	//用户id
 	private String userid;
 	//用户名称
@@ -13,9 +15,10 @@ public class SystemUserRoleResp extends BaseResp {
 	private String usercode;
 	//用户备注
 	private String userremark;
-	//用戶是否已經綁定改角色 0:未绑定，1：已绑定
-	private String userHasRole;
 	
+	public String getId() {
+		return id;
+	}
 	public String getUserid() {
 		return userid;
 	}
@@ -28,6 +31,9 @@ public class SystemUserRoleResp extends BaseResp {
 	public String getUserremark() {
 		return userremark;
 	}
+	public void setId(String id) {
+		this.id = id;
+	}
 	public void setUserid(String userid) {
 		this.userid = userid;
 	}
@@ -39,12 +45,6 @@ public class SystemUserRoleResp extends BaseResp {
 	}
 	public void setUserremark(String userremark) {
 		this.userremark = userremark;
-	}
-	public String getUserHasRole() {
-		return userHasRole;
-	}
-	public void setUserHasRole(String userHasRole) {
-		this.userHasRole = userHasRole;
 	}
 	
 }

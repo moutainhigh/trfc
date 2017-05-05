@@ -26,4 +26,8 @@ public interface SystemUserRoleMapper {
 	List<SystemUserRoleResp> queryUserByRole(SystemUserQueryReq req);
 	
 	List<SystemUserRoleResp> queryAllUserByRole(SystemUserQueryReq req);
+	
+	int insertBatch(List<SystemUserRole> list);
+	
+	int deleteUserToRole(List<String> list);
 }

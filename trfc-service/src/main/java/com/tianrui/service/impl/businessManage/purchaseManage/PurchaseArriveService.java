@@ -545,17 +545,18 @@ public class PurchaseArriveService implements IPurchaseArriveService {
 					GetCodeReq codeReq = new GetCodeReq();
 					codeReq.setCode("DH");
 					codeReq.setCodeType(true);
-					codeReq.setUserid(save.getCurrId());
+					codeReq.setUserid(req.getUserId());
 					bean.setCode(systemCodeService.getCode(codeReq).getData().toString());
 					bean.setAuditstatus("0");
 					bean.setStatus("0");
 					bean.setState("1");
-					bean.setSource("0");
-					bean.setMakerid(save.getCurrId());
+					bean.setSource("2");
+					bean.setMakerid(req.getUserId());
 					bean.setMakebillname(systemUserService.getUser(req.getUserId()).getName());
-					bean.setCreator(save.getCurrId());
+					bean.setMakebilltime(System.currentTimeMillis());
+					bean.setCreator(req.getUserId());
 					bean.setCreatetime(System.currentTimeMillis());
-					bean.setModifier(save.getCurrId());
+					bean.setModifier(req.getUserId());
 					bean.setModifytime(System.currentTimeMillis());
 					if(purchaseArriveMapper.insertSelective(bean) > 0 
 							&& StringUtils.equals(systemCodeService.updateCodeItem(codeReq).getCode(), ErrorCode.SYSTEM_SUCCESS.getCode())){

@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.tianrui.service.mapper.system.auth.SystemUserRoleMapper" >
-  <resultMap id="BaseResultMap" type="com.tianrui.service.bean.system.auth.SystemUserRole" >
+<mapper namespace="com.tianrui.service.mapper.system.auth.SystemRoleMenuMapper" >
+  <resultMap id="BaseResultMap" type="com.tianrui.service.bean.system.auth.SystemRoleMenu" >
     <id column="id" property="id" jdbcType="VARCHAR" />
-    <result column="userid" property="userid" jdbcType="VARCHAR" />
     <result column="roleid" property="roleid" jdbcType="VARCHAR" />
+    <result column="menuid" property="menuid" jdbcType="VARCHAR" />
     <result column="isvalid" property="isvalid" jdbcType="VARCHAR" />
     <result column="creator" property="creator" jdbcType="VARCHAR" />
     <result column="createtime" property="createtime" jdbcType="BIGINT" />
@@ -13,39 +13,39 @@
     <result column="remark" property="remark" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, userid, roleid, isvalid, creator, createtime, modifier, modifytime, remark
+    id, roleid, menuid, isvalid, creator, createtime, modifier, modifytime, remark
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
     <include refid="Base_Column_List" />
-    from tr_system_user_role
+    from tr_system_role_menu
     where id = #{id,jdbcType=VARCHAR}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
-    delete from tr_system_user_role
+    delete from tr_system_role_menu
     where id = #{id,jdbcType=VARCHAR}
   </delete>
-  <insert id="insert" parameterType="com.tianrui.service.bean.system.auth.SystemUserRole" >
-    insert into tr_system_user_role (id, userid, roleid, 
+  <insert id="insert" parameterType="com.tianrui.service.bean.system.auth.SystemRoleMenu" >
+    insert into tr_system_role_menu (id, roleid, menuid, 
       isvalid, creator, createtime, 
       modifier, modifytime, remark
       )
-    values (#{id,jdbcType=VARCHAR}, #{userid,jdbcType=VARCHAR}, #{roleid,jdbcType=VARCHAR}, 
+    values (#{id,jdbcType=VARCHAR}, #{roleid,jdbcType=VARCHAR}, #{menuid,jdbcType=VARCHAR}, 
       #{isvalid,jdbcType=VARCHAR}, #{creator,jdbcType=VARCHAR}, #{createtime,jdbcType=BIGINT}, 
       #{modifier,jdbcType=VARCHAR}, #{modifytime,jdbcType=BIGINT}, #{remark,jdbcType=VARCHAR}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.tianrui.service.bean.system.auth.SystemUserRole" >
-    insert into tr_system_user_role
+  <insert id="insertSelective" parameterType="com.tianrui.service.bean.system.auth.SystemRoleMenu" >
+    insert into tr_system_role_menu
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         id,
       </if>
-      <if test="userid != null" >
-        userid,
-      </if>
       <if test="roleid != null" >
         roleid,
+      </if>
+      <if test="menuid != null" >
+        menuid,
       </if>
       <if test="isvalid != null" >
         isvalid,
@@ -70,11 +70,11 @@
       <if test="id != null" >
         #{id,jdbcType=VARCHAR},
       </if>
-      <if test="userid != null" >
-        #{userid,jdbcType=VARCHAR},
-      </if>
       <if test="roleid != null" >
         #{roleid,jdbcType=VARCHAR},
+      </if>
+      <if test="menuid != null" >
+        #{menuid,jdbcType=VARCHAR},
       </if>
       <if test="isvalid != null" >
         #{isvalid,jdbcType=VARCHAR},
@@ -96,14 +96,14 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.tianrui.service.bean.system.auth.SystemUserRole" >
-    update tr_system_user_role
+  <update id="updateByPrimaryKeySelective" parameterType="com.tianrui.service.bean.system.auth.SystemRoleMenu" >
+    update tr_system_role_menu
     <set >
-      <if test="userid != null" >
-        userid = #{userid,jdbcType=VARCHAR},
-      </if>
       <if test="roleid != null" >
         roleid = #{roleid,jdbcType=VARCHAR},
+      </if>
+      <if test="menuid != null" >
+        menuid = #{menuid,jdbcType=VARCHAR},
       </if>
       <if test="isvalid != null" >
         isvalid = #{isvalid,jdbcType=VARCHAR},
@@ -126,10 +126,10 @@
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.tianrui.service.bean.system.auth.SystemUserRole" >
-    update tr_system_user_role
-    set userid = #{userid,jdbcType=VARCHAR},
-      roleid = #{roleid,jdbcType=VARCHAR},
+  <update id="updateByPrimaryKey" parameterType="com.tianrui.service.bean.system.auth.SystemRoleMenu" >
+    update tr_system_role_menu
+    set roleid = #{roleid,jdbcType=VARCHAR},
+      menuid = #{menuid,jdbcType=VARCHAR},
       isvalid = #{isvalid,jdbcType=VARCHAR},
       creator = #{creator,jdbcType=VARCHAR},
       createtime = #{createtime,jdbcType=BIGINT},
@@ -138,69 +138,18 @@
       remark = #{remark,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
-  <select id="queryUserByRole" parameterType="com.tianrui.api.req.system.auth.SystemUserQueryReq" resultType="com.tianrui.api.resp.system.auth.SystemUserRoleResp">
-	select t1.id as id, t2.id as userid, t2.code as usercode, t2.name as username, t1.remark as userremark
-	from tr_system_user_role t1 LEFT JOIN tr_system_user t2 on t1.userid = t2.id
-	<where>
-		t1.isvalid = 1 and t1.roleid = #{roleid,jdbcType=VARCHAR}
-		<if test="codeLike != null and codeLike != ''" >
-			and code like CONCAT('%', #{codeLike,jdbcType=VARCHAR}, '%')
-		</if>
-		<if test="nameLike != null and nameLike != ''" >
-			and name like CONCAT('%', #{nameLike,jdbcType=VARCHAR}, '%')
-		</if>
-	</where>
-	order by t1.createtime desc
+  <select id="queryMenuByRole" parameterType="com.tianrui.api.req.system.auth.SystemUserQueryReq" resultType="com.tianrui.api.resp.system.auth.SystemRoleMenuResp">
+  	select t1.id as menuid, t1.name as menuname, t1.code as menucode, t1.order_by as orderBy, t1.info as info, IF (t2.id IS NOT NULL, '1', '0') AS roleHasMenu, t2.roleid
+	from tr_system_menu t1
+	left join (SELECT
+				id,
+				menuid,
+				roleid
+			FROM
+				tr_system_role_menu
+			WHERE
+				isvalid = '1' and roleid = #{roleid,jdbcType=VARCHAR}
+		) t2  on t1.id = t2.menuid
+	where t1.isvalid = '1'
   </select>
-  <select id="queryAllUserByRole" parameterType="com.tianrui.api.req.system.auth.SystemUserQueryReq" resultType="com.tianrui.api.resp.system.auth.SystemUserRoleResp">
-  	SELECT
-		t.id as userid,
-		t.name as username
-	FROM
-		tr_system_user t
-	WHERE
-		NOT EXISTS(select id from tr_system_user_role where userid = t.id and isvalid = 1 and roleid = #{roleid,jdbcType=VARCHAR})
-		and t.isvalid = 1 and t.identityTypes = 3
-	<if test="key != null and key != ''">
-		and (t.code like CONCAT('%', #{key,jdbcType=VARCHAR}, '%')
-		or t.name like CONCAT('%', #{key,jdbcType=VARCHAR}, '%'))
-	</if>
-	order by t.createtime desc
-  </select>
-	<insert id="insertBatch" parameterType="java.util.List">
-		insert into tr_system_user_role 
-		(
-			id, 
-			userid, 
-			roleid, 
-			isvalid, 
-			creator, 
-			createtime, 
-			modifier, 
-			modifytime, 
-			remark
-		)
-		values
-		<foreach collection="list" item="item" index="index"
-			separator=",">
-		(
-			#{item.id},
-			#{item.userid},
-			#{item.roleid},
-			#{item.isvalid},
-			#{item.creator},
-			#{item.createtime},
-			#{item.modifier},
-			#{item.modifytime},
-			#{item.remark}
-		)
-		</foreach>
-	</insert>
-	<update id="deleteUserToRole" parameterType="java.util.List" >
-	    update tr_system_user_role set isvalid = '0' 
-	    where id in
-	    <foreach collection="list" index="index" item="item" open="(" separator="," close=")">
-	        #{item}
-	    </foreach>
-	</update>
 </mapper>

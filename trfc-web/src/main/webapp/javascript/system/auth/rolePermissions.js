@@ -3,7 +3,9 @@
 			queryAllRole: '/trfc/system/auth/role/queryAllRole',
 			queryUserByRole: '/trfc/system/auth/rolePermissions/queryUserByRole',
 			queryAllUserByRole: '/trfc/system/auth/rolePermissions/queryAllUserByRole',
-			addUserToRole: '/trfc/system/auth/rolePermissions/addUserToRole'
+			addUserToRole: '/trfc/system/auth/rolePermissions/addUserToRole',
+			deleteUserToRole: '/trfc/system/auth/rolePermissions/deleteUserToRole',
+			queryMenuByRole: '/trfc/system/auth/rolePermissions/queryMenuByRole'
 	}
 	
 	init();
@@ -44,15 +46,20 @@
 			var user = $(this).data() || {};
 			$('.juese_title').html('角色授权 - ' + user.name);
 			//异步加载右侧内容
-			loadRightBody(user);
+			loadRightBody();
 		});
 		$('#roleList li:eq(0)').trigger('click');
 	}
 	
 	//异步加载右侧内容
-	function loadRightBody(id){
-		clearQueryParams();
-		queryData();
+	function loadRightBody(){
+		if($('.juese_tab ul li:eq(0)').hasClass('select')){
+			clearQueryParams();
+			queryData();
+		}
+		if($('.juese_tab ul li:eq(1)').hasClass('select')){
+			
+		}
 	}
 	
 	//clear查询条件
@@ -129,7 +136,7 @@
 			queryUserToRole();
 		});
 		$('#deleteUserToRole').off('click').on('click', function(){
-			
+			deleteUserToRole();
 		});
 		$('#searchUser').off('click').on('click', function(){
 			queryData();
@@ -142,6 +149,13 @@
 				this.disabled = true;
 				addUserToRole(this);
 			}
+		});
+		$('.juese_tab ul li:eq(0)').click(function() {
+			clearQueryParams();
+			queryData();
+		});
+		$('.juese_tab ul li:eq(1)').click(function() {
+			
 		});
 	}
 	
@@ -160,7 +174,6 @@
 			type:'post',
 			success:function(result){
 				if(result.code == '000000'){
-					console.info(result.data);
 					loadUserToRole(result.data)
 				}else{
 					layer.msg(result.error, {icon: 5});
@@ -174,46 +187,47 @@
 		if(data && data.length > 0){
 			for(var i=0;i<data.length;i++){
 				var obj = data[i] || {};
-				$('<li '+(obj.userHasRole == '1' ? 'class="select"' : '')+'><i class="iconfont">&#xe620;</i>'+(obj.username)+'</li>').data(obj).appendTo('.juese_altuser_list ul');
+				$('<li><i class="iconfont">&#xe620;</i>'+(obj.username)+'</li>').data(obj).appendTo('.juese_altuser_list ul');
 			}
 		}
+		toggle_select();
 //		角色权限、用户工作平台权限每项点击的选中取消效果
-		function toggle_select(options){
-			options.on("click", function () {
+		function toggle_select(){
+			$('.jsqx_select .juese_altuser_list ul li').on("click", function () {
 				$(this).toggleClass("select");
-				if($(this).hasClass('select')){
-					
-				}else{
-					
-				}
 			});
 		}
-		var juese_altuser_list = $('.jsqx_select .juese_altuser_list ul li');
-		toggle_select(juese_altuser_list);
-
 //		角色模块权限全选取消效果
-		var sys_selectall = $('.juese_altuser .qx_seltall');
-		var sys_cancelall = $('.juese_altuser .qx_cancelall');
-		var sys_selectinp = $('.juese_altuser .qx_seltall input');
-		var sys_cancelinp = $('.juese_altuser .qx_cancelall input');
-
-		sys_selectinp.on("click", function () {
-			$(juese_altuser_list).addClass("select");
-			$(sys_selectall).hide();
-			$(sys_cancelall).show();
+		$('.juese_altuser .qx_seltall input').on("click", function () {
+			$('.jsqx_select .juese_altuser_list ul li').addClass("select");
+			$('.juese_altuser .qx_seltall').hide();
+			$('.juese_altuser .qx_cancelall').show();
 		});
-		sys_cancelinp.on("click", function () {
-			$(juese_altuser_list).removeClass("select");
-			$(sys_selectall).show();
-			$(sys_cancelall).hide();
+		$('.juese_altuser .qx_cancelall input').on("click", function () {
+			$('.jsqx_select .juese_altuser_list ul li').removeClass("select");
+			$('.juese_altuser .qx_seltall').show();
+			$('.juese_altuser .qx_cancelall').hide();
 		});
 		$('#addUserView').modal('show');
+	}
+	
+	function getUserIdParams(){
+		var ids = [];
+		$('.juese_altuser_list ul li.select').each(function(){
+			var data = $(this).data();
+			ids.push(data.userid);
+		});
+		var role = $('#roleList li.active').data() || {};
+		return {
+			userIdJson: JSON.stringify(ids),
+			roleId: role.id
+		}
 	}
 	
 	function addUserToRole(_this){
 		$.ajax({
 			url:URL.addUserToRole,
-			data:{},
+			data:getUserIdParams(),
 			async:true,
 			cache:false,
 			dataType:'json',
@@ -230,7 +244,57 @@
 		});
 	}
 	
+	function getDeleteParams(){
+		var ids = [];
+		$('#userBody>tr').find('td:eq(1) input:checked').each(function(){
+			var data = $(this).closest('tr').data();
+			ids.push(data.id);
+		});
+		if(ids.length == 0){
+			layer.msg('请选择要删除的用户！', {icon: 5}); return false;
+		}
+		return {
+			userRoleIdJson: JSON.stringify(ids)
+		}
+	}
 	
+	function deleteUserToRole(){
+		var params = getDeleteParams();
+		if(params){
+			var bn = layer.open({
+				content: '注：删除操作不可恢复，您确定要继续么？',
+				area: '600px',
+				closeBtn:1,
+				shadeClose:true,
+				btn: ['确定', '取消'],
+				yes: function(index, layero){
+					$.ajax({
+						url:URL.deleteUserToRole,
+						data:params,
+						async:true,
+						cache:false,
+						dataType:'json',
+						type:'post',
+						success:function(result){
+							if(result.code == '000000'){
+								$('#addUserView').modal('hide');
+								$('#roleList li.active').trigger('click');
+							}else{
+								layer.msg(result.error, {icon: 5});
+							}
+						}
+					});
+					layer.close(bn);
+				},
+				btn2: function(index, layero){
+					//按钮【取消】的回调
+				},
+				cancel: function(){
+					//右上角关闭回调
+				}
+			});
+		}
+	}
 	
 	
 	

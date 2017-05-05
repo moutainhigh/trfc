@@ -21,9 +21,11 @@ import com.tianrui.api.req.basicFile.measure.VehicleManageApi;
 import com.tianrui.api.resp.basicFile.measure.VehicleManageResp;
 import com.tianrui.api.resp.businessManage.app.AppVehicleResp;
 import com.tianrui.service.bean.basicFile.measure.VehicleManage;
+import com.tianrui.service.bean.businessManage.purchaseManage.PurchaseArrive;
 import com.tianrui.service.bean.businessManage.salesManage.SalesArrive;
 import com.tianrui.service.bean.common.RFID;
 import com.tianrui.service.mapper.basicFile.measure.VehicleManageMapper;
+import com.tianrui.service.mapper.businessManage.purchaseManage.PurchaseArriveMapper;
 import com.tianrui.service.mapper.businessManage.salesManage.SalesArriveMapper;
 import com.tianrui.service.mapper.common.RFIDMapper;
 import com.tianrui.smartfactory.common.constants.ErrorCode;
@@ -43,16 +45,14 @@ public class VehicleManageService implements IVehicleManageService {
 
 	@Autowired
 	private VehicleManageMapper vehicleManageMapper;
-
 	@Autowired
 	private IBlacklistManageService blacklistManageService;
-
 	@Autowired
 	private RFIDMapper rfidMapper;
-	
 	@Autowired
-	SalesArriveMapper salesArriveMapper;
-	
+	private SalesArriveMapper salesArriveMapper;
+	@Autowired
+	private PurchaseArriveMapper purchaseArriveMapper;
 	@Autowired
 	private ISystemCodeService systemCodeService;
 
@@ -328,29 +328,51 @@ public class VehicleManageService implements IVehicleManageService {
 				//判断RFID是否已注册且唯一
 				if(count == 1){
 					if(StringUtils.equals(vehicleManageApi.getRfid(), list.get(0).getRfid())){
-						SalesArrive sa = new SalesArrive();
-						sa.setState("1");
-						sa.setVehicleid(list.get(0).getId());
-						List<SalesArrive> listSales = salesArriveMapper.selectSelective(sa);
-						if(listSales == null || listSales.size() == 0){
-							//判断是否有通知单
-							result.setErrorCode(ErrorCode.VEHICLE_NOT_NOTICE);
-						}else if(listSales.size() > 1){
-							//判断是否有多个通知单
-							result.setErrorCode(ErrorCode.VEHICLE_NOTICE_NOT_ONLY);
-							String code = ",";
-							for(SalesArrive s : listSales){
-								code += s.getCode();
-							}
-							result.setData(code.substring(1, code.length()));
-						}else if(!StringUtils.equals(listSales.get(0).getStatus(), "0")){
-							//判断是否已经入场
-							result.setErrorCode(ErrorCode.VEHICLE_NOTICE_ALREADY_ENTER);
-							result.setData(listSales.get(0).getCode());
-						}else{
-							//合法
-							result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
-						}
+						result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+//						SalesArrive sa = new SalesArrive();
+//						sa.setState("1");
+//						sa.setVehicleid(list.get(0).getId());
+//						List<SalesArrive> listSales = salesArriveMapper.selectSelective(sa);
+//						if(listSales == null || listSales.size() == 0){
+//							//判断是否有通知单
+//							PurchaseArrive pa = new PurchaseArrive();
+//							pa.setState("1");
+//							pa.setVehicleid(list.get(0).getId());
+//							List<PurchaseArrive> listPurchase = purchaseArriveMapper.selectSelective(pa);
+//							if(listPurchase == null || listPurchase.size() == 0){
+//								result.setErrorCode(ErrorCode.VEHICLE_NOT_NOTICE);
+//							}else if(listPurchase.size() > 1){
+//								//判断是否有多个通知单
+//								result.setErrorCode(ErrorCode.VEHICLE_NOTICE_NOT_ONLY);
+//								String code = ",";
+//								for(PurchaseArrive p : listPurchase){
+//									code += p.getCode();
+//								}
+//								result.setData(code.substring(1, code.length()));
+//							}else if(!StringUtils.equals(listSales.get(0).getStatus(), "0")){
+//								//判断是否已经入场
+//								result.setErrorCode(ErrorCode.VEHICLE_NOTICE_ALREADY_ENTER);
+//								result.setData(listSales.get(0).getCode());
+//							}else{
+//								//合法
+//								result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+//							}
+//						}else if(listSales.size() > 1){
+//							//判断是否有多个通知单
+//							result.setErrorCode(ErrorCode.VEHICLE_NOTICE_NOT_ONLY);
+//							String code = ",";
+//							for(SalesArrive s : listSales){
+//								code += s.getCode();
+//							}
+//							result.setData(code.substring(1, code.length()));
+//						}else if(!StringUtils.equals(listSales.get(0).getStatus(), "0")){
+//							//判断是否已经入场
+//							result.setErrorCode(ErrorCode.VEHICLE_NOTICE_ALREADY_ENTER);
+//							result.setData(listSales.get(0).getCode());
+//						}else{
+//							//合法
+//							result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+//						}
 					}else{
 						result.setErrorCode(ErrorCode.RFID_VEHICLE_NOT_EXIST);
 					}

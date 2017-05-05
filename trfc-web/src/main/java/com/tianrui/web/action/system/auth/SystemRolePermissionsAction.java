@@ -1,5 +1,7 @@
 package com.tianrui.web.action.system.auth;
 
+import javax.servlet.http.HttpSession;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +12,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.tianrui.api.intf.system.auth.ISystemRolePermissionsService;
 import com.tianrui.api.req.system.auth.SystemUserQueryReq;
+import com.tianrui.api.req.system.auth.SystemUserRoleSave;
+import com.tianrui.api.resp.system.auth.SystemUserResp;
 import com.tianrui.smartfactory.common.constants.Constant;
 import com.tianrui.smartfactory.common.constants.ErrorCode;
 import com.tianrui.smartfactory.common.vo.Result;
@@ -50,6 +54,49 @@ public class SystemRolePermissionsAction {
 		Result result = Result.getErrorResult();
 		try {
 			result = systemRolePermissionsService.queryAllUserByRole(req);
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
+		}
+		return result;
+	}
+	
+	@RequestMapping("addUserToRole")
+	@ResponseBody
+	public Result addUserToRole(SystemUserRoleSave save, HttpSession session){
+		Result result = Result.getErrorResult();
+		try {
+			SystemUserResp user = (SystemUserResp) session.getAttribute("systemUser");
+			save.setCurrId(user.getId());
+			result = systemRolePermissionsService.addUserToRole(save);
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
+		}
+		return result;
+	}
+	
+	@RequestMapping("deleteUserToRole")
+	@ResponseBody
+	public Result deleteUserToRole(SystemUserRoleSave save, HttpSession session){
+		Result result = Result.getErrorResult();
+		try {
+			SystemUserResp user = (SystemUserResp) session.getAttribute("systemUser");
+			save.setCurrId(user.getId());
+			result = systemRolePermissionsService.deleteUserToRole(save);
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
+		}
+		return result;
+	}
+	
+	@RequestMapping("queryMenuByRole")
+	@ResponseBody
+	public Result queryMenuByRole(SystemUserQueryReq req){
+		Result result = Result.getErrorResult();
+		try {
+			result = systemRolePermissionsService.queryMenuByRole(req);
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
 			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
