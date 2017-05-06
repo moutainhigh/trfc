@@ -166,7 +166,7 @@
 		<!--新增begin-->
 		<div class="modal fade" id="add" tabindex="-1" role="dialog"
 			aria-labelledby="myModalLabel">
-			<div class="modal-dialog" role="document" style="width: 750px;">
+			<div class="modal-dialog" role="document" style="width: 1000px;">
 				<div class="modal-content">
 					<div class="modal-header">
 						<button type="button" class="close" data-dismiss="modal"
@@ -182,27 +182,27 @@
 						<div class="alt_edit">
 							<div class="alt_edit_div">
 								<label>质检产品：</label> <input type="text" id="add_qscheme"
-									class="qschemeSel">
+									class="qschemeSel" placeholder="请输入质检产品">
 							</div>
 							<div class="alt_edit_div">
 								<label>单据编号：</label> <input type="text" id="add_code"
-									readOnly="readonly">
+									readOnly="true">
 							</div>
 							<div class="alt_edit_div">
-								<label>采样单号：</label> <input type="text" id="add_sampling">
+								<label>采样单号：</label> <input type="text" id="add_sampling" placeholder="请输入采样单号">
 							</div>
 							<div class="alt_edit_div">
 								<label>化验日期：</label> <input type="text"
 									onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})" class="Wdate_cg"
-									style="width: 220px" id="add_assaytime" readOnly="readonly" />
+									style="width: 220px" id="add_assaytime" readOnly="true" />
 							</div>
 							<div class="alt_edit_div">
 								<label> 制单时间：</label> <input type="text" id="add_createtime"
-									readOnly="readonly">
+									readOnly="true">
 							</div>
 							<div class="alt_edit_div">
 								<label>制单人：</label> <input type="text" id="add_creator"
-									readOnly="readonly">
+									readOnly="true">
 							</div>
 							<div class="alt_edit_div">
 								<label>备注： </label> <input type="text" id="add_remark">
@@ -257,7 +257,7 @@
 		<!--编辑begin-->
 		<div class="modal fade" id="edit" tabindex="-1" role="dialog"
 			aria-labelledby="myModalLabel">
-			<div class="modal-dialog" role="document" style="width: 750px;">
+			<div class="modal-dialog" role="document" style="width: 1000px;">
 				<div class="modal-content">
 					<div class="modal-header">
 						<button type="button" class="close" data-dismiss="modal"
@@ -276,7 +276,7 @@
 							</div>
 							<div class="alt_edit_div">
 								<label>单据编号：</label> <input type="text" id="edit_code"
-									readOnly="readonly">
+									readOnly="true">
 							</div>
 							<div class="alt_edit_div">
 								<label>采样单号：</label> <input type="text" id="edit_sampling">
@@ -284,15 +284,15 @@
 							<div class="alt_edit_div">
 								<label>化验日期：</label> <input type="text"
 									onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})" class="Wdate_cg"
-									style="width: 220px" id="edit_assaytime" readOnly="readonly" />
+									style="width: 220px" id="edit_assaytime" readOnly="true" />
 							</div>
 							<div class="alt_edit_div">
 								<label> 制单时间：</label> <input type="text" id="edit_createtime"
-									readOnly="readonly">
+									readOnly="true">
 							</div>
 							<div class="alt_edit_div">
 								<label>制单人：</label> <input type="text" id="edit_creator"
-									readOnly="readonly">
+									readOnly="true">
 							</div>
 							<div class="alt_edit_div">
 								<label>备注： </label> <input type="text" id="edit_remark">
@@ -362,31 +362,31 @@
 						<div class="alt_edit">
 							<div class="alt_edit_div">
 								<label>质检产品：</label> <input type="text" id="detail_qscheme"
-									readOnly="readonly">
+									readOnly="true">
 							</div>
 							<div class="alt_edit_div">
 								<label>单据编号：</label> <input type="text" id="detail_code"
-									readOnly="readonly">
+									readOnly="true">
 							</div>
 							<div class="alt_edit_div">
 								<label>采样单号：</label> <input type="text" id="detail_sampling"
-									readOnly="readonly">
+									readOnly="true">
 							</div>
 							<div class="alt_edit_div">
 								<label>化验日期：</label> <input type="text" id="detail_assaytime"
-									readOnly="readonly" />
+									readOnly="true" />
 							</div>
 							<div class="alt_edit_div">
 								<label> 制单时间：</label> <input type="text" id="detail_createtime"
-									readOnly="readonly">
+									readOnly="true">
 							</div>
 							<div class="alt_edit_div">
 								<label>制单人：</label> <input type="text" id="detail_creator"
-									readOnly="readonly">
+									readOnly="true">
 							</div>
 							<div class="alt_edit_div">
 								<label>备注： </label> <input type="text" id="detail_remark"
-									readOnly="readonly">
+									readOnly="true">
 							</div>
 						</div>
 						<div id="alt_tab">

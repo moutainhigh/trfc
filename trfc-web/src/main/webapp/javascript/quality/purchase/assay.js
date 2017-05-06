@@ -32,17 +32,17 @@ $(function(){
 	//绑定编辑按钮
 	$('#list').on('click','tr [title="编辑"]',initEditPage);
 	//新增页面 质检方案
-	$('#add_qscheme').blur(function(){
-		var qschemeid = $('#add_qscheme').attr('qschemeid');
-		initAddItems($('#add_qschemeitem'),qschemeid);});
+//	$('#add_qscheme').blur(function(){
+//		var qschemeid = $('#add_qscheme').attr('qschemeid');
+//		initAddItems($('#add_qschemeitem'),qschemeid);});
 	//新增页面 采购单号
 	$('#add_sampling').blur(function(){
 		var samplingid = $('#add_sampling').val();
 		getSamplingList($('#add_sampinglist'),samplingid)});
 	//编辑页面 
-	$('#edit_qscheme').blur(function(){
-		var qschemeid = $('#edit_qscheme').attr('qschemeid');
-		initAddItems($('#edit_qschemeitem'),qschemeid);});
+//	$('#edit_qscheme').blur(function(){
+//		var qschemeid = $('#edit_qscheme').attr('qschemeid');
+//		initAddItems($('#edit_qschemeitem'),qschemeid);});
 	$('#edit_sampling').blur(function(){
 		var samplingid = $('#edit_sampling').val();
 		getSamplingList($('#edit_sampinglist'),samplingid)});
@@ -57,7 +57,7 @@ $(function(){
 		var obj = $(e).data('obj');
 		$('#detail_code').val(obj.code);
 		$('#detail_qscheme').val(obj.qschemename);
-		initAddItems($('#detail_qschemeitem'),obj.qschemeid,obj);
+		initAddItems('detail_qschemeitem',obj.qschemeid,obj);
 		$('#detail_sampling').val(obj.samplingid);
 		getSamplingList($('#detail_sampinglist'),obj.samplingid)
 		$('#detail_assaytime').val(getNowFormatDate(false,obj.assaytime));
@@ -202,6 +202,7 @@ $(function(){
 			//选定,显示结果到输入框
 			select: function( event, ui ) {
 				$(this).val(ui.item.name).attr('qschemeid', ui.item.id);
+				initAddItems('add_qschemeitem',ui.item.id);
 				return false;
 			}
 		}).off('click').on('click',function(){
@@ -236,7 +237,7 @@ $(function(){
 		$('#edit_id').val(obj.id);
 		$('#edit_code').val(obj.code);
 		$('#edit_qscheme').val(obj.qschemename).attr('qschemeid',obj.qschemeid);
-		initAddItems($('#edit_qschemeitem'),obj.qschemeid,obj);
+		initAddItems('edit_qschemeitem',obj.qschemeid,obj);
 		$('#edit_sampling').val(obj.samplingid).blur();
 		$('#edit_assaytime').val(getNowFormatDate(false,obj.assaytime));
 		$('#edit_createtime').val(getNowFormatDate(true,obj.createtime));
@@ -267,7 +268,8 @@ $(function(){
 		$('#add_sampinglist').empty();
 	}
 	//获取质检项目列表
-	function initAddItems(tbody,qschemeid,obj){
+	function initAddItems(html_id,qschemeid,obj){
+		var tbody = $('#'+html_id);
 		//清空内容
 		tbody.empty();
 		if(qschemeid){
@@ -283,13 +285,17 @@ $(function(){
 								+' </div>';
 						}else{
 							var div = '<div class="alt_edit_div">'
-								+'<label style="width: 100px;">'+(list[i].itemname || '')+'：</label>'
+								+'<label style="width: 150px;">'+(list[i].itemname || '')+'：</label>'
 								+' <input type="text" value="0">'
 								+' </div>';
 						}
 						div = $(div);
 						tbody.append(div);
 						div.data('obj',list[i]);
+						
+					}
+					if(html_id == 'detail_qschemeitem'){
+						$('#detail_qschemeitem >div >input').attr('readOnly',true);
 					}
 				}else{
 					layer.msg(result.error,{icon:5});
