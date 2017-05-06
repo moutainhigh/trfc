@@ -5,7 +5,9 @@
 			queryAllUserByRole: '/trfc/system/auth/rolePermissions/queryAllUserByRole',
 			addUserToRole: '/trfc/system/auth/rolePermissions/addUserToRole',
 			deleteUserToRole: '/trfc/system/auth/rolePermissions/deleteUserToRole',
-			queryMenuByRole: '/trfc/system/auth/rolePermissions/queryMenuByRole'
+			queryMenuByRole: '/trfc/system/auth/rolePermissions/queryMenuByRole',
+			authorizeMenuToRole: '/trfc/system/auth/rolePermissions/authorizeMenuToRole',
+			resetMenuToRole: '/trfc/system/auth/rolePermissions/resetMenuToRole'
 	}
 	
 	init();
@@ -157,6 +159,15 @@
 		$('.juese_tab ul li:eq(1)').click(function() {
 			queryMenuByRole();
 		});
+		$('#authorizeBtn').off('click').on('click', function() {
+			authorizeMenuToRole();
+		});
+		$('#resetMenuBtn').off('click').on('click', function() {
+			resetMenuToRole();
+		});
+		$('.refresh').off('click').on('click', function() {
+			$('#roleList li.active').trigger('click');
+		});
 	}
 	
 	function queryUserToRole(){
@@ -261,37 +272,26 @@
 	function deleteUserToRole(){
 		var params = getDeleteParams();
 		if(params){
-			var bn = layer.open({
-				content: '注：删除操作不可恢复，您确定要继续么？',
-				area: '600px',
-				closeBtn:1,
-				shadeClose:true,
+			layer.confirm('注：删除操作不可恢复，您确定要继续么？', {
 				btn: ['确定', '取消'],
-				yes: function(index, layero){
-					$.ajax({
-						url:URL.deleteUserToRole,
-						data:params,
-						async:true,
-						cache:false,
-						dataType:'json',
-						type:'post',
-						success:function(result){
-							if(result.code == '000000'){
-								$('#addUserView').modal('hide');
-								$('#roleList li.active').trigger('click');
-							}else{
-								layer.msg(result.error, {icon: 5});
-							}
+				area: '600px'
+			}, function(){
+				$.ajax({
+					url:URL.deleteUserToRole,
+					data:params,
+					async:true,
+					cache:false,
+					dataType:'json',
+					type:'post',
+					success:function(result){
+						if(result.code == '000000'){
+							$('#addUserView').modal('hide');
+							$('#roleList li.active').trigger('click');
+						}else{
+							layer.msg(result.error, {icon: 5});
 						}
-					});
-					layer.close(bn);
-				},
-				btn2: function(index, layero){
-					//按钮【取消】的回调
-				},
-				cancel: function(){
-					//右上角关闭回调
-				}
+					}
+				});
 			});
 		}
 	}
@@ -326,14 +326,12 @@
 		$('#menubody').empty();
 		if(data && data.length > 0){
 			data = parseMenuData(undefined, data);
-			console.info(data);
 			for(var i=0;i<data.length;i++){
 				var obj = data[i];
 				$('<tr id="'+(obj.menuId || '')+'" pid="'+(obj.menuPid || '')+'">'
 						+'<td>'+(i+1)+'</td>'
-						+'<td style="width: 200px;"><input type="checkbox" '+(obj.roleHasMenu == '1' ? 'checked':'')+'><span controller="true">'+(obj.menuName || '')+'</span></td>'
+						+'<td><input type="checkbox" '+(obj.roleHasMenu == '1' ? 'checked':'')+'><span controller="true">'+(obj.menuName || '')+'</span></td>'
 						+'<td>'+(obj.menuCode || '')+'</td>'
-						+'<td></td>'
 						+'<td>'+(obj.orderBy)+'</td>'
 						+'<td>'+(obj.info)+'</td>'
 						+'</tr>').data(obj).appendTo('#menubody');
@@ -353,7 +351,29 @@
 					}
 				};
 				$('.intel_table table').treeTable(option);
+			$('#menubody>tr').find('td:eq(1) input').off('click').on('click', function(){
+				var menuId = $(this).closest('tr').data().menuId;
+				var menuPid = $(this).closest('tr').data().menuPid;
+				selectAllMenuByPid(menuId, this.checked);
+				selectParentMenuById(menuPid, true);
+			});
 		}
+	}
+	
+	function selectParentMenuById(menuPid, checked){
+		$('#menubody>tr[id="'+menuPid+'"]').each(function(){
+			$(this).find('td:eq(1) input')[0].checked = checked;
+			var menuPid = $(this).data().menuPid;
+			selectParentMenuById(menuPid, checked);
+		});
+	}
+	
+	function selectAllMenuByPid(menuId, checked){
+		$('#menubody>tr[pid="'+menuId+'"]').each(function(){
+			$(this).find('td:eq(1) input')[0].checked = checked;
+			var menuId = $(this).data().menuId;
+			selectAllMenuByPid(menuId, checked);
+		});
 	}
 	
 	function parseMenuData(pid, data){
@@ -371,9 +391,68 @@
 		return menuArr;
 	}
 	
+	function getMenuIdParams(){
+		var menuIdArr = [];
+		$('#menubody>tr').find('td:eq(1) input:checked').each(function(){
+			var data = $(this).closest('tr').data();
+			menuIdArr.push(data.menuId);
+		});
+		var role = $('#roleList li.active').data() || {};
+		return {
+			menuIdJson: JSON.stringify(menuIdArr),
+			roleId: role.id
+		}
+	}
 	
+	function authorizeMenuToRole(){
+		var index = layer.load(2, {
+			shade: [0.3,'#fff'], //0.1透明度的白色背景
+			time: 10000
+		});
+		var params = getMenuIdParams();
+		$.ajax({
+			url:URL.authorizeMenuToRole,
+			data:params,
+			async:true,
+			cache:false,
+			dataType:'json',
+			type:'post',
+			success:function(result){
+				if(result.code == '000000'){
+					$('#roleList li.active').trigger('click');
+				}else{
+					layer.msg(result.error, {icon: 5});
+				}
+				layer.close(index);
+			}
+		});
+	}
 	
-	
+	function resetMenuToRole(){
+		layer.confirm('注：重置操作将会清空用户的所有模块权限，是否继续？', {
+			btn: ['确定', '取消'],
+			area: '600px'
+		}, function(){
+			var role = $('#roleList li.active').data() || {};
+			$.ajax({
+				url:URL.resetMenuToRole,
+				data:{
+					roleId: role.id
+				},
+				async:true,
+				cache:false,
+				dataType:'json',
+				type:'post',
+				success:function(result){
+					if(result.code == '000000'){
+						$('#roleList li.active').trigger('click');
+					}else{
+						layer.msg(result.error, {icon: 5});
+					}
+				}
+			});
+		});
+	}
 	
 	
 	

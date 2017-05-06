@@ -153,4 +153,37 @@
 	where t1.isvalid = '1'
 	order by t1.order_by
   </select>
+  <delete id="deleteByRoleId" parameterType="java.lang.String">
+  	delete from tr_system_role_menu
+  	where roleid = #{roleId,jdbcType=VARCHAR}
+  </delete>
+	<insert id="insertBatch" parameterType="java.util.List">
+		insert into tr_system_role_menu 
+		(
+			id, 
+			roleid, 
+			menuid, 
+			isvalid, 
+			creator, 
+			createtime, 
+			modifier, 
+			modifytime, 
+			remark
+		)
+		values
+		<foreach collection="list" item="item" index="index"
+			separator=",">
+		(
+			#{item.id},
+			#{item.roleid},
+			#{item.menuid},
+			#{item.isvalid},
+			#{item.creator},
+			#{item.createtime},
+			#{item.modifier},
+			#{item.modifytime},
+			#{item.remark}
+		)
+		</foreach>
+	</insert>
 </mapper>

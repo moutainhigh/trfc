@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.tianrui.api.intf.system.auth.ISystemRolePermissionsService;
+import com.tianrui.api.req.system.auth.SystemRoleMenuSave;
 import com.tianrui.api.req.system.auth.SystemUserQueryReq;
 import com.tianrui.api.req.system.auth.SystemUserRoleSave;
 import com.tianrui.api.resp.system.auth.SystemUserResp;
@@ -90,13 +91,39 @@ public class SystemRolePermissionsAction {
 		}
 		return result;
 	}
-	
+
 	@RequestMapping("queryMenuByRole")
 	@ResponseBody
 	public Result queryMenuByRole(SystemUserQueryReq req){
 		Result result = Result.getErrorResult();
 		try {
 			result = systemRolePermissionsService.queryMenuByRole(req);
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
+		}
+		return result;
+	}
+	
+	@RequestMapping("authorizeMenuToRole")
+	@ResponseBody
+	public Result authorizeMenuToRole(SystemRoleMenuSave save){
+		Result result = Result.getErrorResult();
+		try {
+			result = systemRolePermissionsService.authorizeMenuToRole(save);
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
+		}
+		return result;
+	}
+	
+	@RequestMapping("resetMenuToRole")
+	@ResponseBody
+	public Result resetMenuToRole(SystemRoleMenuSave save){
+		Result result = Result.getErrorResult();
+		try {
+			result = systemRolePermissionsService.resetMenuToRole(save);
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
 			result.setErrorCode(ErrorCode.SYSTEM_ERROR);

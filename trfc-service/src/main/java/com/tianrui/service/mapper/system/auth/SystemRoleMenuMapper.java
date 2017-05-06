@@ -20,4 +20,8 @@ public interface SystemRoleMenuMapper {
     int updateByPrimaryKey(SystemRoleMenu record);
 
 	List<SystemRoleMenuResp> queryMenuByRole(SystemUserQueryReq req);
+
+	int deleteByRoleId(String roleId);
+
+	int insertBatch(List<SystemRoleMenu> list);
 }

@@ -63,7 +63,7 @@
 								<!--角色成员-->
 								<div class="juese_tabcont">
 									<div class="intel_opera">
-										<div class="intel_operasolo">
+										<div class="intel_operasolo refresh">
 											<i class="iconfont colorlv">&#xe61b;</i>
 											<h5>刷新</h5>
 										</div>
@@ -120,18 +120,18 @@
 								<!--模块权限begin-->
 								<div class="juese_tabcont hide">
 									<div class="intel_opera">
-										<div class="intel_operasolo">
+										<div class="intel_operasolo refresh">
 											<i class="iconfont colorlv">&#xe61b;</i>
 											<h5>刷新</h5>
 										</div>
-										<div class="intel_operasolo">
-											<a data-toggle="modal" data-target="#module_reset"> <i
+										<div id="resetMenuBtn" class="intel_operasolo">
+											<a> <i
 												class="iconfont coloradd" style="font-weight: bold">&#xe623;</i>
 												<h5>重置</h5>
 											</a>
 										</div>
-										<div class="intel_operasolo">
-											<a data-toggle="modal" data-target="#module_sq"> <i
+										<div id="authorizeBtn" class="intel_operasolo">
+											<a> <i
 												class="iconfont" style="font-weight: bold">&#xe668;</i>
 												<h5>授权</h5>
 											</a>
@@ -142,86 +142,14 @@
 											data-options="">
 											<thead>
 												<tr>
-													<th></th>
-													<th style="width: 200px;">模块(菜单)名称</th>
+													<th style="width: 20px;">序号</th>
+													<th>模块(菜单)名称</th>
 													<th>模块编码</th>
-													<th>模块分类</th>
 													<th>排序</th>
 													<th>说明</th>
 												</tr>
 											</thead>
 											<tbody id="menubody">
-												<tr id="1" pid>
-													<td>1</td>
-													<td style="width: 200px;"><input type="checkbox"
-														checked> <span controller="true">天瑞集团智能物流业务平台</span></td>
-													<td>01</td>
-													<td></td>
-													<td>1</td>
-													<td></td>
-												</tr>
-												<tr id="2" pid="1">
-													<td>2</td>
-													<td style="width: 200px;"><input type="checkbox"
-														checked><span controller="true">业务管理</span></td>
-													<td>0101</td>
-													<td>天瑞集团智能物流业务平台</td>
-													<td>3</td>
-													<td></td>
-												</tr>
-												<tr id="3" pid="2">
-													<td>3</td>
-													<td style="width: 200px;"><input type="checkbox"
-														checked><span controller="true">采购管理</span></td>
-													<td>010101</td>
-													<td>业务管理</td>
-													<td>3</td>
-													<td></td>
-												</tr>
-												<tr id="4" pid="3">
-													<td>4</td>
-													<td style="width: 200px;"><input type="checkbox"
-														checked><span controller="true">采购申请单</span></td>
-													<td>01010101</td>
-													<td>3</td>
-													<td>4</td>
-													<td></td>
-												</tr>
-												<tr id="5" pid="3">
-													<td>5</td>
-													<td style="width: 200px;"><input type="checkbox"><span
-														controller="true">到货通知单</span></td>
-													<td>01010102</td>
-													<td>2</td>
-													<td>3</td>
-													<td></td>
-												</tr>
-												<tr id="6" pid="2">
-													<td>6</td>
-													<td style="width: 200px;"><input type="checkbox"><span
-														controller="true">销售管理</span></td>
-													<td>01010101</td>
-													<td>1</td>
-													<td>3</td>
-												</tr>
-												<tr id="7" pid="1">
-													<td>7</td>
-													<td style="width: 200px;"><input type="checkbox"><span
-														controller="true">基础档案</span></td>
-													<td>0102</td>
-													<td>天瑞集团智能物流业务平台</td>
-													<td>8</td>
-													<td></td>
-												</tr>
-												<tr id="8" pid="7">
-													<td>8</td>
-													<td style="width: 200px;"><input type="checkbox"><span
-														controller="true">NC档案</span></td>
-													<td>010201</td>
-													<td>基础档案</td>
-													<td>8</td>
-													<td></td>
-												</tr>
 											</tbody>
 										</table>
 										<!--分页效果开始-->
@@ -295,38 +223,9 @@
 												北京科普斯特自动化仪表有限公司</li>
 										</ul>
 									</div>
-									<!--分页效果开始-->
-									<div class="row">
-										<div class="col-md-12">
-											<div class="page_middle">
-												<div class="page_date">
-													<label>数据共：</label><i class="colorred">100</i><label>条</label>
-												</div>
-												<div class="page_date">
-													<label>跳到第：</label> <input type="text"> <label>页</label>
-													<button class="btn btn-default">确定</button>
-												</div>
-												<div class="page_btn">
-													<ul class="pagination">
-														<li><a href="#">&laquo;上一页</a></li>
-														<li><a href="#">1</a></li>
-														<li><a href="#">2</a></li>
-														<li><a href="#">3</a></li>
-														<li><a href="#">...</a></li>
-														<li><a href="#">4</a></li>
-														<li><a href="#">5</a></li>
-														<li><a href="#">下一页&raquo;</a></li>
-													</ul>
-												</div>
-											</div>
-
-										</div>
-									</div>
-									<!--分页效果结束-->
 								</div>
 							</div>
 							<!--tab切换的内容end-->
-
 						</div>
 
 					</div>
@@ -368,14 +267,6 @@
 
 						<div class="juese_altuser_list">
 							<ul>
-								<li class="select"><i class="iconfont">&#xe620;</i>三丰</li>
-								<li><i class="iconfont">&#xe620;</i>张三丰</li>
-								<li><i class="iconfont">&#xe620;</i>00000</li>
-								<li><i class="iconfont">&#xe620;</i>张三丰</li>
-								<li><i class="iconfont">&#xe620;</i>张三丰</li>
-								<li><i class="iconfont">&#xe620;</i>张三丰</li>
-								<li><i class="iconfont">&#xe620;</i>张三丰</li>
-								<li><i class="iconfont">&#xe620;</i>张三丰</li>
 							</ul>
 						</div>
 					</div>
@@ -389,81 +280,6 @@
 		</div>
 	</div>
 	<!--角色用户新增end-->
-	<!--删除begin-->
-	<!-- <div class="modal fade" id="dele" tabindex="-1" role="dialog"
-		aria-labelledby="myModalLabel">
-		<div class="modal-dialog" role="document" style="width: 400px;">
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal"
-						aria-label="Close">
-						<span aria-hidden="true">&times;</span>
-					</button>
-					<h4 class="modal-title">提示</h4>
-				</div>
-				<div class="modal-body">
-					<div class="alert_qf">
-						<img src="../images/tishi.png"><label>注：删除操作不可恢复，您确定要继续么？</label>
-					</div>
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-primary">确定</button>
-					<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-				</div>
-			</div>
-		</div>
-	</div> -->
-	<!--删除end-->
-	<!--模块权限重置begin-->
-	<!-- <div class="modal fade" id="module_reset" tabindex="-1" role="dialog"
-		aria-labelledby="myModalLabel">
-		<div class="modal-dialog" role="document">
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal"
-						aria-label="Close">
-						<span aria-hidden="true">&times;</span>
-					</button>
-					<h4 class="modal-title">系统提示</h4>
-				</div>
-				<div class="modal-body">
-					<div class="alert_qf">
-						<img src="../images/tishi.png"><label>注：重置操作将会清空用户的所有模块权限，是否继续？</label>
-					</div>
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-primary">确定</button>
-					<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-				</div>
-			</div>
-		</div>
-	</div> -->
-	<!--模块权限重置end-->
-	<!--模块权限授权begin-->
-	<div class="modal fade" id="module_sq" tabindex="-1" role="dialog"
-		aria-labelledby="myModalLabel">
-		<div class="modal-dialog" role="document">
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal"
-						aria-label="Close">
-						<span aria-hidden="true">&times;</span>
-					</button>
-					<h4 class="modal-title">系统提示</h4>
-				</div>
-				<div class="modal-body">
-					<div class="alert_qf">
-						<i class="iconfont"> &#xe638;</i><label>授权成功</label>
-					</div>
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-primary">确定</button>
-					<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-				</div>
-			</div>
-		</div>
-	</div>
-	<!--模块权限授权end-->
 	<!-- 引用公共footer部分 -->
 	<jsp:include page="../../common/base/footer_busi.jsp"></jsp:include>
 	<script type="text/javascript"
@@ -474,23 +290,6 @@
 		tabletr.on("click", function() {
 			$(this).addClass("select").siblings().removeClass("select");
 		});
-
-		//菜单表格中的分级别表格js调用
-	/* 	var option = {
-			theme : 'vsStyle',
-			expandLevel : 10,
-			column : 1,
-			beforeExpand : function($treeTable, id) {
-				//判断id是否已经有了孩子节点，如果有了就不再加载，这样就可以起到缓存的作用
-				if ($('.' + id, $treeTable).length) {
-					return;
-				}
-			},
-			onSelect : function($treeTable, id) {
-				window.console && console.log('onSelect:' + id);
-			}
-		};
-		$('.intel_table table').treeTable(option); */
 
 		// 顶部tab切换菜单
 		var $tab_li = $('.intel_menu li');

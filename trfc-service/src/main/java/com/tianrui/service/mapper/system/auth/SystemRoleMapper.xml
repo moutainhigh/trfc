@@ -216,5 +216,6 @@
     	<include refid="Base_Column_List" />
     from tr_system_role 
     where isvalid = 1
+    order by createtime desc
   </select>
 </mapper>

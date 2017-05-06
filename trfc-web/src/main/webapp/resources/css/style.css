@@ -1223,7 +1223,7 @@ width: 180px;
 .juese_opera .juese_tab{
     border: 1px solid #e3e4ea;
     overflow: hidden;
-    width: 280px;
+    width: 175px;
     margin-top: 10px;
     overflow: hidden;
 }
@@ -1231,7 +1231,7 @@ width: 180px;
     border-right: 1px solid #e3e4ea;
     line-height: 36px;
     float: left;
-    width: 33.3%;
+    padding: 0px 15px;
     text-align: center;
     cursor: pointer;
 }
