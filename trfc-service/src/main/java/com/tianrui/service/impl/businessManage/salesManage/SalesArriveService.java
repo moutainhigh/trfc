@@ -606,10 +606,10 @@ public class SalesArriveService implements ISalesArriveService {
 				if(count == 1){
 					if(StringUtils.equals(query.getRfid(), list.get(0).getRfid())){
 						ApiSalesArriveResp api = null;
-						if((api = getSalesArriveDetail(list.get(0).getId(), query.getRfid())) != null){
+						if((api = getSalesArriveDetail(query.getVehicleno(), query.getRfid())) != null){
 							result.setData(api);
 							result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
-						}else if((api = getPurchaseArriveDetail(list.get(0).getId(), query.getRfid())) != null){
+						}else if((api = getPurchaseArriveDetail(query.getVehicleno(), query.getRfid())) != null){
 							result.setData(api);
 							result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
 						}else{
@@ -628,18 +628,14 @@ public class SalesArriveService implements ISalesArriveService {
 		return result;
 	}
 	
-	private ApiSalesArriveResp getPurchaseArriveDetail(String vehicleid, String vehiclerfid) {
+	private ApiSalesArriveResp getPurchaseArriveDetail(String vehileno, String vehiclerfid) {
 		ApiSalesArriveResp api = null;
-		PurchaseArrive pa = new PurchaseArrive();
-		pa.setState("1");
-		pa.setVehicleid(vehicleid);
-		pa.setVehiclerfid(vehiclerfid);
-		List<PurchaseArrive> listPurchase = purchaseArriveMapper.selectSelective(pa);
+		List<PurchaseArrive> listPurchase = purchaseArriveMapper.validNoticeByVehicle(vehileno, vehiclerfid);
 		if(CollectionUtils.isNotEmpty(listPurchase)){
 			api = new ApiSalesArriveResp();
 			PurchaseApplication application = purchaseApplicationMapper.selectByPrimaryKey(listPurchase.get(0).getBillid());
 			PurchaseApplicationDetail applicationDetail = purchaseApplicationDetailMapper.selectByPrimaryKey(listPurchase.get(0).getBilldetailid());
-			api.setVehicleid(vehicleid);
+			api.setVehicleid(listPurchase.get(0).getVehicleid());
 			api.setVehicleno(listPurchase.get(0).getVehicleno());
 			api.setCustomerid(application.getSupplierid());
 			api.setCustomer(application.getSuppliername());
@@ -663,18 +659,15 @@ public class SalesArriveService implements ISalesArriveService {
 		return api;
 	}
 
-	private ApiSalesArriveResp getSalesArriveDetail(String vehicleid, String vehiclerfid) throws Exception{
+	private ApiSalesArriveResp getSalesArriveDetail(String vehicleno, String vehiclerfid) throws Exception{
 		ApiSalesArriveResp api = null;
-		SalesArrive sa = new SalesArrive();
-		sa.setState("1");
-		sa.setVehicleid(vehicleid);
-		sa.setVehiclerfid(vehiclerfid);
-		List<SalesArrive> listSales = salesArriveMapper.selectSelective(sa);
-		if(CollectionUtils.isNotEmpty(listSales)){
+		List<SalesArrive> list = salesArriveMapper.validNoticeByVehicle(vehicleno, vehiclerfid);
+		if(CollectionUtils.isNotEmpty(list)){
 			api = new ApiSalesArriveResp();
-			SalesArriveResp resp = copyBean2Resp(listSales.get(0), true);
+			SalesArriveResp resp = copyBean2Resp(list.get(0), true);
 			SalesApplicationResp salesApplicationResp = resp.getMainApplication();
 			SalesApplicationDetailResp salesApplicationDetailResp = resp.getMainApplicationDetail();
+			api.setVehicleid(resp.getVehicleid());
 			api.setVehicleno(resp.getVehicleno());
 			api.setCustomerid(salesApplicationResp.getCustomerid());
 			api.setCustomer(salesApplicationResp.getCustomername());
@@ -692,9 +685,9 @@ public class SalesArriveService implements ISalesArriveService {
 			api.setServicetype("2");
 			api.setNotionformcode(resp.getCode());
 			api.setPrimary("");
-			api.setVehicleid(resp.getId());
 			api.setMinemouth("");
 			api.setNumber(String.valueOf(resp.getTakeamount()==null?"":resp.getTakeamount()));
+			api.setStatus(resp.getStatus());
 		}
 		return api;
 	}
@@ -819,7 +812,7 @@ public class SalesArriveService implements ISalesArriveService {
 				codeReq.setCodeType(true);
 				codeReq.setUserid(req.getUserId());
 				bean.setCode(systemCodeService.getCode(codeReq).getData().toString());
-				bean.setAuditstatus("0");
+				bean.setAuditstatus("1");
 				bean.setStatus("0");
 				bean.setState("1");
 				bean.setSource("2");

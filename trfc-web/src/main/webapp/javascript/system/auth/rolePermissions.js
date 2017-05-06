@@ -58,7 +58,7 @@
 			queryData();
 		}
 		if($('.juese_tab ul li:eq(1)').hasClass('select')){
-			
+			queryMenuByRole();
 		}
 	}
 	
@@ -155,7 +155,7 @@
 			queryData();
 		});
 		$('.juese_tab ul li:eq(1)').click(function() {
-			
+			queryMenuByRole();
 		});
 	}
 	
@@ -296,11 +296,80 @@
 		}
 	}
 	
+	function queryMenuByRole(){
+		var index = layer.load(2, {
+			shade: [0.3,'#fff'], //0.1透明度的白色背景
+			time: 10000
+		});
+		var role = $('#roleList li.active').data() || {};
+		$.ajax({
+			url:URL.queryMenuByRole,
+			data:{
+				roleid: role.id
+			},
+			async:true,
+			cache:false,
+			dataType:'json',
+			type:'post',
+			success:function(result){
+				if(result.code == '000000'){
+					loadMenuToRole(result.data);
+				}else{
+					layer.msg(result.error, {icon: 5});
+				}
+				layer.close(index);
+			}
+		});
+	}
 	
+	function loadMenuToRole(data){
+		$('#menubody').empty();
+		if(data && data.length > 0){
+			data = parseMenuData(undefined, data);
+			console.info(data);
+			for(var i=0;i<data.length;i++){
+				var obj = data[i];
+				$('<tr id="'+(obj.menuId || '')+'" pid="'+(obj.menuPid || '')+'">'
+						+'<td>'+(i+1)+'</td>'
+						+'<td style="width: 200px;"><input type="checkbox" '+(obj.roleHasMenu == '1' ? 'checked':'')+'><span controller="true">'+(obj.menuName || '')+'</span></td>'
+						+'<td>'+(obj.menuCode || '')+'</td>'
+						+'<td></td>'
+						+'<td>'+(obj.orderBy)+'</td>'
+						+'<td>'+(obj.info)+'</td>'
+						+'</tr>').data(obj).appendTo('#menubody');
+			}
+			var option = {
+					theme : 'vsStyle',
+					expandLevel : 10,
+					column : 1,
+					beforeExpand : function($treeTable, id) {
+						//判断id是否已经有了孩子节点，如果有了就不再加载，这样就可以起到缓存的作用
+						if ($('.' + id, $treeTable).length) {
+							return;
+						}
+					},
+					onSelect : function($treeTable, id) {
+						window.console && console.log('onSelect:' + id);
+					}
+				};
+				$('.intel_table table').treeTable(option);
+		}
+	}
 	
-	
-	
-	
+	function parseMenuData(pid, data){
+		var menuArr = [];
+		var _0 = data.filter(function(x){
+			return x.menuPid == pid;
+		});
+		_0.forEach(function(x, i, a){
+			menuArr.push(x);
+			var childMenuArr = parseMenuData(x.menuId, data);
+			if(childMenuArr && childMenuArr.length > 0){
+				menuArr = menuArr.concat(childMenuArr);
+			}
+		});
+		return menuArr;
+	}
 	
 	
 	

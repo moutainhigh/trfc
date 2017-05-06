@@ -452,7 +452,7 @@
   			and billtime <![CDATA[<]]> #{endtime,jdbcType=BIGINT}
   		</if>
   	</where>
-  	order by makebilltime
+  	order by makebilltime desc
   	<if test="start != null and start >= 0">
   		<if test="limit != null">
 			limit #{start,jdbcType=INTEGER},#{limit,jdbcType=INTEGER}
@@ -509,7 +509,7 @@
   			and p1.billtime <![CDATA[<]]> #{endtime,jdbcType=BIGINT}
   		</if>
   	</where>
-  	order by p1.makebilltime
+  	order by p1.makebilltime desc
   	<if test="start != null and start >= 0">
   		<if test="limit != null">
 			limit #{start,jdbcType=INTEGER},#{limit,jdbcType=INTEGER}

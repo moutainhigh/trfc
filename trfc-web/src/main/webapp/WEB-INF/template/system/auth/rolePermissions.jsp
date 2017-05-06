@@ -110,15 +110,6 @@
 												</tr>
 											</thead>
 											<tbody id="userBody">
-												<tr>
-													<td>1</td>
-													<td><input type="checkbox"></td>
-													<td>201601010138</td>
-													<td>王小二</td>
-													<td>客商APP</td>
-													<td>河南省XXXX公司</td>
-													<td>粉煤灰1</td>
-												</tr>
 											</tbody>
 										</table>
 										<!--角色成员表格end-->
@@ -159,8 +150,8 @@
 													<th>说明</th>
 												</tr>
 											</thead>
-											<tbody>
-												<tr id="1">
+											<tbody id="menubody">
+												<tr id="1" pid>
 													<td>1</td>
 													<td style="width: 200px;"><input type="checkbox"
 														checked> <span controller="true">天瑞集团智能物流业务平台</span></td>
@@ -485,7 +476,7 @@
 		});
 
 		//菜单表格中的分级别表格js调用
-		var option = {
+	/* 	var option = {
 			theme : 'vsStyle',
 			expandLevel : 10,
 			column : 1,
@@ -499,7 +490,7 @@
 				window.console && console.log('onSelect:' + id);
 			}
 		};
-		$('.intel_table table').treeTable(option);
+		$('.intel_table table').treeTable(option); */
 
 		// 顶部tab切换菜单
 		var $tab_li = $('.intel_menu li');

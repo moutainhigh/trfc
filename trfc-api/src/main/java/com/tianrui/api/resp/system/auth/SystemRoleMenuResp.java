@@ -8,11 +8,13 @@ public class SystemRoleMenuResp extends BaseResp {
 	//关系表主键id
 	private String id;
 	//菜单id
-	private String menuid;
+	private String menuId;
 	//菜单名称
-	private String menuname;
+	private String menuName;
 	//菜单编号
-	private String menucode;
+	private String menuCode;
+	//父菜单id
+	private String menuPid;
 	//菜单排序
 	private String orderBy;
 	//菜单说明
@@ -20,19 +22,22 @@ public class SystemRoleMenuResp extends BaseResp {
 	//是否授权此菜单
 	private String roleHasMenu;
 	//角色id
-	private String roleid;
+	private String roleId;
 	
 	public String getId() {
 		return id;
 	}
-	public String getMenuid() {
-		return menuid;
+	public String getMenuId() {
+		return menuId;
 	}
-	public String getMenuname() {
-		return menuname;
+	public String getMenuName() {
+		return menuName;
 	}
-	public String getMenucode() {
-		return menucode;
+	public String getMenuCode() {
+		return menuCode;
+	}
+	public String getMenuPid() {
+		return menuPid;
 	}
 	public String getOrderBy() {
 		return orderBy;
@@ -43,20 +48,23 @@ public class SystemRoleMenuResp extends BaseResp {
 	public String getRoleHasMenu() {
 		return roleHasMenu;
 	}
-	public String getRoleid() {
-		return roleid;
+	public String getRoleId() {
+		return roleId;
 	}
 	public void setId(String id) {
 		this.id = id;
 	}
-	public void setMenuid(String menuid) {
-		this.menuid = menuid;
+	public void setMenuId(String menuId) {
+		this.menuId = menuId;
 	}
-	public void setMenuname(String menuname) {
-		this.menuname = menuname;
+	public void setMenuName(String menuName) {
+		this.menuName = menuName;
 	}
-	public void setMenucode(String menucode) {
-		this.menucode = menucode;
+	public void setMenuCode(String menuCode) {
+		this.menuCode = menuCode;
+	}
+	public void setMenuPid(String menuPid) {
+		this.menuPid = menuPid;
 	}
 	public void setOrderBy(String orderBy) {
 		this.orderBy = orderBy;
@@ -67,8 +75,8 @@ public class SystemRoleMenuResp extends BaseResp {
 	public void setRoleHasMenu(String roleHasMenu) {
 		this.roleHasMenu = roleHasMenu;
 	}
-	public void setRoleid(String roleid) {
-		this.roleid = roleid;
+	public void setRoleId(String roleId) {
+		this.roleId = roleId;
 	}
 	
 }
