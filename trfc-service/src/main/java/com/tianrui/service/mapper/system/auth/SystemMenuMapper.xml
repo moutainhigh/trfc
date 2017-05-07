@@ -349,4 +349,46 @@
       </if>
   	</where>
   </select>
+  <select id="selectByRoleId" parameterType="com.tianrui.api.req.system.auth.SystemMenuQueryReq" resultMap="BaseResultMap">
+    select 
+    	<include refid="Base_Column_List"/>
+    from tr_system_menu
+   	<where>
+   		<if test="name != null and name != ''">
+  			and name = #{name,jdbcType=VARCHAR}
+		</if>
+  		<if test="code != null and code != ''" >
+       		and code = #{code,jdbcType=VARCHAR}
+      	</if>
+		<if test="isvalid != null and isvalid != ''" >
+       		and isvalid = #{isvalid,jdbcType=TINYINT}
+      	</if>
+   		<if test="roleType != null and roleType != ''" >
+       		and roleType = #{roleType,jdbcType=VARCHAR}
+      	</if>
+   	</where>
+   	order by code,deep,order_by 
+  	<if test="start != null and start >= 0">
+  		<if test="limit != null">
+			limit #{start,jdbcType=INTEGER},#{limit,jdbcType=INTEGER}
+  		</if>
+  	</if>
+  </select>
+  <select id="selectMenuByUserRoleId" parameterType="java.lang.String" resultMap="BaseResultMap">
+  	SELECT 
+	<include refid="Base_Column_List"/>
+	FROM
+		tr_system_menu 
+	LEFT JOIN (
+		SELECT DISTINCT
+			(t2.menuid) menuid
+		FROM
+			tr_system_role_menu t2
+		LEFT JOIN tr_system_user_role t3 ON t2.roleid = t3.roleid
+		WHERE
+			t3.userid = #{userid,jdbcType=VARCHAR}
+	) t1 on id = t1.menuid 
+	where id = t1.menuid
+	order by code,deep,order_by 
+  </select>
 </mapper>

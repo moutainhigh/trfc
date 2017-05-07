@@ -38,4 +38,12 @@ public interface SystemMenuMapper {
     long countByCondition(SystemMenuQueryReq queryReq );
     
     List<SystemMenu>  selectSelective(SystemMenu record);
+    /**
+     * @Description 根据用户id查询拥有的角色的菜单权限
+     * @author zhanggaohao
+     * @version 2017年5月7日 上午10:12:03
+     * @param userid
+     * @return
+     */
+    List<SystemMenu>  selectMenuByUserRoleId(String userid);
 }

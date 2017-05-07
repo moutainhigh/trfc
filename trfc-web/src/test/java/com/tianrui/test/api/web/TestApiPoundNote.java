@@ -50,9 +50,9 @@ public class TestApiPoundNote {
 		ApiParam<ApiPoundNoteQuery> api =new ApiParam<ApiPoundNoteQuery>();
 		
 		ApiPoundNoteQuery req =new ApiPoundNoteQuery();
-		req.setRfid("08D4A547373531323120AB01");
-		req.setVehicleno("豫G75121");
-		req.setLimit(2);
+		req.setRfid("E2000016060D014827000A5E");
+		req.setVehicleno("豫S98765");
+		req.setLimit(24);
 		
 		Head head =new Head();
 		head.setCallSource("1");

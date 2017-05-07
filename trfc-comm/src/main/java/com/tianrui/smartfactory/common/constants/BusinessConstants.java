@@ -14,5 +14,7 @@ public class BusinessConstants {
 	public final static String USER_INVALID_STR="0";
 	public final static Byte USER_INVALID_BYTE=(byte)0;
 	
+	//平台用户
+	public final static String USER_PT_STR = "3";
     
 }

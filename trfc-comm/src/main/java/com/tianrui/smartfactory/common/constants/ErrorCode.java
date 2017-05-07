@@ -79,6 +79,8 @@ public enum ErrorCode {
 	SYSTEM_USER_ERROR8("E200008","该用户编码已经存在."),
 	SYSTEM_USER_ERROR9("E200009","原密码错误."),
 	SYSTEM_USER_ERROR10("E200009","密码修改失败，请稍后重试."),
+	SYSTEM_USER_ERROR11("E200010","该用户没有登录网页平台的权限."),
+	SYSTEM_USER_ERROR12("E200011","该用户没有登录客商平台的权限."),
 	
 	SYSTEM_MENU_ERROR6("E200106","找不到相关菜单记录."),
 	SYSTEM_MENU_ERROR7("E200107","该菜单名称已经存在."),

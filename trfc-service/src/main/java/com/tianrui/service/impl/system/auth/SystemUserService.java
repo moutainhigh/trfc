@@ -253,8 +253,12 @@ public class SystemUserService implements ISystemUserService {
 				//验证密码
 				if (StringUtils.equals(list.get(0).getPassword(),req.getPswd() )) {
 					if ( list.get(0).getIsvalid()==BusinessConstants.USER_VALID_BYTE ) {
-						rs.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
-						rs.setData(copySystemUserBean2Resp(list.get(0)));
+						if(StringUtils.equals(list.get(0).getIdentityTypes(), BusinessConstants.USER_PT_STR)) {
+							rs.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+							rs.setData(copySystemUserBean2Resp(list.get(0)));
+						}else{
+							rs.setErrorCode(ErrorCode.SYSTEM_USER_ERROR11);
+						}
 					}else{
 						rs.setErrorCode(ErrorCode.SYSTEM_USER_ERROR2);
 					}
@@ -413,22 +417,26 @@ public class SystemUserService implements ISystemUserService {
 				//验证密码
 				if (StringUtils.equals(list.get(0).getPassword(), req.getPswd())) {
 					if (list.get(0).getIsvalid()==BusinessConstants.USER_VALID_BYTE ) {
-						String tokenId =UUIDUtil.getId();
-						SystemUserResp user = get(list.get(0).getId(), true);
-						//缓存默认保存一天
-						String key =CacheHelper.buildKey(CacheModule.MEMBERLOGIN_APP, tokenId);
-						cacheClient.saveObject(key, user, 7*24*60*60);
-						user.setTokenId(tokenId);
-						AppUserResp resp = new AppUserResp();
-						resp.setId(user.getId());
-						resp.setToken(user.getTokenId());
-						resp.setUserName(user.getName());
-						resp.setMobile(user.getMobilePhone());
-						resp.setOrgid(user.getOrgid());
-						resp.setOrgName(user.getOrgName());
-						resp.setIdentityTypes(user.getIdentityTypes());
-						result.setData(resp);
-						result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+						if(!StringUtils.equals(list.get(0).getIdentityTypes(), BusinessConstants.USER_PT_STR)){
+							String tokenId =UUIDUtil.getId();
+							SystemUserResp user = get(list.get(0).getId(), true);
+							//缓存默认保存一天
+							String key =CacheHelper.buildKey(CacheModule.MEMBERLOGIN_APP, tokenId);
+							cacheClient.saveObject(key, user, 7*24*60*60);
+							user.setTokenId(tokenId);
+							AppUserResp resp = new AppUserResp();
+							resp.setId(user.getId());
+							resp.setToken(user.getTokenId());
+							resp.setUserName(user.getName());
+							resp.setMobile(user.getMobilePhone());
+							resp.setOrgid(user.getOrgid());
+							resp.setOrgName(user.getOrgName());
+							resp.setIdentityTypes(user.getIdentityTypes());
+							result.setData(resp);
+							result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+						}else{
+							result.setErrorCode(ErrorCode.SYSTEM_USER_ERROR12);
+						}
 					}else{
 						result.setErrorCode(ErrorCode.SYSTEM_USER_ERROR5);
 					}
