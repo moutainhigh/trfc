@@ -203,6 +203,13 @@ public class OtherArriveService implements IOtherArriveService {
 		PoundNote pound = poundNoteMapper.selectByNoticeId(oa.getId());
 		if(pound!=null){
 			PoundNoteResp poundResp = new PoundNoteResp();
+			poundResp.setCode(pound.getCode());
+			poundResp.setVehicleno(pound.getVehicleno());
+			poundResp.setGrossweight(pound.getGrossweight());
+			poundResp.setTareweight(pound.getTareweight());
+			poundResp.setNetweight(pound.getNetweight());
+			poundResp.setWeighttime(pound.getWeighttime());
+			poundResp.setLighttime(pound.getLighttime());
 			resp.setPoundDetail(poundResp);
 		}
 		//获取物料名称

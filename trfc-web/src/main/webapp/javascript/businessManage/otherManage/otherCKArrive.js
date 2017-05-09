@@ -287,6 +287,7 @@ $(function() {
 				+'<td>'+getNowFormatDate(obj.poundDetail.lighttime)+'</td>'
 				+'<td>'+getNowFormatDate(obj.poundDetail.weighttime)+'</td>'
 				+'</tr>';
+			pound_tbody.append(tr);
 		}
 	}
 
