@@ -41,6 +41,7 @@ import com.tianrui.api.resp.businessManage.salesManage.SalesArriveResp;
 import com.tianrui.service.bean.basicFile.measure.VehicleManage;
 import com.tianrui.service.bean.businessManage.cardManage.Card;
 import com.tianrui.service.bean.businessManage.logisticsManage.AccessRecord;
+import com.tianrui.service.bean.businessManage.otherManage.OtherArrive;
 import com.tianrui.service.bean.businessManage.poundNoteMaintain.PoundNote;
 import com.tianrui.service.bean.businessManage.purchaseManage.PurchaseApplication;
 import com.tianrui.service.bean.businessManage.purchaseManage.PurchaseApplicationDetail;
@@ -53,6 +54,7 @@ import com.tianrui.service.bean.common.RFID;
 import com.tianrui.service.mapper.basicFile.measure.VehicleManageMapper;
 import com.tianrui.service.mapper.businessManage.cardManage.CardMapper;
 import com.tianrui.service.mapper.businessManage.logisticsManage.AccessRecordMapper1;
+import com.tianrui.service.mapper.businessManage.otherManage.OtherArriveMapper;
 import com.tianrui.service.mapper.businessManage.poundNoteMaintain.PoundNoteMapper;
 import com.tianrui.service.mapper.businessManage.purchaseManage.PurchaseApplicationDetailMapper;
 import com.tianrui.service.mapper.businessManage.purchaseManage.PurchaseApplicationMapper;
@@ -118,7 +120,9 @@ public class SalesArriveService implements ISalesArriveService {
 	private PoundNoteMapper poundNoteMapper;
 	@Autowired
 	private AccessRecordMapper1 accessRecordMapper1;
-	
+	@Autowired
+	private OtherArriveMapper otherArriveMapper;
+
 	@Override
 	public PaginationVO<SalesArriveResp> page(SalesArriveQuery query) throws Exception {
 		PaginationVO<SalesArriveResp> page = null;
@@ -140,7 +144,7 @@ public class SalesArriveService implements ISalesArriveService {
 		}
 		return page;
 	}
-	
+
 	@Transactional
 	@Override
 	public Result add(SalesArriveSave save, String bills) throws Exception {
@@ -211,7 +215,7 @@ public class SalesArriveService implements ISalesArriveService {
 						join.setModifier(bean.getModifier());
 						join.setModifytime(System.currentTimeMillis());
 						list.add(join);
-//					SalesApplicationResp application = salesApplicationService.findOne(billid, false);
+						//					SalesApplicationResp application = salesApplicationService.findOne(billid, false);
 						SalesApplicationDetailResp applicationDetailResp = salesApplicationDetailService.findOne(billdetailid);
 						if(applicationDetailResp != null && takeamount > 0){
 							join.setBillsum(applicationDetailResp.getSalessum());
@@ -277,6 +281,23 @@ public class SalesArriveService implements ISalesArriveService {
 			result.setError("此车辆己有到货通知单、待出厂后进行派车，现有车辆业务单据号为:"+listVehicle1.get(0).getCode()+"，如有疑问请与销售处联系！");
 			flag = false;
 		}
+		//验证其他业务中的通知单
+		OtherArrive oa = new OtherArrive();
+		oa.setVehicleid(save.getVehicleid());
+		List<OtherArrive> listVehicle2 = otherArriveMapper.checkDriverAndVehicleAndIcardIsUse(oa);
+		if(listVehicle2!=null && listVehicle2.size()>0){
+			result.setErrorCode(ErrorCode.PARAM_REPEAT_ERROR);
+			result.setError("此车辆己有提货通知单、待出厂后进行派车，现有车辆业务单据号为:"+listVehicle2.get(0).getCode()+"，如有疑问请与销售处联系！");
+			flag = false;
+		}
+		oa.setVehicleid(null);
+		oa.setDriverid(save.getDriverid());
+		List<OtherArrive> listDriver2 = otherArriveMapper.checkDriverAndVehicleAndIcardIsUse(oa);
+		if(listDriver2!=null && listDriver2.size()>0){
+			result.setErrorCode(ErrorCode.PARAM_REPEAT_ERROR);
+			result.setError("此司机己有提货通知单、待出厂后进行派车，现有车辆业务单据号为:"+listDriver2.get(0).getCode()+"，如有疑问请与销售处联系！");
+			flag = false;
+		}
 		bean.setVehicleid(null);
 		bean.setDriverid(save.getDriverid());
 		List<SalesArrive> listDriver = salesArriveMapper.checkDriverAndVehicleIsUse(bean);
@@ -300,7 +321,10 @@ public class SalesArriveService implements ISalesArriveService {
 				//ic卡是否占用
 				SalesArrive sales1 = salesArriveMapper.checkICUse(card.getId());
 				PurchaseArrive purchase1 = purchaseArriveMapper.checkICUse(card.getId());
-				if(sales1 == null && purchase1 == null) {
+				oa.setVehicleid(null);
+				oa.setIcardid(card.getId());
+				List<OtherArrive> listIcard2 = otherArriveMapper.checkDriverAndVehicleAndIcardIsUse(oa);
+				if(sales1 == null && purchase1 == null && listIcard2.size()==0) {
 					save.setIcardid(card.getId());
 				}else{
 					result.setErrorCode(ErrorCode.CARD_IN_USE);
@@ -313,7 +337,7 @@ public class SalesArriveService implements ISalesArriveService {
 		}
 		return flag;
 	}
-	
+
 	@Override
 	public Result updateCardno(SalesArriveSave save) throws Exception {
 		Result rs = Result.getParamErrorResult();
@@ -333,7 +357,7 @@ public class SalesArriveService implements ISalesArriveService {
 		}
 		return rs;
 	}
-	
+
 	@Override
 	public Result update(SalesArriveSave save, String bills) throws Exception {
 		Result result = Result.getParamErrorResult();
@@ -385,7 +409,7 @@ public class SalesArriveService implements ISalesArriveService {
 		}
 		return resp;
 	}
-	
+
 	@Override
 	public List<SalesArriveResp> selectByIds(List<String> ids) throws Exception{
 		List<SalesArriveResp> listResp = null;
@@ -395,7 +419,7 @@ public class SalesArriveService implements ISalesArriveService {
 		}
 		return listResp;
 	}
-	
+
 	private void ListArriveRespSetListApplicationResp(List<SalesArriveResp> listArrive) throws Exception{
 		if(CollectionUtils.isNotEmpty(listArrive)){
 			List<String> ids = new ArrayList<String>();
@@ -470,7 +494,7 @@ public class SalesArriveService implements ISalesArriveService {
 			}
 		}
 	}
-	
+
 	private List<SalesArriveResp> copyBeanList2RespList(List<SalesArrive> list, boolean setApplication) throws Exception {
 		List<SalesArriveResp> listResp = null;
 		if(list != null && list.size() > 0){
@@ -481,7 +505,7 @@ public class SalesArriveService implements ISalesArriveService {
 		}
 		return listResp;
 	}
-	
+
 	private SalesArriveResp copyBean2Resp(SalesArrive bean, boolean setApplication) throws Exception {
 		SalesArriveResp resp = null;
 		if(bean != null){
@@ -587,7 +611,7 @@ public class SalesArriveService implements ISalesArriveService {
 		}
 		return result;
 	}
-	
+
 	@Override
 	public Result detailApi(ApiSalesArriveQuery query) throws Exception {
 		Result result = Result.getParamErrorResult();
@@ -627,7 +651,7 @@ public class SalesArriveService implements ISalesArriveService {
 		}
 		return result;
 	}
-	
+
 	private ApiSalesArriveResp getPurchaseArriveDetail(String vehicleid, String vehiclerfid) {
 		ApiSalesArriveResp api = null;
 		PurchaseArrive pa = new PurchaseArrive();
@@ -698,7 +722,7 @@ public class SalesArriveService implements ISalesArriveService {
 		}
 		return api;
 	}
-	
+
 	@Override
 	public Result selectWaitingNumber(ApiDoorQueueQuery api){
 		Result result = Result.getSuccessResult();

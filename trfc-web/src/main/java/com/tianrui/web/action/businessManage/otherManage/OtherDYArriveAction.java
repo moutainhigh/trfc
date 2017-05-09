@@ -78,7 +78,7 @@ public class OtherDYArriveAction {
 		try {
 			SystemUserResp user = (SystemUserResp) session.getAttribute("systemUser");
 			req.setUserid(user.getId());
-			req.setBusinesstype("5");
+			req.setBusinesstype("4");
 			req.setCodekey("ND");
 			rs = otherArriveService.add(req);
 		} catch (Exception e) {
@@ -93,7 +93,7 @@ public class OtherDYArriveAction {
 	public Result page(OtherArriveReq req){
 		Result rs = Result.getSuccessResult();
 		try {
-			req.setBusinesstype("5");
+			req.setBusinesstype("4");
 			rs = otherArriveService.page(req);
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);

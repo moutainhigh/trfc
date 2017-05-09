@@ -317,6 +317,7 @@
 						#{materielid,jdbcType=VARCHAR}
 						)
 					</if>
+					or EXISTS(select id from tr_other_db_arrive o1 where o1.id=noticeid)
 					))
 				</otherwise>
 			</choose>
@@ -420,6 +421,7 @@
 						and s2.materielid = #{materielid,jdbcType=VARCHAR}
 						)
 					</if>
+					or EXISTS(select id from tr_other_db_arrive o1 where o1.id=noticeid)
 					))
 				</otherwise>
 			</choose>

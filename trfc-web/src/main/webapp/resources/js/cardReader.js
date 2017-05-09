@@ -13,7 +13,7 @@ function initCardReader(){
 //打开读卡器
 function readerOpen() {
 	try {
-		var version = MWRFATL.openReader(4, 9600);
+		var version = MWRFATL.openReader(2, 9600);
 		if (MWRFATL.LastRet != 0) {
 			layer.msg("打开读写器失败");
 			return;
@@ -158,16 +158,16 @@ function writeObjToCard(obj) {
 function readObjFromCard() {
 	//业务类型
 	var BT = {
-			'1':'采购',
-			'2':'销售',
-			'3':'其他入库',
-			'4':'其他出库',
-			'5':'厂内倒运',
-			'6':'工程车辆',
-			'11':'采购退货',
-			'21':'销售退货',
-			'31':'其它入库退货',
-			'41':'其它出库退货'
+			'0':'采购到货',
+			'1':'采购退货',
+			'2':'销售提货',
+			'3':'销售退货',
+			'4':'厂内倒运',
+			'5':'其他入库',
+			'6':'其它入库退货',
+			'7':'其他出库',
+			'8':'其它出库退货',
+			'9':'工程车辆'
 	};
 	//物料类型
 	var MT = {

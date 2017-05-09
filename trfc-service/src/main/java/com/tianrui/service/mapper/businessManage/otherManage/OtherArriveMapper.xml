@@ -54,6 +54,21 @@
 		from tr_other_db_arrive
 		where id = #{id,jdbcType=VARCHAR}
 	</select>
+	<select id="selectByCode" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from tr_other_db_arrive
+		where code = #{code,jdbcType=VARCHAR}
+	</select>
+	<select id="hasOtherArrive" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from tr_other_db_arrive
+		where vehicleid = #{vehicleid,jdbcType=VARCHAR} and status != '3' and status != '5'
+	</select>
+	
 	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
 		delete from
 		tr_other_db_arrive

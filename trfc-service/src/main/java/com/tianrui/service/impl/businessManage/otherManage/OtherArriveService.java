@@ -203,7 +203,6 @@ public class OtherArriveService implements IOtherArriveService {
 		PoundNote pound = poundNoteMapper.selectByNoticeId(oa.getId());
 		if(pound!=null){
 			PoundNoteResp poundResp = new PoundNoteResp();
-			PropertyUtils.copyProperties(resp, pound);
 			resp.setPoundDetail(poundResp);
 		}
 		//获取物料名称
@@ -364,7 +363,10 @@ public class OtherArriveService implements IOtherArriveService {
 				//ic卡是否占用
 				SalesArrive sales = salesArriveMapper.checkICUse(card.getId());
 				PurchaseArrive purchase = purchaseArriveMapper.checkICUse(card.getId());
-				if(sales == null && purchase == null) {
+				oa.setVehicleid(null);
+				oa.setIcardid(card.getId());
+				List<OtherArrive> listIcard2 = otherArriveMapper.checkDriverAndVehicleAndIcardIsUse(oa);
+				if(sales == null && purchase == null && listIcard2.size()==0) {
 					//获取icard id
 					req.setIcardid(card.getId());
 				}else{
@@ -376,18 +378,8 @@ public class OtherArriveService implements IOtherArriveService {
 				flag = false;
 			}
 		}
-
 		
 		
-		oa.setVehicleid(null);
-		oa.setIcardid(req.getIcardid());
-		if(StringUtils.isNotBlank(req.getIcardid())){
-			List<OtherArrive> listIcard2 = otherArriveMapper.checkDriverAndVehicleAndIcardIsUse(oa);
-			if(listIcard2!=null && listIcard2.size()>0){
-				result.setErrorCode(ErrorCode.CARD_IN_USE);
-				flag = false;
-			}
-		}
 		return flag;
 	}
 

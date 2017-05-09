@@ -32,6 +32,7 @@ import com.tianrui.api.resp.businessManage.purchaseManage.PurchaseApplicationRes
 import com.tianrui.api.resp.businessManage.purchaseManage.PurchaseArriveResp;
 import com.tianrui.service.bean.businessManage.cardManage.Card;
 import com.tianrui.service.bean.businessManage.logisticsManage.AccessRecord;
+import com.tianrui.service.bean.businessManage.otherManage.OtherArrive;
 import com.tianrui.service.bean.businessManage.poundNoteMaintain.PoundNote;
 import com.tianrui.service.bean.businessManage.purchaseManage.PurchaseApplication;
 import com.tianrui.service.bean.businessManage.purchaseManage.PurchaseApplicationDetail;
@@ -39,6 +40,7 @@ import com.tianrui.service.bean.businessManage.purchaseManage.PurchaseArrive;
 import com.tianrui.service.bean.businessManage.salesManage.SalesArrive;
 import com.tianrui.service.mapper.businessManage.cardManage.CardMapper;
 import com.tianrui.service.mapper.businessManage.logisticsManage.AccessRecordMapper1;
+import com.tianrui.service.mapper.businessManage.otherManage.OtherArriveMapper;
 import com.tianrui.service.mapper.businessManage.poundNoteMaintain.PoundNoteMapper;
 import com.tianrui.service.mapper.businessManage.purchaseManage.PurchaseApplicationDetailMapper;
 import com.tianrui.service.mapper.businessManage.purchaseManage.PurchaseApplicationMapper;
@@ -79,6 +81,8 @@ public class PurchaseArriveService implements IPurchaseArriveService {
 	private PoundNoteMapper poundNoteMapper;
 	@Autowired
 	private AccessRecordMapper1 accessRecordMapper1;
+	@Autowired
+	private OtherArriveMapper otherArriveMapper;
 
 	@Override
 	public PaginationVO<PurchaseArriveResp> page(PurchaseArriveQuery query) throws Exception{
@@ -181,6 +185,24 @@ public class PurchaseArriveService implements IPurchaseArriveService {
 			result.setError("此车辆己有提货通知单、待出厂后进行派车，现有车辆业务单据号为:"+listVehicle1.get(0).getCode()+"，如有疑问请与销售处联系！");
 			flag = false;
 		}
+		//验证其他业务中的通知单
+		OtherArrive oa = new OtherArrive();
+		oa.setVehicleid(save.getVehicleid());
+		List<OtherArrive> listVehicle2 = otherArriveMapper.checkDriverAndVehicleAndIcardIsUse(oa);
+		if(listVehicle2!=null && listVehicle2.size()>0){
+			result.setErrorCode(ErrorCode.PARAM_REPEAT_ERROR);
+			result.setError("此车辆己有提货通知单、待出厂后进行派车，现有车辆业务单据号为:"+listVehicle2.get(0).getCode()+"，如有疑问请与销售处联系！");
+			flag = false;
+		}
+		oa.setVehicleid(null);
+		oa.setDriverid(save.getDriverid());
+		List<OtherArrive> listDriver2 = otherArriveMapper.checkDriverAndVehicleAndIcardIsUse(oa);
+		if(listDriver2!=null && listDriver2.size()>0){
+			result.setErrorCode(ErrorCode.PARAM_REPEAT_ERROR);
+			result.setError("此司机己有提货通知单、待出厂后进行派车，现有车辆业务单据号为:"+listDriver2.get(0).getCode()+"，如有疑问请与销售处联系！");
+			flag = false;
+		}
+		
 		pa.setVehicleid(null);
 		pa.setDriverid(save.getDriverid());
 		List<PurchaseArrive> listDriver = purchaseArriveMapper.checkDriverAndVehicleIsUse(pa);
@@ -204,7 +226,10 @@ public class PurchaseArriveService implements IPurchaseArriveService {
 				//ic卡是否占用
 				SalesArrive sales = salesArriveMapper.checkICUse(card.getId());
 				PurchaseArrive purchase = purchaseArriveMapper.checkICUse(card.getId());
-				if(sales == null && purchase == null) {
+				oa.setVehicleid(null);
+				oa.setIcardid(card.getId());
+				List<OtherArrive> listIcard2 = otherArriveMapper.checkDriverAndVehicleAndIcardIsUse(oa);
+				if(sales == null && purchase == null && listIcard2.size()==0) {
 					save.setIcardid(card.getId());
 				}else{
 					result.setErrorCode(ErrorCode.CARD_IN_USE);

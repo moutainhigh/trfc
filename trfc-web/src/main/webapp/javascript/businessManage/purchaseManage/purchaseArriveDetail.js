@@ -7,11 +7,11 @@ PAGE.mod = {
 	main:{},
 	util:{},
 	URL: {
-		mainUrl:"/trfc/purchaseArrive/main",
+		mainUrl:"/trfc/purchaseArrive/main"
 	}
-}
+};
 PAGE.mod.util = {
-}
+};
 PAGE.mod.main = {
 		top: PAGE.mod,
 		init:function(){

@@ -15,74 +15,74 @@
 	}
 	function initAutoComplete(){
 		var cache = {};
-	    $("#materiel").autocomplete({
-	    	source: function( request, response ) {
-	    		var term = request.term;
-	    		var materiel = cache['materiel'] || {};
-	    		if ( term in materiel ) {
-	    			response( materiel[ term ] );
-	    			return;
-	    		}
-	    		$.post( URL.materielAutoCompleteSearch, request, function( data, status, xhr ) {
-	    			materiel[ term ] = data;
-	    			response( data );
-	    		});
-	    	},
-	    	response: function( event, ui ) {
-	    		if(ui.content && ui.content.length > 0){
-		    		ui.content.forEach(function(x,i,a){
-		    			x.label = x.name;
-		    			x.value = x.id;
-		    		});
-	    		}
-	    	},
-	    	select: function( event, ui ) {
-	    		$(this).val(ui.item.name).attr('materielid', ui.item.id);
-	    		return false;
-    		}
-	    }).off('click').on('click',function(){
-	    	$(this).autocomplete('search',' ');
-	    }).on('input keydown',function(){
-	    	$(this).removeAttr('materielid');
-	    }).change(function(){
-    		if(!$(this).attr('materielid')){
-    			$(this).val('');
-    		}
-	    });
-	    $("#vehicle").autocomplete({
-	    	source: function( request, response ) {
-	    		var term = request.term;
-	    		var vehicle = cache['vehicle'] || {};
-	    		if ( term in vehicle ) {
-	    			response( vehicle[ term ] );
-	    			return;
-	    		}
-	    		$.post( URL.vehicleAutoCompleteSearch, request, function( data, status, xhr ) {
-	    			vehicle[ term ] = data;
-	    			response( data );
-	    		});
-	    	},
-	    	response: function( event, ui ) {
-	    		if(ui.content && ui.content.length > 0){
-	    			ui.content.forEach(function(x,i,a){
-	    				x.label = x.vehicleno;
-	    				x.value = x.id;
-	    			});
-	    		}
-	    	},
-	    	select: function( event, ui ) {
-	    		$(this).val(ui.item.vehicleno).attr('vehicleid', ui.item.id);
-	    		return false;
-	    	}
-	    }).off('click').on('click',function(){
-	    	$(this).autocomplete('search',' ');
-	    }).on('input keydown',function(){
-	    	$(this).removeAttr('vehicleid');
-	    }).change(function(){
-	    	if(!$(this).attr('vehicleid')){
-	    		$(this).val('');
-	    	}
-	    });
+		$("#materiel").autocomplete({
+			source: function( request, response ) {
+				var term = request.term;
+				var materiel = cache['materiel'] || {};
+				if ( term in materiel ) {
+					response( materiel[ term ] );
+					return;
+				}
+				$.post( URL.materielAutoCompleteSearch, request, function( data, status, xhr ) {
+					materiel[ term ] = data;
+					response( data );
+				});
+			},
+			response: function( event, ui ) {
+				if(ui.content && ui.content.length > 0){
+					ui.content.forEach(function(x,i,a){
+						x.label = x.name;
+						x.value = x.id;
+					});
+				}
+			},
+			select: function( event, ui ) {
+				$(this).val(ui.item.name).attr('materielid', ui.item.id);
+				return false;
+			}
+		}).off('click').on('click',function(){
+			$(this).autocomplete('search',' ');
+		}).on('input keydown',function(){
+			$(this).removeAttr('materielid');
+		}).change(function(){
+			if(!$(this).attr('materielid')){
+				$(this).val('');
+			}
+		});
+		$("#vehicle").autocomplete({
+			source: function( request, response ) {
+				var term = request.term;
+				var vehicle = cache['vehicle'] || {};
+				if ( term in vehicle ) {
+					response( vehicle[ term ] );
+					return;
+				}
+				$.post( URL.vehicleAutoCompleteSearch, request, function( data, status, xhr ) {
+					vehicle[ term ] = data;
+					response( data );
+				});
+			},
+			response: function( event, ui ) {
+				if(ui.content && ui.content.length > 0){
+					ui.content.forEach(function(x,i,a){
+						x.label = x.vehicleno;
+						x.value = x.id;
+					});
+				}
+			},
+			select: function( event, ui ) {
+				$(this).val(ui.item.vehicleno).attr('vehicleid', ui.item.id);
+				return false;
+			}
+		}).off('click').on('click',function(){
+			$(this).autocomplete('search',' ');
+		}).on('input keydown',function(){
+			$(this).removeAttr('vehicleid');
+		}).change(function(){
+			if(!$(this).attr('vehicleid')){
+				$(this).val('');
+			}
+		});
 	}
 	//绑定按钮
 	function initBindEvent(){
@@ -138,7 +138,7 @@
 	//发送搜索请求
 	function searchParamsGetData(pageNo){
 		var index = layer.load(2, {
-			  shade: [0.3,'#fff'] //0.1透明度的白色背景
+			shade: [0.3,'#fff'] //0.1透明度的白色背景
 		});
 		var params = getParams();
 		params.pageNo = pageNo;
@@ -158,17 +158,17 @@
 					$('#total').html(total);
 					$('#jumpPageNo').attr('maxPageNo',parseInt((total+pageSize-1)/pageSize));
 					$("#pagination").pagination(total, {
-					    callback: function(pageNo){
-					    	searchParamsGetData(pageNo+1);
+						callback: function(pageNo){
+							searchParamsGetData(pageNo+1);
 						},
-					    prev_text: '上一页',
-					    next_text: '下一页',
-					    items_per_page:pageSize,
-					    num_display_entries:4,
-					    current_page:pageNo-1,
-					    num_edge_entries:1,
-					    maxentries:total,
-					    link_to:"javascript:void(0)"
+						prev_text: '上一页',
+						next_text: '下一页',
+						items_per_page:pageSize,
+						num_display_entries:4,
+						current_page:pageNo-1,
+						num_edge_entries:1,
+						maxentries:total,
+						link_to:"javascript:void(0)"
 					});
 				}else{
 					layer.msg(result.error,{icon:5});
@@ -184,20 +184,39 @@
 		if(list && list.length > 0){
 			for(var i=0;i<list.length;i++){
 				var obj = list[i];
+				var businesstype = '';
+				switch(obj.businesstype){
+				case '1':
+					businesstype = '采购';
+					break;
+				case '2':
+					businesstype = '销售';
+					break;
+				case '5':
+					businesstype = '其他入库';
+					break;
+				case '7':
+					businesstype = '其他出库';
+					break;
+				case '4':
+					businesstype = '厂内倒运';
+					break;
+				default:
+				}
 				$('<tr>').append('<td>'+(i+1)+'</td>')
-							  .append('<td>'+(obj.code || '')+'</td>')
-							  .append('<td>'+(obj.businesstype ? obj.businesstype == '1' ? '采购' : obj.businesstype == '2' ? '销售' : obj.businesstype == '3' ? '其他入库' : obj.businesstype == '4' ? '其他出库' : '' : '')+'</td>')
-							  .append('<td>'+(obj.accesstype ? obj.accesstype == '1' ? '入厂' : obj.accesstype == '2' ? '出厂' : '' : '')+'</td>')
-							  .append('<td>'+(obj.vehicleno || '')+'</td>')
-							  .append('<td>'+(obj.materielname || '')+'</td>')
-							  .append('<td>'+(obj.noticecode || '')+'</td>')
-							  .append('<td>'+(obj.otherparty || '')+'</td>')
-							  .append('<td>'+(obj.rfid || '')+'</td>')
-							  .append('<td>'+(obj.icardno || '')+'</td>')
-							  .append('<td>'+(obj.icardcode || '')+'</td>')
-							  .append('<td>'+(obj.entertimeStr || '')+'</td>')
-							  .append('<td>'+(obj.outtimeStr || '')+'</td>')
-							  .appendTo('#dataBody');
+				.append('<td>'+(obj.code || '')+'</td>')
+				.append('<td>'+(businesstype || '')+'</td>')
+				.append('<td>'+(obj.accesstype ? obj.accesstype == '1' ? '入厂' : obj.accesstype == '2' ? '出厂' : '' : '')+'</td>')
+				.append('<td>'+(obj.vehicleno || '')+'</td>')
+				.append('<td>'+(obj.materielname || '')+'</td>')
+				.append('<td>'+(obj.noticecode || '')+'</td>')
+				.append('<td>'+(obj.otherparty || '')+'</td>')
+				.append('<td>'+(obj.rfid || '')+'</td>')
+				.append('<td>'+(obj.icardno || '')+'</td>')
+				.append('<td>'+(obj.icardcode || '')+'</td>')
+				.append('<td>'+(obj.entertimeStr || '')+'</td>')
+				.append('<td>'+(obj.outtimeStr || '')+'</td>')
+				.appendTo('#dataBody');
 			}
 		}else{
 			layer.msg('暂无数据.');

@@ -18,6 +18,8 @@ public interface VehicleManageMapper {
 
     VehicleManage selectByPrimaryKey(String id);
     
+    VehicleManage selectByVehicleno(String vehicleno);
+    
     List<VehicleManage> selectSelective(VehicleManage record);
 
     int updateByPrimaryKeySelective(VehicleManage record);

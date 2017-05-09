@@ -538,7 +538,7 @@
 		var vehicleid = $('#vehicle').attr('vehicleid') || '';vehicleid = $.trim(vehicleid);
 		var customerid = $('#customername').attr('customerid') || '';customerid = $.trim(customerid);
 		var materielname = $('#materielname').val() || '';materielname = $.trim(materielname);
-		//设置业务类型为 销售
+		//设置业务类型为 销售提货
 		var businesstype = '2';
 		var takeamount = $('#takeamount').val() || 0;
 		var packagetype = $('#materielname').attr('packagetype');

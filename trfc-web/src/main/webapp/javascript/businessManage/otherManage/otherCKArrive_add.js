@@ -113,7 +113,7 @@ $(function() {
 		var customerid = $('#add_customer').attr('customerid') || '';customerid = $.trim(customerid);
 		var materielname = $('#add_materiel').val() || '';materielname = $.trim(materielname);
 		//设置业务类型为 其他出库
-		var businesstype = '4';
+		var businesstype = '7';
 		var supplierremark = $('#add_supplier').attr('supplierremark') || '';supplierremark = $.trim(supplierremark);
 		var takeamount = $('#add_count').val() || 0;
 		var packagetype = $('#add_materiel').attr('packagetype') || '';packagetype = $.trim(packagetype);

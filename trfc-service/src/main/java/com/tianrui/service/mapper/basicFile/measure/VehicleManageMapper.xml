@@ -44,6 +44,13 @@
 		from tr_vehicle_db_manage
 		where id = #{id,jdbcType=VARCHAR}
 	</select>
+	<select id="selectByVehicleno" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from tr_vehicle_db_manage
+		where vehicleno = #{vehicleno,jdbcType=VARCHAR} and state = '1'
+	</select>
 	<select id="selectSelective" resultMap="BaseResultMap"
 		parameterType="com.tianrui.service.bean.basicFile.measure.VehicleManage">
 		select

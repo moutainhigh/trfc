@@ -544,8 +544,8 @@
 		var vehicleid = $('#vehicle').attr('vehicleid') || '';vehicleid = $.trim(vehicleid);
 		var supplierid = $('#suppliername').attr('supplierid') || '';supplierid = $.trim(supplierid);
 		var materielname = $('#materielname').val() || '';materielname = $.trim(materielname);
-		//设置业务类型为 采购
-		var businesstype = '1';
+		//设置业务类型为 采购到货
+		var businesstype = '0';
 		var supplierremark = $('#supplierremark').val() || '';supplierremark = $.trim(supplierremark);
 		var arrivalamount = $('#arrivalamount').val() || 0;
 		var packagetype = $('#materielname').attr('packagetype');

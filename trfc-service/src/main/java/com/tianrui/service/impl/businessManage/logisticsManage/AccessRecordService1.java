@@ -1,6 +1,7 @@
 package com.tianrui.service.impl.businessManage.logisticsManage;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,20 +22,24 @@ import com.tianrui.api.req.businessManage.logisticsManage.AccessRecordQuery;
 import com.tianrui.api.req.businessManage.salesManage.ApiDoorSystemSave;
 import com.tianrui.api.req.system.base.GetCodeReq;
 import com.tianrui.api.resp.businessManage.logisticsManage.AccessRecordResp;
+import com.tianrui.api.resp.businessManage.otherManage.OtherArriveResp;
 import com.tianrui.api.resp.businessManage.purchaseManage.PurchaseArriveResp;
 import com.tianrui.api.resp.businessManage.salesManage.SalesArriveResp;
 import com.tianrui.service.bean.basicFile.measure.VehicleManage;
 import com.tianrui.service.bean.businessManage.cardManage.Card;
 import com.tianrui.service.bean.businessManage.logisticsManage.AccessRecord;
+import com.tianrui.service.bean.businessManage.otherManage.OtherArrive;
 import com.tianrui.service.bean.businessManage.purchaseManage.PurchaseApplicationDetail;
 import com.tianrui.service.bean.businessManage.purchaseManage.PurchaseArrive;
 import com.tianrui.service.bean.businessManage.salesManage.SalesApplicationDetail;
 import com.tianrui.service.bean.businessManage.salesManage.SalesApplicationJoinNatice;
 import com.tianrui.service.bean.businessManage.salesManage.SalesArrive;
 import com.tianrui.service.bean.common.RFID;
+import com.tianrui.service.impl.businessManage.otherManage.OtherArriveService;
 import com.tianrui.service.mapper.basicFile.measure.VehicleManageMapper;
 import com.tianrui.service.mapper.businessManage.cardManage.CardMapper;
 import com.tianrui.service.mapper.businessManage.logisticsManage.AccessRecordMapper1;
+import com.tianrui.service.mapper.businessManage.otherManage.OtherArriveMapper;
 import com.tianrui.service.mapper.businessManage.purchaseManage.PurchaseApplicationDetailMapper;
 import com.tianrui.service.mapper.businessManage.purchaseManage.PurchaseArriveMapper;
 import com.tianrui.service.mapper.businessManage.salesManage.SalesApplicationDetailMapper;
@@ -75,6 +80,10 @@ public class AccessRecordService1 implements IAccessRecordService1 {
 	private RFIDMapper rfidMapper;
 	@Autowired
 	private VehicleManageMapper vehicleManageMapper;
+	@Autowired
+	private OtherArriveMapper otherArriveMapper;
+	@Autowired
+	private OtherArriveService otherArriveService;
 	
 	@Override
 	public PaginationVO<AccessRecordResp> page(AccessRecordQuery query) throws Exception{
@@ -154,6 +163,34 @@ public class AccessRecordService1 implements IAccessRecordService1 {
 		}
 	}
 	
+	//其他业务  lxy
+	private void SetOtherViewData(List<AccessRecordResp> list) throws Exception{
+		// 5:其他入库 7:其他出库 4:厂内倒运
+		String[] types = {"5","7","4"};
+		for (AccessRecordResp resp : list) {
+			if (Arrays.asList(types).contains(resp.getBusinesstype())) {
+				Result result = otherArriveService.findOne(resp.getNoticeid());
+				OtherArriveResp ar = (OtherArriveResp)result.getData();
+				resp.setVehicleno(ar.getVehicleno());
+				resp.setMaterielname(ar.getMaterielname());
+				resp.setRfid(ar.getRfid());
+				if(StringUtils.isNotBlank(ar.getSuppliername())){
+					resp.setOtherparty(ar.getSuppliername());
+				}else{
+					resp.setOtherparty(ar.getMaterielname());
+				}
+				if (StringUtils.isNotBlank(ar.getIcardid())) {
+					Card card = cardMapper.selectByPrimaryKey(ar.getIcardid());
+					if (card != null) {
+						resp.setIcardno(card.getCardno());
+						resp.setIcardcode(card.getCardcode());
+					}
+				}
+			}
+		}
+	}
+	
+	
 	private List<AccessRecordResp> copyBeanList2RespList(List<AccessRecord> list, boolean setNotice) throws Exception {
 		List<AccessRecordResp> listResp = null;
 		if (CollectionUtils.isNotEmpty(list)) {
@@ -166,6 +203,8 @@ public class AccessRecordService1 implements IAccessRecordService1 {
 				SetPurchaseViewData(listResp, "1");
 				//set销售信息
 				SetSalesViewData(listResp, "2");
+				//set其他业务信息
+				SetOtherViewData(listResp);
 			}
 		}
 		return listResp;
@@ -282,6 +321,19 @@ public class AccessRecordService1 implements IAccessRecordService1 {
 				//销售提货通知单
 				case "2":
 					ec = setICardToSalesArrive(card, apiParam);
+					break;
+					//销售提货通知单
+				case "5":
+					ec = setICardToOtherArrive(card, apiParam);
+					break;
+				case "7":
+					ec = setICardToOtherArrive(card, apiParam);
+					break;
+				case "9":
+					ec = setICardToOtherArrive(card, apiParam);
+					break;
+				case "4":
+					ec = setICardToOtherArrive(card, apiParam);
 					break;
 				default:
 					break;
@@ -491,6 +543,56 @@ public class AccessRecordService1 implements IAccessRecordService1 {
 		}
 		return ec;
 	}
+	
+	//其他业务通知单绑定ic卡
+	private ErrorCode setICardToOtherArrive(Card card, ApiDoorSystemSave apiParam) throws Exception {
+		ErrorCode ec = ErrorCode.OPERATE_ERROR;
+		OtherArrive other = otherArriveMapper.selectByCode(apiParam.getNotionformcode());
+		if(StringUtils.equals(other.getAuditstatus(), "1")){
+			if(!StringUtils.equals(other.getStatus(), "3")){
+				//入厂
+				if(StringUtils.equals(apiParam.getType(), "1")){
+					OtherArrive  oa = new OtherArrive();
+					oa.setIcardid(card.getId());
+					List<OtherArrive> list = otherArriveMapper.checkDriverAndVehicleAndIcardIsUse(oa);
+					if(list == null || list.size() == 0){
+						//修改通知单状态并绑定IC卡
+						oa.setId(other.getId());
+						oa.setStatus("6");
+						if(otherArriveMapper.updateByPrimaryKeySelective(oa) > 0){
+							ec = addInfoAccessRecordApi(apiParam, other.getId(), other.getCode(), apiParam.getServicetype());
+						}else{
+							ec = ErrorCode.OPERATE_ERROR;
+						}
+					}else{
+						ec = ErrorCode.CARD_IN_USE;
+					}
+				//出厂
+				}else{
+					//修改通知单状态并绑定IC卡
+					OtherArrive oa = new OtherArrive();
+					oa.setId(other.getId());
+					oa.setStatus("5");
+					if(otherArriveMapper.updateByPrimaryKeySelective(oa) > 0){
+						AccessRecord access = accessRecordMapper.selectByNoticeId(other.getId());
+						if(access != null){
+							ec = addOutAccessRecordApi(apiParam, access.getId());
+						}else{
+							ec = ErrorCode.VEHICLE_NOTICE_NOT_ENTER;
+						}
+					}else{
+						ec = ErrorCode.OPERATE_ERROR;
+					}
+				}
+			}else{
+				ec = ErrorCode.NOTICE_ON_INVALID;
+			}
+		}else{
+			ec = ErrorCode.NOTICE_NOT_AUDIT;
+		}
+		return ec;
+	}
+	
 
 	//添加入厂门禁记录
 	private ErrorCode addInfoAccessRecordApi(ApiDoorSystemSave apiParam, String noticeid, String noticecode, String businesstype) throws Exception {
@@ -673,7 +775,14 @@ public class AccessRecordService1 implements IAccessRecordService1 {
 				SalesArrive salesArrive = hasSalesArrive(vehicleno);
 				//判断是否有销售通知单
 				if (salesArrive == null) {
-					//
+					//判断是否有其他业务通知单 
+					OtherArrive otherArrive = hasOtherArrive(vehicleno);
+					if(otherArrive == null){
+						//
+					}else{
+						map.put("type", otherArrive.getBusinesstype());
+						map.put("notice", otherArrive);
+					}
 				} else {
 					map.put("type", 2);
 					map.put("notice", salesArrive);
@@ -710,6 +819,23 @@ public class AccessRecordService1 implements IAccessRecordService1 {
 		SalesArrive bean = null;
 		if (StringUtils.isNotBlank(vehicleno)) {
 			bean = salesArriveMapper.hasPurchaseArrive(vehicleno);
+		}
+		return bean;
+	}
+	/**
+	 * @Description 验证是否有其他业务通知单
+	 * @author lixiaoyong
+	 * @version 2017年5月6日 上午10:42:40
+	 * @param vehicleno
+	 * @return
+	 */
+	private OtherArrive hasOtherArrive(String vehicleno) {
+		OtherArrive bean = null;
+		if (StringUtils.isNotBlank(vehicleno)) {
+			VehicleManage vehicle = vehicleManageMapper.selectByVehicleno(vehicleno);
+			if(vehicle != null){
+				bean = otherArriveMapper.hasOtherArrive(vehicle.getId());
+			}
 		}
 		return bean;
 	}

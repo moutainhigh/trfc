@@ -31,10 +31,10 @@
 								<div class="intel_solo">
 									<label>业务类型：</label> <select id="businesstype" class="form-control">
 										<option value="">请选择</option>
-										<option value="1">采购</option>
-										<option value="2">销售</option>
-										<option value="3">其他入库</option>
-										<option value="4">其他出库</option>
+										<option value="0">采购到货</option>
+										<option value="2">销售提货</option>
+										<option value="5">其他入库</option>
+										<option value="7">其他出库</option>
 									</select>
 								</div>
 								<div class="intel_solo">

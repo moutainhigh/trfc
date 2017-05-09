@@ -13,6 +13,13 @@ public interface OtherArriveMapper {
     int insertSelective(OtherArrive record);
 
     OtherArrive selectByPrimaryKey(String id);
+    /**
+     * 通过code 查询数据
+     * lixiaoyong
+     * @param code
+     * @return OtherArrive
+     */
+    OtherArrive selectByCode(String code);
 
     int updateByPrimaryKeySelective(OtherArrive record);
 
@@ -32,5 +39,12 @@ public interface OtherArriveMapper {
 	
 	
 	List<OtherArrive> checkDriverAndVehicleAndIcardIsUse(OtherArrive record);
+	
+	/**
+	 * 通过车号 判断是否含有通知单 
+	 * lixiaoyong
+	 */
+	OtherArrive hasOtherArrive(String vehicleid);
+	
     
 }
