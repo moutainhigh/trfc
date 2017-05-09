@@ -1563,5 +1563,33 @@ public class PoundNoteService implements IPoundNoteService {
 		}
 		return result;
 	}
+	@Override
+	public Result detail(ApiPoundNoteQuery req) {
+		Result result = Result.getParamErrorResult();
+		if(req != null && StringUtils.isNotBlank(req.getNotionformcode()) && StringUtils.isNotBlank(req.getServicetype())){
+			PoundNote query =new  PoundNote();
+			query.setNoticecode(req.getNotionformcode());
+			List<PoundNote> rs =poundNoteMapper.selectSelective(query);
+			if( CollectionUtils.isNotEmpty(rs) ){
+				PoundNote poundNote =rs.get(0);
+				AppPoundOrderResp resp = new AppPoundOrderResp();
+				resp.setId(poundNote.getId());
+				resp.setCode(poundNote.getCode());
+				resp.setBillcode(poundNote.getBillcode());
+				resp.setNoticecode(poundNote.getNoticecode());
+				resp.setVehicleno(poundNote.getVehicleno());
+				resp.setLighttime(poundNote.getLighttime());
+				resp.setWeighttime(poundNote.getWeighttime());
+				resp.setPickupquantity(poundNote.getPickupquantity());
+				resp.setGrossweight(poundNote.getGrossweight());
+				resp.setTareweight(poundNote.getTareweight());
+				resp.setNetweight(poundNote.getNetweight());
+				resp.setSerialnumber(poundNote.getSerialnumber());
+				result.setData(resp);
+				result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+			}
+		}
+		return result;
+	}
 
 }

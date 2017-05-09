@@ -572,7 +572,7 @@ public class PurchaseArriveService implements IPurchaseArriveService {
 					codeReq.setCodeType(true);
 					codeReq.setUserid(req.getUserId());
 					bean.setCode(systemCodeService.getCode(codeReq).getData().toString());
-					bean.setAuditstatus("0");
+					bean.setAuditstatus("1");
 					bean.setStatus("0");
 					bean.setState("1");
 					bean.setSource("2");

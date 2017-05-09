@@ -353,43 +353,51 @@ public class AccessRecordService1 implements IAccessRecordService1 {
 			if(!StringUtils.equals(purchase.getStatus(), "3")){
 				//入厂
 				if(StringUtils.equals(apiParam.getType(), "1")){
-					PurchaseArrive pa = purchaseArriveMapper.checkICUse(card.getId());
-					if(pa == null){
-						//修改通知单状态并绑定IC卡
-						pa = new PurchaseArrive();
+					if(StringUtils.equals(purchase.getStatus(), "0")){
+						PurchaseArrive pa = purchaseArriveMapper.checkICUse(card.getId());
+						if(pa == null){
+							//修改通知单状态并绑定IC卡
+							pa = new PurchaseArrive();
+							pa.setId(purchase.getId());
+							pa.setStatus("6");
+							pa.setIcardid(card.getId());
+							//回写订单的未入库占用量和预提占用
+							PurchaseApplicationDetail applicationDetail = purchaseApplicationDetailMapper.selectByPrimaryKey(purchase.getBilldetailid());
+							PurchaseApplicationDetail save = new PurchaseApplicationDetail();
+							save.setId(applicationDetail.getId());
+							save.setUnstoragequantity(applicationDetail.getUnstoragequantity() + purchase.getArrivalamount());
+							save.setPretendingtake(applicationDetail.getPretendingtake() - purchase.getArrivalamount());
+							if(purchaseArriveMapper.updateByPrimaryKeySelective(pa) > 0
+									&& purchaseApplicationDetailMapper.updateByPrimaryKeySelective(save) > 0){
+								ec = addInfoAccessRecordApi(apiParam, purchase.getId(), purchase.getCode(), "1");
+							}else{
+								ec = ErrorCode.OPERATE_ERROR;
+							}
+						}else{
+							ec = ErrorCode.CARD_IN_USE;
+						}
+					}else{
+						ec = ErrorCode.VEHICLE_NOTICE_ALREADY_ENTER;
+					}
+				//出厂
+				}else{
+					if(StringUtils.equals(purchase.getStatus(), "2")){
+						//修改通知单状态
+						PurchaseArrive pa = new PurchaseArrive();
 						pa.setId(purchase.getId());
-						pa.setStatus("6");
-						pa.setIcardid(card.getId());
-						//回写订单的未入库占用量和预提占用
-						PurchaseApplicationDetail applicationDetail = purchaseApplicationDetailMapper.selectByPrimaryKey(purchase.getBilldetailid());
-						PurchaseApplicationDetail save = new PurchaseApplicationDetail();
-						save.setId(applicationDetail.getId());
-						save.setUnstoragequantity(applicationDetail.getUnstoragequantity() + purchase.getArrivalamount());
-						save.setPretendingtake(applicationDetail.getPretendingtake() - purchase.getArrivalamount());
-						if(purchaseArriveMapper.updateByPrimaryKeySelective(pa) > 0
-								&& purchaseApplicationDetailMapper.updateByPrimaryKeySelective(save) > 0){
-							ec = addInfoAccessRecordApi(apiParam, purchase.getId(), purchase.getCode(), "1");
+						pa.setStatus("5");
+						if(purchaseArriveMapper.updateByPrimaryKeySelective(pa) > 0){
+							AccessRecord access = accessRecordMapper.selectByNoticeId(purchase.getId());
+							if(StringUtils.equals(access.getAccesstype(), "1")){
+								ec = addOutAccessRecordApi(apiParam, access.getId());
+							}else{
+								ec = ErrorCode.NOTICE_OUT_FACTORY;
+							}
 						}else{
 							ec = ErrorCode.OPERATE_ERROR;
 						}
 					}else{
-						ec = ErrorCode.CARD_IN_USE;
-					}
-				//出厂
-				}else{
-					//修改通知单状态
-					PurchaseArrive pa = new PurchaseArrive();
-					pa.setId(purchase.getId());
-					pa.setStatus("5");
-					if(purchaseArriveMapper.updateByPrimaryKeySelective(pa) > 0){
-						AccessRecord access = accessRecordMapper.selectByNoticeId(purchase.getId());
-						if(StringUtils.equals(access.getAccesstype(), "1")){
-							ec = addOutAccessRecordApi(apiParam, access.getId());
-						}else{
-							ec = ErrorCode.NOTICE_OUT_FACTORY;
-						}
-					}else{
-						ec = ErrorCode.OPERATE_ERROR;
+						ec = ErrorCode.VEHICLE_NOTICE_NOT_TWO_WEIGHT;
 					}
 				}
 			}else{
@@ -408,42 +416,50 @@ public class AccessRecordService1 implements IAccessRecordService1 {
 			if(!StringUtils.equals(purchase.getStatus(), "3")){
 				//入厂
 				if(StringUtils.equals(apiParam.getType(), "1")){
-					PurchaseArrive pa = purchaseArriveMapper.checkICUse(card.getId());
-					if(pa == null){
-						//修改通知单状态并绑定IC卡
-						pa = new PurchaseArrive();
+					if(StringUtils.equals(purchase.getStatus(), "0")){
+						PurchaseArrive pa = purchaseArriveMapper.checkICUse(card.getId());
+						if(pa == null){
+							//修改通知单状态并绑定IC卡
+							pa = new PurchaseArrive();
+							pa.setId(purchase.getId());
+							pa.setStatus("6");
+							pa.setIcardid(card.getId());
+							//回写订单的未入库占用量和预提占用
+							PurchaseApplicationDetail applicationDetail = purchaseApplicationDetailMapper.selectByPrimaryKey(purchase.getBilldetailid());
+							PurchaseApplicationDetail save = new PurchaseApplicationDetail();
+							save.setId(applicationDetail.getId());
+							save.setPretendingtake(applicationDetail.getPretendingtake() - purchase.getArrivalamount());
+							if(purchaseArriveMapper.updateByPrimaryKeySelective(pa) > 0
+									&& purchaseApplicationDetailMapper.updateByPrimaryKeySelective(save) > 0){
+								ec = addInfoAccessRecordApi(apiParam, purchase.getId(), purchase.getCode(), "1");
+							}else{
+								ec = ErrorCode.OPERATE_ERROR;
+							}
+						}else{
+							ec = ErrorCode.CARD_IN_USE;
+						}
+					}else{
+						ec = ErrorCode.VEHICLE_NOTICE_ALREADY_ENTER;
+					}
+				//出厂
+				}else{
+					if(StringUtils.equals(purchase.getStatus(), "2")){
+						//修改通知单状态
+						PurchaseArrive pa = new PurchaseArrive();
 						pa.setId(purchase.getId());
-						pa.setStatus("6");
-						pa.setIcardid(card.getId());
-						//回写订单的未入库占用量和预提占用
-						PurchaseApplicationDetail applicationDetail = purchaseApplicationDetailMapper.selectByPrimaryKey(purchase.getBilldetailid());
-						PurchaseApplicationDetail save = new PurchaseApplicationDetail();
-						save.setId(applicationDetail.getId());
-						save.setPretendingtake(applicationDetail.getPretendingtake() - purchase.getArrivalamount());
-						if(purchaseArriveMapper.updateByPrimaryKeySelective(pa) > 0
-								&& purchaseApplicationDetailMapper.updateByPrimaryKeySelective(save) > 0){
-							ec = addInfoAccessRecordApi(apiParam, purchase.getId(), purchase.getCode(), "1");
+						pa.setStatus("5");
+						if(purchaseArriveMapper.updateByPrimaryKeySelective(pa) > 0){
+							AccessRecord access = accessRecordMapper.selectByNoticeId(purchase.getId());
+							if(StringUtils.equals(access.getAccesstype(), "1")){
+								ec = addOutAccessRecordApi(apiParam, access.getId());
+							}else{
+								ec = ErrorCode.NOTICE_OUT_FACTORY;
+							}
 						}else{
 							ec = ErrorCode.OPERATE_ERROR;
 						}
 					}else{
-						ec = ErrorCode.CARD_IN_USE;
-					}
-				//出厂
-				}else{
-					//修改通知单状态
-					PurchaseArrive pa = new PurchaseArrive();
-					pa.setId(purchase.getId());
-					pa.setStatus("5");
-					if(purchaseArriveMapper.updateByPrimaryKeySelective(pa) > 0){
-						AccessRecord access = accessRecordMapper.selectByNoticeId(purchase.getId());
-						if(StringUtils.equals(access.getAccesstype(), "1")){
-							ec = addOutAccessRecordApi(apiParam, access.getId());
-						}else{
-							ec = ErrorCode.NOTICE_OUT_FACTORY;
-						}
-					}else{
-						ec = ErrorCode.OPERATE_ERROR;
+						ec = ErrorCode.VEHICLE_NOTICE_NOT_TWO_WEIGHT;
 					}
 				}
 			}else{
@@ -462,77 +478,85 @@ public class AccessRecordService1 implements IAccessRecordService1 {
 			if(!StringUtils.equals(sales.getStatus(), "3")){
 				//入厂
 				if(StringUtils.equals(apiParam.getType(), "1")){
-					SalesArrive sa = salesArriveMapper.checkICUse(card.getId());
-					if(sa == null){
-						//修改通知单状态并绑定IC卡
-						sa = new SalesArrive();
-						sa.setId(sales.getId());
-						sa.setStatus("6");
-						sa.setIcardid(card.getId());
-						sa.setIcardno(card.getCardno());
-						if(salesArriveMapper.updateByPrimaryKeySelective(sa) > 0){
-							//回写订单的未入库占用量和预提占用
-							List<SalesApplicationJoinNatice> list = salesApplicationJoinNaticeMapper.selectByNaticeId(sales.getId());
-							if(CollectionUtils.isNotEmpty(list)){
-								boolean flag = false;
-								Double takeamount = sales.getTakeamount();
-								for(SalesApplicationJoinNatice join : list){
-									SalesApplicationDetail applicationDetail = salesApplicationDetailMapper.selectByPrimaryKey(join.getBilldetailid());
-									if(applicationDetail != null && takeamount > 0){
-										if(takeamount > join.getMargin()){
-											SalesApplicationDetail sd = new SalesApplicationDetail();
-											sd.setId(applicationDetail.getId());
-											sd.setUnstoragequantity(applicationDetail.getUnstoragequantity() + join.getMargin());
-											sd.setPretendingtake(applicationDetail.getPretendingtake() - join.getMargin());
-											if(salesApplicationDetailMapper.updateByPrimaryKeySelective(sd) > 0){
-												flag = true;
+					if(StringUtils.equals(apiParam.getType(), "1")){
+						SalesArrive sa = salesArriveMapper.checkICUse(card.getId());
+						if(sa == null){
+							//修改通知单状态并绑定IC卡
+							sa = new SalesArrive();
+							sa.setId(sales.getId());
+							sa.setStatus("6");
+							sa.setIcardid(card.getId());
+							sa.setIcardno(card.getCardno());
+							if(salesArriveMapper.updateByPrimaryKeySelective(sa) > 0){
+								//回写订单的未入库占用量和预提占用
+								List<SalesApplicationJoinNatice> list = salesApplicationJoinNaticeMapper.selectByNaticeId(sales.getId());
+								if(CollectionUtils.isNotEmpty(list)){
+									boolean flag = false;
+									Double takeamount = sales.getTakeamount();
+									for(SalesApplicationJoinNatice join : list){
+										SalesApplicationDetail applicationDetail = salesApplicationDetailMapper.selectByPrimaryKey(join.getBilldetailid());
+										if(applicationDetail != null && takeamount > 0){
+											if(takeamount > join.getMargin()){
+												SalesApplicationDetail sd = new SalesApplicationDetail();
+												sd.setId(applicationDetail.getId());
+												sd.setUnstoragequantity(applicationDetail.getUnstoragequantity() + join.getMargin());
+												sd.setPretendingtake(applicationDetail.getPretendingtake() - join.getMargin());
+												if(salesApplicationDetailMapper.updateByPrimaryKeySelective(sd) > 0){
+													flag = true;
+												}else{
+													flag = false;
+													break;
+												}
+												takeamount -= join.getMargin();
 											}else{
-												flag = false;
-												break;
+												SalesApplicationDetail sd = new SalesApplicationDetail();
+												sd.setId(applicationDetail.getId());
+												sd.setUnstoragequantity(applicationDetail.getUnstoragequantity() + takeamount);
+												sd.setPretendingtake(applicationDetail.getPretendingtake() - takeamount);
+												if(salesApplicationDetailMapper.updateByPrimaryKeySelective(sd) > 0){
+													flag = true;
+												}else{
+													flag = false;
+													break;
+												}
+												takeamount = 0D;
 											}
-											takeamount -= join.getMargin();
-										}else{
-											SalesApplicationDetail sd = new SalesApplicationDetail();
-											sd.setId(applicationDetail.getId());
-											sd.setUnstoragequantity(applicationDetail.getUnstoragequantity() + takeamount);
-											sd.setPretendingtake(applicationDetail.getPretendingtake() - takeamount);
-											if(salesApplicationDetailMapper.updateByPrimaryKeySelective(sd) > 0){
-												flag = true;
-											}else{
-												flag = false;
-												break;
-											}
-											takeamount = 0D;
 										}
 									}
-								}
-								if(flag){
-									ec = addInfoAccessRecordApi(apiParam, sales.getId(), sales.getCode(), "2");
-								}else{
-									ec = ErrorCode.OPERATE_ERROR;
-								}
-							}	
+									if(flag){
+										ec = addInfoAccessRecordApi(apiParam, sales.getId(), sales.getCode(), "2");
+									}else{
+										ec = ErrorCode.OPERATE_ERROR;
+									}
+								}	
+							}else{
+								ec = ErrorCode.OPERATE_ERROR;
+							}
+						}else{
+							ec = ErrorCode.CARD_IN_USE;
+						}
+					}else{
+						ec = ErrorCode.VEHICLE_NOTICE_ALREADY_ENTER;
+					}
+				//出厂
+				}else{
+					if(StringUtils.equals(sales.getStatus(), "2")){
+						//修改通知单状态并绑定IC卡
+						SalesArrive sa = new SalesArrive();
+						sa.setId(sales.getId());
+						sa.setStatus("5");
+						if(salesArriveMapper.updateByPrimaryKeySelective(sa) > 0){
+							AccessRecord access = accessRecordMapper.selectByNoticeId(sales.getId());
+							if(access != null){
+								ec = addOutAccessRecordApi(apiParam, access.getId());
+							}else{
+								ec = ErrorCode.VEHICLE_NOTICE_NOT_ENTER;
+							}
 						}else{
 							ec = ErrorCode.OPERATE_ERROR;
 						}
 					}else{
-						ec = ErrorCode.CARD_IN_USE;
-					}
-				//出厂
-				}else{
-					//修改通知单状态并绑定IC卡
-					SalesArrive sa = new SalesArrive();
-					sa.setId(sales.getId());
-					sa.setStatus("5");
-					if(salesArriveMapper.updateByPrimaryKeySelective(sa) > 0){
-						AccessRecord access = accessRecordMapper.selectByNoticeId(sales.getId());
-						if(access != null){
-							ec = addOutAccessRecordApi(apiParam, access.getId());
-						}else{
-							ec = ErrorCode.VEHICLE_NOTICE_NOT_ENTER;
-						}
-					}else{
-						ec = ErrorCode.OPERATE_ERROR;
+						ec = ErrorCode.VEHICLE_NOTICE_NOT_TWO_WEIGHT;
 					}
 				}
 			}else{
