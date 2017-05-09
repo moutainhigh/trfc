@@ -33,7 +33,7 @@ public class SystemMenuService implements ISystemMenuService {
 	@Autowired
 	SystemMenuMapper systemMenuMapper;
 	
-	
+
 	@Override
 	public Result page(SystemMenuQueryReq req) throws Exception {
 		Result rs =Result.getSuccessResult();
@@ -269,8 +269,15 @@ public class SystemMenuService implements ISystemMenuService {
 		return resp;
 	}
 
-
-
+	@Override
+	public Result findMenuByUserId(String uId) throws Exception {
+		Result rs = Result.getParamErrorResult();
+		if(StringUtils.isNotBlank(uId)){
+			List<SystemMenu> list = systemMenuMapper.selectMenuByUserRoleId(uId);
+			rs.setData(copySystemUserBeanList2RespList(list));
+		}
+		return rs;
+	}
 
 	
 

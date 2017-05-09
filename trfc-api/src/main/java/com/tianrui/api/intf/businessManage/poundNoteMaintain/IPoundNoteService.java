@@ -148,6 +148,11 @@ import com.tianrui.api.req.businessManage.poundNoteMaintain.PoundNoteQuery;
 		 * @return
 		 */
 		Result appToDetail(AppPoundOrderReq req);
-	
+		/**
+		 * 根据通知单名称 通知单类型获取榜单号
+		 * @param req
+		 * @return
+		 */
+		Result detail(ApiPoundNoteQuery req);
 	}
 

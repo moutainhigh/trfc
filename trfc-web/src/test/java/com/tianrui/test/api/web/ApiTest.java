@@ -5,6 +5,7 @@ import java.io.DataOutputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Date;
 
 import com.alibaba.fastjson.JSON;
 import com.tianrui.api.req.basicFile.measure.VehicleCheckApi;
@@ -32,18 +33,19 @@ public class ApiTest {
 	private static String url_record = "api/doorSystem/record";
 	private static String url_pound = "api/poundNote/validation";
 	private static String url_up_weight = "api/poundNote/up/weight";
+	private static String uri_rfidvehicle = "api/vehicle/vehicleCard";
 	
 	//磅单回传
 	static ApiParam<ApiPoundNoteQuery> getParam(){
 		ApiParam<ApiPoundNoteQuery> api =new ApiParam<ApiPoundNoteQuery>();
 		
 		ApiPoundNoteQuery va =new ApiPoundNoteQuery();
-		va.setRfid("08D4A547413930373820AB01");
+		va.setRfid("E2005024861501660240F5D9");
 		va.setType("1");
-		va.setVehicleno("豫GA9078");
-		va.setServicetype("2");
-		va.setNotionformcode("TH201704060018");
-		va.setNumber("1");
+		va.setVehicleno("豫05744");
+		va.setServicetype("5");
+		va.setNotionformcode("QRN2017050900001");
+		va.setNumber("4");
 		va.setTime("2017-04-06 14:12:00");
 		
 		Head head =new Head();
@@ -62,9 +64,9 @@ public class ApiTest {
 		ApiParam<ApiPoundNoteValidation> api =new ApiParam<ApiPoundNoteValidation>();
 		
 		ApiPoundNoteValidation va =new ApiPoundNoteValidation();
-		va.setRfid("08D4A547413930373820AB01");
+		va.setRfid("E2005024861501660240F5D9");
 		va.setType("2");
-		va.setVehicleno("豫GA9078");
+		va.setVehicleno("豫05744");
 		
 		Head head =new Head();
 		head.setCallSource("1");
@@ -82,9 +84,9 @@ public class ApiTest {
 		ApiParam<VehicleCheckApi> api =new ApiParam<VehicleCheckApi>();
 		
 		VehicleCheckApi va =new VehicleCheckApi();
-		va.setRfid("08D4A547413930373820AB01");
+		va.setRfid("E2005024861501660240F5D9");
 		va.setCurrUid("0001P110000000010J0E");
-		va.setVehicleNo("豫GA9078");
+		va.setVehicleNo("豫05744");
 		
 		Head head =new Head();
 		head.setCallSource("1");
@@ -102,9 +104,9 @@ public class ApiTest {
 		ApiParam<ApiPoundNoteValidation> api =new ApiParam<ApiPoundNoteValidation>();
 		
 		ApiPoundNoteValidation va =new ApiPoundNoteValidation();
-		va.setRfid("08D4A547413930373820AB01");
+		va.setRfid("E2005024861501660240F5D9");
 		va.setType("1");
-		va.setVehicleno("豫GA9078");
+		va.setVehicleno("豫05744");
 		
 		Head head =new Head();
 		head.setCallSource("1");
@@ -117,6 +119,26 @@ public class ApiTest {
 		api.setHead(head);
 		return api;
 	}
+	//车辆与rfid绑定
+	static ApiParam<VehicleManageApi> getParam7(){
+		ApiParam<VehicleManageApi> api =new ApiParam<VehicleManageApi>();
+		
+		VehicleManageApi va =new VehicleManageApi();
+		va.setRfid("E2005024861501660240F5D9");
+		va.setVehicleNo("豫05744");
+		
+		Head head =new Head();
+		head.setCallSource("1");
+		head.setCallType("2");
+		head.setCallTime(DateUtil.getDateString(new Date(), "yyyy-MM-dd HH:mm:ss"));
+		head.setUserId("0001P110000000010J0E");
+		
+		
+		api.setBody(va);
+		api.setHead(head);
+		return api;
+	}
+	
 	static void setkey( ApiParam api){
 		api.getHead().setKey(Md5Utils.MD5(Constant.apiAuthKey+api.getHead().getCallTime()));
 	}
@@ -152,13 +174,20 @@ public class ApiTest {
 	    return sb.toString();
 	}
 	public static void main(String[] args) {
+		//车辆与rfid绑定
+//		ApiParam<VehicleManageApi> req =getParam7();
+//		setkey(req);
+//		setMd5(req);
+//		String param =JSON.toJSONString(req);
+//		System.out.println(httpPost(domin+uri_rfidvehicle,"p="+param));
+		
 		
 		//一次过磅
-		ApiParam<ApiPoundNoteValidation> req =getParam3();
-		setkey(req);
-		setMd5(req);
-		String param =JSON.toJSONString(req);
-		System.out.println(httpPost(domin+url_pound,"p="+param));
+//		ApiParam<ApiPoundNoteValidation> req =getParam3();
+//		setkey(req);
+//		setMd5(req);
+//		String param =JSON.toJSONString(req);
+//		System.out.println(httpPost(domin+url_pound,"p="+param));
 		
 		//上传磅单
 //		ApiParam<ApiPoundNoteQuery> req =getParam();
@@ -181,12 +210,12 @@ public class ApiTest {
 //		System.out.println(httpPost(domin+url_leaveFactoryCheck,"p="+param));
 		
 		//生成门禁
-//		ApiParam<ApiDoorSystemSave> req =getParam1();
-//		setkey(req);
-//		setMd5(req);
-//		String param =JSON.toJSONString(req);
-//		System.out.println(httpPost(domin+url_record,"p="+param));
-		
+		ApiParam<ApiDoorSystemSave> req =getParam1();
+		setkey(req);
+		setMd5(req);
+		String param =JSON.toJSONString(req);
+		System.out.println(httpPost(domin+url_record,"p="+param));
+//		
 //		ApiParam<ApiPoundNoteQuery> req =getParam();
 //		setkey(req);
 //		setMd5(req);
@@ -203,11 +232,11 @@ public class ApiTest {
 //		req.setIccode("AB0D8F93BA080400015C61242F23081D");
 //		req.setType("1");
 //		req.setTime(DateUtil.getNowDateString("yyyy-MM-dd HH:mm:ss"));
-		req.setIcardno("2035639959");
-		req.setNotionformcode("TH201704060018");
-		req.setServicetype("2");
+		req.setIcardno("249930359");
+		req.setNotionformcode("QRN2017050900001");
+		req.setServicetype("5");
 		//出入厂
-		req.setType("1");
+		req.setType("2");
 		req.setTime("2017-04-06 13:41:00");
 		req.setCurrUid("0001P110000000029VXC");
 		

@@ -1,5 +1,6 @@
 package com.tianrui.api.intf.system.auth;
 
+import com.tianrui.api.req.system.auth.SystemRoleMenuSave;
 import com.tianrui.api.req.system.auth.SystemUserQueryReq;
 import com.tianrui.api.req.system.auth.SystemUserRoleSave;
 import com.tianrui.smartfactory.common.vo.Result;
@@ -49,5 +50,21 @@ public interface ISystemRolePermissionsService {
 	 * @return
 	 */
 	Result queryMenuByRole(SystemUserQueryReq req);
+	/**
+	 * @Description 给角色授权菜单权限
+	 * @author zhanggaohao
+	 * @version 2017年5月6日 下午1:31:38
+	 * @param save
+	 * @return
+	 */
+	Result authorizeMenuToRole(SystemRoleMenuSave save);
+	/**
+	 * @Description 角色重置菜单
+	 * @author zhanggaohao
+	 * @version 2017年5月6日 下午2:28:21
+	 * @param save
+	 * @return
+	 */
+	Result resetMenuToRole(SystemRoleMenuSave save);
 	
 }

@@ -3,15 +3,11 @@ $(function() {
 	initMenu();
 
 	function initMenu() {
-		var url = '/trfc/system/auth/menu/page';
-		var params={
-				pageNo:1,
-				pageSize:100
-		};
-		$.post(url,params,function(result) {
+		var url = '/trfc/system/auth/menu/findMenuByUserId';
+		$.post(url,{},function(result) {
 			
 			//展示菜单
-			showMenu(result.data.list);	
+			showMenu(result.data);	
 			
 			var menu_a = $('#menulist > a');
 			

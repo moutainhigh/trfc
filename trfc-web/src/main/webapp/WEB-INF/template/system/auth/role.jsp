@@ -19,14 +19,7 @@
 				<!--采购申请单begin-->
 				<div class="intel_tabcont">
 					<div class="juese_mbox">
-						<div class="juese_company">
-							<h5>公司</h5>
-							<div id="tree"></div>
-						</div>
 						<div class="fuzhu_dtail">
-							<div class="fuzhu_dtile">
-								<h5 id="role_list">角色列表 - 卫辉市天瑞水泥有限公司</h5>
-							</div>
 							<div class="intel_opera">
 								<div class="intel_operasolo" id="refreshBtn">
 									<i class="iconfont colorlv">&#xe61b;</i>

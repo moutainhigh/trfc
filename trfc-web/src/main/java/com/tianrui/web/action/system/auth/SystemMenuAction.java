@@ -1,5 +1,7 @@
 package com.tianrui.web.action.system.auth;
 
+import javax.servlet.http.HttpSession;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +14,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.tianrui.api.intf.system.auth.ISystemMenuService;
 import com.tianrui.api.req.system.auth.SystemMenuQueryReq;
 import com.tianrui.api.req.system.auth.SystemMenuSaveReq;
+import com.tianrui.api.resp.system.auth.SystemUserResp;
 import com.tianrui.smartfactory.common.constants.ErrorCode;
 import com.tianrui.smartfactory.common.vo.Result;
 
@@ -43,6 +46,20 @@ public class SystemMenuAction {
 		Result result=Result.getSuccessResult();
 		try {
 			result=systemMenuService.page(req);
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			result.setErrorCode(ErrorCode.OPERATE_ERROR);
+		}
+		return result;
+	}
+	
+	@RequestMapping(value="/findMenuByUserId",method=RequestMethod.POST)
+	@ResponseBody
+	public Result findMenuByUserId(HttpSession session){
+		Result result=Result.getSuccessResult();
+		try {
+			SystemUserResp user = (SystemUserResp) session.getAttribute("systemUser");
+			result=systemMenuService.findMenuByUserId(user.getId());
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 			result.setErrorCode(ErrorCode.OPERATE_ERROR);

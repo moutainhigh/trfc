@@ -103,11 +103,9 @@
 			shade: [0.3,'#fff'] //0.1透明度的白色背景
 		});
 		var url=URL.pageUrl;
-		var rolename=$('#role_list').html().substring(7);
 		var params={
 			pageNo:pageNo,
-			pageSize:100,
-			rolename:rolename
+			pageSize:100
 		};
 		$.post(url,params,function(result){
 			if(result.code=='000000'){
@@ -204,7 +202,6 @@
 		var name=$('#name').val();name=$.trim(name);
 		var roleType=$('#role_type option:selected').text();
 		var info=$('#info').val();info=$.trim(info);
-		var rolename=$('#role_list').html().substring(7);
 		var isvalid = 0;
 		if($('#isvalid')[0].checked){
 			isvalid = 1;
@@ -221,7 +218,6 @@
 			code:code,
 			name:name,
 			roleType:roleType,
-			rolename:rolename,
 			info:info,
 			isvalid:isvalid,
 			allowEdit:allow_edit,
@@ -329,48 +325,4 @@
 			}
 		});
 	}
-	
-	 // bootstrap-treeview树形菜单插件
-    function getTree() {
-        // Some logic to retrieve, or generate tree structure
-        var tree = [
-            {
-                text: "天瑞集团",
-                showBorder: false,
-                icon: "iconfont icon-organization",
-                nodes: [
-                    {
-                        text: "卫辉市天瑞水泥有限公司",
-                        icon: "iconfont icon-factory"
-                    }
-                ]
-            }
-        ];
-        return tree;
-    }
-	
-	
-	$('#tree').treeview({
-		backColor: '#f5f6fb',
-	        showBorder: false,
-	        selectable: true,
-	        state:{
-	            checked: false,
-	            disabled: false,
-	            expanded: false,
-	            selected: false
-	        },
-	        data: getTree()
-	    });
-	  
-		$('#tree').on('nodeSelected', function(event, data) {
-//			console.info(event);
-//			console.info(data.nodeId);
-//			console.info(data.text);
-			$('#role_list').html('角色列表 - '+data.text);
-			queryData(1);
-			$(".alt_edit_div .input_zuzhialt").val($(this).find("li.node-selected").text());
-	});	
-	$('#tree').treeview('selectNode', [1, { silent: true } ]);
-	
 })(jQuery, window);

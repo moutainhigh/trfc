@@ -16,6 +16,7 @@ import com.tianrui.api.req.system.auth.SystemRoleSaveReq;
 import com.tianrui.api.resp.system.auth.SystemRoleResp;
 import com.tianrui.service.bean.system.auth.SystemRole;
 import com.tianrui.service.mapper.system.auth.SystemRoleMapper;
+import com.tianrui.smartfactory.common.constants.Constant;
 import com.tianrui.smartfactory.common.constants.ErrorCode;
 import com.tianrui.smartfactory.common.utils.UUIDUtil;
 import com.tianrui.smartfactory.common.vo.PaginationVO;
@@ -89,6 +90,7 @@ public class SystemRoleService implements ISystemRoleService {
 					SystemRole bean=new SystemRole();
 					PropertyUtils.copyProperties(bean, req);
 					bean.setId(UUIDUtil.getId());
+					bean.setRolename(Constant.ORG_NAME);
 					bean.setCreator(req.getCurrUId());
 					bean.setCreatetime(System.currentTimeMillis());
 					bean.setModifier(req.getCurrUId());

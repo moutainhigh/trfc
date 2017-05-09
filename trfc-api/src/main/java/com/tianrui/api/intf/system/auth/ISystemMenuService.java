@@ -55,5 +55,14 @@ public interface ISystemMenuService {
 	 * 获取下拉树数据
 	 */
 	Result getTreeData() throws Exception;
+	/**
+	 * @Description 根据用户id查询拥有的角色的菜单权限
+	 * @author zhanggaohao
+	 * @version 2017年5月7日 下午2:12:20
+	 * @param uId
+	 * @return
+	 * @throws Exception
+	 */
+	Result findMenuByUserId(String uId) throws Exception;
 	
 }

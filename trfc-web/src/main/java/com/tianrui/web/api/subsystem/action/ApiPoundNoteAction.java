@@ -103,5 +103,29 @@ public class ApiPoundNoteAction {
 		}
 		return ApiResult.valueOf(rs);
 	}
+	/**
+	 * @Description 榜单查询
+	 * 根绝通知单号以及服务类型获取榜单信息
+	 * @author zhanggaohao
+	 * @version 2017年3月27日 下午3:34:59
+	 * @param req
+	 * @return
+	 */
+	@RequestMapping(value = "/queryPountNote", method = RequestMethod.POST)
+	@ApiParamRawType(ApiPoundNoteQuery.class)
+	@ApiAuthValidation(callType = "2")
+	@ResponseBody
+	public ApiResult query(ApiParam<ApiPoundNoteQuery> req) {
+		Result rs = Result.getErrorResult();
+		ApiPoundNoteQuery valid = req.getBody();
+		valid.setCurrid(req.getHead().getUserId());
+		try {
+			rs = poundNoteService.detail(valid);
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			rs.setErrorCode(ErrorCode.SYSTEM_ERROR);
+		}
+		return ApiResult.valueOf(rs);
+	}
 
 }

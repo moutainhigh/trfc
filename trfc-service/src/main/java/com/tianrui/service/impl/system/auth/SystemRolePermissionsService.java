@@ -7,13 +7,16 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.alibaba.fastjson.JSONArray;
 import com.tianrui.api.intf.system.auth.ISystemRolePermissionsService;
+import com.tianrui.api.req.system.auth.SystemRoleMenuSave;
 import com.tianrui.api.req.system.auth.SystemUserQueryReq;
 import com.tianrui.api.req.system.auth.SystemUserRoleSave;
 import com.tianrui.api.resp.system.auth.SystemRoleMenuResp;
 import com.tianrui.api.resp.system.auth.SystemUserRoleResp;
+import com.tianrui.service.bean.system.auth.SystemRoleMenu;
 import com.tianrui.service.bean.system.auth.SystemUserRole;
 import com.tianrui.service.mapper.system.auth.SystemRoleMenuMapper;
 import com.tianrui.service.mapper.system.auth.SystemUserRoleMapper;
@@ -104,6 +107,47 @@ public class SystemRolePermissionsService implements ISystemRolePermissionsServi
 			List<SystemRoleMenuResp> list = systemRoleMenuMapper.queryMenuByRole(req);
 			result.setData(list);
 			result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+		}
+		return result;
+	}
+
+	@Transactional
+	@Override
+	public Result authorizeMenuToRole(SystemRoleMenuSave save) {
+		Result result = Result.getErrorResult();
+		if(save != null && StringUtils.isNotBlank(save.getRoleId()) 
+				&& StringUtils.isNotBlank(save.getMenuIdJson())){
+			List<String> menuIdList = JSONArray.parseArray(save.getMenuIdJson(), String.class);
+			systemRoleMenuMapper.deleteByRoleId(save.getRoleId());
+			List<SystemRoleMenu> list = new ArrayList<SystemRoleMenu>();
+			if(CollectionUtils.isNotEmpty(menuIdList)){
+				for(String str : menuIdList){
+					SystemRoleMenu bean = new SystemRoleMenu();
+					bean.setId(UUIDUtil.getId());
+					bean.setRoleid(save.getRoleId());
+					bean.setMenuid(str);
+					bean.setIsvalid("1");
+					bean.setCreator(save.getCurrId());
+					bean.setCreatetime(System.currentTimeMillis());
+					list.add(bean);
+				}
+				systemRoleMenuMapper.insertBatch(list);
+			}
+			result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+		}else{
+			result.setErrorCode(ErrorCode.OPERATE_ERROR);
+		}
+		return result;
+	}
+
+	@Override
+	public Result resetMenuToRole(SystemRoleMenuSave save) {
+		Result result = Result.getErrorResult();
+		if(save != null && StringUtils.isNotBlank(save.getRoleId())){
+			systemRoleMenuMapper.deleteByRoleId(save.getRoleId());
+			result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+		}else{
+			result.setErrorCode(ErrorCode.OPERATE_ERROR);
 		}
 		return result;
 	}
