@@ -665,12 +665,12 @@ public class PoundNoteService implements IPoundNoteService {
 			case "7":
 				result = saveOtherCKPoundNote(query);
 				break;
-//			case "4":
-//				result = saveOtherPoundNote(query);
-//				break;
-//			case "9":
-//				result = saveOtherPoundNote(query);
-//				break;
+			case "4":
+				result = saveOtherCKPoundNote(query);
+				break;
+			case "9":
+				result = saveOtherCKPoundNote(query);
+				break;
 			default:
 				break;
 			}
@@ -759,7 +759,7 @@ public class PoundNoteService implements IPoundNoteService {
 				bean.setNoticecode(query.getNotionformcode());
 				bean.setReturnstatus("0");
 				bean.setState("1");
-				bean.setBilltype(arrive.getBusinesstype());
+				bean.setBilltype(query.getServicetype());
 				List<PoundNote> list = poundNoteMapper.selectSelective(bean);
 				if (CollectionUtils.isNotEmpty(list)) {
 					bean = list.get(0);
@@ -1453,17 +1453,23 @@ public class PoundNoteService implements IPoundNoteService {
 			}else{
 				result.setErrorCode(ErrorCode.VEHICLE_NOTICE_NOT_ONE_WEIGHT);
 			}
-		}
-//		else if(StringUtils.equals(type, "4")){
-//			if(CollectionUtils.isNotEmpty(listPoundNote)
-//					&& listPoundNote.get(0).getTareweight() != null
-//					&& listPoundNote.get(0).getTareweight() > 0){
-//				result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
-//			}else{
-//				result.setErrorCode(ErrorCode.VEHICLE_NOTICE_NOT_ONE_WEIGHT);
-//			}
-//		}
-		else{
+		}else if(StringUtils.equals(type, "4")){
+			if(CollectionUtils.isNotEmpty(listPoundNote)
+					&& listPoundNote.get(0).getTareweight() != null
+					&& listPoundNote.get(0).getTareweight() > 0){
+				result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+			}else{
+				result.setErrorCode(ErrorCode.VEHICLE_NOTICE_NOT_ONE_WEIGHT);
+			}
+		}else if(StringUtils.equals(type, "9")){
+			if(CollectionUtils.isNotEmpty(listPoundNote)
+					&& listPoundNote.get(0).getTareweight() != null
+					&& listPoundNote.get(0).getTareweight() > 0){
+				result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+			}else{
+				result.setErrorCode(ErrorCode.VEHICLE_NOTICE_NOT_ONE_WEIGHT);
+			}
+		}else{
 			result.setErrorCode(ErrorCode.NOTICE_NOT_EXIST);
 		}
 	}

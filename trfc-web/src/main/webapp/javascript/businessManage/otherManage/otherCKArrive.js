@@ -272,8 +272,8 @@ $(function() {
 			+'<td>'+obj.vehicleno+'</td>'
 			+'<td>'+obj.count+'</td>'
 			+'<td>'+obj.drivername+'</td>'
-			+'<td>'+obj.id+'</td>'
-			+'<td>'+obj.creator+'</td>'
+			+'<td>'+obj.driveridentityno+'</td>'
+			+'<td>'+obj.creatorname+'</td>'
 			+'</tr>';
 		vehicle_tbody.append(tr);
 		var pound_tbody = $('#tbody_pound').empty();

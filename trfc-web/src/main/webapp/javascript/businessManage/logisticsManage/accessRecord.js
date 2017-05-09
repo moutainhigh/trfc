@@ -198,6 +198,9 @@
 				case '7':
 					businesstype = '其他出库';
 					break;
+				case '9':
+					businesstype = '工程车辆';
+					break;
 				case '4':
 					businesstype = '厂内倒运';
 					break;

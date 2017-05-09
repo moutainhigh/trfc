@@ -166,7 +166,7 @@ public class AccessRecordService1 implements IAccessRecordService1 {
 	//其他业务  lxy
 	private void SetOtherViewData(List<AccessRecordResp> list) throws Exception{
 		// 5:其他入库 7:其他出库 4:厂内倒运
-		String[] types = {"5","7","4"};
+		String[] types = {"5","7","4","9"};
 		for (AccessRecordResp resp : list) {
 			if (Arrays.asList(types).contains(resp.getBusinesstype())) {
 				Result result = otherArriveService.findOne(resp.getNoticeid());
