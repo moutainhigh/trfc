@@ -32,6 +32,7 @@ import com.tianrui.api.resp.basicFile.measure.DriverManageResp;
 import com.tianrui.api.resp.basicFile.measure.VehicleManageResp;
 import com.tianrui.api.resp.businessManage.app.AppNoticeOrderResp;
 import com.tianrui.api.resp.businessManage.cardManage.CardResp;
+import com.tianrui.api.resp.businessManage.otherManage.OtherArriveResp;
 import com.tianrui.api.resp.businessManage.poundNoteMaintain.PoundNoteResp;
 import com.tianrui.api.resp.businessManage.salesManage.ApiDoorQueueResp;
 import com.tianrui.api.resp.businessManage.salesManage.ApiSalesArriveResp;
@@ -51,6 +52,7 @@ import com.tianrui.service.bean.businessManage.salesManage.SalesApplicationDetai
 import com.tianrui.service.bean.businessManage.salesManage.SalesApplicationJoinNatice;
 import com.tianrui.service.bean.businessManage.salesManage.SalesArrive;
 import com.tianrui.service.bean.common.RFID;
+import com.tianrui.service.impl.businessManage.otherManage.OtherArriveService;
 import com.tianrui.service.mapper.basicFile.measure.VehicleManageMapper;
 import com.tianrui.service.mapper.businessManage.cardManage.CardMapper;
 import com.tianrui.service.mapper.businessManage.logisticsManage.AccessRecordMapper1;
@@ -122,6 +124,8 @@ public class SalesArriveService implements ISalesArriveService {
 	private AccessRecordMapper1 accessRecordMapper1;
 	@Autowired
 	private OtherArriveMapper otherArriveMapper;
+	@Autowired
+	private OtherArriveService otherArriveService;
 
 	@Override
 	public PaginationVO<SalesArriveResp> page(SalesArriveQuery query) throws Exception {
@@ -636,6 +640,9 @@ public class SalesArriveService implements ISalesArriveService {
 						}else if((api = getPurchaseArriveDetail(query.getVehicleno(), query.getRfid())) != null){
 							result.setData(api);
 							result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+						}else if((api = getOtherArriveDetail(query.getVehicleno(), query.getRfid())) != null){
+							result.setData(api);
+							result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
 						}else{
 							result.setErrorCode(ErrorCode.VEHICLE_NOT_NOTICE);
 						}
@@ -682,7 +689,54 @@ public class SalesArriveService implements ISalesArriveService {
 		}
 		return api;
 	}
-
+	private ApiSalesArriveResp getOtherArriveDetail(String vehicleno, String vehiclerfid) {
+		ApiSalesArriveResp api = null;
+		OtherArrive oa = new OtherArrive();
+		oa.setVehicleid("123");
+		if(StringUtils.isNotBlank(vehicleno)){
+			VehicleManage vehicle = vehicleManageMapper.selectByVehicleno(vehicleno);
+			if(vehicle!=null){
+				oa.setVehicleid(vehicle.getId());
+			}
+		}
+		List<OtherArrive> listPurchase = otherArriveMapper.checkDriverAndVehicleAndIcardIsUse(oa);
+		if(CollectionUtils.isNotEmpty(listPurchase)){
+			api = new ApiSalesArriveResp();
+//			PurchaseApplication application = purchaseApplicationMapper.selectByPrimaryKey(listPurchase.get(0).getBillid());
+//			PurchaseApplicationDetail applicationDetail = purchaseApplicationDetailMapper.selectByPrimaryKey(listPurchase.get(0).getBilldetailid());
+			OtherArriveResp oaResp = new OtherArriveResp();
+			try {
+				oaResp = (OtherArriveResp)otherArriveService.findOne(listPurchase.get(0).getId()).getData();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			api.setVehicleid(oaResp.getVehicleid());
+			api.setVehicleno(oaResp.getVehicleno());
+			if(StringUtils.isNotBlank(oaResp.getSupplierid())){				
+				api.setCustomerid(oaResp.getSupplierid());
+				api.setCustomer(oaResp.getSuppliername());
+			}else{
+				api.setCustomerid(oaResp.getCustomerid());
+				api.setCustomer(oaResp.getCustomername());
+			}
+			api.setMaterielid(oaResp.getMaterielid());
+			api.setMateriel(oaResp.getMaterielname());
+			if(StringUtils.isNotBlank(oaResp.getMaterielname()) && oaResp.getMaterielname().contains("水泥")){
+				if(oaResp.getMaterielname().contains("袋装")){
+					api.setCementtype("1");
+				}
+				if(oaResp.getMaterielname().contains("散装")){
+					api.setCementtype("2");
+				}
+			}
+			api.setPrimary("");//是否原发？？？
+			api.setServicetype(oaResp.getBusinesstype());
+			api.setNotionformcode(oaResp.getCode());
+			api.setNumber(oaResp.getCount() == null ? "" : oaResp.getCount().toString());
+			api.setStatus(oaResp.getStatus());
+		}
+		return api;
+	}
 	private ApiSalesArriveResp getSalesArriveDetail(String vehicleno, String vehiclerfid) throws Exception{
 		ApiSalesArriveResp api = null;
 		List<SalesArrive> list = salesArriveMapper.validNoticeByVehicle(vehicleno, vehiclerfid);
