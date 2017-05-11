@@ -1,5 +1,7 @@
 package com.tianrui.service.mapper.common;
 
+import java.util.List;
+
 import com.tianrui.service.bean.common.UploadImage;
 
 public interface UploadImageMapper {
@@ -14,4 +16,7 @@ public interface UploadImageMapper {
     int updateByPrimaryKeySelective(UploadImage record);
 
     int updateByPrimaryKey(UploadImage record);
+    
+    List<UploadImage> selectByBillcode(String billcode);
+    
 }

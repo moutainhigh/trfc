@@ -1,7 +1,11 @@
 package com.tianrui.web.action.businessManage.poundNoteMaintain;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +20,10 @@ import com.tianrui.api.req.businessManage.poundNoteMaintain.PoundNoteQuery;
 import com.tianrui.api.req.businessManage.poundNoteMaintain.PoundNoteSave;
 import com.tianrui.api.req.system.base.GetCodeReq;
 import com.tianrui.api.resp.businessManage.poundNoteMaintain.PoundNoteResp;
+import com.tianrui.api.resp.common.UploadImageResp;
 import com.tianrui.api.resp.system.auth.SystemUserResp;
+import com.tianrui.service.bean.businessManage.poundNoteMaintain.PoundNote;
+import com.tianrui.service.bean.common.UploadImage;
 import com.tianrui.smartfactory.common.constants.ErrorCode;
 import com.tianrui.smartfactory.common.utils.DateUtil;
 import com.tianrui.smartfactory.common.vo.PaginationVO;
@@ -158,7 +165,20 @@ public class PoundNoteMaintainAction {
 	public ModelAndView purchasePoundNoteDetail(String id){
 		ModelAndView view = new ModelAndView("businessManage/poundNoteMaintain/purchasePoundNoteDetail");
 		try {
-			view.addObject("poundNote", poundNoteService.findOne(id));
+			PoundNoteResp poundNote = poundNoteService.findOne(id);
+			view.addObject("poundNote", poundNote);
+			List<UploadImageResp> resps = poundNoteService.getPoundImages(poundNote.getNoticecode());
+			List<UploadImageResp> accessImages = new ArrayList<UploadImageResp>();
+			List<UploadImageResp> poundImages = new ArrayList<UploadImageResp>();
+			for(UploadImageResp resp : resps){
+				if(StringUtils.equals(resp.getSource(), "1") || StringUtils.equals(resp.getSource(), "4")){
+					accessImages.add(resp);
+				}else if(StringUtils.equals(resp.getSource(), "3") ||	StringUtils.equals(resp.getSource(), "2")){
+					poundImages.add(resp);
+				}
+			}
+			view.addObject("accessImages",accessImages);
+			view.addObject("poundImages",poundImages);
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
 		}
@@ -279,7 +299,21 @@ public class PoundNoteMaintainAction {
 	public ModelAndView salesPoundNoteDetail(String id){
 		ModelAndView view = new ModelAndView("businessManage/poundNoteMaintain/salesPoundNoteDetail");
 		try {
-			view.addObject("poundNote", poundNoteService.findOne(id));
+			PoundNoteResp poundNote = poundNoteService.findOne(id);
+			view.addObject("poundNote", poundNote);
+			List<UploadImageResp> resps = poundNoteService.getPoundImages(poundNote.getNoticecode());
+			List<UploadImageResp> accessImages = new ArrayList<UploadImageResp>();
+			List<UploadImageResp> poundImages = new ArrayList<UploadImageResp>();
+			for(UploadImageResp resp : resps){
+				if(StringUtils.equals(resp.getSource(), "1") || StringUtils.equals(resp.getSource(), "4")){
+					accessImages.add(resp);
+				}else if(StringUtils.equals(resp.getSource(), "3") ||	StringUtils.equals(resp.getSource(), "2")){
+					poundImages.add(resp);
+				}
+			}
+			view.addObject("accessImages",accessImages);
+			view.addObject("poundImages",poundImages);
+			
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
 		}

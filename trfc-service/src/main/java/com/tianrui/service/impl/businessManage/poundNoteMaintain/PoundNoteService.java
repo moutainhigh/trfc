@@ -29,6 +29,7 @@ import com.tianrui.api.req.system.base.GetCodeReq;
 import com.tianrui.api.resp.businessManage.poundNoteMaintain.PoundNoteResp;
 import com.tianrui.api.resp.businessManage.salesManage.SalesApplicationDetailResp;
 import com.tianrui.api.resp.businessManage.salesManage.SalesApplicationResp;
+import com.tianrui.api.resp.common.UploadImageResp;
 import com.tianrui.api.resp.system.auth.SystemUserResp;
 import com.tianrui.service.bean.basicFile.measure.DriverManage;
 import com.tianrui.service.bean.basicFile.measure.MinemouthManage;
@@ -50,6 +51,7 @@ import com.tianrui.service.bean.businessManage.salesManage.SalesApplicationJoinP
 import com.tianrui.service.bean.businessManage.salesManage.SalesArrive;
 import com.tianrui.service.bean.businessManage.salesManage.SalesOutboundOrder;
 import com.tianrui.service.bean.businessManage.salesManage.SalesOutboundOrderItem;
+import com.tianrui.service.bean.common.UploadImage;
 import com.tianrui.service.mapper.basicFile.measure.DriverManageMapper;
 import com.tianrui.service.mapper.basicFile.measure.MinemouthManageMapper;
 import com.tianrui.service.mapper.basicFile.measure.VehicleManageMapper;
@@ -70,6 +72,7 @@ import com.tianrui.service.mapper.businessManage.salesManage.SalesApplicationMap
 import com.tianrui.service.mapper.businessManage.salesManage.SalesArriveMapper;
 import com.tianrui.service.mapper.businessManage.salesManage.SalesOutboundOrderItemMapper;
 import com.tianrui.service.mapper.businessManage.salesManage.SalesOutboundOrderMapper;
+import com.tianrui.service.mapper.common.UploadImageMapper;
 import com.tianrui.smartfactory.common.api.ApiResult;
 import com.tianrui.smartfactory.common.common.ApiParamUtils;
 import com.tianrui.smartfactory.common.common.HttpUtils;
@@ -131,7 +134,8 @@ public class PoundNoteService implements IPoundNoteService {
 	private AccessRecordMapper1 accessRecordMapper;
 	@Autowired
 	private OtherArriveMapper otherArriveMapper;
-
+	@Autowired
+	private UploadImageMapper uploadImageMapper;
 	@Override
 	public PaginationVO<PoundNoteResp> purchasePage(PoundNoteQuery query) throws Exception {
 		PaginationVO<PoundNoteResp> page = null;
@@ -1597,5 +1601,18 @@ public class PoundNoteService implements IPoundNoteService {
 		}
 		return result;
 	}
-
+	public List<UploadImageResp> getPoundImages(String billcode) throws Exception{
+		List<UploadImageResp> resps = new ArrayList<UploadImageResp>();
+		if(StringUtils.isNotBlank(billcode)){
+			List<UploadImage> list = uploadImageMapper.selectByBillcode(billcode);
+			for(UploadImage image : list){
+				UploadImageResp resp = new UploadImageResp();
+				PropertyUtils.copyProperties(resp, image);
+				resps.add(resp);
+			}
+		}
+		return resps;
+	}
+	
+	
 }

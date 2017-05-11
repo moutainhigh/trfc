@@ -150,4 +150,13 @@
       remarks = #{remarks,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
+    <select id="selectByBillcode" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from tr_upload_db_image
+    where billcode = #{billcode,jdbcType=VARCHAR}
+    order by createtime
+  </select>
+  
+  
 </mapper>

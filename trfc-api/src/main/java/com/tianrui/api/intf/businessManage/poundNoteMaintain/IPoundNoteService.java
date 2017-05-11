@@ -1,13 +1,16 @@
 	package com.tianrui.api.intf.businessManage.poundNoteMaintain;
 
-	import com.tianrui.api.req.businessManage.app.AppPoundOrderReq;
+	import java.util.List;
+
+import com.tianrui.api.req.businessManage.app.AppPoundOrderReq;
 import com.tianrui.api.req.businessManage.app.AppPoundOrderResp;
 import com.tianrui.api.req.businessManage.poundNoteMaintain.ApiPoundNoteQuery;
 import com.tianrui.api.req.businessManage.poundNoteMaintain.ApiPoundNoteValidation;
 import com.tianrui.api.req.businessManage.poundNoteMaintain.PoundNoteQuery;
 	import com.tianrui.api.req.businessManage.poundNoteMaintain.PoundNoteSave;
 	import com.tianrui.api.resp.businessManage.poundNoteMaintain.PoundNoteResp;
-	import com.tianrui.smartfactory.common.vo.PaginationVO;
+import com.tianrui.api.resp.common.UploadImageResp;
+import com.tianrui.smartfactory.common.vo.PaginationVO;
 	import com.tianrui.smartfactory.common.vo.Result;
 
 	public interface IPoundNoteService {
@@ -154,5 +157,9 @@ import com.tianrui.api.req.businessManage.poundNoteMaintain.PoundNoteQuery;
 		 * @return
 		 */
 		Result detail(ApiPoundNoteQuery req);
+		/**
+		 * 获取图片信息
+		 */
+		List<UploadImageResp> getPoundImages(String billcode) throws Exception;
 	}
 

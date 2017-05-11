@@ -36,64 +36,66 @@
 						<h5>销售计量单详细信息</h5>
 						<div class="daohuo_add_div">
 							<div class="daohuo_add_solo">
-								<label>过磅单号：</label> <input type="text" value="${poundNote.code }"
+								<label>过磅单号：</label> <input type="text"
+									value="${poundNote.code }" readonly="true">
+							</div>
+							<div class="daohuo_add_solo">
+								<label>发货单位：</label> <input type="text"
+									value="${poundNote.senddepartmentname }" readonly="true">
+							</div>
+							<div class="daohuo_add_solo">
+								<label>客户：</label> <input type="text"
+									value="${poundNote.getMainApplication().customername }"
 									readonly="true">
 							</div>
 							<div class="daohuo_add_solo">
-								<label>发货单位：</label> <input type="text" value="${poundNote.senddepartmentname }"
+								<label>物料：</label> <input type="text"
+									value="${poundNote.getMainApplicationDetail().materielname }"
 									readonly="true">
 							</div>
 							<div class="daohuo_add_solo">
-								<label>客户：</label> <input type="text" value="${poundNote.getMainApplication().customername }"
-									readonly="true">
+								<label>出厂编号：</label> <input type="text"
+									value="${poundNote.serialnumber }" readonly="true">
 							</div>
 							<div class="daohuo_add_solo">
-								<label>物料：</label> <input type="text" value="${poundNote.getMainApplicationDetail().materielname }"
-									readonly="true">
+								<label>车号：</label> <input type="text"
+									value="${poundNote.vehicleno }" readonly="true">
 							</div>
 							<div class="daohuo_add_solo">
-								<label>出厂编号：</label> <input type="text" value="${poundNote.serialnumber }"
-									readonly="true">
+								<label>毛重：</label> <input type="text"
+									value="${poundNote.grossweight }" readonly="true">
 							</div>
 							<div class="daohuo_add_solo">
-								<label>车号：</label> <input type="text" value="${poundNote.vehicleno }"
-									readonly="true">
+								<label>皮重：</label> <input type="text"
+									value="${poundNote.tareweight }" readonly="true">
 							</div>
 							<div class="daohuo_add_solo">
-								<label>毛重：</label> <input type="text" value="${poundNote.grossweight }"
-									readonly="true">
+								<label>净重：</label> <input type="text"
+									value="${poundNote.netweight }" readonly="true">
 							</div>
 							<div class="daohuo_add_solo">
-								<label>皮重：</label> <input type="text" value="${poundNote.tareweight }"
-									readonly="true">
+								<label>司机：</label> <input type="text"
+									value="${poundNote.drivername }" readonly="true">
 							</div>
 							<div class="daohuo_add_solo">
-								<label>净重：</label> <input type="text" value="${poundNote.netweight }"
-									readonly="true">
+								<label>身份证：</label> <input type="text"
+									value="${poundNote.driveridentityno }" readonly="true">
 							</div>
 							<div class="daohuo_add_solo">
-								<label>司机：</label> <input type="text" value="${poundNote.drivername }"
-									readonly="true">
+								<label>过磅员：</label> <input type="text"
+									value="${poundNote.weighername }" readonly="true">
 							</div>
 							<div class="daohuo_add_solo">
-								<label>身份证：</label> <input type="text" value="${poundNote.driveridentityno }"
-									readonly="true">
+								<label>轻车时间：</label> <input type="text"
+									value="${poundNote.lighttimeStr }" readonly="true">
 							</div>
 							<div class="daohuo_add_solo">
-								<label>过磅员：</label> <input type="text" value="${poundNote.weighername }"
-									readonly="true">
+								<label>重车时间：</label> <input type="text"
+									value="${poundNote.weighttimeStr }" readonly="true">
 							</div>
 							<div class="daohuo_add_solo">
-								<label>轻车时间：</label> <input type="text" value="${poundNote.lighttimeStr }"
-									readonly="true">
-							</div>
-							<div class="daohuo_add_solo">
-								<label>重车时间：</label> <input type="text" value="${poundNote.weighttimeStr }"
-									readonly="true">
-							</div>
-							<div class="daohuo_add_solo">
-								<label>提货单号：</label> <input type="text" value="${poundNote.noticecode }"
-									readonly="true">
+								<label>提货单号：</label> <input type="text"
+									value="${poundNote.noticecode }" readonly="true">
 							</div>
 						</div>
 					</div>
@@ -164,8 +166,16 @@
 									</div>
 								</div>
 							</div>
-							<div class="cg_tabcont hide">2</div>
-							<div class="cg_tabcont hide">2</div>
+							<div class="cg_tabcont hide">
+								<c:forEach items="${ accessImages}" var="i">
+									<img alt="" src=${ i.imgurl} />
+								</c:forEach>
+							</div>
+							<div class="cg_tabcont hide">
+								<c:forEach items="${ poundImages}" var="i">
+									<img alt="" src=${ i.imgurl}>
+								</c:forEach>
+							</div>
 							<!--tab切换的内容end-->
 						</div>
 					</div>

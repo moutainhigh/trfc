@@ -98,7 +98,7 @@ public class AccessRecordService1 implements IAccessRecordService1 {
 				List<AccessRecord> list = accessRecordMapper.findAccessRecordPage(query);
 				page.setList(copyBeanList2RespList(list, true));
 			}
-			page.setTotal(count);
+			page.setTotal(count); 
 			page.setPageNo(query.getPageNo());
 			page.setPageSize(query.getPageSize());
 		}
@@ -176,8 +176,10 @@ public class AccessRecordService1 implements IAccessRecordService1 {
 				resp.setRfid(ar.getRfid());
 				if(StringUtils.isNotBlank(ar.getSuppliername())){
 					resp.setOtherparty(ar.getSuppliername());
+				}else if(StringUtils.isNotBlank(ar.getCustomername())){
+					resp.setOtherparty(ar.getCustomername());
 				}else{
-					resp.setOtherparty(ar.getMaterielname());
+					resp.setOtherparty(ar.getReceivedepartmentname());
 				}
 				if (StringUtils.isNotBlank(ar.getIcardid())) {
 					Card card = cardMapper.selectByPrimaryKey(ar.getIcardid());
@@ -682,7 +684,11 @@ public class AccessRecordService1 implements IAccessRecordService1 {
 								if (StringUtils.equals(CommonUtils.method(object, "status").toString(), "2")) {
 									//result.setData(map);
 									result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
-								} else {
+									//如果业务类型为 工程车辆 且是入厂状态,可以直接出厂
+								} else if(StringUtils.equals(CommonUtils.method(object, "businesstype").toString(), "9")
+										&& StringUtils.equals(CommonUtils.method(object, "status").toString(), "6")){
+									result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+								}else {
 									result.setErrorCode(ErrorCode.VEHICLE_NOTICE_NOT_TWO_WEIGHT);
 								}
 							} else {

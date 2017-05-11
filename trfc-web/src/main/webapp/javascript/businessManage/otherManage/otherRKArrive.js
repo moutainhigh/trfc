@@ -269,23 +269,23 @@ $(function() {
 		var vehicle_tbody = $('#tbody_vehicle').empty();
 		var tr = '<tr>'
 			+'<td>1</td>'
-			+'<td>'+obj.vehicleno+'</td>'
-			+'<td>'+obj.count+'</td>'
-			+'<td>'+obj.drivername+'</td>'
-			+'<td>'+obj.driveridentityno+'</td>'
-			+'<td>'+obj.creatorname+'</td>'
+			+'<td>'+(obj.vehicleno || '')+'</td>'
+			+'<td>'+(obj.count || '')+'</td>'
+			+'<td>'+(obj.drivername || '')+'</td>'
+			+'<td>'+(obj.driveridentityno || '')+'</td>'
+			+'<td>'+(obj.creatorname || '')+'</td>'
 			+'</tr>';
 		vehicle_tbody.append(tr);
 		var pound_tbody = $('#tbody_pound').empty();
 		if(obj.poundDetail){
 			var tr = '<tr>'
-				+'<td>'+obj.poundDetail.code+'</td>'
-				+'<td>'+obj.poundDetail.vehicleno+'</td>'
-				+'<td>'+obj.poundDetail.grossweight+'</td>'
-				+'<td>'+obj.poundDetail.tareweight+'</td>'
-				+'<td>'+obj.poundDetail.netweight+'</td>'
-				+'<td>'+getNowFormatDate(obj.poundDetail.lighttime)+'</td>'
-				+'<td>'+getNowFormatDate(obj.poundDetail.weighttime)+'</td>'
+				+'<td>'+(obj.poundDetail.code || '')+'</td>'
+				+'<td>'+(obj.poundDetail.vehicleno || '')+'</td>'
+				+'<td>'+(obj.poundDetail.grossweight || '')+'</td>'
+				+'<td>'+(obj.poundDetail.tareweight || '')+'</td>'
+				+'<td>'+(obj.poundDetail.netweight || '')+'</td>'
+				+'<td>'+(getNowFormatDate(true,obj.poundDetail.lighttime) || '')+'</td>'
+				+'<td>'+(getNowFormatDate(true,obj.poundDetail.weighttime) || '')+'</td>'
 				+'</tr>';
 			pound_tbody.append(tr);
 		}
@@ -578,7 +578,7 @@ $(function() {
 		if(time){
 			date = new Date(time);
 		}else{
-			date = new Date();
+			return '';
 		}
 		var seperator1 = "-";
 		var seperator2 = ":";
