@@ -151,7 +151,7 @@
 		tr_supplier_db_group t1
 	LEFT JOIN tr_supplier_db_manage t2 ON t1.groupid = t2.id
 	WHERE
-		t1.state = 1 and t2.state = 1
+		t1.state = 1 and t2.state = 1 and t1.supplierid = t1.groupid
 	<if test="supplierid != null and supplierid != ''">
 		and t2.id = #{supplierid,jdbcType=VARCHAR}
 	</if>
@@ -161,7 +161,6 @@
 	<if test="suppliername != null and suppliername != ''">
 		and t2.name like CONCAT('%',#{suppliername,jdbcType=VARCHAR},'%')
 	</if>
-	GROUP BY t1.groupid
 	ORDER BY t1.createtime
   	<if test="start != null and start >= 0">
   		<if test="limit != null">
@@ -176,7 +175,7 @@
 		tr_supplier_db_group t1
 	LEFT JOIN tr_supplier_db_manage t2 ON t1.groupid = t2.id
 	WHERE
-		t1.state = 1 and t2.state = 1
+		t1.state = 1 and t2.state = 1 and t1.supplierid = t1.groupid
 	<if test="supplierid != null and supplierid != ''">
 		and t2.id = #{supplierid,jdbcType=VARCHAR}
 	</if>
@@ -186,11 +185,10 @@
 	<if test="suppliername != null and suppliername != ''">
 		and t2.name like CONCAT('%',#{suppliername,jdbcType=VARCHAR},'%')
 	</if>
-	GROUP BY t1.groupid
   </select>
-  <select id="selectSupplierByGroupId" parameterType="java.lang.String" resultType="com.tianrui.api.resp.system.merchants.SupplierGroupResp">
+  <select id="selectSupplierByGroupId" parameterType="java.lang.String" resultType="com.tianrui.api.resp.system.merchants.AppSupplierGroup">
   	SELECT
-		<include refid="Base_Column_List_T"/>, t2.code as suppliercode, t2.name as suppliername
+		t1.supplierid as cutoverid, t2.name as cutovername, t1.groupid as groupid
 	FROM
 		tr_supplier_db_group t1
 	LEFT JOIN tr_supplier_db_manage t2 ON t1.supplierid = t2.id
@@ -200,4 +198,40 @@
 		and t1.groupid = #{groupid,jdbcType=VARCHAR}
 	</if>
   </select>
+  <select id="supplierGroupDetail" parameterType="com.tianrui.api.req.system.merchants.SupplierGroupQuery" resultType="com.tianrui.api.resp.system.merchants.SupplierGroupResp">
+  	SELECT
+		<include refid="Base_Column_List_T"/>, t2.code as suppliercode, t2.name as suppliername
+	FROM
+		tr_supplier_db_group t1
+	LEFT JOIN tr_supplier_db_manage t2 ON t1.supplierid = t2.id
+	WHERE
+		t1.state = 1 and t2.state = 1 and t1.supplierid != t1.groupid and t1.groupid = #{groupid,jdbcType=VARCHAR}
+  </select>
+  <insert id ="insertBatch" parameterType="java.util.List" >
+    insert into tr_supplier_db_group 
+    (
+	    id, 
+	    supplierid, 
+	    groupid, 
+	    state, 
+	    creator, 
+	    createtime, 
+	    modifier, 
+	    modifytime, 
+	    remark
+    )
+    values 
+    <foreach collection ="list" item="item" index= "index" separator =",">
+    (   #{item.id}, 
+    	#{item.supplierid},
+    	#{item.groupid},
+    	#{item.state}, 
+    	#{item.creator}, 
+    	#{item.createtime}, 
+    	#{item.modifier}, 
+    	#{item.modifytime},
+        #{item.remark}
+    )
+    </foreach >
+  </insert>  
 </mapper>

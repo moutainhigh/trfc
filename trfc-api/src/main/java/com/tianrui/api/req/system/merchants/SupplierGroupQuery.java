@@ -18,6 +18,8 @@ public class SupplierGroupQuery extends BaseReq {
     private String suppliercode;
     //供应商名称
     private String suppliername;
+    //组id
+    private String groupid;
 
     private Integer start;
     
@@ -37,6 +39,10 @@ public class SupplierGroupQuery extends BaseReq {
 
 	public String getSuppliername() {
 		return suppliername;
+	}
+
+	public String getGroupid() {
+		return groupid;
 	}
 
 	public Integer getStart() {
@@ -61,6 +67,10 @@ public class SupplierGroupQuery extends BaseReq {
 
 	public void setSuppliername(String suppliername) {
 		this.suppliername = suppliername;
+	}
+
+	public void setGroupid(String groupid) {
+		this.groupid = groupid;
 	}
 
 	public void setStart(Integer start) {

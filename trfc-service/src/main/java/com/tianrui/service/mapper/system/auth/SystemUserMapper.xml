@@ -373,7 +373,7 @@
 		select
 		<include refid="Base_Column_List" />
 		from tr_system_user
-		where islock = 1 and isvalid = 1
+		where islock = 0 and isvalid = 1
 			 and ncid = #{ncid,jdbcType=VARCHAR} and identityTypes = #{identityTypes,jdbcType=VARCHAR}
 	</select>
 </mapper>

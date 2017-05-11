@@ -42,7 +42,6 @@ import com.tianrui.api.resp.businessManage.app.AppNoticeOrderResp;
 import com.tianrui.api.resp.businessManage.app.AppOrderResp;
 import com.tianrui.api.resp.businessManage.app.AppVehicleResp;
 import com.tianrui.api.resp.system.auth.SystemUserResp;
-import com.tianrui.service.bean.system.merchants.SupplierGroup;
 import com.tianrui.smartfactory.common.api.ApiParam;
 import com.tianrui.smartfactory.common.api.ApiResult;
 import com.tianrui.smartfactory.common.constants.Constant;
