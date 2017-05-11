@@ -38,6 +38,8 @@ public class SupplierManageResp extends BaseResp {
 
     private Long modifytime;
     
+    private String mobilePhone;
+    
     public String getId() {
         return id;
     }
@@ -165,5 +167,13 @@ public class SupplierManageResp extends BaseResp {
     public void setModifytime(Long modifytime) {
         this.modifytime = modifytime;
     }
+
+	public String getMobilePhone() {
+		return mobilePhone;
+	}
+
+	public void setMobilePhone(String mobilePhone) {
+		this.mobilePhone = mobilePhone;
+	}
 
 }

@@ -55,5 +55,14 @@ public interface ISupplierManageService {
 	 * @return
 	 */
 	List<HandSetReturnResp> handSetQueryAll(HandSetRequestParam req);
+	/**
+	 * @Description 根据名称编码手机号模糊查询未添加到组的供应商
+	 * @author zhanggaohao
+	 * @version 2017年5月9日 下午3:41:23
+	 * @param likeSearch
+	 * @return
+	 * @throws Exception
+	 */
+	List<SupplierManageResp> autoCompleteNotGroupSearch(String likeSearch) throws Exception;
 
 }

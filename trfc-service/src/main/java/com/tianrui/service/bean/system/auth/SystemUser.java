@@ -3,8 +3,10 @@ package com.tianrui.service.bean.system.auth;
 import java.util.Date;
 
 public class SystemUser {
-	
+	//用户id
     private String id;
+    //NC用户id
+    private String ncid;
     //用户编码
     private String code;
     //用户名称
@@ -21,6 +23,8 @@ public class SystemUser {
     private String orgid;
     //来源  	1 联网  0脱机  
     private String source;
+    //是否锁定 0:否      1:是
+    private Byte islock;
     //是否有效 0 无效  1有效
     private Byte isvalid;
     //登录次数
@@ -37,6 +41,8 @@ public class SystemUser {
     private Long modifytime;
     //时间戳
     private Date utc;
+    
+    private String remark;
 
     public String getId() {
         return id;
@@ -417,4 +423,26 @@ public class SystemUser {
     public void setUtc(Date utc) {
         this.utc = utc;
     }
+
+	public String getNcid() {
+		return ncid;
+	}
+
+	public Byte getIslock() {
+		return islock;
+	}
+
+	public void setNcid(String ncid) {
+		this.ncid = ncid;
+	}
+
+	public void setIslock(Byte islock) {
+		this.islock = islock;
+	}
+	public String getRemark() {
+		return remark;
+	}
+	public void setRemark(String remark) {
+		this.remark = remark;
+	}
 }

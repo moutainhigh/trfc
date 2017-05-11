@@ -200,5 +200,10 @@ public class SupplierManageService implements ISupplierManageService {
 		List<HandSetReturnResp> list = supplierManageMapper.handSetQueryAll(req);
 		return list;
 	}
+	
+	@Override
+	public List<SupplierManageResp> autoCompleteNotGroupSearch(String likeSearch) throws Exception {
+		return supplierManageMapper.autoCompleteNotGroupSearch(likeSearch);
+	}
 }
 

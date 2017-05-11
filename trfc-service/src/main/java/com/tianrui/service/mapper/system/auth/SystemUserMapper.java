@@ -55,4 +55,13 @@ public interface SystemUserMapper {
 	 * @return
 	 */
 	int insertBatch(List<SystemUser> list);
+	/**
+	 * @Description 根据NCid和身份类型查询用户
+	 * @author zhanggaohao
+	 * @version 2017年5月10日 下午2:48:08
+	 * @param ncid
+	 * @param identityTypes
+	 * @return
+	 */
+	SystemUser selectByNcIdAndIdentityTypes(String ncid, String identityTypes);
 }

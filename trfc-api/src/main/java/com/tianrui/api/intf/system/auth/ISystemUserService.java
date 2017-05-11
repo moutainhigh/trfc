@@ -149,4 +149,6 @@ public interface ISystemUserService {
 	 * @return
 	 */
 	Result queryAllUser(String orgid);
+
+	Result userCutover(String key, String ncid, String identityTypes) throws Exception;
 }

@@ -12,7 +12,10 @@ import org.springframework.stereotype.Service;
 import com.alibaba.fastjson.JSON;
 import com.tianrui.api.intf.common.IFileService;
 import com.tianrui.api.req.common.FileUploadReq;
+import com.tianrui.service.bean.common.UploadImage;
+import com.tianrui.service.mapper.common.UploadImageMapper;
 import com.tianrui.smartfactory.common.constants.Constant;
+import com.tianrui.smartfactory.common.constants.ErrorCode;
 import com.tianrui.smartfactory.common.utils.UUIDUtil;
 import com.tianrui.smartfactory.common.vo.Result;
 
@@ -22,6 +25,8 @@ public class FileUploadService implements IFileService{
 	
 	@Autowired
 	private GridFsTemplate gridFsTemplate;
+	@Autowired
+	private UploadImageMapper uploadImageMapper;
 
 	/**
 	 * 保存图片数据到mongo
@@ -37,7 +42,19 @@ public class FileUploadService implements IFileService{
 					InputStream input = new ByteArrayInputStream(fileUploadReq.getFileByte());
 					gridFsTemplate.store(input, imgURI);
 					String imgURL = Constant.FILE_URL_PRE+imgURI;
-					result.setData(imgURL);
+					UploadImage bean = new UploadImage();
+					bean.setId(UUIDUtil.getId());
+					bean.setBillcode(fileUploadReq.getBillcode());
+					bean.setBilltype(fileUploadReq.getBilltype());
+					bean.setSource(fileUploadReq.getType());
+					bean.setImgurl(imgURL);
+					bean.setCreator(fileUploadReq.getuId());
+					bean.setCreatetime(System.currentTimeMillis());
+					if(uploadImageMapper.insertSelective(bean) == 1){
+						result.setData(imgURL);
+					}else{
+						result.setErrorCode(ErrorCode.OPERATE_ERROR);
+					}
 				} catch (Exception e) {
 					logger.error("{}",e.getMessage(),e);
 					result =new Result("error","上传图片服务异常" );

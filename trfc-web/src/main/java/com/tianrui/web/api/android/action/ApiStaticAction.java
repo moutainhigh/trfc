@@ -22,6 +22,7 @@ import com.tianrui.api.intf.businessManage.salesManage.ISalesApplicationService;
 import com.tianrui.api.intf.businessManage.salesManage.ISalesArriveService;
 import com.tianrui.api.intf.common.IAppVersionService;
 import com.tianrui.api.intf.system.auth.ISystemUserService;
+import com.tianrui.api.intf.system.merchants.ISupplierGroupService;
 import com.tianrui.api.req.businessManage.app.AppDriverSaveReq;
 import com.tianrui.api.req.businessManage.app.AppNoticeOrderReq;
 import com.tianrui.api.req.businessManage.app.AppOrderReq;
@@ -32,6 +33,7 @@ import com.tianrui.api.req.businessManage.app.AppQueryReq;
 import com.tianrui.api.req.businessManage.app.AppUserEditReq;
 import com.tianrui.api.req.businessManage.app.AppVersionReq;
 import com.tianrui.api.req.system.auth.AppUserReq;
+import com.tianrui.api.req.system.merchants.AppUserGroupReq;
 import com.tianrui.api.resp.businessManage.app.AppDriverResp;
 import com.tianrui.api.resp.businessManage.app.AppMaterialResp;
 import com.tianrui.api.resp.businessManage.app.AppMsgCountResp;
@@ -40,6 +42,7 @@ import com.tianrui.api.resp.businessManage.app.AppNoticeOrderResp;
 import com.tianrui.api.resp.businessManage.app.AppOrderResp;
 import com.tianrui.api.resp.businessManage.app.AppVehicleResp;
 import com.tianrui.api.resp.system.auth.SystemUserResp;
+import com.tianrui.service.bean.system.merchants.SupplierGroup;
 import com.tianrui.smartfactory.common.api.ApiParam;
 import com.tianrui.smartfactory.common.api.ApiResult;
 import com.tianrui.smartfactory.common.constants.Constant;
@@ -82,6 +85,8 @@ public class ApiStaticAction {
 	private IAppVersionService appVersionService;
 	@Autowired
 	private IMaterielManageService materielManageService;
+	@Autowired
+	private ISupplierGroupService supplierGroupService;
 	
 	@RequestMapping(value="/login",method=RequestMethod.POST)
 	@ApiParamRawType(AppUserReq.class)
@@ -128,7 +133,7 @@ public class ApiStaticAction {
 			PaginationVO<AppOrderResp> page = null;
 			SystemUserResp user = systemUserService.getUser(appParam.getHead().getUserId());
 			if(user != null){
-				req.setUserId(user.getId());
+				req.setUserId(user.getNcid());
 				if(StringUtils.equals(user.getIdentityTypes(), Constant.USER_SUPPLIER)){
 					page = purchaseApplicationService.appToPage(req);
 					rs.setData(page);
@@ -161,7 +166,6 @@ public class ApiStaticAction {
 			AppOrderReq req = appParam.getBody();
 			SystemUserResp user = systemUserService.getUser(appParam.getHead().getUserId());
 			if(user != null){
-				req.setUserId(user.getId());
 				if(StringUtils.equals(user.getIdentityTypes(), Constant.USER_SUPPLIER)){
 					rs = purchaseApplicationService.appToDetail(req);
 				}
@@ -193,7 +197,7 @@ public class ApiStaticAction {
 			SystemUserResp user = systemUserService.getUser(appParam.getHead().getUserId());
 			PaginationVO<AppNoticeOrderResp> page = null;
 			if(user != null){
-				req.setUserId(user.getId());
+				req.setUserId(user.getNcid());
 				if(StringUtils.equals(user.getIdentityTypes(), Constant.USER_SUPPLIER)){
 					page = purchaseArriveService.appToPage(req);
 					rs.setData(page);
@@ -226,7 +230,6 @@ public class ApiStaticAction {
 			AppNoticeOrderReq req = appParam.getBody();
 			SystemUserResp user = systemUserService.getUser(appParam.getHead().getUserId());
 			if(user != null){
-				req.setUserId(user.getId());
 				if(StringUtils.equals(user.getIdentityTypes(), Constant.USER_SUPPLIER)){
 					rs = purchaseArriveService.appToDetail(req);
 				}
@@ -257,7 +260,7 @@ public class ApiStaticAction {
 			AppPoundOrderReq req = appParam.getBody();
 			SystemUserResp user = systemUserService.getUser(appParam.getHead().getUserId());
 			if(user != null){
-				req.setUserId(user.getId());
+				req.setUserId(user.getNcid());
 				req.setIdentityTypes(user.getIdentityTypes());
 				PaginationVO<AppPoundOrderResp> page = poundNoteService.appToPage(req);
 				rs.setData(page);
@@ -401,7 +404,7 @@ public class ApiStaticAction {
 			AppOrderReq req = appParam.getBody();
 			SystemUserResp user = systemUserService.getUser(appParam.getHead().getUserId());
 			if(user != null){
-				req.setUserId(user.getId());
+				req.setUserId(user.getNcid());
 				if(StringUtils.equals(user.getIdentityTypes(), Constant.USER_SUPPLIER)){
 					rs = purchaseArriveService.appInfoFactoryVehicleAndMaterial(req);
 				}
@@ -500,7 +503,6 @@ public class ApiStaticAction {
 		}
 		return ApiResult.valueOf(rs);
 	}
-	
 
 	/**
 	 * 物料列表
@@ -515,6 +517,59 @@ public class ApiStaticAction {
 		try {
 			PaginationVO<AppMaterialResp> page = materielManageService.materialList(appParam.getBody());
 			rs.setData(page);
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			rs.setErrorCode(ErrorCode.SYSTEM_ERROR);
+		}
+		return ApiResult.valueOf(rs);
+	}
+
+	/**
+	 * 查询用户组成员
+	 * @param req
+	 * @return
+	 */
+	@RequestMapping(value="/queryGroupUser",method=RequestMethod.POST)
+	@ApiParamRawType(AppUserReq.class)
+	@ResponseBody
+	public ApiResult queryGroupUser(ApiParam<AppUserReq> appParam){
+		Result rs = Result.getSuccessResult();
+		try {
+			SystemUserResp user = systemUserService.getUser(appParam.getHead().getUserId());
+			if(StringUtils.equals(user.getIdentityTypes(), Constant.USER_SUPPLIER)){
+				rs = supplierGroupService.supplierGroupCutover(user.getNcid());
+			}
+			if(StringUtils.equals(user.getIdentityTypes(), Constant.USER_CUSTOMER)){
+				
+			}
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			rs.setErrorCode(ErrorCode.SYSTEM_ERROR);
+		}
+		return ApiResult.valueOf(rs);
+	}
+
+	/**
+	 * 切换用户
+	 * @param req
+	 * @return
+	 */
+	@RequestMapping(value="/userCutover",method=RequestMethod.POST)
+	@ApiParamRawType(AppUserGroupReq.class)
+	@ResponseBody
+	public ApiResult userCutover(ApiParam<AppUserGroupReq> appParam){
+		Result rs = Result.getSuccessResult();
+		try {
+			AppUserGroupReq req = appParam.getBody();
+			req.setKey(appParam.getHead().getKey());
+			req.setCurrId(appParam.getHead().getUserId());
+			SystemUserResp user = systemUserService.getUser(appParam.getHead().getUserId());
+			if(StringUtils.equals(user.getIdentityTypes(), Constant.USER_SUPPLIER)){
+				rs = supplierGroupService.userCutover(req);
+			}
+			if(StringUtils.equals(user.getIdentityTypes(), Constant.USER_CUSTOMER)){
+				
+			}
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 			rs.setErrorCode(ErrorCode.SYSTEM_ERROR);

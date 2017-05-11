@@ -505,4 +505,29 @@ public class SystemUserService implements ISystemUserService {
 		}
 		return result;
 	}
+	
+	@Override
+	public Result userCutover(String key, String ncid, String identityTypes) throws Exception{
+		Result result = Result.getParamErrorResult();
+		if(StringUtils.isNotBlank(key) && StringUtils.isNotBlank(ncid) && StringUtils.isNotBlank(identityTypes)){
+			SystemUserResp user = copySystemUserBean2Resp(userMapper.selectByNcIdAndIdentityTypes(ncid, identityTypes));
+			if(user != null){
+				String tokenId =UUIDUtil.getId();
+				user.setTokenId(tokenId);
+				cacheClient.saveObject(key, user, 7*24*60*60);
+				AppUserResp resp = new AppUserResp();
+				resp.setId(user.getId());
+				resp.setToken(tokenId);
+				resp.setUserName(user.getName());
+				resp.setMobile(user.getMobilePhone());
+				resp.setOrgid(user.getOrgid());
+				resp.setOrgName(user.getOrgName());
+				resp.setIdentityTypes(user.getIdentityTypes());
+				result.setData(resp);
+				result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+			}
+		}
+		return result;
+	}
+	
 }

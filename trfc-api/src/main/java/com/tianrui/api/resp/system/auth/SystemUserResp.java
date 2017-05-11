@@ -7,6 +7,7 @@ public class SystemUserResp implements Serializable{
 	private static final long serialVersionUID = -5817774971738348903L;
 
 	private String id;
+	private String ncid;
 	private String name;
 	private String orgid;
 	private String code;
@@ -135,6 +136,12 @@ public class SystemUserResp implements Serializable{
 	 */
 	public void setMobilePhone(String mobilePhone) {
 		this.mobilePhone = mobilePhone;
+	}
+	public String getNcid() {
+		return ncid;
+	}
+	public void setNcid(String ncid) {
+		this.ncid = ncid;
 	}
 	
 }

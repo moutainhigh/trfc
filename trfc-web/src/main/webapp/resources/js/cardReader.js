@@ -13,7 +13,7 @@ function initCardReader(){
 //打开读卡器
 function readerOpen() {
 	try {
-		var version = MWRFATL.openReader(2, 9600);
+		var version = MWRFATL.openReader(3, 9600);
 		if (MWRFATL.LastRet != 0) {
 			layer.msg("打开读写器失败");
 			return;

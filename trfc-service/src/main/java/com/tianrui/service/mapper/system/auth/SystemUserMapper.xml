@@ -4,6 +4,7 @@
 	<resultMap id="BaseResultMap"
 		type="com.tianrui.service.bean.system.auth.SystemUser">
 		<id column="id" property="id" jdbcType="VARCHAR" />
+		<result column="ncid" property="ncid" jdbcType="VARCHAR" />
 		<result column="code" property="code" jdbcType="VARCHAR" />
 		<result column="name" property="name" jdbcType="VARCHAR" />
 		<result column="account" property="account" jdbcType="VARCHAR" />
@@ -13,6 +14,7 @@
 		<result column="mobilePhone" property="mobilePhone" jdbcType="VARCHAR" />
 		<result column="orgid" property="orgid" jdbcType="VARCHAR" />
 		<result column="source" property="source" jdbcType="VARCHAR" />
+		<result column="islock" property="islock" jdbcType="TINYINT" />
 		<result column="isvalid" property="isvalid" jdbcType="TINYINT" />
 		<result column="logincount" property="logincount" jdbcType="INTEGER" />
 		<result column="last_logintime" property="lastLogintime"
@@ -21,12 +23,13 @@
 		<result column="createtime" property="createtime" jdbcType="BIGINT" />
 		<result column="modifier" property="modifier" jdbcType="VARCHAR" />
 		<result column="modifytime" property="modifytime" jdbcType="BIGINT" />
+		<result column="remark" property="remark" jdbcType="VARCHAR" />
 		<result column="utc" property="utc" jdbcType="TIMESTAMP" />
 	</resultMap>
 	<sql id="Base_Column_List">
-		id, code, name, account, password, identityTypes, mobilePhone, orgid,
-		source, isvalid, logincount, last_logintime,
-		creator, createtime, modifier, modifytime, utc
+		id, ncid, code, name, account, password, identityTypes, mobilePhone, orgid,
+		source, islock, isvalid, logincount, last_logintime,
+		creator, createtime, modifier, modifytime, remark, utc
 	</sql>
 	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
 		parameterType="java.lang.String">
@@ -86,20 +89,20 @@
 		where id = #{id,jdbcType=VARCHAR}
 	</delete>
 	<insert id="insert" parameterType="com.tianrui.service.bean.system.auth.SystemUser">
-		insert into tr_system_user (id, code, name,
+		insert into tr_system_user (id, ncid, code, name,
 		account, password, identityTypes, mobilePhone, orgid,
-		source, isvalid, logincount,
+		source, islock, isvalid, logincount,
 		last_logintime, creator, createtime,
-		modifier, modifytime
+		modifier, modifytime, remark
 		)
-		values (#{id,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR},
-		#{name,jdbcType=VARCHAR},
+		values (#{id,jdbcType=VARCHAR}, #{ncid,jdbcType=VARCHAR},
+		#{code,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR},
 		#{account,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{identityTypes,jdbcType=VARCHAR},
 		#{mobilePhone,jdbcType=VARCHAR}, #{orgid,jdbcType=VARCHAR},
-		#{source,jdbcType=VARCHAR}, #{isvalid,jdbcType=TINYINT},
-		#{logincount,jdbcType=INTEGER},
+		#{source,jdbcType=VARCHAR}, #{islock,jdbcType=TINYINT},
+		#{isvalid,jdbcType=TINYINT}, #{logincount,jdbcType=INTEGER},
 		#{lastLogintime,jdbcType=BIGINT}, #{creator,jdbcType=VARCHAR}, #{createtime,jdbcType=BIGINT},
-		#{modifier,jdbcType=VARCHAR}, #{modifytime,jdbcType=BIGINT}
+		#{modifier,jdbcType=VARCHAR}, #{modifytime,jdbcType=BIGINT}, #{remark,jdbcType=VARCHAR}
 		)
 	</insert>
 	<insert id="insertSelective" parameterType="com.tianrui.service.bean.system.auth.SystemUser">
@@ -107,6 +110,9 @@
 		<trim prefix="(" suffix=")" suffixOverrides=",">
 			<if test="id != null">
 				id,
+			</if>
+			<if test="ncid != null">
+				ncid,
 			</if>
 			<if test="code != null">
 				code,
@@ -132,6 +138,9 @@
 			<if test="source != null">
 				source,
 			</if>
+			<if test="islock != null">
+				islock,
+			</if>
 			<if test="isvalid != null">
 				isvalid,
 			</if>
@@ -153,10 +162,16 @@
 			<if test="modifytime != null">
 				modifytime,
 			</if>
+			<if test="remark != null">
+				remark,
+			</if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="id != null">
 				#{id,jdbcType=VARCHAR},
+			</if>
+			<if test="ncid != null">
+				#{ncid,jdbcType=VARCHAR},
 			</if>
 			<if test="code != null">
 				#{code,jdbcType=VARCHAR},
@@ -182,6 +197,9 @@
 			<if test="source != null">
 				#{source,jdbcType=VARCHAR},
 			</if>
+			<if test="islock != null">
+				#{islock,jdbcType=TINYINT},
+			</if>
 			<if test="isvalid != null">
 				#{isvalid,jdbcType=TINYINT},
 			</if>
@@ -203,11 +221,17 @@
 			<if test="modifytime != null">
 				#{modifytime,jdbcType=BIGINT},
 			</if>
+			<if test="remark != null">
+				#{remark,jdbcType=VARCHAR},
+			</if>
 		</trim>
 	</insert>
 	<update id="updateByPrimaryKeySelective" parameterType="com.tianrui.service.bean.system.auth.SystemUser">
 		update tr_system_user
 		<set>
+			<if test="ncid != null">
+				ncid = #{ncid,jdbcType=VARCHAR},
+			</if>
 			<if test="code != null">
 				code = #{code,jdbcType=VARCHAR},
 			</if>
@@ -232,6 +256,9 @@
 			<if test="source != null">
 				source = #{source,jdbcType=VARCHAR},
 			</if>
+			<if test="islock != null">
+				islock = #{islock,jdbcType=TINYINT},
+			</if>
 			<if test="isvalid != null">
 				isvalid = #{isvalid,jdbcType=TINYINT},
 			</if>
@@ -253,12 +280,16 @@
 			<if test="modifytime != null">
 				modifytime = #{modifytime,jdbcType=BIGINT},
 			</if>
+			<if test="remark != null">
+				remark = #{remark,jdbcType=VARCHAR},
+			</if>
 		</set>
 		where id = #{id,jdbcType=VARCHAR}
 	</update>
 	<update id="updateByPrimaryKey" parameterType="com.tianrui.service.bean.system.auth.SystemUser">
 		update tr_system_user
-		set code = #{code,jdbcType=VARCHAR},
+		set ncid = #{ncid,jdbcType=VARCHAR},
+		code = #{code,jdbcType=VARCHAR},
 		name = #{name,jdbcType=VARCHAR},
 		account = #{account,jdbcType=VARCHAR},
 		password = #{password,jdbcType=VARCHAR},
@@ -266,13 +297,15 @@
 		mobilePhone = #{mobilePhone,jdbcType=VARCHAR},
 		orgid = #{orgid,jdbcType=VARCHAR},
 		source = #{source,jdbcType=VARCHAR},
+		islock = #{islock,jdbcType=TINYINT},
 		isvalid = #{isvalid,jdbcType=TINYINT},
 		logincount = #{logincount,jdbcType=INTEGER},
 		last_logintime = #{lastLogintime,jdbcType=BIGINT},
 		creator = #{creator,jdbcType=VARCHAR},
 		createtime = #{createtime,jdbcType=BIGINT},
 		modifier = #{modifier,jdbcType=VARCHAR},
-		modifytime = #{modifytime,jdbcType=BIGINT}
+		modifytime = #{modifytime,jdbcType=BIGINT},
+		remark = #{remark,jdbcType=VARCHAR}
 		where id = #{id,jdbcType=VARCHAR}
 	</update>
 	<select id="autoCompleteSearch" parameterType="com.tianrui.api.req.system.auth.SystemUserQueryReq"
@@ -300,6 +333,7 @@
 		insert into tr_system_user 
 		(
 			id, 
+			ncid, 
 			code, 
 			name,
 			account, 
@@ -308,6 +342,7 @@
 			mobilePhone, 
 			orgid,
 			source, 
+			islock, 
 			isvalid, 
 			creator, 
 			createtime,
@@ -317,6 +352,7 @@
 		<foreach collection="list" item="item" index="index"
 			separator=",">
 			(#{item.id},
+			#{item.ncid},
 			#{item.code},
 			#{item.name},
 			#{item.account},
@@ -325,6 +361,7 @@
 			#{item.mobilePhone},
 			#{item.orgid},
 			#{item.source},
+			#{item.islock},
 			#{item.isvalid},
 			#{item.creator},
 			#{item.createtime},
@@ -332,4 +369,11 @@
 			)
 		</foreach>
 	</insert>
+	<select id="selectByNcIdAndIdentityTypes" resultMap="BaseResultMap" parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from tr_system_user
+		where islock = 1 and isvalid = 1
+			 and ncid = #{ncid,jdbcType=VARCHAR} and identityTypes = #{identityTypes,jdbcType=VARCHAR}
+	</select>
 </mapper>

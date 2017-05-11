@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Param;
 
 import com.tianrui.api.req.basicFile.nc.SupplierManageQuery;
 import com.tianrui.api.req.businessManage.handset.HandSetRequestParam;
+import com.tianrui.api.resp.basicFile.nc.SupplierManageResp;
 import com.tianrui.api.resp.businessManage.handset.HandSetReturnResp;
 import com.tianrui.service.bean.basicFile.nc.SupplierManage;
 /**
@@ -52,4 +53,6 @@ public interface SupplierManageMapper {
 	List<HandSetReturnResp> handSetQueryAll(HandSetRequestParam req);
 	
     List<SupplierManage> findSupplierNotSystemUser();
+    
+    List<SupplierManageResp> autoCompleteNotGroupSearch(@Param("likeSearch")String likeSearch);
 }

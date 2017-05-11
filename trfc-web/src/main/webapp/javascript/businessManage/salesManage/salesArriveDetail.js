@@ -7,7 +7,7 @@ PAGE.mod = {
 		main:{},
 		util:{},
 		URL: {
-			mainUrl:"/trfc/salesArrive/main",
+			mainUrl:"/trfc/salesArrive/main"
 		}
 }
 PAGE.mod.util = {

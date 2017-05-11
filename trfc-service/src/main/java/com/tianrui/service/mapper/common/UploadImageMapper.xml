@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tianrui.service.mapper.common.UploadImageMapper" >
+  <resultMap id="BaseResultMap" type="com.tianrui.service.bean.common.UploadImage" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="source" property="source" jdbcType="VARCHAR" />
+    <result column="billcode" property="billcode" jdbcType="VARCHAR" />
+    <result column="billtype" property="billtype" jdbcType="VARCHAR" />
+    <result column="imgurl" property="imgurl" jdbcType="VARCHAR" />
+    <result column="creator" property="creator" jdbcType="VARCHAR" />
+    <result column="createtime" property="createtime" jdbcType="BIGINT" />
+    <result column="modifier" property="modifier" jdbcType="VARCHAR" />
+    <result column="modifytime" property="modifytime" jdbcType="BIGINT" />
+    <result column="remarks" property="remarks" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, source, billcode, billtype, imgurl, creator, createtime, modifier, modifytime, 
+    remarks
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from tr_upload_db_image
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from tr_upload_db_image
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.tianrui.service.bean.common.UploadImage" >
+    insert into tr_upload_db_image (id, source, billcode, 
+      billtype, imgurl, creator, 
+      createtime, modifier, modifytime, 
+      remarks)
+    values (#{id,jdbcType=VARCHAR}, #{source,jdbcType=VARCHAR}, #{billcode,jdbcType=VARCHAR}, 
+      #{billtype,jdbcType=VARCHAR}, #{imgurl,jdbcType=VARCHAR}, #{creator,jdbcType=VARCHAR}, 
+      #{createtime,jdbcType=BIGINT}, #{modifier,jdbcType=VARCHAR}, #{modifytime,jdbcType=BIGINT}, 
+      #{remarks,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.tianrui.service.bean.common.UploadImage" >
+    insert into tr_upload_db_image
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="source != null" >
+        source,
+      </if>
+      <if test="billcode != null" >
+        billcode,
+      </if>
+      <if test="billtype != null" >
+        billtype,
+      </if>
+      <if test="imgurl != null" >
+        imgurl,
+      </if>
+      <if test="creator != null" >
+        creator,
+      </if>
+      <if test="createtime != null" >
+        createtime,
+      </if>
+      <if test="modifier != null" >
+        modifier,
+      </if>
+      <if test="modifytime != null" >
+        modifytime,
+      </if>
+      <if test="remarks != null" >
+        remarks,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="source != null" >
+        #{source,jdbcType=VARCHAR},
+      </if>
+      <if test="billcode != null" >
+        #{billcode,jdbcType=VARCHAR},
+      </if>
+      <if test="billtype != null" >
+        #{billtype,jdbcType=VARCHAR},
+      </if>
+      <if test="imgurl != null" >
+        #{imgurl,jdbcType=VARCHAR},
+      </if>
+      <if test="creator != null" >
+        #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=BIGINT},
+      </if>
+      <if test="modifier != null" >
+        #{modifier,jdbcType=VARCHAR},
+      </if>
+      <if test="modifytime != null" >
+        #{modifytime,jdbcType=BIGINT},
+      </if>
+      <if test="remarks != null" >
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tianrui.service.bean.common.UploadImage" >
+    update tr_upload_db_image
+    <set >
+      <if test="source != null" >
+        source = #{source,jdbcType=VARCHAR},
+      </if>
+      <if test="billcode != null" >
+        billcode = #{billcode,jdbcType=VARCHAR},
+      </if>
+      <if test="billtype != null" >
+        billtype = #{billtype,jdbcType=VARCHAR},
+      </if>
+      <if test="imgurl != null" >
+        imgurl = #{imgurl,jdbcType=VARCHAR},
+      </if>
+      <if test="creator != null" >
+        creator = #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        createtime = #{createtime,jdbcType=BIGINT},
+      </if>
+      <if test="modifier != null" >
+        modifier = #{modifier,jdbcType=VARCHAR},
+      </if>
+      <if test="modifytime != null" >
+        modifytime = #{modifytime,jdbcType=BIGINT},
+      </if>
+      <if test="remarks != null" >
+        remarks = #{remarks,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tianrui.service.bean.common.UploadImage" >
+    update tr_upload_db_image
+    set source = #{source,jdbcType=VARCHAR},
+      billcode = #{billcode,jdbcType=VARCHAR},
+      billtype = #{billtype,jdbcType=VARCHAR},
+      imgurl = #{imgurl,jdbcType=VARCHAR},
+      creator = #{creator,jdbcType=VARCHAR},
+      createtime = #{createtime,jdbcType=BIGINT},
+      modifier = #{modifier,jdbcType=VARCHAR},
+      modifytime = #{modifytime,jdbcType=BIGINT},
+      remarks = #{remarks,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

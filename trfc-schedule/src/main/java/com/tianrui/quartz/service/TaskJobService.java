@@ -35,6 +35,7 @@ import com.tianrui.smartfactory.common.constants.BusinessConstants;
 import com.tianrui.smartfactory.common.constants.Constant;
 import com.tianrui.smartfactory.common.constants.ErrorCode;
 import com.tianrui.smartfactory.common.utils.Md5Utils;
+import com.tianrui.smartfactory.common.utils.UUIDUtil;
 
 @Service
 public class TaskJobService {
@@ -141,8 +142,9 @@ public class TaskJobService {
 			list.clear();
 			for(CustomerManage cm : customerList){
 				SystemUser user = new SystemUser();
-				user.setId(cm.getId());
-				user.setCode("");
+				user.setId(UUIDUtil.getId());
+				user.setNcid(cm.getId());
+				user.setCode(cm.getCode());
 				user.setName(cm.getName());
 				user.setAccount(cm.getCode());
 				user.setPassword(Md5Utils.MD5("666666"));
@@ -151,7 +153,8 @@ public class TaskJobService {
 				user.setOrgid(Constant.ORG_ID);
 				user.setSource("1");
 				user.setIsvalid(BusinessConstants.USER_VALID_BYTE);
-				user.setCreator("0000");
+				user.setIslock(BusinessConstants.USER_INVALID_BYTE);
+				user.setCreator("admin");
 				user.setCreatetime(System.currentTimeMillis());
 				user.setUtc(new Date());
 				list.add(user);
@@ -164,8 +167,9 @@ public class TaskJobService {
 			for(SupplierManage sm : supplierList){
 				if (systemUserMapper.selectByPrimaryKey(sm.getId()) == null) {
 					SystemUser user = new SystemUser();
-					user.setId(sm.getId());
-					user.setCode("");
+					user.setId(UUIDUtil.getId());
+					user.setNcid(sm.getId());
+					user.setCode(sm.getCode());
 					user.setAccount(sm.getCode());
 					user.setName(sm.getName());
 					user.setPassword(Md5Utils.MD5("666666"));
@@ -174,7 +178,8 @@ public class TaskJobService {
 					user.setOrgid(Constant.ORG_ID);
 					user.setSource("1");
 					user.setIsvalid(BusinessConstants.USER_VALID_BYTE);
-					user.setCreator("0000");
+					user.setIslock(BusinessConstants.USER_INVALID_BYTE);
+					user.setCreator("admin");
 					user.setCreatetime(System.currentTimeMillis());
 					user.setUtc(new Date());
 					list.add(user);
