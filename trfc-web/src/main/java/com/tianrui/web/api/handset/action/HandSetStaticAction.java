@@ -1,5 +1,6 @@
 package com.tianrui.web.api.handset.action;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -15,6 +16,7 @@ import com.tianrui.api.intf.basicFile.nc.ICustomerManageService;
 import com.tianrui.api.intf.basicFile.nc.ISupplierManageService;
 import com.tianrui.api.intf.basicFile.nc.IWarehouseManageService;
 import com.tianrui.api.req.businessManage.handset.HandSetRequestParam;
+import com.tianrui.api.resp.businessManage.handset.HandPrimarySettingResp;
 import com.tianrui.api.resp.businessManage.handset.HandSetReturnResp;
 import com.tianrui.smartfactory.common.api.ApiParam;
 import com.tianrui.smartfactory.common.api.ApiResult;
@@ -22,6 +24,8 @@ import com.tianrui.smartfactory.common.constants.ErrorCode;
 import com.tianrui.smartfactory.common.vo.Result;
 import com.tianrui.web.smvc.ApiNotTokenValidation;
 import com.tianrui.web.smvc.ApiParamRawType;
+
+import oracle.sql.ARRAY;
 
 @Controller
 @RequestMapping("api/handset/static")
@@ -97,6 +101,37 @@ public class HandSetStaticAction {
 		Result rs = Result.getErrorResult();
 		try {
 			List<HandSetReturnResp> list = yardManageService.handSetQueryAll(req.getBody());
+			rs.setData(list);
+			rs.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			rs.setErrorCode(ErrorCode.SYSTEM_ERROR);
+		}
+		return ApiResult.valueOf(rs);
+	}
+	/**
+	 * 原发设置
+	 * @param req
+	 * @return
+	 */
+	@RequestMapping(value="/primarySetting ",method = RequestMethod.POST)
+	@ApiParamRawType(HandSetRequestParam.class)
+	@ApiNotTokenValidation
+	@ResponseBody
+	public ApiResult primarySetting(ApiParam<HandSetRequestParam> req){
+		Result rs = Result.getErrorResult();
+		try {
+			//TODO 手持机原发设置接口返回.
+			List<HandPrimarySettingResp> list = new ArrayList<HandPrimarySettingResp>();
+			
+			HandPrimarySettingResp resp = new HandPrimarySettingResp();
+			resp.setSupplierCode("111");
+			resp.setSupplierId("222");
+			resp.setSupplierName("333");
+			resp.setId("444");
+			resp.setMaterieId("555");
+			resp.setMaterieCode("666");
+			resp.setMaterieName("777");
 			rs.setData(list);
 			rs.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
 		} catch (Exception e) {
