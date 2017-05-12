@@ -1,7 +1,7 @@
 <%@page language="java" pageEncoding="UTF-8"
 	contentType="text/html; charset=UTF-8"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!Doctype html>
 <html>
 <head>
@@ -138,15 +138,19 @@
 							<div class="cg_tabcont">
 								<c:if test="${ fn:length(accessImages) == 0}">
 									<div class="noimg">
-									<img alt="" src="${staticBasePath}/images/noimg.gif" />
+										<img alt="" src="${staticBasePath}/images/noimg.gif" />
 									</div>
 								</c:if>
 								<c:forEach items="${ accessImages}" var="i">
-									<div class="noimg"></div>
 									<img alt="" src=${ i.imgurl} />
 								</c:forEach>
 							</div>
 							<div class="cg_tabcont hide">
+								<c:if test="${ fn:length(poundImages) == 0}">
+									<div class="noimg">
+										<img alt="" src="${staticBasePath}/images/noimg.gif" />
+									</div>
+								</c:if>
 								<c:forEach items="${ poundImages}" var="i">
 									<img alt="" src=${ i.imgurl}>
 								</c:forEach>

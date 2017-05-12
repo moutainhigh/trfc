@@ -167,11 +167,21 @@
 								</div>
 							</div>
 							<div class="cg_tabcont hide">
+								<c:if test="${ fn:length(accessImages) == 0}">
+									<div class="noimg">
+										<img alt="" src="${staticBasePath}/images/noimg.gif" />
+									</div>
+								</c:if>
 								<c:forEach items="${ accessImages}" var="i">
 									<img alt="" src=${ i.imgurl} />
 								</c:forEach>
 							</div>
 							<div class="cg_tabcont hide">
+								<c:if test="${ fn:length(poundImages) == 0}">
+									<div class="noimg">
+										<img alt="" src="${staticBasePath}/images/noimg.gif" />
+									</div>
+								</c:if>
 								<c:forEach items="${ poundImages}" var="i">
 									<img alt="" src=${ i.imgurl}>
 								</c:forEach>
