@@ -2,6 +2,8 @@ package com.tianrui.service.mapper.system.auth;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.tianrui.api.req.system.auth.SystemUserQueryReq;
 import com.tianrui.service.bean.system.auth.SystemUser;
 /**
@@ -63,5 +65,5 @@ public interface SystemUserMapper {
 	 * @param identityTypes
 	 * @return
 	 */
-	SystemUser selectByNcIdAndIdentityTypes(String ncid, String identityTypes);
+	SystemUser selectByNcIdAndIdentityTypes(@Param("ncid")String ncid, @Param("identityTypes")String identityTypes);
 }

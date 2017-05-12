@@ -453,7 +453,7 @@
 				or s.code like CONCAT('%', #{likeSearch,jdbcType=VARCHAR}, '%')
 				or t.mobilePhone like CONCAT('%', #{likeSearch,jdbcType=VARCHAR}, '%'))
 		</if>
-		and NOT EXISTS(select id from tr_supplier_db_group where groupid = s.id and state = 1)
+		and NOT EXISTS(select id from tr_supplier_db_group where supplierid = s.id and state = 1)
 		order by s.createtime desc
 		limit 0,20
 	</select>

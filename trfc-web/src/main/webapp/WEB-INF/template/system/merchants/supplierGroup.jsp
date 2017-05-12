@@ -12,8 +12,20 @@
 	    width: 100%;
 	    border: 0px;
 	}
+	.cg_tabbox .cg_tabcont table tbody td{
+    	text-align: center;
+    	padding: 0px;
+    	margin: 0px;
+	}
 	input[readonly] {
 	    background: #f5f6fb;
+	}
+	.cg_tabtit ul li {
+	    line-height: 40px;
+	}
+	.modal-body{
+		padding-top: 0px;
+    	padding-bottom: 0px;
 	}
 </style>
 </head>
@@ -54,7 +66,7 @@
 						</div>
 					</div>
 					<div class="intel_opera">
-						<div class="intel_operasolo">
+						<div id="refreshBtn" class="intel_operasolo">
 							<i class="iconfont colorlv">&#xe61b;</i>
 							<h5>刷新</h5>
 						</div>
@@ -150,8 +162,8 @@
 			</div>
 		</div>
 		<!--新增end-->
-		<!--新增begin-->
-		<div class="modal fade" id="update" tabindex="-1" role="dialog"
+		<!--新增组成员begin-->
+		<div class="modal fade" id="addGroup" tabindex="-1" role="dialog"
 			aria-labelledby="myModalLabel">
 			<div class="modal-dialog" role="document" style="width: 750px;">
 				<div class="modal-content">
@@ -174,7 +186,7 @@
 								<div class="cg_dhadd">
 									<div class="cg_tabtit">
 										<ul>
-											<li class="select">物料明细</li>
+											<li class="select">权限明细</li>
 										</ul>
 									</div>
 								</div>
@@ -232,7 +244,62 @@
 				</div>
 			</div>
 		</div>
-		<!--新增end-->
+		<!--新增组成员end-->
+		<!--组成员详情begin-->
+		<div class="modal fade" id="detail" tabindex="-1" role="dialog"
+			aria-labelledby="myModalLabel">
+			<div class="modal-dialog" role="document" style="width: 850px;">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal"
+							aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+						<div class="alt_head">
+							<h5>用户数据权限设置</h5>
+						</div>
+					</div>
+					<div class="modal-body">
+						<div class="alt_edit">
+							<div class="alt_edit_div">
+								<label>用户：</label> <input id="supplierGroupDetail" type="text" readonly="true">
+							</div>
+							<div class="clear"></div>
+							<div>
+								<div class="cg_dhadd">
+									<div class="cg_tabtit">
+										<ul>
+											<li class="select">权限明细</li>
+										</ul>
+									</div>
+								</div>
+								<div class="cg_tabbox">
+									<!--tab切换的内容-->
+									<div class="cg_tabcont" style="overflow: auto;max-height: 400px;">
+										<div class="zk_table_int">
+											<table class="table table-bordered" id="tab_detail">
+												<thead>
+													<tr>
+														<th style="width: 60px;">行号</th>
+														<th style="width: 20%;">供应商编号</th>
+														<th style="width: 30%;">供应商名称</th>
+														<th>说明</th>
+													</tr>
+												</thead>
+												<tbody>
+												</tbody>
+											</table>
+										</div>
+									</div>
+									<!--tab切换的内容end-->
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!--组成员详情end-->
 	</div>
 	<!-- 引用公共footer部分 -->
 	<jsp:include page="../../common/base/footer_busi.jsp"></jsp:include>

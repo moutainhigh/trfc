@@ -83,4 +83,31 @@ public class SupplierGroupAction {
 		return result;
 	}
 	
+	@RequestMapping("addSupplierToGroup")
+	@ResponseBody
+	public Result addSupplierToGroup(String groupid, String childrenList, HttpSession session){
+		Result result = Result.getErrorResult();
+		try {
+			SystemUserResp user = (SystemUserResp) session.getAttribute("systemUser");
+			result = supplierGroupService.addSupplierToGroup(groupid, childrenList, user.getId());
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
+		}
+		return result;
+	}
+	
+	@RequestMapping("supplierGroupDetail")
+	@ResponseBody
+	public Result supplierGroupDetail(SupplierGroupQuery query){
+		Result result = Result.getErrorResult();
+		try {
+			result = supplierGroupService.supplierGroupDetail(query);
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
+		}
+		return result;
+	}
+	
 }

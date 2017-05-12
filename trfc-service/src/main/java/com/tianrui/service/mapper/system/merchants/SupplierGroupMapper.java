@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 import com.tianrui.api.req.system.merchants.SupplierGroupQuery;
+import com.tianrui.api.resp.system.merchants.AppSupplierGroup;
 import com.tianrui.api.resp.system.merchants.SupplierGroupResp;
 import com.tianrui.service.bean.system.merchants.SupplierGroup;
 
@@ -27,6 +28,10 @@ public interface SupplierGroupMapper {
     
     SupplierGroup validateSupplier(String supplierid);
 
-	List<SupplierGroupResp> selectSupplierByGroupId(@Param("groupid")String groupid);
+	List<AppSupplierGroup> selectSupplierByGroupId(@Param("groupid")String groupid);
+	
+	int insertBatch(List<SupplierGroup> list);
+
+	List<SupplierGroupResp> supplierGroupDetail(SupplierGroupQuery query);
     
 }
