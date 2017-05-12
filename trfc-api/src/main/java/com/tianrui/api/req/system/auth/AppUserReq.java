@@ -17,6 +17,8 @@ public class AppUserReq extends BaseReq {
 	private String pswd;
 	//待修改密码
 	private String newPswd;
+	//手机号
+	private String mobilePhone;
 	
 	public String getId() {
 		return id;
@@ -41,6 +43,12 @@ public class AppUserReq extends BaseReq {
 	}
 	public void setNewPswd(String newPswd) {
 		this.newPswd = newPswd;
+	}
+	public String getMobilePhone() {
+		return mobilePhone;
+	}
+	public void setMobilePhone(String mobilePhone) {
+		this.mobilePhone = mobilePhone;
 	}
 	
 }

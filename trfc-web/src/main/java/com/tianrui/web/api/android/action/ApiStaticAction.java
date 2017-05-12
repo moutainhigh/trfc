@@ -576,4 +576,50 @@ public class ApiStaticAction {
 		return ApiResult.valueOf(rs);
 	}
 	
+	/**
+	 * @Description 绑定手机号
+	 * @author zhanggaohao
+	 * @version 2017年5月11日 下午4:17:45
+	 * @param appParam
+	 * @return
+	 */
+	@RequestMapping(value="/bindPhone",method=RequestMethod.POST)
+	@ApiParamRawType(AppUserReq.class)
+	@ResponseBody
+	public ApiResult bindPhone(ApiParam<AppUserReq> appParam){
+		Result rs = Result.getSuccessResult();
+		try {
+			AppUserReq req = appParam.getBody();
+			req.setId(appParam.getHead().getUserId());
+			rs = systemUserService.bindPhone(req);
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			rs.setErrorCode(ErrorCode.SYSTEM_ERROR);
+		}
+		return ApiResult.valueOf(rs);
+	}
+	
+	/**
+	 * @Description 解绑手机号
+	 * @author zhanggaohao
+	 * @version 2017年5月11日 下午4:20:07
+	 * @param appParam
+	 * @return
+	 */
+	@RequestMapping(value="/unBindPhone",method=RequestMethod.POST)
+	@ApiParamRawType(AppUserReq.class)
+	@ResponseBody
+	public ApiResult unBindPhone(ApiParam<AppUserReq> appParam){
+		Result rs = Result.getSuccessResult();
+		try {
+			AppUserReq req = appParam.getBody();
+			req.setId(appParam.getHead().getUserId());
+			rs = systemUserService.unBindPhone(req);
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			rs.setErrorCode(ErrorCode.SYSTEM_ERROR);
+		}
+		return ApiResult.valueOf(rs);
+	}
+	
 }

@@ -66,4 +66,12 @@ public interface SystemUserMapper {
 	 * @return
 	 */
 	SystemUser selectByNcIdAndIdentityTypes(@Param("ncid")String ncid, @Param("identityTypes")String identityTypes);
+	/**
+	 * @Description 校验手机号是否唯一
+	 * @author zhanggaohao
+	 * @version 2017年5月11日 下午4:44:02
+	 * @param mobilePhone
+	 * @return
+	 */
+	SystemUser validPhoneIsOne(String mobilePhone);
 }

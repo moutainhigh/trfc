@@ -2,9 +2,7 @@ package com.tianrui.service.impl.businessManage.logisticsManage;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.collections.CollectionUtils;
@@ -24,6 +22,7 @@ import com.tianrui.api.req.system.base.GetCodeReq;
 import com.tianrui.api.resp.businessManage.logisticsManage.AccessRecordResp;
 import com.tianrui.api.resp.businessManage.otherManage.OtherArriveResp;
 import com.tianrui.api.resp.businessManage.purchaseManage.PurchaseArriveResp;
+import com.tianrui.api.resp.businessManage.salesManage.ApiSalesArriveResp;
 import com.tianrui.api.resp.businessManage.salesManage.SalesArriveResp;
 import com.tianrui.service.bean.basicFile.measure.VehicleManage;
 import com.tianrui.service.bean.businessManage.cardManage.Card;
@@ -47,7 +46,6 @@ import com.tianrui.service.mapper.businessManage.salesManage.SalesApplicationJoi
 import com.tianrui.service.mapper.businessManage.salesManage.SalesArriveMapper;
 import com.tianrui.service.mapper.common.RFIDMapper;
 import com.tianrui.smartfactory.common.constants.ErrorCode;
-import com.tianrui.smartfactory.common.utils.CommonUtils;
 import com.tianrui.smartfactory.common.utils.DateUtil;
 import com.tianrui.smartfactory.common.utils.UUIDUtil;
 import com.tianrui.smartfactory.common.vo.PaginationVO;
@@ -676,17 +674,16 @@ public class AccessRecordService1 implements IAccessRecordService1 {
 				&& StringUtils.isNotBlank(checkApi.getRfid())) {
 			if (validateRFID(checkApi.getRfid())) {
 				if (validateVehicle(checkApi.getVehicleNo(), checkApi.getRfid())) {
-					Map<String, Object> map = validateHasBill(checkApi.getVehicleNo());
-					if (map != null && map.size() > 0) {
-						Object object = map.get("notice");
-						if (!StringUtils.equals(CommonUtils.method(object, "status").toString(), "3")) {
-							if (StringUtils.equals(CommonUtils.method(object, "auditstatus").toString(), "1")) {
-								if (StringUtils.equals(CommonUtils.method(object, "status").toString(), "2")) {
+					ApiSalesArriveResp resp = validateHasBill(checkApi.getVehicleNo());
+					if (resp != null) {
+						if (!StringUtils.equals(resp.getStatus(), "3")) {
+							if (StringUtils.equals(resp.getAuditstatus(), "1")) {
+								if (StringUtils.equals(resp.getStatus(), "2")) {
 									//result.setData(map);
 									result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
 									//如果业务类型为 工程车辆 且是入厂状态,可以直接出厂
-								} else if(StringUtils.equals(CommonUtils.method(object, "businesstype").toString(), "9")
-										&& StringUtils.equals(CommonUtils.method(object, "status").toString(), "6")){
+								} else if(StringUtils.equals(resp.getServicetype(), "9")
+										&& StringUtils.equals(resp.getStatus(), "6")){
 									result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
 								}else {
 									result.setErrorCode(ErrorCode.VEHICLE_NOTICE_NOT_TWO_WEIGHT);
@@ -724,13 +721,12 @@ public class AccessRecordService1 implements IAccessRecordService1 {
 				&& StringUtils.isNotBlank(checkApi.getRfid())) {
 			if (validateRFID(checkApi.getRfid())) {
 				if (validateVehicle(checkApi.getVehicleNo(), checkApi.getRfid())) {
-					Map<String, Object> map = validateHasBill(checkApi.getVehicleNo());
-					if (map != null && map.size() > 0) {
-						Object object = map.get("notice");
-						if (!StringUtils.equals(CommonUtils.method(object, "status").toString(), "3")) {
-							if (StringUtils.equals(CommonUtils.method(object, "auditstatus").toString(), "1")) {
-								if (StringUtils.equals(CommonUtils.method(object, "status").toString(), "0")) {
-									result.setData(map.get("type"));
+					ApiSalesArriveResp resp = validateHasBill(checkApi.getVehicleNo());
+					if (resp != null) {
+						if (!StringUtils.equals(resp.getStatus(), "3")) {
+							if (StringUtils.equals(resp.getAuditstatus(), "1")) {
+								if (StringUtils.equals(resp.getStatus(), "0")) {
+									result.setData(resp.getServicetype());
 									result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
 								} else {
 									result.setErrorCode(ErrorCode.VEHICLE_NOTICE_ALREADY_ENTER);
@@ -795,10 +791,10 @@ public class AccessRecordService1 implements IAccessRecordService1 {
 	 * @param vehicleNo
 	 * @return
 	 */
-	private Map<String, Object> validateHasBill(String vehicleno) {
-		Map<String, Object> map = null;
+	private ApiSalesArriveResp validateHasBill(String vehicleno) {
+		ApiSalesArriveResp resp = null;
 		if (StringUtils.isNotBlank(vehicleno)) {
-			map = new HashMap<String, Object>();
+			resp = new ApiSalesArriveResp();
 			PurchaseArrive purchaseArrive = hasPurchaseArrive(vehicleno);
 			//判断是否有采购到货通知单
 			if (purchaseArrive == null) {
@@ -810,19 +806,22 @@ public class AccessRecordService1 implements IAccessRecordService1 {
 					if(otherArrive == null){
 						//
 					}else{
-						map.put("type", otherArrive.getBusinesstype());
-						map.put("notice", otherArrive);
+						resp.setStatus(otherArrive.getStatus());
+						resp.setAuditstatus(otherArrive.getAuditstatus());
+						resp.setServicetype(otherArrive.getBusinesstype());
 					}
 				} else {
-					map.put("type", 2);
-					map.put("notice", salesArrive);
+					resp.setStatus(salesArrive.getStatus());
+					resp.setAuditstatus(salesArrive.getAuditstatus());
+					resp.setServicetype("2");
 				}
 			} else {
-				map.put("type", 0);
-				map.put("notice", purchaseArrive);
+				resp.setStatus(purchaseArrive.getStatus());
+				resp.setAuditstatus(purchaseArrive.getAuditstatus());
+				resp.setServicetype(purchaseArrive.getType());
 			}
 		}
-		return map;
+		return resp;
 	}
 	/**
 	 * @Description 验证是否有采购到货通知单

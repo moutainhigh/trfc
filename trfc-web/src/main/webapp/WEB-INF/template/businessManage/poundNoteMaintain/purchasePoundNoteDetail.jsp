@@ -41,8 +41,8 @@
 									value="${poundNote.code }" readonly="true">
 							</div>
 							<div class="daohuo_add_solo">
-								<label>发货单位：</label> <input type="text"
-									value="${poundNote.senddepartmentname }" readonly="true">
+								<label>收货单位：</label> <input type="text"
+									value="${poundNote.receivedepartmentname }" readonly="true">
 							</div>
 							<div class="daohuo_add_solo">
 								<label>供应商：</label> <input type="text"

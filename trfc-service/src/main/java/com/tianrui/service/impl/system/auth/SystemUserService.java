@@ -426,6 +426,7 @@ public class SystemUserService implements ISystemUserService {
 							user.setTokenId(tokenId);
 							AppUserResp resp = new AppUserResp();
 							resp.setId(user.getId());
+							resp.setNcid(user.getNcid());
 							resp.setToken(user.getTokenId());
 							resp.setUserName(user.getName());
 							resp.setMobile(user.getMobilePhone());
@@ -525,6 +526,48 @@ public class SystemUserService implements ISystemUserService {
 				resp.setIdentityTypes(user.getIdentityTypes());
 				result.setData(resp);
 				result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+			}
+		}
+		return result;
+	}
+
+	@Override
+	public Result bindPhone(AppUserReq req) {
+		Result result = Result.getParamErrorResult();
+		if(req != null && StringUtils.isNotBlank(req.getId())
+				&& StringUtils.isNotBlank(req.getMobilePhone())){
+			if(userMapper.validPhoneIsOne(req.getMobilePhone()) == null){
+				SystemUser bean = new SystemUser();
+				bean.setId(req.getId());
+				bean.setMobilePhone(req.getMobilePhone());
+				bean.setModifier(req.getId());
+				bean.setModifytime(System.currentTimeMillis());
+				if(userMapper.updateByPrimaryKeySelective(bean) == 1){
+					result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+				}else{
+					result.setErrorCode(ErrorCode.OPERATE_ERROR);
+				}
+			}else{
+				result.setErrorCode(ErrorCode.SYSTEM_USER_ERROR13);
+			}
+		}
+		return result;
+	}
+	
+	@Override
+	public Result unBindPhone(AppUserReq req) {
+		Result result = Result.getParamErrorResult();
+		if(req != null && StringUtils.isNotBlank(req.getId())
+				&& StringUtils.isNotBlank(req.getMobilePhone())){
+			SystemUser bean = new SystemUser();
+			bean.setId(req.getId());
+			bean.setMobilePhone("");
+			bean.setModifier(req.getId());
+			bean.setModifytime(System.currentTimeMillis());
+			if(userMapper.updateByPrimaryKeySelective(bean) == 1){
+				result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+			}else{
+				result.setErrorCode(ErrorCode.OPERATE_ERROR);
 			}
 		}
 		return result;

@@ -7,6 +7,7 @@ public class AppUserResp implements Serializable{
 	private static final long serialVersionUID = -6047532361711189172L;
 
 	private String id;
+	private String ncid;
 	private String token;
 	private String userName;
 	private String mobile;
@@ -62,8 +63,11 @@ public class AppUserResp implements Serializable{
 	public void setIdentityTypes(String identityTypes) {
 		this.identityTypes = identityTypes;
 	}
-		
-	
-	
+	public String getNcid() {
+		return ncid;
+	}
+	public void setNcid(String ncid) {
+		this.ncid = ncid;
+	}
 	
 }

@@ -49,6 +49,8 @@ public class ApiSalesArriveResp extends BaseResp {
 	private String number="";
 	//通知单状态
 	private String status="";
+	//通知单审核状态（0：未审核，1：已审核）
+    private String auditstatus;
 	
 	public String getVehicleno() {
 		return vehicleno;
@@ -128,17 +130,17 @@ public class ApiSalesArriveResp extends BaseResp {
 	public void setMaterielid(String materielid) {
 		this.materielid = materielid;
 	}
-	/**
-	 * @return the status
-	 */
 	public String getStatus() {
 		return status;
 	}
-	/**
-	 * @param status the status to set
-	 */
 	public void setStatus(String status) {
 		this.status = status;
+	}
+	public String getAuditstatus() {
+		return auditstatus;
+	}
+	public void setAuditstatus(String auditstatus) {
+		this.auditstatus = auditstatus;
 	}
 
 }

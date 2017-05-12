@@ -22,7 +22,7 @@ public class TestApiDoorSystem {
 	private static String uri_record = "api/doorSystem/record";
 	
 	public static void main(String[] args) throws Exception {
-		URL url = new URL(domin + uri_record);
+		URL url = new URL(domin + uri_leave);
 		// 打开url连接
 		HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 		// 设置url请求方式 ‘get’ 或者 ‘post’
@@ -31,7 +31,7 @@ public class TestApiDoorSystem {
 		
 	    // 表单参数与get形式一样
 		connection.setDoOutput(true);// 是否输入参数
-        params.append("p").append("=").append(JSON.toJSONString(getParam1()));
+        params.append("p").append("=").append(JSON.toJSONString(getParam0()));
         
         String aa =params.toString();
         System.out.println(aa);
@@ -72,8 +72,8 @@ public class TestApiDoorSystem {
 		ApiParam<VehicleCheckApi> api =new ApiParam<VehicleCheckApi>();
 		
 		VehicleCheckApi req =new VehicleCheckApi();
-		req.setRfid("08D4A547373531323120AB01");
-		req.setVehicleNo("豫G75121");
+		req.setRfid("E2000016060D016527000A77");
+		req.setVehicleNo("豫A05744");
 		
 		Head head =new Head();
 		head.setCallSource("1");

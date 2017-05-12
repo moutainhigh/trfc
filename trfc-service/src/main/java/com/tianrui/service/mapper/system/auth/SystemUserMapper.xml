@@ -376,4 +376,9 @@
 		where islock = 0 and isvalid = 1
 			 and ncid = #{ncid,jdbcType=VARCHAR} and identityTypes = #{identityTypes,jdbcType=VARCHAR}
 	</select>
+	<select id="validPhoneIsOne" parameterType="java.lang.String" resultMap="BaseResultMap">
+		select <include refid="Base_Column_List"/>
+		from tr_system_user
+		where mobilePhone = #{mobilePhone,jdbcType=VARCHAR}
+	</select>
 </mapper>

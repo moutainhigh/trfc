@@ -151,4 +151,20 @@ public interface ISystemUserService {
 	Result queryAllUser(String orgid);
 
 	Result userCutover(String key, String ncid, String identityTypes) throws Exception;
+	/**
+	 * @Description 绑定手机号
+	 * @author zhanggaohao
+	 * @version 2017年5月11日 下午4:22:16
+	 * @param req
+	 * @return
+	 */
+	Result bindPhone(AppUserReq req);
+	/**
+	 * @Description 解绑手机号
+	 * @author zhanggaohao
+	 * @version 2017年5月11日 下午4:48:25
+	 * @param req
+	 * @return
+	 */
+	Result unBindPhone(AppUserReq req);
 }
