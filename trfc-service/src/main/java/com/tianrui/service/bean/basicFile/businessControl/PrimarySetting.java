@@ -1,29 +1,30 @@
 package com.tianrui.service.bean.basicFile.businessControl;
 
 public class PrimarySetting {
-    private String id;
-
+	//主键id
+	private String id;
+	//原发设置编码
     private String code;
-
+	//供应商id
     private String supplierid;
-
+	//物料id
     private String materialid;
-
+	//开始时间
     private Long starttime;
-
+	//终止时间
     private Long endtime;
-
+	//是否有效（0：无效，1：有效）
     private String isvalid;
-
+	//创建人
     private String creator;
-
+	//创建时间
     private Long createtime;
-
+	//最后修改人
     private String modifier;
-
+	//最后修改时间
     private Long modifytime;
-
-    private String remarks;
+	//备注
+    private String remark;
 
     public String getId() {
         return id;
@@ -113,11 +114,11 @@ public class PrimarySetting {
         this.modifytime = modifytime;
     }
 
-    public String getRemarks() {
-        return remarks;
+    public String getRemark() {
+        return remark;
     }
 
-    public void setRemarks(String remarks) {
-        this.remarks = remarks == null ? null : remarks.trim();
+    public void setRemark(String remark) {
+        this.remark = remark == null ? null : remark.trim();
     }
 }

@@ -97,8 +97,10 @@ public enum ErrorCode {
 	
 	//APP版本
 	APP_VERSION_EXIST("E300000","未找到该系统适配的版本！"),
-	
-	SUPPLIER_GROUP_ERROR("E400000", "该供应商已被添加！");
+	//供应商数据权限
+	SUPPLIER_GROUP_ERROR("E400000", "该供应商已被添加！"),
+	//采购原发设置
+	PRIMARY_SETTING_ERROR("E500000", "供应商已存在该物料启用数据！");
 	
 	private String code;
 	private String msg;

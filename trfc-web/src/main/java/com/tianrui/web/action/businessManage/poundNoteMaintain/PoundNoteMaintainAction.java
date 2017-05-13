@@ -22,8 +22,6 @@ import com.tianrui.api.req.system.base.GetCodeReq;
 import com.tianrui.api.resp.businessManage.poundNoteMaintain.PoundNoteResp;
 import com.tianrui.api.resp.common.UploadImageResp;
 import com.tianrui.api.resp.system.auth.SystemUserResp;
-import com.tianrui.service.bean.businessManage.poundNoteMaintain.PoundNote;
-import com.tianrui.service.bean.common.UploadImage;
 import com.tianrui.smartfactory.common.constants.ErrorCode;
 import com.tianrui.smartfactory.common.utils.DateUtil;
 import com.tianrui.smartfactory.common.vo.PaginationVO;

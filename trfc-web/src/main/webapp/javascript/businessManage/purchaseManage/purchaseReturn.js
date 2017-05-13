@@ -212,7 +212,7 @@
 					$('#total').html(total);
 					$('#jumpPageNo').attr('maxPageNo',parseInt((total+pageSize-1)/pageSize));
 					$("#pagination").pagination(total, {
-					    callback: function(){
+					    callback: function(pageNo){
 					    	initPageList(pageNo+1);
 					    },
 					    prev_text: '上一页',

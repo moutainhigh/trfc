@@ -56,8 +56,11 @@
 			<if test="code != null and code !=''">
 				and code = #{code,jdbcType=VARCHAR}
 			</if>
-			<if test="account!= null and account !=''">
+			<if test="account != null and account !=''">
 				and account = #{account,jdbcType=VARCHAR}
+			</if>
+			<if test="appAccount != null and appAccount !=''">
+				and (account = #{appAccount,jdbcType=VARCHAR} or mobilePhone = #{appAccount,jdbcType=VARCHAR})
 			</if>
 		</where>
 		order by utc desc

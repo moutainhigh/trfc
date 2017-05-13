@@ -86,20 +86,20 @@ $(function(){
 	});
 
 //	角色权限树形表格中的全选取消按钮js
-	$(function(){
-		$(".intel_table table").find("input[type='checkbox']").on("click",function(){
+//	$(function(){
+//		$(".intel_table table").find("input[type='checkbox']").on("click",function(){
 //			console.log($(this).parentsUntil(".tree","li").html());
-			var childInput=$(this).parentsUntil("tr").find("input[type='checkbox']");
-			var current_id = $(this).parentsUntil("tbody");
-			alert(current_id.html());
-			if($(this).is(":checked")){
-				childInput.prop("checked",true);
-			}
-			else{
-				childInput.prop("checked",false);
-			}
-		});
-	});
+//			var childInput=$(this).parentsUntil("tr").find("input[type='checkbox']");
+//			var current_id = $(this).parentsUntil("tbody");
+//			alert(current_id.html());
+//			if($(this).is(":checked")){
+//				childInput.prop("checked",true);
+//			}
+//			else{
+//				childInput.prop("checked",false);
+//			}
+//		});
+//	});
 
 //	左侧通用二级折叠菜单的加减号显示隐藏
 //	function collapse_left(options){

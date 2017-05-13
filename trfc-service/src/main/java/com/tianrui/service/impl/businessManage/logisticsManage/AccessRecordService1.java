@@ -792,9 +792,8 @@ public class AccessRecordService1 implements IAccessRecordService1 {
 	 * @return
 	 */
 	private ApiSalesArriveResp validateHasBill(String vehicleno) {
-		ApiSalesArriveResp resp = null;
+		ApiSalesArriveResp resp = new ApiSalesArriveResp();
 		if (StringUtils.isNotBlank(vehicleno)) {
-			resp = new ApiSalesArriveResp();
 			PurchaseArrive purchaseArrive = hasPurchaseArrive(vehicleno);
 			//判断是否有采购到货通知单
 			if (purchaseArrive == null) {
@@ -805,6 +804,7 @@ public class AccessRecordService1 implements IAccessRecordService1 {
 					OtherArrive otherArrive = hasOtherArrive(vehicleno);
 					if(otherArrive == null){
 						//
+						resp = null;
 					}else{
 						resp.setStatus(otherArrive.getStatus());
 						resp.setAuditstatus(otherArrive.getAuditstatus());

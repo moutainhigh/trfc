@@ -13,11 +13,29 @@
     <result column="createtime" property="createtime" jdbcType="BIGINT" />
     <result column="modifier" property="modifier" jdbcType="VARCHAR" />
     <result column="modifytime" property="modifytime" jdbcType="BIGINT" />
-    <result column="remarks" property="remarks" jdbcType="VARCHAR" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="BaseRespResultMap" type="com.tianrui.api.resp.basicFile.businessControl.PrimarySettingResp" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="code" property="code" jdbcType="VARCHAR" />
+    <result column="supplierid" property="supplierid" jdbcType="VARCHAR" />
+    <result column="materialid" property="materialid" jdbcType="VARCHAR" />
+    <result column="starttime" property="starttime" jdbcType="BIGINT" />
+    <result column="endtime" property="endtime" jdbcType="BIGINT" />
+    <result column="isvalid" property="isvalid" jdbcType="VARCHAR" />
+    <result column="creator" property="creator" jdbcType="VARCHAR" />
+    <result column="createtime" property="createtime" jdbcType="BIGINT" />
+    <result column="modifier" property="modifier" jdbcType="VARCHAR" />
+    <result column="modifytime" property="modifytime" jdbcType="BIGINT" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, code, supplierid, materialid, starttime, endtime, isvalid, creator, createtime, 
-    modifier, modifytime, remarks
+    modifier, modifytime, remark
+  </sql>
+  <sql id="Base_Column_List_T1" >
+    t1.id, t1.code, t1.supplierid, t1.materialid, t1.starttime, t1.endtime, t1.isvalid, 
+    t1.creator, t1.createtime, t1.modifier, t1.modifytime, t1.remark
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
@@ -33,12 +51,12 @@
     insert into tr_primary_db_setting (id, code, supplierid, 
       materialid, starttime, endtime, 
       isvalid, creator, createtime, 
-      modifier, modifytime, remarks
+      modifier, modifytime, remark
       )
     values (#{id,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR}, #{supplierid,jdbcType=VARCHAR}, 
       #{materialid,jdbcType=VARCHAR}, #{starttime,jdbcType=BIGINT}, #{endtime,jdbcType=BIGINT}, 
       #{isvalid,jdbcType=VARCHAR}, #{creator,jdbcType=VARCHAR}, #{createtime,jdbcType=BIGINT}, 
-      #{modifier,jdbcType=VARCHAR}, #{modifytime,jdbcType=BIGINT}, #{remarks,jdbcType=VARCHAR}
+      #{modifier,jdbcType=VARCHAR}, #{modifytime,jdbcType=BIGINT}, #{remark,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.tianrui.service.bean.basicFile.businessControl.PrimarySetting" >
@@ -77,8 +95,8 @@
       <if test="modifytime != null" >
         modifytime,
       </if>
-      <if test="remarks != null" >
-        remarks,
+      <if test="remark != null" >
+        remark,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
@@ -115,8 +133,8 @@
       <if test="modifytime != null" >
         #{modifytime,jdbcType=BIGINT},
       </if>
-      <if test="remarks != null" >
-        #{remarks,jdbcType=VARCHAR},
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -153,8 +171,8 @@
       <if test="modifytime != null" >
         modifytime = #{modifytime,jdbcType=BIGINT},
       </if>
-      <if test="remarks != null" >
-        remarks = #{remarks,jdbcType=VARCHAR},
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=VARCHAR}
@@ -171,7 +189,107 @@
       createtime = #{createtime,jdbcType=BIGINT},
       modifier = #{modifier,jdbcType=VARCHAR},
       modifytime = #{modifytime,jdbcType=BIGINT},
-      remarks = #{remarks,jdbcType=VARCHAR}
+      remark = #{remark,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
+  <select id="selectSelective" parameterType="com.tianrui.service.bean.basicFile.businessControl.PrimarySetting" resultMap="BaseResultMap">
+  	select <include refid="Base_Column_List"/>
+	from tr_primary_db_setting
+	<where>
+	  <if test="id != null and id != ''" >
+        and id = #{id,jdbcType=VARCHAR}
+      </if>
+	  <if test="code != null and code != ''" >
+        and code = #{code,jdbcType=VARCHAR}
+      </if>
+      <if test="supplierid != null and supplierid != ''" >
+        and supplierid = #{supplierid,jdbcType=VARCHAR}
+      </if>
+      <if test="materialid != null and materialid != ''" >
+        and materialid = #{materialid,jdbcType=VARCHAR}
+      </if>
+      <if test="starttime != null and starttime != ''" >
+        and starttime = #{starttime,jdbcType=BIGINT}
+      </if>
+      <if test="endtime != null and endtime != ''" >
+        and endtime = #{endtime,jdbcType=BIGINT}
+      </if>
+      <if test="isvalid != null and isvalid != ''" >
+        and isvalid = #{isvalid,jdbcType=VARCHAR}
+      </if>
+      <if test="creator != null and creator != ''" >
+        and creator = #{creator,jdbcType=VARCHAR}
+      </if>
+      <if test="createtime != null and createtime != ''" >
+        and createtime = #{createtime,jdbcType=BIGINT}
+      </if>
+      <if test="modifier != null and modifier != ''" >
+        and modifier = #{modifier,jdbcType=VARCHAR}
+      </if>
+      <if test="modifytime != null and modifytime != ''" >
+        and modifytime = #{modifytime,jdbcType=BIGINT}
+      </if>
+      <if test="remark != null and remark != ''" >
+        and remark = #{remark,jdbcType=VARCHAR}
+      </if>
+	</where>
+  </select>
+  <select id="selectPrimaryPage" parameterType="com.tianrui.api.req.basicFile.businessControl.PrimarySettingQuery" resultMap="BaseRespResultMap">
+  	select <include refid="Base_Column_List_T1"/>, t2.name as suppliername, t3.name as materialname
+	from tr_primary_db_setting t1
+	left join tr_supplier_db_manage t2 on t1.supplierid = t2.id
+	left join tr_materiel_db_manage t3 on t1.materialid = t3.id
+	<where>
+		<if test="code != null and code != ''">
+  			and t1.code = #{code,jdbcType=VARCHAR}
+		</if>
+		<if test="supplierid != null and supplierid != ''">
+  			and t1.supplierid = #{supplierid,jdbcType=VARCHAR}
+		</if>
+		<if test="materialid != null and materialid != ''">
+  			and t1.materialid = #{materialid,jdbcType=VARCHAR}
+		</if>
+		<if test="isvalid != null and isvalid != ''">
+  			and t1.isvalid = #{isvalid,jdbcType=VARCHAR}
+		</if>
+      	<if test="starttime != null and starttime != ''">
+			and t1.createtime <![CDATA[>=]]> #{starttime,jdbcType=BIGINT}
+	  	</if>
+	  	<if test="endtime != null and endtime != ''">
+			and t1.createtime <![CDATA[<]]> #{endtime,jdbcType=BIGINT}
+	 	</if>
+	</where>
+	order by t1.modifytime desc
+	<if test="start != null and start >= 0">
+		<if test="limit != null">
+			limit #{start,jdbcType=INTEGER},#{limit,jdbcType=INTEGER}
+		</if>
+	</if>
+  </select>
+  <select id="selectPrimaryPageCount" parameterType="com.tianrui.api.req.basicFile.businessControl.PrimarySettingQuery" resultType="java.lang.Long">
+  	select count(0)
+	from tr_primary_db_setting t1
+	left join tr_supplier_db_manage t2 on t1.supplierid = t2.id
+	left join tr_materiel_db_manage t3 on t1.materialid = t3.id
+	<where>
+		<if test="code != null and code != ''">
+  			and t1.code = #{code,jdbcType=VARCHAR}
+		</if>
+		<if test="supplierid != null and supplierid != ''">
+  			and t1.supplierid = #{supplierid,jdbcType=VARCHAR}
+		</if>
+		<if test="materialid != null and materialid != ''">
+  			and t1.materialid = #{materialid,jdbcType=VARCHAR}
+		</if>
+		<if test="isvalid != null and isvalid != ''">
+  			and t1.isvalid = #{isvalid,jdbcType=VARCHAR}
+		</if>
+      	<if test="starttime != null and starttime != ''">
+			and t1.createtime <![CDATA[>=]]> #{starttime,jdbcType=BIGINT}
+	  	</if>
+	  	<if test="endtime != null and endtime != ''">
+			and t1.createtime <![CDATA[<]]> #{endtime,jdbcType=BIGINT}
+	 	</if>
+	</where>
+  </select>
 </mapper>
