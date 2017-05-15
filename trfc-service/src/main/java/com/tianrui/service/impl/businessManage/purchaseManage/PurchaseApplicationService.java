@@ -264,6 +264,10 @@ public class PurchaseApplicationService implements IPurchaseApplicationService {
 		item.setSupplierremark(jsonItem.getString("remark"));
 		//NC同步时间戳
 		item.setUtc(Long.valueOf(jsonItem.getString("ts")));
+		//矿口id
+		item.setMinemouthid(jsonItem.getString("kuangk"));
+		//矿口名称
+		item.setMinemouthname(jsonItem.getString("kuangkName"));
 		return item;
 	}
 	private List<PurchaseApplicationDetail> converJson2ItemList(JSONObject jsonItem,String id){
