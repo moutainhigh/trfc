@@ -506,4 +506,11 @@
 			</if>
 		</where>
 	</select>
+	<select id="handSetQueryAll"
+		parameterType="com.tianrui.api.req.businessManage.handset.HandSetRequestParam"
+		resultType="com.tianrui.api.resp.businessManage.handset.HandSetReturnResp">
+		select id, name
+		from tr_materiel_db_manage
+		where state = 1
+	</select>
 </mapper>

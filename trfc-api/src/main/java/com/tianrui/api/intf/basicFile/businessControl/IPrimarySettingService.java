@@ -2,7 +2,9 @@ package com.tianrui.api.intf.basicFile.businessControl;
 
 import com.tianrui.api.req.basicFile.businessControl.PrimarySettingQuery;
 import com.tianrui.api.req.basicFile.businessControl.PrimarySettingSave;
+import com.tianrui.api.req.businessManage.handset.HandSetRequestParam;
 import com.tianrui.api.resp.basicFile.businessControl.PrimarySettingResp;
+import com.tianrui.smartfactory.common.api.ApiParam;
 import com.tianrui.smartfactory.common.vo.PaginationVO;
 import com.tianrui.smartfactory.common.vo.Result;
 /**
@@ -54,5 +56,13 @@ public interface IPrimarySettingService {
 	 * @return
 	 */
 	Result delete(String id);
+	/**
+	 * @Description 手持机接口
+	 * @author zhanggaohao
+	 * @version 2017年5月15日 下午2:24:39
+	 * @param req
+	 * @return
+	 */
+	Result handSetPrimarySetting(ApiParam<HandSetRequestParam> req);
 
 }

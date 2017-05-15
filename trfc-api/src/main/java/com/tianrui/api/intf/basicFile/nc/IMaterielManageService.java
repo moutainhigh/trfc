@@ -6,8 +6,10 @@ import com.alibaba.fastjson.JSONObject;
 import com.tianrui.api.req.basicFile.nc.MaterielManageQuery;
 import com.tianrui.api.req.basicFile.nc.MaterielManageSave;
 import com.tianrui.api.req.businessManage.app.AppQueryReq;
+import com.tianrui.api.req.businessManage.handset.HandSetRequestParam;
 import com.tianrui.api.resp.basicFile.nc.MaterielManageResp;
 import com.tianrui.api.resp.businessManage.app.AppMaterialResp;
+import com.tianrui.api.resp.businessManage.handset.HandSetReturnResp;
 import com.tianrui.smartfactory.common.vo.PaginationVO;
 import com.tianrui.smartfactory.common.vo.Result;
 
@@ -72,4 +74,12 @@ public interface IMaterielManageService {
 	 * @return
 	 */
 	public PaginationVO<AppMaterialResp> materialList(AppQueryReq req);
+	/**
+	 * @Description 手持机物料接口
+	 * @author zhanggaohao
+	 * @version 2017年5月15日 下午2:34:16
+	 * @param body
+	 * @return
+	 */
+	public List<HandSetReturnResp> handSetQueryAll(HandSetRequestParam body);
 }

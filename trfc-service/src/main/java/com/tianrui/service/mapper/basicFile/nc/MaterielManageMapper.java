@@ -6,7 +6,9 @@ import org.apache.ibatis.annotations.Param;
 
 import com.tianrui.api.req.basicFile.nc.MaterielManageQuery;
 import com.tianrui.api.req.businessManage.app.AppQueryReq;
+import com.tianrui.api.req.businessManage.handset.HandSetRequestParam;
 import com.tianrui.api.resp.businessManage.app.AppMaterialResp;
+import com.tianrui.api.resp.businessManage.handset.HandSetReturnResp;
 import com.tianrui.service.bean.basicFile.nc.MaterielManage;
 
 /**
@@ -55,4 +57,12 @@ public interface MaterielManageMapper {
      * @return
      */
 	List<AppMaterialResp> appQueryPage(AppQueryReq req);
+	/**
+	 * @Description 手持机物料接口
+	 * @author zhanggaohao
+	 * @version 2017年5月15日 下午2:36:28
+	 * @param req
+	 * @return
+	 */
+	List<HandSetReturnResp> handSetQueryAll(HandSetRequestParam req);
 }

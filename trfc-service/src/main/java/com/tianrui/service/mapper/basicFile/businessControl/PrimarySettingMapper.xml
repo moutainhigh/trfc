@@ -292,4 +292,12 @@
 	 	</if>
 	</where>
   </select>
+  <select id="handSetPrimarySetting" parameterType="com.tianrui.api.req.businessManage.handset.HandSetRequestParam" resultType="com.tianrui.api.resp.businessManage.handset.HandPrimarySettingResp">
+  	select t1.id as id, t1.supplierid as supplierId, t2.code as supplierCode, t2.name as supplierName,
+  			t1.materialid as materieId, t3.code as materieCode, t3.name as materieName
+	from tr_primary_db_setting t1
+	left join tr_supplier_db_manage t2 on t1.supplierid = t2.id
+	left join tr_materiel_db_manage t3 on t1.materialid = t3.id
+	where t1.isvalid = 1
+  </select>
 </mapper>

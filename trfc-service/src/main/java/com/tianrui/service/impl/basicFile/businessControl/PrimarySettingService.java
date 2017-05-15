@@ -1,6 +1,5 @@
 package com.tianrui.service.impl.basicFile.businessControl;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.beanutils.PropertyUtils;
@@ -13,8 +12,10 @@ import com.tianrui.api.intf.basicFile.businessControl.IPrimarySettingService;
 import com.tianrui.api.intf.system.base.ISystemCodeService;
 import com.tianrui.api.req.basicFile.businessControl.PrimarySettingQuery;
 import com.tianrui.api.req.basicFile.businessControl.PrimarySettingSave;
+import com.tianrui.api.req.businessManage.handset.HandSetRequestParam;
 import com.tianrui.api.req.system.base.GetCodeReq;
 import com.tianrui.api.resp.basicFile.businessControl.PrimarySettingResp;
+import com.tianrui.api.resp.businessManage.handset.HandPrimarySettingResp;
 import com.tianrui.service.bean.basicFile.businessControl.PrimarySetting;
 import com.tianrui.service.bean.basicFile.nc.MaterielManage;
 import com.tianrui.service.bean.basicFile.nc.SupplierManage;
@@ -23,6 +24,7 @@ import com.tianrui.service.mapper.basicFile.businessControl.PrimarySettingMapper
 import com.tianrui.service.mapper.basicFile.nc.MaterielManageMapper;
 import com.tianrui.service.mapper.basicFile.nc.SupplierManageMapper;
 import com.tianrui.service.mapper.system.auth.SystemUserMapper;
+import com.tianrui.smartfactory.common.api.ApiParam;
 import com.tianrui.smartfactory.common.constants.ErrorCode;
 import com.tianrui.smartfactory.common.utils.UUIDUtil;
 import com.tianrui.smartfactory.common.vo.PaginationVO;
@@ -178,6 +180,17 @@ public class PrimarySettingService implements IPrimarySettingService {
 			}
 		}
 		return resp;
+	}
+
+	@Override
+	public Result handSetPrimarySetting(ApiParam<HandSetRequestParam> req) {
+		Result result = Result.getParamErrorResult();
+		if(req != null){
+			List<HandPrimarySettingResp> list = primarySettingMapper.handSetPrimarySetting(req);
+			result.setData(list);
+			result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+		}
+		return result;
 	}
 	
 }
