@@ -136,8 +136,9 @@ public class SystemUserService implements ISystemUserService {
 					}else{
 						save.setIsvalid(BusinessConstants.USER_INVALID_BYTE);
 					}
+					save.setIslock(BusinessConstants.USER_INVALID_BYTE);
 					save.setSource("0");
-					save.setPassword(req.getPassword());
+					save.setPassword(Md5Utils.MD5(req.getPassword()));
 					save.setCreatetime(System.currentTimeMillis());
 					save.setModifier(req.getCurrUId());
 					save.setModifytime(System.currentTimeMillis());
@@ -411,7 +412,7 @@ public class SystemUserService implements ISystemUserService {
 		if (req != null && StringUtils.isNotBlank(req.getAccount())
 				&& StringUtils.isNotBlank(req.getPswd())) {
 			SystemUserQueryReq query =new SystemUserQueryReq();
-			query.setAccount(req.getAccount());
+			query.setAppAccount(req.getAccount());
 			List<SystemUser> list = userMapper.selectByCondition(query);
 			if (CollectionUtils.isNotEmpty(list)) {
 				//验证密码
@@ -557,8 +558,7 @@ public class SystemUserService implements ISystemUserService {
 	@Override
 	public Result unBindPhone(AppUserReq req) {
 		Result result = Result.getParamErrorResult();
-		if(req != null && StringUtils.isNotBlank(req.getId())
-				&& StringUtils.isNotBlank(req.getMobilePhone())){
+		if(req != null && StringUtils.isNotBlank(req.getId())){
 			SystemUser bean = new SystemUser();
 			bean.setId(req.getId());
 			bean.setMobilePhone("");

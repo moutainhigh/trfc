@@ -26,6 +26,8 @@ public class SystemUserQueryReq extends BaseReq {
 	private String roleid;
 	//角色查詢用戶模糊匹配
 	private String key;
+	//app登录帐号
+	private String appAccount;
 
 	public String getCodeLike() {
 		return codeLike;
@@ -113,6 +115,14 @@ public class SystemUserQueryReq extends BaseReq {
 
 	public void setKey(String key) {
 		this.key = key;
+	}
+
+	public String getAppAccount() {
+		return appAccount;
+	}
+
+	public void setAppAccount(String appAccount) {
+		this.appAccount = appAccount;
 	}
 	
 }

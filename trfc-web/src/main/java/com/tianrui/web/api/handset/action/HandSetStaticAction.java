@@ -1,6 +1,5 @@
 package com.tianrui.web.api.handset.action;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -11,12 +10,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.tianrui.api.intf.basicFile.businessControl.IPrimarySettingService;
 import com.tianrui.api.intf.basicFile.measure.IYardManageService;
 import com.tianrui.api.intf.basicFile.nc.ICustomerManageService;
+import com.tianrui.api.intf.basicFile.nc.IMaterielManageService;
 import com.tianrui.api.intf.basicFile.nc.ISupplierManageService;
 import com.tianrui.api.intf.basicFile.nc.IWarehouseManageService;
 import com.tianrui.api.req.businessManage.handset.HandSetRequestParam;
-import com.tianrui.api.resp.businessManage.handset.HandPrimarySettingResp;
 import com.tianrui.api.resp.businessManage.handset.HandSetReturnResp;
 import com.tianrui.smartfactory.common.api.ApiParam;
 import com.tianrui.smartfactory.common.api.ApiResult;
@@ -24,8 +24,6 @@ import com.tianrui.smartfactory.common.constants.ErrorCode;
 import com.tianrui.smartfactory.common.vo.Result;
 import com.tianrui.web.smvc.ApiNotTokenValidation;
 import com.tianrui.web.smvc.ApiParamRawType;
-
-import oracle.sql.ARRAY;
 
 @Controller
 @RequestMapping("api/handset/static")
@@ -41,6 +39,10 @@ public class HandSetStaticAction {
 	private IWarehouseManageService warehouseManageService;
 	@Autowired
 	private IYardManageService yardManageService;
+	@Autowired
+	private IMaterielManageService materielManageService;
+	@Autowired
+	private IPrimarySettingService primarySettingService;
 
 	@RequestMapping(value="/supplier",method = RequestMethod.POST)
 	@ApiParamRawType(HandSetRequestParam.class)
@@ -109,6 +111,23 @@ public class HandSetStaticAction {
 		}
 		return ApiResult.valueOf(rs);
 	}
+	
+	@RequestMapping(value="/materiel",method = RequestMethod.POST)
+	@ApiParamRawType(HandSetRequestParam.class)
+	@ApiNotTokenValidation
+	@ResponseBody
+	public ApiResult materiel(ApiParam<HandSetRequestParam> req){
+		Result rs = Result.getErrorResult();
+		try {
+			List<HandSetReturnResp> list = materielManageService.handSetQueryAll(req.getBody());
+			rs.setData(list);
+			rs.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			rs.setErrorCode(ErrorCode.SYSTEM_ERROR);
+		}
+		return ApiResult.valueOf(rs);
+	}
 	/**
 	 * 原发设置
 	 * @param req
@@ -121,19 +140,7 @@ public class HandSetStaticAction {
 	public ApiResult primarySetting(ApiParam<HandSetRequestParam> req){
 		Result rs = Result.getErrorResult();
 		try {
-			//TODO 手持机原发设置接口返回.
-			List<HandPrimarySettingResp> list = new ArrayList<HandPrimarySettingResp>();
-			
-			HandPrimarySettingResp resp = new HandPrimarySettingResp();
-			resp.setSupplierCode("111");
-			resp.setSupplierId("222");
-			resp.setSupplierName("333");
-			resp.setId("444");
-			resp.setMaterieId("555");
-			resp.setMaterieCode("666");
-			resp.setMaterieName("777");
-			rs.setData(list);
-			rs.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+			rs = primarySettingService.handSetPrimarySetting(req);
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 			rs.setErrorCode(ErrorCode.SYSTEM_ERROR);

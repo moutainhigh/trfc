@@ -1,12 +1,12 @@
 package com.tianrui.api.resp.businessManage.app;
 
-import com.tianrui.api.req.BaseReq;
+import com.tianrui.api.resp.BaseResp;
 /**
  * 订单
  * @author lixp
  *
  */
-public class AppOrderResp extends BaseReq{
+public class AppOrderResp extends BaseResp{
 
 	private static final long serialVersionUID = 280565475561660076L;
 
@@ -23,6 +23,8 @@ public class AppOrderResp extends BaseReq{
 	private Double billSum;
 	//余量
 	private Double margin;
+	//备注
+	private String remark;
 	
 	/**
 	 * @return the id
@@ -107,6 +109,18 @@ public class AppOrderResp extends BaseReq{
 	 */
 	public void setCustomerName(String customerName) {
 		this.customerName = customerName;
+	}
+	/**
+	 * @return the remark
+	 */
+	public String getRemark() {
+		return remark;
+	}
+	/**
+	 * @param remark the remark to set
+	 */
+	public void setRemark(String remark) {
+		this.remark = remark;
 	}
 
 }

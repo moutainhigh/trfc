@@ -196,7 +196,7 @@ public class ApiStaticAction {
 			SystemUserResp user = systemUserService.getUser(appParam.getHead().getUserId());
 			PaginationVO<AppNoticeOrderResp> page = null;
 			if(user != null){
-				req.setUserId(user.getNcid());
+				req.setUserId(user.getId());
 				if(StringUtils.equals(user.getIdentityTypes(), Constant.USER_SUPPLIER)){
 					page = purchaseArriveService.appToPage(req);
 					rs.setData(page);

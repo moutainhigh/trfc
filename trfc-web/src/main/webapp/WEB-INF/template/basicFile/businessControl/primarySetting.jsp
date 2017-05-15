@@ -1,9 +1,10 @@
-<%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+<%@ page language="java" pageEncoding="UTF-8"
+	contentType="text/html; charset=UTF-8"%>
 <!Doctype html>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>司机管理</title>
+<title>采购原发设置</title>
 <!-- 引用公共header部分 -->
 <jsp:include page="../../common/base/header_busi.jsp"></jsp:include>
 </head>
@@ -23,31 +24,51 @@
 							<div class="intel_bgblue"></div>
 						</div>
 						<div class="intel_sconditon">
-
 							<div class="intel_sline">
 								<div class="intel_solo">
-									<label>查询条件：</label> <select id="qtp" class="form-control">
-										<option value="mc">名称</option>
-										<option value="nm">内码</option>
+									<label>单据编号：</label> <input id="code" type="text" placeholder="请输入单据编号">
+								</div>
+								<div class="intel_solo">
+									<label>供应商：</label> <input id="supplier" type="text" placeholder="请选择供应商">
+								</div>
+								<div class="intel_solo">
+									<label>物料：</label> <input id="material" type="text" placeholder="请选择物料">
+								</div>
+								<div class="intel_solo">
+									<label>开始时间：</label> <input id="starttime" type="text" readonly
+										onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:00:00',maxDate:'#F{$dp.$D(\'endtime\')}'})"
+										class="Wdate" style="width: 160px" placeholder="请选择开始时间" />
+								</div>
+								<div class="intel_solo">
+									<label>结束时间：</label> <input id="endtime" type="text" readonly
+										onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:00:00',minDate:'#F{$dp.$D(\'starttime\')}'})"
+										class="Wdate" style="width: 160px" placeholder="请选择结束时间" />
+								</div>
+								<div class="clear"></div>
+								<div class="intel_solo">
+									<label>状态：</label> <select id="isvalid" class="form-control">
+										<option value="">请选择</option>
+										<option value="1">启用</option>
+										<option value="0">禁用</option>
 									</select>
 								</div>
 								<div class="intel_solo">
-									<label>关键字：</label> <input id="keyword" type="text">
-								</div>
-								<div class="intel_solo">
 									<div class="intel_sbtn">
-										<button id="searchBtn" class="btn btnblue ">搜索</button>
+										<button id="search" class="btn btnblue ">搜索</button>
 									</div>
 								</div>
 							</div>
 						</div>
 					</div>
 					<div class="intel_opera">
-						<div id="refreshBtn" class="intel_operasolo">
-							<i class="iconfont colorlv">&#xe61b;</i> <span>刷新</span>
+						<div id="refresh" class="intel_operasolo">
+							<i class="iconfont colorlv">&#xe61b;</i>
+							<h5>刷新</h5>
 						</div>
-						<div id="addBtn" class="intel_operasolo">
-							<a> <i class="iconfont coloradd">&#xe627;</i> <span>新增</span>
+						<div id="add" class="intel_operasolo">
+							<a> <i
+								class="iconfont coloradd">&#xe627;</i>
+								<h5>新增</h5>
 							</a>
 						</div>
 					</div>
@@ -56,14 +77,11 @@
 						<table class="table table-hover">
 							<thead>
 								<tr>
-									<th>序号</th>
+									<th>行数</th>
 									<th>编号</th>
-									<th>内码</th>
-									<th>名称</th>
-									<th>身份证</th>
-									<th>所属组织</th>
-									<th>电话</th>
-									<th>地址</th>
+									<th>供应商</th>
+									<th>物料</th>
+									<th>有效</th>
 									<th>描述</th>
 									<th>操作</th>
 								</tr>
@@ -93,10 +111,11 @@
 					</div>
 					<!--分页效果结束-->
 				</div>
+				<!--采购申请单end-->
 			</div>
 		</div>
 		<!--新增begin-->
-		<div class="modal fade" id="addDriver" tabindex="-1" role="dialog"
+		<div class="modal fade" id="addView" tabindex="-1" role="dialog"
 			aria-labelledby="myModalLabel">
 			<div class="modal-dialog" role="document" style="width: 750px;">
 				<div class="modal-content">
@@ -106,51 +125,37 @@
 							<span aria-hidden="true">&times;</span>
 						</button>
 						<div class="alt_head">
-							<h5>司机管理</h5>
+							<h5>采购原发设置录入</h5>
 						</div>
 					</div>
 					<div class="modal-body">
 						<div class="alt_edit">
 							<div class="alt_edit_div">
-								<label>司机编号：</label> <input id="add_code" type="text" readonly>
+								<label class="colorred">单据编号*：</label> <input id="a_code" type="text" readonly="true">
 							</div>
 							<div class="alt_edit_div">
-								<label>司机内码：</label> <input id="add_internalcode" type="text"
-									readonly>
+								<label class="colorred">供应商*：</label> <input id="a_supplier" type="text" placeholder="请选择供应商">
 							</div>
 							<div class="alt_edit_div">
-								<label class="colorred">司机名称*：</label> <input id="add_name"
-									type="text">
+								<label class="colorred">物料*：</label> <input id="a_material" type="text" placeholder="请选择物料">
 							</div>
 							<div class="alt_edit_div">
-								<label>司机简称：</label> <input id="add_abbrname" type="text">
+								<label>制单人：</label> <input id="a_creator" type="text" readonly="true">
 							</div>
 							<div class="alt_edit_div">
-								<label>地址：</label> <input id="add_address" type="text">
+								<label>制单日期：</label> <input id="a_createtime" type="text" readonly="true">
 							</div>
 							<div class="alt_edit_div">
-								<label class="colorred">电话*：</label> <input id="add_telephone"
-									type="text">
-							</div>
-							<div class="alt_edit_div">
-								<label class="colorred">身份证号*：</label> <input
-									id="add_identityno" type="text">
-							</div>
-							<div class="alt_edit_div">
-								<label>有效性：</label> <input id="add_isvalid" type="checkbox"><span>有效</span>
-							</div>
-							<div class="alt_edit_div">
-								<label>所属组织：</label> <input id="add_orgname" type="text"
-									orgid="${orgid }" value="${orgname }" readonly>
+								<label>选项：</label> <input id="a_isvalid" type="checkbox" checked="checked"><span>有效</span>
 							</div>
 							<div class="alt_edit_textarea">
 								<label>备注： </label>
-								<textarea id="add_remarks" class="form-control" rows="1"></textarea>
+								<textarea id="a_remark" class="form-control" rows="1"></textarea>
 							</div>
 						</div>
 					</div>
 					<div class="modal-footer">
-						<button type="button" class="btn btn-primary" id="addDriverBtn">确定</button>
+						<button id="addCommit" type="button" class="btn btn-primary">确定</button>
 						<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
 					</div>
 				</div>
@@ -158,7 +163,7 @@
 		</div>
 		<!--新增end-->
 		<!--编辑begin-->
-		<div class="modal fade" id="updateDriver" tabindex="-1" role="dialog"
+		<div class="modal fade" id="updateView" tabindex="-1" role="dialog"
 			aria-labelledby="myModalLabel">
 			<div class="modal-dialog" role="document" style="width: 750px;">
 				<div class="modal-content">
@@ -168,53 +173,38 @@
 							<span aria-hidden="true">&times;</span>
 						</button>
 						<div class="alt_head">
-							<h5>车辆管理</h5>
+							<h5>采购原发设置录入</h5>
 						</div>
 					</div>
 					<div class="modal-body">
-						<input id="driverid" type="hidden" />
+						<input id="primarySettingId" type="hidden">
 						<div class="alt_edit">
 							<div class="alt_edit_div">
-								<label>司机编号：</label> <input id="update_code" type="text"
-									readonly>
+								<label class="colorred">单据编号*：</label> <input id="u_code" type="text" readonly="true">
 							</div>
 							<div class="alt_edit_div">
-								<label>司机内码：</label> <input id="update_internalcode" type="text"
-									readonly>
+								<label class="colorred">供应商*：</label> <input id="u_supplier" type="text" placeholder="请选择供应商">
 							</div>
 							<div class="alt_edit_div">
-								<label class="colorred">司机名称*：</label> <input id="update_name"
-									type="text">
+								<label class="colorred">物料*：</label> <input id="u_material" type="text" placeholder="请选择物料">
 							</div>
 							<div class="alt_edit_div">
-								<label>司机简称：</label> <input id="update_abbrname" type="text">
+								<label>制单人：</label> <input id="u_creator" type="text" readonly="true">
 							</div>
 							<div class="alt_edit_div">
-								<label>地址：</label> <input id="update_address" type="text">
+								<label>制单日期：</label> <input id="u_createtime" type="text" readonly="true">
 							</div>
 							<div class="alt_edit_div">
-								<label class="colorred">电话*：</label> <input
-									id="update_telephone" type="text">
-							</div>
-							<div class="alt_edit_div">
-								<label class="colorred">身份证号*：</label> <input
-									id="update_identityno" type="text" maxlength="18">
-							</div>
-							<div class="alt_edit_div">
-								<label>有效性：</label> <input id="update_isvalid" type="checkbox"><span>有效</span>
-							</div>
-							<div class="alt_edit_div">
-								<label>所属组织：</label> <input id="update_orgname" type="text"
-									readonly>
+								<label>选项：</label> <input id="u_isvalid" type="checkbox" checked="checked"><span>有效</span>
 							</div>
 							<div class="alt_edit_textarea">
 								<label>备注： </label>
-								<textarea id="update_remarks" class="form-control" rows="1"></textarea>
+								<textarea id="u_remark" class="form-control" rows="1"></textarea>
 							</div>
 						</div>
 					</div>
 					<div class="modal-footer">
-						<button type="button" class="btn btn-primary" id="updateDriverBtn">确定</button>
+						<button id="updateCommit" type="button" class="btn btn-primary">确定</button>
 						<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
 					</div>
 				</div>
@@ -224,8 +214,6 @@
 	<!--编辑end-->
 	<!-- 引用公共footer部分 -->
 	<jsp:include page="../../common/base/footer_busi.jsp"></jsp:include>
-	<!--删除end-->
-	<script type="text/javascript"
-		src="/javascript/basicFile/measure/driver.js"></script>
+	<script type="text/javascript" src="/javascript/basicFile/businessControl/primarySetting.js"></script>
 </body>
 </html>

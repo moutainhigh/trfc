@@ -730,7 +730,7 @@
 	  </if>
   	</where>
   	<if test="orderColumn != null and orderColumn != ''">
-  		order by #{orderColumn,jdbcType=VARCHAR} 
+  		order by ${orderColumn} 
   		<choose>
   			<when test="orderAsc == 'DESC'">
   				DESC

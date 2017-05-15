@@ -179,6 +179,7 @@
 				var suppliername = obj.suppliername || '';
 				var billtimeStr = obj.billtimeStr || '';
 				var departmentname = obj.departmentname || '';
+				var minemouthname = obj.minemouthname || '';
 				var buyername = obj.buyername || '';
 				var makebillname = obj.makebillname || '';
 				var makebilltimeStr = obj.makebilltimeStr || '';
@@ -193,6 +194,7 @@
 						.append('<td>'+suppliername+'</td>')
 						.append('<td>'+billtimeStr+'</td>')
 						.append('<td>'+departmentname+'</td>')
+						.append('<td>'+minemouthname+'</td>')
 						.append('<td>'+buyername+'</td>')
 						.append('<td>'+makebillname+'</td>')
 						.append('<td>'+makebilltimeStr+'</td>')

@@ -31,6 +31,8 @@ public class AppNoticeOrderResp extends BaseReq{
 	private String source;
 	//状态
 	private String status;
+	//销售组织
+	private String orgName;
 	/**
 	 * @return the id
 	 */
@@ -162,6 +164,18 @@ public class AppNoticeOrderResp extends BaseReq{
 	 */
 	public void setCustomerName(String customerName) {
 		this.customerName = customerName;
+	}
+	/**
+	 * @return the orgName
+	 */
+	public String getOrgName() {
+		return orgName;
+	}
+	/**
+	 * @param orgName the orgName to set
+	 */
+	public void setOrgName(String orgName) {
+		this.orgName = orgName;
 	}
 
 }
