@@ -702,7 +702,7 @@
   </select>
   <select id="findAppToPageGroupMateriel" parameterType="com.tianrui.api.req.businessManage.app.AppOrderReq" resultType="com.tianrui.api.resp.businessManage.app.AppOrderResp">
   	select 
-  	p1.id, p2.id as detailid, p1.code, p2.materielname as materialName, p1.suppliername customerName, p2.purchasesum as billSum, p2.margin
+  	p1.id, p2.id as detailid, p1.code, p2.materielname as materialName, p1.suppliername customerName, p2.purchasesum as billSum, p2.margin, p1.remark
   	from tr_purchase_db_application p1
 	left join tr_purchase_db_application_detail p2 on p1.id = p2.purchaseid
 	<where>
@@ -726,7 +726,7 @@
 	 	</if>
 	</where>
   	<if test="orderColumn != null and orderColumn != ''">
-  		order by #{orderColumn,jdbcType=VARCHAR} 
+  		order by ${orderColumn} 
   		<choose>
   			<when test="orderAsc == 'DESC'">
   				DESC

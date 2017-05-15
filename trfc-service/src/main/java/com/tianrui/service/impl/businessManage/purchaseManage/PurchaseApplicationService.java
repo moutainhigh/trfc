@@ -338,6 +338,7 @@ public class PurchaseApplicationService implements IPurchaseApplicationService {
 				resp.setCustomerName(application.getSuppliername());
 				resp.setBillDateStr(DateUtil.parse(application.getBilltime(), "yyyy-MM-dd HH:mm:ss"));
 				resp.setMargin(applicationDetail.getMargin());
+				resp.setMinemouthname(application.getMinemouthname());
 				result.setData(resp);
 				result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
 			}else{

@@ -25,6 +25,8 @@ public class AppOrderDetailResp extends BaseReq{
 	private String billDateStr;
 	//余量
 	private Double margin;
+	//矿口
+	private String minemouthname;
 	/**
 	 * @return the id
 	 */
@@ -120,6 +122,18 @@ public class AppOrderDetailResp extends BaseReq{
 	 */
 	public void setMargin(Double margin) {
 		this.margin = margin;
+	}
+	/**
+	 * @return the minemouthname
+	 */
+	public String getMinemouthname() {
+		return minemouthname;
+	}
+	/**
+	 * @param minemouthname the minemouthname to set
+	 */
+	public void setMinemouthname(String minemouthname) {
+		this.minemouthname = minemouthname;
 	}
 	
 }

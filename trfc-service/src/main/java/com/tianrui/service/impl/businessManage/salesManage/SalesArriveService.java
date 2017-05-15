@@ -67,6 +67,7 @@ import com.tianrui.service.mapper.businessManage.salesManage.SalesApplicationMap
 import com.tianrui.service.mapper.businessManage.salesManage.SalesArriveMapper;
 import com.tianrui.service.mapper.common.RFIDMapper;
 import com.tianrui.service.mongo.impl.CodeGenDaoImpl;
+import com.tianrui.smartfactory.common.constants.Constant;
 import com.tianrui.smartfactory.common.constants.ErrorCode;
 import com.tianrui.smartfactory.common.utils.DateUtil;
 import com.tianrui.smartfactory.common.utils.UUIDUtil;
@@ -827,6 +828,7 @@ public class SalesArriveService implements ISalesArriveService {
 				if(applicationDetail != null){
 					resp.setMaterialName(applicationDetail.getMaterielname());
 				}
+				resp.setOrgName(Constant.ORG_NAME);
 				result.setData(resp);
 				result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
 			}else{
