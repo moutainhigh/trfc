@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.tianrui.api.intf.basicFile.nc.ISupplierManageService;
+import com.tianrui.api.intf.common.IUpdateFromDcService;
 import com.tianrui.api.req.basicFile.nc.SupplierManageQuery;
 import com.tianrui.api.req.basicFile.nc.SupplierManageSave;
 import com.tianrui.api.resp.basicFile.nc.SupplierManageResp;
@@ -29,6 +30,8 @@ public class SupplierManageAction {
 	
 	@Autowired
 	private ISupplierManageService supplierManageService;
+	@Autowired
+	private IUpdateFromDcService updateFromDcService;
 	
 	@RequestMapping("/main")
 	public ModelAndView main(){
@@ -87,5 +90,18 @@ public class SupplierManageAction {
 			log.error(e.getMessage(), e);
 		}
 		return resp;
+	}
+	
+	@RequestMapping("/updateFromDc")
+	@ResponseBody
+	public Result updateFromDc(){
+		Result result = Result.getErrorResult();
+		try {
+			result = updateFromDcService.updateFromDc("3");
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
+		}
+		return result;
 	}
 }

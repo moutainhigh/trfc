@@ -3,6 +3,7 @@
 	//请求路径
 	var URL = {
 			pageUrl:"/trfc/warehouse/page",
+			updateFromDc:"/trfc/warehouse/updateFromDc"
 	};
 	init();
 	function init(){
@@ -12,6 +13,9 @@
 	function bindEvent(){
 		$('#refreshMater').off('click').on('click',function(){
 			queryData(1);
+		});
+		$('#updateFromDc').off('click').on('click',function(){
+			updateFromDc();
 		});
 		$('#searchMater').off('click').on('click',function(){
 			queryData(1);
@@ -115,5 +119,18 @@
 		}else{
 			layer.msg('暂无数据');
 		}
+	}
+	function updateFromDc(){
+		var index = layer.load(2, {
+		  shade: [0.3,'#fff'] //0.1透明度的白色背景
+		});
+		$.get(URL.updateFromDc,{},function(result){
+			if(result && result.code == '000000'){
+				queryData(1);
+			}else{
+				layer.msg(result.error, {icon: 5});
+			}
+			layer.close(index);
+		});
 	}
 })(jQuery, window);

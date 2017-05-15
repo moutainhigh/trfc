@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.tianrui.api.intf.basicFile.nc.IMaterielManageService;
+import com.tianrui.api.intf.common.IUpdateFromDcService;
 import com.tianrui.api.req.basicFile.nc.MaterielManageQuery;
 import com.tianrui.api.req.basicFile.nc.MaterielManageSave;
 import com.tianrui.api.resp.basicFile.nc.MaterielManageResp;
@@ -35,6 +36,8 @@ public class MaterielManageAction {
 	
 	@Autowired
 	private IMaterielManageService materielManageService;
+	@Autowired
+	private IUpdateFromDcService updateFromDcService;
 	
 	@RequestMapping("/main")
 	public ModelAndView main(){
@@ -94,6 +97,19 @@ public class MaterielManageAction {
 			log.error(e.getMessage(), e);
 		}
 		return list;
+	}
+	
+	@RequestMapping("/updateFromDc")
+	@ResponseBody
+	public Result updateFromDc(){
+		Result result = Result.getErrorResult();
+		try {
+			result = updateFromDcService.updateFromDc("1");
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
+		}
+		return result;
 	}
 	
 }

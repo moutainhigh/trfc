@@ -48,6 +48,7 @@ public class Constant {
     public final static String URL_RETURN_SALESAPPLICATION = URL_DOMAIN + "/api/boOrder/orderReturn";
     public final static String URL_RETURN_SALESOUTBOUNDCATION=URL_DOMAIN+"/api/saleoutboundorder/orderReturn";
     public final static String URL_RETURN_PURCHASESTORAGEATION=URL_DOMAIN+"/api/purchasestorage/orderReturn";
+    public final static String URL_PULL_FROM_DC = URL_DOMAIN+"/api/fileSync/pull";
     
     
     

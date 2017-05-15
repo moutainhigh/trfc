@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.tianrui.api.intf.basicFile.nc.ICustomerManageService;
+import com.tianrui.api.intf.common.IUpdateFromDcService;
 import com.tianrui.api.req.basicFile.nc.CustomerManageQuery;
 import com.tianrui.api.req.basicFile.nc.CustomerManageSave;
 import com.tianrui.api.resp.basicFile.nc.CustomerManageResp;
@@ -29,6 +30,8 @@ public class CustomerManageAction {
 	
 	@Autowired
 	private ICustomerManageService customerManageService;
+	@Autowired
+	private IUpdateFromDcService updateFromDcService;
 	
 	@RequestMapping("/main")
 	public ModelAndView main(){
@@ -76,6 +79,7 @@ public class CustomerManageAction {
 		}
 		return list;
 	}
+	
 	@RequestMapping("/findOne")
 	@ResponseBody
 	public CustomerManageResp findOne(String id){
@@ -88,5 +92,18 @@ public class CustomerManageAction {
 			log.error(e.getMessage(), e);
 		}
 		return resp;
+	}
+	
+	@RequestMapping("/updateFromDc")
+	@ResponseBody
+	public Result updateFromDc(){
+		Result result = Result.getErrorResult();
+		try {
+			result = updateFromDcService.updateFromDc("2");
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
+		}
+		return result;
 	}
 }

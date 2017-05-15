@@ -2,7 +2,8 @@
 	//请求路径
 	var URL = {
 			pageUrl:"/trfc/customer/page",
-			updateCustomerUrl:"/trfc/customer/updateCustomer"
+			updateCustomerUrl:"/trfc/customer/updateCustomer",
+			updateFromDc:"/trfc/customer/updateFromDc"
 	};
 	init();
 	function init(){
@@ -12,6 +13,9 @@
 	function bindEvent(){
 		$('#refreshBtn').off('click').on('click',function(){
 			queryData(1);
+		});
+		$('#updateFromDc').off('click').on('click',function(){
+			updateFromDc();
 		});
 		$('#searchBtn').off('click').on('click',function(){
 			queryData(1);
@@ -175,5 +179,18 @@
 				}
 			});
 		}
+	}
+	function updateFromDc(){
+		var index = layer.load(2, {
+		  shade: [0.3,'#fff'] //0.1透明度的白色背景
+		});
+		$.get(URL.updateFromDc,{},function(result){
+			if(result && result.code == '000000'){
+				queryData(1);
+			}else{
+				layer.msg(result.error, {icon: 5});
+			}
+			layer.close(index);
+		});
 	}
 })(jQuery, window);

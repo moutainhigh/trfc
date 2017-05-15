@@ -53,6 +53,9 @@
 						<div id="refreshBtn" class="intel_operasolo">
 							<i class="iconfont colorlv">&#xe61b;</i> <span>刷新</span>
 						</div>
+						<div id="updateFromDc" class="intel_operasolo">
+							<i class="iconfont colorlv">&#xe62e;</i> <span>更新档案</span>
+						</div>
 					</div>
 					<div class="intel_table">
 						<!--用户表格begin-->
