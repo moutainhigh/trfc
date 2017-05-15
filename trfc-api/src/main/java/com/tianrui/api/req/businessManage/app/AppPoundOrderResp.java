@@ -20,9 +20,9 @@ public class AppPoundOrderResp extends BaseResp{
 	//车号
 	private String vehicleno;
 	//轻车时间
-	private Long lighttime;
+	private String lighttime;
 	//重车时间
-	private Long weighttime;
+	private String weighttime;
 	//预提量
 	private Double pickupquantity;
 	//毛重
@@ -75,18 +75,7 @@ public class AppPoundOrderResp extends BaseResp{
 	public String getVehicleno() {
 		return vehicleno;
 	}
-	/**
-	 * @return the lighttime
-	 */
-	public Long getLighttime() {
-		return lighttime;
-	}
-	/**
-	 * @return the weighttime
-	 */
-	public Long getWeighttime() {
-		return weighttime;
-	}
+	
 	/**
 	 * @return the pickupquantity
 	 */
@@ -160,18 +149,6 @@ public class AppPoundOrderResp extends BaseResp{
 		this.vehicleno = vehicleno;
 	}
 	/**
-	 * @param lighttime the lighttime to set
-	 */
-	public void setLighttime(Long lighttime) {
-		this.lighttime = lighttime;
-	}
-	/**
-	 * @param weighttime the weighttime to set
-	 */
-	public void setWeighttime(Long weighttime) {
-		this.weighttime = weighttime;
-	}
-	/**
 	 * @param pickupquantity the pickupquantity to set
 	 */
 	public void setPickupquantity(Double pickupquantity) {
@@ -200,6 +177,18 @@ public class AppPoundOrderResp extends BaseResp{
 	 */
 	public void setSerialnumber(String serialnumber) {
 		this.serialnumber = serialnumber;
+	}
+	public String getLighttime() {
+		return lighttime;
+	}
+	public void setLighttime(String lighttime) {
+		this.lighttime = lighttime;
+	}
+	public String getWeighttime() {
+		return weighttime;
+	}
+	public void setWeighttime(String weighttime) {
+		this.weighttime = weighttime;
 	}
 	
 }

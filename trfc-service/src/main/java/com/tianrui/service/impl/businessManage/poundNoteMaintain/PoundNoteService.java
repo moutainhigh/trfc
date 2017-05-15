@@ -1553,8 +1553,8 @@ public class PoundNoteService implements IPoundNoteService {
 			resp.setBillcode(poundNote.getBillcode());
 			resp.setNoticecode(poundNote.getNoticecode());
 			resp.setVehicleno(poundNote.getVehicleno());
-			resp.setLighttime(poundNote.getLighttime());
-			resp.setWeighttime(poundNote.getWeighttime());
+			resp.setLighttime(DateUtil.parse(poundNote.getLighttime(), "yyyy-MM-dd HH:mm:ss"));
+			resp.setWeighttime(DateUtil.parse(poundNote.getWeighttime(), "yyyy-MM-dd HH:mm:ss"));
 			resp.setPickupquantity(poundNote.getPickupquantity());
 			resp.setGrossweight(poundNote.getGrossweight());
 			resp.setTareweight(poundNote.getTareweight());
@@ -1588,8 +1588,8 @@ public class PoundNoteService implements IPoundNoteService {
 				resp.setBillcode(poundNote.getBillcode());
 				resp.setNoticecode(poundNote.getNoticecode());
 				resp.setVehicleno(poundNote.getVehicleno());
-				resp.setLighttime(poundNote.getLighttime());
-				resp.setWeighttime(poundNote.getWeighttime());
+				resp.setLighttime(DateUtil.parse(poundNote.getLighttime(), "yyyy-MM-dd HH:mm:ss"));
+				resp.setWeighttime(DateUtil.parse(poundNote.getWeighttime(), "yyyy-MM-dd HH:mm:ss"));
 				resp.setPickupquantity(poundNote.getPickupquantity());
 				resp.setGrossweight(poundNote.getGrossweight());
 				resp.setTareweight(poundNote.getTareweight());
