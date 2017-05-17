@@ -15,10 +15,11 @@
     <result column="cvendorid" property="cvendorid" jdbcType="VARCHAR" />
     <result column="ts" property="ts" jdbcType="VARCHAR" />
     <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="poundId" property="poundId" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, code, nc_id, pk_org, ccustomerid, dbilldate, cdptid, ntotalnum, billmaker, creationtime, 
-    cvendorid, ts, status
+    cvendorid, ts, status,poundId
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
@@ -34,11 +35,11 @@
     insert into tr_purchase_storage_list (id, code, nc_id, pk_org, 
       ccustomerid, dbilldate, cdptid, 
       ntotalnum, billmaker, creationtime, 
-      cvendorid, ts, status)
+      cvendorid, ts, status,poundId)
     values (#{id,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR}, #{ncId,jdbcType=VARCHAR}, #{pkOrg,jdbcType=VARCHAR}, 
       #{ccustomerid,jdbcType=VARCHAR}, #{dbilldate,jdbcType=VARCHAR}, #{cdptid,jdbcType=VARCHAR}, 
       #{ntotalnum,jdbcType=VARCHAR}, #{billmaker,jdbcType=VARCHAR}, #{creationtime,jdbcType=VARCHAR}, 
-      #{cvendorid,jdbcType=VARCHAR}, #{ts,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR})
+      #{cvendorid,jdbcType=VARCHAR}, #{ts,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, #{poundId,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.tianrui.service.bean.businessManage.purchaseManage.PurchaseStorageList" >
     insert into tr_purchase_storage_list

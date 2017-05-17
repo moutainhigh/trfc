@@ -33,6 +33,8 @@ public class PurchaseStorageList {
     private String ts;
     //状态 1已推送,0或者空未推送
     private String status;
+    //榜单ID
+    private String poundId;
     //子表信息
     private List<PurchaseStorageListItem> list;
 
@@ -153,5 +155,14 @@ public class PurchaseStorageList {
 	public void setList(List<PurchaseStorageListItem> list) {
 		this.list = list;
 	}
+
+	public String getPoundId() {
+		return poundId;
+	}
+
+	public void setPoundId(String poundId) {
+		this.poundId = poundId;
+	}
+	
     
 }

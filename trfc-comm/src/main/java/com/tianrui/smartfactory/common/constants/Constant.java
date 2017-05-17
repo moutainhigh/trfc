@@ -65,6 +65,16 @@ public class Constant {
     public final static String APP_IOS = "ios";
     
     
+    //推单历史记录表 0上传中  1已上传
+    public final static String PUSH_STATUS_ING ="2"; 
+    public final static String PUSH_STATUS_END ="1"; 
+    public final static String PUSH_STATUS_NULL ="0"; 
+    
+    //榜单推单状态 0：未推单，1：推单中，2：已推单
+    public final static String POUND_PUSH_STATUS_ING ="1"; 
+    public final static String POUND_PUSH_STATUS_END ="2"; 
+    public final static String POUND_PUSH_STATUS_NULL ="0"; 
+    
     
     
     

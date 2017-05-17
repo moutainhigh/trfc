@@ -12,7 +12,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSONObject;
 import com.tianrui.api.intf.businessManage.purchaseManage.IPurchaseApplicationService;
+import com.tianrui.api.intf.businessManage.purchaseManage.IPurchaseStorageService;
 import com.tianrui.api.req.businessManage.purchaseManage.PurchaseApplicationQuery;
+import com.tianrui.api.req.businessManage.purchaseManage.PurchaseStorageUpReq;
 import com.tianrui.smartfactory.common.api.ApiParam;
 import com.tianrui.smartfactory.common.api.ApiResult;
 import com.tianrui.smartfactory.common.constants.ErrorCode;
@@ -32,6 +34,8 @@ public class ApiPurchaseApplicationAction {
 	
 	@Autowired
 	private IPurchaseApplicationService purchaseApplicationService;
+	@Autowired
+	private IPurchaseStorageService purchaseStorageService;
 	
 	/**
 	 * 获取最大时间戳
@@ -71,6 +75,29 @@ public class ApiPurchaseApplicationAction {
 			rs.setErrorCode(ErrorCode.SYSTEM_ERROR);
 			log.error(e.getMessage(),e);
 		}
+		return ApiResult.valueOf(rs);
+	}
+	
+	
+	
+	/**
+	 * 入库单回传
+	 * @param req
+	 * @return
+	 */
+	@RequestMapping(value="/poundPushStatusUp",method=RequestMethod.POST)
+	@ApiParamRawType(PurchaseStorageUpReq.class)
+	@ResponseBody
+	public ApiResult poundPushStatusUp(ApiParam<PurchaseStorageUpReq> req){
+		Result rs=Result.getErrorResult();
+		try {
+			PurchaseStorageUpReq purchaseStorageUpReq=req.getBody();
+			rs=purchaseStorageService.poundPushUp(purchaseStorageUpReq);
+		} catch (Exception e) {
+			rs.setErrorCode(ErrorCode.SYSTEM_ERROR);
+			log.error(e.getMessage(),e);
+		}
+	
 		return ApiResult.valueOf(rs);
 	}
 	

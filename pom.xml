@@ -25,6 +25,7 @@
 		<module>trfc-service</module>
 		<module>trfc-schedule</module>
 		<module>trfc-web</module>
+		<module>trfc-webapi</module>
    </modules>
 <distributionManagement> 
     <repository> 

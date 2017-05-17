@@ -29,3 +29,9 @@
 /trfc-web/.settings
 /trfc-web/target
 /trfc-web/.classpath
+
+
+/trfc-webapi/.project
+/trfc-webapi/.settings
+/trfc-webapi/target
+/trfc-webapi/.classpath

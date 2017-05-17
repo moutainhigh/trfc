@@ -709,7 +709,7 @@ public class PoundNoteService implements IPoundNoteService {
 			bean.setVehiclerfid(arrive.getVehiclerfid());
 			bean.setNoticecode(query.getNotionformcode());
 			bean.setReturnstatus("0");
-			bean.setState("1");
+			bean.setState(Constant.POUND_PUSH_STATUS_NULL);
 			bean.setBilltype("0");
 			List<PoundNote> list = poundNoteMapper.selectSelective(bean);
 			if (CollectionUtils.isNotEmpty(list)) {
@@ -982,14 +982,15 @@ public class PoundNoteService implements IPoundNoteService {
 		itemList.add(storageItem);
 		storage.setList(itemList);
 		ApiResult apiResult = HttpUtils.post(ApiParamUtils.getApiParam(list1), Constant.URL_RETURN_PURCHASESTORAGEATION);
+		//调用dc 接口成功 则推单状态为推单中   榜单展示为推单中
 		if(apiResult!=null && StringUtils.equals(apiResult.getCode(), Constant.SUCCESS)){
 			PurchaseStorageList storageUpdate = new PurchaseStorageList();
 			storageUpdate.setId(storage.getId());
-			storageUpdate.setStatus("1");
+			storageUpdate.setStatus(Constant.PUSH_STATUS_ING);
 			if(purchaseStorageListMapper.updateByPrimaryKeySelective(storageUpdate)>0){
 				PoundNote pn = new PoundNote();
 				pn.setPutinwarehousecode(storage.getCode());
-				pn.setReturnstatus("2");
+				pn.setReturnstatus(Constant.POUND_PUSH_STATUS_ING);
 				if(poundNoteMapper.updateByOrderCode(pn) > 0){
 					ec = ErrorCode.SYSTEM_SUCCESS;
 				}
@@ -997,7 +998,7 @@ public class PoundNoteService implements IPoundNoteService {
 		}else{
 			PurchaseStorageList ps = new PurchaseStorageList(); 
 			ps.setId(storage.getId());
-			ps.setStatus("0");
+			ps.setStatus(Constant.PUSH_STATUS_ING);
 			if(purchaseStorageListMapper.updateByPrimaryKeySelective(ps)>0){
 				ec = ErrorCode.SYSTEM_SUCCESS;
 			}
@@ -1034,7 +1035,8 @@ public class PoundNoteService implements IPoundNoteService {
 		codeReq1.setUserid(currid);
 		storage.setId(UUIDUtil.getId());
 		storage.setCode(systemCodeService.getCode(codeReq1).getData().toString());
-		storage.setNcId(bean.getBillid());
+		storage.setNcId("");
+		storage.setPoundId(bean.getBillid());
 		if (application != null) {
 			storage.setPkOrg(application.getOrgid());
 			storage.setCdptid(application.getDepartmentid());
@@ -1044,7 +1046,7 @@ public class PoundNoteService implements IPoundNoteService {
 		storage.setBillmaker(bean.getMakerid());
 		storage.setCreationtime(DateUtil.getNowDateString("yyyy-MM-dd HH:mm:ss"));
 		storage.setTs(storage.getCreationtime());
-		storage.setStatus("1");
+		storage.setStatus(Constant.PUSH_STATUS_NULL);
 		return storage;
 	}
 
@@ -1059,7 +1061,7 @@ public class PoundNoteService implements IPoundNoteService {
 		bean.setCode(systemCodeService.getCode(codeReq).getData().toString());
 		bean.setReturnstatus("0");
 		bean.setRedcollide("0");
-		bean.setStatus("0");
+		bean.setStatus(Constant.POUND_PUSH_STATUS_NULL);
 		bean.setBilltype("0");
 		bean.setBillid(arrive.getBillid());
 		bean.setBillcode(arrive.getBillcode());
