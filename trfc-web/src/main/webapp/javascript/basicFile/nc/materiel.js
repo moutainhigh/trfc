@@ -267,11 +267,12 @@
 		});
 		$.get(URL.updateFromDc,{},function(result){
 			if(result && result.code == '000000'){
-				queryData(1);
+				setTimeout(function(){
+					queryData(1);
+				}, 3000);
 			}else{
 				layer.msg(result.error, {icon: 5});
 			}
-			layer.close(index);
 		});
 	}
 })(jQuery, window);
