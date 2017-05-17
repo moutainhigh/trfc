@@ -6,13 +6,27 @@
 <title>无人值守-系统管理-用户管理</title>
 <!-- 引用公共header部分 -->
 <jsp:include page="../../common/base/header_busi.jsp"></jsp:include>
+<style type="text/css">
+	label.layui-form-label {
+	    float: left;
+	    margin: 3px;
+	    text-align: right;
+	    width: 130px;
+	}
+	.layui-input-block {
+	    margin-left: 55px;
+	}
+	.layui-form-item {
+	    margin: 20px;
+	}
+</style>
 </head>
 <body>
 	<div class="it_admin">
 		<!-- 引用公共left部分 -->
 		<jsp:include page="../../common/base/left_busi.jsp"></jsp:include>
 		<div class="right">
-			
+
 			<!--tab切换的内容-->
 			<div class="intel_tabbox">
 				<!--页面begin-->
@@ -73,25 +87,11 @@
 								</tr>
 							</thead>
 							<tbody id="list">
-								<tr>
-									<td>1</td>
-									<td>000</td>
-									<td>lkkjk</td>
-									<td>未入厂</td>
-									<td>粉煤灰1</td>
-									<td><input type="checkbox" disabled></td>
-									<td>APP</td>
-									<td>22</td>
-									<td>2016-10-12</td>
-									<td></td>
-									<td></td>
-								</tr>
 							</tbody>
 						</table>
 						<!--用户表格end-->
 					</div>
-
-				<!--分页效果开始-->
+					<!--分页效果开始-->
 					<div class=" row fr">
 						<div class="page_date">
 							<label>数据共：</label><i class="colorred" id="total">100</i><label>条</label>
@@ -226,7 +226,7 @@
 									class="formele password" name="password" maxlength="20">
 							</div>
 							<div class="alt_edit_div">
-								<label>所属组织：</label>${orgName}
+								<label>所属组织：</label> <span>${orgName}</span>
 								<!--  <input type="text" class="formele" maxlength="20"> -->
 								<input type="hidden" name="orgId" value="${orgId}"
 									class="formele" maxlength="20">
@@ -244,14 +244,15 @@
 					</div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-primary submitBtn">确定</button>
-						<button type="button" class="btn btn-default" data-dismiss="modal" id="add_cancel">取消</button>
+						<button type="button" class="btn btn-default" data-dismiss="modal"
+							id="add_cancel">取消</button>
 					</div>
 				</div>
 			</div>
 		</div>
 		<!--新增end-->
 		<!--编辑begin-->
-		<div class="modal fade" id="edit" tabindex="-1" role="dialog"
+		<div class="modal fade" id="updateView" tabindex="-1" role="dialog"
 			aria-labelledby="myModalLabel">
 			<div class="modal-dialog" role="document" style="width: 750px;">
 				<div class="modal-content">
@@ -265,25 +266,26 @@
 						</div>
 					</div>
 					<div class="modal-body">
+						<input id="userId" type="hidden"/>
 						<div class="alt_edit">
 							<div class="alt_edit_div">
-								<label>用户编号：</label> <input type="text" value=" 000" id="edit_code"
-									readonly="true">
+								<label>用户编号：</label> <input type="text"
+									id="edit_code" readonly="true">
 							</div>
 							<div class="alt_edit_div">
-								<label>登录账户：</label> <input type="text" value=" 000" id="edit_account"
-									readonly="true">
+								<label>登录账户：</label> <input type="text"
+									id="edit_account" readonly="true">
 							</div>
 							<div class="alt_edit_div">
-								<label>用户名称：</label> <input type="text" value=" 000" id="edit_name"
-									readonly="true">
+								<label>用户名称：</label> <input type="text"
+									id="edit_name" readonly="true">
 							</div>
 							<div class="alt_edit_div">
-								<label>登录密码：</label> <input type="password" value="000" id="edit_psd"
-									>
+								<label>登录密码：</label> <input type="password"
+									id="edit_psd">
 							</div>
 							<div class="alt_edit_div">
-								<label>所属组织：</label> <input type="text" id="edit_org">
+								<label>所属组织：</label> <span>${orgName}</span>
 							</div>
 							<div class="alt_edit_div">
 								<label>说明：</label> <input type="text" id="edit_remark">
@@ -296,14 +298,13 @@
 						</div>
 					</div>
 					<div class="modal-footer">
-						<button type="button" class="btn btn-primary">确定</button>
+						<button id="updateCommit" type="button" class="btn btn-primary">确定</button>
 						<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
 					</div>
 				</div>
 			</div>
 		</div>
 		<!--编辑end-->
-		
 	</div>
 	<script type="text/javascript" src="${staticBasePath}/js/md5.js"></script>
 	<script type="text/javascript" src="/javascript/system/auth/userMgr.js"></script>

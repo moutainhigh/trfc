@@ -52,11 +52,19 @@ public class SystemUserService implements ISystemUserService {
 			if (CollectionUtils.isNotEmpty(list)) {
 				if (StringUtils.equals(list.get(0).getPassword(),req.getPswd() )) {
 					if ( list.get(0).getIsvalid()==BusinessConstants.USER_VALID_BYTE ) {
-						rs.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
-						SystemUserResp resp = new SystemUserResp();
-						resp.setId(list.get(0).getId());
-						resp.setName(list.get(0).getName());
-						rs.setData(resp);
+						if(list.get(0).getIslock() == BusinessConstants.USER_UNLOCK_BYTE) {
+							if(StringUtils.equals(list.get(0).getIdentityTypes(), BusinessConstants.USER_PT_STR)) {
+								rs.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+								SystemUserResp resp = new SystemUserResp();
+								resp.setId(list.get(0).getId());
+								resp.setName(list.get(0).getName());
+								rs.setData(resp);
+							}else{
+								rs.setErrorCode(ErrorCode.SYSTEM_USER_ERROR11);
+							}
+						}else{
+							rs.setErrorCode(ErrorCode.SYSTEM_USER_ERROR3);
+						}
 					}else{
 						rs.setErrorCode(ErrorCode.SYSTEM_USER_ERROR2);
 					}
@@ -137,6 +145,7 @@ public class SystemUserService implements ISystemUserService {
 						save.setIsvalid(BusinessConstants.USER_INVALID_BYTE);
 					}
 					save.setIslock(BusinessConstants.USER_INVALID_BYTE);
+					save.setIdentityTypes("3");
 					save.setSource("0");
 					save.setPassword(Md5Utils.MD5(req.getPassword()));
 					save.setCreatetime(System.currentTimeMillis());
@@ -163,39 +172,20 @@ public class SystemUserService implements ISystemUserService {
 			//用户需要能查询到
 			SystemUser db=userMapper.selectByPrimaryKey(req.getId());
 			if ( db !=null ) {
-				//用户编码不能重复 
-				SystemUserQueryReq query =new SystemUserQueryReq();
-				query.setAccount(req.getAccount());
-				List<SystemUser> list =userMapper.selectByCondition(query);
-				if ( CollectionUtils.isEmpty(list)  || list.size()==1 ) {
-					//登录账户不能 重复
-					query =new SystemUserQueryReq();
-					query.setCode(req.getCode());
-					list =userMapper.selectByCondition(query);
-					if ( CollectionUtils.isEmpty(list) || list.size()==1) {
-						//保存数据
-						SystemUser update =new SystemUser();
-						update.setId(UUIDUtil.getId());
-						update.setOrgid(req.getOrgId());
-						update.setCode(req.getCode());
-						update.setName(req.getName());
-						update.setAccount(req.getAccount());
-						//是否有效
-						if ( StringUtils.equals(req.getIsvalid(), BusinessConstants.USER_VALID_STR)) {
-							update.setIsvalid(BusinessConstants.USER_VALID_BYTE);
-						}else{
-							update.setIsvalid(BusinessConstants.USER_INVALID_BYTE);
-						}
-						update.setModifier(req.getCurrUId());
-						update.setModifytime(System.currentTimeMillis());
-						userMapper.updateByPrimaryKeySelective(update);
-						rs.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
-					}else{
-						rs.setErrorCode(ErrorCode.SYSTEM_USER_ERROR8);
-					}
+				//保存数据
+				SystemUser update =new SystemUser();
+				update.setId(UUIDUtil.getId());
+				update.setPassword(Md5Utils.MD5(req.getPassword()));
+				update.setRemark(req.getRemark());
+				if (StringUtils.equals(req.getIsvalid(), BusinessConstants.USER_VALID_STR)) {
+					update.setIsvalid(BusinessConstants.USER_VALID_BYTE);
 				}else{
-					rs.setErrorCode(ErrorCode.SYSTEM_USER_ERROR7);
+					update.setIsvalid(BusinessConstants.USER_INVALID_BYTE);
 				}
+				update.setModifier(req.getCurrUId());
+				update.setModifytime(System.currentTimeMillis());
+				userMapper.updateByPrimaryKeySelective(update);
+				rs.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
 			}else{
 				rs.setErrorCode(ErrorCode.SYSTEM_USER_ERROR1);
 			}
@@ -254,11 +244,15 @@ public class SystemUserService implements ISystemUserService {
 				//验证密码
 				if (StringUtils.equals(list.get(0).getPassword(),req.getPswd() )) {
 					if ( list.get(0).getIsvalid()==BusinessConstants.USER_VALID_BYTE ) {
-						if(StringUtils.equals(list.get(0).getIdentityTypes(), BusinessConstants.USER_PT_STR)) {
-							rs.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
-							rs.setData(copySystemUserBean2Resp(list.get(0)));
+						if(list.get(0).getIslock() == BusinessConstants.USER_UNLOCK_BYTE) {
+							if(StringUtils.equals(list.get(0).getIdentityTypes(), BusinessConstants.USER_PT_STR)) {
+								rs.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+								rs.setData(copySystemUserBean2Resp(list.get(0)));
+							}else{
+								rs.setErrorCode(ErrorCode.SYSTEM_USER_ERROR11);
+							}
 						}else{
-							rs.setErrorCode(ErrorCode.SYSTEM_USER_ERROR11);
+							rs.setErrorCode(ErrorCode.SYSTEM_USER_ERROR3);
 						}
 					}else{
 						rs.setErrorCode(ErrorCode.SYSTEM_USER_ERROR2);
@@ -345,10 +339,9 @@ public class SystemUserService implements ISystemUserService {
 				rs =true;
 			}else if (type==2
 					&& StringUtils.isNotBlank(req.getId())
-					&& StringUtils.isNotBlank(req.getCode())
-					&& StringUtils.isNotBlank(req.getName()) 
-					&& StringUtils.isNotBlank(req.getAccount()) 
-					&& StringUtils.isNotBlank(req.getIsvalid()) ) {
+					&& StringUtils.isNotBlank(req.getPassword())
+					&& StringUtils.isNotBlank(req.getIsvalid())
+					&& StringUtils.isNotBlank(req.getRemark())) {
 				rs =true;
 			}
 		}
@@ -418,26 +411,31 @@ public class SystemUserService implements ISystemUserService {
 				//验证密码
 				if (StringUtils.equals(list.get(0).getPassword(), req.getPswd())) {
 					if (list.get(0).getIsvalid()==BusinessConstants.USER_VALID_BYTE ) {
-						if(!StringUtils.equals(list.get(0).getIdentityTypes(), BusinessConstants.USER_PT_STR)){
-							String tokenId =UUIDUtil.getId();
-							SystemUserResp user = get(list.get(0).getId(), true);
-							//缓存默认保存一天
-							String key =CacheHelper.buildKey(CacheModule.MEMBERLOGIN_APP, tokenId);
-							cacheClient.saveObject(key, user, 7*24*60*60);
-							user.setTokenId(tokenId);
-							AppUserResp resp = new AppUserResp();
-							resp.setId(user.getId());
-							resp.setNcid(user.getNcid());
-							resp.setToken(user.getTokenId());
-							resp.setUserName(user.getName());
-							resp.setMobile(user.getMobilePhone());
-							resp.setOrgid(user.getOrgid());
-							resp.setOrgName(user.getOrgName());
-							resp.setIdentityTypes(user.getIdentityTypes());
-							result.setData(resp);
-							result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+						if(list.get(0).getIslock() == BusinessConstants.USER_UNLOCK_BYTE) {
+							if(StringUtils.equals(list.get(0).getIdentityTypes(), BusinessConstants.USER_KS_CUSTOMER_STR)
+									|| StringUtils.equals(list.get(0).getIdentityTypes(), BusinessConstants.USER_KS_SUPPLIER_STR)) {
+								String tokenId =UUIDUtil.getId();
+								SystemUserResp user = get(list.get(0).getId(), true);
+								//缓存默认保存一天
+								String key =CacheHelper.buildKey(CacheModule.MEMBERLOGIN_APP, tokenId);
+								cacheClient.saveObject(key, user, 7*24*60*60);
+								user.setTokenId(tokenId);
+								AppUserResp resp = new AppUserResp();
+								resp.setId(user.getId());
+								resp.setNcid(user.getNcid());
+								resp.setToken(user.getTokenId());
+								resp.setUserName(user.getName());
+								resp.setMobile(user.getMobilePhone());
+								resp.setOrgid(user.getOrgid());
+								resp.setOrgName(user.getOrgName());
+								resp.setIdentityTypes(user.getIdentityTypes());
+								result.setData(resp);
+								result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+							}else{
+								result.setErrorCode(ErrorCode.SYSTEM_USER_ERROR12);
+							}
 						}else{
-							result.setErrorCode(ErrorCode.SYSTEM_USER_ERROR12);
+							result.setErrorCode(ErrorCode.SYSTEM_USER_ERROR3);
 						}
 					}else{
 						result.setErrorCode(ErrorCode.SYSTEM_USER_ERROR5);
@@ -519,6 +517,7 @@ public class SystemUserService implements ISystemUserService {
 				cacheClient.saveObject(key, user, 7*24*60*60);
 				AppUserResp resp = new AppUserResp();
 				resp.setId(user.getId());
+				resp.setNcid(user.getNcid());
 				resp.setToken(tokenId);
 				resp.setUserName(user.getName());
 				resp.setMobile(user.getMobilePhone());
@@ -562,6 +561,25 @@ public class SystemUserService implements ISystemUserService {
 			SystemUser bean = new SystemUser();
 			bean.setId(req.getId());
 			bean.setMobilePhone("");
+			bean.setModifier(req.getId());
+			bean.setModifytime(System.currentTimeMillis());
+			if(userMapper.updateByPrimaryKeySelective(bean) == 1){
+				result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+			}else{
+				result.setErrorCode(ErrorCode.OPERATE_ERROR);
+			}
+		}
+		return result;
+	}
+
+	@Override
+	public Result resetPwd(SystemUserSaveReq req) {
+		Result result = Result.getParamErrorResult();
+		if(req != null && StringUtils.isNotBlank(req.getId())
+				&& StringUtils.isNotBlank(req.getPassword())){
+			SystemUser bean = new SystemUser();
+			bean.setId(req.getId());
+			bean.setPassword(Md5Utils.MD5(req.getPassword()));
 			bean.setModifier(req.getId());
 			bean.setModifytime(System.currentTimeMillis());
 			if(userMapper.updateByPrimaryKeySelective(bean) == 1){

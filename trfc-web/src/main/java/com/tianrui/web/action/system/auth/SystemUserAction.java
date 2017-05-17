@@ -1,10 +1,9 @@
 package com.tianrui.web.action.system.auth;
 
-
 import java.util.List;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,7 +20,6 @@ import com.tianrui.api.resp.system.auth.SystemUserResp;
 import com.tianrui.smartfactory.common.constants.Constant;
 import com.tianrui.smartfactory.common.constants.ErrorCode;
 import com.tianrui.smartfactory.common.vo.Result;
-import com.tianrui.web.util.CurrUserUtils;
 @Controller
 @RequestMapping("trfc/system/auth/user")
 public class SystemUserAction {
@@ -33,10 +31,10 @@ public class SystemUserAction {
 	
 	//显示当前页
 	@RequestMapping("main")
-	public ModelAndView main(HttpServletRequest request){
+	public ModelAndView main(){
 		ModelAndView view = new ModelAndView("system/auth/userMgr");
-		view.addObject("orgId",CurrUserUtils.getCurrOrgid(request));
-		view.addObject("orgName",CurrUserUtils.getCurrOrgName(request));
+		view.addObject("orgId", Constant.ORG_ID);
+		view.addObject("orgName", Constant.ORG_NAME);
 		return view;
 	}
 	
@@ -56,28 +54,58 @@ public class SystemUserAction {
 	//新增数据
 	@RequestMapping(value="/addUser",method=RequestMethod.POST)
 	@ResponseBody
-	public Result addUser(HttpServletRequest request,SystemUserSaveReq req){
+	public Result addUser(SystemUserSaveReq req, HttpSession session){
 		Result rs= Result.getErrorResult();
 		try {
-			req.setCurrUId(CurrUserUtils.getCurrid(request));
+			SystemUserResp user = (SystemUserResp) session.getAttribute("systemUser");
+			req.setCurrUId(user.getId());
 			rs = systemUserService.addUser(req);
 		} catch (Exception e) {
 			log.error(e.getMessage(),e);
 		}
 		return rs;
 	}
-	//删除数据
-		@RequestMapping(value="/deleteUser",method=RequestMethod.POST)
-		@ResponseBody
-		public Result deleteUser(SystemUserQueryReq req){
-			Result rs= Result.getErrorResult();
-			try {
-				rs = systemUserService.delUser(req);
-			} catch (Exception e) {
-				log.error(e.getMessage(),e);
-			}
-			return rs;
+	
+	//新增数据
+	@RequestMapping(value="/editUser",method=RequestMethod.POST)
+	@ResponseBody
+	public Result editUser(SystemUserSaveReq req, HttpSession session){
+		Result rs= Result.getErrorResult();
+		try {
+			SystemUserResp user = (SystemUserResp) session.getAttribute("systemUser");
+			req.setCurrUId(user.getId());
+			rs = systemUserService.editUser(req);
+		} catch (Exception e) {
+			log.error(e.getMessage(),e);
 		}
+		return rs;
+	}
+	//删除数据
+	@RequestMapping(value="/deleteUser",method=RequestMethod.POST)
+	@ResponseBody
+	public Result deleteUser(SystemUserQueryReq req){
+		Result rs= Result.getErrorResult();
+		try {
+			rs = systemUserService.delUser(req);
+		} catch (Exception e) {
+			log.error(e.getMessage(),e);
+		}
+		return rs;
+	}
+	//删除数据
+	@RequestMapping(value="/resetPwd",method=RequestMethod.POST)
+	@ResponseBody
+	public Result resetPwd(SystemUserSaveReq req, HttpSession session){
+		Result rs= Result.getErrorResult();
+		try {
+			SystemUserResp user = (SystemUserResp) session.getAttribute("systemUser");
+			req.setCurrUId(user.getId());
+			rs = systemUserService.resetPwd(req);
+		} catch (Exception e) {
+			log.error(e.getMessage(),e);
+		}
+		return rs;
+	}
 	
 	//详情
 	@RequestMapping(value="/detail",method=RequestMethod.POST)

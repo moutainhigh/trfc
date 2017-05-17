@@ -1044,7 +1044,7 @@ public class PoundNoteService implements IPoundNoteService {
 		storage.setBillmaker(bean.getMakerid());
 		storage.setCreationtime(DateUtil.getNowDateString("yyyy-MM-dd HH:mm:ss"));
 		storage.setTs(storage.getCreationtime());
-		storage.setStatus("1");
+		storage.setStatus("0");
 		return storage;
 	}
 

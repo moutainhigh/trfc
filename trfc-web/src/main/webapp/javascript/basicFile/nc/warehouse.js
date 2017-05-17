@@ -122,15 +122,16 @@
 	}
 	function updateFromDc(){
 		var index = layer.load(2, {
-		  shade: [0.3,'#fff'] //0.1透明度的白色背景
+			shade: [0.3,'#fff'] //0.1透明度的白色背景
 		});
 		$.get(URL.updateFromDc,{},function(result){
 			if(result && result.code == '000000'){
-				queryData(1);
+				setTimeout(function(){
+					queryData(1);
+				}, 3000);
 			}else{
 				layer.msg(result.error, {icon: 5});
 			}
-			layer.close(index);
 		});
 	}
 })(jQuery, window);

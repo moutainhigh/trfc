@@ -6,7 +6,7 @@ $(function(){
 	//绑定保存按钮
 	$('#save').click(updateAction);
 	//绑定刷新按钮
-	$('#refresh').click(function(){window.location.reload()});
+	$('#refresh').click(function(){window.location.reload(true)});
 	//加载需要修改的数据
 	loadOld();
 	

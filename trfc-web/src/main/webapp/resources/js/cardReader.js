@@ -139,7 +139,9 @@ function writeObjToCard(obj) {
 	writeDataToCard(obj.rfid,1);
 	writeDataToCard(obj.vehicleno,2);
 	writeDataToCardHex(obj.vehicleid.toUpperCase(),4);
-	writeDataToCard(obj.materielname,5);
+//	writeDataToCard(obj.materielname,5);
+	writeDataToCard((obj.materielname || obj.materielname).substr(0,16),53);
+	writeDataToCard((obj.materielname || obj.materielname).substr(16),54);
 	writeDataToCard(obj.packagetype,6);
 	writeDataToCard(obj.businesstype,8);
 	writeDataToCard(obj.notice,9);

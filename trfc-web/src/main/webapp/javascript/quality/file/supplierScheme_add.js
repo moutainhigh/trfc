@@ -1,7 +1,7 @@
 $(function(){
 
 	//刷新
-	$('#fresh').click(function(){window.location.reload()});
+	$('#fresh').click(function(){window.location.reload(true)});
 	//保存
 	$('#save').click(saveAction);
 	//返回

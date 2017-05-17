@@ -538,7 +538,7 @@
 
 	//获取写卡数据
 	function getWriteCardParams() {
-		var arrivecode = $('#billcode').val() || ''; billcode = $.trim(billcode);
+		var billcode = $('#billcode').val() || ''; billcode = $.trim(billcode);
 		var rfid = $('#rfid').val() || ''; rfid = $.trim(rfid);
 		var vehicleno = $('#vehicle').val() || '';vehicleno = $.trim(vehicleno);
 		var vehicleid = $('#vehicle').attr('vehicleid') || '';vehicleid = $.trim(vehicleid);
@@ -551,7 +551,7 @@
 		var packagetype = $('#materielname').attr('packagetype');
 		var minemouthname = $('#suppliername').attr('minemouthname');
 		return {
-			notice:arrivecode,
+			notice:billcode,
 			rfid:rfid,
 			packagetype:packagetype,
 			minemouthname:minemouthname,

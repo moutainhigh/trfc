@@ -167,4 +167,12 @@ public interface ISystemUserService {
 	 * @return
 	 */
 	Result unBindPhone(AppUserReq req);
+	/**
+	 * @Description 重置密码
+	 * @author zhanggaohao
+	 * @version 2017年5月17日 下午3:51:09
+	 * @param req
+	 * @return
+	 */
+	Result resetPwd(SystemUserSaveReq req);
 }
