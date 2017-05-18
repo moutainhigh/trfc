@@ -14,9 +14,10 @@
 		<jsp:include page="../common/base/left_busi.jsp"></jsp:include>
 		<div class="right">
 			<!-- 引用公共right部分 -->
-			<jsp:include page="../common/base/right_head_busi.jsp"></jsp:include><!--tab切换的内容-->
+			<jsp:include page="../common/base/right_head_busi.jsp"></jsp:include>
+			<!--tab切换的内容-->
 			<div class="intel_tabbox">
-				<div class="wrap">
+				<div class="wel_right">
 					<!--导航条begin-->
 					<div class="welcome">
 						<img src="${staticBasePath}/images/login.png">

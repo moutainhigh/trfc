@@ -1781,11 +1781,17 @@ width: 180px;
 
 }
 /*welcome*/
+.wel_head{
+    padding: 0 15px;
+}
+.wel_head img{
+    height: 40px;
+}
 .welcome{
-    padding: 45px 0 20px 15px;
+    padding: 0px 0 20px 80px;
 }
 .welcome .wel_admin{
-    padding: 40px 0 70px 50px;
+    padding: 20px 0 70px 50px;
 }
 .welcome .wel_admin p{
    font-size: 18px;
@@ -1807,7 +1813,7 @@ width: 180px;
     line-height: 50px;
 }
 .welcome .wel_info img{
-    float:right;
+
 }
 
 .wel_oprate{
@@ -1816,7 +1822,15 @@ width: 180px;
 }
 .wel_oprate i{
     color: #434e8d;
-    line-height: 45px;
+    line-height: 50px;
     font-size: 20px;
     margin: 0 12px;
+}
+.wel_right{
+    position: relative;
+    float: left;
+    border-left: 1px solid #dbe7f3;
+    background: url("../images/wel.png") no-repeat bottom right;
+    width: 1100px;
+    height: 800px;
 }
