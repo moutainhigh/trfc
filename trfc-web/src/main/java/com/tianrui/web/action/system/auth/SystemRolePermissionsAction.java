@@ -1,6 +1,6 @@
 package com.tianrui.web.action.system.auth;
 
-import javax.servlet.http.HttpSession;
+import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,6 +18,7 @@ import com.tianrui.api.resp.system.auth.SystemUserResp;
 import com.tianrui.smartfactory.common.constants.Constant;
 import com.tianrui.smartfactory.common.constants.ErrorCode;
 import com.tianrui.smartfactory.common.vo.Result;
+import com.tianrui.web.util.SessionManager;
 
 @Controller
 @RequestMapping("trfc/system/auth/rolePermissions")
@@ -64,10 +65,10 @@ public class SystemRolePermissionsAction {
 	
 	@RequestMapping("addUserToRole")
 	@ResponseBody
-	public Result addUserToRole(SystemUserRoleSave save, HttpSession session){
+	public Result addUserToRole(SystemUserRoleSave save, HttpServletRequest request){
 		Result result = Result.getErrorResult();
 		try {
-			SystemUserResp user = (SystemUserResp) session.getAttribute("systemUser");
+			SystemUserResp user = SessionManager.getSessionUser(request);
 			save.setCurrId(user.getId());
 			result = systemRolePermissionsService.addUserToRole(save);
 		} catch (Exception e) {
@@ -79,10 +80,10 @@ public class SystemRolePermissionsAction {
 	
 	@RequestMapping("deleteUserToRole")
 	@ResponseBody
-	public Result deleteUserToRole(SystemUserRoleSave save, HttpSession session){
+	public Result deleteUserToRole(SystemUserRoleSave save, HttpServletRequest request){
 		Result result = Result.getErrorResult();
 		try {
-			SystemUserResp user = (SystemUserResp) session.getAttribute("systemUser");
+			SystemUserResp user = SessionManager.getSessionUser(request);
 			save.setCurrId(user.getId());
 			result = systemRolePermissionsService.deleteUserToRole(save);
 		} catch (Exception e) {

@@ -19,7 +19,8 @@ public enum CacheModule {
 	
 	REGISTER("register-","PC注册"),
 	REGISTER_APP("register1-","APP注册"),
-	LOGIN_APP("login_","app端登录"),
+	LOGIN_PC("login_pc_","PC端登录"),
+	LOGIN_APP("login_app_","APP端登录"),
 	
 	RESETPASS("resetPass-","PC端重置密码验证码"),
 	RESETPASS_APP("resetPass1-","APP端重置密码验证码"),

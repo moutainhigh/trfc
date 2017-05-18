@@ -5,7 +5,7 @@
 			class="dropdown-toggle"> <img
 			src="${staticBasePath}/images/tx.jpg" class="img-circle"> <label>${sessionScope.systemUser.name }</label>
 		</a>
-	</div>
+	</div>	
 	<div class="menu">
 		<label>菜单</label> <i class="iconfont fr">&#xe61a;</i>
 	</div>
@@ -28,12 +28,3 @@
         
     </ul> 
 </div>
-<div class="intel_tab">
-        <!--tab切换标题-->
-        <ul class="intel_menu">
-           
-        </ul>
-        <!--tab切换标题end-->
-    </div>
-
-

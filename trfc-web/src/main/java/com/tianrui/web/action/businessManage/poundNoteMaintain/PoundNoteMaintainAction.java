@@ -3,7 +3,7 @@ package com.tianrui.web.action.businessManage.poundNoteMaintain;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.servlet.http.HttpSession;
+import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -26,6 +26,7 @@ import com.tianrui.smartfactory.common.constants.ErrorCode;
 import com.tianrui.smartfactory.common.utils.DateUtil;
 import com.tianrui.smartfactory.common.vo.PaginationVO;
 import com.tianrui.smartfactory.common.vo.Result;
+import com.tianrui.web.util.SessionManager;
 
 @Controller
 @RequestMapping("/trfc/poundNote")
@@ -60,10 +61,10 @@ public class PoundNoteMaintainAction {
 	
 	@RequestMapping("/purchase/addView")
 	@ResponseBody
-	public ModelAndView purchaseAddView(HttpSession session){
+	public ModelAndView purchaseAddView(HttpServletRequest request){
 		ModelAndView view = new ModelAndView("businessManage/poundNoteMaintain/purchasePoundNoteAdd");
 		try {
-			SystemUserResp user = (SystemUserResp) session.getAttribute("systemUser");
+			SystemUserResp user = SessionManager.getSessionUser(request);
 			GetCodeReq codeReq = new GetCodeReq();
 			codeReq.setCode("RK");
 			codeReq.setCodeType(true);
@@ -79,10 +80,10 @@ public class PoundNoteMaintainAction {
 	
 	@RequestMapping("/purchase/addPoundNote")
 	@ResponseBody
-	public Result addPurchasePoundNote(PoundNoteSave save, HttpSession session){
+	public Result addPurchasePoundNote(PoundNoteSave save, HttpServletRequest request){
 		Result result = Result.getParamErrorResult();
 		try {
-			SystemUserResp user = (SystemUserResp) session.getAttribute("systemUser");
+			SystemUserResp user = SessionManager.getSessionUser(request);
 			save.setMakerid(user.getId());
 			save.setMakebillname(user.getName());
 			result = poundNoteService.addPurchasePoundNote(save);
@@ -95,10 +96,10 @@ public class PoundNoteMaintainAction {
 	
 	@RequestMapping("/purchase/returnAddView")
 	@ResponseBody
-	public ModelAndView returnAddView(String id, HttpSession session){
+	public ModelAndView returnAddView(String id, HttpServletRequest request){
 		ModelAndView view = new ModelAndView("businessManage/poundNoteMaintain/purchasePoundNoteReturnAdd");
 		try {
-			SystemUserResp user = (SystemUserResp) session.getAttribute("systemUser");
+			SystemUserResp user = SessionManager.getSessionUser(request);
 			GetCodeReq codeReq = new GetCodeReq();
 			codeReq.setCode("RK");
 			codeReq.setCodeType(true);
@@ -115,10 +116,10 @@ public class PoundNoteMaintainAction {
 	
 	@RequestMapping("/purchase/returnAddPoundNote")
 	@ResponseBody
-	public Result returnAddPoundNote(PoundNoteSave save, HttpSession session){
+	public Result returnAddPoundNote(PoundNoteSave save, HttpServletRequest request){
 		Result result = Result.getParamErrorResult();
 		try {
-			SystemUserResp user = (SystemUserResp) session.getAttribute("systemUser");
+			SystemUserResp user = SessionManager.getSessionUser(request);
 			save.setMakerid(user.getId());
 			save.setMakebillname(user.getName());
 			result = poundNoteService.returnAddPoundNote(save);
@@ -131,10 +132,10 @@ public class PoundNoteMaintainAction {
 	
 	@RequestMapping("/purchase/redcollide")
 	@ResponseBody
-	public Result purchaseRedcollide(PoundNoteQuery query, HttpSession session){
+	public Result purchaseRedcollide(PoundNoteQuery query, HttpServletRequest request){
 		Result result = Result.getParamErrorResult();
 		try {
-			SystemUserResp user = (SystemUserResp) session.getAttribute("systemUser");
+			SystemUserResp user = SessionManager.getSessionUser(request);
 			query.setCurrId(user.getId());
 			result = poundNoteService.purchaseRedcollide(query);
 		} catch (Exception e) {
@@ -146,10 +147,10 @@ public class PoundNoteMaintainAction {
 	
 	@RequestMapping("/purchase/invalid")
 	@ResponseBody
-	public Result purchaseInvalid(PoundNoteQuery query, HttpSession session){
+	public Result purchaseInvalid(PoundNoteQuery query, HttpServletRequest request){
 		Result result = Result.getParamErrorResult();
 		try {
-			SystemUserResp user = (SystemUserResp) session.getAttribute("systemUser");
+			SystemUserResp user = SessionManager.getSessionUser(request);
 			query.setCurrId(user.getId());
 			result = poundNoteService.purchaseInvalid(query);
 		} catch (Exception e) {
@@ -204,10 +205,10 @@ public class PoundNoteMaintainAction {
 	}
 	
 	@RequestMapping("/sales/addView")
-	public ModelAndView salesAddView(HttpSession session){
+	public ModelAndView salesAddView(HttpServletRequest request){
 		ModelAndView view = new ModelAndView("businessManage/poundNoteMaintain/salesPoundNoteAdd");
 		try {
-			SystemUserResp user = (SystemUserResp) session.getAttribute("systemUser");
+			SystemUserResp user = SessionManager.getSessionUser(request);
 			GetCodeReq codeReq = new GetCodeReq();
 			codeReq.setCode("CK");
 			codeReq.setCodeType(true);
@@ -223,10 +224,10 @@ public class PoundNoteMaintainAction {
 	
 	@RequestMapping("/sales/addPoundNote")
 	@ResponseBody
-	public Result addSalesPoundNote(PoundNoteSave save, String bills, HttpSession session){
+	public Result addSalesPoundNote(PoundNoteSave save, String bills, HttpServletRequest request){
 		Result result = Result.getParamErrorResult();
 		try {
-			SystemUserResp user = (SystemUserResp) session.getAttribute("systemUser");
+			SystemUserResp user = SessionManager.getSessionUser(request);
 			save.setMakerid(user.getId());
 			save.setMakebillname(user.getName());
 			result = poundNoteService.addSalesPoundNote(save, bills);
@@ -250,10 +251,10 @@ public class PoundNoteMaintainAction {
 	
 	@RequestMapping("/sales/updateSerialNumber")
 	@ResponseBody
-	public Result addSalesPoundNote(PoundNoteQuery query, HttpSession session){
+	public Result addSalesPoundNote(PoundNoteQuery query, HttpServletRequest request){
 		Result result = Result.getParamErrorResult();
 		try {
-			SystemUserResp user = (SystemUserResp) session.getAttribute("systemUser");
+			SystemUserResp user = SessionManager.getSessionUser(request);
 			query.setCurrId(user.getId());
 			result = poundNoteService.updateSerialNumber(query);
 		} catch (Exception e) {
@@ -265,10 +266,10 @@ public class PoundNoteMaintainAction {
 	
 	@RequestMapping("/sales/redcollide")
 	@ResponseBody
-	public Result salesRedcollide(PoundNoteQuery query, HttpSession session){
+	public Result salesRedcollide(PoundNoteQuery query, HttpServletRequest request){
 		Result result = Result.getParamErrorResult();
 		try {
-			SystemUserResp user = (SystemUserResp) session.getAttribute("systemUser");
+			SystemUserResp user = SessionManager.getSessionUser(request);
 			query.setCurrId(user.getId());
 			result = poundNoteService.salesRedcollide(query);
 		} catch (Exception e) {
@@ -280,10 +281,10 @@ public class PoundNoteMaintainAction {
 	
 	@RequestMapping("/sales/invalid")
 	@ResponseBody
-	public Result salesInvalid(PoundNoteQuery query, HttpSession session){
+	public Result salesInvalid(PoundNoteQuery query, HttpServletRequest request){
 		Result result = Result.getParamErrorResult();
 		try {
-			SystemUserResp user = (SystemUserResp) session.getAttribute("systemUser");
+			SystemUserResp user = SessionManager.getSessionUser(request);
 			query.setCurrId(user.getId());
 			result = poundNoteService.salesInvalid(query);
 		} catch (Exception e) {

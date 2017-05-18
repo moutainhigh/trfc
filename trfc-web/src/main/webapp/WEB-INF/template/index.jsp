@@ -25,7 +25,7 @@
     <div class="wrap">
         <!--登录头部行begin-->
         <div class="header">
-            <label>欢迎来到天瑞物流！</label>
+            <!-- <label>欢迎来到天瑞物流！</label> -->
         </div>
         <!--登录头部行end-->
     </div>

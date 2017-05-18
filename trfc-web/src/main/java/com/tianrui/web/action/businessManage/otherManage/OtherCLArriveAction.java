@@ -1,6 +1,6 @@
 package com.tianrui.web.action.businessManage.otherManage;
 
-import javax.servlet.http.HttpSession;
+import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,6 +15,7 @@ import com.tianrui.api.req.businessManage.otherManage.OtherArriveReq;
 import com.tianrui.api.resp.system.auth.SystemUserResp;
 import com.tianrui.smartfactory.common.constants.ErrorCode;
 import com.tianrui.smartfactory.common.vo.Result;
+import com.tianrui.web.util.SessionManager;
 
 @Controller
 @RequestMapping("trfc/otherCLArrive")
@@ -43,10 +44,10 @@ public class OtherCLArriveAction {
 	
 	@RequestMapping("update")
 	@ResponseBody
-	public Result update(OtherArriveReq req,HttpSession session){
+	public Result update(OtherArriveReq req,HttpServletRequest request){
 		Result rs = Result.getSuccessResult();
 		try {
-			SystemUserResp user = (SystemUserResp) session.getAttribute("systemUser");
+			SystemUserResp user = SessionManager.getSessionUser(request);
 			req.setUserid(user.getId());
 			rs = otherArriveService.update(req);
 		} catch (Exception e) {
@@ -58,10 +59,10 @@ public class OtherCLArriveAction {
 	
 	@RequestMapping("updateOperation")
 	@ResponseBody
-	public Result updateOperation(OtherArriveReq req,HttpSession session){
+	public Result updateOperation(OtherArriveReq req,HttpServletRequest request){
 		Result rs = Result.getSuccessResult();
 		try {
-			SystemUserResp user = (SystemUserResp) session.getAttribute("systemUser");
+			SystemUserResp user = SessionManager.getSessionUser(request);
 			req.setUserid(user.getId());
 			rs = otherArriveService.updateOperation(req);
 		} catch (Exception e) {
@@ -73,10 +74,10 @@ public class OtherCLArriveAction {
 	
 	@RequestMapping("add")
 	@ResponseBody
-	public Result add(OtherArriveReq req,HttpSession session){
+	public Result add(OtherArriveReq req,HttpServletRequest request){
 		Result rs = Result.getSuccessResult();
 		try {
-			SystemUserResp user = (SystemUserResp) session.getAttribute("systemUser");
+			SystemUserResp user = SessionManager.getSessionUser(request);
 			req.setUserid(user.getId());
 			req.setBusinesstype("9");
 			req.setCodekey("GCN");

@@ -11,10 +11,9 @@ import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
 
 import com.tianrui.api.resp.system.auth.SystemUserResp;
+import com.tianrui.web.util.SessionManager;
 
 @WebFilter
 public class PortalsFilter implements Filter {
@@ -38,8 +37,7 @@ public class PortalsFilter implements Filter {
 		//过滤所有'/trfc'开头的路径
 		if(p != null && p.startsWith("/trfc")) {
 			//从session中获取账号
-			HttpSession session = req.getSession();
-			SystemUserResp user = (SystemUserResp) session.getAttribute("systemUser");
+			SystemUserResp user = SessionManager.getSessionUser(req);
 			//根据账号判断用户是否登录
 			if(user == null) {
 				//没登录,重定向到登录页

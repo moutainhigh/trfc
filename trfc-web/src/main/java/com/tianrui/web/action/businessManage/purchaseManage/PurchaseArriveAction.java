@@ -1,6 +1,6 @@
 package com.tianrui.web.action.businessManage.purchaseManage;
 
-import javax.servlet.http.HttpSession;
+import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,6 +22,7 @@ import com.tianrui.smartfactory.common.constants.ErrorCode;
 import com.tianrui.smartfactory.common.utils.DateUtil;
 import com.tianrui.smartfactory.common.vo.PaginationVO;
 import com.tianrui.smartfactory.common.vo.Result;
+import com.tianrui.web.util.SessionManager;
 
 @RequestMapping("/trfc/purchaseArrive")
 @Controller
@@ -56,10 +57,10 @@ public class PurchaseArriveAction {
 	}
 	
 	@RequestMapping("addView")
-	public ModelAndView addView(HttpSession session){
+	public ModelAndView addView(HttpServletRequest request){
 		ModelAndView view = new ModelAndView("businessManage/purchaseManage/purchaseArriveAdd");
 		try {
-			SystemUserResp user = (SystemUserResp) session.getAttribute("systemUser");
+			SystemUserResp user = SessionManager.getSessionUser(request);
 			GetCodeReq codeReq = new GetCodeReq();
 			codeReq.setCode("DH");
 			codeReq.setCodeType(true);
@@ -84,10 +85,10 @@ public class PurchaseArriveAction {
 	
 	@RequestMapping("add")
 	@ResponseBody
-	public Result add(PurchaseArriveSave save, HttpSession session){
+	public Result add(PurchaseArriveSave save, HttpServletRequest request){
 		Result result = Result.getSuccessResult();
 		try {
-			SystemUserResp user = (SystemUserResp) session.getAttribute("systemUser");
+			SystemUserResp user = SessionManager.getSessionUser(request);
 			save.setCurrId(user.getId());
 			save.setType("0");
 			result = purchaseArriveService.add(save);
@@ -99,10 +100,10 @@ public class PurchaseArriveAction {
 	}
 	
 	@RequestMapping("updateView")
-	public ModelAndView updateView(String id, HttpSession session){
+	public ModelAndView updateView(String id, HttpServletRequest request){
 		ModelAndView view = new ModelAndView("businessManage/purchaseManage/purchaseArriveUpdate");
 		try {
-			SystemUserResp user = (SystemUserResp) session.getAttribute("systemUser");
+			SystemUserResp user = SessionManager.getSessionUser(request);
 			GetCodeReq codeReq = new GetCodeReq();
 			codeReq.setCode("CL");
 			codeReq.setCodeType(true);
@@ -125,10 +126,10 @@ public class PurchaseArriveAction {
 	
 	@RequestMapping("update")
 	@ResponseBody
-	public Result update(PurchaseArriveSave update, HttpSession session){
+	public Result update(PurchaseArriveSave update, HttpServletRequest request){
 		Result result = Result.getSuccessResult();
 		try {
-			SystemUserResp user = (SystemUserResp) session.getAttribute("systemUser");
+			SystemUserResp user = SessionManager.getSessionUser(request);
 			update.setCurrId(user.getId());
 			result = purchaseArriveService.update(update);
 		} catch (Exception e) {
@@ -151,7 +152,7 @@ public class PurchaseArriveAction {
 
 	@RequestMapping("findOne")
 	@ResponseBody
-	public Result findOne(PurchaseArriveSave update, HttpSession session){
+	public Result findOne(PurchaseArriveSave update){
 		Result result = Result.getSuccessResult();
 		try {
 			PurchaseArriveResp resp  = purchaseArriveService.findOne(update.getId());
@@ -165,10 +166,10 @@ public class PurchaseArriveAction {
 	
 	@RequestMapping("audit")
 	@ResponseBody
-	public Result audit(PurchaseArriveSave update, HttpSession session){
+	public Result audit(PurchaseArriveSave update, HttpServletRequest request){
 		Result result = Result.getSuccessResult();
 		try {
-			SystemUserResp user = (SystemUserResp) session.getAttribute("systemUser");
+			SystemUserResp user = SessionManager.getSessionUser(request);
 			update.setCurrId(user.getId());
 			update.setAuditstatus("1");
 			result = purchaseArriveService.updateOperation(update);
@@ -181,10 +182,10 @@ public class PurchaseArriveAction {
 	
 	@RequestMapping("unaudit")
 	@ResponseBody
-	public Result unaudit(PurchaseArriveSave update, HttpSession session){
+	public Result unaudit(PurchaseArriveSave update, HttpServletRequest request){
 		Result result = Result.getSuccessResult();
 		try {
-			SystemUserResp user = (SystemUserResp) session.getAttribute("systemUser");
+			SystemUserResp user = SessionManager.getSessionUser(request);
 			update.setCurrId(user.getId());
 			update.setAuditstatus("0");
 			result = purchaseArriveService.updateOperation(update);
@@ -197,10 +198,10 @@ public class PurchaseArriveAction {
 	
 	@RequestMapping("invalid")
 	@ResponseBody
-	public Result invalid(PurchaseArriveSave update, HttpSession session){
+	public Result invalid(PurchaseArriveSave update, HttpServletRequest request){
 		Result result = Result.getSuccessResult();
 		try {
-			SystemUserResp user = (SystemUserResp) session.getAttribute("systemUser");
+			SystemUserResp user = SessionManager.getSessionUser(request);
 			update.setCurrId(user.getId());
 			update.setStatus("3");
 			result = purchaseArriveService.updateOperation(update);
@@ -213,10 +214,10 @@ public class PurchaseArriveAction {
 	
 	@RequestMapping("outfactory")
 	@ResponseBody
-	public Result outfactory(PurchaseArriveSave update, HttpSession session){
+	public Result outfactory(PurchaseArriveSave update, HttpServletRequest request){
 		Result result = Result.getSuccessResult();
 		try {
-			SystemUserResp user = (SystemUserResp) session.getAttribute("systemUser");
+			SystemUserResp user = SessionManager.getSessionUser(request);
 			update.setCurrId(user.getId());
 			update.setStatus("5");
 			result = purchaseArriveService.updateOperation(update);

@@ -3,7 +3,7 @@ package com.tianrui.web.action.system.auth;
 import java.util.List;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpSession;
+import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,6 +20,7 @@ import com.tianrui.api.resp.system.auth.SystemUserResp;
 import com.tianrui.smartfactory.common.constants.Constant;
 import com.tianrui.smartfactory.common.constants.ErrorCode;
 import com.tianrui.smartfactory.common.vo.Result;
+import com.tianrui.web.util.SessionManager;
 @Controller
 @RequestMapping("trfc/system/auth/user")
 public class SystemUserAction {
@@ -54,10 +55,10 @@ public class SystemUserAction {
 	//新增数据
 	@RequestMapping(value="/addUser",method=RequestMethod.POST)
 	@ResponseBody
-	public Result addUser(SystemUserSaveReq req, HttpSession session){
+	public Result addUser(SystemUserSaveReq req, HttpServletRequest request){
 		Result rs= Result.getErrorResult();
 		try {
-			SystemUserResp user = (SystemUserResp) session.getAttribute("systemUser");
+			SystemUserResp user = SessionManager.getSessionUser(request);
 			req.setCurrUId(user.getId());
 			rs = systemUserService.addUser(req);
 		} catch (Exception e) {
@@ -69,10 +70,10 @@ public class SystemUserAction {
 	//新增数据
 	@RequestMapping(value="/editUser",method=RequestMethod.POST)
 	@ResponseBody
-	public Result editUser(SystemUserSaveReq req, HttpSession session){
+	public Result editUser(SystemUserSaveReq req, HttpServletRequest request){
 		Result rs= Result.getErrorResult();
 		try {
-			SystemUserResp user = (SystemUserResp) session.getAttribute("systemUser");
+			SystemUserResp user = SessionManager.getSessionUser(request);
 			req.setCurrUId(user.getId());
 			rs = systemUserService.editUser(req);
 		} catch (Exception e) {
@@ -95,10 +96,10 @@ public class SystemUserAction {
 	//删除数据
 	@RequestMapping(value="/resetPwd",method=RequestMethod.POST)
 	@ResponseBody
-	public Result resetPwd(SystemUserSaveReq req, HttpSession session){
+	public Result resetPwd(SystemUserSaveReq req, HttpServletRequest request){
 		Result rs= Result.getErrorResult();
 		try {
-			SystemUserResp user = (SystemUserResp) session.getAttribute("systemUser");
+			SystemUserResp user = SessionManager.getSessionUser(request);
 			req.setCurrUId(user.getId());
 			rs = systemUserService.resetPwd(req);
 		} catch (Exception e) {

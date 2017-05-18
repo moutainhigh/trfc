@@ -50,4 +50,13 @@
 	        return res;
 	    };
 	}
+	var loginOut = document.getElementById('loginOut');
+	loginOut.addEventListener('click', function(){
+		layer.confirm('确认退出登录?', {
+			btn: ['确定', '取消'],
+			area: '600px'
+		}, function(){
+			window.location.href = '/loginOut';
+		});
+	}, false);
 </script>

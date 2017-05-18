@@ -31,8 +31,7 @@ public class Constant {
     public final static String SUCCESS ="000000";
     
     //redis 缓存的前缀
-    //public final static String PRE_REDIS ="wl2_";
-    public final static String PRE_REDIS ="wl_";
+    public final static String PRE_REDIS ="trfc_";
     
     //日志文件 访问日志 记录访问来源
     public final static String ACCESS ="access";

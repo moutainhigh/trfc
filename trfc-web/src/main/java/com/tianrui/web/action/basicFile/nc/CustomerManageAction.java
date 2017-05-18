@@ -2,7 +2,7 @@ package com.tianrui.web.action.basicFile.nc;
 
 import java.util.List;
 
-import javax.servlet.http.HttpSession;
+import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,6 +21,7 @@ import com.tianrui.api.resp.system.auth.SystemUserResp;
 import com.tianrui.smartfactory.common.constants.ErrorCode;
 import com.tianrui.smartfactory.common.vo.PaginationVO;
 import com.tianrui.smartfactory.common.vo.Result;
+import com.tianrui.web.util.SessionManager;
 
 @RequestMapping("/trfc/customer")
 @Controller
@@ -55,10 +56,10 @@ public class CustomerManageAction {
 	
 	@RequestMapping("/updateCustomer")
 	@ResponseBody
-	public Result updateCustomer(CustomerManageSave req, HttpSession session){
+	public Result updateCustomer(CustomerManageSave req, HttpServletRequest request){
 		Result result = Result.getSuccessResult();
 		try {
-			SystemUserResp user = (SystemUserResp) session.getAttribute("systemUser");
+			SystemUserResp user = SessionManager.getSessionUser(request);
 			req.setCurrUId(user.getId());
 			result = customerManageService.updateCustomer(req);
 		} catch (Exception e) {

@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpSession;
+import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,6 +25,7 @@ import com.tianrui.smartfactory.common.constants.Constant;
 import com.tianrui.smartfactory.common.constants.ErrorCode;
 import com.tianrui.smartfactory.common.vo.PaginationVO;
 import com.tianrui.smartfactory.common.vo.Result;
+import com.tianrui.web.util.SessionManager;
 
 @RequestMapping("/trfc/driver")
 @Controller
@@ -61,11 +62,11 @@ public class DriverManageAction {
 
 	@RequestMapping("/addView")
 	@ResponseBody
-	public Result addView(HttpSession session){
+	public Result addView(HttpServletRequest request){
 		Result result = Result.getSuccessResult();
 		try {
 			Map<String, Object> map = new HashMap<String, Object>();
-			SystemUserResp user = (SystemUserResp) session.getAttribute("systemUser");
+			SystemUserResp user = SessionManager.getSessionUser(request);
 			GetCodeReq codeReq = new GetCodeReq();
 			codeReq.setCode("DR");
 			codeReq.setCodeType(true);
@@ -83,10 +84,10 @@ public class DriverManageAction {
 	
 	@RequestMapping("/add")
 	@ResponseBody
-	public Result add(DriverManageSave save, HttpSession session){
+	public Result add(DriverManageSave save, HttpServletRequest request){
 		Result result = Result.getSuccessResult();
 		try {
-			SystemUserResp user = (SystemUserResp) session.getAttribute("systemUser");
+			SystemUserResp user = SessionManager.getSessionUser(request);
 			save.setCurrId(user.getId());
 			result = driverManageService.add(save);
 		} catch (Exception e) {
@@ -98,10 +99,10 @@ public class DriverManageAction {
 	
 	@RequestMapping("/update")
 	@ResponseBody
-	public Result updateDriver(DriverManageSave save, HttpSession session){
+	public Result updateDriver(DriverManageSave save, HttpServletRequest request){
 		Result result = Result.getSuccessResult();
 		try {
-			SystemUserResp user = (SystemUserResp) session.getAttribute("systemUser");
+			SystemUserResp user = SessionManager.getSessionUser(request);
 			save.setCurrId(user.getId());
 			result = driverManageService.update(save);
 		} catch (Exception e) {
@@ -113,10 +114,10 @@ public class DriverManageAction {
 	
 	@RequestMapping("/delete")
 	@ResponseBody
-	public Result delete(DriverManageQuery query, HttpSession session){
+	public Result delete(DriverManageQuery query, HttpServletRequest request){
 		Result result = Result.getSuccessResult();
 		try {
-			SystemUserResp user = (SystemUserResp) session.getAttribute("systemUser");
+			SystemUserResp user = SessionManager.getSessionUser(request);
 			query.setCurrId(user.getId());
 			result = driverManageService.delete(query);
 		} catch (Exception e) {

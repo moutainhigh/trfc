@@ -1,6 +1,6 @@
 package com.tianrui.web.action.businessManage.cardManage;
 
-import javax.servlet.http.HttpSession;
+import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -19,6 +19,7 @@ import com.tianrui.api.resp.system.auth.SystemUserResp;
 import com.tianrui.smartfactory.common.constants.ErrorCode;
 import com.tianrui.smartfactory.common.vo.PaginationVO;
 import com.tianrui.smartfactory.common.vo.Result;
+import com.tianrui.web.util.SessionManager;
 
 @RequestMapping("/trfc/card")
 @Controller
@@ -30,9 +31,9 @@ public class CardAction {
 	private ICardService cardService;
 	
 	@RequestMapping("/main")
-	public ModelAndView main(HttpSession session){
+	public ModelAndView main(HttpServletRequest request){
 		ModelAndView view = new ModelAndView("businessManage/cardManage/card");
-		SystemUserResp user = (SystemUserResp) session.getAttribute("systemUser");
+		SystemUserResp user = SessionManager.getSessionUser(request);
 		view.addObject("user", user);
 		return view;
 	}
@@ -53,10 +54,10 @@ public class CardAction {
 	
 	@RequestMapping("/addCard")
 	@ResponseBody
-	public Result addCard(CardSave req, HttpSession session){
+	public Result addCard(CardSave req, HttpServletRequest request){
 		Result result = Result.getSuccessResult();
 		try {
-			SystemUserResp user = (SystemUserResp) session.getAttribute("systemUser");
+			SystemUserResp user = SessionManager.getSessionUser(request);
 			req.setCurrUid(user.getId());
 			result = cardService.addCard(req);
 		} catch (Exception e) {
@@ -68,10 +69,10 @@ public class CardAction {
 	
 	@RequestMapping("/updateCard")
 	@ResponseBody
-	public Result updateCard(CardReq req, HttpSession session){
+	public Result updateCard(CardReq req, HttpServletRequest request){
 		Result result = Result.getSuccessResult();
 		try {
-			SystemUserResp user = (SystemUserResp) session.getAttribute("systemUser");
+			SystemUserResp user = SessionManager.getSessionUser(request);
 			req.setCurrUId(user.getId());
 			int n = cardService.updateCard(req);
 			if(n > 0){
@@ -88,10 +89,10 @@ public class CardAction {
 	
 	@RequestMapping("/delCard")
 	@ResponseBody
-	public Result delCard(CardReq req, HttpSession session){
+	public Result delCard(CardReq req, HttpServletRequest request){
 		Result result = Result.getSuccessResult();
 		try {
-			SystemUserResp user = (SystemUserResp) session.getAttribute("systemUser");
+			SystemUserResp user = SessionManager.getSessionUser(request);
 			req.setCurrUId(user.getId());
 			int n = cardService.delCard(req);
 			if(n > 0){

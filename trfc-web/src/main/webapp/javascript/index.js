@@ -2,7 +2,7 @@ $(function(){
 	//请求路径
 	var URL = {
 			loginUrl:"/login",
-			redirectUrl:"/trfc/system/base/code/main"
+			redirectUrl:"/trfc/system/main"
 	};
 	//登陆按钮 绑定点击时间
 	$('#login_button').click(loginAction);

@@ -3,7 +3,7 @@ package com.tianrui.web.action.basicFile.businessControl;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.servlet.http.HttpSession;
+import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,6 +24,7 @@ import com.tianrui.smartfactory.common.constants.ErrorCode;
 import com.tianrui.smartfactory.common.utils.DateUtil;
 import com.tianrui.smartfactory.common.vo.PaginationVO;
 import com.tianrui.smartfactory.common.vo.Result;
+import com.tianrui.web.util.SessionManager;
 
 @Controller
 @RequestMapping("/trfc/primary")
@@ -58,11 +59,11 @@ public class PrimarySettingAction {
 	
 	@RequestMapping("addView")
 	@ResponseBody
-	public Result addView(HttpSession session){
+	public Result addView(HttpServletRequest request){
 		Result result = Result.getSuccessResult();
 		try {
 			Map<String, Object> map = new HashMap<String, Object>();
-			SystemUserResp user = (SystemUserResp) session.getAttribute("systemUser");
+			SystemUserResp user = SessionManager.getSessionUser(request);
 			GetCodeReq codeReq = new GetCodeReq();
 			codeReq.setCode("YF");
 			codeReq.setCodeType(true);
@@ -80,10 +81,10 @@ public class PrimarySettingAction {
 	
 	@RequestMapping("add")
 	@ResponseBody
-	public Result add(PrimarySettingSave save, HttpSession session){
+	public Result add(PrimarySettingSave save, HttpServletRequest request){
 		Result result = Result.getErrorResult();
 		try {
-			SystemUserResp user = (SystemUserResp) session.getAttribute("systemUser");
+			SystemUserResp user = SessionManager.getSessionUser(request);
 			save.setCurrId(user.getId());
 			result = primarySettingService.add(save);
 		} catch (Exception e) {
@@ -108,10 +109,10 @@ public class PrimarySettingAction {
 	
 	@RequestMapping("update")
 	@ResponseBody
-	public Result update(PrimarySettingSave save, HttpSession session){
+	public Result update(PrimarySettingSave save, HttpServletRequest request){
 		Result result = Result.getErrorResult();
 		try {
-			SystemUserResp user = (SystemUserResp) session.getAttribute("systemUser");
+			SystemUserResp user = SessionManager.getSessionUser(request);
 			save.setCurrId(user.getId());
 			result = primarySettingService.update(save);
 		} catch (Exception e) {

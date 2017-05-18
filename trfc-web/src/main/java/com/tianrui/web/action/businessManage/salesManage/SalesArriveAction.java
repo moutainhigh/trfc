@@ -1,6 +1,6 @@
 package com.tianrui.web.action.businessManage.salesManage;
 
-import javax.servlet.http.HttpSession;
+import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,10 +17,12 @@ import com.tianrui.api.req.businessManage.salesManage.SalesArriveSave;
 import com.tianrui.api.req.system.base.GetCodeReq;
 import com.tianrui.api.resp.businessManage.salesManage.SalesArriveResp;
 import com.tianrui.api.resp.system.auth.SystemUserResp;
+import com.tianrui.smartfactory.common.constants.Constant;
 import com.tianrui.smartfactory.common.constants.ErrorCode;
 import com.tianrui.smartfactory.common.utils.DateUtil;
 import com.tianrui.smartfactory.common.vo.PaginationVO;
 import com.tianrui.smartfactory.common.vo.Result;
+import com.tianrui.web.util.SessionManager;
 
 /**
  * 销售通知单
@@ -59,10 +61,10 @@ public class SalesArriveAction {
 	}
 	
 	@RequestMapping("/addView")
-	public ModelAndView addView(HttpSession session){
+	public ModelAndView addView(HttpServletRequest request){
 		ModelAndView view = new ModelAndView("businessManage/salesManage/salesArriveAdd");
 		try {
-			SystemUserResp user = (SystemUserResp) session.getAttribute("systemUser");
+			SystemUserResp user = SessionManager.getSessionUser(request);
 			GetCodeReq codeReq = new GetCodeReq();
 			codeReq.setCode("TH");
 			codeReq.setCodeType(true);
@@ -77,8 +79,8 @@ public class SalesArriveAction {
 			codeReq.setCode("DR");
 			codeReq.setCodeType(false);
 			view.addObject("d_internalcode", systemCodeService.getCode(codeReq).getData());
-			view.addObject("orgid", "0");
-			view.addObject("orgname", "天瑞集团");
+			view.addObject("orgid", Constant.ORG_ID);
+			view.addObject("orgname", Constant.ORG_NAME);
 			view.addObject("createtimeStr", DateUtil.getNowDateString("yyyy-MM-dd HH:mm:ss"));
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
@@ -88,10 +90,10 @@ public class SalesArriveAction {
 
 	@RequestMapping("/add")
 	@ResponseBody
-	public Result add(SalesArriveSave save, String bills, HttpSession session){
+	public Result add(SalesArriveSave save, String bills, HttpServletRequest request){
 		Result result = Result.getSuccessResult();
 		try {
-			SystemUserResp user = (SystemUserResp) session.getAttribute("systemUser");
+			SystemUserResp user = SessionManager.getSessionUser(request);
 			save.setCurrUId(user.getId());
 			result = salesArriveService.add(save, bills);
 		} catch (Exception e) {
@@ -102,14 +104,23 @@ public class SalesArriveAction {
 	}
 	
 	@RequestMapping("/updateView")
-	public ModelAndView updateView(String id){
+	public ModelAndView updateView(String id, HttpServletRequest request){
 		ModelAndView view = new ModelAndView("businessManage/salesManage/salesArriveUpdate");
 		try {
-			view.addObject("v_code", "CL"+(int)(Math.random()*1000000));
-			view.addObject("d_code", "DR"+(int)(Math.random()*100000000));
-			view.addObject("d_internalcode", ((int)(Math.random()*1000000)+"").substring(2));
-			view.addObject("orgid", "0");
-			view.addObject("orgname", "天瑞集团");
+			SystemUserResp user = SessionManager.getSessionUser(request);
+			GetCodeReq codeReq = new GetCodeReq();
+			codeReq.setUserid(user.getId());
+			codeReq.setCode("CL");
+			codeReq.setCodeType(true);
+			view.addObject("v_code", systemCodeService.getCode(codeReq).getData());
+			codeReq.setCode("DR");
+			codeReq.setCodeType(true);
+			view.addObject("d_code", systemCodeService.getCode(codeReq).getData());
+			codeReq.setCode("DR");
+			codeReq.setCodeType(false);
+			view.addObject("d_internalcode", systemCodeService.getCode(codeReq).getData());
+			view.addObject("orgid", Constant.ORG_ID);
+			view.addObject("orgname", Constant.ORG_NAME);
 			view.addObject("salesArrive", salesArriveService.findOne(id));
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
@@ -119,10 +130,10 @@ public class SalesArriveAction {
 
 	@RequestMapping("/update")
 	@ResponseBody
-	public Result update(SalesArriveSave save, String bills, HttpSession session){
+	public Result update(SalesArriveSave save, String bills, HttpServletRequest request){
 		Result result = Result.getSuccessResult();
 		try {
-			SystemUserResp user = (SystemUserResp) session.getAttribute("systemUser");
+			SystemUserResp user = SessionManager.getSessionUser(request);
 			save.setCurrUId(user.getId());
 			result = salesArriveService.update(save, bills);
 		} catch (Exception e) {
@@ -134,10 +145,10 @@ public class SalesArriveAction {
 	
 	@RequestMapping("/audit")
 	@ResponseBody
-	public Result audit(SalesArriveQuery query, HttpSession session){
+	public Result audit(SalesArriveQuery query, HttpServletRequest request){
 		Result result = Result.getSuccessResult();
 		try {
-			SystemUserResp user = (SystemUserResp) session.getAttribute("systemUser");
+			SystemUserResp user = SessionManager.getSessionUser(request);
 			query.setCurrUId(user.getId());
 			result = salesArriveService.audit(query);
 		} catch (Exception e) {
@@ -149,10 +160,10 @@ public class SalesArriveAction {
 	
 	@RequestMapping("/unaudit")
 	@ResponseBody
-	public Result unaudit(SalesArriveQuery query, HttpSession session){
+	public Result unaudit(SalesArriveQuery query, HttpServletRequest request){
 		Result result = Result.getSuccessResult();
 		try {
-			SystemUserResp user = (SystemUserResp) session.getAttribute("systemUser");
+			SystemUserResp user = SessionManager.getSessionUser(request);
 			query.setCurrUId(user.getId());
 			result = salesArriveService.unaudit(query);
 		} catch (Exception e) {
@@ -164,10 +175,10 @@ public class SalesArriveAction {
 	
 	@RequestMapping("/invalid")
 	@ResponseBody
-	public Result invalid(SalesArriveQuery query, HttpSession session){
+	public Result invalid(SalesArriveQuery query, HttpServletRequest request){
 		Result result = Result.getSuccessResult();
 		try {
-			SystemUserResp user = (SystemUserResp) session.getAttribute("systemUser");
+			SystemUserResp user = SessionManager.getSessionUser(request);
 			query.setCurrUId(user.getId());
 			result = salesArriveService.invalid(query);
 		} catch (Exception e) {
@@ -178,10 +189,10 @@ public class SalesArriveAction {
 	}
 	@RequestMapping("/findOne")
 	@ResponseBody
-	public Result findOne(SalesArriveQuery query, HttpSession session){
+	public Result findOne(SalesArriveQuery query, HttpServletRequest request){
 		Result result = Result.getSuccessResult();
 		try {
-			SystemUserResp user = (SystemUserResp) session.getAttribute("systemUser");
+			SystemUserResp user = SessionManager.getSessionUser(request);
 			query.setCurrUId(user.getId());
 			SalesArriveResp resp = salesArriveService.findOne(query.getId());
 			result.setData(resp);
@@ -193,10 +204,10 @@ public class SalesArriveAction {
 	}
 	@RequestMapping("/outfactory")
 	@ResponseBody
-	public Result outfactory(SalesArriveQuery query, HttpSession session){
+	public Result outfactory(SalesArriveQuery query, HttpServletRequest request){
 		Result result = Result.getSuccessResult();
 		try {
-			SystemUserResp user = (SystemUserResp) session.getAttribute("systemUser");
+			SystemUserResp user = SessionManager.getSessionUser(request);
 			query.setCurrUId(user.getId());
 			result = salesArriveService.outfactory(query);
 		} catch (Exception e) {

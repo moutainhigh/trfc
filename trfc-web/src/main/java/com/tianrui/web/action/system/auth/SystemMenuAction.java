@@ -1,6 +1,6 @@
 package com.tianrui.web.action.system.auth;
 
-import javax.servlet.http.HttpSession;
+import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,6 +17,7 @@ import com.tianrui.api.req.system.auth.SystemMenuSaveReq;
 import com.tianrui.api.resp.system.auth.SystemUserResp;
 import com.tianrui.smartfactory.common.constants.ErrorCode;
 import com.tianrui.smartfactory.common.vo.Result;
+import com.tianrui.web.util.SessionManager;
 
 /**
  * 菜单管理Action
@@ -55,10 +56,10 @@ public class SystemMenuAction {
 	
 	@RequestMapping(value="/findMenuByUserId",method=RequestMethod.POST)
 	@ResponseBody
-	public Result findMenuByUserId(HttpSession session){
+	public Result findMenuByUserId(HttpServletRequest request){
 		Result result=Result.getSuccessResult();
 		try {
-			SystemUserResp user = (SystemUserResp) session.getAttribute("systemUser");
+			SystemUserResp user = SessionManager.getSessionUser(request);
 			result=systemMenuService.findMenuByUserId(user.getId());
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);

@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpSession;
+import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
@@ -31,6 +31,7 @@ import com.tianrui.smartfactory.common.constants.ErrorCode;
 import com.tianrui.smartfactory.common.utils.DateUtil;
 import com.tianrui.smartfactory.common.vo.PaginationVO;
 import com.tianrui.smartfactory.common.vo.Result;
+import com.tianrui.web.util.SessionManager;
 /**
  * 销售订单
  * @author Administrator
@@ -50,10 +51,10 @@ public class SalesApplicationAction {
 	private IBillTypeService billTypeService;
 	
 	@RequestMapping("/main")
-	public ModelAndView main(HttpSession session){
+	public ModelAndView main(HttpServletRequest request){
 		ModelAndView view = new ModelAndView("businessManage/salesManage/salesApplication");
 		try {
-			SystemUserResp user = (SystemUserResp) session.getAttribute("systemUser");
+			SystemUserResp user = SessionManager.getSessionUser(request);
 			view.addObject("user", user);
 			view.addObject("orgid", Constant.ORG_ID);
 			view.addObject("orgname", Constant.ORG_NAME);
@@ -93,11 +94,11 @@ public class SalesApplicationAction {
 	
 	@RequestMapping("/initAdd")
 	@ResponseBody
-	public Result initAdd(SalesApplicationSave save, HttpSession session){
+	public Result initAdd(SalesApplicationSave save, HttpServletRequest request){
 		Result result = Result.getSuccessResult();
 		try {
 			Map<String, Object> map = new HashMap<String, Object>();
-			SystemUserResp user = (SystemUserResp) session.getAttribute("systemUser");
+			SystemUserResp user = SessionManager.getSessionUser(request);
 			GetCodeReq codeReq = new GetCodeReq();
 			codeReq.setCode("XXSO");
 			codeReq.setCodeType(true);
@@ -123,10 +124,10 @@ public class SalesApplicationAction {
 	
 	@RequestMapping("/add")
 	@ResponseBody
-	public Result add(SalesApplicationSave save, HttpSession session){
+	public Result add(SalesApplicationSave save, HttpServletRequest request){
 		Result result = Result.getSuccessResult();
 		try {
-			SystemUserResp user = (SystemUserResp) session.getAttribute("systemUser");
+			SystemUserResp user = SessionManager.getSessionUser(request);
 			save.setMakerid(user.getId());
 			save.setMakebillname(user.getName());
 			result = salesApplicationService.add(save);
@@ -139,10 +140,10 @@ public class SalesApplicationAction {
 	
 	@RequestMapping("/update")
 	@ResponseBody
-	public Result update(SalesApplicationSave save, HttpSession session){
+	public Result update(SalesApplicationSave save, HttpServletRequest request){
 		Result result = Result.getSuccessResult();
 		try {
-			SystemUserResp user = (SystemUserResp) session.getAttribute("systemUser");
+			SystemUserResp user = SessionManager.getSessionUser(request);
 			save.setCurrid(user.getId());
 			result = salesApplicationService.update(save);
 		} catch (Exception e) {
@@ -154,10 +155,10 @@ public class SalesApplicationAction {
 	
 	@RequestMapping("/audit")
 	@ResponseBody
-	public Result audit(SalesApplicationQuery query, HttpSession session){
+	public Result audit(SalesApplicationQuery query, HttpServletRequest request){
 		Result result = Result.getSuccessResult();
 		try {
-			SystemUserResp user = (SystemUserResp) session.getAttribute("systemUser");
+			SystemUserResp user = SessionManager.getSessionUser(request);
 			query.setAuditid(user.getId());
 			query.setAuditname(user.getName());
 			result = salesApplicationService.audit(query);
@@ -170,10 +171,10 @@ public class SalesApplicationAction {
 	
 	@RequestMapping("/unaudit")
 	@ResponseBody
-	public Result unaudit(SalesApplicationQuery query, HttpSession session){
+	public Result unaudit(SalesApplicationQuery query, HttpServletRequest request){
 		Result result = Result.getSuccessResult();
 		try {
-			SystemUserResp user = (SystemUserResp) session.getAttribute("systemUser");
+			SystemUserResp user = SessionManager.getSessionUser(request);
 			query.setAuditid(user.getId());
 			query.setAuditname(user.getName());
 			result = salesApplicationService.unaudit(query);
@@ -186,10 +187,10 @@ public class SalesApplicationAction {
 	
 	@RequestMapping("/delete")
 	@ResponseBody
-	public Result delete(SalesApplicationQuery query, HttpSession session){
+	public Result delete(SalesApplicationQuery query, HttpServletRequest request){
 		Result result = Result.getSuccessResult();
 		try {
-			SystemUserResp user = (SystemUserResp) session.getAttribute("systemUser");
+			SystemUserResp user = SessionManager.getSessionUser(request);
 			query.setCurrid(user.getId());
 			query.setCurrname(user.getName());
 			result = salesApplicationService.delete(query);

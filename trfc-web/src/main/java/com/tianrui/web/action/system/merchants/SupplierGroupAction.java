@@ -2,7 +2,7 @@ package com.tianrui.web.action.system.merchants;
 
 import java.util.List;
 
-import javax.servlet.http.HttpSession;
+import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,6 +23,7 @@ import com.tianrui.smartfactory.common.constants.Constant;
 import com.tianrui.smartfactory.common.constants.ErrorCode;
 import com.tianrui.smartfactory.common.vo.PaginationVO;
 import com.tianrui.smartfactory.common.vo.Result;
+import com.tianrui.web.util.SessionManager;
 
 @Controller
 @RequestMapping("/trfc/system/merchants/supplierGroup")
@@ -70,10 +71,10 @@ public class SupplierGroupAction {
 	
 	@RequestMapping("addSupplierGroup")
 	@ResponseBody
-	public Result addSupplierGroup(SupplierGroupSave save, HttpSession session){
+	public Result addSupplierGroup(SupplierGroupSave save, HttpServletRequest request){
 		Result result = Result.getErrorResult();
 		try {
-			SystemUserResp user = (SystemUserResp) session.getAttribute("systemUser");
+			SystemUserResp user = SessionManager.getSessionUser(request);
 			save.setCurrId(user.getId());
 			result = supplierGroupService.addSupplierGroup(save);
 		} catch (Exception e) {
@@ -85,10 +86,10 @@ public class SupplierGroupAction {
 	
 	@RequestMapping("addSupplierToGroup")
 	@ResponseBody
-	public Result addSupplierToGroup(String groupid, String childrenList, HttpSession session){
+	public Result addSupplierToGroup(String groupid, String childrenList, HttpServletRequest request){
 		Result result = Result.getErrorResult();
 		try {
-			SystemUserResp user = (SystemUserResp) session.getAttribute("systemUser");
+			SystemUserResp user = SessionManager.getSessionUser(request);
 			result = supplierGroupService.addSupplierToGroup(groupid, childrenList, user.getId());
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);

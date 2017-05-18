@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpSession;
+import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,6 +27,7 @@ import com.tianrui.smartfactory.common.constants.ErrorCode;
 import com.tianrui.smartfactory.common.utils.DateUtil;
 import com.tianrui.smartfactory.common.vo.PaginationVO;
 import com.tianrui.smartfactory.common.vo.Result;
+import com.tianrui.web.util.SessionManager;
 
 
 @Controller
@@ -66,11 +67,11 @@ public class VehicleManageAction {
 				
 	@RequestMapping("/addView")
 	@ResponseBody
-	public Result addView(HttpSession session){
+	public Result addView(HttpServletRequest request){
 		Result result = Result.getSuccessResult();
 		try {
 			Map<String, Object> map = new HashMap<String, Object>();
-			SystemUserResp user = (SystemUserResp) session.getAttribute("systemUser");
+			SystemUserResp user = SessionManager.getSessionUser(request);
 			GetCodeReq codeReq = new GetCodeReq();
 			codeReq.setCode("CL");
 			codeReq.setCodeType(true);
@@ -86,10 +87,10 @@ public class VehicleManageAction {
 	
 	@RequestMapping("/add")
 	@ResponseBody
-	public Result add(VehicleManageSave save, HttpSession session){
+	public Result add(VehicleManageSave save, HttpServletRequest request){
 		Result result = Result.getErrorResult();
 		try {
-			SystemUserResp user = (SystemUserResp) session.getAttribute("systemUser");
+			SystemUserResp user = SessionManager.getSessionUser(request);
 			save.setCurrUId(user.getId());
 			result = vehicleManageService.add(save);
 		} catch (Exception e) {
@@ -101,10 +102,10 @@ public class VehicleManageAction {
 	
 	@RequestMapping("/update")
 	@ResponseBody
-	public Result update(VehicleManageSave save, HttpSession session){
+	public Result update(VehicleManageSave save, HttpServletRequest request){
 		Result result = Result.getSuccessResult();
 		try {
-			SystemUserResp user = (SystemUserResp) session.getAttribute("systemUser");
+			SystemUserResp user = SessionManager.getSessionUser(request);
 			save.setCurrUId(user.getId());
 			result = vehicleManageService.update(save);
 		} catch (Exception e) {
@@ -116,10 +117,10 @@ public class VehicleManageAction {
 	
 	@RequestMapping("/delete")
 	@ResponseBody
-	public Result delete(VehicleManageQuery query, HttpSession session){
+	public Result delete(VehicleManageQuery query, HttpServletRequest request){
 		Result result = Result.getSuccessResult();
 		try {
-			SystemUserResp user = (SystemUserResp) session.getAttribute("systemUser");
+			SystemUserResp user = SessionManager.getSessionUser(request);
 			query.setCurrUId(user.getId());
 			result = vehicleManageService.delete(query);
 		} catch (Exception e) {
@@ -131,10 +132,10 @@ public class VehicleManageAction {
 	
 	@RequestMapping("/delblacklist")
 	@ResponseBody
-	public Result delblacklist(VehicleManageQuery query, HttpSession session){
+	public Result delblacklist(VehicleManageQuery query, HttpServletRequest request){
 		Result result = Result.getSuccessResult();
 		try {
-			SystemUserResp user = (SystemUserResp) session.getAttribute("systemUser");
+			SystemUserResp user = SessionManager.getSessionUser(request);
 			query.setCurrUId(user.getId());
 			result = vehicleManageService.delblacklist(query);
 		} catch (Exception e) {
@@ -146,11 +147,11 @@ public class VehicleManageAction {
 	
 	@RequestMapping("/addblacklistView")
 	@ResponseBody
-	public Result addblacklistView(HttpSession session){
+	public Result addblacklistView(HttpServletRequest request){
 		Result result = Result.getSuccessResult();
 		try {
 			Map<String, Object> map = new HashMap<String, Object>();
-			SystemUserResp user = (SystemUserResp) session.getAttribute("systemUser");
+			SystemUserResp user = SessionManager.getSessionUser(request);
 			map.put("b_creator", user.getId());
 			map.put("b_creatorname", user.getName());
 			Date date = new Date();
@@ -166,10 +167,10 @@ public class VehicleManageAction {
 	
 	@RequestMapping("/addblacklist")
 	@ResponseBody
-	public Result addblacklist(VehicleManageQuery query, HttpSession session){
+	public Result addblacklist(VehicleManageQuery query, HttpServletRequest request){
 		Result result = Result.getSuccessResult();
 		try {
-			SystemUserResp user = (SystemUserResp) session.getAttribute("systemUser");
+			SystemUserResp user = SessionManager.getSessionUser(request);
 			query.setCurrUId(user.getId());
 			result = vehicleManageService.addblacklist(query);
 		} catch (Exception e) {

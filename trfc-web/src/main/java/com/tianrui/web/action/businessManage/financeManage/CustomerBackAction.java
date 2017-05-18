@@ -3,7 +3,7 @@ package com.tianrui.web.action.businessManage.financeManage;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.servlet.http.HttpSession;
+import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,6 +23,7 @@ import com.tianrui.api.resp.system.auth.SystemUserResp;
 import com.tianrui.smartfactory.common.constants.ErrorCode;
 import com.tianrui.smartfactory.common.utils.DateUtil;
 import com.tianrui.smartfactory.common.vo.Result;
+import com.tianrui.web.util.SessionManager;
 
 /**
  * 客户退补Action
@@ -40,10 +41,10 @@ public class CustomerBackAction {
 	private ISystemCodeService systemCodeService;
 	
 	@RequestMapping("/main")
-	public ModelAndView main(HttpSession session){
+	public ModelAndView main(HttpServletRequest request){
 		ModelAndView view=new ModelAndView("businessManage/financeManage/customerback");
 		try {
-			SystemUserResp user=(SystemUserResp) session.getAttribute("systemUser");
+			SystemUserResp user = SessionManager.getSessionUser(request);
 			view.addObject("user",user);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -68,11 +69,11 @@ public class CustomerBackAction {
 	
 	@RequestMapping(value="/initAdd",method=RequestMethod.POST)
 	@ResponseBody
-	public Result initAdd(HttpSession session){
+	public Result initAdd(HttpServletRequest request){
 		Result result=Result.getSuccessResult();
 		try {
 			Map<String,Object> map=new HashMap<String,Object>();
-			SystemUserResp user=(SystemUserResp) session.getAttribute("systemUser");
+			SystemUserResp user = SessionManager.getSessionUser(request);
 			GetCodeReq codeReq=new GetCodeReq();
 			codeReq.setCode("XSTB");
 			codeReq.setCodeType(true);
@@ -103,10 +104,10 @@ public class CustomerBackAction {
 	
 	@RequestMapping(value="/audit",method=RequestMethod.POST)
 	@ResponseBody
-	public Result audit(CustomerBackQuery query,HttpSession session){
+	public Result audit(CustomerBackQuery query,HttpServletRequest request){
 		Result result=Result.getSuccessResult();
 		try {
-			SystemUserResp user=(SystemUserResp) session.getAttribute("systemUser");
+			SystemUserResp user = SessionManager.getSessionUser(request);
 			query.setAuditid(user.getId());
 			query.setAuditname(user.getName());
 			result=customerBackService.audit(query);

@@ -1,6 +1,6 @@
 package com.tianrui.web.action.businessManage.financeManage;
 
-import javax.servlet.http.HttpSession;
+import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,6 +15,7 @@ import com.tianrui.api.req.businessManage.financeManage.SalesLedgerQuery;
 import com.tianrui.api.resp.system.auth.SystemUserResp;
 import com.tianrui.smartfactory.common.constants.ErrorCode;
 import com.tianrui.smartfactory.common.vo.Result;
+import com.tianrui.web.util.SessionManager;
 
 @Controller
 @RequestMapping("/trfc/salesledger")
@@ -26,10 +27,10 @@ public class SalesLedgerAction {
 	private ISalesLedgerService salesLedgerService;
 	
 	@RequestMapping("/main")
-	public ModelAndView main(HttpSession session){
+	public ModelAndView main(HttpServletRequest request){
 		ModelAndView view=new ModelAndView("businessManage/financeManage/salesledger");
 		try {
-			SystemUserResp user=(SystemUserResp) session.getAttribute("systemUser");
+			SystemUserResp user = SessionManager.getSessionUser(request);
 			view.addObject("user", user);
 		} catch (Exception e) {
 			e.printStackTrace();

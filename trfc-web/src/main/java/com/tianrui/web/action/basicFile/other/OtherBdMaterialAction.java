@@ -12,7 +12,6 @@ import com.tianrui.api.intf.basicFile.other.IOtherBdMaterialService;
 import com.tianrui.api.req.basicFile.other.OtherBdMaterialReq;
 import com.tianrui.api.resp.basicFile.other.OtherBdMaterialResp;
 import com.tianrui.smartfactory.common.constants.ErrorCode;
-import com.tianrui.smartfactory.common.vo.PaginationVO;
 import com.tianrui.smartfactory.common.vo.Result;
 @Controller
 @RequestMapping("/trfc/basicFile/other/material")

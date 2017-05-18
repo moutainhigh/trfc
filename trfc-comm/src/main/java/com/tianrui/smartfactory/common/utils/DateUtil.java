@@ -16,6 +16,8 @@ import java.util.Date;
  *
  */
 public class DateUtil {
+	
+	public static final String Y_M_D_H_M_S = "yyyy-MM-dd HH:mm:ss";
 	/**
 	 * 
 	 * @描述:获取指定日期格式字符串
@@ -37,7 +39,7 @@ public class DateUtil {
 	 * @创建时间 2016年2月21日下午4:26:28
 	 */
 	public static String getDateString(Date d){
-		return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format( d);
+		return new SimpleDateFormat(DateUtil.Y_M_D_H_M_S).format( d);
 	}
 	/**
 	 * 

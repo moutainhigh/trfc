@@ -13,7 +13,6 @@ import com.tianrui.api.intf.basicFile.other.IOtherBdSupplierService;
 import com.tianrui.api.req.basicFile.other.OtherBdSupplierReq;
 import com.tianrui.api.resp.basicFile.other.OtherBdSupplierResp;
 import com.tianrui.smartfactory.common.constants.ErrorCode;
-import com.tianrui.smartfactory.common.utils.UUIDUtil;
 import com.tianrui.smartfactory.common.vo.Result;
 
 @Controller
