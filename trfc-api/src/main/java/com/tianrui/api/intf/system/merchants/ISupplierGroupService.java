@@ -43,10 +43,10 @@ public interface ISupplierGroupService {
 	 * @Description 查询组成员
 	 * @author zhanggaohao
 	 * @version 2017年5月10日 下午1:38:25
-	 * @param groupId
+	 * @param supplierid
 	 * @return
 	 */
-	Result supplierGroupCutover(String groupId);
+	Result supplierGroupCutover(String supplierid);
 	/**
 	 * @Description 切换用户
 	 * @author zhanggaohao

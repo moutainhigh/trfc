@@ -77,7 +77,7 @@ public class SupplierGroupService implements ISupplierGroupService {
 	
 	public boolean validateSupplier(String supplierid, Result result){
 		if(supplierGroupMapper.validateSupplier(supplierid) != null){
-			result.setErrorCode(ErrorCode.SUPPLIER_GROUP_ERROR);
+			result.setErrorCode(ErrorCode.SUPPLIER_GROUP_ERROR0);
 			return false;
 		}
 		return true;
@@ -118,12 +118,17 @@ public class SupplierGroupService implements ISupplierGroupService {
 	}
 
 	@Override
-	public Result supplierGroupCutover(String groupId) {
+	public Result supplierGroupCutover(String supplierid) {
 		Result result = Result.getParamErrorResult();
-		if(StringUtils.isNotBlank(groupId)){
-			List<AppSupplierGroup> list = supplierGroupMapper.selectSupplierByGroupId(groupId);
-			result.setData(list);
-			result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+		if(StringUtils.isNotBlank(supplierid)){
+			SupplierGroup supplierGroup = supplierGroupMapper.validateSupplier(supplierid);
+			if(supplierGroup != null){
+				List<AppSupplierGroup> list = supplierGroupMapper.selectSupplierByGroupId(supplierGroup.getGroupid());
+				result.setData(list);
+				result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+			}else{
+				result.setErrorCode(ErrorCode.SUPPLIER_GROUP_ERROR1);
+			}
 		}
 		return result;
 	}

@@ -63,7 +63,7 @@
 				and (account = #{appAccount,jdbcType=VARCHAR} or mobilePhone = #{appAccount,jdbcType=VARCHAR})
 			</if>
 		</where>
-		order by utc desc
+		order by createtime desc
 		<if test="start != null and start >= 0">
 			<if test="limit != null">
 				limit #{start,jdbcType=INTEGER},#{limit,jdbcType=INTEGER}

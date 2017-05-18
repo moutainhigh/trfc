@@ -41,7 +41,7 @@ public class SystemUserService implements ISystemUserService {
 	OrganizationMapper organizationMapper;
 	@Autowired
 	CacheClient cacheClient;
-
+	
 	@Override
 	public Result apiLogin(UserReq req) throws Exception {
 		Result rs =Result.getParamErrorResult();
@@ -54,11 +54,11 @@ public class SystemUserService implements ISystemUserService {
 					if ( list.get(0).getIsvalid()==BusinessConstants.USER_VALID_BYTE ) {
 						if(list.get(0).getIslock() == BusinessConstants.USER_UNLOCK_BYTE) {
 							if(StringUtils.equals(list.get(0).getIdentityTypes(), BusinessConstants.USER_PT_STR)) {
-								rs.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
 								SystemUserResp resp = new SystemUserResp();
 								resp.setId(list.get(0).getId());
 								resp.setName(list.get(0).getName());
 								rs.setData(resp);
+								rs.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
 							}else{
 								rs.setErrorCode(ErrorCode.SYSTEM_USER_ERROR11);
 							}
@@ -246,8 +246,9 @@ public class SystemUserService implements ISystemUserService {
 					if ( list.get(0).getIsvalid()==BusinessConstants.USER_VALID_BYTE ) {
 						if(list.get(0).getIslock() == BusinessConstants.USER_UNLOCK_BYTE) {
 							if(StringUtils.equals(list.get(0).getIdentityTypes(), BusinessConstants.USER_PT_STR)) {
-								rs.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+								cumulativeLoginCount(list.get(0));
 								rs.setData(copySystemUserBean2Resp(list.get(0)));
+								rs.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
 							}else{
 								rs.setErrorCode(ErrorCode.SYSTEM_USER_ERROR11);
 							}
@@ -414,6 +415,9 @@ public class SystemUserService implements ISystemUserService {
 						if(list.get(0).getIslock() == BusinessConstants.USER_UNLOCK_BYTE) {
 							if(StringUtils.equals(list.get(0).getIdentityTypes(), BusinessConstants.USER_KS_CUSTOMER_STR)
 									|| StringUtils.equals(list.get(0).getIdentityTypes(), BusinessConstants.USER_KS_SUPPLIER_STR)) {
+								//累计登录次数
+								cumulativeLoginCount(list.get(0));
+								
 								String tokenId =UUIDUtil.getId();
 								SystemUserResp user = get(list.get(0).getId(), true);
 								//缓存默认保存一天
@@ -510,8 +514,10 @@ public class SystemUserService implements ISystemUserService {
 	public Result userCutover(String key, String ncid, String identityTypes) throws Exception{
 		Result result = Result.getParamErrorResult();
 		if(StringUtils.isNotBlank(key) && StringUtils.isNotBlank(ncid) && StringUtils.isNotBlank(identityTypes)){
-			SystemUserResp user = copySystemUserBean2Resp(userMapper.selectByNcIdAndIdentityTypes(ncid, identityTypes));
-			if(user != null){
+			SystemUser systemUser = userMapper.selectByNcIdAndIdentityTypes(ncid, identityTypes);
+			if(systemUser != null){
+				//cumulativeLoginCount(systemUser);
+				SystemUserResp user = copySystemUserBean2Resp(systemUser);
 				String tokenId =UUIDUtil.getId();
 				user.setTokenId(tokenId);
 				cacheClient.saveObject(key, user, 7*24*60*60);
@@ -589,6 +595,18 @@ public class SystemUserService implements ISystemUserService {
 			}
 		}
 		return result;
+	}
+	
+	//累加登录次数
+	private void cumulativeLoginCount(SystemUser user){
+		SystemUser bean = new SystemUser();
+		bean.setId(user.getId());
+		if(user.getLogincount() != null){
+			bean.setLogincount(user.getLogincount() + 1);
+		}else{
+			bean.setLogincount(1);
+		}
+		userMapper.updateByPrimaryKeySelective(bean);
 	}
 	
 }
