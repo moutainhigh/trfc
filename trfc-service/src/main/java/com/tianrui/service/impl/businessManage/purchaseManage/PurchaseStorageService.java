@@ -24,7 +24,7 @@ public class PurchaseStorageService implements IPurchaseStorageService {
 	public Result poundPushUp(PurchaseStorageUpReq req) {
 		Result rs =Result.getSuccessResult();
 		if(req !=null && StringUtils.isNotBlank(req.getId())){
-			if( req.getStatus() =="1" ){
+			if(StringUtils.equals("1", req.getStatus())){
 				PurchaseStorageList db =purchaseStorageMapper.selectByPrimaryKey(req.getId());
 				if(db !=null ){
 					//入库单状态修改为 已退单

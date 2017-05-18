@@ -1,7 +1,6 @@
 package com.tianrui.quartz.service;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -59,10 +58,8 @@ public class PurchaseStorageListService implements IPurchaseStorageListService {
 	public List<PurchaseStorageList> getPurchaseStorageList() {
 		List<PurchaseStorageList> list = null;
 		// 获取未推单的数据
-		PurchaseStorageList query = new PurchaseStorageList();
-		query.setStatus("0");
 		// 获取增量数据
-		list = purchaseStorageListMapper.selectIncrementalData(query);
+		list = purchaseStorageListMapper.selectIncrementalData(null);
 		if (CollectionUtils.isNotEmpty(list)) {
 			List<String> ids = new ArrayList<String>();
 			Map<String, PurchaseStorageList> map = new HashMap<String, PurchaseStorageList>();
@@ -114,7 +111,7 @@ public class PurchaseStorageListService implements IPurchaseStorageListService {
 					order.setStatus(Constant.PUSH_STATUS_ING);
 					if (purchaseStorageListMapper.updateByPrimaryKeySelective(order) > 0) {
 						PoundNote pn = new PoundNote();
-						pn.setPutinwarehousecode(order.getCode());
+						pn.setId(order.getPoundId());
 						pn.setReturnstatus(Constant.POUND_PUSH_STATUS_ING);
 						poundNoteMapper.updateByOrderCode(pn);
 						Logger.info("操作成功!");

@@ -188,17 +188,7 @@
     select 
     <include refid="Base_Column_List" />
     from tr_purchase_storage_list
-    where      
-       pk_org=#{pkOrg}
-       <if test="ts != null" >
-       		<![CDATA[
-       		and ts > #{ts,jdbcType=TIMESTAMP}
-       		and status !=1
-       		]]>
-       </if>
-       <if test="ts == null" >
-       	  and status !=1
-       </if>
+    where   status ='0'
        order by creationtime desc 
   </select>
 </mapper>

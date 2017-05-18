@@ -20,26 +20,14 @@
 		<filter-name>CharacterEncodingFilter</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
-	<!-- 会员是否登录 filter -->
-	<filter>
-		<filter-name>AppFilter</filter-name>
-		<filter-class>com.tianrui.web.filter.PortalsFilter</filter-class>
-		<init-param>
-			<param-name>excludedUrl</param-name>
-			<param-value>/publicMember/index</param-value>
-		</init-param>
-	</filter>
-	<filter-mapping>
-		<filter-name>AppFilter</filter-name>
-		<url-pattern>/*</url-pattern>
-	</filter-mapping>
+
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
 		<param-value>classpath*:spring/*.xml</param-value>
 	</context-param>
 	<context-param>
 		<param-name>webAppRootKey</param-name>
-		<param-value>tianrui-wuliu-web</param-value>
+		<param-value>tianrui-wuliu-webapi</param-value>
 	</context-param>
 
 	<context-param>
