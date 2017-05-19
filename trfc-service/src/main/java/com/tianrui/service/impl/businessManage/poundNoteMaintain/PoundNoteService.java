@@ -711,11 +711,20 @@ public class PoundNoteService implements IPoundNoteService {
 			bean.setReturnstatus("0");
 			bean.setState(Constant.POUND_PUSH_STATUS_NULL);
 			bean.setBilltype("0");
+			//毛重
+			bean.setGrossweight(Double.parseDouble(query.getNumber()));
+			bean.setNetweight(Double.parseDouble(query.getNetweight()));
+			//口杂
+			bean.setDeductionother(Double.parseDouble(query.getDeductionother()));
+			//扣重
+			bean.setDeductionweight(Double.parseDouble(query.getDeductionweight()));
+			//原发
+			if( StringUtils.isNotBlank(query.getOriginalnetweight())){
+				bean.setOriginalnetweight(Double.parseDouble(query.getOriginalnetweight()));
+			}
 			List<PoundNote> list = poundNoteMapper.selectSelective(bean);
 			if (CollectionUtils.isNotEmpty(list)) {
 				bean = list.get(0);
-				bean.setGrossweight(Double.parseDouble(query.getNumber()));
-				bean.setNetweight(bean.getGrossweight() - bean.getTareweight());
 				bean.setWeighttime(DateUtil.parse(query.getTime(), "yyyy-MM-dd HH:mm:ss"));
 				bean.setModifier(query.getCurrid());
 				bean.setModifytime(System.currentTimeMillis());
@@ -764,11 +773,22 @@ public class PoundNoteService implements IPoundNoteService {
 				bean.setReturnstatus("0");
 				bean.setState("1");
 				bean.setBilltype(query.getServicetype());
+				
+				//皮重
+				bean.setTareweight(Double.parseDouble(query.getNumber()));
+				bean.setNetweight(Double.parseDouble(query.getNetweight()));
+				//口杂
+				bean.setDeductionother(Double.parseDouble(query.getDeductionother()));
+				//扣重
+				bean.setDeductionweight(Double.parseDouble(query.getDeductionweight()));
+				//原发
+				if( StringUtils.isNotBlank(query.getOriginalnetweight())){
+					bean.setOriginalnetweight(Double.parseDouble(query.getOriginalnetweight()));
+				}
+				
 				List<PoundNote> list = poundNoteMapper.selectSelective(bean);
 				if (CollectionUtils.isNotEmpty(list)) {
 					bean = list.get(0);
-					bean.setTareweight(Double.parseDouble(query.getNumber()));
-					bean.setNetweight(bean.getGrossweight() - bean.getTareweight());
 					bean.setLighttime(DateUtil.parse(query.getTime(), "yyyy-MM-dd HH:mm:ss"));
 					bean.setModifier(query.getCurrid());
 					bean.setModifytime(System.currentTimeMillis());
@@ -817,11 +837,22 @@ public class PoundNoteService implements IPoundNoteService {
 				bean.setReturnstatus("0");
 				bean.setState("1");
 				bean.setBilltype(query.getServicetype());
+				
+				//毛重
+				bean.setGrossweight(Double.parseDouble(query.getNumber()));
+				bean.setNetweight(Double.parseDouble(query.getNetweight()));
+				//口杂
+				bean.setDeductionother(Double.parseDouble(query.getDeductionother()));
+				//扣重
+				bean.setDeductionweight(Double.parseDouble(query.getDeductionweight()));
+				//原发
+				if( StringUtils.isNotBlank(query.getOriginalnetweight())){
+					bean.setOriginalnetweight(Double.parseDouble(query.getOriginalnetweight()));
+				}
+				
 				List<PoundNote> list = poundNoteMapper.selectSelective(bean);
 				if (CollectionUtils.isNotEmpty(list)) {
 					bean = list.get(0);
-					bean.setGrossweight(Double.parseDouble(query.getNumber()));
-					bean.setNetweight(bean.getGrossweight() - bean.getTareweight());
 					bean.setLighttime(DateUtil.parse(query.getTime(), "yyyy-MM-dd HH:mm:ss"));
 					bean.setModifier(query.getCurrid());
 					bean.setModifytime(System.currentTimeMillis());
@@ -922,11 +953,21 @@ public class PoundNoteService implements IPoundNoteService {
 			bean.setReturnstatus("0");
 			bean.setState("1");
 			bean.setBilltype("0");
+			//皮重
+			bean.setTareweight(Double.parseDouble(query.getNumber()));
+			//口杂
+			bean.setDeductionother(Double.parseDouble(query.getDeductionother()));
+			//扣重
+			bean.setDeductionweight(Double.parseDouble(query.getDeductionweight()));
+			//原发
+			if( StringUtils.isNotBlank(query.getOriginalnetweight())){
+				bean.setOriginalnetweight(Double.parseDouble(query.getOriginalnetweight()));
+			}
+			//净重
+			bean.setNetweight(Double.parseDouble(query.getNetweight()));
 			List<PoundNote> list = poundNoteMapper.selectSelective(bean);
 			if (CollectionUtils.isNotEmpty(list)) {
 				bean = list.get(0);
-				bean.setTareweight(Double.parseDouble(query.getNumber()));
-				bean.setNetweight(bean.getGrossweight() - bean.getTareweight());
 				bean.setLighttime(DateUtil.parse(query.getTime(), "yyyy-MM-dd HH:mm:ss"));
 				bean.setModifier(query.getCurrid());
 				bean.setModifytime(System.currentTimeMillis());
@@ -954,7 +995,7 @@ public class PoundNoteService implements IPoundNoteService {
 					result.setErrorCode(ErrorCode.OPERATE_ERROR);
 				}
 			}
-			// 毛重
+		// 毛重
 		} else {
 			GetCodeReq codeReq = setPurchaseBeanBody(query, arrive, application, applicationDetail, bean);
 			// 更新通知单状态

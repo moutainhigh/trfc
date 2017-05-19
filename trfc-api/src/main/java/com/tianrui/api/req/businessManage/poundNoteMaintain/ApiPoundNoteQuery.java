@@ -26,6 +26,14 @@ public class ApiPoundNoteQuery extends BaseReq {
 	private String notionformcode;
 	//数量
 	private String number;
+	//扣重
+	private String deductionweight;
+	//原发
+	private String originalnetweight;
+	//扣杂
+	private String deductionother;
+	//净重
+	private String netweight;
 	//时间
 	private String time;
 	//当前登录用户
@@ -157,6 +165,38 @@ public class ApiPoundNoteQuery extends BaseReq {
 	 */
 	public void setLimit(Integer limit) {
 		this.limit = limit;
+	}
+
+	public String getDeductionweight() {
+		return deductionweight;
+	}
+
+	public void setDeductionweight(String deductionweight) {
+		this.deductionweight = deductionweight;
+	}
+
+	public String getOriginalnetweight() {
+		return originalnetweight;
+	}
+
+	public void setOriginalnetweight(String originalnetweight) {
+		this.originalnetweight = originalnetweight;
+	}
+
+	public String getDeductionother() {
+		return deductionother;
+	}
+
+	public void setDeductionother(String deductionother) {
+		this.deductionother = deductionother;
+	}
+
+	public String getNetweight() {
+		return netweight;
+	}
+
+	public void setNetweight(String netweight) {
+		this.netweight = netweight;
 	}
 	
 }

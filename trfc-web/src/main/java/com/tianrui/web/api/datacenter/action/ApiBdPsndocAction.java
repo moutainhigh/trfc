@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSONObject;
 import com.tianrui.api.req.system.auth.BdPsndocReq;
-import com.tianrui.api.req.system.auth.SmUserReq;
 import com.tianrui.service.impl.system.auth.BdPsndocService;
 import com.tianrui.smartfactory.common.api.ApiParam;
 import com.tianrui.smartfactory.common.api.ApiResult;
