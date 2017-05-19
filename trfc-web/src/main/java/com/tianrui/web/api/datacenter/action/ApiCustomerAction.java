@@ -44,7 +44,7 @@ public class ApiCustomerAction {
 
 		CustomerManageQuery cardApi =req.getBody();
 		try {
-			rs = customerService.findMaxUtc(cardApi);
+			rs = customerService.findMaxUtc(null);
 		} catch (Exception e) {
 			rs.setErrorCode(ErrorCode.SYSTEM_ERROR);
 			log.error(e.getMessage(),e);
