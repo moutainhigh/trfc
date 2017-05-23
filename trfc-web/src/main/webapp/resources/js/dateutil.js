@@ -58,3 +58,41 @@ Date.parseYMD_HMS = function (dateStr) {
 	}
 }
 
+Date.parseTime_YMD_HMS = function (dateStr) {
+	if(dateStr){
+		dateStr = dateStr.split(' ');
+		var date = dateStr[0];
+		var time = dateStr[1];
+		var year = date.split('-')[0];
+		var month = date.split('-')[1];
+		var day = date.split('-')[2];
+		var hour = '';
+		var minutes = '';
+		var seconds = '';
+		if(time){
+			hour = time.split(':')[0];
+			minutes = time.split(':')[1];
+			seconds = time.split(':')[2];
+		}else{
+			return new Date(date);
+		}
+		function isNumber(n){
+			return /^\+?[0-9][0-9]*$/.test(n);
+		}
+		if(isNumber(year) && isNumber(month) && isNumber(day) 
+				&& isNumber(hour) && isNumber(minutes) && isNumber(seconds)){
+			var year = parseInt(year);
+			var month = parseInt(month);
+			var day = parseInt(day);
+			var hour = parseInt(hour);
+			var minutes = parseInt(minutes);
+			var seconds = parseInt(seconds);
+			return new Date(year, month-1, day, hour, minutes, seconds).getTime();
+		}else{
+			return undefined;
+		}
+	}else{
+		return undefined;
+	}
+}
+

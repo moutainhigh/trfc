@@ -22,6 +22,7 @@ import com.tianrui.api.req.system.base.GetCodeReq;
 import com.tianrui.api.resp.businessManage.poundNoteMaintain.PoundNoteResp;
 import com.tianrui.api.resp.common.UploadImageResp;
 import com.tianrui.api.resp.system.auth.SystemUserResp;
+import com.tianrui.smartfactory.common.constants.Constant;
 import com.tianrui.smartfactory.common.constants.ErrorCode;
 import com.tianrui.smartfactory.common.utils.DateUtil;
 import com.tianrui.smartfactory.common.vo.PaginationVO;
@@ -152,7 +153,7 @@ public class PoundNoteMaintainAction {
 		try {
 			SystemUserResp user = SessionManager.getSessionUser(request);
 			query.setCurrId(user.getId());
-			result = poundNoteService.purchaseInvalid(query);
+			result = poundNoteService.invalid(query);
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
 			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
@@ -286,7 +287,7 @@ public class PoundNoteMaintainAction {
 		try {
 			SystemUserResp user = SessionManager.getSessionUser(request);
 			query.setCurrId(user.getId());
-			result = poundNoteService.salesInvalid(query);
+			result = poundNoteService.invalid(query);
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
 			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
@@ -319,4 +320,216 @@ public class PoundNoteMaintainAction {
 		return view;
 	}
 	
+	@RequestMapping("/cutover/main")
+	public ModelAndView cutoverMain(){
+		ModelAndView view = new ModelAndView("businessManage/poundNoteMaintain/cutoverPoundNote");
+		return view;
+	}
+	
+	@RequestMapping("/cutover/page")
+	@ResponseBody
+	public Result cutoverPoundNotePage(PoundNoteQuery query){
+		Result result = Result.getSuccessResult();
+		try {
+			query.setBilltype("4");
+			PaginationVO<PoundNoteResp> page = poundNoteService.otherPoundNotePage(query);
+			result.setData(page);
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
+		}
+		return result;
+	}
+	
+	@RequestMapping("/cutover/addView")
+	public ModelAndView cutoverAddView(HttpServletRequest request){
+		ModelAndView view = new ModelAndView("businessManage/poundNoteMaintain/cutoverPoundNoteAdd");
+		try {
+			SystemUserResp user = SessionManager.getSessionUser(request);
+			GetCodeReq codeReq = new GetCodeReq();
+			codeReq.setCode("DY");
+			codeReq.setCodeType(true);
+			codeReq.setUserid(user.getId());
+			view.addObject("code", systemCodeService.getCode(codeReq).getData());
+			view.addObject("orgname", Constant.ORG_NAME);
+			view.addObject("nowDate", DateUtil.getNowDateString(DateUtil.Y_M_D_H_M_S));
+			view.addObject("makebillname", user.getName());
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+		}
+		return view;
+	}
+	
+	@RequestMapping("/cutover/add")
+	@ResponseBody
+	public Result cutoverAdd(PoundNoteSave save, HttpServletRequest request){
+		Result result = Result.getSuccessResult();
+		try {
+			SystemUserResp user = SessionManager.getSessionUser(request);
+			save.setMakerid(user.getId());
+			save.setMakebillname(user.getName());
+			result = poundNoteService.cutoverAdd(save);
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
+		}
+		return result;
+	}
+	
+	@RequestMapping("/cutover/invalid")
+	@ResponseBody
+	public Result cutoverInvalid(PoundNoteQuery query, HttpServletRequest request){
+		Result result = Result.getParamErrorResult();
+		try {
+			SystemUserResp user = SessionManager.getSessionUser(request);
+			query.setCurrId(user.getId());
+			result = poundNoteService.invalid(query);
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
+		}
+		return result;
+	}
+	
+	@RequestMapping("/otherInto/main")
+	public ModelAndView otherIntoMain(){
+		ModelAndView view = new ModelAndView("businessManage/poundNoteMaintain/otherIntoPoundNote");
+		return view;
+	}
+	
+	@RequestMapping("/otherInto/page")
+	@ResponseBody
+	public Result otherIntoPoundNotePage(PoundNoteQuery query){
+		Result result = Result.getSuccessResult();
+		try {
+			query.setBilltype("5");
+			PaginationVO<PoundNoteResp> page = poundNoteService.otherPoundNotePage(query);
+			result.setData(page);
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
+		}
+		return result;
+	}
+	
+	@RequestMapping("/otherInto/addView")
+	public ModelAndView otherIntoAddView(HttpServletRequest request){
+		ModelAndView view = new ModelAndView("businessManage/poundNoteMaintain/otherIntoPoundNoteAdd");
+		try {
+			SystemUserResp user = SessionManager.getSessionUser(request);
+			GetCodeReq codeReq = new GetCodeReq();
+			codeReq.setCode("QR");
+			codeReq.setCodeType(true);
+			codeReq.setUserid(user.getId());
+			view.addObject("code", systemCodeService.getCode(codeReq).getData());
+			view.addObject("orgname", Constant.ORG_NAME);
+			view.addObject("nowDate", DateUtil.getNowDateString(DateUtil.Y_M_D_H_M_S));
+			view.addObject("makebillname", user.getName());
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+		}
+		return view;
+	}
+	
+	@RequestMapping("/otherInto/add")
+	@ResponseBody
+	public Result otherIntoAdd(PoundNoteSave save, HttpServletRequest request){
+		Result result = Result.getSuccessResult();
+		try {
+			SystemUserResp user = SessionManager.getSessionUser(request);
+			save.setMakerid(user.getId());
+			save.setMakebillname(user.getName());
+			result = poundNoteService.otherIntoAdd(save);
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
+		}
+		return result;
+	}
+	
+	@RequestMapping("/otherInto/invalid")
+	@ResponseBody
+	public Result otherIntoInvalid(PoundNoteQuery query, HttpServletRequest request){
+		Result result = Result.getParamErrorResult();
+		try {
+			SystemUserResp user = SessionManager.getSessionUser(request);
+			query.setCurrId(user.getId());
+			result = poundNoteService.invalid(query);
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
+		}
+		return result;
+	}
+	
+	@RequestMapping("/otherOut/main")
+	public ModelAndView otherOutMain(){
+		ModelAndView view = new ModelAndView("businessManage/poundNoteMaintain/otherOutPoundNote");
+		return view;
+	}
+	
+	@RequestMapping("/otherOut/page")
+	@ResponseBody
+	public Result otherOutPoundNotePage(PoundNoteQuery query){
+		Result result = Result.getSuccessResult();
+		try {
+			query.setBilltype("7");
+			PaginationVO<PoundNoteResp> page = poundNoteService.otherPoundNotePage(query);
+			result.setData(page);
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
+		}
+		return result;
+	}
+	
+	@RequestMapping("/otherOut/addView")
+	public ModelAndView otherOutAddView(HttpServletRequest request){
+		ModelAndView view = new ModelAndView("businessManage/poundNoteMaintain/otherOutPoundNoteAdd");
+		try {
+			SystemUserResp user = SessionManager.getSessionUser(request);
+			GetCodeReq codeReq = new GetCodeReq();
+			codeReq.setCode("QC");
+			codeReq.setCodeType(true);
+			codeReq.setUserid(user.getId());
+			view.addObject("code", systemCodeService.getCode(codeReq).getData());
+			view.addObject("orgname", Constant.ORG_NAME);
+			view.addObject("nowDate", DateUtil.getNowDateString(DateUtil.Y_M_D_H_M_S));
+			view.addObject("makebillname", user.getName());
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+		}
+		return view;
+	}
+	
+	@RequestMapping("/otherOut/add")
+	@ResponseBody
+	public Result otherOutAdd(PoundNoteSave save, HttpServletRequest request){
+		Result result = Result.getSuccessResult();
+		try {
+			SystemUserResp user = SessionManager.getSessionUser(request);
+			save.setMakerid(user.getId());
+			save.setMakebillname(user.getName());
+			result = poundNoteService.otherOutAdd(save);
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
+		}
+		return result;
+	}
+	
+	@RequestMapping("/otherOut/invalid")
+	@ResponseBody
+	public Result otherOutInvalid(PoundNoteQuery query, HttpServletRequest request){
+		Result result = Result.getParamErrorResult();
+		try {
+			SystemUserResp user = SessionManager.getSessionUser(request);
+			query.setCurrId(user.getId());
+			result = poundNoteService.invalid(query);
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
+		}
+		return result;
+	}
 }

@@ -250,7 +250,7 @@
 		var list = data.list;
 		if(list && list.length>0){
 			for(var i=0;i<list.length;i++){
-				var obj = list[i] || '';
+				var obj = list[i] || {};
 				var code = obj.code || '';
 				var returnstatus = '';
 				switch (obj.returnstatus) {
@@ -379,9 +379,6 @@
 			return;
 		}else if(obj.returnstatus == '2'){
 			layer.msg('已推单的单据不能作废操作！', {icon: 5});
-			return;
-		}else if(obj.status == '3'){
-			layer.msg('该单据已作废！', {icon: 5});
 			return;
 		}
 		operationAjax('是否确认作废此单据！', URL.invalid, {

@@ -25,12 +25,18 @@ public class PoundNoteQuery extends BaseReq {
 	private String noticecode;
 	//单据类型（0：采购到货通知单，1：采购退货通知单，销售提货通知单）
 	private String billtype;
+	//仓库id
+	private String warehouseid;
 	//供应商id
 	private String supplierid;
 	//物料id
 	private String materielid;
 	//车辆id
 	private String vehicleid;
+    //调入堆场id
+    private String enteryardid;
+    //调离堆场id
+    private String leaveyardid;
 	//运算符
 	private String operator;
 	//净重
@@ -40,7 +46,7 @@ public class PoundNoteQuery extends BaseReq {
 	//出厂编号
 	private String serialnumber;
 	//状态（0：删除，1：正常）
-	private String state;
+	private String state = "1";
 	//开始时间
 	private String starttime;
 	//结束时间
@@ -165,6 +171,20 @@ public class PoundNoteQuery extends BaseReq {
 	}
 
 	/**
+	 * @return the warehouseid
+	 */
+	public String getWarehouseid() {
+		return warehouseid;
+	}
+
+	/**
+	 * @param warehouseid the warehouseid to set
+	 */
+	public void setWarehouseid(String warehouseid) {
+		this.warehouseid = warehouseid;
+	}
+
+	/**
 	 * @return the supplierid
 	 */
 	public String getSupplierid() {
@@ -204,6 +224,34 @@ public class PoundNoteQuery extends BaseReq {
 	 */
 	public void setVehicleid(String vehicleid) {
 		this.vehicleid = vehicleid;
+	}
+
+	/**
+	 * @return the enteryardid
+	 */
+	public String getEnteryardid() {
+		return enteryardid;
+	}
+
+	/**
+	 * @param enteryardid the enteryardid to set
+	 */
+	public void setEnteryardid(String enteryardid) {
+		this.enteryardid = enteryardid;
+	}
+
+	/**
+	 * @return the leaveyardid
+	 */
+	public String getLeaveyardid() {
+		return leaveyardid;
+	}
+
+	/**
+	 * @param leaveyardid the leaveyardid to set
+	 */
+	public void setLeaveyardid(String leaveyardid) {
+		this.leaveyardid = leaveyardid;
 	}
 
 	/**

@@ -15,7 +15,7 @@ public class PoundNote {
     private String redcollide;
 	//单据状态：（0：计量系统，1：补增，2：作废）
     private String status;
-	//单据类型（0：采购到货通知单，1：采购退货通知单，2：销售提货通知单）
+	//单据类型（0：采购到货通知单，1：采购退货通知单，2：销售提货通知单，4：厂内倒运，5：其它入库，7：其它出库）
     private String billtype;
 	//入库单id
     private String putinwarehouseid;
@@ -117,7 +117,35 @@ public class PoundNote {
     private Long modifytime;
 	//备注
     private String remark;
-
+    //客户id
+    private String customerid;
+    //客户名称
+    private String customername;
+    //供应商id
+    private String supplierid;
+    //供应商名称
+    private String suppliername;
+    //单位
+    private String department;
+    //倒运单位id
+    private String cutoverpartmentid;
+    //倒运单位名称
+    private String cutoverpartmentname;
+    //物料id
+    private String materialid;
+    //物料名称
+    private String materialname;
+    //货物
+    private String cargo;
+    //调入堆场id
+    private String enteryardid;
+    //调入堆场名称
+    private String enteryardname;
+    //调离堆场id
+    private String leaveyardid;
+    //调离堆场名称
+    private String leaveyardname;
+    
     public String getId() {
         return id;
     }
@@ -626,28 +654,229 @@ public class PoundNote {
         this.remark = remark == null ? null : remark.trim();
     }
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#toString()
+	/**
+	 * @return the customerid
 	 */
+	public String getCustomerid() {
+		return customerid;
+	}
+
+	/**
+	 * @return the customername
+	 */
+	public String getCustomername() {
+		return customername;
+	}
+
+	/**
+	 * @return the supplierid
+	 */
+	public String getSupplierid() {
+		return supplierid;
+	}
+
+	/**
+	 * @return the suppliername
+	 */
+	public String getSuppliername() {
+		return suppliername;
+	}
+
+	/**
+	 * @return the department
+	 */
+	public String getDepartment() {
+		return department;
+	}
+
+	/**
+	 * @return the cutoverpartmentid
+	 */
+	public String getCutoverpartmentid() {
+		return cutoverpartmentid;
+	}
+
+	/**
+	 * @return the cutoverpartmentname
+	 */
+	public String getCutoverpartmentname() {
+		return cutoverpartmentname;
+	}
+
+	/**
+	 * @return the materialid
+	 */
+	public String getMaterialid() {
+		return materialid;
+	}
+
+	/**
+	 * @return the materialname
+	 */
+	public String getMaterialname() {
+		return materialname;
+	}
+
+	/**
+	 * @return the cargo
+	 */
+	public String getCargo() {
+		return cargo;
+	}
+
+	/**
+	 * @return the enteryardid
+	 */
+	public String getEnteryardid() {
+		return enteryardid;
+	}
+
+	/**
+	 * @return the enteryardname
+	 */
+	public String getEnteryardname() {
+		return enteryardname;
+	}
+
+	/**
+	 * @return the leaveyardid
+	 */
+	public String getLeaveyardid() {
+		return leaveyardid;
+	}
+
+	/**
+	 * @return the leaveyardname
+	 */
+	public String getLeaveyardname() {
+		return leaveyardname;
+	}
+
+	/**
+	 * @param customerid the customerid to set
+	 */
+	public void setCustomerid(String customerid) {
+		this.customerid = customerid;
+	}
+
+	/**
+	 * @param customername the customername to set
+	 */
+	public void setCustomername(String customername) {
+		this.customername = customername;
+	}
+
+	/**
+	 * @param supplierid the supplierid to set
+	 */
+	public void setSupplierid(String supplierid) {
+		this.supplierid = supplierid;
+	}
+
+	/**
+	 * @param suppliername the suppliername to set
+	 */
+	public void setSuppliername(String suppliername) {
+		this.suppliername = suppliername;
+	}
+
+	/**
+	 * @param department the department to set
+	 */
+	public void setDepartment(String department) {
+		this.department = department;
+	}
+
+	/**
+	 * @param cutoverpartmentid the cutoverpartmentid to set
+	 */
+	public void setCutoverpartmentid(String cutoverpartmentid) {
+		this.cutoverpartmentid = cutoverpartmentid;
+	}
+
+	/**
+	 * @param cutoverpartmentname the cutoverpartmentname to set
+	 */
+	public void setCutoverpartmentname(String cutoverpartmentname) {
+		this.cutoverpartmentname = cutoverpartmentname;
+	}
+
+	/**
+	 * @param materialid the materialid to set
+	 */
+	public void setMaterialid(String materialid) {
+		this.materialid = materialid;
+	}
+
+	/**
+	 * @param materialname the materialname to set
+	 */
+	public void setMaterialname(String materialname) {
+		this.materialname = materialname;
+	}
+
+	/**
+	 * @param cargo the cargo to set
+	 */
+	public void setCargo(String cargo) {
+		this.cargo = cargo;
+	}
+
+	/**
+	 * @param enteryardid the enteryardid to set
+	 */
+	public void setEnteryardid(String enteryardid) {
+		this.enteryardid = enteryardid;
+	}
+
+	/**
+	 * @param enteryardname the enteryardname to set
+	 */
+	public void setEnteryardname(String enteryardname) {
+		this.enteryardname = enteryardname;
+	}
+
+	/**
+	 * @param leaveyardid the leaveyardid to set
+	 */
+	public void setLeaveyardid(String leaveyardid) {
+		this.leaveyardid = leaveyardid;
+	}
+
+	/**
+	 * @param leaveyardname the leaveyardname to set
+	 */
+	public void setLeaveyardname(String leaveyardname) {
+		this.leaveyardname = leaveyardname;
+	}
+
 	@Override
 	public String toString() {
 		return "PoundNote [id=" + id + ", code=" + code + ", returnstatus=" + returnstatus + ", redcollide="
 				+ redcollide + ", status=" + status + ", billtype=" + billtype + ", putinwarehouseid="
 				+ putinwarehouseid + ", putinwarehousecode=" + putinwarehousecode + ", billid=" + billid + ", billcode="
-				+ billcode + ", billdetailid=" + billdetailid + ", noticeid=" + noticeid + ", noticecode=" + noticecode
-				+ ", arrivepoundnotecode=" + arrivepoundnotecode + ", senddepartmentid=" + senddepartmentid
-				+ ", senddepartmentname=" + senddepartmentname + ", driverid=" + driverid + ", drivername=" + drivername
-				+ ", driveridentityno=" + driveridentityno + ", vehicleid=" + vehicleid + ", vehicleno=" + vehicleno
+				+ billcode + ", billdetailid=" + billdetailid + ", maindeduction=" + maindeduction + ", noticeid="
+				+ noticeid + ", noticecode=" + noticecode + ", arrivepoundnotecode=" + arrivepoundnotecode
+				+ ", senddepartmentid=" + senddepartmentid + ", senddepartmentname=" + senddepartmentname
+				+ ", driverid=" + driverid + ", drivername=" + drivername + ", driveridentityno=" + driveridentityno
+				+ ", vehicleid=" + vehicleid + ", vehicleno=" + vehicleno + ", vehiclerfid=" + vehiclerfid
 				+ ", receivedepartmentid=" + receivedepartmentid + ", receivedepartmentname=" + receivedepartmentname
 				+ ", minemouthid=" + minemouthid + ", minemouthname=" + minemouthname + ", warehouseid=" + warehouseid
 				+ ", warehousename=" + warehousename + ", yardid=" + yardid + ", yardname=" + yardname
 				+ ", receiverpersonid=" + receiverpersonid + ", receiverpersonname=" + receiverpersonname
-				+ ", receivertime=" + receivertime + ", pickupquantity=" + pickupquantity + ", grossweight="
-				+ grossweight + ", tareweight=" + tareweight + ", netweight=" + netweight + ", originalnetweight="
-				+ originalnetweight + ", deductionweight=" + deductionweight + ", deductionother=" + deductionother
+				+ ", weigherid=" + weigherid + ", weighername=" + weighername + ", receivertime=" + receivertime
+				+ ", pickupquantity=" + pickupquantity + ", grossweight=" + grossweight + ", tareweight=" + tareweight
+				+ ", netweight=" + netweight + ", originalnetweight=" + originalnetweight + ", deductionweight="
+				+ deductionweight + ", deductionother=" + deductionother + ", batchnumberid=" + batchnumberid
 				+ ", serialnumber=" + serialnumber + ", lighttime=" + lighttime + ", weighttime=" + weighttime
 				+ ", makerid=" + makerid + ", makebillname=" + makebillname + ", makebilltime=" + makebilltime
 				+ ", state=" + state + ", creator=" + creator + ", createtime=" + createtime + ", modifier=" + modifier
-				+ ", modifytime=" + modifytime + ", remark=" + remark + "]";
+				+ ", modifytime=" + modifytime + ", remark=" + remark + ", customerid=" + customerid + ", customername="
+				+ customername + ", supplierid=" + supplierid + ", suppliername=" + suppliername + ", department="
+				+ department + ", cutoverpartmentid=" + cutoverpartmentid + ", cutoverpartmentname="
+				+ cutoverpartmentname + ", materialid=" + materialid + ", materialname=" + materialname + ", cargo="
+				+ cargo + ", enteryardid=" + enteryardid + ", enteryardname=" + enteryardname + ", leaveyardid="
+				+ leaveyardid + ", leaveyardname=" + leaveyardname + "]";
 	}
+
 }

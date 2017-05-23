@@ -54,6 +54,20 @@
     <result column="modifier" property="modifier" jdbcType="VARCHAR" />
     <result column="modifytime" property="modifytime" jdbcType="BIGINT" />
     <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="customerid" property="customerid" jdbcType="VARCHAR" />
+    <result column="customername" property="customername" jdbcType="VARCHAR" />
+    <result column="supplierid" property="supplierid" jdbcType="VARCHAR" />
+    <result column="suppliername" property="suppliername" jdbcType="VARCHAR" />
+    <result column="department" property="department" jdbcType="VARCHAR" />
+    <result column="cutoverpartmentid" property="cutoverpartmentid" jdbcType="VARCHAR" />
+    <result column="cutoverpartmentname" property="cutoverpartmentname" jdbcType="VARCHAR" />
+    <result column="materialid" property="materialid" jdbcType="VARCHAR" />
+    <result column="materialname" property="materialname" jdbcType="VARCHAR" />
+    <result column="cargo" property="cargo" jdbcType="VARCHAR" />
+    <result column="enteryardid" property="enteryardid" jdbcType="VARCHAR" />
+    <result column="enteryardname" property="enteryardname" jdbcType="VARCHAR" />
+    <result column="leaveyardid" property="leaveyardid" jdbcType="VARCHAR" />
+    <result column="leaveyardname" property="leaveyardname" jdbcType="VARCHAR" />
   </resultMap>
   <resultMap id="BaseRespResultMap" type="com.tianrui.api.resp.businessManage.poundNoteMaintain.PoundNoteResp" >
     <id column="id" property="id" jdbcType="VARCHAR" />
@@ -123,7 +137,8 @@
     vehiclerfid, warehousename, yardid, yardname, receiverpersonid, receiverpersonname, weigherid, weighername, receivertime, pickupquantity, 
     grossweight, tareweight, netweight, originalnetweight, deductionweight, deductionother, batchnumberid,
     serialnumber, lighttime, weighttime, makerid, makebillname, makebilltime, state, creator, 
-    createtime, modifier, modifytime, remark
+    createtime, modifier, modifytime, remark, customerid, customername, supplierid, suppliername, department, cutoverpartmentid, cutoverpartmentname, 
+    materialid, materialname, cargo, enteryardid, enteryardname, leaveyardid, leaveyardname
   </sql>
   <sql id="Base_Column_List_P" >
     p0.id, p0.code, p0.returnstatus, p0.redcollide, p0.status, p0.billtype, p0.putinwarehouseid, p0.putinwarehousecode, p0.billid, p0.billcode, p0.billdetailid, p0.
@@ -132,7 +147,8 @@
     vehiclerfid, p0.warehousename, p0.yardid, p0.yardname, p0.receiverpersonid, p0.receiverpersonname, p0.weigherid, p0.weighername, p0.receivertime, p0.pickupquantity, p0.
     grossweight, p0.tareweight, p0.netweight, p0.originalnetweight, p0.deductionweight, p0.deductionother, p0.batchnumberid, p0.
     serialnumber, p0.lighttime, p0.weighttime, p0.makerid, p0.makebillname, p0.makebilltime, p0.state, p0.creator, p0.
-    createtime, p0.modifier, p0.modifytime, p0.remark
+    createtime, p0.modifier, p0.modifytime, p0.remark, p0.customerid, p0.customername, p0.supplierid, p0.suppliername, p0.department, p0.cutoverpartmentid, p0.cutoverpartmentname, 
+    p0.materialid, p0.materialname, p0.cargo, p0.enteryardid, p0.enteryardname, p0.leaveyardid, p0.leaveyardname
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
@@ -159,7 +175,8 @@
       serialnumber, lighttime, weighttime, 
       makerid, makebillname, makebilltime, state,
       creator, createtime, modifier, 
-      modifytime, remark)
+      modifytime, remark, customerid, customername, supplierid, suppliername, department, cutoverpartmentid, cutoverpartmentname, 
+      materialid, materialname, cargo, enteryardid, enteryardname, leaveyardid, leaveyardname)
     values (#{id,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR}, #{returnstatus,jdbcType=VARCHAR}, 
       #{redcollide,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, #{billtype,jdbcType=VARCHAR}, 
       #{putinwarehouseid,jdbcType=VARCHAR}, #{putinwarehousecode,jdbcType=VARCHAR}, #{billid,jdbcType=VARCHAR}, 
@@ -177,7 +194,12 @@
       #{batchnumberid,jdbcType=VARCHAR},  #{serialnumber,jdbcType=VARCHAR}, #{lighttime,jdbcType=BIGINT}, #{weighttime,jdbcType=BIGINT}, 
       #{makerid,jdbcType=VARCHAR}, #{makebillname,jdbcType=VARCHAR}, #{makebilltime,jdbcType=BIGINT}, #{state,jdbcType=BIGINT}, 
       #{creator,jdbcType=VARCHAR}, #{createtime,jdbcType=BIGINT}, #{modifier,jdbcType=VARCHAR}, 
-      #{modifytime,jdbcType=BIGINT}, #{remark,jdbcType=VARCHAR})
+      #{modifytime,jdbcType=BIGINT}, #{remark,jdbcType=VARCHAR}, #{customerid,jdbcType=VARCHAR}, 
+      #{customername,jdbcType=VARCHAR}, #{supplierid,jdbcType=VARCHAR}, #{suppliername,jdbcType=VARCHAR}, 
+      #{department,jdbcType=VARCHAR}, #{cutoverpartmentid,jdbcType=VARCHAR}, #{cutoverpartmentname,jdbcType=VARCHAR}, 
+      #{materialid,jdbcType=VARCHAR}, #{materialname,jdbcType=VARCHAR}, #{cargo,jdbcType=VARCHAR}, 
+      #{enteryardid,jdbcType=VARCHAR}, #{enteryardname,jdbcType=VARCHAR}, #{leaveyardid,jdbcType=VARCHAR}, 
+      #{leaveyardname,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.tianrui.service.bean.businessManage.poundNoteMaintain.PoundNote" >
     insert into tr_pound_db_note
@@ -347,6 +369,48 @@
       <if test="remark != null" >
         remark,
       </if>
+      <if test="customerid != null" >
+        customerid,
+      </if>
+      <if test="customername != null" >
+        customername,
+      </if>
+      <if test="supplierid != null" >
+        supplierid,
+      </if>
+      <if test="suppliername != null" >
+        suppliername,
+      </if>
+      <if test="department != null" >
+        department,
+      </if>
+      <if test="cutoverpartmentid != null" >
+        cutoverpartmentid,
+      </if>
+      <if test="cutoverpartmentname != null" >
+        cutoverpartmentname,
+      </if>
+      <if test="materialid != null" >
+        materialid,
+      </if>
+      <if test="materialname != null" >
+        materialname,
+      </if>
+      <if test="cargo != null" >
+        cargo,
+      </if>
+      <if test="enteryardid != null" >
+        enteryardid,
+      </if>
+      <if test="enteryardname != null" >
+        enteryardname,
+      </if>
+      <if test="leaveyardid != null" >
+        leaveyardid,
+      </if>
+      <if test="leaveyardname != null" >
+        leaveyardname,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -513,6 +577,48 @@
       </if>
       <if test="remark != null" >
         #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="customerid != null" >
+        #{customerid,jdbcType=VARCHAR},
+      </if>
+      <if test="customername != null" >
+        #{customername,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierid != null" >
+        #{supplierid,jdbcType=VARCHAR},
+      </if>
+      <if test="suppliername != null" >
+        #{suppliername,jdbcType=VARCHAR},
+      </if>
+      <if test="department != null" >
+        #{department,jdbcType=VARCHAR},
+      </if>
+      <if test="cutoverpartmentid != null" >
+        #{cutoverpartmentid,jdbcType=VARCHAR},
+      </if>
+      <if test="cutoverpartmentname != null" >
+        #{cutoverpartmentname,jdbcType=VARCHAR},
+      </if>
+      <if test="materialid != null" >
+        #{materialid,jdbcType=VARCHAR},
+      </if>
+      <if test="materialname != null" >
+        #{materialname,jdbcType=VARCHAR},
+      </if>
+      <if test="cargo != null" >
+        #{cargo,jdbcType=VARCHAR},
+      </if>
+      <if test="enteryardid != null" >
+        #{enteryardid,jdbcType=VARCHAR},
+      </if>
+      <if test="enteryardname != null" >
+        #{enteryardname,jdbcType=VARCHAR},
+      </if>
+      <if test="leaveyardid != null" >
+        #{leaveyardid,jdbcType=VARCHAR},
+      </if>
+      <if test="leaveyardname != null" >
+        #{leaveyardname,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -681,6 +787,48 @@
       <if test="remark != null" >
         remark = #{remark,jdbcType=VARCHAR},
       </if>
+      <if test="customerid != null" >
+        customerid = #{customerid,jdbcType=VARCHAR},
+      </if>
+      <if test="customername != null" >
+        customername = #{customername,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierid != null" >
+        supplierid = #{supplierid,jdbcType=VARCHAR},
+      </if>
+      <if test="suppliername != null" >
+        suppliername = #{suppliername,jdbcType=VARCHAR},
+      </if>
+      <if test="department != null" >
+        department = #{department,jdbcType=VARCHAR},
+      </if>
+      <if test="cutoverpartmentid != null" >
+        cutoverpartmentid = #{cutoverpartmentid,jdbcType=VARCHAR},
+      </if>
+      <if test="cutoverpartmentname != null" >
+        cutoverpartmentname = #{cutoverpartmentname,jdbcType=VARCHAR},
+      </if>
+      <if test="materialid != null" >
+        materialid = #{materialid,jdbcType=VARCHAR},
+      </if>
+      <if test="materialname != null" >
+        materialname = #{materialname,jdbcType=VARCHAR},
+      </if>
+      <if test="cargo != null" >
+        cargo = #{cargo,jdbcType=VARCHAR},
+      </if>
+      <if test="enteryardid != null" >
+        enteryardid = #{enteryardid,jdbcType=VARCHAR},
+      </if>
+      <if test="enteryardname != null" >
+        enteryardname = #{enteryardname,jdbcType=VARCHAR},
+      </if>
+      <if test="leaveyardid != null" >
+        leaveyardid = #{leaveyardid,jdbcType=VARCHAR},
+      </if>
+      <if test="leaveyardname != null" >
+        leaveyardname = #{leaveyardname,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
@@ -739,7 +887,21 @@
       createtime = #{createtime,jdbcType=BIGINT},
       modifier = #{modifier,jdbcType=VARCHAR},
       modifytime = #{modifytime,jdbcType=BIGINT},
-      remark = #{remark,jdbcType=VARCHAR}
+      remark = #{remark,jdbcType=VARCHAR},
+      customerid = #{customerid,jdbcType=VARCHAR},
+      customername = #{customername,jdbcType=VARCHAR},
+      supplierid = #{supplierid,jdbcType=VARCHAR},
+      suppliername = #{suppliername,jdbcType=VARCHAR},
+      department = #{department,jdbcType=VARCHAR},
+      cutoverpartmentid = #{cutoverpartmentid,jdbcType=VARCHAR},
+      cutoverpartmentname = #{cutoverpartmentname,jdbcType=VARCHAR},
+      materialid = #{materialid,jdbcType=VARCHAR},
+      materialname = #{materialname,jdbcType=VARCHAR},
+      cargo = #{cargo,jdbcType=VARCHAR},
+      enteryardid = #{enteryardid,jdbcType=VARCHAR},
+      enteryardname = #{enteryardname,jdbcType=VARCHAR},
+      leaveyardid = #{leaveyardid,jdbcType=VARCHAR},
+      leaveyardname = #{leaveyardname,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
   <select id="purchasePageCount" parameterType="com.tianrui.api.req.businessManage.poundNoteMaintain.PoundNoteQuery" resultType="java.lang.Long">
@@ -1203,6 +1365,48 @@
 	      <if test="remark != null" >
 	        and remark = #{remark,jdbcType=VARCHAR}
 	      </if>
+	      <if test="customerid != null" >
+	        and customerid = #{customerid,jdbcType=VARCHAR}
+	      </if>
+	      <if test="customername != null" >
+	        and customername = #{customername,jdbcType=VARCHAR}
+	      </if>
+	      <if test="supplierid != null" >
+	        and supplierid = #{supplierid,jdbcType=VARCHAR}
+	      </if>
+	      <if test="suppliername != null" >
+	        and suppliername = #{suppliername,jdbcType=VARCHAR}
+	      </if>
+	      <if test="department != null" >
+	        and department = #{department,jdbcType=VARCHAR}
+	      </if>
+	      <if test="cutoverpartmentid != null" >
+	        and cutoverpartmentid = #{cutoverpartmentid,jdbcType=VARCHAR}
+	      </if>
+	      <if test="cutoverpartmentname != null" >
+	        and cutoverpartmentname = #{cutoverpartmentname,jdbcType=VARCHAR}
+	      </if>
+	      <if test="materialid != null" >
+	        and materialid = #{materialid,jdbcType=VARCHAR}
+	      </if>
+	      <if test="materialname != null" >
+	        and materialname = #{materialname,jdbcType=VARCHAR}
+	      </if>
+	      <if test="cargo != null" >
+	        and cargo = #{cargo,jdbcType=VARCHAR}
+	      </if>
+	      <if test="enteryardid != null" >
+	        and enteryardid = #{enteryardid,jdbcType=VARCHAR}
+	      </if>
+	      <if test="enteryardname != null" >
+	        and enteryardname = #{enteryardname,jdbcType=VARCHAR}
+	      </if>
+	      <if test="leaveyardid != null" >
+	        and leaveyardid = #{leaveyardid,jdbcType=VARCHAR}
+	      </if>
+	      <if test="leaveyardname != null" >
+	        and leaveyardname = #{leaveyardname,jdbcType=VARCHAR}
+	      </if>
     	</where>
     </select>
     <select id="historyTareWeight" parameterType="com.tianrui.api.req.businessManage.poundNoteMaintain.ApiPoundNoteQuery" resultType="java.lang.Double">
@@ -1219,12 +1423,12 @@
     </select>
     <select id="appPurchasePage" parameterType="com.tianrui.api.req.businessManage.app.AppPoundOrderReq" resultType="com.tianrui.api.req.businessManage.app.AppPoundOrderResp">
     	select p1.id, p1.code, p1.billcode, p1.noticecode, p1.vehicleno, p3.materielname, p1.lighttime, p1.weighttime, 
-    			p1.pickupquantity, p1.grossweight, p1.tareweight, p1.netweight, p1.serialnumber
+    			p1.pickupquantity, p1.grossweight, p1.tareweight, p1.netweight, p1.serialnumber, p2.suppliername as customerName
     	from tr_pound_db_note p1
     	left join tr_purchase_db_application p2 on p1.billid = p2.id
     	left join tr_purchase_db_application_detail p3 on p1.billdetailid = p3.id
     	<where>
-    		billtype = '0' or billtype = '1'
+    		(billtype = '0' or billtype = '1')
 	      <if test="code != null and code != ''">
 	        and p1.code = #{code,jdbcType=VARCHAR}
 	      </if>
@@ -1276,7 +1480,7 @@
     	left join tr_purchase_db_application p2 on p1.billid = p2.id
     	left join tr_purchase_db_application_detail p3 on p1.billdetailid = p3.id
     	<where>
-    		billtype = '0' or billtype = '1'
+    		(billtype = '0' or billtype = '1')
 	      <if test="code != null and code != ''">
 	        and p1.code = #{code,jdbcType=VARCHAR}
 	      </if>
@@ -1308,7 +1512,7 @@
     </select>
     <select id="appSalesPage" parameterType="com.tianrui.api.req.businessManage.app.AppPoundOrderReq" resultType="com.tianrui.api.req.businessManage.app.AppPoundOrderResp">
     	select p1.id, p1.code, p1.billcode, p1.noticecode, p1.vehicleno, p3.materielname, p1.lighttime, p1.weighttime, 
-    			p1.pickupquantity, p1.grossweight, p1.tareweight, p1.netweight, p1.serialnumber
+    			p1.pickupquantity, p1.grossweight, p1.tareweight, p1.netweight, p1.serialnumber, p2.customername as customerName
     	from tr_pound_db_note p1
     	left join tr_sales_db_application p2 on p1.billid = p2.id
     	left join tr_sales_db_application_detail p3 on p1.billdetailid = p3.id
@@ -1394,5 +1598,137 @@
 			and p1.makebilltime <![CDATA[<]]> #{endtime,jdbcType=BIGINT}
 		  </if>
 		</where>
+    </select>
+    <select id="queryOtherPoundNotePage" resultMap="BaseResultMap" parameterType="com.tianrui.api.req.businessManage.poundNoteMaintain.PoundNoteQuery">
+    	select <include refid="Base_Column_List"/>
+    	from tr_pound_db_note
+    	<where>
+			<if test="billtype != null and billtype != ''">
+				and billtype = #{billtype,jdbcType=VARCHAR}
+			</if>
+			<if test="enteryardid != null and enteryardid != ''">
+				and enteryardid = #{enteryardid,jdbcType=VARCHAR}
+			</if>
+			<if test="leaveyardid != null and leaveyardid != ''">
+				and leaveyardid = #{leaveyardid,jdbcType=VARCHAR}
+			</if>
+			<if test="vehicleid != null and vehicleid != ''">
+				and vehicleid = #{vehicleid,jdbcType=VARCHAR}
+			</if>
+			<if test="materielid != null and materielid != ''">
+				and materielid = #{materielid,jdbcType=VARCHAR}
+			</if>
+			<if test="warehouseid != null and warehouseid != ''">
+				and warehouseid = #{warehouseid,jdbcType=VARCHAR}
+			</if>
+			<if test="supplierid != null and supplierid != ''">
+				and supplierid = #{supplierid,jdbcType=VARCHAR}
+			</if>
+			<if test="code != null and code != ''">
+				and code = #{code,jdbcType=VARCHAR}
+			</if>
+			<if test="netweight != null and netweight != ''">
+				<if test="operator != null and operator != ''">
+					<choose>
+						<when test="operator == 0">
+							and netweight <![CDATA[>]]> #{netweight,jdbcType=DOUBLE}
+						</when>
+						<when test="operator == 1">
+							and netweight <![CDATA[>=]]> #{netweight,jdbcType=DOUBLE}
+						</when>
+						<when test="operator == 2">
+							and netweight <![CDATA[<]]> #{netweight,jdbcType=DOUBLE}
+						</when>
+						<when test="operator == 3">
+							and netweight <![CDATA[<=]]> #{netweight,jdbcType=DOUBLE}
+						</when>
+						<when test="operator == 4">
+							and netweight <![CDATA[=]]> #{netweight,jdbcType=DOUBLE}
+						</when>
+					</choose>
+				</if>
+			</if>
+			<if test="status != null and status != ''">
+				and status = #{status,jdbcType=VARCHAR}
+			</if>
+			<if test="state != null and state != ''">
+				and state = #{state,jdbcType=VARCHAR}
+			</if>
+			<if test="starttime != null and starttime != ''">
+				and makebilltime <![CDATA[>=]]> #{starttime,jdbcType=BIGINT}
+			</if>
+			<if test="endtime != null and endtime != ''">
+				and makebilltime <![CDATA[<]]> #{endtime,jdbcType=BIGINT}
+			</if>
+    	</where>
+		order by makebilltime desc
+		<if test="start != null and start >= 0">
+			<if test="limit != null">
+				limit #{start,jdbcType=INTEGER},#{limit,jdbcType=INTEGER}
+			</if>
+		</if>
+    </select>
+    <select id="queryOtherPoundNotePageCount" resultType="java.lang.Long" parameterType="com.tianrui.api.req.businessManage.poundNoteMaintain.PoundNoteQuery">
+    	select count(0)
+    	from tr_pound_db_note
+    	<where>
+			<if test="billtype != null and billtype != ''">
+				and billtype = #{billtype,jdbcType=VARCHAR}
+			</if>
+			<if test="enteryardid != null and enteryardid != ''">
+				and enteryardid = #{enteryardid,jdbcType=VARCHAR}
+			</if>
+			<if test="leaveyardid != null and leaveyardid != ''">
+				and leaveyardid = #{leaveyardid,jdbcType=VARCHAR}
+			</if>
+			<if test="vehicleid != null and vehicleid != ''">
+				and vehicleid = #{vehicleid,jdbcType=VARCHAR}
+			</if>
+			<if test="materielid != null and materielid != ''">
+				and materielid = #{materielid,jdbcType=VARCHAR}
+			</if>
+			<if test="warehouseid != null and warehouseid != ''">
+				and warehouseid = #{warehouseid,jdbcType=VARCHAR}
+			</if>
+			<if test="supplierid != null and supplierid != ''">
+				and supplierid = #{supplierid,jdbcType=VARCHAR}
+			</if>
+			<if test="code != null and code != ''">
+				and code = #{code,jdbcType=VARCHAR}
+			</if>
+			<if test="netweight != null and netweight != ''">
+				<if test="operator != null and operator != ''">
+					<choose>
+						<when test="operator == 0">
+							and netweight <![CDATA[>]]> #{netweight,jdbcType=DOUBLE}
+						</when>
+						<when test="operator == 1">
+							and netweight <![CDATA[>=]]> #{netweight,jdbcType=DOUBLE}
+						</when>
+						<when test="operator == 2">
+							and netweight <![CDATA[<]]> #{netweight,jdbcType=DOUBLE}
+						</when>
+						<when test="operator == 3">
+							and netweight <![CDATA[<=]]> #{netweight,jdbcType=DOUBLE}
+						</when>
+						<when test="operator == 4">
+							and netweight <![CDATA[=]]> #{netweight,jdbcType=DOUBLE}
+						</when>
+					</choose>
+				</if>
+			</if>
+			<if test="status != null and status != ''">
+				and status = #{status,jdbcType=VARCHAR}
+			</if>
+			<if test="state != null and state != ''">
+				and state = #{state,jdbcType=VARCHAR}
+			</if>
+			<if test="starttime != null and starttime != ''">
+				and makebilltime <![CDATA[>=]]> #{starttime,jdbcType=BIGINT}
+			</if>
+			<if test="endtime != null and endtime != ''">
+				and makebilltime <![CDATA[<]]> #{endtime,jdbcType=BIGINT}
+			</if>
+    	</where>
     </select>
 </mapper>

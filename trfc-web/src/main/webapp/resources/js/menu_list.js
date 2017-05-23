@@ -73,9 +73,11 @@ $(function() {
 						var hh = menu3[f].uri;
 						if(hh){
 							hh = hh.split('/trfc/')[1];
-							hh = hh.substring(0,hh.lastIndexOf('/'));
-							if(hh == urlstr){
-								li_selected = 'class="active"';
+							if(hh){
+								hh = hh.substring(0,hh.lastIndexOf('/'));
+								if(hh == urlstr){
+									li_selected = 'class="active"';
+								}
 							}
 						}
 					}
@@ -91,7 +93,9 @@ $(function() {
 						if(hh){
 							href_select = 'href='+hh;
 							hh = hh.split('/trfc/')[1];
-							hh = hh.substring(0,hh.lastIndexOf('/'));
+							if(hh){
+								hh = hh.substring(0,hh.lastIndexOf('/'));
+							}
 						}
 						// 实现三级菜单 选中效果
 						if(hh == urlstr){

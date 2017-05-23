@@ -7,26 +7,30 @@
 <!-- 引用公共header部分 -->
 <jsp:include page="../../common/base/header_busi.jsp"></jsp:include>
 <style type="text/css">
-	.cg_tabbox tbody input[type="text"] {
-	    font-size: 12px;
-	    width: 100%;
-	    border: 0px;
-	}
-	.cg_tabbox .cg_tabcont table tbody td{
-    	text-align: center;
-    	padding: 0px;
-    	margin: 0px;
-	}
-	input[readonly] {
-	    background: #f5f6fb;
-	}
-	.cg_tabtit ul li {
-	    line-height: 40px;
-	}
-	.modal-body{
-		padding-top: 0px;
-    	padding-bottom: 0px;
-	}
+.cg_tabbox tbody input[type="text"] {
+	font-size: 12px;
+	width: 100%;
+	border: 0px;
+}
+
+.cg_tabbox .cg_tabcont table tbody td {
+	text-align: center;
+	padding: 0px;
+	margin: 0px;
+}
+
+input[readonly] {
+	background: #f5f6fb;
+}
+
+.cg_tabtit ul li {
+	line-height: 40px;
+}
+
+.modal-body {
+	padding-top: 0px;
+	padding-bottom: 0px;
+}
 </style>
 </head>
 <body>
@@ -34,6 +38,8 @@
 		<!-- 引用公共left部分 -->
 		<jsp:include page="../../common/base/left_busi.jsp"></jsp:include>
 		<div class="right">
+			<!-- 引用公共right部分 -->
+			<jsp:include page="../../common/base/right_head_busi.jsp"></jsp:include>
 			<!--tab切换的内容-->
 			<div class="intel_tabbox">
 				<!--采购申请单begin-->
@@ -144,10 +150,12 @@
 					<div class="modal-body">
 						<div class="alt_edit">
 							<div class="alt_edit_div">
-								<label class="colorred">供应商*：</label> <input id="a_supplier" type="text">
+								<label class="colorred">供应商*：</label> <input id="a_supplier"
+									type="text">
 							</div>
 							<div class="alt_edit_div">
-								<label>所属组织：</label> <input type="text" readonly="true" value="${orgname }">
+								<label>所属组织：</label> <input type="text" readonly="true"
+									value="${orgname }">
 							</div>
 							<div class="alt_edit_div">
 								<label>说明：</label> <input id="remark" type="text">
@@ -155,7 +163,8 @@
 						</div>
 					</div>
 					<div class="modal-footer">
-						<button id="addSupplierGroupBtn" type="button" class="btn btn-primary">确定</button>
+						<button id="addSupplierGroupBtn" type="button"
+							class="btn btn-primary">确定</button>
 						<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
 					</div>
 				</div>
@@ -179,7 +188,8 @@
 					<div class="modal-body">
 						<div class="alt_edit">
 							<div class="alt_edit_div">
-								<label>用户：</label> <input id="supplierGroup" type="text" readonly="true">
+								<label>用户：</label> <input id="supplierGroup" type="text"
+									readonly="true">
 							</div>
 							<div class="clear"></div>
 							<div>
@@ -210,22 +220,26 @@
 													</tr>
 													<tr>
 														<td>2</td>
-														<td><input class="supplier" type="text" readonly="true" disabled="disabled"></td>
+														<td><input class="supplier" type="text"
+															readonly="true" disabled="disabled"></td>
 														<td><input type="text" readonly="true"></td>
 													</tr>
 													<tr>
 														<td>3</td>
-														<td><input class="supplier" type="text" readonly="true" disabled="disabled"></td>
+														<td><input class="supplier" type="text"
+															readonly="true" disabled="disabled"></td>
 														<td><input type="text" readonly="true"></td>
 													</tr>
 													<tr>
 														<td>4</td>
-														<td><input class="supplier" type="text" readonly="true" disabled="disabled"></td>
+														<td><input class="supplier" type="text"
+															readonly="true" disabled="disabled"></td>
 														<td><input type="text" readonly="true"></td>
 													</tr>
 													<tr>
 														<td>5</td>
-														<td><input class="supplier" type="text" readonly="true" disabled="disabled"></td>
+														<td><input class="supplier" type="text"
+															readonly="true" disabled="disabled"></td>
 														<td><input type="text" readonly="true"></td>
 													</tr>
 												</tbody>
@@ -238,7 +252,8 @@
 						</div>
 					</div>
 					<div class="modal-footer">
-						<button id="addSupplierToGroupBtn" type="button" class="btn btn-primary">确定</button>
+						<button id="addSupplierToGroupBtn" type="button"
+							class="btn btn-primary">确定</button>
 						<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
 					</div>
 				</div>
@@ -262,7 +277,8 @@
 					<div class="modal-body">
 						<div class="alt_edit">
 							<div class="alt_edit_div">
-								<label>用户：</label> <input id="supplierGroupDetail" type="text" readonly="true">
+								<label>用户：</label> <input id="supplierGroupDetail" type="text"
+									readonly="true">
 							</div>
 							<div class="clear"></div>
 							<div>
@@ -275,7 +291,8 @@
 								</div>
 								<div class="cg_tabbox">
 									<!--tab切换的内容-->
-									<div class="cg_tabcont" style="overflow: auto;max-height: 400px;">
+									<div class="cg_tabcont"
+										style="overflow: auto; max-height: 400px;">
 										<div class="zk_table_int">
 											<table class="table table-bordered" id="tab_detail">
 												<thead>
@@ -303,6 +320,7 @@
 	</div>
 	<!-- 引用公共footer部分 -->
 	<jsp:include page="../../common/base/footer_busi.jsp"></jsp:include>
-	<script type="text/javascript" src="/javascript/system/merchants/supplierGroup.js"></script>
+	<script type="text/javascript"
+		src="/javascript/system/merchants/supplierGroup.js"></script>
 </body>
 </html>

@@ -17,6 +17,8 @@ public class AppPoundOrderResp extends BaseResp{
 	private String noticecode;
 	//物料
 	private String materielname;
+	//客户/供应商
+	private String customerName ;
 	//车号
 	private String vehicleno;
 	//轻车时间
@@ -33,6 +35,8 @@ public class AppPoundOrderResp extends BaseResp{
 	private Double netweight;
 	//出厂编号
 	private String serialnumber;
+	//销售组织
+	private String orgname;
 	/**
 	 * @return the userId
 	 */
@@ -68,6 +72,12 @@ public class AppPoundOrderResp extends BaseResp{
 	 */
 	public String getMaterielname() {
 		return materielname;
+	}
+	/**
+	 * @return the customerName
+	 */
+	public String getCustomerName() {
+		return customerName;
 	}
 	/**
 	 * @return the vehicleno
@@ -143,6 +153,12 @@ public class AppPoundOrderResp extends BaseResp{
 		this.materielname = materielname;
 	}
 	/**
+	 * @param customerName the customerName to set
+	 */
+	public void setCustomerName(String customerName) {
+		this.customerName = customerName;
+	}
+	/**
 	 * @param vehicleno the vehicleno to set
 	 */
 	public void setVehicleno(String vehicleno) {
@@ -189,6 +205,18 @@ public class AppPoundOrderResp extends BaseResp{
 	}
 	public void setWeighttime(String weighttime) {
 		this.weighttime = weighttime;
+	}
+	/**
+	 * @return the orgname
+	 */
+	public String getOrgname() {
+		return orgname;
+	}
+	/**
+	 * @param orgname the orgname to set
+	 */
+	public void setOrgname(String orgname) {
+		this.orgname = orgname;
 	}
 	
 }

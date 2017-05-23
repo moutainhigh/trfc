@@ -5,7 +5,7 @@ public class Head {
 	private String userId;
 	//具体设备
 	private String callSource;
-	//子系统分类
+	//子系统分类  1:门岗 2:卡务 3客商APP
 	private String callType;
 	//调用时间
 	private String callTime;

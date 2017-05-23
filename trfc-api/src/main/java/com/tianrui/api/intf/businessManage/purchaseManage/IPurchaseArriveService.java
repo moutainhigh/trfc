@@ -121,5 +121,13 @@ public interface IPurchaseArriveService {
 	 * @throws Exception 
 	 */
 	Result appToAddNotice(AppOrderSaveReq req) throws Exception;
+	/**
+	 * @Description app采购通知单作废接口
+	 * @author zhanggaohao
+	 * @version 2017年5月22日 上午9:15:58
+	 * @param req
+	 * @return
+	 */
+	Result appInvalid(AppNoticeOrderReq req);
 
 }

@@ -141,5 +141,13 @@ public interface ISalesArriveService {
 	 * @throws Exception 
 	 */
 	Result appToAddNotice(AppOrderSaveReq req) throws Exception;
+	/**
+	 * @Description app销售通知单作废接口
+	 * @author zhanggaohao
+	 * @version 2017年5月22日 上午9:20:30
+	 * @param req
+	 * @return
+	 */
+	Result appInvalid(AppNoticeOrderReq req);
 
 }

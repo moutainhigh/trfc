@@ -246,6 +246,36 @@ public class ApiStaticAction {
 	}
 	
 	/**
+	 * 通知单作废
+	 * @param req
+	 * @return
+	 */
+	@RequestMapping(value="/noticeInvalid",method=RequestMethod.POST)
+	@ApiParamRawType(AppNoticeOrderReq.class)
+	@ResponseBody
+	public ApiResult noticeInvalid(ApiParam<AppNoticeOrderReq> appParam){
+		Result rs = Result.getErrorResult();
+		try {
+			AppNoticeOrderReq req = appParam.getBody();
+			SystemUserResp user = systemUserService.getUser(appParam.getHead().getUserId());
+			if(user != null){
+				if(StringUtils.equals(user.getIdentityTypes(), Constant.USER_SUPPLIER)){
+					rs = purchaseArriveService.appInvalid(req);
+				}
+				if(StringUtils.equals(user.getIdentityTypes(), Constant.USER_CUSTOMER)){
+					rs = salesArriveService.appInvalid(req);
+				}
+			}else{
+				rs.setErrorCode(ErrorCode.SYSTEM_USER_ERROR1);
+			}
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			rs.setErrorCode(ErrorCode.SYSTEM_ERROR);
+		}
+		return ApiResult.valueOf(rs);
+	}
+	
+	/**
 	 * 过榜单分页
 	 * @param req
 	 * @return

@@ -125,4 +125,20 @@ public interface PoundNoteMapper {
 	 * @return
 	 */
 	List<AppPoundOrderResp> appSalesPage(AppPoundOrderReq req);
+	/**
+	 * @Description 其他榜单总条数
+	 * @author zhanggaohao
+	 * @version 2017年5月22日 上午10:32:13
+	 * @param query
+	 * @return
+	 */
+	long queryOtherPoundNotePageCount(PoundNoteQuery query);
+	/**
+	 * @Description 其他榜单分页
+	 * @author zhanggaohao
+	 * @version 2017年5月22日 上午10:32:33
+	 * @param query
+	 * @return
+	 */
+	List<PoundNote> queryOtherPoundNotePage(PoundNoteQuery query);
 }

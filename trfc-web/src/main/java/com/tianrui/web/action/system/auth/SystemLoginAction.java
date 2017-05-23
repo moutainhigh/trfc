@@ -47,7 +47,7 @@ public class SystemLoginAction {
 	}
 
 	// 列表数据
-	@RequestMapping(value = "/loginOut")
+	@RequestMapping(value = "/trfc/loginOut")
 	public ModelAndView loginOut(HttpServletRequest request) {
 		ModelAndView view = new ModelAndView("index");
 		SessionManager.removeSessionUser(request);

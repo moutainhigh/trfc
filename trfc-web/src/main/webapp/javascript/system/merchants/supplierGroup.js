@@ -137,15 +137,15 @@
 			queryData(1);
 		});
 		$('#addSupplierGroupBtn').off('click').on('click',function(){
-			if($('#add').is('visible')){
-				_this.disabled = true;
-				addSupplierGroup(_this);
+			if($('#add').is(':visible')){
+				this.disabled = true;
+				addSupplierGroup(this);
 			}
 		});
 		$('#addSupplierToGroupBtn').off('click').on('click',function(){
-			if($('#addGroup').is('visible')){
-				_this.disabled = true;
-				addSupplierToGroup(_this);
+			if($('#addGroup').is(':visible')){
+				this.disabled = true;
+				addSupplierToGroup(this);
 			}
 		});
 		$('#jumpPageNoBtn').off('click').on('click',function(){

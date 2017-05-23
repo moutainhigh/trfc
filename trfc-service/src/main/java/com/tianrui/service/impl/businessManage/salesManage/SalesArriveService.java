@@ -935,4 +935,23 @@ public class SalesArriveService implements ISalesArriveService {
 		return result;
 	}
 
+	@Override
+	public Result appInvalid(AppNoticeOrderReq req) {
+		Result result = Result.getParamErrorResult();
+		if(req != null && StringUtils.isNotBlank(req.getId())
+				&& StringUtils.isNotBlank(req.getUserId())){
+			SalesArrive bean = new SalesArrive();
+			bean.setId(req.getId());
+			bean.setStatus("3");
+			bean.setModifier(req.getUserId());
+			bean.setModifytime(System.currentTimeMillis());
+			if(salesArriveMapper.updateByPrimaryKeySelective(bean) == 1){
+				result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+			}else{
+				result.setErrorCode(ErrorCode.OPERATE_ERROR);
+			}
+		}
+		return result;
+	}
+
 }

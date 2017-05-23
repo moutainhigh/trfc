@@ -328,7 +328,7 @@
 		/**
 		 * 自动计算净重
 		 */
-		$('#grossweight').off('input keydown').on('input keydown',function(){
+		$('#grossweight').off('keyup').on('keyup',function(){
 			var grossweight = $(this).val();
 			if(!grossweight || !$.isNumeric(grossweight)){
 				layer.tips('必须为数字，且不能为空！', this, {
@@ -338,13 +338,14 @@
 				$(this).val('');
 				$('#netweight').val('');
 			}else{
+				layer.closeAll('tips');
 				var tareweight = $('#tareweight').val();
 				if(tareweight && $.isNumeric(tareweight)){
 					$('#netweight').val(grossweight-tareweight);
 				}
 			}
 		});
-		$('#tareweight').off('input keydown').on('input keydown',function(){
+		$('#tareweight').off('keyup').on('keyup',function(){
 			var tareweight = $(this).val();
 			if(!tareweight || !$.isNumeric(tareweight)){
 				layer.tips('必须为数字，且不能为空！', this, {
@@ -354,6 +355,7 @@
 				$(this).val('');
 				$('#netweight').val('');
 			}else{
+				layer.closeAll('tips');
 				var grossweight = $('#grossweight').val();
 				if(grossweight && $.isNumeric(grossweight)){
 					$('#netweight').val(grossweight-tareweight);

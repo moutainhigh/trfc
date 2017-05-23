@@ -303,6 +303,7 @@ public class PurchaseArriveService implements IPurchaseArriveService {
 				pa.setId(update.getId());
 				if(validDriverAndVehicle(update, result, pa)){
 					PropertyUtils.copyProperties(pa, update);
+					setNoticeBody(update, pa);
 					pa.setModifier(update.getCurrId());
 					pa.setModifytime(System.currentTimeMillis());
 					if(purchaseArriveMapper.updateByPrimaryKeySelective(pa) == 1){
@@ -603,6 +604,25 @@ public class PurchaseArriveService implements IPurchaseArriveService {
 						result.setErrorCode(ErrorCode.OPERATE_ERROR);
 					}
 				}
+			}
+		}
+		return result;
+	}
+
+	@Override
+	public Result appInvalid(AppNoticeOrderReq req) {
+		Result result = Result.getParamErrorResult();
+		if(req != null && StringUtils.isNotBlank(req.getId())
+				&& StringUtils.isNotBlank(req.getUserId())){
+			PurchaseArrive bean = new PurchaseArrive();
+			bean.setId(req.getId());
+			bean.setStatus("3");
+			bean.setModifier(req.getUserId());
+			bean.setModifytime(System.currentTimeMillis());
+			if(purchaseArriveMapper.updateByPrimaryKeySelective(bean) == 1){
+				result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+			}else{
+				result.setErrorCode(ErrorCode.OPERATE_ERROR);
 			}
 		}
 		return result;

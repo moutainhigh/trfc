@@ -205,7 +205,7 @@
 			}
 		});
 		//校验到货量
-		$('#arrivalamount').off('input keydown').on('input keydown',function(){
+		$('#arrivalamount').off('keyup').on('keyup',function(){
 			var arrivalamount = $(this).val();
 			if(!arrivalamount || !$.isNumeric(arrivalamount)){
 				layer.tips('必须为数字，且不能为空！', this, {
@@ -214,6 +214,7 @@
 				});
 				$(this).val('');
 			}else{
+				layer.closeAll('tips');
 				var netweight = parseFloat($('#netweight').val()) || 0;
 				if(arrivalamount > netweight){
 					layer.tips('退货量不能大于净重！', this, {

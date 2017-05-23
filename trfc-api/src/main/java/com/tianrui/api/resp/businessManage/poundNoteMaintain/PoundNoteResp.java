@@ -158,6 +158,26 @@ public class PoundNoteResp extends BaseResp {
     private String modifytimeStr;
 	//备注
     private String remark;
+    //单位
+    private String department;
+    //倒运单位id
+    private String cutoverpartmentid;
+    //倒运单位名称
+    private String cutoverpartmentname;
+    //物料id
+    private String materialid;
+    //物料名称
+    private String materialname;
+    //货物
+    private String cargo;
+    //调入堆场id
+    private String enteryardid;
+    //调入堆场名称
+    private String enteryardname;
+    //调离堆场id
+    private String leaveyardid;
+    //调离堆场名称
+    private String leaveyardname;
     //订单详情
     private List<PurchaseApplicationResp> purchaseApplicationList;
     //订单详情
@@ -1031,6 +1051,126 @@ public class PoundNoteResp extends BaseResp {
 	 */
 	public void setRemark(String remark) {
 		this.remark = remark;
+	}
+	/**
+	 * @return the department
+	 */
+	public String getDepartment() {
+		return department;
+	}
+	/**
+	 * @return the cutoverpartmentid
+	 */
+	public String getCutoverpartmentid() {
+		return cutoverpartmentid;
+	}
+	/**
+	 * @return the cutoverpartmentname
+	 */
+	public String getCutoverpartmentname() {
+		return cutoverpartmentname;
+	}
+	/**
+	 * @return the materialid
+	 */
+	public String getMaterialid() {
+		return materialid;
+	}
+	/**
+	 * @return the materialname
+	 */
+	public String getMaterialname() {
+		return materialname;
+	}
+	/**
+	 * @return the cargo
+	 */
+	public String getCargo() {
+		return cargo;
+	}
+	/**
+	 * @return the enteryardid
+	 */
+	public String getEnteryardid() {
+		return enteryardid;
+	}
+	/**
+	 * @return the enteryardname
+	 */
+	public String getEnteryardname() {
+		return enteryardname;
+	}
+	/**
+	 * @return the leaveyardid
+	 */
+	public String getLeaveyardid() {
+		return leaveyardid;
+	}
+	/**
+	 * @return the leaveyardname
+	 */
+	public String getLeaveyardname() {
+		return leaveyardname;
+	}
+	/**
+	 * @param department the department to set
+	 */
+	public void setDepartment(String department) {
+		this.department = department;
+	}
+	/**
+	 * @param cutoverpartmentid the cutoverpartmentid to set
+	 */
+	public void setCutoverpartmentid(String cutoverpartmentid) {
+		this.cutoverpartmentid = cutoverpartmentid;
+	}
+	/**
+	 * @param cutoverpartmentname the cutoverpartmentname to set
+	 */
+	public void setCutoverpartmentname(String cutoverpartmentname) {
+		this.cutoverpartmentname = cutoverpartmentname;
+	}
+	/**
+	 * @param materialid the materialid to set
+	 */
+	public void setMaterialid(String materialid) {
+		this.materialid = materialid;
+	}
+	/**
+	 * @param materialname the materialname to set
+	 */
+	public void setMaterialname(String materialname) {
+		this.materialname = materialname;
+	}
+	/**
+	 * @param cargo the cargo to set
+	 */
+	public void setCargo(String cargo) {
+		this.cargo = cargo;
+	}
+	/**
+	 * @param enteryardid the enteryardid to set
+	 */
+	public void setEnteryardid(String enteryardid) {
+		this.enteryardid = enteryardid;
+	}
+	/**
+	 * @param enteryardname the enteryardname to set
+	 */
+	public void setEnteryardname(String enteryardname) {
+		this.enteryardname = enteryardname;
+	}
+	/**
+	 * @param leaveyardid the leaveyardid to set
+	 */
+	public void setLeaveyardid(String leaveyardid) {
+		this.leaveyardid = leaveyardid;
+	}
+	/**
+	 * @param leaveyardname the leaveyardname to set
+	 */
+	public void setLeaveyardname(String leaveyardname) {
+		this.leaveyardname = leaveyardname;
 	}
 	/**
 	 * @return the purchaseApplicationList

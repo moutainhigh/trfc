@@ -307,6 +307,8 @@
 		</div>
 		<!--编辑end-->
 	</div>
+	<!-- 引用公共footer部分 -->
+	<jsp:include page="../../common/base/footer_busi.jsp"></jsp:include>
 	<script type="text/javascript" src="${staticBasePath}/js/md5.js"></script>
 	<script type="text/javascript" src="/javascript/system/auth/userMgr.js"></script>
 	<script type="text/javascript">
