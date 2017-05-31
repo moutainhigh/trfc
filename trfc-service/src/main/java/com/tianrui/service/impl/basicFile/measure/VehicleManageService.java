@@ -21,12 +21,8 @@ import com.tianrui.api.req.basicFile.measure.VehicleManageApi;
 import com.tianrui.api.resp.basicFile.measure.VehicleManageResp;
 import com.tianrui.api.resp.businessManage.app.AppVehicleResp;
 import com.tianrui.service.bean.basicFile.measure.VehicleManage;
-import com.tianrui.service.bean.businessManage.purchaseManage.PurchaseArrive;
-import com.tianrui.service.bean.businessManage.salesManage.SalesArrive;
 import com.tianrui.service.bean.common.RFID;
 import com.tianrui.service.mapper.basicFile.measure.VehicleManageMapper;
-import com.tianrui.service.mapper.businessManage.purchaseManage.PurchaseArriveMapper;
-import com.tianrui.service.mapper.businessManage.salesManage.SalesArriveMapper;
 import com.tianrui.service.mapper.common.RFIDMapper;
 import com.tianrui.smartfactory.common.constants.ErrorCode;
 import com.tianrui.smartfactory.common.utils.UUIDUtil;
@@ -49,10 +45,6 @@ public class VehicleManageService implements IVehicleManageService {
 	private IBlacklistManageService blacklistManageService;
 	@Autowired
 	private RFIDMapper rfidMapper;
-	@Autowired
-	private SalesArriveMapper salesArriveMapper;
-	@Autowired
-	private PurchaseArriveMapper purchaseArriveMapper;
 	@Autowired
 	private ISystemCodeService systemCodeService;
 
@@ -229,8 +221,8 @@ public class VehicleManageService implements IVehicleManageService {
 	}
 
 	@Override
-	public List<VehicleManageResp> autoCompleteSearch(String likeName) throws Exception {
-		return copyBeanList2RespList(vehicleManageMapper.autoCompleteSearch(likeName));
+	public List<VehicleManageResp> autoCompleteSearch(String isCutover, String likeName) throws Exception {
+		return copyBeanList2RespList(vehicleManageMapper.autoCompleteSearch(isCutover, likeName));
 	}
 
 	private List<VehicleManageResp> copyBeanList2RespList(List<VehicleManage> list) throws Exception {

@@ -186,24 +186,6 @@ public class PurchaseArriveService implements IPurchaseArriveService {
 			result.setError("此车辆己有提货通知单、待出厂后进行派车，现有车辆业务单据号为:"+listVehicle1.get(0).getCode()+"，如有疑问请与销售处联系！");
 			flag = false;
 		}
-		//验证其他业务中的通知单
-		OtherArrive oa = new OtherArrive();
-		oa.setVehicleid(save.getVehicleid());
-		List<OtherArrive> listVehicle2 = otherArriveMapper.checkDriverAndVehicleAndIcardIsUse(oa);
-		if(listVehicle2!=null && listVehicle2.size()>0){
-			result.setErrorCode(ErrorCode.PARAM_REPEAT_ERROR);
-			result.setError("此车辆己有提货通知单、待出厂后进行派车，现有车辆业务单据号为:"+listVehicle2.get(0).getCode()+"，如有疑问请与销售处联系！");
-			flag = false;
-		}
-		oa.setVehicleid(null);
-		oa.setDriverid(save.getDriverid());
-		List<OtherArrive> listDriver2 = otherArriveMapper.checkDriverAndVehicleAndIcardIsUse(oa);
-		if(listDriver2!=null && listDriver2.size()>0){
-			result.setErrorCode(ErrorCode.PARAM_REPEAT_ERROR);
-			result.setError("此司机己有提货通知单、待出厂后进行派车，现有车辆业务单据号为:"+listDriver2.get(0).getCode()+"，如有疑问请与销售处联系！");
-			flag = false;
-		}
-		
 		pa.setVehicleid(null);
 		pa.setDriverid(save.getDriverid());
 		List<PurchaseArrive> listDriver = purchaseArriveMapper.checkDriverAndVehicleIsUse(pa);
@@ -219,6 +201,35 @@ public class PurchaseArriveService implements IPurchaseArriveService {
 			result.setErrorCode(ErrorCode.PARAM_REPEAT_ERROR);
 			result.setError("此司机己有提货通知单、待出厂后进行派车，现有车辆业务单据号为:"+listDriver1.get(0).getCode()+"，如有疑问请与销售处联系！");
 			flag = false;
+		}
+		//验证其他业务中的通知单
+		OtherArrive oa = new OtherArrive();
+		oa.setVehicleid(save.getVehicleid());
+		List<OtherArrive> listVehicle2 = otherArriveMapper.checkDriverAndVehicleAndIcardIsUse(oa);
+		if(listVehicle2!=null && listVehicle2.size()>0){
+			if(StringUtils.equals(listVehicle2.get(0).getBusinesstype(), "5")){
+				result.setErrorCode(ErrorCode.PARAM_REPEAT_ERROR);
+				result.setError("此车辆己有其他入库通知单、待出厂后进行派车，现有车辆业务单据号为:"+listVehicle2.get(0).getCode()+"，如有疑问请与销售处联系！");
+				flag = false;
+			}else if(StringUtils.equals(listVehicle2.get(0).getBusinesstype(), "7")){
+				result.setErrorCode(ErrorCode.PARAM_REPEAT_ERROR);
+				result.setError("此车辆己有其他出库通知单、待出厂后进行派车，现有车辆业务单据号为:"+listVehicle2.get(0).getCode()+"，如有疑问请与销售处联系！");
+				flag = false;
+			}
+		}
+		oa.setVehicleid(null);
+		oa.setDriverid(save.getDriverid());
+		List<OtherArrive> listDriver2 = otherArriveMapper.checkDriverAndVehicleAndIcardIsUse(oa);
+		if(listDriver2!=null && listDriver2.size()>0){
+			if(StringUtils.equals(listDriver2.get(0).getBusinesstype(), "5")){
+				result.setErrorCode(ErrorCode.PARAM_REPEAT_ERROR);
+				result.setError("此司机己有其他入库通知单、待出厂后进行派车，现有车辆业务单据号为:"+listDriver2.get(0).getCode()+"，如有疑问请与销售处联系！");
+				flag = false;
+			}else if(StringUtils.equals(listDriver2.get(0).getBusinesstype(), "7")){
+				result.setErrorCode(ErrorCode.PARAM_REPEAT_ERROR);
+				result.setError("此司机己有其他出库通知单、待出厂后进行派车，现有车辆业务单据号为:"+listDriver2.get(0).getCode()+"，如有疑问请与销售处联系！");
+				flag = false;
+			}
 		}
 		//ic卡信息
 		if(StringUtils.isNotBlank(save.getIcardno())){

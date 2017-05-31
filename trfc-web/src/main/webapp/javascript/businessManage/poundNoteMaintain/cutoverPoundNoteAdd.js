@@ -3,7 +3,7 @@
 			main: '/trfc/poundNote/cutover/main',
 			add: '/trfc/poundNote/cutover/add',
 			yardAutoCompleteSearch: "/trfc/yard/autoCompleteSearch",
-			vehicleAutoCompleteSearch: "/trfc/vehicle/autoCompleteSearch",
+			vehicleAutoCompleteDYSearch: "/trfc/vehicle/autoCompleteDYSearch",
 			driverAutoCompleteSearch: "/trfc/driver/autoCompleteSearch",
 			materielAutoCompleteSearch: "/trfc/materiel/autoCompleteSearch"
 	};
@@ -95,7 +95,7 @@
 	    			response( vehicle[ term ] );
 	    			return;
 	    		}
-	    		$.post( URL.vehicleAutoCompleteSearch, request, function( data, status, xhr ) {
+	    		$.post( URL.vehicleAutoCompleteDYSearch, request, function( data, status, xhr ) {
 	    			vehicle[ term ] = data;
 	    			response( data );
 	    		});

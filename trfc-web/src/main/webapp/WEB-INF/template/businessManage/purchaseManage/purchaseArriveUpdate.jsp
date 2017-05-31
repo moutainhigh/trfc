@@ -270,7 +270,6 @@
 						<div class="alt_edit_div">
 							<label>运输类型：</label> <select id="v_transporttype"
 								class="form-control">
-								<option value="">请选择</option>
 								<option value="0">非倒运</option>
 								<option value="1">倒运</option>
 							</select>

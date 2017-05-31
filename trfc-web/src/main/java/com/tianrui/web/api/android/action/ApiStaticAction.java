@@ -42,6 +42,7 @@ import com.tianrui.api.resp.businessManage.app.AppNoticeOrderResp;
 import com.tianrui.api.resp.businessManage.app.AppOrderResp;
 import com.tianrui.api.resp.businessManage.app.AppVehicleResp;
 import com.tianrui.api.resp.system.auth.SystemUserResp;
+import com.tianrui.service.cache.CacheClient;
 import com.tianrui.smartfactory.common.api.ApiParam;
 import com.tianrui.smartfactory.common.api.ApiResult;
 import com.tianrui.smartfactory.common.constants.Constant;
@@ -51,7 +52,6 @@ import com.tianrui.smartfactory.common.vo.PaginationVO;
 import com.tianrui.smartfactory.common.vo.Result;
 import com.tianrui.web.smvc.ApiAuthValidation;
 import com.tianrui.web.smvc.ApiParamRawType;
-
 
 /**
  * 用户验证相关
@@ -64,6 +64,8 @@ public class ApiStaticAction {
 
 	private Logger log = LoggerFactory.getLogger(ApiStaticAction.class);
 	
+	@Autowired
+	private CacheClient cacheClient;
 	@Autowired
 	private ISystemUserService systemUserService;
 	@Autowired
@@ -109,6 +111,28 @@ public class ApiStaticAction {
 		Result rs = Result.getErrorResult();
 		try {
 			rs = systemUserService.appUpdatePswd(req.getBody());
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			rs.setErrorCode(ErrorCode.SYSTEM_ERROR);
+		}
+		return ApiResult.valueOf(rs);
+	}
+	/**
+	 * @Description 退出登录
+	 * @author zhanggaohao
+	 * @version 2017年5月23日 下午2:40:21
+	 * @param req
+	 * @return
+	 */
+	@RequestMapping(value="/loginOut",method=RequestMethod.POST)
+	@ApiParamRawType(AppUserReq.class)
+	@ApiAuthValidation(callType="3")
+	@ResponseBody
+	public ApiResult loginOut(ApiParam<AppUserReq> req){
+		Result rs = Result.getErrorResult();
+		try {
+			cacheClient.remove(req.getHead().getKey());
+			rs.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 			rs.setErrorCode(ErrorCode.SYSTEM_ERROR);

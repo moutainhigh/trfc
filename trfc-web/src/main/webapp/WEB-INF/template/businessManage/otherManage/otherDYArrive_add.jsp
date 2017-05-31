@@ -53,12 +53,11 @@
 									type="text" id="add_enteryard" class="yardSelect" placeholder="请选择调入堆场">
 							</div>
 							<div class="daohuo_add_solo">
-								<label>倒运单位：</label> <input type="text" id="add_receivedepartment">
+								<label>倒运单位：</label> <input type="text" id="add_receivedepartment" readonly="true">
 							</div>
 							<div class="daohuo_add_solo">
 								<label>车号：</label> <input type="text" id="add_vehicle"  placeholder="请选择车号">
 							</div>
-
 							<div class="daohuo_add_solo">
 								<label>RFID：</label> <input type="text" id="add_rfid" readonly="true">
 							</div>
@@ -81,10 +80,10 @@
 							</div>
 
 							<div class="daohuo_add_solo">
-								<label>制单人： </label> <input type="text" id="add_creator">
+								<label>制单人： </label> <input type="text" id="add_creator" readonly="true">
 							</div>
 							<div class="daohuo_add_solo">
-								<label>制单日期： </label> <input type="text" id="add_createtime">
+								<label>制单日期： </label> <input type="text" id="add_createtime" readonly="true">
 							</div>
 							<div class="daohuo_add_solo">
 								<label>备注： </label> <input type="text" id="add_remark">

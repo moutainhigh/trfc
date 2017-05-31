@@ -180,7 +180,6 @@
 						<div class="alt_edit_div">
 							<label>运输类型：</label>
 							<select id="add_transporttype" class="form-control">
-								<option value="">请选择</option>
 								<option value="0">非倒运</option>
 								<option value="1">倒运</option>
 							</select>
@@ -213,7 +212,7 @@
 							<label>所属组织：</label> <input id="add_orgname" type="text" value="${orgname }" orgid="${orgid }" readonly>
 						</div>
 						<div class="alt_edit_div">
-							<label>有效性：</label> <input id="add_isvalid" type="checkbox"><span>有效</span>
+							<label>有效性：</label> <input id="add_isvalid" type="checkbox" checked="checked"><span>有效</span>
 						</div>
 						<div class="alt_edit_textarea">
 							<label>备注： </label>
@@ -252,7 +251,6 @@
 						<div class="alt_edit_div">
 							<label>运输类型：</label>
 							<select id="_transporttype" class="form-control">
-								<option value="">请选择</option>
 								<option value="0">非倒运</option>
 								<option value="1">倒运</option>
 							</select>

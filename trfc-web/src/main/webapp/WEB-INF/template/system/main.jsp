@@ -38,11 +38,6 @@
 							<p>
 								<label>所属部门：</label><span>${orgName }</span>
 							<p>
-							<!-- <div class="wel_infoline">
-								<label>选择要查看的模块：</label> <span><a href="">【高级程序管理员】</a></span> <span><a
-									href="">【高级程序管理员】</a></span> <span><a href="">【高级程序管理员】</a></span>
-							</div> -->
-							<img src="${staticBasePath}/images/wel.png">
 						</div>
 					</div>
 					<!--导航条end-->

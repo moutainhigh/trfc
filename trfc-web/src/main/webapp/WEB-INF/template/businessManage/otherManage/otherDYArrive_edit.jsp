@@ -42,7 +42,7 @@
 						<div class="daohuo_add_div">
 							<div class="daohuo_add_solo">
 								<label><em class="colorred">*</em>单据编号：</label> <input
-									type="text" readonly="true" id="add_code">
+									type="text" readonly="true" id="add_code" readonly="true">
 							</div>
 							<div class="daohuo_add_solo">
 								<label><em class="colorred">*</em>调出堆场：</label> <input
@@ -81,10 +81,10 @@
 							</div>
 
 							<div class="daohuo_add_solo">
-								<label>制单人： </label> <input type="text" id="add_creator">
+								<label>制单人： </label> <input type="text" id="add_creator" readonly="true">
 							</div>
 							<div class="daohuo_add_solo">
-								<label>制单日期： </label> <input type="text" id="add_createtime">
+								<label>制单日期： </label> <input type="text" id="add_createtime" readonly="true">
 							</div>
 							<div class="daohuo_add_solo">
 								<label>备注： </label> <input type="text" id="add_remark">

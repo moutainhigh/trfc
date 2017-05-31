@@ -4,7 +4,7 @@
 			addView: '/trfc/poundNote/cutover/addView',
 			invalid: '/trfc/poundNote/cutover/invalid',
 			yardAutoCompleteSearch: "/trfc/yard/autoCompleteSearch",
-			vehicleAutoCompleteSearch: "/trfc/vehicle/autoCompleteSearch",
+			vehicleAutoCompleteDYSearch: "/trfc/vehicle/autoCompleteDYSearch",
 			materielAutoCompleteSearch: "/trfc/materiel/autoCompleteSearch"
 	};
 	//初始化
@@ -63,7 +63,7 @@
 	    			response( vehicle[ term ] );
 	    			return;
 	    		}
-	    		$.post( URL.vehicleAutoCompleteSearch, request, function( data, status, xhr ) {
+	    		$.post( URL.vehicleAutoCompleteDYSearch, request, function( data, status, xhr ) {
 	    			vehicle[ term ] = data;
 	    			response( data );
 	    		});

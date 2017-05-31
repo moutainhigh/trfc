@@ -103,27 +103,6 @@
 								</tr>
 							</thead>
 							<tbody id="tbody_list">
-								<tr>
-									<td>1</td>
-									<td>dsjkljgksksnmn1</td>
-									<td class="colorred">审核中</td>
-									<td class="colorred">作废</td>
-									<td>豫GA1783</td>
-									<td>CD201601010138</td>
-									<td>豫GA1783</td>
-									<td>CD201601010138</td>
-									<td>2016-01-01 07:59:39</td>
-									<td></td>
-									<td><span> <i class="iconfont"
-											data-toggle="tooltip" data-placement="left" title="编辑">&#xe600;</i></span>
-										<span> <i class="iconfont " data-toggle="tooltip"
-											data-placement="left" title="审核">&#xe692;</i></span> <span> <i
-											class="iconfont" data-toggle="tooltip" data-placement="left"
-											title=" 作废">&#xe60c;</i></span> <span> <i class="iconfont"
-											data-toggle="tooltip" data-placement="left" title=" 反审">&#xe651;</i></span>
-										<span> <i class="iconfont" data-toggle="tooltip"
-											data-placement="left" title=" 出厂">&#xe63c;</i></span></td>
-								</tr>
 							</tbody>
 						</table>
 						<!--用户表格end-->

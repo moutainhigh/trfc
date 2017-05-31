@@ -7,7 +7,7 @@ $(function() {
 			updateCodeUrl:"/trfc/quality/sales/report/updateCode",
 			addVehicle: '/trfc/vehicle/add',
 			addDriver: '/trfc/driver/add',
-			vehicleAutoCompleteSearch: "/trfc/vehicle/autoCompleteSearch",
+			vehicleAutoCompleteDYSearch: "/trfc/vehicle/autoCompleteDYSearch",
 			yardAutoCompleteSearch: "/trfc/yard/autoCompleteSearch",
 			materielAutoCompleteSearch: "/trfc/materiel/autoCompleteSearch",
 			supplierAutoCompleteSearch: "/trfc/supplier/autoCompleteSearch",
@@ -127,7 +127,7 @@ $(function() {
 					response( vehicle[ term ] );
 					return;
 				}
-				$.post( URL.vehicleAutoCompleteSearch, request, function( data, status, xhr ) {
+				$.post( URL.vehicleAutoCompleteDYSearch, request, function( data, status, xhr ) {
 					vehicle[ term ] = data;
 					response( data );
 				});

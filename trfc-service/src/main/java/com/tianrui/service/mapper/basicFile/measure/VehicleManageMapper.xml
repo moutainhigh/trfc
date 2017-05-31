@@ -470,7 +470,10 @@
 		select
 		<include refid="Base_Column_List" />
 		from tr_vehicle_db_manage
-		where state = 1
+		where state = '1' and isblacklist = '0' and isvalid = '1'
+		<if test="isCutover != null and isCutover !=''">
+			and transporttype = #{isCutover,jdbcType=VARCHAR}
+		</if>
 		<if test="likeName != null and likeName !=''">
 			and vehicleno like CONCAT('%',
 			#{likeName,jdbcType=VARCHAR}, '%')

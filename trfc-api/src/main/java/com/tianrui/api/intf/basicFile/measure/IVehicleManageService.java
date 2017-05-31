@@ -40,7 +40,7 @@ public interface IVehicleManageService {
 
 	Result vehicleCheck(VehicleManageApi vehicleManageApi);
 
-	List<VehicleManageResp> autoCompleteSearch(String term) throws Exception;
+	List<VehicleManageResp> autoCompleteSearch(String isCutover, String likeName) throws Exception;
 	/**
 	 * @Description app车辆分页查询接口
 	 * @author zhanggaohao
@@ -49,5 +49,6 @@ public interface IVehicleManageService {
 	 * @return
 	 */
 	PaginationVO<AppVehicleResp> appToPage(AppQueryReq req);
+
 
 }

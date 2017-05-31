@@ -421,7 +421,7 @@ public class SystemUserService implements ISystemUserService {
 								String tokenId =UUIDUtil.getId();
 								SystemUserResp user = get(list.get(0).getId(), true);
 								//缓存默认保存一天
-								String key =CacheHelper.buildKey(CacheModule.MEMBERLOGIN_APP, tokenId);
+								String key = CacheHelper.buildKey(CacheModule.MEMBERLOGIN_APP, tokenId);
 								cacheClient.saveObject(key, user, 7*24*60*60);
 								user.setTokenId(tokenId);
 								AppUserResp resp = new AppUserResp();

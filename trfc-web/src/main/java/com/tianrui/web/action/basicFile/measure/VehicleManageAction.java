@@ -185,7 +185,19 @@ public class VehicleManageAction {
 	public List<VehicleManageResp> autoCompleteSearch(String term){
 		List<VehicleManageResp> list = null;
 		try {
-			list = vehicleManageService.autoCompleteSearch(term.trim());
+			list = vehicleManageService.autoCompleteSearch("0", term.trim());
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+		}
+		return list;
+	}
+	
+	@RequestMapping("/autoCompleteDYSearch")
+	@ResponseBody
+	public List<VehicleManageResp> autoCompleteDYSearch(String term){
+		List<VehicleManageResp> list = null;
+		try {
+			list = vehicleManageService.autoCompleteSearch("1", term.trim());
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 		}

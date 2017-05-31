@@ -186,6 +186,10 @@ public class PoundNoteService implements IPoundNoteService {
 				purchaseApplication = purchaseApplicationMapper.selectByPrimaryKey(save.getBillid());
 				purchaseApplicationDetail = purchaseApplicationDetailMapper.selectByPrimaryKey(save.getBilldetailid());
 				if (purchaseApplication != null) {
+					bean.setSupplierid(purchaseApplication.getSupplierid());
+					bean.setSuppliername(purchaseApplication.getSuppliername());
+					bean.setMaterialid(purchaseApplicationDetail.getMaterielid());
+					bean.setMaterialname(purchaseApplicationDetail.getMaterielname());
 					bean.setBillcode(purchaseApplication.getCode());
 					bean.setReceivedepartmentid(purchaseApplication.getOrgid());
 					bean.setReceivedepartmentname(purchaseApplication.getOrgname());
@@ -499,7 +503,12 @@ public class PoundNoteService implements IPoundNoteService {
 			bean.setCode(systemCodeService.getCode(codeReq).getData().toString());
 			if (StringUtils.isNotBlank(save.getBillid()) && StringUtils.isNotBlank(save.getBilldetailid())) {
 				SalesApplication salesApplication = salesApplicationMapper.selectByPrimaryKey(save.getBillid());
+				SalesApplicationDetail salesApplicationDetail = salesApplicationDetailMapper.selectByPrimaryKey(save.getBilldetailid());
 				if (salesApplication != null) {
+					bean.setCustomerid(salesApplication.getCustomerid());
+					bean.setCustomername(salesApplication.getCustomername());
+					bean.setMaterialid(salesApplicationDetail.getMaterielid());
+					bean.setMaterialname(salesApplicationDetail.getMaterielname());
 					bean.setBillcode(salesApplication.getCode());
 					bean.setReceivedepartmentid(salesApplication.getOrgid());
 					bean.setReceivedepartmentname(salesApplication.getOrgname());
@@ -1398,7 +1407,6 @@ public class PoundNoteService implements IPoundNoteService {
 							validNoticeInfoAccessRecord(result, otherArrive.getId());
 						} else {
 							result.setErrorCode(ErrorCode.VEHICLE_NOTICE_NOT_ENTER);
-
 						}
 					}
 				} else {

@@ -7,7 +7,7 @@ $(function() {
 			findOne:"/trfc/otherDYArrive/findOne",
 			update:"/trfc/otherDYArrive/updateOperation",
 			updateVeiw:"/trfc/otherDYArrive/editMain",
-			vehicleAutoCompleteSearch: "/trfc/vehicle/autoCompleteSearch",
+			vehicleAutoCompleteDYSearch: "/trfc/vehicle/autoCompleteDYSearch",
 			materielAutoCompleteSearch: "/trfc/materiel/autoCompleteSearch", 
 			yardAutoCompleteSearch: "/trfc/yard/autoCompleteSearch", 
 	};
@@ -339,7 +339,7 @@ $(function() {
 					response( vehicle[ term ] );
 					return;
 				}
-				$.post( URL.vehicleAutoCompleteSearch, request, function( data, status, xhr ) {
+				$.post( URL.vehicleAutoCompleteDYSearch, request, function( data, status, xhr ) {
 					vehicle[ term ] = data;
 					response( data );
 				});

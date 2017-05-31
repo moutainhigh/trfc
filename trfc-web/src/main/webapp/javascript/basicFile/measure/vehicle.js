@@ -98,6 +98,9 @@
 					isvalid = '1';
 				}
 				var remarks = $('#add_remarks').val();remarks = $.trim(remarks);
+				if(!vehicleno){
+					layer.msg('车牌号码不能为空!', {icon: 5});return;
+				}
 				operation(URL.addUrl, {
 					code:code,
 					transporttype:transporttype,

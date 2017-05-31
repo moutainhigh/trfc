@@ -96,52 +96,6 @@
 								</tr>
 							</thead>
 							<tbody id="tbody_list">
-								<tr>
-									<td>1</td>
-									<td>dsjkljgksksnmn1</td>
-									<td class="colorred">审核中</td>
-									<td class="colorred">作废</td>
-									<td>未入厂</td>
-									<td>豫GA1783</td>
-									<td>CD201601010138</td>
-									<td>豫GA1783</td>
-									<td>CD201601010138</td>
-									<td>卫辉市润晨商贸有限公司</td>
-									<td>2016-01-01 07:59:39</td>
-									<td></td>
-									<td><span> <i class="iconfont"
-											data-toggle="tooltip" data-placement="left" title="编辑">&#xe600;</i></span>
-										<span> <i class="iconfont " data-toggle="tooltip"
-											data-placement="left" title="审核">&#xe692;</i></span> <span> <i
-											class="iconfont" data-toggle="tooltip" data-placement="left"
-											title=" 作废">&#xe60c;</i></span> <span> <i class="iconfont"
-											data-toggle="tooltip" data-placement="left" title=" 反审">&#xe651;</i></span>
-										<span> <i class="iconfont" data-toggle="tooltip"
-											data-placement="left" title=" 出厂">&#xe63c;</i></span></td>
-								</tr>
-								<tr>
-									<td>1</td>
-									<td>dsjkljgksksnmn1</td>
-									<td class="colorblue">已审核</td>
-									<td class="colorblue">出厂</td>
-									<td>未入厂</td>
-									<td>豫GA1783</td>
-									<td>CD201601010138</td>
-									<td>豫GA1783</td>
-									<td>CD201601010138</td>
-									<td>卫辉市润晨商贸有限公司</td>
-									<td>2016-01-01 07:59:39</td>
-									<td></td>
-									<td><span> <i class="iconfont"
-											data-toggle="tooltip" data-placement="left" title="编辑">&#xe600;</i></span>
-										<span> <i class="iconfont " data-toggle="tooltip"
-											data-placement="left" title="审核">&#xe692;</i></span> <span> <i
-											class="iconfont" data-toggle="tooltip" data-placement="left"
-											title=" 作废">&#xe60c;</i></span> <span> <i class="iconfont"
-											data-toggle="tooltip" data-placement="left" title=" 反审">&#xe651;</i></span>
-										<span> <i class="iconfont" data-toggle="tooltip"
-											data-placement="left" title=" 出厂">&#xe63c;</i></span></td>
-								</tr>
 							</tbody>
 						</table>
 						<!--用户表格end-->
@@ -168,14 +122,6 @@
 										</tr>
 									</thead>
 									<tbody id="tbody_vehicle">
-										<tr>
-											<td>1</td>
-											<td>粉煤炭</td>
-											<td>方案2</td>
-											<td>1000</td>
-											<td>豫GA1783</td>
-											<td>豫GA1783</td>
-										</tr>
 									</tbody>
 								</table>
 							</div>
@@ -193,16 +139,6 @@
 										</tr>
 									</thead>
 									<tbody id="tbody_pound">
-										<tr>
-											<td>卫辉市天瑞水泥有限公司</td>
-											<td>粉煤炭</td>
-											<td>方案2</td>
-											<td>1000</td>
-											<td>豫GA1783</td>
-											<td>豫GA1783</td>
-											<td>豫GA1783</td>
-											<td>豫GA1783</td>
-										</tr>
 									</tbody>
 								</table>
 							</div>

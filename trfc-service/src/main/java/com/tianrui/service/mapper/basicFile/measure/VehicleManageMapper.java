@@ -30,7 +30,7 @@ public interface VehicleManageMapper {
 
 	List<VehicleManage> findVehiclePage(VehicleManageQuery query);
 
-	List<VehicleManage> autoCompleteSearch(@Param("likeName")String likeName);
+	List<VehicleManage> autoCompleteSearch(@Param("isCutover")String isCutover, @Param("likeName")String likeName);
 
 	VehicleManage validateVehicle(@Param("vehicleno")String vehicleno, @Param("rfid")String rfid);
 
