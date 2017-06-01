@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.tianrui.service.mapper.system.merchants.SupplierGroupMapper" >
-  <resultMap id="BaseResultMap1" type="com.tianrui.service.bean.system.merchants.SupplierGroup" >
+<mapper namespace="com.tianrui.service.mapper.system.merchants.CustomerGroupMapper" >
+  <resultMap id="BaseResultMap" type="com.tianrui.service.bean.system.merchants.CustomerGroup" >
     <id column="id" property="id" jdbcType="VARCHAR" />
-    <result column="supplierid" property="supplierid" jdbcType="VARCHAR" />
+    <result column="customerid" property="customerid" jdbcType="VARCHAR" />
     <result column="groupid" property="groupid" jdbcType="VARCHAR" />
     <result column="state" property="state" jdbcType="VARCHAR" />
     <result column="creator" property="creator" jdbcType="VARCHAR" />
@@ -13,39 +13,39 @@
     <result column="remark" property="remark" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, supplierid, groupid, state, creator, createtime, modifier, modifytime, remark
+    id, customerid, groupid, state, creator, createtime, modifier, modifytime, remark
   </sql>
   <sql id="Base_Column_List_T" >
-    t1.id, t1.supplierid, t1.groupid, t1.state, t1.creator, t1.createtime, t1.modifier, t1.modifytime, t1.remark
+    t1.id, t1.customerid, t1.groupid, t1.state, t1.creator, t1.createtime, t1.modifier, t1.modifytime, t1.remark
   </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap1" parameterType="java.lang.String" >
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
     <include refid="Base_Column_List" />
-    from tr_supplier_db_group
+    from tr_customer_db_group
     where id = #{id,jdbcType=VARCHAR}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
-    delete from tr_supplier_db_group
+    delete from tr_customer_db_group
     where id = #{id,jdbcType=VARCHAR}
   </delete>
-  <insert id="insert" parameterType="com.tianrui.service.bean.system.merchants.SupplierGroup" >
-    insert into tr_supplier_db_group (id, supplierid, groupid, 
+  <insert id="insert" parameterType="com.tianrui.service.bean.system.merchants.CustomerGroup" >
+    insert into tr_customer_db_group (id, customerid, groupid, 
       state, creator, createtime, 
       modifier, modifytime, remark
       )
-    values (#{id,jdbcType=VARCHAR}, #{supplierid,jdbcType=VARCHAR}, #{groupid,jdbcType=VARCHAR}, 
+    values (#{id,jdbcType=VARCHAR}, #{customerid,jdbcType=VARCHAR}, #{groupid,jdbcType=VARCHAR}, 
       #{state,jdbcType=VARCHAR}, #{creator,jdbcType=VARCHAR}, #{createtime,jdbcType=BIGINT}, 
       #{modifier,jdbcType=VARCHAR}, #{modifytime,jdbcType=BIGINT}, #{remark,jdbcType=VARCHAR}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.tianrui.service.bean.system.merchants.SupplierGroup" >
-    insert into tr_supplier_db_group
+  <insert id="insertSelective" parameterType="com.tianrui.service.bean.system.merchants.CustomerGroup" >
+    insert into tr_customer_db_group
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         id,
       </if>
-      <if test="supplierid != null" >
-        supplierid,
+      <if test="customerid != null" >
+        customerid,
       </if>
       <if test="groupid != null" >
         groupid,
@@ -73,8 +73,8 @@
       <if test="id != null" >
         #{id,jdbcType=VARCHAR},
       </if>
-      <if test="supplierid != null" >
-        #{supplierid,jdbcType=VARCHAR},
+      <if test="customerid != null" >
+        #{customerid,jdbcType=VARCHAR},
       </if>
       <if test="groupid != null" >
         #{groupid,jdbcType=VARCHAR},
@@ -99,11 +99,11 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.tianrui.service.bean.system.merchants.SupplierGroup" >
-    update tr_supplier_db_group
+  <update id="updateByPrimaryKeySelective" parameterType="com.tianrui.service.bean.system.merchants.CustomerGroup" >
+    update tr_customer_db_group
     <set >
-      <if test="supplierid != null" >
-        supplierid = #{supplierid,jdbcType=VARCHAR},
+      <if test="customerid != null" >
+        customerid = #{customerid,jdbcType=VARCHAR},
       </if>
       <if test="groupid != null" >
         groupid = #{groupid,jdbcType=VARCHAR},
@@ -129,9 +129,9 @@
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.tianrui.service.bean.system.merchants.SupplierGroup" >
-    update tr_supplier_db_group
-    set supplierid = #{supplierid,jdbcType=VARCHAR},
+  <update id="updateByPrimaryKey" parameterType="com.tianrui.service.bean.system.merchants.CustomerGroup" >
+    update tr_customer_db_group
+    set customerid = #{customerid,jdbcType=VARCHAR},
       groupid = #{groupid,jdbcType=VARCHAR},
       state = #{state,jdbcType=VARCHAR},
       creator = #{creator,jdbcType=VARCHAR},
@@ -141,25 +141,25 @@
       remark = #{remark,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
-  <select id="validateSupplier" parameterType="java.lang.String" resultMap="BaseResultMap1">
+  <select id="validateCustomer" parameterType="java.lang.String" resultMap="BaseResultMap">
   	select <include refid="Base_Column_List"/>
-  	from tr_supplier_db_group where state = 1 and supplierid = #{supplierid,jdbcType=VARCHAR}
+  	from tr_customer_db_group where state = 1 and customerid = #{customerid,jdbcType=VARCHAR}
   </select>
-  <select id="selectSupplierGroupPage" parameterType="com.tianrui.api.req.system.merchants.SupplierGroupQuery" resultType="com.tianrui.api.resp.system.merchants.SupplierGroupResp">
-  	SELECT <include refid="Base_Column_List_T"/>, t2.code as suppliercode, t2.name as suppliername
+  <select id="selectCustomerGroupPage" parameterType="com.tianrui.api.req.sCustomerrchants.CustomerGroupQuery" resultType="com.tianrui.api.resp.system.merchants.CustomerGroupResp">
+  	SELECT <include refid="Base_Column_List_T"/>, t2.code as customercode, t2.name as customername
 	FROM
-		tr_supplier_db_group t1
-	LEFT JOIN tr_supplier_db_manage t2 ON t1.groupid = t2.id
+		tr_customer_db_group t1
+	LEFT JOIN tr_customer_db_manage t2 ON t1.groupid = t2.id
 	WHERE
-		t1.state = 1 and t2.state = 1 and t1.supplierid = t1.groupid
-	<if test="supplierid != null and supplierid != ''">
-		and t2.id = #{supplierid,jdbcType=VARCHAR}
+		t1.state = 1 and t2.state = 1 and t1.customerid = t1.groupid
+	<if test="customerid != null and customerid != ''">
+		and t2.id = #{customerid,jdbcType=VARCHAR}
 	</if>
-	<if test="suppliercode != null and suppliercode != ''">
-		and t2.code like CONCAT('%',#{suppliercode,jdbcType=VARCHAR},'%')
+	<if test="customercode != null and customercode != ''">
+		and t2.code like CONCAT('%',#{customercode,jdbcType=VARCHAR},'%')
 	</if>
-	<if test="suppliername != null and suppliername != ''">
-		and t2.name like CONCAT('%',#{suppliername,jdbcType=VARCHAR},'%')
+	<if test="customername != null and customername != ''">
+		and t2.name like CONCAT('%',#{customername,jdbcType=VARCHAR},'%')
 	</if>
 	ORDER BY t1.createtime
   	<if test="start != null and start >= 0">
@@ -168,50 +168,50 @@
   		</if>
   	</if>
   </select>
-  <select id="selectSupplierGroupPageCount" parameterType="com.tianrui.api.req.system.merchants.SupplierGroupQuery" resultType="java.lang.Long">
+  <select id="selectCustomerGroupPageCount" parameterType="com.tianrui.api.req.system.merchants.CustomerGroupQuery" resultType="java.lang.Long">
   	SELECT
 		count(0)
 	FROM
-		tr_supplier_db_group t1
-	LEFT JOIN tr_supplier_db_manage t2 ON t1.groupid = t2.id
+		tr_customer_db_group t1
+	LEFT JOIN tr_customer_db_manage t2 ON t1.groupid = t2.id
 	WHERE
-		t1.state = 1 and t2.state = 1 and t1.supplierid = t1.groupid
-	<if test="supplierid != null and supplierid != ''">
-		and t2.id = #{supplierid,jdbcType=VARCHAR}
+		t1.state = 1 and t2.state = 1 and t1.customerid = t1.groupid
+	<if test="customerid != null and customerid != ''">
+		and t2.id = #{customerid,jdbcType=VARCHAR}
 	</if>
-	<if test="suppliercode != null and suppliercode != ''">
-		and t2.code like CONCAT('%',#{suppliercode,jdbcType=VARCHAR},'%')
+	<if test="customercode != null and customercode != ''">
+		and t2.code like CONCAT('%',#{customercode,jdbcType=VARCHAR},'%')
 	</if>
-	<if test="suppliername != null and suppliername != ''">
-		and t2.name like CONCAT('%',#{suppliername,jdbcType=VARCHAR},'%')
+	<if test="customername != null and customername != ''">
+		and t2.name like CONCAT('%',#{customername,jdbcType=VARCHAR},'%')
 	</if>
   </select>
-  <select id="selectSupplierByGroupId" parameterType="java.lang.String" resultType="com.tianrui.api.resp.system.merchants.AppSupplierGroup">
+  <select id="selectCustomerByGroupId" parameterType="java.lang.String" resultType="com.tianrui.api.resp.system.merchants.AppCustomerGroup">
   	SELECT
-		t1.supplierid as cutoverid, t2.name as cutovername, t1.groupid as groupid
+		t1.customerid as cutoverid, t2.name as cutovername, t1.groupid as groupid
 	FROM
-		tr_supplier_db_group t1
-	LEFT JOIN tr_supplier_db_manage t2 ON t1.supplierid = t2.id
+		tr_customer_db_group t1
+	LEFT JOIN tr_customer_db_manage t2 ON t1.customerid = t2.id
 	WHERE
 		t1.state = 1 and t2.state = 1
 	<if test="groupid != null and groupid != ''">
 		and t1.groupid = #{groupid,jdbcType=VARCHAR}
 	</if>
   </select>
-  <select id="supplierGroupDetail" parameterType="com.tianrui.api.req.system.merchants.SupplierGroupQuery" resultType="com.tianrui.api.resp.system.merchants.SupplierGroupResp">
+  <select id="customerGroupDetail" parameterType="com.tianrui.api.req.system.merchants.CustomerGroupQuery" resultType="com.tianrui.api.resp.system.merchants.CustomerGroupResp">
   	SELECT
-		<include refid="Base_Column_List_T"/>, t2.code as suppliercode, t2.name as suppliername
+		<include refid="Base_Column_List_T"/>, t2.code as customercode, t2.name as customername
 	FROM
-		tr_supplier_db_group t1
-	LEFT JOIN tr_supplier_db_manage t2 ON t1.supplierid = t2.id
+		tr_customer_db_group t1
+	LEFT JOIN tr_customer_db_manage t2 ON t1.customerid = t2.id
 	WHERE
-		t1.state = 1 and t2.state = 1 and t1.supplierid != t1.groupid and t1.groupid = #{groupid,jdbcType=VARCHAR}
+		t1.state = 1 and t2.state = 1 and t1.customerid != t1.groupid and t1.groupid = #{groupid,jdbcType=VARCHAR}
   </select>
   <insert id ="insertBatch" parameterType="java.util.List" >
-    insert into tr_supplier_db_group 
+    insert into tr_customer_db_group 
     (
 	    id, 
-	    supplierid, 
+	    customerid, 
 	    groupid, 
 	    state, 
 	    creator, 
@@ -223,7 +223,7 @@
     values 
     <foreach collection ="list" item="item" index= "index" separator =",">
     (   #{item.id}, 
-    	#{item.supplierid},
+    	#{item.customerid},
     	#{item.groupid},
     	#{item.state}, 
     	#{item.creator}, 
@@ -233,5 +233,5 @@
         #{item.remark}
     )
     </foreach >
-  </insert>  
+  </insert> 
 </mapper>

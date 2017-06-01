@@ -1,11 +1,11 @@
 ;(function($){
 	var URL = {
-			page: '/trfc/system/merchants/customerGroup/page',
-			customerAutoCompleteSearch: '/trfc/customer/autoCompleteSearch',
-			customerAutoCompleteNotGroupSearch: '/trfc/system/merchants/customerGroup/customerAutoCompleteNotGroupSearch',
-			addCustomerGroup: '/trfc/system/merchants/customerGroup/addCustomerGroup',
-			addCustomerToGroup: '/trfc/system/merchants/customerGroup/addCustomerToGroup',
-			customerGroupDetail: '/trfc/system/merchants/customerGroup/customerGroupDetail'
+			page: '/trfc/system/merchants/supplierGroup/page',
+			supplierAutoCompleteSearch: '/trfc/supplier/autoCompleteSearch',
+			supplierAutoCompleteNotGroupSearch: '/trfc/system/merchants/supplierGroup/supplierAutoCompleteNotGroupSearch',
+			addSupplierGroup: '/trfc/system/merchants/supplierGroup/addSupplierGroup',
+			addSupplierToGroup: '/trfc/system/merchants/supplierGroup/addSupplierToGroup',
+			supplierGroupDetail: '/trfc/system/merchants/supplierGroup/supplierGroupDetail'
 	};
 	//初始化方法
 	init();
@@ -21,16 +21,16 @@
 	//初始化autocomplete
 	function initAutoComplete(){
 		var cache = {};
-	    $("#customer").autocomplete({
+	    $("#supplier").autocomplete({
 	    	source: function( request, response ) {
 	    		var term = request.term;
-	    		var customer = cache['customer'] || {};
-	    		if ( term in customer ) {
-	    			response( customer[ term ] );
+	    		var supplier = cache['supplier'] || {};
+	    		if ( term in supplier ) {
+	    			response( supplier[ term ] );
 	    			return;
 	    		}
-	    		$.post( URL.customerAutoCompleteSearch, request, function( data, status, xhr ) {
-	    			customer[ term ] = data;
+	    		$.post( URL.supplierAutoCompleteSearch, request, function( data, status, xhr ) {
+	    			supplier[ term ] = data;
 	    			response( data );
 	    		});
 	    	},
@@ -43,22 +43,22 @@
 	    		}
 	    	},
 	    	select: function( event, ui ) {
-	    		$(this).val(ui.item.name).attr('customerid', ui.item.id).attr('select',true);
+	    		$(this).val(ui.item.name).attr('supplierid', ui.item.id).attr('select',true);
 	    		return false;
     		}
 	    }).off('click').on('click',function(){
 	    	$(this).autocomplete('search',' ');
 	    }).on('input keydown',function(){
-	    	$(this).removeAttr('customerid');
+	    	$(this).removeAttr('supplierid');
 	    }).change(function(){
-    		if(!$(this).attr('customerid')){
+    		if(!$(this).attr('supplierid')){
     			$(this).val('');
     		}
 	    });
-	    $("#a_customer").autocomplete({
+	    $("#a_supplier").autocomplete({
 	    	source: function( request, response ) {
 	    		var term = request.term;
-	    		$.post( URL.customerAutoCompleteNotGroupSearch, request, function( data, status, xhr ) {
+	    		$.post( URL.supplierAutoCompleteNotGroupSearch, request, function( data, status, xhr ) {
 	    			response( data );
 	    		});
 	    	},
@@ -71,22 +71,22 @@
 	    		}
 	    	},
 	    	select: function( event, ui ) {
-	    		$(this).val(ui.item.name).attr('customerid', ui.item.id).attr('select',true);
+	    		$(this).val(ui.item.name).attr('supplierid', ui.item.id).attr('select',true);
 	    		return false;
 	    	}
 	    }).off('click').on('click',function(){
 	    	$(this).autocomplete('search',' ');
 	    }).on('input keydown',function(){
-	    	$(this).removeAttr('customerid');
+	    	$(this).removeAttr('supplierid');
 	    }).change(function(){
-	    	if(!$(this).attr('customerid')){
+	    	if(!$(this).attr('supplierid')){
 	    		$(this).val('');
 	    	}
 	    });
-	    $(".customer").autocomplete({
+	    $(".supplier").autocomplete({
 	    	source: function( request, response ) {
 	    		var term = request.term;
-	    		$.post( URL.customerAutoCompleteNotGroupSearch, request, function( data, status, xhr ) {
+	    		$.post( URL.supplierAutoCompleteNotGroupSearch, request, function( data, status, xhr ) {
 	    			response( data );
 	    		});
 	    	},
@@ -101,13 +101,13 @@
 	    	select: function( event, ui ) {
 	    		var flag = true;
 	    		$(this).closest('tr').siblings().each(function(){
-	    			if($(this).find('td:eq(1) input').attr('customerid') == ui.item.id){
+	    			if($(this).find('td:eq(1) input').attr('supplierid') == ui.item.id){
 	    				flag = false;
 	    				return;
 	    			}
 	    		});
 	    		if(flag){
-	    			$(this).val(ui.item.name).attr('customerid', ui.item.id).attr('select',true);
+	    			$(this).val(ui.item.name).attr('supplierid', ui.item.id).attr('select',true);
 		    		$(this).closest('tr').next('tr').find('input').attr('readonly',false).attr('disabled', false);
 		    		return false;
 	    		}else{
@@ -121,9 +121,9 @@
 	    }).off('click').on('click',function(){
 	    	$(this).autocomplete('search',' ');
 	    }).on('input keydown',function(){
-	    	$(this).removeAttr('customerid');
+	    	$(this).removeAttr('supplierid');
 	    }).change(function(){
-	    	if(!$(this).attr('customerid')){
+	    	if(!$(this).attr('supplierid')){
 	    		$(this).val('');
 	    	}
 	    });
@@ -136,16 +136,16 @@
 		$('#searchBtn').off('click').on('click',function(){
 			queryData(1);
 		});
-		$('#addCustomerGroupBtn').off('click').on('click',function(){
+		$('#addSupplierGroupBtn').off('click').on('click',function(){
 			if($('#add').is(':visible')){
 				this.disabled = true;
-				addCustomerGroup(this);
+				addSupplierGroup(this);
 			}
 		});
-		$('#addCustomerToGroupBtn').off('click').on('click',function(){
+		$('#addSupplierToGroupBtn').off('click').on('click',function(){
 			if($('#addGroup').is(':visible')){
 				this.disabled = true;
-				addCustomerToGroup(this);
+				addSupplierToGroup(this);
 			}
 		});
 		$('#jumpPageNoBtn').off('click').on('click',function(){
@@ -169,13 +169,13 @@
 		var qtp = $('#qtp').val(); qtp = $.trim(qtp);
 		var keyword = $('#keyword').val(); keyword = $.trim(keyword);
 		if(qtp == 'bh'){
-			params.customercode = keyword;
+			params.suppliercode = keyword;
 		}
 		if(qtp == 'mc'){
-			params.customername = keyword;
+			params.suppliername = keyword;
 		}
-		var customerid = $('#customer').attr('customerid'); customerid = $.trim(customerid);
-		params.customerid = customerid;
+		var supplierid = $('#supplier').attr('supplierid'); supplierid = $.trim(supplierid);
+		params.supplierid = supplierid;
 		var pageSize = $('#pageSize').val();pageSize = $.trim(pageSize);
 		params.pageSize = pageSize;
 		return params;
@@ -230,8 +230,8 @@
 			for(var i=0;i<list.length;i++){
 				var obj = list[i] || {};
 				$('<tr>').append('<td>'+(i+1)+'</td>')
-						.append('<td>'+(obj.customercode || '')+'</td>')
-						.append('<td>'+(obj.customername || '')+'</td>')
+						.append('<td>'+(obj.suppliercode || '')+'</td>')
+						.append('<td>'+(obj.suppliername || '')+'</td>')
 						.append('<td>'+(obj.remark || '')+'</td>')
 						.append('<td><span><a data-toggle="modal" data-target="#addGroup" class="updateView"><i class="iconfont" data-toggle="tooltip" data-placement="left" title="添加成员">&#xe632;</i></a></span>'
 								+'<span><a class="detailView"><i class="iconfont" data-toggle="tooltip" data-placement="left" title="添加成员">&#xe62c;</i></a></span></td>')
@@ -240,14 +240,14 @@
 			}
 			$('#dataBody .updateView').off('click').on('click',function(){
 				var obj = $(this).closest('tr').data();
-				$('#customerGroup').val(obj.customername || '').attr('groupid', obj.customerid || '');
-				$('#tab').find('input').val('').removeClass('customerid');
+				$('#supplierGroup').val(obj.suppliername || '').attr('groupid', obj.supplierid || '');
+				$('#tab').find('input').val('').removeClass('supplierid');
 				$('#tab').find('tbody>tr:gt(0) input').attr('readonly',true).attr('disabled',true);
 			});
 			$('#dataBody .detailView').off('click').on('click',function(){
 				var obj = $(this).closest('tr').data();
-				$('#customerGroupDetail').val(obj.customername || '');
-				showGroupDetail(obj.customerid)
+				$('#supplierGroupDetail').val(obj.suppliername || '');
+				showGroupDetail(obj.supplierid)
 			});
 		}else{
 			layer.msg('暂无数据...');
@@ -256,7 +256,7 @@
 	//GET组成员
 	function showGroupDetail(groupid){
 		$.ajax({
-			url : URL.customerGroupDetail,
+			url : URL.supplierGroupDetail,
 			data:{
 				groupid: groupid
 			},
@@ -281,35 +281,35 @@
 			for(var i=0;i<list.length;i++){
 				var obj = list[i] || {};
 				$('<tr>').append('<td style="line-height: 30px;">'+(i+1)+'</td>')
-						 .append('<td style="line-height: 30px;">'+(obj.customercode || '')+'</td>')
-						 .append('<td style="line-height: 30px;max-width: 200px;text-overflow: ellipsis;white-space: nowrap;overflow: hidden;">'+(obj.customername || '')+'</td>')
+						 .append('<td style="line-height: 30px;">'+(obj.suppliercode || '')+'</td>')
+						 .append('<td style="line-height: 30px;max-width: 200px;text-overflow: ellipsis;white-space: nowrap;overflow: hidden;">'+(obj.suppliername || '')+'</td>')
 						 .append('<td style="line-height: 30px;">'+(obj.remark || '')+'</td>')
 						 .appendTo('#tab_detail tbody');
 			}
 		}
 	}
 	//获取组参数
-	function getAddCustomerGroupParams(){
-		var customerid = $('#a_customer').attr('customerid'); customerid = $.trim(customerid);
+	function getAddSupplierGroupParams(){
+		var supplierid = $('#a_supplier').attr('supplierid'); supplierid = $.trim(supplierid);
 		var remark = $('#remark').val();
 		return {
-			customerid: customerid,
+			supplierid: supplierid,
 			remark: remark
 		}
 	}
 	//校验参数
 	function validate(params){
-		if(!params.customerid){
+		if(!params.supplierid){
 			layer.msg('请选择供应商！', {icon: 5}); return false;
 		}
 		return params;
 	}
 	//添加组
-	function addCustomerGroup(_this){
-		var params = getAddCustomerGroupParams();
+	function addSupplierGroup(_this){
+		var params = getAddSupplierGroupParams();
 		if(validate(params)){
 			$.ajax({
-				url : URL.addCustomerGroup,
+				url : URL.addSupplierGroup,
 				data:params,
 				async:true,
 				cache:false,
@@ -329,16 +329,16 @@
 		}
 	}
 	//获取组成员参数
-	function getAddCustomerToGroupParams(){
-		var groupid = $('#customerGroup').attr('groupid');
+	function getAddSupplierToGroupParams(){
+		var groupid = $('#supplierGroup').attr('groupid');
 		var childrenList = [];
 		$('#tab tbody').find('tr').each(function(){
 			var input1 = $(this).find('td:eq(1) input');
-			var input1_val_id = input1.attr('customerid'); input1_val_id = $.trim(input1_val_id);
+			var input1_val_id = input1.attr('supplierid'); input1_val_id = $.trim(input1_val_id);
 			if(!input1.disabled && input1_val_id){
 				var input2 = $(this).find('td:eq(2) input');
 				childrenList.push({
-					customerid: input1_val_id,
+					supplierid: input1_val_id,
 					remark: input2.val()
 				});
 			}
@@ -349,7 +349,7 @@
 		}
 	}
 	//校验参数
-	function validateAddCustomerToGroup(params){
+	function validateAddSupplierToGroup(params){
 		if(!params.groupid){
 			layer.msg('请先选择供应商再添加！', {icon: 5}); return false;
 		}
@@ -359,11 +359,11 @@
 		return params;
 	}
 	//添加组成员
-	function addCustomerToGroup(_this){
-		var params = getAddCustomerToGroupParams();
-		if(validateAddCustomerToGroup(params)){
+	function addSupplierToGroup(_this){
+		var params = getAddSupplierToGroupParams();
+		if(validateAddSupplierToGroup(params)){
 			$.ajax({
-				url : URL.addCustomerToGroup,
+				url : URL.addSupplierToGroup,
 				data:params,
 				async:true,
 				cache:false,

@@ -1,14 +1,14 @@
 package com.tianrui.service.bean.system.merchants;
 /**
- * @Description 供应商数据权限实体Bean
+ * @Description 客户数据权限实体Bean
  * @author zhanggaohao
- * @version 2017年5月9日 上午9:17:08
+ * @version 2017年5月31日 下午4:46:23
  */
-public class SupplierGroup {
+public class CustomerGroup {
 	//主键id
     private String id;
-    //供应商id
-    private String supplierid;
+    //客户id
+    private String customerid;
     //组id
     private String groupid;
     //状态（0：失效，1：有效）
@@ -32,12 +32,12 @@ public class SupplierGroup {
         this.id = id == null ? null : id.trim();
     }
 
-    public String getSupplierid() {
-        return supplierid;
+    public String getCustomerid() throws RuntimeException {
+        return customerid;
     }
 
-    public void setSupplierid(String supplierid) {
-        this.supplierid = supplierid == null ? null : supplierid.trim();
+    public void setCustomerid(String customerid) {
+        this.customerid = customerid == null ? null : customerid.trim();
     }
 
     public String getGroupid() {
@@ -53,7 +53,7 @@ public class SupplierGroup {
     }
 
     public void setState(String state) {
-        this.state = state == null ? null : state.trim();
+        this.state = state;
     }
 
     public String getCreator() {

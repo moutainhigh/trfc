@@ -11,38 +11,38 @@ import org.springframework.stereotype.Service;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.tianrui.api.intf.system.auth.ISystemUserService;
-import com.tianrui.api.intf.system.merchants.ISupplierGroupService;
+import com.tianrui.api.intf.system.merchants.ICustomerGroupService;
 import com.tianrui.api.req.system.merchants.AppUserGroupReq;
-import com.tianrui.api.req.system.merchants.SupplierGroupQuery;
-import com.tianrui.api.req.system.merchants.SupplierGroupSave;
+import com.tianrui.api.req.system.merchants.CustomerGroupQuery;
+import com.tianrui.api.req.system.merchants.CustomerGroupSave;
 import com.tianrui.api.resp.system.auth.SystemUserResp;
 import com.tianrui.api.resp.system.merchants.AppCutoverGroup;
-import com.tianrui.api.resp.system.merchants.SupplierGroupResp;
-import com.tianrui.service.bean.system.merchants.SupplierGroup;
-import com.tianrui.service.mapper.system.merchants.SupplierGroupMapper;
+import com.tianrui.api.resp.system.merchants.CustomerGroupResp;
+import com.tianrui.service.bean.system.merchants.CustomerGroup;
+import com.tianrui.service.mapper.system.merchants.CustomerGroupMapper;
 import com.tianrui.smartfactory.common.constants.ErrorCode;
 import com.tianrui.smartfactory.common.utils.UUIDUtil;
 import com.tianrui.smartfactory.common.vo.PaginationVO;
 import com.tianrui.smartfactory.common.vo.Result;
 
 @Service
-public class SupplierGroupService implements ISupplierGroupService {
+public class CustomerGroupService implements ICustomerGroupService {
     
 	@Autowired
-	private SupplierGroupMapper supplierGroupMapper;
+	private CustomerGroupMapper customerGroupMapper;
 	@Autowired
 	private ISystemUserService systemUserService;
 	
 	@Override
-	public PaginationVO<SupplierGroupResp> page(SupplierGroupQuery query){
-		PaginationVO<SupplierGroupResp> page = null;
+	public PaginationVO<CustomerGroupResp> page(CustomerGroupQuery query){
+		PaginationVO<CustomerGroupResp> page = null;
 		if(query != null){
-			page = new PaginationVO<SupplierGroupResp>();
-			long count = supplierGroupMapper.selectSupplierGroupPageCount(query);
+			page = new PaginationVO<CustomerGroupResp>();
+			long count = customerGroupMapper.selectCustomerGroupPageCount(query);
 			if(count > 0){
 				query.setStart((query.getPageNo()-1) * query.getPageSize());
 				query.setLimit(query.getPageSize());
-				List<SupplierGroupResp> list = supplierGroupMapper.selectSupplierGroupPage(query);
+				List<CustomerGroupResp> list = customerGroupMapper.selectCustomerGroupPage(query);
 				page.setList(list);
 			}
 			page.setPageNo(query.getPageNo());
@@ -53,19 +53,19 @@ public class SupplierGroupService implements ISupplierGroupService {
 	}
 
 	@Override
-	public Result addSupplierGroup(SupplierGroupSave save) {
+	public Result addCustomerGroup(CustomerGroupSave save) {
 		Result result = Result.getParamErrorResult();
-		if(save != null && StringUtils.isNotBlank(save.getSupplierid())){
-			if(validateSupplier(save.getSupplierid(), result)){
-				SupplierGroup bean = new SupplierGroup();
+		if(save != null && StringUtils.isNotBlank(save.getCustomerid())){
+			if(validateCustomer(save.getCustomerid(), result)){
+				CustomerGroup bean = new CustomerGroup();
 				bean.setId(UUIDUtil.getId());
-				bean.setSupplierid(save.getSupplierid());
-				bean.setGroupid(save.getSupplierid());
+				bean.setCustomerid(save.getCustomerid());
+				bean.setGroupid(save.getCustomerid());
 				bean.setState("1");
 				bean.setCreator(save.getCurrId());
 				bean.setCreatetime(System.currentTimeMillis());
 				bean.setRemark(save.getRemark());
-				if(supplierGroupMapper.insertSelective(bean) == 1){
+				if(customerGroupMapper.insertSelective(bean) == 1){
 					result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
 				}else{
 					result.setErrorCode(ErrorCode.OPERATE_ERROR);
@@ -75,8 +75,8 @@ public class SupplierGroupService implements ISupplierGroupService {
 		return result;
 	}
 	
-	public boolean validateSupplier(String supplierid, Result result){
-		if(supplierGroupMapper.validateSupplier(supplierid) != null){
+	public boolean validateCustomer(String customerid, Result result){
+		if(customerGroupMapper.validateCustomer(customerid) != null){
 			result.setErrorCode(ErrorCode.SUPPLIER_GROUP_ERROR0);
 			return false;
 		}
@@ -84,19 +84,19 @@ public class SupplierGroupService implements ISupplierGroupService {
 	}
 
 	@Override
-	public Result addSupplierToGroup(String groupid, String childrenList, String userid) {
+	public Result addCustomerToGroup(String groupid, String childrenList, String userid) {
 		Result result = Result.getParamErrorResult();
 		if(StringUtils.isNotBlank(groupid) 
 				&& StringUtils.isNotBlank(childrenList) 
 				&& StringUtils.isNotBlank(userid)){
 			List<JSONObject> jsonArray = JSONArray.parseArray(childrenList, JSONObject.class);
 			if(CollectionUtils.isNotEmpty(jsonArray)){
-				List<SupplierGroup> list = new ArrayList<SupplierGroup>();
+				List<CustomerGroup> list = new ArrayList<CustomerGroup>();
 				for(JSONObject jsonObject : jsonArray){
-					if(validateSupplier(jsonObject.getString("supplierid"), result)){
-						SupplierGroup bean = new SupplierGroup();
+					if(validateCustomer(jsonObject.getString("customerid"), result)){
+						CustomerGroup bean = new CustomerGroup();
 						bean.setId(UUIDUtil.getId());
-						bean.setSupplierid(jsonObject.getString("supplierid"));
+						bean.setCustomerid(jsonObject.getString("customerid"));
 						bean.setGroupid(groupid);
 						bean.setState("1");
 						bean.setCreator(userid);
@@ -107,7 +107,7 @@ public class SupplierGroupService implements ISupplierGroupService {
 						return result;
 					}
 				}
-				if(supplierGroupMapper.insertBatch(list) == jsonArray.size()){
+				if(customerGroupMapper.insertBatch(list) == jsonArray.size()){
 					result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
 				}else{
 					result.setErrorCode(ErrorCode.OPERATE_ERROR);
@@ -118,12 +118,12 @@ public class SupplierGroupService implements ISupplierGroupService {
 	}
 
 	@Override
-	public Result supplierGroupCutover(String supplierid) {
+	public Result customerGroupCutover(String customerid) {
 		Result result = Result.getParamErrorResult();
-		if(StringUtils.isNotBlank(supplierid)){
-			SupplierGroup supplierGroup = supplierGroupMapper.validateSupplier(supplierid);
-			if(supplierGroup != null){
-				List<AppCutoverGroup> list = supplierGroupMapper.selectSupplierByGroupId(supplierGroup.getGroupid());
+		if(StringUtils.isNotBlank(customerid)){
+			CustomerGroup customerGroup = customerGroupMapper.validateCustomer(customerid);
+			if(customerGroup != null){
+				List<AppCutoverGroup> list = customerGroupMapper.selectCustomerByGroupId(customerGroup.getGroupid());
 				result.setData(list);
 				result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
 			}else{
@@ -150,10 +150,10 @@ public class SupplierGroupService implements ISupplierGroupService {
 	}
 
 	@Override
-	public Result supplierGroupDetail(SupplierGroupQuery query) {
+	public Result customerGroupDetail(CustomerGroupQuery query) {
 		Result result = Result.getParamErrorResult();
 		if(query != null && StringUtils.isNotBlank(query.getGroupid())){
-			List<SupplierGroupResp> list = supplierGroupMapper.supplierGroupDetail(query);
+			List<CustomerGroupResp> list = customerGroupMapper.customerGroupDetail(query);
 			result.setData(list);
 			result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
 		}

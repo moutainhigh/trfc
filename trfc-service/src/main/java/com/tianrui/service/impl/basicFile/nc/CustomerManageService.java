@@ -204,4 +204,9 @@ public class CustomerManageService implements ICustomerManageService {
 		return list;
 	}
 	
+	@Override
+	public List<CustomerManageResp> autoCompleteNotGroupSearch(String likeSearch) throws Exception {
+		return customerManageMapper.autoCompleteNotGroupSearch(likeSearch);
+	}
+	
 }

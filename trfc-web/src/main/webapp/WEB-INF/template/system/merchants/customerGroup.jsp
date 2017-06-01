@@ -3,7 +3,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>供应商用户</title>
+<title>客户用户</title>
 <!-- 引用公共header部分 -->
 <jsp:include page="../../common/base/header_busi.jsp"></jsp:include>
 <style type="text/css">
@@ -61,7 +61,7 @@ input[readonly] {
 									<label>关键字：</label> <input id="keyword" type="text">
 								</div>
 								<div class="intel_solo">
-									<label>供应商：</label> <input id="supplier" type="text">
+									<label>客户：</label> <input id="customer" type="text">
 								</div>
 								<div class="intel_solo">
 									<div class="intel_sbtn">
@@ -90,7 +90,7 @@ input[readonly] {
 								<tr>
 									<th>序号</th>
 									<th>编号</th>
-									<th>供应商名称</th>
+									<th>客户名称</th>
 									<th>说明</th>
 									<th>操作</th>
 								</tr>
@@ -140,7 +140,7 @@ input[readonly] {
 					<div class="modal-body">
 						<div class="alt_edit">
 							<div class="alt_edit_div">
-								<label class="colorred">供应商*：</label> <input id="a_supplier"
+								<label class="colorred">客户*：</label> <input id="a_customer"
 									type="text">
 							</div>
 							<div class="alt_edit_div">
@@ -153,7 +153,7 @@ input[readonly] {
 						</div>
 					</div>
 					<div class="modal-footer">
-						<button id="addSupplierGroupBtn" type="button"
+						<button id="addCustomerGroupBtn" type="button"
 							class="btn btn-primary">确定</button>
 						<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
 					</div>
@@ -178,7 +178,7 @@ input[readonly] {
 					<div class="modal-body">
 						<div class="alt_edit">
 							<div class="alt_edit_div">
-								<label>用户：</label> <input id="supplierGroup" type="text"
+								<label>用户：</label> <input id="customerGroup" type="text"
 									readonly="true">
 							</div>
 							<div class="clear"></div>
@@ -198,37 +198,37 @@ input[readonly] {
 												<thead>
 													<tr>
 														<th>行号</th>
-														<th style="width: 30%;">供应商</th>
+														<th style="width: 30%;">客户</th>
 														<th>说明</th>
 													</tr>
 												</thead>
 												<tbody>
 													<tr>
 														<td>1</td>
-														<td><input class="supplier" type="text"></td>
+														<td><input class="customer" type="text"></td>
 														<td><input type="text"></td>
 													</tr>
 													<tr>
 														<td>2</td>
-														<td><input class="supplier" type="text"
+														<td><input class="customer" type="text"
 															readonly="true" disabled="disabled"></td>
 														<td><input type="text" readonly="true"></td>
 													</tr>
 													<tr>
 														<td>3</td>
-														<td><input class="supplier" type="text"
+														<td><input class="customer" type="text"
 															readonly="true" disabled="disabled"></td>
 														<td><input type="text" readonly="true"></td>
 													</tr>
 													<tr>
 														<td>4</td>
-														<td><input class="supplier" type="text"
+														<td><input class="customer" type="text"
 															readonly="true" disabled="disabled"></td>
 														<td><input type="text" readonly="true"></td>
 													</tr>
 													<tr>
 														<td>5</td>
-														<td><input class="supplier" type="text"
+														<td><input class="customer" type="text"
 															readonly="true" disabled="disabled"></td>
 														<td><input type="text" readonly="true"></td>
 													</tr>
@@ -242,7 +242,7 @@ input[readonly] {
 						</div>
 					</div>
 					<div class="modal-footer">
-						<button id="addSupplierToGroupBtn" type="button"
+						<button id="addCustomerToGroupBtn" type="button"
 							class="btn btn-primary">确定</button>
 						<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
 					</div>
@@ -267,7 +267,7 @@ input[readonly] {
 					<div class="modal-body">
 						<div class="alt_edit">
 							<div class="alt_edit_div">
-								<label>用户：</label> <input id="supplierGroupDetail" type="text"
+								<label>用户：</label> <input id="customerGroupDetail" type="text"
 									readonly="true">
 							</div>
 							<div class="clear"></div>
@@ -288,8 +288,8 @@ input[readonly] {
 												<thead>
 													<tr>
 														<th style="width: 60px;">行号</th>
-														<th style="width: 20%;">供应商编号</th>
-														<th style="width: 30%;">供应商名称</th>
+														<th style="width: 20%;">客户编号</th>
+														<th style="width: 30%;">客户名称</th>
 														<th>说明</th>
 													</tr>
 												</thead>
@@ -311,6 +311,6 @@ input[readonly] {
 	<!-- 引用公共footer部分 -->
 	<jsp:include page="../../common/base/footer_busi.jsp"></jsp:include>
 	<script type="text/javascript"
-		src="/javascript/system/merchants/supplierGroup.js"></script>
+		src="/javascript/system/merchants/customerGroup.js"></script>
 </body>
 </html>

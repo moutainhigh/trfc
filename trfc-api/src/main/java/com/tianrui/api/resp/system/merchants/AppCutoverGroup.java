@@ -3,11 +3,11 @@ package com.tianrui.api.resp.system.merchants;
 import com.tianrui.api.resp.BaseResp;
 
 /**
- * @Description 供应商用户返回结果
+ * @Description APP切换用户返回结果
  * @author zhanggaohao
  * @version 2017年5月9日 上午9:17:08
  */
-public class AppSupplierGroup extends BaseResp {
+public class AppCutoverGroup extends BaseResp {
 	
 	private static final long serialVersionUID = 5391895839927532175L;
 	//待切换用户id

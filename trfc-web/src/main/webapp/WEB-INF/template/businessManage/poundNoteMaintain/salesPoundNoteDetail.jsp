@@ -167,7 +167,7 @@
 								</div>
 							</div>
 							<div class="cg_tabcont hide">
-								<c:if test="${ fn:length(accessImages) == 0}">
+								<c:if test="${empty accessImages}">
 									<div class="noimg">
 										<img alt="" src="${staticBasePath}/images/noimg.gif" />
 									</div>
@@ -177,7 +177,7 @@
 								</c:forEach>
 							</div>
 							<div class="cg_tabcont hide">
-								<c:if test="${ fn:length(poundImages) == 0}">
+								<c:if test="${empty poundImages}">
 									<div class="noimg">
 										<img alt="" src="${staticBasePath}/images/noimg.gif" />
 									</div>

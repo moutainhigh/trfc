@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Param;
 
 import com.tianrui.api.req.basicFile.nc.CustomerManageQuery;
 import com.tianrui.api.req.businessManage.handset.HandSetRequestParam;
+import com.tianrui.api.resp.basicFile.nc.CustomerManageResp;
 import com.tianrui.api.resp.businessManage.handset.HandSetReturnResp;
 import com.tianrui.service.bean.basicFile.nc.CustomerManage;
 
@@ -43,4 +44,6 @@ public interface CustomerManageMapper {
 	List<HandSetReturnResp> handSetQueryAll(HandSetRequestParam req);
 	
 	List<CustomerManage> findCustomerNotSystemUser();
+
+	List<CustomerManageResp> autoCompleteNotGroupSearch(String likeSearch);
 }

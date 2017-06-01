@@ -581,4 +581,19 @@
 		where NOT EXISTS(select id from
 		tr_system_user where code = c.code);
 	</select>
+	<select id="autoCompleteNotGroupSearch" parameterType="java.lang.String" resultType="com.tianrui.api.resp.basicFile.nc.CustomerManageResp">
+		select
+		<include refid="Base_Column_List_S" />, t.mobilePhone
+		from tr_customer_db_manage s
+			left join tr_system_user t on s.id = t.ncid
+		where s.state = 1 and t.identityTypes = 2
+		<if test="likeSearch != null and likeSearch !=''">
+			and (s.name like CONCAT('%', #{likeSearch,jdbcType=VARCHAR}, '%') 
+				or s.code like CONCAT('%', #{likeSearch,jdbcType=VARCHAR}, '%')
+				or t.mobilePhone like CONCAT('%', #{likeSearch,jdbcType=VARCHAR}, '%'))
+		</if>
+		and NOT EXISTS(select id from tr_customer_db_group where customerid = s.id and state = 1)
+		order by s.createtime desc
+		limit 0,20
+	</select>
 </mapper>
