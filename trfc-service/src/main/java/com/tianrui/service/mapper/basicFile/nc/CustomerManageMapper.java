@@ -45,5 +45,5 @@ public interface CustomerManageMapper {
 	
 	List<CustomerManage> findCustomerNotSystemUser();
 
-	List<CustomerManageResp> autoCompleteNotGroupSearch(String likeSearch);
+	List<CustomerManageResp> autoCompleteNotGroupSearch(@Param("likeSearch")String likeSearch);
 }

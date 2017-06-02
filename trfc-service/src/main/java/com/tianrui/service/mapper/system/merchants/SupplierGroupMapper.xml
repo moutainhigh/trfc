@@ -186,7 +186,7 @@
 		and t2.name like CONCAT('%',#{suppliername,jdbcType=VARCHAR},'%')
 	</if>
   </select>
-  <select id="selectSupplierByGroupId" parameterType="java.lang.String" resultType="com.tianrui.api.resp.system.merchants.AppSupplierGroup">
+  <select id="selectSupplierByGroupId" parameterType="java.lang.String" resultType="com.tianrui.api.resp.system.merchants.AppCutoverGroup">
   	SELECT
 		t1.supplierid as cutoverid, t2.name as cutovername, t1.groupid as groupid
 	FROM

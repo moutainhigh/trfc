@@ -145,7 +145,7 @@
   	select <include refid="Base_Column_List"/>
   	from tr_customer_db_group where state = 1 and customerid = #{customerid,jdbcType=VARCHAR}
   </select>
-  <select id="selectCustomerGroupPage" parameterType="com.tianrui.api.req.sCustomerrchants.CustomerGroupQuery" resultType="com.tianrui.api.resp.system.merchants.CustomerGroupResp">
+  <select id="selectCustomerGroupPage" parameterType="com.tianrui.api.req.system.merchants.CustomerGroupQuery" resultType="com.tianrui.api.resp.system.merchants.CustomerGroupResp">
   	SELECT <include refid="Base_Column_List_T"/>, t2.code as customercode, t2.name as customername
 	FROM
 		tr_customer_db_group t1
@@ -186,7 +186,7 @@
 		and t2.name like CONCAT('%',#{customername,jdbcType=VARCHAR},'%')
 	</if>
   </select>
-  <select id="selectCustomerByGroupId" parameterType="java.lang.String" resultType="com.tianrui.api.resp.system.merchants.AppCustomerGroup">
+  <select id="selectCustomerByGroupId" parameterType="java.lang.String" resultType="com.tianrui.api.resp.system.merchants.AppCutoverGroup">
   	SELECT
 		t1.customerid as cutoverid, t2.name as cutovername, t1.groupid as groupid
 	FROM

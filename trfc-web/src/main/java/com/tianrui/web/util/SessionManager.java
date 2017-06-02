@@ -46,8 +46,8 @@ public class SessionManager {
 				String cookie_redis = cacheClient.getString(key_user_2_login);
 				// 如果cookie值内 缓存的不一致 则此账户在别处登录
 				if (!StringUtils.equals(cookie_redis, cookie.getValue())) {
-					vo = null;
-					cacheClient.remove(cookie.getValue());
+//					vo = null;
+//					cacheClient.remove(cookie.getValue());
 				}
 			} else {
 				vo = null;
