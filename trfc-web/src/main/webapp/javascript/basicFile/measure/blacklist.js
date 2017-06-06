@@ -202,17 +202,12 @@
 //		console.log('addMinemouth');
 		if($('#addView').is(':visible')){
 			var url=URL.addBlacklistUrl;
-			var vehicleno = $('#vehicleno').val();vehicleno = $.trim(vehicleno);
+			var vehicleno = $('#vehicleno').attr('vehiclenoid'); vehiclenoid = $.trim(vehiclenoid);
 			var creator = $('#creator').val();creator = $.trim(creator);
-			if(!vehicleno){
-				layer.msg('车号不能为空哦',{icon:5});
-				$('#add .btn-primary').removeAttr('data-dismiss');
-				return;
-			}
 			var createtime = $('#createtime').val();createtime = $.trim(createtime);
 			var remarks = $('#remarks').val();remarks = $.trim(remarks);
 			var params={
-					vehicleno:vehicleno,
+					vehiclenoid:vehiclenoid,
 					creator:creator,
 					createtime:createtime,
 					remarks:remarks,
