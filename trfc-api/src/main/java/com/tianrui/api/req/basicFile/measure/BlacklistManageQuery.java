@@ -5,6 +5,9 @@ import com.tianrui.api.req.BaseReq;
 public class BlacklistManageQuery extends BaseReq {
 
 	private static final long serialVersionUID = -2588539523024745920L;
+	
+	//主id
+	private String id;
 	//车辆id
     private String vehicleid;
     //车牌号
@@ -87,4 +90,12 @@ public class BlacklistManageQuery extends BaseReq {
     public void setCreatetime(Long createtime) {
         this.createtime = createtime;
     }
+    
+    public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
 }

@@ -157,7 +157,11 @@ public class BlacklistManageService implements IBlacklistManageService {
 	
 	@Override
 	public Result deleteblacklist(BlacklistManageQuery query) {
-		return null;
+		Result result = Result.getParamErrorResult();
+		if (query!=null && StringUtils.isNotBlank(query.getId())) {
+			result = blacklistManageMapper.deleteBlacklistById(query.getId());
+		}
+		return result;
 	}
 
 	@Transactional

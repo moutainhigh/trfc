@@ -160,6 +160,10 @@
     delete from tr_blacklist_db_manage
     where vehicleid = #{vehicleid,jdbcType=VARCHAR}
   </delete>
+  <delete id="deleteBlacklistById" parameterType="java.lang.String" >
+    delete from tr_blacklist_db_manage
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
   <select id="findBlacklistPageCount"
 		parameterType="com.tianrui.api.req.basicFile.measure.BlacklistManageQuery"
 		resultType="java.lang.Long">

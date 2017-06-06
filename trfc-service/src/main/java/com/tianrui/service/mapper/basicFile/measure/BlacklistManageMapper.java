@@ -29,6 +29,8 @@ public interface BlacklistManageMapper {
     int updateByPrimaryKey(BlacklistManage record);
     
     int deleteBlacklistByVid(String vehicleid);
+    
+    Result deleteBlacklistById(String Id);
 
 	List<VehicleManage> selectSelective(BlacklistManage record);
 

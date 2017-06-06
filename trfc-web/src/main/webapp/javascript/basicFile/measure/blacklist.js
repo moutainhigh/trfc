@@ -207,7 +207,7 @@
 			var createtime = $('#createtime').val();createtime = $.trim(createtime);
 			var remarks = $('#remarks').val();remarks = $.trim(remarks);
 			var params={
-					vehiclenoid:vehicleid,
+					vehicleid:vehicleid,
 					creator:creator,
 					createtime:createtime,
 					remarks:remarks,
