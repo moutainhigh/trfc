@@ -202,12 +202,12 @@
 //		console.log('addMinemouth');
 		if($('#addView').is(':visible')){
 			var url=URL.addBlacklistUrl;
-			var vehicleno = $('#vehicleno').attr('vehiclenoid'); vehiclenoid = $.trim(vehiclenoid);
+			var vehicleid = $('#vehicleno').attr('vehiclenoid'); 
 			var creator = $('#creator').val();creator = $.trim(creator);
 			var createtime = $('#createtime').val();createtime = $.trim(createtime);
 			var remarks = $('#remarks').val();remarks = $.trim(remarks);
 			var params={
-					vehiclenoid:vehiclenoid,
+					vehiclenoid:vehicleid,
 					creator:creator,
 					createtime:createtime,
 					remarks:remarks,

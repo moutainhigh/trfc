@@ -27,7 +27,7 @@
                     <div class="intel_sline">
                         <div class="intel_solo">
                             <label>车辆：</label>
-                            <input type="text" id="vehicleno" placeholder="请输入车牌号">
+                            <input type="text" id="a_vehicle" placeholder="请输入车牌号">
                         </div>
                         <div class="intel_solo">
                             <div class="intel_sbtn">
@@ -115,7 +115,7 @@
                 <div class="alt_edit">
                     <div class="alt_edit_div">
                         <label>车号：</label>
-                        <input type="text" id="a_vehicle" placeholder="请选择车牌号">
+                        <input type="text" id="vehicleno" placeholder="请选择车牌号">
                     </div>
                     <div class="alt_edit_div">
                         <label>操作人：</label>

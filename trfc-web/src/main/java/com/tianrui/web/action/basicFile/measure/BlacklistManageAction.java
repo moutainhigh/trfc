@@ -85,7 +85,7 @@ private Logger log=LoggerFactory.getLogger(BlacklistManageAction.class);
 		return result;
 	}
 	
-	@RequestMapping("add")
+	@RequestMapping("/add")
 	@ResponseBody
 	public Result add(BlacklistManageSave save, HttpServletRequest request){
 		Result result = Result.getErrorResult();
