@@ -1,30 +1,25 @@
-package com.tianrui.api.resp.basicFile.measure;
+package com.tianrui.api.req.basicFile.measure;
 
-import com.tianrui.api.resp.BaseResp;
-import com.tianrui.smartfactory.common.utils.DateUtil;
+import com.tianrui.api.req.BaseReq;
 
-public class BlacklistManageResp extends BaseResp {
+public class BlacklistManageSave extends BaseReq {
 
-	private static final long serialVersionUID = 7226887348956432032L;
-
+	private static final long serialVersionUID = -2588539523024745920L;
+	
 	private String id;
-
+	//车辆id
     private String vehicleid;
-
+    //车牌号
     private String vehicleno;
-
+    //备注
     private String remarks;
-
+    //创建人
     private String creator;
-    
-    private String creatorName;
-
+    //创建时间
     private Long createtime;
-    
-    private String createtimeStr;
-
+    //最后修改人
     private String modifier;
-
+    //最后修改时间
     private Long modifytime;
 
     public String getId() {
@@ -67,30 +62,13 @@ public class BlacklistManageResp extends BaseResp {
         this.creator = creator == null ? null : creator.trim();
     }
 
-    public String getCreatorName() {
-		return creatorName;
-	}
-
-	public void setCreatorName(String creatorName) {
-		this.creatorName = creatorName;
-	}
-
-	public Long getCreatetime() {
+    public Long getCreatetime() {
         return createtime;
     }
 
     public void setCreatetime(Long createtime) {
         this.createtime = createtime;
-        this.createtimeStr = DateUtil.parse(createtime, DateUtil.Y_M_D_H_M_S);
     }
-
-	public String getCreatetimeStr() {
-		return createtimeStr;
-	}
-
-	public void setCreatetimeStr(String createtimeStr) {
-		this.createtimeStr = createtimeStr;
-	}
 
     public String getModifier() {
         return modifier;

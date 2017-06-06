@@ -1,13 +1,11 @@
-package com.tianrui.service.bean.basicFile.measure;
-/**
- * 车辆黑名单Bean
- * @author zhanggaohao
- * @createtime 2016年12月20日 下午4:19:40
- * @classname BlacklistManage.java
- */
-public class BlacklistManage {
-    private String id;
-    //车辆id
+package com.tianrui.api.req.basicFile.measure;
+
+import com.tianrui.api.req.BaseReq;
+
+public class BlacklistManageQuery extends BaseReq {
+
+	private static final long serialVersionUID = -2588539523024745920L;
+	//车辆id
     private String vehicleid;
     //车牌号
     private String vehicleno;
@@ -17,20 +15,40 @@ public class BlacklistManage {
     private String creator;
     //创建时间
     private Long createtime;
-    //最后修改人
-    private String modifier;
-    //最后修改时间
-    private Long modifytime;
+    //每页条数
+    private Integer limit;
+    //开始页
+    private Integer start;
+    
+    private Integer pageSize;
+    
+   // private Integer PageNo;
 
-    public String getId() {
-        return id;
-    }
+    public Integer getPageSize() {
+		return pageSize;
+	}
 
-    public void setId(String id) {
-        this.id = id == null ? null : id.trim();
-    }
+	public void setPageSize(Integer pageSize) {
+		this.pageSize = pageSize;
+	}
 
-    public String getVehicleid() {
+	public Integer getStart() {
+		return start;
+	}
+
+	public void setStart(Integer start) {
+		this.start = start;
+	}
+
+	public Integer getLimit() {
+		return limit;
+	}
+
+	public void setLimit(Integer limit) {
+		this.limit = limit;
+	}
+
+	public String getVehicleid() {
         return vehicleid;
     }
 
@@ -68,21 +86,5 @@ public class BlacklistManage {
 
     public void setCreatetime(Long createtime) {
         this.createtime = createtime;
-    }
-
-    public String getModifier() {
-        return modifier;
-    }
-
-    public void setModifier(String modifier) {
-        this.modifier = modifier == null ? null : modifier.trim();
-    }
-
-    public Long getModifytime() {
-        return modifytime;
-    }
-
-    public void setModifytime(Long modifytime) {
-        this.modifytime = modifytime;
     }
 }

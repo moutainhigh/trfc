@@ -160,4 +160,46 @@
     delete from tr_blacklist_db_manage
     where vehicleid = #{vehicleid,jdbcType=VARCHAR}
   </delete>
+  <select id="findBlacklistPageCount"
+		parameterType="com.tianrui.api.req.basicFile.measure.BlacklistManageQuery"
+		resultType="java.lang.Long">
+		select count(0) from tr_blacklist_db_manage
+		<where>
+			<if test="vehicleno != null and vehicleno != ''">
+				and name like '%${vehicleno}%'
+			</if>
+		</where>
+	</select>
+	<select id="findBlacklistPage"
+		parameterType="com.tianrui.api.req.basicFile.measure.BlacklistManageQuery"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from tr_blacklist_db_manage
+		<where>
+		<if test="vehicleno != null and vehicleno != ''">
+				and name like '%${vehicleno}%'
+			</if>
+		</where>
+		order by createtime desc
+		<if test="start != null and start >= 0">
+			<if test="limit != null">
+				limit #{start,jdbcType=INTEGER},#{limit,jdbcType=INTEGER}
+			</if>
+		</if>
+	</select>
+	
+	<select id="autoCompleteSearch" parameterType="java.lang.String"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from tr_blacklist_db_manage
+		where state = 1
+		<if test="likeName != null and likeName !=''">
+			and vehicleno like CONCAT('%', #{likeName,jdbcType=VARCHAR},
+			'%')
+		</if>
+		order by createtime desc
+		limit 0,20
+	</select>
 </mapper>
