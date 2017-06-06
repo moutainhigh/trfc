@@ -35,18 +35,19 @@
     <result column="modifier" property="modifier" jdbcType="VARCHAR" />
     <result column="modifytime" property="modifytime" jdbcType="BIGINT" />
     <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="receipttime" property="receipttime" jdbcType="BIGINT" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, code, auditstatus, source, status, type, vehicleid, 
     vehicleno, vehiclerfid, driverid, drivername, driveridentityno, billid, billcode, 
     billdetailid, poundnoteid, poundnotecode, abnormalperson, abnormalpersonname, abnormaltime, arrivalamount, signamount, unit, makerid, 
-    makebillname, makebilltime, icardid, state, creator, createtime, modifier, modifytime, remark
+    makebillname, makebilltime, icardid, state, creator, createtime, modifier, modifytime, remark, receipttime
   </sql>
   <sql id="P_Base_Column_List" >
     p1.id, p1.code, p1.auditstatus, p1.source, p1.status, p1.type, p1.vehicleid, 
     p1.vehicleno, p1.vehiclerfid, p1.driverid, p1.drivername, p1.driveridentityno, p1.billid, p1.billcode, 
     p1.billdetailid, p1.poundnoteid, p1.poundnotecode, p1.abnormalperson, p1.abnormalpersonname, p1.abnormaltime, p1.arrivalamount, p1.signamount, p1.unit, p1.makerid, 
-    p1.makebillname, p1.makebilltime, p1.icardid, p1.state, p1.creator, p1.createtime, p1.modifier, p1.modifytime, p1.remark
+    p1.makebillname, p1.makebilltime, p1.icardid, p1.state, p1.creator, p1.createtime, p1.modifier, p1.modifytime, p1.remark, p1.receipttime
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
@@ -68,7 +69,7 @@
       arrivalamount, signamount, unit, makerid, 
       makebillname, makebilltime, icardid, state, creator, 
       createtime, modifier, modifytime, 
-      remark)
+      remark, receipttime)
     values (#{id,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR}, #{auditstatus,jdbcType=VARCHAR}, 
       #{source,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, 
       #{vehicleid,jdbcType=VARCHAR}, #{vehicleno,jdbcType=VARCHAR}, 
@@ -79,7 +80,7 @@
       #{arrivalamount,jdbcType=DOUBLE}, #{signamount,jdbcType=DOUBLE}, #{unit,jdbcType=VARCHAR}, #{makerid,jdbcType=VARCHAR}, #{makebillname,jdbcType=VARCHAR}, 
       #{makebilltime,jdbcType=BIGINT}, #{icardid,jdbcType=VARCHAR}, #{state,jdbcType=VARCHAR}, #{creator,jdbcType=VARCHAR}, 
       #{createtime,jdbcType=BIGINT}, #{modifier,jdbcType=VARCHAR}, #{modifytime,jdbcType=BIGINT}, 
-      #{remark,jdbcType=VARCHAR})
+      #{remark,jdbcType=VARCHAR}, #{receipttime,jdbcType=BIGINT})
   </insert>
   <insert id="insertSelective" parameterType="com.tianrui.service.bean.businessManage.purchaseManage.PurchaseArrive" >
     insert into tr_purchase_db_arrive
@@ -183,6 +184,9 @@
       <if test="remark != null" >
         remark,
       </if>
+      <if test="receipttime != null" >
+        receipttime,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -283,6 +287,9 @@
       </if>
       <if test="remark != null" >
         #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="receipttime != null" >
+        #{receipttime,jdbcType=BIGINT},
       </if>
     </trim>
   </insert>
@@ -385,6 +392,9 @@
       <if test="remark != null" >
         remark = #{remark,jdbcType=VARCHAR},
       </if>
+      <if test="receipttime != null" >
+        receipttime = #{receipttime,jdbcType=BIGINT},
+      </if>
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
@@ -421,7 +431,8 @@
       createtime = #{createtime,jdbcType=BIGINT},
       modifier = #{modifier,jdbcType=VARCHAR},
       modifytime = #{modifytime,jdbcType=BIGINT},
-      remark = #{remark,jdbcType=VARCHAR}
+      remark = #{remark,jdbcType=VARCHAR},
+      receipttime = #{receipttime,jdbcType=BIGINT}
     where id = #{id,jdbcType=VARCHAR}
   </update>
   <select id="selectSelective" parameterType="com.tianrui.service.bean.businessManage.purchaseManage.PurchaseArrive" resultMap="BaseResultMap">
@@ -527,6 +538,9 @@
       </if>
       <if test="remark != null and remark != ''" >
         and remark = #{remark,jdbcType=VARCHAR}
+      </if>
+      <if test="receipttime != null and receipttime != ''" >
+        and receipttime = #{receipttime,jdbcType=BIGINT}
       </if>
 	</where>	
   </select>
@@ -784,5 +798,74 @@
       </if>
 	</where>
 	group by p3.materielname
+  </select>
+  <select id="selectLogisticsPage" parameterType="com.tianrui.api.req.businessManage.logisticsManage.PurchaseLogisticsQuery" resultType="com.tianrui.api.resp.businessManage.logisticsManage.PurchaseLogisticsResp">
+  	SELECT
+		t1.billcode AS billCode,
+		t1. CODE AS noticeCode,
+		t1.type,
+		t2.suppliername AS supplierName,
+		t3.materielname AS materialName,
+		t1.vehicleno AS vehicleNo,
+		t1.makebilltime AS noticeTime,
+		t4.entertime AS enterTime,
+		t5.weighttime AS weightTime,
+		t5.lighttime AS lightTime,
+		t1.receipttime AS receiptTime,
+		t4.outtime AS outTime
+	FROM
+		tr_purchase_db_arrive t1
+	LEFT JOIN tr_purchase_db_application t2 ON t1.billid = t2.id
+	LEFT JOIN tr_purchase_db_application_detail t3 ON t1.billdetailid = t3.id
+	LEFT JOIN tr_access_db_record t4 ON t1.id = t4.noticeid
+	LEFT JOIN tr_pound_db_note t5 ON t1.id = t5.noticeid
+	where t1.state = '1'
+  	  <if test="supplierId != null and supplierId !=''" >
+        and t2.supplierid = #{supplierId,jdbcType=VARCHAR}
+      </if>
+  	  <if test="materielId != null and materielId !=''" >
+        and t3.materielid = #{materielId,jdbcType=VARCHAR}
+      </if>
+  	  <if test="vehicleId != null and vehicleId !=''" >
+        and t1.vehicleid = #{vehicleId,jdbcType=VARCHAR}
+      </if>
+  	  <if test="billCode != null and billCode !=''" >
+        and t1.billcode = #{billCode,jdbcType=VARCHAR}
+      </if>
+  	  <if test="noticeCode != null and noticeCode !=''" >
+        and t1.code = #{noticeCode,jdbcType=VARCHAR}
+      </if>
+      order by t1.createtime desc
+	  <if test="start != null and start >= 0">
+		  <if test="limit != null">
+			  limit #{start,jdbcType=INTEGER},#{limit,jdbcType=INTEGER}
+		  </if>
+	  </if>
+  </select>
+  <select id="selectLogisticsPageCount" parameterType="com.tianrui.api.req.businessManage.logisticsManage.PurchaseLogisticsQuery" resultType="java.lang.Long">
+  	SELECT
+		count(0)
+	FROM
+		tr_purchase_db_arrive t1
+	LEFT JOIN tr_purchase_db_application t2 ON t1.billid = t2.id
+	LEFT JOIN tr_purchase_db_application_detail t3 ON t1.billdetailid = t3.id
+	LEFT JOIN tr_access_db_record t4 ON t1.id = t4.noticeid
+	LEFT JOIN tr_pound_db_note t5 ON t1.id = t5.noticeid
+	where t1.state = '1'
+  	  <if test="supplierId != null and supplierId !=''" >
+        and t2.supplierid = #{supplierId,jdbcType=VARCHAR}
+      </if>
+  	  <if test="materielId != null and materielId !=''" >
+        and t3.materielid = #{materielId,jdbcType=VARCHAR}
+      </if>
+  	  <if test="vehicleId != null and vehicleId !=''" >
+        and t1.vehicleid = #{vehicleId,jdbcType=VARCHAR}
+      </if>
+  	  <if test="billCode != null and billCode !=''" >
+        and t1.billcode = #{billCode,jdbcType=VARCHAR}
+      </if>
+  	  <if test="noticeCode != null and noticeCode !=''" >
+        and t1.code = #{noticeCode,jdbcType=VARCHAR}
+      </if>
   </select>
 </mapper>

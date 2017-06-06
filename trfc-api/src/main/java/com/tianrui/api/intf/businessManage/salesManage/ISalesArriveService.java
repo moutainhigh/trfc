@@ -5,11 +5,13 @@ import java.util.List;
 import com.tianrui.api.req.businessManage.app.AppNoticeOrderReq;
 import com.tianrui.api.req.businessManage.app.AppOrderReq;
 import com.tianrui.api.req.businessManage.app.AppOrderSaveReq;
+import com.tianrui.api.req.businessManage.logisticsManage.SalesLogisticsQuery;
 import com.tianrui.api.req.businessManage.salesManage.ApiDoorQueueQuery;
 import com.tianrui.api.req.businessManage.salesManage.ApiSalesArriveQuery;
 import com.tianrui.api.req.businessManage.salesManage.SalesArriveQuery;
 import com.tianrui.api.req.businessManage.salesManage.SalesArriveSave;
 import com.tianrui.api.resp.businessManage.app.AppNoticeOrderResp;
+import com.tianrui.api.resp.businessManage.logisticsManage.SalesLogisticsResp;
 import com.tianrui.api.resp.businessManage.salesManage.SalesArriveResp;
 import com.tianrui.smartfactory.common.vo.PaginationVO;
 import com.tianrui.smartfactory.common.vo.Result;
@@ -149,5 +151,14 @@ public interface ISalesArriveService {
 	 * @return
 	 */
 	Result appInvalid(AppNoticeOrderReq req);
+	/**
+	 * @Description 销售物流分页
+	 * @param query
+	 * @return
+	 * @exception 
+	 * @author zhanggaohao
+	 * @version 2017年6月6日 上午10:36:23
+	 */
+	PaginationVO<SalesLogisticsResp> logisticsPage(SalesLogisticsQuery query);
 
 }

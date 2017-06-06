@@ -6,9 +6,11 @@ import org.apache.ibatis.annotations.Param;
 
 import com.tianrui.api.req.businessManage.app.AppNoticeOrderReq;
 import com.tianrui.api.req.businessManage.app.AppOrderReq;
+import com.tianrui.api.req.businessManage.logisticsManage.SalesLogisticsQuery;
 import com.tianrui.api.req.businessManage.salesManage.SalesArriveQuery;
 import com.tianrui.api.resp.businessManage.app.AppNoticeOrderResp;
 import com.tianrui.api.resp.businessManage.app.AppVehicleInFactoryResp;
+import com.tianrui.api.resp.businessManage.logisticsManage.SalesLogisticsResp;
 import com.tianrui.service.bean.businessManage.salesManage.SalesArrive;
 
 public interface SalesArriveMapper {
@@ -122,4 +124,22 @@ public interface SalesArriveMapper {
 	 * @return
 	 */
 	List<AppVehicleInFactoryResp> appInfoFactoryVehicleAndMaterial(AppOrderReq req);
+	/**
+	 * @Description 销售物流分页
+	 * @param query
+	 * @return
+	 * @exception 
+	 * @author zhanggaohao
+	 * @version 2017年6月6日 下午2:11:13
+	 */
+	List<SalesLogisticsResp> selectLogisticsPage(SalesLogisticsQuery query);
+	/**
+	 * @Description 销售物流分页总条数
+	 * @param query
+	 * @return
+	 * @exception 
+	 * @author zhanggaohao
+	 * @version 2017年6月6日 下午2:11:23
+	 */
+	long selectLogisticsPageCount(SalesLogisticsQuery query);
 }

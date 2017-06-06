@@ -26,7 +26,7 @@ import com.tianrui.service.bean.quality.sales.SalesBatchnum;
 import com.tianrui.service.mapper.basicFile.measure.VehicleManageMapper;
 import com.tianrui.service.mapper.basicFile.nc.MaterielManageMapper;
 import com.tianrui.service.mapper.businessManage.cardManage.CardMapper;
-import com.tianrui.service.mapper.businessManage.logisticsManage.AccessRecordMapper1;
+import com.tianrui.service.mapper.businessManage.logisticsManage.AccessRecordMapper;
 import com.tianrui.service.mapper.businessManage.poundNoteMaintain.PoundNoteMapper;
 import com.tianrui.service.mapper.quality.sales.SalesBatchnumMapper;
 import com.tianrui.smartfactory.common.constants.ErrorCode;
@@ -36,7 +36,7 @@ import com.tianrui.smartfactory.common.vo.Result;
 @Service
 public class CardReissueService implements ICardReissueService {
 	@Autowired
-	private AccessRecordMapper1 accessRecordMapper;
+	private AccessRecordMapper accessRecordMapper;
 	@Autowired
 	private IPurchaseArriveService purchaseArriveService;
 	@Autowired

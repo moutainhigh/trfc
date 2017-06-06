@@ -74,6 +74,12 @@ public class SalesArriveSave extends BaseReq {
     private String modifier;
     //最后修改时间
     private Long modifytime;
+    //开始装车
+    private Long startloadingtime;
+    //结束装车
+    private Long endloadingtime;
+    //铅封时间
+    private Long sealtime;
     
     private String currUId;
 
@@ -353,6 +359,30 @@ public class SalesArriveSave extends BaseReq {
 
 	public void setModifytime(Long modifytime) {
 		this.modifytime = modifytime;
+	}
+
+	public Long getStartloadingtime() {
+		return startloadingtime;
+	}
+
+	public void setStartloadingtime(Long startloadingtime) {
+		this.startloadingtime = startloadingtime;
+	}
+
+	public Long getEndloadingtime() {
+		return endloadingtime;
+	}
+
+	public void setEndloadingtime(Long endloadingtime) {
+		this.endloadingtime = endloadingtime;
+	}
+
+	public Long getSealtime() {
+		return sealtime;
+	}
+
+	public void setSealtime(Long sealtime) {
+		this.sealtime = sealtime;
 	}
 
 	public String getCurrUId() {

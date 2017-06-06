@@ -3,7 +3,6 @@ package com.tianrui.web.action.system.auth;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,14 +29,13 @@ public class SystemLoginAction {
 	// 列表数据
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	@ResponseBody
-	public Result login(UserReq req, HttpSession session, HttpServletResponse response) {
+	public Result login(UserReq req, HttpServletResponse response) {
 		Result rs = Result.getErrorResult();
 		try {
 			rs = systemUserService.login(req);
 			if (rs.getData() != null) {
 				SystemUserResp user = (SystemUserResp) rs.getData();
 				SessionManager.setSessionUser(user, response);
-				session.setAttribute("systemUser", user);
 			}
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);

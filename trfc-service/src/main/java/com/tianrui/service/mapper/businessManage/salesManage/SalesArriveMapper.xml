@@ -36,12 +36,16 @@
     <result column="createtime" property="createtime" jdbcType="BIGINT" />
     <result column="modifier" property="modifier" jdbcType="VARCHAR" />
     <result column="modifytime" property="modifytime" jdbcType="BIGINT" />
+    <result column="startloadingtime" property="startloadingtime" jdbcType="BIGINT" />
+    <result column="endloadingtime" property="endloadingtime" jdbcType="BIGINT" />
+    <result column="sealtime" property="sealtime" jdbcType="BIGINT" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, code, auditstatus, source, status, vehicleid, vehicleno, vehiclerfid, driverid, drivername, 
     driveridentityno, billid, billcode, billdetailid, abnormalperson, abnormalpersonname, abnormaltime, 
     unit, takeamount, actualtakeamount, spraycode, serialnumber, icardid, icardno, state, maindeduction, 
-    makerid, makebillname, makebilltime, remarks, creator, createtime, modifier, modifytime
+    makerid, makebillname, makebilltime, remarks, creator, createtime, modifier, modifytime, startloadingtime,
+    endloadingtime, sealtime
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
@@ -63,7 +67,8 @@
       serialnumber, icardid, icardno, 
       state, maindeduction, makerid, makebillname, 
       makebilltime, remarks, creator, 
-      createtime, modifier, modifytime
+      createtime, modifier, modifytime,
+      startloadingtime, endloadingtime, sealtime
       )
     values (#{id,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR}, #{auditstatus,jdbcType=VARCHAR}, 
       #{source,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, #{vehicleid,jdbcType=VARCHAR}, 
@@ -74,7 +79,8 @@
       #{serialnumber,jdbcType=VARCHAR}, #{icardid,jdbcType=VARCHAR}, #{icardno,jdbcType=VARCHAR}, 
       #{state,jdbcType=VARCHAR}, #{maindeduction,jdbcType=VARCHAR}, #{makerid,jdbcType=VARCHAR}, #{makebillname,jdbcType=VARCHAR}, 
       #{makebilltime,jdbcType=BIGINT}, #{remarks,jdbcType=VARCHAR}, #{creator,jdbcType=VARCHAR}, 
-      #{createtime,jdbcType=BIGINT}, #{modifier,jdbcType=VARCHAR}, #{modifytime,jdbcType=BIGINT}
+      #{createtime,jdbcType=BIGINT}, #{modifier,jdbcType=VARCHAR}, #{modifytime,jdbcType=BIGINT},
+      #{startloadingtime,jdbcType=BIGINT}, #{endloadingtime,jdbcType=BIGINT}, #{sealtime,jdbcType=BIGINT}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.tianrui.service.bean.businessManage.salesManage.SalesArrive" >
@@ -182,6 +188,15 @@
       <if test="modifytime != null" >
         modifytime,
       </if>
+      <if test="startloadingtime != null" >
+        startloadingtime,
+      </if>
+      <if test="endloadingtime != null" >
+        endloadingtime,
+      </if>
+      <if test="sealtime != null" >
+        sealtime,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -283,8 +298,14 @@
       <if test="modifier != null" >
         #{modifier,jdbcType=VARCHAR},
       </if>
-      <if test="modifytime != null" >
-        #{modifytime,jdbcType=BIGINT},
+      <if test="startloadingtime != null" >
+        #{startloadingtime,jdbcType=BIGINT},
+      </if>
+      <if test="endloadingtime != null" >
+        #{endloadingtime,jdbcType=BIGINT},
+      </if>
+      <if test="sealtime != null" >
+        #{sealtime,jdbcType=BIGINT},
       </if>
     </trim>
   </insert>
@@ -390,6 +411,15 @@
       <if test="modifytime != null" >
         modifytime = #{modifytime,jdbcType=BIGINT},
       </if>
+      <if test="startloadingtime != null" >
+        startloadingtime = #{startloadingtime,jdbcType=BIGINT},
+      </if>
+      <if test="endloadingtime != null" >
+        endloadingtime = #{endloadingtime,jdbcType=BIGINT},
+      </if>
+      <if test="sealtime != null" >
+        sealtime = #{sealtime,jdbcType=BIGINT},
+      </if>
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
@@ -427,7 +457,10 @@
       creator = #{creator,jdbcType=VARCHAR},
       createtime = #{createtime,jdbcType=BIGINT},
       modifier = #{modifier,jdbcType=VARCHAR},
-      modifytime = #{modifytime,jdbcType=BIGINT}
+      modifytime = #{modifytime,jdbcType=BIGINT},
+      startloadingtime = #{startloadingtime,jdbcType=BIGINT},
+      endloadingtime = #{endloadingtime,jdbcType=BIGINT},
+      sealtime = #{sealtime,jdbcType=BIGINT}
     where id = #{id,jdbcType=VARCHAR}
   </update>
   <select id="selectSelective" resultMap="BaseResultMap" parameterType="com.tianrui.service.bean.businessManage.salesManage.SalesArrive">
@@ -536,6 +569,15 @@
       </if>
       <if test="modifytime != null and modifytime != ''" >
         and modifytime = #{modifytime,jdbcType=BIGINT}
+      </if>
+      <if test="startloadingtime != null and startloadingtime != ''" >
+        and startloadingtime = #{startloadingtime,jdbcType=BIGINT}
+      </if>
+      <if test="endloadingtime != null and endloadingtime != ''" >
+        and endloadingtime = #{endloadingtime,jdbcType=BIGINT}
+      </if>
+      <if test="sealtime != null and sealtime != ''" >
+        and sealtime = #{sealtime,jdbcType=BIGINT}
       </if>
   	</where>
   </select>
@@ -795,5 +837,75 @@
       </if>
 	</where>
 	group by s3.materielname
+  </select>
+  <select id="selectLogisticsPage" parameterType="com.tianrui.api.req.businessManage.logisticsManage.SalesLogisticsQuery" resultType="com.tianrui.api.resp.businessManage.logisticsManage.SalesLogisticsResp">
+	  SELECT
+		t1. CODE AS noticeCode,
+		t2.customername AS customerName,
+		t3.materielname AS materialName,
+		t1.vehicleno AS vehicleNo,
+		t2. CODE AS billCode,
+		t2.makebilltime AS noticeTime,
+		t4.entertime AS enterTime,
+		t5.lighttime AS lightTime,
+		t5.weighttime AS weightTime,
+		t1.startloadingtime AS startLoadingTime,
+		t1.endloadingtime AS endLoadingTime,
+		t1.sealtime AS sealTime,
+		t4.outtime AS outTime
+	FROM
+		tr_sales_db_arrive t1
+	LEFT JOIN tr_sales_db_application t2 ON t1.billid = t2.id
+	LEFT JOIN tr_sales_db_application_detail t3 ON t1.billdetailid = t3.id
+	LEFT JOIN tr_access_db_record t4 ON t1.id = t4.noticeid
+	LEFT JOIN tr_pound_db_note t5 ON t1.id = t5.noticeid
+	where t1.state = '1'
+  	  <if test="customerId != null and customerId !=''" >
+        and t2.customerid = #{customerId,jdbcType=VARCHAR}
+      </if>
+  	  <if test="materielId != null and materielId !=''" >
+        and t3.materielid = #{materielId,jdbcType=VARCHAR}
+      </if>
+  	  <if test="vehicleId != null and vehicleId !=''" >
+        and t1.vehicleid = #{vehicleId,jdbcType=VARCHAR}
+      </if>
+  	  <if test="billCode != null and billCode !=''" >
+        and t1.billcode = #{billCode,jdbcType=VARCHAR}
+      </if>
+  	  <if test="noticeCode != null and noticeCode !=''" >
+        and t1.code = #{noticeCode,jdbcType=VARCHAR}
+      </if>
+      order by t1.createtime desc
+	  <if test="start != null and start >= 0">
+		  <if test="limit != null">
+			  limit #{start,jdbcType=INTEGER},#{limit,jdbcType=INTEGER}
+		  </if>
+	  </if>
+  </select>
+  <select id="selectLogisticsPageCount" parameterType="com.tianrui.api.req.businessManage.logisticsManage.SalesLogisticsQuery" resultType="java.lang.Long">
+  	SELECT
+		count(0)
+	FROM
+		tr_sales_db_arrive t1
+	LEFT JOIN tr_sales_db_application t2 ON t1.billid = t2.id
+	LEFT JOIN tr_sales_db_application_detail t3 ON t1.billdetailid = t3.id
+	LEFT JOIN tr_access_db_record t4 ON t1.id = t4.noticeid
+	LEFT JOIN tr_pound_db_note t5 ON t1.id = t5.noticeid
+	where t1.state = '1'
+  	  <if test="customerId != null and customerId !=''" >
+        and t2.customerid = #{customerId,jdbcType=VARCHAR}
+      </if>
+  	  <if test="materielId != null and materielId !=''" >
+        and t3.materielid = #{materielId,jdbcType=VARCHAR}
+      </if>
+  	  <if test="vehicleId != null and vehicleId !=''" >
+        and t1.vehicleid = #{vehicleId,jdbcType=VARCHAR}
+      </if>
+  	  <if test="billCode != null and billCode !=''" >
+        and t1.billcode = #{billCode,jdbcType=VARCHAR}
+      </if>
+  	  <if test="noticeCode != null and noticeCode !=''" >
+        and t1.code = #{noticeCode,jdbcType=VARCHAR}
+      </if>
   </select>
 </mapper>

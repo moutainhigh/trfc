@@ -44,6 +44,8 @@ public class PortalsFilter implements Filter {
 				resp.sendRedirect("/index");
 			} else {
 				//已登录,请求继续执行
+				request.setAttribute("userId", user.getId());
+				request.setAttribute("userName", user.getName());
 				chain.doFilter(request, response);
 			}
 		}else{

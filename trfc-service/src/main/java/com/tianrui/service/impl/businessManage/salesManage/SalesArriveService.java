@@ -23,6 +23,7 @@ import com.tianrui.api.intf.system.base.ISystemCodeService;
 import com.tianrui.api.req.businessManage.app.AppNoticeOrderReq;
 import com.tianrui.api.req.businessManage.app.AppOrderReq;
 import com.tianrui.api.req.businessManage.app.AppOrderSaveReq;
+import com.tianrui.api.req.businessManage.logisticsManage.SalesLogisticsQuery;
 import com.tianrui.api.req.businessManage.salesManage.ApiDoorQueueQuery;
 import com.tianrui.api.req.businessManage.salesManage.ApiSalesArriveQuery;
 import com.tianrui.api.req.businessManage.salesManage.SalesArriveQuery;
@@ -32,6 +33,7 @@ import com.tianrui.api.resp.basicFile.measure.DriverManageResp;
 import com.tianrui.api.resp.basicFile.measure.VehicleManageResp;
 import com.tianrui.api.resp.businessManage.app.AppNoticeOrderResp;
 import com.tianrui.api.resp.businessManage.cardManage.CardResp;
+import com.tianrui.api.resp.businessManage.logisticsManage.SalesLogisticsResp;
 import com.tianrui.api.resp.businessManage.otherManage.OtherArriveResp;
 import com.tianrui.api.resp.businessManage.poundNoteMaintain.PoundNoteResp;
 import com.tianrui.api.resp.businessManage.salesManage.ApiDoorQueueResp;
@@ -55,7 +57,7 @@ import com.tianrui.service.bean.common.RFID;
 import com.tianrui.service.impl.businessManage.otherManage.OtherArriveService;
 import com.tianrui.service.mapper.basicFile.measure.VehicleManageMapper;
 import com.tianrui.service.mapper.businessManage.cardManage.CardMapper;
-import com.tianrui.service.mapper.businessManage.logisticsManage.AccessRecordMapper1;
+import com.tianrui.service.mapper.businessManage.logisticsManage.AccessRecordMapper;
 import com.tianrui.service.mapper.businessManage.otherManage.OtherArriveMapper;
 import com.tianrui.service.mapper.businessManage.poundNoteMaintain.PoundNoteMapper;
 import com.tianrui.service.mapper.businessManage.purchaseManage.PurchaseApplicationDetailMapper;
@@ -122,7 +124,7 @@ public class SalesArriveService implements ISalesArriveService {
 	@Autowired
 	private PoundNoteMapper poundNoteMapper;
 	@Autowired
-	private AccessRecordMapper1 accessRecordMapper1;
+	private AccessRecordMapper accessRecordMapper1;
 	@Autowired
 	private OtherArriveMapper otherArriveMapper;
 	@Autowired
@@ -964,6 +966,25 @@ public class SalesArriveService implements ISalesArriveService {
 			}
 		}
 		return result;
+	}
+
+	@Override
+	public PaginationVO<SalesLogisticsResp> logisticsPage(SalesLogisticsQuery query) {
+		PaginationVO<SalesLogisticsResp> page = null;
+		if(query != null){
+			page = new PaginationVO<SalesLogisticsResp>();
+			long count = salesArriveMapper.selectLogisticsPageCount(query);
+			if(count > 0){
+				query.setStart((query.getPageNo() - 1)*query.getPageSize());
+				query.setLimit(query.getPageSize());
+				List<SalesLogisticsResp> list = salesArriveMapper.selectLogisticsPage(query);
+				page.setList(list);
+			}
+			page.setTotal(count);
+			page.setPageNo(query.getPageNo());
+			page.setPageSize(query.getPageSize());
+		}
+		return page;
 	}
 
 }

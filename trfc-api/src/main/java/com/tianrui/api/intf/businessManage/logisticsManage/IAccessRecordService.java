@@ -7,7 +7,7 @@ import com.tianrui.api.resp.businessManage.logisticsManage.AccessRecordResp;
 import com.tianrui.smartfactory.common.vo.PaginationVO;
 import com.tianrui.smartfactory.common.vo.Result;
 
-public interface IAccessRecordService1 {
+public interface IAccessRecordService {
 
 	PaginationVO<AccessRecordResp> page(AccessRecordQuery query) throws Exception;
 	/**

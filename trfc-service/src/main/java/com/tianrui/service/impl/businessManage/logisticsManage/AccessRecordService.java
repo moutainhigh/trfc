@@ -11,7 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.tianrui.api.intf.businessManage.logisticsManage.IAccessRecordService1;
+import com.tianrui.api.intf.businessManage.logisticsManage.IAccessRecordService;
 import com.tianrui.api.intf.businessManage.purchaseManage.IPurchaseArriveService;
 import com.tianrui.api.intf.businessManage.salesManage.ISalesArriveService;
 import com.tianrui.api.intf.system.base.ISystemCodeService;
@@ -37,7 +37,7 @@ import com.tianrui.service.bean.common.RFID;
 import com.tianrui.service.impl.businessManage.otherManage.OtherArriveService;
 import com.tianrui.service.mapper.basicFile.measure.VehicleManageMapper;
 import com.tianrui.service.mapper.businessManage.cardManage.CardMapper;
-import com.tianrui.service.mapper.businessManage.logisticsManage.AccessRecordMapper1;
+import com.tianrui.service.mapper.businessManage.logisticsManage.AccessRecordMapper;
 import com.tianrui.service.mapper.businessManage.otherManage.OtherArriveMapper;
 import com.tianrui.service.mapper.businessManage.purchaseManage.PurchaseApplicationDetailMapper;
 import com.tianrui.service.mapper.businessManage.purchaseManage.PurchaseArriveMapper;
@@ -52,10 +52,10 @@ import com.tianrui.smartfactory.common.vo.PaginationVO;
 import com.tianrui.smartfactory.common.vo.Result;
 
 @Service
-public class AccessRecordService1 implements IAccessRecordService1 {
+public class AccessRecordService implements IAccessRecordService {
 
 	@Autowired
-	private AccessRecordMapper1 accessRecordMapper;
+	private AccessRecordMapper accessRecordMapper;
 	@Autowired
 	private IPurchaseArriveService purchaseArriveService;
 	@Autowired

@@ -5,7 +5,7 @@ import java.util.List;
 import com.tianrui.api.req.businessManage.logisticsManage.AccessRecordQuery;
 import com.tianrui.service.bean.businessManage.logisticsManage.AccessRecord;
 
-public interface AccessRecordMapper1 {
+public interface AccessRecordMapper {
     int deleteByPrimaryKey(String id);
 
     int insert(AccessRecord record);

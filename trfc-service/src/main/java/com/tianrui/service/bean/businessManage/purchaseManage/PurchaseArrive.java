@@ -71,6 +71,8 @@ public class PurchaseArrive {
     private Long modifytime;
 	//备注
     private String remark;
+    //收获时间
+    private Long receipttime;
 
     public String getId() {
         return id;
@@ -359,4 +361,12 @@ public class PurchaseArrive {
     public void setRemark(String remark) {
         this.remark = remark == null ? null : remark.trim();
     }
+
+	public Long getReceipttime() {
+		return receipttime;
+	}
+
+	public void setReceipttime(Long receipttime) {
+		this.receipttime = receipttime;
+	}
 }

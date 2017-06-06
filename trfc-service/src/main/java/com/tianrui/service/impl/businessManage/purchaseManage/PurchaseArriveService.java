@@ -20,12 +20,14 @@ import com.tianrui.api.intf.system.base.ISystemCodeService;
 import com.tianrui.api.req.businessManage.app.AppNoticeOrderReq;
 import com.tianrui.api.req.businessManage.app.AppOrderReq;
 import com.tianrui.api.req.businessManage.app.AppOrderSaveReq;
+import com.tianrui.api.req.businessManage.logisticsManage.PurchaseLogisticsQuery;
 import com.tianrui.api.req.businessManage.purchaseManage.PurchaseArriveQuery;
 import com.tianrui.api.req.businessManage.purchaseManage.PurchaseArriveSave;
 import com.tianrui.api.req.system.base.GetCodeReq;
 import com.tianrui.api.resp.basicFile.measure.DriverManageResp;
 import com.tianrui.api.resp.basicFile.measure.VehicleManageResp;
 import com.tianrui.api.resp.businessManage.app.AppNoticeOrderResp;
+import com.tianrui.api.resp.businessManage.logisticsManage.PurchaseLogisticsResp;
 import com.tianrui.api.resp.businessManage.poundNoteMaintain.PoundNoteResp;
 import com.tianrui.api.resp.businessManage.purchaseManage.PurchaseApplicationDetailResp;
 import com.tianrui.api.resp.businessManage.purchaseManage.PurchaseApplicationResp;
@@ -39,7 +41,7 @@ import com.tianrui.service.bean.businessManage.purchaseManage.PurchaseApplicatio
 import com.tianrui.service.bean.businessManage.purchaseManage.PurchaseArrive;
 import com.tianrui.service.bean.businessManage.salesManage.SalesArrive;
 import com.tianrui.service.mapper.businessManage.cardManage.CardMapper;
-import com.tianrui.service.mapper.businessManage.logisticsManage.AccessRecordMapper1;
+import com.tianrui.service.mapper.businessManage.logisticsManage.AccessRecordMapper;
 import com.tianrui.service.mapper.businessManage.otherManage.OtherArriveMapper;
 import com.tianrui.service.mapper.businessManage.poundNoteMaintain.PoundNoteMapper;
 import com.tianrui.service.mapper.businessManage.purchaseManage.PurchaseApplicationDetailMapper;
@@ -81,7 +83,7 @@ public class PurchaseArriveService implements IPurchaseArriveService {
 	@Autowired
 	private PoundNoteMapper poundNoteMapper;
 	@Autowired
-	private AccessRecordMapper1 accessRecordMapper1;
+	private AccessRecordMapper accessRecordMapper1;
 	@Autowired
 	private OtherArriveMapper otherArriveMapper;
 
@@ -638,5 +640,26 @@ public class PurchaseArriveService implements IPurchaseArriveService {
 		}
 		return result;
 	}
+
+	@Override
+	public PaginationVO<PurchaseLogisticsResp> logisticsPage(PurchaseLogisticsQuery query) {
+		PaginationVO<PurchaseLogisticsResp> page = null;
+		if(query != null){
+			page = new PaginationVO<PurchaseLogisticsResp>();
+			long count = purchaseArriveMapper.selectLogisticsPageCount(query);
+			if(count > 0){
+				query.setStart((query.getPageNo()-1)*query.getPageSize());
+				query.setLimit(query.getPageSize());
+				List<PurchaseLogisticsResp> list = purchaseArriveMapper.selectLogisticsPage(query);
+				page.setList(list);
+			}
+			page.setPageNo(query.getPageNo());
+			page.setPageSize(query.getPageSize());
+			page.setTotal(count);
+		}
+		return page;
+	}
+	
+	
 
 }

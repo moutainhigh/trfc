@@ -95,6 +95,12 @@ public class SalesArriveResp extends BaseResp {
     private Long modifytime;
     //最后修改时间Str
     private String modifytimeStr;
+    //开始装车
+    private Long startloadingtime;
+    //结束装车
+    private Long endloadingtime;
+    //铅封时间
+    private Long sealtime;
     //销售订单列表
     private List<SalesApplicationResp> listApplication;
     
@@ -432,6 +438,30 @@ public class SalesArriveResp extends BaseResp {
 
 	public void setModifytimeStr(String modifytimeStr) {
 		this.modifytimeStr = modifytimeStr;
+	}
+
+	public Long getStartloadingtime() {
+		return startloadingtime;
+	}
+
+	public void setStartloadingtime(Long startloadingtime) {
+		this.startloadingtime = startloadingtime;
+	}
+
+	public Long getEndloadingtime() {
+		return endloadingtime;
+	}
+
+	public void setEndloadingtime(Long endloadingtime) {
+		this.endloadingtime = endloadingtime;
+	}
+
+	public Long getSealtime() {
+		return sealtime;
+	}
+
+	public void setSealtime(Long sealtime) {
+		this.sealtime = sealtime;
 	}
 
 	/**

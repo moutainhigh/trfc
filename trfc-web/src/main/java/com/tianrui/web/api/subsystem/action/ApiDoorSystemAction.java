@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.tianrui.api.intf.businessManage.logisticsManage.IAccessRecordService1;
+import com.tianrui.api.intf.businessManage.logisticsManage.IAccessRecordService;
 import com.tianrui.api.intf.businessManage.salesManage.ISalesArriveService;
 import com.tianrui.api.req.basicFile.measure.VehicleCheckApi;
 import com.tianrui.api.req.businessManage.salesManage.ApiDoorQueueQuery;
@@ -32,7 +32,7 @@ public class ApiDoorSystemAction {
 	private Logger log = LoggerFactory.getLogger(ApiDoorSystemAction.class);
 	
 	@Autowired
-	private IAccessRecordService1 accessRecordService;
+	private IAccessRecordService accessRecordService;
 	
 	@Autowired
 	private ISalesArriveService salesArriveService;

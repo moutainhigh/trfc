@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.tianrui.api.intf.businessManage.logisticsManage.IAccessRecordService1;
+import com.tianrui.api.intf.businessManage.logisticsManage.IAccessRecordService;
 import com.tianrui.api.req.businessManage.logisticsManage.AccessRecordQuery;
 import com.tianrui.api.resp.businessManage.logisticsManage.AccessRecordResp;
 import com.tianrui.smartfactory.common.constants.ErrorCode;
@@ -17,12 +17,12 @@ import com.tianrui.smartfactory.common.vo.Result;
 
 @Controller
 @RequestMapping("trfc/accessRecord")
-public class AccessRecordAction1 {
+public class AccessRecordAction {
 	
-	Logger logger = LoggerFactory.getLogger(AccessRecordAction1.class);
+	Logger logger = LoggerFactory.getLogger(AccessRecordAction.class);
 	
 	@Autowired
-	private IAccessRecordService1 accessRecordService;
+	private IAccessRecordService accessRecordService;
 	
 	@RequestMapping("main")
 	public ModelAndView main(){

@@ -63,7 +63,7 @@ import com.tianrui.service.mapper.basicFile.nc.CustomerManageMapper;
 import com.tianrui.service.mapper.basicFile.nc.MaterielManageMapper;
 import com.tianrui.service.mapper.basicFile.nc.SupplierManageMapper;
 import com.tianrui.service.mapper.basicFile.nc.WarehouseManageMapper;
-import com.tianrui.service.mapper.businessManage.logisticsManage.AccessRecordMapper1;
+import com.tianrui.service.mapper.businessManage.logisticsManage.AccessRecordMapper;
 import com.tianrui.service.mapper.businessManage.otherManage.OtherArriveMapper;
 import com.tianrui.service.mapper.businessManage.poundNoteMaintain.PoundNoteMapper;
 import com.tianrui.service.mapper.businessManage.purchaseManage.PurchaseApplicationDetailMapper;
@@ -137,7 +137,7 @@ public class PoundNoteService implements IPoundNoteService {
 	@Autowired
 	private SalesApplicationJoinNaticeMapper salesApplicationJoinNaticeMapper;
 	@Autowired
-	private AccessRecordMapper1 accessRecordMapper;
+	private AccessRecordMapper accessRecordMapper;
 	@Autowired
 	private OtherArriveMapper otherArriveMapper;
 	@Autowired

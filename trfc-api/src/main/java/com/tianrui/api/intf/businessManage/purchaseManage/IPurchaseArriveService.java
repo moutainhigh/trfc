@@ -5,9 +5,11 @@ import java.util.List;
 import com.tianrui.api.req.businessManage.app.AppNoticeOrderReq;
 import com.tianrui.api.req.businessManage.app.AppOrderReq;
 import com.tianrui.api.req.businessManage.app.AppOrderSaveReq;
+import com.tianrui.api.req.businessManage.logisticsManage.PurchaseLogisticsQuery;
 import com.tianrui.api.req.businessManage.purchaseManage.PurchaseArriveQuery;
 import com.tianrui.api.req.businessManage.purchaseManage.PurchaseArriveSave;
 import com.tianrui.api.resp.businessManage.app.AppNoticeOrderResp;
+import com.tianrui.api.resp.businessManage.logisticsManage.PurchaseLogisticsResp;
 import com.tianrui.api.resp.businessManage.purchaseManage.PurchaseArriveResp;
 import com.tianrui.smartfactory.common.vo.PaginationVO;
 import com.tianrui.smartfactory.common.vo.Result;
@@ -129,5 +131,14 @@ public interface IPurchaseArriveService {
 	 * @return
 	 */
 	Result appInvalid(AppNoticeOrderReq req);
+	/**
+	 * @Description 采购物流分页
+	 * @param query
+	 * @return
+	 * @exception 
+	 * @author zhanggaohao
+	 * @version 2017年6月6日 上午9:18:43
+	 */
+	PaginationVO<PurchaseLogisticsResp> logisticsPage(PurchaseLogisticsQuery query);
 
 }
