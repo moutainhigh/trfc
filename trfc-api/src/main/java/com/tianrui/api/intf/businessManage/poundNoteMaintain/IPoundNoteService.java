@@ -60,8 +60,9 @@ public interface IPoundNoteService {
 	 * @version 2017年3月9日 下午2:48:06
 	 * @param query
 	 * @return
+	 * @throws Exception 
 	 */
-	Result purchaseRedcollide(PoundNoteQuery query);
+	Result purchaseRedcollide(PoundNoteQuery query) throws Exception;
 
 	/**
 	 * @Description 作废

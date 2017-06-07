@@ -157,6 +157,8 @@ public class PoundNoteService implements IPoundNoteService {
 			query.setState("1");
 			long count = poundNoteMapper.purchasePageCount(query);
 			if (count > 0) {
+				query.setStart((query.getPageNo() - 1) * query.getPageSize());
+				query.setLimit(query.getPageSize());
 				List<PoundNoteResp> list = poundNoteMapper.purchasePage(query);
 				page.setList(list);
 			}
@@ -210,17 +212,20 @@ public class PoundNoteService implements IPoundNoteService {
 			bean.setModifytime(System.currentTimeMillis());
 			PurchaseStorageList storage = new PurchaseStorageList();
 			GetCodeReq codeReq1 = new GetCodeReq();
-			codeReq1.setCode("RK");
+			codeReq1.setCode("RKD");
 			codeReq1.setCodeType(true);
 			codeReq1.setUserid(save.getMakerid());
 			storage.setId(UUIDUtil.getId());
 			storage.setCode(systemCodeService.getCode(codeReq1).getData().toString());
 			storage.setNcId(bean.getBillid());
+			storage.setPoundId(bean.getId());
+			storage.setType("1");
 			if (purchaseApplication != null) {
 				storage.setPkOrg(purchaseApplication.getOrgid());
 				storage.setCdptid(purchaseApplication.getDepartmentid());
 				storage.setCvendorid(purchaseApplication.getSupplierid());
 			}
+			storage.setNtotalnum("" + bean.getNetweight());
 			storage.setDbilldate(DateUtil.getNowDateString("yyyy-MM-dd HH:mm:ss"));
 			storage.setBillmaker(bean.getMakerid());
 			storage.setCreationtime(DateUtil.getNowDateString("yyyy-MM-dd HH:mm:ss"));
@@ -315,6 +320,7 @@ public class PoundNoteService implements IPoundNoteService {
 		}
 	}
 
+	@Transactional
 	@Override
 	public Result returnAddPoundNote(PoundNoteSave save) throws Exception {
 		Result result = Result.getParamErrorResult();
@@ -345,8 +351,42 @@ public class PoundNoteService implements IPoundNoteService {
 				bean.setCreatetime(System.currentTimeMillis());
 				bean.setModifier(save.getMakerid());
 				bean.setModifytime(System.currentTimeMillis());
+				//增加退货入库单
+				PurchaseStorageList storage = new PurchaseStorageList();
+				GetCodeReq codeReq1 = new GetCodeReq();
+				codeReq1.setCode("RKD");
+				codeReq1.setCodeType(true);
+				codeReq1.setUserid(save.getMakerid());
+				storage.setId(UUIDUtil.getId());
+				storage.setCode(systemCodeService.getCode(codeReq1).getData().toString());
+				storage.setNcId(bean.getBillid());
+				storage.setPoundId(bean.getId());
+				storage.setType("2");
+				PurchaseApplication purchaseApplication = null;
+				PurchaseApplicationDetail purchaseApplicationDetail = null;
+				if (StringUtils.isNotBlank(save.getBillid()) && StringUtils.isNotBlank(save.getBilldetailid())) {
+					purchaseApplication = purchaseApplicationMapper.selectByPrimaryKey(save.getBillid());
+					purchaseApplicationDetail = purchaseApplicationDetailMapper.selectByPrimaryKey(save.getBilldetailid());
+				}
+				if (purchaseApplication != null) {
+					storage.setPkOrg(purchaseApplication.getOrgid());
+					storage.setCdptid(purchaseApplication.getDepartmentid());
+					storage.setCvendorid(purchaseApplication.getSupplierid());
+				}
+				storage.setNtotalnum("-" + bean.getNetweight());
+				storage.setDbilldate(DateUtil.getNowDateString("yyyy-MM-dd HH:mm:ss"));
+				storage.setBillmaker(bean.getMakerid());
+				storage.setCreationtime(DateUtil.getNowDateString("yyyy-MM-dd HH:mm:ss"));
+				storage.setTs(storage.getCreationtime());
+				storage.setStatus("0");
+				PurchaseStorageListItem storageItem = setPurchaseStorageItem(purchaseApplicationDetail, bean, storage);
+				bean.setPutinwarehouseid(storage.getId());
+				bean.setPutinwarehousecode(storage.getCode());
 				if (poundNoteMapper.insertSelective(bean) > 0 && StringUtils.equals(
-						systemCodeService.updateCodeItem(codeReq).getCode(), ErrorCode.SYSTEM_SUCCESS.getCode())) {
+						systemCodeService.updateCodeItem(codeReq).getCode(), ErrorCode.SYSTEM_SUCCESS.getCode())
+						&& purchaseStorageListMapper.insertSelective(storage) > 0
+						&& purchaseStorageListItemMapper.insertSelective(storageItem) > 0 && StringUtils.equals(
+								systemCodeService.updateCodeItem(codeReq1).getCode(), ErrorCode.SYSTEM_SUCCESS.getCode())) {
 					result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
 				} else {
 					result.setErrorCode(ErrorCode.OPERATE_ERROR);
@@ -356,19 +396,63 @@ public class PoundNoteService implements IPoundNoteService {
 		return result;
 	}
 
+	@Transactional
 	@Override
-	public Result purchaseRedcollide(PoundNoteQuery query) {
+	public Result purchaseRedcollide(PoundNoteQuery query) throws Exception {
 		Result result = Result.getParamErrorResult();
 		if (query != null && StringUtils.isNotBlank(query.getId())) {
-			PoundNote bean = new PoundNote();
-			bean.setId(query.getId());
-			bean.setRedcollide("1");
-			bean.setModifier(query.getCurrId());
-			bean.setModifytime(System.currentTimeMillis());
-			if (poundNoteMapper.updateByPrimaryKeySelective(bean) > 0) {
-				result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
-			} else {
-				result.setErrorCode(ErrorCode.OPERATE_ERROR);
+			PoundNote poundNote = poundNoteMapper.selectByPrimaryKey(query.getId());
+			if(poundNote != null){
+				PoundNote bean = new PoundNote();
+				bean.setId(query.getId());
+				bean.setRedcollide("1");
+				bean.setModifier(query.getCurrId());
+				bean.setModifytime(System.currentTimeMillis());
+				//增加红冲入库单
+				PurchaseStorageList storage = new PurchaseStorageList();
+				GetCodeReq codeReq1 = new GetCodeReq();
+				codeReq1.setCode("RKD");
+				codeReq1.setCodeType(true);
+				codeReq1.setUserid(query.getCurrId());
+				storage.setId(UUIDUtil.getId());
+				storage.setCode(systemCodeService.getCode(codeReq1).getData().toString());
+				storage.setNcId(poundNote.getBillid());
+				storage.setPoundId(poundNote.getId());
+				storage.setType("3");
+				PurchaseApplication purchaseApplication = null;
+				PurchaseApplicationDetail purchaseApplicationDetail = null;
+				if (StringUtils.isNotBlank(poundNote.getBillid()) && StringUtils.isNotBlank(poundNote.getBilldetailid())) {
+					purchaseApplication = purchaseApplicationMapper.selectByPrimaryKey(poundNote.getBillid());
+					purchaseApplicationDetail = purchaseApplicationDetailMapper.selectByPrimaryKey(poundNote.getBilldetailid());
+				}
+				if (purchaseApplication != null) {
+					storage.setPkOrg(purchaseApplication.getOrgid());
+					storage.setCdptid(purchaseApplication.getDepartmentid());
+					storage.setCvendorid(purchaseApplication.getSupplierid());
+				}
+				if(StringUtils.isNotBlank(poundNote.getPutinwarehouseid())){
+					PurchaseStorageList storageOld = purchaseStorageListMapper.selectByPrimaryKey(poundNote.getPutinwarehouseid());
+					if(storageOld != null){
+						storage.setReturnRkdNcId(storageOld.getRkdNcId());
+					}
+				}
+				storage.setNtotalnum("-" + poundNote.getNetweight());
+				storage.setDbilldate(DateUtil.getNowDateString("yyyy-MM-dd HH:mm:ss"));
+				storage.setBillmaker(poundNote.getMakerid());
+				storage.setCreationtime(DateUtil.getNowDateString("yyyy-MM-dd HH:mm:ss"));
+				storage.setTs(storage.getCreationtime());
+				storage.setStatus("0");
+				PurchaseStorageListItem storageItem = setPurchaseStorageItem(purchaseApplicationDetail, poundNote, storage);
+				if (poundNoteMapper.updateByPrimaryKeySelective(bean) > 0
+						&& purchaseStorageListMapper.insertSelective(storage) > 0
+						&& purchaseStorageListItemMapper.insertSelective(storageItem) > 0 && StringUtils.equals(
+								systemCodeService.updateCodeItem(codeReq1).getCode(), ErrorCode.SYSTEM_SUCCESS.getCode())) {
+					result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+				} else {
+					result.setErrorCode(ErrorCode.OPERATE_ERROR);
+				}
+			}else{
+				result.setErrorCode(ErrorCode.POUNDNOTE_NOT_EXIST);
 			}
 		}
 		return result;
@@ -478,6 +562,8 @@ public class PoundNoteService implements IPoundNoteService {
 			query.setState("1");
 			long count = poundNoteMapper.salesPageCount(query);
 			if (count > 0) {
+				query.setStart((query.getPageNo() - 1) * query.getPageSize());
+				query.setLimit(query.getPageSize());
 				List<PoundNoteResp> list = poundNoteMapper.salesPage(query);
 				page.setList(list);
 			}
@@ -659,6 +745,7 @@ public class PoundNoteService implements IPoundNoteService {
 		return result;
 	}
 
+	@Transactional
 	@Override
 	public Result salesRedcollide(PoundNoteQuery query) {
 		Result result = Result.getParamErrorResult();
@@ -766,6 +853,7 @@ public class PoundNoteService implements IPoundNoteService {
 				pa.setStatus("2");
 				// 生成入库单
 				PurchaseStorageList storage = setPurchaseStorage(query.getCurrid(), application, bean);
+				storage.setNtotalnum("-" + storage.getNtotalnum());
 				PurchaseStorageListItem storageItem = setPurchaseStorageItem(applicationDetail, bean, storage);
 				storageItem.setNunm("-" + Math.abs(Double.parseDouble(storageItem.getNunm())));
 				storageItem.setNshouldnum("-" + Math.abs(Double.parseDouble(storageItem.getNshouldnum())));
@@ -1128,18 +1216,20 @@ public class PoundNoteService implements IPoundNoteService {
 			throws Exception {
 		PurchaseStorageList storage = new PurchaseStorageList();
 		GetCodeReq codeReq1 = new GetCodeReq();
-		codeReq1.setCode("RK");
+		codeReq1.setCode("RKD");
 		codeReq1.setCodeType(true);
 		codeReq1.setUserid(currid);
 		storage.setId(UUIDUtil.getId());
 		storage.setCode(systemCodeService.getCode(codeReq1).getData().toString());
 		storage.setNcId("");
-		storage.setPoundId(bean.getBillid());
+		storage.setPoundId(bean.getId());
+		storage.setType("1");
 		if (application != null) {
 			storage.setPkOrg(application.getOrgid());
 			storage.setCdptid(application.getDepartmentid());
 			storage.setCvendorid(application.getSupplierid());
 		}
+		storage.setNtotalnum("" + bean.getNetweight());
 		storage.setDbilldate(DateUtil.getNowDateString("yyyy-MM-dd HH:mm:ss"));
 		storage.setBillmaker(bean.getMakerid());
 		storage.setCreationtime(DateUtil.getNowDateString("yyyy-MM-dd HH:mm:ss"));
@@ -1723,6 +1813,8 @@ public class PoundNoteService implements IPoundNoteService {
 			page = new PaginationVO<PoundNoteResp>();
 			long count = poundNoteMapper.queryOtherPoundNotePageCount(query);
 			if (count > 0) {
+				query.setStart((query.getPageNo() - 1) * query.getPageSize());
+				query.setLimit(query.getPageSize());
 				List<PoundNote> list = poundNoteMapper.queryOtherPoundNotePage(query);
 				page.setList(copyBeanList2RespList(list, false));
 			}

@@ -30,7 +30,7 @@ public class PurchaseStorageService implements IPurchaseStorageService {
 					//入库单状态修改为 已退单
 					PurchaseStorageList update = new PurchaseStorageList();
 					update.setId(req.getId());
-					update.setNcId(req.getNcId());
+					update.setRkdNcId(req.getNcId());
 					update.setTs(req.getTs());
 					update.setStatus(Constant.PUSH_STATUS_END);
 					purchaseStorageMapper.updateByPrimaryKeySelective(update);

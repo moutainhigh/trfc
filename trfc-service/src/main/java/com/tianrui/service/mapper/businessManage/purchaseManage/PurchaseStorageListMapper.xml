@@ -14,12 +14,15 @@
     <result column="creationtime" property="creationtime" jdbcType="VARCHAR" />
     <result column="cvendorid" property="cvendorid" jdbcType="VARCHAR" />
     <result column="ts" property="ts" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="VARCHAR" />
     <result column="status" property="status" jdbcType="VARCHAR" />
     <result column="poundId" property="poundId" jdbcType="VARCHAR" />
+    <result column="rkd_ncid" property="rkdNcId" jdbcType="VARCHAR" />
+    <result column="return_rkd_ncid" property="returnRkdNcId" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, code, nc_id, pk_org, ccustomerid, dbilldate, cdptid, ntotalnum, billmaker, creationtime, 
-    cvendorid, ts, status,poundId
+    cvendorid, ts, status, poundId, type, rkd_ncid, return_rkd_ncid
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
@@ -35,11 +38,13 @@
     insert into tr_purchase_storage_list (id, code, nc_id, pk_org, 
       ccustomerid, dbilldate, cdptid, 
       ntotalnum, billmaker, creationtime, 
-      cvendorid, ts, status,poundId)
+      cvendorid, ts, status, poundId,
+      type, rkd_ncid, return_rkd_ncid)
     values (#{id,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR}, #{ncId,jdbcType=VARCHAR}, #{pkOrg,jdbcType=VARCHAR}, 
       #{ccustomerid,jdbcType=VARCHAR}, #{dbilldate,jdbcType=VARCHAR}, #{cdptid,jdbcType=VARCHAR}, 
       #{ntotalnum,jdbcType=VARCHAR}, #{billmaker,jdbcType=VARCHAR}, #{creationtime,jdbcType=VARCHAR}, 
-      #{cvendorid,jdbcType=VARCHAR}, #{ts,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, #{poundId,jdbcType=VARCHAR})
+      #{cvendorid,jdbcType=VARCHAR}, #{ts,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, #{poundId,jdbcType=VARCHAR},
+      #{type,jdbcType=VARCHAR}, #{rkdNcId,jdbcType=VARCHAR}, #{returnRkdNcId,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.tianrui.service.bean.businessManage.purchaseManage.PurchaseStorageList" >
     insert into tr_purchase_storage_list
@@ -83,6 +88,18 @@
       <if test="status != null" >
         status,
       </if>
+      <if test="poundId != null" >
+        poundId,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="rkdNcId != null" >
+        rkd_ncid,
+      </if>
+      <if test="returnRkdNcId != null" >
+        return_rkd_ncid,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -123,6 +140,18 @@
       </if>
       <if test="status != null" >
         #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="poundId != null" >
+        #{poundId,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="rkdNcId != null" >
+        #{rkdNcId,jdbcType=VARCHAR},
+      </if>
+      <if test="returnRkdNcId != null" >
+        #{returnRkdNcId,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -165,6 +194,18 @@
       <if test="status != null" >
         status = #{status,jdbcType=VARCHAR},
       </if>
+      <if test="poundId != null" >
+        poundId = #{poundId,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="rkdNcId != null" >
+        rkd_ncid = #{rkdNcId,jdbcType=VARCHAR},
+      </if>
+      <if test="returnRkdNcId != null" >
+        return_rkd_ncid = #{returnRkdNcId,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
@@ -181,7 +222,11 @@
       creationtime = #{creationtime,jdbcType=VARCHAR},
       cvendorid = #{cvendorid,jdbcType=VARCHAR},
       ts = #{ts,jdbcType=VARCHAR},
-      status = #{status,jdbcType=VARCHAR}
+      status = #{status,jdbcType=VARCHAR},
+      poundId = #{poundId,jdbcType=VARCHAR},
+      type = #{type,jdbcType=VARCHAR},
+      rkdNcId = #{rkdNcId,jdbcType=VARCHAR},
+      returnRkdNcId = #{returnRkdNcId,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
   <select id="selectIncrementalData" resultMap="BaseResultMap" parameterType="com.tianrui.service.bean.businessManage.purchaseManage.PurchaseStorageList" >

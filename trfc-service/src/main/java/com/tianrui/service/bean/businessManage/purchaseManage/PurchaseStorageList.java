@@ -35,6 +35,12 @@ public class PurchaseStorageList {
     private String status;
     //榜单ID
     private String poundId;
+    //入库单类型 1到货 2退货 3红冲
+    private String type;
+    //入库单NCID
+    private String rkdNcId;
+    //退货/红冲对应的入库单NCID
+    private String returnRkdNcId;
     //子表信息
     private List<PurchaseStorageListItem> list;
 
@@ -162,6 +168,30 @@ public class PurchaseStorageList {
 
 	public void setPoundId(String poundId) {
 		this.poundId = poundId;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
+	public String getRkdNcId() {
+		return rkdNcId;
+	}
+
+	public void setRkdNcId(String rkdNcId) {
+		this.rkdNcId = rkdNcId;
+	}
+
+	public String getReturnRkdNcId() {
+		return returnRkdNcId;
+	}
+
+	public void setReturnRkdNcId(String returnRkdNcId) {
+		this.returnRkdNcId = returnRkdNcId;
 	}
 	
     
