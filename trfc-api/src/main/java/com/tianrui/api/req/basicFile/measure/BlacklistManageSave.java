@@ -1,5 +1,7 @@
 package com.tianrui.api.req.basicFile.measure;
 
+import java.util.Date;
+
 import com.tianrui.api.req.BaseReq;
 
 public class BlacklistManageSave extends BaseReq {
@@ -16,7 +18,7 @@ public class BlacklistManageSave extends BaseReq {
     //创建人
     private String creator;
     //创建时间
-    private Long createtime;
+    private String createtime;
     //最后修改人
     private String modifier;
     //最后修改时间
@@ -62,15 +64,17 @@ public class BlacklistManageSave extends BaseReq {
         this.creator = creator == null ? null : creator.trim();
     }
 
-    public Long getCreatetime() {
-        return createtime;
-    }
 
-    public void setCreatetime(Long createtime) {
-        this.createtime = createtime;
-    }
 
-    public String getModifier() {
+	public String getCreatetime() {
+		return createtime;
+	}
+
+	public void setCreatetime(String createtime) {
+		this.createtime = createtime;
+	}
+
+	public String getModifier() {
         return modifier;
     }
 

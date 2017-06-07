@@ -10,22 +10,17 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.tianrui.api.intf.basicFile.measure.IBlacklistManageService;
-import com.tianrui.api.req.basicFile.businessControl.PrimarySettingSave;
 import com.tianrui.api.req.basicFile.measure.BlacklistManageQuery;
 import com.tianrui.api.req.basicFile.measure.BlacklistManageReq;
 import com.tianrui.api.req.basicFile.measure.BlacklistManageSave;
 import com.tianrui.api.req.system.base.GetCodeReq;
 import com.tianrui.api.resp.basicFile.measure.BlacklistManageResp;
-import com.tianrui.api.resp.basicFile.measure.DriverManageResp;
-import com.tianrui.api.resp.basicFile.measure.YardManageResp;
 import com.tianrui.api.resp.system.auth.SystemUserResp;
-import com.tianrui.service.bean.basicFile.businessControl.PrimarySetting;
 import com.tianrui.service.bean.basicFile.measure.BlacklistManage;
 import com.tianrui.service.bean.basicFile.measure.VehicleManage;
-import com.tianrui.service.bean.basicFile.measure.YardManage;
-import com.tianrui.service.bean.system.auth.SystemUser;
 import com.tianrui.service.impl.system.auth.SystemUserService;
 import com.tianrui.service.mapper.basicFile.measure.BlacklistManageMapper;
+import com.tianrui.service.mapper.basicFile.measure.VehicleManageMapper;
 import com.tianrui.smartfactory.common.constants.ErrorCode;
 import com.tianrui.smartfactory.common.utils.UUIDUtil;
 import com.tianrui.smartfactory.common.vo.PaginationVO;
@@ -38,7 +33,8 @@ public class BlacklistManageService implements IBlacklistManageService {
 	private BlacklistManageMapper blacklistManageMapper;
 	@Autowired
 	private SystemUserService userService;
-
+	@Autowired
+	private VehicleManageMapper vehicleManageMapper;
 	
 	@Override
 	public int deleteBlacklist(String id){
@@ -104,13 +100,6 @@ public class BlacklistManageService implements IBlacklistManageService {
 		if(list != null && list.size() > 0){
 			result.setErrorCode(ErrorCode.VEHICLE_EXIST);
 		}
-		PropertyUtils.copyProperties(blacklist, save);
-		blacklist.setId(UUIDUtil.getId());
-//		blacklist.setCreator("");
-		blacklist.setCreatetime(System.currentTimeMillis());
-//		blacklist.setModifier("");
-		blacklist.setModifytime(System.currentTimeMillis());
-		this.blacklistManageMapper.insert(blacklist);
 	}
 	return result;
 	}
@@ -168,17 +157,21 @@ public class BlacklistManageService implements IBlacklistManageService {
 	@Override
 	public Result add(BlacklistManageSave save) throws Exception {
 		Result result = Result.getParamErrorResult();
-		if(save != null && StringUtils.isNotBlank(save.getVehicleno())){
+		if(save != null && StringUtils.isNotBlank(save.getVehicleid())){
 			BlacklistManage bean = new BlacklistManage();
-			bean.setVehicleno(save.getVehicleno());
+			bean.setVehicleid(save.getVehicleid());
+			VehicleManage vehicleManage = vehicleManageMapper.selectByPrimaryKey(save.getVehicleid());
 			List<VehicleManage> list = blacklistManageMapper.selectSelective(bean);
 			if(list == null || list.size() == 0){
+				bean.setVehicleno(vehicleManage.getVehicleno());
 				bean.setId(UUIDUtil.getId());
 				GetCodeReq codeReq = new GetCodeReq();
 				codeReq.setUserid(save.getVehicleno());
 				bean.setCreator(save.getCreator());
 				bean.setCreatetime(System.currentTimeMillis());
 				bean.setRemarks(save.getRemarks());
+				bean.setModifier(save.getCreator());
+				bean.setModifytime(save.getModifytime());
 				if(blacklistManageMapper.insertSelective(bean) == 1){
 					result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
 				}

@@ -103,6 +103,8 @@
 		    });
 		});
 	}
+	
+	
 	//分页查询数据
 	function queryData(pageNo){
 		var index = layer.load(2, {
@@ -114,12 +116,13 @@
 		var creator='';
 		var vehicleno='';
 		//获取查询条件
-		var carsearch = $('#carsearch').val();carsearch = $.trim(carsearch);
+		var vehicleid = $('#a_vehicle').attr('vehiclenoid');
 
 		var params={
 				pageSize:pageSize,
 				creator:creator,
-				vehicleno:vehicleno
+				vehicleno:vehicleno,
+				vehicleid:vehicleid
 		};
 		//获取当前页数
 		params.pageNo=pageNo;
@@ -154,7 +157,7 @@
 				}
 				for(var i=0;i<list.length;i++){
 					var blacklist=list[i];
-					var tr=$('<tr><td>'+((pageNo-1)*pageSize+i+1)+'</td><td>'+blacklist.vehicleno+'</td><td>'+blacklist.createtime+'</td><td>'+blacklist.creatorName+'</td><td>'+blacklist.remarks+'</td><td>'+'</span><span class="delete_blacklist">'+'<a><i class="iconfont" data-toggle="tooltip" data-placement="left" title="删除">&#xe63d;</i></a>'+'</span></td></tr>');
+					var tr=$('<tr><td>'+((pageNo-1)*pageSize+i+1)+'</td><td>'+blacklist.vehicleno+'</td><td>'+blacklist.createtimeStr+'</td><td>'+blacklist.creator+'</td><td>'+blacklist.remarks+'</td><td>'+'</span><span class="delete_blacklist">'+'<a><i class="iconfont" data-toggle="tooltip" data-placement="left" title="删除">&#xe63d;</i></a>'+'</span></td></tr>');
 					tr.data(blacklist);
 					tbody.append(tr);
 				}
@@ -203,14 +206,10 @@
 		if($('#addView').is(':visible')){
 			var url=URL.addBlacklistUrl;
 			var vehicleid = $('#vehicleno').attr('vehiclenoid'); 
-			var creator = $('#creator').val();creator = $.trim(creator);
-			var createtime = $('#createtime').val();createtime = $.trim(createtime);
 			var remarks = $('#remarks').val();remarks = $.trim(remarks);
 			var params={
 					vehicleid:vehicleid,
-					creator:creator,
-					createtime:createtime,
-					remarks:remarks,
+					remarks:remarks
 			};
 //			console.log(params);
 			$('#addCommit').attr('data-dismiss','modal');
@@ -224,32 +223,6 @@
 		}
 		
 	}
-	
-	/*function addBlacklist(){
-		if($('#add').is(':visible')){
-			var url=URL.addBlacklistUrl;
-			var code = $('#vehicleno').val();code = $.trim(code);
-			var operator = $('#operator').val();operator = $.trim(operator);
-			var describe = $('#describe').val();describe = $.trim(describe);
-			var pinyincode=pinyin.getCamelChars(name).toUpperCase();
-			var params={
-					vehicleid:vehicleid,
-					vehicleno:vehicleno,
-					createtime:createtime,
-					creator:creator,
-					remarks:remarks
-			};
-//			console.log(params);
-			$('#addblacklist').attr('data-dismiss','modal');
-			$.post(url,params,function(result){
-				if(result.code='000000'){
-					queryData(1);
-				}else{
-					layer.msg(result.error,{icon:5});
-				}
-			});
-		}
-	}*/
 	
 	function deleteblacklist(){
 		var url=URL.delblacklistUrl;

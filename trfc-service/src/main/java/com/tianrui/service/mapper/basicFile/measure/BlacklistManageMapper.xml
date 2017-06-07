@@ -182,7 +182,10 @@
 		from tr_blacklist_db_manage
 		<where>
 		<if test="vehicleno != null and vehicleno != ''">
-				and name like '%${vehicleno}%'
+				and name = '%${vehicleno}%'
+			</if>
+		<if test="vehicleid != null and vehicleid != ''">
+				and vehicleid = #{vehicleid,jdbcType=VARCHAR}
 			</if>
 		</where>
 		order by createtime desc
