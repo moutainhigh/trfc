@@ -157,7 +157,7 @@
 				}
 				for(var i=0;i<list.length;i++){
 					var blacklist=list[i];
-					var tr=$('<tr><td>'+((pageNo-1)*pageSize+i+1)+'</td><td>'+blacklist.vehicleno+'</td><td>'+blacklist.createtimeStr+'</td><td>'+blacklist.creator+'</td><td>'+blacklist.remarks+'</td><td>'+'</span><span class="delete_blacklist">'+'<a><i class="iconfont" data-toggle="tooltip" data-placement="left" title="删除">&#xe63d;</i></a>'+'</span></td></tr>');
+					var tr=$('<tr><td>'+((pageNo-1)*pageSize+i+1)+'</td><td>'+blacklist.vehicleno+'</td><td>'+blacklist.createtimeStr+'</td><td>'+blacklist.creatorName+'</td><td>'+blacklist.remarks+'</td><td>'+'</span><span class="delete_blacklist">'+'<a><i class="iconfont" data-toggle="tooltip" data-placement="left" title="删除">&#xe63d;</i></a>'+'</span></td></tr>');
 					tr.data(blacklist);
 					tbody.append(tr);
 				}

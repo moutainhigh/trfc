@@ -4,16 +4,17 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 <title>车辆黑名单</title>
+<script type="text/javascript" src="${staticBasePath }/js/menu_list.js"></script>
 <!-- 引用公共header部分 -->
 <jsp:include page="../../common/base/header_busi.jsp"></jsp:include>
 </head>
 <body>
 <div class="it_admin">
-		<!-- 引用公共left部分 -->
+			<!-- 引用公共left部分 -->
 		<jsp:include page="../../common/base/left_busi.jsp"></jsp:include>
 		<div class="right">
-		<!-- 引用公共right部分 -->
-		<jsp:include page="../../common/base/right_head_busi.jsp"></jsp:include>
+			<!-- 引用公共right部分 -->
+			<jsp:include page="../../common/base/right_head_busi.jsp"></jsp:include>
     <!--tab切换的内容-->
     <div class="intel_tabbox">
         <!--采购申请单begin-->
@@ -150,7 +151,7 @@
             </div>
             <div class="modal-body">
                 <div class="alert_qf">
-                    <img src="../images/tishi.png"><label>注：删除操作不可恢复，您确定要继续么？</label>
+                    <img src="${staticBasePath}/images/tishi.png"><label>注：删除操作不可恢复，您确定要继续么？</label>
                 </div>
             </div>
             <div class="modal-footer">
@@ -160,8 +161,12 @@
         </div>
     </div>
 </div>
+	<!-- 引用公共footer部分 -->
+	<jsp:include page="../../common/base/footer_busi.jsp"></jsp:include>
 	<!--删除end-->
 	<script type="text/javascript"
 		src="/javascript/basicFile/measure/blacklist.js"></script>
+		
+	
 </body>
 </html>
