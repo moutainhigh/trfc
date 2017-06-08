@@ -194,6 +194,7 @@
 			<!--到货通知单end-->
 		</div>
 	</div>
+	<jsp:include page="../../common/base/footer_busi.jsp"></jsp:include>
 	<script type="text/javascript">
 		// 录入、参照tab切换菜单
 		var cg_li = $('.cg_tabtit ul li');
