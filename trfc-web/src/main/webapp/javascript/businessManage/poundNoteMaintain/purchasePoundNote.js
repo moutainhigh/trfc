@@ -350,6 +350,9 @@
 		}else if(obj.status == '2'){
 			layer.msg('退货数据，不能进行退货补增操作！', {icon: 5});
 			return;
+		}else if(obj.returnstatus != '2'){
+			layer.msg('数据未推单，不能进行退货补增操作！', {icon: 5});
+			return;
 		}
 		window.open(URL.returnAddView + '?id=' + obj.id);
 	}
@@ -364,7 +367,7 @@
 		}else if(obj.status == '2'){
 			layer.msg('退货数据，不能进行红冲操作！', {icon: 5});
 			return;
-		}else if(obj.returnstatus == '0'){
+		}else if(obj.returnstatus != '2'){
 			layer.msg('数据未推单，不能进行红冲操作！', {icon: 5});
 			return;
 		}

@@ -347,6 +347,7 @@ public class PoundNoteService implements IPoundNoteService {
 				bean.setDeductionweight(0D);
 				bean.setDeductionother(0D);
 				bean.setState("1");
+				bean.setMakebilltime(System.currentTimeMillis());
 				bean.setCreator(save.getMakerid());
 				bean.setCreatetime(System.currentTimeMillis());
 				bean.setModifier(save.getMakerid());
@@ -356,7 +357,7 @@ public class PoundNoteService implements IPoundNoteService {
 				GetCodeReq codeReq1 = new GetCodeReq();
 				codeReq1.setCode("RKD");
 				codeReq1.setCodeType(true);
-				codeReq1.setUserid(save.getMakerid());
+				codeReq1.setUserid(bean.getMakerid());
 				storage.setId(UUIDUtil.getId());
 				storage.setCode(systemCodeService.getCode(codeReq1).getData().toString());
 				storage.setNcId(bean.getBillid());
@@ -364,14 +365,20 @@ public class PoundNoteService implements IPoundNoteService {
 				storage.setType("2");
 				PurchaseApplication purchaseApplication = null;
 				PurchaseApplicationDetail purchaseApplicationDetail = null;
-				if (StringUtils.isNotBlank(save.getBillid()) && StringUtils.isNotBlank(save.getBilldetailid())) {
-					purchaseApplication = purchaseApplicationMapper.selectByPrimaryKey(save.getBillid());
-					purchaseApplicationDetail = purchaseApplicationDetailMapper.selectByPrimaryKey(save.getBilldetailid());
+				if (StringUtils.isNotBlank(bean.getBillid()) && StringUtils.isNotBlank(bean.getBilldetailid())) {
+					purchaseApplication = purchaseApplicationMapper.selectByPrimaryKey(bean.getBillid());
+					purchaseApplicationDetail = purchaseApplicationDetailMapper.selectByPrimaryKey(bean.getBilldetailid());
 				}
 				if (purchaseApplication != null) {
 					storage.setPkOrg(purchaseApplication.getOrgid());
 					storage.setCdptid(purchaseApplication.getDepartmentid());
 					storage.setCvendorid(purchaseApplication.getSupplierid());
+				}
+				if(StringUtils.isNotBlank(bean.getPutinwarehouseid())){
+					PurchaseStorageList storageOld = purchaseStorageListMapper.selectByPrimaryKey(bean.getPutinwarehouseid());
+					if(storageOld != null){
+						storage.setReturnRkdNcId(storageOld.getRkdNcId());
+					}
 				}
 				storage.setNtotalnum("-" + bean.getNetweight());
 				storage.setDbilldate(DateUtil.getNowDateString("yyyy-MM-dd HH:mm:ss"));
@@ -447,7 +454,26 @@ public class PoundNoteService implements IPoundNoteService {
 						&& purchaseStorageListMapper.insertSelective(storage) > 0
 						&& purchaseStorageListItemMapper.insertSelective(storageItem) > 0 && StringUtils.equals(
 								systemCodeService.updateCodeItem(codeReq1).getCode(), ErrorCode.SYSTEM_SUCCESS.getCode())) {
-					result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+					List<PurchaseStorageList> list = new ArrayList<PurchaseStorageList>();
+					list.add(storage);
+					List<PurchaseStorageListItem> itemList = new ArrayList<PurchaseStorageListItem>();
+					itemList.add(storageItem);
+					storage.setList(itemList);
+					ApiResult apiResult = HttpUtils.post(ApiParamUtils.getApiParam(list),
+							Constant.URL_RETURN_PURCHASESTORAGEATION);
+					// 调用dc 接口成功 则推单状态为推单中 榜单展示为推单中
+					if (apiResult != null && StringUtils.equals(apiResult.getCode(), Constant.SUCCESS)) {
+						PurchaseStorageList storageUpdate = new PurchaseStorageList();
+						storageUpdate.setId(storage.getId());
+						storageUpdate.setStatus(Constant.PUSH_STATUS_ING);
+						if (purchaseStorageListMapper.updateByPrimaryKeySelective(storageUpdate) > 0) {
+							result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+						}else{
+							result.setErrorCode(ErrorCode.OPERATE_ERROR);
+						}
+					}else{
+						result.setErrorCode(ErrorCode.OPERATE_ERROR);
+					}
 				} else {
 					result.setErrorCode(ErrorCode.OPERATE_ERROR);
 				}
@@ -1161,12 +1187,12 @@ public class PoundNoteService implements IPoundNoteService {
 	// 推送采购入库单
 	private ErrorCode returnPurchaseStorage(PurchaseStorageList storage, PurchaseStorageListItem storageItem) {
 		ErrorCode ec = ErrorCode.OPERATE_ERROR;
-		List<PurchaseStorageList> list1 = new ArrayList<PurchaseStorageList>();
-		list1.add(storage);
+		List<PurchaseStorageList> list = new ArrayList<PurchaseStorageList>();
+		list.add(storage);
 		List<PurchaseStorageListItem> itemList = new ArrayList<PurchaseStorageListItem>();
 		itemList.add(storageItem);
 		storage.setList(itemList);
-		ApiResult apiResult = HttpUtils.post(ApiParamUtils.getApiParam(list1),
+		ApiResult apiResult = HttpUtils.post(ApiParamUtils.getApiParam(list),
 				Constant.URL_RETURN_PURCHASESTORAGEATION);
 		// 调用dc 接口成功 则推单状态为推单中 榜单展示为推单中
 		if (apiResult != null && StringUtils.equals(apiResult.getCode(), Constant.SUCCESS)) {
@@ -1175,7 +1201,7 @@ public class PoundNoteService implements IPoundNoteService {
 			storageUpdate.setStatus(Constant.PUSH_STATUS_ING);
 			if (purchaseStorageListMapper.updateByPrimaryKeySelective(storageUpdate) > 0) {
 				PoundNote pn = new PoundNote();
-				pn.setPutinwarehousecode(storage.getCode());
+				pn.setId(storage.getPoundId());
 				pn.setReturnstatus(Constant.POUND_PUSH_STATUS_ING);
 				if (poundNoteMapper.updateByOrderCode(pn) > 0) {
 					ec = ErrorCode.SYSTEM_SUCCESS;
