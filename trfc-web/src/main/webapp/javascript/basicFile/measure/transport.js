@@ -113,7 +113,7 @@
 		var orgname = $('#transport_organizename').val();
 		var isvalid = 0;
 		if($('#show_isvalid')[0].checked){
-			isvalid = 1;
+			isvalid = 1; 
 		}
 		var params={
 				pageSize:pageSize,

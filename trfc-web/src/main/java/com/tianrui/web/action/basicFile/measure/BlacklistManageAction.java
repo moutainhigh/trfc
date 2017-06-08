@@ -20,6 +20,7 @@ import com.tianrui.api.intf.system.base.ISystemCodeService;
 import com.tianrui.api.req.basicFile.businessControl.PrimarySettingSave;
 import com.tianrui.api.req.basicFile.measure.BlacklistManageQuery;
 import com.tianrui.api.req.basicFile.measure.BlacklistManageSave;
+import com.tianrui.api.req.basicFile.measure.TransportunitManageSave;
 import com.tianrui.api.req.system.base.GetCodeReq;
 import com.tianrui.api.resp.basicFile.measure.BlacklistManageResp;
 import com.tianrui.api.resp.system.auth.SystemUserResp;
@@ -112,6 +113,26 @@ private Logger log=LoggerFactory.getLogger(BlacklistManageAction.class);
 		Result result = Result.getSuccessResult();
 		try {
 			result = blacklistManageService.deleteblacklist(query);
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
+		}
+		return result;
+	}
+	
+	/**
+	 * 修改运输单位信息
+	 * @param save
+	 * @return
+	 */
+	@RequestMapping(value="/updateBlacklist",method=RequestMethod.POST)
+	@ResponseBody
+	public Result updateBlacklist(BlacklistManageSave save,HttpServletRequest request){
+		Result result = Result.getSuccessResult();
+		try {
+			SystemUserResp user = SessionManager.getSessionUser(request);
+			save.setModifier(user.getId());
+			result = blacklistManageService.updateBlacklist(save);
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 			result.setErrorCode(ErrorCode.SYSTEM_ERROR);

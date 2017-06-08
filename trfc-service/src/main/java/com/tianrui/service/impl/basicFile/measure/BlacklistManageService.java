@@ -13,10 +13,12 @@ import com.tianrui.api.intf.basicFile.measure.IBlacklistManageService;
 import com.tianrui.api.req.basicFile.measure.BlacklistManageQuery;
 import com.tianrui.api.req.basicFile.measure.BlacklistManageReq;
 import com.tianrui.api.req.basicFile.measure.BlacklistManageSave;
+import com.tianrui.api.req.basicFile.measure.TransportunitManageSave;
 import com.tianrui.api.req.system.base.GetCodeReq;
 import com.tianrui.api.resp.basicFile.measure.BlacklistManageResp;
 import com.tianrui.api.resp.system.auth.SystemUserResp;
 import com.tianrui.service.bean.basicFile.measure.BlacklistManage;
+import com.tianrui.service.bean.basicFile.measure.TransportunitManage;
 import com.tianrui.service.bean.basicFile.measure.VehicleManage;
 import com.tianrui.service.impl.system.auth.SystemUserService;
 import com.tianrui.service.mapper.basicFile.measure.BlacklistManageMapper;
@@ -77,6 +79,9 @@ public class BlacklistManageService implements IBlacklistManageService {
 				query.setLimit(query.getPageSize());
 				List<BlacklistManage> list=blacklistManageMapper.findBlacklistPage(query);
 				page.setList(copyBeanList2RespList(list));
+				page.setPageNo(query.getPageNo());
+				page.setPageSize(query.getPageSize());
+				page.setTotal(count);
 				//成功时保存数据
 				result.setData(page);
 			}
@@ -166,11 +171,12 @@ public class BlacklistManageService implements IBlacklistManageService {
 				bean.setVehicleno(vehicleManage.getVehicleno());
 				bean.setId(UUIDUtil.getId());
 				GetCodeReq codeReq = new GetCodeReq();
-				codeReq.setUserid(save.getVehicleno());
+				codeReq.setUserid(save.getCreator());
 				bean.setCreator(save.getCreator());
 				bean.setCreatetime(System.currentTimeMillis());
 				bean.setRemarks(save.getRemarks());
 				bean.setModifier(save.getCreator());
+				bean.setIsvalid(save.getIsvalid());
 				bean.setModifytime(save.getModifytime());
 				if(blacklistManageMapper.insertSelective(bean) == 1){
 					result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
@@ -181,8 +187,25 @@ public class BlacklistManageService implements IBlacklistManageService {
 		}
 		return result;
 	}
-
-	
-	
-	
+	/**
+	 * 修改运输单位信息
+	 */
+	@Transactional
+	@Override
+	public Result updateBlacklist(BlacklistManageSave save) throws Exception {
+		Result result = Result.getParamErrorResult();
+		//参数不能为空校验
+		if(save != null){
+			save.setModifytime(System.currentTimeMillis());
+			BlacklistManage blacklist = new BlacklistManage();
+			PropertyUtils.copyProperties(blacklist, save);
+			//执行修改方法，成功时提示信息
+			if(blacklistManageMapper.updateByPrimaryKeySelective(blacklist) > 0){
+				result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+			}else{
+				result.setErrorCode(ErrorCode.OPERATE_ERROR);
+			}
+		}
+		return result;
+	}
 }

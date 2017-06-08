@@ -32,6 +32,8 @@
                         </div>
                         <div class="intel_solo">
                             <div class="intel_sbtn">
+                            <div class="intel_solo">
+								<input type="checkbox" id="show_isvalid"><span>只显示有效的</span>
                                 <button class="btn btnblue " id="searshBtn">搜索</button>
                             </div>
                         </div>
@@ -59,6 +61,7 @@
                         <th>车号</th>
                         <th>创建时间</th>
                         <th>创建人</th>
+                        <th>有效</th>
                         <th>描述</th>
                         <th>操作</th>
                     </tr>
@@ -71,6 +74,10 @@
                         <td>是</td>
                         <td>是</td>
                         <td>
+                        <span><a data-toggle="modal"
+											data-target="#edit"><i class="iconfont"
+												data-toggle="tooltip" data-placement="left" title="编辑">&#xe600;</i></a>
+									</span>
             <span>
                 <a data-toggle="modal" data-target="#dele"><i class="iconfont" data-toggle="tooltip"
                                                               data-placement="left" title="删除">&#xe63d;</i></a>
@@ -126,6 +133,10 @@
                         <label>操作日期：</label>
                         <input type="text" value="管理员" readonly="true" id="createtime">
                     </div>
+                    <div class="alt_edit_div">
+								<label>有效性：</label> <input type="checkbox"
+									id="blacklist_isvalid"><span>有效</span>
+					</div>
                     <div class="alt_edit_textarea">
                         <label>描述： </label>
                         <textarea class="form-control" rows="1" id="remarks"></textarea>
@@ -133,13 +144,60 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" id="addCommit">确定</button>
-                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-            </div>
+						<button type="button" class="btn btn-primary"
+							id="addCommit">确定</button>
+						<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+			</div>
         </div>
     </div>
 </div>
 <!--新增end-->
+<!--编辑begin-->
+		<div class="modal fade" id="edit" tabindex="-1" role="dialog"
+			aria-labelledby="myModalLabel">
+			<div class="modal-dialog" role="document" style="width: 750px;">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal"
+							aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+						<div class="alt_head">
+							 <h5>车辆黑名单-编辑</h5>
+						</div>
+					</div>
+					 <div class="modal-body">
+                <div class="alt_edit">
+                    <div class="alt_edit_div">
+                        <label>车号：</label>
+                        <input type="text" id="update_blacklist_vehicleno" placeholder="请选择车牌号">
+                    </div>
+                    <div class="alt_edit_div">
+                        <label>操作人：</label>
+                        <input type="text" value="管理员" readonly="true" id="update_blacklist_creator">
+                    </div>
+                    <div class="alt_edit_div">
+                        <label>操作日期：</label>
+                        <input type="text" value="管理员" readonly="true" id="update_blacklist_createtime">
+                    </div>
+                    <div class="alt_edit_div">
+								<label>有效性：</label> <input type="checkbox"
+									id="update_blacklist_isvalid"><span>有效</span>
+					</div>
+                    <div class="alt_edit_textarea">
+                        <label>描述： </label>
+                        <textarea class="form-control" rows="1" id="update_blacklist_remarks"></textarea>
+                    </div>
+                </div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-primary"
+							id="update_blacklist">确定</button>
+						<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!--编辑end-->
 <!--删除begin-->
 <div class="modal fade" id="dele" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document" style="width: 400px;">

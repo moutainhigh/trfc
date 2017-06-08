@@ -61,4 +61,9 @@ public interface IBlacklistManageService {
 	 */
 	Result add(BlacklistManageSave save) throws Exception;
 	
+	/**
+	 * 修改运输单位信息
+	 */
+	Result updateBlacklist(BlacklistManageSave save) throws Exception;
+	
 }

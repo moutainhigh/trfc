@@ -22,17 +22,17 @@ public class BlacklistManageQuery extends BaseReq {
     private Integer limit;
     //开始页
     private Integer start;
-    
-    private Integer pageSize;
+    //状态
+    private String isvalid;
     
    // private Integer PageNo;
 
-    public Integer getPageSize() {
-		return pageSize;
+    public String getIsvalid() {
+		return isvalid;
 	}
 
-	public void setPageSize(Integer pageSize) {
-		this.pageSize = pageSize;
+	public void setIsvalid(String isvalid) {
+		this.isvalid = isvalid;
 	}
 
 	public Integer getStart() {

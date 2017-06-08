@@ -10,9 +10,10 @@
     <result column="createtime" property="createtime" jdbcType="BIGINT" />
     <result column="modifier" property="modifier" jdbcType="VARCHAR" />
     <result column="modifytime" property="modifytime" jdbcType="BIGINT" />
+    <result column="isvalid" property="isvalid" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, vehicleid, vehicleno, remarks, creator, createtime, modifier, modifytime
+    id, vehicleid, vehicleno, remarks, creator, createtime, modifier, modifytime,isvalid
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
@@ -142,6 +143,9 @@
       <if test="modifytime != null" >
         modifytime = #{modifytime,jdbcType=BIGINT},
       </if>
+      <if test="isvalid != null" >
+        isvalid = #{isvalid,jdbcType=BIGINT},
+      </if>
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
@@ -186,6 +190,9 @@
 			</if>
 		<if test="vehicleid != null and vehicleid != ''">
 				and vehicleid = #{vehicleid,jdbcType=VARCHAR}
+			</if>
+		<if test="isvalid != null and isvalid != ''">
+				and isvalid = #{isvalid,jdbcType=VARCHAR}
 			</if>
 		</where>
 		order by createtime desc

@@ -26,8 +26,20 @@ public class BlacklistManageResp extends BaseResp {
     private String modifier;
 
     private Long modifytime;
+    
+    private String isvalid;
+    
+    
 
-    public String getId() {
+    public String getIsvalid() {
+		return isvalid;
+	}
+
+	public void setIsvalid(String isvalid) {
+		this.isvalid = isvalid;
+	}
+
+	public String getId() {
         return id;
     }
 

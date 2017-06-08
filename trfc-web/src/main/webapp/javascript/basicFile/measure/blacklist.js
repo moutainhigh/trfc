@@ -5,7 +5,8 @@
 			addBtnUrl:"/trfc/blacklist/addCarBlacklist",
 			pageUrl:"/trfc/blacklist/page",
 			delblacklistUrl:"/trfc/blacklist/delblacklist",
-			autoCompleteSearch:"/trfc/vehicle/autoCompleteSearch"
+			autoCompleteSearch:"/trfc/vehicle/autoCompleteSearch",
+			updateBlacklistUrl:"/trfc/blacklist/updateBlacklist"
 			
 	};
 	
@@ -14,6 +15,7 @@
 		bindEvent();
 		queryData(1);	
 		initAutoComplete();
+		$('#show_isvalid').click();
 	}
 	
 	// 获取当前用户id
@@ -75,6 +77,9 @@
 		$('#addCommit').off('click').on('click', function(){
 			addBlacklist();
 		});
+		$('#show_isvalid').off('click').on('click',function(){
+			queryData(1);
+		});
 		//跳转按钮绑定 点击事件
 		$('#jumpButton').click(jumpPageAction);
 		$('#pageSize').change(function(){
@@ -104,6 +109,21 @@
 		});
 	}
 	
+	//回调函数
+	function pageCallback(pageNo){
+		queryData(pageNo+1);
+	}
+	
+	function jumpPageAction(){
+		var maxpageno = $('#jumpPageNo').attr('maxpageno');
+		var pageno = $('#jumpPageNo').val();
+		if(!pageno || !$.isNumeric(pageno) || pageno<=0 || pageno>maxpageno){
+			layer.msg('输入的数字必须在1~'+maxpageno+'之间');
+		}else{
+			queryData(pageno);
+			$('#jumpPageNo').val('');
+		}
+	}
 	
 	//分页查询数据
 	function queryData(pageNo){
@@ -112,17 +132,20 @@
 		});
 		var url=URL.pageUrl;
 		//获取当前页面记录数
-		var pageSize=10;
 		var creator='';
 		var vehicleno='';
 		//获取查询条件
 		var vehicleid = $('#a_vehicle').attr('vehiclenoid');
-
+		
+		var isvalid = 0;
+		if($('#show_isvalid')[0].checked){
+			isvalid = 1;
+		}
 		var params={
-				pageSize:pageSize,
 				creator:creator,
 				vehicleno:vehicleno,
-				vehicleid:vehicleid
+				vehicleid:vehicleid,
+				isvalid:isvalid
 		};
 		//获取当前页数
 		params.pageNo=pageNo;
@@ -157,9 +180,17 @@
 				}
 				for(var i=0;i<list.length;i++){
 					var blacklist=list[i];
-					var tr=$('<tr><td>'+((pageNo-1)*pageSize+i+1)+'</td><td>'+blacklist.vehicleno+'</td><td>'+blacklist.createtimeStr+'</td><td>'+blacklist.creatorName+'</td><td>'+blacklist.remarks+'</td><td>'+'</span><span class="delete_blacklist">'+'<a><i class="iconfont" data-toggle="tooltip" data-placement="left" title="删除">&#xe63d;</i></a>'+'</span></td></tr>');
+					var tr=$('<tr><td>'+((pageNo-1)*pageSize+i+1)+'</td><td>'+blacklist.vehicleno+'</td><td>'+blacklist.createtimeStr+'</td><td>'+blacklist.creatorName+'</td><td><input type="checkbox" disabled id="list_isvalid'+i+
+							'" ></td><td>'+blacklist.remarks+'</td><td>'+'<span class="update_blacklist"><a data-toggle="modal" data-target="#edit" ><i class="iconfont" data-toggle="tooltip" data-placement="left" title="编辑">&#xe600;</i></a>'+'</span><span class="delete_blacklist">'+'<a><i class="iconfont" data-toggle="tooltip" data-placement="left" title="删除">&#xe63d;</i></a>'+'</span></td></tr>');
 					tr.data(blacklist);
 					tbody.append(tr);
+					
+					if(blacklist.isvalid==1){
+						$('#list_isvalid'+i)[0].checked=true;
+					}else{
+						$('#list_isvalid'+i)[0].checked=false;
+					}
+											
 				}
 				
 			}else{
@@ -169,21 +200,7 @@
 		layer.close(index);
 	}
 	
-	//回调函数
-	function pageCallback(pageNo){
-		queryData(pageNo+1);
-	}
 	
-	function jumpPageAction(){
-		var maxpageno = $('#jumpPageNo').attr('maxpageno');
-		var pageno = $('#jumpPageNo').val();
-		if(!pageno || !$.isNumeric(pageno) || pageno<=0 || pageno>maxpageno){
-			layer.msg('输入的数字必须在1~'+maxpageno+'之间');
-		}else{
-			queryData(pageno);
-			$('#jumpPageNo').val('');
-		}
-	}
 	
 	
 	function addBlacklistAction(){
@@ -194,6 +211,7 @@
 				$('#creator').val(result.data.creator);
 				$('#createtime').val(result.data.createtime);
 				$('#remarks').val('');
+				$('#blacklist_isvalid').attr('checked','checked');
 			}else{
 				layer.msg(result.error,{icon:5})
 			}
@@ -207,8 +225,13 @@
 			var url=URL.addBlacklistUrl;
 			var vehicleid = $('#vehicleno').attr('vehiclenoid'); 
 			var remarks = $('#remarks').val();remarks = $.trim(remarks);
+			var isvalid = 0;
+			if($('#blacklist_isvalid')[0].checked){
+				isvalid = 1;
+			}
 			var params={
 					vehicleid:vehicleid,
+					isvalid:isvalid,
 					remarks:remarks
 			};
 //			console.log(params);
@@ -237,5 +260,54 @@
 				layer.msg(result.error,{icon:5})
 			}
 		});
+	}
+	//监听编辑按钮点击事件
+	$('#blacklists').on('click','tr .update_blacklist',function(){
+		var blacklist=$(this).closest('tr').data();
+		console.log(blacklist);
+		$('#update_blacklist_vehicleno').val(blacklist.vehicleno);
+		$('#update_blacklist_creator').val(blacklist.creatorName);
+		$('#update_blacklist_createtime').val(blacklist.createtimeStr);
+		$('#update_blacklist_isvalid')[0].checked=false;
+		$('#update_blacklist_remarks').val(blacklist.remarks);
+		if(blacklist.isvalid==1){
+			$('#update_blacklist_isvalid')[0].checked=true;
+		}
+		blacklistData.id=blacklist.id;
+	});
+	//修改运输单位信息
+	$('#update_blacklist').off('click').on('click',function(){
+		updateBlacklist();
+	});
+	function updateBlacklist() {
+		if($('#edit').is(':visible')){
+			var id = blacklistData.id;
+			var vehicleno = $('#update_blacklist_vehicleno').val();vehicleno = $.trim(vehicleno);
+			if(!vehicleno){
+				layer.msg('车号不能为空哦',{icon:5});
+				$('#edit .btn-primary').removeAttr('data-dismiss');
+				return;
+			}
+			var isvalid = 0;
+			if($('#update_blacklist_isvalid')[0].checked){
+				isvalid = 1;
+			}
+			var remarks = $('#update_blacklist_remarks').val();remarks = $.trim(remarks);
+			var url=URL.updateBlacklistUrl;
+			var params={
+					id:id,
+					vehicleno:vehicleno,
+					isvalid:isvalid,
+					remarks:remarks
+			};
+			$('#update_blacklist').attr('data-dismiss','modal');
+			$.post(url,params,function(result){
+				if(result.code='000000'){
+					queryData(1);
+				}else{
+					layer.msg(result.error,{icon:5});
+				}
+			});
+		}
 	}
 })(jQuery, window);

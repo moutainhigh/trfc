@@ -18,13 +18,24 @@ public class BlacklistManageSave extends BaseReq {
     //创建人
     private String creator;
     //创建时间
-    private String createtime;
+    private Long createtime;
     //最后修改人
     private String modifier;
     //最后修改时间
     private Long modifytime;
+    //状态
+    private String isvalid;
+    
 
-    public String getId() {
+    public String getIsvalid() {
+		return isvalid;
+	}
+
+	public void setIsvalid(String isvalid) {
+		this.isvalid = isvalid;
+	}
+
+	public String getId() {
         return id;
     }
 
@@ -64,13 +75,11 @@ public class BlacklistManageSave extends BaseReq {
         this.creator = creator == null ? null : creator.trim();
     }
 
-
-
-	public String getCreatetime() {
+	public Long getCreatetime() {
 		return createtime;
 	}
 
-	public void setCreatetime(String createtime) {
+	public void setCreatetime(Long createtime) {
 		this.createtime = createtime;
 	}
 
