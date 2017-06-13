@@ -67,7 +67,7 @@ public class Constant {
     public final static String APP_IOS = "ios";
     
     
-    //推单历史记录表 0上传中  1已上传
+    //推单历史记录表状态 1已推送,0未推送,2推单中
     public final static String PUSH_STATUS_ING ="2"; 
     public final static String PUSH_STATUS_END ="1"; 
     public final static String PUSH_STATUS_NULL ="0"; 
