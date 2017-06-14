@@ -284,6 +284,8 @@ public class PurchaseArriveService implements IPurchaseArriveService {
 						pa.setStatus("0");
 						pa.setState("1");
 						pa.setSource("0");
+						pa.setPoundnoteid("");
+						pa.setPoundnotecode("");
 						pa.setMakerid(save.getCurrId());
 						pa.setMakebillname(systemUserService.getUser(save.getCurrId()).getName());
 						pa.setMakebilltime(System.currentTimeMillis());
@@ -385,7 +387,7 @@ public class PurchaseArriveService implements IPurchaseArriveService {
 				ids.add(resp.getBillid());
 				detailIds.add(resp.getBilldetailid());
 				if(StringUtils.equals(resp.getType(), "0")){
-					//获取磅单信息
+					//获取到货磅单信息
 					PoundNote pound = poundNoteMapper.selectByNoticeId(resp.getId());
 					if(pound!=null){
 						PoundNoteResp poundResp = new PoundNoteResp();
@@ -393,7 +395,7 @@ public class PurchaseArriveService implements IPurchaseArriveService {
 						resp.setPoundNoteResp(poundResp);
 					}
 				}else{
-					//获取磅单信息
+					//获取退货磅单信息
 					PoundNote pound = poundNoteMapper.selectByPrimaryKey(resp.getPoundnoteid());
 					if(pound!=null){
 						PoundNoteResp poundResp = new PoundNoteResp();

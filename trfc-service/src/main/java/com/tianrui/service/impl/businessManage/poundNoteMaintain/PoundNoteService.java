@@ -240,7 +240,7 @@ public class PoundNoteService implements IPoundNoteService {
 					&& purchaseStorageListMapper.insertSelective(storage) > 0
 					&& purchaseStorageListItemMapper.insertSelective(storageItem) > 0 && StringUtils.equals(
 							systemCodeService.updateCodeItem(codeReq1).getCode(), ErrorCode.SYSTEM_SUCCESS.getCode())) {
-				result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+				result.setErrorCode(returnPurchaseStorage(storage, storageItem));
 			} else {
 				result.setErrorCode(ErrorCode.OPERATE_ERROR);
 			}
@@ -394,7 +394,7 @@ public class PoundNoteService implements IPoundNoteService {
 						&& purchaseStorageListMapper.insertSelective(storage) > 0
 						&& purchaseStorageListItemMapper.insertSelective(storageItem) > 0 && StringUtils.equals(
 								systemCodeService.updateCodeItem(codeReq1).getCode(), ErrorCode.SYSTEM_SUCCESS.getCode())) {
-					result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+					result.setErrorCode(returnPurchaseStorage(storage, storageItem));
 				} else {
 					result.setErrorCode(ErrorCode.OPERATE_ERROR);
 				}

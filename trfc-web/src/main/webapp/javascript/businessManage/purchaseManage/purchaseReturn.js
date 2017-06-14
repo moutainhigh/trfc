@@ -291,7 +291,8 @@
 									+'<span><i class="iconfont unaudit" data-toggle="tooltip" data-placement="left" title=" 反审">&#xe651;</i></span>'
 									+'<span><i class="iconfont invalid" data-toggle="tooltip" data-placement="left" title=" 作废">&#xe60c;</i></span>'
 									+'<span><i class="iconfont outfactory" data-toggle="tooltip" data-placement="left" title=" 出厂">&#xe63c;</i></span>'
-									+'<span><i class="iconfont delete" data-toggle="tooltip" data-placement="left" title="删除">&#xe63d;</i></span></td>')
+									/*'<span><i class="iconfont delete" data-toggle="tooltip" data-placement="left" title="删除">&#xe63d;</i></span>*/
+									+'</td>')
 						.data(obj).appendTo('#dataBody');
 			}
 			tableBindEvent();
@@ -333,7 +334,7 @@
 		$('#dataBody>tr').find('.delete').off('click').on('click',function(e){
 			e.stopPropagation();
 			var obj = $(this).closest('tr').data();
-			deleteOperation(obj);
+			//deleteOperation(obj);
 		});
 	}
 	//显示更多
