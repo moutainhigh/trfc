@@ -910,7 +910,34 @@
 		left join tr_purchase_db_application p1 on p0.billid = p1.id
 		left join tr_purchase_db_application_detail p2 on p0.billdetailid = p2.id
 		left join tr_purchase_db_arrive p3 on p0.noticeid = p3.id and p2.id = p3.billdetailid
-	<where> (billtype = '0' or billtype = '1')
+	<where>
+		<choose>
+			<when test="moduleType == 1">
+				(p0.billtype = '0' or p0.billtype = '1')
+			</when>
+			<when test="moduleType == 2">
+					p0.billtype = '0'
+					AND (
+						p0.`status` = 0
+						OR p0.`status` = 1
+					)
+					AND p0.returnstatus = 2
+					AND redcollide = 0
+					AND NOT EXISTS (
+						SELECT
+							*
+						FROM
+							tr_purchase_db_arrive
+						WHERE
+							state = 1
+						AND STATUS != 3
+						AND poundnoteid = p0.id
+					)
+			</when>
+		</choose>
+		<if test="state != null and state != ''">
+			and p0.state = #{state,jdbcType=VARCHAR}
+		</if>
 		<if test="supplierid != null and supplierid != ''">
 			and p1.supplierid = #{supplierid,jdbcType=VARCHAR}
 		</if>
@@ -968,7 +995,36 @@
 		left join tr_purchase_db_application p1 on p0.billid = p1.id
 		left join tr_purchase_db_application_detail p2 on p0.billdetailid = p2.id
 		left join tr_purchase_db_arrive p3 on p0.noticeid = p3.id and p2.id = p3.billdetailid
-	<where> (billtype = '0' or billtype = '1')
+	<where>
+		<if test="moduleType != null and moduleType != ''">
+			<choose>
+				<when test="moduleType == 1">
+					(p0.billtype = '0' or p0.billtype = '1')
+				</when>
+				<when test="moduleType == 2">
+					p0.billtype = '0'
+					AND (
+						p0.`status` = 0
+						OR p0.`status` = 1
+					)
+					AND p0.returnstatus = 2
+					AND redcollide = 0
+					AND NOT EXISTS (
+						SELECT
+							*
+						FROM
+							tr_purchase_db_arrive
+						WHERE
+							state = 1
+						AND STATUS != 3
+						AND poundnoteid = p0.id
+					)
+				</when>
+			</choose>
+		</if>
+		<if test="state != null and state != ''">
+			and p0.state = #{state,jdbcType=VARCHAR}
+		</if>
 		<if test="supplierid != null and supplierid != ''">
 			and p1.supplierid = #{supplierid,jdbcType=VARCHAR}
 		</if>

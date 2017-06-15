@@ -154,7 +154,6 @@ public class PoundNoteService implements IPoundNoteService {
 		PaginationVO<PoundNoteResp> page = null;
 		if (query != null) {
 			page = new PaginationVO<PoundNoteResp>();
-			query.setState("1");
 			long count = poundNoteMapper.purchasePageCount(query);
 			if (count > 0) {
 				query.setStart((query.getPageNo() - 1) * query.getPageSize());
@@ -201,7 +200,7 @@ public class PoundNoteService implements IPoundNoteService {
 			bean.setReturnstatus("0");
 			bean.setRedcollide("0");
 			bean.setStatus("1");
-			bean.setBilltype("0");
+			bean.setBilltype(Constant.NOTICE_OF_CGDH);
 			bean.setNetweight(bean.getGrossweight() - bean.getTareweight());
 			bean.setDeductionweight(0D);
 			bean.setDeductionother(0D);
@@ -343,7 +342,7 @@ public class PoundNoteService implements IPoundNoteService {
 				bean.setReturnstatus("0");
 				bean.setRedcollide("0");
 				bean.setStatus("2");
-				bean.setBilltype("0");
+				bean.setBilltype(Constant.NOTICE_OF_CGTH);
 				bean.setDeductionweight(0D);
 				bean.setDeductionother(0D);
 				bean.setState("1");
@@ -837,6 +836,7 @@ public class PoundNoteService implements IPoundNoteService {
 		// 皮重
 		if (StringUtils.equals(query.getType(), "1")) {
 			GetCodeReq codeReq = setPurchaseBeanBody(query, arrive, application, applicationDetail, bean);
+			bean.setBilltype(Constant.NOTICE_OF_CGTH);
 			// 更新通知单状态
 			PurchaseArrive pa = new PurchaseArrive();
 			pa.setId(arrive.getId());
@@ -848,58 +848,66 @@ public class PoundNoteService implements IPoundNoteService {
 			} else {
 				result.setErrorCode(ErrorCode.OPERATE_ERROR);
 			}
-			// 毛重
+		// 毛重
 		} else {
 			bean.setVehicleno(query.getVehicleno());
 			bean.setVehiclerfid(arrive.getVehiclerfid());
 			bean.setNoticecode(query.getNotionformcode());
-			bean.setReturnstatus("0");
-			bean.setState(Constant.POUND_PUSH_STATUS_NULL);
-			bean.setBilltype("0");
+			bean.setReturnstatus(Constant.POUND_PUSH_STATUS_NULL);
+			bean.setState(Constant.DATA_VAILD);
+			bean.setBilltype(Constant.NOTICE_OF_CGTH);
 			List<PoundNote> list = poundNoteMapper.selectSelective(bean);
 			if (CollectionUtils.isNotEmpty(list)) {
 				bean = list.get(0);
-				// 毛重
-				bean.setGrossweight(Double.parseDouble(query.getNumber()));
-				bean.setNetweight(Double.parseDouble(query.getNetweight()));
-				// 口杂
-				bean.setDeductionother(Double.parseDouble(query.getDeductionother()));
-				// 扣重
-				bean.setDeductionweight(Double.parseDouble(query.getDeductionweight()));
-				// 原发
-				if (StringUtils.isNotBlank(query.getOriginalnetweight())) {
-					bean.setOriginalnetweight(Double.parseDouble(query.getOriginalnetweight()));
+				PurchaseArrive pArrive = purchaseArriveMapper.selectByPrimaryKey(bean.getNoticeid());
+				PoundNote parentPoundNote = poundNoteMapper.selectByPrimaryKey(pArrive.getPoundnoteid());
+				if(Double.parseDouble(query.getNetweight()) <= parentPoundNote.getNetweight()){
+					// 毛重
+					bean.setGrossweight(Double.parseDouble(query.getNumber()));
+					bean.setNetweight(Double.parseDouble(query.getNetweight()));
+					// 口杂
+					bean.setDeductionother(Double.parseDouble(query.getDeductionother()));
+					// 扣重
+					bean.setDeductionweight(Double.parseDouble(query.getDeductionweight()));
+					// 原发
+					if (StringUtils.isNotBlank(query.getOriginalnetweight())) {
+						bean.setOriginalnetweight(Double.parseDouble(query.getOriginalnetweight()));
+					}
+					bean.setWeighttime(DateUtil.parse(query.getTime(), "yyyy-MM-dd HH:mm:ss"));
+					bean.setModifier(query.getCurrid());
+					bean.setModifytime(System.currentTimeMillis());
+					// 更新通知单状态
+					PurchaseArrive pa = new PurchaseArrive();
+					pa.setId(arrive.getId());
+					pa.setStatus("2");
+					// 生成入库单
+					PurchaseStorageList storage = setPurchaseStorage(query.getCurrid(), application, bean);
+					storage.setNtotalnum("-" + storage.getNtotalnum());
+					PurchaseStorageListItem storageItem = setPurchaseStorageItem(applicationDetail, bean, storage);
+					storageItem.setNunm("-" + Math.abs(Double.parseDouble(storageItem.getNunm())));
+					storageItem.setNshouldnum("-" + Math.abs(Double.parseDouble(storageItem.getNshouldnum())));
+					bean.setPutinwarehouseid(storage.getId());
+					bean.setPutinwarehousecode(storage.getCode());
+					PurchaseApplicationDetail detail = new PurchaseApplicationDetail();
+					detail.setId(applicationDetail.getId());
+					detail.setPretendingtake(applicationDetail.getPretendingtake() + bean.getNetweight());
+					detail.setStoragequantity(applicationDetail.getStoragequantity() - bean.getNetweight());
+					detail.setMargin(applicationDetail.getMargin() + bean.getNetweight());
+					if (poundNoteMapper.updateByPrimaryKeySelective(bean) > 0
+							&& purchaseArriveMapper.updateByPrimaryKeySelective(pa) > 0
+							&& purchaseApplicationDetailMapper.updateByPrimaryKeySelective(detail) > 0
+							&& purchaseStorageListMapper.insertSelective(storage) > 0
+							&& purchaseStorageListItemMapper.insertSelective(storageItem) > 0) {
+						ErrorCode ec = returnPurchaseStorage(storage, storageItem);
+						result.setErrorCode(ec);
+					} else {
+						result.setErrorCode(ErrorCode.OPERATE_ERROR);
+					}
+				}else{
+					result.setErrorCode(ErrorCode.POUNDNOTE_RETURN_ERROR1);
 				}
-				bean.setWeighttime(DateUtil.parse(query.getTime(), "yyyy-MM-dd HH:mm:ss"));
-				bean.setModifier(query.getCurrid());
-				bean.setModifytime(System.currentTimeMillis());
-				// 更新通知单状态
-				PurchaseArrive pa = new PurchaseArrive();
-				pa.setId(arrive.getId());
-				pa.setStatus("2");
-				// 生成入库单
-				PurchaseStorageList storage = setPurchaseStorage(query.getCurrid(), application, bean);
-				storage.setNtotalnum("-" + storage.getNtotalnum());
-				PurchaseStorageListItem storageItem = setPurchaseStorageItem(applicationDetail, bean, storage);
-				storageItem.setNunm("-" + Math.abs(Double.parseDouble(storageItem.getNunm())));
-				storageItem.setNshouldnum("-" + Math.abs(Double.parseDouble(storageItem.getNshouldnum())));
-				bean.setPutinwarehouseid(storage.getId());
-				bean.setPutinwarehousecode(storage.getCode());
-				PurchaseApplicationDetail detail = new PurchaseApplicationDetail();
-				detail.setId(applicationDetail.getId());
-				detail.setPretendingtake(applicationDetail.getPretendingtake() + bean.getNetweight());
-				detail.setStoragequantity(applicationDetail.getStoragequantity() - bean.getNetweight());
-				detail.setMargin(applicationDetail.getMargin() + bean.getNetweight());
-				if (poundNoteMapper.updateByPrimaryKeySelective(bean) > 0
-						&& purchaseArriveMapper.updateByPrimaryKeySelective(pa) > 0
-						&& purchaseApplicationDetailMapper.updateByPrimaryKeySelective(detail) > 0
-						&& purchaseStorageListMapper.insertSelective(storage) > 0
-						&& purchaseStorageListItemMapper.insertSelective(storageItem) > 0) {
-					ErrorCode ec = returnPurchaseStorage(storage, storageItem);
-					result.setErrorCode(ec);
-				} else {
-					result.setErrorCode(ErrorCode.OPERATE_ERROR);
-				}
+			}else{
+				result.setErrorCode(ErrorCode.POUNDNOTE_NOT_EXIST);
 			}
 		}
 		return result;
@@ -1165,6 +1173,8 @@ public class PoundNoteService implements IPoundNoteService {
 				} else {
 					result.setErrorCode(ErrorCode.OPERATE_ERROR);
 				}
+			}else{
+				result.setErrorCode(ErrorCode.POUNDNOTE_NOT_EXIST);
 			}
 			// 毛重
 		} else {

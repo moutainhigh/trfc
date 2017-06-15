@@ -57,6 +57,17 @@ public class PoundNoteQuery extends BaseReq {
 	private Integer limit;
 	//当前登录用户
 	private String currId;
+	
+	//模块类别 moduleType : 1 = 榜单， 2 = 采购退货参考榜单
+	private String moduleType;
+
+	public String getModuleType() {
+		return moduleType;
+	}
+
+	public void setModuleType(String moduleType) {
+		this.moduleType = moduleType;
+	}
 
 	/**
 	 * @return the id

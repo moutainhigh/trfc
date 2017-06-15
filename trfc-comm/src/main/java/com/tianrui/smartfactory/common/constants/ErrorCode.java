@@ -52,6 +52,7 @@ public enum ErrorCode {
 	 * 磅单
 	 */
 	POUNDNOTE_NOT_EXIST("E10100","该磅单不存在."),
+	POUNDNOTE_RETURN_ERROR1("E10101","退货净重大于入库净重."),
 	/**
 	 * 车辆
 	 */

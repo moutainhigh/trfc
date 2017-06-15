@@ -342,7 +342,7 @@
 		var purchaseApplication = obj.purchaseApplicationResp || {};
 		var purchaseApplicationDetail = obj.purchaseApplicationDetailResp || {};
 		var poundnote = obj.poundNoteResp || {};
-		$('#vehicleno, #vehicleno2').html(obj.vehicleno || '');
+		$('#vehicleno').html(obj.vehicleno || '');
 		$('#arrivalamount').html(obj.arrivalamount || '');
 		$('#drivername').html(obj.drivername || '');
 		$('#driveridentityno').html(obj.driveridentityno || '');
@@ -354,6 +354,7 @@
 		$('#purchasesum').html(purchaseApplicationDetail.purchasesum || '');
 		$('#billtime').html(purchaseApplication.makebilltimeStr || '');
 		$('#poundnotecode').html(poundnote.code || '');
+		$('#vehicleno2').html(poundnote.vehicleno || '');
 		$('#grossweight').html(poundnote.grossweight || '');
 		$('#tareweight').html(poundnote.tareweight || '');
 		$('#netweight').html(poundnote.netweight || '');

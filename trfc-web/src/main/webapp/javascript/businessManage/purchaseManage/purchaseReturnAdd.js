@@ -1,7 +1,7 @@
 ;(function($, window){
 	var URL = {
 			purchaseArriveMain: '/trfc/purchaseReturn/main',
-			poundNotePage: '/trfc/poundNote/purchase/page',
+			poundNotePage: '/trfc/poundNote/purchaseNotice/returnAdd/page',
 			add: '/trfc/purchaseReturn/add',
 			addVehicle: '/trfc/vehicle/add',
 			addDriver: '/trfc/driver/add',
@@ -267,7 +267,7 @@
 			pageSize:pageSize
 		};
 	}
-	//查询采购订单
+	//查询采购榜单
 	function queryPoundNote(pageNo){
 		var index = layer.load(2, {
 			shade: [0.3,'#fff'] //0.1透明度的白色背景

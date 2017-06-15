@@ -16,13 +16,13 @@ import com.tianrui.smartfactory.common.utils.Md5Utils;
 
 public class TestApiPoundNote {
 
-	private static String domin="http://127.0.0.1/";
+	private static String domin="http://localhost/";
 	private static String url_validation = "api/poundNote/validation";
 	private static String url_up_weight = "api/poundNote/up/weight";
 	private static String url_tare_weight = "api/poundNote/history/tareWeight";
 	
 	public static void main(String[] args) throws Exception {
-		URL url = new URL(domin+url_tare_weight);
+		URL url = new URL(domin+url_up_weight);
 		// 打开url连接
 		HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 		// 设置url请求方式 ‘get’ 或者 ‘post’
@@ -31,7 +31,7 @@ public class TestApiPoundNote {
 		
 	    // 表单参数与get形式一样
 		connection.setDoOutput(true);// 是否输入参数
-        params.append("p").append("=").append(JSON.toJSONString(getParam2()));
+        params.append("p").append("=").append(JSON.toJSONString(getParam1()));
         
         String aa =params.toString();
         System.out.println(aa);
@@ -72,13 +72,19 @@ public class TestApiPoundNote {
 		ApiParam<ApiPoundNoteQuery> api =new ApiParam<ApiPoundNoteQuery>();
 		
 		ApiPoundNoteQuery req =new ApiPoundNoteQuery();
-		req.setRfid("08D4A547373531323120AB01");
-		req.setVehicleno("豫G75121");
+		req.setRfid("E2000016060D014827000A5E");
+		req.setVehicleno("豫S98765");
 		req.setType("2");
-		req.setServicetype("2");
-		req.setNotionformcode("TH201704070022");
-		req.setNumber("32");
+		req.setServicetype("1");
+		req.setNotionformcode("EH20170615000023");
+		req.setNumber("58");
 		req.setTime(DateUtil.getNowDateString("yyyy-MM-dd HH:mm:ss"));
+		
+		//二次过磅所需参数
+		req.setDeductionweight("0.5");
+		req.setOriginalnetweight("21");
+		req.setDeductionother("0.5");
+		req.setNetweight("40");
 		
 		Head head =new Head();
 		head.setCallSource("1");

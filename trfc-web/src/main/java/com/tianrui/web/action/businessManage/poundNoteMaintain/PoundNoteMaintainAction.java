@@ -51,6 +51,22 @@ public class PoundNoteMaintainAction {
 	public Result purchasePage(PoundNoteQuery query){
 		Result result = Result.getSuccessResult();
 		try {
+			query.setModuleType("1");
+			PaginationVO<PoundNoteResp> page = poundNoteService.purchasePage(query);
+			result.setData(page);
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
+		}
+		return result;
+	}
+	
+	@RequestMapping("/purchaseNotice/returnAdd/page")
+	@ResponseBody
+	public Result purchaseNoticeReturnAddPage(PoundNoteQuery query){
+		Result result = Result.getSuccessResult();
+		try {
+			query.setModuleType("2");
 			PaginationVO<PoundNoteResp> page = poundNoteService.purchasePage(query);
 			result.setData(page);
 		} catch (Exception e) {

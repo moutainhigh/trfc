@@ -129,12 +129,13 @@ public class SessionManager {
 	public static Cookie getCookie(HttpServletRequest request) {
 		Cookie cookie = null;
 		Cookie[] cookies = request.getCookies();// 这样便可以获取一个cookie数组
-		for (Cookie item : cookies) {
-			if (item.getName().equalsIgnoreCase("KSESSIONID")) {
-				cookie = item;
-				break;
+		if(cookies != null && cookies.length >= 0){
+			for (Cookie item : cookies) {
+				if (item.getName().equalsIgnoreCase("KSESSIONID")) {
+					cookie = item;
+					break;
+				}
 			}
-			;
 		}
 		return cookie;
 	}

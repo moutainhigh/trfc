@@ -67,6 +67,11 @@ public class Constant {
     public final static String APP_IOS = "ios";
     
     
+    //数据有效性 0：无效  1：有效
+    public final static String DATA_VAILD = "1";
+    public final static String DATA_INVALID = "0";
+    
+    
     //推单历史记录表状态 1已推送,0未推送,2推单中
     public final static String PUSH_STATUS_ING ="2"; 
     public final static String PUSH_STATUS_END ="1"; 
@@ -76,6 +81,32 @@ public class Constant {
     public final static String POUND_PUSH_STATUS_ING ="1"; 
     public final static String POUND_PUSH_STATUS_END ="2"; 
     public final static String POUND_PUSH_STATUS_NULL ="0"; 
+    
+    /**
+     * 业务类型
+     * 
+	 * 0 采购到货   
+	 * 1 采购退货
+	 * 2 销售提货
+	 * 3 销售退货
+	 * 4 厂内倒运
+	 * 5 其它入库
+	 * 6 其它入库退货
+	 * 7 其它出库
+	 * 8 其它出库退货
+	 * 9 工程车辆
+     */
+    public final static String NOTICE_OF_CGDH = "0";
+    public final static String NOTICE_OF_CGTH = "1";
+    public final static String NOTICE_OF_XSDH = "2";
+    public final static String NOTICE_OF_XSTH = "3";
+    public final static String NOTICE_OF_CNDY = "4";
+    public final static String NOTICE_OF_QTRK = "5";
+    public final static String NOTICE_OF_QTRKTH = "6";
+    public final static String NOTICE_OF_QTCK = "7";
+    public final static String NOTICE_OF_QTCKTH = "8";
+    public final static String NOTICE_OF_GCCL = "9";
+    
     
     
     
