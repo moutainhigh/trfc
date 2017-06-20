@@ -293,7 +293,7 @@
 				$('<tr>').append('<td>'+(i+1)+'</td>')
 						.append('<td>'+code+'</td>')
 						.append('<td'+(obj.returnstatus == '0' ? ' class="colorred"' : '')+'>'+returnstatus+'</td>')
-						.append('<td'+(obj.redcollide == '0' ? ' class="colorred"' : '')+'>'+redcollide+'</td>')
+						.append('<td'+(obj.redcollide == '1' ? ' class="colorred"' : '')+'>'+redcollide+'</td>')
 						.append('<td'+(obj.status == '1' || obj.status == '3' ? ' class="colorred"' : '')+'>'+status+'</td>')
 						.append('<td>'+putinwarehousecode+'</td>')
 						.append('<td>'+noticecode+'</td>')
@@ -312,7 +312,7 @@
 						.append('<td>'+supplierremark+'</td>')
 						.append('<td>'+makebillname+'</td>')
 						.append('<td>'+makebilltimeStr+'</td>')
-						.append('<td><span><a class="returnAdd"><i class="iconfont" data-toggle="tooltip" data-placement="bottom" title="退货补增">&#xe65e;</i></a></span>'
+						.append('<td>' //<span><a class="returnAdd"><i class="iconfont" data-toggle="tooltip" data-placement="bottom" title="磅单补增">&#xe65e;</i></a></span>
 									+'<span><a class="redcollide"><i class="iconfont" data-toggle="tooltip" data-placement="bottom" title="红冲">&#xe631;</i></a></span>'
 									+'<span><a class="invalid"><i class="iconfont" data-toggle="tooltip" data-placement="bottom" title="作废">&#xe60c;</i></a></span></td>')
 						.data(obj)

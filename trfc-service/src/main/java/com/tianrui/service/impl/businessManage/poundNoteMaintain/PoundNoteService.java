@@ -333,6 +333,8 @@ public class PoundNoteService implements IPoundNoteService {
 				codeReq.setCodeType(true);
 				codeReq.setUserid(save.getMakerid());
 				bean.setCode(systemCodeService.getCode(codeReq).getData().toString());
+				bean.setNoticeid(null);
+				bean.setNoticecode(null);
 				bean.setGrossweight(save.getGrossweight());
 				bean.setTareweight(save.getTareweight());
 				bean.setNetweight(save.getNetweight());
@@ -1155,21 +1157,32 @@ public class PoundNoteService implements IPoundNoteService {
 				pa.setId(arrive.getId());
 				pa.setStatus("2");
 				// 生成入库单
-				PurchaseStorageList storage = setPurchaseStorage(query.getCurrid(), application, bean);
-				PurchaseStorageListItem storageItem = setPurchaseStorageItem(applicationDetail, bean, storage);
-				bean.setPutinwarehouseid(storage.getId());
-				bean.setPutinwarehousecode(storage.getCode());
-				PurchaseApplicationDetail detail = new PurchaseApplicationDetail();
-				detail.setId(applicationDetail.getId());
-				detail.setStoragequantity(applicationDetail.getStoragequantity() + bean.getNetweight());
-				detail.setUnstoragequantity(applicationDetail.getUnstoragequantity() - bean.getNetweight());
+				PurchaseStorageList storage = null;
+				PurchaseStorageListItem storageItem = null;
+				PurchaseApplicationDetail detail = null;
+				if(bean.getNetweight() >= Constant.NOT_RETURN_NUM) {
+					storage = setPurchaseStorage(query.getCurrid(), application, bean);
+					storageItem = setPurchaseStorageItem(applicationDetail, bean, storage);
+					bean.setPutinwarehouseid(storage.getId());
+					bean.setPutinwarehousecode(storage.getCode());
+					detail = new PurchaseApplicationDetail();
+					detail.setId(applicationDetail.getId());
+					detail.setStoragequantity(applicationDetail.getStoragequantity() + bean.getNetweight());
+					detail.setUnstoragequantity(applicationDetail.getUnstoragequantity() - bean.getNetweight());
+				}
 				if (poundNoteMapper.updateByPrimaryKeySelective(bean) > 0
-						&& purchaseArriveMapper.updateByPrimaryKeySelective(pa) > 0
-						&& purchaseApplicationDetailMapper.updateByPrimaryKeySelective(detail) > 0
-						&& purchaseStorageListMapper.insertSelective(storage) > 0
-						&& purchaseStorageListItemMapper.insertSelective(storageItem) > 0) {
-					ErrorCode ec = returnPurchaseStorage(storage, storageItem);
-					result.setErrorCode(ec);
+						&& purchaseArriveMapper.updateByPrimaryKeySelective(pa) > 0) {
+					if(detail != null && storage != null && storageItem != null){
+						if(purchaseApplicationDetailMapper.updateByPrimaryKeySelective(detail) > 0 
+								&& purchaseStorageListMapper.insertSelective(storage) > 0
+								&& purchaseStorageListItemMapper.insertSelective(storageItem) > 0){
+							result.setErrorCode(returnPurchaseStorage(storage, storageItem));
+						}else{
+							result.setErrorCode(ErrorCode.OPERATE_ERROR);
+						}
+					}else{
+						result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+					}
 				} else {
 					result.setErrorCode(ErrorCode.OPERATE_ERROR);
 				}

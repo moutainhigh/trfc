@@ -108,7 +108,8 @@ public class Constant {
     public final static String NOTICE_OF_GCCL = "9";
     
     
-    
+    //榜单净重小于0.8 不推单
+    public final static Double NOT_RETURN_NUM = 0.8;
     
     
     
