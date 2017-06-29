@@ -1468,7 +1468,7 @@
     <select id="historyTareWeight" parameterType="com.tianrui.api.req.businessManage.poundNoteMaintain.ApiPoundNoteQuery" resultType="java.lang.Double">
     	select tareweight
     	from tr_pound_db_note
-    	where vehicleno = #{vehicleno,jdbcType=VARCHAR} and vehiclerfid = #{rfid,jdbcType=VARCHAR} and state = '1'
+    	where vehicleno = #{vehicleno,jdbcType=VARCHAR} and vehiclerfid = #{rfid,jdbcType=VARCHAR} and state = '1' and tareweight >= #{notReturnNum,jdbcType=VARCHAR}
     	limit 0,#{limit,jdbcType=INTEGER}
     </select>
     <select id="selectByNoticeId" parameterType="java.lang.String" resultMap="BaseResultMap">

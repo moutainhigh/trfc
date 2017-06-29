@@ -1,6 +1,7 @@
 package com.tianrui.api.req.businessManage.poundNoteMaintain;
 
 import com.tianrui.api.req.BaseReq;
+import com.tianrui.smartfactory.common.constants.Constant;
 
 public class ApiPoundNoteQuery extends BaseReq {
 	private static final long serialVersionUID = -6639269016047238506L;
@@ -40,6 +41,16 @@ public class ApiPoundNoteQuery extends BaseReq {
 	private String currid;
 	//查询皮重的条数
 	private Integer limit;
+	
+	private Double notReturnNum = Constant.NOT_RETURN_NUM;
+
+	public Double getNotReturnNum() {
+		return notReturnNum;
+	}
+
+	public void setNotReturnNum(Double notReturnNum) {
+		this.notReturnNum = notReturnNum;
+	}
 
 	/**
 	 * @return the vehicleno
