@@ -8,10 +8,14 @@ public class QueueNumberResp {
     private String queuenumber;
     //车牌号
     private String vehicleno;
+    //物料ID
+    private String materialpk;
 	//物料名称
 	private String materialname;
-	//
-	private String materialpk;
+	//预提量
+	private String takeamount;
+	//批号
+	private String spraycode;
 	//客户名称
 	private String customername;
     //入厂时间
@@ -29,17 +33,29 @@ public class QueueNumberResp {
 	public void setVehicleno(String vehicleno) {
 		this.vehicleno = vehicleno;
 	}
+	public String getMaterialpk() {
+		return materialpk;
+	}
+	public void setMaterialpk(String materialpk) {
+		this.materialpk = materialpk;
+	}
 	public String getMaterialname() {
 		return materialname;
 	}
 	public void setMaterialname(String materialname) {
 		this.materialname = materialname;
 	}
-	public String getMaterialpk() {
-		return materialpk;
+	public String getTakeamount() {
+		return takeamount;
 	}
-	public void setMaterialpk(String materialpk) {
-		this.materialpk = materialpk;
+	public void setTakeamount(String takeamount) {
+		this.takeamount = takeamount;
+	}
+	public String getSpraycode() {
+		return spraycode;
+	}
+	public void setSpraycode(String spraycode) {
+		this.spraycode = spraycode;
 	}
 	public String getCustomername() {
 		return customername;

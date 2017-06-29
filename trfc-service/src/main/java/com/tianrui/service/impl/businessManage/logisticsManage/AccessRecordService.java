@@ -308,37 +308,35 @@ public class AccessRecordService implements IAccessRecordService {
 				&& StringUtils.isNotBlank(apiParam.getCurrUid())) {
 			Card card = cardMapper.selectByCardno(apiParam.getIcardno());
 			if (card != null) {
-				ErrorCode ec = ErrorCode.OPERATE_ERROR;
 				switch (apiParam.getServicetype()) {
 				//采购到货通知单
 				case "0":
-					ec = setICardToPurchaseArrive(card, apiParam);
+					result = setICardToPurchaseArrive(card, apiParam);
 					break;
 				//采购退货通知单
 				case "1":
-					ec = setICardToPurchaseReturnArrive(card, apiParam);
+					result = setICardToPurchaseReturnArrive(card, apiParam);
 					break;
 				//销售提货通知单
 				case "2":
-					ec = setICardToSalesArrive(card, apiParam);
+					result = setICardToSalesArrive(card, apiParam);
 					break;
 					//销售提货通知单
 				case "5":
-					ec = setICardToOtherArrive(card, apiParam);
+					result = setICardToOtherArrive(card, apiParam);
 					break;
 				case "7":
-					ec = setICardToOtherArrive(card, apiParam);
+					result = setICardToOtherArrive(card, apiParam);
 					break;
 				case "9":
-					ec = setICardToOtherArrive(card, apiParam);
+					result = setICardToOtherArrive(card, apiParam);
 					break;
 				case "4":
-					ec = setICardToOtherArrive(card, apiParam);
+					result = setICardToOtherArrive(card, apiParam);
 					break;
 				default:
 					break;
 				}
-				result.setErrorCode(ec);
 			}else{
 				result.setErrorCode(ErrorCode.CARD_NOT_EXIST);
 			}
@@ -346,8 +344,8 @@ public class AccessRecordService implements IAccessRecordService {
 		return result;
 	}
 
-	private ErrorCode setICardToPurchaseArrive(Card card, ApiDoorSystemSave apiParam) throws Exception {
-		ErrorCode ec = ErrorCode.OPERATE_ERROR;
+	private Result setICardToPurchaseArrive(Card card, ApiDoorSystemSave apiParam) throws Exception {
+		Result result = Result.getErrorResult();
 		PurchaseArrive purchase = purchaseArriveMapper.selectByCode(apiParam.getNotionformcode());
 		if(StringUtils.equals(purchase.getAuditstatus(), "1")){
 			if(!StringUtils.equals(purchase.getStatus(), "3")){
@@ -369,15 +367,15 @@ public class AccessRecordService implements IAccessRecordService {
 							save.setPretendingtake(applicationDetail.getPretendingtake() - purchase.getArrivalamount());
 							if(purchaseArriveMapper.updateByPrimaryKeySelective(pa) > 0
 									&& purchaseApplicationDetailMapper.updateByPrimaryKeySelective(save) > 0){
-								ec = addInfoAccessRecordApi(apiParam, purchase.getId(), purchase.getCode(), "1");
+								addInfoAccessRecordApi(result, apiParam, purchase.getId(), purchase.getCode(), "1");
 							}else{
-								ec = ErrorCode.OPERATE_ERROR;
+								result.setErrorCode(ErrorCode.OPERATE_ERROR);
 							}
 						}else{
-							ec = ErrorCode.CARD_IN_USE;
+							result.setErrorCode(ErrorCode.CARD_IN_USE);
 						}
 					}else{
-						ec = ErrorCode.VEHICLE_NOTICE_ALREADY_ENTER;
+						result.setErrorCode(ErrorCode.VEHICLE_NOTICE_ALREADY_ENTER);
 					}
 				//出厂
 				}else{
@@ -389,28 +387,29 @@ public class AccessRecordService implements IAccessRecordService {
 						if(purchaseArriveMapper.updateByPrimaryKeySelective(pa) > 0){
 							AccessRecord access = accessRecordMapper.selectByNoticeId(purchase.getId());
 							if(StringUtils.equals(access.getAccesstype(), "1")){
-								ec = addOutAccessRecordApi(apiParam, access.getId());
+								result.setErrorCode(addOutAccessRecordApi(apiParam, access.getId()));
+								result.setData(access.getCode());
 							}else{
-								ec = ErrorCode.NOTICE_OUT_FACTORY;
+								result.setErrorCode(ErrorCode.NOTICE_OUT_FACTORY);
 							}
 						}else{
-							ec = ErrorCode.OPERATE_ERROR;
+							result.setErrorCode(ErrorCode.OPERATE_ERROR);
 						}
 					}else{
-						ec = ErrorCode.VEHICLE_NOTICE_NOT_TWO_WEIGHT;
+						result.setErrorCode(ErrorCode.VEHICLE_NOTICE_NOT_TWO_WEIGHT);
 					}
 				}
 			}else{
-				ec = ErrorCode.NOTICE_ON_INVALID;
+				result.setErrorCode(ErrorCode.NOTICE_ON_INVALID);
 			}
 		}else{
-			ec = ErrorCode.NOTICE_NOT_AUDIT;
+			result.setErrorCode(ErrorCode.NOTICE_NOT_AUDIT);
 		}
-		return ec;
+		return result;
 	}
 	
-	private ErrorCode setICardToPurchaseReturnArrive(Card card, ApiDoorSystemSave apiParam) throws Exception {
-		ErrorCode ec = ErrorCode.OPERATE_ERROR;
+	private Result setICardToPurchaseReturnArrive(Card card, ApiDoorSystemSave apiParam) throws Exception {
+		Result result = Result.getErrorResult();
 		PurchaseArrive purchase = purchaseArriveMapper.selectByCode(apiParam.getNotionformcode());
 		if(StringUtils.equals(purchase.getAuditstatus(), "1")){
 			if(!StringUtils.equals(purchase.getStatus(), "3")){
@@ -431,15 +430,15 @@ public class AccessRecordService implements IAccessRecordService {
 							save.setPretendingtake(applicationDetail.getPretendingtake() - purchase.getArrivalamount());
 							if(purchaseArriveMapper.updateByPrimaryKeySelective(pa) > 0
 									&& purchaseApplicationDetailMapper.updateByPrimaryKeySelective(save) > 0){
-								ec = addInfoAccessRecordApi(apiParam, purchase.getId(), purchase.getCode(), "1");
+								addInfoAccessRecordApi(result, apiParam, purchase.getId(), purchase.getCode(), "1");
 							}else{
-								ec = ErrorCode.OPERATE_ERROR;
+								result.setErrorCode(ErrorCode.OPERATE_ERROR);
 							}
 						}else{
-							ec = ErrorCode.CARD_IN_USE;
+							result.setErrorCode(ErrorCode.CARD_IN_USE);
 						}
 					}else{
-						ec = ErrorCode.VEHICLE_NOTICE_ALREADY_ENTER;
+						result.setErrorCode(ErrorCode.VEHICLE_NOTICE_ALREADY_ENTER);
 					}
 				//出厂
 				}else{
@@ -451,28 +450,29 @@ public class AccessRecordService implements IAccessRecordService {
 						if(purchaseArriveMapper.updateByPrimaryKeySelective(pa) > 0){
 							AccessRecord access = accessRecordMapper.selectByNoticeId(purchase.getId());
 							if(StringUtils.equals(access.getAccesstype(), "1")){
-								ec = addOutAccessRecordApi(apiParam, access.getId());
+								result.setErrorCode(addOutAccessRecordApi(apiParam, access.getId()));
+								result.setData(access.getCode());
 							}else{
-								ec = ErrorCode.NOTICE_OUT_FACTORY;
+								result.setErrorCode(ErrorCode.NOTICE_OUT_FACTORY);
 							}
 						}else{
-							ec = ErrorCode.OPERATE_ERROR;
+							result.setErrorCode(ErrorCode.OPERATE_ERROR);
 						}
 					}else{
-						ec = ErrorCode.VEHICLE_NOTICE_NOT_TWO_WEIGHT;
+						result.setErrorCode(ErrorCode.VEHICLE_NOTICE_NOT_TWO_WEIGHT);
 					}
 				}
 			}else{
-				ec = ErrorCode.NOTICE_ON_INVALID;
+				result.setErrorCode(ErrorCode.NOTICE_ON_INVALID);
 			}
 		}else{
-			ec = ErrorCode.NOTICE_NOT_AUDIT;
+			result.setErrorCode(ErrorCode.NOTICE_NOT_AUDIT);
 		}
-		return ec;
+		return result;
 	}
 
-	private ErrorCode setICardToSalesArrive(Card card, ApiDoorSystemSave apiParam) throws Exception {
-		ErrorCode ec = ErrorCode.OPERATE_ERROR;
+	private Result setICardToSalesArrive(Card card, ApiDoorSystemSave apiParam) throws Exception {
+		Result result = Result.getErrorResult();
 		SalesArrive sales = salesArriveMapper.selectByCode(apiParam.getNotionformcode());
 		if(StringUtils.equals(sales.getAuditstatus(), "1")){
 			if(!StringUtils.equals(sales.getStatus(), "3")){
@@ -524,19 +524,19 @@ public class AccessRecordService implements IAccessRecordService {
 										}
 									}
 									if(flag){
-										ec = addInfoAccessRecordApi(apiParam, sales.getId(), sales.getCode(), "2");
+										addInfoAccessRecordApi(result, apiParam, sales.getId(), sales.getCode(), "2");
 									}else{
-										ec = ErrorCode.OPERATE_ERROR;
+										result.setErrorCode(ErrorCode.OPERATE_ERROR);
 									}
 								}	
 							}else{
-								ec = ErrorCode.OPERATE_ERROR;
+								result.setErrorCode(ErrorCode.OPERATE_ERROR);
 							}
 						}else{
-							ec = ErrorCode.CARD_IN_USE;
+							result.setErrorCode(ErrorCode.CARD_IN_USE);
 						}
 					}else{
-						ec = ErrorCode.VEHICLE_NOTICE_ALREADY_ENTER;
+						result.setErrorCode(ErrorCode.VEHICLE_NOTICE_ALREADY_ENTER);
 					}
 				//出厂
 				}else{
@@ -548,29 +548,30 @@ public class AccessRecordService implements IAccessRecordService {
 						if(salesArriveMapper.updateByPrimaryKeySelective(sa) > 0){
 							AccessRecord access = accessRecordMapper.selectByNoticeId(sales.getId());
 							if(access != null){
-								ec = addOutAccessRecordApi(apiParam, access.getId());
+								result.setErrorCode(addOutAccessRecordApi(apiParam, access.getId()));
+								result.setData(access.getCode());
 							}else{
-								ec = ErrorCode.VEHICLE_NOTICE_NOT_ENTER;
+								result.setErrorCode(ErrorCode.VEHICLE_NOTICE_NOT_ENTER);
 							}
 						}else{
-							ec = ErrorCode.OPERATE_ERROR;
+							result.setErrorCode(ErrorCode.OPERATE_ERROR);
 						}
 					}else{
-						ec = ErrorCode.VEHICLE_NOTICE_NOT_TWO_WEIGHT;
+						result.setErrorCode(ErrorCode.VEHICLE_NOTICE_NOT_TWO_WEIGHT);
 					}
 				}
 			}else{
-				ec = ErrorCode.NOTICE_ON_INVALID;
+				result.setErrorCode(ErrorCode.NOTICE_ON_INVALID);
 			}
 		}else{
-			ec = ErrorCode.NOTICE_NOT_AUDIT;
+			result.setErrorCode(ErrorCode.NOTICE_NOT_AUDIT);
 		}
-		return ec;
+		return result;
 	}
 	
 	//其他业务通知单绑定ic卡
-	private ErrorCode setICardToOtherArrive(Card card, ApiDoorSystemSave apiParam) throws Exception {
-		ErrorCode ec = ErrorCode.OPERATE_ERROR;
+	private Result setICardToOtherArrive(Card card, ApiDoorSystemSave apiParam) throws Exception {
+		Result result = Result.getErrorResult();
 		OtherArrive other = otherArriveMapper.selectByCode(apiParam.getNotionformcode());
 		if(StringUtils.equals(other.getAuditstatus(), "1")){
 			if(!StringUtils.equals(other.getStatus(), "3")){
@@ -584,12 +585,12 @@ public class AccessRecordService implements IAccessRecordService {
 						oa.setId(other.getId());
 						oa.setStatus("6");
 						if(otherArriveMapper.updateByPrimaryKeySelective(oa) > 0){
-							ec = addInfoAccessRecordApi(apiParam, other.getId(), other.getCode(), apiParam.getServicetype());
+							addInfoAccessRecordApi(result, apiParam, other.getId(), other.getCode(), apiParam.getServicetype());
 						}else{
-							ec = ErrorCode.OPERATE_ERROR;
+							result.setErrorCode(ErrorCode.OPERATE_ERROR);
 						}
 					}else{
-						ec = ErrorCode.CARD_IN_USE;
+						result.setErrorCode(ErrorCode.CARD_IN_USE);
 					}
 				//出厂
 				}else{
@@ -600,26 +601,27 @@ public class AccessRecordService implements IAccessRecordService {
 					if(otherArriveMapper.updateByPrimaryKeySelective(oa) > 0){
 						AccessRecord access = accessRecordMapper.selectByNoticeId(other.getId());
 						if(access != null){
-							ec = addOutAccessRecordApi(apiParam, access.getId());
+							result.setErrorCode(addOutAccessRecordApi(apiParam, access.getId()));
+							result.setData(access.getCode());
 						}else{
-							ec = ErrorCode.VEHICLE_NOTICE_NOT_ENTER;
+							result.setErrorCode(ErrorCode.VEHICLE_NOTICE_NOT_ENTER);
 						}
 					}else{
-						ec = ErrorCode.OPERATE_ERROR;
+						result.setErrorCode(ErrorCode.OPERATE_ERROR);
 					}
 				}
 			}else{
-				ec = ErrorCode.NOTICE_ON_INVALID;
+				result.setErrorCode(ErrorCode.NOTICE_ON_INVALID);
 			}
 		}else{
-			ec = ErrorCode.NOTICE_NOT_AUDIT;
+			result.setErrorCode(ErrorCode.NOTICE_NOT_AUDIT);
 		}
-		return ec;
+		return result;
 	}
 	
 
 	//添加入厂门禁记录
-	private ErrorCode addInfoAccessRecordApi(ApiDoorSystemSave apiParam, String noticeid, String noticecode, String businesstype) throws Exception {
+	private void addInfoAccessRecordApi(Result result, ApiDoorSystemSave apiParam, String noticeid, String noticecode, String businesstype) throws Exception {
 		ErrorCode ec;
 		AccessRecord access = new AccessRecord();
 		access.setId(UUIDUtil.getId());
@@ -645,7 +647,8 @@ public class AccessRecordService implements IAccessRecordService {
 		}else{
 			ec = ErrorCode.OPERATE_ERROR;
 		}
-		return ec;
+		result.setData(access.getCode());
+		result.setErrorCode(ec);
 	}
 	
 	//添加出厂门禁记录

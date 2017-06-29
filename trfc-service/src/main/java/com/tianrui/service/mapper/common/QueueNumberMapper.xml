@@ -11,8 +11,10 @@
   <resultMap id="BaseResultRespMap" type="com.tianrui.api.resp.common.QueueNumberResp" >
     <result column="queuenumber" property="queuenumber" jdbcType="VARCHAR" />
     <result column="vehicleno" property="vehicleno" jdbcType="VARCHAR" />
-    <result column="materialname" property="materialname" jdbcType="VARCHAR" />
     <result column="materialpk" property="materialpk" jdbcType="VARCHAR" />
+    <result column="materialname" property="materialname" jdbcType="VARCHAR" />
+    <result column="takeamount" property="takeamount" jdbcType="DOUBLE" />
+    <result column="spraycode" property="spraycode" jdbcType="VARCHAR" />
     <result column="customername" property="customername" jdbcType="VARCHAR" />
     <result column="entertime" property="entertime" jdbcType="BIGINT" />
   </resultMap>
@@ -102,8 +104,10 @@
   	SELECT
 		t1.queuenumber,
 		t1.vehicleno,
+		t5.id AS materialpk,
 		t5.`name` AS materialname,
-		t5.packagetype AS materialpk,
+		t2.takeamount,
+		t2.spraycode,
 		t3.customername,
 		t6.entertime
 	FROM

@@ -847,6 +847,7 @@ public class PoundNoteService implements IPoundNoteService {
 					&& StringUtils.equals(systemCodeService.updateCodeItem(codeReq).getCode(),
 							ErrorCode.SYSTEM_SUCCESS.getCode())
 					&& purchaseArriveMapper.updateByPrimaryKeySelective(pa) > 0) {
+				result.setData(bean.getCode());
 			} else {
 				result.setErrorCode(ErrorCode.OPERATE_ERROR);
 			}
@@ -902,6 +903,7 @@ public class PoundNoteService implements IPoundNoteService {
 							&& purchaseStorageListItemMapper.insertSelective(storageItem) > 0) {
 						ErrorCode ec = returnPurchaseStorage(storage, storageItem);
 						result.setErrorCode(ec);
+						result.setData(bean.getCode());
 					} else {
 						result.setErrorCode(ErrorCode.OPERATE_ERROR);
 					}
@@ -956,6 +958,7 @@ public class PoundNoteService implements IPoundNoteService {
 						&& otherArriveMapper.updateByPrimaryKeySelective(oa) > 0) {
 					ErrorCode ec = ErrorCode.SYSTEM_SUCCESS;
 					result.setErrorCode(ec);
+					result.setData(bean.getCode());
 				} else {
 					result.setErrorCode(ErrorCode.OPERATE_ERROR);
 				}
@@ -971,6 +974,7 @@ public class PoundNoteService implements IPoundNoteService {
 					&& StringUtils.equals(systemCodeService.updateCodeItem(codeReq).getCode(),
 							ErrorCode.SYSTEM_SUCCESS.getCode())
 					&& otherArriveMapper.updateByPrimaryKeySelective(pa) > 0) {
+				result.setData(bean.getCode());
 			} else {
 				result.setErrorCode(ErrorCode.OPERATE_ERROR);
 			}
@@ -1019,6 +1023,7 @@ public class PoundNoteService implements IPoundNoteService {
 						&& otherArriveMapper.updateByPrimaryKeySelective(oa) > 0) {
 					ErrorCode ec = ErrorCode.SYSTEM_SUCCESS;
 					result.setErrorCode(ec);
+					result.setData(bean.getCode());
 				} else {
 					result.setErrorCode(ErrorCode.OPERATE_ERROR);
 				}
@@ -1034,6 +1039,7 @@ public class PoundNoteService implements IPoundNoteService {
 					&& StringUtils.equals(systemCodeService.updateCodeItem(codeReq).getCode(),
 							ErrorCode.SYSTEM_SUCCESS.getCode())
 					&& otherArriveMapper.updateByPrimaryKeySelective(pa) > 0) {
+				result.setData(bean.getCode());
 			} else {
 				result.setErrorCode(ErrorCode.OPERATE_ERROR);
 			}
@@ -1177,6 +1183,7 @@ public class PoundNoteService implements IPoundNoteService {
 								&& purchaseStorageListMapper.insertSelective(storage) > 0
 								&& purchaseStorageListItemMapper.insertSelective(storageItem) > 0){
 							result.setErrorCode(returnPurchaseStorage(storage, storageItem));
+							result.setData(bean.getCode());
 						}else{
 							result.setErrorCode(ErrorCode.OPERATE_ERROR);
 						}
@@ -1200,6 +1207,7 @@ public class PoundNoteService implements IPoundNoteService {
 					&& StringUtils.equals(systemCodeService.updateCodeItem(codeReq).getCode(),
 							ErrorCode.SYSTEM_SUCCESS.getCode())
 					&& purchaseArriveMapper.updateByPrimaryKeySelective(pa) > 0) {
+				result.setData(bean.getCode());
 			} else {
 				result.setErrorCode(ErrorCode.OPERATE_ERROR);
 			}
@@ -1356,6 +1364,7 @@ public class PoundNoteService implements IPoundNoteService {
 					&& StringUtils.equals(systemCodeService.updateCodeItem(codeReq).getCode(),
 							ErrorCode.SYSTEM_SUCCESS.getCode())
 					&& salesArriveMapper.updateByPrimaryKeySelective(sa) > 0) {
+				result.setData(bean.getCode());
 			} else {
 				result.setErrorCode(ErrorCode.OPERATE_ERROR);
 			}
@@ -1413,6 +1422,7 @@ public class PoundNoteService implements IPoundNoteService {
 					}
 					ErrorCode ec = returnSalesStorage(orderList, orderItemList);
 					result.setErrorCode(ec);
+					result.setData(bean.getCode());
 				} else {
 					result.setErrorCode(ErrorCode.OPERATE_ERROR);
 				}

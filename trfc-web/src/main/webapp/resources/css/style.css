@@ -2,7 +2,7 @@
     color:#63e47e;
 }
 .coloradd{
-    color: #529cd6;
+    color: #27a0ff;
 }
 .colorred{
     color: #d61e3c;
@@ -269,7 +269,7 @@ input[readOnly="true"]{
     width:72px;
 }
 .intel_opera{
-    padding: 15px 10px;
+    padding: 5px 10px;
     overflow: hidden;
 }
 .intel_opera div:HOVER {
@@ -283,7 +283,7 @@ input[readOnly="true"]{
     float: left;
     font-size: 14px;
     cursor: pointer;
-    padding: 0px 10px;
+    padding: 6px 10px;
     border-radius: 4px;
     -moz-user-select: none;
     -webkit-user-select: none;
@@ -1865,4 +1865,25 @@ table tr:active {
 table tr.active td {
     color:#ffffff!important;
     background: #0574c6!important;
+}
+.update {
+	color: #E2312D;
+}
+.audit {
+	color: #E2312D; 
+}
+.unaudit {
+	color: #38C672;
+}
+.invalid {
+	color: #E2312D; 
+}
+.outfactory {
+	color: #38C672;
+}
+.redcollide {
+	color: #E2312D;
+}
+.delete {
+	color: #E2312D;
 }

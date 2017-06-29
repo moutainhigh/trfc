@@ -93,18 +93,39 @@
 					</div>
 					<div class="intel_opera">
 						<div id="refreshBtn" class="intel_operasolo">
-							<i class="iconfont colorlv">&#xe61b;</i>
-							<h5>刷新</h5>
+							<a> <i class="iconfont colorlv">&#xe61b;</i>
+								<span>刷新</span>
+							</a>
 						</div>
 						<div id="addBtn" class="intel_operasolo">
 							<a> <i class="iconfont coloradd">&#xe627;</i>
-								<h5>新增</h5>
+								<span>新增</span>
+							</a>
+						</div>
+						<div id="audit" class="intel_operasolo">
+							<a> <i class="iconfont audit">&#xe692;</i>
+								<span>审核</span>
+							</a>
+						</div>
+						<div id="unaudit" class="intel_operasolo">
+							<a> <i class="iconfont unaudit">&#xe651;</i>
+								<span>反审</span>
+							</a>
+						</div>
+						<div id="invalid" class="intel_operasolo">
+							<a> <i class="iconfont invalid">&#xe60c;</i>
+								<span>作废</span>
+							</a>
+						</div>
+						<div id="outfactory" class="intel_operasolo">
+							<a> <i class="iconfont outfactory">&#xe63c;</i>
+								<span>出厂</span>
 							</a>
 						</div>
 					</div>
 					<div class="intel_table">
 						<!--用户表格begin-->
-						<table class="table table-hover">
+						<table class="table table-hover maintable">
 							<thead>
 								<tr>
 									<th>序号</th>
@@ -118,7 +139,6 @@
 									<th>到货磅单</th>
 									<th>重车日期</th>
 									<th>备注</th>
-									<th>操作</th>
 								</tr>
 							</thead>
 							<tbody id="dataBody">

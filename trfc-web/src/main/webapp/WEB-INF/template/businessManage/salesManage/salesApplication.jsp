@@ -80,19 +80,40 @@ input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
 					</div>
 					<div class="intel_opera">
 						<div id="refreshBtn" class="intel_operasolo">
-							<i class="iconfont colorlv">&#xe61b;</i>
-							<h5>刷新</h5>
+							<a> <i class="iconfont colorlv">&#xe61b;</i>
+								<span>刷新</span>
+							</a>
 						</div>
 						<div id="addBtn" class="intel_operasolo">
 							<a data-toggle="modal" data-target="#add"> <i
 								class="iconfont coloradd">&#xe627;</i>
-								<h5>新增</h5>
+								<span>新增</span>
+							</a>
+						</div>
+						<div id="update" class="intel_operasolo">
+							<a> <i class="iconfont update">&#xe600;</i>
+								<span>编辑</span>
+							</a>
+						</div>
+						<div id="audit" class="intel_operasolo">
+							<a> <i class="iconfont audit">&#xe692;</i>
+								<span>审核</span>
+							</a>
+						</div>
+						<div id="unaudit" class="intel_operasolo">
+							<a> <i class="iconfont unaudit">&#xe651;</i>
+								<span>反审</span>
+							</a>
+						</div>
+						<div id="delete" class="intel_operasolo">
+							<a> <i class="iconfont delete">&#xe63d;</i>
+								<span>删除</span>
 							</a>
 						</div>
 					</div>
 					<div class="intel_table">
 						<!--用户表格begin-->
-						<table class="table table-hover">
+						<table class="table table-hover maintable">
 							<thead>
 								<tr>
 									<th>序号</th>
@@ -110,7 +131,6 @@ input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
 									<th>审核人</th>
 									<th>审核日期</th>
 									<th>区域码</th>
-									<th>操作</th>
 								</tr>
 							</thead>
 							<tbody id="dataBody">

@@ -173,12 +173,43 @@
 	function bindEvent(){
 		$('#refreshBtn').off('click').on('click',function(){
 			getData(1);
+			layer.closeAll('dialog');
 		});
 		$('#searchBtn').off('click').on('click',function(){
 			getData(1);
 		});
 		$('#addBtn').off('click').on('click',function(){
 			window.open(URL.addView, '_blank');
+		});
+		$('#update').off('click').on('click', function(e){
+			e.stopPropagation();
+			var obj = $('table.maintable tbody tr.active').data();
+			if(!obj) {layer.msg('需要选中一行才能操作哦！'); return;}
+			update(obj);
+		});
+		$('#audit').off('click').on('click', function(e){
+			e.stopPropagation();
+			var obj = $('table.maintable tbody tr.active').data();
+			if(!obj) {layer.msg('需要选中一行才能操作哦！'); return;}
+			audit(obj);
+		});
+		$('#unaudit').off('click').on('click', function(e){
+			e.stopPropagation();
+			var obj = $('table.maintable tbody tr.active').data();
+			if(!obj) {layer.msg('需要选中一行才能操作哦！'); return;}
+			unaudit(obj);
+		});
+		$('#invalid').off('click').on('click', function(e){
+			e.stopPropagation();
+			var obj = $('table.maintable tbody tr.active').data();
+			if(!obj) {layer.msg('需要选中一行才能操作哦！'); return;}
+			invalid(obj);
+		});
+		$('#outfactory').off('click').on('click', function(e){
+			e.stopPropagation();
+			var obj = $('table.maintable tbody tr.active').data();
+			if(!obj) {layer.msg('需要选中一行才能操作哦！'); return;}
+			outfactory(obj);
 		});
 		$('#jumpPageNoBtn').off('click').on('click',function(){
 			var pageNo = $('input#jumpPageNo').val();pageNo = $.trim(pageNo);pageNo = parseInt(pageNo);
@@ -324,45 +355,20 @@
 						.append('<td>'+channelcode+'</td>').append('<td>'+makebilltimeStr+'</td>')
 						.append('<td>'+makebillname+'</td>').append('<td>'+abnormalpersonname+'</td>')
 						.append('<td>'+abnormaltimeStr+'</td>').append('<td>'+remarks+'</td>')
-						.append('<td><span><i class="iconfont update" data-toggle="tooltip" data-placement="left" title="编辑">&#xe600;</i></span>'
-					                +'<span><i class="iconfont audit" data-toggle="tooltip" data-placement="left" title="审核">&#xe692;</i></span>'
-					                +'<span><i class="iconfont unaudit" data-toggle="tooltip" data-placement="left" title="反审">&#xe651;</i></span>'
-					                +'<span><i class="iconfont invalid" data-toggle="tooltip" data-placement="left" title="作废">&#xe60c;</i></span>'
-					                +'<span><i class="iconfont outfactory" data-toggle="tooltip" data-placement="left" title="出厂">&#xe63c;</i></span></td>')
 						.data(obj).appendTo('#dataBody');
 			}
-			$('#dataBody').find('i.update').off('click').on('click',function(){
-				var obj = $(this).closest('tr').data();
-				update(obj);
-			});
-			$('#dataBody').find('i.audit').off('click').on('click',function(){
-				var obj = $(this).closest('tr').data();
-				audit(obj);
-			});
-			$('#dataBody').find('i.unaudit').off('click').on('click',function(){
-				var obj = $(this).closest('tr').data();
-				unaudit(obj);
-			});
-			$('#dataBody').find('i.invalid').off('click').on('click',function(){
-				var obj = $(this).closest('tr').data();
-				invalid(obj);
-			});
-			$('#dataBody').find('i.outfactory').off('click').on('click',function(){
-				var obj = $(this).closest('tr').data();
-				outfactory(obj);
-			});
 			$('#dataBody').find('tr').off('dblclick').on('dblclick',function(){
 				var obj = $(this).closest('tr').data();
 				window.open(URL.detailView+'?id='+obj.id, '_blank');
+			});
+			$('#dataBody').find('tr').off('click').on('click',function(){
+				var obj = $(this).data();
+				showMore(obj);
 			});
 		}else{
 			layer.msg('暂无数据');
 			$('#dataMore').hide();
 		}
-		$('#dataBody').find('tr').off('click').on('click',function(){
-			var obj = $(this).data();
-			showMore(obj);
-		});
 	}
 	//显示更多
 	function showMore(obj){

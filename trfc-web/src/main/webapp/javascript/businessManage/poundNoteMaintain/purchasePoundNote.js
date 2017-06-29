@@ -138,12 +138,27 @@
 	function initBindEvent(){
 		$('#refreshBtn').off('click').on('click', function(){
 			getDataFormAjax(1);
+			layer.closeAll('dialog');
 		});
 		$('#searchBtn').off('click').on('click', function(){
 			getDataFormAjax(1);
 		});
 		$('#addBtn').off('click').on('click', function(){
 			window.open(URL.addView);
+		});
+		//红冲
+		$('#redcollide').off('click').on('click', function(e){
+			e.stopPropagation();
+			var obj = $('table.maintable tbody tr.active').data();
+			if(!obj) {layer.msg('需要选中一行才能操作哦！'); return;}
+			redcollideOper(obj);
+		});
+		//作废
+		$('#invalid').off('click').on('click', function(e){
+			e.stopPropagation();
+			var obj = $('table.maintable tbody tr.active').data();
+			if(!obj) {layer.msg('需要选中一行才能操作哦！'); return;}
+			invalidOper(obj);
 		});
 		$('#jumpPageNoBtn').off('click').on('click',function(){
 			var pageNo = $('input#jumpPageNo').val();pageNo = $.trim(pageNo);pageNo = parseInt(pageNo);
@@ -312,29 +327,11 @@
 						.append('<td>'+supplierremark+'</td>')
 						.append('<td>'+makebillname+'</td>')
 						.append('<td>'+makebilltimeStr+'</td>')
-						.append('<td>' //<span><a class="returnAdd"><i class="iconfont" data-toggle="tooltip" data-placement="bottom" title="磅单补增">&#xe65e;</i></a></span>
-									+'<span><a class="redcollide"><i class="iconfont" data-toggle="tooltip" data-placement="bottom" title="红冲">&#xe631;</i></a></span>'
-									+'<span><a class="invalid"><i class="iconfont" data-toggle="tooltip" data-placement="bottom" title="作废">&#xe60c;</i></a></span></td>')
 						.data(obj)
 						.appendTo('#dataBody');
 			}
-			$('#dataBody>tr>td>span a.returnAdd').off('click').on('click', function(){
-				//退货补增
-				var obj = $(this).closest('tr').data();
-				returnAddView(obj);
-			});
-			$('#dataBody>tr>td>span a.redcollide').off('click').on('click', function(){
-				//红冲
-				var obj = $(this).closest('tr').data();
-				redcollideOper(obj);
-			});
-			$('#dataBody>tr>td>span a.invalid').off('click').on('click', function(){
-				//作废
-				var obj = $(this).closest('tr').data();
-				invalidOper(obj);
-			});
+			//详情
 			$('#dataBody>tr').off('dblclick').on('dblclick', function(){
-				//详情
 				var obj = $(this).closest('tr').data();
 				window.open(URL.detail + '?id=' + obj.id);
 			});

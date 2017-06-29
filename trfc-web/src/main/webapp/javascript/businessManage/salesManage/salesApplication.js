@@ -249,12 +249,37 @@
 	function bindEvent(){
 		$('#refreshBtn').off('click').on('click',function(){
 			queryData(1);
+			layer.closeAll('dialog');
 		});
 		$('#searchBtn').off('click').on('click',function(){
 			queryData(1);
 		});
 		$('#a_addRow').off('click').on('click',function(){
 			a_addRow();
+		});
+		$('#update').off('click').on('click',function(e){
+			e.stopPropagation();
+			var obj = $('table.maintable tbody tr.active').data();
+			if(!obj) {layer.msg('需要选中一行才能操作哦！'); return;}
+			showUpdate(obj);
+		});
+		$('#audit').off('click').on('click',function(e){
+			e.stopPropagation();
+			var obj = $('table.maintable tbody tr.active').data();
+			if(!obj) {layer.msg('需要选中一行才能操作哦！'); return;}
+			audit(obj);
+		});
+		$('#unaudit').off('click').on('click',function(e){
+			e.stopPropagation();
+			var obj = $('table.maintable tbody tr.active').data();
+			if(!obj) {layer.msg('需要选中一行才能操作哦！'); return;}
+			unaudit(obj);
+		});
+		$('#delete').off('click').on('click',function(e){
+			e.stopPropagation();
+			var obj = $('table.maintable tbody tr.active').data();
+			if(!obj) {layer.msg('需要选中一行才能操作哦！'); return;}
+			deleteData(obj);
 		});
 		$('#jumpPageNoBtn').off('click').on('click',function(){
 			var pageNo = $('input#jumpPageNo').val();pageNo = $.trim(pageNo);pageNo = parseInt(pageNo);
@@ -436,33 +461,9 @@
 						.append('<td>'+auditname+'</td>')
 						.append('<td>'+audittimeStr+'</td>')
 						.append('<td>'+channelcode+'</td>')
-						.append('<td><span class="updateBtn"><a><i class="iconfont" data-toggle="tooltip" data-placement="left" title="编辑">&#xe600;</i></a></span>'
-			                    +'<span class="auditBtn"><a><i class="iconfont " data-toggle="tooltip" data-placement="left" title="审核">&#xe692;</i></a></span>'
-			                    +'<span class="unauditBtn"><a><i class="iconfont" data-toggle="tooltip" data-placement="left" title=" 反审">&#xe651;</i></a></span>'
-			                    +'<span class="deleteBtn"><a><i class="iconfont" data-toggle="tooltip" data-placement="left" title="删除">&#xe63d;</i></a></td>')
 						.data(obj)
 						.appendTo('#dataBody');
 			}
-			$('#dataBody tr').find('.updateBtn').off('click').on('click',function(){
-				layer.closeAll();
-				var obj = $(this).closest('tr').data();
-				showUpdate(obj);
-			});
-			$('#dataBody tr').find('.auditBtn').off('click').on('click',function(){
-				layer.closeAll();
-				var obj = $(this).closest('tr').data();
-				audit(obj);
-			});
-			$('#dataBody tr').find('.unauditBtn').off('click').on('click',function(){
-				layer.closeAll();
-				var obj = $(this).closest('tr').data();
-				unaudit(obj);
-			});
-			$('#dataBody tr').find('.deleteBtn').off('click').on('click',function(){
-				layer.closeAll();
-				var obj = $(this).closest('tr').data();
-				deleteData(obj);
-			});
 			$('#dataBody tr').off('click').on('click',function(){
 				var obj = $(this).data();
 				showMore(obj);

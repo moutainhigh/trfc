@@ -167,7 +167,7 @@
 		$('#refreshBtn').off('click').on('click', function(){
 			initPageList(1);
 			$('#ind_tab').hide();
-			layer.close('msg');
+			layer.closeAll('dialog');
 		});
 		$('#searchBtn').off('click').on('click', function(){
 			initPageList(1);
@@ -178,31 +178,31 @@
 		});
 		$('#update').off('click').on('click', function(e){
 			e.stopPropagation();
-			var obj = $('table.purchaseArrive tbody tr.active').data();
+			var obj = $('table.maintable tbody tr.active').data();
 			if(!obj) {layer.msg('需要选中一行才能操作哦！'); return;}
 			updateOperation(obj);
 		});
 		$('#audit').off('click').on('click', function(e){
 			e.stopPropagation();
-			var obj = $('table.purchaseArrive tbody tr.active').data();
+			var obj = $('table.maintable tbody tr.active').data();
 			if(!obj) {layer.msg('需要选中一行才能操作哦！'); return;}
 			auditOperation(obj);
 		});
 		$('#unaudit').off('click').on('click', function(e){
 			e.stopPropagation();
-			var obj = $('table.purchaseArrive tbody tr.active').data();
+			var obj = $('table.maintable tbody tr.active').data();
 			if(!obj) {layer.msg('需要选中一行才能操作哦！'); return;}
 			unauditOperation(obj);
 		});
 		$('#invalid').off('click').on('click', function(e){
 			e.stopPropagation();
-			var obj = $('table.purchaseArrive tbody tr.active').data();
+			var obj = $('table.maintable tbody tr.active').data();
 			if(!obj) {layer.msg('需要选中一行才能操作哦！'); return;}
 			invalidOperation(obj);
 		});
 		$('#outfactory').off('click').on('click', function(e){
 			e.stopPropagation();
-			var obj = $('table.purchaseArrive tbody tr.active').data();
+			var obj = $('table.maintable tbody tr.active').data();
 			if(!obj) {layer.msg('需要选中一行才能操作哦！'); return;}
 			outfactoryOperation(obj);
 		});
