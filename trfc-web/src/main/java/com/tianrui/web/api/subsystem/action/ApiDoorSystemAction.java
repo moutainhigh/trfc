@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.tianrui.api.intf.businessManage.logisticsManage.IAccessRecordService;
 import com.tianrui.api.intf.businessManage.salesManage.ISalesArriveService;
+import com.tianrui.api.intf.common.IQueueNumberService;
 import com.tianrui.api.req.basicFile.measure.VehicleCheckApi;
 import com.tianrui.api.req.businessManage.salesManage.ApiDoorQueueQuery;
 import com.tianrui.api.req.businessManage.salesManage.ApiDoorSystemSave;
@@ -36,6 +37,9 @@ public class ApiDoorSystemAction {
 	
 	@Autowired
 	private ISalesArriveService salesArriveService;
+	
+	@Autowired
+	private IQueueNumberService queueNumberService;
 	/**
 	 * 门禁记录
 	 * @param req
@@ -117,6 +121,28 @@ public class ApiDoorSystemAction {
 		Result rs=Result.getErrorResult();
 		try {
 			rs = salesArriveService.selectWaitingNumber(queue);
+		} catch (Exception e) {
+			rs.setErrorCode(ErrorCode.SYSTEM_ERROR);
+			log.error(e.getMessage(),e);
+		}
+		return ApiResult.valueOf(rs);
+	}
+	
+	/**
+	 * 袋装排队接口
+	 * @param req
+	 * @return
+	 */
+	@RequestMapping(value="/queryWaiting",method=RequestMethod.POST)
+	@ApiParamRawType(ApiDoorQueueQuery.class)
+	@ApiAuthValidation(callType="2")
+	@ResponseBody
+	public ApiResult queryWaiting(ApiParam<ApiDoorQueueQuery> req){
+		ApiDoorQueueQuery queue = req.getBody();
+		queue.setCurrUid(req.getHead().getUserId());
+		Result rs=Result.getErrorResult();
+		try {
+			rs = queueNumberService.queryWaiting();
 		} catch (Exception e) {
 			rs.setErrorCode(ErrorCode.SYSTEM_ERROR);
 			log.error(e.getMessage(),e);

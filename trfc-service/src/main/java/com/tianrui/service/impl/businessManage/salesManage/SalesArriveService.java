@@ -53,6 +53,7 @@ import com.tianrui.service.bean.businessManage.salesManage.SalesApplication;
 import com.tianrui.service.bean.businessManage.salesManage.SalesApplicationDetail;
 import com.tianrui.service.bean.businessManage.salesManage.SalesApplicationJoinNatice;
 import com.tianrui.service.bean.businessManage.salesManage.SalesArrive;
+import com.tianrui.service.bean.common.QueueNumber;
 import com.tianrui.service.bean.common.RFID;
 import com.tianrui.service.impl.businessManage.otherManage.OtherArriveService;
 import com.tianrui.service.mapper.basicFile.measure.VehicleManageMapper;
@@ -67,6 +68,7 @@ import com.tianrui.service.mapper.businessManage.salesManage.SalesApplicationDet
 import com.tianrui.service.mapper.businessManage.salesManage.SalesApplicationJoinNaticeMapper;
 import com.tianrui.service.mapper.businessManage.salesManage.SalesApplicationMapper;
 import com.tianrui.service.mapper.businessManage.salesManage.SalesArriveMapper;
+import com.tianrui.service.mapper.common.QueueNumberMapper;
 import com.tianrui.service.mapper.common.RFIDMapper;
 import com.tianrui.service.mongo.impl.CodeGenDaoImpl;
 import com.tianrui.smartfactory.common.constants.Constant;
@@ -129,6 +131,8 @@ public class SalesArriveService implements ISalesArriveService {
 	private OtherArriveMapper otherArriveMapper;
 	@Autowired
 	private OtherArriveService otherArriveService;
+	@Autowired
+	private QueueNumberMapper queueNumberMapper;
 
 	@Override
 	public PaginationVO<SalesArriveResp> page(SalesArriveQuery query) throws Exception {
@@ -689,10 +693,10 @@ public class SalesArriveService implements ISalesArriveService {
 			api.setMateriel(applicationDetail.getMaterielname());
 			if(StringUtils.isNotBlank(applicationDetail.getMaterielname()) && applicationDetail.getMaterielname().contains("水泥")){
 				if(applicationDetail.getMaterielname().contains("袋装")){
-					api.setCementtype("1");
+					api.setCementtype(Constant.ONE_STRING);
 				}
 				if(applicationDetail.getMaterielname().contains("散装")){
-					api.setCementtype("2");
+					api.setCementtype(Constant.TWO_STRING);
 				}
 			}
 			api.setPrimary("");//是否原发？？？
@@ -785,6 +789,7 @@ public class SalesArriveService implements ISalesArriveService {
 		return api;
 	}
 
+	@Transactional
 	@Override
 	public Result selectWaitingNumber(ApiDoorQueueQuery api){
 		Result result = Result.getSuccessResult();
@@ -796,6 +801,14 @@ public class SalesArriveService implements ISalesArriveService {
 		resp.setQueuenumber(String.valueOf(waitingnumber));
 		//序号。。。
 		resp.setSmallticket(codeGenDaoImpl.codeGen(1));
+		QueueNumber queue = new QueueNumber();
+		queue.setNoticecode(api.getNoticecode());
+		queue.setVehicleno(api.getVehicleno());
+		queue.setRfid(api.getRfid());
+		queue.setQueuenumber(resp.getSmallticket());
+		queue.setWaitingnumber(waitingnumber);
+		queueNumberMapper.deleteByPrimaryKey(queue.getNoticecode());
+		queueNumberMapper.insert(queue);
 		result.setData(resp);
 		return result;
 	}

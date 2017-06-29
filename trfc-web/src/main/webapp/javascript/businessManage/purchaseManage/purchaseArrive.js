@@ -162,16 +162,49 @@
     		}
 	    });
 	}
+	//绑定按钮事件
 	function initBindEvent(){
 		$('#refreshBtn').off('click').on('click', function(){
 			initPageList(1);
 			$('#ind_tab').hide();
+			layer.close('msg');
 		});
 		$('#searchBtn').off('click').on('click', function(){
 			initPageList(1);
 		});
-		$('#addBtn').off('click').on('click', function(){
+		$('#addBtn').off('click').on('click', function(e){
+			e.stopPropagation();
 			win.location.href = URL.addView;
+		});
+		$('#update').off('click').on('click', function(e){
+			e.stopPropagation();
+			var obj = $('table.purchaseArrive tbody tr.active').data();
+			if(!obj) {layer.msg('需要选中一行才能操作哦！'); return;}
+			updateOperation(obj);
+		});
+		$('#audit').off('click').on('click', function(e){
+			e.stopPropagation();
+			var obj = $('table.purchaseArrive tbody tr.active').data();
+			if(!obj) {layer.msg('需要选中一行才能操作哦！'); return;}
+			auditOperation(obj);
+		});
+		$('#unaudit').off('click').on('click', function(e){
+			e.stopPropagation();
+			var obj = $('table.purchaseArrive tbody tr.active').data();
+			if(!obj) {layer.msg('需要选中一行才能操作哦！'); return;}
+			unauditOperation(obj);
+		});
+		$('#invalid').off('click').on('click', function(e){
+			e.stopPropagation();
+			var obj = $('table.purchaseArrive tbody tr.active').data();
+			if(!obj) {layer.msg('需要选中一行才能操作哦！'); return;}
+			invalidOperation(obj);
+		});
+		$('#outfactory').off('click').on('click', function(e){
+			e.stopPropagation();
+			var obj = $('table.purchaseArrive tbody tr.active').data();
+			if(!obj) {layer.msg('需要选中一行才能操作哦！'); return;}
+			outfactoryOperation(obj);
 		});
 		$('#jumpPageNoBtn').off('click').on('click',function(){
 			var pageNo = $('input#jumpPageNo').val();pageNo = $.trim(pageNo);pageNo = parseInt(pageNo);
@@ -322,54 +355,20 @@
 						.append('<td>'+makebilltimeStr+'</td>').append('<td>'+billtimeStr+'</td>')
 						.append('<td>'+abnormalpersonname+'</td>').append('<td>'+abnormaltimeStr+'</td>')
 						.append('<td>'+remark+'</td>').append('<td>'+supplierremark+'</td>')
-						.append('<td><span><i class="iconfont update" data-toggle="tooltip" data-placement="left" title="编辑">&#xe600;</i></span>'
-									+'<span><i class="iconfont audit" data-toggle="tooltip" data-placement="left" title="审核">&#xe692;</i></span>'
-									+'<span><i class="iconfont unaudit" data-toggle="tooltip" data-placement="left" title=" 反审">&#xe651;</i></span>'
-									+'<span><i class="iconfont invalid" data-toggle="tooltip" data-placement="left" title=" 作废">&#xe60c;</i></span>'
-									+'<span><i class="iconfont outfactory" data-toggle="tooltip" data-placement="left" title=" 出厂">&#xe63c;</i></span></td>')
 						.data(obj).appendTo('#dataBody');
 			}
-			tableBindEvent();
+			$('#dataBody>tr').off('click').on('click',function(){
+				var obj = $(this).data();
+				showMore(obj);
+			});
+			$('#dataBody>tr').off('dblclick').on('dblclick',function(){
+				var obj = $(this).data();
+				//跳转到详情页面
+				window.location.href = '/trfc/purchaseArrive/detailView?id='+obj.id;
+			});
 		}else{
 			layer.msg('暂无数据');
 		}
-	}
-	//绑定列表操作按钮事件
-	function tableBindEvent(){
-		$('#dataBody>tr').off('click').on('click',function(){
-			var obj = $(this).data();
-			showMore(obj);
-		});
-		$('#dataBody>tr').off('dblclick').on('dblclick',function(){
-			var obj = $(this).data();
-			//跳转到详情页面
-			window.location.href = '/trfc/purchaseArrive/detailView?id='+obj.id;
-		});
-		$('#dataBody>tr').find('.update').off('click').on('click',function(e){
-			e.stopPropagation();
-			var obj = $(this).closest('tr').data();
-			updateOperation(obj);
-		});
-		$('#dataBody>tr').find('.audit').off('click').on('click',function(e){
-			e.stopPropagation();
-			var obj = $(this).closest('tr').data();
-			auditOperation(obj);
-		});
-		$('#dataBody>tr').find('.unaudit').off('click').on('click',function(e){
-			e.stopPropagation();
-			var obj = $(this).closest('tr').data();
-			unauditOperation(obj);
-		});
-		$('#dataBody>tr').find('.invalid').off('click').on('click',function(e){
-			e.stopPropagation();
-			var obj = $(this).closest('tr').data();
-			invalidOperation(obj);
-		});
-		$('#dataBody>tr').find('.outfactory').off('click').on('click',function(e){
-			e.stopPropagation();
-			var obj = $(this).closest('tr').data();
-			outfactoryOperation(obj);
-		});
 	}
 	//显示更多
 	function showMore(obj){

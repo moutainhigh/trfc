@@ -272,12 +272,24 @@ input[readOnly="true"]{
     padding: 15px 10px;
     overflow: hidden;
 }
+.intel_opera div:HOVER {
+    background: #f3f3f3;
+}
+.intel_opera div:ACTIVE {
+    background: #ececec;
+}
 .intel_opera .intel_operasolo{
     padding: 0px 0;
     float: left;
     font-size: 14px;
-    margin-right: 20px;
     cursor: pointer;
+    padding: 0px 10px;
+    border-radius: 4px;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    -khtml-user-select: none;
+    user-select: none;
 }
 .intel_opera .intel_operasolo i{
     font-size: 18px;
@@ -1833,4 +1845,24 @@ width: 180px;
     background: url("../images/wel.png") no-repeat bottom right;
     width: 1100px;
     height: 800px;
+}
+table thead th {
+    background: #ececec!important;
+}
+table tbody tr:nth-child(odd) {
+    background: #f5f6fb;
+}
+table tr:nth-child(even) {
+    background: #ffffff;
+}
+table tr:hover {
+    background: #d2ecff!important;
+}
+table tr:active {
+    color:#ffffff!important;
+    background: #0574c6!important;
+}
+table tr.active td {
+    color:#ffffff!important;
+    background: #0574c6!important;
 }

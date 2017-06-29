@@ -7,52 +7,53 @@ package com.tianrui.service.bean.basicFile.nc;
  * @classname MaterielManage.java
  */
 public class MaterielManage {
+	
     private String id;
-
+    //编码
     private String code;
-
+    //内码
     private String internalcode;
-
+    //名称
     private String name;
-    
+    //物料简称
     private String abbrname;
-
+    //规格
     private String spec;
-
+    //型号
     private String model;
-
+    //拼音助记码
     private String pinyincode;
-
+    //收获确认（0：否，1：是）
     private String receiptstatus;
-
+    //出厂编号（0：否，1：是）
     private String factorycode;
-
+    //包装类型（0：袋装，1：水泥散装，2：其他散装）
     private String packagetype;
-
+    //业务类型（0：采购，1：销售，2：共有）
     private String businesstype;
-
+    //有效性（0：否，1：是）
     private String effective;
-
+    //散装写卡（0：否，1：是）
     private String bulkwritecard;
-
+    //所属组织
     private String orgid;
-    
+    //组织名称
     private String orgname;
-
+    //排队前缀
     private String queuingprefix;
-    
+    //状态：（0：删除，1：正常）
     private String state;
-
+    //备注
     private String remarks;
-
+    //创建人
     private String creator;
-
+    //创建时间
     private Long createtime;
-
+    //最后修改人
     private String modifier;
-
+    //最后修改时间
     private Long modifytime;
-    
+    //nc同步时间戳
     private Long utc;
 
     public String getId() {

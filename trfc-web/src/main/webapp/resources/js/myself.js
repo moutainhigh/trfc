@@ -82,7 +82,7 @@ $(function(){
 //	页面所有表格每行tr选中背景变白
 	var tabletr = $('.intel_table table tbody');
 	tabletr.on("click","tr", function () {
-		$(this).addClass("select").siblings().removeClass("select");
+		$(this).addClass("active").siblings().removeClass("active");
 	});
 
 //	角色权限树形表格中的全选取消按钮js

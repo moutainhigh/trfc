@@ -7,6 +7,7 @@ import java.net.URL;
 
 import com.alibaba.fastjson.JSON;
 import com.tianrui.api.req.basicFile.measure.VehicleCheckApi;
+import com.tianrui.api.req.businessManage.salesManage.ApiDoorQueueQuery;
 import com.tianrui.api.req.businessManage.salesManage.ApiDoorSystemSave;
 import com.tianrui.smartfactory.common.api.ApiParam;
 import com.tianrui.smartfactory.common.api.Head;
@@ -20,9 +21,10 @@ public class TestApiDoorSystem {
 	private static String uri_info = "api/doorSystem/enterFactoryCheck";
 	private static String uri_leave = "api/doorSystem/leaveFactoryCheck";
 	private static String uri_record = "api/doorSystem/record";
+	private static String uri_queryWaiting = "api/doorSystem/queryWaiting";
 	
 	public static void main(String[] args) throws Exception {
-		URL url = new URL(domin + uri_leave);
+		URL url = new URL(domin + uri_queryWaiting);
 		// 打开url连接
 		HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 		// 设置url请求方式 ‘get’ 或者 ‘post’
@@ -31,7 +33,7 @@ public class TestApiDoorSystem {
 		
 	    // 表单参数与get形式一样
 		connection.setDoOutput(true);// 是否输入参数
-        params.append("p").append("=").append(JSON.toJSONString(getParam0()));
+        params.append("p").append("=").append(JSON.toJSONString(getParam2()));
         
         String aa =params.toString();
         System.out.println(aa);
@@ -44,6 +46,24 @@ public class TestApiDoorSystem {
 		System.out.println(response);
 		
 		
+	}
+	static ApiParam<ApiDoorQueueQuery> getParam2(){
+		ApiParam<ApiDoorQueueQuery> api =new ApiParam<ApiDoorQueueQuery>();
+		
+		ApiDoorQueueQuery req =new ApiDoorQueueQuery();
+		
+		Head head =new Head();
+		head.setCallSource("1");
+		head.setCallType("2");
+		head.setCallTime(DateUtil.getNowDateString("yyyy-MM-dd HH:mm:ss"));
+		head.setUserId("111111");
+		
+		api.setBody(req);
+		api.setHead(head);
+		
+		setkey(api);
+		setMd5(api);
+		return api;
 	}
 	static ApiParam<ApiDoorSystemSave> getParam1(){
 		ApiParam<ApiDoorSystemSave> api =new ApiParam<ApiDoorSystemSave>();

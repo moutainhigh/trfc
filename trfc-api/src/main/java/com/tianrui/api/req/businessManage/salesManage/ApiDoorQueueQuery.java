@@ -13,6 +13,12 @@ public class ApiDoorQueueQuery extends BaseReq {
 	private String materiel;
 	//物料包装类型（1：袋装，2：散装）
 	private String packagetype;
+	//车牌号
+	private String vehicleno;
+	//RFID
+	private String rfid;
+	//通知单号
+	private String noticecode;
 	
 	private String currUid;
 
@@ -32,12 +38,40 @@ public class ApiDoorQueueQuery extends BaseReq {
 		this.packagetype = packagetype;
 	}
 
+	public String getVehicleno() {
+		return vehicleno;
+	}
+
+	public void setVehicleno(String vehicleno) {
+		this.vehicleno = vehicleno;
+	}
+
+	public String getRfid() {
+		return rfid;
+	}
+
+	public void setRfid(String rfid) {
+		this.rfid = rfid;
+	}
+
+	public String getNoticecode() {
+		return noticecode;
+	}
+
+	public void setNoticecode(String noticecode) {
+		this.noticecode = noticecode;
+	}
+
 	public String getCurrUid() {
 		return currUid;
 	}
 
 	public void setCurrUid(String currUid) {
 		this.currUid = currUid;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
 	}
 
 }

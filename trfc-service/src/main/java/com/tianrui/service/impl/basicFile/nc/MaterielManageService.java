@@ -181,7 +181,18 @@ public class MaterielManageService implements IMaterielManageService {
 		item.setOrgid(Constant.ORG_ID);
 		item.setName(jsonItem.getString("name"));
 		item.setAbbrname(jsonItem.getString("shortName"));
-		item.setState("1");
+		if (StringUtils.isNotBlank(item.getName()) && item.getName().contains("水泥")) {
+			if (item.getName().contains("袋装")) {
+				item.setPackagetype(Constant.ONE_STRING);
+			}
+			if (item.getName().contains("散装")) {
+				item.setPackagetype(Constant.TWO_STRING);
+			}
+		} else {
+			//其他物料类型
+			item.setPackagetype(Constant.THREE_STRING);
+		}
+		item.setState(Constant.ONE_STRING);
 		item.setOrgname(Constant.ORG_NAME);
 		item.setInternalcode(jsonItem.getString("innerCode"));
 		item.setCreatetime(Long.valueOf(jsonItem.getString("createTime")));
