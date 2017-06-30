@@ -26,11 +26,14 @@ $(function(){
 	$('#edit_sure').click(updateAction);
 	initSelect();
 	//绑定删除按钮
-	$('#list').on('click','tr [title="删除"]',function(event){
-		event.stopPropagation();
+	$('#delete').off('click').on('click',function(e){
+		e.stopPropagation();
 		deleteAction(this)});
 	//绑定编辑按钮
-	$('#list').on('click','tr [title="编辑"]',initEditPage);
+	$('#update').off('click').on('click',function(e){
+		e.stopPropagation();
+		initEditPage();
+	});
 	//新增页面 质检方案
 //	$('#add_qscheme').blur(function(){
 //		var qschemeid = $('#add_qscheme').attr('qschemeid');
@@ -67,14 +70,15 @@ $(function(){
 	}
 
 	function deleteAction(btn){
-		var id = $(btn).closest('tr').data('obj').id;
+		var obj = $('table.maintable tbody tr.active').data('obj');
+		if(!obj) {layer.msg('需要选中一行才能操作哦！'); return;}
 		//弹出删除确认框
 		var index = layer.confirm('你确定要删除吗?', {
 			area: '600px', 
 			btn: ['确定','取消'] //按钮
 		}, function(){
 			//提交删除的数据
-			$.post(URL.deleteUrl,{id:id},function(result){
+			$.post(URL.deleteUrl,{id:obj.id},function(result){
 				if('000000'==result.code){
 					ShowAction(1);
 					layer.close(index);
@@ -233,7 +237,8 @@ $(function(){
 	}
 	//初始化编辑页面
 	function initEditPage(){
-		var obj = $(this).closest('tr').data('obj');
+		var obj = $('table.maintable tbody tr.active').data('obj');
+		if(!obj) {layer.msg('需要选中一行才能操作哦！'); return;}
 		$('#edit_id').val(obj.id);
 		$('#edit_code').val(obj.code);
 		$('#edit_qscheme').val(obj.qschemename).attr('qschemeid',obj.qschemeid);
@@ -243,6 +248,7 @@ $(function(){
 		$('#edit_createtime').val(getNowFormatDate(true,obj.createtime));
 		$('#edit_creator').val(obj.creator);
 		$('#edit_remark').val(obj.remark);
+		$('#edit').modal('show');
 	}
 	//初始化新增页面
 	function initAddPage(){
@@ -435,13 +441,6 @@ $(function(){
 				+'<td>'+(obj.creator || '')+'</td>'
 				+'<td>'+(getNowFormatDate(true,obj.createtime) || '')+'</td>'
 				+'<td>'+(obj.remark || '')+'</td>'
-				+'<td><span> <a data-toggle="modal"'
-				+'		data-target="#edit"><i class="iconfont"'
-				+'			data-toggle="tooltip" data-placement="left" title="编辑">&#xe600;</i></a>'
-				+'</span> <span> <a data-toggle="modal" data-target="#dele"><i'
-				+'			class="iconfont" data-toggle="tooltip" data-placement="left"'
-				+'			title="删除">&#xe63d;</i></a>'
-				+'</span></td>'
 				+'</tr>';
 			//转换为jquery对象
 			tr=$(tr);

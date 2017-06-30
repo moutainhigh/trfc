@@ -11,24 +11,38 @@ $(function(){
 	//绑定搜索按钮
 	$('#seek').click(function(){batchnumShowAction(1);});
 	//绑定删除按钮
-	$('#list').on('click','tr [title="删除"]',function() {
-		deleteAction(this);
+	$('#delete').off('click').on('click',function(e) {
+		e.stopPropagation();
+		deleteAction();
 	});
 	//绑定审查按钮
-	$('#list').on('click','tr [title="审核"]',function(){updateAudit(this,"1");});
+	$('#audit').off('click').on('click',function(e) {
+		e.stopPropagation();
+		updateAudit(this,"1");
+	});
 	//绑定反审按钮
-	$('#list').on('click','tr [title="反审"]',function(){updateAudit(this,'0');});
+	$('#unaudit').off('click').on('click',function(e) {
+		e.stopPropagation();
+		updateAudit(this,'0');
+	});
 
 	//绑定停用按钮
-	$('#list').on('click','tr [title="停用"]',function(){
+	$('#stop').off('click').on('click',function(e) {
+		e.stopPropagation();
 		updateStopState(this);
 	});
 	//绑定复制按钮
-	$('#list').on('click','tr [title="复制"]',copyAction);
+	$('#copy').off('click').on('click',function(e) {
+		e.stopPropagation();
+		copyAction();
+	});
 	//监听每页记录 事件
 	$('#pageSize').change(function(){batchnumShowAction(1);});
 	//绑定编辑按钮
-	$('#list').on('click','tr [title="编辑"]',aditAction);
+	$('#update').off('click').on('click',function(e) {
+		e.stopPropagation();
+		aditAction();
+	});
 	//双击 显示详情
 	$('#list').on('dblclick','tr',function(){
 		var id = $(this).data('batchnum_obj').id;
@@ -37,6 +51,7 @@ $(function(){
 	//绑定刷新按钮
 	$('#fresh').click(function() {
 		batchnumShowAction(1);
+		layer.closeAll('dialog');
 	});
 	
 	
@@ -47,36 +62,39 @@ $(function(){
 	//--------------------------------------------------------------------------------
 	//编辑
 	function aditAction(){
-		var audit = $(this).closest('tr').find('td').eq(3).html();
+		var obj = $('table.maintable tbody tr.active').data();
+		if(!obj) {layer.msg('需要选中一行才能操作哦！'); return;}
 		//判断是否已经停用
-		if('停用'==audit){
+		if(obj.billsstate == 0){
 			layer.msg('该数据已停用,无法进行该操作!');
 			return;
 		}
 		//跳转到编辑页面
-		window.location.replace(URL.editUrl+"?id="+$(this).closest('tr').data('batchnum_obj').id);
+		window.location.replace(URL.editUrl+"?id="+obj.id);
 	}
 	//复制
 	function copyAction(){
-		var audit = $(this).closest('tr').find('td').eq(3).html();
+		var obj = $('table.maintable tbody tr.active').data();
+		if(!obj) {layer.msg('需要选中一行才能操作哦！'); return;}
 		//判断是否已经停用
-		if('停用'==audit){
+		if(obj.billsstate == 0){
 			layer.msg('该数据已停用,无法进行该操作!');
 			return;
 		}
 		//跳转到新增页面
-		window.location.replace(URL.addUrl+"?id="+$(this).closest('tr').data('batchnum_obj').id);
+		window.location.replace(URL.addUrl+"?id="+obj.id);
 	}
 
 	//停用
-	function updateStopState(obj){
-		var audit = $(obj).closest('tr').find('td').eq(3).html();
+	function updateStopState(){
+		var obj = $('table.maintable tbody tr.active').data();
+		if(!obj) {layer.msg('需要选中一行才能操作哦！'); return;}
 		//判断是否已经停用
-		if('停用'==audit){
+		if(obj.billsstate == 0){
 			layer.msg('该数据已停用,无需重复操作!');
 			return;
 		}
-		var id = $(obj).closest('tr').data('batchnum_obj').id;
+		var id = obj.id;
 		var index = layer.confirm('你确定要停用吗?', {
 			area: '600px', 
 			btn: ['确定','取消'] //按钮
@@ -105,31 +123,33 @@ $(function(){
 
 	//审核(bt:当前元素 auditstate:数据)
 	function updateAudit(bt,auditstate){
-		var audit = $(bt).closest('tr').find('td').eq(2).html();
-		var state = $(bt).closest('tr').find('td').eq(3).html();
-		if('停用' == state){
+		var obj = $('table.maintable tbody tr.active').data();
+		if(!obj) {layer.msg('需要选中一行才能操作哦！'); return;}
+		var auditState = obj.auditstate;
+		var billsstate = obj.billsstate;
+		if(billsstate == '0'){
 			layer.msg('该数据已停用,无法执行该操作!')
 			return;
 		}
 		
 		var msg = '';
 		//是否是审核
-		if(auditstate=='1'){
+		if(auditstate == '1'){
 			msg = '你确定要审核吗?';
-			if(audit=='已审核'){
+			if(auditState == '1'){
 				layer.msg('该数据已审核,无需重复操作!')
 				return;
 			}
 		}
 		//是否是反审
-		if(auditstate=='0'){
+		if(auditstate == '0'){
 			msg = '你确定要反审吗?';
-			if(audit=='待审核'){
+			if(auditState == '0'){
 				layer.msg('该数据未审核,不能进行反审操作!')
 				return;
 			}
 		}
-		var id = $(bt).closest('tr').data('batchnum_obj').id;
+		var id = obj.id;
 		var index = layer.confirm(msg, {
 			area: '600px', 
 			btn: ['确定','取消'] //按钮
@@ -155,15 +175,16 @@ $(function(){
 
 	}
 	//删除action
-	function deleteAction(obj){
-		var id = $(obj).closest('tr').data('batchnum_obj').id;
+	function deleteAction(){
+		var obj = $('table.maintable tbody tr.active').data();
+		if(!obj) {layer.msg('需要选中一行才能操作哦！'); return;}
 		//弹出删除确认框
 		var index = layer.confirm('你确定要删除吗?', {
 			area: '600px', 
 			btn: ['确定','取消'] //按钮
 		}, function(){
 			//提交删除的数据
-			submitDelete(id);
+			submitDelete(obj.id);
 			//关闭对话框
 			layer.close(index);
 		}, function(){
@@ -378,27 +399,9 @@ $(function(){
 				+'<td>'+(endtime || '')+'</td>'
 				+'<td>'+(audittime || '')+'</td>'
 				+'<td>'+(obj.auditer || '')+'</td>'
-				+'<td><span> <a data-toggle="modal"'
-				+'		data-target="#dele"><i class="iconfont"'
-				+'			data-toggle="tooltip" data-placement="left" title="删除">&#xe63d;</i></a>'
-				+'</span> <span> <a data-toggle="modal" data-target="#dele"><i'
-				+'			class="iconfont" data-toggle="tooltip" data-placement="left"'
-				+'			title="停用">&#xe624;</i></a>'
-				+'</span> <span> <a data-toggle="modal" data-target="#dele"><i'
-				+'			class="iconfont" data-toggle="tooltip" data-placement="left"'
-				+'			title="审核">&#xe692;</i></a>'
-				+'</span> <span> <a data-toggle="modal" data-target="#dele"><i'
-				+'			class="iconfont" data-toggle="tooltip" data-placement="left"'
-				+'			title="反审">&#xe651;</i></a>'
-				+'</span> </span> <span> <a data-toggle="modal" data-target="#dele"><i'
-				+'			class="iconfont" data-toggle="tooltip" data-placement="left"'
-				+'			title="复制">&#xe61c;</i></a>'
-				+'</span> <span >'
-				+'<a data-toggle="modal" data-target="#edit"><i class="iconfont" data-toggle="tooltip" data-placement="left" title="编辑">&#xe600;</i></a>'
-				+'</span></td>'
 				+'</tr>';
 			//转换为jquery对象
-			tr=$(tr);
+			tr=$(tr).data(obj);
 			//追加
 			tbody.append(tr);
 			//将数据绑定到tr上

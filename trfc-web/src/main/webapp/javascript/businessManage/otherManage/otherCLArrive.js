@@ -73,18 +73,21 @@ $(function() {
 	//刷新按钮
 	$('#refresh').click(function() {
 		ShowAction(1);
+		layer.closeAll('dialog');
 	});
 	
 	
 	//绑定列表复制,编辑按钮
-	$('#tbody_list').on('click','tr [title="复制"]',function(event) {
-		event.stopPropagation();
-		var id = $(this).closest('tr').data('obj').id;
-		window.location.href = URL.addUrl + '?id=' + id;
+	$('#copy').off('click').on('click',function(e) {
+		e.stopPropagation();
+		var obj = $('table.maintable tbody tr.active').data('obj');
+		if(!obj) {layer.msg('需要选中一行才能操作哦！'); return;}
+		window.location.href = URL.addUrl + '?id=' + obj.id;
 	});
-	$('#tbody_list').on('click','tr [title="编辑"]',function(event) {
-		event.stopPropagation();
-		var obj = $(this).closest('tr').data('obj');
+	$('#update').off('click').on('click',function(e) {
+		e.stopPropagation();
+		var obj = $('table.maintable tbody tr.active').data('obj');
+		if(!obj) {layer.msg('需要选中一行才能操作哦！'); return;}
 		if(obj.status=='3'){
 			layer.msg('已作废,无法进行该操作!');
 		}else if(obj.auditstatus=='1'){
@@ -94,9 +97,10 @@ $(function() {
 		}
 	});
 	//绑定列表审核 反审 作废按钮
-	$('#tbody_list').on('click','tr [title="审核"]',function(event) {
-		event.stopPropagation();
-		var obj = $(this).closest('tr').data('obj');
+	$('#audit').off('click').on('click',function(e) {
+		e.stopPropagation();
+		var obj = $('table.maintable tbody tr.active').data('obj');
+		if(!obj) {layer.msg('需要选中一行才能操作哦！'); return;}
 		if(obj.status=='3'){
 			layer.msg('已作废,无法进行该操作!');
 		}else if(obj.auditstatus!='1'){
@@ -110,9 +114,10 @@ $(function() {
 			layer.msg('已审核,无需重复操作!');
 		}
 	});
-	$('#tbody_list').on('click','tr [title="反审"]',function(event) {
-		event.stopPropagation();
-		var obj = $(this).closest('tr').data('obj');
+	$('#unaudit').off('click').on('click',function(e) {
+		e.stopPropagation();
+		var obj = $('table.maintable tbody tr.active').data('obj');
+		if(!obj) {layer.msg('需要选中一行才能操作哦！'); return;}
 		if(obj.status=='3'){
 			layer.msg('已作废,无法进行该操作!');
 		}else if(obj.auditstatus!='0'){
@@ -126,9 +131,10 @@ $(function() {
 			layer.msg('未审核,无能进行反审操作!');
 		}
 	});
-	$('#tbody_list').on('click','tr [title="作废"]',function(event) {
-		event.stopPropagation();
-		var obj = $(this).closest('tr').data('obj');
+	$('#invalid').off('click').on('click',function(e) {
+		e.stopPropagation();
+		var obj = $('table.maintable tbody tr.active').data('obj');
+		if(!obj) {layer.msg('需要选中一行才能操作哦！'); return;}
 		if(obj.status!='3'){
 			var params = {
 					id:obj.id,
@@ -140,9 +146,10 @@ $(function() {
 			layer.msg('已作废,无需重复操作!');
 		}
 	});
-	$('#tbody_list').on('click','tr [title="出厂"]',function(event) {
-		event.stopPropagation();
-		var obj = $(this).closest('tr').data('obj');
+	$('#outfactory').off('click').on('click',function(e) {
+		e.stopPropagation();
+		var obj = $('table.maintable tbody tr.active').data('obj');
+		if(!obj) {layer.msg('需要选中一行才能操作哦！'); return;}
 		if(obj.status=='2'){
 			var params = {
 					id:obj.id,
@@ -488,26 +495,6 @@ $(function() {
 				+'<td>'+(obj.driveridentityno || '')+'</td>'
 				+'<td>'+(obj.creatorname || '')+'</td>'
 				+'<td>'+(getNowFormatDate(true, obj.createtime) || '')+'</td>'
-				+'<td>'
-				+'<span>'
-				+'<i class="iconfont"'
-				+'			data-toggle="tooltip" data-placement="left" title="编辑">&#xe600;</i></a></span>'
-				+'<span>'
-				+'<i class="iconfont"'
-				+'			data-toggle="tooltip" data-placement="left" title="复制">&#xe61c;</i></a></span>'
-				+'<span>'
-				+'<i class="iconfont"'
-				+'			data-toggle="tooltip" data-placement="left" title="审核">&#xe692;</i></span>'
-				+'<span>'
-				+'<i class="iconfont"'
-				+'			data-toggle="tooltip" data-placement="left" title="反审">&#xe651;</i></span>'
-				+'<span>'
-				+'<i class="iconfont"'
-				+'			data-toggle="tooltip" data-placement="left" title="作废">&#xe60c;</i></span>'
-				+'<span>'
-				+'<i class="iconfont"'
-				+'			data-toggle="tooltip" data-placement="left" title="出厂">&#xe63c;</i></span>'
-				+'</td>'
 				+'</tr>';
 			//转换为jquery对象
 			tr=$(tr);

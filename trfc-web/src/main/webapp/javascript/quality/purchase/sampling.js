@@ -24,7 +24,10 @@ $(function(){
 	var userid = $(".user").attr("userid");
 	initSelect();
 	//绑定刷新按钮
-	$('#fresh').click(function(){ShowAction(1);});
+	$('#fresh').click(function(){
+		ShowAction(1);
+		layer.closeAll('dialog');
+	});
 	//绑定新增按钮
 	$('#addBtn').click(initAddData);
 	//绑定搜索按钮
@@ -34,11 +37,12 @@ $(function(){
 	//监听每页记录 事件
 	$('#pageSize').change(function(){ShowAction(1);});
 	//绑定删除按钮
-	$('#list').on('click','tr [title="删除"]',function(event){
-		event.stopPropagation();
+	$('#delete').off('click').on('click',function(e){
+		e.stopPropagation();
 		deleteAction(this)});
 	//绑定编辑按钮
-	$('#list').on('click','tr [title="编辑"]',function(){
+	$('#update').off('click').on('click',function(e){
+		e.stopPropagation();
 		initEditData(this);
 	});
 	$('#list').on('dblclick','tr',function(){
@@ -293,9 +297,10 @@ $(function(){
 
 	//初始化编辑事件
 	function initEditData(btn){
+		var obj = $('table.maintable tbody tr.active').data('obj');
+		if(!obj) {layer.msg('需要选中一行才能操作哦！'); return;}
 		cardIdArr.splice(0,cardIdArr.length);
 		samplingItems.splice(0,samplingItems.length);
-		var obj = $(btn).closest('tr').data('obj');
 		$("#edit_id").val(obj.id);
 		$("#edit_code").val(obj.code);
 		$("#edit_samplingtime").val(getNowFormatDate(false,obj.samplingtime));
@@ -305,6 +310,7 @@ $(function(){
 		$("#edit_remark").val(obj.remark);
 		var tbody = $("#edit_list").empty();
 		loadDetailData(tbody,obj.id);
+		$('#edit').modal('show');
 		tbody.on('dblclick','tr',function(){
 			var obj = $(this).data('obj');
 			if(obj){
@@ -319,18 +325,20 @@ $(function(){
 	}
 	//删除数据
 	function deleteAction(btn){
-		//获取id
-		var id = $(btn).closest('tr').data('obj').id;
+		var obj = $('table.maintable tbody tr.active').data('obj');
+		if(!obj) {layer.msg('需要选中一行才能操作哦！'); return;}
 		//弹出删除确认框
 		var index = layer.confirm('你确定要删除吗?', {
 			area: '600px', 
 			btn: ['确定','取消'] //按钮
 		}, function(){
 			//提交删除的数据
-			$.post(URL.deleteUrl,{id:id},function(result){
+			$.post(URL.deleteUrl,{id:obj.id},function(result){
 				if('000000'==result.code){
 					ShowAction(1);
 					layer.close(index);
+				}else{
+					layer.msg(result.error, {icon: 5});
 				}
 			})
 			//关闭对话框
@@ -513,13 +521,6 @@ $(function(){
 				+'<td>'+(obj.creator || '')+'</td>'
 				+'<td>'+(getNowFormatDate(true,obj.createtime) || '')+'</td>'
 				+'<td>'+(obj.remark || '')+'</td>'
-				+'<td><span> <a data-toggle="modal"'
-				+'		data-target="#edit"><i class="iconfont"'
-				+'			data-toggle="tooltip" data-placement="left" title="编辑">&#xe600;</i></a>'
-				+'</span> <span> <a data-toggle="modal" data-target="#dele"><i'
-				+'			class="iconfont" data-toggle="tooltip" data-placement="left"'
-				+'			title="删除">&#xe63d;</i></a>'
-				+'</span></td>'
 				+'</tr>';
 			//转换为jquery对象
 			tr=$(tr);

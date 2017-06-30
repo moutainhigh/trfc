@@ -11,7 +11,10 @@ $(function(){
 	};
 	ShowAction(1);
 	//绑定刷新按钮
-	$('#fresh').click(function(){ShowAction(1);});
+	$('#fresh').click(function(){
+		ShowAction(1);
+		layer.closeAll('dialog');
+	});
 	//绑定跳转按钮
 	$("#jumpButton").click(jumpPageAction);
 	//监听每页记录 事件
@@ -19,18 +22,36 @@ $(function(){
 	//绑定搜索按钮
 	$('#seek').click(function(){ShowAction(1);});
 	//绑定编辑按钮
-	$('#list').on('click','tr [title="编辑"]',editAction);
+	$('#update').off('click').on('click',function(e){
+		e.stopPropagation();
+		editAction();
+	});
 	//绑定删除按钮
-	$('#list').on('click','tr [title="删除"]',deleteAction);
-	//绑定删除按钮
-	$('#list').on('click','tr [title="28天报告"]',daysReportAction);
-	//绑定删除按钮
-	$('#list').on('click','tr [title="审核"]',function(){$(this).closest('tr').dblclick()});
-	//绑定删除按钮
-	$('#list').on('click','tr [title="反审"]',denyAction);
-	//绑定删除按钮
-	$('#list').on('click','tr [title="复制"]',copyAction);
-	//绑定删除按钮
+	$('#delete').off('click').on('click',function(e){
+		e.stopPropagation();
+		deleteAction();
+	});
+	//绑定28天报告按钮
+	$('#report').off('click').on('click',function(e){
+		e.stopPropagation();
+		daysReportAction();
+	});
+	//绑定审核按钮
+	$('#audit').off('click').on('click',function(e){
+		e.stopPropagation();
+		auditAction();
+	});
+	//绑定反审按钮
+	$('#unaudit').off('click').on('click',function(e){
+		e.stopPropagation();
+		denyAction();
+	});
+	//绑定复制按钮
+	$('#copy').off('click').on('click',function(e){
+		e.stopPropagation();
+		copyAction();
+	});
+	//绑定详情按钮
 	$('#list').on('dblclick','tr',function(){
 		var id = $(this).closest('tr').data('obj').id;
 		window.location.href = URL.detailUrl+"?id="+id;
@@ -41,7 +62,8 @@ $(function(){
 	$('#seek_reportdays').change(function(){$('#seek').click();});
 	//28天报告
 	function daysReportAction(){ 
-		var obj = $(this).closest('tr').data('obj');
+		var obj = $('table.maintable tbody tr.active').data('obj');
+		if(!obj) {layer.msg('需要选中一行才能操作哦！'); return;}
 		if(obj.reporttype=='0'){
 			//确认框
 			var index = layer.confirm('确定更改为28报告吗?', {
@@ -67,9 +89,20 @@ $(function(){
 		}
 			
 	}
+	//审核
+	function auditAction(){
+		var obj = $('table.maintable tbody tr.active').data('obj');
+		if(!obj) {layer.msg('需要选中一行才能操作哦！'); return;}
+		if((obj.auditstate == '2')){
+			layer.msg('数据已审核,不能进行审核操作');
+		}else{
+			$('table.maintable tbody tr.active').dblclick();
+		}
+	}
 	//反审
 	function denyAction(){
-		var obj = $(this).closest('tr').data('obj');
+		var obj = $('table.maintable tbody tr.active').data('obj');
+		if(!obj) {layer.msg('需要选中一行才能操作哦！'); return;}
 		if((obj.auditstate!='2')){
 			layer.msg('数据未审核,不能对未审核的数据进行反审操作');
 		}else{
@@ -98,24 +131,22 @@ $(function(){
 			});
 		}
 	}
-//	审核
-	function auditAction(){
-		$(this).closest('tr').dblclick();
-	}
 	function copyAction(){
-		var id = $(this).closest('tr').data('obj').id;
-		window.location.href=URL.addUrl+'?id='+id;
+		var obj = $('table.maintable tbody tr.active').data('obj');
+		if(!obj) {layer.msg('需要选中一行才能操作哦！'); return;}
+		window.location.href=URL.addUrl+'?id='+obj.id;
 	}
 //	删除
 	function deleteAction(){
-		var id = $(this).closest('tr').data('obj').id;
+		var obj = $('table.maintable tbody tr.active').data('obj');
+		if(!obj) {layer.msg('需要选中一行才能操作哦！'); return;}
 		//弹出删除确认框
 		var index = layer.confirm('你确定要删除吗?', {
 			area: '600px', 
 			btn: ['确定','取消'] //按钮
 		}, function(){
 			//提交删除的数据
-			submitDelete(id);
+			submitDelete(obj.id);
 			//关闭对话框
 			layer.close(index);
 		}, function(){
@@ -134,8 +165,10 @@ $(function(){
 	}
 //	编辑
 	function editAction(){
+		var obj = $('table.maintable tbody tr.active').data('obj');
+		if(!obj) {layer.msg('需要选中一行才能操作哦！'); return;}
 		//跳转到编辑页面
-		window.location.replace(URL.editUrl+"?id="+$(this).closest('tr').data('obj').id);
+		window.location.replace(URL.editUrl+"?id="+obj.id);
 	}
 //	跳转到新增页面
 	function addAction(){
@@ -281,25 +314,6 @@ $(function(){
 				+'<td>'+(obj.addr || '')+'</td>'
 				+'<td>'+(obj.auditer || '')+'</td>'
 				+'<td>'+(audittime || '')+'</td>'
-				+'<td><span> <span> <a data-toggle="modal" data-target="#dele"><i'
-				+'			class="iconfont" data-toggle="tooltip" data-placement="left"'
-				+'			title="编辑">&#xe600;</i></a>'
-				+'</span><span> <a data-toggle="modal" data-target="#dele"><i'
-				+'			class="iconfont" data-toggle="tooltip" data-placement="left"'
-				+'			title="28天报告">&#xe610;</i></a>'
-				+'</span><span> <a data-toggle="modal" data-target="#dele"><i'
-				+'			class="iconfont" data-toggle="tooltip" data-placement="left"'
-				+'			title="审核">&#xe692;</i></a>'
-				+'</span> <span> <a data-toggle="modal" data-target="#dele"><i'
-				+'			class="iconfont" data-toggle="tooltip" data-placement="left"'
-				+'			title="反审">&#xe651;</i></a>'
-				+'</span> <span> <a data-toggle="modal" data-target="#dele"><i'
-				+'			class="iconfont" data-toggle="tooltip" data-placement="left"'
-				+'			title="复制">&#xe61c;</i></a>'
-				+'</span> <span> <a data-toggle="modal"'
-				+'	data-target="#dele"><i class="iconfont"'
-				+'	data-toggle="tooltip" data-placement="left" title="删除">&#xe63d;</i></a>'
-				+'</span></td>'
 				+'</tr>';
 			//转换为jquery对象
 			tr=$(tr);

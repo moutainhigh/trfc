@@ -113,7 +113,9 @@ public class PurchaseAssayService implements IPurchaseAssayService {
 					PropertyUtils.copyProperties(resp, assay);
 					if(StringUtils.isNotBlank(assay.getCreator())){
 						SystemUser user = systemUserMapper.selectByPrimaryKey(assay.getCreator());
-						resp.setCreator(user.getName());
+						if(user != null){
+							resp.setCreator(user.getName());
+						}
 					}
 					if(StringUtils.isNotBlank(assay.getQschemeid())){
 						QualityScheme qs = qualitySchemeMapper.selectByPrimaryKey(assay.getQschemeid());
