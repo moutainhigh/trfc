@@ -70,13 +70,15 @@
 					</div>
 					<div class="intel_opera">
 						<div class="intel_operasolo" id="fresh">
-							<i class="iconfont colorlv">&#xe61b;</i>
-							<h5>刷新</h5>
+							<a> <i class="iconfont colorlv">&#xe61b;</i>
+								<span>刷新</span>
+							</a>
 						</div>
 						<div class="intel_operasolo" id="seek_reader">
-							<input type="hidden" id="seek_icardno"> <i
-								class="iconfont colorlv">&#xe601;</i>
-							<h5>读卡查找</h5>
+							<input type="hidden" id="seek_icardno"> 
+							<a> <i class="iconfont colorlv">&#xe601;</i>
+								<span>读卡查找</span>
+							</a>
 						</div>
 					</div>
 					<div class="intel_table">

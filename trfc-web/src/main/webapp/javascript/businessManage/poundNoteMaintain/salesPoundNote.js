@@ -138,12 +138,31 @@
 	function initBindEvent(){
 		$('#refreshBtn').off('click').on('click', function(){
 			getDataFormAjax(1);
+			layer.closeAll('dialog');
 		});
 		$('#searchBtn').off('click').on('click', function(){
 			getDataFormAjax(1);
 		});
 		$('#addBtn').off('click').on('click', function(){
 			window.open(URL.addView);
+		});
+		$('#serialNumber').off('click').on('click', function(e){
+			e.stopPropagation();
+			var obj = $('table.maintable tbody tr.active').data();
+			if(!obj) {layer.msg('需要选中一行才能操作哦！'); return;}
+			updateSerialNumberView(obj);
+		});
+		$('#redcollide').off('click').on('click', function(e){
+			e.stopPropagation();
+			var obj = $('table.maintable tbody tr.active').data();
+			if(!obj) {layer.msg('需要选中一行才能操作哦！'); return;}
+			redcollideOper(obj);
+		});
+		$('#invalid').off('click').on('click', function(e){
+			e.stopPropagation();
+			var obj = $('table.maintable tbody tr.active').data();
+			if(!obj) {layer.msg('需要选中一行才能操作哦！'); return;}
+			invalidOper(obj);
 		});
 		$('#jumpPageNoBtn').off('click').on('click',function(){
 			var pageNo = $('input#jumpPageNo').val();pageNo = $.trim(pageNo);pageNo = parseInt(pageNo);
@@ -312,27 +331,9 @@
 						.append('<td>'+weighttimeStr+'</td>')
 						.append('<td>'+makebillname+'</td>')
 						.append('<td>'+makebilltimeStr+'</td>')
-						.append('<td><span><a class="updateSerialNumberView"><i class="iconfont" data-toggle="tooltip" data-placement="bottom" title="批号编辑">&#xe65e;</i></a></span>'
-									+'<span><a class="redcollide"><i class="iconfont" data-toggle="tooltip" data-placement="bottom" title="红冲">&#xe631;</i></a></span>'
-									+'<span><a class="invalid"><i class="iconfont" data-toggle="tooltip" data-placement="bottom" title="作废">&#xe60c;</i></a></span></td>')
 						.data(obj)
 						.appendTo('#dataBody');
 			}
-			$('#dataBody>tr>td>span a.updateSerialNumberView').off('click').on('click', function(){
-				//批号编辑
-				var obj = $(this).closest('tr').data();
-				updateSerialNumberView(obj);
-			});
-			$('#dataBody>tr>td>span a.redcollide').off('click').on('click', function(){
-				//红冲
-				var obj = $(this).closest('tr').data();
-				redcollideOper(obj);
-			});
-			$('#dataBody>tr>td>span a.invalid').off('click').on('click', function(){
-				//作废
-				var obj = $(this).closest('tr').data();
-				invalidOper(obj);
-			});
 			$('#dataBody>tr').off('dblclick').on('dblclick', function(){
 				var obj = $(this).closest('tr').data();
 				//详情

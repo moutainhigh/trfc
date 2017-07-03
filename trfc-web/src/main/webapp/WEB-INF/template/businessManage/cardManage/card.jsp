@@ -49,15 +49,29 @@
 					</div>
 					<div class="intel_opera">
 						<div id="refreshBtn" class="intel_operasolo">
-							<i class="iconfont colorlv">&#xe61b;</i> <span>刷新</span>
+							<a> <i class="iconfont colorlv">&#xe61b;</i>
+								<span>刷新</span>
+							</a>
 						</div>
 						<div id="addBtn" class="intel_operasolo">
-							<i class="iconfont coloradd">&#xe627;</i> <span>新增</span>
+							<a> <i class="iconfont coloradd">&#xe627;</i>
+								<span>新增</span>
+							</a>
+						</div>
+						<div id="update" class="intel_operasolo">
+							<a> <i class="iconfont update">&#xe600;</i>
+								<span>编辑</span>
+							</a>
+						</div>
+						<div id="delete" class="intel_operasolo">
+							<a> <i class="iconfont delete">&#xe63d;</i>
+								<span>删除</span>
+							</a>
 						</div>
 					</div>
 					<div class="intel_table">
 						<!--用户表格begin-->
-						<table class="table table-hover">
+						<table class="table table-hover maintable">
 							<thead>
 								<tr>
 									<th>序号</th>
@@ -69,7 +83,6 @@
 									<th>注册时间</th>
 									<th>登记人</th>
 									<th>备注</th>
-									<th>操作</th>
 								</tr>
 							</thead>
 							<tbody id="dataBody">
@@ -235,31 +248,6 @@
 				</div>
 			</div>
 			<!--编辑end-->
-			<!--删除begin-->
-			<div class="modal fade" id="delCardView" tabindex="-1" role="dialog"
-				aria-labelledby="myModalLabel">
-				<div class="modal-dialog" role="document" style="width: 400px;">
-					<div class="modal-content">
-						<div class="modal-header">
-							<button type="button" class="close" data-dismiss="modal"
-								aria-label="Close">
-								<span aria-hidden="true">&times;</span>
-							</button>
-							<h4 class="modal-title">提示</h4>
-						</div>
-						<div class="modal-body">
-							<div class="alert_qf">
-								<img src="/resources/images/tishi.png"><label>注：删除操作不可恢复，您确定要继续么？</label>
-							</div>
-						</div>
-						<div class="modal-footer">
-							<button id="deteleCardBtn" type="button" class="btn btn-primary">确定</button>
-							<button type="button" class="btn btn-default"
-								data-dismiss="modal">取消</button>
-						</div>
-					</div>
-				</div>
-			</div>
 		</div>
 	</div>
 	<!--删除end-->

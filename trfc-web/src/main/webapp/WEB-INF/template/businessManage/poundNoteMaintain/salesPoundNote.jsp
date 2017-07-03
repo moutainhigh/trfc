@@ -92,19 +92,35 @@
 					</div>
 					<div class="intel_opera">
 						<div id="refreshBtn" class="intel_operasolo">
-							<i class="iconfont colorlv">&#xe61b;</i>
-							<h5>刷新</h5>
+							<a> <i class="iconfont colorlv">&#xe61b;</i>
+								<span>刷新</span>
+							</a>
 						</div>
 						<div id="addBtn" class="intel_operasolo">
 							<a data-toggle="modal" data-target="#add"> <i
 								class="iconfont coloradd">&#xe647;</i>
-								<h5>补增</h5>
+								<span>补增</span>
+							</a>
+						</div>
+						<div id="serialNumber" class="intel_operasolo">
+							<a> <i class="iconfont serialNumber">&#xe65e;</i>
+								<span>批号编辑</span>
+							</a>
+						</div>
+						<div id="redcollide" class="intel_operasolo">
+							<a> <i class="iconfont redcollide">&#xe631;</i>
+								<span>红冲</span>
+							</a>
+						</div>
+						<div id="invalid" class="intel_operasolo">
+							<a> <i class="iconfont invalid">&#xe60c;</i>
+								<span>作废</span>
 							</a>
 						</div>
 					</div>
 					<div class="intel_table">
 						<!--用户表格begin-->
-						<table class="table table-hover">
+						<table class="table table-hover maintable">
 							<thead>
 								<tr>
 									<th>序号</th>
@@ -128,7 +144,6 @@
 									<th>重车时间</th>
 									<th>制单人</th>
 									<th>制单日期</th>
-									<th>操作</th>
 								</tr>
 							</thead>
 							<tbody id="dataBody">

@@ -113,6 +113,7 @@
 	function bindEvent(){
 		$('#refreshBtn').off('click').on('click',function(){
 			queryData(1);
+			layer.closeAll('dialog');
 		});
 		$('#searchBtn').off('click').on('click',function(){
 			queryData(1);
@@ -131,11 +132,21 @@
 		$('#pageSize').change(function(){
 			queryData(1);
 		});
-		
 		$('#initAdd').off('click').on('click',function(){
 			initAdd();
 		});
-		
+		$('#audit').off('click').on('click',function(e){
+			e.stopPropagation();
+			var obj = $('table.maintable tbody tr.active').data();
+			if(!obj) {layer.msg('需要选中一行才能操作哦！'); return;}
+			audit(obj);	
+		});
+		$('#delete').off('click').on('click',function(e){
+			e.stopPropagation();
+			var obj = $('table.maintable tbody tr.active').data();
+			if(!obj) {layer.msg('需要选中一行才能操作哦！'); return;}
+			deleteBegin(obj);	
+		});
 		$('#ensureAdd').off('click').on('click', function(){
 			if($('#add').is(':visible')){
 				this.disabled = true;
@@ -165,20 +176,6 @@
 				$('#sh').show();
 				$('#un_sh').hide();
 			}
-		});
-		
-		//监听哪一行的审核按钮被点击了
-		$('#begins').on('click','tr #audit',function(){
-			layer.closeAll();
-			var obj = $(this).closest('tr').data();
-			audit(obj);	
-		});
-	    
-		//监听哪一行的删除按钮被点击了
-		$('#begins').on('click','tr #delete',function(){
-			layer.closeAll();
-			var begin = $(this).closest('tr').data();
-			deleteBegin(begin);	
 		});
 		
 		//新增页面金额输入框键盘按下事件
@@ -330,9 +327,7 @@
 					var tr=$('<tr><td>'+((pageNo-1)*pageSize+i+1)+'</td><td>'+begin.code+'</td><td id="if_audit'+i+'">'+status+'</td><td>'+
 							begin.billdate+'</td><td>'+begin.customername+'</td><td>'+begin.paymentmethod+'</td><td>'+
 							begin.money+'</td><td>'+begin.collectionunit+'</td><td>'+begin.payer+'</td><td>'+
-							begin.makebillname+'</td><td>'+begin.billdate.substring(0,10)+'</td><td>'+begin.remark+'</td><td>'+
-							'<span id="audit"><a data-toggle="modal" data-target="#edit"><i class="iconfont" data-toggle="tooltip" data-placement="left" title="审核">&#xe692;</i></a></span><span id="delete">'+
-							'<a data-toggle="modal" data-target="#dele"><i class="iconfont" data-toggle="tooltip" data-placement="left" title="删除">&#xe63d;</i></a> </span></td> '     
+							begin.makebillname+'</td><td>'+begin.billdate.substring(0,10)+'</td><td>'+begin.remark+'</td>'     
 					);
 					tbody.append(tr);
 					if(status=='未审核'){

@@ -17,6 +17,7 @@
 	function bindEvent(){
 		$('#refreshBtn').off('click').on('click',function(){
 			queryData(1);
+			layer.closeAll('dialog');
 		});
 		$('#searchBtn').off('click').on('click',function(){
 			queryData(1);
@@ -118,33 +119,22 @@
 				}
 			}
 		});
-		$('#deteleCardBtn').off('click').on('click',function(){
-			if($('#delCardView').is(':visible')){
-				var id = $(this).attr('cardid') || '';
-				$.ajax({
-					url:URL.deleteCodeUrl,
-					data:{
-						id:$.trim(id)
-					},
-					async:true,
-					cache:false,
-					dataType:'json',
-					type:'post',
-					success:function(result){
-						if(result.code == '000000'){
-							$('#delCardView').modal('hide');
-							$('#refreshBtn').trigger('click');
-						}else{
-							layer.msg(result.error, {icon: 5});
-						}
-					}
-				});
-			}
-		});
 		$('#addBtn').off('click').on('click',function(){
 			//初始化数值
 			setAddValue();
 			$('#addCardView').modal();
+		});
+		$('#update').off('click').on('click',function(e){
+			e.stopPropagation();
+			var obj = $('table.maintable tbody tr.active').data();
+			if(!obj) {layer.msg('需要选中一行才能操作哦！'); return;}
+			setUpdateValue(obj);
+		});
+		$('#delete').off('click').on('click',function(e){
+			e.stopPropagation();
+			var obj = $('table.maintable tbody tr.active').data();
+			if(!obj) {layer.msg('需要选中一行才能操作哦！'); return;}
+			deleteCard(obj);
 		});
 		$('#add_reset').off('click').on('click',function(){
 			if($('#addCardView').is(':visible')){
@@ -333,21 +323,9 @@
 						.append('<td>'+createtimeStr+'</td>')
 						.append('<td>'+registrar+'</td>')
 						.append('<td>'+remarks+'</td>')
-						.append('<td><span ><a class="updateCard"><i class="iconfont" data-toggle="tooltip" data-placement="left" title="编辑">&#xe600;</i></a></span>'
-				                +'<span ><a class="delCard"><i class="iconfont" data-toggle="tooltip" data-placement="left" title="删除">&#xe63d;</i></a></span></td>')
 						.data(obj)
 						.appendTo('#dataBody');
 			}
-			$('#dataBody tr a.updateCard').off('click').on('click',function(){
-				var obj = $(this).closest('tr').data();
-				setUpdateValue(obj);
-				$('#updateCardView').modal();
-			});
-			$('#dataBody tr a.delCard').off('click').on('click',function(){
-				var obj = $(this).closest('tr').data();
-				$('#deteleCardBtn').attr('cardid',obj.id);
-				$('#delCardView').modal();
-			});
 		}else{
 			layer.msg('暂无数据');
 		}
@@ -376,6 +354,7 @@
 			$('#update_cardstatus')[0].checked = true;
 		}
 		$('#update_remarks').val(remarks);
+		$('#updateCardView').modal('show');
 	}
 	
 	function setAddValue(){
@@ -395,6 +374,31 @@
 					layer.msg(result.error, {icon: 5});
 				}
 			}
+		});
+	}
+	
+	function deleteCard(obj){
+		layer.confirm('确认要作废此单据吗？', {
+			btn: ['确定', '取消'],
+			area: '600px'
+		}, function(){
+			$.ajax({
+				url:URL.deleteCodeUrl,
+				data:{
+					id:obj.id
+				},
+				async:true,
+				cache:false,
+				dataType:'json',
+				type:'post',
+				success:function(result){
+					if(result.code == '000000'){
+						$('#refreshBtn').trigger('click');
+					}else{
+						layer.msg(result.error, {icon: 5});
+					}
+				}
+			});
 		});
 	}
 	

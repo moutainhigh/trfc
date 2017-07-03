@@ -265,6 +265,8 @@
 			</div>
 		</div>
 	</div>
+	<!-- 引用公共footer部分 -->
+	<jsp:include page="../../common/base/footer_busi.jsp"></jsp:include>
 	<!--出厂号弹出end-->
 	<script type="text/javascript" src="/javascript/businessManage/poundNoteMaintain/salesPoundNoteUpdateSerialNumber.js"></script>
 </body>

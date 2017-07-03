@@ -131,9 +131,16 @@
 		});
 		$('#refresh').off('click').on('click', function(){
 			getDataFormAjax(1);
+			layer.closeAll('dialog');
 		});
 		$('#addBtn').off('click').on('click', function(){
 			window.open(URL.addView);
+		});
+		$('#invalid').off('click').on('click', function(e){
+			e.stopPropagation();
+			var obj = $('table.maintable tbody tr.active').data();
+			if(!obj) {layer.msg('需要选中一行才能操作哦！'); return;}
+			invalid(obj);
 		});
 		$('#jumpPageNoBtn').off('click').on('click',function(){
 			var pageNo = $('input#jumpPageNo').val();pageNo = $.trim(pageNo);pageNo = parseInt(pageNo);
@@ -236,15 +243,9 @@
 						.append('<td>'+(obj.vehicleno || '')+'</td>')
 						.append('<td>'+(obj.grossweight || '')+'</td>')
 						.append('<td>'+(obj.makebilltimeStr || '')+'</td>')
-						.append('<td><span><a class="invalid"><i class="iconfont" data-toggle="tooltip" data-placement="bottom" title="作废">&#xe60c;</i></a></span></td>')
 						.data(obj)
 						.appendTo('#dataBody');
 			}
-			$('#dataBody>tr>td>span a.invalid').off('click').on('click', function(){
-				//作废
-				var obj = $(this).closest('tr').data();
-				invalid(obj);
-			});
 		}else{
 			layer.msg("暂无数据.");
 		}

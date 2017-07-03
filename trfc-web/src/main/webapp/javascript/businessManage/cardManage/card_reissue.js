@@ -13,6 +13,7 @@ $(function() {
 	});
 	$('#fresh').click(function() {
 		ShowAction(1);
+		layer.closeAll('dialog');
 	});
 	$('#list').on('dblclick','tr',function() {
 		var id = $(this).data('obj').accessid;
