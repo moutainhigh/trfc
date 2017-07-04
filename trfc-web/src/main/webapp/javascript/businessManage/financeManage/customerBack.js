@@ -113,6 +113,7 @@
 	function bindEvent(){
 		$('#refreshBtn').off('click').on('click',function(){
 			queryData(1);
+			layer.closeAll('dialog');
 		});
 		$('#searchBtn').off('click').on('click',function(){
 			queryData(1);
@@ -134,6 +135,18 @@
 		
 		$('#initAdd').off('click').on('click',function(){
 			initAdd();
+		});
+		$('#audit').off('click').on('click',function(e){
+			e.stopPropagation();
+			var obj = $('table.maintable tbody tr.active').data();
+			if(!obj) {layer.msg('需要选中一行才能操作哦！'); return;}
+			audit(obj);	
+		});
+		$('#delete').off('click').on('click',function(e){
+			e.stopPropagation();
+			var obj = $('table.maintable tbody tr.active').data();
+			if(!obj) {layer.msg('需要选中一行才能操作哦！'); return;}
+			dele(obj);	
 		});
 		$('#ensureAdd').off('click').on('click',function(){
 			if($('#add').is(':visible')){
@@ -171,18 +184,6 @@
 				$('#un_sh').hide();
 			}
 		});
-		//监听哪一行的审核按钮被点击了
-		$('#begins').on('click','tr #audit',function(){
-			layer.closeAll();
-			var back=$(this).closest('tr').data();
-			audit(back);
-		} );
-		//监听哪一行的删除按钮被点击了
-		$('#begins').on('click','tr #delete',function(){
-			layer.closeAll();
-			var back=$(this).closest('tr').data();
-			dele(back);
-		} );
 		
 		//新增页面金额输入框键盘按下事件
 		$('#money').focus(function(){
@@ -357,9 +358,7 @@
 					var tr=$('<tr><td>'+((pageNo-1)*pageSize+i+1)+'</td><td>'+back.code+'</td><td id="if_audit'+i+'">'+status+'</td><td>'+
 							billdate+'</td><td>'+back.customername+'</td><td>'+chargetype+'</td><td>'+
 							back.money+'</td><td>'+back.chargeunit+'</td><td>'+
-							back.makebillname+'</td><td>'+makebilltime.substring(0,10)+'</td><td>'+back.remark+'</td><td>'+
-							'<span id="audit"><a data-toggle="modal" data-target="#edit"><i class="iconfont" data-toggle="tooltip" data-placement="left" title="审核">&#xe692;</i></a></span><span id="delete">'+
-							'<a data-toggle="modal" data-target="#dele"><i class="iconfont" data-toggle="tooltip" data-placement="left" title="删除">&#xe63d;</i></a> </span></td> '     );
+							back.makebillname+'</td><td>'+makebilltime.substring(0,10)+'</td><td>'+back.remark+'</td>');
 					tbody.append(tr);
 					tr.data(back);
 					if(status=='未审核'){

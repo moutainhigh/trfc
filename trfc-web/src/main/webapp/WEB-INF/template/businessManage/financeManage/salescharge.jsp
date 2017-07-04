@@ -74,8 +74,9 @@
             </div>
             <div class="intel_opera">
                 <div class="intel_operasolo" id="refreshBtn">
-                    <i class="iconfont colorlv">&#xe61b;</i>
-                    <h5>刷新</h5>
+                    <a> <i class="iconfont colorlv">&#xe61b;</i>
+                    	<span>刷新</span>
+                   	</a>
                 </div>
             </div>
             <div class="intel_table">
@@ -142,26 +143,10 @@
     </div>
 </div>
 </div>
-<!--新增begin-->
 
-<!--新增end-->
-<!--编辑begin-->
-<!--编辑end-->
-<!--删除begin-->
-
-<!--详细begin-->
-
-<!--详细end-->
-
-<jsp:include page="../../common/module/custom_choose.jsp"></jsp:include>
 <!-- 引用公共footer部分 -->
 <jsp:include page="../../common/base/footer_busi.jsp"></jsp:include>
 <script type="text/javascript"
 		src="/javascript/businessManage/financeManage/salesCharge.js"></script>
-
-
-
-
-
 </body>
 </html>

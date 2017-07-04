@@ -13,12 +13,19 @@
 	function bindEvent(){
 		$('#refreshBtn').off('click').on('click',function(){
 			queryData(1);
+			layer.closeAll('dialog');
 		});
 		$('#updateFromDc').off('click').on('click',function(){
 			updateFromDc();
 		});
 		$('#searchBtn').off('click').on('click',function(){
 			queryData(1);
+		});
+		$('#update').off('click').on('click',function(e){
+			e.stopPropagation();
+			var obj = $('table.maintable tbody tr.active').data();
+			if(!obj) {layer.msg('需要选中一行才能操作哦！'); return;}
+			updateView(obj);
 		});
 		$('#updateBtn').off('click').on('click',function(){
 			editData();
@@ -123,35 +130,34 @@
 						.append('<td><input type="checkbox" '+(minemouth == '0' ? '' : 'checked')+' disabled></td>')
 						.append('<td><input type="checkbox" '+(drivercheck == '0' ? '' : 'checked')+' disabled></td>')
 						.append('<td>'+remarks+'</td>')
-						.append('<td><span><a class="updateViewBtn"><i class="iconfont" data-toggle="tooltip" data-placement="left" title="编辑">&#xe600;</i></a></span></td>')
 						.data(obj)
-						.appendTo('#dataBody');//updateViewBtn
+						.appendTo('#dataBody');
 			}
-			$('#dataBody .updateViewBtn').off('click').on('click',function(){
-				var obj = $(this).closest('tr').data();
-				$('#supplierid').val(obj.id);
-				$('#code').val(obj.code);
-				$('#internalcode').val(obj.internalcode);
-				$('#name').val(obj.name);
-				$('#abbrname').val(obj.abbrname);
-				$('#pinyincode').val(obj.pinyincode);
-				if(obj.minemouth == '1'){
-					$('#minemouth')[0].checked = true;
-				}else{
-					$('#minemouth')[0].checked = false;
-				}
-				$('#queuingprefix').val(obj.queuingprefix);
-				if(obj.drivercheck == '1'){
-					$('#drivercheck')[0].checked = true;
-				}else{
-					$('#drivercheck')[0].checked = false;
-				}
-				$('#remarks').val(obj.remarks);
-				$('#editData').modal();
-			});
 		}else{
 			layer.msg('暂无数据');
 		}
+	}
+	
+	function updateView(obj) {
+		$('#supplierid').val(obj.id);
+		$('#code').val(obj.code);
+		$('#internalcode').val(obj.internalcode);
+		$('#name').val(obj.name);
+		$('#abbrname').val(obj.abbrname);
+		$('#pinyincode').val(obj.pinyincode);
+		if(obj.minemouth == '1'){
+			$('#minemouth')[0].checked = true;
+		}else{
+			$('#minemouth')[0].checked = false;
+		}
+		$('#queuingprefix').val(obj.queuingprefix);
+		if(obj.drivercheck == '1'){
+			$('#drivercheck')[0].checked = true;
+		}else{
+			$('#drivercheck')[0].checked = false;
+		}
+		$('#remarks').val(obj.remarks);
+		$('#editData').modal();
 	}
 	
 	function editData(){

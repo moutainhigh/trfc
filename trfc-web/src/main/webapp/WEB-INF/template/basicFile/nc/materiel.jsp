@@ -51,15 +51,18 @@
 					</div>
 					<div class="intel_opera">
 						<div id="refreshBtn" class="intel_operasolo">
-							<i class="iconfont colorlv">&#xe61b;</i> <span>刷新</span>
+							<a><i class="iconfont colorlv">&#xe61b;</i> <span>刷新</span></a>
 						</div>
 						<div id="updateFromDc" class="intel_operasolo">
-							<i class="iconfont colorlv">&#xe62e;</i> <span>更新档案</span>
+							<a><i class="iconfont colorlv">&#xe62e;</i> <span>更新档案</span></a>
+						</div>
+						<div id="update" class="intel_operasolo">
+							<a><i class="iconfont colorlv">&#xe600;</i> <span>编辑</span></a>
 						</div>
 					</div>
 					<div class="intel_table">
 						<!--用户表格begin-->
-						<table class="table table-hover">
+						<table class="table table-hover maintable">
 							<thead>
 								<tr>
 									<th>序号</th>
@@ -76,7 +79,6 @@
 									<th>散装写卡(计量)</th>
 									<th>所属组织</th>
 									<th>描述</th>
-									<th>操作</th>
 								</tr>
 							</thead>
 							<tbody id="materBody">

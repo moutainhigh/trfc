@@ -107,6 +107,7 @@
 	function bindEvent(){
 		$('#refreshBtn').off('click').on('click',function(){
 			queryData(1);
+			layer.closeAll('dialog');
 		});
 		$('#searchBtn').off('click').on('click',function(){
 			queryData(1);

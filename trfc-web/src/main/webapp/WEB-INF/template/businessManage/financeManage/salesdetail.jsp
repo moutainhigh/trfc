@@ -56,8 +56,9 @@
             </div>
             <div class="intel_opera">
                 <div class="intel_operasolo" id="refreshBtn">
-                    <i class="iconfont colorlv">&#xe61b;</i>
-                    <h5>刷新</h5>
+                    <a> <i class="iconfont colorlv">&#xe61b;</i>
+                    	<span>刷新</span>
+                   	</a>
                 </div>
             </div>
             <div class="intel_table">

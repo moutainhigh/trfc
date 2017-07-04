@@ -13,12 +13,19 @@
 	function bindEvent(){
 		$('#refreshBtn').off('click').on('click',function(){
 			queryData(1);
+			layer.closeAll('dialog');
 		});
 		$('#updateFromDc').off('click').on('click',function(){
 			updateFromDc();
 		});
 		$('#searchBtn').off('click').on('click',function(){
 			queryData(1);
+		});
+		$('#update').off('click').on('click',function(e){
+			e.stopPropagation();
+			var obj = $('table.maintable tbody tr.active').data();
+			if(!obj) {layer.msg('需要选中一行才能操作哦！'); return;}
+			updateView(obj);
 		});
 		$('#updateBtn').off('click').on('click',function(){
 			editData();
@@ -123,27 +130,26 @@
 						.append('<td>'+channelcode+'</td>')
 						.append('<td>'+orgname+'</td>')
 						.append('<td>'+remarks+'</td>')
-						.append('<td><span><a class="updateViewBtn"><i class="iconfont" data-toggle="tooltip" data-placement="left" title="编辑">&#xe600;</i></a></span></td>')
 						.data(obj)
 						.appendTo('#dataBody');
 			}
-			$('#dataBody .updateViewBtn').off('click').on('click',function(){
-				var obj = $(this).closest('tr').data();
-				$('#update_id').val(obj.id);
-				$('#update_code').val(obj.code);
-				$('#update_internalcode').val(obj.internalcode);
-				$('#update_name').val(obj.name);
-				$('#update_abbrname').val(obj.abbrname);
-				$('#update_orgname').val(obj.orgname);
-				$('#update_channelcode').val(obj.channelcode);
-				$('#update_pinyincode').val(obj.pinyincode);
-				$('#update_customertype').val(obj.customertype);
-				$('#update_remarks').val(obj.remarks);
-				$('#updateCustomer').modal();
-			});
 		}else{
 			layer.msg('暂无数据...');
 		}
+	}
+	
+	function updateView(obj){
+		$('#update_id').val(obj.id);
+		$('#update_code').val(obj.code);
+		$('#update_internalcode').val(obj.internalcode);
+		$('#update_name').val(obj.name);
+		$('#update_abbrname').val(obj.abbrname);
+		$('#update_orgname').val(obj.orgname);
+		$('#update_channelcode').val(obj.channelcode);
+		$('#update_pinyincode').val(obj.pinyincode);
+		$('#update_customertype').val(obj.customertype);
+		$('#update_remarks').val(obj.remarks);
+		$('#updateCustomer').modal();
 	}
 	
 	function editData(){

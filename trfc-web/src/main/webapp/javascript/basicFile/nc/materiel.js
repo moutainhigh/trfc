@@ -13,12 +13,19 @@
 	function bindEvent(){
 		$('#refreshBtn').off('click').on('click',function(){
 			queryData(1);
+			layer.closeAll('dialog');
 		});
 		$('#updateFromDc').off('click').on('click',function(){
 			updateFromDc();
 		});
 		$('#searchBtn').off('click').on('click',function(){
 			queryData(1);
+		});
+		$('#update').off('click').on('click',function(e){
+			e.stopPropagation();
+			var obj = $('table.maintable tbody tr.active').data();
+			if(!obj) {layer.msg('需要选中一行才能操作哦！'); return;}
+			updateView(obj);
 		});
 		$('#updateBtn').off('click').on('click',function(){
 			editData();
@@ -162,47 +169,46 @@
 						.append('<td><input type="checkbox" '+(bulkwritecard == '0' ? '' : 'checked')+' disabled></td>')
 						.append('<td>'+orgid+'</td>')
 						.append('<td>'+remarks+'</td>')
-						.append('<td><span><a class="editMater"><i class="iconfont" data-toggle="tooltip" data-placement="left" title="编辑">&#xe600;</i></a></span></td>')
 						.data(obj)
 						.appendTo('#materBody');
 			}
-			$('#materBody .editMater').off('click').on('click',function(){
-				var obj = $(this).closest('tr').data();
-				$('#materId').val(obj.id);
-				$('#code').val(obj.code);
-				$('#internalcode').val(obj.internalcode);
-				$('#name').val(obj.name);
-				$('#abbrname').val(obj.abbrname);
-				$('#pinyincode').val(obj.pinyincode);
-				if(obj.effective == '1'){
-					$('#effective')[0].checked = true;
-				}else{
-					$('#effective')[0].checked = false;
-				}
-				$('#remarks').val(obj.remarks);
-				$('#businesstype').val(obj.businesstype);
-				$('#packagetype').val(obj.packagetype);
-				$('#queuingprefix').val(obj.queuingprefix);
-				if(obj.receiptstatus == '1'){
-					$('#receiptstatus')[0].checked = true;
-				}else{
-					$('#receiptstatus')[0].checked = false;
-				}
-				if(obj.factorycode == '1'){
-					$('#factorycode')[0].checked = true;
-				}else{
-					$('#factorycode')[0].checked = false;
-				}
-				if(obj.bulkwritecard == '1'){
-					$('#bulkwritecard')[0].checked = true;
-				}else{
-					$('#bulkwritecard')[0].checked = false;
-				}
-				$('#editMater').modal();
-			});
 		}else{
 			layer.msg('暂无数据');
 		}
+	}
+	
+	function updateView(obj) {
+		$('#materId').val(obj.id);
+		$('#code').val(obj.code);
+		$('#internalcode').val(obj.internalcode);
+		$('#name').val(obj.name);
+		$('#abbrname').val(obj.abbrname);
+		$('#pinyincode').val(obj.pinyincode);
+		if(obj.effective == '1'){
+			$('#effective')[0].checked = true;
+		}else{
+			$('#effective')[0].checked = false;
+		}
+		$('#remarks').val(obj.remarks);
+		$('#businesstype').val(obj.businesstype);
+		$('#packagetype').val(obj.packagetype);
+		$('#queuingprefix').val(obj.queuingprefix);
+		if(obj.receiptstatus == '1'){
+			$('#receiptstatus')[0].checked = true;
+		}else{
+			$('#receiptstatus')[0].checked = false;
+		}
+		if(obj.factorycode == '1'){
+			$('#factorycode')[0].checked = true;
+		}else{
+			$('#factorycode')[0].checked = false;
+		}
+		if(obj.bulkwritecard == '1'){
+			$('#bulkwritecard')[0].checked = true;
+		}else{
+			$('#bulkwritecard')[0].checked = false;
+		}
+		$('#editMater').modal();
 	}
 	
 	function editData(){
