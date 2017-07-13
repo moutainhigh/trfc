@@ -298,6 +298,9 @@
       <if test="modifier != null" >
         #{modifier,jdbcType=VARCHAR},
       </if>
+      <if test="modifytime != null" >
+        #{modifytime,jdbcType=BIGINT},
+      </if>
       <if test="startloadingtime != null" >
         #{startloadingtime,jdbcType=BIGINT},
       </if>
