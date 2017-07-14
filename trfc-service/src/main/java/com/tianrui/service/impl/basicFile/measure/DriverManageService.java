@@ -67,23 +67,16 @@ public class DriverManageService implements IDriverManageService {
 			if(list == null || list.size() == 0){
 				PropertyUtils.copyProperties(driver, save);
 				driver.setId(UUIDUtil.getId());
-				GetCodeReq codeReq = new GetCodeReq();
-				codeReq.setCode("DR");
-				codeReq.setCodeType(true);
-				codeReq.setUserid(save.getCurrId());
-				driver.setCode(String.valueOf(systemCodeService.getCode(codeReq).getData()));
-				codeReq.setCodeType(false);
-				driver.setInternalcode(String.valueOf(systemCodeService.getCode(codeReq).getData()));
+				driver.setCode(getCode(save.getCurrId()));
+				driver.setInternalcode(getInternalCode(save.getCurrId()));
 				driver.setOrgid(Constant.ORG_ID);
 				driver.setOrgname(Constant.ORG_NAME);
 				driver.setCreator(save.getCurrId());
 				driver.setCreatetime(System.currentTimeMillis());
 				driver.setModifier(save.getCurrId());
 				driver.setModifytime(System.currentTimeMillis());
-				if(driverManageMapper.insertSelective(driver) > 0){
-					systemCodeService.updateCodeItem(codeReq);
-					codeReq.setCodeType(true);
-					systemCodeService.updateCodeItem(codeReq);
+				if(driverManageMapper.insertSelective(driver) > 0
+				        && updateCode(save.getCurrId())){
 					result.setData(driver);
 					result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
 				}else{
@@ -98,6 +91,37 @@ public class DriverManageService implements IDriverManageService {
 		}
 		return result;
 	}
+    
+    private boolean updateCode(String userId) throws Exception {
+        boolean flag = false;
+        GetCodeReq codeReq = new GetCodeReq();
+        codeReq.setCode("DR");
+        codeReq.setCodeType(true);
+        codeReq.setUserid(userId);
+        if (StringUtils.equals(systemCodeService.updateCodeItem(codeReq).getCode(), ErrorCode.SYSTEM_SUCCESS.getCode())) {
+            codeReq.setCodeType(false);
+            if (StringUtils.equals(systemCodeService.updateCodeItem(codeReq).getCode(), ErrorCode.SYSTEM_SUCCESS.getCode())) {
+                flag = true; 
+            }
+        }
+        return flag;
+    }
+    
+    private String getCode(String userId) throws Exception {
+        GetCodeReq codeReq = new GetCodeReq();
+        codeReq.setCode("DR");
+        codeReq.setCodeType(true);
+        codeReq.setUserid(userId);
+        return systemCodeService.getCode(codeReq).getData().toString();
+    }
+    
+    private String getInternalCode(String userId) throws Exception {
+        GetCodeReq codeReq = new GetCodeReq();
+        codeReq.setCode("DR");
+        codeReq.setCodeType(false);
+        codeReq.setUserid(userId);
+        return systemCodeService.getCode(codeReq).getData().toString();
+    }
 
 	@Override
 	public Result update(DriverManageSave save) throws Exception {

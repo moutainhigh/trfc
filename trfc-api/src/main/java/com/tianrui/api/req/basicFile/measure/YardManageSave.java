@@ -29,6 +29,8 @@ public class YardManageSave extends BaseReq {
     private String modifier;
     
     private Long modifytime;
+    
+    private String currId;
 
     public String getId() {
 		return id;
@@ -126,5 +128,12 @@ public class YardManageSave extends BaseReq {
 		this.user = user;
 	}
 
+    public String getCurrId() {
+        return currId;
+    }
+
+    public void setCurrId(String currId) {
+        this.currId = currId;
+    }
 	
 }

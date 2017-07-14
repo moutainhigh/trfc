@@ -46,19 +46,30 @@
 					</div>
 					<div class="intel_opera">
 						<div class="intel_operasolo" id="refreshBtn">
-							<i class="iconfont colorlv">&#xe61b;</i>
-							<h5>刷新</h5>
+							<a> <i class="iconfont colorlv">&#xe61b;</i>
+								<span>刷新</span>
+							</a>
 						</div>
 						<div class="intel_operasolo" id="addBtn">
 							<a data-toggle="modal" data-target="#add"> <i
 								class="iconfont coloradd">&#xe627;</i>
-								<h5>新增</h5>
+								<span>新增</span>
+							</a>
+						</div>
+						<div class="intel_operasolo" id="update">
+							<a> <i class="iconfont update">&#xe600;</i>
+								<span>编辑</span>
+							</a>
+						</div>
+						<div class="intel_operasolo" id="delete">
+							<a> <i class="iconfont delete">&#xe63d;</i>
+								<span>删除</span>
 							</a>
 						</div>
 					</div>
 					<div class="intel_table">
 						<!--用户表格begin-->
-						<table class="table table-hover">
+						<table class="table table-hover maintable">
 							<thead>
 								<tr>
 									<th>序号</th>
@@ -67,40 +78,9 @@
 									<th>拼音码</th>
 									<th>有效</th>
 									<th>备注</th>
-									<th>操作</th>
 								</tr>
 							</thead>
 							<tbody id="minemouths">
-								<tr>
-									<td>CD201601010138</td>
-									<td class="colorred">审核中</td>
-									<td>客商APP</td>
-									<td>未入厂</td>
-									<td><input type="checkbox" checked disabled></td>
-									<td>粉煤灰1</td>
-									<td><span> <a data-toggle="modal"
-											data-target="#edit"><i class="iconfont"
-												data-toggle="tooltip" data-placement="left" title="编辑">&#xe600;</i></a>
-									</span> <span> <a data-toggle="modal" data-target="#dele"><i
-												class="iconfont" data-toggle="tooltip" data-placement="left"
-												title="删除">&#xe63d;</i></a>
-									</span></td>
-								</tr>
-								<tr>
-									<td>CD201601010138</td>
-									<td class="colorred">审核中</td>
-									<td>客商APP</td>
-									<td>未入厂</td>
-									<td><input type="checkbox" disabled></td>
-									<td>粉煤灰1</td>
-									<td><span> <a data-toggle="modal"
-											data-target="#edit"><i class="iconfont"
-												data-toggle="tooltip" data-placement="left" title="编辑">&#xe600;</i></a>
-									</span> <span> <a data-toggle="modal" data-target="#dele"><i
-												class="iconfont" data-toggle="tooltip" data-placement="left"
-												title="删除">&#xe63d;</i></a>
-									</span></td>
-								</tr>
 							</tbody>
 						</table>
 						<!--用户表格end-->
@@ -127,21 +107,6 @@
 					<!--分页效果结束-->
 				</div>
 				<!--采购申请单end-->
-
-				<!--到货通知单begin-->
-				<div class="intel_tabcont hide">2</div>
-				<!--到货通知单end-->
-
-				<!--退货通知单begin-->
-				<div class="intel_tabcont hide">3</div>
-				<!--退货通知单end-->
-
-				<!--到货通知单begin-->
-				<div class="intel_tabcont hide">4</div>
-				<!--到货通知单end-->
-				<!--到货通知单begin-->
-				<div class="intel_tabcont hide">5</div>
-				<!--到货通知单end-->
 				<!--tab切换的内容end-->
 			</div>
 		</div>

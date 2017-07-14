@@ -70,6 +70,7 @@
 				success:function(result){
 					if(result.code == '000000'){
 						$('#add_code').val(result.data.code);
+						$('#add_orgname').val(result.data.orgName);
 						$('#addView').modal();
 					}else{
 						layer.msg(result.error, {icon: 5});

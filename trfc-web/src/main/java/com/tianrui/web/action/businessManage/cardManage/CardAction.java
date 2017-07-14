@@ -1,5 +1,8 @@
 package com.tianrui.web.action.businessManage.cardManage;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
@@ -12,11 +15,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.tianrui.api.intf.businessManage.cardManage.ICardService;
+import com.tianrui.api.intf.system.base.ISystemCodeService;
 import com.tianrui.api.req.businessManage.cardManage.CardReq;
 import com.tianrui.api.req.businessManage.cardManage.CardSave;
+import com.tianrui.api.req.system.base.GetCodeReq;
 import com.tianrui.api.resp.businessManage.cardManage.CardResp;
 import com.tianrui.api.resp.system.auth.SystemUserResp;
 import com.tianrui.smartfactory.common.constants.ErrorCode;
+import com.tianrui.smartfactory.common.utils.DateUtil;
 import com.tianrui.smartfactory.common.vo.PaginationVO;
 import com.tianrui.smartfactory.common.vo.Result;
 import com.tianrui.web.util.SessionManager;
@@ -29,12 +35,12 @@ public class CardAction {
 	
 	@Autowired
 	private ICardService cardService;
+	@Autowired
+	private ISystemCodeService systemCodeService;
 	
 	@RequestMapping("/main")
-	public ModelAndView main(HttpServletRequest request){
+	public ModelAndView main(){
 		ModelAndView view = new ModelAndView("businessManage/cardManage/card");
-		SystemUserResp user = SessionManager.getSessionUser(request);
-		view.addObject("user", user);
 		return view;
 	}
 	
@@ -45,6 +51,28 @@ public class CardAction {
 		try {
 			PaginationVO<CardResp> page = cardService.page(req);
 			result.setData(page);
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
+		}
+		return result;
+	}
+	
+	@RequestMapping("/addView")
+	@ResponseBody
+	public Result addView(CardSave req, HttpServletRequest request){
+		Result result = Result.getSuccessResult();
+		try {
+			Map<String, Object> map = new HashMap<String, Object>();
+			SystemUserResp user = SessionManager.getSessionUser(request);
+			GetCodeReq codeReq = new GetCodeReq();
+			codeReq.setCode("IC");
+			codeReq.setCodeType(true);
+			codeReq.setUserid(user.getId());
+			map.put("code", systemCodeService.getCode(codeReq).getData().toString());
+			map.put("userName", user.getName());
+			map.put("nowDate", DateUtil.getNowDateString(DateUtil.Y_M_D_H_M_S));
+			result.setData(map);
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 			result.setErrorCode(ErrorCode.SYSTEM_ERROR);

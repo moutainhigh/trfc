@@ -27,6 +27,8 @@ public class MinemouthManageSave extends BaseReq{
     private String modifier;
 
     private Long modifytime;
+    
+    private String currId;
 
 	public String getId() {
 		return id;
@@ -115,5 +117,13 @@ public class MinemouthManageSave extends BaseReq{
 	public void setModifytime(Long modifytime) {
 		this.modifytime = modifytime;
 	}
+
+    public String getCurrId() {
+        return currId;
+    }
+
+    public void setCurrId(String currId) {
+        this.currId = currId;
+    }
     
 }

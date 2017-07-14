@@ -22,19 +22,9 @@ public class BlacklistManageQuery extends BaseReq {
     private Integer limit;
     //开始页
     private Integer start;
-    //状态
-    private String isvalid;
+
+    private String currId;
     
-   // private Integer PageNo;
-
-    public String getIsvalid() {
-		return isvalid;
-	}
-
-	public void setIsvalid(String isvalid) {
-		this.isvalid = isvalid;
-	}
-
 	public Integer getStart() {
 		return start;
 	}
@@ -98,4 +88,12 @@ public class BlacklistManageQuery extends BaseReq {
 	public void setId(String id) {
 		this.id = id;
 	}
+
+    public String getCurrId() {
+        return currId;
+    }
+
+    public void setCurrId(String currId) {
+        this.currId = currId;
+    }
 }

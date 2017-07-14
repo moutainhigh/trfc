@@ -21,36 +21,6 @@ public class BlacklistManage {
     private String modifier;
     //最后修改时间
     private Long modifytime;
-    //状态
-    private String isvalid;
-    
-    private Integer pageSize;
-    
-    private String pageNo;
-
-    public Integer getPageSize() {
-		return pageSize;
-	}
-
-	public void setPageSize(Integer pageSize) {
-		this.pageSize = pageSize;
-	}
-
-	public String getPageNo() {
-		return pageNo;
-	}
-
-	public void setPageNo(String pageNo) {
-		this.pageNo = pageNo;
-	}
-
-	public String getIsvalid() {
-		return isvalid;
-	}
-
-	public void setIsvalid(String isvalid) {
-		this.isvalid = isvalid;
-	}
 
 	public String getId() {
         return id;

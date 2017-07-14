@@ -7,7 +7,7 @@
 			updateCodeUrl:"/trfc/card/updateCard",
 			findOneUrl:"/trfc/card/findOne",
 			deleteCodeUrl:"/trfc/card/delCard",
-			cardCodeUrl:"/trfc/common/code/cardCode"
+			cardCodeUrl:"/trfc/card/addView"
 	};
 	init();
 	function init(){
@@ -165,9 +165,6 @@
 				}
 				if(!registrar){
 					layer.msg('登记人不能为空值 .', {icon: 5});return;
-				}
-				if(!createtime){
-					layer.msg('注册时间不能为空值 .', {icon: 5});return;
 				}
 				if(!cardtype){
 					layer.msg('卡类型不能为空值 .', {icon: 5});return;
@@ -368,8 +365,8 @@
 			success:function(result){
 				if(result.code == '000000'){
 					$('#add_code').val(result.data.code);
-					var date = new Date(result.data.nowtime);
-					$('#add_createtime').attr('timestamp',result.data.nowtime).val(date.format('yyyy-MM-dd HH:mm:ss'));
+					$('#add_createtime').val(result.data.nowDate);
+					$('#add_registrar').val(result.data.userName);
 				}else{
 					layer.msg(result.error, {icon: 5});
 				}

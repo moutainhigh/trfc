@@ -406,7 +406,7 @@
 		select
 		count(0)
 		from tr_vehicle_db_manage
-		<where>
+		<where> isvalid = '1'
 			<if test="vehicleno != null and vehicleno != ''">
 				and vehicleno like '%${vehicleno}%'
 			</if>
@@ -435,7 +435,7 @@
 		select
 		<include refid="Base_Column_List" />
 		from tr_vehicle_db_manage
-		<where>
+		<where> isvalid = '1'
 			<if test="vehicleno != null and vehicleno != ''">
 				and vehicleno like '%${vehicleno}%'
 			</if>
@@ -470,9 +470,12 @@
 		select
 		<include refid="Base_Column_List" />
 		from tr_vehicle_db_manage
-		where state = '1' and isblacklist = '0' and isvalid = '1'
+		where state = '1' and isvalid = '1'
 		<if test="isCutover != null and isCutover !=''">
 			and transporttype = #{isCutover,jdbcType=VARCHAR}
+		</if>
+		<if test="isBlack != null and isBlack !=''">
+			and isblacklist = #{isBlack,jdbcType=VARCHAR}
 		</if>
 		<if test="likeName != null and likeName !=''">
 			and vehicleno like CONCAT('%',
@@ -491,7 +494,7 @@
 	<select id="appQueryVehiclePage" parameterType="com.tianrui.api.req.businessManage.app.AppQueryReq" resultType="com.tianrui.api.resp.businessManage.app.AppVehicleResp">
 		select id, vehicleno as vehicle
 		from tr_vehicle_db_manage
-		<where>
+		<where> isvalid = '1'
 			<if test="key != null and key != ''">
 				and vehicleno like CONCAT('%', #{key,jdbcType=VARCHAR}, '%')
 			</if>
@@ -510,6 +513,7 @@
 		select count(0)
 		from tr_vehicle_db_manage
 		<where>
+		      isvalid = '1'
 			<if test="key != null and key != ''">
 				and vehicleno like CONCAT('%', #{key,jdbcType=VARCHAR}, '%')
 			</if>

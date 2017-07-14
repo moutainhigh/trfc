@@ -10,11 +10,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.tianrui.api.intf.basicFile.measure.ITransportunitManageService;
+import com.tianrui.api.intf.system.base.ISystemCodeService;
 import com.tianrui.api.req.basicFile.measure.TransportunitManageQuery;
 import com.tianrui.api.req.basicFile.measure.TransportunitManageSave;
+import com.tianrui.api.req.system.base.GetCodeReq;
 import com.tianrui.api.resp.basicFile.measure.TransportunitManageResp;
 import com.tianrui.service.bean.basicFile.measure.TransportunitManage;
 import com.tianrui.service.mapper.basicFile.measure.TransportunitManageMapper;
+import com.tianrui.smartfactory.common.constants.Constant;
 import com.tianrui.smartfactory.common.constants.ErrorCode;
 import com.tianrui.smartfactory.common.utils.UUIDUtil;
 import com.tianrui.smartfactory.common.vo.PaginationVO;
@@ -31,6 +34,8 @@ public class TransportunitManageService implements ITransportunitManageService{
 	
 	@Autowired
 	private TransportunitManageMapper transportunitManageMapper;
+    @Autowired
+    private ISystemCodeService systemCodeService;
 	
 	/**
 	 * 分页查询数据
@@ -77,7 +82,7 @@ public class TransportunitManageService implements ITransportunitManageService{
 			TransportunitManage transportunit = new TransportunitManage();
 			transportunit.setCode(save.getCode());
 			transportunit.setName(save.getName());
-			transportunit.setState("1");
+			transportunit.setState(Constant.ONE_STRING);
 			//查询数据库里是否有这条数据
 			List<TransportunitManage> list = transportunitManageMapper.selectSelective(transportunit);
 			//有的话提示错误信息，没有则执行新增
@@ -86,12 +91,17 @@ public class TransportunitManageService implements ITransportunitManageService{
 			}else{
 				PropertyUtils.copyProperties(transportunit, save);
 				transportunit.setId(UUIDUtil.getId());
-				transportunit.setCreator("YZF");
+				transportunit.setCode(getCode(save.getCurrId()));
+				transportunit.setInternalcode(getInternalCode(save.getCurrId()));
+				transportunit.setOrgid(Constant.ORG_ID);
+				transportunit.setOrgname(Constant.ORG_NAME);
+				transportunit.setCreator(save.getCurrId());
 				transportunit.setCreatetime(System.currentTimeMillis());
-				transportunit.setModifier("YZF");
+				transportunit.setModifier(save.getCurrId());
 				transportunit.setModifytime(System.currentTimeMillis());
 				//执行新增方法，成功时保存数据，失败时提示错误信息
-				if(transportunitManageMapper.insertSelective(transportunit) > 0){
+				if(transportunitManageMapper.insertSelective(transportunit) == 1 
+				        && updateCode(save.getCurrId())){
 					result.setData(transportunit);
 					result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
 				}else{
@@ -101,6 +111,37 @@ public class TransportunitManageService implements ITransportunitManageService{
 		}
 		return result;
 	}
+
+    private boolean updateCode(String userId) throws Exception {
+        boolean flag = false;
+        GetCodeReq codeReq = new GetCodeReq();
+        codeReq.setCode("TC");
+        codeReq.setCodeType(true);
+        codeReq.setUserid(userId);
+        if (StringUtils.equals(systemCodeService.updateCodeItem(codeReq).getCode(), ErrorCode.SYSTEM_SUCCESS.getCode())) {
+            codeReq.setCodeType(false);
+            if (StringUtils.equals(systemCodeService.updateCodeItem(codeReq).getCode(), ErrorCode.SYSTEM_SUCCESS.getCode())) {
+                flag = true; 
+            }
+        }
+        return flag;
+    }
+
+    private String getCode(String userId) throws Exception {
+        GetCodeReq codeReq = new GetCodeReq();
+        codeReq.setCode("TC");
+        codeReq.setCodeType(true);
+        codeReq.setUserid(userId);
+        return systemCodeService.getCode(codeReq).getData().toString();
+    }
+    
+    private String getInternalCode(String userId) throws Exception {
+        GetCodeReq codeReq = new GetCodeReq();
+        codeReq.setCode("TC");
+        codeReq.setCodeType(false);
+        codeReq.setUserid(userId);
+        return systemCodeService.getCode(codeReq).getData().toString();
+    }
 	
 	/**
 	 * 修改运输单位信息
@@ -113,7 +154,7 @@ public class TransportunitManageService implements ITransportunitManageService{
 		if(save != null){
 			TransportunitManage transportunit = new TransportunitManage();
 			PropertyUtils.copyProperties(transportunit, save);
-			save.setModifier("YZF");
+			save.setModifier(save.getCurrId());
 			save.setModifytime(System.currentTimeMillis());
 			//执行修改方法，成功时提示信息
 			if(transportunitManageMapper.updateByPrimaryKeySelective(transportunit) > 0){

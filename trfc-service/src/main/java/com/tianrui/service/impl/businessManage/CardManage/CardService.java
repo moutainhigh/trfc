@@ -10,9 +10,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.tianrui.api.intf.businessManage.cardManage.ICardService;
+import com.tianrui.api.intf.system.base.ISystemCodeService;
 import com.tianrui.api.req.businessManage.cardManage.CardApi;
 import com.tianrui.api.req.businessManage.cardManage.CardReq;
 import com.tianrui.api.req.businessManage.cardManage.CardSave;
+import com.tianrui.api.req.system.base.GetCodeReq;
 import com.tianrui.api.resp.businessManage.cardManage.CardResp;
 import com.tianrui.service.bean.businessManage.cardManage.Card;
 import com.tianrui.service.mapper.businessManage.cardManage.CardMapper;
@@ -31,6 +33,8 @@ public class CardService implements ICardService {
 	
 	@Autowired
 	private CardMapper cardMapper;
+	@Autowired
+	private ISystemCodeService systemCodeService;
 	
 	@Override
 	public PaginationVO<CardResp> page(CardReq req) throws Exception {
@@ -132,16 +136,40 @@ public class CardService implements ICardService {
 				Card card = new Card();
 				PropertyUtils.copyProperties(card, save);
 				card.setId(UUIDUtil.getId());
+				card.setCode(getCode(save.getCurrUid()));
 				card.setState("1");
 				card.setCreator(save.getCurrUid());
 				card.setCreatetime(System.currentTimeMillis());
 				card.setModifytime(System.currentTimeMillis());
 				card.setModifier(save.getCurrUid());
-				cardMapper.insert(card);
-				rs.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+				if (cardMapper.insert(card) == 1 && updateCode(save.getCurrUid())) {
+					rs.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+				} else {
+					rs.setErrorCode(ErrorCode.OPERATE_ERROR);
+				}
 			}
 		}
 		return rs;
+	}
+	
+	private String getCode(String userId) throws Exception {
+		GetCodeReq codeReq = new GetCodeReq();
+		codeReq.setCode("IC");
+		codeReq.setCodeType(true);
+		codeReq.setUserid(userId);
+		return systemCodeService.getCode(codeReq).getData().toString();
+	}
+	
+	private boolean updateCode(String userId) throws Exception {
+		boolean flag = false;
+		GetCodeReq codeReq = new GetCodeReq();
+		codeReq.setCode("IC");
+		codeReq.setCodeType(true);
+		codeReq.setUserid(userId);
+		if (StringUtils.equals(systemCodeService.updateCodeItem(codeReq).getCode(), ErrorCode.SYSTEM_SUCCESS.getCode())) {
+			flag = true;
+		}
+		return flag;
 	}
 	
 	@Override

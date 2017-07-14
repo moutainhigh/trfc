@@ -45,8 +45,6 @@ public class VehicleManageAction {
 	@RequestMapping("/main")
 	public ModelAndView main(){
 		ModelAndView view = new ModelAndView("basicFile/measure/vehicle");
-		view.addObject("orgid", Constant.ORG_ID);
-		view.addObject("orgname", Constant.ORG_NAME);
 		return view;
 	}
 	
@@ -77,6 +75,8 @@ public class VehicleManageAction {
 			codeReq.setCodeType(true);
 			codeReq.setUserid(user.getId());
 			map.put("code", systemCodeService.getCode(codeReq).getData());
+			map.put("orgId", Constant.ORG_ID);
+			map.put("orgName", Constant.ORG_NAME);
 			result.setData(map);
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
@@ -185,19 +185,31 @@ public class VehicleManageAction {
 	public List<VehicleManageResp> autoCompleteSearch(String term){
 		List<VehicleManageResp> list = null;
 		try {
-			list = vehicleManageService.autoCompleteSearch("0", term.trim());
+			list = vehicleManageService.autoCompleteSearch("0", term.trim(), null);
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 		}
 		return list;
 	}
+
+    @RequestMapping("/autoCompleteNotBlackSearch")
+    @ResponseBody
+    public List<VehicleManageResp> autoCompleteNotBlackSearch(String term){
+        List<VehicleManageResp> list = null;
+        try {
+            list = vehicleManageService.autoCompleteSearch(null, term.trim(), Constant.ZERO_STRING);
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+        }
+        return list;
+    }
 	
 	@RequestMapping("/autoCompleteDYSearch")
 	@ResponseBody
 	public List<VehicleManageResp> autoCompleteDYSearch(String term){
 		List<VehicleManageResp> list = null;
 		try {
-			list = vehicleManageService.autoCompleteSearch("1", term.trim());
+			list = vehicleManageService.autoCompleteSearch("1", term.trim(), null);
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 		}

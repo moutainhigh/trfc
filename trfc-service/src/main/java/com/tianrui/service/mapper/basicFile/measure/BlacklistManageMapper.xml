@@ -10,10 +10,16 @@
     <result column="createtime" property="createtime" jdbcType="BIGINT" />
     <result column="modifier" property="modifier" jdbcType="VARCHAR" />
     <result column="modifytime" property="modifytime" jdbcType="BIGINT" />
-    <result column="isvalid" property="isvalid" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="BaseResultRespMap" type="com.tianrui.api.resp.basicFile.measure.BlacklistResp" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="vehicleNo" property="vehicleNo" jdbcType="VARCHAR" />
+    <result column="createName" property="createName" jdbcType="VARCHAR" />
+    <result column="createTime" property="createTime" jdbcType="VARCHAR" />
+    <result column="remarks" property="remarks" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, vehicleid, vehicleno, remarks, creator, createtime, modifier, modifytime,isvalid
+    id, vehicleid, vehicleno, remarks, creator, createtime, modifier, modifytime
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
@@ -143,9 +149,6 @@
       <if test="modifytime != null" >
         modifytime = #{modifytime,jdbcType=BIGINT},
       </if>
-      <if test="isvalid != null" >
-        isvalid = #{isvalid,jdbcType=BIGINT},
-      </if>
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
@@ -164,56 +167,34 @@
     delete from tr_blacklist_db_manage
     where vehicleid = #{vehicleid,jdbcType=VARCHAR}
   </delete>
-  <delete id="deleteBlacklistById" parameterType="java.lang.String" >
-    delete from tr_blacklist_db_manage
-    where id = #{id,jdbcType=VARCHAR}
-  </delete>
-  <select id="findBlacklistPageCount"
-		parameterType="com.tianrui.api.req.basicFile.measure.BlacklistManageQuery"
-		resultType="java.lang.Long">
-		select count(0) from tr_blacklist_db_manage
-		<where>
-			<if test="vehicleno != null and vehicleno != ''">
-				and name like '%${vehicleno}%'
-			</if>
-		</where>
-	</select>
-	<select id="findBlacklistPage"
-		parameterType="com.tianrui.api.req.basicFile.measure.BlacklistManageQuery"
-		resultMap="BaseResultMap">
-		select
-		<include refid="Base_Column_List" />
-		from tr_blacklist_db_manage
-		<where>
-		<if test="vehicleno != null and vehicleno != ''">
-				and name = '%${vehicleno}%'
-			</if>
-		<if test="vehicleid != null and vehicleid != ''">
-				and vehicleid = #{vehicleid,jdbcType=VARCHAR}
-			</if>
-		<if test="isvalid != null and isvalid != ''">
-				and isvalid = #{isvalid,jdbcType=VARCHAR}
-			</if>
-		</where>
-		order by createtime desc
-		<if test="start != null and start >= 0">
-			<if test="limit != null">
-				limit #{start,jdbcType=INTEGER},#{limit,jdbcType=INTEGER}
-			</if>
-		</if>
-	</select>
-	
-	<select id="autoCompleteSearch" parameterType="java.lang.String"
-		resultMap="BaseResultMap">
-		select
-		<include refid="Base_Column_List" />
-		from tr_blacklist_db_manage
-		where state = 1
-		<if test="likeName != null and likeName !=''">
-			and vehicleno like CONCAT('%', #{likeName,jdbcType=VARCHAR},
-			'%')
-		</if>
-		order by createtime desc
-		limit 0,20
-	</select>
+  <select id="countBlacklist" parameterType="com.tianrui.api.req.basicFile.measure.BlacklistManageQuery" resultType="java.lang.Long">
+    select count(*) from tr_blacklist_db_manage
+    <where>
+        <if test="vehicleid != null and vehicleid != ''">
+            and vehicleid = #{vehicleid,jdbcType=VARCHAR}
+        </if>
+    </where>
+  </select>
+  <select id="listBlacklist" parameterType="com.tianrui.api.req.basicFile.measure.BlacklistManageQuery" resultMap="BaseResultRespMap">
+    select t1.id, t1.vehicleno as vehicleNo, t2.name as createName, t1.createtime as createTime, t1.remarks
+    from tr_blacklist_db_manage t1 
+    left join tr_system_user t2 on t1.creator = t2.id
+    <where>
+        <if test="vehicleid != null and vehicleid != ''">
+            and vehicleid = #{vehicleid,jdbcType=VARCHAR}
+        </if>
+    </where>
+    order by t1.createtime desc
+    <if test="start != null and start >= 0">
+        <if test="limit != null">
+            limit #{start,jdbcType=INTEGER},#{limit,jdbcType=INTEGER}
+        </if>
+    </if>
+  </select>
+  <select id="getBeanByVehicleId" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List"/>
+    from tr_blacklist_db_manage
+    where vehicleid = #{vehicleId,jdbcType=VARCHAR}
+  </select>
 </mapper>

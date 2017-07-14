@@ -151,8 +151,7 @@
 								</div>
 								<div class="alt_edit_div">
 									<label><em class="colorred">*</em>登记人：</label> <input
-										id="add_registrar" value="${user.name }"
-										registrar="${user.id }" type="text" readonly>
+										id="add_registrar" type="text" readonly>
 								</div>
 								<div class="alt_edit_div">
 									<label><em class="colorred">*</em>注册时间：</label> <input

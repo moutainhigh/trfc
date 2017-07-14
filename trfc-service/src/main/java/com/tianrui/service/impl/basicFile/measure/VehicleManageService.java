@@ -12,7 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.tianrui.api.intf.basicFile.measure.IBlacklistManageService;
 import com.tianrui.api.intf.basicFile.measure.IVehicleManageService;
 import com.tianrui.api.intf.system.base.ISystemCodeService;
-import com.tianrui.api.req.basicFile.measure.BlacklistManageReq;
+import com.tianrui.api.req.basicFile.measure.BlacklistManageSave;
 import com.tianrui.api.req.basicFile.measure.VehicleManageQuery;
 import com.tianrui.api.req.basicFile.measure.VehicleManageSave;
 import com.tianrui.api.req.businessManage.app.AppQueryReq;
@@ -80,23 +80,16 @@ public class VehicleManageService implements IVehicleManageService {
 			if(list == null || list.size() == 0){
 				PropertyUtils.copyProperties(vehicle, save);
 				vehicle.setId(UUIDUtil.getId());
-				GetCodeReq codeReq = new GetCodeReq();
-				codeReq.setCode("CL");
-				codeReq.setCodeType(true);
-				codeReq.setUserid(save.getCurrUId());
-				vehicle.setCode(String.valueOf(systemCodeService.getCode(codeReq).getData()));
-				codeReq.setCodeType(false);
-				vehicle.setInternalcode(String.valueOf(systemCodeService.getCode(codeReq).getData()));
+				vehicle.setCode(getCode(save.getCurrUId()));
+				vehicle.setInternalcode(getInternalCode(save.getCurrUId()));
 				vehicle.setIsblacklist("0");
 				vehicle.setState("1");
 				vehicle.setCreator(save.getCurrUId());
 				vehicle.setCreatetime(System.currentTimeMillis());
 				vehicle.setModifier(save.getCurrUId());
 				vehicle.setModifytime(System.currentTimeMillis());
-				if (this.vehicleManageMapper.insert(vehicle) > 0) {
-					systemCodeService.updateCodeItem(codeReq);
-					codeReq.setCodeType(true);
-					systemCodeService.updateCodeItem(codeReq);
+				if (this.vehicleManageMapper.insert(vehicle) == 1
+				        && updateCode(save.getCurrUId())) {
 					result.setData(vehicle);
 					result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
 				} else {
@@ -108,6 +101,37 @@ public class VehicleManageService implements IVehicleManageService {
 		}
 		return result;
 	}
+	
+    private boolean updateCode(String userId) throws Exception {
+        boolean flag = false;
+        GetCodeReq codeReq = new GetCodeReq();
+        codeReq.setCode("CL");
+        codeReq.setCodeType(true);
+        codeReq.setUserid(userId);
+        if (StringUtils.equals(systemCodeService.updateCodeItem(codeReq).getCode(), ErrorCode.SYSTEM_SUCCESS.getCode())) {
+            codeReq.setCodeType(false);
+            if (StringUtils.equals(systemCodeService.updateCodeItem(codeReq).getCode(), ErrorCode.SYSTEM_SUCCESS.getCode())) {
+                flag = true; 
+            }
+        }
+        return flag;
+    }
+    
+    private String getCode(String userId) throws Exception {
+        GetCodeReq codeReq = new GetCodeReq();
+        codeReq.setCode("CL");
+        codeReq.setCodeType(true);
+        codeReq.setUserid(userId);
+        return systemCodeService.getCode(codeReq).getData().toString();
+    }
+    
+    private String getInternalCode(String userId) throws Exception {
+        GetCodeReq codeReq = new GetCodeReq();
+        codeReq.setCode("CL");
+        codeReq.setCodeType(false);
+        codeReq.setUserid(userId);
+        return systemCodeService.getCode(codeReq).getData().toString();
+    }
 
 	@Transactional
 	@Override
@@ -170,33 +194,11 @@ public class VehicleManageService implements IVehicleManageService {
 	@Transactional
 	@Override
 	public Result addblacklist(VehicleManageQuery query) throws Exception {
-		Result result = Result.getParamErrorResult();
-		if (query != null && StringUtils.isNotBlank(query.getId())) {
-			VehicleManage vehicle = new VehicleManage();
-			vehicle.setId(query.getId());
-			vehicle.setIsblacklist("1");
-			vehicle.setModifier(query.getCurrUId());
-			vehicle.setModifytime(System.currentTimeMillis());
-			if (this.vehicleManageMapper.updateByPrimaryKeySelective(vehicle) > 0) {
-				BlacklistManageReq breq = new BlacklistManageReq();
-				breq.setId(UUIDUtil.getId());
-				breq.setVehicleid(query.getId());
-				breq.setVehicleno(query.getBlackVno());
-				breq.setRemarks(query.getBlackRemarks());
-				breq.setCreator(query.getCurrUId());
-				breq.setCreatetime(System.currentTimeMillis());
-				breq.setModifier(query.getCurrUId());
-				breq.setModifytime(System.currentTimeMillis());
-				if (this.blacklistManageService.addBlacklist(breq) > 0) {
-					result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
-				} else {
-					result.setErrorCode(ErrorCode.OPERATE_ERROR);
-				}
-			} else {
-				result.setErrorCode(ErrorCode.OPERATE_ERROR);
-			}
-		}
-		return result;
+	    BlacklistManageSave save = new BlacklistManageSave();
+	    save.setVehicleid(query.getId());
+	    save.setRemarks(query.getBlackRemarks());
+	    save.setCurrId(query.getCurrUId());
+		return blacklistManageService.add(save);
 	}
 
 	@Override
@@ -221,8 +223,8 @@ public class VehicleManageService implements IVehicleManageService {
 	}
 
 	@Override
-	public List<VehicleManageResp> autoCompleteSearch(String isCutover, String likeName) throws Exception {
-		return copyBeanList2RespList(vehicleManageMapper.autoCompleteSearch(isCutover, likeName));
+	public List<VehicleManageResp> autoCompleteSearch(String isCutover, String likeName, String isBlack) throws Exception {
+		return copyBeanList2RespList(vehicleManageMapper.autoCompleteSearch(isCutover, likeName, isBlack));
 	}
 
 	private List<VehicleManageResp> copyBeanList2RespList(List<VehicleManage> list) throws Exception {

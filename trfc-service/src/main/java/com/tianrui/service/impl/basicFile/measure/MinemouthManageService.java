@@ -10,11 +10,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.tianrui.api.intf.basicFile.measure.IMinemouthManageService;
+import com.tianrui.api.intf.system.base.ISystemCodeService;
 import com.tianrui.api.req.basicFile.measure.MinemouthManageQuery;
 import com.tianrui.api.req.basicFile.measure.MinemouthManageSave;
+import com.tianrui.api.req.system.base.GetCodeReq;
 import com.tianrui.api.resp.basicFile.measure.MinemouthManageResp;
 import com.tianrui.service.bean.basicFile.measure.MinemouthManage;
 import com.tianrui.service.mapper.basicFile.measure.MinemouthManageMapper;
+import com.tianrui.smartfactory.common.constants.Constant;
 import com.tianrui.smartfactory.common.constants.ErrorCode;
 import com.tianrui.smartfactory.common.utils.UUIDUtil;
 import com.tianrui.smartfactory.common.vo.PaginationVO;
@@ -31,6 +34,8 @@ public class MinemouthManageService implements IMinemouthManageService{
 
 	@Autowired
 	private MinemouthManageMapper minemouthManageMapper;
+	@Autowired
+	private ISystemCodeService systemCodeService;
 	
 	/**
 	 * 分页查询数据
@@ -42,7 +47,7 @@ public class MinemouthManageService implements IMinemouthManageService{
 		if(query != null){
 			PaginationVO<MinemouthManageResp> page = new PaginationVO<MinemouthManageResp>();
 			//设置状态为1，查询数据总数
-			query.setState("1");
+			query.setState(Constant.ONE_STRING);
 			long count = minemouthManageMapper.findMinemouthPageCount(query);
 			if(count > 0){
 				query.setStart((query.getPageNo()-1)*query.getPageSize());
@@ -75,9 +80,8 @@ public class MinemouthManageService implements IMinemouthManageService{
 		//参数不能为空校验
 		if(save != null){
 			MinemouthManage minemouth = new MinemouthManage();
-			minemouth.setCode(save.getCode());
 			minemouth.setName(save.getName());
-			minemouth.setState("1");
+			minemouth.setState(Constant.ONE_STRING);
 			//查询数据库里是否有这条数据
 			List<MinemouthManage> list = minemouthManageMapper.selectSelective(minemouth);
 			//有的话提示错误信息，没有则执行新增
@@ -86,11 +90,13 @@ public class MinemouthManageService implements IMinemouthManageService{
 			}else{
 				PropertyUtils.copyProperties(minemouth, save);
 				minemouth.setId(UUIDUtil.getId());
-				minemouth.setCreator("YZF");
+				minemouth.setCode(getCode(save.getCurrId()));
+				minemouth.setCreator(save.getCurrId());
 				minemouth.setCreatetime(System.currentTimeMillis());
-				minemouth.setModifier("YZF");
+				minemouth.setModifier(save.getCurrId());
 				minemouth.setModifytime(System.currentTimeMillis());
-				if(minemouthManageMapper.insertSelective(minemouth) > 0){
+				if(minemouthManageMapper.insertSelective(minemouth) == 1
+				        && updateCode(save.getCurrId())){
 					//插入成功时保存数据
 					result.setData(minemouth);
 					result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
@@ -101,7 +107,27 @@ public class MinemouthManageService implements IMinemouthManageService{
 		}
 		return result;
 	}
-	
+    
+    private boolean updateCode(String userId) throws Exception {
+        boolean flag = false;
+        GetCodeReq codeReq = new GetCodeReq();
+        codeReq.setCode("KD");
+        codeReq.setCodeType(true);
+        codeReq.setUserid(userId);
+        if (StringUtils.equals(systemCodeService.updateCodeItem(codeReq).getCode(), ErrorCode.SYSTEM_SUCCESS.getCode())) {
+            flag = true; 
+        }
+        return flag;
+    }
+    
+    private String getCode(String userId) throws Exception {
+        GetCodeReq codeReq = new GetCodeReq();
+        codeReq.setCode("KD");
+        codeReq.setCodeType(true);
+        codeReq.setUserid(userId);
+        return systemCodeService.getCode(codeReq).getData().toString();
+    }
+    
 	/**
 	 * 修改矿口管理信息
 	 */
@@ -113,7 +139,7 @@ public class MinemouthManageService implements IMinemouthManageService{
 		if(save != null){
 			MinemouthManage minemouth = new MinemouthManage();
 			PropertyUtils.copyProperties(minemouth, save);
-			save.setModifier("YZF");
+			save.setModifier(save.getCurrId());
 			save.setModifytime(System.currentTimeMillis());
 			//执行修改方法，成功时提示信息
 			if(minemouthManageMapper.updateByPrimaryKeySelective(minemouth) > 0){
@@ -137,7 +163,7 @@ public class MinemouthManageService implements IMinemouthManageService{
 			MinemouthManage minemouth=new MinemouthManage();
 			minemouth.setId(query.getId());
 			//修改状态为0，执行假删除
-			minemouth.setState("0");
+			minemouth.setState(Constant.ZERO_STRING);
 			//修改成功时提示信息
 			if(minemouthManageMapper.updateByPrimaryKeySelective(minemouth)>0){
 				result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);

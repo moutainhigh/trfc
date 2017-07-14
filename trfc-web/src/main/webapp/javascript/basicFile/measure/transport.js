@@ -3,7 +3,7 @@
 	// 请求路径
 	var URL = {
 		addTransportUrl : "/trfc/transport/addTransport",
-		addBtnUrl : "/trfc/common/code/transportCode",
+		addView : "/trfc/transport/addView",
 		pageUrl : "/trfc/transport/page",
 		updateTransportUrl : "/trfc/transport/updateTransport",
 		delTransportUrl : "/trfc/transport/delTransport"
@@ -191,21 +191,17 @@
 	}
 
 	function addTransportAction() {
-		// console.log('addTransportAction');
-		var url = URL.addBtnUrl;
-		var param = {};
-		$.post(url, param, function(result) {
+		$.get(URL.addView, null, function(result) {
 			if (result.code = '000000') {
 				var data = result.data;
-				// console.log(data);
 				$('#transport_code').val(data.code);
 				$('#transport_internalcode').val(data.internalcode);
 				$('#transport_name').val('');
 				$('#transport_abbrname').val('');
 				$('#transport_address').val('');
 				$('#transport_telephone').val('');
-				$('#transport_orgname').val('');
-				$('#transport_isvalid').attr('checked', 'checked');
+				$('#transport_orgname').val(data.orgName);
+				$('#transport_isvalid').attr('checked', true);
 				$('#transport_remarks').val('');
 			} else {
 				layer.msg(result.error, {

@@ -2,13 +2,9 @@ package com.tianrui.service.mapper.basicFile.measure;
 
 import java.util.List;
 
-import org.apache.ibatis.annotations.Param;
-
 import com.tianrui.api.req.basicFile.measure.BlacklistManageQuery;
+import com.tianrui.api.resp.basicFile.measure.BlacklistResp;
 import com.tianrui.service.bean.basicFile.measure.BlacklistManage;
-import com.tianrui.service.bean.basicFile.measure.VehicleManage;
-import com.tianrui.service.bean.basicFile.measure.YardManage;
-import com.tianrui.smartfactory.common.vo.Result;
 /**
  * 车辆黑名单Mapper接口
  * @author zhanggaohao
@@ -30,17 +26,10 @@ public interface BlacklistManageMapper {
     
     int deleteBlacklistByVid(String vehicleid);
     
-    Result deleteBlacklistById(String Id);
+    long countBlacklist(BlacklistManageQuery query);
 
-	List<VehicleManage> selectSelective(BlacklistManage record);
-
-	Result page(BlacklistManageQuery query);
-
-	long findBlacklistPageCount(BlacklistManageQuery query);
-
-	List<BlacklistManage> findBlacklistPage(BlacklistManageQuery query);
-
-	List<BlacklistManage> autoCompleteSearch(@Param("term")String term);
-	
+    List<BlacklistResp> listBlacklist(BlacklistManageQuery query);
+    
+    BlacklistManage getBeanByVehicleId(String vehicleId);
 	
 }

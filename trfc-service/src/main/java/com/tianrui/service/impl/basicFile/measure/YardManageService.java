@@ -9,13 +9,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.tianrui.api.intf.basicFile.measure.IYardManageService;
+import com.tianrui.api.intf.system.base.ISystemCodeService;
 import com.tianrui.api.req.basicFile.measure.YardManageQuery;
 import com.tianrui.api.req.basicFile.measure.YardManageSave;
 import com.tianrui.api.req.businessManage.handset.HandSetRequestParam;
+import com.tianrui.api.req.system.base.GetCodeReq;
 import com.tianrui.api.resp.basicFile.measure.YardManageResp;
 import com.tianrui.api.resp.businessManage.handset.HandSetReturnResp;
 import com.tianrui.service.bean.basicFile.measure.YardManage;
 import com.tianrui.service.mapper.basicFile.measure.YardManageMapper;
+import com.tianrui.smartfactory.common.constants.Constant;
 import com.tianrui.smartfactory.common.constants.ErrorCode;
 import com.tianrui.smartfactory.common.utils.UUIDUtil;
 import com.tianrui.smartfactory.common.vo.PaginationVO;
@@ -32,6 +35,8 @@ public class YardManageService implements IYardManageService{
 	
 	@Autowired
 	private YardManageMapper yardManageMapper;
+    @Autowired
+    private ISystemCodeService systemCodeService;
 	
 	/**
 	 * 分页查询数据
@@ -73,8 +78,7 @@ public class YardManageService implements IYardManageService{
 		if(save!=null){
 			YardManage bean=new YardManage();
 			bean.setName(save.getName());
-			bean.setCode(save.getCode());
-			bean.setState("1");
+			bean.setState(Constant.ONE_STRING);
 			List<YardManage> list=yardManageMapper.selectSelective(bean);
 			//有的话提示错误信息，没有则执行新增
 			if(list != null && list.size() > 0){
@@ -82,11 +86,13 @@ public class YardManageService implements IYardManageService{
 			}else{
 				PropertyUtils.copyProperties(bean, save);
 				bean.setId(UUIDUtil.getId());
-				bean.setCreator(save.getUser());
+				bean.setCode(getCode(save.getCurrId()));
+				bean.setCreator(save.getCurrId());
 				bean.setCreatetime(System.currentTimeMillis());
-				bean.setModifier(save.getUser());
+				bean.setModifier(save.getCurrId());
 				bean.setModifytime(System.currentTimeMillis());
-				if(yardManageMapper.insertSelective(bean)>0){
+				if(yardManageMapper.insertSelective(bean) == 1
+				        && updateCode(save.getCurrId())){
 					//插入成功时保存数据
 					result.setData(bean);
 					result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
@@ -98,7 +104,27 @@ public class YardManageService implements IYardManageService{
 		}
 		return result;
 	}
-	
+    
+    private boolean updateCode(String userId) throws Exception {
+        boolean flag = false;
+        GetCodeReq codeReq = new GetCodeReq();
+        codeReq.setCode("DC");
+        codeReq.setCodeType(true);
+        codeReq.setUserid(userId);
+        if (StringUtils.equals(systemCodeService.updateCodeItem(codeReq).getCode(), ErrorCode.SYSTEM_SUCCESS.getCode())) {
+            flag = true; 
+        }
+        return flag;
+    }
+    
+    private String getCode(String userId) throws Exception {
+        GetCodeReq codeReq = new GetCodeReq();
+        codeReq.setCode("DC");
+        codeReq.setCodeType(true);
+        codeReq.setUserid(userId);
+        return systemCodeService.getCode(codeReq).getData().toString();
+    }
+    
 	/**
 	 * 修改堆场管理信息
 	 */
@@ -109,7 +135,7 @@ public class YardManageService implements IYardManageService{
 		if(save != null){
 			YardManage yard = new YardManage();
 			PropertyUtils.copyProperties(yard, save);
-			yard.setModifier(save.getUser());
+			yard.setModifier(save.getCurrId());
 			yard.setModifytime(System.currentTimeMillis());
 			//执行修改方法，成功时提示信息
 			if(yardManageMapper.updateByPrimaryKeySelective(yard) > 0){

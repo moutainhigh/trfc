@@ -102,7 +102,12 @@ public enum ErrorCode {
 	SUPPLIER_GROUP_ERROR0("E400000", "该供应商已被添加！"),
 	SUPPLIER_GROUP_ERROR1("E400000", "该供应商没有可切换的用户！"),
 	//采购原发设置
-	PRIMARY_SETTING_ERROR("E500000", "供应商已存在该物料启用数据！");
+    PRIMARY_SETTING_ERROR("E500000", "供应商已存在该物料启用数据！"),
+    
+    //黑名单
+    //重复添加
+    BLACKLIST_REPEAT_ERROR("E600000", "该车辆已被添加到黑名单！"),
+    BLACKLIST_REMOVE_ERROR("E600001", "该车辆已被移除黑名单！");
 	
 	private String code;
 	private String msg;
