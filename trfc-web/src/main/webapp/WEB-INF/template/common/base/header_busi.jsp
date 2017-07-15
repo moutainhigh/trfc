@@ -27,9 +27,8 @@
 <script type="text/javascript" src="${staticBasePath}/js/bootstrap-treeview.js"></script>
 <script type="text/javascript" src="${staticBasePath}/js/jquery-confirm.js"></script>
 <script type="text/javascript" src="${staticBasePath}/js/layer/layer.js"></script>
+<script type="text/javascript" src="${staticBasePath}/js/layui/layui.js"></script>
 <script type="text/javascript" src="${staticBasePath}/js/jquery.pagination.js"></script>
 <script type="text/javascript" src="${staticBasePath}/js/myself.js"></script>
 <script type="text/javascript" src="${staticBasePath }/js/dateutil.js"></script>
 <script type="text/javascript" src="${staticBasePath }/js/jquery-ui-1.10.4.custom.min.js"></script>
-
-

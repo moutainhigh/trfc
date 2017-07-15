@@ -28,15 +28,15 @@ public interface IVehicleManageService {
 
 	Result delete(VehicleManageQuery query);
 	
-	Result delblacklist(VehicleManageQuery query) throws Exception;
+	Result white(VehicleManageQuery query) throws Exception;
 
-	Result addblacklist(VehicleManageQuery query) throws Exception;
+	Result black(VehicleManageQuery query) throws Exception;
 
 	Result findListByParmas(VehicleManageQuery query) throws Exception;
 
 	VehicleManageResp findOne(String id) throws Exception;
 	
-	Result addVehicleApi(VehicleManageApi vehicleSaveReq);
+	Result addVehicleApi(VehicleManageApi vehicleSaveReq) throws Exception;
 
 	Result vehicleCheck(VehicleManageApi vehicleManageApi);
 

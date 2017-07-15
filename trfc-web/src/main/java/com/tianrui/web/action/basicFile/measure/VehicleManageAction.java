@@ -1,6 +1,5 @@
 package com.tianrui.web.action.basicFile.measure;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,7 +23,6 @@ import com.tianrui.api.resp.basicFile.measure.VehicleManageResp;
 import com.tianrui.api.resp.system.auth.SystemUserResp;
 import com.tianrui.smartfactory.common.constants.Constant;
 import com.tianrui.smartfactory.common.constants.ErrorCode;
-import com.tianrui.smartfactory.common.utils.DateUtil;
 import com.tianrui.smartfactory.common.vo.PaginationVO;
 import com.tianrui.smartfactory.common.vo.Result;
 import com.tianrui.web.util.SessionManager;
@@ -130,14 +128,14 @@ public class VehicleManageAction {
 		return result;
 	}
 	
-	@RequestMapping("/delblacklist")
+	@RequestMapping("/white")
 	@ResponseBody
-	public Result delblacklist(VehicleManageQuery query, HttpServletRequest request){
+	public Result white(VehicleManageQuery query, HttpServletRequest request){
 		Result result = Result.getSuccessResult();
 		try {
 			SystemUserResp user = SessionManager.getSessionUser(request);
 			query.setCurrUId(user.getId());
-			result = vehicleManageService.delblacklist(query);
+			result = vehicleManageService.white(query);
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
@@ -145,34 +143,14 @@ public class VehicleManageAction {
 		return result;
 	}
 	
-	@RequestMapping("/addblacklistView")
+	@RequestMapping("/black")
 	@ResponseBody
-	public Result addblacklistView(HttpServletRequest request){
-		Result result = Result.getSuccessResult();
-		try {
-			Map<String, Object> map = new HashMap<String, Object>();
-			SystemUserResp user = SessionManager.getSessionUser(request);
-			map.put("b_creator", user.getId());
-			map.put("b_creatorname", user.getName());
-			Date date = new Date();
-			map.put("b_createtime", date.getTime());
-			map.put("b_createtimeStr", DateUtil.getDateString(date, "yyyy-MM-dd HH:mm:ss"));
-			result.setData(map);
-		} catch (Exception e) {
-			log.error(e.getMessage(), e);
-			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
-		}
-		return result;
-	}
-	
-	@RequestMapping("/addblacklist")
-	@ResponseBody
-	public Result addblacklist(VehicleManageQuery query, HttpServletRequest request){
+	public Result black(VehicleManageQuery query, HttpServletRequest request){
 		Result result = Result.getSuccessResult();
 		try {
 			SystemUserResp user = SessionManager.getSessionUser(request);
 			query.setCurrUId(user.getId());
-			result = vehicleManageService.addblacklist(query);
+			result = vehicleManageService.black(query);
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 			result.setErrorCode(ErrorCode.SYSTEM_ERROR);

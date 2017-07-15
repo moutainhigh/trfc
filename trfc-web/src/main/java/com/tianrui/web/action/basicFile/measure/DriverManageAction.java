@@ -41,8 +41,6 @@ public class DriverManageAction {
 	@RequestMapping("/main")
 	public ModelAndView main(){
 		ModelAndView view = new ModelAndView("basicFile/measure/driver");
-		view.addObject("orgid", Constant.ORG_ID);
-		view.addObject("orgname", Constant.ORG_NAME);
 		return view;
 	}
 	
@@ -73,7 +71,8 @@ public class DriverManageAction {
 			codeReq.setUserid(user.getId());
 			map.put("code", systemCodeService.getCode(codeReq).getData());
 			codeReq.setCodeType(false);
-			map.put("internalcode", systemCodeService.getCode(codeReq).getData());
+			map.put("internalCode", systemCodeService.getCode(codeReq).getData());
+			map.put("orgName", Constant.ORG_NAME);
 			result.setData(map);
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);

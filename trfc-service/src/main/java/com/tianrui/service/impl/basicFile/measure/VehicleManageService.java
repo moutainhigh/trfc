@@ -24,6 +24,7 @@ import com.tianrui.service.bean.basicFile.measure.VehicleManage;
 import com.tianrui.service.bean.common.RFID;
 import com.tianrui.service.mapper.basicFile.measure.VehicleManageMapper;
 import com.tianrui.service.mapper.common.RFIDMapper;
+import com.tianrui.smartfactory.common.constants.Constant;
 import com.tianrui.smartfactory.common.constants.ErrorCode;
 import com.tianrui.smartfactory.common.utils.UUIDUtil;
 import com.tianrui.smartfactory.common.vo.PaginationVO;
@@ -53,7 +54,7 @@ public class VehicleManageService implements IVehicleManageService {
 		PaginationVO<VehicleManageResp> page = null;
 		if (query != null) {
 			page = new PaginationVO<VehicleManageResp>();
-			query.setState("1");
+			query.setState(Constant.ONE_STRING);
 			long count = vehicleManageMapper.findVehiclePageCount(query);
 			if (count > 0) {
 				query.setStart((query.getPageNo() - 1) * query.getPageSize());
@@ -74,7 +75,7 @@ public class VehicleManageService implements IVehicleManageService {
 		Result result = Result.getParamErrorResult();
 		if (save != null) {
 			VehicleManage vehicle = new VehicleManage();
-			vehicle.setState("1");
+			vehicle.setState(Constant.ONE_STRING);
 			vehicle.setVehicleno(save.getVehicleno());
 			List<VehicleManage> list = this.vehicleManageMapper.selectSelective(vehicle);
 			if(list == null || list.size() == 0){
@@ -82,8 +83,9 @@ public class VehicleManageService implements IVehicleManageService {
 				vehicle.setId(UUIDUtil.getId());
 				vehicle.setCode(getCode(save.getCurrUId()));
 				vehicle.setInternalcode(getInternalCode(save.getCurrUId()));
-				vehicle.setIsblacklist("0");
-				vehicle.setState("1");
+				vehicle.setIsvalid(Constant.ONE_STRING);
+				vehicle.setIsblacklist(Constant.ZERO_STRING);
+				vehicle.setState(Constant.ONE_STRING);
 				vehicle.setCreator(save.getCurrUId());
 				vehicle.setCreatetime(System.currentTimeMillis());
 				vehicle.setModifier(save.getCurrUId());
@@ -157,7 +159,7 @@ public class VehicleManageService implements IVehicleManageService {
 		if (query != null && StringUtils.isNotBlank(query.getId())) {
 			VehicleManage vehicle = new VehicleManage();
 			vehicle.setId(query.getId());
-			vehicle.setState("0");
+			vehicle.setState(Constant.ZERO_STRING);
 			vehicle.setModifier(query.getCurrUId());
 			vehicle.setModifytime(System.currentTimeMillis());
 			if (this.vehicleManageMapper.updateByPrimaryKeySelective(vehicle) > 0) {
@@ -170,12 +172,12 @@ public class VehicleManageService implements IVehicleManageService {
 	}
 
 	@Override
-	public Result delblacklist(VehicleManageQuery query) throws Exception {
+	public Result white(VehicleManageQuery query) throws Exception {
 		Result result = Result.getParamErrorResult();
 		if (query != null && StringUtils.isNotBlank(query.getId())) {
 			VehicleManage vehicle = new VehicleManage();
 			vehicle.setId(query.getId());
-			vehicle.setIsblacklist("0");
+			vehicle.setIsblacklist(Constant.ZERO_STRING);
 			vehicle.setModifier(query.getCurrUId());
 			vehicle.setModifytime(System.currentTimeMillis());
 			if (this.vehicleManageMapper.updateByPrimaryKeySelective(vehicle) > 0) {
@@ -193,7 +195,7 @@ public class VehicleManageService implements IVehicleManageService {
 
 	@Transactional
 	@Override
-	public Result addblacklist(VehicleManageQuery query) throws Exception {
+	public Result black(VehicleManageQuery query) throws Exception {
 	    BlacklistManageSave save = new BlacklistManageSave();
 	    save.setVehicleid(query.getId());
 	    save.setRemarks(query.getBlackRemarks());
@@ -208,7 +210,7 @@ public class VehicleManageService implements IVehicleManageService {
 		if (query != null) {
 			PropertyUtils.copyProperties(vehicle, query);
 		}
-		vehicle.setState("1");
+		vehicle.setState(Constant.ONE_STRING);
 		List<VehicleManage> list = vehicleManageMapper.selectSelective(vehicle);
 		result.setData(copyBeanList2RespList(list));
 		return result;
@@ -248,7 +250,7 @@ public class VehicleManageService implements IVehicleManageService {
 	}
 
 	@Override
-	public Result addVehicleApi(VehicleManageApi vehicleManageApi) {
+	public Result addVehicleApi(VehicleManageApi vehicleManageApi) throws Exception {
 		Result result = Result.getParamErrorResult();
 		if (vehicleManageApi != null) {
 			if (StringUtils.isNotBlank(vehicleManageApi.getRfid())) {
@@ -256,11 +258,11 @@ public class VehicleManageService implements IVehicleManageService {
 				rfid.setRfid(vehicleManageApi.getRfid());
 				rfid.setState(true);
 				long count = rfidMapper.selectSelectiveCount(rfid);
-				if (count == 1) {
+				if (count == Constant.ONE_NUMBER) {
 					if (StringUtils.isNotBlank(vehicleManageApi.getVehicleNo())) {
 						VehicleManage vehicle = new VehicleManage();
 						vehicle.setVehicleno(vehicleManageApi.getVehicleNo());
-						vehicle.setState("1");
+						vehicle.setState(Constant.ONE_STRING);
 						List<VehicleManage> list = vehicleManageMapper.selectSelective(vehicle);
 						if (list != null && list.size() > 0) {
 							VehicleManage v = list.get(0);
@@ -284,12 +286,14 @@ public class VehicleManageService implements IVehicleManageService {
 							// 新增
 							vehicle.setId(UUIDUtil.getId());
 							vehicle.setRfid(vehicleManageApi.getRfid());
-							vehicle.setCode("CL" + (int) (Math.random() * 1000000));
+			                vehicle.setCode(getCode(vehicleManageApi.getCurrUid()));
+			                vehicle.setInternalcode(getInternalCode(vehicleManageApi.getCurrUid()));
 							vehicle.setCreator(vehicleManageApi.getCurrUid());
 							vehicle.setCreatetime(System.currentTimeMillis());
 							vehicle.setModifier(vehicleManageApi.getCurrUid());
 							vehicle.setModifytime(System.currentTimeMillis());
-							if (vehicleManageMapper.insertSelective(vehicle) > 0) {
+							if (vehicleManageMapper.insertSelective(vehicle) == 1
+							        && updateCode(vehicleManageApi.getCurrUid())) {
 								result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
 							} else {
 								result.setErrorCode(ErrorCode.OPERATE_ERROR);
@@ -310,63 +314,19 @@ public class VehicleManageService implements IVehicleManageService {
 		Result result = Result.getParamErrorResult();
 		if (vehicleManageApi != null && StringUtils.isNotBlank(vehicleManageApi.getVehicleNo()) && StringUtils.isNotBlank(vehicleManageApi.getRfid())) {
 			VehicleManage vehicle = new VehicleManage();
-			vehicle.setState("1");
+			vehicle.setState(Constant.ONE_STRING);
 			vehicle.setVehicleno(vehicleManageApi.getVehicleNo());
 			List<VehicleManage> list = vehicleManageMapper.selectSelective(vehicle);
 			//判断车牌号是否存在且唯一
-			if (list != null && list.size() == 1) {
+			if (list != null && list.size() == Constant.ONE_NUMBER) {
 				RFID rfid = new RFID();
 				rfid.setRfid(vehicleManageApi.getRfid());
 				rfid.setState(true);
 				long count = rfidMapper.selectSelectiveCount(rfid);
 				//判断RFID是否已注册且唯一
-				if(count == 1){
+				if(count == Constant.ONE_NUMBER){
 					if(StringUtils.equals(vehicleManageApi.getRfid(), list.get(0).getRfid())){
 						result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
-//						SalesArrive sa = new SalesArrive();
-//						sa.setState("1");
-//						sa.setVehicleid(list.get(0).getId());
-//						List<SalesArrive> listSales = salesArriveMapper.selectSelective(sa);
-//						if(listSales == null || listSales.size() == 0){
-//							//判断是否有通知单
-//							PurchaseArrive pa = new PurchaseArrive();
-//							pa.setState("1");
-//							pa.setVehicleid(list.get(0).getId());
-//							List<PurchaseArrive> listPurchase = purchaseArriveMapper.selectSelective(pa);
-//							if(listPurchase == null || listPurchase.size() == 0){
-//								result.setErrorCode(ErrorCode.VEHICLE_NOT_NOTICE);
-//							}else if(listPurchase.size() > 1){
-//								//判断是否有多个通知单
-//								result.setErrorCode(ErrorCode.VEHICLE_NOTICE_NOT_ONLY);
-//								String code = ",";
-//								for(PurchaseArrive p : listPurchase){
-//									code += p.getCode();
-//								}
-//								result.setData(code.substring(1, code.length()));
-//							}else if(!StringUtils.equals(listSales.get(0).getStatus(), "0")){
-//								//判断是否已经入场
-//								result.setErrorCode(ErrorCode.VEHICLE_NOTICE_ALREADY_ENTER);
-//								result.setData(listSales.get(0).getCode());
-//							}else{
-//								//合法
-//								result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
-//							}
-//						}else if(listSales.size() > 1){
-//							//判断是否有多个通知单
-//							result.setErrorCode(ErrorCode.VEHICLE_NOTICE_NOT_ONLY);
-//							String code = ",";
-//							for(SalesArrive s : listSales){
-//								code += s.getCode();
-//							}
-//							result.setData(code.substring(1, code.length()));
-//						}else if(!StringUtils.equals(listSales.get(0).getStatus(), "0")){
-//							//判断是否已经入场
-//							result.setErrorCode(ErrorCode.VEHICLE_NOTICE_ALREADY_ENTER);
-//							result.setData(listSales.get(0).getCode());
-//						}else{
-//							//合法
-//							result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
-//						}
 					}else{
 						result.setErrorCode(ErrorCode.RFID_VEHICLE_NOT_EXIST);
 					}

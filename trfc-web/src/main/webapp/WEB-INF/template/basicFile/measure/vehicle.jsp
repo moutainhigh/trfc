@@ -51,26 +51,47 @@
 							</div>
 							<div class="intel_solo">
 								<div class="intel_sbtn">
-									<button id="searchBtn" class="btn btnblue ">搜索</button>
+									<button id="search" class="btn btnblue ">搜索</button>
 								</div>
 							</div>
 						</div>
 					</div>
 				</div>
 				<div class="intel_opera">
-					<div id="refreshBtn" class="intel_operasolo">
-						<i class="iconfont colorlv">&#xe61b;</i>
-						<span>刷新</span>
+					<div id="refresh" class="intel_operasolo">
+						<a> <i class="iconfont colorlv">&#xe61b;</i>
+						  <span>刷新</span>
+                        </a>
 					</div>
-					<div id="addvehicle" class="intel_operasolo">
+					<div id="add" class="intel_operasolo">
 						<a> <i class="iconfont coloradd">&#xe627;</i>
 							<span>新增</span>
+						</a>
+					</div>
+					<div id="update" class="intel_operasolo">
+						<a> <i class="iconfont update">&#xe600;</i>
+							<span>编辑</span>
+						</a>
+					</div>
+					<div id="delete" class="intel_operasolo">
+						<a> <i class="iconfont delete">&#xe63d;</i>
+							<span>删除</span>
+						</a>
+					</div>
+					<div id="black" class="intel_operasolo">
+						<a> <i class="iconfont black">&#xe717;</i>
+							<span>黑名单</span>
+						</a>
+					</div>
+					<div id="white" class="intel_operasolo">
+						<a> <i class="iconfont white">&#xe637;</i>
+							<span>白名单</span>
 						</a>
 					</div>
 				</div>
 				<div class="intel_table">
 					<!--用户表格begin-->
-					<table class="table table-hover">
+					<table class="table table-hover maintable">
 						<thead>
 							<tr>
 								<th>序号</th>
@@ -81,7 +102,6 @@
 								<th>运输单位</th>
 								<th>是否黑名单</th>
 								<th>描述</th>
-								<th>操作</th>
 							</tr>
 						</thead>
 						<tbody id="vehicleBody">
@@ -113,50 +133,6 @@
 			</div>
 		</div>
 	</div>
-
-	<!--添加黑名单begin-->
-	<div class="modal fade" id="addBlacklistView" tabindex="-1" role="dialog"
-		aria-labelledby="myModalLabel">
-		<div class="modal-dialog" role="document" style="width: 750px;">
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal"
-						aria-label="Close">
-						<span aria-hidden="true">&times;</span>
-					</button>
-					<div class="alt_head">
-						<h5>添加黑名单</h5>
-					</div>
-				</div>
-				<div class="modal-body">
-					<input id="b_vehicleid" type="hidden"/>
-					<div class="alt_edit">
-						<div class="alt_edit_div">
-							<label>车号：</label>
-							<input id="b_vehicleno" type="text" readonly>
-						</div>
-						<div class="alt_edit_textarea">
-							<label>描述： </label>
-							<textarea id="b_remarks" class="form-control" rows="1"></textarea>
-						</div>
-						<div class="alt_edit_div">
-							<label>操作人：</label>
-							<input id="b_creator" type="text" readonly>
-						</div>
-						<div class="alt_edit_div">
-							<label>操作日期：</label>
-							<input id="b_createtime" type="text" readonly>
-						</div>
-					</div>
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-primary" id="addBlacklistBtn">确定</button>
-					<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-				</div>
-			</div>
-		</div>
-	</div>
-	<!--添加黑名单end-->
 	<!--新增begin-->
 	<div class="modal fade" id="addView" tabindex="-1" role="dialog"
 		aria-labelledby="myModalLabel">
@@ -173,7 +149,7 @@
 				</div>
 				<div class="modal-body">
 					<input id="vehicleid" type="hidden"/>
-					<div class="alt_edit">
+					<form class="layui-form">
 						<div class="alt_edit_div">
 							<label>车辆编号：</label> <input id="add_code" type="text" readonly>
 						</div>
@@ -185,7 +161,7 @@
 							</select>
 						</div>
 						<div class="alt_edit_div">
-							<label>车辆号码：</label> <input id="add_vehicleno" type="text">
+							<label class="colorred">车辆号码 *：</label> <input id="add_vehicleno" lay-verify="vehicle" type="text" maxlength="7">
 						</div>
 						<div class="alt_edit_div">
 							<label>车辆类型：</label> <input id="add_vehicletype" type="text">
@@ -218,10 +194,10 @@
 							<label>备注： </label>
 							<textarea id="add_remarks" class="form-control" rows="1"></textarea>
 						</div>
-					</div>
+					</form>
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-primary" id="addBtn">确定</button>
+					<button type="button" class="btn btn-primary" id="addCommit">确定</button>
 					<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
 				</div>
 			</div>
@@ -229,7 +205,7 @@
 	</div>
 	<!--新增end-->
 	<!--编辑begin-->
-	<div class="modal fade" id="editView" tabindex="-1" role="dialog"
+	<div class="modal fade" id="updateView" tabindex="-1" role="dialog"
 		aria-labelledby="myModalLabel">
 		<div class="modal-dialog" role="document" style="width: 750px;">
 			<div class="modal-content">
@@ -292,43 +268,50 @@
 					</div>
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-primary" id="updateBtn">确定</button>
+					<button type="button" class="btn btn-primary" id="updateCommit">确定</button>
 					<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
 				</div>
 			</div>
 		</div>
 	</div>
 	<!--编辑end-->
-	<!--删除begin-->
-		<div class="modal fade" id="delView" tabindex="-1" role="dialog"
-			aria-labelledby="myModalLabel">
-			<div class="modal-dialog" role="document" style="width: 400px;">
-				<div class="modal-content">
-					<div class="modal-header">
-						<button type="button" class="close" data-dismiss="modal"
-							aria-label="Close">
-							<span aria-hidden="true">&times;</span>
-						</button>
-						<h4 class="modal-title" id="modal-title">删除</h4>
-					</div>
-					<div class="modal-body">
-						<div class="alert_qf">
-							<img src="/resources/images/tishi.png"
-								style="width: 20px; margin-top: -3px;"> <label
-								id="modal-content">删除操作不可恢复，您确定要继续么？</label>
-						</div>
-					</div>
-					<div class="modal-footer">
-						<button type="button" class="btn btn-primary" id="deleteBtn">确定</button>
-						<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+    <!--添加黑名单begin-->
+    <div class="modal fade" id="blackView" tabindex="-1" role="dialog"
+        aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document" style="width: 750px;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"
+                        aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <div class="alt_head">
+                        <h5>添加黑名单</h5>
+                    </div>
+                </div>
+                <div class="modal-body">
+                    <input id="b_vehicleid" type="hidden"/>
+                    <div class="alt_edit">
+                        <div class="alt_edit_div">
+                            <label>车号：</label>
+                            <input id="b_vehicleno" type="text" readonly>
+                        </div>
+                        <div class="alt_edit_textarea">
+                            <label>描述： </label>
+                            <textarea id="b_remarks" class="form-control" rows="1"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" id="addBlack">确定</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--添加黑名单end-->
 	<!-- 引用公共footer部分 -->
 	<jsp:include page="../../common/base/footer_busi.jsp"></jsp:include>
-	<!--删除end-->
 	<script type="text/javascript" src="/javascript/basicFile/measure/vehicle.js"></script>
 </body>
 </html>
