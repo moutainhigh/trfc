@@ -19,6 +19,10 @@ import com.tianrui.web.util.SessionManager;
 
 @WebFilter
 public class PortalsFilter implements Filter {
+    
+    private final static String basePath = "/resources";
+    
+    private final static String staticBasePath = "/resources";
 
 	@Override
 	public void destroy() {
@@ -30,50 +34,26 @@ public class PortalsFilter implements Filter {
 			throws IOException, ServletException {
 		HttpServletRequest req = (HttpServletRequest) request;
 		HttpServletResponse resp = (HttpServletResponse)response;
-		req.setAttribute("basePath", "/resources");
-		req.setAttribute("staticBasePath", "/resources");
-
+		req.setAttribute("basePath", basePath);
+		req.setAttribute("staticBasePath", staticBasePath);
 		//获取路径
 		String p = req.getServletPath();
-//		if (StringUtils.isNotBlank(p)) {
-//		    if (p.startsWith("/index")) {
-//                chain.doFilter(request, response);
-//            } else if (p.startsWith("/trfc")) {
-//                SystemUserResp user = SessionManager.getSessionUser(req);
-//                if (user != null) {
-//                    request.setAttribute("userId", user.getId());
-//                    request.setAttribute("userName", user.getName());
-//                    chain.doFilter(request, response);
-//                } else {
-//                    resp.sendRedirect("/index");
-//                }
-//            } else if (p.startsWith("/api")) {
-//                chain.doFilter(request, response);
-//            } else {
-//                resp.sendRedirect("/index");
-//            }
-//        } else {
-//            resp.sendRedirect("/index");
-//        }
-		//System.out.println(p);
-		//过滤所有'/trfc'开头的路径
-		if(p != null && p.startsWith("/trfc")) {
-			//从session中获取账号
-			SystemUserResp user = SessionManager.getSessionUser(req);
-			//根据账号判断用户是否登录
-			if(user == null) {
-				//没登录,重定向到登录页
-				resp.sendRedirect("/index");
-			} else {
-				//已登录,请求继续执行
-				request.setAttribute("userId", user.getId());
-				request.setAttribute("userName", user.getName());
-				chain.doFilter(request, response);
-			}
-		}else{
-			chain.doFilter(request, response);
-			return;
-		}
+		if (StringUtils.isNotBlank(p) && !StringUtils.equals(p, "/")) {
+            if (p.startsWith("/trfc")) {
+                SystemUserResp user = SessionManager.getSessionUser(req);
+                if (user != null) {
+                    request.setAttribute("userId", user.getId());
+                    request.setAttribute("userName", user.getName());
+                    chain.doFilter(request, response);
+                } else {
+                    resp.sendRedirect("/index");
+                }
+            } else {
+                chain.doFilter(request, response);
+            }
+        } else {
+            resp.sendRedirect("/index");
+        }
 	}
 
 	@Override
