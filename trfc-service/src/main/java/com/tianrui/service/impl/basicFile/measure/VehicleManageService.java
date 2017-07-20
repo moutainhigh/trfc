@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.beanutils.PropertyUtils;
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -248,8 +249,76 @@ public class VehicleManageService implements IVehicleManageService {
 		}
 		return resp;
 	}
-
+	/**
+	 * @annotation 校验RFID是否绑定过车辆
+	 * @param rfid
+	 * @param vehicleNo
+	 * @param result
+	 * @return
+	 */
+	private boolean validateRfidAndVehicleNo(String rfid, String vehicleNo, Result result) {
+	    boolean flag = false;
+	    VehicleManage bean = new VehicleManage();
+        bean.setRfid(rfid);
+        bean.setState(Constant.ONE_STRING);
+        List<VehicleManage> list = vehicleManageMapper.selectSelective(bean);
+        if (CollectionUtils.isNotEmpty(list)) {
+            if (StringUtils.equals(list.get(0).getVehicleno(), vehicleNo)) {
+                //这个RFID与该车辆已经绑定，无需重复绑定！
+                result.setErrorCode(ErrorCode.RFID_VEHICLE_EXIST1);
+            } else {
+                //这个RFID已经绑定过其他车辆了！
+                result.setErrorCode(ErrorCode.RFID_VEHICLE_EXIST2);
+            }
+        } else {
+            flag = true;
+        }
+        return flag;
+	}
+	
+	private void bindRfid(VehicleManageApi apiParams, Result result) throws Exception {
+	    VehicleManage vehicle = new VehicleManage();
+	    vehicle.setVehicleno(apiParams.getVehicleNo());
+        vehicle.setState(Constant.ONE_STRING);
+        List<VehicleManage> list = vehicleManageMapper.selectSelective(vehicle);
+        if (CollectionUtils.isNotEmpty(list)) {
+            //车辆存在  直接绑定RFID
+            vehicle.setId(list.get(0).getId());
+            vehicle.setRfid(apiParams.getRfid());
+            vehicleManageMapper.updateByPrimaryKeySelective(vehicle);
+        } else {
+            //车辆不存在  新增并绑定RFID
+            vehicle.setId(UUIDUtil.getId());
+            vehicle.setRfid(apiParams.getRfid());
+            vehicle.setCode(getCode(apiParams.getCurrUid()));
+            vehicle.setInternalcode(getInternalCode(apiParams.getCurrUid()));
+            vehicle.setCreator(apiParams.getCurrUid());
+            vehicle.setCreatetime(System.currentTimeMillis());
+            vehicle.setModifier(apiParams.getCurrUid());
+            vehicle.setModifytime(System.currentTimeMillis());
+        }
+        result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+	}
+	
 	@Override
+	public Result addVehicleApi(VehicleManageApi apiParams) throws Exception {
+	    Result result = Result.getParamErrorResult();
+	    if (apiParams != null && StringUtils.isNotBlank(apiParams.getVehicleNo())
+	            && StringUtils.isNotBlank(apiParams.getRfid())) {
+	        RFID rfid = rfidMapper.selectByPrimaryKey(apiParams.getRfid());
+	        if (rfid != null) {
+	            if (validateRfidAndVehicleNo(apiParams.getRfid(), apiParams.getVehicleNo(), result)) {
+                    bindRfid(apiParams, result);
+                }
+            } else {
+                //RFID未注册
+                result.setErrorCode(ErrorCode.RFID_NOT_EXIST);
+            }
+        }
+	    return result;
+	}
+
+/*	@Override
 	public Result addVehicleApi(VehicleManageApi vehicleManageApi) throws Exception {
 		Result result = Result.getParamErrorResult();
 		if (vehicleManageApi != null) {
@@ -268,7 +337,7 @@ public class VehicleManageService implements IVehicleManageService {
 							VehicleManage v = list.get(0);
 							if (StringUtils.equals(v.getRfid(), vehicleManageApi.getRfid())) {
 								// 已绑定rfid
-								result.setErrorCode(ErrorCode.RFID_VEHICLE_EXIST);
+								result.setErrorCode(ErrorCode.RFID_VEHICLE_EXIST1);
 								return result;
 							} else {
 								// 绑定rfid
@@ -307,7 +376,7 @@ public class VehicleManageService implements IVehicleManageService {
 			}
 		}
 		return result;
-	}
+	}*/
 
 	@Override
 	public Result vehicleCheck(VehicleManageApi vehicleManageApi) {

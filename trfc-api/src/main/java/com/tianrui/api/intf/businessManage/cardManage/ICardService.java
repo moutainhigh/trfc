@@ -27,4 +27,6 @@ public interface ICardService {
 
 	Result addCardApi(CardApi cardApi) throws Exception;
 
+    Result validate(CardApi card);
+
 }

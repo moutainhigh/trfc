@@ -80,5 +80,24 @@ public class ApiCardAction {
 		return ApiResult.valueOf(rs);
 	}
 	
+	/**
+	 * 校验IC卡
+	 * @param req
+	 * @return
+	 */
+	@RequestMapping(value="/validate",method=RequestMethod.POST)
+	@ApiParamRawType(CardApi.class)
+	@ApiAuthValidation(callType="2")
+	@ResponseBody
+	public ApiResult validate(ApiParam<CardApi> req){
+	    Result rs = Result.getErrorResult();
+	    try {
+	        rs = cardService.validate(req.getBody());
+	    } catch (Exception e) {
+	        rs.setErrorCode(ErrorCode.SYSTEM_ERROR);
+	        log.error(e.getMessage(),e);
+	    }
+	    return ApiResult.valueOf(rs);
+	}
 	
 }

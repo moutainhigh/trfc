@@ -39,6 +39,4 @@ public class CardApi extends BaseReq {
 		this.currUid = currUid;
 	}
 	
-	
-	
 }

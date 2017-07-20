@@ -4,20 +4,25 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.beanutils.PropertyUtils;
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.tianrui.api.intf.businessManage.cardManage.ICardService;
+import com.tianrui.api.intf.system.auth.ISystemUserService;
 import com.tianrui.api.intf.system.base.ISystemCodeService;
 import com.tianrui.api.req.businessManage.cardManage.CardApi;
 import com.tianrui.api.req.businessManage.cardManage.CardReq;
 import com.tianrui.api.req.businessManage.cardManage.CardSave;
 import com.tianrui.api.req.system.base.GetCodeReq;
 import com.tianrui.api.resp.businessManage.cardManage.CardResp;
+import com.tianrui.api.resp.businessManage.cardManage.CardSubSystemVo;
+import com.tianrui.api.resp.system.auth.SystemUserResp;
 import com.tianrui.service.bean.businessManage.cardManage.Card;
 import com.tianrui.service.mapper.businessManage.cardManage.CardMapper;
+import com.tianrui.smartfactory.common.constants.Constant;
 import com.tianrui.smartfactory.common.constants.ErrorCode;
 import com.tianrui.smartfactory.common.utils.UUIDUtil;
 /**
@@ -35,6 +40,8 @@ public class CardService implements ICardService {
 	private CardMapper cardMapper;
 	@Autowired
 	private ISystemCodeService systemCodeService;
+	@Autowired
+	private ISystemUserService systemUserService;
 	
 	@Override
 	public PaginationVO<CardResp> page(CardReq req) throws Exception {
@@ -138,6 +145,8 @@ public class CardService implements ICardService {
 				card.setId(UUIDUtil.getId());
 				card.setCode(getCode(save.getCurrUid()));
 				card.setState("1");
+                SystemUserResp user = systemUserService.getUser(save.getCurrUid());
+                card.setRegistrar(user.getName());
 				card.setCreator(save.getCurrUid());
 				card.setCreatetime(System.currentTimeMillis());
 				card.setModifytime(System.currentTimeMillis());
@@ -198,15 +207,42 @@ public class CardService implements ICardService {
 				card.setCardstatus("1");
 				card.setState("1");
 				card.setCardtype(cardApi.getCardtype());
-				card.setCode("IC"+(int)(Math.random()*1000000));//IC卡单据编号
+				card.setCode(getCode(cardApi.getCurrUid()));//IC卡单据编号
+				SystemUserResp user = systemUserService.getUser(cardApi.getCurrUid());
+				card.setRegistrar(user.getName());
 				card.setCreator(cardApi.getCurrUid());
 				card.setCreatetime(System.currentTimeMillis());
 				card.setModifytime(System.currentTimeMillis());
 				card.setModifier(cardApi.getCurrUid());
 				cardMapper.insert(card);
+				updateCode(cardApi.getCurrUid());
 				rs.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
 			}
 		}
 		return rs;
 	}
+
+
+    @Override
+    public Result validate(CardApi cardApi) {
+        Result result = Result.getParamErrorResult();
+        if (cardApi != null && StringUtils.isNotBlank(cardApi.getCardno())) {
+            Card card = new Card();
+            card.setCardno(cardApi.getCardno());
+            card.setState(Constant.ONE_STRING);
+            List<Card> list = cardMapper.selectSelective(card);
+            if (CollectionUtils.isNotEmpty(list)) {
+                card = list.get(0);
+                CardSubSystemVo vo = new CardSubSystemVo();
+                vo.setCardCode(card.getCardcode());
+                vo.setCardType(card.getCardtype());
+                vo.setIsValid(card.getCardstatus());
+                result.setData(vo);
+                result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+            } else {
+                result.setErrorCode(ErrorCode.CARD_NOT_EXIST);
+            }
+        }
+        return result;
+    }
 }

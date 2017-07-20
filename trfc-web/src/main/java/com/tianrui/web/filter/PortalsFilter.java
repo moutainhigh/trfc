@@ -12,6 +12,8 @@ import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringUtils;
+
 import com.tianrui.api.resp.system.auth.SystemUserResp;
 import com.tianrui.web.util.SessionManager;
 
@@ -33,6 +35,26 @@ public class PortalsFilter implements Filter {
 
 		//获取路径
 		String p = req.getServletPath();
+//		if (StringUtils.isNotBlank(p)) {
+//		    if (p.startsWith("/index")) {
+//                chain.doFilter(request, response);
+//            } else if (p.startsWith("/trfc")) {
+//                SystemUserResp user = SessionManager.getSessionUser(req);
+//                if (user != null) {
+//                    request.setAttribute("userId", user.getId());
+//                    request.setAttribute("userName", user.getName());
+//                    chain.doFilter(request, response);
+//                } else {
+//                    resp.sendRedirect("/index");
+//                }
+//            } else if (p.startsWith("/api")) {
+//                chain.doFilter(request, response);
+//            } else {
+//                resp.sendRedirect("/index");
+//            }
+//        } else {
+//            resp.sendRedirect("/index");
+//        }
 		//System.out.println(p);
 		//过滤所有'/trfc'开头的路径
 		if(p != null && p.startsWith("/trfc")) {

@@ -232,7 +232,7 @@
     where id = #{id,jdbcType=VARCHAR}
   </update>
   <select id="findCardPageCount" resultType="java.lang.Long" parameterType="com.tianrui.api.req.businessManage.cardManage.CardReq">
-  	select count(0)
+  	select count(*)
   	from tr_card_db_manage
   	<where>
   		<if test="cardcode != null and cardcode != ''">

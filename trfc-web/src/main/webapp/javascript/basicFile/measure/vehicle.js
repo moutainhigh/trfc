@@ -256,7 +256,7 @@
 		if(!params.vehicleno){
 			layer.msg('车牌号码不能为空哟！', {icon: 5});return;
 		}
-		if(!validateVehicle(params.vehicleno)){
+		if(params.transporttype == '0' && !validateVehicle(params.vehicleno)){
 			layer.msg('给我一个正确的车牌号吧！', {icon: 5});return;
 		}
 		return params;
@@ -345,7 +345,7 @@
 		if(!params.vehicleno){
 			layer.msg('车牌号码不能为空哟！', {icon: 5});return;
 		}
-		if(!validateVehicle(params.vehicleno)){
+		if(params.transporttype == '0' && !validateVehicle(params.vehicleno)){
 			layer.msg('给我一个正确的车牌号吧！', {icon: 5});return;
 		}
 		return params;

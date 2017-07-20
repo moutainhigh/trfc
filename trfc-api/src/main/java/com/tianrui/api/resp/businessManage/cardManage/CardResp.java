@@ -26,6 +26,8 @@ public class CardResp extends BaseResp {
     private String remarks;
 
     private String creator;
+    
+    private String createName;
 
     private Long createtime;
     
@@ -115,6 +117,14 @@ public class CardResp extends BaseResp {
 
     public void setCreator(String creator) {
         this.creator = creator == null ? null : creator.trim();
+    }
+
+    public String getCreateName() {
+        return createName;
+    }
+
+    public void setCreateName(String createName) {
+        this.createName = createName;
     }
 
     public Long getCreatetime() {

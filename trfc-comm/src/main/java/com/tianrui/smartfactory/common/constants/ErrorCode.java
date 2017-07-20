@@ -25,8 +25,9 @@ public enum ErrorCode {
 	 */
 	RFID_EXIST("E10007","FRID已存在，不能重复添加"),
 	RFID_NOT_EXIST("E10008","RFID不存在，请先注册RFID！"),
-	RFID_VEHICLE_EXIST("E10009","该车辆于RFID已绑定，不能重复绑定"),
 	RFID_VEHICLE_NOT_EXIST("E10010","该车辆于RFID未绑定，请先绑定."),
+	RFID_VEHICLE_EXIST1("E10009","这个RFID与该车辆已经绑定，无需重复绑定！"),
+    RFID_VEHICLE_EXIST2("E10011","这个RFID已经绑定过其他车辆了！"),
 	
 	/**
 	 * IC卡

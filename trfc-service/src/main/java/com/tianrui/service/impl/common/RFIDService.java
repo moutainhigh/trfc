@@ -28,12 +28,14 @@ public class RFIDService implements IRFIDService {
 	@Override
 	public Result save(RFIDReq req) throws Exception {
 		Result rs =Result.getParamErrorResult();
-		if(req != null && StringUtils.isNotBlank(req.getRfid())){
+		if(req != null && StringUtils.isNotBlank(req.getRfid())
+		        && StringUtils.isNotBlank(req.getType())){
 			RFID db =rfidMapper.selectByPrimaryKey(req.getRfid());
 			if(db ==null){
 				RFID save = new RFID();
 				save.setRfid(req.getRfid());
 				save.setState(true);
+				save.setType(Integer.valueOf(req.getType()));
 				save.setCreatetime(System.currentTimeMillis());
 				save.setModifytime(System.currentTimeMillis());
 				save.setModifier(req.getCurrUid());
