@@ -167,7 +167,25 @@ public class PoundNoteService implements IPoundNoteService {
 		}
 		return page;
 	}
-
+	
+	private String getCode(String code, String userId) throws Exception {
+        GetCodeReq codeReq1 = new GetCodeReq();
+        codeReq1.setCode("RKD");
+        codeReq1.setCodeType(true);
+        codeReq1.setUserid(userId);
+        return systemCodeService.getCode(codeReq1).getData().toString();
+    }
+	private boolean updateCode(String code, String userId) throws Exception {
+        boolean flag = false;
+        GetCodeReq codeReq = new GetCodeReq();
+        codeReq.setCode(code);
+        codeReq.setCodeType(true);
+        codeReq.setUserid(userId);
+        if (StringUtils.equals(systemCodeService.updateCodeItem(codeReq).getCode(), ErrorCode.SYSTEM_SUCCESS.getCode())) {
+            flag = true; 
+        }
+        return flag;
+    }
 	@Transactional
 	@Override
 	public Result addPurchasePoundNote(PoundNoteSave save) throws Exception {
@@ -176,11 +194,7 @@ public class PoundNoteService implements IPoundNoteService {
 			PoundNote bean = new PoundNote();
 			PropertyUtils.copyProperties(bean, save);
 			bean.setId(UUIDUtil.getId());
-			GetCodeReq codeReq = new GetCodeReq();
-			codeReq.setCode("RK");
-			codeReq.setCodeType(true);
-			codeReq.setUserid(save.getMakerid());
-			bean.setCode(systemCodeService.getCode(codeReq).getData().toString());
+			bean.setCode(getCode("RK", save.getMakerid()));
 			PurchaseApplication purchaseApplication = null;
 			PurchaseApplicationDetail purchaseApplicationDetail = null;
 			if (StringUtils.isNotBlank(save.getBillid()) && StringUtils.isNotBlank(save.getBilldetailid())) {
@@ -209,13 +223,10 @@ public class PoundNoteService implements IPoundNoteService {
 			bean.setCreatetime(System.currentTimeMillis());
 			bean.setModifier(save.getMakerid());
 			bean.setModifytime(System.currentTimeMillis());
+			//入库单
 			PurchaseStorageList storage = new PurchaseStorageList();
-			GetCodeReq codeReq1 = new GetCodeReq();
-			codeReq1.setCode("RKD");
-			codeReq1.setCodeType(true);
-			codeReq1.setUserid(save.getMakerid());
 			storage.setId(UUIDUtil.getId());
-			storage.setCode(systemCodeService.getCode(codeReq1).getData().toString());
+			storage.setCode(getCode("RKD", save.getMakerid()));
 			storage.setNcId(bean.getBillid());
 			storage.setPoundId(bean.getId());
 			storage.setType("1");
@@ -234,11 +245,10 @@ public class PoundNoteService implements IPoundNoteService {
 			bean.setPutinwarehouseid(storage.getId());
 			bean.setPutinwarehousecode(storage.getCode());
 			if (poundNoteMapper.insertSelective(bean) > 0
-					&& StringUtils.equals(systemCodeService.updateCodeItem(codeReq).getCode(),
-							ErrorCode.SYSTEM_SUCCESS.getCode())
+					&& updateCode("RK", save.getMakerid())
 					&& purchaseStorageListMapper.insertSelective(storage) > 0
-					&& purchaseStorageListItemMapper.insertSelective(storageItem) > 0 && StringUtils.equals(
-							systemCodeService.updateCodeItem(codeReq1).getCode(), ErrorCode.SYSTEM_SUCCESS.getCode())) {
+					&& purchaseStorageListItemMapper.insertSelective(storageItem) > 0
+					&& updateCode("RKD", save.getMakerid())) {
 				result.setErrorCode(returnPurchaseStorage(storage, storageItem));
 			} else {
 				result.setErrorCode(ErrorCode.OPERATE_ERROR);
@@ -328,11 +338,7 @@ public class PoundNoteService implements IPoundNoteService {
 				PoundNote bean = poundNoteMapper.selectByPrimaryKey(save.getId());
 				bean.setId(UUIDUtil.getId());
 				bean.setArrivepoundnotecode(bean.getCode());
-				GetCodeReq codeReq = new GetCodeReq();
-				codeReq.setCode("RK");
-				codeReq.setCodeType(true);
-				codeReq.setUserid(save.getMakerid());
-				bean.setCode(systemCodeService.getCode(codeReq).getData().toString());
+				bean.setCode(getCode("RK", save.getMakerid()));
 				bean.setNoticeid(null);
 				bean.setNoticecode(null);
 				bean.setGrossweight(save.getGrossweight());
@@ -355,12 +361,8 @@ public class PoundNoteService implements IPoundNoteService {
 				bean.setModifytime(System.currentTimeMillis());
 				//增加退货入库单
 				PurchaseStorageList storage = new PurchaseStorageList();
-				GetCodeReq codeReq1 = new GetCodeReq();
-				codeReq1.setCode("RKD");
-				codeReq1.setCodeType(true);
-				codeReq1.setUserid(bean.getMakerid());
 				storage.setId(UUIDUtil.getId());
-				storage.setCode(systemCodeService.getCode(codeReq1).getData().toString());
+				storage.setCode(getCode("RKD", bean.getMakerid()));
 				storage.setNcId(bean.getBillid());
 				storage.setPoundId(bean.getId());
 				storage.setType("2");
@@ -390,11 +392,11 @@ public class PoundNoteService implements IPoundNoteService {
 				PurchaseStorageListItem storageItem = setPurchaseStorageItem(purchaseApplicationDetail, bean, storage);
 				bean.setPutinwarehouseid(storage.getId());
 				bean.setPutinwarehousecode(storage.getCode());
-				if (poundNoteMapper.insertSelective(bean) > 0 && StringUtils.equals(
-						systemCodeService.updateCodeItem(codeReq).getCode(), ErrorCode.SYSTEM_SUCCESS.getCode())
+				if (poundNoteMapper.insertSelective(bean) > 0 
+				        && updateCode("RK", bean.getMakerid())
 						&& purchaseStorageListMapper.insertSelective(storage) > 0
-						&& purchaseStorageListItemMapper.insertSelective(storageItem) > 0 && StringUtils.equals(
-								systemCodeService.updateCodeItem(codeReq1).getCode(), ErrorCode.SYSTEM_SUCCESS.getCode())) {
+						&& purchaseStorageListItemMapper.insertSelective(storageItem) > 0
+						&& updateCode("RKD", bean.getMakerid())) {
 					result.setErrorCode(returnPurchaseStorage(storage, storageItem));
 				} else {
 					result.setErrorCode(ErrorCode.OPERATE_ERROR);
@@ -413,17 +415,13 @@ public class PoundNoteService implements IPoundNoteService {
 			if(poundNote != null){
 				PoundNote bean = new PoundNote();
 				bean.setId(query.getId());
-				bean.setRedcollide("1");
+				bean.setRedcollide(Constant.ONE_STRING);
 				bean.setModifier(query.getCurrId());
 				bean.setModifytime(System.currentTimeMillis());
 				//增加红冲入库单
 				PurchaseStorageList storage = new PurchaseStorageList();
-				GetCodeReq codeReq1 = new GetCodeReq();
-				codeReq1.setCode("RKD");
-				codeReq1.setCodeType(true);
-				codeReq1.setUserid(query.getCurrId());
 				storage.setId(UUIDUtil.getId());
-				storage.setCode(systemCodeService.getCode(codeReq1).getData().toString());
+				storage.setCode(getCode("RKD", query.getCurrId()));
 				storage.setNcId(poundNote.getBillid());
 				storage.setPoundId(poundNote.getId());
 				storage.setType("3");
@@ -453,28 +451,9 @@ public class PoundNoteService implements IPoundNoteService {
 				PurchaseStorageListItem storageItem = setPurchaseStorageItem(purchaseApplicationDetail, poundNote, storage);
 				if (poundNoteMapper.updateByPrimaryKeySelective(bean) > 0
 						&& purchaseStorageListMapper.insertSelective(storage) > 0
-						&& purchaseStorageListItemMapper.insertSelective(storageItem) > 0 && StringUtils.equals(
-								systemCodeService.updateCodeItem(codeReq1).getCode(), ErrorCode.SYSTEM_SUCCESS.getCode())) {
-					List<PurchaseStorageList> list = new ArrayList<PurchaseStorageList>();
-					list.add(storage);
-					List<PurchaseStorageListItem> itemList = new ArrayList<PurchaseStorageListItem>();
-					itemList.add(storageItem);
-					storage.setList(itemList);
-					ApiResult apiResult = HttpUtils.post(ApiParamUtils.getApiParam(list),
-							Constant.URL_RETURN_PURCHASESTORAGEATION);
-					// 调用dc 接口成功 则推单状态为推单中 榜单展示为推单中
-					if (apiResult != null && StringUtils.equals(apiResult.getCode(), Constant.SUCCESS)) {
-						PurchaseStorageList storageUpdate = new PurchaseStorageList();
-						storageUpdate.setId(storage.getId());
-						storageUpdate.setStatus(Constant.PUSH_STATUS_ING);
-						if (purchaseStorageListMapper.updateByPrimaryKeySelective(storageUpdate) > 0) {
-							result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
-						}else{
-							result.setErrorCode(ErrorCode.OPERATE_ERROR);
-						}
-					}else{
-						result.setErrorCode(ErrorCode.OPERATE_ERROR);
-					}
+						&& purchaseStorageListItemMapper.insertSelective(storageItem) > 0 
+						&& updateCode("RKD", query.getCurrId())) {
+					pushDcRedcollide(result, storage, storageItem);
 				} else {
 					result.setErrorCode(ErrorCode.OPERATE_ERROR);
 				}
@@ -484,6 +463,29 @@ public class PoundNoteService implements IPoundNoteService {
 		}
 		return result;
 	}
+	//红冲推单到dc
+    private void pushDcRedcollide(Result result, PurchaseStorageList storage, PurchaseStorageListItem storageItem) {
+        List<PurchaseStorageList> list = new ArrayList<PurchaseStorageList>();
+        list.add(storage);
+        List<PurchaseStorageListItem> itemList = new ArrayList<PurchaseStorageListItem>();
+        itemList.add(storageItem);
+        storage.setList(itemList);
+        ApiResult apiResult = HttpUtils.post(ApiParamUtils.getApiParam(list),
+        		Constant.URL_RETURN_PURCHASESTORAGEATION);
+        // 调用dc 接口成功 则推单状态为推单中 榜单展示为推单中
+        if (apiResult != null && StringUtils.equals(apiResult.getCode(), Constant.SUCCESS)) {
+        	PurchaseStorageList storageUpdate = new PurchaseStorageList();
+        	storageUpdate.setId(storage.getId());
+        	storageUpdate.setStatus(Constant.PUSH_STATUS_ING);
+        	if (purchaseStorageListMapper.updateByPrimaryKeySelective(storageUpdate) > 0) {
+        		result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+        	}else{
+        		result.setErrorCode(ErrorCode.OPERATE_ERROR);
+        	}
+        }else{
+        	result.setErrorCode(ErrorCode.OPERATE_ERROR);
+        }
+    }
 
 	@Override
 	public Result invalid(PoundNoteQuery query) {
@@ -609,11 +611,7 @@ public class PoundNoteService implements IPoundNoteService {
 			PoundNote bean = new PoundNote();
 			PropertyUtils.copyProperties(bean, save);
 			bean.setId(UUIDUtil.getId());
-			GetCodeReq codeReq = new GetCodeReq();
-			codeReq.setCode("CK");
-			codeReq.setCodeType(true);
-			codeReq.setUserid(save.getMakerid());
-			bean.setCode(systemCodeService.getCode(codeReq).getData().toString());
+			bean.setCode(getCode("CK", save.getMakerid()));
 			if (StringUtils.isNotBlank(save.getBillid()) && StringUtils.isNotBlank(save.getBilldetailid())) {
 				SalesApplication salesApplication = salesApplicationMapper.selectByPrimaryKey(save.getBillid());
 				SalesApplicationDetail salesApplicationDetail = salesApplicationDetailMapper.selectByPrimaryKey(save.getBilldetailid());
@@ -644,18 +642,14 @@ public class PoundNoteService implements IPoundNoteService {
 			List<SalesApplicationJoinPoundNote> list = new ArrayList<SalesApplicationJoinPoundNote>();
 			List<SalesOutboundOrder> orderList = new ArrayList<SalesOutboundOrder>();
 			List<SalesOutboundOrderItem> orderItemList = new ArrayList<SalesOutboundOrderItem>();
-			GetCodeReq codeReq1 = new GetCodeReq();
-			codeReq1.setCode("A6XC");
-			codeReq1.setCodeType(true);
-			codeReq1.setUserid(save.getMakerid());
-			List<SalesApplicationDetail> applicationDetailList = parseBeanList(bean, array, list, orderList,
-					orderItemList, systemCodeService.getCode(codeReq1).getData().toString());
-			if (poundNoteMapper.insertSelective(bean) > 0 && salesApplicationJoinPoundNoteMapper.insertBatch(list) > 0
-					&& StringUtils.equals(systemCodeService.updateCodeItem(codeReq).getCode(),
-							ErrorCode.SYSTEM_SUCCESS.getCode())
+			List<SalesApplicationDetail> applicationDetailList = 
+			        parseBeanList(bean, array, list, orderList, orderItemList, getCode("A6XC", save.getMakerid()));
+			if (poundNoteMapper.insertSelective(bean) > 0 
+			        && salesApplicationJoinPoundNoteMapper.insertBatch(list) > 0
+					&& updateCode("CK", save.getMakerid())
 					&& salesOutboundOrderMapper.insertBatch(orderList) > 0
-					&& salesOutboundOrderItemMapper.insertBatch(orderItemList) > 0 && StringUtils.equals(
-							systemCodeService.updateCodeItem(codeReq1).getCode(), ErrorCode.SYSTEM_SUCCESS.getCode())) {
+					&& salesOutboundOrderItemMapper.insertBatch(orderItemList) > 0
+					&& updateCode("A6XC", save.getMakerid())) {
 				if (CollectionUtils.isNotEmpty(applicationDetailList)) {
 					for (SalesApplicationDetail salesApplicationDetail : applicationDetailList) {
 						salesApplicationDetailMapper.updateByPrimaryKeySelective(salesApplicationDetail);
@@ -900,7 +894,8 @@ public class PoundNoteService implements IPoundNoteService {
 							&& purchaseArriveMapper.updateByPrimaryKeySelective(pa) > 0
 							&& purchaseApplicationDetailMapper.updateByPrimaryKeySelective(detail) > 0
 							&& purchaseStorageListMapper.insertSelective(storage) > 0
-							&& purchaseStorageListItemMapper.insertSelective(storageItem) > 0) {
+							&& purchaseStorageListItemMapper.insertSelective(storageItem) > 0
+							&& updateCode("RKD", query.getCurrid())) {
 						ErrorCode ec = returnPurchaseStorage(storage, storageItem);
 						result.setErrorCode(ec);
 						result.setData(bean.getCode());
@@ -1181,7 +1176,8 @@ public class PoundNoteService implements IPoundNoteService {
 					if(detail != null && storage != null && storageItem != null){
 						if(purchaseApplicationDetailMapper.updateByPrimaryKeySelective(detail) > 0 
 								&& purchaseStorageListMapper.insertSelective(storage) > 0
-								&& purchaseStorageListItemMapper.insertSelective(storageItem) > 0){
+								&& purchaseStorageListItemMapper.insertSelective(storageItem) > 0
+								&& updateCode("RKD", query.getCurrid())){
 							result.setErrorCode(returnPurchaseStorage(storage, storageItem));
 							result.setData(bean.getCode());
 						}else{
@@ -1272,12 +1268,8 @@ public class PoundNoteService implements IPoundNoteService {
 	private PurchaseStorageList setPurchaseStorage(String currid, PurchaseApplication application, PoundNote bean)
 			throws Exception {
 		PurchaseStorageList storage = new PurchaseStorageList();
-		GetCodeReq codeReq1 = new GetCodeReq();
-		codeReq1.setCode("RKD");
-		codeReq1.setCodeType(true);
-		codeReq1.setUserid(currid);
 		storage.setId(UUIDUtil.getId());
-		storage.setCode(systemCodeService.getCode(codeReq1).getData().toString());
+		storage.setCode(getCode("RKD", currid));
 		storage.setNcId("");
 		storage.setPoundId(bean.getId());
 		storage.setType("1");
@@ -1402,18 +1394,13 @@ public class PoundNoteService implements IPoundNoteService {
 				List<SalesApplicationJoinPoundNote> listJoin = new ArrayList<SalesApplicationJoinPoundNote>();
 				List<SalesOutboundOrder> orderList = new ArrayList<SalesOutboundOrder>();
 				List<SalesOutboundOrderItem> orderItemList = new ArrayList<SalesOutboundOrderItem>();
-				GetCodeReq codeReq1 = new GetCodeReq();
-				codeReq1.setCode("A6XC");
-				codeReq1.setCodeType(true);
-				codeReq1.setUserid(query.getCurrid());
-				List<SalesApplicationDetail> applicationDetailList = parseBeanList(bean, array, listJoin, orderList,
-						orderItemList, systemCodeService.getCode(codeReq1).getData().toString());
+				List<SalesApplicationDetail> applicationDetailList = 
+				        parseBeanList(bean, array, listJoin, orderList, orderItemList, getCode("A6XC", query.getCurrid()));
 				if (poundNoteMapper.updateByPrimaryKeySelective(bean) > 0
 						&& salesApplicationJoinPoundNoteMapper.insertBatch(listJoin) > 0
 						&& salesOutboundOrderMapper.insertBatch(orderList) > 0
 						&& salesOutboundOrderItemMapper.insertBatch(orderItemList) > 0
-						&& StringUtils.equals(systemCodeService.updateCodeItem(codeReq1).getCode(),
-								ErrorCode.SYSTEM_SUCCESS.getCode())
+						&& updateCode("A6XC", query.getCurrid())
 						&& salesArriveMapper.updateByPrimaryKeySelective(sa) > 0) {
 					if (CollectionUtils.isNotEmpty(applicationDetailList)) {
 						for (SalesApplicationDetail salesApplicationDetail : applicationDetailList) {
