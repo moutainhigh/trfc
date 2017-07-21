@@ -23,6 +23,7 @@ import com.tianrui.api.req.businessManage.app.AppPoundOrderReq;
 import com.tianrui.api.req.businessManage.app.AppPoundOrderResp;
 import com.tianrui.api.req.businessManage.poundNoteMaintain.ApiPoundNoteQuery;
 import com.tianrui.api.req.businessManage.poundNoteMaintain.ApiPoundNoteValidation;
+import com.tianrui.api.req.businessManage.poundNoteMaintain.PoundNoteCopyDTO;
 import com.tianrui.api.req.businessManage.poundNoteMaintain.PoundNoteQuery;
 import com.tianrui.api.req.businessManage.poundNoteMaintain.PoundNoteSave;
 import com.tianrui.api.req.system.base.GetCodeReq;
@@ -1317,6 +1318,7 @@ public class PoundNoteService implements IPoundNoteService {
 		bean.setMinemouthid(application.getMinemouthid());
 		bean.setMinemouthname(application.getMinemouthname());
 		bean.setOriginalnetweight(arrive.getArrivalamount());
+		bean.setPickupquantity(arrive.getArrivalamount());
 		if (StringUtils.equals(query.getType(), "1")) {
 			bean.setTareweight(Double.parseDouble(query.getNumber()));
 			bean.setLighttime(DateUtil.parse(query.getTime(), "yyyy-MM-dd HH:mm:ss"));
@@ -1972,6 +1974,146 @@ public class PoundNoteService implements IPoundNoteService {
 			}
 		}
 		return result;
+	}
+
+	@Transactional
+    @Override
+    public Result copy(PoundNoteCopyDTO copy) throws Exception {
+        Result result = Result.getParamErrorResult();
+        if (copy != null 
+                && StringUtils.isNotBlank(copy.getPoundNoteId())
+                && StringUtils.isNotBlank(copy.getBillId())
+                && StringUtils.isNotBlank(copy.getBillDetailId())) {
+            PoundNote oldPn = poundNoteMapper.selectByPrimaryKey(copy.getPoundNoteId());
+            if (oldPn != null) {
+                PurchaseApplication newBill = purchaseApplicationMapper.selectByPrimaryKey(copy.getBillId());
+                PurchaseApplicationDetail newBillDetail = purchaseApplicationDetailMapper.selectByPrimaryKey(copy.getBillDetailId());
+                if (newBill != null && newBillDetail != null) {
+                    // TODO 判断订单的余量大于等于预提量
+                    if (validateWeight(oldPn, newBillDetail, result)) {
+                        PurchaseArrive oldPa = purchaseArriveMapper.selectByPrimaryKey(oldPn.getNoticeid());
+                        if (StringUtils.equals(oldPa.getStatus(), Constant.FIVE_STRING)) {
+                            AccessRecord oldAr = accessRecordMapper.selectByNoticeId(oldPa.getId());
+                            PurchaseArrive newPa = copyNotice(oldPa, copy.getCurrId());
+                            copyAccessRecord(oldAr, newPa, copy.getCurrId());
+                            copyPoundNote(oldPn, newBill, newBillDetail, newPa, copy.getCurrId());
+                            result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+                        } else {
+                            result.setErrorCode(ErrorCode.VEHICLE_NOTICE_NOT_OUT_FACTORY);
+                        }
+                    }
+                } else {
+                    result.setErrorCode(ErrorCode.APPLICATION_NOT_EXIST);
+                }
+            } else {
+                result.setErrorCode(ErrorCode.POUNDNOTE_NOT_EXIST);
+            }
+        }
+        return result;
+    }
+	/**
+	 * @annotation 复制榜单并生成新的入库单
+	 * @param oldPn
+	 * @param newBill
+	 * @param newBillDetail
+	 * @param newPa
+	 * @param userId
+	 * @throws Exception
+	 */
+	private void copyPoundNote(PoundNote oldPn, PurchaseApplication newBill, PurchaseApplicationDetail newBillDetail,
+            PurchaseArrive newPa, String userId) throws Exception {
+	    PoundNote newPn = new PoundNote();
+	    PropertyUtils.copyProperties(newPn, oldPn);
+	    newPn.setId(UUIDUtil.getId());
+	    newPn.setCode(getCode("RK", userId));
+	    //TODO 推单状态
+	    newPn.setReturnstatus(Constant.ZERO_STRING);
+	    newPn.setRedcollide(Constant.ZERO_STRING);
+	    newPn.setBillid(newBill.getId());
+	    newPn.setBillcode(newBill.getCode());
+	    newPn.setBilldetailid(newBillDetail.getId());
+	    newPn.setNoticeid(newPa.getId());
+	    newPn.setNoticecode(newPa.getCode());
+	    newPn.setMinemouthid(newBill.getMinemouthid());
+	    newPn.setMinemouthname(newBill.getMinemouthname());
+	    
+	    //TODO 入库单
+        PurchaseStorageList storage = new PurchaseStorageList();
+        storage.setId(UUIDUtil.getId());
+        storage.setCode(getCode("RKD", userId));
+        storage.setPoundId(newPn.getId());
+        storage.setType(Constant.ONE_STRING);
+        storage.setPkOrg(newBill.getOrgid());
+        storage.setNcId(newBill.getId());
+        storage.setCdptid(newBill.getDepartmentid());
+        storage.setCvendorid(newBill.getSupplierid());
+        storage.setNtotalnum("" + newPn.getNetweight());
+        storage.setDbilldate(DateUtil.getNowDateString(DateUtil.Y_M_D_H_M_S));
+        storage.setBillmaker(newPn.getMakerid());
+        storage.setCreationtime(DateUtil.getNowDateString(DateUtil.Y_M_D_H_M_S));
+        storage.setTs(storage.getCreationtime());
+        storage.setStatus(Constant.ZERO_STRING);
+        PurchaseStorageListItem storageItem = setPurchaseStorageItem(newBillDetail, newPn, storage);
+        newPn.setPutinwarehouseid(storage.getId());
+        newPn.setPutinwarehousecode(storage.getCode());
+        poundNoteMapper.insertSelective(newPn);
+        updateCode("RK", userId);
+        purchaseStorageListMapper.insertSelective(storage);
+        purchaseStorageListItemMapper.insertSelective(storageItem);
+        updateCode("RKD", userId);
+        PurchaseApplicationDetail billDetail = new PurchaseApplicationDetail();
+        billDetail.setId(newBillDetail.getId());
+        billDetail.setMargin(newBillDetail.getMargin() - newPn.getNetweight());
+        billDetail.setStoragequantity(newBillDetail.getStoragequantity() + newPn.getNetweight());
+        purchaseApplicationDetailMapper.updateByPrimaryKeySelective(billDetail);
+    }
+
+    /**
+	 * @annotation 复制门禁记录
+	 * @param oldAr
+	 * @param newPa
+	 * @param userId
+	 * @throws Exception
+	 */
+	private void copyAccessRecord(AccessRecord oldAr, PurchaseArrive newPa, String userId) throws Exception {
+	    AccessRecord newAr = new AccessRecord();
+	    PropertyUtils.copyProperties(newPa, oldAr);
+	    newAr.setId(UUIDUtil.getId());
+	    newAr.setCode(getCode("ZW", userId));
+	    accessRecordMapper.insertSelective(newAr);
+	    updateCode("ZW", userId);
+    }
+	/**
+	 * @annotation 复制通知单
+	 * @param oldPa
+	 * @param userId
+	 * @return
+	 * @throws Exception
+	 */
+    private PurchaseArrive copyNotice(PurchaseArrive oldPa, String userId) throws Exception {
+	    PurchaseArrive newPa = new PurchaseArrive();
+	    PropertyUtils.copyProperties(newPa, oldPa);
+	    newPa.setId(UUIDUtil.getId());
+	    newPa.setCode(getCode("DH", userId));
+        purchaseArriveMapper.insertSelective(newPa);
+        updateCode("DH", userId);
+	    return newPa;
+    }
+    /**
+     * 
+     * @annotation 校验新的订单余量大于等于原通知单预提量
+     * @param oldPn
+     * @param billDetail
+     * @param result
+     * @return
+     */
+    private boolean validateWeight(PoundNote oldPn, PurchaseApplicationDetail billDetail, Result result) {
+	    boolean flag = true;
+	    if (oldPn.getOriginalnetweight() > billDetail.getMargin()) {
+	       flag = false; 
+	       result.setErrorCode(ErrorCode.POUNDNOTE_RETURN_ERROR2);
+	    }
+	    return flag;
 	}
 
 }

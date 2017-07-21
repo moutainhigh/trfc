@@ -54,6 +54,7 @@ public enum ErrorCode {
 	 */
 	POUNDNOTE_NOT_EXIST("E10100","该磅单不存在."),
 	POUNDNOTE_RETURN_ERROR1("E10101","退货净重大于入库净重."),
+	POUNDNOTE_RETURN_ERROR2("E10102","该订单的余量小于预提量."),
 	/**
 	 * 车辆
 	 */
@@ -67,6 +68,7 @@ public enum ErrorCode {
 	VEHICLE_NOTICE_NOT_ONE_WEIGHT("E10017","该车辆未过一次磅房."),
 	VEHICLE_NOTICE_NOT_TWO_WEIGHT("E10018","该车辆未过二次磅房."),
 	VEHICLE_NOTICE_NOT_LOAD("E10019","该车辆还未完成装货."),
+	VEHICLE_NOTICE_NOT_OUT_FACTORY("E10020","该车辆还未出厂."),
 	
 	/**
 	 * 用户相关

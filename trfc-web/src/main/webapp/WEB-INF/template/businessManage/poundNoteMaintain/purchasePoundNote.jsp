@@ -103,6 +103,11 @@
 								<span>红冲</span>
 							</a>
 						</div>
+						<div id="copy" class="intel_operasolo">
+                            <a> <i class="iconfont copy">&#xe61c;</i>
+                                <span>参照</span>
+                            </a>
+                        </div>
 						<div id="invalid" class="intel_operasolo">
 							<a> <i class="iconfont invalid">&#xe60c;</i>
 								<span>作废</span>
