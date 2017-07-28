@@ -51,7 +51,7 @@ public class SystemUserService implements ISystemUserService {
 			List<SystemUser> list = userMapper.selectByCondition(query);
 			if (CollectionUtils.isNotEmpty(list)) {
 				if (StringUtils.equals(list.get(0).getPassword(),req.getPswd() )) {
-					if ( list.get(0).getIsvalid()==BusinessConstants.USER_VALID_BYTE ) {
+					if ( list.get(0).getIsvalid() == BusinessConstants.USER_VALID_BYTE ) {
 						if(list.get(0).getIslock() == BusinessConstants.USER_UNLOCK_BYTE) {
 							if(StringUtils.equals(list.get(0).getIdentityTypes(), BusinessConstants.USER_PT_STR)) {
 								SystemUserResp resp = new SystemUserResp();
@@ -66,7 +66,7 @@ public class SystemUserService implements ISystemUserService {
 							rs.setErrorCode(ErrorCode.SYSTEM_USER_ERROR3);
 						}
 					}else{
-						rs.setErrorCode(ErrorCode.SYSTEM_USER_ERROR2);
+						rs.setErrorCode(ErrorCode.SYSTEM_USER_ERROR5);
 					}
 				}else{
 					rs.setErrorCode(ErrorCode.SYSTEM_USER_ERROR2);

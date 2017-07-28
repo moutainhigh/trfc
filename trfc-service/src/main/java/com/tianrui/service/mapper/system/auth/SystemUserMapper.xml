@@ -53,6 +53,9 @@
 			<if test="nameLike != null and nameLike !=''">
 				and name like CONCAT('%',#{nameLike,jdbcType=VARCHAR},'%')
 			</if>
+            <if test="identityTypes != null and identityTypes !=''">
+                and identityTypes = #{identityTypes, jdbcType=VARCHAR}
+            </if>
 			<if test="code != null and code !=''">
 				and code = #{code,jdbcType=VARCHAR}
 			</if>
@@ -84,6 +87,9 @@
 			</if>
 			<if test="nameLike != null and nameLike !=''">
 				and name like CONCAT('%',#{nameLike,jdbcType=VARCHAR},'%')
+			</if>
+			<if test="identityTypes != null and identityTypes !=''">
+				and identityTypes = #{identityTypes, jdbcType=VARCHAR}
 			</if>
 		</where>
 	</select>

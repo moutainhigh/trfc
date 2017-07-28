@@ -62,13 +62,14 @@
 					</div>
 					<div class="intel_opera">
 						<div id="refresh" class="intel_operasolo">
-							<i class="iconfont colorlv">&#xe61b;</i>
-							<h5>刷新</h5>
+							<a> <i class="iconfont colorlv">&#xe61b;</i>
+							    <span>刷新</span>
+                            </a>
 						</div>
 						<div id="add" class="intel_operasolo">
 							<a> <i
 								class="iconfont coloradd">&#xe627;</i>
-								<h5>新增</h5>
+								<span>新增</span>
 							</a>
 						</div>
 					</div>

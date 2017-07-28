@@ -1858,13 +1858,12 @@ table tr:nth-child(even) {
 table tr:hover {
     background: #d2ecff!important;
 }
-table tr:active {
-    color:#ffffff!important;
-    background: #0574c6!important;
-}
 table tr.active td {
     color:#ffffff!important;
     background: #0574c6!important;
+}
+table tr.active td .iconfont {
+    color:#ffffff!important;
 }
 .update {
 	color: #E2312D;
