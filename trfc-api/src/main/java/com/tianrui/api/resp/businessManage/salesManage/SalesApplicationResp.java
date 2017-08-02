@@ -82,6 +82,8 @@ public class SalesApplicationResp extends BaseResp {
     private Long modifytime;
     //最后修改时间Str
     private String modifytimeStr;
+    //NC同步时间戳
+    private Long utc;
     //订单详情
     private List<SalesApplicationDetailResp> list;
     
@@ -300,7 +302,13 @@ public class SalesApplicationResp extends BaseResp {
 	public void setModifytimeStr(String modifytimeStr) {
 		this.modifytimeStr = modifytimeStr;
 	}
-	public List<SalesApplicationDetailResp> getList() {
+	public Long getUtc() {
+        return utc;
+    }
+    public void setUtc(Long utc) {
+        this.utc = utc;
+    }
+    public List<SalesApplicationDetailResp> getList() {
 		return list;
 	}
 	public void setList(List<SalesApplicationDetailResp> list) {
