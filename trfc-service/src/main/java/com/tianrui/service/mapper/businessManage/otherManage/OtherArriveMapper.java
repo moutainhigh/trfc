@@ -46,5 +46,10 @@ public interface OtherArriveMapper {
 	 */
 	OtherArrive hasOtherArrive(String vehicleid);
 	
+	/**
+	 * 通过IC卡ID判断是否正在使用
+	 */
+	OtherArrive checkICUse(String icardid);
+	
     
 }

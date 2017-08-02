@@ -43,7 +43,7 @@ public class Constant {
 	// public final static String ORG_NAME ="天瑞集团水泥有限公司（裕泰公司）";
 
 	// 接口URL
-	public final static String URL_DOMAIN = "http://172.19.4.48:8091";
+	public final static String URL_DOMAIN = "http://172.19.4.97:8083";
 	// public final static String URL_DOMAIN = "http://172.20.10.18:8089";
 	public final static String URL_RETURN_SALESAPPLICATION = URL_DOMAIN + "/api/boOrder/orderReturn";
 	public final static String URL_RETURN_SALESOUTBOUNDCATION = URL_DOMAIN + "/api/saleoutboundorder/orderReturn";
