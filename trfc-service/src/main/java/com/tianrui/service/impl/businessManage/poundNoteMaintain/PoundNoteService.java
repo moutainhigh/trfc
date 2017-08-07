@@ -1170,7 +1170,8 @@ public class PoundNoteService implements IPoundNoteService {
 					detail = new PurchaseApplicationDetail();
 					detail.setId(applicationDetail.getId());
 					detail.setStoragequantity(applicationDetail.getStoragequantity() + bean.getNetweight());
-					detail.setUnstoragequantity(applicationDetail.getUnstoragequantity() - bean.getNetweight());
+					detail.setUnstoragequantity(applicationDetail.getUnstoragequantity() - arrive.getArrivalamount());
+					detail.setMargin(applicationDetail.getMargin() + (arrive.getArrivalamount() - bean.getNetweight()));
 				}
 				if (poundNoteMapper.updateByPrimaryKeySelective(bean) > 0
 						&& purchaseArriveMapper.updateByPrimaryKeySelective(pa) > 0) {

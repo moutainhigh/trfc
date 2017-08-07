@@ -5,6 +5,7 @@
     <id column="id" property="id" jdbcType="VARCHAR" />
     <result column="code" property="code" jdbcType="VARCHAR" />
     <result column="nc_id" property="ncId" jdbcType="VARCHAR" />
+    <result column="poundId" property="poundId" jdbcType="VARCHAR" />
     <result column="billdate" property="billdate" jdbcType="VARCHAR" />
     <result column="pk_org" property="pkOrg" jdbcType="VARCHAR" />
     <result column="cdptid" property="cdptid" jdbcType="VARCHAR" />
@@ -19,7 +20,7 @@
     <result column="create_time" property="createTime" jdbcType="BIGINT" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, code, nc_id, billdate, pk_org, cdptid, cbizid, ntotalnum, cdilivertypeid, billmaker, 
+    id, code, nc_id, poundId, billdate, pk_org, cdptid, cbizid, ntotalnum, cdilivertypeid, billmaker, 
     dmakedate, ctrantypeid, ts, status, create_time
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
@@ -33,12 +34,12 @@
     where id = #{id,jdbcType=VARCHAR}
   </delete>
   <insert id="insert" parameterType="com.tianrui.service.bean.businessManage.salesManage.SalesOutboundOrder" >
-    insert into tr_sale_outbound_order (id, code, nc_id, billdate, 
+    insert into tr_sale_outbound_order (id, code, nc_id, poundId, billdate, 
       pk_org, cdptid, cbizid, 
       ntotalnum, cdilivertypeid, billmaker, 
       dmakedate, ctrantypeid, ts, 
       status, create_time)
-    values (#{id,jdbcType=VARCHAR}, #{ncId,jdbcType=VARCHAR}, #{billdate,jdbcType=VARCHAR}, 
+    values (#{id,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR}, #{ncId,jdbcType=VARCHAR}, #{poundId,jdbcType=VARCHAR}, #{billdate,jdbcType=VARCHAR}, 
       #{pkOrg,jdbcType=VARCHAR}, #{cdptid,jdbcType=VARCHAR}, #{cbizid,jdbcType=VARCHAR}, 
       #{ntotalnum,jdbcType=VARCHAR}, #{cdilivertypeid,jdbcType=VARCHAR}, #{billmaker,jdbcType=VARCHAR}, 
       #{dmakedate,jdbcType=VARCHAR}, #{ctrantypeid,jdbcType=VARCHAR}, #{ts,jdbcType=VARCHAR}, 
@@ -55,6 +56,9 @@
       </if>
       <if test="ncId != null" >
         nc_id,
+      </if>
+      <if test="poundId != null" >
+        poundId,
       </if>
       <if test="billdate != null" >
         billdate,
@@ -97,8 +101,14 @@
       <if test="id != null" >
         #{id,jdbcType=VARCHAR},
       </if>
+      <if test="code != null" >
+        #{code,jdbcType=VARCHAR},
+      </if>
       <if test="ncId != null" >
         #{ncId,jdbcType=VARCHAR},
+      </if>
+      <if test="poundId != null" >
+        #{poundId,jdbcType=VARCHAR},
       </if>
       <if test="billdate != null" >
         #{billdate,jdbcType=VARCHAR},
@@ -147,6 +157,9 @@
       <if test="ncId != null" >
         nc_id = #{ncId,jdbcType=VARCHAR},
       </if>
+      <if test="poundId != null" >
+        poundId = #{poundId,jdbcType=VARCHAR},
+      </if>
       <if test="billdate != null" >
         billdate = #{billdate,jdbcType=VARCHAR},
       </if>
@@ -190,6 +203,7 @@
     update tr_sale_outbound_order
     set code = #{code,jdbcType=VARCHAR},
       ncId = #{ncId,jdbcType=VARCHAR},
+      poundId = #{poundId,jdbcType=VARCHAR},
       billdate = #{billdate,jdbcType=VARCHAR},
       pk_org = #{pkOrg,jdbcType=VARCHAR},
       cdptid = #{cdptid,jdbcType=VARCHAR},
@@ -229,6 +243,7 @@
 		(#{item.id,jdbcType=VARCHAR}, 
 		#{item.code,jdbcType=VARCHAR},
 		#{item.ncId,jdbcType=VARCHAR},
+		#{item.poundId,jdbcType=VARCHAR},
 		#{item.billdate,jdbcType=VARCHAR},
 		#{item.pkOrg,jdbcType=VARCHAR},
 		#{item.cdptid,jdbcType=VARCHAR},
@@ -244,4 +259,10 @@
 		)
 	</foreach>
   </insert>
+  <select id="selectByPoundNoteId" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from tr_sale_outbound_order
+    where poundId = #{poundId,jdbcType=VARCHAR}
+  </select>
 </mapper>

@@ -55,6 +55,7 @@ public enum ErrorCode {
 	POUNDNOTE_NOT_EXIST("E10100","该磅单不存在."),
 	POUNDNOTE_RETURN_ERROR1("E10101","退货净重大于入库净重."),
 	POUNDNOTE_RETURN_ERROR2("E10102","该订单的余量小于预提量."),
+	POUNDNOTE_RETURN_ERROR3("E10103","过磅单据未推送到NC."),
 	/**
 	 * 车辆
 	 */

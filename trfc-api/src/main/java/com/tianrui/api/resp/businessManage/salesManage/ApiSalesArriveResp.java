@@ -51,6 +51,8 @@ public class ApiSalesArriveResp extends BaseResp {
 	private String status="";
 	//通知单审核状态（0：未审核，1：已审核）
     private String auditstatus;
+    //通知单ID
+    private String noticeId;
 	
 	public String getVehicleno() {
 		return vehicleno;
@@ -142,5 +144,11 @@ public class ApiSalesArriveResp extends BaseResp {
 	public void setAuditstatus(String auditstatus) {
 		this.auditstatus = auditstatus;
 	}
+    public String getNoticeId() {
+        return noticeId;
+    }
+    public void setNoticeId(String noticeId) {
+        this.noticeId = noticeId;
+    }
 
 }

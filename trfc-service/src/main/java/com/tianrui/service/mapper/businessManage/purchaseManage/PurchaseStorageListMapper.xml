@@ -236,4 +236,10 @@
     where   status ='0'
        order by creationtime desc 
   </select>
+  <select id="selectByPoundNoteId" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from tr_purchase_storage_list
+    where poundId = #{poundId,jdbcType=VARCHAR}
+  </select>
 </mapper>

@@ -18,4 +18,6 @@ public interface PurchaseStorageListMapper {
     int updateByPrimaryKey(PurchaseStorageList record);
 
 	List<PurchaseStorageList> selectIncrementalData(PurchaseStorageList query);
+	
+	PurchaseStorageList selectByPoundNoteId(String noticeId);
 }

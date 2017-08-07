@@ -20,4 +20,6 @@ public interface SalesOutboundOrderMapper {
 	List<SalesOutboundOrder> selectIncrementalData(SalesOutboundOrder query);
 	
 	int insertBatch(List<SalesOutboundOrder> list);
+	
+	SalesOutboundOrder selectByPoundNoteId(String noticeId);
 }

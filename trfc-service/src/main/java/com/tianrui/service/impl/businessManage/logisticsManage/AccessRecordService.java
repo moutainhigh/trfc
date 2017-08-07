@@ -28,23 +28,30 @@ import com.tianrui.service.bean.basicFile.measure.VehicleManage;
 import com.tianrui.service.bean.businessManage.cardManage.Card;
 import com.tianrui.service.bean.businessManage.logisticsManage.AccessRecord;
 import com.tianrui.service.bean.businessManage.otherManage.OtherArrive;
+import com.tianrui.service.bean.businessManage.poundNoteMaintain.PoundNote;
 import com.tianrui.service.bean.businessManage.purchaseManage.PurchaseApplicationDetail;
 import com.tianrui.service.bean.businessManage.purchaseManage.PurchaseArrive;
+import com.tianrui.service.bean.businessManage.purchaseManage.PurchaseStorageList;
 import com.tianrui.service.bean.businessManage.salesManage.SalesApplicationDetail;
 import com.tianrui.service.bean.businessManage.salesManage.SalesApplicationJoinNatice;
 import com.tianrui.service.bean.businessManage.salesManage.SalesArrive;
+import com.tianrui.service.bean.businessManage.salesManage.SalesOutboundOrder;
 import com.tianrui.service.bean.common.RFID;
 import com.tianrui.service.impl.businessManage.otherManage.OtherArriveService;
 import com.tianrui.service.mapper.basicFile.measure.VehicleManageMapper;
 import com.tianrui.service.mapper.businessManage.cardManage.CardMapper;
 import com.tianrui.service.mapper.businessManage.logisticsManage.AccessRecordMapper;
 import com.tianrui.service.mapper.businessManage.otherManage.OtherArriveMapper;
+import com.tianrui.service.mapper.businessManage.poundNoteMaintain.PoundNoteMapper;
 import com.tianrui.service.mapper.businessManage.purchaseManage.PurchaseApplicationDetailMapper;
 import com.tianrui.service.mapper.businessManage.purchaseManage.PurchaseArriveMapper;
+import com.tianrui.service.mapper.businessManage.purchaseManage.PurchaseStorageListMapper;
 import com.tianrui.service.mapper.businessManage.salesManage.SalesApplicationDetailMapper;
 import com.tianrui.service.mapper.businessManage.salesManage.SalesApplicationJoinNaticeMapper;
 import com.tianrui.service.mapper.businessManage.salesManage.SalesArriveMapper;
+import com.tianrui.service.mapper.businessManage.salesManage.SalesOutboundOrderMapper;
 import com.tianrui.service.mapper.common.RFIDMapper;
+import com.tianrui.smartfactory.common.constants.Constant;
 import com.tianrui.smartfactory.common.constants.ErrorCode;
 import com.tianrui.smartfactory.common.utils.DateUtil;
 import com.tianrui.smartfactory.common.utils.UUIDUtil;
@@ -82,6 +89,12 @@ public class AccessRecordService implements IAccessRecordService {
 	private OtherArriveMapper otherArriveMapper;
 	@Autowired
 	private OtherArriveService otherArriveService;
+	@Autowired
+	private PoundNoteMapper poundNoteMapper;
+	@Autowired
+	private PurchaseStorageListMapper purchaseStorageListMapper;
+	@Autowired
+	private SalesOutboundOrderMapper salesOutboundOrderMapper;
 	
 	@Override
 	public PaginationVO<AccessRecordResp> page(AccessRecordQuery query) throws Exception{
@@ -656,7 +669,7 @@ public class AccessRecordService implements IAccessRecordService {
 		ErrorCode ec;
 		AccessRecord ar = new AccessRecord();
 		ar.setId(accessId);
-		ar.setAccesstype("2");
+		ar.setAccesstype(Constant.TWO_STRING);
 		ar.setOutsource("");
 		ar.setOuttime(DateUtil.parse(apiParam.getTime(), "yyyy-MM-dd HH:mm:ss"));
 		ar.setModifier(apiParam.getCurrUid());
@@ -679,18 +692,25 @@ public class AccessRecordService implements IAccessRecordService {
 				if (validateVehicle(checkApi.getVehicleNo(), checkApi.getRfid())) {
 					ApiSalesArriveResp resp = validateHasBill(checkApi.getVehicleNo());
 					if (resp != null) {
-						if (!StringUtils.equals(resp.getStatus(), "3")) {
-							if (StringUtils.equals(resp.getAuditstatus(), "1")) {
-								if (StringUtils.equals(resp.getStatus(), "2")) {
-									//result.setData(map);
-									result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
-									//如果业务类型为 工程车辆 且是入厂状态,可以直接出厂
-								} else if(StringUtils.equals(resp.getServicetype(), "9")
-										&& StringUtils.equals(resp.getStatus(), "6")){
-									result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
-								}else {
-									result.setErrorCode(ErrorCode.VEHICLE_NOTICE_NOT_TWO_WEIGHT);
-								}
+						if (!StringUtils.equals(resp.getStatus(), Constant.THREE_STRING)) {
+							if (StringUtils.equals(resp.getAuditstatus(), Constant.ONE_STRING)) {
+							    //如果业务类型为 工程车辆 且是入厂状态,可以直接出厂
+							    if (StringUtils.equals(resp.getServicetype(), Constant.NINE_STRING)) {
+                                    if (StringUtils.equals(resp.getStatus(), Constant.SIX_STRING)) {
+                                        result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+                                    }
+                                } else {
+                                    if (StringUtils.equals(resp.getStatus(), Constant.TWO_STRING)) {
+                                        //校验入库单是否推送成功
+                                        if (validatePushRKD(resp.getNoticeId())) {
+                                            result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+                                        } else {
+                                            result.setErrorCode(ErrorCode.POUNDNOTE_RETURN_ERROR3); 
+                                        }
+                                    }else {
+                                        result.setErrorCode(ErrorCode.VEHICLE_NOTICE_NOT_TWO_WEIGHT);
+                                    }
+                                }
 							} else {
 								result.setErrorCode(ErrorCode.NOTICE_NOT_AUDIT);
 							}
@@ -709,7 +729,28 @@ public class AccessRecordService implements IAccessRecordService {
 		}
 		return result;
 	}
-	/**
+	
+	//校验入库单是否推送成功
+	private boolean validatePushRKD(String noticeId) {
+	    boolean flag = false;
+        PoundNote poundNote = poundNoteMapper.selectByNoticeId(noticeId);
+        if (StringUtils.equals(poundNote.getBilltype(), Constant.ZERO_STRING)
+                || StringUtils.equals(poundNote.getBilltype(), Constant.ONE_STRING)) {
+            PurchaseStorageList storage = purchaseStorageListMapper.selectByPoundNoteId(poundNote.getId());
+            if (StringUtils.equals(storage.getStatus(), Constant.ONE_STRING)) {
+                flag = true;
+            }
+        }
+        if (StringUtils.equals(poundNote.getBilltype(), Constant.TWO_STRING)) {
+            SalesOutboundOrder order = salesOutboundOrderMapper.selectByPoundNoteId(poundNote.getId());
+            if (StringUtils.equals(order.getStatus(), Constant.ONE_STRING)) {
+                flag = true;
+            }
+        }
+        return flag;
+    }
+
+    /**
 	 * @Description 入厂验证
 	 * @author zhanggaohao
 	 * @version 2017年3月2日 下午3:49:33
@@ -809,16 +850,19 @@ public class AccessRecordService implements IAccessRecordService {
 						//
 						resp = null;
 					}else{
+		                resp.setNoticeId(otherArrive.getId());
 						resp.setStatus(otherArrive.getStatus());
 						resp.setAuditstatus(otherArrive.getAuditstatus());
 						resp.setServicetype(otherArrive.getBusinesstype());
 					}
 				} else {
+	                resp.setNoticeId(salesArrive.getId());
 					resp.setStatus(salesArrive.getStatus());
 					resp.setAuditstatus(salesArrive.getAuditstatus());
 					resp.setServicetype("2");
 				}
 			} else {
+			    resp.setNoticeId(purchaseArrive.getId());
 				resp.setStatus(purchaseArrive.getStatus());
 				resp.setAuditstatus(purchaseArrive.getAuditstatus());
 				resp.setServicetype(purchaseArrive.getType());
