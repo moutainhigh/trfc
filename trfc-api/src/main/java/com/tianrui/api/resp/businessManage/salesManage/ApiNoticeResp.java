@@ -7,7 +7,7 @@ import com.tianrui.api.resp.BaseResp;
  * @author Administrator
  *
  */
-public class ApiSalesArriveResp extends BaseResp {
+public class ApiNoticeResp extends BaseResp {
 	
 	private static final long serialVersionUID = 4625515863613381387L;
 	//车牌号

@@ -142,4 +142,10 @@ public interface SalesArriveMapper {
 	 * @version 2017年6月6日 下午2:11:23
 	 */
 	long selectLogisticsPageCount(SalesLogisticsQuery query);
+	/**
+	 * @annotation 根据车辆ID查询在厂的通知单
+	 * @param vehicleId
+	 * @return
+	 */
+	SalesArrive getByVehicleId(String vehicleId);
 }

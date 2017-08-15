@@ -22,7 +22,7 @@ import com.tianrui.api.req.system.base.GetCodeReq;
 import com.tianrui.api.resp.businessManage.logisticsManage.AccessRecordResp;
 import com.tianrui.api.resp.businessManage.otherManage.OtherArriveResp;
 import com.tianrui.api.resp.businessManage.purchaseManage.PurchaseArriveResp;
-import com.tianrui.api.resp.businessManage.salesManage.ApiSalesArriveResp;
+import com.tianrui.api.resp.businessManage.salesManage.ApiNoticeResp;
 import com.tianrui.api.resp.businessManage.salesManage.SalesArriveResp;
 import com.tianrui.service.bean.basicFile.measure.VehicleManage;
 import com.tianrui.service.bean.businessManage.cardManage.Card;
@@ -690,7 +690,7 @@ public class AccessRecordService implements IAccessRecordService {
 				&& StringUtils.isNotBlank(checkApi.getRfid())) {
 			if (validateRFID(checkApi.getRfid())) {
 				if (validateVehicle(checkApi.getVehicleNo(), checkApi.getRfid())) {
-					ApiSalesArriveResp resp = validateHasBill(checkApi.getVehicleNo());
+					ApiNoticeResp resp = validateHasBill(checkApi.getVehicleNo());
 					if (resp != null) {
 						if (!StringUtils.equals(resp.getStatus(), Constant.THREE_STRING)) {
 							if (StringUtils.equals(resp.getAuditstatus(), Constant.ONE_STRING)) {
@@ -734,18 +734,22 @@ public class AccessRecordService implements IAccessRecordService {
 	private boolean validatePushRKD(String noticeId) {
 	    boolean flag = false;
         PoundNote poundNote = poundNoteMapper.selectByNoticeId(noticeId);
-        if (StringUtils.equals(poundNote.getBilltype(), Constant.ZERO_STRING)
-                || StringUtils.equals(poundNote.getBilltype(), Constant.ONE_STRING)) {
-            PurchaseStorageList storage = purchaseStorageListMapper.selectByPoundNoteId(poundNote.getId());
-            if (StringUtils.equals(storage.getStatus(), Constant.ONE_STRING)) {
-                flag = true;
+        if (poundNote.getNetweight() >= Constant.NOT_RETURN_NUM) {
+            if (StringUtils.equals(poundNote.getBilltype(), Constant.ZERO_STRING)
+                    || StringUtils.equals(poundNote.getBilltype(), Constant.ONE_STRING)) {
+                PurchaseStorageList storage = purchaseStorageListMapper.selectByPoundNoteId(poundNote.getId());
+                if (StringUtils.equals(storage.getStatus(), Constant.ONE_STRING)) {
+                    flag = true;
+                }
             }
-        }
-        if (StringUtils.equals(poundNote.getBilltype(), Constant.TWO_STRING)) {
-            SalesOutboundOrder order = salesOutboundOrderMapper.selectByPoundNoteId(poundNote.getId());
-            if (StringUtils.equals(order.getStatus(), Constant.ONE_STRING)) {
-                flag = true;
+            if (StringUtils.equals(poundNote.getBilltype(), Constant.TWO_STRING)) {
+                SalesOutboundOrder order = salesOutboundOrderMapper.selectByPoundNoteId(poundNote.getId());
+                if (StringUtils.equals(order.getStatus(), Constant.ONE_STRING)) {
+                    flag = true;
+                }
             }
+        } else {
+            flag = true;
         }
         return flag;
     }
@@ -765,7 +769,7 @@ public class AccessRecordService implements IAccessRecordService {
 				&& StringUtils.isNotBlank(checkApi.getRfid())) {
 			if (validateRFID(checkApi.getRfid())) {
 				if (validateVehicle(checkApi.getVehicleNo(), checkApi.getRfid())) {
-					ApiSalesArriveResp resp = validateHasBill(checkApi.getVehicleNo());
+					ApiNoticeResp resp = validateHasBill(checkApi.getVehicleNo());
 					if (resp != null) {
 						if (!StringUtils.equals(resp.getStatus(), "3")) {
 							if (StringUtils.equals(resp.getAuditstatus(), "1")) {
@@ -835,8 +839,8 @@ public class AccessRecordService implements IAccessRecordService {
 	 * @param vehicleNo
 	 * @return
 	 */
-	private ApiSalesArriveResp validateHasBill(String vehicleno) {
-		ApiSalesArriveResp resp = new ApiSalesArriveResp();
+	private ApiNoticeResp validateHasBill(String vehicleno) {
+		ApiNoticeResp resp = new ApiNoticeResp();
 		if (StringUtils.isNotBlank(vehicleno)) {
 			PurchaseArrive purchaseArrive = hasPurchaseArrive(vehicleno);
 			//判断是否有采购到货通知单

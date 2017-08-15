@@ -16,12 +16,16 @@ import com.tianrui.api.intf.basicFile.nc.ICustomerManageService;
 import com.tianrui.api.intf.basicFile.nc.IMaterielManageService;
 import com.tianrui.api.intf.basicFile.nc.ISupplierManageService;
 import com.tianrui.api.intf.basicFile.nc.IWarehouseManageService;
+import com.tianrui.api.intf.handSetStatic.IHandSetStaticService;
+import com.tianrui.api.intf.system.auth.ISystemUserService;
 import com.tianrui.api.req.businessManage.handset.HandSetRequestParam;
+import com.tianrui.api.req.system.auth.UserReq;
 import com.tianrui.api.resp.businessManage.handset.HandSetReturnResp;
 import com.tianrui.smartfactory.common.api.ApiParam;
 import com.tianrui.smartfactory.common.api.ApiResult;
 import com.tianrui.smartfactory.common.constants.ErrorCode;
 import com.tianrui.smartfactory.common.vo.Result;
+import com.tianrui.web.smvc.ApiAuthValidation;
 import com.tianrui.web.smvc.ApiNotTokenValidation;
 import com.tianrui.web.smvc.ApiParamRawType;
 
@@ -43,6 +47,10 @@ public class HandSetStaticAction {
 	private IMaterielManageService materielManageService;
 	@Autowired
 	private IPrimarySettingService primarySettingService;
+    @Autowired
+    private IHandSetStaticService handSetStaticService;
+    @Autowired
+    private ISystemUserService systemUserService;
 
 	@RequestMapping(value="/supplier",method = RequestMethod.POST)
 	@ApiParamRawType(HandSetRequestParam.class)
@@ -147,4 +155,53 @@ public class HandSetStaticAction {
 		}
 		return ApiResult.valueOf(rs);
 	}
+	
+	
+	/**
+	 * 
+	 * @annotation 以下为增加手持机联网新增接口
+	 * 
+	 */
+	
+	
+	@RequestMapping(value="/login",method=RequestMethod.POST)
+    @ResponseBody
+    public ApiResult login(UserReq req){
+        Result rs = Result.getErrorResult();
+        try {
+            rs = systemUserService.login(req);
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+            rs.setErrorCode(ErrorCode.SYSTEM_ERROR);
+        }
+        return ApiResult.valueOf(rs);
+    }
+    
+    @RequestMapping(value="/readICard",method = RequestMethod.POST)
+    @ApiAuthValidation(callType="4")
+    @ResponseBody
+    public ApiResult readICard(HandSetRequestParam param){
+        Result rs = Result.getErrorResult();
+        try {
+            rs = handSetStaticService.readICard(param);
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+            rs.setErrorCode(ErrorCode.SYSTEM_ERROR);
+        }
+        return ApiResult.valueOf(rs);
+    }
+    
+    @RequestMapping(value="/receive", method = RequestMethod.POST)
+    @ApiAuthValidation(callType="4")
+    @ResponseBody
+    public ApiResult receive(HandSetRequestParam param) {
+        Result rs = Result.getErrorResult();
+        try {
+            rs = handSetStaticService.receive(param);
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+            rs.setErrorCode(ErrorCode.SYSTEM_ERROR);
+        }
+        return ApiResult.valueOf(rs);
+    }
 }

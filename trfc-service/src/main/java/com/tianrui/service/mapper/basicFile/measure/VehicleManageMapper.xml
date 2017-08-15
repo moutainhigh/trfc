@@ -522,4 +522,9 @@
 			</if>
 		</where>
 	</select>
+	<select id="getVehicleByNo" parameterType="java.lang.String" resultMap="BaseResultMap">
+		select <include refid="Base_Column_List"/>
+		from tr_vehicle_db_manage
+		where vehicleno = #{vehicleNo,jdbcType=VARCHAR}
+	</select>
 </mapper>

@@ -37,7 +37,7 @@ import com.tianrui.api.resp.businessManage.logisticsManage.SalesLogisticsResp;
 import com.tianrui.api.resp.businessManage.otherManage.OtherArriveResp;
 import com.tianrui.api.resp.businessManage.poundNoteMaintain.PoundNoteResp;
 import com.tianrui.api.resp.businessManage.salesManage.ApiDoorQueueResp;
-import com.tianrui.api.resp.businessManage.salesManage.ApiSalesArriveResp;
+import com.tianrui.api.resp.businessManage.salesManage.ApiNoticeResp;
 import com.tianrui.api.resp.businessManage.salesManage.SalesApplicationDetailResp;
 import com.tianrui.api.resp.businessManage.salesManage.SalesApplicationResp;
 import com.tianrui.api.resp.businessManage.salesManage.SalesArriveResp;
@@ -652,7 +652,7 @@ public class SalesArriveService implements ISalesArriveService {
 				//判断RFID是否已注册且唯一
 				if(count == 1){
 					if(StringUtils.equals(query.getRfid(), list.get(0).getRfid())){
-						ApiSalesArriveResp api = null;
+						ApiNoticeResp api = null;
 						if((api = getSalesArriveDetail(query.getVehicleno(), query.getRfid())) != null){
 							result.setData(api);
 							result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
@@ -678,11 +678,11 @@ public class SalesArriveService implements ISalesArriveService {
 		return result;
 	}
 	
-	private ApiSalesArriveResp getPurchaseArriveDetail(String vehileno, String vehiclerfid) {
-		ApiSalesArriveResp api = null;
+	private ApiNoticeResp getPurchaseArriveDetail(String vehileno, String vehiclerfid) {
+		ApiNoticeResp api = null;
 		List<PurchaseArrive> listPurchase = purchaseArriveMapper.validNoticeByVehicle(vehileno, vehiclerfid);
 		if(CollectionUtils.isNotEmpty(listPurchase)){
-			api = new ApiSalesArriveResp();
+			api = new ApiNoticeResp();
 			PurchaseApplication application = purchaseApplicationMapper.selectByPrimaryKey(listPurchase.get(0).getBillid());
 			PurchaseApplicationDetail applicationDetail = purchaseApplicationDetailMapper.selectByPrimaryKey(listPurchase.get(0).getBilldetailid());
 			api.setVehicleid(listPurchase.get(0).getVehicleid());
@@ -708,8 +708,8 @@ public class SalesArriveService implements ISalesArriveService {
 		}
 		return api;
 	}
-	private ApiSalesArriveResp getOtherArriveDetail(String vehicleno, String vehiclerfid) {
-		ApiSalesArriveResp api = null;
+	private ApiNoticeResp getOtherArriveDetail(String vehicleno, String vehiclerfid) {
+		ApiNoticeResp api = null;
 		OtherArrive oa = new OtherArrive();
 		oa.setVehicleid("123");
 		if(StringUtils.isNotBlank(vehicleno)){
@@ -720,7 +720,7 @@ public class SalesArriveService implements ISalesArriveService {
 		}
 		List<OtherArrive> listPurchase = otherArriveMapper.checkDriverAndVehicleAndIcardIsUse(oa);
 		if(CollectionUtils.isNotEmpty(listPurchase)){
-			api = new ApiSalesArriveResp();
+			api = new ApiNoticeResp();
 //			PurchaseApplication application = purchaseApplicationMapper.selectByPrimaryKey(listPurchase.get(0).getBillid());
 //			PurchaseApplicationDetail applicationDetail = purchaseApplicationDetailMapper.selectByPrimaryKey(listPurchase.get(0).getBilldetailid());
 			OtherArriveResp oaResp = new OtherArriveResp();
@@ -756,11 +756,11 @@ public class SalesArriveService implements ISalesArriveService {
 		}
 		return api;
 	}
-	private ApiSalesArriveResp getSalesArriveDetail(String vehicleno, String vehiclerfid) throws Exception{
-		ApiSalesArriveResp api = null;
+	private ApiNoticeResp getSalesArriveDetail(String vehicleno, String vehiclerfid) throws Exception{
+		ApiNoticeResp api = null;
 		List<SalesArrive> list = salesArriveMapper.validNoticeByVehicle(vehicleno, vehiclerfid);
 		if(CollectionUtils.isNotEmpty(list)){
-			api = new ApiSalesArriveResp();
+			api = new ApiNoticeResp();
 			SalesArriveResp resp = copyBean2Resp(list.get(0), true);
 			SalesApplicationResp salesApplicationResp = resp.getMainApplication();
 			SalesApplicationDetailResp salesApplicationDetailResp = resp.getMainApplicationDetail();

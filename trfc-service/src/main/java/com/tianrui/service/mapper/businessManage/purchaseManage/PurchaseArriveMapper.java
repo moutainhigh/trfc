@@ -136,4 +136,10 @@ public interface PurchaseArriveMapper {
 	 * @version 2017年6月6日 上午9:16:40
 	 */
 	long selectLogisticsPageCount(PurchaseLogisticsQuery query);
+	/**
+	 * @annotation 根据车辆ID查找在厂通知单
+	 * @param vehicleId
+	 * @return
+	 */
+	PurchaseArrive getByVehicleId(String vehicleId);
 }

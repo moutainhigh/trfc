@@ -868,4 +868,9 @@
         and t1.code = #{noticeCode,jdbcType=VARCHAR}
       </if>
   </select>
+  <select id="getByVehicleId" parameterType="java.lang.String" resultMap="BaseResultMap">
+  	select <include refid="Base_Column_List" />
+	from tr_purchase_db_arrive
+	where status not in ('3', '5') and vehicleid = #{vehicleId,jdbcType=VARCHAR}
+  </select>
 </mapper>
