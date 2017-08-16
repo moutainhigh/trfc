@@ -280,10 +280,10 @@
   	from tr_transportunit_db_manage
 	<where>
 		<if test="name != null and name != ''">
-  			and name like '%${name}%'
+  			and name like CONCAT('%', #{name,jdbcType=VARCHAR}, '%')
 		</if>
   		<if test="internalcode != null and internalcode != ''">
-  			and internalcode like '%${internalcode}%'
+  			and internalcode like CONCAT('%', #{internalcode,jdbcType=VARCHAR}, '%')
 		</if>
 		<if test="isvalid != null and isvalid != ''" >
        		and isvalid = #{isvalid,jdbcType=VARCHAR}
@@ -305,10 +305,10 @@
   	from tr_transportunit_db_manage
 	<where>
 		<if test="name != null and name != ''">
-  			and name like '%${name}%'
+  			and name like CONCAT('%', #{name,jdbcType=VARCHAR}, '%')
 		</if>
   		<if test="internalcode != null and internalcode != ''">
-  			and internalcode like '%${internalcode}%'
+  			and internalcode like CONCAT('%', #{internalcode,jdbcType=VARCHAR}, '%')
 		</if>
 		<if test="isvalid != null and isvalid != ''" >
         	and isvalid = #{isvalid,jdbcType=VARCHAR}
@@ -329,5 +329,11 @@
 			limit #{start,jdbcType=INTEGER},#{limit,jdbcType=INTEGER}
   		</if>
   	</if>
+  </select>
+  <select id="autoCompleteSearch" parameterType="java.lang.String" resultMap="BaseResultMap">
+  	select
+  	<include refid="Base_Column_List" />
+  	from tr_transportunit_db_manage
+	where name like CONCAT('%', #{likeName,jdbcType=VARCHAR}, '%') and state = 1
   </select>
 </mapper>

@@ -1,6 +1,7 @@
 package com.tianrui.web.action.basicFile.measure;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -19,6 +20,7 @@ import com.tianrui.api.intf.system.base.ISystemCodeService;
 import com.tianrui.api.req.basicFile.measure.TransportunitManageQuery;
 import com.tianrui.api.req.basicFile.measure.TransportunitManageSave;
 import com.tianrui.api.req.system.base.GetCodeReq;
+import com.tianrui.api.resp.basicFile.measure.TransportunitManageResp;
 import com.tianrui.api.resp.system.auth.SystemUserResp;
 import com.tianrui.smartfactory.common.constants.Constant;
 import com.tianrui.smartfactory.common.constants.ErrorCode;
@@ -145,4 +147,16 @@ public class TransportunitManageAction {
 		}
 		return result;
 	}
+    
+    @RequestMapping("/autoCompleteSearch")
+    @ResponseBody
+    public List<TransportunitManageResp> autoCompleteSearch(String term){
+        List<TransportunitManageResp> list = null;
+        try {
+            list = transportunitManageService.autoCompleteSearch(term.trim());
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+        }
+        return list;
+    }
 }

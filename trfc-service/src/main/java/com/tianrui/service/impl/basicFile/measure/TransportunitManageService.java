@@ -80,7 +80,7 @@ public class TransportunitManageService implements ITransportunitManageService{
 		//参数不能为空校验
 		if(save != null){
 			TransportunitManage transportunit = new TransportunitManage();
-			transportunit.setCode(save.getCode());
+			transportunit.setCode(getCode(save.getCurrId()));
 			transportunit.setName(save.getName());
 			transportunit.setState(Constant.ONE_STRING);
 			//查询数据库里是否有这条数据
@@ -220,5 +220,10 @@ public class TransportunitManageService implements ITransportunitManageService{
 		}
 		return resp;
 	}
+
+    @Override
+    public List<TransportunitManageResp> autoCompleteSearch(String likeName) throws Exception {
+        return copyBeanList2RespList(transportunitManageMapper.autoCompleteSearch(likeName));
+    }
 
 }

@@ -8,12 +8,53 @@
 			black:"/trfc/vehicle/black",
 			white:"/trfc/vehicle/white",
 			del:"/trfc/vehicle/delete",
+			transportAutoCompleteSearch: '/trfc/transport/autoCompleteSearch'
 	};
 	//初始化
 	init();
 	function init(){
+		//初始化autocomplete
+		initAutoComplete();
 		bindEvent();
 		queryData(1);
+	}
+	//初始化autocomplete
+	function initAutoComplete(){
+		var cache = {};
+	    $("#add_transportunit,#_transportunit").autocomplete({
+	    	source: function( request, response ) {
+	    		var term = request.term;
+	    		var transport = cache['transport'] || {};
+	    		if ( term in transport ) {
+	    			response( transport[ term ] );
+	    			return;
+	    		}
+	    		$.post( URL.transportAutoCompleteSearch, request, function( data, status, xhr ) {
+	    			transport[ term ] = data;
+	    			response( data );
+	    		});
+	    	},
+	    	response: function( event, ui ) {
+	    		if(ui.content && ui.content.length > 0){
+		    		ui.content.forEach(function(x,i,a){
+		    			x.label = x.name;
+		    			x.value = x.id;
+		    		});
+	    		}
+	    	},
+	    	select: function( event, ui ) {
+	    		$(this).val(ui.item.name).attr('transportunitId', ui.item.id).attr('select',true);
+	    		return false;
+    		}
+	    }).off('click').on('click',function(){
+	    	$(this).autocomplete('search',' ');
+	    }).on('input keydown',function(){
+	    	$(this).removeAttr('transportunitId');
+	    }).change(function(){
+    		if(!$(this).attr('transportunitId')){
+    			$(this).val('');
+    		}
+	    });
 	}
 	//绑定事件
 	function bindEvent(){
@@ -45,13 +86,6 @@
 			layer.closeAll('dialog');
 			this.disabled = true;
 			update(this);
-		});
-		$('#update').off('click').on('click',function(e){
-			e.stopPropagation();
-			layer.closeAll('dialog');
-			var obj = $('table.maintable tbody tr.active').data();
-			if (!obj) {layer.msg('需要选中一行才能操作哟！'); return;}
-			showUpdateView(obj);
 		});
 		$('#delete').off('click').on('click',function(e){
 			e.stopPropagation();
@@ -165,7 +199,7 @@
 				var rfid = obj.rfid || '';
 				var vehicleno = obj.vehicleno || '';
 				var orgname = obj.orgname || '';
-				var transportunit = obj.transportunit || '';
+				var transportunitName = obj.transportunitName || '';
 				var isblacklist = obj.isblacklist || '';
 				switch (isblacklist) {
 				case '0':
@@ -184,7 +218,7 @@
 						.append('<td>'+rfid+'</td>')
 						.append('<td>'+vehicleno+'</td>')
 						.append('<td>'+orgname+'</td>')
-						.append('<td>'+transportunit+'</td>')
+						.append('<td>'+transportunitName+'</td>')
 						.append('<td '+(obj.isblacklist=='1'?'style="color:red;"':'')+'>'+isblacklist+'</td>')
 						.append('<td>'+remarks+'</td>')
 						.data(obj)
@@ -209,6 +243,7 @@
 			if(result.code == '000000'){
 				$('#add_code').val(result.data.code);
 				$('#add_orgname').val(result.data.orgName);
+				$('#add_transportunit').removeAttr('transportunitId').val('');
 				$('#addView').modal('show');
 			}else{
 				layer.msg(result.error, {icon: 5});
@@ -221,7 +256,7 @@
 		var transporttype = $('#add_transporttype').val();transporttype = $.trim(transporttype);
 		var vehicleno = $('#add_vehicleno').val();vehicleno = $.trim(vehicleno);
 		var vehicletype = $('#add_vehicletype').val();vehicletype = $.trim(vehicletype);
-		var transportunit = $('#add_transportunit').val();transportunit = $.trim(transportunit);
+		var transportunit = $('#add_transportunit').attr('transportunitId');transportunit = $.trim(transportunit);
 		var maxweight = $('#add_maxweight').val();maxweight = $.trim(maxweight);
 		var tareweight = $('#add_tareweight').val();tareweight = $.trim(tareweight);
 		var ownername = $('#add_ownername').val();ownername = $.trim(ownername);
@@ -290,7 +325,7 @@
 		$('#_transporttype').val(obj.transporttype);
 		$('#_vehicleno').val(obj.vehicleno);
 		$('#_vehicletype').val(obj.vehicletype);
-		$('#_transportunit').val(obj.transportunit);
+		$('#_transportunit').attr('transportunitId', obj.transportunit).val(obj.transportunitName);
 		$('#_maxweight').val(obj.maxweight);
 		$('#_tareweight').val(obj.tareweight);
 		$('#_ownername').val(obj.ownername);
@@ -311,7 +346,7 @@
 		var transporttype = $('#_transporttype').val();transporttype = $.trim(transporttype);
 		var vehicleno = $('#_vehicleno').val();vehicleno = $.trim(vehicleno);
 		var vehicletype = $('#_vehicletype').val();vehicletype = $.trim(vehicletype);
-		var transportunit = $('#_transportunit').val();transportunit = $.trim(transportunit);
+		var transportunit = $('#_transportunit').attr('transportunitId');transportunit = $.trim(transportunit);
 		var maxweight = $('#_maxweight').val();maxweight = $.trim(maxweight);
 		var tareweight = $('#_tareweight').val();tareweight = $.trim(tareweight);
 		var ownername = $('#_ownername').val();ownername = $.trim(ownername);
@@ -338,7 +373,7 @@
 		};
 	}
 	//校验修改参数
-	function validateAddUpdate(params){
+	function validateUpdate(params){
 		if(!params.id){
 			layer.msg('请先选中一行哟！', {icon: 5});return;
 		}
@@ -352,8 +387,8 @@
 	}
 	//修改
 	function update(_this){
-		var params = getAddParams();
-		if(validateAddUpdate(params)){
+		var params = getUpdateParams();
+		if(validateUpdate(params)){
 			$.post(URL.update, params, function(result) {
 				if(result){
 					if(result.code == '000000'){

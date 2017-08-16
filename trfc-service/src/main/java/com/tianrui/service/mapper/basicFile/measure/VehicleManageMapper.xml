@@ -1,19 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper
-	namespace="com.tianrui.service.mapper.basicFile.measure.VehicleManageMapper">
-	<resultMap id="BaseResultMap"
-		type="com.tianrui.service.bean.basicFile.measure.VehicleManage">
+<mapper namespace="com.tianrui.service.mapper.basicFile.measure.VehicleManageMapper">
+	<resultMap id="BaseResultMap" type="com.tianrui.service.bean.basicFile.measure.VehicleManage">
 		<id column="id" property="id" jdbcType="VARCHAR" />
 		<result column="code" property="code" jdbcType="VARCHAR" />
 		<result column="internalcode" property="internalcode" jdbcType="VARCHAR" />
 		<result column="RFID" property="rfid" jdbcType="VARCHAR" />
 		<result column="vehicleno" property="vehicleno" jdbcType="VARCHAR" />
-		<result column="transporttype" property="transporttype"
-			jdbcType="VARCHAR" />
+		<result column="transporttype" property="transporttype" jdbcType="VARCHAR" />
 		<result column="vehicletype" property="vehicletype" jdbcType="VARCHAR" />
-		<result column="transportunit" property="transportunit"
-			jdbcType="VARCHAR" />
+		<result column="transportunit" property="transportunit" jdbcType="VARCHAR" />
 		<result column="maxweight" property="maxweight" jdbcType="DOUBLE" />
 		<result column="tareweight" property="tareweight" jdbcType="DOUBLE" />
 		<result column="ownername" property="ownername" jdbcType="VARCHAR" />
