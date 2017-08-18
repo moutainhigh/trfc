@@ -127,7 +127,7 @@ public class HandSetStaticService implements IHandSetStaticService {
     public Result receive(HandSetRequestParam param) {
         Result result = Result.getParamErrorResult();
         if (StringUtils.isNotBlank(param.getNoticeCode())
-                && StringUtils.isNotBlank(param.getReceivePersonId())
+                && StringUtils.isNotBlank(param.getUserId())
                 && StringUtils.isNotBlank(param.getWarehouseId())
                 && StringUtils.isNotBlank(param.getYardId())
                 && param.getDeductionweight() != null
@@ -149,7 +149,7 @@ public class HandSetStaticService implements IHandSetStaticService {
     private PoundNote copyReceive(HandSetRequestParam param, PoundNote poundNote) {
         PoundNote updateItem = new PoundNote();
         updateItem.setId(poundNote.getId());
-        SystemUser user = systemUserMapper.selectByPrimaryKey(param.getReceivePersonId());
+        SystemUser user = systemUserMapper.selectByPrimaryKey(param.getUserId());
         if (user != null) {
             updateItem.setReceiverpersonid(user.getId());
             updateItem.setReceiverpersonname(user.getName());

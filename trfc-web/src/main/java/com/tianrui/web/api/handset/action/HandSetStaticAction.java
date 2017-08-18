@@ -165,11 +165,12 @@ public class HandSetStaticAction {
 	
 	
 	@RequestMapping(value="/login",method=RequestMethod.POST)
+	@ApiParamRawType(UserReq.class)
     @ResponseBody
-    public ApiResult login(UserReq req){
+    public ApiResult login(ApiParam<UserReq> req){
         Result rs = Result.getErrorResult();
         try {
-            rs = systemUserService.login(req);
+            rs = systemUserService.login(req.getBody());
         } catch (Exception e) {
             log.error(e.getMessage(), e);
             rs.setErrorCode(ErrorCode.SYSTEM_ERROR);
@@ -178,12 +179,14 @@ public class HandSetStaticAction {
     }
     
     @RequestMapping(value="/readICard",method = RequestMethod.POST)
+    @ApiParamRawType(HandSetRequestParam.class)
     @ApiAuthValidation(callType="4")
     @ResponseBody
-    public ApiResult readICard(HandSetRequestParam param){
+    public ApiResult readICard(ApiParam<HandSetRequestParam> req){
         Result rs = Result.getErrorResult();
         try {
-            rs = handSetStaticService.readICard(param);
+            req.getBody().setUserId(req.getHead().getUserId());
+            rs = handSetStaticService.readICard(req.getBody());
         } catch (Exception e) {
             log.error(e.getMessage(), e);
             rs.setErrorCode(ErrorCode.SYSTEM_ERROR);
@@ -192,12 +195,14 @@ public class HandSetStaticAction {
     }
     
     @RequestMapping(value="/receive", method = RequestMethod.POST)
+    @ApiParamRawType(HandSetRequestParam.class)
     @ApiAuthValidation(callType="4")
     @ResponseBody
-    public ApiResult receive(HandSetRequestParam param) {
+    public ApiResult receive(ApiParam<HandSetRequestParam> req) {
         Result rs = Result.getErrorResult();
         try {
-            rs = handSetStaticService.receive(param);
+            req.getBody().setUserId(req.getHead().getUserId());
+            rs = handSetStaticService.receive(req.getBody());
         } catch (Exception e) {
             log.error(e.getMessage(), e);
             rs.setErrorCode(ErrorCode.SYSTEM_ERROR);

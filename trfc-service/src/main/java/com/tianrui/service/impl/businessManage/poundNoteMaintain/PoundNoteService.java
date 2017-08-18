@@ -171,7 +171,7 @@ public class PoundNoteService implements IPoundNoteService {
 	
 	private String getCode(String code, String userId) throws Exception {
         GetCodeReq codeReq1 = new GetCodeReq();
-        codeReq1.setCode("RKD");
+        codeReq1.setCode(code);
         codeReq1.setCodeType(true);
         codeReq1.setUserid(userId);
         return systemCodeService.getCode(codeReq1).getData().toString();
@@ -690,6 +690,7 @@ public class PoundNoteService implements IPoundNoteService {
 					order.setId(UUIDUtil.getId());
 					order.setCode(code);
 					order.setNcId(billid);
+					order.setPoundId(bean.getId());
 					order.setBilldate(DateUtil.parse(application.getBilltime(), "yyyy-MM-dd HH:mm:ss"));
 					order.setPkOrg(application.getOrgid());
 					order.setCdptid(application.getDepartmentid());
@@ -1232,7 +1233,7 @@ public class PoundNoteService implements IPoundNoteService {
 				PoundNote pn = new PoundNote();
 				pn.setId(storage.getPoundId());
 				pn.setReturnstatus(Constant.POUND_PUSH_STATUS_ING);
-				if (poundNoteMapper.updateByOrderCode(pn) > 0) {
+				if (poundNoteMapper.updateByPrimaryKeySelective(pn) == 1) {
 					ec = ErrorCode.SYSTEM_SUCCESS;
 				}
 			}
@@ -1444,9 +1445,9 @@ public class PoundNoteService implements IPoundNoteService {
 				orderUpdate.setStatus("1");
 				if (salesOutboundOrderMapper.updateByPrimaryKeySelective(orderUpdate) > 0) {
 					PoundNote pn = new PoundNote();
-					pn.setPutinwarehousecode(order.getCode());
+					pn.setId(order.getPoundId());
 					pn.setReturnstatus("2");
-					if (poundNoteMapper.updateByOrderCode(pn) > 0) {
+					if (poundNoteMapper.updateByPrimaryKeySelective(pn) == 1) {
 						ec = ErrorCode.SYSTEM_SUCCESS;
 					}
 				}

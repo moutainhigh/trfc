@@ -73,4 +73,8 @@
 		<servlet-name>spring</servlet-name>
 		<url-pattern>/</url-pattern>
 	</servlet-mapping>
+	<error-page>
+	   <error-code>404</error-code>
+	   <location>/resources/error/404.html</location>
+	</error-page>
 </web-app>

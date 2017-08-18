@@ -72,19 +72,19 @@ public class TestApiPoundNote {
 		ApiParam<ApiPoundNoteQuery> api =new ApiParam<ApiPoundNoteQuery>();
 		
 		ApiPoundNoteQuery req =new ApiPoundNoteQuery();
-		req.setRfid("E2000016060D014827000A5E");
-		req.setVehicleno("豫S98765");
+		req.setRfid("E2005024861501670760CDD2");
+		req.setVehicleno("豫F98765");
 		req.setType("2");
-		req.setServicetype("1");
-		req.setNotionformcode("EH20170615000023");
-		req.setNumber("58");
+		req.setServicetype("2");
+		req.setNotionformcode("TH201708170001");
+		req.setNumber("50");
 		req.setTime(DateUtil.getNowDateString("yyyy-MM-dd HH:mm:ss"));
 		
 		//二次过磅所需参数
-		req.setDeductionweight("0.5");
-		req.setOriginalnetweight("21");
-		req.setDeductionother("0.5");
-		req.setNetweight("40");
+		req.setDeductionweight("0");
+		req.setOriginalnetweight("0");
+		req.setDeductionother("0");
+		req.setNetweight("0");
 		
 		Head head =new Head();
 		head.setCallSource("1");

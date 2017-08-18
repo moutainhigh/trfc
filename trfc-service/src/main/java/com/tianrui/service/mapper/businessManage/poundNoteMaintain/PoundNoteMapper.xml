@@ -1246,11 +1246,6 @@
 			</if>
 		</where>
 	</select>
-	<update id="updateByOrderCode" parameterType="com.tianrui.service.bean.businessManage.poundNoteMaintain.PoundNote" >
-	    update tr_pound_db_note
-	    set returnstatus = #{returnstatus,jdbcType=VARCHAR}
-	    where id = #{id,jdbcType=VARCHAR} 
-    </update>
     <select id="selectSelective" parameterType="com.tianrui.service.bean.businessManage.poundNoteMaintain.PoundNote" resultMap="BaseResultMap">
     	select
     	<include refid="Base_Column_List" />

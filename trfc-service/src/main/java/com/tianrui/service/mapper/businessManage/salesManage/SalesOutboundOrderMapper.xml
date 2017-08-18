@@ -236,7 +236,7 @@
        order by create_time desc 
   </select>
   <insert id="insertBatch" parameterType="java.util.List">
-	insert into tr_sale_outbound_order (id, code, nc_id, billdate, pk_org, cdptid, cbizid, ntotalnum, cdilivertypeid, billmaker, 
+	insert into tr_sale_outbound_order (id, code, nc_id, poundId, billdate, pk_org, cdptid, cbizid, ntotalnum, cdilivertypeid, billmaker, 
     dmakedate, ctrantypeid, ts, status, create_time)
 	values
 	<foreach collection="list" item="item" index="index" separator=",">
