@@ -72,7 +72,7 @@
 										<option value="">请选择</option>
 										<option value="0">红冲</option>
 										<option value="1">补增</option>
-										<option value="2">作废</option>
+										<option value="3">作废</option>
 									</select>
 								</div>
 								<div class="intel_solo">

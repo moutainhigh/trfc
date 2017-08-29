@@ -227,6 +227,9 @@
 		if(status == '0'){
 			delete params.status;
 			params.redcollide = '1';
+		}else if(status == '2'){
+			delete params.status;
+			params.billtype = '1';
 		}
 		return params;
 	}

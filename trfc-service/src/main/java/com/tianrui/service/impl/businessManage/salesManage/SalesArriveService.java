@@ -195,10 +195,10 @@ public class SalesArriveService implements ISalesArriveService {
 				codeReq.setCodeType(true);
 				codeReq.setUserid(save.getCurrUId());
 				bean.setCode(systemCodeService.getCode(codeReq).getData().toString());
-				bean.setAuditstatus("0");
-				bean.setStatus("0");
-				bean.setState("1");
-				bean.setSource("0");
+				bean.setAuditstatus(Constant.ONE_STRING);
+				bean.setStatus(Constant.ZERO_STRING);
+				bean.setState(Constant.ONE_STRING);
+				bean.setSource(Constant.ZERO_STRING);
 				bean.setMakerid(save.getCurrUId());
 				bean.setMakebillname(systemUserService.getUser(save.getCurrUId()).getName());
 				bean.setCreator(save.getCurrUId());
@@ -220,7 +220,7 @@ public class SalesArriveService implements ISalesArriveService {
 						join.setBilldetailid(billdetailid);
 						join.setNaticeid(bean.getId());
 						join.setTakeamount(bean.getTakeamount());
-						join.setState("1");
+						join.setState(Constant.ONE_STRING);
 						join.setCreator(bean.getCreator());
 						join.setCreatetime(System.currentTimeMillis());
 						join.setModifier(bean.getModifier());
