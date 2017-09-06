@@ -16,5 +16,17 @@ public interface IHandSetStaticService {
      * @return
      */
     Result receive(HandSetRequestParam param);
+    /**
+     * @annotation 整车退货
+     * @param param
+     * @return
+     */
+    Result allReturnOfGoods(HandSetRequestParam param);
+    /**
+     * @annotation 退货确认
+     * @param param
+     * @return
+     */
+    Result returnOfGoods(HandSetRequestParam param);
 
 }

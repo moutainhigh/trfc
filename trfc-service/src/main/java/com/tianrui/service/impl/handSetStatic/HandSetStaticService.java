@@ -6,6 +6,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.tianrui.api.intf.handSetStatic.IHandSetStaticService;
 import com.tianrui.api.req.businessManage.handset.HandSetRequestParam;
@@ -32,6 +33,7 @@ import com.tianrui.service.mapper.businessManage.salesManage.SalesApplicationDet
 import com.tianrui.service.mapper.businessManage.salesManage.SalesApplicationMapper;
 import com.tianrui.service.mapper.businessManage.salesManage.SalesArriveMapper;
 import com.tianrui.service.mapper.system.auth.SystemUserMapper;
+import com.tianrui.smartfactory.common.constants.Constant;
 import com.tianrui.smartfactory.common.constants.ErrorCode;
 import com.tianrui.smartfactory.common.vo.Result;
 
@@ -69,6 +71,7 @@ public class HandSetStaticService implements IHandSetStaticService {
             VehicleManage vehicle = vehicleManageMapper.getVehicleByNo(params.getVehicleNo());
             if (vehicle != null) {
                 result.setData(readICardByVehicle(vehicle.getId()));
+                result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
             } else {
                 result.setErrorCode(ErrorCode.VEHICLE_NOT_EXIST);
             }
@@ -100,6 +103,7 @@ public class HandSetStaticService implements IHandSetStaticService {
         resp.setNoticeCode(salesArrive.getCode());
         SalesApplication application = salesApplicationMapper.selectByPrimaryKey(salesArrive.getBillid());
         if (application != null) {
+            resp.setDeptId(application.getCustomerid());
             resp.setDeptName(application.getCustomername());
         }
         SalesApplicationDetail applicationDetail = salesApplicationDetailMapper.selectByPrimaryKey(salesArrive.getBilldetailid());
@@ -113,6 +117,7 @@ public class HandSetStaticService implements IHandSetStaticService {
         resp.setNoticeCode(purchaseArrive.getCode());
         PurchaseApplication application = purchaseApplicationMapper.selectByPrimaryKey(purchaseArrive.getBillid());
         if (application != null) {
+            resp.setDeptId(application.getSupplierid());
             resp.setDeptName(application.getSuppliername());
             resp.setDeptRemark(application.getSupplierremark());
             resp.setMinemouth(application.getMinemouthname());
@@ -123,24 +128,44 @@ public class HandSetStaticService implements IHandSetStaticService {
         }
     }
 
+    @Transactional
     @Override
     public Result receive(HandSetRequestParam param) {
         Result result = Result.getParamErrorResult();
-        if (StringUtils.isNotBlank(param.getNoticeCode())
-                && StringUtils.isNotBlank(param.getUserId())
+        if (StringUtils.isNotBlank(param.getUserId())
+                &&StringUtils.isNotBlank(param.getNoticeCode())
                 && StringUtils.isNotBlank(param.getWarehouseId())
                 && StringUtils.isNotBlank(param.getYardId())
                 && param.getDeductionweight() != null
                 && param.getDeductionother() != null
                 && param.getOriginalnetweight() != null) {
-            PoundNote poundNote = new PoundNote();
-            poundNote.setNoticecode(param.getNoticeCode());
-            List<PoundNote> list = poundNoteMapper.selectSelective(poundNote);
-            if (CollectionUtils.isNotEmpty(list)) {
-                poundNote = list.get(0);
-                PoundNote updateItem = copyReceive(param, poundNote);
-                poundNoteMapper.updateByPrimaryKeySelective(updateItem);
-                result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+            PurchaseArrive pa = purchaseArriveMapper.selectByCode(param.getNoticeCode());
+            if (pa != null) {
+                if (StringUtils.equals(pa.getStatus(), Constant.ONE_STRING)) {
+                    if (StringUtils.equals(pa.getStatus(), Constant.SEVEN_STRING)) {
+                        PoundNote poundNote = new PoundNote();
+                        poundNote.setNoticecode(param.getNoticeCode());
+                        List<PoundNote> list = poundNoteMapper.selectSelective(poundNote);
+                        if (CollectionUtils.isNotEmpty(list)) {
+                            poundNote = list.get(0);
+                            PoundNote updateItem = copyReceive(param, poundNote);
+                            poundNoteMapper.updateByPrimaryKeySelective(updateItem);
+                            result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+                            //修改通知单签收状态
+                            PurchaseArrive update = new PurchaseArrive();
+                            update.setStatus(Constant.SEVEN_STRING);
+                            update.setId(pa.getId());
+                            update.setSignStatus(Constant.ONE_NUMBER);
+                            purchaseArriveMapper.updateByPrimaryKeySelective(update);
+                        }
+                    } else {
+                        result.setErrorCode(ErrorCode.NOTICE_ON_SIGN);
+                    }
+                } else {
+                    result.setErrorCode(ErrorCode.NOTICE_NOT_ONE_POUNDNOTE);
+                }
+            } else {
+                result.setErrorCode(ErrorCode.NOTICE_NOT_EXIST);
             }
         }
         return result;
@@ -164,10 +189,71 @@ public class HandSetStaticService implements IHandSetStaticService {
             updateItem.setYardid(yard.getId());
             updateItem.setYardname(yard.getName());
         }
+        /**
+         * 这里扣重扣重和原发跟二次过磅有冲突，在此记录，待解决
+         */
         updateItem.setDeductionweight(param.getDeductionweight());
         updateItem.setDeductionother(param.getDeductionother());
         updateItem.setOriginalnetweight(param.getOriginalnetweight());
         return updateItem;
+    }
+
+    @Transactional
+    @Override
+    public Result allReturnOfGoods(HandSetRequestParam param) {
+        Result result = Result.getParamErrorResult();
+        if (StringUtils.isNotBlank(param.getUserId())
+                &&StringUtils.isNotBlank(param.getNoticeCode())) {
+            PurchaseArrive pa = purchaseArriveMapper.selectByCode(param.getNoticeCode());
+            if (pa != null) {
+                if (StringUtils.equals(pa.getStatus(), Constant.ONE_STRING)) {
+                    if (StringUtils.equals(pa.getStatus(), Constant.SEVEN_STRING)) {
+                        PurchaseArrive update = new PurchaseArrive();
+                        update.setId(pa.getId());
+                        pa.setStatus(Constant.SEVEN_STRING);
+                        update.setSignStatus(Constant.ZERO_NUMBER);
+                        purchaseArriveMapper.updateByPrimaryKeySelective(update);
+                        result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+                    } else {
+                        result.setErrorCode(ErrorCode.NOTICE_ON_SIGN);
+                    }
+                } else {
+                    result.setErrorCode(ErrorCode.NOTICE_NOT_ONE_POUNDNOTE);
+                }
+            } else {
+                result.setErrorCode(ErrorCode.NOTICE_NOT_EXIST);
+            }
+        }
+        return result;
+    }
+
+    @Transactional
+    @Override
+    public Result returnOfGoods(HandSetRequestParam param) {
+        Result result = Result.getParamErrorResult();
+        if (StringUtils.isNotBlank(param.getUserId())
+                &&StringUtils.isNotBlank(param.getNoticeCode())) {
+            PurchaseArrive pa = purchaseArriveMapper.selectByCode(param.getNoticeCode());
+            if (pa != null) {
+                if (StringUtils.equals(pa.getStatus(), Constant.ONE_STRING)) {
+                    if (StringUtils.equals(pa.getStatus(), Constant.SEVEN_STRING)) {
+                        PurchaseArrive update = new PurchaseArrive();
+                        update.setId(pa.getId());
+                        pa.setStatus(Constant.SEVEN_STRING);
+                        update.setSignStatus(Constant.ZERO_NUMBER);
+                        purchaseArriveMapper.updateByPrimaryKeySelective(update);
+                        result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+                    } else {
+                        result.setErrorCode(ErrorCode.NOTICE_ON_SIGN);
+                    }
+                } else {
+                    result.setErrorCode(ErrorCode.NOTICE_NOT_ONE_POUNDNOTE);
+                }
+            } else {
+                result.setErrorCode(ErrorCode.NOTICE_NOT_EXIST);
+            }
+        }
+        return result;
     }
     
 }

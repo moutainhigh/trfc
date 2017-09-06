@@ -49,6 +49,8 @@ public enum ErrorCode {
 	NOTICE_ON_INVALID("E10022","该通知单已作废."),
 	NOTICE_NOT_LOAD("E10023","该通知单还未完成装货."),
 	NOTICE_OUT_FACTORY("E10024","该通知单绑定的车辆已出厂."),
+	NOTICE_NOT_ONE_POUNDNOTE("E10025","该通知单未过一次磅房."),
+	NOTICE_ON_SIGN("E10025","该通知单已确认,请勿重复确认."), 
 	/**
 	 * 磅单
 	 */

@@ -60,9 +60,9 @@ public interface IPrimarySettingService {
 	 * @Description 手持机接口
 	 * @author zhanggaohao
 	 * @version 2017年5月15日 下午2:24:39
-	 * @param req
+	 * @param param
 	 * @return
 	 */
-	Result handSetPrimarySetting(ApiParam<HandSetRequestParam> req);
+    Result handSetPrimarySetting(HandSetRequestParam param);
 
 }

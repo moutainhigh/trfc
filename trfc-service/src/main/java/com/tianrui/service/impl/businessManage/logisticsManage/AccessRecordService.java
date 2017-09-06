@@ -734,22 +734,27 @@ public class AccessRecordService implements IAccessRecordService {
 	private boolean validatePushRKD(String noticeId) {
 	    boolean flag = false;
         PoundNote poundNote = poundNoteMapper.selectByNoticeId(noticeId);
-        if (poundNote.getNetweight() >= Constant.NOT_RETURN_NUM) {
-            if (StringUtils.equals(poundNote.getBilltype(), Constant.ZERO_STRING)
-                    || StringUtils.equals(poundNote.getBilltype(), Constant.ONE_STRING)) {
+        if (StringUtils.equals(poundNote.getBilltype(), Constant.ZERO_STRING)) {
+            if (poundNote.getNetweight() >= Constant.NOT_RETURN_NUM) {
                 PurchaseStorageList storage = purchaseStorageListMapper.selectByPoundNoteId(poundNote.getId());
                 if (StringUtils.equals(storage.getStatus(), Constant.ONE_STRING)) {
                     flag = true;
                 }
+            } else {
+                flag = true;
             }
-            if (StringUtils.equals(poundNote.getBilltype(), Constant.TWO_STRING)) {
-                SalesOutboundOrder order = salesOutboundOrderMapper.selectByPoundNoteId(poundNote.getId());
-                if (StringUtils.equals(order.getStatus(), Constant.ONE_STRING)) {
-                    flag = true;
-                }
+        }
+        if (StringUtils.equals(poundNote.getBilltype(), Constant.ONE_STRING)) {
+            PurchaseStorageList storage = purchaseStorageListMapper.selectByPoundNoteId(poundNote.getId());
+            if (StringUtils.equals(storage.getStatus(), Constant.ONE_STRING)) {
+                flag = true;
             }
-        } else {
-            flag = true;
+        }
+        if (StringUtils.equals(poundNote.getBilltype(), Constant.TWO_STRING)) {
+            SalesOutboundOrder order = salesOutboundOrderMapper.selectByPoundNoteId(poundNote.getId());
+            if (StringUtils.equals(order.getStatus(), Constant.ONE_STRING)) {
+                flag = true;
+            }
         }
         return flag;
     }

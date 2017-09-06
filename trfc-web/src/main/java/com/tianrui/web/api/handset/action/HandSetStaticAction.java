@@ -56,10 +56,10 @@ public class HandSetStaticAction {
 	@ApiParamRawType(HandSetRequestParam.class)
 	@ApiNotTokenValidation
 	@ResponseBody
-	public ApiResult supplier(ApiParam<HandSetRequestParam> req){
+	public ApiResult supplier(HandSetRequestParam req){
 		Result rs = Result.getErrorResult();
 		try {
-			List<HandSetReturnResp> list = supplierManageService.handSetQueryAll(req.getBody());
+			List<HandSetReturnResp> list = supplierManageService.handSetQueryAll(req);
 			rs.setData(list);
 			rs.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
 		} catch (Exception e) {
@@ -73,10 +73,10 @@ public class HandSetStaticAction {
 	@ApiParamRawType(HandSetRequestParam.class)
 	@ApiNotTokenValidation
 	@ResponseBody
-	public ApiResult customer(ApiParam<HandSetRequestParam> req){
+	public ApiResult customer(HandSetRequestParam req){
 		Result rs = Result.getErrorResult();
 		try {
-			List<HandSetReturnResp> list = customerManageService.handSetQueryAll(req.getBody());
+			List<HandSetReturnResp> list = customerManageService.handSetQueryAll(req);
 			rs.setData(list);
 			rs.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
 		} catch (Exception e) {
@@ -90,10 +90,10 @@ public class HandSetStaticAction {
 	@ApiParamRawType(HandSetRequestParam.class)
 	@ApiNotTokenValidation
 	@ResponseBody
-	public ApiResult warehouse(ApiParam<HandSetRequestParam> req){
+	public ApiResult warehouse(HandSetRequestParam req){
 		Result rs = Result.getErrorResult();
 		try {
-			List<HandSetReturnResp> list = warehouseManageService.handSetQueryAll(req.getBody());
+			List<HandSetReturnResp> list = warehouseManageService.handSetQueryAll(req);
 			rs.setData(list);
 			rs.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
 		} catch (Exception e) {
@@ -107,10 +107,10 @@ public class HandSetStaticAction {
 	@ApiParamRawType(HandSetRequestParam.class)
 	@ApiNotTokenValidation
 	@ResponseBody
-	public ApiResult yard(ApiParam<HandSetRequestParam> req){
+	public ApiResult yard(HandSetRequestParam req){
 		Result rs = Result.getErrorResult();
 		try {
-			List<HandSetReturnResp> list = yardManageService.handSetQueryAll(req.getBody());
+			List<HandSetReturnResp> list = yardManageService.handSetQueryAll(req);
 			rs.setData(list);
 			rs.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
 		} catch (Exception e) {
@@ -124,10 +124,10 @@ public class HandSetStaticAction {
 	@ApiParamRawType(HandSetRequestParam.class)
 	@ApiNotTokenValidation
 	@ResponseBody
-	public ApiResult materiel(ApiParam<HandSetRequestParam> req){
+	public ApiResult materiel(HandSetRequestParam req){
 		Result rs = Result.getErrorResult();
 		try {
-			List<HandSetReturnResp> list = materielManageService.handSetQueryAll(req.getBody());
+			List<HandSetReturnResp> list = materielManageService.handSetQueryAll(req);
 			rs.setData(list);
 			rs.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
 		} catch (Exception e) {
@@ -145,7 +145,7 @@ public class HandSetStaticAction {
 	@ApiParamRawType(HandSetRequestParam.class)
 	@ApiNotTokenValidation
 	@ResponseBody
-	public ApiResult primarySetting(ApiParam<HandSetRequestParam> req){
+	public ApiResult primarySetting(HandSetRequestParam req){
 		Result rs = Result.getErrorResult();
 		try {
 			rs = primarySettingService.handSetPrimarySetting(req);
@@ -203,6 +203,46 @@ public class HandSetStaticAction {
         try {
             req.getBody().setUserId(req.getHead().getUserId());
             rs = handSetStaticService.receive(req.getBody());
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+            rs.setErrorCode(ErrorCode.SYSTEM_ERROR);
+        }
+        return ApiResult.valueOf(rs);
+    }
+    /**
+     * @annotation 整车退货
+     * @param req
+     * @return
+     */
+    @RequestMapping(value="/allReturnOfGoods", method = RequestMethod.POST)
+    @ApiParamRawType(HandSetRequestParam.class)
+    @ApiAuthValidation(callType="4")
+    @ResponseBody
+    public ApiResult allReturnOfGoods(ApiParam<HandSetRequestParam> req) {
+        Result rs = Result.getErrorResult();
+        try {
+            req.getBody().setUserId(req.getHead().getUserId());
+            rs = handSetStaticService.allReturnOfGoods(req.getBody());
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+            rs.setErrorCode(ErrorCode.SYSTEM_ERROR);
+        }
+        return ApiResult.valueOf(rs);
+    }
+    /**
+     * @annotation 退货确认
+     * @param req
+     * @return
+     */
+    @RequestMapping(value="/returnOfGoods", method = RequestMethod.POST)
+    @ApiParamRawType(HandSetRequestParam.class)
+    @ApiAuthValidation(callType="4")
+    @ResponseBody
+    public ApiResult returnOfGoods(ApiParam<HandSetRequestParam> req) {
+        Result rs = Result.getErrorResult();
+        try {
+            req.getBody().setUserId(req.getHead().getUserId());
+            rs = handSetStaticService.returnOfGoods(req.getBody());
         } catch (Exception e) {
             log.error(e.getMessage(), e);
             rs.setErrorCode(ErrorCode.SYSTEM_ERROR);

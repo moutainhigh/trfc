@@ -881,10 +881,20 @@ public class PoundNoteService implements IPoundNoteService {
 					pa.setStatus("2");
 					// 生成入库单
 					PurchaseStorageList storage = setPurchaseStorage(query.getCurrid(), application, bean);
-					storage.setNtotalnum("-" + storage.getNtotalnum());
+					double item = Math.abs(Double.parseDouble(storage.getNtotalnum()));
+					if (item > 0) {
+					    storage.setNtotalnum("-" + item);
+					}
 					PurchaseStorageListItem storageItem = setPurchaseStorageItem(applicationDetail, bean, storage);
-					storageItem.setNunm("-" + Math.abs(Double.parseDouble(storageItem.getNunm())));
-					storageItem.setNshouldnum("-" + Math.abs(Double.parseDouble(storageItem.getNshouldnum())));
+					item = Math.abs(Double.parseDouble(storageItem.getNunm()));
+                    if (item > 0) {
+                        storageItem.setNunm("-" + item);
+                    }
+                    item = Math.abs(Double.parseDouble(storageItem.getNshouldnum()));
+                    if (item > 0) {
+                        storageItem.setNshouldnum("-" + item);
+                    }
+					storage.setType(Constant.ZERO_STRING);
 					bean.setPutinwarehouseid(storage.getId());
 					bean.setPutinwarehousecode(storage.getCode());
 					PurchaseApplicationDetail detail = new PurchaseApplicationDetail();
@@ -1163,7 +1173,7 @@ public class PoundNoteService implements IPoundNoteService {
 				PurchaseStorageList storage = null;
 				PurchaseStorageListItem storageItem = null;
 				PurchaseApplicationDetail detail = null;
-				if(bean.getNetweight() >= Constant.NOT_RETURN_NUM) {
+				if(bean.getNetweight() >= Constant.NOT_RETURN_NUM || arrive.getSignStatus() == Constant.ONE_NUMBER) {
 					storage = setPurchaseStorage(query.getCurrid(), application, bean);
 					storageItem = setPurchaseStorageItem(applicationDetail, bean, storage);
 					bean.setPutinwarehouseid(storage.getId());
@@ -1176,13 +1186,13 @@ public class PoundNoteService implements IPoundNoteService {
 				}
 				if (poundNoteMapper.updateByPrimaryKeySelective(bean) > 0
 						&& purchaseArriveMapper.updateByPrimaryKeySelective(pa) > 0) {
+				    result.setData(bean.getCode());
 					if(detail != null && storage != null && storageItem != null){
 						if(purchaseApplicationDetailMapper.updateByPrimaryKeySelective(detail) > 0 
 								&& purchaseStorageListMapper.insertSelective(storage) > 0
 								&& purchaseStorageListItemMapper.insertSelective(storageItem) > 0
 								&& updateCode("RKD", query.getCurrid())){
 							result.setErrorCode(returnPurchaseStorage(storage, storageItem));
-							result.setData(bean.getCode());
 						}else{
 							result.setErrorCode(ErrorCode.OPERATE_ERROR);
 						}
@@ -1628,7 +1638,8 @@ public class PoundNoteService implements IPoundNoteService {
 			} else {
 				// 判断通知单是否唯一
 				if (listPurchase.size() == 1) {
-					if (StringUtils.equals(listPurchase.get(0).getStatus(), "1")) {
+			        //二次过磅校验变更为是否签收或退货  2017-09-06
+					if (StringUtils.equals(listPurchase.get(0).getStatus(), "7")) {
 						isTwoWeight(result, listPurchase.get(0).getId(), listPurchase.get(0).getType());
 					} else {
 						result.setErrorCode(ErrorCode.VEHICLE_NOTICE_NOT_ONE_WEIGHT);

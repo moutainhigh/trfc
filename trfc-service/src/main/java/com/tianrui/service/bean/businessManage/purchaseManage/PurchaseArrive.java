@@ -73,6 +73,8 @@ public class PurchaseArrive {
     private String remark;
     //收获时间
     private Long receipttime;
+    //签收状态（0：退货，1：签收）
+    private Integer signStatus;
 
     public String getId() {
         return id;
@@ -369,4 +371,13 @@ public class PurchaseArrive {
 	public void setReceipttime(Long receipttime) {
 		this.receipttime = receipttime;
 	}
+
+    public Integer getSignStatus() {
+        return signStatus;
+    }
+
+    public void setSignStatus(Integer signStatus) {
+        this.signStatus = signStatus;
+    }
+	
 }

@@ -72,10 +72,10 @@ public class TestApiPoundNote {
 		ApiParam<ApiPoundNoteQuery> api =new ApiParam<ApiPoundNoteQuery>();
 		
 		ApiPoundNoteQuery req =new ApiPoundNoteQuery();
-		req.setRfid("E2005024861501670760CDD2");
-		req.setVehicleno("豫F98765");
-		req.setType("2");
-		req.setServicetype("2");
+		req.setRfid("E2000016130B015320904013");
+		req.setVehicleno("豫A77777");
+		req.setType("1");
+		req.setServicetype("0");
 		req.setNotionformcode("TH201708170001");
 		req.setNumber("50");
 		req.setTime(DateUtil.getNowDateString("yyyy-MM-dd HH:mm:ss"));

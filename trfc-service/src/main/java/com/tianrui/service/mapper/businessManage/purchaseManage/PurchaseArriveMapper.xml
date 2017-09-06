@@ -36,18 +36,19 @@
     <result column="modifytime" property="modifytime" jdbcType="BIGINT" />
     <result column="remark" property="remark" jdbcType="VARCHAR" />
     <result column="receipttime" property="receipttime" jdbcType="BIGINT" />
+    <result column="signStatus" property="signStatus" jdbcType="TINYINT" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, code, auditstatus, source, status, type, vehicleid, 
     vehicleno, vehiclerfid, driverid, drivername, driveridentityno, billid, billcode, 
     billdetailid, poundnoteid, poundnotecode, abnormalperson, abnormalpersonname, abnormaltime, arrivalamount, signamount, unit, makerid, 
-    makebillname, makebilltime, icardid, state, creator, createtime, modifier, modifytime, remark, receipttime
+    makebillname, makebilltime, icardid, state, creator, createtime, modifier, modifytime, remark, receipttime, signStatus
   </sql>
   <sql id="P_Base_Column_List" >
     p1.id, p1.code, p1.auditstatus, p1.source, p1.status, p1.type, p1.vehicleid, 
     p1.vehicleno, p1.vehiclerfid, p1.driverid, p1.drivername, p1.driveridentityno, p1.billid, p1.billcode, 
     p1.billdetailid, p1.poundnoteid, p1.poundnotecode, p1.abnormalperson, p1.abnormalpersonname, p1.abnormaltime, p1.arrivalamount, p1.signamount, p1.unit, p1.makerid, 
-    p1.makebillname, p1.makebilltime, p1.icardid, p1.state, p1.creator, p1.createtime, p1.modifier, p1.modifytime, p1.remark, p1.receipttime
+    p1.makebillname, p1.makebilltime, p1.icardid, p1.state, p1.creator, p1.createtime, p1.modifier, p1.modifytime, p1.remark, p1.receipttime, p1.signStatus
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
@@ -69,7 +70,7 @@
       arrivalamount, signamount, unit, makerid, 
       makebillname, makebilltime, icardid, state, creator, 
       createtime, modifier, modifytime, 
-      remark, receipttime)
+      remark, receipttime, signStatus)
     values (#{id,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR}, #{auditstatus,jdbcType=VARCHAR}, 
       #{source,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, 
       #{vehicleid,jdbcType=VARCHAR}, #{vehicleno,jdbcType=VARCHAR}, 
@@ -80,7 +81,7 @@
       #{arrivalamount,jdbcType=DOUBLE}, #{signamount,jdbcType=DOUBLE}, #{unit,jdbcType=VARCHAR}, #{makerid,jdbcType=VARCHAR}, #{makebillname,jdbcType=VARCHAR}, 
       #{makebilltime,jdbcType=BIGINT}, #{icardid,jdbcType=VARCHAR}, #{state,jdbcType=VARCHAR}, #{creator,jdbcType=VARCHAR}, 
       #{createtime,jdbcType=BIGINT}, #{modifier,jdbcType=VARCHAR}, #{modifytime,jdbcType=BIGINT}, 
-      #{remark,jdbcType=VARCHAR}, #{receipttime,jdbcType=BIGINT})
+      #{remark,jdbcType=VARCHAR}, #{receipttime,jdbcType=BIGINT}, #{signStatus,jdbcType=TINYINT})
   </insert>
   <insert id="insertSelective" parameterType="com.tianrui.service.bean.businessManage.purchaseManage.PurchaseArrive" >
     insert into tr_purchase_db_arrive
@@ -187,6 +188,9 @@
       <if test="receipttime != null" >
         receipttime,
       </if>
+      <if test="signStatus != null" >
+        signStatus,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -290,6 +294,9 @@
       </if>
       <if test="receipttime != null" >
         #{receipttime,jdbcType=BIGINT},
+      </if>
+      <if test="signStatus != null" >
+        #{signStatus,jdbcType=TINYINT},
       </if>
     </trim>
   </insert>
@@ -395,6 +402,9 @@
       <if test="receipttime != null" >
         receipttime = #{receipttime,jdbcType=BIGINT},
       </if>
+      <if test="signStatus != null" >
+        signStatus = #{signStatus,jdbcType=TINYINT},
+      </if>
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
@@ -432,18 +442,19 @@
       modifier = #{modifier,jdbcType=VARCHAR},
       modifytime = #{modifytime,jdbcType=BIGINT},
       remark = #{remark,jdbcType=VARCHAR},
-      receipttime = #{receipttime,jdbcType=BIGINT}
+      receipttime = #{receipttime,jdbcType=BIGINT},
+      signStatus = #{signStatus,jdbcType=TINYINT}
     where id = #{id,jdbcType=VARCHAR}
   </update>
   <select id="selectSelective" parameterType="com.tianrui.service.bean.businessManage.purchaseManage.PurchaseArrive" resultMap="BaseResultMap">
-  	select
-  	<include refid="Base_Column_List" />
-  	from tr_purchase_db_arrive
-	<where>
-	  <if test="id != null and id != ''" >
+    select
+    <include refid="Base_Column_List" />
+    from tr_purchase_db_arrive
+    <where>
+      <if test="id != null and id != ''" >
         and id = #{id,jdbcType=VARCHAR}
       </if>
-	  <if test="code != null and code != ''" >
+      <if test="code != null and code != ''" >
         and code = #{code,jdbcType=VARCHAR}
       </if>
       <if test="auditstatus != null and auditstatus != ''" >
@@ -542,140 +553,143 @@
       <if test="receipttime != null and receipttime != ''" >
         and receipttime = #{receipttime,jdbcType=BIGINT}
       </if>
-	</where>	
+      <if test="signStatus != null and signStatus != ''" >
+        and signStatus = #{signStatus,jdbcType=TINYINT}
+      </if>
+    </where>    
   </select>
   <select id="findPurchaseArrivePage" parameterType="com.tianrui.api.req.businessManage.purchaseManage.PurchaseArriveQuery" resultMap="BaseResultMap">
-  	select
-  	<include refid="P_Base_Column_List" />
-  	from tr_purchase_db_arrive p1
-  	left join tr_purchase_db_application p2 on p1.billid = p2.id
-  	left join tr_purchase_db_application_detail p3 on p1.billdetailid = p3.id
-  	<where>
-  	  <if test="code != null and code !=''" >
+    select
+    <include refid="P_Base_Column_List" />
+    from tr_purchase_db_arrive p1
+    left join tr_purchase_db_application p2 on p1.billid = p2.id
+    left join tr_purchase_db_application_detail p3 on p1.billdetailid = p3.id
+    <where>
+      <if test="code != null and code !=''" >
         and p1.code = #{code,jdbcType=VARCHAR}
       </if>
-  	  <if test="auditstatus != null and auditstatus !=''" >
+      <if test="auditstatus != null and auditstatus !=''" >
         and p1.auditstatus = #{auditstatus,jdbcType=VARCHAR}
       </if>
-  	  <if test="source != null and source !=''" >
+      <if test="source != null and source !=''" >
         and p1.source = #{source,jdbcType=VARCHAR}
       </if>
-  	  <if test="status != null and status !=''" >
+      <if test="status != null and status !=''" >
         and p1.status = #{status,jdbcType=VARCHAR}
       </if>
-  	  <if test="type != null and type !=''" >
+      <if test="type != null and type !=''" >
         and p1.type = #{type,jdbcType=VARCHAR}
       </if>
-  	  <if test="supplierid != null and supplierid !=''" >
+      <if test="supplierid != null and supplierid !=''" >
         and p2.supplierid = #{supplierid,jdbcType=VARCHAR}
       </if>
-  	  <if test="vehicleid != null and vehicleid !=''" >
+      <if test="vehicleid != null and vehicleid !=''" >
         and p1.vehicleid = #{vehicleid,jdbcType=VARCHAR}
       </if>
-  	  <if test="driverid != null and driverid !=''" >
+      <if test="driverid != null and driverid !=''" >
         and p1.driverid = #{driverid,jdbcType=VARCHAR}
       </if>
-  	  <if test="materielid != null and materielid !=''" >
+      <if test="materielid != null and materielid !=''" >
         and p3.materielid = #{materielid,jdbcType=VARCHAR}
       </if>
-  	  <if test="billcode != null and billcode !=''" >
+      <if test="billcode != null and billcode !=''" >
         and p1.billcode = #{billcode,jdbcType=VARCHAR}
       </if>
-  	  <if test="state != null and state !=''" >
+      <if test="state != null and state !=''" >
         and p1.state = #{state,jdbcType=VARCHAR}
       </if>
-	  <if test="starttime != null and starttime != ''">
-		and p1.makebilltime <![CDATA[>=]]> #{starttime,jdbcType=BIGINT}
-	  </if>
-	  <if test="endtime != null and endtime != ''">
-		and p1.makebilltime <![CDATA[<]]> #{endtime,jdbcType=BIGINT}
-	  </if>
-  	</where>
-  	order by p1.makebilltime desc
-  	<if test="start != null and start >= 0">
-  		<if test="limit != null">
-			limit #{start,jdbcType=INTEGER},#{limit,jdbcType=INTEGER}
-  		</if>
-  	</if>
+      <if test="starttime != null and starttime != ''">
+        and p1.makebilltime <![CDATA[>=]]> #{starttime,jdbcType=BIGINT}
+      </if>
+      <if test="endtime != null and endtime != ''">
+        and p1.makebilltime <![CDATA[<]]> #{endtime,jdbcType=BIGINT}
+      </if>
+    </where>
+    order by p1.makebilltime desc
+    <if test="start != null and start >= 0">
+        <if test="limit != null">
+            limit #{start,jdbcType=INTEGER},#{limit,jdbcType=INTEGER}
+        </if>
+    </if>
   </select>
   <select id="findPurchaseArrivePageCount" parameterType="com.tianrui.api.req.businessManage.purchaseManage.PurchaseArriveQuery" resultType="java.lang.Long">
-  	select count(0)
-  	from tr_purchase_db_arrive p1
-  	left join tr_purchase_db_application p2 on p1.billid = p2.id
-  	left join tr_purchase_db_application_detail p3 on p1.billdetailid = p3.id
-  	<where>
-  	  <if test="code != null and code !=''" >
+    select count(0)
+    from tr_purchase_db_arrive p1
+    left join tr_purchase_db_application p2 on p1.billid = p2.id
+    left join tr_purchase_db_application_detail p3 on p1.billdetailid = p3.id
+    <where>
+      <if test="code != null and code !=''" >
         and p1.code = #{code,jdbcType=VARCHAR}
       </if>
-  	  <if test="auditstatus != null and auditstatus !=''" >
+      <if test="auditstatus != null and auditstatus !=''" >
         and p1.auditstatus = #{auditstatus,jdbcType=VARCHAR}
       </if>
-  	  <if test="source != null and source !=''" >
+      <if test="source != null and source !=''" >
         and p1.source = #{source,jdbcType=VARCHAR}
       </if>
-  	  <if test="status != null and status !=''" >
+      <if test="status != null and status !=''" >
         and p1.status = #{status,jdbcType=VARCHAR}
       </if>
-  	  <if test="type != null and type !=''" >
+      <if test="type != null and type !=''" >
         and p1.type = #{type,jdbcType=VARCHAR}
       </if>
-  	  <if test="supplierid != null and supplierid !=''" >
+      <if test="supplierid != null and supplierid !=''" >
         and p2.supplierid = #{supplierid,jdbcType=VARCHAR}
       </if>
-  	  <if test="vehicleid != null and vehicleid !=''" >
+      <if test="vehicleid != null and vehicleid !=''" >
         and p1.vehicleid = #{vehicleid,jdbcType=VARCHAR}
       </if>
-  	  <if test="driverid != null and driverid !=''" >
+      <if test="driverid != null and driverid !=''" >
         and p1.driverid = #{driverid,jdbcType=VARCHAR}
       </if>
-  	  <if test="materielid != null and materielid !=''" >
+      <if test="materielid != null and materielid !=''" >
         and p3.materielid = #{materielid,jdbcType=VARCHAR}
       </if>
-  	  <if test="billcode != null and billcode !=''" >
+      <if test="billcode != null and billcode !=''" >
         and p1.billcode = #{billcode,jdbcType=VARCHAR}
       </if>
-  	  <if test="state != null and state !=''" >
+      <if test="state != null and state !=''" >
         and p1.state = #{state,jdbcType=VARCHAR}
       </if>
-	  <if test="starttime != null and starttime != ''">
-		and p1.makebilltime <![CDATA[>=]]> #{starttime,jdbcType=BIGINT}
-	  </if>
-	  <if test="endtime != null and endtime != ''">
-		and p1.makebilltime <![CDATA[<]]> #{endtime,jdbcType=BIGINT}
-	  </if>
-  	</where>
+      <if test="starttime != null and starttime != ''">
+        and p1.makebilltime <![CDATA[>=]]> #{starttime,jdbcType=BIGINT}
+      </if>
+      <if test="endtime != null and endtime != ''">
+        and p1.makebilltime <![CDATA[<]]> #{endtime,jdbcType=BIGINT}
+      </if>
+    </where>
   </select>
   <select id="checkDriverAndVehicleIsUse" resultMap="BaseResultMap" parameterType="com.tianrui.service.bean.businessManage.purchaseManage.PurchaseArrive">
-  	select 
-	<include refid="Base_Column_List" />
-  	from tr_purchase_db_arrive
-  	<where>
-  		status != '5' and status != '3' and state = '1'
-  		<if test="id != null and id != ''">
-  			and id != #{id,jdbcType=VARCHAR}
-  		</if>
-  		<if test="driverid != null and driverid != ''">
-  			and driverid = #{driverid,jdbcType=VARCHAR}
-  		</if>
-  		<if test="vehicleid != null and vehicleid != ''">
-  			and vehicleid = #{vehicleid,jdbcType=VARCHAR}
-  		</if>
-  	</where>
+    select 
+    <include refid="Base_Column_List" />
+    from tr_purchase_db_arrive
+    <where>
+        status != '5' and status != '3' and state = '1'
+        <if test="id != null and id != ''">
+            and id != #{id,jdbcType=VARCHAR}
+        </if>
+        <if test="driverid != null and driverid != ''">
+            and driverid = #{driverid,jdbcType=VARCHAR}
+        </if>
+        <if test="vehicleid != null and vehicleid != ''">
+            and vehicleid = #{vehicleid,jdbcType=VARCHAR}
+        </if>
+    </where>
   </select>
   <select id="selectByIds" parameterType="java.util.List" resultMap="BaseResultMap">
-  	select
-  	<include refid="Base_Column_List" />
-  	from tr_purchase_db_arrive
-  	where id in
-	<foreach item="item" index="index" collection="list" open="(" separator="," close=")">  
-		#{item}  
-	</foreach>
+    select
+    <include refid="Base_Column_List" />
+    from tr_purchase_db_arrive
+    where id in
+    <foreach item="item" index="index" collection="list" open="(" separator="," close=")">  
+        #{item}  
+    </foreach>
   </select>
   <select id="hasPurchaseArrive" parameterType="java.lang.String" resultMap="BaseResultMap">
-  	select
-  	<include refid="Base_Column_List" />
-  	from tr_purchase_db_arrive
-  	where vehicleno = #{vehicleno,jdbcType=VARCHAR} and state = '1' and status!='3' and status!='5'
+    select
+    <include refid="Base_Column_List" />
+    from tr_purchase_db_arrive
+    where vehicleno = #{vehicleno,jdbcType=VARCHAR} and state = '1' and status!='3' and status!='5'
   </select>
     <select id="selectByCode" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
@@ -684,30 +698,30 @@
     where code = #{code,jdbcType=VARCHAR}
   </select>
    <select id="checkICUse" resultMap="BaseResultMap" parameterType="java.lang.String">
-  	select 
-	<include refid="Base_Column_List" />
-  	from tr_purchase_db_arrive
-  	where icardid = #{icardid,jdbcType=VARCHAR} and state = "1" and status != '5' and status != '3'
+    select 
+    <include refid="Base_Column_List" />
+    from tr_purchase_db_arrive
+    where icardid = #{icardid,jdbcType=VARCHAR} and state = "1" and status != '5' and status != '3'
   </select>
   <select id="validNoticeByVehicle" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
     <include refid="Base_Column_List" />
     from tr_purchase_db_arrive
     where vehicleno = #{vehicleno,jdbcType=VARCHAR} and vehiclerfid = #{vehiclerfid,jdbcType=VARCHAR} 
-    	and status != '3' and status != '5' and state = '1'
+        and status != '3' and status != '5' and state = '1'
   </select>
   <select id="findAppNoticePage" parameterType="com.tianrui.api.req.businessManage.app.AppNoticeOrderReq" resultType="com.tianrui.api.resp.businessManage.app.AppNoticeOrderResp">
-  	select
-  	p1.id, p1.code, p1.billcode as billCode, p2.billtime as billtime, p1.makebilltime as noticetime,
-  	p1.vehicleno, p3.materielname as materialName, p2.suppliername as customerName,p1.arrivalamount as number, p1.source, p1. status
-  	from tr_purchase_db_arrive p1
-  	left join tr_purchase_db_application p2 on p1.billid = p2.id
-  	left join tr_purchase_db_application_detail p3 on p1.billdetailid = p3.id
-  	<where>
+    select
+    p1.id, p1.code, p1.billcode as billCode, p2.billtime as billtime, p1.makebilltime as noticetime,
+    p1.vehicleno, p3.materielname as materialName, p2.suppliername as customerName,p1.arrivalamount as number, p1.source, p1. status
+    from tr_purchase_db_arrive p1
+    left join tr_purchase_db_application p2 on p1.billid = p2.id
+    left join tr_purchase_db_application_detail p3 on p1.billdetailid = p3.id
+    <where>
       <if test="code != null and code != '' ">
         and p1.code = #{code,jdbcType=VARCHAR}
       </if>
-  	  <if test="state != null and state !=''" >
+      <if test="state != null and state !=''" >
         and p1.state = #{state,jdbcType=VARCHAR}
       </if>
       <if test="status != null and status != '' ">
@@ -726,39 +740,39 @@
         and p1.makerid = #{userId,jdbcType=VARCHAR}
       </if>
       <if test="starttime != null and starttime != ''">
-		and p1.makebilltime <![CDATA[>=]]> #{starttime,jdbcType=BIGINT}
-	  </if>
-	  <if test="endtime != null and endtime != ''">
-		and p1.makebilltime <![CDATA[<]]> #{endtime,jdbcType=BIGINT}
-	  </if>
-  	</where>
-  	<if test="orderColumn != null and orderColumn != ''">
-  		order by ${orderColumn} 
-  		<choose>
-  			<when test="orderAsc == 'DESC'">
-  				DESC
-  			</when>
-  			<otherwise>
-  				ASC
-  			</otherwise>
-  		</choose>
-  	</if>
-  	<if test="start != null and start >= 0">
-  		<if test="limit != null">
-			limit #{start,jdbcType=INTEGER},#{limit,jdbcType=INTEGER}
-  		</if>
-  	</if>
+        and p1.makebilltime <![CDATA[>=]]> #{starttime,jdbcType=BIGINT}
+      </if>
+      <if test="endtime != null and endtime != ''">
+        and p1.makebilltime <![CDATA[<]]> #{endtime,jdbcType=BIGINT}
+      </if>
+    </where>
+    <if test="orderColumn != null and orderColumn != ''">
+        order by ${orderColumn} 
+        <choose>
+            <when test="orderAsc == 'DESC'">
+                DESC
+            </when>
+            <otherwise>
+                ASC
+            </otherwise>
+        </choose>
+    </if>
+    <if test="start != null and start >= 0">
+        <if test="limit != null">
+            limit #{start,jdbcType=INTEGER},#{limit,jdbcType=INTEGER}
+        </if>
+    </if>
   </select>
   <select id="findAppNoticePageCount" parameterType="com.tianrui.api.req.businessManage.app.AppNoticeOrderReq" resultType="java.lang.Long">
-  	select count(0)
-  	from tr_purchase_db_arrive p1
-  	left join tr_purchase_db_application p2 on p1.billid = p2.id
-  	left join tr_purchase_db_application_detail p3 on p1.billdetailid = p3.id
-  	<where>
+    select count(0)
+    from tr_purchase_db_arrive p1
+    left join tr_purchase_db_application p2 on p1.billid = p2.id
+    left join tr_purchase_db_application_detail p3 on p1.billdetailid = p3.id
+    <where>
       <if test="code != null and code != '' ">
         and p1.code = #{code,jdbcType=VARCHAR}
       </if>
-  	  <if test="state != null and state !=''" >
+      <if test="state != null and state !=''" >
         and p1.state = #{state,jdbcType=VARCHAR}
       </if>
       <if test="status != null and status != '' ">
@@ -777,100 +791,100 @@
         and p1.makerid = #{userId,jdbcType=VARCHAR}
       </if>
       <if test="starttime != null and starttime != ''">
-		and p1.makebilltime <![CDATA[>=]]> #{starttime,jdbcType=BIGINT}
-	  </if>
-	  <if test="endtime != null and endtime != ''">
-		and p1.makebilltime <![CDATA[<]]> #{endtime,jdbcType=BIGINT}
-	  </if>
-  	</where>
+        and p1.makebilltime <![CDATA[>=]]> #{starttime,jdbcType=BIGINT}
+      </if>
+      <if test="endtime != null and endtime != ''">
+        and p1.makebilltime <![CDATA[<]]> #{endtime,jdbcType=BIGINT}
+      </if>
+    </where>
   </select>
   <select id="appInfoFactoryVehicleAndMaterial" parameterType="com.tianrui.api.req.businessManage.app.AppOrderReq" resultType="com.tianrui.api.resp.businessManage.app.AppVehicleInFactoryResp">
-  	select p3.materielname as materName, count(p1.vehicleno) as vehicleCount
-	from tr_purchase_db_arrive p1
-		left join tr_purchase_db_application p2 on p1.billid = p2.id
-		left join tr_purchase_db_application_detail p3 on p1.billdetailid = p3.id
-	<where>
-  	  <if test="state != null and state !=''" >
+    select p3.materielname as materName, count(p1.vehicleno) as vehicleCount
+    from tr_purchase_db_arrive p1
+        left join tr_purchase_db_application p2 on p1.billid = p2.id
+        left join tr_purchase_db_application_detail p3 on p1.billdetailid = p3.id
+    <where>
+      <if test="state != null and state !=''" >
         and p1.state = #{state,jdbcType=VARCHAR}
       </if>
-  	  <if test="userId != null and userId !=''" >
+      <if test="userId != null and userId !=''" >
         and p2.supplierid = #{userId,jdbcType=VARCHAR}
       </if>
-	</where>
-	group by p3.materielname
+    </where>
+    group by p3.materielname
   </select>
   <select id="selectLogisticsPage" parameterType="com.tianrui.api.req.businessManage.logisticsManage.PurchaseLogisticsQuery" resultType="com.tianrui.api.resp.businessManage.logisticsManage.PurchaseLogisticsResp">
-  	SELECT
-		t1.billcode AS billCode,
-		t1. CODE AS noticeCode,
-		t1.type,
-		t2.suppliername AS supplierName,
-		t3.materielname AS materialName,
-		t1.vehicleno AS vehicleNo,
-		t1.makebilltime AS noticeTime,
-		t4.entertime AS enterTime,
-		t5.weighttime AS weightTime,
-		t5.lighttime AS lightTime,
-		t1.receipttime AS receiptTime,
-		t4.outtime AS outTime
-	FROM
-		tr_purchase_db_arrive t1
-	LEFT JOIN tr_purchase_db_application t2 ON t1.billid = t2.id
-	LEFT JOIN tr_purchase_db_application_detail t3 ON t1.billdetailid = t3.id
-	LEFT JOIN tr_access_db_record t4 ON t1.id = t4.noticeid
-	LEFT JOIN tr_pound_db_note t5 ON t1.id = t5.noticeid
-	where t1.state = '1'
-  	  <if test="supplierId != null and supplierId !=''" >
+    SELECT
+        t1.billcode AS billCode,
+        t1. CODE AS noticeCode,
+        t1.type,
+        t2.suppliername AS supplierName,
+        t3.materielname AS materialName,
+        t1.vehicleno AS vehicleNo,
+        t1.makebilltime AS noticeTime,
+        t4.entertime AS enterTime,
+        t5.weighttime AS weightTime,
+        t5.lighttime AS lightTime,
+        t1.receipttime AS receiptTime,
+        t4.outtime AS outTime
+    FROM
+        tr_purchase_db_arrive t1
+    LEFT JOIN tr_purchase_db_application t2 ON t1.billid = t2.id
+    LEFT JOIN tr_purchase_db_application_detail t3 ON t1.billdetailid = t3.id
+    LEFT JOIN tr_access_db_record t4 ON t1.id = t4.noticeid
+    LEFT JOIN tr_pound_db_note t5 ON t1.id = t5.noticeid
+    where t1.state = '1'
+      <if test="supplierId != null and supplierId !=''" >
         and t2.supplierid = #{supplierId,jdbcType=VARCHAR}
       </if>
-  	  <if test="materielId != null and materielId !=''" >
+      <if test="materielId != null and materielId !=''" >
         and t3.materielid = #{materielId,jdbcType=VARCHAR}
       </if>
-  	  <if test="vehicleId != null and vehicleId !=''" >
+      <if test="vehicleId != null and vehicleId !=''" >
         and t1.vehicleid = #{vehicleId,jdbcType=VARCHAR}
       </if>
-  	  <if test="billCode != null and billCode !=''" >
+      <if test="billCode != null and billCode !=''" >
         and t1.billcode = #{billCode,jdbcType=VARCHAR}
       </if>
-  	  <if test="noticeCode != null and noticeCode !=''" >
+      <if test="noticeCode != null and noticeCode !=''" >
         and t1.code = #{noticeCode,jdbcType=VARCHAR}
       </if>
       order by t1.createtime desc
-	  <if test="start != null and start >= 0">
-		  <if test="limit != null">
-			  limit #{start,jdbcType=INTEGER},#{limit,jdbcType=INTEGER}
-		  </if>
-	  </if>
+      <if test="start != null and start >= 0">
+          <if test="limit != null">
+              limit #{start,jdbcType=INTEGER},#{limit,jdbcType=INTEGER}
+          </if>
+      </if>
   </select>
   <select id="selectLogisticsPageCount" parameterType="com.tianrui.api.req.businessManage.logisticsManage.PurchaseLogisticsQuery" resultType="java.lang.Long">
-  	SELECT
-		count(0)
-	FROM
-		tr_purchase_db_arrive t1
-	LEFT JOIN tr_purchase_db_application t2 ON t1.billid = t2.id
-	LEFT JOIN tr_purchase_db_application_detail t3 ON t1.billdetailid = t3.id
-	LEFT JOIN tr_access_db_record t4 ON t1.id = t4.noticeid
-	LEFT JOIN tr_pound_db_note t5 ON t1.id = t5.noticeid
-	where t1.state = '1'
-  	  <if test="supplierId != null and supplierId !=''" >
+    SELECT
+        count(0)
+    FROM
+        tr_purchase_db_arrive t1
+    LEFT JOIN tr_purchase_db_application t2 ON t1.billid = t2.id
+    LEFT JOIN tr_purchase_db_application_detail t3 ON t1.billdetailid = t3.id
+    LEFT JOIN tr_access_db_record t4 ON t1.id = t4.noticeid
+    LEFT JOIN tr_pound_db_note t5 ON t1.id = t5.noticeid
+    where t1.state = '1'
+      <if test="supplierId != null and supplierId !=''" >
         and t2.supplierid = #{supplierId,jdbcType=VARCHAR}
       </if>
-  	  <if test="materielId != null and materielId !=''" >
+      <if test="materielId != null and materielId !=''" >
         and t3.materielid = #{materielId,jdbcType=VARCHAR}
       </if>
-  	  <if test="vehicleId != null and vehicleId !=''" >
+      <if test="vehicleId != null and vehicleId !=''" >
         and t1.vehicleid = #{vehicleId,jdbcType=VARCHAR}
       </if>
-  	  <if test="billCode != null and billCode !=''" >
+      <if test="billCode != null and billCode !=''" >
         and t1.billcode = #{billCode,jdbcType=VARCHAR}
       </if>
-  	  <if test="noticeCode != null and noticeCode !=''" >
+      <if test="noticeCode != null and noticeCode !=''" >
         and t1.code = #{noticeCode,jdbcType=VARCHAR}
       </if>
   </select>
   <select id="getByVehicleId" parameterType="java.lang.String" resultMap="BaseResultMap">
-  	select <include refid="Base_Column_List" />
-	from tr_purchase_db_arrive
-	where status not in ('3', '5') and vehicleid = #{vehicleId,jdbcType=VARCHAR}
+    select <include refid="Base_Column_List" />
+    from tr_purchase_db_arrive
+    where status not in ('3', '5') and vehicleid = #{vehicleId,jdbcType=VARCHAR}
   </select>
 </mapper>
