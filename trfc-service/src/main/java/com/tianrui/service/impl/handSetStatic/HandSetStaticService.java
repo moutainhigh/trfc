@@ -138,11 +138,12 @@ public class HandSetStaticService implements IHandSetStaticService {
                 && StringUtils.isNotBlank(param.getYardId())
                 && param.getDeductionweight() != null
                 && param.getDeductionother() != null
-                && param.getOriginalnetweight() != null) {
+                && param.getOriginalnetweight() != null
+                && StringUtils.isNotBlank(param.getSignID())) {
             PurchaseArrive pa = purchaseArriveMapper.selectByCode(param.getNoticeCode());
             if (pa != null) {
-                if (StringUtils.equals(pa.getStatus(), Constant.ONE_STRING)) {
-                    if (StringUtils.equals(pa.getStatus(), Constant.SEVEN_STRING)) {
+                if (!StringUtils.equals(pa.getStatus(), Constant.SEVEN_STRING)) {
+                    if (StringUtils.equals(pa.getStatus(), Constant.ONE_STRING)) {
                         PoundNote poundNote = new PoundNote();
                         poundNote.setNoticecode(param.getNoticeCode());
                         List<PoundNote> list = poundNoteMapper.selectSelective(poundNote);
@@ -156,13 +157,17 @@ public class HandSetStaticService implements IHandSetStaticService {
                             update.setStatus(Constant.SEVEN_STRING);
                             update.setId(pa.getId());
                             update.setSignStatus(Constant.ONE_NUMBER);
+                            update.setSignPerson(param.getUserId());
+                            update.setSignPersonName(updateItem.getReceiverpersonname());
+                            update.setSignTime(System.currentTimeMillis());
+                            update.setSignID(param.getSignID());
                             purchaseArriveMapper.updateByPrimaryKeySelective(update);
                         }
                     } else {
-                        result.setErrorCode(ErrorCode.NOTICE_ON_SIGN);
+                        result.setErrorCode(ErrorCode.NOTICE_NOT_ONE_POUNDNOTE);
                     }
                 } else {
-                    result.setErrorCode(ErrorCode.NOTICE_NOT_ONE_POUNDNOTE);
+                    result.setErrorCode(ErrorCode.NOTICE_ON_SIGN);
                 }
             } else {
                 result.setErrorCode(ErrorCode.NOTICE_NOT_EXIST);
@@ -206,8 +211,8 @@ public class HandSetStaticService implements IHandSetStaticService {
                 &&StringUtils.isNotBlank(param.getNoticeCode())) {
             PurchaseArrive pa = purchaseArriveMapper.selectByCode(param.getNoticeCode());
             if (pa != null) {
-                if (StringUtils.equals(pa.getStatus(), Constant.ONE_STRING)) {
-                    if (StringUtils.equals(pa.getStatus(), Constant.SEVEN_STRING)) {
+                if (!StringUtils.equals(pa.getStatus(), Constant.SEVEN_STRING)) {
+                    if (StringUtils.equals(pa.getStatus(), Constant.ONE_STRING)) {
                         PurchaseArrive update = new PurchaseArrive();
                         update.setId(pa.getId());
                         pa.setStatus(Constant.SEVEN_STRING);
@@ -215,10 +220,10 @@ public class HandSetStaticService implements IHandSetStaticService {
                         purchaseArriveMapper.updateByPrimaryKeySelective(update);
                         result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
                     } else {
-                        result.setErrorCode(ErrorCode.NOTICE_ON_SIGN);
+                        result.setErrorCode(ErrorCode.NOTICE_NOT_ONE_POUNDNOTE);
                     }
                 } else {
-                    result.setErrorCode(ErrorCode.NOTICE_NOT_ONE_POUNDNOTE);
+                    result.setErrorCode(ErrorCode.NOTICE_ON_SIGN);
                 }
             } else {
                 result.setErrorCode(ErrorCode.NOTICE_NOT_EXIST);
@@ -235,8 +240,8 @@ public class HandSetStaticService implements IHandSetStaticService {
                 &&StringUtils.isNotBlank(param.getNoticeCode())) {
             PurchaseArrive pa = purchaseArriveMapper.selectByCode(param.getNoticeCode());
             if (pa != null) {
-                if (StringUtils.equals(pa.getStatus(), Constant.ONE_STRING)) {
-                    if (StringUtils.equals(pa.getStatus(), Constant.SEVEN_STRING)) {
+                if (!StringUtils.equals(pa.getStatus(), Constant.SEVEN_STRING)) {
+                    if (StringUtils.equals(pa.getStatus(), Constant.ONE_STRING)) {
                         PurchaseArrive update = new PurchaseArrive();
                         update.setId(pa.getId());
                         pa.setStatus(Constant.SEVEN_STRING);
@@ -244,10 +249,10 @@ public class HandSetStaticService implements IHandSetStaticService {
                         purchaseArriveMapper.updateByPrimaryKeySelective(update);
                         result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
                     } else {
-                        result.setErrorCode(ErrorCode.NOTICE_ON_SIGN);
+                        result.setErrorCode(ErrorCode.NOTICE_NOT_ONE_POUNDNOTE);
                     }
                 } else {
-                    result.setErrorCode(ErrorCode.NOTICE_NOT_ONE_POUNDNOTE);
+                    result.setErrorCode(ErrorCode.NOTICE_ON_SIGN);
                 }
             } else {
                 result.setErrorCode(ErrorCode.NOTICE_NOT_EXIST);

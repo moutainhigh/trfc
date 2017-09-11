@@ -215,4 +215,10 @@ public interface IPoundNoteService {
 	 * @throws Exception 
 	 */
     Result copy(PoundNoteCopyDTO copy) throws Exception;
+    /**
+     * @annotation 查询签收详情
+     * @param valid
+     * @return
+     */
+    Result querySignDetail(ApiPoundNoteQuery valid);
 }

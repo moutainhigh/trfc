@@ -27,6 +27,7 @@ import com.tianrui.api.req.businessManage.poundNoteMaintain.PoundNoteCopyDTO;
 import com.tianrui.api.req.businessManage.poundNoteMaintain.PoundNoteQuery;
 import com.tianrui.api.req.businessManage.poundNoteMaintain.PoundNoteSave;
 import com.tianrui.api.req.system.base.GetCodeReq;
+import com.tianrui.api.resp.businessManage.poundNoteMaintain.ApiSignDetailResp;
 import com.tianrui.api.resp.businessManage.poundNoteMaintain.PoundNoteResp;
 import com.tianrui.api.resp.businessManage.salesManage.SalesApplicationDetailResp;
 import com.tianrui.api.resp.businessManage.salesManage.SalesApplicationResp;
@@ -1639,10 +1640,10 @@ public class PoundNoteService implements IPoundNoteService {
 				// 判断通知单是否唯一
 				if (listPurchase.size() == 1) {
 			        //二次过磅校验变更为是否签收或退货  2017-09-06
-					if (StringUtils.equals(listPurchase.get(0).getStatus(), "7")) {
+					if (StringUtils.equals(listPurchase.get(0).getStatus(), Constant.SEVEN_STRING)) {
 						isTwoWeight(result, listPurchase.get(0).getId(), listPurchase.get(0).getType());
 					} else {
-						result.setErrorCode(ErrorCode.VEHICLE_NOTICE_NOT_ONE_WEIGHT);
+						result.setErrorCode(ErrorCode.NOTICE_NOT_SIGN);
 					}
 				} else {
 					result.setErrorCode(ErrorCode.VEHICLE_NOTICE_NOT_ONLY);
@@ -2128,5 +2129,50 @@ public class PoundNoteService implements IPoundNoteService {
 	    }
 	    return flag;
 	}
+
+    @Override
+    public Result querySignDetail(ApiPoundNoteQuery query) {
+        // TODO 查询签收详情
+        Result result = Result.getParamErrorResult();
+        if (StringUtils.isNotBlank(query.getVehicleno())
+                && StringUtils.isNotBlank(query.getRfid())) {
+            List<PurchaseArrive> list = purchaseArriveMapper.validNoticeByVehicle(query.getVehicleno(), query.getRfid());
+            if (CollectionUtils.isNotEmpty(list)) {
+                PurchaseArrive pa = list.get(0);
+                PurchaseApplication application = purchaseApplicationMapper.selectByPrimaryKey(pa.getBillid());
+                PurchaseApplicationDetail applicationDetail = purchaseApplicationDetailMapper.selectByPrimaryKey(pa.getBilldetailid());
+                PoundNote poundNote = poundNoteMapper.selectByNoticeId(pa.getId());
+                if (poundNote != null) {
+                    ApiSignDetailResp resp = new ApiSignDetailResp();
+                    resp.setPoundNoteCode(poundNote.getCode());
+                    resp.setNoticeCode(pa.getCode());
+                    if (application != null) {
+                        resp.setSupplier(application.getSuppliername());
+                    }
+                    if (applicationDetail != null) {
+                        resp.setMaterial(applicationDetail.getMaterielname());
+                    }
+                    resp.setGrossweight(poundNote.getGrossweight());
+                    resp.setTareweight(poundNote.getTareweight());
+                    resp.setNetweight(poundNote.getNetweight());
+                    resp.setOriginalnetweight(poundNote.getOriginalnetweight());
+                    resp.setDeductionweight(poundNote.getDeductionweight());
+                    resp.setDeductionother(poundNote.getDeductionother());
+                    resp.setSignPersonName(pa.getSignPersonName());
+                    resp.setSignID(pa.getSignID());
+                    resp.setSignTime(DateUtil.parse(pa.getSignTime(), DateUtil.Y_M_D_H_M_S));
+                    resp.setWarehouse(poundNote.getWarehousename());
+                    resp.setYard(poundNote.getYardname());
+                    result.setData(resp);
+                    result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+                } else {
+                    result.setErrorCode(ErrorCode.NOTICE_NOT_ONE_POUNDNOTE);
+                }
+            } else {
+                result.setErrorCode(ErrorCode.VEHICLE_NOT_NOTICE);
+            }
+        }
+        return result;
+    }
 
 }

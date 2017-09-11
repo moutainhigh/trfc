@@ -35,20 +35,24 @@
     <result column="modifier" property="modifier" jdbcType="VARCHAR" />
     <result column="modifytime" property="modifytime" jdbcType="BIGINT" />
     <result column="remark" property="remark" jdbcType="VARCHAR" />
-    <result column="receipttime" property="receipttime" jdbcType="BIGINT" />
     <result column="signStatus" property="signStatus" jdbcType="TINYINT" />
+    <result column="signPerson" property="signPerson" jdbcType="VARCHAR" />
+    <result column="signPersonName" property="signPersonName" jdbcType="VARCHAR" />
+    <result column="signTime" property="signTime" jdbcType="BIGINT" />
+    <result column="signID" property="signID" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, code, auditstatus, source, status, type, vehicleid, 
     vehicleno, vehiclerfid, driverid, drivername, driveridentityno, billid, billcode, 
     billdetailid, poundnoteid, poundnotecode, abnormalperson, abnormalpersonname, abnormaltime, arrivalamount, signamount, unit, makerid, 
-    makebillname, makebilltime, icardid, state, creator, createtime, modifier, modifytime, remark, receipttime, signStatus
+    makebillname, makebilltime, icardid, state, creator, createtime, modifier, modifytime, remark, signStatus, signPerson, signPersonName, signTime, signID
   </sql>
   <sql id="P_Base_Column_List" >
     p1.id, p1.code, p1.auditstatus, p1.source, p1.status, p1.type, p1.vehicleid, 
     p1.vehicleno, p1.vehiclerfid, p1.driverid, p1.drivername, p1.driveridentityno, p1.billid, p1.billcode, 
     p1.billdetailid, p1.poundnoteid, p1.poundnotecode, p1.abnormalperson, p1.abnormalpersonname, p1.abnormaltime, p1.arrivalamount, p1.signamount, p1.unit, p1.makerid, 
-    p1.makebillname, p1.makebilltime, p1.icardid, p1.state, p1.creator, p1.createtime, p1.modifier, p1.modifytime, p1.remark, p1.receipttime, p1.signStatus
+    p1.makebillname, p1.makebilltime, p1.icardid, p1.state, p1.creator, p1.createtime, p1.modifier, p1.modifytime, p1.remark, p1.signStatus, p1.signPerson, p1.signPersonName, 
+    p1.signTime, p1.signID
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
@@ -70,7 +74,8 @@
       arrivalamount, signamount, unit, makerid, 
       makebillname, makebilltime, icardid, state, creator, 
       createtime, modifier, modifytime, 
-      remark, receipttime, signStatus)
+      remark, signStatus, signPerson, signPersonName, 
+      signTime, signID)
     values (#{id,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR}, #{auditstatus,jdbcType=VARCHAR}, 
       #{source,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, 
       #{vehicleid,jdbcType=VARCHAR}, #{vehicleno,jdbcType=VARCHAR}, 
@@ -81,7 +86,8 @@
       #{arrivalamount,jdbcType=DOUBLE}, #{signamount,jdbcType=DOUBLE}, #{unit,jdbcType=VARCHAR}, #{makerid,jdbcType=VARCHAR}, #{makebillname,jdbcType=VARCHAR}, 
       #{makebilltime,jdbcType=BIGINT}, #{icardid,jdbcType=VARCHAR}, #{state,jdbcType=VARCHAR}, #{creator,jdbcType=VARCHAR}, 
       #{createtime,jdbcType=BIGINT}, #{modifier,jdbcType=VARCHAR}, #{modifytime,jdbcType=BIGINT}, 
-      #{remark,jdbcType=VARCHAR}, #{receipttime,jdbcType=BIGINT}, #{signStatus,jdbcType=TINYINT})
+      #{remark,jdbcType=VARCHAR}, #{signStatus,jdbcType=TINYINT}, #{signPerson,jdbcType=VARCHAR}, 
+      #{signPersonName,jdbcType=VARCHAR}, #{signTime,jdbcType=BIGINT}, #{signID,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.tianrui.service.bean.businessManage.purchaseManage.PurchaseArrive" >
     insert into tr_purchase_db_arrive
@@ -185,11 +191,20 @@
       <if test="remark != null" >
         remark,
       </if>
-      <if test="receipttime != null" >
-        receipttime,
-      </if>
       <if test="signStatus != null" >
         signStatus,
+      </if>
+      <if test="signPerson != null" >
+        signPerson,
+      </if>
+      <if test="signPersonName != null" >
+        signPersonName,
+      </if>
+      <if test="signTime != null" >
+        signTime,
+      </if>
+      <if test="signID != null" >
+        signID,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
@@ -292,11 +307,20 @@
       <if test="remark != null" >
         #{remark,jdbcType=VARCHAR},
       </if>
-      <if test="receipttime != null" >
-        #{receipttime,jdbcType=BIGINT},
-      </if>
       <if test="signStatus != null" >
         #{signStatus,jdbcType=TINYINT},
+      </if>
+      <if test="signPerson != null" >
+        #{signPerson,jdbcType=VARCHAR},
+      </if>
+      <if test="signPersonName != null" >
+        #{signPersonName,jdbcType=VARCHAR},
+      </if>
+      <if test="signTime != null" >
+        #{signTime,jdbcType=BIGINT},
+      </if>
+      <if test="signID != null" >
+        #{signID,jdbcType=BIGINT},
       </if>
     </trim>
   </insert>
@@ -399,11 +423,20 @@
       <if test="remark != null" >
         remark = #{remark,jdbcType=VARCHAR},
       </if>
-      <if test="receipttime != null" >
-        receipttime = #{receipttime,jdbcType=BIGINT},
-      </if>
       <if test="signStatus != null" >
         signStatus = #{signStatus,jdbcType=TINYINT},
+      </if>
+      <if test="signPerson != null" >
+        signPerson = #{signPerson,jdbcType=VARCHAR},
+      </if>
+      <if test="signPersonName != null" >
+        signPersonName = #{signPersonName,jdbcType=VARCHAR},
+      </if>
+      <if test="signTime != null" >
+        signTime = #{signTime,jdbcType=BIGINT},
+      </if>
+      <if test="signID != null" >
+        signID = #{signID,jdbcType=BIGINT},
       </if>
     </set>
     where id = #{id,jdbcType=VARCHAR}
@@ -442,8 +475,11 @@
       modifier = #{modifier,jdbcType=VARCHAR},
       modifytime = #{modifytime,jdbcType=BIGINT},
       remark = #{remark,jdbcType=VARCHAR},
-      receipttime = #{receipttime,jdbcType=BIGINT},
-      signStatus = #{signStatus,jdbcType=TINYINT}
+      signStatus = #{signStatus,jdbcType=TINYINT},
+      signPerson = #{signPerson,jdbcType=VARCHAR},
+      signPersonName = #{signPersonName,jdbcType=VARCHAR},
+      signTime = #{signTime,jdbcType=BIGINT},
+      signID = #{signID,jdbcType=BIGINT}
     where id = #{id,jdbcType=VARCHAR}
   </update>
   <select id="selectSelective" parameterType="com.tianrui.service.bean.businessManage.purchaseManage.PurchaseArrive" resultMap="BaseResultMap">
@@ -550,11 +586,20 @@
       <if test="remark != null and remark != ''" >
         and remark = #{remark,jdbcType=VARCHAR}
       </if>
-      <if test="receipttime != null and receipttime != ''" >
-        and receipttime = #{receipttime,jdbcType=BIGINT}
-      </if>
       <if test="signStatus != null and signStatus != ''" >
         and signStatus = #{signStatus,jdbcType=TINYINT}
+      </if>
+      <if test="signPerson != null and signPerson != ''" >
+        and signPerson = #{signPerson,jdbcType=VARCHAR}
+      </if>
+      <if test="signPersonName != null and signPersonName != ''" >
+        and signPersonName = #{signPersonName,jdbcType=VARCHAR}
+      </if>
+      <if test="signTime != null and signTime != ''" >
+        and signTime = #{signTime,jdbcType=BIGINT}
+      </if>
+      <if test="signID != null and signID != ''" >
+        and signID = #{signID,jdbcType=BIGINT}
       </if>
     </where>    
   </select>
@@ -825,7 +870,7 @@
         t4.entertime AS enterTime,
         t5.weighttime AS weightTime,
         t5.lighttime AS lightTime,
-        t1.receipttime AS receiptTime,
+        t1.signTime AS signTime,
         t4.outtime AS outTime
     FROM
         tr_purchase_db_arrive t1

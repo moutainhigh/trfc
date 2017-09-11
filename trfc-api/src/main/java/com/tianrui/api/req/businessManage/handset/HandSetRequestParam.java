@@ -23,6 +23,8 @@ public class HandSetRequestParam extends BaseReq {
 	private Double deductionother;
 	//原发净重
 	private Double originalnetweight;
+	//签收设备
+	private String signID;
     public String getUserId() {
         return userId;
     }
@@ -80,12 +82,18 @@ public class HandSetRequestParam extends BaseReq {
     public static long getSerialversionuid() {
         return serialVersionUID;
     }
+    public String getSignID() {
+        return signID;
+    }
+    public void setSignID(String signID) {
+        this.signID = signID;
+    }
     @Override
     public String toString() {
         return "HandSetRequestParam [userId=" + userId + ", vehicleNo=" + vehicleNo + ", noticeCode=" + noticeCode
                 + ", receivePersonId=" + receivePersonId + ", warehouseId=" + warehouseId + ", yardId=" + yardId
                 + ", deductionweight=" + deductionweight + ", deductionother=" + deductionother + ", originalnetweight="
-                + originalnetweight + "]";
+                + originalnetweight + ", signID=" + signID + "]";
     }
 	
 }

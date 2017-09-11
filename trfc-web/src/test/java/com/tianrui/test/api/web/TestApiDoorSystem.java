@@ -24,7 +24,7 @@ public class TestApiDoorSystem {
 	private static String uri_queryWaiting = "api/doorSystem/queryWaiting";
 	
 	public static void main(String[] args) throws Exception {
-		URL url = new URL(domin + uri_leave);
+		URL url = new URL(domin + uri_record);
 		// 打开url连接
 		HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 		// 设置url请求方式 ‘get’ 或者 ‘post’
@@ -33,7 +33,7 @@ public class TestApiDoorSystem {
 		
 	    // 表单参数与get形式一样
 		connection.setDoOutput(true);// 是否输入参数
-        params.append("p").append("=").append(JSON.toJSONString(getParam0()));
+        params.append("p").append("=").append(JSON.toJSONString(getParam1()));
         
         String aa =params.toString();
         System.out.println(aa);
@@ -69,8 +69,8 @@ public class TestApiDoorSystem {
 		ApiParam<ApiDoorSystemSave> api =new ApiParam<ApiDoorSystemSave>();
 		
 		ApiDoorSystemSave req =new ApiDoorSystemSave();
-		req.setNotionformcode("DH201708280042");
-		req.setIcardno("121298869");
+		req.setNotionformcode("DH201709060001");
+		req.setIcardno("1194898613");
 		req.setServicetype("0");
 		req.setType("1");
 		req.setTime(DateUtil.getNowDateString("yyyy-MM-dd HH:mm:ss"));

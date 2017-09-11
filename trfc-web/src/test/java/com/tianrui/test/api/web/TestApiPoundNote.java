@@ -20,9 +20,10 @@ public class TestApiPoundNote {
 	private static String url_validation = "api/poundNote/validation";
 	private static String url_up_weight = "api/poundNote/up/weight";
 	private static String url_tare_weight = "api/poundNote/history/tareWeight";
+	private static String url_sign_detail = "api/poundNote/querySignDetail";
 	
 	public static void main(String[] args) throws Exception {
-		URL url = new URL(domin+url_up_weight);
+		URL url = new URL(domin+url_sign_detail);
 		// 打开url连接
 		HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 		// 设置url请求方式 ‘get’ 或者 ‘post’
@@ -31,7 +32,7 @@ public class TestApiPoundNote {
 		
 	    // 表单参数与get形式一样
 		connection.setDoOutput(true);// 是否输入参数
-        params.append("p").append("=").append(JSON.toJSONString(getParam1()));
+        params.append("p").append("=").append(JSON.toJSONString(getParam2()));
         
         String aa =params.toString();
         System.out.println(aa);
@@ -50,9 +51,9 @@ public class TestApiPoundNote {
 		ApiParam<ApiPoundNoteQuery> api =new ApiParam<ApiPoundNoteQuery>();
 		
 		ApiPoundNoteQuery req =new ApiPoundNoteQuery();
-		req.setRfid("E2000016060D014827000A5E");
-		req.setVehicleno("豫S98765");
-		req.setLimit(24);
+		req.setRfid("E2000016060D008127100890");
+		req.setVehicleno("豫DCS001");
+		//req.setLimit(24);
 		
 		Head head =new Head();
 		head.setCallSource("1");
@@ -72,19 +73,19 @@ public class TestApiPoundNote {
 		ApiParam<ApiPoundNoteQuery> api =new ApiParam<ApiPoundNoteQuery>();
 		
 		ApiPoundNoteQuery req =new ApiPoundNoteQuery();
-		req.setRfid("E2000016130B015320904013");
-		req.setVehicleno("豫A77777");
-		req.setType("1");
+		req.setRfid("E2000016060D008127100890");
+		req.setVehicleno("豫DCS001");
+		req.setType("2");
 		req.setServicetype("0");
-		req.setNotionformcode("TH201708170001");
-		req.setNumber("50");
+		req.setNotionformcode("DH201709060001");
+		req.setNumber("82");
 		req.setTime(DateUtil.getNowDateString("yyyy-MM-dd HH:mm:ss"));
 		
 		//二次过磅所需参数
-		req.setDeductionweight("0");
-		req.setOriginalnetweight("0");
-		req.setDeductionother("0");
-		req.setNetweight("0");
+//		req.setDeductionweight("0");
+//		req.setOriginalnetweight("0");
+//		req.setDeductionother("0");
+//		req.setNetweight("0");
 		
 		Head head =new Head();
 		head.setCallSource("1");
@@ -104,8 +105,8 @@ public class TestApiPoundNote {
 		ApiParam<ApiPoundNoteValidation> api =new ApiParam<ApiPoundNoteValidation>();
 		
 		ApiPoundNoteValidation req =new ApiPoundNoteValidation();
-		req.setRfid("08D4A547373531323120AB01");
-		req.setVehicleno("豫G75121");
+		req.setRfid("E2000016060D008127100890");
+		req.setVehicleno("豫DCS001");
 		req.setType("2");
 		
 		Head head =new Head();

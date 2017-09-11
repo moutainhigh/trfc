@@ -127,5 +127,28 @@ public class ApiPoundNoteAction {
 		}
 		return ApiResult.valueOf(rs);
 	}
+	
+	/**
+	 * 
+	 * @annotation 查询签收信息
+	 * @param req
+	 * @return
+	 */
+	@RequestMapping(value = "/querySignDetail", method = RequestMethod.POST)
+    @ApiParamRawType(ApiPoundNoteQuery.class)
+    @ApiAuthValidation(callType = "2")
+    @ResponseBody
+    public ApiResult querySignDetail(ApiParam<ApiPoundNoteQuery> req) {
+        Result rs = Result.getErrorResult();
+        ApiPoundNoteQuery valid = req.getBody();
+        valid.setCurrid(req.getHead().getUserId());
+        try {
+            rs = poundNoteService.querySignDetail(valid);
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+            rs.setErrorCode(ErrorCode.SYSTEM_ERROR);
+        }
+        return ApiResult.valueOf(rs);
+    }
 
 }

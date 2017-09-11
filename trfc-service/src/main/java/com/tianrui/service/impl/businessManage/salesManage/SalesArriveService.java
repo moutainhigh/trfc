@@ -705,6 +705,7 @@ public class SalesArriveService implements ISalesArriveService {
 			api.setMinemouth(application.getMinemouthname());
 			api.setNumber(listPurchase.get(0).getArrivalamount() == null ? "" : listPurchase.get(0).getArrivalamount().toString());
 			api.setStatus(listPurchase.get(0).getStatus());
+			api.setSignStatus(listPurchase.get(0).getSignStatus());
 		}
 		return api;
 	}

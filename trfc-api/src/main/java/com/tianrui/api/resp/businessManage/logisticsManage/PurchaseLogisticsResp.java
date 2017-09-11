@@ -27,7 +27,7 @@ public class PurchaseLogisticsResp extends BaseResp {
 	//轻车时间
 	private String lightTime;
 	//收货时间
-	private String receiptTime;
+	private String signTime;
 	//出厂时间
 	private String outTime;
 	
@@ -102,11 +102,11 @@ public class PurchaseLogisticsResp extends BaseResp {
 	public void setLightTime(Long lightTime) {
 		this.lightTime = DateUtil.parse(lightTime, DateUtil.Y_M_D_H_M_S);
 	}
-	public String getReceiptTime() {
-		return receiptTime;
+	public String getSignTime() {
+		return signTime;
 	}
-	public void setReceiptTime(Long receiptTime) {
-		this.receiptTime = DateUtil.parse(receiptTime, DateUtil.Y_M_D_H_M_S);
+	public void setSignTime(Long signTime) {
+		this.signTime = DateUtil.parse(signTime, DateUtil.Y_M_D_H_M_S);
 	}
 	public String getOutTime() {
 		return outTime;
