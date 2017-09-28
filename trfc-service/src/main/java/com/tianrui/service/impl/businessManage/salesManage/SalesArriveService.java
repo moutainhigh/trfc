@@ -41,6 +41,7 @@ import com.tianrui.api.resp.businessManage.salesManage.ApiNoticeResp;
 import com.tianrui.api.resp.businessManage.salesManage.SalesApplicationDetailResp;
 import com.tianrui.api.resp.businessManage.salesManage.SalesApplicationResp;
 import com.tianrui.api.resp.businessManage.salesManage.SalesArriveResp;
+import com.tianrui.service.bean.basicFile.businessControl.PrimarySetting;
 import com.tianrui.service.bean.basicFile.measure.VehicleManage;
 import com.tianrui.service.bean.businessManage.cardManage.Card;
 import com.tianrui.service.bean.businessManage.logisticsManage.AccessRecord;
@@ -56,6 +57,7 @@ import com.tianrui.service.bean.businessManage.salesManage.SalesArrive;
 import com.tianrui.service.bean.common.QueueNumber;
 import com.tianrui.service.bean.common.RFID;
 import com.tianrui.service.impl.businessManage.otherManage.OtherArriveService;
+import com.tianrui.service.mapper.basicFile.businessControl.PrimarySettingMapper;
 import com.tianrui.service.mapper.basicFile.measure.VehicleManageMapper;
 import com.tianrui.service.mapper.businessManage.cardManage.CardMapper;
 import com.tianrui.service.mapper.businessManage.logisticsManage.AccessRecordMapper;
@@ -133,6 +135,8 @@ public class SalesArriveService implements ISalesArriveService {
 	private OtherArriveService otherArriveService;
 	@Autowired
 	private QueueNumberMapper queueNumberMapper;
+	@Autowired
+	private PrimarySettingMapper primarySettingMapper;
 
 	@Override
 	public PaginationVO<SalesArriveResp> page(SalesArriveQuery query) throws Exception {
@@ -699,7 +703,18 @@ public class SalesArriveService implements ISalesArriveService {
 					api.setCementtype(Constant.TWO_STRING);
 				}
 			}
-			api.setPrimary("");//是否原发？？？
+			//是否原发(0：否，1：是)
+			if (application != null && applicationDetail != null) {
+			    PrimarySetting record = new PrimarySetting();
+			    record.setMaterialid(applicationDetail.getMaterielid());
+			    record.setSupplierid(application.getSupplierid());
+			    List<PrimarySetting> list = primarySettingMapper.selectSelective(record);
+		        if(CollectionUtils.isNotEmpty(list)) {
+		            api.setPrimary(Constant.ONE_STRING);
+		        } else {
+		            api.setPrimary(Constant.ZERO_STRING);
+		        }
+			}
 			api.setServicetype(listPurchase.get(0).getType());
 			api.setNotionformcode(listPurchase.get(0).getCode());
 			api.setMinemouth(application.getMinemouthname());

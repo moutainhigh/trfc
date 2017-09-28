@@ -19,7 +19,7 @@
 	}
 	function initAutoComplete(){
 		var cache = {};
-			$("#vehicle").autocomplete({
+		$("#vehicle").autocomplete({
 	    	source: function( request, response ) {
 	    		var term = request.term;
 	    		var vehicle = cache['vehicle'] || {};

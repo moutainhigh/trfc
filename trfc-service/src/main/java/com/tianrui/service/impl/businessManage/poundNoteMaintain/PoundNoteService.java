@@ -1,6 +1,8 @@
 package com.tianrui.service.impl.businessManage.poundNoteMaintain;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -493,16 +495,27 @@ public class PoundNoteService implements IPoundNoteService {
 	public Result invalid(PoundNoteQuery query) {
 		Result result = Result.getParamErrorResult();
 		if (query != null && StringUtils.isNotBlank(query.getId())) {
-			PoundNote bean = new PoundNote();
-			bean.setId(query.getId());
-			bean.setStatus("3");
-			bean.setModifier(query.getCurrId());
-			bean.setModifytime(System.currentTimeMillis());
-			if (poundNoteMapper.updateByPrimaryKeySelective(bean) > 0) {
-				result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
-			} else {
-				result.setErrorCode(ErrorCode.OPERATE_ERROR);
-			}
+		    PoundNote poundNote = poundNoteMapper.selectByPrimaryKey(query.getId());
+		    if (poundNote != null) {
+	            PoundNote bean = new PoundNote();
+	            bean.setId(query.getId());
+	            bean.setStatus(Constant.THREE_STRING);
+	            bean.setModifier(query.getCurrId());
+	            bean.setModifytime(System.currentTimeMillis());
+	            if (poundNoteMapper.updateByPrimaryKeySelective(bean) > 0) {
+	                if (StringUtils.equals(poundNote.getBilltype(), Constant.FOUR_STRING)) {
+	                    OtherArrive oa = new OtherArrive();
+	                    oa.setId(poundNote.getNoticeid());
+	                    oa.setStatus(Constant.SIX_STRING);
+	                    otherArriveMapper.updateByPrimaryKeySelective(oa);
+	                }
+	                result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+	            } else {
+	                result.setErrorCode(ErrorCode.OPERATE_ERROR);
+	            }
+		    } else {
+		        result.setErrorCode(ErrorCode.POUNDNOTE_NOT_EXIST);
+		    }
 		}
 		return result;
 	}
@@ -807,7 +820,7 @@ public class PoundNoteService implements IPoundNoteService {
 				result = saveSalesPoundNote(query);
 				break;
 			case "4":
-				result = saveOtherCKPoundNote(query);
+				result = saveCNDYPoundNote(query);
 				break;
 			case "5":
 				result = saveOtherRKPoundNote(query);
@@ -1054,6 +1067,146 @@ public class PoundNoteService implements IPoundNoteService {
 		}
 		return result;
 	}
+	
+	private Result saveCNDYPoundNote(ApiPoundNoteQuery query) throws Exception {
+        Result result = Result.getSuccessResult();
+        OtherArrive arrive = otherArriveMapper.selectByCode(query.getNotionformcode());
+        long nowTime = System.currentTimeMillis();
+        if (nowTime >= arrive.getStarttime() && nowTime < arrive.getEndtime()) {
+            PoundNote bean = new PoundNote();
+            // 皮重
+            if (StringUtils.equals(query.getType(), Constant.ONE_STRING)) {
+                bean.setVehicleno(query.getVehicleno());
+                // 获取rfid
+                bean.setVehiclerfid(query.getRfid());
+                bean.setNoticecode(query.getNotionformcode());
+                bean.setReturnstatus(Constant.ZERO_STRING);
+                bean.setState(Constant.ONE_STRING);
+                bean.setBilltype(query.getServicetype());
+                bean.setNetweight(0D);
+
+                List<PoundNote> list = poundNoteMapper.selectSelective(bean);
+
+                Collections.sort(list,new Comparator<PoundNote>() {
+
+                    @Override
+                    public int compare(PoundNote o1, PoundNote o2) {
+                        return (int) (o2.getMakebilltime()-o1.getMakebilltime());
+                    }
+                    
+                });
+//                Iterator<PoundNote> it = list.iterator();
+//                while (it.hasNext()) {
+//                    if (StringUtils.equals(it.next().getStatus(), Constant.THREE_STRING)) {
+//                        it.remove();
+//                    }
+//                }
+                if (CollectionUtils.isNotEmpty(list)) {
+                    bean = list.get(0);
+                    // 毛重
+                    bean.setTareweight(Double.parseDouble(query.getNumber()));
+                    bean.setNetweight(Double.parseDouble(query.getNetweight()));
+                    bean.setLighttime(DateUtil.parse(query.getTime(), DateUtil.Y_M_D_H_M_S));
+                    bean.setModifier(query.getCurrid());
+                    bean.setModifytime(System.currentTimeMillis());
+                    // 更新通知单状态
+                    OtherArrive oa = new OtherArrive();
+                    oa.setId(arrive.getId());
+                    oa.setStatus(Constant.SIX_STRING);
+                    if (poundNoteMapper.updateByPrimaryKeySelective(bean) > 0
+                            && otherArriveMapper.updateByPrimaryKeySelective(oa) > 0) {
+                        ErrorCode ec = ErrorCode.SYSTEM_SUCCESS;
+                        result.setErrorCode(ec);
+                        result.setData(bean.getCode());
+                    } else {
+                        result.setErrorCode(ErrorCode.OPERATE_ERROR);
+                    }
+                }
+            // 毛重
+            } else {
+                GetCodeReq codeReq = setCNDYBody(query, arrive, bean);
+                // 更新通知单状态
+                OtherArrive pa = new OtherArrive();
+                pa.setId(arrive.getId());
+                pa.setStatus(Constant.ONE_STRING);
+                if (poundNoteMapper.insertSelective(bean) > 0
+                        && StringUtils.equals(systemCodeService.updateCodeItem(codeReq).getCode(),
+                                ErrorCode.SYSTEM_SUCCESS.getCode())
+                        && otherArriveMapper.updateByPrimaryKeySelective(pa) > 0) {
+                    result.setData(bean.getCode());
+                } else {
+                    result.setErrorCode(ErrorCode.OPERATE_ERROR);
+                }
+            }
+        } else {
+            result.setErrorCode(ErrorCode.NOTICE_NOT_VALID_TIME);
+        }
+        return result;
+    }
+    
+    private GetCodeReq setCNDYBody(ApiPoundNoteQuery query, OtherArrive arrive, PoundNote bean) throws Exception {
+        bean.setId(UUIDUtil.getId());
+        GetCodeReq codeReq = new GetCodeReq();
+        codeReq.setCode("DR");
+        codeReq.setCodeType(true);
+        codeReq.setUserid(query.getCurrid());
+        bean.setCode(systemCodeService.getCode(codeReq).getData().toString());
+        bean.setReturnstatus(Constant.ZERO_STRING);
+        bean.setRedcollide(Constant.ZERO_STRING);
+        bean.setStatus(Constant.ZERO_STRING);
+        bean.setBilltype(query.getServicetype());
+        bean.setMaindeduction(Constant.ZERO_STRING);
+        bean.setNoticeid(arrive.getId());
+        bean.setNoticecode(arrive.getCode());
+        bean.setCutoverpartmentid(Constant.ORG_ID);
+        bean.setCutoverpartmentname(Constant.ORG_NAME);
+        if (StringUtils.isNotBlank(arrive.getEnteryard())) {
+            YardManage yard = yardManageMapper.selectByPrimaryKey(arrive.getEnteryard());
+            if (yard != null) {
+                bean.setEnteryardid(yard.getId());
+                bean.setEnteryardname(yard.getName());
+            }
+        }
+        if (StringUtils.isNotBlank(arrive.getLeaveyard())) {
+            YardManage yard = yardManageMapper.selectByPrimaryKey(arrive.getLeaveyard());
+            if (yard != null) {
+                bean.setLeaveyardid(yard.getId());
+                bean.setLeaveyardname(yard.getName());
+            }
+        }
+        if (StringUtils.isNotBlank(arrive.getMaterielid())) {
+            MaterielManage materiel = materielManageMapper.selectByPrimaryKey(arrive.getMaterielid());
+            if (materiel != null) {
+                bean.setMaterialid(materiel.getId());
+                bean.setMaterialname(materiel.getName());
+            }
+        }
+        if (StringUtils.isNotBlank(arrive.getDriverid())) {
+            DriverManage driver = driverManageMapper.selectByPrimaryKey(arrive.getDriverid());
+            if (driver != null) {
+                bean.setDriverid(driver.getId());
+                bean.setDrivername(driver.getName());
+                bean.setDriveridentityno(driver.getIdentityno());
+            }
+        }
+        bean.setVehicleid(arrive.getVehicleid());
+        bean.setVehicleno(query.getVehicleno());
+        bean.setVehiclerfid(query.getRfid());
+        bean.setGrossweight(Double.parseDouble(query.getNumber()));
+        bean.setWeighttime(DateUtil.parse(query.getTime(), DateUtil.Y_M_D_H_M_S));
+        bean.setMakerid(query.getCurrid());
+        SystemUserResp user = systemUserService.getUser(query.getCurrid());
+        if (user != null) {
+            bean.setMakebillname(user.getName());
+        }
+        bean.setMakebilltime(System.currentTimeMillis());
+        bean.setState(Constant.ONE_STRING);
+        bean.setCreator(query.getCurrid());
+        bean.setCreatetime(System.currentTimeMillis());
+        bean.setModifier(query.getCurrid());
+        bean.setModifytime(System.currentTimeMillis());
+        return codeReq;
+    }
 
 	private GetCodeReq setOtherBeanBody(ApiPoundNoteQuery query, OtherArrive arrive, PoundNote bean) throws Exception {
 		bean.setId(UUIDUtil.getId());
@@ -1554,11 +1707,20 @@ public class PoundNoteService implements IPoundNoteService {
 						// 该车辆没有通知单
 						result.setErrorCode(ErrorCode.VEHICLE_NOT_NOTICE);
 					} else {
-						if (StringUtils.equals(otherArrive.getStatus(), "6")) {
-							validNoticeInfoAccessRecord(result, otherArrive.getId());
-						} else {
-							result.setErrorCode(ErrorCode.VEHICLE_NOTICE_NOT_ENTER);
-						}
+					    if (StringUtils.equals(otherArrive.getStatus(), "6")) {
+                            if (!StringUtils.equals(otherArrive.getBusinesstype(), Constant.FOUR_STRING)) {
+                                validNoticeInfoAccessRecord(result, otherArrive.getId());
+                            } else {
+                                //厂内倒运
+                                if (StringUtils.equals(otherArrive.getAuditstatus(), Constant.ONE_STRING)) {
+                                    result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+                                } else {
+                                    result.setErrorCode(ErrorCode.NOTICE_NOT_AUDIT);
+                                }
+                            }
+					    } else {
+					        result.setErrorCode(ErrorCode.VEHICLE_NOTICE_NOT_ENTER);
+					    }
 					}
 				} else {
 					result.setErrorCode(ErrorCode.VEHICLE_NOT_EXIST);
@@ -1668,58 +1830,73 @@ public class PoundNoteService implements IPoundNoteService {
 		PoundNote poundNote = new PoundNote();
 		poundNote.setNoticeid(noticeid);
 		List<PoundNote> listPoundNote = poundNoteMapper.selectSelective(poundNote);
+		Collections.sort(listPoundNote,new Comparator<PoundNote>() {
+
+            @Override
+            public int compare(PoundNote o1, PoundNote o2) {
+                return (int) (o2.getMakebilltime()-o1.getMakebilltime());
+            }
+		    
+        });
 		// 判断是否一次过磅
-		if (StringUtils.equals(type, "0")) {
-			if (CollectionUtils.isNotEmpty(listPoundNote) && listPoundNote.get(0).getGrossweight() != null
-					&& listPoundNote.get(0).getGrossweight() > 0) {
-				result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
-			} else {
-				result.setErrorCode(ErrorCode.VEHICLE_NOTICE_NOT_ONE_WEIGHT);
-			}
-		} else if (StringUtils.equals(type, "1")) {
-			if (CollectionUtils.isNotEmpty(listPoundNote) && listPoundNote.get(0).getTareweight() != null
-					&& listPoundNote.get(0).getTareweight() > 0) {
-				result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
-			} else {
-				result.setErrorCode(ErrorCode.VEHICLE_NOTICE_NOT_ONE_WEIGHT);
-			}
-		} else if (StringUtils.equals(type, "2")) {
-			if (CollectionUtils.isNotEmpty(listPoundNote) && listPoundNote.get(0).getTareweight() != null
-					&& listPoundNote.get(0).getTareweight() > 0) {
-				result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
-			} else {
-				result.setErrorCode(ErrorCode.VEHICLE_NOTICE_NOT_ONE_WEIGHT);
-			}
-		} else if (StringUtils.equals(type, "5")) {
-			if (CollectionUtils.isNotEmpty(listPoundNote) && listPoundNote.get(0).getGrossweight() != null
-					&& listPoundNote.get(0).getGrossweight() > 0) {
-				result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
-			} else {
-				result.setErrorCode(ErrorCode.VEHICLE_NOTICE_NOT_ONE_WEIGHT);
-			}
-		} else if (StringUtils.equals(type, "7")) {
-			if (CollectionUtils.isNotEmpty(listPoundNote) && listPoundNote.get(0).getTareweight() != null
-					&& listPoundNote.get(0).getTareweight() > 0) {
-				result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
-			} else {
-				result.setErrorCode(ErrorCode.VEHICLE_NOTICE_NOT_ONE_WEIGHT);
-			}
-		} else if (StringUtils.equals(type, "4")) {
-			if (CollectionUtils.isNotEmpty(listPoundNote) && listPoundNote.get(0).getTareweight() != null
-					&& listPoundNote.get(0).getTareweight() > 0) {
-				result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
-			} else {
-				result.setErrorCode(ErrorCode.VEHICLE_NOTICE_NOT_ONE_WEIGHT);
-			}
-		} else if (StringUtils.equals(type, "9")) {
-			if (CollectionUtils.isNotEmpty(listPoundNote) && listPoundNote.get(0).getTareweight() != null
-					&& listPoundNote.get(0).getTareweight() > 0) {
-				result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
-			} else {
-				result.setErrorCode(ErrorCode.VEHICLE_NOTICE_NOT_ONE_WEIGHT);
-			}
+		if (CollectionUtils.isNotEmpty(listPoundNote)) {
+		    if (!StringUtils.equals(listPoundNote.get(0).getStatus(), Constant.THREE_STRING)) {
+		        if (StringUtils.equals(type, "0")) {
+	                if (listPoundNote.get(0).getGrossweight() != null && listPoundNote.get(0).getGrossweight() > 0) {
+	                    result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+	                } else {
+	                    result.setErrorCode(ErrorCode.VEHICLE_NOTICE_NOT_ONE_WEIGHT);
+	                }
+	            } else if (StringUtils.equals(type, "1")) {
+	                if (listPoundNote.get(0).getTareweight() != null
+	                        && listPoundNote.get(0).getTareweight() > 0) {
+	                    result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+	                } else {
+	                    result.setErrorCode(ErrorCode.VEHICLE_NOTICE_NOT_ONE_WEIGHT);
+	                }
+	            } else if (StringUtils.equals(type, "2")) {
+	                if (listPoundNote.get(0).getTareweight() != null
+	                        && listPoundNote.get(0).getTareweight() > 0) {
+	                    result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+	                } else {
+	                    result.setErrorCode(ErrorCode.VEHICLE_NOTICE_NOT_ONE_WEIGHT);
+	                }
+	            } else if (StringUtils.equals(type, "5")) {
+	                if (listPoundNote.get(0).getGrossweight() != null
+	                        && listPoundNote.get(0).getGrossweight() > 0) {
+	                    result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+	                } else {
+	                    result.setErrorCode(ErrorCode.VEHICLE_NOTICE_NOT_ONE_WEIGHT);
+	                }
+	            } else if (StringUtils.equals(type, "7")) {
+	                if (listPoundNote.get(0).getTareweight() != null
+	                        && listPoundNote.get(0).getTareweight() > 0) {
+	                    result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+	                } else {
+	                    result.setErrorCode(ErrorCode.VEHICLE_NOTICE_NOT_ONE_WEIGHT);
+	                }
+	            } else if (StringUtils.equals(type, "4")) {
+	                if (listPoundNote.get(0).getGrossweight() != null
+	                        && listPoundNote.get(0).getGrossweight() > 0) {
+	                    result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+	                } else {
+	                    result.setErrorCode(ErrorCode.VEHICLE_NOTICE_NOT_ONE_WEIGHT);
+	                }
+	            } else if (StringUtils.equals(type, "9")) {
+	                if (listPoundNote.get(0).getTareweight() != null
+	                        && listPoundNote.get(0).getTareweight() > 0) {
+	                    result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+	                } else {
+	                    result.setErrorCode(ErrorCode.VEHICLE_NOTICE_NOT_ONE_WEIGHT);
+	                }
+	            } else {
+	                result.setErrorCode(ErrorCode.NOTICE_NOT_EXIST);
+	            }
+            } else {
+                result.setErrorCode(ErrorCode.POUNDNOTE_ERROR0);
+            }
 		} else {
-			result.setErrorCode(ErrorCode.NOTICE_NOT_EXIST);
+		    result.setErrorCode(ErrorCode.POUNDNOTE_NOT_EXIST);
 		}
 	}
 
@@ -1832,9 +2009,19 @@ public class PoundNoteService implements IPoundNoteService {
 				&& StringUtils.isNotBlank(req.getServicetype())) {
 			PoundNote query = new PoundNote();
 			query.setNoticecode(req.getNotionformcode());
-			List<PoundNote> rs = poundNoteMapper.selectSelective(query);
-			if (CollectionUtils.isNotEmpty(rs)) {
-				PoundNote poundNote = rs.get(0);
+			List<PoundNote> list = poundNoteMapper.selectSelective(query);
+
+            Collections.sort(list,new Comparator<PoundNote>() {
+
+                @Override
+                public int compare(PoundNote o1, PoundNote o2) {
+                    return (int) (o2.getMakebilltime()-o1.getMakebilltime());
+                }
+                
+            });
+            
+			if (CollectionUtils.isNotEmpty(list)) {
+				PoundNote poundNote = list.get(0);
 				AppPoundOrderResp resp = new AppPoundOrderResp();
 				resp.setId(poundNote.getId());
 				resp.setCode(poundNote.getCode());

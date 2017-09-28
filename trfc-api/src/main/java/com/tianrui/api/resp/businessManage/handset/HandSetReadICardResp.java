@@ -16,6 +16,8 @@ public class HandSetReadICardResp extends BaseResp {
     private String minemouth;
     //通知单号
     private String noticeCode;
+    //是否原发设置(0：否，1：是)
+    private String isPrimary;
     public String getDeptId() {
         return deptId;
     }
@@ -55,10 +57,17 @@ public class HandSetReadICardResp extends BaseResp {
     public static long getSerialversionuid() {
         return serialVersionUID;
     }
+    public String getIsPrimary() {
+        return isPrimary;
+    }
+    public void setIsPrimary(String isPrimary) {
+        this.isPrimary = isPrimary;
+    }
     @Override
     public String toString() {
         return "HandSetReadICardResp [deptId=" + deptId + ", deptName=" + deptName + ", deptRemark=" + deptRemark
-                + ", material=" + material + ", minemouth=" + minemouth + ", noticeCode=" + noticeCode + "]";
+                + ", material=" + material + ", minemouth=" + minemouth + ", noticeCode=" + noticeCode + ", isPrimary="
+                + isPrimary + "]";
     }
     
 }

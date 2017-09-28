@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.tianrui.api.intf.handSetStatic.IHandSetStaticService;
 import com.tianrui.api.req.businessManage.handset.HandSetRequestParam;
 import com.tianrui.api.resp.businessManage.handset.HandSetReadICardResp;
+import com.tianrui.service.bean.basicFile.businessControl.PrimarySetting;
 import com.tianrui.service.bean.basicFile.measure.VehicleManage;
 import com.tianrui.service.bean.basicFile.measure.YardManage;
 import com.tianrui.service.bean.basicFile.nc.WarehouseManage;
@@ -22,6 +23,7 @@ import com.tianrui.service.bean.businessManage.salesManage.SalesApplication;
 import com.tianrui.service.bean.businessManage.salesManage.SalesApplicationDetail;
 import com.tianrui.service.bean.businessManage.salesManage.SalesArrive;
 import com.tianrui.service.bean.system.auth.SystemUser;
+import com.tianrui.service.mapper.basicFile.businessControl.PrimarySettingMapper;
 import com.tianrui.service.mapper.basicFile.measure.VehicleManageMapper;
 import com.tianrui.service.mapper.basicFile.measure.YardManageMapper;
 import com.tianrui.service.mapper.basicFile.nc.WarehouseManageMapper;
@@ -62,6 +64,8 @@ public class HandSetStaticService implements IHandSetStaticService {
     private WarehouseManageMapper warehouseManageMapper;
     @Autowired
     private YardManageMapper yardManageMapper;
+    @Autowired
+    private PrimarySettingMapper primarySettingMapper;
     
     @Override
     public Result readICard(HandSetRequestParam params) {
@@ -126,6 +130,18 @@ public class HandSetStaticService implements IHandSetStaticService {
         if (applicationDetail != null) {
             resp.setMaterial(applicationDetail.getMaterielname());
         }
+        if (application != null && applicationDetail != null) {
+            PrimarySetting record = new PrimarySetting();
+            record.setMaterialid(applicationDetail.getMaterielid());
+            record.setSupplierid(application.getSupplierid());
+            List<PrimarySetting> list = primarySettingMapper.selectSelective(record);
+            if(CollectionUtils.isNotEmpty(list)) {
+                resp.setIsPrimary(Constant.ONE_STRING);
+            } else {
+                resp.setIsPrimary(Constant.ZERO_STRING);
+            }
+        }
+        
     }
 
     @Transactional
@@ -215,7 +231,7 @@ public class HandSetStaticService implements IHandSetStaticService {
                     if (StringUtils.equals(pa.getStatus(), Constant.ONE_STRING)) {
                         PurchaseArrive update = new PurchaseArrive();
                         update.setId(pa.getId());
-                        pa.setStatus(Constant.SEVEN_STRING);
+                        update.setStatus(Constant.SEVEN_STRING);
                         update.setSignStatus(Constant.ZERO_NUMBER);
                         purchaseArriveMapper.updateByPrimaryKeySelective(update);
                         result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
@@ -244,7 +260,7 @@ public class HandSetStaticService implements IHandSetStaticService {
                     if (StringUtils.equals(pa.getStatus(), Constant.ONE_STRING)) {
                         PurchaseArrive update = new PurchaseArrive();
                         update.setId(pa.getId());
-                        pa.setStatus(Constant.SEVEN_STRING);
+                        update.setStatus(Constant.SEVEN_STRING);
                         update.setSignStatus(Constant.ZERO_NUMBER);
                         purchaseArriveMapper.updateByPrimaryKeySelective(update);
                         result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);

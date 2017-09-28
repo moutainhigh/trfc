@@ -17,14 +17,14 @@ import com.tianrui.smartfactory.common.utils.Md5Utils;
 
 public class TestApiDoorSystem {
 
-	private static String domin = "http://localhost/";
+	private static String domin = "http://172.19.4.97:28080/";
 	private static String uri_info = "api/doorSystem/enterFactoryCheck";
 	private static String uri_leave = "api/doorSystem/leaveFactoryCheck";
 	private static String uri_record = "api/doorSystem/record";
 	private static String uri_queryWaiting = "api/doorSystem/queryWaiting";
 	
 	public static void main(String[] args) throws Exception {
-		URL url = new URL(domin + uri_record);
+		URL url = new URL(domin + uri_info);
 		// 打开url连接
 		HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 		// 设置url请求方式 ‘get’ 或者 ‘post’
@@ -33,7 +33,7 @@ public class TestApiDoorSystem {
 		
 	    // 表单参数与get形式一样
 		connection.setDoOutput(true);// 是否输入参数
-        params.append("p").append("=").append(JSON.toJSONString(getParam1()));
+        params.append("p").append("=").append(JSON.toJSONString(getParam0()));
         
         String aa =params.toString();
         System.out.println(aa);
@@ -43,6 +43,8 @@ public class TestApiDoorSystem {
 		// 发送
 		BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
 		String response = in.readLine();
+        System.out.println(url.getHost()+":"+url.getPort()+url.getPath());
+        System.out.println(params);
 		System.out.println(response);
 		
 		
@@ -92,8 +94,8 @@ public class TestApiDoorSystem {
 		ApiParam<VehicleCheckApi> api =new ApiParam<VehicleCheckApi>();
 		
 		VehicleCheckApi req =new VehicleCheckApi();
-		req.setRfid("E2000016130B015320904013");
-		req.setVehicleNo("豫A77777");
+		req.setRfid("E2000016130B0033218036F7");
+		req.setVehicleNo("123456");
 		
 		Head head =new Head();
 		head.setCallSource("1");

@@ -39,7 +39,7 @@ public class ApiNoticeResp extends BaseResp {
 	private String notionformcode="";
 	//
 	private String batchnumber="";
-	//
+	//是否原发(0：否，1：是)
 	private String primary="";
 	//
 	private String vehicleid="";

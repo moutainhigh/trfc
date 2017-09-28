@@ -51,7 +51,6 @@ $(function() {
 		var starttime = $('#add_starttime').val();
 		var endtime = $('#add_endtime').val();
 		var driverid = $('#add_driver').attr('driverid');
-		var createtime = $('#add_createtime').val();
 		var remark = $('#add_remark').val();
 		return {
 			enteryard:enteryard,
@@ -61,7 +60,6 @@ $(function() {
 			vehicleid:vehicleid,
 			starttime:str2Long(starttime),
 			endtime:str2Long(endtime),
-			createtime:str2Long(createtime),
 			remark:remark
 		};
 
@@ -249,47 +247,47 @@ $(function() {
 		});
 
 		initAutoComplete();
-		var user = $('.user label').html();
-		$('#add_creator').val(user);
-		$('#add_createtime').val(getNowFormatDate(true));
-		$('#add_receivedepartment').val('天瑞集团汝州水泥有限公司').attr('orgid','0001PP1000000000BSF6');
-		var href = window.location.href;
-		hrefStrs = href.split('?id=');
-		var id = hrefStrs[1];
-		if(id){
-			$.ajax({
-				url:URL.findOne,
-				data:{id:id},
-				async:true,
-				cache:false,
-				dataType:'json',
-				type:'post',
-				success:function(result){
-					if(result.code == '000000'){
-						var obj = result.data;
-						
-						var starttime = '';
-						if(obj.starttime){
-							starttime = getNowFormatDate(true, obj.starttime);
-						}
-						var endtime = '';
-						if(obj.endtime){
-							endtime = getNowFormatDate(true, obj.endtime);
-						}
-						$('#add_enteryard').val(obj.enteryerdname).attr('yardid',obj.enteryard);
-						$('#add_leaveyard').val(obj.leaveyerdname).attr('yardid',obj.leaveyard);
-						$('#add_materiel').val(obj.materielname).attr('materielid',obj.materielid);
-						$('#add_vehicle').val(obj.vehicleno).attr('vehicleid',obj.vehicleid);
-						$('#add_starttime').val(starttime);
-						$('#add_endtime').val(endtime);
-						$('#add_rfid').val(obj.rfid);
-						$('#add_remark').val();
-					}else{
-						layer.msg(result.error, {icon: 5});
-					}
-				}
-			});
-		}
+//		var user = $('.user label').html();
+//		$('#add_creator').val(user);
+//		$('#add_createtime').val(getNowFormatDate(true));
+//		$('#add_receivedepartment').val('天瑞集团汝州水泥有限公司').attr('orgid','0001PP1000000000BSF6');
+//		var href = window.location.href;
+//		hrefStrs = href.split('?id=');
+//		var id = hrefStrs[1];
+//		if(id){
+//			$.ajax({
+//				url:URL.findOne,
+//				data:{id:id},
+//				async:true,
+//				cache:false,
+//				dataType:'json',
+//				type:'post',
+//				success:function(result){
+//					if(result.code == '000000'){
+//						var obj = result.data;
+//						
+//						var starttime = '';
+//						if(obj.starttime){
+//							starttime = getNowFormatDate(true, obj.starttime);
+//						}
+//						var endtime = '';
+//						if(obj.endtime){
+//							endtime = getNowFormatDate(true, obj.endtime);
+//						}
+//						$('#add_enteryard').val(obj.enteryerdname).attr('yardid',obj.enteryard);
+//						$('#add_leaveyard').val(obj.leaveyerdname).attr('yardid',obj.leaveyard);
+//						$('#add_materiel').val(obj.materielname).attr('materielid',obj.materielid);
+//						$('#add_vehicle').val(obj.vehicleno).attr('vehicleid',obj.vehicleid);
+//						$('#add_starttime').val(starttime);
+//						$('#add_endtime').val(endtime);
+//						$('#add_rfid').val(obj.rfid);
+//						$('#add_remark').val();
+//					}else{
+//						layer.msg(result.error, {icon: 5});
+//					}
+//				}
+//			});
+//		}
 	}
 
 

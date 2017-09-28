@@ -52,6 +52,7 @@ public enum ErrorCode {
 	NOTICE_NOT_ONE_POUNDNOTE("E10025","该通知单未过一次磅房."),
 	NOTICE_NOT_SIGN("E10025","该通知单未签收确认."), 
 	NOTICE_ON_SIGN("E10026","该通知单已确认,请勿重复确认."), 
+	NOTICE_NOT_VALID_TIME("E10027","该通知单不在有效时间内."), 
 	/**
 	 * 磅单
 	 */
@@ -59,6 +60,7 @@ public enum ErrorCode {
 	POUNDNOTE_RETURN_ERROR1("E10101","退货净重大于入库净重."),
 	POUNDNOTE_RETURN_ERROR2("E10102","该订单的余量小于预提量."),
 	POUNDNOTE_RETURN_ERROR3("E10103","过磅单据未推送到NC."),
+	POUNDNOTE_ERROR0("E10104","过磅单据已作废."),
 	/**
 	 * 车辆
 	 */

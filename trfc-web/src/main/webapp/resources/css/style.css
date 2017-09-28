@@ -1886,3 +1886,6 @@ table tr.active td .iconfont {
 .delete {
 	color: #E2312D;
 }
+table tr.active td a {
+    color:#ffffff;
+}
