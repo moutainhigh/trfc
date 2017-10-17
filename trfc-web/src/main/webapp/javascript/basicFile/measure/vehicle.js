@@ -220,6 +220,7 @@
 						.append('<td>'+orgname+'</td>')
 						.append('<td>'+transportunitName+'</td>')
 						.append('<td '+(obj.isblacklist=='1'?'style="color:red;"':'')+'>'+isblacklist+'</td>')
+						.append('<td>'+obj.creator || ''+'</td>')
 						.append('<td>'+remarks+'</td>')
 						.data(obj)
 						.appendTo('#vehicleBody');

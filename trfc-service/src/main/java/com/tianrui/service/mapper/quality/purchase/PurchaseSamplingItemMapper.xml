@@ -158,5 +158,58 @@
     and state = "1"
   </select>
   
-  
+  <select id="listAutoComplateByDay" parameterType="string" resultType="com.tianrui.api.resp.businessManage.handset.HandSetReturnResp">
+    SELECT
+	    <!-- supplierid,
+	    suppliername,
+	    minemouthid,
+	    minemouthname,
+	    materielid as materialid,
+	    materielname as materialname -->
+	    DISTINCT ${id} as id, ${name} as name
+	FROM
+	    tr_purchase_db_application t1,
+	    tr_purchase_db_application_detail t2,
+	    (
+	        SELECT
+	            billid,
+	            billdetailid
+	        FROM
+	            tr_purchase_db_arrive
+	        WHERE
+	            CODE in (
+	                SELECT
+                    s2.samplingcar
+                FROM
+                    tr_purchase_db_sampling s1
+                LEFT JOIN tr_purchase_db_sampling_item s2 ON s1.id = s2.samplingid
+                WHERE
+                    s1. STATUS = 0 AND s1.STATE = 1 AND s2.STATE = 1
+                AND s1.createtime BETWEEN #{day,jdbcType=BIGINT}
+	                       AND (#{day,jdbcType=BIGINT} + 86400000)
+	            )
+	    ) t3
+	WHERE
+	    t1.id = t3.billid and t2.id = t3.billdetailid AND ${id} IS NOT NULL AND ${name} IS NOT NULL
+  </select>
+  <select id="findRespByPid" parameterType="list" resultType="com.tianrui.api.resp.quality.purchase.PurchaseSamplingItemResp">
+	SELECT DISTINCT
+	    t1.id,
+	    t1.samplingid,
+	    t3.supplierid AS supplier,
+	    t3.minemouthid AS mine,
+	    t4.materielid AS material
+	FROM
+	    tr_purchase_db_sampling t0
+	LEFT JOIN tr_purchase_db_sampling_item t1 ON t0.id = t1.samplingid
+	LEFT JOIN tr_purchase_db_arrive t2 ON t1.samplingcar = t2. CODE
+	LEFT JOIN tr_purchase_db_application t3 ON t2.billid = t3.id
+	LEFT JOIN tr_purchase_db_application_detail t4 ON t2.billdetailid = t4.id
+	WHERE
+	    t1.state = 1
+	AND t0. CODE IN 
+    <foreach item="item" index="index" collection="list" open="(" separator="," close=")">  
+        #{item}  
+    </foreach>
+  </select>
 </mapper>

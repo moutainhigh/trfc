@@ -2,7 +2,9 @@ package com.tianrui.service.mapper.quality.purchase;
 
 import java.util.List;
 
+import com.tianrui.api.req.quality.purchase.PurchaseMixedReq;
 import com.tianrui.api.req.quality.purchase.PurchaseSamplingReq;
+import com.tianrui.api.resp.quality.purchase.PurchaseMixedResp;
 import com.tianrui.service.bean.quality.purchase.PurchaseSampling;
 
 public interface PurchaseSamplingMapper {
@@ -44,5 +46,12 @@ public interface PurchaseSamplingMapper {
      * @return
      */
 	PurchaseSampling findByCode(PurchaseSamplingReq req);
-
+	
+	List<PurchaseSampling> listSampling(PurchaseMixedReq req);
+	
+	List<PurchaseMixedResp> applistSampling(PurchaseMixedReq req);
+	
+	List<PurchaseSampling> findYesAssByIds(List<String> list);
+	
+	void updateStatusByIds(List<String> list);
 }

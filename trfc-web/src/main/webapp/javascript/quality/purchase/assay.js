@@ -108,7 +108,8 @@ $(function(){
 		if(param){
 			$.post(URL.saveUrl,param,function(result){
 				if('000000'==result.code){
-					updateCode();
+					ShowAction(1);
+					$('#add_cancel').click();
 				}else{
 					layer.msg(result.error,{icon:5});
 				}
@@ -220,21 +221,6 @@ $(function(){
 		});
 	}
 
-	function updateCode(){
-		var param = {
-				userid:userid,
-				code:"HY",
-				codeType:true
-		};
-		$.post(URL.updateCodeUrl,param,function(result){
-			if('000000'==result.code){
-				ShowAction(1);
-				$('#add_cancel').click();
-			}else{
-				layer.msg(result.error,{icon:5});
-			}
-		});
-	}
 	//初始化编辑页面
 	function initEditPage(){
 		var obj = $('table.maintable tbody tr.active').data('obj');
@@ -275,6 +261,9 @@ $(function(){
 	}
 	//获取质检项目列表
 	function initAddItems(html_id,qschemeid,obj){
+		if ($('#edit').is(':visible')) {
+			html_id = 'edit_qschemeitem';
+		}
 		var tbody = $('#'+html_id);
 		//清空内容
 		tbody.empty();

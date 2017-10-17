@@ -13,7 +13,7 @@ public class Result implements Serializable{
 	private String error;
 	//返回的数据信息
 	private Object data;
-
+	
 	public String getCode() {
 		return code;
 	}

@@ -206,6 +206,7 @@ $(function(){
 			var samplingcar = obj.car;
 			arr[i]={samplingcode:samplingcode,samplingcar:samplingcar};
 		}
+		//arr = [{samplingcode:'000000',samplingcar:'DH201709280062'}]
 		var arrstr = JSON.stringify(arr);
 		if(arrstr=='[]'){
 			layer.msg("采样车辆信息不能为空!")

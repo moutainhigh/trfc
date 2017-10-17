@@ -481,7 +481,11 @@ public class PoundNoteService implements IPoundNoteService {
         	PurchaseStorageList storageUpdate = new PurchaseStorageList();
         	storageUpdate.setId(storage.getId());
         	storageUpdate.setStatus(Constant.PUSH_STATUS_ING);
-        	if (purchaseStorageListMapper.updateByPrimaryKeySelective(storageUpdate) > 0) {
+        	PoundNote pn = new PoundNote();
+        	pn.setId(storage.getPoundId());
+        	pn.setReturnstatus(Constant.ONE_STRING);
+        	if (purchaseStorageListMapper.updateByPrimaryKeySelective(storageUpdate) > 0
+        	        && poundNoteMapper.updateByPrimaryKeySelective(pn) > 0) {
         		result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
         	}else{
         		result.setErrorCode(ErrorCode.OPERATE_ERROR);
@@ -1485,6 +1489,10 @@ public class PoundNoteService implements IPoundNoteService {
 		bean.setMinemouthname(application.getMinemouthname());
 		bean.setOriginalnetweight(arrive.getArrivalamount());
 		bean.setPickupquantity(arrive.getArrivalamount());
+		if (application != null) {
+		    bean.setSupplierid(application.getSupplierid());
+		    bean.setSuppliername(application.getSuppliername());
+		}
 		if (StringUtils.equals(query.getType(), "1")) {
 			bean.setTareweight(Double.parseDouble(query.getNumber()));
 			bean.setLighttime(DateUtil.parse(query.getTime(), "yyyy-MM-dd HH:mm:ss"));

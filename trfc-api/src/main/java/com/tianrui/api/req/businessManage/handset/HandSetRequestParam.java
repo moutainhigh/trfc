@@ -25,6 +25,13 @@ public class HandSetRequestParam extends BaseReq {
 	private Double originalnetweight;
 	//签收设备
 	private String signID;
+	//搜索
+	private String likeKey;
+	//采样ID
+	private String samplingid;
+	//autocomplete
+	private String term;
+	
     public String getUserId() {
         return userId;
     }
@@ -88,12 +95,30 @@ public class HandSetRequestParam extends BaseReq {
     public void setSignID(String signID) {
         this.signID = signID;
     }
+    public String getLikeKey() {
+        return likeKey;
+    }
+    public void setLikeKey(String likeKey) {
+        this.likeKey = likeKey;
+    }
+    public String getSamplingid() {
+        return samplingid;
+    }
+    public void setSamplingid(String samplingid) {
+        this.samplingid = samplingid;
+    }
+    public String getTerm() {
+        return term;
+    }
+    public void setTerm(String term) {
+        this.term = term;
+    }
     @Override
     public String toString() {
         return "HandSetRequestParam [userId=" + userId + ", vehicleNo=" + vehicleNo + ", noticeCode=" + noticeCode
                 + ", receivePersonId=" + receivePersonId + ", warehouseId=" + warehouseId + ", yardId=" + yardId
                 + ", deductionweight=" + deductionweight + ", deductionother=" + deductionother + ", originalnetweight="
-                + originalnetweight + ", signID=" + signID + "]";
+                + originalnetweight + ", signID=" + signID + ", likeKey=" + likeKey + ", samplingid=" + samplingid
+                + ", term=" + term + "]";
     }
-	
 }

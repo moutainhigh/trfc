@@ -53,7 +53,7 @@
 									type="text" id="add_enteryard" class="yardSelect" placeholder="请选择调入堆场">
 							</div>
 							<div class="daohuo_add_solo">
-								<label>倒运单位：</label> <input type="text" id="add_receivedepartment" readonly="true">
+								<label>倒运单位：</label> <input type="text" id="add_receivedepartment" readonly="true" value="${org }">
 							</div>
 							<div class="daohuo_add_solo">
 								<label>车号：</label> <input type="text" id="add_vehicle"  placeholder="请选择车号">
@@ -78,17 +78,10 @@
 									class="Wdate" style="width: 180px" id="add_endtime"
 									placeholder="请输入截至时间" readonly="readonly"/>
 							</div>
-
-							<div class="daohuo_add_solo">
-								<label>制单人： </label> <input type="text" id="add_creator" readonly="true">
+							<div class="daohuo_add_solo" style="width: 100%;">
+								<label>备注： </label> <input type="text" id="add_remark" style="width: 70%;">
 							</div>
-							<div class="daohuo_add_solo">
-								<label>制单日期： </label> <input type="text" id="add_createtime" readonly="true">
-							</div>
-							<div class="daohuo_add_solo">
-								<label>备注： </label> <input type="text" id="add_remark">
-							</div>
-							<div class="daohuo_add_solo">
+							<div class="daohuo_add_solo" style="width: 100%;">
 								<label>提醒：</label> <span>无</span>
 							</div>
 						</div>

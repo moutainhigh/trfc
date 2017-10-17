@@ -13,6 +13,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.tianrui.api.intf.businessManage.otherManage.IOtherArriveService;
 import com.tianrui.api.req.businessManage.otherManage.OtherArriveReq;
 import com.tianrui.api.resp.system.auth.SystemUserResp;
+import com.tianrui.smartfactory.common.constants.Constant;
 import com.tianrui.smartfactory.common.constants.ErrorCode;
 import com.tianrui.smartfactory.common.vo.Result;
 import com.tianrui.web.util.SessionManager;
@@ -34,6 +35,7 @@ public class OtherDYArriveAction {
 	@RequestMapping("addMain")
 	public ModelAndView addHTML(){
 		ModelAndView view = new ModelAndView("businessManage/otherManage/otherDYArrive_add");
+		view.addObject("org", Constant.ORG_NAME);
 		return view;
 	}
 	@RequestMapping("editMain")

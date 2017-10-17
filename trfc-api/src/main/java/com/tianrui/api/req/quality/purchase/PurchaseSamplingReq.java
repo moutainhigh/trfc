@@ -38,6 +38,10 @@ public class PurchaseSamplingReq extends BaseReq {
      */
     private String remark;
     /**
+     * 是否化验：（0：否，1：是）
+     */
+    private Boolean status;
+    /**
      * 状态：（0：删除，1：显示）
      */
     private String state;
@@ -116,6 +120,12 @@ public class PurchaseSamplingReq extends BaseReq {
 	public void setRemark(String remark) {
 		this.remark = remark;
 	}
+    public Boolean getStatus() {
+        return status;
+    }
+    public void setStatus(Boolean status) {
+        this.status = status;
+    }
 	public String getState() {
 		return state;
 	}

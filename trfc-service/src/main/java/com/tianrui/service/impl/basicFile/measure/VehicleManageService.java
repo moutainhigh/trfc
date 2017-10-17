@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.tianrui.api.intf.basicFile.measure.IBlacklistManageService;
 import com.tianrui.api.intf.basicFile.measure.IVehicleManageService;
+import com.tianrui.api.intf.system.auth.ISystemUserService;
 import com.tianrui.api.intf.system.base.ISystemCodeService;
 import com.tianrui.api.req.basicFile.measure.BlacklistManageSave;
 import com.tianrui.api.req.basicFile.measure.VehicleManageQuery;
@@ -21,6 +22,7 @@ import com.tianrui.api.req.system.base.GetCodeReq;
 import com.tianrui.api.req.basicFile.measure.VehicleManageApi;
 import com.tianrui.api.resp.basicFile.measure.VehicleManageResp;
 import com.tianrui.api.resp.businessManage.app.AppVehicleResp;
+import com.tianrui.api.resp.system.auth.SystemUserResp;
 import com.tianrui.service.bean.basicFile.measure.TransportunitManage;
 import com.tianrui.service.bean.basicFile.measure.VehicleManage;
 import com.tianrui.service.bean.common.RFID;
@@ -53,6 +55,8 @@ public class VehicleManageService implements IVehicleManageService {
 	private ISystemCodeService systemCodeService;
 	@Autowired
 	private TransportunitManageMapper transportunitManageMapper;
+	@Autowired
+	private ISystemUserService systemUserService;
 
 	@Override
 	public PaginationVO<VehicleManageResp> page(VehicleManageQuery query) throws Exception {
@@ -258,6 +262,12 @@ public class VehicleManageService implements IVehicleManageService {
 			        resp.setTransportunitName(transportunit.getName());
 			    }
 			}
+			if (StringUtils.isNotBlank(bean.getCreator())) {
+			    SystemUserResp user = systemUserService.get(bean.getCreator());
+			    if (user != null) {
+			        resp.setCreator(user.getName());
+			    }
+			}
 		}
 		return resp;
 	}
@@ -314,6 +324,7 @@ public class VehicleManageService implements IVehicleManageService {
             vehicle.setModifier(apiParams.getCurrUid());
             vehicle.setModifytime(System.currentTimeMillis());
             vehicleManageMapper.insertSelective(vehicle);
+            updateCode(apiParams.getCurrUid());
         }
         result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
 	}

@@ -2,6 +2,7 @@ package com.tianrui.smartfactory.common.utils;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -18,6 +19,8 @@ import java.util.Date;
 public class DateUtil {
 	
 	public static final String Y_M_D_H_M_S = "yyyy-MM-dd HH:mm:ss";
+	
+	public static final String Y_M_D = "yyyy-MM-dd";
 	/**
 	 * 
 	 * @描述:获取指定日期格式字符串
@@ -83,4 +86,32 @@ public class DateUtil {
 		}
 		return null;
 	}
+	
+	/**
+	 * 
+	 * @param time 时间戳
+	 * @param format 格式化模型 yyyy-MM-dd HH:mm:ss
+	 * @return 日期字符串
+	 */
+	public static String parse(Date date, String format){
+	    if(date != null){
+	        return new SimpleDateFormat(format).format(date);
+	    }
+	    return null;
+	}
+	
+	/**
+	 * 
+	 * @return Date
+	 */
+	public static Date getYesterday(){
+	    Calendar c = Calendar.getInstance();
+        c.set(Calendar.DATE, c.get(Calendar.DATE) - 1);
+        c.set(Calendar.HOUR, 0);
+        c.set(Calendar.MINUTE, 0);
+        c.set(Calendar.SECOND, 0);
+        c.set(Calendar.MILLISECOND, 0);
+        return c.getTime();
+	}
+	
 }

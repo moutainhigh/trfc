@@ -8,6 +8,8 @@ public enum ErrorCode {
 	SYSTEM_ERROR("E00000","服务器异常,请联系管理员."),
 	//操作失败
 	OPERATE_ERROR("E00001","服务器繁忙,请稍后重试."),
+	//数据不存在
+	DATA_ERROR("E00002","数据不存在，请重新确认."),
 	
 	/**
 	 * 参数相关
@@ -116,8 +118,12 @@ public enum ErrorCode {
     //黑名单
     //重复添加
     BLACKLIST_REPEAT_ERROR("E600000", "该车辆已被添加到黑名单！"),
-    BLACKLIST_REMOVE_ERROR("E600001", "该车辆已被移除黑名单！");
-	
+    BLACKLIST_REMOVE_ERROR("E600001", "该车辆已被移除黑名单！"),
+    
+    //质检
+    PURCHASE_MIXED_ERROR1("E700001","无法混样（只能同一个供应商同一种物料同一个矿口的采样单可以混样）."),
+    PURCHASE_MIXED_ERROR2("E700002","已经生成过化验单了，无法重复生成.");
+    
 	private String code;
 	private String msg;
 	

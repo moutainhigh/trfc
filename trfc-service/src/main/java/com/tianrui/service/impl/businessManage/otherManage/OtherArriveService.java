@@ -145,6 +145,7 @@ public class OtherArriveService implements IOtherArriveService {
 			oa.setId(UUIDUtil.getId());
 			oa.setAuditstatus("0");
 			oa.setStatus("6");
+			oa.setReceivedepartmentid(Constant.ORG_ID);
 			oa.setCreator(req.getUserid());
 			oa.setCreatetime(System.currentTimeMillis());
 			oa.setModifier(req.getUserid());
@@ -167,6 +168,10 @@ public class OtherArriveService implements IOtherArriveService {
 	public Result page(OtherArriveReq req) throws Exception {
 		Result rs = Result.getParamErrorResult();
 		if(req!=null){
+		    if (StringUtils.isBlank(req.getVehicleid()) && StringUtils.isNotBlank(req.getVehicleno())) {
+		        VehicleManage vehicle = vehicleManageMapper.getVehicleByNo(req.getVehicleno());
+		        req.setVehicleid(vehicle.getId());
+		    }
 			PaginationVO<OtherArriveResp> pagevo = new PaginationVO<OtherArriveResp>();
 			int pageNo = req.getPageNo();
 			int pageSize = req.getPageSize();
