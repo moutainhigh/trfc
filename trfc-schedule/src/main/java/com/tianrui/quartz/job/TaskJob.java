@@ -27,7 +27,8 @@ public class TaskJob {
 	@Autowired
 	private TaskJobService taskJobService;
 	
-	@Scheduled(cron="0/10 * *  * * ? ")   //每10秒执行一次  
+	//@Scheduled(cron="0/10 * *  * * ? ")   //每10秒执行一次 
+    @Scheduled(cron="0 0/10 *  * * ? ") 
 	public void returnDataCenter(){
 		 try {
 			taskJobService.returnDataCenter();
@@ -36,7 +37,8 @@ public class TaskJob {
 		}
 	} 
 	
-	@Scheduled(cron="0 0 12 * * ?")   //每10秒执行一次  
+	//@Scheduled(cron="0 0 12 * * ?")   //每10秒执行一次  
+    @Scheduled(cron="0 0/10 *  * * ? ")
 	public void customer_supplier_user(){
 		 try {
 			taskJobService.customer_supplier_user();

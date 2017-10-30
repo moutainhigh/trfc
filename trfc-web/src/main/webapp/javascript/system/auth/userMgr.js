@@ -67,11 +67,13 @@ $(function() {
 		case 'accountLike':
 			accountLike = key;
 		}
+		var identityTypes = $('#identityTypes').val();
 		var pageSize = $('#pageSize').val();
 		return {
 			codeLike : codeLike,
 			nameLike : nameLike,
 			accountLike : accountLike,
+			identityTypes: identityTypes,
 			pageSize : pageSize
 		};
 	}

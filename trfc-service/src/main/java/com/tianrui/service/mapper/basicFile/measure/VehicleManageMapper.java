@@ -37,5 +37,7 @@ public interface VehicleManageMapper {
 	long appQueryVehiclePageCount(AppQueryReq req);
 
 	List<AppVehicleResp> appQueryVehiclePage(AppQueryReq req);
+
+    VehicleManage  getVehicleByNo(String vehicleNo);
     
 }

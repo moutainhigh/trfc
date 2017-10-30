@@ -13,7 +13,7 @@ import java.lang.annotation.Target;
 @Target(ElementType.METHOD)
 public @interface ApiAuthValidation {
 	
-	//子系统分类  1:门岗 2:卡务 3客商APP
+	//子系统分类  1:门岗 2:卡务 3:客商APP 4:手持机
 	String callType();
 	
 }

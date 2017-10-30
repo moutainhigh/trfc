@@ -9,6 +9,7 @@
     <result column="samplingcode" property="samplingcode" jdbcType="VARCHAR" />
     <result column="assaytype" property="assaytype" jdbcType="VARCHAR" />
     <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="TINYINT" />
     <result column="state" property="state" jdbcType="VARCHAR" />
     <result column="creator" property="creator" jdbcType="VARCHAR" />
     <result column="createtime" property="createtime" jdbcType="BIGINT" />
@@ -17,7 +18,7 @@
     <result column="utc" property="utc" jdbcType="BIGINT" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, code, samplingtime, samplingcar, samplingcode, assaytype, remark, state, creator, 
+    id, code, samplingtime, samplingcar, samplingcode, assaytype, remark, status, state, creator, 
     createtime, modifier, modifytime, utc
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
@@ -33,12 +34,12 @@
   <insert id="insert" parameterType="com.tianrui.service.bean.quality.purchase.PurchaseSampling" >
     insert into tr_purchase_db_sampling (id, code, samplingtime, 
       samplingcar, samplingcode, assaytype, 
-      remark, state, creator, 
+      remark, status, state, creator, 
       createtime, modifier, modifytime, 
       utc)
     values (#{id,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR}, #{samplingtime,jdbcType=BIGINT}, 
       #{samplingcar,jdbcType=VARCHAR}, #{samplingcode,jdbcType=VARCHAR}, #{assaytype,jdbcType=VARCHAR}, 
-      #{remark,jdbcType=VARCHAR}, #{state,jdbcType=VARCHAR}, #{creator,jdbcType=VARCHAR}, 
+      #{remark,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT}, #{state,jdbcType=VARCHAR}, #{creator,jdbcType=VARCHAR}, 
       #{createtime,jdbcType=BIGINT}, #{modifier,jdbcType=VARCHAR}, #{modifytime,jdbcType=BIGINT}, 
       #{utc,jdbcType=BIGINT})
   </insert>
@@ -65,6 +66,9 @@
       </if>
       <if test="remark != null" >
         remark,
+      </if>
+      <if test="status != null" >
+        status,
       </if>
       <if test="state != null" >
         state,
@@ -107,6 +111,9 @@
       <if test="remark != null" >
         #{remark,jdbcType=VARCHAR},
       </if>
+      <if test="status != null" >
+        #{status,jdbcType=TINYINT},
+      </if>
       <if test="state != null" >
         #{state,jdbcType=VARCHAR},
       </if>
@@ -148,6 +155,9 @@
       <if test="remark != null" >
         remark = #{remark,jdbcType=VARCHAR},
       </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=TINYINT},
+      </if>
       <if test="state != null" >
         state = #{state,jdbcType=VARCHAR},
       </if>
@@ -177,6 +187,7 @@
       samplingcode = #{samplingcode,jdbcType=VARCHAR},
       assaytype = #{assaytype,jdbcType=VARCHAR},
       remark = #{remark,jdbcType=VARCHAR},
+      status = #{status,jdbcType=TINYINT},
       state = #{state,jdbcType=VARCHAR},
       creator = #{creator,jdbcType=VARCHAR},
       createtime = #{createtime,jdbcType=BIGINT},
@@ -212,7 +223,7 @@
 		</if>
 		
 	</select>
-	  	<select id="count" parameterType="com.tianrui.api.req.quality.purchase.PurchaseSamplingReq"
+  	<select id="count" parameterType="com.tianrui.api.req.quality.purchase.PurchaseSamplingReq"
 		resultType="int">
 		select
 		count(1)
@@ -233,10 +244,90 @@
 			</if>
 		</where>
 	</select>
-	  <select id="findByCode" resultMap="BaseResultMap" parameterType="java.lang.String" >
-    select 
-    <include refid="Base_Column_List" />
-    from tr_purchase_db_sampling
-    where code = #{code,jdbcType=VARCHAR} and state="1"
-  </select>
+    <select id="findByCode" resultMap="BaseResultMap" parameterType="java.lang.String" >
+        select 
+        <include refid="Base_Column_List" />
+        from tr_purchase_db_sampling
+        where code = #{code,jdbcType=VARCHAR} and state="1"
+    </select>
+    <select id="listSampling" parameterType="com.tianrui.api.req.quality.purchase.PurchaseMixedReq" resultMap="BaseResultMap">
+	    SELECT
+		    <include refid="Base_Column_List" />
+		FROM
+		    tr_purchase_db_sampling
+		WHERE
+		    id IN (
+		        SELECT DISTINCT
+		            t2.samplingid
+		        FROM
+		            tr_purchase_db_sampling_item t2
+		        LEFT JOIN tr_purchase_db_arrive t3 ON t2.samplingcar = t3.`code`
+		        LEFT JOIN tr_purchase_db_application t4 ON t3.billid = t4.id
+		        LEFT JOIN tr_purchase_db_application_detail t5 ON t3.billdetailid = t5.id
+		        WHERE
+		            t3.state = 1
+	            <if test="supplier != null and supplier != ''">
+	                AND t4.supplierid = #{supplier,jdbcType=VARCHAR}
+	            </if>
+	            <if test="minemouth != null and minemouth != ''">
+	                AND t4.minemouthid = #{minemouth,jdbcType=VARCHAR}
+	            </if>
+	            <if test="material != null and material != ''">
+	                AND t5.materielid = #{material,jdbcType=VARCHAR}
+	            </if>
+		    )
+		AND STATUS = 0
+		AND state = 1
+		<if test="day != null and day != ''">
+	    	AND createtime BETWEEN #{day,jdbcType=BIGINT} AND (#{day,jdbcType=BIGINT} + 86400000)
+	    </if>
+    </select>
+    <select id="applistSampling" parameterType="com.tianrui.api.req.quality.purchase.PurchaseMixedReq" resultType="com.tianrui.api.resp.quality.purchase.PurchaseMixedResp">
+        SELECT
+		    DISTINCT t1.id, t1.`code`, t4.suppliername, t4.minemouthname, t5.materielname, t1.samplingtime
+		FROM
+		    tr_purchase_db_sampling t1
+		LEFT JOIN tr_purchase_db_sampling_item t2 ON t1.id = t2.samplingid
+		LEFT JOIN tr_purchase_db_arrive t3 ON t2.samplingcar = t3.`code`
+		LEFT JOIN tr_purchase_db_application t4 ON t3.billid = t4.id
+		LEFT JOIN tr_purchase_db_application_detail t5 ON t3.billdetailid = t5.id
+		WHERE 
+		      t1. STATUS = 0
+			AND t1.state = 1
+			AND t2.state = 1
+			AND t3.state = 1
+			<if test="supplier != null and supplier != ''">
+                AND t4.supplierid = #{supplier,jdbcType=VARCHAR}
+            </if>
+            <if test="minemouth != null and minemouth != ''">
+                AND t4.minemouthid = #{minemouth,jdbcType=VARCHAR}
+            </if>
+            <if test="material != null and material != ''">
+                AND t5.materielid = #{material,jdbcType=VARCHAR}
+            </if>
+			<if test="day != null and day != ''">
+			    AND t1.createtime BETWEEN #{day,jdbcType=BIGINT} AND (#{day,jdbcType=BIGINT} + 86400000)
+			</if>
+    </select>
+	<select id="findYesAssByIds" parameterType="list" resultMap="BaseResultMap">
+		SELECT 
+            <include refid="Base_Column_List"/>
+		FROM
+		    tr_purchase_db_sampling 
+		WHERE
+		    state = 1 AND STATUS = 1
+		AND CODE IN 
+		<foreach item="item" index="index" collection="list" open="(" separator="," close=")">  
+		    #{item}  
+		</foreach>
+	</select>
+	<select id="updateStatusByIds" parameterType="list">
+		UPDATE tr_purchase_db_sampling
+		SET STATUS = 1
+		WHERE
+		    CODE IN 
+	    <foreach item="item" index="index" collection="list" open="(" separator="," close=")">  
+            #{item}  
+        </foreach>
+	</select>
 </mapper>

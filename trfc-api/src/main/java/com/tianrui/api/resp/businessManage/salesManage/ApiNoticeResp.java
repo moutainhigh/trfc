@@ -7,7 +7,7 @@ import com.tianrui.api.resp.BaseResp;
  * @author Administrator
  *
  */
-public class ApiSalesArriveResp extends BaseResp {
+public class ApiNoticeResp extends BaseResp {
 	
 	private static final long serialVersionUID = 4625515863613381387L;
 	//车牌号
@@ -39,7 +39,7 @@ public class ApiSalesArriveResp extends BaseResp {
 	private String notionformcode="";
 	//
 	private String batchnumber="";
-	//
+	//是否原发(0：否，1：是)
 	private String primary="";
 	//
 	private String vehicleid="";
@@ -51,6 +51,10 @@ public class ApiSalesArriveResp extends BaseResp {
 	private String status="";
 	//通知单审核状态（0：未审核，1：已审核）
     private String auditstatus;
+    //通知单ID
+    private String noticeId;
+    //签收状态（0：退货，1：签收）
+    private Integer signStatus;
 	
 	public String getVehicleno() {
 		return vehicleno;
@@ -142,5 +146,16 @@ public class ApiSalesArriveResp extends BaseResp {
 	public void setAuditstatus(String auditstatus) {
 		this.auditstatus = auditstatus;
 	}
-
+    public String getNoticeId() {
+        return noticeId;
+    }
+    public void setNoticeId(String noticeId) {
+        this.noticeId = noticeId;
+    }
+    public Integer getSignStatus() {
+        return signStatus;
+    }
+    public void setSignStatus(Integer integer) {
+        this.signStatus = integer;
+    }
 }

@@ -21,7 +21,13 @@ import com.tianrui.api.resp.businessManage.cardManage.CardResp;
 import com.tianrui.api.resp.businessManage.cardManage.CardSubSystemVo;
 import com.tianrui.api.resp.system.auth.SystemUserResp;
 import com.tianrui.service.bean.businessManage.cardManage.Card;
+import com.tianrui.service.bean.businessManage.otherManage.OtherArrive;
+import com.tianrui.service.bean.businessManage.purchaseManage.PurchaseArrive;
+import com.tianrui.service.bean.businessManage.salesManage.SalesArrive;
 import com.tianrui.service.mapper.businessManage.cardManage.CardMapper;
+import com.tianrui.service.mapper.businessManage.otherManage.OtherArriveMapper;
+import com.tianrui.service.mapper.businessManage.purchaseManage.PurchaseArriveMapper;
+import com.tianrui.service.mapper.businessManage.salesManage.SalesArriveMapper;
 import com.tianrui.smartfactory.common.constants.Constant;
 import com.tianrui.smartfactory.common.constants.ErrorCode;
 import com.tianrui.smartfactory.common.utils.UUIDUtil;
@@ -42,6 +48,12 @@ public class CardService implements ICardService {
 	private ISystemCodeService systemCodeService;
 	@Autowired
 	private ISystemUserService systemUserService;
+	@Autowired
+	private PurchaseArriveMapper purchaseArriveMapper;
+	@Autowired
+	private SalesArriveMapper salesArriveMapper;
+	@Autowired
+	private OtherArriveMapper otherArriveMapper;
 	
 	@Override
 	public PaginationVO<CardResp> page(CardReq req) throws Exception {
@@ -222,6 +234,25 @@ public class CardService implements ICardService {
 		return rs;
 	}
 
+	/**
+	 * @annotation 判断IC卡是否正在使用
+	 * @param cardId
+	 * @return true: 未使用， false: 使用中
+	 */
+	private boolean icardIsUse(String cardId) {
+	    boolean flag = false;
+	    PurchaseArrive purchaseArrive = purchaseArriveMapper.checkICUse(cardId);
+	    if (purchaseArrive == null) {
+	        SalesArrive salesArrive = salesArriveMapper.checkICUse(cardId);
+	        if (salesArrive == null) {
+	            OtherArrive otherArrive = otherArriveMapper.checkICUse(cardId);
+	            if (otherArrive == null) {
+	                flag = true;
+	            }
+	        }
+        }
+	    return flag;
+	}
 
     @Override
     public Result validate(CardApi cardApi) {
@@ -232,13 +263,17 @@ public class CardService implements ICardService {
             card.setState(Constant.ONE_STRING);
             List<Card> list = cardMapper.selectSelective(card);
             if (CollectionUtils.isNotEmpty(list)) {
-                card = list.get(0);
-                CardSubSystemVo vo = new CardSubSystemVo();
-                vo.setCardCode(card.getCardcode());
-                vo.setCardType(card.getCardtype());
-                vo.setIsValid(card.getCardstatus());
-                result.setData(vo);
-                result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+                if (icardIsUse(list.get(0).getId())) {
+                    card = list.get(0);
+                    CardSubSystemVo vo = new CardSubSystemVo();
+                    vo.setCardCode(card.getCardcode());
+                    vo.setCardType(card.getCardtype());
+                    vo.setIsValid(card.getCardstatus());
+                    result.setData(vo);
+                    result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+                } else {
+                    result.setErrorCode(ErrorCode.CARD_IN_USE);
+                }
             } else {
                 result.setErrorCode(ErrorCode.CARD_NOT_EXIST);
             }

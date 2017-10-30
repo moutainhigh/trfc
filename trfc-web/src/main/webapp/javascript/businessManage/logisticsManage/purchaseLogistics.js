@@ -226,7 +226,7 @@
 						.append('<td>'+(obj.enterTime || '')+'</td>')
 						.append('<td>'+(obj.weightTime || '')+'</td>')
 						.append('<td>'+(obj.lightTime || '')+'</td>')
-						.append('<td>'+(obj.receiptTime || '')+'</td>')
+						.append('<td>'+(obj.signTime || '')+'</td>')
 						.append('<td>'+(obj.outTime || '')+'</td>')
 						.data(obj)
 						.appendTo('#dataBody');

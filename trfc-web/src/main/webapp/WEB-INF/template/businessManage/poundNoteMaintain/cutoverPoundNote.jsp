@@ -106,6 +106,11 @@
 									<th>物料</th>
 									<th>车号</th>
 									<th>毛重</th>
+									<th>皮重</th>
+									<th>净重</th>
+									<th>轻车时间</th>
+									<th>重车时间</th>
+									<th>制单人</th>
 									<th>制单日期</th>
 								</tr>
 							</thead>

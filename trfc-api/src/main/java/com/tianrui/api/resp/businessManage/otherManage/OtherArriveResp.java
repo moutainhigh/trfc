@@ -2,6 +2,7 @@ package com.tianrui.api.resp.businessManage.otherManage;
 
 import com.tianrui.api.resp.BaseResp;
 import com.tianrui.api.resp.businessManage.poundNoteMaintain.PoundNoteResp;
+import com.tianrui.smartfactory.common.utils.DateUtil;
 
 public class OtherArriveResp extends BaseResp {
 
@@ -153,8 +154,12 @@ public class OtherArriveResp extends BaseResp {
 	private String customername;
 
 	private Long starttime;
+	
+	private String starttimeStr;
 
 	private Long endtime;
+	
+	private String endtimeStr;
 
 	private String icardid;
 
@@ -439,6 +444,7 @@ public class OtherArriveResp extends BaseResp {
 
 	public void setStarttime(Long starttime) {
 		this.starttime = starttime;
+        this.starttimeStr = DateUtil.parse(starttime, DateUtil.Y_M_D_H_M_S);
 	}
 
 	public Long getEndtime() {
@@ -447,6 +453,7 @@ public class OtherArriveResp extends BaseResp {
 
 	public void setEndtime(Long endtime) {
 		this.endtime = endtime;
+        this.endtimeStr = DateUtil.parse(endtime, DateUtil.Y_M_D_H_M_S);
 	}
 
 	public String getIcardid() {
@@ -472,6 +479,22 @@ public class OtherArriveResp extends BaseResp {
 	public void setCustomername(String customername) {
 		this.customername = customername;
 	}
+
+    public String getStarttimeStr() {
+        return starttimeStr;
+    }
+
+    public void setStarttimeStr(String starttimeStr) {
+        this.starttimeStr = starttimeStr;
+    }
+
+    public String getEndtimeStr() {
+        return endtimeStr;
+    }
+
+    public void setEndtimeStr(String endtimeStr) {
+        this.endtimeStr = endtimeStr;
+    }
 
 	
 

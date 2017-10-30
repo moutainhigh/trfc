@@ -561,5 +561,10 @@
 			</if>
 		</where>
 	</select>
-
+	<select id="checkICUse" parameterType="java.lang.String" resultMap="BaseResultMap">
+	  select 
+	  <include refid="Base_Column_List" />
+	  from tr_other_db_arrive
+	  where icardid = #{icardid,jdbcType=VARCHAR} and status != '5' and status != '3'
+	</select>
 </mapper>

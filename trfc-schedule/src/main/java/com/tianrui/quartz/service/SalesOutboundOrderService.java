@@ -115,9 +115,9 @@ public class SalesOutboundOrderService implements ISalesOutboundOrderService{
 					order.setStatus("1");
 					if(salesOutboundOrderMapper.updateByPrimaryKeySelective(order)>0){
 						PoundNote pn = new PoundNote();
-						pn.setPutinwarehousecode(order.getCode());
+						pn.setId(order.getPoundId());
 						pn.setReturnstatus("2");
-						poundNoteMapper.updateByOrderCode(pn);
+						poundNoteMapper.updateByPrimaryKeySelective(pn);
 						log.info("操作成功！");
  					}else{
 						log.error(ErrorCode.OPERATE_ERROR.getMsg());

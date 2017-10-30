@@ -2,6 +2,8 @@ package com.tianrui.service.mapper.basicFile.measure;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.tianrui.api.req.basicFile.measure.TransportunitManageQuery;
 import com.tianrui.service.bean.basicFile.measure.TransportunitManage;
 
@@ -35,4 +37,6 @@ public interface TransportunitManageMapper {
      * @return
      */
 	List<TransportunitManage> findTransportunitPage(TransportunitManageQuery query);
+
+    List<TransportunitManage> autoCompleteSearch(@Param("likeName")String likeName);
 }

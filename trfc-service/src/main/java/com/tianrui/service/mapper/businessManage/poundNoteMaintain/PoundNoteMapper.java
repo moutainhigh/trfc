@@ -62,14 +62,6 @@ public interface PoundNoteMapper {
 	 */
 	long salesPageCount(PoundNoteQuery query);
 	/**
-	 * @Description 根据出入库单号修改推单状态
-	 * @author zhanggaohao
-	 * @version 2017年3月24日 上午8:42:54
-	 * @param record
-	 * @return
-	 */
-	int updateByOrderCode(PoundNote record);
-	/**
 	 * @Description 根据条件查询磅单
 	 * @author zhanggaohao
 	 * @version 2017年3月25日 下午3:18:54

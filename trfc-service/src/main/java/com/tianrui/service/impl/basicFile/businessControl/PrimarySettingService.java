@@ -24,7 +24,6 @@ import com.tianrui.service.mapper.basicFile.businessControl.PrimarySettingMapper
 import com.tianrui.service.mapper.basicFile.nc.MaterielManageMapper;
 import com.tianrui.service.mapper.basicFile.nc.SupplierManageMapper;
 import com.tianrui.service.mapper.system.auth.SystemUserMapper;
-import com.tianrui.smartfactory.common.api.ApiParam;
 import com.tianrui.smartfactory.common.constants.ErrorCode;
 import com.tianrui.smartfactory.common.utils.UUIDUtil;
 import com.tianrui.smartfactory.common.vo.PaginationVO;
@@ -183,13 +182,10 @@ public class PrimarySettingService implements IPrimarySettingService {
 	}
 
 	@Override
-	public Result handSetPrimarySetting(ApiParam<HandSetRequestParam> req) {
-		Result result = Result.getParamErrorResult();
-		if(req != null){
-			List<HandPrimarySettingResp> list = primarySettingMapper.handSetPrimarySetting(req);
-			result.setData(list);
-			result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
-		}
+	public Result handSetPrimarySetting(HandSetRequestParam param) {
+		Result result = Result.getSuccessResult();
+		List<HandPrimarySettingResp> list = primarySettingMapper.handSetPrimarySetting(param);
+		result.setData(list);
 		return result;
 	}
 	

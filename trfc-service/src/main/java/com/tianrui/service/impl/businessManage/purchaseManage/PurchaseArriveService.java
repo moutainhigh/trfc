@@ -119,16 +119,16 @@ public class PurchaseArriveService implements IPurchaseArriveService {
 				PropertyUtils.copyProperties(pa, save);
 				pa.setId(UUIDUtil.getId());
 				setNoticeBody(save, pa);
-				pa.setType("0");
+				pa.setType(Constant.ZERO_STRING);
 				GetCodeReq codeReq = new GetCodeReq();
 				codeReq.setCode("DH");
 				codeReq.setCodeType(true);
 				codeReq.setUserid(save.getCurrId());
 				pa.setCode(systemCodeService.getCode(codeReq).getData().toString());
-				pa.setAuditstatus("0");
-				pa.setStatus("0");
-				pa.setState("1");
-				pa.setSource("0");
+				pa.setAuditstatus(Constant.ONE_STRING);
+				pa.setStatus(Constant.ZERO_STRING);
+				pa.setState(Constant.ONE_STRING);
+				pa.setSource(Constant.ZERO_STRING);
 				pa.setMakerid(save.getCurrId());
 				pa.setMakebillname(systemUserService.getUser(save.getCurrId()).getName());
 				pa.setCreator(save.getCurrId());
@@ -269,7 +269,7 @@ public class PurchaseArriveService implements IPurchaseArriveService {
 					if(poundNote != null){
 						PropertyUtils.copyProperties(pa, save);
 						pa.setId(UUIDUtil.getId());
-						pa.setType("1");
+						pa.setType(Constant.ONE_STRING);
 						pa.setBillid(poundNote.getBillid());
 						pa.setBillcode(poundNote.getBillcode());
 						pa.setBilldetailid(poundNote.getBilldetailid());
@@ -280,10 +280,10 @@ public class PurchaseArriveService implements IPurchaseArriveService {
 						codeReq.setCodeType(true);
 						codeReq.setUserid(save.getCurrId());
 						pa.setCode(systemCodeService.getCode(codeReq).getData().toString());
-						pa.setAuditstatus("0");
-						pa.setStatus("0");
-						pa.setState("1");
-						pa.setSource("0");
+						pa.setAuditstatus(Constant.ONE_STRING);
+						pa.setStatus(Constant.ZERO_STRING);
+						pa.setState(Constant.ONE_STRING);
+						pa.setSource(Constant.ZERO_STRING);
 						pa.setMakerid(save.getCurrId());
 						pa.setMakebillname(systemUserService.getUser(save.getCurrId()).getName());
 						pa.setMakebilltime(System.currentTimeMillis());

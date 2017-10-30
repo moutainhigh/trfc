@@ -88,7 +88,7 @@ public class PurchaseArriveResp extends BaseResp {
 	//备注
     private String remark;
     //收获时间
-    private Long receipttime;
+    private Long signTime;
     //采购申请单
     private PurchaseApplicationResp purchaseApplicationResp;
     //采购申请单详情
@@ -361,11 +361,11 @@ public class PurchaseArriveResp extends BaseResp {
 	public void setRemark(String remark) {
 		this.remark = remark;
 	}
-	public Long getReceipttime() {
-		return receipttime;
+	public Long getSignTime() {
+		return signTime;
 	}
-	public void setReceipttime(Long receipttime) {
-		this.receipttime = receipttime;
+	public void setSignTime(Long signTime) {
+		this.signTime = signTime;
 	}
 	public PurchaseApplicationResp getPurchaseApplicationResp() {
 		return purchaseApplicationResp;

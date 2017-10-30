@@ -79,12 +79,12 @@
 						<div class="intel_opera">
 							<div class="intel_operasolo" id="refresh">
 								<i class="iconfont colorlv">&#xe61b;</i>
-								<h5>刷新</h5>
+								<span>刷新</span>
 							</div>
 							<div class="intel_operasolo" id="showAddItem">
 								<a data-toggle="modal" data-target="#additem"> <i
 									class="iconfont coloradd">&#xe627;</i>
-									<h5>新增</h5>
+									<span>新增</span>
 								</a>
 							</div>
 						</div>

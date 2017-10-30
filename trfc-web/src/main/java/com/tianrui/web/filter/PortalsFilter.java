@@ -38,6 +38,7 @@ public class PortalsFilter implements Filter {
 		req.setAttribute("staticBasePath", staticBasePath);
 		//获取路径
 		String p = req.getServletPath();
+		String indexPath = req.getContextPath() + "/index";
 		if (StringUtils.isNotBlank(p) && !StringUtils.equals(p, "/")) {
             if (p.startsWith("/trfc")) {
                 SystemUserResp user = SessionManager.getSessionUser(req);
@@ -46,13 +47,13 @@ public class PortalsFilter implements Filter {
                     request.setAttribute("userName", user.getName());
                     chain.doFilter(request, response);
                 } else {
-                    resp.sendRedirect("/index");
+                    resp.sendRedirect(indexPath);
                 }
             } else {
                 chain.doFilter(request, response);
             }
         } else {
-            resp.sendRedirect("/index");
+            resp.sendRedirect(indexPath);
         }
 	}
 

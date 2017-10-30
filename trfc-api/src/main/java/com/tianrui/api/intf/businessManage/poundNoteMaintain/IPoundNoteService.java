@@ -6,6 +6,7 @@ import com.tianrui.api.req.businessManage.app.AppPoundOrderReq;
 import com.tianrui.api.req.businessManage.app.AppPoundOrderResp;
 import com.tianrui.api.req.businessManage.poundNoteMaintain.ApiPoundNoteQuery;
 import com.tianrui.api.req.businessManage.poundNoteMaintain.ApiPoundNoteValidation;
+import com.tianrui.api.req.businessManage.poundNoteMaintain.PoundNoteCopyDTO;
 import com.tianrui.api.req.businessManage.poundNoteMaintain.PoundNoteQuery;
 import com.tianrui.api.req.businessManage.poundNoteMaintain.PoundNoteSave;
 import com.tianrui.api.resp.businessManage.poundNoteMaintain.PoundNoteResp;
@@ -207,4 +208,17 @@ public interface IPoundNoteService {
 	 * @throws Exception
 	 */
 	Result otherOutAdd(PoundNoteSave save) throws Exception;
+	/**
+	 * @annotation 参照榜单
+	 * @param copy
+	 * @return
+	 * @throws Exception 
+	 */
+    Result copy(PoundNoteCopyDTO copy) throws Exception;
+    /**
+     * @annotation 查询签收详情
+     * @param valid
+     * @return
+     */
+    Result querySignDetail(ApiPoundNoteQuery valid);
 }

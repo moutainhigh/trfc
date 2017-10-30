@@ -17,7 +17,8 @@ public class SalesOutboundOrderSchedule {
 	@Autowired
 	private ISalesOutboundOrderService salesOutboundOrderService;
 	
-	@Scheduled(cron="0/10 * *  * * ? ") //每10秒执行一次
+	//@Scheduled(cron="0/10 * *  * * ? ") //每10秒执行一次
+    @Scheduled(cron="0 0/10 *  * * ? ")
 	public void sync(){
 		try {
 			salesOutboundOrderService.returnSalesOutboundOrder();

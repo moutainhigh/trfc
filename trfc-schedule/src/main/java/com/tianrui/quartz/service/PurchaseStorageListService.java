@@ -113,7 +113,7 @@ public class PurchaseStorageListService implements IPurchaseStorageListService {
 						PoundNote pn = new PoundNote();
 						pn.setId(order.getPoundId());
 						pn.setReturnstatus(Constant.POUND_PUSH_STATUS_ING);
-						poundNoteMapper.updateByOrderCode(pn);
+						poundNoteMapper.updateByPrimaryKeySelective(pn);
 						Logger.info("操作成功!");
 					} else {
 						Logger.info(ErrorCode.OPERATE_ERROR.getMsg());

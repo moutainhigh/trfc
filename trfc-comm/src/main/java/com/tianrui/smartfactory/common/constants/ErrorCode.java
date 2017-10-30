@@ -8,6 +8,8 @@ public enum ErrorCode {
 	SYSTEM_ERROR("E00000","服务器异常,请联系管理员."),
 	//操作失败
 	OPERATE_ERROR("E00001","服务器繁忙,请稍后重试."),
+	//数据不存在
+	DATA_ERROR("E00002","数据不存在，请重新确认."),
 	
 	/**
 	 * 参数相关
@@ -49,11 +51,18 @@ public enum ErrorCode {
 	NOTICE_ON_INVALID("E10022","该通知单已作废."),
 	NOTICE_NOT_LOAD("E10023","该通知单还未完成装货."),
 	NOTICE_OUT_FACTORY("E10024","该通知单绑定的车辆已出厂."),
+	NOTICE_NOT_ONE_POUNDNOTE("E10025","该通知单未过一次磅房."),
+	NOTICE_NOT_SIGN("E10025","该通知单未签收确认."), 
+	NOTICE_ON_SIGN("E10026","该通知单已确认,请勿重复确认."), 
+	NOTICE_NOT_VALID_TIME("E10027","该通知单不在有效时间内."), 
 	/**
 	 * 磅单
 	 */
 	POUNDNOTE_NOT_EXIST("E10100","该磅单不存在."),
 	POUNDNOTE_RETURN_ERROR1("E10101","退货净重大于入库净重."),
+	POUNDNOTE_RETURN_ERROR2("E10102","该订单的余量小于预提量."),
+	POUNDNOTE_RETURN_ERROR3("E10103","过磅单据未推送到NC."),
+	POUNDNOTE_ERROR0("E10104","过磅单据已作废."),
 	/**
 	 * 车辆
 	 */
@@ -67,6 +76,7 @@ public enum ErrorCode {
 	VEHICLE_NOTICE_NOT_ONE_WEIGHT("E10017","该车辆未过一次磅房."),
 	VEHICLE_NOTICE_NOT_TWO_WEIGHT("E10018","该车辆未过二次磅房."),
 	VEHICLE_NOTICE_NOT_LOAD("E10019","该车辆还未完成装货."),
+	VEHICLE_NOTICE_NOT_OUT_FACTORY("E10020","该车辆还未出厂."),
 	
 	/**
 	 * 用户相关
@@ -108,8 +118,12 @@ public enum ErrorCode {
     //黑名单
     //重复添加
     BLACKLIST_REPEAT_ERROR("E600000", "该车辆已被添加到黑名单！"),
-    BLACKLIST_REMOVE_ERROR("E600001", "该车辆已被移除黑名单！");
-	
+    BLACKLIST_REMOVE_ERROR("E600001", "该车辆已被移除黑名单！"),
+    
+    //质检
+    PURCHASE_MIXED_ERROR1("E700001","无法混样（只能同一个供应商同一种物料同一个矿口的采样单可以混样）."),
+    PURCHASE_MIXED_ERROR2("E700002","已经生成过化验单了，无法重复生成.");
+    
 	private String code;
 	private String msg;
 	

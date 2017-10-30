@@ -241,7 +241,12 @@
 						.append('<td>'+(obj.enteryardname || '')+'</td>')
 						.append('<td>'+(obj.materialname || '')+'</td>')
 						.append('<td>'+(obj.vehicleno || '')+'</td>')
-						.append('<td>'+(obj.grossweight || '')+'</td>')
+						.append('<td>'+obj.grossweight+'</td>')
+						.append('<td>'+obj.tareweight+'</td>')
+						.append('<td>'+obj.netweight+'</td>')
+						.append('<td>'+(obj.lighttimeStr || '')+'</td>')
+						.append('<td>'+(obj.weighttimeStr || '')+'</td>')
+						.append('<td>'+(obj.makebillname || '')+'</td>')
 						.append('<td>'+(obj.makebilltimeStr || '')+'</td>')
 						.data(obj)
 						.appendTo('#dataBody');

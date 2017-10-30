@@ -11,6 +11,10 @@ public class PurchaseSamplingItemResp extends BaseResp {
 	
     private String id;
     /**
+     * 采样id
+     */
+    private String samplingid;
+    /**
      * 采样车辆id
      */
     private String samplingcar;
@@ -44,7 +48,13 @@ public class PurchaseSamplingItemResp extends BaseResp {
 	public void setId(String id) {
 		this.id = id;
 	}
-	public String getSamplingcar() {
+	public String getSamplingid() {
+        return samplingid;
+    }
+    public void setSamplingid(String samplingid) {
+        this.samplingid = samplingid;
+    }
+    public String getSamplingcar() {
 		return samplingcar;
 	}
 	public void setSamplingcar(String samplingcar) {

@@ -48,8 +48,8 @@
 										<option value="">请选择</option>
 										<option value="0">红冲</option>
 										<option value="1">补增</option>
-										<option value="2">作废</option>
-										<option value="3">退货</option>
+										<option value="2">退货</option>
+										<option value="3">作废</option>
 									</select>
 								</div>
 								<div class="intel_solo">
@@ -103,6 +103,11 @@
 								<span>红冲</span>
 							</a>
 						</div>
+						<div id="copy" class="intel_operasolo">
+                            <a> <i class="iconfont copy">&#xe61c;</i>
+                                <span>参照</span>
+                            </a>
+                        </div>
 						<div id="invalid" class="intel_operasolo">
 							<a> <i class="iconfont invalid">&#xe60c;</i>
 								<span>作废</span>

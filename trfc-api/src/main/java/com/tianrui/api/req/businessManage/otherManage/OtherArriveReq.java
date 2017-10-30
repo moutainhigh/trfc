@@ -31,8 +31,12 @@ public class OtherArriveReq extends BaseReq {
     private String customerid;
 
     private Long starttime;
+    
+    private String starttimeStr;
 
     private Long endtime;
+    
+    private String endtimeStr;
 
     private String datasource;
 
@@ -56,6 +60,8 @@ public class OtherArriveReq extends BaseReq {
     private Double count;
 
     private String remark;
+    
+    private String vehicleno;
 
     /**
      * 用户
@@ -268,6 +274,24 @@ public class OtherArriveReq extends BaseReq {
 	public void setCodekey(String codekey) {
 		this.codekey = codekey;
 	}
+    public String getStarttimeStr() {
+        return starttimeStr;
+    }
+    public void setStarttimeStr(String starttimeStr) {
+        this.starttimeStr = starttimeStr;
+    }
+    public String getEndtimeStr() {
+        return endtimeStr;
+    }
+    public void setEndtimeStr(String endtimeStr) {
+        this.endtimeStr = endtimeStr;
+    }
+    public String getVehicleno() {
+        return vehicleno;
+    }
+    public void setVehicleno(String vehicleno) {
+        this.vehicleno = vehicleno;
+    }
 	
 
 }

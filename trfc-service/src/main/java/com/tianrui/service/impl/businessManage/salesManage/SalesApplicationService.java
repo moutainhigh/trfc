@@ -199,6 +199,7 @@ public class SalesApplicationService implements ISalesApplicationService {
 				sa.setCreatetime(System.currentTimeMillis());
 				sa.setModifier(save.getMakerid());
 				sa.setModifytime(System.currentTimeMillis());
+				sa.setUtc(System.currentTimeMillis());
 				result = salesApplicationDetailService.add(sd);
 				if(StringUtils.equals(result.getCode(), ErrorCode.SYSTEM_SUCCESS.getCode())){
 					if(!StringUtils.equals(systemCodeService.updateCodeItem(codeReq).getCode(), ErrorCode.SYSTEM_SUCCESS.getCode())){

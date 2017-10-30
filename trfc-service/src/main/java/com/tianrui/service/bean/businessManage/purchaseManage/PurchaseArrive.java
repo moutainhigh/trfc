@@ -71,8 +71,17 @@ public class PurchaseArrive {
     private Long modifytime;
 	//备注
     private String remark;
-    //收获时间
-    private Long receipttime;
+    //签收状态（0：退货，1：签收）
+    private Integer signStatus;
+    //签收人ID
+    private String signPerson;
+    //签收人名称
+    private String signPersonName;
+    //签收时间
+    private Long signTime;
+    //签收设备ID（手持机ID）
+    private String signID;
+    
 
     public String getId() {
         return id;
@@ -362,11 +371,44 @@ public class PurchaseArrive {
         this.remark = remark == null ? null : remark.trim();
     }
 
-	public Long getReceipttime() {
-		return receipttime;
-	}
+    public Integer getSignStatus() {
+        return signStatus;
+    }
 
-	public void setReceipttime(Long receipttime) {
-		this.receipttime = receipttime;
-	}
+    public void setSignStatus(Integer signStatus) {
+        this.signStatus = signStatus;
+    }
+
+    public String getSignPerson() {
+        return signPerson;
+    }
+
+    public void setSignPerson(String signPerson) {
+        this.signPerson = signPerson;
+    }
+
+    public String getSignPersonName() {
+        return signPersonName;
+    }
+
+    public void setSignPersonName(String signPersonName) {
+        this.signPersonName = signPersonName;
+    }
+
+    public Long getSignTime() {
+        return signTime;
+    }
+
+    public void setSignTime(Long signTime) {
+        this.signTime = signTime;
+    }
+
+    public String getSignID() {
+        return signID;
+    }
+
+    public void setSignID(String signID) {
+        this.signID = signID;
+    }
+	
 }

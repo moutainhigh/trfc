@@ -53,7 +53,7 @@
 									type="text" id="add_enteryard" class="yardSelect" placeholder="请选择调入堆场">
 							</div>
 							<div class="daohuo_add_solo">
-								<label>倒运单位：</label> <input type="text" id="add_receivedepartment">
+								<label>倒运单位：</label> <input type="text" id="add_receivedepartment" readonly="true">
 							</div>
 							<div class="daohuo_add_solo">
 								<label>车号：</label> <input type="text" id="add_vehicle"  placeholder="请选择车号">

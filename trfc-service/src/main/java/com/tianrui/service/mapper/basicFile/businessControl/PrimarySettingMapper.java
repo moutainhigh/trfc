@@ -7,7 +7,6 @@ import com.tianrui.api.req.businessManage.handset.HandSetRequestParam;
 import com.tianrui.api.resp.basicFile.businessControl.PrimarySettingResp;
 import com.tianrui.api.resp.businessManage.handset.HandPrimarySettingResp;
 import com.tianrui.service.bean.basicFile.businessControl.PrimarySetting;
-import com.tianrui.smartfactory.common.api.ApiParam;
 
 public interface PrimarySettingMapper {
     int deleteByPrimaryKey(String id);
@@ -43,8 +42,8 @@ public interface PrimarySettingMapper {
      * @Description 采购原发设置手持机接口
      * @author zhanggaohao
      * @version 2017年5月15日 下午2:27:22
-     * @param req
+     * @param param
      * @return
      */
-	List<HandPrimarySettingResp> handSetPrimarySetting(ApiParam<HandSetRequestParam> req);
+	List<HandPrimarySettingResp> handSetPrimarySetting(HandSetRequestParam param);
 }

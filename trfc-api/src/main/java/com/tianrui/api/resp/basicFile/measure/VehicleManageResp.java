@@ -21,6 +21,8 @@ public class VehicleManageResp extends BaseResp {
     private String vehicletype;
 
     private String transportunit;
+    
+    private String transportunitName;
 
     private Double maxweight;
 
@@ -106,6 +108,14 @@ public class VehicleManageResp extends BaseResp {
 
     public void setVehicletype(String vehicletype) {
         this.vehicletype = vehicletype == null ? null : vehicletype.trim();
+    }
+
+    public String getTransportunitName() {
+        return transportunitName;
+    }
+
+    public void setTransportunitName(String transportunitName) {
+        this.transportunitName = transportunitName;
     }
 
     public String getTransportunit() {

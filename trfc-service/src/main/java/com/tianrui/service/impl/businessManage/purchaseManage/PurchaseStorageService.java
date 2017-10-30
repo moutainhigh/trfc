@@ -27,17 +27,17 @@ public class PurchaseStorageService implements IPurchaseStorageService {
 			if(StringUtils.equals("1", req.getStatus())){
 				PurchaseStorageList db =purchaseStorageMapper.selectByPrimaryKey(req.getId());
 				if(db !=null ){
-					//入库单状态修改为 已退单
+					//入库单状态修改为 已推单
 					PurchaseStorageList update = new PurchaseStorageList();
 					update.setId(req.getId());
 					update.setRkdNcId(req.getNcId());
 					update.setTs(req.getTs());
 					update.setStatus(Constant.PUSH_STATUS_END);
 					purchaseStorageMapper.updateByPrimaryKeySelective(update);
-					//榜单状态修改为 已退单
+					//榜单状态修改为 已推单
 					PoundNote updatePound = new PoundNote();
 					updatePound.setId(db.getPoundId());
-					updatePound.setReturnstatus(Constant.POUND_PUSH_STATUS_END);
+					updatePound.setReturnstatus(Constant.POUND_PUSH_STATUS_NULL);
 					updatePound.setModifytime(System.currentTimeMillis());
 					poundNoteMapper.updateByPrimaryKeySelective(updatePound);
 				}

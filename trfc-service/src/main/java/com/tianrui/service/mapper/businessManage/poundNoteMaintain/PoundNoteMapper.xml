@@ -1246,11 +1246,6 @@
 			</if>
 		</where>
 	</select>
-	<update id="updateByOrderCode" parameterType="com.tianrui.service.bean.businessManage.poundNoteMaintain.PoundNote" >
-	    update tr_pound_db_note
-	    set returnstatus = #{returnstatus,jdbcType=VARCHAR}
-	    where id = #{id,jdbcType=VARCHAR} 
-    </update>
     <select id="selectSelective" parameterType="com.tianrui.service.bean.businessManage.poundNoteMaintain.PoundNote" resultMap="BaseResultMap">
     	select
     	<include refid="Base_Column_List" />
@@ -1468,7 +1463,7 @@
     <select id="historyTareWeight" parameterType="com.tianrui.api.req.businessManage.poundNoteMaintain.ApiPoundNoteQuery" resultType="java.lang.Double">
     	select tareweight
     	from tr_pound_db_note
-    	where vehicleno = #{vehicleno,jdbcType=VARCHAR} and vehiclerfid = #{rfid,jdbcType=VARCHAR} and state = '1' and tareweight >= #{notReturnNum,jdbcType=VARCHAR}
+    	where vehicleno = #{vehicleno,jdbcType=VARCHAR} and vehiclerfid = #{rfid,jdbcType=VARCHAR} and state = '1' and tareweight >= #{notReturnNum,jdbcType=VARCHAR} and status != 3
     	limit 0,#{limit,jdbcType=INTEGER}
     </select>
     <select id="selectByNoticeId" parameterType="java.lang.String" resultMap="BaseResultMap">

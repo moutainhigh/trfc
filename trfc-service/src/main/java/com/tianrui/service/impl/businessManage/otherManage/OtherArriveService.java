@@ -42,6 +42,7 @@ import com.tianrui.service.mapper.businessManage.purchaseManage.PurchaseArriveMa
 import com.tianrui.service.mapper.businessManage.salesManage.SalesArriveMapper;
 import com.tianrui.service.mapper.system.auth.OrganizationMapper;
 import com.tianrui.service.mapper.system.auth.SystemUserMapper;
+import com.tianrui.smartfactory.common.constants.Constant;
 import com.tianrui.smartfactory.common.constants.ErrorCode;
 import com.tianrui.smartfactory.common.utils.UUIDUtil;
 import com.tianrui.smartfactory.common.vo.PaginationVO;
@@ -144,7 +145,9 @@ public class OtherArriveService implements IOtherArriveService {
 			oa.setId(UUIDUtil.getId());
 			oa.setAuditstatus("0");
 			oa.setStatus("6");
+			oa.setReceivedepartmentid(Constant.ORG_ID);
 			oa.setCreator(req.getUserid());
+			oa.setCreatetime(System.currentTimeMillis());
 			oa.setModifier(req.getUserid());
 			oa.setModifytime(System.currentTimeMillis());
 			oa.setUtc(System.currentTimeMillis());
@@ -165,6 +168,10 @@ public class OtherArriveService implements IOtherArriveService {
 	public Result page(OtherArriveReq req) throws Exception {
 		Result rs = Result.getParamErrorResult();
 		if(req!=null){
+		    if (StringUtils.isBlank(req.getVehicleid()) && StringUtils.isNotBlank(req.getVehicleno())) {
+		        VehicleManage vehicle = vehicleManageMapper.getVehicleByNo(req.getVehicleno());
+		        req.setVehicleid(vehicle.getId());
+		    }
 			PaginationVO<OtherArriveResp> pagevo = new PaginationVO<OtherArriveResp>();
 			int pageNo = req.getPageNo();
 			int pageSize = req.getPageSize();
@@ -199,18 +206,20 @@ public class OtherArriveService implements IOtherArriveService {
 	private OtherArriveResp bean2Resp(OtherArrive oa) throws Exception{
 		OtherArriveResp resp = new OtherArriveResp();
 		PropertyUtils.copyProperties(resp, oa);
-		//获取磅单
-		PoundNote pound = poundNoteMapper.selectByNoticeId(oa.getId());
-		if(pound!=null){
-			PoundNoteResp poundResp = new PoundNoteResp();
-			poundResp.setCode(pound.getCode());
-			poundResp.setVehicleno(pound.getVehicleno());
-			poundResp.setGrossweight(pound.getGrossweight());
-			poundResp.setTareweight(pound.getTareweight());
-			poundResp.setNetweight(pound.getNetweight());
-			poundResp.setWeighttime(pound.getWeighttime());
-			poundResp.setLighttime(pound.getLighttime());
-			resp.setPoundDetail(poundResp);
+		if (!StringUtils.equals(oa.getBusinesstype(), Constant.FOUR_STRING)) {
+		    //获取磅单
+	        PoundNote pound = poundNoteMapper.selectByNoticeId(oa.getId());
+	        if(pound!=null){
+	            PoundNoteResp poundResp = new PoundNoteResp();
+	            poundResp.setCode(pound.getCode());
+	            poundResp.setVehicleno(pound.getVehicleno());
+	            poundResp.setGrossweight(pound.getGrossweight());
+	            poundResp.setTareweight(pound.getTareweight());
+	            poundResp.setNetweight(pound.getNetweight());
+	            poundResp.setWeighttime(pound.getWeighttime());
+	            poundResp.setLighttime(pound.getLighttime());
+	            resp.setPoundDetail(poundResp);
+	        }
 		}
 		//获取物料名称
 		if(StringUtils.isNotBlank(oa.getMaterielid())){

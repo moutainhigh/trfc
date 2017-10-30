@@ -333,7 +333,7 @@
 				case '4': status = '发卡'; break;
 				case '5': status = '出厂'; break;
 				case '6': status = '入厂'; break;
-				case '7': status = '装车'; break;
+				case '7': status = '卸货'; break;
 				default: break;
 				}
 				var vehicleno = obj.vehicleno || '';

@@ -1,7 +1,10 @@
 package com.tianrui.api.intf.basicFile.measure;
 
+import java.util.List;
+
 import com.tianrui.api.req.basicFile.measure.TransportunitManageQuery;
 import com.tianrui.api.req.basicFile.measure.TransportunitManageSave;
+import com.tianrui.api.resp.basicFile.measure.TransportunitManageResp;
 import com.tianrui.smartfactory.common.vo.Result;
 
 /**
@@ -38,4 +41,11 @@ public interface ITransportunitManageService {
 	 * @return
 	 */
 	Result deleteTransportunit(TransportunitManageQuery query);
+	/**
+	 * @annotation autocomplete
+	 * @param trim
+	 * @return
+	 * @throws Exception 
+	 */
+    List<TransportunitManageResp> autoCompleteSearch(String trim) throws Exception;
 }

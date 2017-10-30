@@ -24,7 +24,6 @@ public class SystemMainAction {
 		view.addObject("phone", user.getMobilePhone());
 		view.addObject("nowTime", DateUtil.getNowDateString(DateUtil.Y_M_D_H_M_S));
 		view.addObject("orgId", Constant.ORG_ID);
-		view.addObject("orgId", Constant.ORG_ID);
 		view.addObject("orgName", Constant.ORG_NAME);
 		return view;
 	}

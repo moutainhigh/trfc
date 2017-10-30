@@ -14,6 +14,8 @@ public class SystemUserQueryReq extends BaseReq {
 	private String codeLike;
 	private String accountLike;
 	private String nameLike;
+	//身份类型：1客户，2供应商，3普通用户
+	private String identityTypes;
 	
 	private String code;
 	private String account;
@@ -53,7 +55,15 @@ public class SystemUserQueryReq extends BaseReq {
 		this.nameLike = nameLike;
 	}
 
-	public String getCurrUId() {
+	public String getIdentityTypes() {
+        return identityTypes;
+    }
+
+    public void setIdentityTypes(String identityTypes) {
+        this.identityTypes = identityTypes;
+    }
+
+    public String getCurrUId() {
 		return currUId;
 	}
 

@@ -11,6 +11,8 @@ public class SalesOutboundOrder {
     private String code;
     //销售订单NC主键
     private String ncId;
+    //榜单ID
+    private String poundId;
     //单据日期
     private String billdate;
     //销售组织
@@ -171,6 +173,13 @@ public class SalesOutboundOrder {
 	public void setList(List<SalesOutboundOrderItem> list) {
 		this.list = list;
 	}
-    
+
+    public String getPoundId() {
+        return poundId;
+    }
+
+    public void setPoundId(String poundId) {
+        this.poundId = poundId;
+    }
     
 }

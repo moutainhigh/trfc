@@ -6,6 +6,7 @@
 			detail: '/trfc/poundNote/purchase/detail',
 			redcollide: '/trfc/poundNote/purchase/redcollide',
 			invalid: '/trfc/poundNote/purchase/invalid',
+			copyView: '/trfc/poundNote/purchase/copyView',
 			supplierAutoCompleteSearch: "/trfc/supplier/autoCompleteSearch",
 			vehicleAutoCompleteSearch: "/trfc/vehicle/autoCompleteSearch",
 			materielAutoCompleteSearch: "/trfc/materiel/autoCompleteSearch"
@@ -160,6 +161,24 @@
 			if(!obj) {layer.msg('需要选中一行才能操作哦！'); return;}
 			invalidOper(obj);
 		});
+		//参照
+		$('#copy').off('click').on('click', function(e){
+			e.stopPropagation();
+			var obj = $('table.maintable tbody tr.active').data();
+			if(!obj) {layer.msg('需要选中一行才能操作哦！'); return;}
+			copy(obj);
+			function copy(obj) {
+				if(obj.returnstatus == 2 && obj.redcollide == 0) {
+					layer.msg('已推单的单据不能参照，请先红冲该单据！', {icon: 5}); 
+					return;
+				}
+				if(obj.billtype == 1) {
+					layer.msg('退货单据，不能进行参照操作！', {icon: 5}); 
+					return;
+				}
+				window.location.href = URL.copyView + '?id=' + obj.id;
+			}
+		});
 		$('#jumpPageNoBtn').off('click').on('click',function(){
 			var pageNo = $('input#jumpPageNo').val();pageNo = $.trim(pageNo);pageNo = parseInt(pageNo);
 			var pageMaxNo = $('input#jumpPageNo').attr('maxpageno');pageMaxNo = $.trim(pageMaxNo);pageMaxNo = parseInt(pageMaxNo);
@@ -208,6 +227,9 @@
 		if(status == '0'){
 			delete params.status;
 			params.redcollide = '1';
+		}else if(status == '2'){
+			delete params.status;
+			params.billtype = '1';
 		}
 		return params;
 	}

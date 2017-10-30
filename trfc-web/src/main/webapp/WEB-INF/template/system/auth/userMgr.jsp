@@ -7,18 +7,20 @@
 <!-- 引用公共header部分 -->
 <jsp:include page="../../common/base/header_busi.jsp"></jsp:include>
 <style type="text/css">
-	label.layui-form-label {
-	    float: left;
-	    margin: 3px;
-	    text-align: right;
-	    width: 130px;
-	}
-	.layui-input-block {
-	    margin-left: 55px;
-	}
-	.layui-form-item {
-	    margin: 20px;
-	}
+label.layui-form-label {
+	float: left;
+	margin: 3px;
+	text-align: right;
+	width: 130px;
+}
+
+.layui-input-block {
+	margin-left: 55px;
+}
+
+.layui-form-item {
+	margin: 20px;
+}
 </style>
 </head>
 <body>
@@ -50,6 +52,15 @@
 										mexlength=20 />
 								</div>
 								<div class="intel_solo">
+									<label>用户身份：</label> <select id="identityTypes"
+										class="form-control">
+										<option value="">全部</option>
+										<option value="1">客户</option>
+										<option value="2">供应商</option>
+										<option value="3">普通用户</option>
+									</select>
+								</div>
+								<div class="intel_solo">
 									<div class="intel_sbtn">
 										<button class="btn btnblue searchBtn">搜索</button>
 									</div>
@@ -60,12 +71,12 @@
 					<div class="intel_opera">
 						<div class="intel_operasolo">
 							<a class="refreshButton"> <i class="iconfont colorlv">&#xe61b;</i>
-								<h5>刷新</h5>
+								<span>刷新</span>
 							</a>
 						</div>
 						<div class="intel_operasolo">
 							<a class="addButton"> <i class="iconfont coloradd">&#xe627;</i>
-								<h5>新增</h5>
+								<span>新增</span>
 							</a>
 						</div>
 					</div>
@@ -267,23 +278,22 @@
 						</div>
 					</div>
 					<div class="modal-body">
-						<input id="userId" type="hidden"/>
+						<input id="userId" type="hidden" />
 						<div class="alt_edit">
 							<div class="alt_edit_div">
-								<label>用户编号：</label> <input type="text"
-									id="edit_code" readonly="true">
+								<label>用户编号：</label> <input type="text" id="edit_code"
+									readonly="true">
 							</div>
 							<div class="alt_edit_div">
-								<label>登录账户：</label> <input type="text"
-									id="edit_account" readonly="true">
+								<label>登录账户：</label> <input type="text" id="edit_account"
+									readonly="true">
 							</div>
 							<div class="alt_edit_div">
-								<label>用户名称：</label> <input type="text"
-									id="edit_name" readonly="true">
+								<label>用户名称：</label> <input type="text" id="edit_name"
+									readonly="true">
 							</div>
 							<div class="alt_edit_div">
-								<label>登录密码：</label> <input type="password"
-									id="edit_psd">
+								<label>登录密码：</label> <input type="password" id="edit_psd">
 							</div>
 							<div class="alt_edit_div">
 								<label>所属组织：</label> <span>${orgName}</span>

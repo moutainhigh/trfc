@@ -16,6 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.tianrui.api.intf.businessManage.poundNoteMaintain.IPoundNoteService;
 import com.tianrui.api.intf.system.base.ISystemCodeService;
+import com.tianrui.api.req.businessManage.poundNoteMaintain.PoundNoteCopyDTO;
 import com.tianrui.api.req.businessManage.poundNoteMaintain.PoundNoteQuery;
 import com.tianrui.api.req.businessManage.poundNoteMaintain.PoundNoteSave;
 import com.tianrui.api.req.system.base.GetCodeReq;
@@ -161,6 +162,36 @@ public class PoundNoteMaintainAction {
 		}
 		return result;
 	}
+	
+	/**
+	 * @annotation 参照页面  已推单的必须红冲后才能参照，未推单的可以直接参照
+	 * @return
+	 */
+	@RequestMapping("/purchase/copyView")
+	public ModelAndView copyView(String id) {
+	    ModelAndView view = new ModelAndView("businessManage/poundNoteMaintain/purchaseCopyView");
+	    try {
+            view.addObject("poundNote", poundNoteService.findOne(id));
+        } catch (Exception e) {
+            logger.error(e.getMessage(), e);
+        }
+	    return view;
+	}
+	
+	@RequestMapping("/purchase/copy")
+    @ResponseBody
+    public Result copy(PoundNoteCopyDTO copy, HttpServletRequest request) {
+	    Result result = Result.getParamErrorResult();
+	    try {
+            SystemUserResp user = SessionManager.getSessionUser(request);
+            copy.setCurrId(user.getId());
+	        result = poundNoteService.copy(copy);
+        } catch (Exception e) {
+            logger.error(e.getMessage(), e);
+            result.setErrorCode(ErrorCode.SYSTEM_ERROR);
+        }
+        return result;
+    }
 	
 	@RequestMapping("/purchase/invalid")
 	@ResponseBody
