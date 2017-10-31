@@ -42,8 +42,8 @@ public class SystemMenuService implements ISystemMenuService {
 			page = new PaginationVO<SystemMenuResp>();
 			long count = systemMenuMapper.countByCondition(req);
 			if(count > 0){
-				req.setStart((req.getPageNo()-1)*req.getPageSize());
-				req.setLimit(req.getPageSize());
+//				req.setStart((req.getPageNo()-1)*req.getPageSize());
+//				req.setLimit(req.getPageSize());
 				List<SystemMenu> list = systemMenuMapper.selectByCondition(req);
 				page.setList(copySystemUserBeanList2RespList(list));
 			}

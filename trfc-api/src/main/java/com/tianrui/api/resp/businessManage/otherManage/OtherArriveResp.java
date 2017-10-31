@@ -129,6 +129,10 @@ public class OtherArriveResp extends BaseResp {
 	 */
 	private Long createtime;
 	/**
+	 * 创建时间
+	 */
+	private String createtimeStr;
+	/**
 	 * 磅单信息
 	 */
 	private PoundNoteResp poundDetail;
@@ -361,9 +365,18 @@ public class OtherArriveResp extends BaseResp {
 
 	public void setCreatetime(Long createtime) {
 		this.createtime = createtime;
+        this.createtimeStr = DateUtil.parse(createtime, DateUtil.Y_M_D_H_M_S);
 	}
 
-	public PoundNoteResp getPoundDetail() {
+	public String getCreatetimeStr() {
+        return createtimeStr;
+    }
+
+    public void setCreatetimeStr(String createtimeStr) {
+        this.createtimeStr = createtimeStr;
+    }
+
+    public PoundNoteResp getPoundDetail() {
 		return poundDetail;
 	}
 

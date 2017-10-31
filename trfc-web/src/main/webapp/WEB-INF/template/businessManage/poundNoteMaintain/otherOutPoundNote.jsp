@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>其他入库榜单维护</title>
+<title>其他出库榜单维护</title>
 <!-- 引用公共header部分 -->
 <jsp:include page="../../common/base/header_busi.jsp"></jsp:include>
 </head>
@@ -90,6 +90,11 @@
 								<span>作废</span>
 							</a>
 						</div>
+                        <div id="print" class="intel_operasolo">
+                            <a> <i class="iconfont print">&#xe726;</i>
+                                <span>补打榜单</span>
+                            </a>
+                        </div>
 					</div>
 					<div class="intel_table">
 						<!--用户表格begin-->
@@ -147,6 +152,7 @@
 	</div>
 	<!-- 引用公共footer部分 -->
 	<jsp:include page="../../common/base/footer_busi.jsp"></jsp:include>
+    <jsp:include page="../../common/module/printTemplate.jsp"></jsp:include>
 	<script type="text/javascript"
 		src="/javascript/businessManage/poundNoteMaintain/otherOutPoundNote.js"></script>
 </body>

@@ -31,7 +31,7 @@
 								<div class="intel_solo">
 									<label>业务类型：</label> <select id="businesstype" class="form-control">
 										<option value="">请选择</option>
-										<option value="0">采购到货</option>
+										<option value="1">采购到货</option>
 										<option value="2">销售提货</option>
 										<option value="5">其他入库</option>
 										<option value="7">其他出库</option>
@@ -67,6 +67,12 @@
 									<label>车号：</label> <input id="vehicle" type="text"
 										placeholder="请选择车号"/>
 								</div>
+                                <div class="intel_solo">
+                                    <label>有效性：</label> <select id="state" class="form-control">
+                                        <option value="0">作废</option>
+                                        <option value="1" selected="selected">正常</option>
+                                    </select>
+                                </div>
 							</div>
 						</div>
 					</div>
@@ -74,10 +80,13 @@
 						<div id="refreshBtn" class="intel_operasolo">
 							<i class="iconfont colorlv">&#xe61b;</i> <span>刷新</span>
 						</div>
+						<div id="invalid" class="intel_operasolo">
+							<i class="iconfont colorlv">&#xe60c;</i> <span>作废</span>
+						</div>
 					</div>
 					<div class="intel_table">
 						<!--用户表格begin-->
-						<table class="table table-hover">
+						<table class="table table-hover maintable">
 							<thead>
 								<tr>
 									<th>序号</th>

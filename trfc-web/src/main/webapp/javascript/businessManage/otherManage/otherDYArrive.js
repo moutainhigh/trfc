@@ -413,7 +413,7 @@ $(function() {
 		var pageSize = $('#pageSize').val();pageSize = $.trim(pageSize);
 		var starttime = $('#seek_starttime').val();starttime = $.trim(starttime);
 		var endtime = $('#seek_endtime').val();endtime = $.trim(endtime);
-
+		var invalid = $('#seek_invalid').val();invalid = $.trim(invalid);
 		return {
 			enteryard:enteryard,
 			leaveyard:leaveyard,
@@ -424,6 +424,7 @@ $(function() {
 			pageSize:pageSize,
 			starttime:str2Long(starttime),
 			endtime:str2Long(endtime),
+			invalid: invalid
 		};
 	}
 

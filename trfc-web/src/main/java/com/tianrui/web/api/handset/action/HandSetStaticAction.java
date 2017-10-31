@@ -1,6 +1,8 @@
 package com.tianrui.web.api.handset.action;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,14 +24,19 @@ import com.tianrui.api.intf.handSetStatic.IHandSetStaticService;
 import com.tianrui.api.intf.quality.purchase.IPurchaseAssayService;
 import com.tianrui.api.intf.quality.purchase.IPurchaseMixedService;
 import com.tianrui.api.intf.system.auth.ISystemUserService;
+import com.tianrui.api.intf.system.base.ISystemCodeService;
 import com.tianrui.api.req.businessManage.handset.HandSetRequestParam;
+import com.tianrui.api.req.businessManage.otherManage.AppOtherArriveReq;
 import com.tianrui.api.req.businessManage.otherManage.OtherArriveReq;
 import com.tianrui.api.req.quality.purchase.PurchaseAssayReq;
 import com.tianrui.api.req.quality.purchase.PurchaseMixedReq;
 import com.tianrui.api.req.system.auth.UserReq;
+import com.tianrui.api.req.system.base.GetCodeReq;
 import com.tianrui.api.resp.businessManage.handset.HandSetReturnResp;
+import com.tianrui.api.resp.system.auth.SystemUserResp;
 import com.tianrui.smartfactory.common.api.ApiParam;
 import com.tianrui.smartfactory.common.api.ApiResult;
+import com.tianrui.smartfactory.common.constants.Constant;
 import com.tianrui.smartfactory.common.constants.ErrorCode;
 import com.tianrui.smartfactory.common.utils.DateUtil;
 import com.tianrui.smartfactory.common.vo.Result;
@@ -67,6 +74,8 @@ public class HandSetStaticAction {
     private IOtherArriveService otherArriveService;
     @Autowired
     private IVehicleManageService vehicleManageService;
+    @Autowired
+    private ISystemCodeService systemCodeService;
 
 	@RequestMapping(value="/supplier",method = RequestMethod.POST)
 	@ApiParamRawType(HandSetRequestParam.class)
@@ -209,7 +218,11 @@ public class HandSetStaticAction {
         }
         return ApiResult.valueOf(rs);
     }
-    
+    /**
+     * @annotation 签收
+     * @param req
+     * @return
+     */
     @RequestMapping(value="/receive", method = RequestMethod.POST)
     @ApiParamRawType(HandSetRequestParam.class)
     @ApiAuthValidation(callType="4")
@@ -368,14 +381,14 @@ public class HandSetStaticAction {
      * @return
      */
     @RequestMapping(value="/listDYNotice", method = RequestMethod.POST)
-    @ApiParamRawType(OtherArriveReq.class)
+    @ApiParamRawType(AppOtherArriveReq.class)
     @ApiAuthValidation(callType="4")
     @ResponseBody
-    public ApiResult listDYNotice(ApiParam<OtherArriveReq> req) {
-        Result rs = Result.getErrorResult();
+    public ApiResult listDYNotice(ApiParam<AppOtherArriveReq> req) {
+        Result rs = Result.getSuccessResult();
         try {
             req.getBody().setBusinesstype("4");
-            rs = otherArriveService.page(req.getBody());
+            rs.setData(otherArriveService.appPage(req.getBody()));
         } catch (Exception e) {
             log.error(e.getMessage(), e);
             rs.setErrorCode(ErrorCode.SYSTEM_ERROR);
@@ -451,6 +464,11 @@ public class HandSetStaticAction {
         }
         return ApiResult.valueOf(rs);
     }
+    /**
+     * @annotation 倒运车辆模糊查询
+     * @param req
+     * @return
+     */
     @RequestMapping(value="/vehicleAutoComplate", method = RequestMethod.POST)
     @ApiParamRawType(HandSetRequestParam.class)
     @ApiAuthValidation(callType="4")
@@ -465,6 +483,11 @@ public class HandSetStaticAction {
         }
         return ApiResult.valueOf(rs);
     }
+    /**
+     * @annotation 物料模糊查询
+     * @param req
+     * @return
+     */
     @RequestMapping(value="/materialAutoComplate", method = RequestMethod.POST)
     @ApiParamRawType(HandSetRequestParam.class)
     @ApiAuthValidation(callType="4")
@@ -473,6 +496,157 @@ public class HandSetStaticAction {
         Result rs = Result.getSuccessResult();
         try {
             rs.setData(materielManageService.autoCompleteSearch(req.getBody().getTerm().trim()));
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+            rs.setErrorCode(ErrorCode.SYSTEM_ERROR);
+        }
+        return ApiResult.valueOf(rs);
+    }
+    /**
+     * @annotation 倒运通知单新增初始化数据
+     * @param req
+     * @return
+     */
+    @RequestMapping(value="/initDYSave", method = RequestMethod.POST)
+    @ApiParamRawType(HandSetRequestParam.class)
+    @ApiAuthValidation(callType="4")
+    @ResponseBody
+    public ApiResult initDYSave(ApiParam<HandSetRequestParam> req) {
+        Result rs = Result.getSuccessResult();
+        try {
+            Map<String, String> map = new HashMap<String, String>();
+            GetCodeReq codeReq = new GetCodeReq();
+            codeReq.setCode("ND");
+            codeReq.setCodeType(true);
+            codeReq.setUserid(req.getHead().getUserId());
+            map.put("code", systemCodeService.getCode(codeReq).getData().toString());
+            map.put("orgname", Constant.ORG_NAME);
+            SystemUserResp user = systemUserService.get(req.getHead().getUserId());
+            if (user != null) {
+                map.put("createName", user.getName());
+            }
+            map.put("createTime", DateUtil.getNowDateString(DateUtil.Y_M_D_H_M_S));
+            rs.setData(map);
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+            rs.setErrorCode(ErrorCode.SYSTEM_ERROR);
+        }
+        return ApiResult.valueOf(rs);
+    }
+    /**
+     * @annotation 倒运通知单详情
+     * @param req
+     * @return
+     */
+    @RequestMapping(value="/dyDetail", method = RequestMethod.POST)
+    @ApiParamRawType(HandSetRequestParam.class)
+    @ApiAuthValidation(callType="4")
+    @ResponseBody
+    public ApiResult dyDetail(ApiParam<HandSetRequestParam> req) {
+        Result rs = Result.getSuccessResult();
+        try {
+            rs = otherArriveService.findOne(req.getBody().getId());
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+            rs.setErrorCode(ErrorCode.SYSTEM_ERROR);
+        }
+        return ApiResult.valueOf(rs);
+    }
+
+    /**
+     * @annotation 装货确认
+     * @param req
+     * @return
+     */
+    @RequestMapping(value="/confirmationOfShipment", method = RequestMethod.POST)
+    @ApiParamRawType(HandSetRequestParam.class)
+    @ApiAuthValidation(callType="4")
+    @ResponseBody
+    public ApiResult confirmationOfShipment(ApiParam<HandSetRequestParam> req) {
+        Result rs = Result.getSuccessResult();
+        try {
+            req.getBody().setUserId(req.getHead().getUserId());
+            rs = handSetStaticService.confirmationOfShipment(req.getBody());
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+            rs.setErrorCode(ErrorCode.SYSTEM_ERROR);
+        }
+        return ApiResult.valueOf(rs);
+    }
+    /**
+     * @annotation 空车出厂
+     * @param req
+     * @return
+     */
+    @RequestMapping(value="/emptyCarLeavingFactory", method = RequestMethod.POST)
+    @ApiParamRawType(HandSetRequestParam.class)
+    @ApiAuthValidation(callType="4")
+    @ResponseBody
+    public ApiResult emptyCarLeavingFactory(ApiParam<HandSetRequestParam> req) {
+        Result rs = Result.getSuccessResult();
+        try {
+            req.getBody().setUserId(req.getHead().getUserId());
+            rs = handSetStaticService.emptyCarLeavingFactory(req.getBody());
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+            rs.setErrorCode(ErrorCode.SYSTEM_ERROR);
+        }
+        return ApiResult.valueOf(rs);
+    }
+    /**
+     * @annotation 无需补包
+     * @param req
+     * @return
+     */
+    @RequestMapping(value="/noNeedToFillTheBag", method = RequestMethod.POST)
+    @ApiParamRawType(HandSetRequestParam.class)
+    @ApiAuthValidation(callType="4")
+    @ResponseBody
+    public ApiResult noNeedToFillTheBag(ApiParam<HandSetRequestParam> req) {
+        Result rs = Result.getSuccessResult();
+        try {
+            req.getBody().setUserId(req.getHead().getUserId());
+            rs = handSetStaticService.noNeedToFillTheBag(req.getBody());
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+            rs.setErrorCode(ErrorCode.SYSTEM_ERROR);
+        }
+        return ApiResult.valueOf(rs);
+    }
+    /**
+     * @annotation 补包确认
+     * @param req
+     * @return
+     */
+    @RequestMapping(value="/confirmationOfFillTheBag", method = RequestMethod.POST)
+    @ApiParamRawType(HandSetRequestParam.class)
+    @ApiAuthValidation(callType="4")
+    @ResponseBody
+    public ApiResult confirmationOfFillTheBag(ApiParam<HandSetRequestParam> req) {
+        Result rs = Result.getSuccessResult();
+        try {
+            req.getBody().setUserId(req.getHead().getUserId());
+            rs = handSetStaticService.confirmationOfFillTheBag(req.getBody());
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+            rs.setErrorCode(ErrorCode.SYSTEM_ERROR);
+        }
+        return ApiResult.valueOf(rs);
+    }
+    /**
+     * @annotation 回包确认
+     * @param req
+     * @return
+     */
+    @RequestMapping(value="/confirmationOfReturnPacket", method = RequestMethod.POST)
+    @ApiParamRawType(HandSetRequestParam.class)
+    @ApiAuthValidation(callType="4")
+    @ResponseBody
+    public ApiResult confirmationOfReturnPacket(ApiParam<HandSetRequestParam> req) {
+        Result rs = Result.getSuccessResult();
+        try {
+            req.getBody().setUserId(req.getHead().getUserId());
+            rs = handSetStaticService.confirmationOfReturnPacket(req.getBody());
         } catch (Exception e) {
             log.error(e.getMessage(), e);
             rs.setErrorCode(ErrorCode.SYSTEM_ERROR);

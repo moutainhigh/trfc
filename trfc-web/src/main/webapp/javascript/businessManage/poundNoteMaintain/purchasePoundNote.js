@@ -167,17 +167,6 @@
 			var obj = $('table.maintable tbody tr.active').data();
 			if(!obj) {layer.msg('需要选中一行才能操作哦！'); return;}
 			copy(obj);
-			function copy(obj) {
-				if(obj.returnstatus == 2 && obj.redcollide == 0) {
-					layer.msg('已推单的单据不能参照，请先红冲该单据！', {icon: 5}); 
-					return;
-				}
-				if(obj.billtype == 1) {
-					layer.msg('退货单据，不能进行参照操作！', {icon: 5}); 
-					return;
-				}
-				window.location.href = URL.copyView + '?id=' + obj.id;
-			}
 		});
 		$('#jumpPageNoBtn').off('click').on('click',function(){
 			var pageNo = $('input#jumpPageNo').val();pageNo = $.trim(pageNo);pageNo = parseInt(pageNo);
@@ -442,6 +431,17 @@
 			}
 		});
 		
+	}
+	function copy(obj) {
+		if(obj.returnstatus == 2 && obj.redcollide == 0) {
+			layer.msg('已推单的单据不能参照，请先红冲该单据！', {icon: 5}); 
+			return;
+		}
+		if(obj.billtype == 1) {
+			layer.msg('退货单据，不能进行参照操作！', {icon: 5}); 
+			return;
+		}
+		window.location.href = URL.copyView + '?id=' + obj.id;
 	}
 	
 })(jQuery, window);

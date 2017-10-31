@@ -23,6 +23,8 @@ public class SalesArriveQuery extends BaseReq {
     private String status;
     //车辆id
     private String vehicleid;
+    //车牌号
+    private String vehicleno;
     //司机id
     private String driverid;
     //客户id
@@ -104,7 +106,15 @@ public class SalesArriveQuery extends BaseReq {
 		this.vehicleid = vehicleid;
 	}
 
-	public String getDriverid() {
+	public String getVehicleno() {
+        return vehicleno;
+    }
+
+    public void setVehicleno(String vehicleno) {
+        this.vehicleno = vehicleno;
+    }
+
+    public String getDriverid() {
 		return driverid;
 	}
 

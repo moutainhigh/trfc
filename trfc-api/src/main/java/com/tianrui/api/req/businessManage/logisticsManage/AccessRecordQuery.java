@@ -19,7 +19,7 @@ public class AccessRecordQuery extends BaseReq {
     //门禁类型（1：入厂，2：出厂）
     private String accesstype;
     //状态：（0：删除，1：显示）
-    private String state;
+    private String state = "1";
     //物料id
     private String materielid;
     //车牌号

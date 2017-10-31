@@ -33,8 +33,8 @@ $(function() {
 		//获取地址 并截取中间部分
 		var href = window.location.href;
 		href = href.split('/trfc/')[1];
-		urlstr = href.substring(0,href.lastIndexOf('/'));
-
+//		urlstr = href.substring(0,href.lastIndexOf('/'));
+		urlstr = '/trfc/'+href;
 		//获取深度为1的 菜单
 		var menu1 = $.grep(list,function(value) {
 			return value.deep == 1;
@@ -62,7 +62,7 @@ $(function() {
 				//把数据字符 拼接成图标 unicode码
 				var img = menu2[j].imgType ? '&'+menu2[j].imgType : '';
 				//如果有下级菜单 默认跳转到一个链接
-				var url = menu3.length>0?'href='+menu3[0].uri:'';
+				var url = menu3.length>0?'href='+menu3[0].uri+'?'+menu3[0].param:'';
 
 				//菜单选中效果
 				var li_selected = '';
@@ -70,16 +70,16 @@ $(function() {
 				//实现左侧菜单 选中效果
 				if(menu3.length>0){
 					for(var f = 0;f<menu3.length;f++){
-						var hh = menu3[f].uri;
-						if(hh){
-							hh = hh.split('/trfc/')[1];
-							if(hh){
-								hh = hh.substring(0,hh.lastIndexOf('/'));
+						var hh = menu3[f].uri+'?'+menu3[f].param;
+//						if(hh){
+//							hh = hh.split('/trfc/')[1];
+//							if(hh){
+//								hh = hh.substring(0,hh.lastIndexOf('/'));
 								if(hh == urlstr){
 									li_selected = 'class="active"';
 								}
-							}
-						}
+//							}
+//						}
 					}
 
 				}
@@ -88,21 +88,21 @@ $(function() {
 				if(li_selected){
 					var tab_ul = $('.intel_menu').empty();
 					for(var f = 0;f<menu3.length;f++){
-						var hh = menu3[f].uri;
-						var href_select = '';
-						if(hh){
-							href_select = 'href='+hh;
-							hh = hh.split('/trfc/')[1];
-							if(hh){
-								hh = hh.substring(0,hh.lastIndexOf('/'));
-							}
-						}
+						var hh = menu3[f].uri+'?'+menu3[f].param;
+//						var href_select = '';
+//						if(hh){
+//							href_select = 'href='+hh;
+//							hh = hh.split('/trfc/')[1];
+//							if(hh){
+//								hh = hh.substring(0,hh.lastIndexOf('/'));
+//							}
+//						}
 						// 实现三级菜单 选中效果
 						if(hh == urlstr){
-							tab_ul.append('<li class="select"><a '+href_select+'>'
+							tab_ul.append('<li class="select"><a href="'+hh+'">'
 									+menu3[f].name+'</a></li>');
 						}else{
-							tab_ul.append('<li><a '+href_select+'>'
+							tab_ul.append('<li><a href="'+hh+'">'
 									+menu3[f].name+'</a></li>');
 						}
 					}

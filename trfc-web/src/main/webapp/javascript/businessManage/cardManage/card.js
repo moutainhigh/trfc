@@ -215,8 +215,27 @@
 				}
 			}
 		});
+		$('#readSearch').off('click').on('click',function(){
+			readSearch();
+		});
 	}
-	
+	function readSearch() {
+		if(initCardReader()) {
+			//打开读卡器
+			readerOpen();
+			//开打卡片获取卡序号
+			var cardno = openCard();
+			//蜂鸣
+			readerBeep();
+			if(cardno){
+				get({cardno:cardno});
+			}
+			//关闭读卡器
+			readerClose();
+		}else{
+			layer.msg('当前游览器不支持!(只兼容IE游览器)');
+		}
+	}
 	function getParams(){
 		var cardcode = $('#cardcode').val();cardcode = $.trim(cardcode);
 		var cardstatus = $('#cardstatus').val();cardstatus = $.trim(cardstatus);
@@ -236,43 +255,46 @@
 	
 	function queryData(pageNo){
 		layer.closeAll();
-		var index = layer.load(2, {
-		  shade: [0.3,'#fff'] //0.1透明度的白色背景
-		});
 		var params = getParams();
 		params.pageNo = pageNo;
-		$.ajax({
-			url:URL.pageUrl,
-			data:params,
-			async:true,
-			cache:false,
-			dataType:'json',
-			type:'post',
-			success:function(result){
-				if(result.code == '000000'){
-					renderHtml(result.data);
-					var total = result.data.total;
-					var pageNo = result.data.pageNo;
-					var pageSize = result.data.pageSize;
-					$('#total').html(total);
-					$('#jumpPageNo').attr('maxPageNo',parseInt((total+pageSize-1)/pageSize));
-					$("#pagination").pagination(total, {
-					    callback: pageCallback,
-					    prev_text: '上一页',
-					    next_text: '下一页',
-					    items_per_page:pageSize,
-					    num_display_entries:4,
-					    current_page:pageNo-1,
-					    num_edge_entries:1,
-					    maxentries:total,
-					    link_to:"javascript:void(0)"
-					});
-				}else{
-					layer.msg(result.error,{icon:5});
+		get(params);
+	}
+	function get(params) {
+		var index = layer.load(2, {
+			  shade: [0.3,'#fff'] //0.1透明度的白色背景
+			});
+			$.ajax({
+				url:URL.pageUrl,
+				data:params,
+				async:true,
+				cache:false,
+				dataType:'json',
+				type:'post',
+				success:function(result){
+					if(result.code == '000000'){
+						renderHtml(result.data);
+						var total = result.data.total;
+						var pageNo = result.data.pageNo;
+						var pageSize = result.data.pageSize;
+						$('#total').html(total);
+						$('#jumpPageNo').attr('maxPageNo',parseInt((total+pageSize-1)/pageSize));
+						$("#pagination").pagination(total, {
+						    callback: pageCallback,
+						    prev_text: '上一页',
+						    next_text: '下一页',
+						    items_per_page:pageSize,
+						    num_display_entries:4,
+						    current_page:pageNo-1,
+						    num_edge_entries:1,
+						    maxentries:total,
+						    link_to:"javascript:void(0)"
+						});
+					}else{
+						layer.msg(result.error,{icon:5});
+					}
+					layer.close(index);
 				}
-				layer.close(index);
-			}
-		});
+			});
 	}
 	
 	function renderHtml(data){

@@ -37,7 +37,7 @@ public class PurchaseStorageService implements IPurchaseStorageService {
 					//榜单状态修改为 已推单
 					PoundNote updatePound = new PoundNote();
 					updatePound.setId(db.getPoundId());
-					updatePound.setReturnstatus(Constant.POUND_PUSH_STATUS_NULL);
+					updatePound.setReturnstatus(Constant.POUND_PUSH_STATUS_END);
 					updatePound.setModifytime(System.currentTimeMillis());
 					poundNoteMapper.updateByPrimaryKeySelective(updatePound);
 				}

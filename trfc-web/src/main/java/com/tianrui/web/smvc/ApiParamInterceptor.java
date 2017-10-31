@@ -52,7 +52,6 @@ public class ApiParamInterceptor implements HandlerInterceptor{
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 		boolean flag =false;
 		String jsonParam = request.getParameter("p");
-		request.setAttribute("p", jsonParam);
 		if( StringUtils.isNotBlank(jsonParam) ){
 
 			HandlerMethod handlerMethod = (HandlerMethod) handler;

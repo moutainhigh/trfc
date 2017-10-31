@@ -15,6 +15,7 @@ import com.tianrui.service.bean.basicFile.businessControl.PrimarySetting;
 import com.tianrui.service.bean.basicFile.measure.VehicleManage;
 import com.tianrui.service.bean.basicFile.measure.YardManage;
 import com.tianrui.service.bean.basicFile.nc.WarehouseManage;
+import com.tianrui.service.bean.businessManage.examine.ExceptionAudit;
 import com.tianrui.service.bean.businessManage.poundNoteMaintain.PoundNote;
 import com.tianrui.service.bean.businessManage.purchaseManage.PurchaseApplication;
 import com.tianrui.service.bean.businessManage.purchaseManage.PurchaseApplicationDetail;
@@ -27,6 +28,7 @@ import com.tianrui.service.mapper.basicFile.businessControl.PrimarySettingMapper
 import com.tianrui.service.mapper.basicFile.measure.VehicleManageMapper;
 import com.tianrui.service.mapper.basicFile.measure.YardManageMapper;
 import com.tianrui.service.mapper.basicFile.nc.WarehouseManageMapper;
+import com.tianrui.service.mapper.businessManage.examine.ExceptionAuditMapper;
 import com.tianrui.service.mapper.businessManage.poundNoteMaintain.PoundNoteMapper;
 import com.tianrui.service.mapper.businessManage.purchaseManage.PurchaseApplicationDetailMapper;
 import com.tianrui.service.mapper.businessManage.purchaseManage.PurchaseApplicationMapper;
@@ -37,6 +39,7 @@ import com.tianrui.service.mapper.businessManage.salesManage.SalesArriveMapper;
 import com.tianrui.service.mapper.system.auth.SystemUserMapper;
 import com.tianrui.smartfactory.common.constants.Constant;
 import com.tianrui.smartfactory.common.constants.ErrorCode;
+import com.tianrui.smartfactory.common.utils.UUIDUtil;
 import com.tianrui.smartfactory.common.vo.Result;
 
 @Service
@@ -66,6 +69,8 @@ public class HandSetStaticService implements IHandSetStaticService {
     private YardManageMapper yardManageMapper;
     @Autowired
     private PrimarySettingMapper primarySettingMapper;
+    @Autowired
+    private ExceptionAuditMapper exceptionAuditMapper;
     
     @Override
     public Result readICard(HandSetRequestParam params) {
@@ -74,8 +79,13 @@ public class HandSetStaticService implements IHandSetStaticService {
             //判断车辆是否存在
             VehicleManage vehicle = vehicleManageMapper.getVehicleByNo(params.getVehicleNo());
             if (vehicle != null) {
-                result.setData(readICardByVehicle(vehicle.getId()));
-                result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+                HandSetReadICardResp resp = readICardByVehicle(vehicle.getId());
+                if (resp != null) {
+                    result.setData(resp);
+                    result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+                } else {
+                    result.setErrorCode(ErrorCode.VEHICLE_NOT_NOTICE);
+                }
             } else {
                 result.setErrorCode(ErrorCode.VEHICLE_NOT_EXIST);
             }
@@ -91,6 +101,7 @@ public class HandSetStaticService implements IHandSetStaticService {
             SalesArrive salesArrive = salesArriveMapper.getByVehicleId(vehicleId);
             if (salesArrive == null) {
                 //其他通知单
+                resp = null;
             } else {
                 //销售读卡
                 sDo2Dto(resp, salesArrive);
@@ -105,6 +116,7 @@ public class HandSetStaticService implements IHandSetStaticService {
     //销售通知单读到卡里
     private void sDo2Dto(HandSetReadICardResp resp, SalesArrive salesArrive) {
         resp.setNoticeCode(salesArrive.getCode());
+        resp.setNoticeStatus(salesArrive.getStatus());
         SalesApplication application = salesApplicationMapper.selectByPrimaryKey(salesArrive.getBillid());
         if (application != null) {
             resp.setDeptId(application.getCustomerid());
@@ -114,11 +126,16 @@ public class HandSetStaticService implements IHandSetStaticService {
         if (applicationDetail != null) {
             resp.setMaterial(applicationDetail.getMaterielname());
         }
+        PoundNote pn = poundNoteMapper.selectByNoticeId(salesArrive.getId());
+        if (pn != null) {
+            resp.setPoundNoteCode(pn.getCode());
+        }
     }
     
     //采购通知单读到卡里
     private void pDo2Dto(HandSetReadICardResp resp, PurchaseArrive purchaseArrive) {
         resp.setNoticeCode(purchaseArrive.getCode());
+        resp.setNoticeStatus(purchaseArrive.getStatus());
         PurchaseApplication application = purchaseApplicationMapper.selectByPrimaryKey(purchaseArrive.getBillid());
         if (application != null) {
             resp.setDeptId(application.getSupplierid());
@@ -140,6 +157,10 @@ public class HandSetStaticService implements IHandSetStaticService {
             } else {
                 resp.setIsPrimary(Constant.ZERO_STRING);
             }
+        }
+        PoundNote pn = poundNoteMapper.selectByNoticeId(purchaseArrive.getId());
+        if (pn != null) {
+            resp.setPoundNoteCode(pn.getCode());
         }
         
     }
@@ -275,6 +296,146 @@ public class HandSetStaticService implements IHandSetStaticService {
             }
         }
         return result;
+    }
+
+    @Override
+    public Result confirmationOfShipment(HandSetRequestParam param) {
+        Result rs = Result.getParamErrorResult();
+        if (param != null && StringUtils.isNotBlank(param.getVehicleNo())) {
+            SalesArrive sa = salesArriveMapper.getByVehicleNo(param.getVehicleNo());
+            if (sa != null) {
+                if (!StringUtils.equals(sa.getStatus(), Constant.SEVEN_STRING)) {
+                    if (!StringUtils.equals(sa.getStatus(), Constant.ONE_STRING)) {
+                        SalesArrive bean = new SalesArrive();
+                        bean.setId(sa.getId());
+                        bean.setStatus(Constant.SEVEN_STRING);
+                        salesArriveMapper.updateByPrimaryKeySelective(bean);
+                        rs.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+                    } else {
+                        rs.setErrorCode(ErrorCode.NOTICE_NOT_ONE_POUNDNOTE);
+                    }
+                } else {
+                    rs.setErrorCode(ErrorCode.NOTICE_ON_SIGN);
+                }
+            } else {
+                rs.setErrorCode(ErrorCode.NOTICE_NOT_EXIST);
+            }
+        }
+        return rs;
+    }
+
+    @Override
+    public Result emptyCarLeavingFactory(HandSetRequestParam param) {
+        Result rs = Result.getParamErrorResult();
+        if (param != null && StringUtils.isNotBlank(param.getVehicleNo())) {
+            SalesArrive sa = salesArriveMapper.getByVehicleNo(param.getVehicleNo());
+            if (sa != null) {
+                if (StringUtils.equals(sa.getStatus(), Constant.ONE_STRING)) {
+                    PoundNote pn = poundNoteMapper.selectByNoticeId(sa.getId());
+                    ExceptionAudit ea = new ExceptionAudit();
+                    ea.setId(UUIDUtil.getId());
+                    ea.setPnId(pn.getId());
+                    ea.setType(Constant.ONE_NUMBER);
+                    ea.setAuditStatus(false);
+                    ea.setState(true);
+                    ea.setCreator(param.getUserId());
+                    ea.setCreatetime(System.currentTimeMillis());
+                    exceptionAuditMapper.insertSelective(ea);
+                    rs.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+                } else {
+                    rs.setErrorCode(ErrorCode.VEHICLE_NOTICE_NOT_ONE_WEIGHT);
+                }
+            } else {
+                rs.setErrorCode(ErrorCode.NOTICE_NOT_EXIST);
+            }
+        }
+        return rs;
+    }
+
+    @Override
+    public Result noNeedToFillTheBag(HandSetRequestParam param) {
+        Result rs = Result.getParamErrorResult();
+        if (param != null && StringUtils.isNotBlank(param.getVehicleNo())) {
+            SalesArrive sa = salesArriveMapper.getByVehicleNo(param.getVehicleNo());
+            if (sa != null) {
+                if (StringUtils.equals(sa.getStatus(), Constant.ONE_STRING)) {
+                    PoundNote pn = poundNoteMapper.selectByNoticeId(sa.getId());
+                    ExceptionAudit ea = new ExceptionAudit();
+                    ea.setId(UUIDUtil.getId());
+                    ea.setPnId(pn.getId());
+                    ea.setType(Constant.FOUR_NUMBER);
+                    ea.setAuditStatus(false);
+                    ea.setState(true);
+                    ea.setCreator(param.getUserId());
+                    ea.setCreatetime(System.currentTimeMillis());
+                    exceptionAuditMapper.insertSelective(ea);
+                    rs.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+                } else {
+                    rs.setErrorCode(ErrorCode.VEHICLE_NOTICE_NOT_ONE_WEIGHT);
+                }
+            } else {
+                rs.setErrorCode(ErrorCode.NOTICE_NOT_EXIST);
+            }
+        }
+        return rs;
+    }
+    
+    @Override
+    public Result confirmationOfFillTheBag(HandSetRequestParam param) {
+        Result rs = Result.getParamErrorResult();
+        if (param != null && StringUtils.isNotBlank(param.getVehicleNo())) {
+            SalesArrive sa = salesArriveMapper.getByVehicleNo(param.getVehicleNo());
+            if (sa != null) {
+                if (StringUtils.equals(sa.getStatus(), Constant.ONE_STRING)) {
+                    PoundNote pn = poundNoteMapper.selectByNoticeId(sa.getId());
+                    ExceptionAudit ea = new ExceptionAudit();
+                    ea.setId(UUIDUtil.getId());
+                    ea.setPnId(pn.getId());
+                    ea.setType(Constant.TWO_NUMBER);
+                    ea.setNumber(Integer.parseInt(param.getNumber()));
+                    ea.setAuditStatus(false);
+                    ea.setState(true);
+                    ea.setCreator(param.getUserId());
+                    ea.setCreatetime(System.currentTimeMillis());
+                    exceptionAuditMapper.insertSelective(ea);
+                    rs.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+                } else {
+                    rs.setErrorCode(ErrorCode.VEHICLE_NOTICE_NOT_ONE_WEIGHT);
+                }
+            } else {
+                rs.setErrorCode(ErrorCode.NOTICE_NOT_EXIST);
+            }
+        }
+        return rs;
+    }
+    
+    @Override
+    public Result confirmationOfReturnPacket(HandSetRequestParam param) {
+        Result rs = Result.getParamErrorResult();
+        if (param != null && StringUtils.isNotBlank(param.getVehicleNo())) {
+            SalesArrive sa = salesArriveMapper.getByVehicleNo(param.getVehicleNo());
+            if (sa != null) {
+                if (StringUtils.equals(sa.getStatus(), Constant.ONE_STRING)) {
+                    PoundNote pn = poundNoteMapper.selectByNoticeId(sa.getId());
+                    ExceptionAudit ea = new ExceptionAudit();
+                    ea.setId(UUIDUtil.getId());
+                    ea.setPnId(pn.getId());
+                    ea.setType(Constant.THREE_NUMBER);
+                    ea.setNumber(Integer.parseInt(param.getNumber()));
+                    ea.setAuditStatus(false);
+                    ea.setState(true);
+                    ea.setCreator(param.getUserId());
+                    ea.setCreatetime(System.currentTimeMillis());
+                    exceptionAuditMapper.insertSelective(ea);
+                    rs.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+                } else {
+                    rs.setErrorCode(ErrorCode.VEHICLE_NOTICE_NOT_ONE_WEIGHT);
+                }
+            } else {
+                rs.setErrorCode(ErrorCode.NOTICE_NOT_EXIST);
+            }
+        }
+        return rs;
     }
     
 }

@@ -6,22 +6,6 @@
 <title>无人值守-系统管理-用户管理</title>
 <!-- 引用公共header部分 -->
 <jsp:include page="../../common/base/header_busi.jsp"></jsp:include>
-<style type="text/css">
-label.layui-form-label {
-	float: left;
-	margin: 3px;
-	text-align: right;
-	width: 130px;
-}
-
-.layui-input-block {
-	margin-left: 55px;
-}
-
-.layui-form-item {
-	margin: 20px;
-}
-</style>
 </head>
 <body>
 	<div class="it_admin">
@@ -319,7 +303,6 @@ label.layui-form-label {
 	</div>
 	<!-- 引用公共footer部分 -->
 	<jsp:include page="../../common/base/footer_busi.jsp"></jsp:include>
-	<script type="text/javascript" src="${staticBasePath}/js/md5.js"></script>
 	<script type="text/javascript" src="/javascript/system/auth/userMgr.js"></script>
 	<script type="text/javascript">
 		

@@ -31,11 +31,9 @@ import com.tianrui.service.bean.businessManage.otherManage.OtherArrive;
 import com.tianrui.service.bean.businessManage.poundNoteMaintain.PoundNote;
 import com.tianrui.service.bean.businessManage.purchaseManage.PurchaseApplicationDetail;
 import com.tianrui.service.bean.businessManage.purchaseManage.PurchaseArrive;
-import com.tianrui.service.bean.businessManage.purchaseManage.PurchaseStorageList;
 import com.tianrui.service.bean.businessManage.salesManage.SalesApplicationDetail;
 import com.tianrui.service.bean.businessManage.salesManage.SalesApplicationJoinNatice;
 import com.tianrui.service.bean.businessManage.salesManage.SalesArrive;
-import com.tianrui.service.bean.businessManage.salesManage.SalesOutboundOrder;
 import com.tianrui.service.bean.common.RFID;
 import com.tianrui.service.impl.businessManage.otherManage.OtherArriveService;
 import com.tianrui.service.mapper.basicFile.measure.VehicleManageMapper;
@@ -45,11 +43,9 @@ import com.tianrui.service.mapper.businessManage.otherManage.OtherArriveMapper;
 import com.tianrui.service.mapper.businessManage.poundNoteMaintain.PoundNoteMapper;
 import com.tianrui.service.mapper.businessManage.purchaseManage.PurchaseApplicationDetailMapper;
 import com.tianrui.service.mapper.businessManage.purchaseManage.PurchaseArriveMapper;
-import com.tianrui.service.mapper.businessManage.purchaseManage.PurchaseStorageListMapper;
 import com.tianrui.service.mapper.businessManage.salesManage.SalesApplicationDetailMapper;
 import com.tianrui.service.mapper.businessManage.salesManage.SalesApplicationJoinNaticeMapper;
 import com.tianrui.service.mapper.businessManage.salesManage.SalesArriveMapper;
-import com.tianrui.service.mapper.businessManage.salesManage.SalesOutboundOrderMapper;
 import com.tianrui.service.mapper.common.RFIDMapper;
 import com.tianrui.smartfactory.common.constants.Constant;
 import com.tianrui.smartfactory.common.constants.ErrorCode;
@@ -91,17 +87,12 @@ public class AccessRecordService implements IAccessRecordService {
 	private OtherArriveService otherArriveService;
 	@Autowired
 	private PoundNoteMapper poundNoteMapper;
-	@Autowired
-	private PurchaseStorageListMapper purchaseStorageListMapper;
-	@Autowired
-	private SalesOutboundOrderMapper salesOutboundOrderMapper;
 	
 	@Override
 	public PaginationVO<AccessRecordResp> page(AccessRecordQuery query) throws Exception{
 		PaginationVO<AccessRecordResp> page = null;
 		if (query != null) {
 			page = new PaginationVO<AccessRecordResp>();
-			query.setState("1");
 			long count = accessRecordMapper.findAccessRecordPageCount(query);
 			if (count > 0) {
 				query.setStart((query.getPageNo() - 1) * query.getPageSize());
@@ -392,7 +383,8 @@ public class AccessRecordService implements IAccessRecordService {
 					}
 				//出厂
 				}else{
-					if(StringUtils.equals(purchase.getStatus(), "2")){
+					if(StringUtils.equals(purchase.getStatus(), Constant.TWO_STRING) 
+					        || StringUtils.equals(purchase.getStatus(), Constant.EIGHT_STRING)){
 						//修改通知单状态
 						PurchaseArrive pa = new PurchaseArrive();
 						pa.setId(purchase.getId());
@@ -455,7 +447,8 @@ public class AccessRecordService implements IAccessRecordService {
 					}
 				//出厂
 				}else{
-					if(StringUtils.equals(purchase.getStatus(), "2")){
+					if(StringUtils.equals(purchase.getStatus(), Constant.TWO_STRING)
+					        || StringUtils.equals(purchase.getStatus(), Constant.EIGHT_STRING)){
 						//修改通知单状态
 						PurchaseArrive pa = new PurchaseArrive();
 						pa.setId(purchase.getId());
@@ -693,27 +686,31 @@ public class AccessRecordService implements IAccessRecordService {
 					ApiNoticeResp resp = validateHasBill(checkApi.getVehicleNo());
 					if (resp != null) {
 						if (!StringUtils.equals(resp.getStatus(), Constant.THREE_STRING)) {
-							if (StringUtils.equals(resp.getAuditstatus(), Constant.ONE_STRING)) {
-							    //如果业务类型为 工程车辆 且是入厂状态,可以直接出厂
-							    if (StringUtils.equals(resp.getServicetype(), Constant.NINE_STRING)) {
-                                    if (StringUtils.equals(resp.getStatus(), Constant.SIX_STRING)) {
-                                        result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
-                                    }
-                                } else {
-                                    if (StringUtils.equals(resp.getStatus(), Constant.TWO_STRING)) {
-                                        //校验入库单是否推送成功
-                                        if (validatePushRKD(resp.getNoticeId())) {
-                                            result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
-                                        } else {
-                                            result.setErrorCode(ErrorCode.POUNDNOTE_RETURN_ERROR3); 
-                                        }
-                                    }else {
-                                        result.setErrorCode(ErrorCode.VEHICLE_NOTICE_NOT_TWO_WEIGHT);
-                                    }
-                                }
-							} else {
-								result.setErrorCode(ErrorCode.NOTICE_NOT_AUDIT);
-							}
+						    if (StringUtils.equals(resp.getStatus(), Constant.EIGHT_STRING)) {
+						        result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+	                        } else {
+	                            if (StringUtils.equals(resp.getAuditstatus(), Constant.ONE_STRING)) {
+	                                //如果业务类型为 工程车辆 且是入厂状态,可以直接出厂
+	                                if (StringUtils.equals(resp.getServicetype(), Constant.NINE_STRING)) {
+	                                    if (StringUtils.equals(resp.getStatus(), Constant.SIX_STRING)) {
+	                                        result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+	                                    }
+	                                } else {
+	                                    if (StringUtils.equals(resp.getStatus(), Constant.TWO_STRING)) {
+	                                        //校验入库单是否推送成功
+	                                        if (validatePushRKD(resp.getNoticeId(), resp.getSignStatus())) {
+	                                            result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+	                                        } else {
+	                                            result.setErrorCode(ErrorCode.POUNDNOTE_RETURN_ERROR3); 
+	                                        }
+	                                    }else {
+	                                        result.setErrorCode(ErrorCode.VEHICLE_NOTICE_NOT_TWO_WEIGHT);
+	                                    }
+	                                }
+	                            } else {
+	                                result.setErrorCode(ErrorCode.NOTICE_NOT_AUDIT);
+	                            }
+	                        }
 						} else {
 							result.setErrorCode(ErrorCode.NOTICE_ON_INVALID);
 						}
@@ -731,28 +728,27 @@ public class AccessRecordService implements IAccessRecordService {
 	}
 	
 	//校验入库单是否推送成功
-	private boolean validatePushRKD(String noticeId) {
+	private boolean validatePushRKD(String noticeId, Integer signStatus) {
 	    boolean flag = false;
         PoundNote poundNote = poundNoteMapper.selectByNoticeId(noticeId);
         if (StringUtils.equals(poundNote.getBilltype(), Constant.ZERO_STRING)) {
-            if (poundNote.getNetweight() >= Constant.NOT_RETURN_NUM) {
-                PurchaseStorageList storage = purchaseStorageListMapper.selectByPoundNoteId(poundNote.getId());
-                if (StringUtils.equals(storage.getStatus(), Constant.ONE_STRING)) {
+            if (signStatus != null) {
+                if (signStatus == Constant.ONE_NUMBER) {
+                    if (StringUtils.equals(poundNote.getReturnstatus(), Constant.TWO_STRING)) {
+                        flag = true;
+                    }
+                } else {
                     flag = true;
                 }
-            } else {
-                flag = true;
             }
         }
         if (StringUtils.equals(poundNote.getBilltype(), Constant.ONE_STRING)) {
-            PurchaseStorageList storage = purchaseStorageListMapper.selectByPoundNoteId(poundNote.getId());
-            if (StringUtils.equals(storage.getStatus(), Constant.ONE_STRING)) {
+            if (StringUtils.equals(poundNote.getReturnstatus(), Constant.TWO_STRING)) {
                 flag = true;
             }
         }
         if (StringUtils.equals(poundNote.getBilltype(), Constant.TWO_STRING)) {
-            SalesOutboundOrder order = salesOutboundOrderMapper.selectByPoundNoteId(poundNote.getId());
-            if (StringUtils.equals(order.getStatus(), Constant.ONE_STRING)) {
+            if (StringUtils.equals(poundNote.getReturnstatus(), Constant.TWO_STRING)) {
                 flag = true;
             }
         }
@@ -875,6 +871,7 @@ public class AccessRecordService implements IAccessRecordService {
 				resp.setStatus(purchaseArrive.getStatus());
 				resp.setAuditstatus(purchaseArrive.getAuditstatus());
 				resp.setServicetype(purchaseArrive.getType());
+				resp.setSignStatus(purchaseArrive.getSignStatus());
 			}
 		}
 		return resp;
@@ -924,4 +921,85 @@ public class AccessRecordService implements IAccessRecordService {
 		}
 		return bean;
 	}
+
+    @Override
+    public Result invalid(AccessRecordQuery query) {
+        Result rs = Result.getParamErrorResult();
+        if (query != null && StringUtils.isNotBlank(query.getId())) {
+            boolean flag = false;
+            AccessRecord bean = accessRecordMapper.selectByPrimaryKey(query.getId());
+            if (bean != null) {
+                PoundNote pn = poundNoteMapper.selectByNoticeId(bean.getNoticeid());
+                //采购
+                if (StringUtils.equals(bean.getBusinesstype(), Constant.ONE_STRING)) {
+                    PurchaseArrive pa = purchaseArriveMapper.selectByPrimaryKey(bean.getNoticeid());
+                    if (pa != null) {
+                        if (StringUtils.equals(pa.getStatus(), Constant.ONE_STRING)
+                                || StringUtils.equals(pa.getStatus(), Constant.FOUR_STRING)
+                                || StringUtils.equals(pa.getStatus(), Constant.SIX_STRING)
+                                ||StringUtils.equals(pa.getStatus(), Constant.SEVEN_STRING)) {
+                            //通知单修改为未入厂
+                            PurchaseArrive item = new PurchaseArrive();
+                            item.setId(pa.getId());
+                            item.setStatus(Constant.ZERO_STRING);
+                            purchaseArriveMapper.updateByPrimaryKeySelective(item);
+                            flag = true;
+                        }
+                    }
+                //销售
+                } else if (StringUtils.equals(bean.getBusinesstype(), Constant.TWO_STRING)) {
+                    SalesArrive sa = salesArriveMapper.selectByPrimaryKey(bean.getNoticeid());
+                    if (sa != null) {
+                        if (StringUtils.equals(sa.getStatus(), Constant.ONE_STRING)
+                                || StringUtils.equals(sa.getStatus(), Constant.FOUR_STRING)
+                                || StringUtils.equals(sa.getStatus(), Constant.SIX_STRING)
+                                ||StringUtils.equals(sa.getStatus(), Constant.SEVEN_STRING)) {
+                            //通知单修改为未入厂
+                            SalesArrive item = new SalesArrive();
+                            item.setId(sa.getId());
+                            item.setStatus(Constant.ZERO_STRING);
+                            salesArriveMapper.updateByPrimaryKeySelective(item);
+                            flag = true;
+                        }
+                    }
+                //其他
+                } else {
+                    OtherArrive oa = otherArriveMapper.selectByPrimaryKey(bean.getNoticeid());
+                    if (oa != null) {
+                        if (StringUtils.equals(oa.getStatus(), Constant.ONE_STRING)
+                                || StringUtils.equals(oa.getStatus(), Constant.FOUR_STRING)
+                                || StringUtils.equals(oa.getStatus(), Constant.SIX_STRING)
+                                ||StringUtils.equals(oa.getStatus(), Constant.SEVEN_STRING)) {
+                            //通知单修改为未入厂
+                            OtherArrive item = new OtherArrive();
+                            item.setId(oa.getId());
+                            item.setStatus(Constant.ZERO_STRING);
+                            otherArriveMapper.updateByPrimaryKeySelective(item);
+                            flag = true;
+                        }
+                    }
+                }
+                if (flag) {
+                    //作废门禁记录
+                    AccessRecord ar = new AccessRecord();
+                    ar.setId(query.getId());
+                    ar.setState(Constant.ZERO_STRING);
+                    accessRecordMapper.updateByPrimaryKeySelective(ar);
+                    rs.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+                    //判断是否有榜单（有则作废）
+                    if(pn != null) {
+                        PoundNote p =new PoundNote();
+                        p.setId(pn.getId());
+                        p.setStatus(Constant.THREE_STRING);
+                        poundNoteMapper.updateByPrimaryKeySelective(p);
+                    }
+                } else {
+                    rs.setErrorCode(ErrorCode.VEHICLE_NOTICE_TWO_WEIGHT);
+                }
+            } else {
+                rs.setErrorCode(ErrorCode.DATA_ERROR);
+            }
+        }
+        return rs;
+    }
 }

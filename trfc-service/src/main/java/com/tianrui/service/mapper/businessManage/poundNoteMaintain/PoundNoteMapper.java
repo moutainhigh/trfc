@@ -133,4 +133,10 @@ public interface PoundNoteMapper {
 	 * @return
 	 */
 	List<PoundNote> queryOtherPoundNotePage(PoundNoteQuery query);
+	/**
+	 * @annotation 通过在厂的车辆查询榜单
+	 * @param vehicleNo
+	 * @return
+	 */
+	PoundNote getByVehicleNo(String vehicleNo);
 }

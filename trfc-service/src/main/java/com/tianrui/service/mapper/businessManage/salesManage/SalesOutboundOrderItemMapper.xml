@@ -1,140 +1,222 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.tianrui.service.mapper.businessManage.salesManage.SalesOutboundOrderItemMapper" >
-  <resultMap id="BaseResultMap" type="com.tianrui.service.bean.businessManage.salesManage.SalesOutboundOrderItem" >
-    <id column="id" property="id" jdbcType="VARCHAR" />
-    <result column="sale_outbound_order_id" property="saleOutboundOrderId" jdbcType="VARCHAR" />
-    <result column="cmaterialoid" property="cmaterialoid" jdbcType="VARCHAR" />
-    <result column="cunitid" property="cunitid" jdbcType="VARCHAR" />
-    <result column="nnum" property="nnum" jdbcType="VARCHAR" />
-    <result column="ts" property="ts" jdbcType="VARCHAR" />
-    <result column="create_time" property="createTime" jdbcType="BIGINT" />
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tianrui.service.mapper.businessManage.salesManage.SalesOutboundOrderItemMapper">
+  <resultMap id="BaseResultMap" type="com.tianrui.service.bean.businessManage.salesManage.SalesOutboundOrderItem">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="sale_outbound_order_id" jdbcType="VARCHAR" property="saleOutboundOrderId" />
+    <result column="cmaterialoid" jdbcType="VARCHAR" property="cmaterialoid" />
+    <result column="cunitid" jdbcType="VARCHAR" property="cunitid" />
+    <result column="nnum" jdbcType="VARCHAR" property="nnum" />
+    <result column="ts" jdbcType="VARCHAR" property="ts" />
+    <result column="create_time" jdbcType="BIGINT" property="createTime" />
+    <result column="nc_id" jdbcType="VARCHAR" property="ncId" />
+    <result column="pn_code" jdbcType="VARCHAR" property="pnCode" />
+    <result column="gross_weight" jdbcType="DOUBLE" property="grossWeight" />
+    <result column="tare_weight" jdbcType="DOUBLE" property="tareWeight" />
+    <result column="gross_time" jdbcType="VARCHAR" property="grossTime" />
+    <result column="tare_time" jdbcType="VARCHAR" property="tareTime" />
+    <result column="vehicle_no" jdbcType="VARCHAR" property="vehicleNo" />
   </resultMap>
-  <sql id="Base_Column_List" >
-    id, sale_outbound_order_id, cmaterialoid, cunitid, nnum, ts, create_time
+  <sql id="Base_Column_List">
+    id, sale_outbound_order_id, cmaterialoid, cunitid, nnum, ts, create_time, nc_id, 
+    pn_code, gross_weight, tare_weight, gross_time, tare_time, vehicle_no
   </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from tr_sale_outbound_order_item
     where id = #{id,jdbcType=VARCHAR}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from tr_sale_outbound_order_item
     where id = #{id,jdbcType=VARCHAR}
   </delete>
-  <insert id="insert" parameterType="com.tianrui.service.bean.businessManage.salesManage.SalesOutboundOrderItem" >
+  <insert id="insert" parameterType="com.tianrui.service.bean.businessManage.salesManage.SalesOutboundOrderItem">
     insert into tr_sale_outbound_order_item (id, sale_outbound_order_id, cmaterialoid, 
       cunitid, nnum, ts, 
-      create_time)
+      create_time, nc_id, pn_code, 
+      gross_weight, tare_weight, gross_time, 
+      tare_time, vehicle_no)
     values (#{id,jdbcType=VARCHAR}, #{saleOutboundOrderId,jdbcType=VARCHAR}, #{cmaterialoid,jdbcType=VARCHAR}, 
       #{cunitid,jdbcType=VARCHAR}, #{nnum,jdbcType=VARCHAR}, #{ts,jdbcType=VARCHAR}, 
-      #{createTime,jdbcType=BIGINT})
+      #{createTime,jdbcType=BIGINT}, #{ncId,jdbcType=VARCHAR}, #{pnCode,jdbcType=VARCHAR}, 
+      #{grossWeight,jdbcType=DOUBLE}, #{tareWeight,jdbcType=DOUBLE}, #{grossTime,jdbcType=VARCHAR}, 
+      #{tareTime,jdbcType=VARCHAR}, #{vehicleNo,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.tianrui.service.bean.businessManage.salesManage.SalesOutboundOrderItem" >
+  <insert id="insertSelective" parameterType="com.tianrui.service.bean.businessManage.salesManage.SalesOutboundOrderItem">
     insert into tr_sale_outbound_order_item
-    <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
         id,
       </if>
-      <if test="saleOutboundOrderId != null" >
+      <if test="saleOutboundOrderId != null">
         sale_outbound_order_id,
       </if>
-      <if test="cmaterialoid != null" >
+      <if test="cmaterialoid != null">
         cmaterialoid,
       </if>
-      <if test="cunitid != null" >
+      <if test="cunitid != null">
         cunitid,
       </if>
-      <if test="nnum != null" >
+      <if test="nnum != null">
         nnum,
       </if>
-      <if test="ts != null" >
+      <if test="ts != null">
         ts,
       </if>
-      <if test="createTime != null" >
+      <if test="createTime != null">
         create_time,
       </if>
+      <if test="ncId != null">
+        nc_id,
+      </if>
+      <if test="pnCode != null">
+        pn_code,
+      </if>
+      <if test="grossWeight != null">
+        gross_weight,
+      </if>
+      <if test="tareWeight != null">
+        tare_weight,
+      </if>
+      <if test="grossTime != null">
+        gross_time,
+      </if>
+      <if test="tareTime != null">
+        tare_time,
+      </if>
+      <if test="vehicleNo != null">
+        vehicle_no,
+      </if>
     </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
         #{id,jdbcType=VARCHAR},
       </if>
-      <if test="saleOutboundOrderId != null" >
+      <if test="saleOutboundOrderId != null">
         #{saleOutboundOrderId,jdbcType=VARCHAR},
       </if>
-      <if test="cmaterialoid != null" >
+      <if test="cmaterialoid != null">
         #{cmaterialoid,jdbcType=VARCHAR},
       </if>
-      <if test="cunitid != null" >
+      <if test="cunitid != null">
         #{cunitid,jdbcType=VARCHAR},
       </if>
-      <if test="nnum != null" >
+      <if test="nnum != null">
         #{nnum,jdbcType=VARCHAR},
       </if>
-      <if test="ts != null" >
+      <if test="ts != null">
         #{ts,jdbcType=VARCHAR},
       </if>
-      <if test="createTime != null" >
+      <if test="createTime != null">
         #{createTime,jdbcType=BIGINT},
+      </if>
+      <if test="ncId != null">
+        #{ncId,jdbcType=VARCHAR},
+      </if>
+      <if test="pnCode != null">
+        #{pnCode,jdbcType=VARCHAR},
+      </if>
+      <if test="grossWeight != null">
+        #{grossWeight,jdbcType=DOUBLE},
+      </if>
+      <if test="tareWeight != null">
+        #{tareWeight,jdbcType=DOUBLE},
+      </if>
+      <if test="grossTime != null">
+        #{grossTime,jdbcType=VARCHAR},
+      </if>
+      <if test="tareTime != null">
+        #{tareTime,jdbcType=VARCHAR},
+      </if>
+      <if test="vehicleNo != null">
+        #{vehicleNo,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.tianrui.service.bean.businessManage.salesManage.SalesOutboundOrderItem" >
+  <update id="updateByPrimaryKeySelective" parameterType="com.tianrui.service.bean.businessManage.salesManage.SalesOutboundOrderItem">
     update tr_sale_outbound_order_item
-    <set >
-      <if test="saleOutboundOrderId != null" >
+    <set>
+      <if test="saleOutboundOrderId != null">
         sale_outbound_order_id = #{saleOutboundOrderId,jdbcType=VARCHAR},
       </if>
-      <if test="cmaterialoid != null" >
+      <if test="cmaterialoid != null">
         cmaterialoid = #{cmaterialoid,jdbcType=VARCHAR},
       </if>
-      <if test="cunitid != null" >
+      <if test="cunitid != null">
         cunitid = #{cunitid,jdbcType=VARCHAR},
       </if>
-      <if test="nnum != null" >
+      <if test="nnum != null">
         nnum = #{nnum,jdbcType=VARCHAR},
       </if>
-      <if test="ts != null" >
+      <if test="ts != null">
         ts = #{ts,jdbcType=VARCHAR},
       </if>
-      <if test="createTime != null" >
+      <if test="createTime != null">
         create_time = #{createTime,jdbcType=BIGINT},
+      </if>
+      <if test="ncId != null">
+        nc_id = #{ncId,jdbcType=VARCHAR},
+      </if>
+      <if test="pnCode != null">
+        pn_code = #{pnCode,jdbcType=VARCHAR},
+      </if>
+      <if test="grossWeight != null">
+        gross_weight = #{grossWeight,jdbcType=DOUBLE},
+      </if>
+      <if test="tareWeight != null">
+        tare_weight = #{tareWeight,jdbcType=DOUBLE},
+      </if>
+      <if test="grossTime != null">
+        gross_time = #{grossTime,jdbcType=VARCHAR},
+      </if>
+      <if test="tareTime != null">
+        tare_time = #{tareTime,jdbcType=VARCHAR},
+      </if>
+      <if test="vehicleNo != null">
+        vehicle_no = #{vehicleNo,jdbcType=VARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.tianrui.service.bean.businessManage.salesManage.SalesOutboundOrderItem" >
+  <update id="updateByPrimaryKey" parameterType="com.tianrui.service.bean.businessManage.salesManage.SalesOutboundOrderItem">
     update tr_sale_outbound_order_item
     set sale_outbound_order_id = #{saleOutboundOrderId,jdbcType=VARCHAR},
       cmaterialoid = #{cmaterialoid,jdbcType=VARCHAR},
       cunitid = #{cunitid,jdbcType=VARCHAR},
       nnum = #{nnum,jdbcType=VARCHAR},
       ts = #{ts,jdbcType=VARCHAR},
-      create_time = #{createTime,jdbcType=BIGINT}
+      create_time = #{createTime,jdbcType=BIGINT},
+      nc_id = #{ncId,jdbcType=VARCHAR},
+      pn_code = #{pnCode,jdbcType=VARCHAR},
+      gross_weight = #{grossWeight,jdbcType=DOUBLE},
+      tare_weight = #{tareWeight,jdbcType=DOUBLE},
+      gross_time = #{grossTime,jdbcType=VARCHAR},
+      tare_time = #{tareTime,jdbcType=VARCHAR},
+      vehicle_no = #{vehicleNo,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
   <select id="selectByOrderIds" resultMap="BaseResultMap" parameterType="List" >
     select 
-   	 	<include refid="Base_Column_List" />
-   	 from tr_sale_outbound_order_item
+        <include refid="Base_Column_List" />
+     from tr_sale_outbound_order_item
     where sale_outbound_order_id in
     <foreach collection ="ids" item="item" index= "index" separator ="," open="(" close=")">
              #{item}
     </foreach >
   </select>
   <insert id="insertBatch" parameterType="java.util.List">
-	insert into tr_sale_outbound_order_item (id, sale_outbound_order_id, cmaterialoid, cunitid, nnum, ts, create_time)
-	values
-	<foreach collection="list" item="item" index="index" separator=",">
-		(#{item.id,jdbcType=VARCHAR}, 
-		#{item.saleOutboundOrderId,jdbcType=VARCHAR},
-		#{item.cmaterialoid,jdbcType=VARCHAR},
-		#{item.cunitid,jdbcType=VARCHAR},
-		#{item.nnum,jdbcType=VARCHAR},
-		#{item.ts,jdbcType=VARCHAR},
-		#{item.createTime,jdbcType=VARCHAR}
-		)
-	</foreach>
+    insert into tr_sale_outbound_order_item (id, sale_outbound_order_id, cmaterialoid, cunitid, nnum, ts, create_time)
+    values
+    <foreach collection="list" item="item" index="index" separator=",">
+        (#{item.id,jdbcType=VARCHAR}, 
+        #{item.saleOutboundOrderId,jdbcType=VARCHAR},
+        #{item.cmaterialoid,jdbcType=VARCHAR},
+        #{item.cunitid,jdbcType=VARCHAR},
+        #{item.nnum,jdbcType=VARCHAR},
+        #{item.ts,jdbcType=VARCHAR},
+        #{item.createTime,jdbcType=VARCHAR}
+        )
+    </foreach>
   </insert>
 </mapper>

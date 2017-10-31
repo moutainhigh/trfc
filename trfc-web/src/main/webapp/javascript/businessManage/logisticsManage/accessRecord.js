@@ -1,6 +1,9 @@
 ;(function($, win){
+	var clickNumber = 0;
+	var timeoutIndex;
 	var URL = {
 			page: '/trfc/accessRecord/page',
+			invalid: '/trfc/accessRecord/invalid',
 			materielAutoCompleteSearch: "/trfc/materiel/autoCompleteSearch",
 			vehicleAutoCompleteSearch: "/trfc/vehicle/autoCompleteSearch"
 	};
@@ -92,6 +95,24 @@
 		$('#searchBtn').off('click').on('click', function(){
 			searchParamsGetData(1);
 		});
+		$('#invalid').off('click').on('click', function(e){
+			e.stopPropagation();
+			var obj = $('table.maintable tbody tr.active').data();
+			if(!obj) {layer.msg('需要选中一行才能操作哦！'); return;}
+			clearTimeout(timeoutIndex);
+			clickNumber++;
+			if (clickNumber == 8) {
+				setTimeout(function(){
+					if (clickNumber == 8) {
+						clickNumber = 0;
+						invalid(obj);
+					}
+				},1000)
+			}
+			timeoutIndex = setTimeout(function(){
+				clickNumber = 0;
+			},1000);
+		});
 		$('#jumpPageNoBtn').off('click').on('click',function(){
 			var pageNo = $('input#jumpPageNo').val();pageNo = $.trim(pageNo);pageNo = parseInt(pageNo);
 			var pageMaxNo = $('input#jumpPageNo').attr('maxpageno');pageMaxNo = $.trim(pageMaxNo);pageMaxNo = parseInt(pageMaxNo);
@@ -105,6 +126,25 @@
 		});
 		$('#pageSize').change(function(){
 			searchParamsGetData(1);
+		});
+	}
+	function invalid(obj) {
+		if(obj.state == '0'){
+			layer.msg('数据已作废，不能进行作废操作！', {icon: 5});
+			return;
+		}
+		layer.confirm('您确定要作废此单据么？', {
+			btn: ['确定', '取消'],
+			area: '600px'
+		}, function(){
+			$.post(URL.invalid, {id: obj.id}, function(result) {
+				if(result.code == '000000'){
+					layer.msg(result.error, {icon: 1});
+					$('#refreshBtn').click();
+				}else{
+					layer.msg(result.error, {icon: 5});
+				}
+			});
 		});
 	}
 	//将日期字符串转变为时间戳
@@ -123,6 +163,7 @@
 		var accesstype = $('#accesstype').val();accesstype = $.trim(accesstype);
 		var starttime = $('#starttime').val();starttime = $.trim(starttime);
 		var endtime = $('#endtime').val();endtime = $.trim(endtime);
+		var state = $('#state').val();state = $.trim(state);
 		var pageSize = $('#pageSize').val();pageSize = $.trim(pageSize);
 		return {
 			code: code,
@@ -132,6 +173,7 @@
 			accesstype: accesstype,
 			starttime: str2Long(starttime),
 			endtime: str2Long(endtime),
+			state: state,
 			pageSize: pageSize
 		}
 	}
@@ -219,6 +261,7 @@
 				.append('<td>'+(obj.icardcode || '')+'</td>')
 				.append('<td>'+(obj.entertimeStr || '')+'</td>')
 				.append('<td>'+(obj.outtimeStr || '')+'</td>')
+				.data(obj)
 				.appendTo('#dataBody');
 			}
 		}else{

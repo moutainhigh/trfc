@@ -260,6 +260,9 @@
   		<if test="cardcode != null and cardcode != ''">
         	and cardcode = #{cardcode,jdbcType=VARCHAR}
       	</if>
+        <if test="cardno != null and cardno != ''">
+            and cardno = #{cardno,jdbcType=VARCHAR}
+        </if>
   		<if test="cardstatus != null and cardstatus != ''">
         	and cardstatus = #{cardstatus,jdbcType=VARCHAR}
       	</if>

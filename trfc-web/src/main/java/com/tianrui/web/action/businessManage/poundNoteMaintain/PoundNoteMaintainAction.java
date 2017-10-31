@@ -579,4 +579,19 @@ public class PoundNoteMaintainAction {
 		}
 		return result;
 	}
+	
+	@RequestMapping("/print")
+	@ResponseBody
+	public Result print(PoundNoteQuery query, HttpServletRequest request){
+	    Result result = Result.getParamErrorResult();
+	    try {
+	        SystemUserResp user = SessionManager.getSessionUser(request);
+	        query.setCurrId(user.getId());
+	        result = poundNoteService.print(query);
+	    } catch (Exception e) {
+	        logger.error(e.getMessage(), e);
+	        result.setErrorCode(ErrorCode.SYSTEM_ERROR);
+	    }
+	    return result;
+	}
 }

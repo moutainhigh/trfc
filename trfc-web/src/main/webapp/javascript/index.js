@@ -6,6 +6,11 @@ $(function(){
 	};
 	//登陆按钮 绑定点击时间
 	$('#login_button').click(loginAction);
+	$(document).keyup(function(event){  
+		if(event.keyCode ==13){  
+			loginAction();  
+		}  
+	});   
 	
 	//登陆验证
 	function loginAction(){

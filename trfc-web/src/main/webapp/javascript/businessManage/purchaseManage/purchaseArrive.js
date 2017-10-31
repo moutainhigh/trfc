@@ -220,6 +220,28 @@
 		$('#pageSize').change(function(){
 			initPageList(1);
 		});
+		$('#readSearch').off('click').on('click',function(){
+			readSearch();
+		});
+	}
+	function readSearch() {
+		if(initCardReader()) {
+			//打开读卡器
+			readerOpen();
+			if (openCard()) {
+				//开打卡片获取卡序号
+				var vehicleno = getDataFromCard(2);
+				if(vehicleno){
+					//蜂鸣
+					readerBeep();
+					get({vehicleno:vehicleno});
+				}
+			}
+			//关闭读卡器
+			readerClose();
+		}else{
+			layer.msg('当前游览器不支持!(只兼容IE游览器)');
+		}
 	}
 	//日期字符串转换成时间戳
 	function str2Long(dateStr){
@@ -259,11 +281,15 @@
 	}
 	//根据条件分页查询订单列表
 	function initPageList(pageNo){
+		layer.closeAll();
+		var params = getParams();
+		params.pageNo = pageNo;
+		get(params);
+	}
+	function get(params) {
 		var index = layer.load(2, {
 			  shade: [0.3,'#fff'] //0.1透明度的白色背景
 			});
-		var params = getParams();
-		params.pageNo = pageNo;
 		$.ajax({
 			url:URL.page,
 			data:params,
@@ -334,6 +360,7 @@
 				case '5': status = '出厂'; break;
 				case '6': status = '入厂'; break;
 				case '7': status = '卸货'; break;
+				case '8': status = '强制出厂'; break;
 				default: break;
 				}
 				var vehicleno = obj.vehicleno || '';
@@ -492,7 +519,7 @@
 			return;
 		}
 		if(obj.status == '2'){
-			layer.msg('数据已过重车，不能进行作废操作！', {icon: 5});
+			layer.msg('数据已过轻车，不能进行作废操作！', {icon: 5});
 			return;
 		}
 		if(obj.status != '0' && obj.status != '4'){
@@ -512,7 +539,7 @@
 			return;
 		}
 		if(obj.status != '2'){
-			layer.msg('数据未过重车，不能进行出厂操作！', {icon: 5});
+			layer.msg('数据未过轻车，不能进行出厂操作！', {icon: 5});
 			return;
 		}
 		confirmOperation('您确定要强制出厂吗？', URL.outfactory, {id: obj.id});

@@ -24,7 +24,7 @@ public class BaseReq implements Serializable {
 	/**
 	 *  页数
 	 */
-	protected Integer pageNo;
+	protected Integer pageNo=1;
 	/**
 	 * 每页显示数据总数
 	 */

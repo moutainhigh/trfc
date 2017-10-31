@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.tianrui.api.intf.system.auth.ISystemUserService;
+import com.tianrui.api.req.system.auth.SystemUserPswdReq;
 import com.tianrui.api.req.system.auth.SystemUserQueryReq;
 import com.tianrui.api.req.system.auth.SystemUserSaveReq;
 import com.tianrui.api.resp.system.auth.SystemUserResp;
@@ -151,4 +152,18 @@ public class SystemUserAction {
 		}
 		return rs;
 	}
+    //删除数据
+    @RequestMapping(value="/updatePwd",method=RequestMethod.POST)
+    @ResponseBody
+    public Result updatePwd(SystemUserPswdReq req, HttpServletRequest request){
+        Result rs= Result.getErrorResult();
+        try {
+            SystemUserResp user = SessionManager.getSessionUser(request);
+            req.setCurrUId(user.getId());
+            rs = systemUserService.updatePwd(req);
+        } catch (Exception e) {
+            log.error(e.getMessage(),e);
+        }
+        return rs;
+    }
 }

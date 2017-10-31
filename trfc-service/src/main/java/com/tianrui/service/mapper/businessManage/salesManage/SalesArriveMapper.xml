@@ -606,6 +606,9 @@
       <if test="vehicleid != null and vehicleid != '' ">
         and s1.vehicleid = #{vehicleid,jdbcType=VARCHAR}
       </if>
+      <if test="vehicleno != null and vehicleno != '' ">
+        and s1.vehicleno = #{vehicleno,jdbcType=VARCHAR}
+      </if>
       <if test="driverid != null and driverid != '' ">
         and s1.driverid = #{driverid,jdbcType=VARCHAR}
       </if>
@@ -653,6 +656,9 @@
       </if>
       <if test="vehicleid != null and vehicleid != '' ">
         and s1.vehicleid = #{vehicleid,jdbcType=VARCHAR}
+      </if>
+      <if test="vehicleno != null and vehicleno != '' ">
+        and s1.vehicleno = #{vehicleno,jdbcType=VARCHAR}
       </if>
       <if test="driverid != null and driverid != '' ">
         and s1.driverid = #{driverid,jdbcType=VARCHAR}
@@ -914,6 +920,11 @@
   <select id="getByVehicleId" parameterType="java.lang.String" resultMap="BaseResultMap">
     select <include refid="Base_Column_List"/>
     from tr_sales_db_arrive
-    where status not in ('3', '5') and vehicleid = #{vehicleId,jdbcType=VARCHAR}
+    where status not in ('3', '5') and state = 1 and vehicleid = #{vehicleId,jdbcType=VARCHAR}
+  </select>
+  <select id="getByVehicleNo" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"/>
+    from tr_sales_db_arrive
+    where status not in ('3', '5') and state = 1 and vehicleno = #{vehicleNo,jdbcType=VARCHAR}
   </select>
 </mapper>

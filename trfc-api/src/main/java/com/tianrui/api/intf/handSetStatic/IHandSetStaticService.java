@@ -28,5 +28,35 @@ public interface IHandSetStaticService {
      * @return
      */
     Result returnOfGoods(HandSetRequestParam param);
+    /**
+     * @annotation 装货确认
+     * @param param
+     * @return
+     */
+    Result confirmationOfShipment(HandSetRequestParam param);
+    /**
+     * @annotation 空车出厂
+     * @param param
+     * @return
+     */
+    Result emptyCarLeavingFactory(HandSetRequestParam param);
+    /**
+     * @annotation 无需补包
+     * @param param
+     * @return
+     */
+    Result noNeedToFillTheBag(HandSetRequestParam param);
+    /**
+     * @annotation 补包确认
+     * @param param
+     * @return
+     */
+    Result confirmationOfFillTheBag(HandSetRequestParam param);
+    /**
+     * @annotation 回包确认
+     * @param param
+     * @return
+     */
+    Result confirmationOfReturnPacket(HandSetRequestParam param);
 
 }

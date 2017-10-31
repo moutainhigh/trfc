@@ -24,7 +24,29 @@ $(function(){
 		$('#jumpPageNo').off('click').on('click',function() {
 			jumpPageAction();
 		});
+		$('#readSearch').off('click').on('click',function(){
+			readSearch();
+		});
 		
+	}
+	function readSearch() {
+		if (initCardReader()) {
+			//打开读卡器
+			readerOpen();
+			if (openCard()) {
+				//开打卡片获取卡序号
+				var vehicleno = getDataFromCard(2);
+				//蜂鸣
+				readerBeep();
+				if(vehicleno){
+					get({vehicleno:vehicleno});
+				}
+			}
+			//关闭读卡器
+			readerClose();
+		}else{
+			layer.msg('当前游览器不支持!(只兼容IE游览器)');
+		}
 	}
 	//获取查询条件
 	function getParams(){
@@ -224,19 +246,16 @@ $(function(){
 
 //	展示数据列表
 	function ShowAction(pageNo){
+		layer.closeAll();
+		var params = getParams();
+		params.pageNo = pageNo;
+		get(params);
+	}
+	function get(params) {
 		//启动缓冲动画
 		var index = layer.load(2, {
 			shade: [0.3,'#fff'] //0.1透明度的白色背景
 		});
-		
-		var params = getParams();
-		if(params.starttime && params.endtime && params.starttime > params.endtime){
-			layer.msg('开始时间不能大于结束时间!',{icon:5});
-			layer.close(index);
-			return;
-		};
-		//获得当前页面标记
-		params.pageNo = pageNo;
 		$.post(URL.page,params,function(result){
 			if(result.code=='000000'){
 				var list = result.data.list;

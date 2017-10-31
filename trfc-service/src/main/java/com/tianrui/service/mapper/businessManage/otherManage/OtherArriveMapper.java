@@ -2,7 +2,9 @@ package com.tianrui.service.mapper.businessManage.otherManage;
 
 import java.util.List;
 
+import com.tianrui.api.req.businessManage.otherManage.AppOtherArriveReq;
 import com.tianrui.api.req.businessManage.otherManage.OtherArriveReq;
+import com.tianrui.api.resp.businessManage.otherManage.AppOtherArriveResp;
 import com.tianrui.service.bean.businessManage.otherManage.OtherArrive;
 
 public interface OtherArriveMapper {
@@ -51,5 +53,8 @@ public interface OtherArriveMapper {
 	 */
 	OtherArrive checkICUse(String icardid);
 	
+	List<AppOtherArriveResp> appPage(AppOtherArriveReq req);
+
+    long appPageCount(AppOtherArriveReq req);
     
 }

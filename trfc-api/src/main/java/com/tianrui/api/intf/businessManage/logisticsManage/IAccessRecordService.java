@@ -39,5 +39,11 @@ public interface IAccessRecordService {
 	 * @return
 	 */
 	Result enterFactoryCheckApi(VehicleCheckApi checkApi);
+	/**
+	 * @annotation 作废
+	 * @param query
+	 * @return
+	 */
+    Result invalid(AccessRecordQuery query);
 
 }

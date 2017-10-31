@@ -10,8 +10,10 @@ import org.springframework.stereotype.Service;
 
 import com.tianrui.api.intf.businessManage.otherManage.IOtherArriveService;
 import com.tianrui.api.intf.system.base.ISystemCodeService;
+import com.tianrui.api.req.businessManage.otherManage.AppOtherArriveReq;
 import com.tianrui.api.req.businessManage.otherManage.OtherArriveReq;
 import com.tianrui.api.req.system.base.GetCodeReq;
+import com.tianrui.api.resp.businessManage.otherManage.AppOtherArriveResp;
 import com.tianrui.api.resp.businessManage.otherManage.OtherArriveResp;
 import com.tianrui.api.resp.businessManage.poundNoteMaintain.PoundNoteResp;
 import com.tianrui.service.bean.basicFile.measure.DriverManage;
@@ -330,16 +332,16 @@ public class OtherArriveService implements IOtherArriveService {
 					flag = false;
 				}
 			}
-			if(StringUtils.isNotBlank(req.getDriverid())){
-				oa.setVehicleid(null);
-				oa.setDriverid(req.getDriverid());
-				List<OtherArrive> listDriver2 = otherArriveMapper.checkDriverAndVehicleAndIcardIsUse(oa);
-				if(listDriver2!=null && listDriver2.size()>0 && StringUtils.equals(listDriver2.get(0).getBusinesstype(), "4")){
-					result.setErrorCode(ErrorCode.PARAM_REPEAT_ERROR);
-					result.setError("此司机己有厂内倒运通知单、待出厂后进行派车，现有车辆业务单据号为:"+listDriver2.get(0).getCode()+"，如有疑问请与销售处联系！");
-					flag = false;
-				}
-			}
+//			if(StringUtils.isNotBlank(req.getDriverid())){
+//				oa.setVehicleid(null);
+//				oa.setDriverid(req.getDriverid());
+//				List<OtherArrive> listDriver2 = otherArriveMapper.checkDriverAndVehicleAndIcardIsUse(oa);
+//				if(listDriver2!=null && listDriver2.size()>0 && StringUtils.equals(listDriver2.get(0).getBusinesstype(), "4")){
+//					result.setErrorCode(ErrorCode.PARAM_REPEAT_ERROR);
+//					result.setError("此司机己有厂内倒运通知单、待出厂后进行派车，现有车辆业务单据号为:"+listDriver2.get(0).getCode()+"，如有疑问请与销售处联系！");
+//					flag = false;
+//				}
+//			}
 		}else{
 			PurchaseArrive pa = new PurchaseArrive();
 			SalesArrive sa = new SalesArrive();
@@ -372,38 +374,38 @@ public class OtherArriveService implements IOtherArriveService {
 					}
 				}
 			}
-			if(StringUtils.isNotBlank(req.getDriverid())){
-				pa.setVehicleid(null);
-				pa.setDriverid(req.getDriverid());
-				List<PurchaseArrive> listDriver = purchaseArriveMapper.checkDriverAndVehicleIsUse(pa);
-				if(listDriver != null && listDriver.size() > 0){
-					result.setErrorCode(ErrorCode.PARAM_REPEAT_ERROR);
-					result.setError("此司机己有到货通知单、待出厂后进行派车，现有车辆业务单据号为:"+listDriver.get(0).getCode()+"，如有疑问请与销售处联系！");
-					flag = false;
-				}
-				sa.setVehicleid(null);
-				sa.setDriverid(req.getDriverid());
-				List<SalesArrive> listDriver1 = salesArriveMapper.checkDriverAndVehicleIsUse(sa);
-				if(listDriver1 != null && listDriver1.size() > 0){
-					result.setErrorCode(ErrorCode.PARAM_REPEAT_ERROR);
-					result.setError("此司机己有提货通知单、待出厂后进行派车，现有车辆业务单据号为:"+listDriver1.get(0).getCode()+"，如有疑问请与销售处联系！");
-					flag = false;
-				}
-				oa.setVehicleid(null);
-				oa.setDriverid(req.getDriverid());
-				List<OtherArrive> listDriver2 = otherArriveMapper.checkDriverAndVehicleAndIcardIsUse(oa);
-				if(listDriver2!=null && listDriver2.size()>0){
-					if(StringUtils.equals(listDriver2.get(0).getBusinesstype(), "5")){
-						result.setErrorCode(ErrorCode.PARAM_REPEAT_ERROR);
-						result.setError("此司机己有其他入库通知单、待出厂后进行派车，现有车辆业务单据号为:"+listDriver2.get(0).getCode()+"，如有疑问请与销售处联系！");
-						flag = false;
-					}else if(StringUtils.equals(listDriver2.get(0).getBusinesstype(), "7")){
-						result.setErrorCode(ErrorCode.PARAM_REPEAT_ERROR);
-						result.setError("此司机己有其他出库通知单、待出厂后进行派车，现有车辆业务单据号为:"+listDriver2.get(0).getCode()+"，如有疑问请与销售处联系！");
-						flag = false;
-					}
-				}
-			}
+//			if(StringUtils.isNotBlank(req.getDriverid())){
+//				pa.setVehicleid(null);
+//				pa.setDriverid(req.getDriverid());
+//				List<PurchaseArrive> listDriver = purchaseArriveMapper.checkDriverAndVehicleIsUse(pa);
+//				if(listDriver != null && listDriver.size() > 0){
+//					result.setErrorCode(ErrorCode.PARAM_REPEAT_ERROR);
+//					result.setError("此司机己有到货通知单、待出厂后进行派车，现有车辆业务单据号为:"+listDriver.get(0).getCode()+"，如有疑问请与销售处联系！");
+//					flag = false;
+//				}
+//				sa.setVehicleid(null);
+//				sa.setDriverid(req.getDriverid());
+//				List<SalesArrive> listDriver1 = salesArriveMapper.checkDriverAndVehicleIsUse(sa);
+//				if(listDriver1 != null && listDriver1.size() > 0){
+//					result.setErrorCode(ErrorCode.PARAM_REPEAT_ERROR);
+//					result.setError("此司机己有提货通知单、待出厂后进行派车，现有车辆业务单据号为:"+listDriver1.get(0).getCode()+"，如有疑问请与销售处联系！");
+//					flag = false;
+//				}
+//				oa.setVehicleid(null);
+//				oa.setDriverid(req.getDriverid());
+//				List<OtherArrive> listDriver2 = otherArriveMapper.checkDriverAndVehicleAndIcardIsUse(oa);
+//				if(listDriver2!=null && listDriver2.size()>0){
+//					if(StringUtils.equals(listDriver2.get(0).getBusinesstype(), "5")){
+//						result.setErrorCode(ErrorCode.PARAM_REPEAT_ERROR);
+//						result.setError("此司机己有其他入库通知单、待出厂后进行派车，现有车辆业务单据号为:"+listDriver2.get(0).getCode()+"，如有疑问请与销售处联系！");
+//						flag = false;
+//					}else if(StringUtils.equals(listDriver2.get(0).getBusinesstype(), "7")){
+//						result.setErrorCode(ErrorCode.PARAM_REPEAT_ERROR);
+//						result.setError("此司机己有其他出库通知单、待出厂后进行派车，现有车辆业务单据号为:"+listDriver2.get(0).getCode()+"，如有疑问请与销售处联系！");
+//						flag = false;
+//					}
+//				}
+//			}
 		}
 		//ic卡信息
 		if(StringUtils.isNotBlank(req.getIcardno())){
@@ -430,6 +432,23 @@ public class OtherArriveService implements IOtherArriveService {
 		return flag;
 	}
 
-
+	@Override
+    public PaginationVO<AppOtherArriveResp> appPage(AppOtherArriveReq req) throws Exception {
+	    PaginationVO<AppOtherArriveResp> page = null;
+        if (req != null) {
+            page = new PaginationVO<AppOtherArriveResp>();
+            long count = otherArriveMapper.appPageCount(req);
+            if (count > 0) {
+                req.setStart((req.getPageNo() - 1) * req.getPageSize());
+                req.setLimit(req.getPageSize());
+                List<AppOtherArriveResp> list = otherArriveMapper.appPage(req);
+                page.setList(list);
+            }
+            page.setTotal(count);
+            page.setPageNo(req.getPageNo());
+            page.setPageSize(req.getPageSize());
+        }
+        return page;
+    }
 
 }

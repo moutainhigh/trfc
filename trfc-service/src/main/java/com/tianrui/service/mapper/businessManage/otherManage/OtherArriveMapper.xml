@@ -432,8 +432,18 @@
 		<include refid="Base_Column_List" />
 		from tr_other_db_arrive
 		<where>
+            <if test="invalid != null and invalid != ''">
+                <choose>
+                  <when test="invalid == 0">
+                     and status = 3
+                  </when>
+                  <otherwise>
+                     and status != 3
+                  </otherwise>
+                </choose>
+            </if>
 			<if test="businesstype != null and businesstype != ''">
-				businesstype = #{businesstype,jdbcType=VARCHAR}
+				and businesstype = #{businesstype,jdbcType=VARCHAR}
 			</if>
 			<if test="code != null and code != '' ">
 				and code = #{code,jdbcType=VARCHAR}
@@ -490,8 +500,18 @@
 		select count(0)
 		from tr_other_db_arrive
 		<where>
+			<if test="invalid != null and invalid != ''">
+				<choose>
+	              <when test="invalid == 0">
+	                 and status = 3
+	              </when>
+	              <otherwise>
+	                 and status != 3
+	              </otherwise>
+	            </choose>
+			</if>
 			<if test="businesstype != null and businesstype != ''">
-				businesstype = #{businesstype,jdbcType=VARCHAR}
+				and businesstype = #{businesstype,jdbcType=VARCHAR}
 			</if>
 			<if test="code != null and code != '' ">
 				and code = #{code,jdbcType=VARCHAR}
@@ -567,4 +587,47 @@
 	  from tr_other_db_arrive
 	  where icardid = #{icardid,jdbcType=VARCHAR} and status != '5' and status != '3'
 	</select>
+	<select id="appPage" parameterType="com.tianrui.api.req.businessManage.otherManage.AppOtherArriveReq" resultType="com.tianrui.api.resp.businessManage.otherManage.AppOtherArriveResp">
+        SELECT
+            t1.id,
+            t1. CODE,
+            t2.vehicleno,
+            t3.`name` AS orgname,
+            t4.`name` AS enteryerdname,
+            t5.`name` AS leaveyerdname,
+            t1.starttime,
+            t1.endtime
+        FROM
+            tr_other_db_arrive t1
+        LEFT JOIN tr_vehicle_db_manage t2 ON t1.vehicleid = t2.id
+        LEFT JOIN bd_org t3 ON t1.receivedepartmentid = t3.id
+        LEFT JOIN tr_yard_db_manage t4 ON t1.enteryard = t4.id
+        LEFT JOIN tr_yard_db_manage t5 ON t1.leaveyard = t5.id
+        <where>
+            <if test="vehicleno != null and vehicleno != ''">
+                t2.vehicleno = #{vehicleno,jdbcType=VARCHAR}
+            </if>
+        </where>
+        order by t1.createtime desc
+        <if test="start != null and start &gt;= 0">
+            <if test="limit != null">
+                limit #{start,jdbcType=INTEGER},#{limit,jdbcType=INTEGER}
+            </if>
+        </if>
+    </select>
+	<select id="appPageCount" parameterType="com.tianrui.api.req.businessManage.otherManage.AppOtherArriveReq" resultType="java.lang.Long">
+        SELECT
+            count(0)
+        FROM
+            tr_other_db_arrive t1
+        LEFT JOIN tr_vehicle_db_manage t2 ON t1.vehicleid = t2.id
+        LEFT JOIN bd_org t3 ON t1.receivedepartmentid = t3.id
+        LEFT JOIN tr_yard_db_manage t4 ON t1.enteryard = t4.id
+        LEFT JOIN tr_yard_db_manage t5 ON t1.leaveyard = t5.id
+        <where>
+            <if test="vehicleno != null and vehicleno != ''">
+                t2.vehicleno = #{vehicleno,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </select>
 </mapper>

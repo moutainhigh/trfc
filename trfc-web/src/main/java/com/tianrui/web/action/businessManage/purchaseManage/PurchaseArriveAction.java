@@ -219,7 +219,7 @@ public class PurchaseArriveAction {
 		try {
 			SystemUserResp user = SessionManager.getSessionUser(request);
 			update.setCurrId(user.getId());
-			update.setStatus("5");
+			update.setStatus("8");
 			result = purchaseArriveService.updateOperation(update);
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);

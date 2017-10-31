@@ -25,6 +25,8 @@ public class PurchaseArriveQuery extends BaseReq {
     private String supplierid;
 	//车辆id
     private String vehicleid;
+    //车牌号
+    private String vehicleno;
 	//司机id
     private String driverid;
     //物料id
@@ -101,7 +103,13 @@ public class PurchaseArriveQuery extends BaseReq {
 	public void setVehicleid(String vehicleid) {
 		this.vehicleid = vehicleid;
 	}
-	public String getDriverid() {
+	public String getVehicleno() {
+        return vehicleno;
+    }
+    public void setVehicleno(String vehicleno) {
+        this.vehicleno = vehicleno;
+    }
+    public String getDriverid() {
 		return driverid;
 	}
 	public void setDriverid(String driverid) {

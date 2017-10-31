@@ -225,6 +225,28 @@
 		$('#pageSize').change(function(){
 			getData(1);
 		});
+		$('#readSearch').off('click').on('click',function(){
+			readSearch();
+		});
+	}
+	function readSearch() {
+		if (initCardReader()) {
+			//打开读卡器
+			readerOpen();
+			if (openCard()) {
+				//开打卡片获取卡序号
+				var vehicleno = getDataFromCard(2);
+				//蜂鸣
+				readerBeep();
+				if(vehicleno){
+					get({vehicleno:vehicleno});
+				}
+			}
+			//关闭读卡器
+			readerClose();
+		}else{
+			layer.msg('当前游览器不支持!(只兼容IE游览器)');
+		}
 	}
 	//获取查询参数
 	function getParams(){
@@ -240,6 +262,7 @@
 		var starttime = $('#starttime').val() || ''; starttime = $.trim(starttime);
 		var endtime = $('#endtime').val() || ''; endtime = $.trim(endtime);
 		var pageSize = $('#pageSize').val() || ''; pageSize = $.trim(pageSize);
+		var vehicleno = $('#vehicleno').val();vehicleno = $.trim(vehicleno);$('#vehicleno').val('');
 		return {
 			billcode:billcode,
 			code:code,
@@ -252,50 +275,55 @@
 			status:status,
 			starttime:str2Long(starttime),
 			endtime:str2Long(endtime),
-			pageSize:pageSize
+			pageSize:pageSize,
+			vehicleno: vehicleno
 		};
 	}
 	
 	function getData(pageNo){
-		var index = layer.load(2, {
-		  shade: [0.3,'#fff'] //0.1透明度的白色背景
-		});
+		layer.closeAll();
 		var params = getParams();
 		params.pageNo = pageNo;
-		$.ajax({
-			url:URL.page,
-			data:params,
-			async:true,
-			cache:false,
-			dataType:'json',
-			type:'post',
-			success:function(result){
-				if(result.code == '000000'){
-					renderHtml(result.data);
-					var total = result.data.total;
-					var pageNo = result.data.pageNo;
-					var pageSize = result.data.pageSize;
-					$('#total').html(total);
-					$('#jumpPageNo').attr('maxPageNo',parseInt((total+pageSize-1)/pageSize));
-					$("#pagination").pagination(total, {
-					    callback: function(pageNo){
-					    	getData(pageNo+1);
-					    },
-					    prev_text: '上一页',
-					    next_text: '下一页',
-					    items_per_page:pageSize,
-					    num_display_entries:4,
-					    current_page:pageNo-1,
-					    num_edge_entries:1,
-					    maxentries:total,
-					    link_to:"javascript:void(0)"
-					});
-				}else{
-					layer.msg(result.error, {icon: 5});
+		get(params);
+	}
+	function get(params) {
+		var index = layer.load(2, {
+			  shade: [0.3,'#fff'] //0.1透明度的白色背景
+			});
+			$.ajax({
+				url:URL.page,
+				data:params,
+				async:true,
+				cache:false,
+				dataType:'json',
+				type:'post',
+				success:function(result){
+					if(result.code == '000000'){
+						renderHtml(result.data);
+						var total = result.data.total;
+						var pageNo = result.data.pageNo;
+						var pageSize = result.data.pageSize;
+						$('#total').html(total);
+						$('#jumpPageNo').attr('maxPageNo',parseInt((total+pageSize-1)/pageSize));
+						$("#pagination").pagination(total, {
+						    callback: function(pageNo){
+						    	getData(pageNo+1);
+						    },
+						    prev_text: '上一页',
+						    next_text: '下一页',
+						    items_per_page:pageSize,
+						    num_display_entries:4,
+						    current_page:pageNo-1,
+						    num_edge_entries:1,
+						    maxentries:total,
+						    link_to:"javascript:void(0)"
+						});
+					}else{
+						layer.msg(result.error, {icon: 5});
+					}
+					layer.close(index);
 				}
-				layer.close(index);
-			}
-		});
+			});
 	}
 	function renderHtml(data){
 		$('#dataBody').empty();

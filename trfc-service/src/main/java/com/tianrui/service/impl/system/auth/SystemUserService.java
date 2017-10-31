@@ -608,5 +608,32 @@ public class SystemUserService implements ISystemUserService {
 		}
 		userMapper.updateByPrimaryKeySelective(bean);
 	}
+
+    @Override
+    public Result updatePwd(SystemUserPswdReq req) {
+        Result result = Result.getParamErrorResult();
+        if (req != null && StringUtils.isNotBlank(req.getCurrUId()) 
+                && StringUtils.isNotBlank(req.getOldPswd()) 
+                && StringUtils.isNotBlank(req.getNewPswd())) {
+            SystemUser user = userMapper.selectByPrimaryKey(req.getCurrUId());
+            if (user != null) {
+                if (StringUtils.equals(user.getPassword(), req.getOldPswd())) {
+                    //修改新密码
+                    SystemUser bean = new SystemUser();
+                    bean.setId(user.getId());
+                    bean.setPassword(req.getNewPswd());
+                    userMapper.updateByPrimaryKeySelective(bean);
+                    result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+                } else {
+                    //旧密码不正确
+                    result.setErrorCode(ErrorCode.SYSTEM_USER_ERROR9);
+                }
+            } else {
+                //用户不存在
+                result.setErrorCode(ErrorCode.SYSTEM_USER_ERROR1);
+            }
+        }
+        return result;
+    }
 	
 }

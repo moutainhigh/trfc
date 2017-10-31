@@ -16,6 +16,10 @@ public class HandSetReadICardResp extends BaseResp {
     private String minemouth;
     //通知单号
     private String noticeCode;
+    //榜单单号
+    private String poundNoteCode;
+    //通知单状态（车辆状态）
+    private String noticeStatus;
     //是否原发设置(0：否，1：是)
     private String isPrimary;
     public String getDeptId() {
@@ -54,6 +58,18 @@ public class HandSetReadICardResp extends BaseResp {
     public void setNoticeCode(String noticeCode) {
         this.noticeCode = noticeCode;
     }
+    public String getPoundNoteCode() {
+        return poundNoteCode;
+    }
+    public void setPoundNoteCode(String poundNoteCode) {
+        this.poundNoteCode = poundNoteCode;
+    }
+    public String getNoticeStatus() {
+        return noticeStatus;
+    }
+    public void setNoticeStatus(String noticeStatus) {
+        this.noticeStatus = noticeStatus;
+    }
     public static long getSerialversionuid() {
         return serialVersionUID;
     }
@@ -66,8 +82,9 @@ public class HandSetReadICardResp extends BaseResp {
     @Override
     public String toString() {
         return "HandSetReadICardResp [deptId=" + deptId + ", deptName=" + deptName + ", deptRemark=" + deptRemark
-                + ", material=" + material + ", minemouth=" + minemouth + ", noticeCode=" + noticeCode + ", isPrimary="
-                + isPrimary + "]";
+                + ", material=" + material + ", minemouth=" + minemouth + ", noticeCode=" + noticeCode
+                + ", poundNoteCode=" + poundNoteCode + ", noticeStatus=" + noticeStatus + ", isPrimary=" + isPrimary
+                + "]";
     }
     
 }

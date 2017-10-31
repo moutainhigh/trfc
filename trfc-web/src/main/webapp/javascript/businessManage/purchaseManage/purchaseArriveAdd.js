@@ -598,9 +598,9 @@
 		if(!params.vehicleid){
 			layer.msg('车辆不能为空！', {icon: 5}); return false;
 		}
-		if(!params.driverid){
-			layer.msg('司机不能为空！', {icon: 5}); return false;
-		}
+//		if(!params.driverid){
+//			layer.msg('司机不能为空！', {icon: 5}); return false;
+//		}
 		if(!params.arrivalamount || params.arrivalamount <= 0){
 			layer.msg('到货量不能为空且大于零！', {icon: 5});return false;
 		}

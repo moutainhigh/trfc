@@ -3,7 +3,10 @@
  */
 package com.tianrui.api.intf.businessManage.otherManage;
 
+import com.tianrui.api.req.businessManage.otherManage.AppOtherArriveReq;
 import com.tianrui.api.req.businessManage.otherManage.OtherArriveReq;
+import com.tianrui.api.resp.businessManage.otherManage.AppOtherArriveResp;
+import com.tianrui.smartfactory.common.vo.PaginationVO;
 import com.tianrui.smartfactory.common.vo.Result;
 
 /**
@@ -33,4 +36,6 @@ public interface IOtherArriveService {
 	 * 更新状态
 	 */
 	Result updateOperation(OtherArriveReq req) throws Exception;
+
+    PaginationVO<AppOtherArriveResp> appPage(AppOtherArriveReq req) throws Exception;
 }

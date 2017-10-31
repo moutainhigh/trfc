@@ -2,6 +2,7 @@
 <meta name="keywords" content=" 天瑞" />
 <meta name="description" content="">
 <meta name="author" content="">
+<link href="${staticBasePath}/js/layui/css/layui.css" rel="stylesheet">
 <link href="${staticBasePath}/css/bootstrap.css" rel="stylesheet">
 <link href="${staticBasePath}/css/base.css" rel="stylesheet">
 <link href="${staticBasePath}/css/style.css" rel="stylesheet">
@@ -32,3 +33,6 @@
 <script type="text/javascript" src="${staticBasePath}/js/myself.js"></script>
 <script type="text/javascript" src="${staticBasePath }/js/dateutil.js"></script>
 <script type="text/javascript" src="${staticBasePath }/js/jquery-ui-1.10.4.custom.min.js"></script>
+<script type="text/javascript" src="${staticBasePath}/js/md5.js"></script>
+<script type="text/javascript" src="${staticBasePath}/js/jquery-migrate-1.2.1.min.js"></script>
+<script type="text/javascript" src="${staticBasePath}/js/jquery.jqprint-0.3.js"></script>

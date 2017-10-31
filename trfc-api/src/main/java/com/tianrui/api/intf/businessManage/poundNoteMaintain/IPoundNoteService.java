@@ -221,4 +221,10 @@ public interface IPoundNoteService {
      * @return
      */
     Result querySignDetail(ApiPoundNoteQuery valid);
+    /**
+     * @annotation 计量单打印
+     * @param query
+     * @return
+     */
+    Result print(PoundNoteQuery query);
 }

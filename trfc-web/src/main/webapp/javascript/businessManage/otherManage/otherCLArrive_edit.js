@@ -318,7 +318,6 @@ $(function() {
 		$('#vehicle_owner').val('');
 		$('#vehicle_telephone').val('');
 		$('#vehicle_address').val('');
-		$('#vehicle_org').val('天瑞集团汝州水泥有限公司').attr('orgid','0001PP1000000000BSF6');
 		$('#vehicle_isvalid')[0].checked=false;
 		$('#vehicle_remarks').val('');
 		$('#vehicle_vehicleno').val('');
@@ -354,7 +353,6 @@ $(function() {
 		$('#driver_name').val('');
 		$('#driver_abbrname').val('');
 		$('#driver_address').val('');
-		$('#driver_org').val('天瑞集团汝州水泥有限公司').attr('orgid','0001PP1000000000BSF6');
 		$('#driver_telephone').val('');
 		$('#driver_identityno').val('');
 		$('#driver_isvalid').get(0).checked=false;

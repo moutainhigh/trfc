@@ -64,6 +64,13 @@
 										placeholder="请输入结束时间" />
 								</div>
 								<div class="intel_solo">
+									<label>单据状态：</label> <select class="form-control" id="seek_invalid">
+										<option value="">全部</option>
+										<option value="0">作废</option>
+										<option value="1" selected="selected">正常</option>
+									</select>
+								</div>
+								<div class="intel_solo">
 									<div class="intel_sbtn">
 										<button class="btn btnblue " id="seek">搜索</button>
 									</div>
@@ -73,43 +80,35 @@
 					</div>
 					<div class="intel_opera">
 						<div class="intel_operasolo" id="refresh">
-							<a> <i class="iconfont colorlv">&#xe61b;</i>
-								<span>刷新</span>
+							<a> <i class="iconfont colorlv">&#xe61b;</i> <span>刷新</span>
 							</a>
 						</div>
 						<div class="intel_operasolo" id="addBtn">
-							<a> <i class="iconfont coloradd">&#xe627;</i>
-								<span>新增</span>
+							<a> <i class="iconfont coloradd">&#xe627;</i> <span>新增</span>
 							</a>
 						</div>
 						<div class="intel_operasolo" id="update">
-							<a> <i class="iconfont update">&#xe600;</i>
-								<span>编辑</span>
+							<a> <i class="iconfont update">&#xe600;</i> <span>编辑</span>
 							</a>
 						</div>
 						<div class="intel_operasolo" id="copy">
-							<a> <i class="iconfont copy">&#xe61c;</i>
-								<span>复制</span>
+							<a> <i class="iconfont copy">&#xe61c;</i> <span>复制</span>
 							</a>
 						</div>
 						<div id="audit" class="intel_operasolo">
-							<a> <i class="iconfont audit">&#xe692;</i>
-								<span>审核</span>
+							<a> <i class="iconfont audit">&#xe692;</i> <span>审核</span>
 							</a>
 						</div>
 						<div id="unaudit" class="intel_operasolo">
-							<a> <i class="iconfont unaudit">&#xe651;</i>
-								<span>反审</span>
+							<a> <i class="iconfont unaudit">&#xe651;</i> <span>反审</span>
 							</a>
 						</div>
 						<div id="invalid" class="intel_operasolo">
-							<a> <i class="iconfont invalid">&#xe60c;</i>
-								<span>作废</span>
+							<a> <i class="iconfont invalid">&#xe60c;</i> <span>作废</span>
 							</a>
 						</div>
 						<div id="outfactory" class="intel_operasolo">
-							<a> <i class="iconfont outfactory">&#xe63c;</i>
-								<span>出厂</span>
+							<a> <i class="iconfont outfactory">&#xe63c;</i> <span>出厂</span>
 							</a>
 						</div>
 					</div>
@@ -236,40 +235,40 @@
 				</div>
 			</div>
 		</div>
-		<!--查看详情end-->
+	</div>
+	<!--查看详情end-->
 
-		<script type="text/javascript">
-			// 表格内容每行单击出来下面的详细信息
-			var tabledata = $('.intel_table table tbody tr');
-			tabledata.on("click", function() {
-				$(".intel_result").css("display", "block");
-			})
-			// 表格内容每行双击出来下面的详细信息
-			tabledata.on("dblclick", function() {
-				$('#caigoubill').modal('show');
-			})
-			// 首页底部的tab切换菜单
-			var ind_li = $('#ind_tab ul li');
-			ind_li.click(function() {
-				$(this).addClass('select').siblings().removeClass('select');
-				var index_li = ind_li.index(this);
-				$('#ind_tab .cg_tabbox > .cg_tabcont').eq(index_li).show()
-						.siblings().hide();
-			});
+	<script type="text/javascript">
+		// 表格内容每行单击出来下面的详细信息
+		var tabledata = $('.intel_table table tbody tr');
+		tabledata.on("click", function() {
+			$(".intel_result").css("display", "block");
+		})
+		// 表格内容每行双击出来下面的详细信息
+		tabledata.on("dblclick", function() {
+			$('#caigoubill').modal('show');
+		})
+		// 首页底部的tab切换菜单
+		var ind_li = $('#ind_tab ul li');
+		ind_li.click(function() {
+			$(this).addClass('select').siblings().removeClass('select');
+			var index_li = ind_li.index(this);
+			$('#ind_tab .cg_tabbox > .cg_tabcont').eq(index_li).show()
+					.siblings().hide();
+		});
 
-			// 弹出信息的tab切换菜单
-			var alt_li = $('#alt_tab ul li');
-			alt_li.click(function() {
-				$(this).addClass('select').siblings().removeClass('select');
-				var index_alt = alt_li.index(this);
-				$('#alt_tab .cg_tabbox > .cg_tabcont').eq(index_alt).show()
-						.siblings().hide();
-			});
-		</script>
-		<jsp:include page="../../common/base/footer_busi.jsp"></jsp:include>
-		<script type="text/javascript"
-			src="${staticBasePath}/js/cardReader.js"></script>
-		<script type="text/javascript"
-			src="/javascript/businessManage/otherManage/otherDYArrive.js"></script>
+		// 弹出信息的tab切换菜单
+		var alt_li = $('#alt_tab ul li');
+		alt_li.click(function() {
+			$(this).addClass('select').siblings().removeClass('select');
+			var index_alt = alt_li.index(this);
+			$('#alt_tab .cg_tabbox > .cg_tabcont').eq(index_alt).show()
+					.siblings().hide();
+		});
+	</script>
+	<jsp:include page="../../common/base/footer_busi.jsp"></jsp:include>
+	<script type="text/javascript" src="${staticBasePath}/js/cardReader.js"></script>
+	<script type="text/javascript"
+		src="/javascript/businessManage/otherManage/otherDYArrive.js"></script>
 </body>
 </html>

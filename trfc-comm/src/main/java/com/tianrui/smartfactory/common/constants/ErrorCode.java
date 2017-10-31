@@ -10,6 +10,10 @@ public enum ErrorCode {
 	OPERATE_ERROR("E00001","服务器繁忙,请稍后重试."),
 	//数据不存在
 	DATA_ERROR("E00002","数据不存在，请重新确认."),
+	//连接超时
+	CONNECTION_TIMEOUT_ERROR("E00003","连接超时."),
+	//推单失败
+	RETURN_ERROR("E00003","推单失败."),
 	
 	/**
 	 * 参数相关
@@ -42,6 +46,7 @@ public enum ErrorCode {
 	 * 订单
 	 */
 	APPLICATION_NOT_EXIST("E11001", "该订单不存在."),
+	APPLICATION_NOT_RETURN("E11002", "自制的订单未推送至NC."),
 	
 	/**
 	 * 通知单
@@ -77,6 +82,7 @@ public enum ErrorCode {
 	VEHICLE_NOTICE_NOT_TWO_WEIGHT("E10018","该车辆未过二次磅房."),
 	VEHICLE_NOTICE_NOT_LOAD("E10019","该车辆还未完成装货."),
 	VEHICLE_NOTICE_NOT_OUT_FACTORY("E10020","该车辆还未出厂."),
+	VEHICLE_NOTICE_TWO_WEIGHT("E10021","该车辆已过二次磅房."),
 	
 	/**
 	 * 用户相关
@@ -122,7 +128,10 @@ public enum ErrorCode {
     
     //质检
     PURCHASE_MIXED_ERROR1("E700001","无法混样（只能同一个供应商同一种物料同一个矿口的采样单可以混样）."),
-    PURCHASE_MIXED_ERROR2("E700002","已经生成过化验单了，无法重复生成.");
+    PURCHASE_MIXED_ERROR2("E700002","已经生成过化验单了，无法重复生成."),
+    //异常审批
+    EXCEPTION_AUDIT_ERROR("E800000","未找到异常审批单据."),
+    EXCEPTION_AUDIT_ERROR1("E800001","该单据已被审批，请勿重复审批.");
     
 	private String code;
 	private String msg;

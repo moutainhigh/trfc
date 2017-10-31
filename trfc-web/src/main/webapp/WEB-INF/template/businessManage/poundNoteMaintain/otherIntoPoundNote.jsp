@@ -90,6 +90,11 @@
 								<span>作废</span>
 							</a>
 						</div>
+                        <div id="print" class="intel_operasolo">
+                            <a> <i class="iconfont print">&#xe726;</i>
+                                <span>补打榜单</span>
+                            </a>
+                        </div>
 					</div>
 					<div class="intel_table">
 						<!--用户表格begin-->
@@ -147,6 +152,7 @@
 	</div>
 	<!-- 引用公共footer部分 -->
 	<jsp:include page="../../common/base/footer_busi.jsp"></jsp:include>
+    <jsp:include page="../../common/module/printTemplate.jsp"></jsp:include>
 	<script type="text/javascript"
 		src="/javascript/businessManage/poundNoteMaintain/otherIntoPoundNote.js"></script>
 </body>

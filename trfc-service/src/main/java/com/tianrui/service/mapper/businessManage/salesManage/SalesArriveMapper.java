@@ -143,9 +143,15 @@ public interface SalesArriveMapper {
 	 */
 	long selectLogisticsPageCount(SalesLogisticsQuery query);
 	/**
-	 * @annotation 根据车辆ID查询在厂的通知单
+	 * @annotation 根据车辆ID查询有效的通知单（未出厂，未作废）
 	 * @param vehicleId
 	 * @return
 	 */
 	SalesArrive getByVehicleId(String vehicleId);
+	/**
+	 * @annotation 根据车牌号查询有效的通知单（未出厂，未作废）
+	 * @param vehicleNo
+	 * @return
+	 */
+	SalesArrive getByVehicleNo(String vehicleNo);
 }

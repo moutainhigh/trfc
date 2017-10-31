@@ -88,7 +88,15 @@ public class OtherArriveReq extends BaseReq {
 	 * 结束时间
 	 */
 	private Long endDate;
-	public String getId() {
+	//是否有效
+	private String invalid;
+	public String getInvalid() {
+        return invalid;
+    }
+    public void setInvalid(String invalid) {
+        this.invalid = invalid;
+    }
+    public String getId() {
 		return id;
 	}
 	public void setId(String id) {

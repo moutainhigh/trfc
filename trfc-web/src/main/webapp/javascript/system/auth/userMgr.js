@@ -356,24 +356,25 @@ $(function() {
 	function resetPwd(obj) {
 		layer.open({
 			title : '重置密码',
-			area : [ '500px', '320px' ],
+			area : [ '500px', '300px' ],
 			btn : [ '确定', '取消' ],
+			shadeClose : true, //开启遮罩关闭
 			content : '<form class="layui-form" action="">'
 						+ '<div class="layui-form-item">'
 							+ '<label class="layui-form-label">账户：</label>'
-							+ '<div class="layui-input-block">'
+							+ '<div class="layui-input-inline">'
 								+ '<input type="text" class="layui-input" readonly="true" value="' + obj.name + '">'
 							+ '</div>'
 						+ '</div>'
 						+ '<div class="layui-form-item">'
 							+ '<label class="layui-form-label">新密码：</label>'
-							+ '<div class="layui-input-block">'
+							+ '<div class="layui-input-inline">'
 								+ '<input type="password" name="password1" required lay-verify="required|pass" placeholder="请输入密码" autocomplete="off" class="layui-input">'
 							+ '</div>'
 						+ '</div>'
 						+ '<div class="layui-form-item">'
 							+ '<label class="layui-form-label">确认密码：</label>'
-							+ '<div class="layui-input-block">'
+							+ '<div class="layui-input-inline">'
 								+ '<input type="password" name="password2" required lay-verify="required|pass" placeholder="请输入密码" autocomplete="off" class="layui-input">'
 							+ '</div>' 
 						+ '</div>' 

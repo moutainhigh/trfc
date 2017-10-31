@@ -1782,4 +1782,21 @@
 			</if>
     	</where>
     </select>
+    <select id="getByVehicleNo" parameterType="java.lang.String" resultMap="BaseResultMap">
+    	SELECT
+		    <include refid="Base_Column_List_P"/>
+		FROM
+		    tr_pound_db_note p0
+		WHERE
+		    EXISTS (
+		        SELECT
+		            id
+		        FROM
+		            tr_access_db_record
+		        WHERE
+		            accesstype = 1
+		        AND noticeid = p0.noticeid
+		    )
+		AND p0.vehicleno = #{vehicleNo,jdbcType=VARCHAR}
+    </select>
 </mapper>

@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tianrui.service.mapper.businessManage.examine.ExceptionAuditMapper">
+  <resultMap id="BaseResultMap" type="com.tianrui.service.bean.businessManage.examine.ExceptionAudit">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="pn_id" jdbcType="VARCHAR" property="pnId" />
+    <result column="type" jdbcType="BIT" property="type" />
+    <result column="number" jdbcType="INTEGER" property="number" />
+    <result column="audit_status" jdbcType="BIT" property="auditStatus" />
+    <result column="audit_opinion" jdbcType="VARCHAR" property="auditOpinion" />
+    <result column="audit_person" jdbcType="VARCHAR" property="auditPerson" />
+    <result column="audit_time" jdbcType="BIGINT" property="auditTime" />
+    <result column="state" jdbcType="BIT" property="state" />
+    <result column="creator" jdbcType="VARCHAR" property="creator" />
+    <result column="createtime" jdbcType="BIGINT" property="createtime" />
+    <result column="modifier" jdbcType="VARCHAR" property="modifier" />
+    <result column="modifytime" jdbcType="BIGINT" property="modifytime" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, pn_id, type, number, audit_status, audit_opinion, audit_person, audit_time, state, 
+    creator, createtime, modifier, modifytime, remark
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tr_exception_db_audit
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from tr_exception_db_audit
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.tianrui.service.bean.businessManage.examine.ExceptionAudit">
+    insert into tr_exception_db_audit (id, pn_id, type, number, 
+      audit_status, audit_opinion, audit_person, 
+      audit_time, state, creator, 
+      createtime, modifier, modifytime, 
+      remark)
+    values (#{id,jdbcType=VARCHAR}, #{pnId,jdbcType=VARCHAR}, #{type,jdbcType=BIT}, #{number,jdbcType=INTEGER}, 
+      #{auditStatus,jdbcType=BIT}, #{auditOpinion,jdbcType=VARCHAR}, #{auditPerson,jdbcType=VARCHAR}, 
+      #{auditTime,jdbcType=BIGINT}, #{state,jdbcType=BIT}, #{creator,jdbcType=VARCHAR}, 
+      #{createtime,jdbcType=BIGINT}, #{modifier,jdbcType=VARCHAR}, #{modifytime,jdbcType=BIGINT}, 
+      #{remark,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.tianrui.service.bean.businessManage.examine.ExceptionAudit">
+    insert into tr_exception_db_audit
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="pnId != null">
+        pn_id,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="number != null">
+        number,
+      </if>
+      <if test="auditStatus != null">
+        audit_status,
+      </if>
+      <if test="auditOpinion != null">
+        audit_opinion,
+      </if>
+      <if test="auditPerson != null">
+        audit_person,
+      </if>
+      <if test="auditTime != null">
+        audit_time,
+      </if>
+      <if test="state != null">
+        state,
+      </if>
+      <if test="creator != null">
+        creator,
+      </if>
+      <if test="createtime != null">
+        createtime,
+      </if>
+      <if test="modifier != null">
+        modifier,
+      </if>
+      <if test="modifytime != null">
+        modifytime,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="pnId != null">
+        #{pnId,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=BIT},
+      </if>
+      <if test="number != null">
+        #{number,jdbcType=INTEGER},
+      </if>
+      <if test="auditStatus != null">
+        #{auditStatus,jdbcType=BIT},
+      </if>
+      <if test="auditOpinion != null">
+        #{auditOpinion,jdbcType=VARCHAR},
+      </if>
+      <if test="auditPerson != null">
+        #{auditPerson,jdbcType=VARCHAR},
+      </if>
+      <if test="auditTime != null">
+        #{auditTime,jdbcType=BIGINT},
+      </if>
+      <if test="state != null">
+        #{state,jdbcType=BIT},
+      </if>
+      <if test="creator != null">
+        #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null">
+        #{createtime,jdbcType=BIGINT},
+      </if>
+      <if test="modifier != null">
+        #{modifier,jdbcType=VARCHAR},
+      </if>
+      <if test="modifytime != null">
+        #{modifytime,jdbcType=BIGINT},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tianrui.service.bean.businessManage.examine.ExceptionAudit">
+    update tr_exception_db_audit
+    <set>
+      <if test="pnId != null">
+        pn_id = #{pnId,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        type = #{type,jdbcType=BIT},
+      </if>
+      <if test="number != null">
+        number = #{number,jdbcType=INTEGER},
+      </if>
+      <if test="auditStatus != null">
+        audit_status = #{auditStatus,jdbcType=BIT},
+      </if>
+      <if test="auditOpinion != null">
+        audit_opinion = #{auditOpinion,jdbcType=VARCHAR},
+      </if>
+      <if test="auditPerson != null">
+        audit_person = #{auditPerson,jdbcType=VARCHAR},
+      </if>
+      <if test="auditTime != null">
+        audit_time = #{auditTime,jdbcType=BIGINT},
+      </if>
+      <if test="state != null">
+        state = #{state,jdbcType=BIT},
+      </if>
+      <if test="creator != null">
+        creator = #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null">
+        createtime = #{createtime,jdbcType=BIGINT},
+      </if>
+      <if test="modifier != null">
+        modifier = #{modifier,jdbcType=VARCHAR},
+      </if>
+      <if test="modifytime != null">
+        modifytime = #{modifytime,jdbcType=BIGINT},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tianrui.service.bean.businessManage.examine.ExceptionAudit">
+    update tr_exception_db_audit
+    set pn_id = #{pnId,jdbcType=VARCHAR},
+      type = #{type,jdbcType=BIT},
+      number = #{number,jdbcType=INTEGER},
+      audit_status = #{auditStatus,jdbcType=BIT},
+      audit_opinion = #{auditOpinion,jdbcType=VARCHAR},
+      audit_person = #{auditPerson,jdbcType=VARCHAR},
+      audit_time = #{auditTime,jdbcType=BIGINT},
+      state = #{state,jdbcType=BIT},
+      creator = #{creator,jdbcType=VARCHAR},
+      createtime = #{createtime,jdbcType=BIGINT},
+      modifier = #{modifier,jdbcType=VARCHAR},
+      modifytime = #{modifytime,jdbcType=BIGINT},
+      remark = #{remark,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <select id="listByPageParams" parameterType="com.tianrui.api.req.businessManage.examine.ExceptionAuditQuery" resultType="com.tianrui.api.resp.businessManage.examine.ExceptionAuditQueryResp">
+	SELECT
+	    t1.id,
+	    t2.id pnId,
+	    t2.`code` pnCode,
+	    t2.returnstatus returnStatus,
+	    t3.`status` noticeStatus,
+	    t1.audit_status auditStatus,
+	    t3.`code` noticeCode,
+	    t2.customername customerName,
+	    t2.materialname materialName,
+	    t2.vehicleno vehicleNo,
+	    t2.grossweight grossWeight,
+	    t2.tareweight tareWeight,
+	    t2.netweight netWeight,
+	    t2.lighttime lightTime,
+	    t2.weighttime weightTime
+	FROM
+	    tr_exception_db_audit t1
+	LEFT JOIN tr_pound_db_note t2 ON t1.pn_id = t2.id
+	LEFT JOIN tr_sales_db_arrive t3 ON t2.noticeid = t3.id
+	WHERE
+	    t1.type = 1
+    <if test="type != null and type != ''">
+        and t1.type = #{type,jdbcType=VARCHAR}
+    </if>
+    <if test="pnCode != null and pnCode != ''">
+        and t2.`code` = #{pnCode,jdbcType=VARCHAR}
+    </if>
+    <if test="customerId != null and customerId != ''">
+        and t2.customerid = #{customerId,jdbcType=VARCHAR}
+    </if>
+    <if test="materialId != null and materialId != ''">
+        and t2.materialid = #{materialId,jdbcType=VARCHAR}
+    </if>
+    <if test="vehicleId != null and vehicleId != ''">
+        and t2.vehicleid = #{vehicleId,jdbcType=VARCHAR}
+    </if>
+    <if test="startTime != null and startTime != ''">
+        and t1.createtime <![CDATA[>=]]> #{startTime,jdbcType=BIGINT}
+    </if>
+    <if test="endTime != null and endTime != ''">
+        and t1.createtime <![CDATA[<]]> #{endTime,jdbcType=BIGINT}
+    </if>
+    order by t2.createtime desc
+    <if test="start != null and start >= 0">
+        <if test="limit != null">
+            limit #{start,jdbcType=INTEGER},#{limit,jdbcType=INTEGER}
+        </if>
+    </if>
+  </select>
+  <select id="countByPageParams" parameterType="com.tianrui.api.req.businessManage.examine.ExceptionAuditQuery" resultType="java.lang.Long">
+	SELECT
+	    count(0)
+	FROM
+	    tr_exception_db_audit t1
+	LEFT JOIN tr_pound_db_note t2 ON t1.pn_id = t2.id
+	LEFT JOIN tr_sales_db_arrive t3 ON t2.noticeid = t3.id
+	WHERE
+	    t1.type = 1
+    <if test="type != null and type != ''">
+        and t1.type = #{type,jdbcType=VARCHAR}
+    </if>
+    <if test="pnCode != null and pnCode != ''">
+        and t2.`code` = #{pnCode,jdbcType=VARCHAR}
+    </if>
+    <if test="customerId != null and customerId != ''">
+        and t2.customerid = #{customerId,jdbcType=VARCHAR}
+    </if>
+    <if test="materialId != null and materialId != ''">
+        and t2.materialid = #{materialId,jdbcType=VARCHAR}
+    </if>
+    <if test="vehicleId != null and vehicleId != ''">
+        and t2.vehicleid = #{vehicleId,jdbcType=VARCHAR}
+    </if>
+    <if test="startTime != null and startTime != ''">
+        and t1.createtime <![CDATA[>=]]> #{startTime,jdbcType=BIGINT}
+    </if>
+    <if test="endTime != null and endTime != ''">
+        and t1.createtime <![CDATA[<]]> #{endTime,jdbcType=BIGINT}
+    </if>
+  </select>
+</mapper>

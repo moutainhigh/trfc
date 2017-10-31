@@ -13,15 +13,15 @@ function initCardReader(){
 //打开读卡器
 function readerOpen() {
 	try {
-		var version = MWRFATL.openReader(3, 9600);
+		var version = MWRFATL.openReader(0, 9600);
 		if (MWRFATL.LastRet != 0) {
 			layer.msg("打开读写器失败");
-			return;
+			return false;
 		}
-		MWRFATL.readerLoadKey(0, 2, "ffffffffffff"); //加载2扇区密码,对M1卡操作时使用加载密码认证
+		MWRFATL.readerLoadKey(0, 0, "ffffffffffff"); //加载2扇区密码,对M1卡操作时使用加载密码认证
 		if (MWRFATL.LastRet != 0) {
-			//console.log("加载扇区密码失败");
-			return;
+			layer.msg("加载扇区密码失败");
+			return false;
 		}
 	}
 	catch (e) {
@@ -55,8 +55,8 @@ function readerBeep() {
 function openCard(){
 	var result = MWRFATL.openCard(1, 10);  //打开卡片,以10进制字符串显示卡号
 	if (MWRFATL.LastRet != 0) {
-		layer.msg("打开卡片失败");
-		readerClose();
+		layer.msg("请放IC卡！");
+		//readerClose();
 		return;
 	}
 	return result;
@@ -66,7 +66,7 @@ function getDataFromCard(index){
 
 	MWRFATL.cardVerifyPassword(0, Math.floor(index/4)); //加载密码认证,此函数传入的是扇区号
 	if (MWRFATL.LastRet != 0) {
-		//console.log(index + '块,密码验证失败')
+		layer.msg('密码验证失败');
 		return;
 	}
 	var msg = MWRFATL.cardRead(index);

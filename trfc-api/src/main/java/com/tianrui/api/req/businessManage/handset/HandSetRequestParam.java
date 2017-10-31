@@ -5,6 +5,7 @@ import com.tianrui.api.req.BaseReq;
 public class HandSetRequestParam extends BaseReq {
 
 	private static final long serialVersionUID = -4266984974222837083L;
+	private String id;
 	//当前登录用户id
 	private String userId;
 	//车牌号
@@ -31,7 +32,15 @@ public class HandSetRequestParam extends BaseReq {
 	private String samplingid;
 	//autocomplete
 	private String term;
+	//补回包数量
+	private String number;
 	
+    public String getId() {
+        return id;
+    }
+    public void setId(String id) {
+        this.id = id;
+    }
     public String getUserId() {
         return userId;
     }
@@ -113,12 +122,18 @@ public class HandSetRequestParam extends BaseReq {
     public void setTerm(String term) {
         this.term = term;
     }
+    public String getNumber() {
+        return number;
+    }
+    public void setNumber(String number) {
+        this.number = number;
+    }
     @Override
     public String toString() {
-        return "HandSetRequestParam [userId=" + userId + ", vehicleNo=" + vehicleNo + ", noticeCode=" + noticeCode
-                + ", receivePersonId=" + receivePersonId + ", warehouseId=" + warehouseId + ", yardId=" + yardId
-                + ", deductionweight=" + deductionweight + ", deductionother=" + deductionother + ", originalnetweight="
-                + originalnetweight + ", signID=" + signID + ", likeKey=" + likeKey + ", samplingid=" + samplingid
-                + ", term=" + term + "]";
+        return "HandSetRequestParam [id=" + id + ", userId=" + userId + ", vehicleNo=" + vehicleNo + ", noticeCode="
+                + noticeCode + ", receivePersonId=" + receivePersonId + ", warehouseId=" + warehouseId + ", yardId="
+                + yardId + ", deductionweight=" + deductionweight + ", deductionother=" + deductionother
+                + ", originalnetweight=" + originalnetweight + ", signID=" + signID + ", likeKey=" + likeKey
+                + ", samplingid=" + samplingid + ", term=" + term + ", number=" + number + "]";
     }
 }

@@ -567,7 +567,6 @@ $(function() {
 		var user = $('.user label').html();
 		$('#add_creator').val(user);
 		$('#add_createtime').val(getNowFormatDate(true));
-		$('#add_senddepartment').val('天瑞集团汝州水泥有限公司').attr('orgid','0001PP1000000000BSF6');
 		var href = window.location.href;
 		hrefStrs = href.split('?id=');
 		var id = hrefStrs[1];

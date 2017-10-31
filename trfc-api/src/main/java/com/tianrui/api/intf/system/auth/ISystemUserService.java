@@ -175,4 +175,10 @@ public interface ISystemUserService {
 	 * @return
 	 */
 	Result resetPwd(SystemUserSaveReq req);
+	/**
+	 * @annotation 修改密码
+	 * @param req
+	 * @return
+	 */
+    Result updatePwd(SystemUserPswdReq req);
 }

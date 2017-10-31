@@ -43,6 +43,7 @@ public class AccessRecordAction {
 		}
 		return result;
 	}
+	
 	@RequestMapping("findOne")
 	@ResponseBody
 	public Result findOne(AccessRecordQuery query){
@@ -54,5 +55,18 @@ public class AccessRecordAction {
 			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
 		}
 		return result;
+	}
+	
+	@RequestMapping("invalid")
+	@ResponseBody
+	public Result invalid(AccessRecordQuery query){
+	    Result result = Result.getSuccessResult();
+	    try {
+	        result = accessRecordService.invalid(query);
+	    } catch (Exception e) {
+	        logger.error(e.getMessage(), e);
+	        result.setErrorCode(ErrorCode.SYSTEM_ERROR);
+	    }
+	    return result;
 	}
 }
