@@ -43,8 +43,14 @@ public class ExceptionAuditAction {
     @Autowired
     private IPoundNoteService poundNoteService;
     
-    @RequestMapping("main")
-    public ModelAndView main(String type) {
+    @RequestMapping("emptyCarLeavingFactory/main")
+    public ModelAndView emptyCarLeavingFactoryMain(String type) {
+        ModelAndView view = new ModelAndView("businessManage/examine/exceptionAudit");
+        view.addObject("type", type);
+        return view;
+    }
+    @RequestMapping("noNeedToFillTheBag/main")
+    public ModelAndView noNeedToFillTheBagMain(String type) {
         ModelAndView view = new ModelAndView("businessManage/examine/exceptionAudit");
         view.addObject("type", type);
         return view;

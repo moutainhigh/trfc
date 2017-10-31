@@ -33,8 +33,8 @@ $(function() {
 		//获取地址 并截取中间部分
 		var href = window.location.href;
 		href = href.split('/trfc/')[1];
-//		urlstr = href.substring(0,href.lastIndexOf('/'));
-		urlstr = '/trfc/'+href;
+		urlstr = href.substring(0,href.lastIndexOf('/'));
+
 		//获取深度为1的 菜单
 		var menu1 = $.grep(list,function(value) {
 			return value.deep == 1;
@@ -70,16 +70,16 @@ $(function() {
 				//实现左侧菜单 选中效果
 				if(menu3.length>0){
 					for(var f = 0;f<menu3.length;f++){
-						var hh = menu3[f].uri+'?'+menu3[f].param;
-//						if(hh){
-//							hh = hh.split('/trfc/')[1];
-//							if(hh){
-//								hh = hh.substring(0,hh.lastIndexOf('/'));
+						var hh = menu3[f].uri;
+						if(hh){
+							hh = hh.split('/trfc/')[1];
+							if(hh){
+								hh = hh.substring(0,hh.lastIndexOf('/'));
 								if(hh == urlstr){
 									li_selected = 'class="active"';
 								}
-//							}
-//						}
+							}
+						}
 					}
 
 				}
@@ -89,20 +89,20 @@ $(function() {
 					var tab_ul = $('.intel_menu').empty();
 					for(var f = 0;f<menu3.length;f++){
 						var hh = menu3[f].uri+'?'+menu3[f].param;
-//						var href_select = '';
-//						if(hh){
-//							href_select = 'href='+hh;
-//							hh = hh.split('/trfc/')[1];
-//							if(hh){
-//								hh = hh.substring(0,hh.lastIndexOf('/'));
-//							}
-//						}
+						var href_select = '';
+						if(hh){
+							href_select = 'href='+hh;
+							hh = hh.split('/trfc/')[1];
+							if(hh){
+								hh = hh.substring(0,hh.lastIndexOf('/'));
+							}
+						}
 						// 实现三级菜单 选中效果
 						if(hh == urlstr){
-							tab_ul.append('<li class="select"><a href="'+hh+'">'
+							tab_ul.append('<li class="select"><a '+href_select+'>'
 									+menu3[f].name+'</a></li>');
 						}else{
-							tab_ul.append('<li><a href="'+hh+'">'
+							tab_ul.append('<li><a '+href_select+'>'
 									+menu3[f].name+'</a></li>');
 						}
 					}
