@@ -17,14 +17,14 @@ import com.tianrui.smartfactory.common.utils.Md5Utils;
 
 public class TestApiDoorSystem {
 
-	private static String domin = "http://172.19.4.97:28080/";
+	private static String domin = "http://localhost/";
 	private static String uri_info = "api/doorSystem/enterFactoryCheck";
 	private static String uri_leave = "api/doorSystem/leaveFactoryCheck";
 	private static String uri_record = "api/doorSystem/record";
 	private static String uri_queryWaiting = "api/doorSystem/queryWaiting";
 	
 	public static void main(String[] args) throws Exception {
-		URL url = new URL(domin + uri_info);
+		URL url = new URL(domin + uri_record);
 		// 打开url连接
 		HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 		// 设置url请求方式 ‘get’ 或者 ‘post’
@@ -33,7 +33,7 @@ public class TestApiDoorSystem {
 		
 	    // 表单参数与get形式一样
 		connection.setDoOutput(true);// 是否输入参数
-        params.append("p").append("=").append(JSON.toJSONString(getParam0()));
+        params.append("p").append("=").append(JSON.toJSONString(getParam1()));
         
         String aa =params.toString();
         System.out.println(aa);
@@ -71,9 +71,9 @@ public class TestApiDoorSystem {
 		ApiParam<ApiDoorSystemSave> api =new ApiParam<ApiDoorSystemSave>();
 		
 		ApiDoorSystemSave req =new ApiDoorSystemSave();
-		req.setNotionformcode("DH201709060001");
-		req.setIcardno("1194898613");
-		req.setServicetype("0");
+		req.setNotionformcode("TH201708160001");
+		req.setIcardno("1471014069");
+		req.setServicetype("2");
 		req.setType("1");
 		req.setTime(DateUtil.getNowDateString("yyyy-MM-dd HH:mm:ss"));
 		
@@ -94,8 +94,8 @@ public class TestApiDoorSystem {
 		ApiParam<VehicleCheckApi> api =new ApiParam<VehicleCheckApi>();
 		
 		VehicleCheckApi req =new VehicleCheckApi();
-		req.setRfid("E2000016130B0033218036F7");
-		req.setVehicleNo("123456");
+		req.setRfid("E2000016130B0164218035ED");
+		req.setVehicleNo("豫CC6932");
 		
 		Head head =new Head();
 		head.setCallSource("1");

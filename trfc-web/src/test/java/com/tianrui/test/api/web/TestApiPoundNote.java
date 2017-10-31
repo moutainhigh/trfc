@@ -24,7 +24,7 @@ public class TestApiPoundNote {
 	private static String url_sign_detail = "api/poundNote/querySignDetail";
 	
 	public static void main(String[] args) throws Exception {
-		URL url = new URL(domin+url_validation);
+		URL url = new URL(domin+url_up_weight);
 		// 打开url连接
 		HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 		// 设置url请求方式 ‘get’ 或者 ‘post’
@@ -33,7 +33,7 @@ public class TestApiPoundNote {
 		
 	    // 表单参数与get形式一样
 		connection.setDoOutput(true);// 是否输入参数
-        params.append("p").append("=").append(JSON.toJSONString(getParam0()));
+        params.append("p").append("=").append(JSON.toJSONString(getParam1()));
         
         String aa =params.toString();
         System.out.println(aa);
@@ -95,19 +95,19 @@ public class TestApiPoundNote {
 		ApiParam<ApiPoundNoteQuery> api =new ApiParam<ApiPoundNoteQuery>();
 		
 		ApiPoundNoteQuery req =new ApiPoundNoteQuery();
-		req.setRfid("E2000016130B0102217037A9");
-		req.setVehicleno("78965");
+		req.setRfid("E2000016130B0163216039EB");
+		req.setVehicleno("豫A12345");
 		req.setType("1");
-		req.setServicetype("4");
-		req.setNotionformcode("ND201709190001");
-		req.setNumber("0.04");
+		req.setServicetype("2");
+		req.setNotionformcode("TH201708160001");
+		req.setNumber("2");
 		req.setTime(DateUtil.getNowDateString("yyyy-MM-dd HH:mm:ss"));
 		
 		//二次过磅所需参数
-//		req.setDeductionweight("0");
-//		req.setOriginalnetweight("0");
-//		req.setDeductionother("0");
-		req.setNetweight("0.1");
+		req.setDeductionweight("0");
+		req.setOriginalnetweight("0");
+		req.setDeductionother("0");
+		req.setNetweight("20");
 		
 		Head head =new Head();
 		head.setCallSource("1");
