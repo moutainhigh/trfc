@@ -43,14 +43,8 @@ public class ExceptionAuditAction {
     @Autowired
     private IPoundNoteService poundNoteService;
     
-    @RequestMapping("emptyCarLeavingFactory/main")
+    @RequestMapping({"emptyCarLeavingFactory/main", "noNeedToFillTheBag/main"})
     public ModelAndView emptyCarLeavingFactoryMain(String type) {
-        ModelAndView view = new ModelAndView("businessManage/examine/exceptionAudit");
-        view.addObject("type", type);
-        return view;
-    }
-    @RequestMapping("noNeedToFillTheBag/main")
-    public ModelAndView noNeedToFillTheBagMain(String type) {
         ModelAndView view = new ModelAndView("businessManage/examine/exceptionAudit");
         view.addObject("type", type);
         return view;
@@ -70,7 +64,7 @@ public class ExceptionAuditAction {
         return result;
     }
     
-    @RequestMapping("auditView")
+    @RequestMapping({"emptyCarLeavingFactory/auditView","noNeedToFillTheBag/auditView"})
     public ModelAndView auditView(String id) throws Exception {
         ModelAndView view = new ModelAndView("businessManage/examine/exceptionAuditView");
         ExceptionAuditResp resp = exceptionAuditService.getById(id);

@@ -132,7 +132,17 @@
 			e.stopPropagation();
 			var obj = $('table.maintable tbody tr.active').data();
 			if(!obj) {layer.msg('需要选中一行才能操作哦！'); return;}
-			window.location.href = '/trfc/exceptionAudit/auditView?id=' + obj.id;
+			var type = $('#type').val();
+			switch (type) {
+			case '1':
+				window.location.href = '/trfc/exceptionAudit/emptyCarLeavingFactory/auditView?id=' + obj.id;
+				break;
+			case '4':
+				window.location.href = '/trfc/exceptionAudit/noNeedToFillTheBag/auditView?id=' + obj.id;
+				break;
+			default:
+				break;
+			}
 		});
 		$('#jumpPageNoBtn').off('click').on('click',function(){
 			var pageNo = $('input#jumpPageNo').val();pageNo = $.trim(pageNo);pageNo = parseInt(pageNo);
@@ -246,7 +256,17 @@
 			}
 			$('#dataBody tr').off('dblclick').on('dblclick', function() {
 				var obj = $(this).data();
-				window.location.href = '/trfc/exceptionAudit/auditView?id=' + obj.id;
+				var type = $('#type').val();
+				switch (type) {
+				case '1':
+					window.location.href = '/trfc/exceptionAudit/emptyCarLeavingFactory/auditView?id=' + obj.id;
+					break;
+				case '4':
+					window.location.href = '/trfc/exceptionAudit/noNeedToFillTheBag/auditView?id=' + obj.id;
+					break;
+				default:
+					break;
+				}
 			});
 		} else {
 			layer.msg('暂无数据.');

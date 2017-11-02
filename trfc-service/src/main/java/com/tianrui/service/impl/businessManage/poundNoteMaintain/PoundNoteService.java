@@ -1868,14 +1868,22 @@ public class PoundNoteService implements IPoundNoteService {
 		PoundNote poundNote = new PoundNote();
 		poundNote.setNoticeid(noticeid);
 		List<PoundNote> listPoundNote = poundNoteMapper.selectSelective(poundNote);
-		Collections.sort(listPoundNote,new Comparator<PoundNote>() {
-
-            @Override
-            public int compare(PoundNote o1, PoundNote o2) {
-                return (int) (o2.getMakebilltime()-o1.getMakebilltime());
-            }
-		    
-        });
+//		Collections.sort(listPoundNote,new Comparator<PoundNote>() {
+//
+//            @Override
+//            public int compare(PoundNote o1, PoundNote o2) {
+//                int com = 0;
+//                long sub = o2.getMakebilltime()-o1.getMakebilltime();
+//                if (sub > 0) {
+//                    com = 1;
+//                }
+//                if (sub < 0) {
+//                    com = -1;
+//                }
+//                return com;
+//            }
+//		    
+//        });
 		// 判断是否一次过磅
 		if (CollectionUtils.isNotEmpty(listPoundNote)) {
 		    if (!StringUtils.equals(listPoundNote.get(0).getStatus(), Constant.THREE_STRING)) {

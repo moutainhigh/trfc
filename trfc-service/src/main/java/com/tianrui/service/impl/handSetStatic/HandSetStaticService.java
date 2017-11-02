@@ -305,12 +305,18 @@ public class HandSetStaticService implements IHandSetStaticService {
             SalesArrive sa = salesArriveMapper.getByVehicleNo(param.getVehicleNo());
             if (sa != null) {
                 if (!StringUtils.equals(sa.getStatus(), Constant.SEVEN_STRING)) {
-                    if (!StringUtils.equals(sa.getStatus(), Constant.ONE_STRING)) {
-                        SalesArrive bean = new SalesArrive();
-                        bean.setId(sa.getId());
-                        bean.setStatus(Constant.SEVEN_STRING);
-                        salesArriveMapper.updateByPrimaryKeySelective(bean);
-                        rs.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+                    if (StringUtils.equals(sa.getStatus(), Constant.ONE_STRING)) {
+                        PoundNote pn = poundNoteMapper.selectByNoticeId(sa.getId());
+                        List<ExceptionAudit> list = exceptionAuditMapper.listByPnId(Constant.ONE_STRING, pn.getId());
+                        if (CollectionUtils.isEmpty(list)) {
+                            SalesArrive bean = new SalesArrive();
+                            bean.setId(sa.getId());
+                            bean.setStatus(Constant.SEVEN_STRING);
+                            salesArriveMapper.updateByPrimaryKeySelective(bean);
+                            rs.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+                        } else {
+                            rs.setErrorCode(ErrorCode.EXCEPTION_AUDIT_ERROR2);
+                        }
                     } else {
                         rs.setErrorCode(ErrorCode.NOTICE_NOT_ONE_POUNDNOTE);
                     }
@@ -332,16 +338,21 @@ public class HandSetStaticService implements IHandSetStaticService {
             if (sa != null) {
                 if (StringUtils.equals(sa.getStatus(), Constant.ONE_STRING)) {
                     PoundNote pn = poundNoteMapper.selectByNoticeId(sa.getId());
-                    ExceptionAudit ea = new ExceptionAudit();
-                    ea.setId(UUIDUtil.getId());
-                    ea.setPnId(pn.getId());
-                    ea.setType(Constant.ONE_NUMBER);
-                    ea.setAuditStatus(false);
-                    ea.setState(true);
-                    ea.setCreator(param.getUserId());
-                    ea.setCreatetime(System.currentTimeMillis());
-                    exceptionAuditMapper.insertSelective(ea);
-                    rs.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+                    List<ExceptionAudit> list = exceptionAuditMapper.listByPnId(Constant.ONE_STRING, pn.getId());
+                    if (CollectionUtils.isEmpty(list)) {
+                        ExceptionAudit ea = new ExceptionAudit();
+                        ea.setId(UUIDUtil.getId());
+                        ea.setPnId(pn.getId());
+                        ea.setType(Constant.ONE_NUMBER);
+                        ea.setAuditStatus(false);
+                        ea.setState(true);
+                        ea.setCreator(param.getUserId());
+                        ea.setCreatetime(System.currentTimeMillis());
+                        exceptionAuditMapper.insertSelective(ea);
+                        rs.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+                    } else {
+                        rs.setErrorCode(ErrorCode.EXCEPTION_AUDIT_ERROR2);
+                    }
                 } else {
                     rs.setErrorCode(ErrorCode.VEHICLE_NOTICE_NOT_ONE_WEIGHT);
                 }
@@ -358,20 +369,25 @@ public class HandSetStaticService implements IHandSetStaticService {
         if (param != null && StringUtils.isNotBlank(param.getVehicleNo())) {
             SalesArrive sa = salesArriveMapper.getByVehicleNo(param.getVehicleNo());
             if (sa != null) {
-                if (StringUtils.equals(sa.getStatus(), Constant.ONE_STRING)) {
+                if (StringUtils.equals(sa.getStatus(), Constant.SEVEN_STRING)) {
                     PoundNote pn = poundNoteMapper.selectByNoticeId(sa.getId());
-                    ExceptionAudit ea = new ExceptionAudit();
-                    ea.setId(UUIDUtil.getId());
-                    ea.setPnId(pn.getId());
-                    ea.setType(Constant.FOUR_NUMBER);
-                    ea.setAuditStatus(false);
-                    ea.setState(true);
-                    ea.setCreator(param.getUserId());
-                    ea.setCreatetime(System.currentTimeMillis());
-                    exceptionAuditMapper.insertSelective(ea);
-                    rs.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+                    List<ExceptionAudit> list = exceptionAuditMapper.listByPnId(Constant.FOUR_STRING, pn.getId());
+                    if (CollectionUtils.isEmpty(list)) {
+                        ExceptionAudit ea = new ExceptionAudit();
+                        ea.setId(UUIDUtil.getId());
+                        ea.setPnId(pn.getId());
+                        ea.setType(Constant.FOUR_NUMBER);
+                        ea.setAuditStatus(false);
+                        ea.setState(true);
+                        ea.setCreator(param.getUserId());
+                        ea.setCreatetime(System.currentTimeMillis());
+                        exceptionAuditMapper.insertSelective(ea);
+                        rs.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+                    } else {
+                        rs.setErrorCode(ErrorCode.EXCEPTION_AUDIT_ERROR3);
+                    }
                 } else {
-                    rs.setErrorCode(ErrorCode.VEHICLE_NOTICE_NOT_ONE_WEIGHT);
+                    rs.setErrorCode(ErrorCode.VEHICLE_NOTICE_NOT_LOAD);
                 }
             } else {
                 rs.setErrorCode(ErrorCode.NOTICE_NOT_EXIST);
@@ -386,7 +402,7 @@ public class HandSetStaticService implements IHandSetStaticService {
         if (param != null && StringUtils.isNotBlank(param.getVehicleNo())) {
             SalesArrive sa = salesArriveMapper.getByVehicleNo(param.getVehicleNo());
             if (sa != null) {
-                if (StringUtils.equals(sa.getStatus(), Constant.ONE_STRING)) {
+                if (StringUtils.equals(sa.getStatus(), Constant.SEVEN_STRING)) {
                     PoundNote pn = poundNoteMapper.selectByNoticeId(sa.getId());
                     ExceptionAudit ea = new ExceptionAudit();
                     ea.setId(UUIDUtil.getId());
@@ -400,7 +416,7 @@ public class HandSetStaticService implements IHandSetStaticService {
                     exceptionAuditMapper.insertSelective(ea);
                     rs.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
                 } else {
-                    rs.setErrorCode(ErrorCode.VEHICLE_NOTICE_NOT_ONE_WEIGHT);
+                    rs.setErrorCode(ErrorCode.VEHICLE_NOTICE_NOT_LOAD);
                 }
             } else {
                 rs.setErrorCode(ErrorCode.NOTICE_NOT_EXIST);
@@ -415,7 +431,7 @@ public class HandSetStaticService implements IHandSetStaticService {
         if (param != null && StringUtils.isNotBlank(param.getVehicleNo())) {
             SalesArrive sa = salesArriveMapper.getByVehicleNo(param.getVehicleNo());
             if (sa != null) {
-                if (StringUtils.equals(sa.getStatus(), Constant.ONE_STRING)) {
+                if (StringUtils.equals(sa.getStatus(), Constant.SEVEN_STRING)) {
                     PoundNote pn = poundNoteMapper.selectByNoticeId(sa.getId());
                     ExceptionAudit ea = new ExceptionAudit();
                     ea.setId(UUIDUtil.getId());
@@ -429,7 +445,7 @@ public class HandSetStaticService implements IHandSetStaticService {
                     exceptionAuditMapper.insertSelective(ea);
                     rs.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
                 } else {
-                    rs.setErrorCode(ErrorCode.VEHICLE_NOTICE_NOT_ONE_WEIGHT);
+                    rs.setErrorCode(ErrorCode.VEHICLE_NOTICE_NOT_LOAD);
                 }
             } else {
                 rs.setErrorCode(ErrorCode.NOTICE_NOT_EXIST);

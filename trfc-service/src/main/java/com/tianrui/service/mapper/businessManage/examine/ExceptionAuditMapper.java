@@ -2,6 +2,8 @@ package com.tianrui.service.mapper.businessManage.examine;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.tianrui.api.req.businessManage.examine.ExceptionAuditQuery;
 import com.tianrui.api.resp.businessManage.examine.ExceptionAuditQueryResp;
 import com.tianrui.service.bean.businessManage.examine.ExceptionAudit;
@@ -22,4 +24,6 @@ public interface ExceptionAuditMapper {
     List<ExceptionAuditQueryResp> listByPageParams(ExceptionAuditQuery req);
     
     long countByPageParams(ExceptionAuditQuery req);
+    
+    List<ExceptionAudit> listByPnId(@Param("type")String type, @Param("pnId")String pnId);
 }

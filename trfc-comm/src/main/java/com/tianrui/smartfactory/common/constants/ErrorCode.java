@@ -11,7 +11,7 @@ public enum ErrorCode {
 	//数据不存在
 	DATA_ERROR("E00002","数据不存在，请重新确认."),
 	//连接超时
-	CONNECTION_TIMEOUT_ERROR("E00003","连接超时."),
+	CONNECTION_TIMEOUT_ERROR("000000","数据中心连接超时，该单据未推送成功."),
 	//推单失败
 	RETURN_ERROR("E00003","推单失败."),
 	
@@ -131,7 +131,9 @@ public enum ErrorCode {
     PURCHASE_MIXED_ERROR2("E700002","已经生成过化验单了，无法重复生成."),
     //异常审批
     EXCEPTION_AUDIT_ERROR("E800000","未找到异常审批单据."),
-    EXCEPTION_AUDIT_ERROR1("E800001","该单据已被审批，请勿重复审批.");
+    EXCEPTION_AUDIT_ERROR1("E800001","该单据已被审批，请勿重复审批."),
+    EXCEPTION_AUDIT_ERROR2("E800002","该车辆已经空车出厂确认."),
+    EXCEPTION_AUDIT_ERROR3("E800003","该车辆已经无需补包确认.");
     
 	private String code;
 	private String msg;

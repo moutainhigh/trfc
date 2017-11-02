@@ -19,6 +19,7 @@
 			<jsp:include page="../../common/base/right_head_busi.jsp"></jsp:include>
 			<!--tab切换的内容-->
 			<input id="exceptionAuditId" value="${resp.id }" type="hidden" />
+                <input id="type" value="${resp.type }" type="hidden"/>
 			<div class="intel_tabbox">
 				<!--到货通知单begin-->
 				<div class="intel_tabcont ">

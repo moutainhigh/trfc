@@ -24,6 +24,12 @@
               </list>
           </property>
      </bean>
+     <bean class="com.tianrui.smartfactory.common.constants.Constant">
+        <property name="FILE_URL_PRE" value="${file.up.url}"></property>
+        <property name="ORG_ID" value="${org.id}"></property>
+        <property name="ORG_NAME" value="${org.name}"></property>
+        <property name="URL_DOMAIN" value="${dc.url}"></property>
+     </bean>
      <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PreferencesPlaceholderConfigurer">
           <property name="properties" ref="configProperties" />
      </bean>

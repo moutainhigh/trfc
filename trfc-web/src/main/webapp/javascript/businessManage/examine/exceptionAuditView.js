@@ -13,7 +13,17 @@
 				var id = $('#exceptionAuditId').val();
 				$.post('/trfc/exceptionAudit/audit', {id: id, auditOpinion: value}, function(result) {
 					if(result.code == '000000'){
-						window.location.href = '/trfc/exceptionAudit/main';
+						var type = $('#type').val();
+						switch (type) {
+						case '1':
+							window.location.href = '/trfc/exceptionAudit/emptyCarLeavingFactory/auditView?id=' + obj.id;
+							break;
+						case '4':
+							window.location.href = '/trfc/exceptionAudit/noNeedToFillTheBag/auditView?id=' + obj.id;
+							break;
+						default:
+							break;
+						}
 					}else{
 						layer.msg(result.error,{icon:5});
 					}
