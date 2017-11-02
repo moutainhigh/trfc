@@ -9,6 +9,7 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.tianrui.api.intf.system.auth.ISystemRolePermissionsService;
 import com.tianrui.api.intf.system.auth.ISystemUserService;
 import com.tianrui.api.req.businessManage.app.AppUserEditReq;
 import com.tianrui.api.req.system.auth.AppUserReq;
@@ -17,6 +18,7 @@ import com.tianrui.api.req.system.auth.SystemUserQueryReq;
 import com.tianrui.api.req.system.auth.SystemUserSaveReq;
 import com.tianrui.api.req.system.auth.UserReq;
 import com.tianrui.api.resp.system.auth.AppUserResp;
+import com.tianrui.api.resp.system.auth.SystemRoleMenuResp;
 import com.tianrui.api.resp.system.auth.SystemUserResp;
 import com.tianrui.service.bean.system.auth.Organization;
 import com.tianrui.service.bean.system.auth.SystemUser;
@@ -41,6 +43,8 @@ public class SystemUserService implements ISystemUserService {
 	OrganizationMapper organizationMapper;
 	@Autowired
 	CacheClient cacheClient;
+    @Autowired
+    ISystemRolePermissionsService systemRolePermissionsService;
 	
 	@Override
 	public Result apiLogin(UserReq req) throws Exception {
@@ -634,6 +638,45 @@ public class SystemUserService implements ISystemUserService {
             }
         }
         return result;
+    }
+
+    @Override
+    public Result handLogin(UserReq req) throws Exception {
+        Result rs =Result.getParamErrorResult();
+        //参数不能为空
+        if (req!=null && StringUtils.isNotBlank(req.getPswd()) && StringUtils.isNotBlank(req.getAccount())) {
+            SystemUserQueryReq query =new SystemUserQueryReq();
+            query.setAccount(req.getAccount());
+            List<SystemUser> list = userMapper.selectByCondition(query);
+            if ( CollectionUtils.isNotEmpty(list) ) {
+                //验证密码
+                if (StringUtils.equals(list.get(0).getPassword(),req.getPswd() )) {
+                    if ( list.get(0).getIsvalid()==BusinessConstants.USER_VALID_BYTE ) {
+                        if(list.get(0).getIslock() == BusinessConstants.USER_UNLOCK_BYTE) {
+                            if(StringUtils.equals(list.get(0).getIdentityTypes(), BusinessConstants.USER_PT_STR)) {
+                                cumulativeLoginCount(list.get(0));
+                                SystemUserResp user = copySystemUserBean2Resp(list.get(0));
+                                List<SystemRoleMenuResp> menuList = systemRolePermissionsService.iphonRole(user.getId());
+                                user.setMenuList(menuList);
+                                rs.setData(user);
+                                rs.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+                            }else{
+                                rs.setErrorCode(ErrorCode.SYSTEM_USER_ERROR11);
+                            }
+                        }else{
+                            rs.setErrorCode(ErrorCode.SYSTEM_USER_ERROR3);
+                        }
+                    }else{
+                        rs.setErrorCode(ErrorCode.SYSTEM_USER_ERROR2);
+                    }
+                }else{
+                    rs.setErrorCode(ErrorCode.SYSTEM_USER_ERROR2);
+                }
+            }else{
+                rs.setErrorCode(ErrorCode.SYSTEM_USER_ERROR1);
+            }
+        }
+        return rs;
     }
 	
 }

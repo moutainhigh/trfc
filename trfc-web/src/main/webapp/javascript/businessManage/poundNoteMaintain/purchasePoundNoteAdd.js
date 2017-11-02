@@ -508,6 +508,7 @@
 		$('#suppliername').val(obj.suppliername || '');
 		$('#purchasesum').val(obj.purchasesum || '');
 		$('#materielname').val(obj.materielname || '');
+		$('#minemouth').val(obj.minemouthname || '').attr('minemouthid', obj.minemouthid);
 		$('#margin').val(obj.margin || '');
 		$('#supplierremark').val(obj.supplierremark || '');
 		$('#altbill').modal('hide');

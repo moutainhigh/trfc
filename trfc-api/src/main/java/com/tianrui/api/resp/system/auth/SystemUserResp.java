@@ -1,6 +1,7 @@
 package com.tianrui.api.resp.system.auth;
 
 import java.io.Serializable;
+import java.util.List;
 
 public class SystemUserResp implements Serializable{
 
@@ -28,8 +29,16 @@ public class SystemUserResp implements Serializable{
   	private String identityTypes;
   	//手机号码
   	private String mobilePhone;
+  	//手持机菜单权限集合
+  	private List<SystemRoleMenuResp> menuList;
 	
-	public String getId() {
+	public List<SystemRoleMenuResp> getMenuList() {
+        return menuList;
+    }
+    public void setMenuList(List<SystemRoleMenuResp> menuList) {
+        this.menuList = menuList;
+    }
+    public String getId() {
 		return id;
 	}
 	public void setId(String id) {

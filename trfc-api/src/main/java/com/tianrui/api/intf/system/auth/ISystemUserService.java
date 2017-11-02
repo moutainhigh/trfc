@@ -181,4 +181,11 @@ public interface ISystemUserService {
 	 * @return
 	 */
     Result updatePwd(SystemUserPswdReq req);
+    /**
+     * @annotation 手持机登录
+     * @param req
+     * @return
+     * @throws Exception
+     */
+    Result handLogin(UserReq req) throws Exception;
 }

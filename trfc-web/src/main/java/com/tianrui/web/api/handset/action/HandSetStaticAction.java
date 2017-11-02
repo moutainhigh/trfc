@@ -187,15 +187,13 @@ public class HandSetStaticAction {
 	 * @annotation 以下为增加手持机联网新增接口
 	 * 
 	 */
-	
-	
 	@RequestMapping(value="/login",method=RequestMethod.POST)
 	@ApiParamRawType(UserReq.class)
     @ResponseBody
     public ApiResult login(ApiParam<UserReq> req){
         Result rs = Result.getErrorResult();
         try {
-            rs = systemUserService.login(req.getBody());
+            rs = systemUserService.handLogin(req.getBody());
         } catch (Exception e) {
             log.error(e.getMessage(), e);
             rs.setErrorCode(ErrorCode.SYSTEM_ERROR);
