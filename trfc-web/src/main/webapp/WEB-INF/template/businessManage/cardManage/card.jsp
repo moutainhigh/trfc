@@ -67,12 +67,12 @@
 							<a> <i class="iconfont delete">&#xe63d;</i>
 								<span>删除</span>
 							</a>
-						</div> -->
+						</div> 
 						<div id="readSearch" class="intel_operasolo">
 							<a> <i class="iconfont colorlv">&#xe601;</i>
 								<span>读卡查找</span>
 							</a>
-						</div>
+						</div>-->
 					</div>
 					<div class="intel_table">
 						<!--用户表格begin-->
