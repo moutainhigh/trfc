@@ -218,7 +218,7 @@
 	LEFT JOIN tr_pound_db_note t2 ON t1.pn_id = t2.id
 	LEFT JOIN tr_sales_db_arrive t3 ON t2.noticeid = t3.id
 	WHERE
-	    t1.type = 1
+        t1.state = 1
     <if test="type != null and type != ''">
         and t1.type = #{type,jdbcType=VARCHAR}
     </if>
@@ -255,7 +255,7 @@
 	LEFT JOIN tr_pound_db_note t2 ON t1.pn_id = t2.id
 	LEFT JOIN tr_sales_db_arrive t3 ON t2.noticeid = t3.id
 	WHERE
-	    t1.type = 1
+        t1.state = 1
     <if test="type != null and type != ''">
         and t1.type = #{type,jdbcType=VARCHAR}
     </if>
@@ -276,6 +276,20 @@
     </if>
     <if test="endTime != null and endTime != ''">
         and t1.createtime <![CDATA[<]]> #{endTime,jdbcType=BIGINT}
+    </if>
+  </select>
+  <select id="listByPnId" parameterType="java.lang.String" resultMap="BaseResultMap">
+	SELECT
+        <include refid="Base_Column_List" />
+    FROM
+        tr_exception_db_audit
+    WHERE
+        state = 1
+    <if test="type != null and type != ''">
+        and type = #{type,jdbcType=VARCHAR}
+    </if>
+    <if test="pnId != null and pnId != ''">
+        and pn_id = #{pnId,jdbcType=VARCHAR}
     </if>
   </select>
 </mapper>

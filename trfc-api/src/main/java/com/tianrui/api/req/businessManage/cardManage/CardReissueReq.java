@@ -15,7 +15,7 @@ public class CardReissueReq extends BaseReq {
 	private Long endtime;
 	private String materialid;
 	private String noticeid;
-	private String vahicleid;
+	private String vehicleid;
 	private String accesscode;
 	private String businesstype;
 	private String accesstype;
@@ -53,11 +53,11 @@ public class CardReissueReq extends BaseReq {
 	public void setMaterialid(String materialid) {
 		this.materialid = materialid;
 	}
-	public String getVahicleid() {
-		return vahicleid;
+	public String getVehicleid() {
+		return vehicleid;
 	}
-	public void setVahicleid(String vahicleid) {
-		this.vahicleid = vahicleid;
+	public void setVehicleid(String vehicleid) {
+		this.vehicleid = vehicleid;
 	}
 	public String getAccesscode() {
 		return accesscode;

@@ -295,7 +295,7 @@ public class CardReissueService implements ICardReissueService {
 		query.setStarttime(req.getStarttime());
 		query.setEndtime(req.getEndtime());
 		query.setMaterielid(req.getMaterialid());
-		query.setVehicleid(req.getVahicleid());
+		query.setVehicleid(req.getVehicleid());
 		query.setCode(req.getAccesscode());
 		query.setBusinesstype(req.getBusinesstype());
 		query.setAccesstype(req.getAccesstype());

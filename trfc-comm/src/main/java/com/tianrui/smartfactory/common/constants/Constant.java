@@ -19,7 +19,7 @@ public class Constant {
     // 初始密码
     public final static String PASSWORD_INIT = "123456";
 
-    public final static String FILE_URL_PRE = "http://172.19.4.73:81/uploadimgs/";
+    public static String FILE_URL_PRE = "";
 
     // 用户验证key
     public final static String apiAuthKey = "@#!tr2017!#$";
@@ -39,12 +39,12 @@ public class Constant {
     // public final static String ORG_ID = "0001PP1000000000BSF6";
     // public final static String ORG_NAME = "天瑞集团汝州水泥有限公司";
 
-    public final static String ORG_ID = "0001PP1000000000BSIU";
-    public final static String ORG_NAME = "天瑞集团水泥有限公司（裕泰公司）";
+    public static String ORG_ID = "";
+    public static String ORG_NAME = "";
 
     // 接口URL
-//    public final static String URL_DOMAIN = "http://172.19.4.97:8083";
-     public final static String URL_DOMAIN = "http://172.20.10.210:8080";
+    public static String URL_DOMAIN = "";
+//     public final static String URL_DOMAIN = "http://172.20.10.210:8080";
     public final static String URL_RETURN_SALESAPPLICATION = URL_DOMAIN + "/api/boOrder/orderReturn";
     public final static String URL_RETURN_SALESOUTBOUNDCATION = URL_DOMAIN + "/api/saleoutboundorder/orderReturn";
     public final static String URL_RETURN_PURCHASESTORAGEATION = URL_DOMAIN + "/api/purchasestorage/orderReturn";
@@ -116,5 +116,29 @@ public class Constant {
     public final static Integer SEVEN_NUMBER = 7;
     public final static Integer EIGHT_NUMBER = 8;
     public final static Integer NINE_NUMBER = 9;
+    public static String getFILE_URL_PRE() {
+        return FILE_URL_PRE;
+    }
+    public static void setFILE_URL_PRE(String fILE_URL_PRE) {
+        FILE_URL_PRE = fILE_URL_PRE;
+    }
+    public static String getORG_ID() {
+        return ORG_ID;
+    }
+    public static void setORG_ID(String oRG_ID) {
+        ORG_ID = oRG_ID;
+    }
+    public static String getORG_NAME() {
+        return ORG_NAME;
+    }
+    public static void setORG_NAME(String oRG_NAME) {
+        ORG_NAME = oRG_NAME;
+    }
+    public static String getURL_DOMAIN() {
+        return URL_DOMAIN;
+    }
+    public static void setURL_DOMAIN(String uRL_DOMAIN) {
+        URL_DOMAIN = uRL_DOMAIN;
+    }
 
 }
