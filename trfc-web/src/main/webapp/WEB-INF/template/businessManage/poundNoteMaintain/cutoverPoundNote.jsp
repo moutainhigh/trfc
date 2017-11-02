@@ -74,7 +74,7 @@
 						</div>
 					</div>
 					<div class="intel_opera">
-						<div id="refresh" class="intel_operasolo">
+						<!-- <div id="refresh" class="intel_operasolo">
 							<a> <i class="iconfont colorlv">&#xe61b;</i>
 								<span>刷新</span>
 							</a>
@@ -89,7 +89,7 @@
 							<a> <i class="iconfont invalid">&#xe60c;</i>
 								<span>作废</span>
 							</a>
-						</div>
+						</div> -->
 					</div>
 					<div class="intel_table">
 						<!--用户表格begin-->

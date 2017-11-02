@@ -63,7 +63,7 @@
 								<!--角色成员-->
 								<div class="juese_tabcont">
 									<div class="intel_opera">
-										<div class="intel_operasolo refresh">
+										<!--  --><div class="intel_operasolo refresh">
 											<i class="iconfont colorlv">&#xe61b;</i>
 											<h5>刷新</h5>
 										</div>

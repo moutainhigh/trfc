@@ -79,38 +79,46 @@
 						</div>
 					</div>
 					<div class="intel_opera">
-						<div class="intel_operasolo" id="refresh">
-							<a> <i class="iconfont colorlv">&#xe61b;</i> <span>刷新</span>
+						<!-- <div class="intel_operasolo" id="refresh">
+							<a> <i class="iconfont colorlv">&#xe61b;</i>
+								<span>刷新</span>
 							</a>
 						</div>
 						<div class="intel_operasolo" id="addBtn">
-							<a> <i class="iconfont coloradd">&#xe627;</i> <span>新增</span>
+							<a> <i class="iconfont coloradd">&#xe627;</i>
+								<span>新增</span>
 							</a>
 						</div>
 						<div class="intel_operasolo" id="update">
-							<a> <i class="iconfont update">&#xe600;</i> <span>编辑</span>
+							<a> <i class="iconfont update">&#xe600;</i>
+								<span>编辑</span>
 							</a>
 						</div>
 						<div class="intel_operasolo" id="copy">
-							<a> <i class="iconfont copy">&#xe61c;</i> <span>复制</span>
+							<a> <i class="iconfont copy">&#xe61c;</i>
+								<span>复制</span>
 							</a>
 						</div>
 						<div id="audit" class="intel_operasolo">
-							<a> <i class="iconfont audit">&#xe692;</i> <span>审核</span>
+							<a> <i class="iconfont audit">&#xe692;</i>
+								<span>审核</span>
 							</a>
 						</div>
 						<div id="unaudit" class="intel_operasolo">
-							<a> <i class="iconfont unaudit">&#xe651;</i> <span>反审</span>
+							<a> <i class="iconfont unaudit">&#xe651;</i>
+								<span>反审</span>
 							</a>
 						</div>
 						<div id="invalid" class="intel_operasolo">
-							<a> <i class="iconfont invalid">&#xe60c;</i> <span>作废</span>
+							<a> <i class="iconfont invalid">&#xe60c;</i>
+								<span>作废</span>
 							</a>
 						</div>
 						<div id="outfactory" class="intel_operasolo">
-							<a> <i class="iconfont outfactory">&#xe63c;</i> <span>出厂</span>
+							<a> <i class="iconfont outfactory">&#xe63c;</i>
+								<span>出厂</span>
 							</a>
-						</div>
+						</div> -->
 					</div>
 					<div class="intel_table">
 						<!--用户表格begin-->

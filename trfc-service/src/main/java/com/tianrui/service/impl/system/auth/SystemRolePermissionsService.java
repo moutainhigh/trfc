@@ -31,7 +31,6 @@ public class SystemRolePermissionsService implements ISystemRolePermissionsServi
 	private SystemUserRoleMapper systemUserRoleMapper;
 	@Autowired
 	private SystemRoleMenuMapper systemRoleMenuMapper;
-	
 	@Override
 	public Result queryUserByRole(SystemUserQueryReq req) {
 		Result result = Result.getParamErrorResult();
@@ -148,6 +147,30 @@ public class SystemRolePermissionsService implements ISystemRolePermissionsServi
 			result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
 		}else{
 			result.setErrorCode(ErrorCode.OPERATE_ERROR);
+		}
+		return result;
+	}
+
+	@Override
+	public Result selectRole(SystemUserQueryReq req) {
+		Result result = Result.getParamErrorResult();
+		if(req != null && StringUtils.isNotBlank(req.getRoleid())){
+		//	List<SystemRoleMenuResp> list = systemRoleMenuMapper.queryMenuByRole(req);
+			List<SystemRoleMenuResp> list = systemRoleMenuMapper.selectRole(req);
+			result.setData(list);
+			result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+		}
+		return result;
+	}
+	@Override
+	public Result iphonRole(String id) {
+		Result result = Result.getParamErrorResult();
+		SystemUserRole  systemUserRole =systemUserRoleMapper.iphoneRole(id);
+		List<SystemRoleMenuResp> list = systemRoleMenuMapper.iphoneRole(systemUserRole.getRoleid());
+		if(list!=null && !list.isEmpty()){
+			result.setData(list);
+		}else{
+			result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
 		}
 		return result;
 	}

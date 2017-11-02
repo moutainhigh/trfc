@@ -41,12 +41,12 @@
 						</div>
 					</div>
 					<div class="intel_opera">
-						<div id="refreshMater" class="intel_operasolo">
+						<!-- <div id="refreshMater" class="intel_operasolo">
 							<i class="iconfont colorlv">&#xe61b;</i> <span>刷新</span>
 						</div>
 						<div id="updateFromDc" class="intel_operasolo">
 							<i class="iconfont colorlv">&#xe62e;</i> <span>更新档案</span>
-						</div>
+						</div> -->
 					</div>
 					<div class="intel_table">
 						<!--用户表格begin-->

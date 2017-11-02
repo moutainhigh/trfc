@@ -79,7 +79,7 @@ input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
 						</div>
 					</div>
 					<div class="intel_opera">
-						<div id="refreshBtn" class="intel_operasolo">
+						<!-- <div id="refreshBtn" class="intel_operasolo">
 							<a> <i class="iconfont colorlv">&#xe61b;</i>
 								<span>刷新</span>
 							</a>
@@ -109,7 +109,7 @@ input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
 							<a> <i class="iconfont delete">&#xe63d;</i>
 								<span>删除</span>
 							</a>
-						</div>
+						</div> -->
 					</div>
 					<div class="intel_table">
 						<!--用户表格begin-->

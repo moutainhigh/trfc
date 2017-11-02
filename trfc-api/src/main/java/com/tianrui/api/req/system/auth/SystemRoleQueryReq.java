@@ -21,6 +21,8 @@ public class SystemRoleQueryReq extends BaseReq {
 	//角色列表名称
 	private String rolename;
 	
+	private String roleType;
+	
 	public String getCurrUId() {
 		return currUId;
 	}
@@ -75,6 +77,14 @@ public class SystemRoleQueryReq extends BaseReq {
 
 	public void setRolename(String rolename) {
 		this.rolename = rolename;
+	}
+
+	public String getRoleType() {
+		return roleType;
+	}
+
+	public void setRoleType(String roleType) {
+		this.roleType = roleType;
 	}
 	
 	

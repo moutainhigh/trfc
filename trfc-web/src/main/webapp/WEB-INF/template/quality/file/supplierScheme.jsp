@@ -60,7 +60,7 @@
 						</div>
 					</div>
 					<div class="intel_opera">
-						<div class="intel_operasolo" id="fresh">
+						<!-- <div class="intel_operasolo" id="fresh">
 							<i class="iconfont colorlv">&#xe61b;</i>
 							<h5>刷新</h5>
 						</div>
@@ -68,7 +68,7 @@
 							<i class="iconfont coloradd">&#xe627;</i>
 							<h5>新增</h5>
 
-						</div>
+						</div> -->
 					</div>
 					<div class="intel_table">
 						<!--用户表格begin-->

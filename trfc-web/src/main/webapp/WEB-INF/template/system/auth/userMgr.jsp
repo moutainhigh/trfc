@@ -6,6 +6,22 @@
 <title>无人值守-系统管理-用户管理</title>
 <!-- 引用公共header部分 -->
 <jsp:include page="../../common/base/header_busi.jsp"></jsp:include>
+<style type="text/css">
+label.layui-form-label {
+	float: left;
+	margin: 3px;
+	text-align: right;
+	width: 130px;
+}
+
+.layui-input-block {
+	margin-left: 55px;
+}
+
+.layui-form-item {
+	margin: 20px;
+}
+</style>
 </head>
 <body>
 	<div class="it_admin">
@@ -53,16 +69,16 @@
 						</div>
 					</div>
 					<div class="intel_opera">
-						<div class="intel_operasolo">
+						 <div class="intel_operasolo" id="refreshButton">
 							<a class="refreshButton"> <i class="iconfont colorlv">&#xe61b;</i>
 								<span>刷新</span>
 							</a>
 						</div>
-						<div class="intel_operasolo">
+						<div class="intel_operasolo" id="addButton">
 							<a class="addButton"> <i class="iconfont coloradd">&#xe627;</i>
 								<span>新增</span>
 							</a>
-						</div>
+						</div> 
 					</div>
 					<div class="intel_table">
 						<!--用户表格begin-->
@@ -303,6 +319,7 @@
 	</div>
 	<!-- 引用公共footer部分 -->
 	<jsp:include page="../../common/base/footer_busi.jsp"></jsp:include>
+	<script type="text/javascript" src="${staticBasePath}/js/md5.js"></script>
 	<script type="text/javascript" src="/javascript/system/auth/userMgr.js"></script>
 	<script type="text/javascript">
 		

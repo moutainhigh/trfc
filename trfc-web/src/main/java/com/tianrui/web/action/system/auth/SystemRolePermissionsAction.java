@@ -106,6 +106,19 @@ public class SystemRolePermissionsAction {
 		return result;
 	}
 	
+	@RequestMapping("selectRole")
+	@ResponseBody
+	public Result selectRole(SystemUserQueryReq req){
+		Result result = Result.getErrorResult();
+		try {
+			result = systemRolePermissionsService.selectRole(req);
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+		}
+		return result;
+	}
+	
+	
 	@RequestMapping("authorizeMenuToRole")
 	@ResponseBody
 	public Result authorizeMenuToRole(SystemRoleMenuSave save){

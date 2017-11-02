@@ -21,7 +21,7 @@ $(function() {
 	// 分页操作
 
 	// 新增绑定
-	$(".addButton").off('click').on("click", function() {
+	$("#addButton").off('click').on("click", function() {
 		openAddWindow();
 	});
 	// 新增弹出框 确认操作
@@ -47,7 +47,7 @@ $(function() {
 	});
 
 	// 刷新按钮
-	$(".right").off('click').on("click", ".refreshButton", refreshLocation);
+	$(".refreshButton").off('click').on("click", ".refreshButton", refreshLocation);
 
 	/**
 	 * 获取搜索信息

@@ -91,7 +91,7 @@
 						</div>
 					</div>
 					<div class="intel_opera">
-						<div id="refreshBtn" class="intel_operasolo">
+						<!-- <div id="refreshBtn" class="intel_operasolo">
 							<a> <i class="iconfont colorlv">&#xe61b;</i>
 								<span>刷新</span>
 							</a>
@@ -116,7 +116,7 @@
 							<a> <i class="iconfont invalid">&#xe60c;</i>
 								<span>作废</span>
 							</a>
-						</div>
+						</div> -->
                         <div id="print" class="intel_operasolo">
                             <a> <i class="iconfont print">&#xe726;</i>
                                 <span>补打榜单</span>

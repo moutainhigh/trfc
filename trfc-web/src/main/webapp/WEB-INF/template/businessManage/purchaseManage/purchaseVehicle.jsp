@@ -98,14 +98,14 @@
 						</div>
 					</div>
 					<div class="intel_opera">
-						<div class="intel_operasolo" id="refreshBtn">
+					<!--	<div class="intel_operasolo" id="refreshBtn">
 							<a> </a><i class="iconfont colorlv">&#xe61b;</i> <span>刷新</span>
 							</a>
 						</div>
 						<div id="readSearch" class="intel_operasolo">
 							<a> <i class="iconfont colorlv">&#xe601;</i> <span>读卡查找</span>
 							</a>
-						</div>
+						</div>-->
 					</div>
 					<div class="intel_table">
 						<!--用户表格begin-->
@@ -170,10 +170,26 @@
 					</div>
 					<!--分页效果结束-->
 
-				</div>
-				<!--采购申请单end-->
 			</div>
+			<!--采购申请单end-->
+
+			<!--到货通知单begin-->
+			<div class="intel_tabcont hide">2</div>
+			<!--到货通知单end-->
+
+			<!--退货通知单begin-->
+			<div class="intel_tabcont hide">3</div>
+			<!--退货通知单end-->
+
+			<!--到货通知单begin-->
+			<div class="intel_tabcont hide">4</div>
+			<!--到货通知单end-->
+			<!--到货通知单begin-->
+			<div class="intel_tabcont hide">5</div>
+			<!--到货通知单end-->
+			<!--tab切换的内容end-->
 		</div>
+	</div>
 	</div>
 
 	<!-- 引用公共footer部分 -->

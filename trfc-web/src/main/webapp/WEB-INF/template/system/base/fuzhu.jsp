@@ -25,7 +25,7 @@
 					<div class="fuzhu_list width_fuzhu">
 						<h5>辅助资料类别</h5>
 						<div class="sys_fuzhu">
-							<div class="sys_fuzhusolo" id="showAddDict">
+							 <div class="sys_fuzhusolo" id="showAddDict">
 								<a data-toggle="modal" data-target="#adddict"> <i
 									class="iconfont coloradd">&#xe627;</i> <label>新增</label>
 								</a>
@@ -77,7 +77,7 @@
 							<h5 id="fuzhu_dtile_name">辅助资料明细 - 自定义表单类别</h5>
 						</div>
 						<div class="intel_opera">
-							<div class="intel_operasolo" id="refresh">
+							<!-- <div class="intel_operasolo" id="refresh">
 								<i class="iconfont colorlv">&#xe61b;</i>
 								<span>刷新</span>
 							</div>
@@ -86,7 +86,7 @@
 									class="iconfont coloradd">&#xe627;</i>
 									<span>新增</span>
 								</a>
-							</div>
+							</div> -->
 						</div>
 						<div class="intel_table">
 							<!--角色成员表格begin-->

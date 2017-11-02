@@ -3,7 +3,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>index</title>
+<title>无人值守-其他档案-其他车辆</title>
 <!-- 引用公共header部分 -->
 <jsp:include page="../../common/base/header_busi.jsp"></jsp:include>
 </head>
@@ -41,7 +41,7 @@
 						</div>
 					</div>
 					<div class="intel_opera">
-						<div class="intel_operasolo" id="freshButton">
+						<!-- <div class="intel_operasolo" id="freshButton">
 							<i class="iconfont colorlv">&#xe61b;</i>
 							<h5>刷新</h5>
 						</div>
@@ -50,7 +50,7 @@
 								class="iconfont coloradd">&#xe627;</i>
 								<h5>新增</h5>
 							</a>
-						</div>
+						</div>  -->
 					</div>
 					<div class="intel_table">
 						<!--用户表格begin-->

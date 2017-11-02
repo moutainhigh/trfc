@@ -35,7 +35,7 @@
 							<a data-toggle="modal" data-target="#add"> <i
 								class="iconfont coloradd">&#xe627;</i> <span>新增</span>
 							</a>
-						</div>
+						</div> 
 					</div>
 					<div class="intel_table">
 						<!--用户表格begin-->
@@ -491,7 +491,6 @@
 	<!--详细end-->
 
 	<!-- 引用公共footer部分 -->
-	<jsp:include page="../../common/base/footer_busi.jsp"></jsp:include>
 	<script type="text/javascript" src="/javascript/system/auth/menu.js"></script>
 	<jsp:include page="../../common/base/footer_busi.jsp"></jsp:include>
 

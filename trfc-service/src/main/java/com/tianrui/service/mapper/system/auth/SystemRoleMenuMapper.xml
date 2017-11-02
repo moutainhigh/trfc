@@ -153,6 +153,26 @@
 	where t1.isvalid = '1'
 	order by t1.order_by
   </select>
+   <select id="selectRole" parameterType="com.tianrui.api.req.system.auth.SystemUserQueryReq" resultType="com.tianrui.api.resp.system.auth.SystemRoleMenuResp">
+	   SELECT 
+		 menuId, menuName,  menuCode,  menuPid, orderBy,  info
+		FROM
+		  `tr_system_menu` 
+		WHERE id IN 
+		  (SELECT  menuid FROM `tr_system_role_menu` 
+		  WHERE roleid =#{roleid,jdbcType=VARCHAR}) 
+		  AND deep != '4' and isvalid='1'
+   </select>
+   <select id="iphoneRole" resultType="com.tianrui.api.resp.system.auth.SystemRoleMenuResp" parameterType="java.lang.String" >
+    SELECT 
+		id, menuId, menuName,  menuCode,  menuPid, orderBy,  info
+		FROM
+		  `tr_system_menu` 
+		WHERE id IN 
+		  (SELECT  menuid FROM `tr_system_role_menu` 
+		  WHERE roleid =#{roleid,jdbcType=VARCHAR}) 
+		  AND deep != '4' and isvalid='1'
+  </select>	
   <delete id="deleteByRoleId" parameterType="java.lang.String">
   	delete from tr_system_role_menu
   	where roleid = #{roleId,jdbcType=VARCHAR}

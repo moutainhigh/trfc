@@ -10,6 +10,15 @@ $(function(){
 	//$('.material_select2').select2();
 	//绑定搜索按钮
 	$('#seek').click(function(){batchnumShowAction(1);});
+	
+//	$('#add').off('click').on('click',function(e) {
+//		e.stopPropagation();
+//		window.location.href="/trfc/quality/sales/batchnum/addMain";
+//	});
+	$("#add").click(function(){
+		href="/trfc/quality/sales/batchnum/addMain";
+		window.location.href=href;
+		 });
 	//绑定删除按钮
 	$('#delete').off('click').on('click',function(e) {
 		e.stopPropagation();

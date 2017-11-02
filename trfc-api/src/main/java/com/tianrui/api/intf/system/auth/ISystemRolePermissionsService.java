@@ -51,6 +51,16 @@ public interface ISystemRolePermissionsService {
 	 */
 	Result queryMenuByRole(SystemUserQueryReq req);
 	/**
+	 * 根据角色查看权限
+	 * @Title: selectRole 
+	 * @Description: TODO
+	 * @param @param req
+	 * @param @return   
+	 * @return Result    
+	 * @throws
+	 */
+	Result selectRole(SystemUserQueryReq req);
+	/**
 	 * @Description 给角色授权菜单权限
 	 * @author zhanggaohao
 	 * @version 2017年5月6日 下午1:31:38
@@ -66,5 +76,15 @@ public interface ISystemRolePermissionsService {
 	 * @return
 	 */
 	Result resetMenuToRole(SystemRoleMenuSave save);
+	/**
+	 * 手持机权限查询
+	 * @Title: iphonRole 
+	 * @Description: TODO
+	 * @param @param id
+	 * @param @return   
+	 * @return Result    
+	 * @throws
+	 */
+	Result iphonRole(String id);
 	
 }

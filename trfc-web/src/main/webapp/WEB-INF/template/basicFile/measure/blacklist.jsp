@@ -39,7 +39,7 @@
 						</div>
 					</div>
 					<div class="intel_opera">
-						<div class="intel_operasolo" id="refresh">
+						<!-- <div class="intel_operasolo" id="refresh">
 							<a> <i class="iconfont colorlv">&#xe61b;</i> <span>刷新</span>
 							</a>
 						</div>
@@ -50,7 +50,7 @@
 						<div class="intel_operasolo" id="delete">
 							<a> <i class="iconfont delete">&#xe63d;</i> <span>删除</span>
 							</a>
-						</div>
+						</div> -->
 					</div>
 					<div class="intel_table">
 						<!--用户表格begin-->

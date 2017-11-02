@@ -46,7 +46,7 @@
 						</div>
 					</div>
 					<div class="intel_opera">
-						<div class="intel_operasolo" id="fresh">
+						<!-- <div class="intel_operasolo" id="fresh">
 							<a> <i class="iconfont colorlv">&#xe61b;</i>
 								<span>刷新</span>
 							</a>
@@ -66,7 +66,7 @@
 							<a> <i class="iconfont delete">&#xe63d;</i>
 								<span>删除</span>
 							</a>
-						</div>
+						</div> -->
 					</div>
 					<div class="intel_table">
 						<!--用户表格begin-->

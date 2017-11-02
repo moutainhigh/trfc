@@ -30,4 +30,6 @@ public interface SystemUserRoleMapper {
 	int insertBatch(List<SystemUserRole> list);
 	
 	int deleteUserToRole(List<String> list);
+	
+	 SystemUserRole iphoneRole(String id);
 }

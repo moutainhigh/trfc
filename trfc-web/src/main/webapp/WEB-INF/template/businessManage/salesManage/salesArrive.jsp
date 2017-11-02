@@ -99,7 +99,7 @@ table.table-bordered th, td {
 						</div>
 					</div>
 					<div class="intel_opera">
-						<div id="refreshBtn" class="intel_operasolo">
+						<!-- <div id="refreshBtn" class="intel_operasolo">
 							<a> <i class="iconfont colorlv">&#xe61b;</i>
 								<span>刷新</span>
 							</a>
@@ -134,10 +134,10 @@ table.table-bordered th, td {
 								<span>出厂</span>
 							</a>
 						</div>
-                        <div id="readSearch" class="intel_operasolo">
-                            <a> <i class="iconfont colorlv">&#xe601;</i> <span>读卡查找</span>
-                            </a>
-                        </div>
+			                        <div id="readSearch" class="intel_operasolo">
+			                            <a> <i class="iconfont colorlv">&#xe601;</i> <span>读卡查找</span>
+			                            </a>
+			                        </div> -->
 					</div>
 					<div class="intel_table">
 						<!--用户表格begin-->

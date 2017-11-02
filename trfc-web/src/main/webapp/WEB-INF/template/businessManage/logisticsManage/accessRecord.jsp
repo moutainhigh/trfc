@@ -77,9 +77,9 @@
 						</div>
 					</div>
 					<div class="intel_opera">
-						<div id="refreshBtn" class="intel_operasolo">
+						<!-- <div id="refreshBtn" class="intel_operasolo">
 							<i class="iconfont colorlv">&#xe61b;</i> <span>刷新</span>
-						</div>
+						</div> -->
 						<div id="invalid" class="intel_operasolo">
 							<i class="iconfont colorlv">&#xe60c;</i> <span>作废</span>
 						</div>

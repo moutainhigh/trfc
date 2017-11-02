@@ -19,7 +19,7 @@
 				<!--自定义编号begin-->
 				<div class="intel_tabcont">
 					<div class="intel_opera">
-						<div class="intel_operasolo" id="systemCode_refresh">
+						<!-- <div class="intel_operasolo" id="systemCode_refresh">
 							<i class="iconfont colorlv">&#xe61b;</i>
 							<span>刷新</span>
 						</div>
@@ -28,7 +28,7 @@
 								class="iconfont coloradd">&#xe627;</i>
 								<span>新增</span>
 							</a>
-						</div>
+						</div> -->
 					</div>
 					<div class="intel_table">
 						<!--用户表格begin-->
