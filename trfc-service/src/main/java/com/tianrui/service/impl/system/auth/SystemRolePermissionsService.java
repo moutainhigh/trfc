@@ -163,16 +163,10 @@ public class SystemRolePermissionsService implements ISystemRolePermissionsServi
 		return result;
 	}
 	@Override
-	public Result iphonRole(String id) {
-		Result result = Result.getParamErrorResult();
+	public List<SystemRoleMenuResp> iphonRole(String id) {
 		SystemUserRole  systemUserRole =systemUserRoleMapper.iphoneRole(id);
 		List<SystemRoleMenuResp> list = systemRoleMenuMapper.iphoneRole(systemUserRole.getRoleid());
-		if(list!=null && !list.isEmpty()){
-			result.setData(list);
-		}else{
-			result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
-		}
-		return result;
+		return list;
 	}
 	
 }

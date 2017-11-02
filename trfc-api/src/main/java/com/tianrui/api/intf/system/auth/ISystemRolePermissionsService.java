@@ -1,8 +1,11 @@
 package com.tianrui.api.intf.system.auth;
 
+import java.util.List;
+
 import com.tianrui.api.req.system.auth.SystemRoleMenuSave;
 import com.tianrui.api.req.system.auth.SystemUserQueryReq;
 import com.tianrui.api.req.system.auth.SystemUserRoleSave;
+import com.tianrui.api.resp.system.auth.SystemRoleMenuResp;
 import com.tianrui.smartfactory.common.vo.Result;
 /**
  * @Description 角色权限
@@ -85,6 +88,6 @@ public interface ISystemRolePermissionsService {
 	 * @return Result    
 	 * @throws
 	 */
-	Result iphonRole(String id);
+	List<SystemRoleMenuResp> iphonRole(String id);
 	
 }
