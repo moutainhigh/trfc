@@ -171,7 +171,7 @@
 		WHERE id IN 
 		  (SELECT  t2.menuid FROM `tr_system_role_menu` t2
 		  WHERE t2.roleid =#{roleid,jdbcType=VARCHAR}) 
-		  AND t1.deep != '2' and t1.isvalid='1'AND t1.`code` LIKE'01050%'
+		  AND t1.deep = '2' and t1.isvalid='1'
   </select>	
   <delete id="deleteByRoleId" parameterType="java.lang.String">
   	delete from tr_system_role_menu
