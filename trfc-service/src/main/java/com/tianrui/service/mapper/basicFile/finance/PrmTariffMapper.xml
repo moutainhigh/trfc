@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tianrui.service.mapper.basicFile.finance.PrmTariffMapper" >
+  <resultMap id="BaseResultMap" type="com.tianrui.service.bean.basicFile.finance.PrmTariff" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="ncid" property="ncid" jdbcType="VARCHAR" />
+    <result column="customer_id" property="customerId" jdbcType="VARCHAR" />
+    <result column="customer_code" property="customerCode" jdbcType="VARCHAR" />
+    <result column="channeltype_id" property="channeltypeId" jdbcType="VARCHAR" />
+    <result column="channeltype_code" property="channeltypeCode" jdbcType="VARCHAR" />
+    <result column="sale_org_id" property="saleOrgId" jdbcType="VARCHAR" />
+    <result column="delivery_org_id" property="deliveryOrgId" jdbcType="VARCHAR" />
+    <result column="material_id" property="materialId" jdbcType="VARCHAR" />
+    <result column="material_code" property="materialCode" jdbcType="VARCHAR" />
+    <result column="nprice1" property="nprice1" jdbcType="VARCHAR" />
+    <result column="ts" property="ts" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="BIGINT" />
+    <result column="desc1" property="desc1" jdbcType="VARCHAR" />
+    <result column="desc2" property="desc2" jdbcType="VARCHAR" />
+    <result column="desc3" property="desc3" jdbcType="VARCHAR" />
+    <result column="desc4" property="desc4" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, ncid, customer_id, customer_code, channeltype_id, channeltype_code, sale_org_id, 
+    delivery_org_id, material_id, material_code, nprice1, ts, create_time, desc1, desc2, 
+    desc3, desc4
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from tr_prm_tariff
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="findMaxUtc" resultType="String"  >
+    select 
+   		max(ts)
+    from tr_prm_tariff
+  </select>
+  <select id="selectIds" resultType="String"  >
+    select 
+   		ncid
+    from tr_prm_tariff
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from tr_prm_tariff
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.tianrui.service.bean.basicFile.finance.PrmTariff" >
+    insert into tr_prm_tariff (id, ncid, customer_id, 
+      customer_code, channeltype_id, channeltype_code, 
+      sale_org_id, delivery_org_id, material_id, 
+      material_code, nprice1, ts, 
+      create_time, desc1, desc2, 
+      desc3, desc4)
+    values (#{id,jdbcType=VARCHAR}, #{ncid,jdbcType=VARCHAR}, #{customerId,jdbcType=VARCHAR}, 
+      #{customerCode,jdbcType=VARCHAR}, #{channeltypeId,jdbcType=VARCHAR}, #{channeltypeCode,jdbcType=VARCHAR}, 
+      #{saleOrgId,jdbcType=VARCHAR}, #{deliveryOrgId,jdbcType=VARCHAR}, #{materialId,jdbcType=VARCHAR}, 
+      #{materialCode,jdbcType=VARCHAR}, #{nprice1,jdbcType=VARCHAR}, #{ts,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=BIGINT}, #{desc1,jdbcType=VARCHAR}, #{desc2,jdbcType=VARCHAR}, 
+      #{desc3,jdbcType=VARCHAR}, #{desc4,jdbcType=VARCHAR})
+  </insert>
+  <insert id ="insertBatch" parameterType="java.util.List" >
+  	 insert into tr_prm_tariff (id, ncid, customer_id, 
+      customer_code, channeltype_id, channeltype_code, 
+      sale_org_id, delivery_org_id, material_id, 
+      material_code, nprice1, ts, 
+      create_time, desc1, desc2, 
+      desc3, desc4)
+    values 
+    <foreach collection ="list" item="item" index= "index" separator =",">
+    (
+      #{item.id,jdbcType=VARCHAR}, #{item.ncid,jdbcType=VARCHAR}, #{item.customerId,jdbcType=VARCHAR}, 
+      #{item.customerCode,jdbcType=VARCHAR}, #{item.channeltypeId,jdbcType=VARCHAR}, #{item.channeltypeCode,jdbcType=VARCHAR}, 
+      #{item.saleOrgId,jdbcType=VARCHAR}, #{item.deliveryOrgId,jdbcType=VARCHAR}, #{item.materialId,jdbcType=VARCHAR}, 
+      #{item.materialCode,jdbcType=VARCHAR}, #{item.nprice1,jdbcType=VARCHAR}, #{item.ts,jdbcType=VARCHAR}, 
+      #{item.createTime,jdbcType=BIGINT}, #{item.desc1,jdbcType=VARCHAR}, #{item.desc2,jdbcType=VARCHAR}, 
+      #{item.desc3,jdbcType=VARCHAR}, #{item.desc4,jdbcType=VARCHAR}
+    )
+    </foreach>  
+  </insert>
+  <insert id="insertSelective" parameterType="com.tianrui.service.bean.basicFile.finance.PrmTariff" >
+    insert into tr_prm_tariff
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="ncid != null" >
+        ncid,
+      </if>
+      <if test="customerId != null" >
+        customer_id,
+      </if>
+      <if test="customerCode != null" >
+        customer_code,
+      </if>
+      <if test="channeltypeId != null" >
+        channeltype_id,
+      </if>
+      <if test="channeltypeCode != null" >
+        channeltype_code,
+      </if>
+      <if test="saleOrgId != null" >
+        sale_org_id,
+      </if>
+      <if test="deliveryOrgId != null" >
+        delivery_org_id,
+      </if>
+      <if test="materialId != null" >
+        material_id,
+      </if>
+      <if test="materialCode != null" >
+        material_code,
+      </if>
+      <if test="nprice1 != null" >
+        nprice1,
+      </if>
+      <if test="ts != null" >
+        ts,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="desc1 != null" >
+        desc1,
+      </if>
+      <if test="desc2 != null" >
+        desc2,
+      </if>
+      <if test="desc3 != null" >
+        desc3,
+      </if>
+      <if test="desc4 != null" >
+        desc4,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="ncid != null" >
+        #{ncid,jdbcType=VARCHAR},
+      </if>
+      <if test="customerId != null" >
+        #{customerId,jdbcType=VARCHAR},
+      </if>
+      <if test="customerCode != null" >
+        #{customerCode,jdbcType=VARCHAR},
+      </if>
+      <if test="channeltypeId != null" >
+        #{channeltypeId,jdbcType=VARCHAR},
+      </if>
+      <if test="channeltypeCode != null" >
+        #{channeltypeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="saleOrgId != null" >
+        #{saleOrgId,jdbcType=VARCHAR},
+      </if>
+      <if test="deliveryOrgId != null" >
+        #{deliveryOrgId,jdbcType=VARCHAR},
+      </if>
+      <if test="materialId != null" >
+        #{materialId,jdbcType=VARCHAR},
+      </if>
+      <if test="materialCode != null" >
+        #{materialCode,jdbcType=VARCHAR},
+      </if>
+      <if test="nprice1 != null" >
+        #{nprice1,jdbcType=VARCHAR},
+      </if>
+      <if test="ts != null" >
+        #{ts,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=BIGINT},
+      </if>
+      <if test="desc1 != null" >
+        #{desc1,jdbcType=VARCHAR},
+      </if>
+      <if test="desc2 != null" >
+        #{desc2,jdbcType=VARCHAR},
+      </if>
+      <if test="desc3 != null" >
+        #{desc3,jdbcType=VARCHAR},
+      </if>
+      <if test="desc4 != null" >
+        #{desc4,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tianrui.service.bean.basicFile.finance.PrmTariff" >
+    update tr_prm_tariff
+    <set >
+      <if test="ncid != null" >
+        ncid = #{ncid,jdbcType=VARCHAR},
+      </if>
+      <if test="customerId != null" >
+        customer_id = #{customerId,jdbcType=VARCHAR},
+      </if>
+      <if test="customerCode != null" >
+        customer_code = #{customerCode,jdbcType=VARCHAR},
+      </if>
+      <if test="channeltypeId != null" >
+        channeltype_id = #{channeltypeId,jdbcType=VARCHAR},
+      </if>
+      <if test="channeltypeCode != null" >
+        channeltype_code = #{channeltypeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="saleOrgId != null" >
+        sale_org_id = #{saleOrgId,jdbcType=VARCHAR},
+      </if>
+      <if test="deliveryOrgId != null" >
+        delivery_org_id = #{deliveryOrgId,jdbcType=VARCHAR},
+      </if>
+      <if test="materialId != null" >
+        material_id = #{materialId,jdbcType=VARCHAR},
+      </if>
+      <if test="materialCode != null" >
+        material_code = #{materialCode,jdbcType=VARCHAR},
+      </if>
+      <if test="nprice1 != null" >
+        nprice1 = #{nprice1,jdbcType=VARCHAR},
+      </if>
+      <if test="ts != null" >
+        ts = #{ts,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=BIGINT},
+      </if>
+      <if test="desc1 != null" >
+        desc1 = #{desc1,jdbcType=VARCHAR},
+      </if>
+      <if test="desc2 != null" >
+        desc2 = #{desc2,jdbcType=VARCHAR},
+      </if>
+      <if test="desc3 != null" >
+        desc3 = #{desc3,jdbcType=VARCHAR},
+      </if>
+      <if test="desc4 != null" >
+        desc4 = #{desc4,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tianrui.service.bean.basicFile.finance.PrmTariff" >
+    update tr_prm_tariff
+    set ncid = #{ncid,jdbcType=VARCHAR},
+      customer_id = #{customerId,jdbcType=VARCHAR},
+      customer_code = #{customerCode,jdbcType=VARCHAR},
+      channeltype_id = #{channeltypeId,jdbcType=VARCHAR},
+      channeltype_code = #{channeltypeCode,jdbcType=VARCHAR},
+      sale_org_id = #{saleOrgId,jdbcType=VARCHAR},
+      delivery_org_id = #{deliveryOrgId,jdbcType=VARCHAR},
+      material_id = #{materialId,jdbcType=VARCHAR},
+      material_code = #{materialCode,jdbcType=VARCHAR},
+      nprice1 = #{nprice1,jdbcType=VARCHAR},
+      ts = #{ts,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=BIGINT},
+      desc1 = #{desc1,jdbcType=VARCHAR},
+      desc2 = #{desc2,jdbcType=VARCHAR},
+      desc3 = #{desc3,jdbcType=VARCHAR},
+      desc4 = #{desc4,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

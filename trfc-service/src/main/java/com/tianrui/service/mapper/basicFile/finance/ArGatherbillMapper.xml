@@ -1,0 +1,375 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tianrui.service.mapper.basicFile.finance.ArGatherbillMapper" >
+  <resultMap id="BaseResultMap" type="com.tianrui.service.bean.basicFile.finance.ArGatherbill" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="ncid2" property="ncid2" jdbcType="VARCHAR" />
+    <result column="ncid1" property="ncid1" jdbcType="VARCHAR" />
+    <result column="customer_id" property="customerId" jdbcType="VARCHAR" />
+    <result column="customer_code" property="customerCode" jdbcType="VARCHAR" />
+    <result column="customer_name" property="customerName" jdbcType="VARCHAR" />
+    <result column="billno" property="billno" jdbcType="VARCHAR" />
+    <result column="billdate" property="billdate" jdbcType="VARCHAR" />
+    <result column="billstatus" property="billstatus" jdbcType="VARCHAR" />
+    <result column="local_money" property="localMoney" jdbcType="VARCHAR" />
+    <result column="money" property="money" jdbcType="VARCHAR" />
+    <result column="approver" property="approver" jdbcType="VARCHAR" />
+    <result column="approvestatus" property="approvestatus" jdbcType="VARCHAR" />
+    <result column="approvedated" property="approvedated" jdbcType="VARCHAR" />
+    <result column="sale_org_id" property="saleOrgId" jdbcType="VARCHAR" />
+    <result column="sale_org_name" property="saleOrgName" jdbcType="VARCHAR" />
+    <result column="delivery_org_id" property="deliveryOrgId" jdbcType="VARCHAR" />
+    <result column="material_id" property="materialId" jdbcType="VARCHAR" />
+    <result column="material_code" property="materialCode" jdbcType="VARCHAR" />
+    <result column="billmaker" property="billmaker" jdbcType="VARCHAR" />
+    <result column="ts" property="ts" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="BIGINT" />
+    <result column="desc1" property="desc1" jdbcType="VARCHAR" />
+    <result column="desc2" property="desc2" jdbcType="VARCHAR" />
+    <result column="desc3" property="desc3" jdbcType="VARCHAR" />
+    <result column="desc4" property="desc4" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, ncid2, ncid1, customer_id, customer_code, customer_name, billno, billdate, billstatus, 
+    local_money, money, approver, approvestatus, approvedated, sale_org_id, sale_org_name, 
+    delivery_org_id, material_id, material_code, billmaker, ts, create_time, desc1, desc2, 
+    desc3, desc4
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from tr_ar_gatherbill
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <select id="findMaxUtc" resultType="String"  >
+    select 
+   		max(ts)
+    from tr_ar_gatherbill
+  </select>
+  <select id="selectIds" resultType="String"  >
+    select 
+   		ncid2
+    from tr_ar_gatherbill
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from tr_ar_gatherbill
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.tianrui.service.bean.basicFile.finance.ArGatherbill" >
+    insert into tr_ar_gatherbill (id, ncid2, ncid1, 
+      customer_id, customer_code, customer_name, 
+      billno, billdate, billstatus, 
+      local_money, money, approver, 
+      approvestatus, approvedated, sale_org_id, 
+      sale_org_name, delivery_org_id, material_id, 
+      material_code, billmaker, ts, 
+      create_time, desc1, desc2, 
+      desc3, desc4)
+    values (#{id,jdbcType=VARCHAR}, #{ncid2,jdbcType=VARCHAR}, #{ncid1,jdbcType=VARCHAR}, 
+      #{customerId,jdbcType=VARCHAR}, #{customerCode,jdbcType=VARCHAR}, #{customerName,jdbcType=VARCHAR}, 
+      #{billno,jdbcType=VARCHAR}, #{billdate,jdbcType=VARCHAR}, #{billstatus,jdbcType=VARCHAR}, 
+      #{localMoney,jdbcType=VARCHAR}, #{money,jdbcType=VARCHAR}, #{approver,jdbcType=VARCHAR}, 
+      #{approvestatus,jdbcType=VARCHAR}, #{approvedated,jdbcType=VARCHAR}, #{saleOrgId,jdbcType=VARCHAR}, 
+      #{saleOrgName,jdbcType=VARCHAR}, #{deliveryOrgId,jdbcType=VARCHAR}, #{materialId,jdbcType=VARCHAR}, 
+      #{materialCode,jdbcType=VARCHAR}, #{billmaker,jdbcType=VARCHAR}, #{ts,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=BIGINT}, #{desc1,jdbcType=VARCHAR}, #{desc2,jdbcType=VARCHAR}, 
+      #{desc3,jdbcType=VARCHAR}, #{desc4,jdbcType=VARCHAR})
+  </insert>
+  <insert id ="insertBatch" parameterType="java.util.List" >
+  	insert into tr_ar_gatherbill (id, ncid2, ncid1, 
+      customer_id, customer_code, customer_name, 
+      billno, billdate, billstatus, 
+      local_money, money, approver, 
+      approvestatus, approvedated, sale_org_id, 
+      sale_org_name, delivery_org_id, material_id, 
+      material_code, billmaker, ts, 
+      create_time, desc1, desc2, 
+      desc3, desc4)
+    values 
+      <foreach collection ="list" item="item" index= "index" separator =",">
+	    ( #{item.id,jdbcType=VARCHAR}, #{item.ncid2,jdbcType=VARCHAR}, #{item.ncid1,jdbcType=VARCHAR}, 
+	      #{item.customerId,jdbcType=VARCHAR}, #{item.customerCode,jdbcType=VARCHAR}, #{item.customerName,jdbcType=VARCHAR}, 
+	      #{item.billno,jdbcType=VARCHAR}, #{item.billdate,jdbcType=VARCHAR}, #{item.billstatus,jdbcType=VARCHAR}, 
+	      #{item.localMoney,jdbcType=VARCHAR}, #{item.money,jdbcType=VARCHAR}, #{item.approver,jdbcType=VARCHAR}, 
+	      #{item.approvestatus,jdbcType=VARCHAR}, #{item.approvedated,jdbcType=VARCHAR}, #{item.saleOrgId,jdbcType=VARCHAR}, 
+	      #{item.saleOrgName,jdbcType=VARCHAR}, #{item.deliveryOrgId,jdbcType=VARCHAR}, #{item.materialId,jdbcType=VARCHAR}, 
+	      #{item.materialCode,jdbcType=VARCHAR}, #{item.billmaker,jdbcType=VARCHAR}, #{item.ts,jdbcType=VARCHAR}, 
+	      #{item.createTime,jdbcType=BIGINT}, #{item.desc1,jdbcType=VARCHAR}, #{item.desc2,jdbcType=VARCHAR}, 
+	      #{item.desc3,jdbcType=VARCHAR}, #{item.desc4,jdbcType=VARCHAR}
+	    )
+      </foreach>
+  </insert>  
+  <insert id="insertSelective" parameterType="com.tianrui.service.bean.basicFile.finance.ArGatherbill" >
+    insert into tr_ar_gatherbill
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="ncid2 != null" >
+        ncid2,
+      </if>
+      <if test="ncid1 != null" >
+        ncid1,
+      </if>
+      <if test="customerId != null" >
+        customer_id,
+      </if>
+      <if test="customerCode != null" >
+        customer_code,
+      </if>
+      <if test="customerName != null" >
+        customer_name,
+      </if>
+      <if test="billno != null" >
+        billno,
+      </if>
+      <if test="billdate != null" >
+        billdate,
+      </if>
+      <if test="billstatus != null" >
+        billstatus,
+      </if>
+      <if test="localMoney != null" >
+        local_money,
+      </if>
+      <if test="money != null" >
+        money,
+      </if>
+      <if test="approver != null" >
+        approver,
+      </if>
+      <if test="approvestatus != null" >
+        approvestatus,
+      </if>
+      <if test="approvedated != null" >
+        approvedated,
+      </if>
+      <if test="saleOrgId != null" >
+        sale_org_id,
+      </if>
+      <if test="saleOrgName != null" >
+        sale_org_name,
+      </if>
+      <if test="deliveryOrgId != null" >
+        delivery_org_id,
+      </if>
+      <if test="materialId != null" >
+        material_id,
+      </if>
+      <if test="materialCode != null" >
+        material_code,
+      </if>
+      <if test="billmaker != null" >
+        billmaker,
+      </if>
+      <if test="ts != null" >
+        ts,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="desc1 != null" >
+        desc1,
+      </if>
+      <if test="desc2 != null" >
+        desc2,
+      </if>
+      <if test="desc3 != null" >
+        desc3,
+      </if>
+      <if test="desc4 != null" >
+        desc4,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="ncid2 != null" >
+        #{ncid2,jdbcType=VARCHAR},
+      </if>
+      <if test="ncid1 != null" >
+        #{ncid1,jdbcType=VARCHAR},
+      </if>
+      <if test="customerId != null" >
+        #{customerId,jdbcType=VARCHAR},
+      </if>
+      <if test="customerCode != null" >
+        #{customerCode,jdbcType=VARCHAR},
+      </if>
+      <if test="customerName != null" >
+        #{customerName,jdbcType=VARCHAR},
+      </if>
+      <if test="billno != null" >
+        #{billno,jdbcType=VARCHAR},
+      </if>
+      <if test="billdate != null" >
+        #{billdate,jdbcType=VARCHAR},
+      </if>
+      <if test="billstatus != null" >
+        #{billstatus,jdbcType=VARCHAR},
+      </if>
+      <if test="localMoney != null" >
+        #{localMoney,jdbcType=VARCHAR},
+      </if>
+      <if test="money != null" >
+        #{money,jdbcType=VARCHAR},
+      </if>
+      <if test="approver != null" >
+        #{approver,jdbcType=VARCHAR},
+      </if>
+      <if test="approvestatus != null" >
+        #{approvestatus,jdbcType=VARCHAR},
+      </if>
+      <if test="approvedated != null" >
+        #{approvedated,jdbcType=VARCHAR},
+      </if>
+      <if test="saleOrgId != null" >
+        #{saleOrgId,jdbcType=VARCHAR},
+      </if>
+      <if test="saleOrgName != null" >
+        #{saleOrgName,jdbcType=VARCHAR},
+      </if>
+      <if test="deliveryOrgId != null" >
+        #{deliveryOrgId,jdbcType=VARCHAR},
+      </if>
+      <if test="materialId != null" >
+        #{materialId,jdbcType=VARCHAR},
+      </if>
+      <if test="materialCode != null" >
+        #{materialCode,jdbcType=VARCHAR},
+      </if>
+      <if test="billmaker != null" >
+        #{billmaker,jdbcType=VARCHAR},
+      </if>
+      <if test="ts != null" >
+        #{ts,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=BIGINT},
+      </if>
+      <if test="desc1 != null" >
+        #{desc1,jdbcType=VARCHAR},
+      </if>
+      <if test="desc2 != null" >
+        #{desc2,jdbcType=VARCHAR},
+      </if>
+      <if test="desc3 != null" >
+        #{desc3,jdbcType=VARCHAR},
+      </if>
+      <if test="desc4 != null" >
+        #{desc4,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tianrui.service.bean.basicFile.finance.ArGatherbill" >
+    update tr_ar_gatherbill
+    <set >
+      <if test="ncid2 != null" >
+        ncid2 = #{ncid2,jdbcType=VARCHAR},
+      </if>
+      <if test="ncid1 != null" >
+        ncid1 = #{ncid1,jdbcType=VARCHAR},
+      </if>
+      <if test="customerId != null" >
+        customer_id = #{customerId,jdbcType=VARCHAR},
+      </if>
+      <if test="customerCode != null" >
+        customer_code = #{customerCode,jdbcType=VARCHAR},
+      </if>
+      <if test="customerName != null" >
+        customer_name = #{customerName,jdbcType=VARCHAR},
+      </if>
+      <if test="billno != null" >
+        billno = #{billno,jdbcType=VARCHAR},
+      </if>
+      <if test="billdate != null" >
+        billdate = #{billdate,jdbcType=VARCHAR},
+      </if>
+      <if test="billstatus != null" >
+        billstatus = #{billstatus,jdbcType=VARCHAR},
+      </if>
+      <if test="localMoney != null" >
+        local_money = #{localMoney,jdbcType=VARCHAR},
+      </if>
+      <if test="money != null" >
+        money = #{money,jdbcType=VARCHAR},
+      </if>
+      <if test="approver != null" >
+        approver = #{approver,jdbcType=VARCHAR},
+      </if>
+      <if test="approvestatus != null" >
+        approvestatus = #{approvestatus,jdbcType=VARCHAR},
+      </if>
+      <if test="approvedated != null" >
+        approvedated = #{approvedated,jdbcType=VARCHAR},
+      </if>
+      <if test="saleOrgId != null" >
+        sale_org_id = #{saleOrgId,jdbcType=VARCHAR},
+      </if>
+      <if test="saleOrgName != null" >
+        sale_org_name = #{saleOrgName,jdbcType=VARCHAR},
+      </if>
+      <if test="deliveryOrgId != null" >
+        delivery_org_id = #{deliveryOrgId,jdbcType=VARCHAR},
+      </if>
+      <if test="materialId != null" >
+        material_id = #{materialId,jdbcType=VARCHAR},
+      </if>
+      <if test="materialCode != null" >
+        material_code = #{materialCode,jdbcType=VARCHAR},
+      </if>
+      <if test="billmaker != null" >
+        billmaker = #{billmaker,jdbcType=VARCHAR},
+      </if>
+      <if test="ts != null" >
+        ts = #{ts,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=BIGINT},
+      </if>
+      <if test="desc1 != null" >
+        desc1 = #{desc1,jdbcType=VARCHAR},
+      </if>
+      <if test="desc2 != null" >
+        desc2 = #{desc2,jdbcType=VARCHAR},
+      </if>
+      <if test="desc3 != null" >
+        desc3 = #{desc3,jdbcType=VARCHAR},
+      </if>
+      <if test="desc4 != null" >
+        desc4 = #{desc4,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tianrui.service.bean.basicFile.finance.ArGatherbill" >
+    update tr_ar_gatherbill
+    set ncid2 = #{ncid2,jdbcType=VARCHAR},
+      ncid1 = #{ncid1,jdbcType=VARCHAR},
+      customer_id = #{customerId,jdbcType=VARCHAR},
+      customer_code = #{customerCode,jdbcType=VARCHAR},
+      customer_name = #{customerName,jdbcType=VARCHAR},
+      billno = #{billno,jdbcType=VARCHAR},
+      billdate = #{billdate,jdbcType=VARCHAR},
+      billstatus = #{billstatus,jdbcType=VARCHAR},
+      local_money = #{localMoney,jdbcType=VARCHAR},
+      money = #{money,jdbcType=VARCHAR},
+      approver = #{approver,jdbcType=VARCHAR},
+      approvestatus = #{approvestatus,jdbcType=VARCHAR},
+      approvedated = #{approvedated,jdbcType=VARCHAR},
+      sale_org_id = #{saleOrgId,jdbcType=VARCHAR},
+      sale_org_name = #{saleOrgName,jdbcType=VARCHAR},
+      delivery_org_id = #{deliveryOrgId,jdbcType=VARCHAR},
+      material_id = #{materialId,jdbcType=VARCHAR},
+      material_code = #{materialCode,jdbcType=VARCHAR},
+      billmaker = #{billmaker,jdbcType=VARCHAR},
+      ts = #{ts,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=BIGINT},
+      desc1 = #{desc1,jdbcType=VARCHAR},
+      desc2 = #{desc2,jdbcType=VARCHAR},
+      desc3 = #{desc3,jdbcType=VARCHAR},
+      desc4 = #{desc4,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>
