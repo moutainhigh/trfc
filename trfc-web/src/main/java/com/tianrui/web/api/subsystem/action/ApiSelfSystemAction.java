@@ -45,6 +45,7 @@ public class ApiSelfSystemAction {
 	@ResponseBody
 	public ApiResult purchaseSendCard(ApiParam<ApiSendCardQueryReq> req){
 		ApiSendCardQueryReq checkApi = req.getBody();
+		//
 		//checkApi.setCurrUid(req.getHead().getUserId());
 		Result rs=Result.getErrorResult();
 		try {
