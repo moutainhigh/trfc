@@ -1,7 +1,9 @@
 package com.tianrui.service.impl.system.auth;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
@@ -16,8 +18,10 @@ import com.tianrui.api.req.system.auth.SystemUserQueryReq;
 import com.tianrui.api.req.system.auth.SystemUserRoleSave;
 import com.tianrui.api.resp.system.auth.SystemRoleMenuResp;
 import com.tianrui.api.resp.system.auth.SystemUserRoleResp;
+import com.tianrui.service.bean.system.auth.SystemRole;
 import com.tianrui.service.bean.system.auth.SystemRoleMenu;
 import com.tianrui.service.bean.system.auth.SystemUserRole;
+import com.tianrui.service.mapper.system.auth.SystemRoleMapper;
 import com.tianrui.service.mapper.system.auth.SystemRoleMenuMapper;
 import com.tianrui.service.mapper.system.auth.SystemUserRoleMapper;
 import com.tianrui.smartfactory.common.constants.ErrorCode;
@@ -31,6 +35,8 @@ public class SystemRolePermissionsService implements ISystemRolePermissionsServi
 	private SystemUserRoleMapper systemUserRoleMapper;
 	@Autowired
 	private SystemRoleMenuMapper systemRoleMenuMapper;
+	@Autowired
+	private SystemRoleMapper  systemRoleMapper;
 	@Override
 	public Result queryUserByRole(SystemUserQueryReq req) {
 		Result result = Result.getParamErrorResult();
@@ -109,7 +115,16 @@ public class SystemRolePermissionsService implements ISystemRolePermissionsServi
 		}
 		return result;
 	}
-
+	@Override
+	public Result queryIphoneByRole(SystemUserQueryReq req) {
+		Result result = Result.getParamErrorResult();
+		if(req != null && StringUtils.isNotBlank(req.getRoleid())){
+			List<SystemRoleMenuResp> list = systemRoleMenuMapper.queryIphoneByRole(req);
+			result.setData(list);
+			result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+		}
+		return result;
+	}
 	@Transactional
 	@Override
 	public Result authorizeMenuToRole(SystemRoleMenuSave save) {
@@ -156,8 +171,18 @@ public class SystemRolePermissionsService implements ISystemRolePermissionsServi
 		Result result = Result.getParamErrorResult();
 		if(req != null && StringUtils.isNotBlank(req.getRoleid())){
 		//	List<SystemRoleMenuResp> list = systemRoleMenuMapper.queryMenuByRole(req);
+			String id = req.getRoleid();
+			SystemRole  systemRole  =systemRoleMapper.selectByPrimaryKey(id);
+			 Map  map = new HashMap(); 
+			List<SystemRoleMenuResp> lists = null;
+			if(systemRole.getRoleType().equals("4")){
+				 lists= systemRoleMenuMapper.selectIphoneRole(req);
+			}
 			List<SystemRoleMenuResp> list = systemRoleMenuMapper.selectRole(req);
-			result.setData(list);
+			
+			map.put("list", list);
+			map.put("lists", lists);
+			result.setData(map);
 			result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
 		}
 		return result;
@@ -165,6 +190,7 @@ public class SystemRolePermissionsService implements ISystemRolePermissionsServi
 	@Override
 	public List<SystemRoleMenuResp> iphonRole(String id) {
 		SystemUserRole  systemUserRole =systemUserRoleMapper.iphoneRole(id);
+		
 		List<SystemRoleMenuResp> list = systemRoleMenuMapper.iphoneRole(systemUserRole.getRoleid());
 		return list;
 	}

@@ -11,6 +11,56 @@
 margin-bottom: -20px!important;
 }
 </style>
+ <style>
+        .look{
+            background-color: #fafbff;
+            width: 90%;
+            height: 30px;
+            line-height: 30px;
+            color: #656c9d;
+            border: 1px solid #efeef4;
+            text-indent: 2em;
+        }
+        .phone,.module{
+            width: 80px;
+            height: 30px;
+            line-height: 30px;
+            text-align: center;
+            display: inline-block;
+            border: 1px solid #efeef4;
+            margin: 10px 0;
+        }
+        .module{
+            color: #656c9d;
+        }
+        .phone{
+            color: #fff;
+            background-color: #434e8c;
+        }
+        .lookRole{
+            list-style: none;
+            width: 100%;
+            margin: 0;
+            padding: 0;
+        }
+        .lookRole li{
+            background-color: #f5f6fb;
+            width: 90%;
+            height: 40px;
+            line-height: 40px;
+            color: #656c9d;
+            border: 1px solid #efeef4;
+            text-indent: 2em;
+        }
+        .nNone{
+            border-bottom: none;
+        }
+        .modal-dialog{
+            width:1000px;
+            margin: 0 auto;
+        }
+    </style>
+
 </head>
 <body>
 	<div class="it_admin">
@@ -23,9 +73,42 @@ margin-bottom: -20px!important;
 			<div class="intel_tabbox">
 				<!--采购申请单begin-->
 				<div class="intel_tabcont">
+					<div class="intel_search">
+						<div class="intel_bggray">
+							<div class="intel_bgblue"></div>
+						</div>
+						<div class="intel_sconditon">
+							<div class="intel_sline">
+								<div class="intel_solo">
+									<label>角色编号：</label>
+									<input type = "text" id="selectCode" placeholder="请输入角色编号">
+								</div>
+								<div class="intel_solo">
+									<label>角色名称：</label>
+									<input type = "text" id="selectName" placeholder="请输入角色名称">
+								</div>
+								<div class="intel_solo">
+									<label>角色类别：</label>
+									 <select id="roleType" class="form-control" >
+										<option value="">==请选择==</option>
+										<option value="1">应用角色</option>
+										<option value="2">业务角色</option>
+										<option value="3">系统角色</option>
+										<option value="4">手持机角色</option>
+										<option value="5">子系统角色</option>
+									</select>
+								</div>
+								<div class="intel_solo">
+									<div class="intel_sbtn">
+										<button class="btn btnblue searchBtn" id="searchBtn">搜索</button>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
 					<div class="juese_mbox">
 							<div class="intel_opera">
-								<div class="intel_operasolo" id="refreshBtn">
+								 <div class="intel_operasolo" id="refreshBtn">
 									<i class="iconfont colorlv">&#xe61b;</i> <span>刷新
 										</h5>
 								</div>
@@ -56,6 +139,62 @@ margin-bottom: -20px!important;
 							</div>
 						</div>
 					<!--采购申请单end-->
+					<!-- 权限查看begin -->
+					<div class="modal fade" id="select" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+						<div class="modal-dialog" role="document">
+							<div class="modal-content">
+								<div class="modal-header">
+									<button type="button" class="close" data-dismiss="modal"
+										aria-label="Close">
+										<span aria-hidden="true">&times;</span>
+									</button>
+									<h4 class="modal-title" id="myModalLabel"
+										style="color: #5d91c3">角色查看</h4>
+								</div>
+								<div class="modal-body">
+									<div class="look">查看角色权限</div>
+									 <div class="cg_dhadd">
+				                        <div class="cg_tabtit">
+				                            <ul>
+				                                <li class="select">手持机权限</li>
+				                                <li>平台权限</li>
+				                            </ul>
+				                        </div>
+				                    </div>
+									<div class="cg_tabbox">
+									 <div class="cg_tabcont">
+										<ul class="lookRole">
+										
+											<!-- <li style="color: #5d91c3" class="nNone">模块（菜单）名称</li>
+											<li class="nNone">倒运管理</li>
+											<li class="nNone">采样管理</li>
+											<li class="nNone">收货管理</li>
+											<li>发货管理</li> -->
+										</ul>
+									 </div>
+									 <div class="cg_tabcont hide">
+			                               <div class="intel_table">
+												<table id="juese_module" class="table table-bordered"
+													data-options="">
+													<thead>
+														<tr>
+															<th style="width: 20px;">序号</th>
+															<th>模块(菜单)名称</th>
+															<th>模块编码</th>
+															<th>排序</th>
+															<th>说明</th>
+														</tr>
+													</thead>
+													<tbody id="menubody">
+													</tbody>
+												</table>
+										 </div>
+			                        </div>
+									
+							</div>
+						</div>
+					</div>
+					<!-- 权限查看end -->
 					<!--tab切换的内容end-->
 				</div>
 			</div>
@@ -90,6 +229,8 @@ margin-bottom: -20px!important;
 								<option value="1">应用角色</option>
 								<option value="2">业务角色</option>
 								<option value="3">系统角色</option>
+								<option value="4">手持机角色</option>
+								<option value="5">子系统角色</option>
 							</select>
 						</div>
 						<div class="alt_edit_div">
@@ -143,6 +284,8 @@ margin-bottom: -20px!important;
 								<option value="1">应用角色</option>
 								<option value="2">业务角色</option>
 								<option value="3">系统角色</option>
+								<option value="4">手持机角色</option>
+								<option value="5">子系统角色</option>
 							</select>
 						</div>
 						<div class="alt_edit_div">
@@ -166,8 +309,33 @@ margin-bottom: -20px!important;
 		</div>
 	</div>
 	<!--编辑end-->
+	
 	<!-- 引用公共footer部分 -->
 	<jsp:include page="../../common/base/footer_busi.jsp"></jsp:include>
 	<script type="text/javascript" src="/javascript/system/auth/role.js"></script>
+	<script type="text/javascript">
+		 // 录入、参照tab切换菜单
+	    var cg_li = $('.cg_tabtit ul li');
+	    cg_li.click(function () {
+	        $(this).addClass('select').siblings().removeClass('select');
+	        var index = cg_li.index(this);
+	        $('.cg_tabbox > .cg_tabcont').eq(index).show().siblings().hide();
+	    });
+	
+		// 模块权限表格每行选中背景变白
+		var tabletr = $('.intel_table table tr');
+		tabletr.on("click", function() {
+			$(this).addClass("select").siblings().removeClass("select");
+		});
+		
+		// 顶部tab切换菜单
+	    var $tab_li = $('.intel_menu li');
+	    $tab_li.click(function () {
+	        $(this).addClass('select').siblings().removeClass('select');
+	        var index = $tab_li.index(this);
+	        $('.intel_tabbox > .intel_tabcont').eq(index).show().siblings().hide();
+	    });
+		
+		</script>
 </body>
 </html>

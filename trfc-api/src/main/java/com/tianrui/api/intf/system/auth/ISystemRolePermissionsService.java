@@ -53,6 +53,8 @@ public interface ISystemRolePermissionsService {
 	 * @return
 	 */
 	Result queryMenuByRole(SystemUserQueryReq req);
+	
+	Result queryIphoneByRole(SystemUserQueryReq req);
 	/**
 	 * 根据角色查看权限
 	 * @Title: selectRole 

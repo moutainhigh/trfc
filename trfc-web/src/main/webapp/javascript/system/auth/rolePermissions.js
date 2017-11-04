@@ -6,6 +6,7 @@
 			addUserToRole: '/trfc/system/auth/rolePermissions/addUserToRole',
 			deleteUserToRole: '/trfc/system/auth/rolePermissions/deleteUserToRole',
 			queryMenuByRole: '/trfc/system/auth/rolePermissions/queryMenuByRole',
+			queryPhoneMenuByRole: '/trfc/system/auth/rolePermissions/queryIphoneByRole',
 			authorizeMenuToRole: '/trfc/system/auth/rolePermissions/authorizeMenuToRole',
 			resetMenuToRole: '/trfc/system/auth/rolePermissions/resetMenuToRole'
 	}
@@ -39,6 +40,7 @@
 		if(data && data.length > 0){
 			for(var i=0;i<data.length;i++){
 				var obj = data[i];
+				var roleType = obj.roleType;
 				$('<li><i class="iconfont">&#xe620;</i><label>'+(obj.name || '')+'</label></li>').data(obj).appendTo('#roleList');
 			}
 		}
@@ -46,15 +48,17 @@
 			$(this).addClass('active').siblings().removeClass('active');
 			layer.closeAll();
 			var user = $(this).data() || {};
+			var type = $(this).data().roleType;
 			$('.juese_title').html('角色授权 - ' + user.name);
 			//异步加载右侧内容
+			$("#rolePhoneType").val(type);
 			loadRightBody();
 		});
 		$('#roleList li:eq(0)').trigger('click');
 	}
 	
 	//异步加载右侧内容
-	function loadRightBody(){
+	function loadRightBody(type){
 		if($('.juese_tab ul li:eq(0)').hasClass('select')){
 			clearQueryParams();
 			queryData();
@@ -95,8 +99,13 @@
 			time: 10000
 		});
 		var params = getQueryParams();
+		var url = URL.queryUserByRole;
+//		var type = $("#rolePhoneType").val();
+//		if(type=="手持机角色"){
+//			url = URL.queryPhoneMenuByRole;
+//		}
 		$.ajax({
-			url:URL.queryUserByRole,
+			url:url,
 			data:params,
 			async:true,
 			cache:false,
@@ -302,8 +311,13 @@
 			time: 10000
 		});
 		var role = $('#roleList li.active').data() || {};
+		var url = URL.queryMenuByRole;
+		var type = $("#rolePhoneType").val();
+		if(type=="4"){
+			url = URL.queryPhoneMenuByRole;
+		}
 		$.ajax({
-			url:URL.queryMenuByRole,
+			url:url,
 			data:{
 				roleid: role.id
 			},

@@ -22,7 +22,11 @@
     where id = #{id,jdbcType=VARCHAR}
   </select>
    <select id="iphoneRole" resultMap="BaseResultMap" parameterType="java.lang.String" >
-    SELECT t1.id as roleid  FROM `tr_system_role` t1 WHERE t1.id IN(SELECT t2.roleid FROM `tr_system_user_role` t2 WHERE userid="67d0ff0e6a8d11e7b574ac162d75633c") AND t1.role_type="手持机角色"
+    SELECT t1.id as `roleid`
+       FROM tr_system_role t1 
+       WHERE t1.id IN
+       (SELECT t2.roleid FROM tr_system_user_role t2 
+       WHERE t2.isvalid='1'  and t2.userid = #{id,jdbcType=VARCHAR}) AND t1.role_type="4"
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from tr_system_user_role

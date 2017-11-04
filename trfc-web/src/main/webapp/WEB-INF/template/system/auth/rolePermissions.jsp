@@ -279,6 +279,7 @@
 			</div>
 		</div>
 	</div>
+	<input type="hidden" value="" id="rolePhoneType">
 	<!--角色用户新增end-->
 	<!-- 引用公共footer部分 -->
 	<jsp:include page="../../common/base/footer_busi.jsp"></jsp:include>

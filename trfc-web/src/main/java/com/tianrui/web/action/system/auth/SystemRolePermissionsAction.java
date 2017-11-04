@@ -105,6 +105,18 @@ public class SystemRolePermissionsAction {
 		}
 		return result;
 	}
+	@RequestMapping("queryIphoneByRole")
+	@ResponseBody
+	public Result queryIphoneByRole(SystemUserQueryReq req){
+		Result result = Result.getErrorResult();
+		try {
+			result = systemRolePermissionsService.queryIphoneByRole(req);
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
+		}
+		return result;
+	}
 	
 	@RequestMapping("selectRole")
 	@ResponseBody
