@@ -1,6 +1,7 @@
 package com.tianrui.service.mongo.impl;
 
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -70,7 +71,7 @@ public class BaseDaoImpl<T extends Serializable, ID extends Serializable> implem
 	
 	
 	public void removeAll(ID[] ids){
-		mongoTemplate.remove(new Query(Criteria.where("_id").in(ids)), type);
+		mongoTemplate.remove(new Query(Criteria.where("_id").in(Arrays.asList(ids))), type);
 	}
 	
 	
