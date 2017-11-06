@@ -22,6 +22,7 @@ import com.tianrui.smartfactory.common.constants.Constant;
 import com.tianrui.smartfactory.common.utils.DateUtil;
 import com.tianrui.smartfactory.common.utils.Md5Utils;
 
+@SuppressWarnings("unused")
 public class ApiTest {
 
 	//private static String domin="http://172.19.4.73:8080/";
@@ -139,11 +140,11 @@ public class ApiTest {
 		return api;
 	}
 	
-	static void setkey( ApiParam api){
+	static <T> void setkey(ApiParam<T> api){
 		api.getHead().setKey(Md5Utils.MD5(Constant.apiAuthKey+api.getHead().getCallTime()));
 	}
 	
-	static void setMd5( ApiParam api){
+	static <T> void setMd5(ApiParam<T> api){
 		api.setSign(Constant.apiAuthSign);
 		api.setSign(Md5Utils.MD5(JSON.toJSONString(api)));
 	}

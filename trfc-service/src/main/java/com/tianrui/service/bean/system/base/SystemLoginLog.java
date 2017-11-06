@@ -12,6 +12,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
  */
 @Document(collection = "sys_login_log")
 public class SystemLoginLog implements Serializable {
+	private static final long serialVersionUID = 6502400624083405945L;
 	private String id;
 	//操作时间
 	private Long createDate;

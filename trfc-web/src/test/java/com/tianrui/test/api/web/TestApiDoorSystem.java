@@ -15,6 +15,7 @@ import com.tianrui.smartfactory.common.constants.Constant;
 import com.tianrui.smartfactory.common.utils.DateUtil;
 import com.tianrui.smartfactory.common.utils.Md5Utils;
 
+@SuppressWarnings("unused")
 public class TestApiDoorSystem {
 
 	private static String domin = "http://localhost/";

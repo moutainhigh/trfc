@@ -173,7 +173,7 @@ public class SystemRolePermissionsService implements ISystemRolePermissionsServi
 		//	List<SystemRoleMenuResp> list = systemRoleMenuMapper.queryMenuByRole(req);
 			String id = req.getRoleid();
 			SystemRole  systemRole  =systemRoleMapper.selectByPrimaryKey(id);
-			 Map  map = new HashMap(); 
+			Map<String, Object>  map = new HashMap<String, Object>(); 
 			List<SystemRoleMenuResp> lists = null;
 			if(systemRole.getRoleType().equals("4")){
 				 lists= systemRoleMenuMapper.selectIphoneRole(req);

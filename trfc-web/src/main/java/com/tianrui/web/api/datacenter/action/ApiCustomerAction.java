@@ -41,8 +41,6 @@ public class ApiCustomerAction {
 	@ResponseBody
 	public ApiResult getLastUTC(ApiParam<CustomerManageQuery> req){
 		Result rs=Result.getErrorResult();
-
-		CustomerManageQuery cardApi =req.getBody();
 		try {
 			rs = customerService.findMaxUtc(null);
 		} catch (Exception e) {

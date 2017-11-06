@@ -9,20 +9,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.tianrui.api.intf.businessManage.cardManage.ICardService;
-import com.tianrui.api.intf.common.IRFIDService;
-import com.tianrui.api.req.basicFile.nc.NcBatchUpdateReq;
 import com.tianrui.api.req.basicFile.nc.WarehouseManageQuery;
-import com.tianrui.api.req.businessManage.cardManage.CardApi;
-import com.tianrui.api.req.common.RFIDReq;
 import com.tianrui.service.impl.basicFile.nc.WarehouseManageService;
 import com.tianrui.smartfactory.common.api.ApiParam;
 import com.tianrui.smartfactory.common.api.ApiResult;
 import com.tianrui.smartfactory.common.constants.ErrorCode;
 import com.tianrui.smartfactory.common.vo.Result;
-import com.tianrui.web.smvc.ApiAuthValidation;
 import com.tianrui.web.smvc.ApiParamRawType;
 
 

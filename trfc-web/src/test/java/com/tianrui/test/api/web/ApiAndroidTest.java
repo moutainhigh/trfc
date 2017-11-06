@@ -1,22 +1,13 @@
 package com.tianrui.test.api.web;
 
 import java.io.BufferedReader;
-import java.io.DataOutputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Date;
 
 import com.alibaba.fastjson.JSON;
-import com.tianrui.api.req.basicFile.measure.VehicleCheckApi;
-import com.tianrui.api.req.basicFile.measure.VehicleManageApi;
-import com.tianrui.api.req.businessManage.poundNoteMaintain.ApiPoundNoteQuery;
-import com.tianrui.api.req.businessManage.poundNoteMaintain.ApiPoundNoteValidation;
-import com.tianrui.api.req.businessManage.salesManage.ApiDoorQueueQuery;
-import com.tianrui.api.req.businessManage.salesManage.ApiDoorSystemSave;
-import com.tianrui.api.req.common.RFIDReq;
 import com.tianrui.api.req.system.auth.AppUserReq;
-import com.tianrui.api.req.system.auth.UserReq;
 import com.tianrui.smartfactory.common.api.ApiParam;
 import com.tianrui.smartfactory.common.api.Head;
 import com.tianrui.smartfactory.common.constants.Constant;
@@ -47,11 +38,11 @@ public class ApiAndroidTest {
 		return api;
 	}
 	
-	static void setkey( ApiParam api){
+	static <T> void setkey(ApiParam<T> api){
 		api.getHead().setKey(Md5Utils.MD5(Constant.apiAuthKey+api.getHead().getCallTime()));
 	}
 	
-	static void setMd5( ApiParam api){
+	static <T> void setMd5(ApiParam<T> api){
 		api.setSign(Constant.apiAuthSign);
 		api.setSign(Md5Utils.MD5(JSON.toJSONString(api)));
 	}

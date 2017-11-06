@@ -3,7 +3,6 @@ package com.tianrui.service.mapper.businessManage.cardManage;
 import java.util.List;
 
 import com.tianrui.api.req.businessManage.cardManage.CardReq;
-import com.tianrui.api.resp.businessManage.cardManage.CardResp;
 import com.tianrui.service.bean.businessManage.cardManage.Card;
 /**
  * 卡务管理Mapper接口
