@@ -24,6 +24,7 @@ import com.tianrui.service.bean.basicFile.nc.MaterielManage;
 import com.tianrui.service.bean.basicFile.nc.SupplierManage;
 import com.tianrui.service.bean.basicFile.nc.WarehouseManage;
 import com.tianrui.service.bean.businessManage.cardManage.Card;
+import com.tianrui.service.bean.businessManage.logisticsManage.AccessRecord;
 import com.tianrui.service.bean.businessManage.otherManage.OtherArrive;
 import com.tianrui.service.bean.businessManage.poundNoteMaintain.PoundNote;
 import com.tianrui.service.bean.businessManage.purchaseManage.PurchaseArrive;
@@ -38,6 +39,7 @@ import com.tianrui.service.mapper.basicFile.nc.MaterielManageMapper;
 import com.tianrui.service.mapper.basicFile.nc.SupplierManageMapper;
 import com.tianrui.service.mapper.basicFile.nc.WarehouseManageMapper;
 import com.tianrui.service.mapper.businessManage.cardManage.CardMapper;
+import com.tianrui.service.mapper.businessManage.logisticsManage.AccessRecordMapper;
 import com.tianrui.service.mapper.businessManage.otherManage.OtherArriveMapper;
 import com.tianrui.service.mapper.businessManage.poundNoteMaintain.PoundNoteMapper;
 import com.tianrui.service.mapper.businessManage.purchaseManage.PurchaseArriveMapper;
@@ -83,6 +85,8 @@ public class OtherArriveService implements IOtherArriveService {
 	private CardMapper cardMapper;
 	@Autowired
 	private YardManageMapper yardManageMapper;
+	@Autowired
+	private AccessRecordMapper accessRecordMapper;
 
 
 
@@ -449,6 +453,35 @@ public class OtherArriveService implements IOtherArriveService {
             page.setPageSize(req.getPageSize());
         }
         return page;
+    }
+
+    @Override
+    public Result forceOutFactory(OtherArriveReq req) {
+        Result result = Result.getParamErrorResult();
+        if (req != null && StringUtils.isNotBlank(req.getId())) {
+            OtherArrive bean = otherArriveMapper.selectByPrimaryKey(req.getId());
+            if (bean != null) {
+                OtherArrive oa = new OtherArrive();
+                oa.setId(bean.getId());
+                oa.setStatus(Constant.FIVE_STRING);
+                oa.setForceOutFactory(Constant.ONE_NUMBER);
+                oa.setForceOutFactoryPerson(req.getUserid());
+                oa.setForceOutFactoryTime(System.currentTimeMillis());
+                otherArriveMapper.updateByPrimaryKeySelective(oa);
+                AccessRecord accessRecord = accessRecordMapper.selectByNoticeId(oa.getId());
+                AccessRecord ar = new AccessRecord();
+                ar.setId(accessRecord.getId());
+                ar.setOuttime(System.currentTimeMillis());
+                ar.setAccesstype(Constant.TWO_STRING);
+                ar.setModifier(req.getUserid());
+                ar.setModifytime(System.currentTimeMillis());
+                accessRecordMapper.updateByPrimaryKeySelective(ar);
+                result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+            } else {
+                result.setErrorCode(ErrorCode.NOTICE_NOT_EXIST);
+            }
+        }
+        return result;
     }
 
 }

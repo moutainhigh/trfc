@@ -110,7 +110,7 @@ public class SalesOutboundOrderService implements ISalesOutboundOrderService{
 					order.setBillmaker(smUserList.get(0).getId());
 				}
 				subList.add(order);
-				ApiResult apiResult=HttpUtils.post(ApiParamUtils.getApiParam(subList),Constant.URL_RETURN_SALESOUTBOUNDCATION);
+				ApiResult apiResult=HttpUtils.post(ApiParamUtils.getApiParam(subList),Constant.URL_DOMAIN + Constant.URL_RETURN_SALESOUTBOUNDCATION);
 				if(apiResult!=null && StringUtils.equals(apiResult.getCode(),Constant.SUCCESS )){
 					order.setStatus("1");
 					if(salesOutboundOrderMapper.updateByPrimaryKeySelective(order)>0){

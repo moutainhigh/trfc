@@ -13,7 +13,7 @@ public enum ErrorCode {
 	//连接超时
 	CONNECTION_TIMEOUT_ERROR("000000","数据中心连接超时，该单据未推送成功."),
 	//推单失败
-	RETURN_ERROR("E00003","推单失败."),
+	RETURN_ERROR("000000","上传榜单成功，推单NC失败."),
 	
 	/**
 	 * 参数相关

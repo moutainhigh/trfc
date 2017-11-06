@@ -6,6 +6,7 @@ $(function() {
 			addUrl:'/trfc/otherRKArrive/addMain',
 			findOne:"/trfc/otherRKArrive/findOne",
 			update:"/trfc/otherRKArrive/updateOperation",
+			forceOutFactory:"/trfc/otherRKArrive/forceOutFactory",
 			updateVeiw:"/trfc/otherRKArrive/editMain",
 			supplierAutoCompleteSearch: "/trfc/supplier/autoCompleteSearch",
 			vehicleAutoCompleteSearch: "/trfc/vehicle/autoCompleteSearch",
@@ -112,7 +113,7 @@ $(function() {
 					auditstatus:'1'
 			}
 			var msg = '注：确定要进行审核吗？';
-			updateAction(params,msg);
+			updateAction(URL.update,params,msg);
 		}else{
 			layer.msg('已审核,无需重复操作!');
 		}
@@ -129,7 +130,7 @@ $(function() {
 					auditstatus:'0'
 			}
 			var msg = '注：确定要进行反审吗？';
-			updateAction(params,msg);
+			updateAction(URL.update,params,msg);
 		}else{
 			layer.msg('未审核,无能进行反审操作!');
 		}
@@ -144,7 +145,7 @@ $(function() {
 					status:'3'
 			}
 			var msg = '注：确定要作废吗？';
-			updateAction(params,msg);
+			updateAction(URL.update,params,msg);
 		}else{
 			layer.msg('已作废,无需重复操作!');
 		}
@@ -155,11 +156,10 @@ $(function() {
 		if(!obj) {layer.msg('需要选中一行才能操作哦！'); return;}
 		if(obj.status=='2'){
 			var params = {
-					id:obj.id,
-					status:'5'
+					id:obj.id
 			}
 			var msg = '注：确定强制出厂吗？';
-			updateAction(params,msg);
+			updateAction(URL.forceOutFactory,params,msg);
 		}else if(obj.status=='5'){
 			layer.msg('已出厂,无法进行此操作!');
 		}else{
@@ -200,14 +200,14 @@ $(function() {
 			}
 	}
 	
-	function updateAction(params,msg) {
+	function updateAction(url,params,msg) {
 		if(params){
 			var index =	layer.confirm(msg, {
 				area: '600px',
 				btn: ['确认','取消'] //按钮
 			}, function(){
 				$.ajax({
-					url:URL.update,
+					url:url,
 					data:params,
 					async:true,
 					cache:false,
@@ -261,7 +261,7 @@ $(function() {
 					$('#detail_count').val(obj.count);
 					$('#detail_creator').val(obj.creatorname);
 					$('#detail_createtime').val(getNowFormatDate(true, obj.createtime));
-					$('#detail_status').val(STATUS[obj.status]);
+					$('#detail_status').val(obj.forceOutFactory == '1' ? '强制出厂' : STATUS[obj.status]);
 					$('#detail_remark').val(obj.remark);
 				}else{
 					layer.msg(result.error, {icon: 5});

@@ -90,6 +90,12 @@ public class OtherArriveReq extends BaseReq {
 	private Long endDate;
 	//是否有效
 	private String invalid;
+    //强制出厂标识（0：否，1：是）
+    private Integer forceOutFactory;
+    //强制出厂操作人
+    private String forceOutFactoryPerson;
+    //强制出厂操作时间
+    private Long forceOutFactoryTime;
 	public String getInvalid() {
         return invalid;
     }
@@ -300,6 +306,22 @@ public class OtherArriveReq extends BaseReq {
     public void setVehicleno(String vehicleno) {
         this.vehicleno = vehicleno;
     }
-	
-
+    public Integer getForceOutFactory() {
+        return forceOutFactory;
+    }
+    public void setForceOutFactory(Integer forceOutFactory) {
+        this.forceOutFactory = forceOutFactory;
+    }
+    public String getForceOutFactoryPerson() {
+        return forceOutFactoryPerson;
+    }
+    public void setForceOutFactoryPerson(String forceOutFactoryPerson) {
+        this.forceOutFactoryPerson = forceOutFactoryPerson;
+    }
+    public Long getForceOutFactoryTime() {
+        return forceOutFactoryTime;
+    }
+    public void setForceOutFactoryTime(Long forceOutFactoryTime) {
+        this.forceOutFactoryTime = forceOutFactoryTime;
+    }
 }

@@ -15,7 +15,6 @@ import com.alibaba.fastjson.JSONObject;
 import com.tianrui.api.intf.system.auth.IBdPsndocService;
 import com.tianrui.api.req.system.auth.BdPsndocReq;
 import com.tianrui.service.bean.system.auth.BdPsndoc;
-import com.tianrui.service.bean.system.auth.SmUser;
 import com.tianrui.service.mapper.system.auth.BdPsndocMapper;
 import com.tianrui.smartfactory.common.constants.ErrorCode;
 import com.tianrui.smartfactory.common.vo.Result;

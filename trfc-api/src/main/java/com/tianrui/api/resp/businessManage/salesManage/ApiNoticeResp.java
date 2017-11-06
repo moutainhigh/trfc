@@ -55,6 +55,8 @@ public class ApiNoticeResp extends BaseResp {
     private String noticeId;
     //签收状态（0：退货，1：签收）
     private Integer signStatus;
+    //强制出厂表示（0：否，1：是）
+    private Integer forceOutFactory;
 	
 	public String getVehicleno() {
 		return vehicleno;
@@ -157,5 +159,11 @@ public class ApiNoticeResp extends BaseResp {
     }
     public void setSignStatus(Integer integer) {
         this.signStatus = integer;
+    }
+    public Integer getForceOutFactory() {
+        return forceOutFactory;
+    }
+    public void setForceOutFactory(Integer forceOutFactory) {
+        this.forceOutFactory = forceOutFactory;
     }
 }

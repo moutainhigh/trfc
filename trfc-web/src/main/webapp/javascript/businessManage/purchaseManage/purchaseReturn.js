@@ -318,8 +318,10 @@
 				case '5': status = '出厂'; break;
 				case '6': status = '入厂'; break;
 				case '7': status = '装车'; break;
-				case '8': status = '强制出厂'; break;
 				default: break;
+				}
+				if (obj.forceOutFactory == '1') {
+					status = '强制出厂';
 				}
 				var billcode = obj.billcode || '';
 				var suppliername = purchaseApplication.suppliername || '';

@@ -185,7 +185,7 @@
 				var makebilltimeStr = obj.makebilltimeStr || '';
 				var auditname = obj.auditname || '';
 				var audittimeStr = obj.audittimeStr || '';
-				var remark = obj.remark || '';
+				var remark = obj.supplierremark || '';
 				$('<tr>').append('<td>'+(i+1)+'</td>')
 						.append('<td>'+code+'</td>')
 						.append('<td '+color+'>'+auditstatus+'</td>')
@@ -251,7 +251,7 @@
 				var makebilltimeStr = obj.makebilltimeStr || '';
 				var remark = obj.remark || '';
 				$('#v_code').val(code);
-				$('#v_source').val(source);
+				$('#v_source').val(source == '0' ? '联机' : source == '1' ? '脱机' : '');
 				$('#v_billtypename').val(billtypename);
 				$('#v_billtime').val(billtimeStr);
 				$('#v_suppliername').val(suppliername);

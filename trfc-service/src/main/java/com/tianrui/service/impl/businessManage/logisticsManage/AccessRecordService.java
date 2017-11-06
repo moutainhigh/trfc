@@ -219,9 +219,6 @@ public class AccessRecordService implements IAccessRecordService {
 		if (bean != null) {
 			resp = new AccessRecordResp();
 			PropertyUtils.copyProperties(resp, bean);
-//			if (setNotice) {
-//				groupSetViewData(resp);
-//			}
 		}
 		return resp;
 	}
@@ -231,122 +228,71 @@ public class AccessRecordService implements IAccessRecordService {
 		Result rs = Result.getParamErrorResult();
 		if(query!=null){
 			AccessRecord record = accessRecordMapper.selectByPrimaryKey(query.getId());
-//			if(record!=null){
-//				AccessRecordResp resp = new AccessRecordResp();
-//				PropertyUtils.copyProperties(resp, record);
-//				if(StringUtils.isNotBlank(record.getNoticeid())){
-//					SalesArriveResp sar = salesArriveService.findOne(record.getNoticeid());
-//					if(sar!=null){
-//						resp.setRfid(sar.getVehiclerfid());
-//						resp.setVehicleno(sar.getVehicleno());
-//						resp.setOtherparty(sar.getUnit());
-//						resp.setIcardno(sar.getIcardno());
-//						resp.setSpraycode(sar.getSpraycode());
-//					}
-//				}
-				rs = Result.getSuccessResult();
-				rs.setData(record);
-//			}
+			rs = Result.getSuccessResult();
+			rs.setData(record);
 		}
 		return rs;
 	}
-	
-//	private AccessRecordResp groupSetViewData(AccessRecordResp resp) throws Exception{
-//		if (resp != null) {
-//			switch (resp.getBusinesstype()) {
-//			case "1":
-//				//采购
-//				setPurchaseViewData(resp);
-//				break;
-//			case "2":
-//				setSalesViewData(resp);
-//				break;
-//			default:
-//				break;
-//			}
-//		}
-//		return resp;
-//	}
-//
-//	//添加采购信息
-//	private void setPurchaseViewData(AccessRecordResp resp) throws Exception {
-//		PurchaseArriveResp arriveResp = purchaseArriveService.findOne(resp.getNoticeid());
-//		resp.setVehicleno(arriveResp.getVehicleno());
-//		resp.setMaterielname(arriveResp.getPurchaseApplicationDetailResp().getMaterielname());
-//		resp.setRfid(arriveResp.getVehiclerfid());
-//		resp.setOtherparty(arriveResp.getPurchaseApplicationResp().getSuppliername());
-//		if (StringUtils.isNotBlank(arriveResp.getIcardid())) {
-//			CardResp card = cardService.findOne(arriveResp.getIcardid());
-//			if (card != null) {
-//				resp.setIcardno(card.getCardno());
-//				resp.setIcardcode(card.getCardcode());
-//			}
-//		}
-//	}
-//	
-//	//添加销售信息
-//	private void setSalesViewData(AccessRecordResp resp) throws Exception {
-//		SalesArriveResp salesResp = salesArriveService.findOne(resp.getNoticeid());
-//		resp.setVehicleno(salesResp.getVehicleno());
-//		resp.setMaterielname(salesResp.getSalesApplication().getDetailResp().getMaterielname());
-//		resp.setRfid(salesResp.getVehiclerfid());
-//		resp.setOtherparty(salesResp.getSalesApplication().getCustomername());
-//		if (StringUtils.isNotBlank(salesResp.getIcardid())) {
-//			CardResp card = cardService.findOne(salesResp.getIcardid());
-//			if (card != null) {
-//				resp.setIcardno(card.getCardno());
-//				resp.setIcardcode(card.getCardcode());
-//			}
-//		}
-//	}
 	
 	@Transactional
 	@Override
 	public Result addAccessRecord(ApiDoorSystemSave apiParam) throws Exception {
 		Result result = Result.getParamErrorResult();
 		if (apiParam!=null && StringUtils.isNotBlank(apiParam.getNotionformcode()) 
-				&& StringUtils.isNotBlank(apiParam.getIcardno())
 				&& StringUtils.isNotBlank(apiParam.getServicetype())
 				&& StringUtils.isNotBlank(apiParam.getType()) 
 				&& StringUtils.isNotBlank(apiParam.getTime())
 				&& StringUtils.isNotBlank(apiParam.getCurrUid())) {
-			Card card = cardMapper.selectByCardno(apiParam.getIcardno());
-			if (card != null) {
-				switch (apiParam.getServicetype()) {
-				//采购到货通知单
-				case "0":
-					result = setICardToPurchaseArrive(card, apiParam);
-					break;
-				//采购退货通知单
-				case "1":
-					result = setICardToPurchaseReturnArrive(card, apiParam);
-					break;
-				//销售提货通知单
-				case "2":
-					result = setICardToSalesArrive(card, apiParam);
-					break;
-					//销售提货通知单
-				case "5":
-					result = setICardToOtherArrive(card, apiParam);
-					break;
-				case "7":
-					result = setICardToOtherArrive(card, apiParam);
-					break;
-				case "9":
-					result = setICardToOtherArrive(card, apiParam);
-					break;
-				case "4":
-					result = setICardToOtherArrive(card, apiParam);
-					break;
-				default:
-					break;
-				}
-			}else{
-				result.setErrorCode(ErrorCode.CARD_NOT_EXIST);
+			if (StringUtils.equals(apiParam.getType(), Constant.ONE_STRING)) {
+			    if (StringUtils.isNotBlank(apiParam.getIcardno())) {
+			        Card card = cardMapper.selectByCardno(apiParam.getIcardno());
+			        if (card != null) {
+			            result = forwardMethod(apiParam, card, result);
+			        }else{
+			            result.setErrorCode(ErrorCode.CARD_NOT_EXIST);
+			        }
+			    } else {
+	                result.setErrorCode(ErrorCode.PARAM_NULL_ERROR);
+	            }
+			} else {
+			    result = forwardMethod(apiParam, null, result);
 			}
 		}
 		return result;
 	}
+
+    private Result forwardMethod(ApiDoorSystemSave apiParam, Card card, Result result) throws Exception {
+        switch (apiParam.getServicetype()) {
+        //采购到货通知单
+        case "0":
+            result = setICardToPurchaseArrive(card, apiParam);
+            break;
+        //采购退货通知单
+        case "1":
+            result = setICardToPurchaseReturnArrive(card, apiParam);
+            break;
+        //销售提货通知单
+        case "2":
+            result = setICardToSalesArrive(card, apiParam);
+            break;
+        //销售提货通知单
+        case "5":
+            result = setICardToOtherArrive(card, apiParam);
+            break;
+        case "7":
+            result = setICardToOtherArrive(card, apiParam);
+            break;
+        case "9":
+            result = setICardToOtherArrive(card, apiParam);
+            break;
+        case "4":
+            result = setICardToOtherArrive(card, apiParam);
+            break;
+        default:
+            break;
+        }
+        return result;
+    }
 
 	private Result setICardToPurchaseArrive(Card card, ApiDoorSystemSave apiParam) throws Exception {
 		Result result = Result.getErrorResult();
@@ -389,6 +335,7 @@ public class AccessRecordService implements IAccessRecordService {
 						PurchaseArrive pa = new PurchaseArrive();
 						pa.setId(purchase.getId());
 						pa.setStatus("5");
+						pa.setForceOutFactory(Constant.ZERO_NUMBER);
 						if(purchaseArriveMapper.updateByPrimaryKeySelective(pa) > 0){
 							AccessRecord access = accessRecordMapper.selectByNoticeId(purchase.getId());
 							if(StringUtils.equals(access.getAccesstype(), "1")){
@@ -453,6 +400,7 @@ public class AccessRecordService implements IAccessRecordService {
 						PurchaseArrive pa = new PurchaseArrive();
 						pa.setId(purchase.getId());
 						pa.setStatus("5");
+                        pa.setForceOutFactory(Constant.ZERO_NUMBER);
 						if(purchaseArriveMapper.updateByPrimaryKeySelective(pa) > 0){
 							AccessRecord access = accessRecordMapper.selectByNoticeId(purchase.getId());
 							if(StringUtils.equals(access.getAccesstype(), "1")){
@@ -546,11 +494,12 @@ public class AccessRecordService implements IAccessRecordService {
 					}
 				//出厂
 				}else{
-					if(StringUtils.equals(sales.getStatus(), "2")){
+					if(StringUtils.equals(sales.getStatus(), Constant.TWO_STRING)){
 						//修改通知单状态并绑定IC卡
 						SalesArrive sa = new SalesArrive();
 						sa.setId(sales.getId());
-						sa.setStatus("5");
+						sa.setStatus(Constant.FIVE_STRING);
+						sa.setForceOutFactory(Constant.ZERO_NUMBER);
 						if(salesArriveMapper.updateByPrimaryKeySelective(sa) > 0){
 							AccessRecord access = accessRecordMapper.selectByNoticeId(sales.getId());
 							if(access != null){
@@ -685,32 +634,31 @@ public class AccessRecordService implements IAccessRecordService {
 				if (validateVehicle(checkApi.getVehicleNo(), checkApi.getRfid())) {
 					ApiNoticeResp resp = validateHasBill(checkApi.getVehicleNo());
 					if (resp != null) {
+					    //是否作废
 						if (!StringUtils.equals(resp.getStatus(), Constant.THREE_STRING)) {
-						    if (StringUtils.equals(resp.getStatus(), Constant.EIGHT_STRING)) {
-						        result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
-	                        } else {
-	                            if (StringUtils.equals(resp.getAuditstatus(), Constant.ONE_STRING)) {
-	                                //如果业务类型为 工程车辆 且是入厂状态,可以直接出厂
-	                                if (StringUtils.equals(resp.getServicetype(), Constant.NINE_STRING)) {
-	                                    if (StringUtils.equals(resp.getStatus(), Constant.SIX_STRING)) {
-	                                        result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
-	                                    }
-	                                } else {
-	                                    if (StringUtils.equals(resp.getStatus(), Constant.TWO_STRING)) {
-	                                        //校验入库单是否推送成功
-	                                        if (validatePushRKD(resp.getNoticeId(), resp.getSignStatus())) {
-	                                            result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
-	                                        } else {
-	                                            result.setErrorCode(ErrorCode.POUNDNOTE_RETURN_ERROR3); 
-	                                        }
-	                                    }else {
-	                                        result.setErrorCode(ErrorCode.VEHICLE_NOTICE_NOT_TWO_WEIGHT);
-	                                    }
-	                                }
-	                            } else {
-	                                result.setErrorCode(ErrorCode.NOTICE_NOT_AUDIT);
-	                            }
-	                        }
+                            if (StringUtils.equals(resp.getAuditstatus(), Constant.ONE_STRING)) {
+                                //如果业务类型为 工程车辆 且是入厂状态,可以直接出厂
+                                if (StringUtils.equals(resp.getServicetype(), Constant.NINE_STRING)) {
+                                    if (StringUtils.equals(resp.getStatus(), Constant.SIX_STRING)) {
+                                        result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+                                    }
+                                } else {
+                                    //验证是否过二次磅
+                                    if (StringUtils.equals(resp.getStatus(), Constant.TWO_STRING)
+                                            || (resp.getForceOutFactory() == 1 && StringUtils.equals(resp.getStatus(), Constant.FIVE_STRING))) {
+                                        //校验入库单是否推送成功
+                                        if (validatePushRKD(resp.getNoticeId(), resp.getSignStatus())) {
+                                            result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+                                        } else {
+                                            result.setErrorCode(ErrorCode.POUNDNOTE_RETURN_ERROR3); 
+                                        }
+                                    }else {
+                                        result.setErrorCode(ErrorCode.VEHICLE_NOTICE_NOT_TWO_WEIGHT);
+                                    }
+                                }
+                            } else {
+                                result.setErrorCode(ErrorCode.NOTICE_NOT_AUDIT);
+                            }
 						} else {
 							result.setErrorCode(ErrorCode.NOTICE_ON_INVALID);
 						}
@@ -859,12 +807,14 @@ public class AccessRecordService implements IAccessRecordService {
 						resp.setStatus(otherArrive.getStatus());
 						resp.setAuditstatus(otherArrive.getAuditstatus());
 						resp.setServicetype(otherArrive.getBusinesstype());
+	                    resp.setForceOutFactory(otherArrive.getForceOutFactory());
 					}
 				} else {
 	                resp.setNoticeId(salesArrive.getId());
 					resp.setStatus(salesArrive.getStatus());
 					resp.setAuditstatus(salesArrive.getAuditstatus());
 					resp.setServicetype("2");
+	                resp.setForceOutFactory(salesArrive.getForceOutFactory());
 				}
 			} else {
 			    resp.setNoticeId(purchaseArrive.getId());
@@ -872,6 +822,7 @@ public class AccessRecordService implements IAccessRecordService {
 				resp.setAuditstatus(purchaseArrive.getAuditstatus());
 				resp.setServicetype(purchaseArrive.getType());
 				resp.setSignStatus(purchaseArrive.getSignStatus());
+				resp.setForceOutFactory(purchaseArrive.getForceOutFactory());
 			}
 		}
 		return resp;
@@ -922,6 +873,7 @@ public class AccessRecordService implements IAccessRecordService {
 		return bean;
 	}
 
+	@Transactional
     @Override
     public Result invalid(AccessRecordQuery query) {
         Result rs = Result.getParamErrorResult();

@@ -79,6 +79,12 @@ public class PurchaseArriveSave extends BaseReq {
     private String remark;
 	//当前用户
     private String currId;
+    //强制出厂标识（0：否，1：是）
+    private Integer forceOutFactory;
+    //强制出厂操作人
+    private String forceOutFactoryPerson;
+    //强制出厂操作时间
+    private Long forceOutFactoryTime;
 	public String getId() {
 		return id;
 	}
@@ -313,5 +319,26 @@ public class PurchaseArriveSave extends BaseReq {
 	public void setIcardno(String icardno) {
 		this.icardno = icardno;
 	}
+    public Integer getForceOutFactory() {
+        return forceOutFactory;
+    }
+    public void setForceOutFactory(Integer forceOutFactory) {
+        this.forceOutFactory = forceOutFactory;
+    }
+    public String getForceOutFactoryPerson() {
+        return forceOutFactoryPerson;
+    }
+    public void setForceOutFactoryPerson(String forceOutFactoryPerson) {
+        this.forceOutFactoryPerson = forceOutFactoryPerson;
+    }
+    public Long getForceOutFactoryTime() {
+        return forceOutFactoryTime;
+    }
+    public void setForceOutFactoryTime(Long forceOutFactoryTime) {
+        this.forceOutFactoryTime = forceOutFactoryTime;
+    }
+    public static long getSerialversionuid() {
+        return serialVersionUID;
+    }
     
 }

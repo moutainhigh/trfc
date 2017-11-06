@@ -10,10 +10,12 @@ import java.util.Map;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.tianrui.api.intf.businessManage.poundNoteMaintain.IPoundNoteService;
@@ -477,7 +479,7 @@ public class PoundNoteService implements IPoundNoteService {
         itemList.add(storageItem);
         storage.setList(itemList);
         ApiResult apiResult = HttpUtils.post(ApiParamUtils.getApiParam(list),
-        		Constant.URL_RETURN_PURCHASESTORAGEATION);
+                Constant.URL_DOMAIN + Constant.URL_RETURN_PURCHASESTORAGEATION);
         // 调用dc 接口成功 则推单状态为推单中 榜单展示为推单中
         if (apiResult != null && StringUtils.equals(apiResult.getCode(), Constant.SUCCESS)) {
         	PurchaseStorageList storageUpdate = new PurchaseStorageList();
@@ -497,6 +499,7 @@ public class PoundNoteService implements IPoundNoteService {
         }
     }
 
+    @Transactional
 	@Override
 	public Result invalid(PoundNoteQuery query) {
 		Result result = Result.getParamErrorResult();
@@ -509,10 +512,28 @@ public class PoundNoteService implements IPoundNoteService {
 	            bean.setModifier(query.getCurrId());
 	            bean.setModifytime(System.currentTimeMillis());
 	            if (poundNoteMapper.updateByPrimaryKeySelective(bean) > 0) {
-	                if (StringUtils.equals(poundNote.getBilltype(), Constant.FOUR_STRING)) {
+	                if (StringUtils.equals(poundNote.getBilltype(), Constant.ZERO_STRING) 
+	                        || StringUtils.equals(poundNote.getBilltype(), Constant.ONE_STRING)) {
+	                    PurchaseArrive pa = new PurchaseArrive();
+	                    pa.setId(poundNote.getNoticeid());
+	                    pa.setStatus(Constant.SIX_STRING);
+	                    pa.setModifier(query.getCurrId());
+	                    pa.setModifytime(System.currentTimeMillis());
+	                    purchaseArriveMapper.updateByPrimaryKeySelective(pa);
+	                } else if (StringUtils.equals(poundNote.getBilltype(), Constant.TWO_STRING)) {
+	                    SalesArrive sa = new SalesArrive();
+	                    sa.setId(poundNote.getNoticeid());
+	                    sa.setStatus(Constant.SIX_STRING);
+	                    sa.setModifier(query.getCurrId());
+	                    sa.setModifytime(System.currentTimeMillis());
+	                    salesArriveMapper.updateByPrimaryKeySelective(sa);
+	                } else {
+//	                if (StringUtils.equals(poundNote.getBilltype(), Constant.FOUR_STRING)) {
 	                    OtherArrive oa = new OtherArrive();
 	                    oa.setId(poundNote.getNoticeid());
 	                    oa.setStatus(Constant.SIX_STRING);
+	                    oa.setModifier(query.getCurrId());
+	                    oa.setModifytime(System.currentTimeMillis());
 	                    otherArriveMapper.updateByPrimaryKeySelective(oa);
 	                }
 	                result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
@@ -1360,6 +1381,7 @@ public class PoundNoteService implements IPoundNoteService {
 								&& purchaseStorageListItemMapper.insertSelective(storageItem) > 0
 								&& updateCode("RKD", query.getCurrid())){
 							result.setErrorCode(returnPurchaseStorage(storage, storageItem));
+				            LoggerFactory.getLogger("poundNote").info("上传皮重榜单:上传成功 {} ", JSON.toJSONString(query.getVehicleno()));
 						}else{
 							result.setErrorCode(ErrorCode.OPERATE_ERROR);
 						}
@@ -1384,6 +1406,7 @@ public class PoundNoteService implements IPoundNoteService {
 							ErrorCode.SYSTEM_SUCCESS.getCode())
 					&& purchaseArriveMapper.updateByPrimaryKeySelective(pa) > 0) {
 				result.setData(bean.getCode());
+                LoggerFactory.getLogger("poundNote").info("上传毛重榜单:上传成功  {}", JSON.toJSONString(query.getVehicleno()));
 			} else {
 				result.setErrorCode(ErrorCode.OPERATE_ERROR);
 			}
@@ -1400,7 +1423,7 @@ public class PoundNoteService implements IPoundNoteService {
 		itemList.add(storageItem);
 		storage.setList(itemList);
 		ApiResult apiResult = HttpUtils.post(ApiParamUtils.getApiParam(list),
-				Constant.URL_RETURN_PURCHASESTORAGEATION);
+				Constant.URL_DOMAIN + Constant.URL_RETURN_PURCHASESTORAGEATION);
 		// 调用dc 接口成功 则推单状态为推单中 榜单展示为推单中
 		if (apiResult != null) {
             if (StringUtils.equals(apiResult.getCode(), Constant.SUCCESS)) {
@@ -1416,7 +1439,9 @@ public class PoundNoteService implements IPoundNoteService {
             } else {
                 ec = ErrorCode.RETURN_ERROR;
             }
+            LoggerFactory.getLogger("ncPush").info("入库单推送NC: {}", JSON.toJSONString(apiResult));
 		} else {
+		    LoggerFactory.getLogger("ncPush").info("入库单推送NC: {}", "连接超时。");
 		    ec = ErrorCode.CONNECTION_TIMEOUT_ERROR;
 		}
 		return ec;
@@ -1632,7 +1657,7 @@ public class PoundNoteService implements IPoundNoteService {
 			list.clear();
 			list.add(order);
 		    ApiResult apiResult = HttpUtils.post(ApiParamUtils.getApiParam(list),
-		            Constant.URL_RETURN_SALESOUTBOUNDCATION);
+		            Constant.URL_DOMAIN + Constant.URL_RETURN_SALESOUTBOUNDCATION);
 		    if (apiResult != null && StringUtils.equals(apiResult.getCode(), Constant.SUCCESS)) {
 		        SalesOutboundOrder orderUpdate = new SalesOutboundOrder();
 		        orderUpdate.setId(order.getId());

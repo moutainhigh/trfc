@@ -364,6 +364,9 @@
 				case '7': status = '装车'; break;
 				default: status = ''; break;
 				}
+				if (obj.forceOutFactory == '1') {
+					status = '强制出厂';
+				}
 				var vehicleno = obj.vehicleno || '';
 				var billcode = obj.billcode || '';
 				var customername = salesApplication.customername || '';

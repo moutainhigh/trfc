@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.alibaba.fastjson.JSON;
 import com.tianrui.api.intf.businessManage.poundNoteMaintain.IPoundNoteService;
 import com.tianrui.api.req.businessManage.poundNoteMaintain.ApiPoundNoteQuery;
 import com.tianrui.api.req.businessManage.poundNoteMaintain.ApiPoundNoteValidation;
@@ -39,6 +40,13 @@ public class ApiPoundNoteAction {
 	 * @param req
 	 * @return
 	 */
+	public static void main(String[] args) {
+	    ApiParam<ApiPoundNoteQuery> req = new ApiParam<ApiPoundNoteQuery>();
+	    ApiPoundNoteQuery a = new ApiPoundNoteQuery();
+	    a.setNetweight("123");
+	    req.setBody(a);
+        System.out.println(JSON.toJSONString(req.getBody()));
+    }
 	@RequestMapping(value = "/up/weight", method = RequestMethod.POST)
 	@ApiParamRawType(ApiPoundNoteQuery.class)
 	@ApiAuthValidation(callType = "2")
@@ -48,6 +56,7 @@ public class ApiPoundNoteAction {
 		ApiPoundNoteQuery query = req.getBody();
 		query.setCurrid(req.getHead().getUserId());
 		try {
+            LoggerFactory.getLogger("poundNote").info("上传榜单:参数 {}", JSON.toJSONString(req.getBody()));
 			rs = poundNoteService.savePoundNoteWeight(query);
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);

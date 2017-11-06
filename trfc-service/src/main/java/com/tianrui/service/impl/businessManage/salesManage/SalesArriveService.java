@@ -128,7 +128,7 @@ public class SalesArriveService implements ISalesArriveService {
 	@Autowired
 	private PoundNoteMapper poundNoteMapper;
 	@Autowired
-	private AccessRecordMapper accessRecordMapper1;
+	private AccessRecordMapper accessRecordMapper;
 	@Autowired
 	private OtherArriveMapper otherArriveMapper;
 	@Autowired
@@ -443,7 +443,7 @@ public class SalesArriveService implements ISalesArriveService {
 						resp.setPoundNoteResp(poundResp);
 					}
 					//获取出入厂时间
-					AccessRecord access = accessRecordMapper1.selectByNoticeId(resp.getId());
+					AccessRecord access = accessRecordMapper.selectByNoticeId(resp.getId());
 					if(access!=null){
 						resp.setEnterTime(access.getEntertime());
 						resp.setOutTime(access.getOuttime());
@@ -603,17 +603,24 @@ public class SalesArriveService implements ISalesArriveService {
 		if(query != null && StringUtils.isNotBlank(query.getId())){
 			SalesArrive sa = new SalesArrive();
 			sa.setId(query.getId());
-			sa.setStatus("5");
+			sa.setForceOutFactory(Constant.ONE_NUMBER);
+			sa.setForceOutFactoryPerson(query.getCurrUId());
+			sa.setForceOutFactoryTime(System.currentTimeMillis());
 			sa.setAbnormalperson(query.getCurrUId());
 			sa.setAbnormalpersonname(systemUserService.getUser(query.getCurrUId()).getName());
 			sa.setAbnormaltime(System.currentTimeMillis());
 			sa.setModifier(query.getCurrUId());
 			sa.setModifytime(System.currentTimeMillis());
-			if(salesArriveMapper.updateByPrimaryKeySelective(sa) > 0){
-				result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
-			}else{
-				result.setErrorCode(ErrorCode.OPERATE_ERROR);
-			}
+			salesArriveMapper.updateByPrimaryKeySelective(sa);
+			AccessRecord accessRecord = accessRecordMapper.selectByNoticeId(sa.getId());
+			AccessRecord ar = new AccessRecord();
+			ar.setId(accessRecord.getId());
+			ar.setOuttime(System.currentTimeMillis());
+			ar.setAccesstype(Constant.TWO_STRING);
+			ar.setModifier(query.getCurrUId());
+			ar.setModifytime(System.currentTimeMillis());
+			accessRecordMapper.updateByPrimaryKeySelective(ar);
+			result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
 		}
 		return result;
 	}

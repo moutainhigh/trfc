@@ -360,8 +360,10 @@
 				case '5': status = '出厂'; break;
 				case '6': status = '入厂'; break;
 				case '7': status = '卸货'; break;
-				case '8': status = '强制出厂'; break;
 				default: break;
+				}
+				if (obj.forceOutFactory == '1') {
+					status = '强制出厂';
 				}
 				var vehicleno = obj.vehicleno || '';
 				var billcode = obj.billcode || '';

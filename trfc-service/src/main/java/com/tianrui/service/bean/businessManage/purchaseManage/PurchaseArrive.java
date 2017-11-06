@@ -81,8 +81,13 @@ public class PurchaseArrive {
     private Long signTime;
     //签收设备ID（手持机ID）
     private String signID;
+    //强制出厂标识（0：否，1：是）
+    private Integer forceOutFactory;
+    //强制出厂操作人
+    private String forceOutFactoryPerson;
+    //强制出厂操作时间
+    private Long forceOutFactoryTime;
     
-
     public String getId() {
         return id;
     }
@@ -123,16 +128,10 @@ public class PurchaseArrive {
         this.status = status == null ? null : status.trim();
     }
 
-    /**
-	 * @return the type
-	 */
 	public String getType() {
 		return type;
 	}
 
-	/**
-	 * @param type the type to set
-	 */
 	public void setType(String type) {
 		this.type = type;
 	}
@@ -209,30 +208,18 @@ public class PurchaseArrive {
 		this.billdetailid = billdetailid == null ? null : billdetailid.trim();
 	}
 
-	/**
-	 * @return the poundnoteid
-	 */
 	public String getPoundnoteid() {
 		return poundnoteid;
 	}
 
-	/**
-	 * @param poundnoteid the poundnoteid to set
-	 */
 	public void setPoundnoteid(String poundnoteid) {
 		this.poundnoteid = poundnoteid;
 	}
 
-	/**
-	 * @return the poundnotecode
-	 */
 	public String getPoundnotecode() {
 		return poundnotecode;
 	}
 
-	/**
-	 * @param poundnotecode the poundnotecode to set
-	 */
 	public void setPoundnotecode(String poundnotecode) {
 		this.poundnotecode = poundnotecode;
 	}
@@ -269,16 +256,10 @@ public class PurchaseArrive {
         this.arrivalamount = arrivalamount;
     }
 
-    /**
-	 * @return the signamount
-	 */
 	public Double getSignamount() {
 		return signamount;
 	}
 
-	/**
-	 * @param signamount the signamount to set
-	 */
 	public void setSignamount(Double signamount) {
 		this.signamount = signamount;
 	}
@@ -409,6 +390,30 @@ public class PurchaseArrive {
 
     public void setSignID(String signID) {
         this.signID = signID;
+    }
+
+    public Integer getForceOutFactory() {
+        return forceOutFactory;
+    }
+
+    public void setForceOutFactory(Integer forceOutFactory) {
+        this.forceOutFactory = forceOutFactory;
+    }
+
+    public String getForceOutFactoryPerson() {
+        return forceOutFactoryPerson;
+    }
+
+    public void setForceOutFactoryPerson(String forceOutFactoryPerson) {
+        this.forceOutFactoryPerson = forceOutFactoryPerson;
+    }
+
+    public Long getForceOutFactoryTime() {
+        return forceOutFactoryTime;
+    }
+
+    public void setForceOutFactoryTime(Long forceOutFactoryTime) {
+        this.forceOutFactoryTime = forceOutFactoryTime;
     }
 	
 }

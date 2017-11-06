@@ -115,5 +115,20 @@ public class OtherCLArriveAction {
 		}
 		return rs;
 	}
+    
+    @RequestMapping("forceOutFactory")
+    @ResponseBody
+    public Result forceOutFactory(OtherArriveReq req,HttpServletRequest request){
+        Result rs = Result.getSuccessResult();
+        try {
+            SystemUserResp user = SessionManager.getSessionUser(request);
+            req.setUserid(user.getId());
+            rs = otherArriveService.forceOutFactory(req);
+        } catch (Exception e) {
+            logger.error(e.getMessage(), e);
+            rs.setErrorCode(ErrorCode.SYSTEM_ERROR);
+        }
+        return rs;
+    }
 	
 }

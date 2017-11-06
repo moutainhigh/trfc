@@ -39,13 +39,16 @@
     <result column="startloadingtime" property="startloadingtime" jdbcType="BIGINT" />
     <result column="endloadingtime" property="endloadingtime" jdbcType="BIGINT" />
     <result column="sealtime" property="sealtime" jdbcType="BIGINT" />
+    <result column="forceOutFactory" property="forceOutFactory" jdbcType="BIT" />
+    <result column="forceOutFactoryPerson" property="forceOutFactoryPerson" jdbcType="VARCHAR" />
+    <result column="forceOutFactoryTime" property="forceOutFactoryTime" jdbcType="BIGINT" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, code, auditstatus, source, status, vehicleid, vehicleno, vehiclerfid, driverid, drivername, 
     driveridentityno, billid, billcode, billdetailid, abnormalperson, abnormalpersonname, abnormaltime, 
     unit, takeamount, actualtakeamount, spraycode, serialnumber, icardid, icardno, state, maindeduction, 
     makerid, makebillname, makebilltime, remarks, creator, createtime, modifier, modifytime, startloadingtime,
-    endloadingtime, sealtime
+    endloadingtime, sealtime, forceOutFactory, forceOutFactoryPerson, forceOutFactoryTime
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
@@ -68,7 +71,8 @@
       state, maindeduction, makerid, makebillname, 
       makebilltime, remarks, creator, 
       createtime, modifier, modifytime,
-      startloadingtime, endloadingtime, sealtime
+      startloadingtime, endloadingtime, sealtime,
+      forceOutFactory, forceOutFactoryPerson, forceOutFactoryTime
       )
     values (#{id,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR}, #{auditstatus,jdbcType=VARCHAR}, 
       #{source,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, #{vehicleid,jdbcType=VARCHAR}, 
@@ -80,7 +84,8 @@
       #{state,jdbcType=VARCHAR}, #{maindeduction,jdbcType=VARCHAR}, #{makerid,jdbcType=VARCHAR}, #{makebillname,jdbcType=VARCHAR}, 
       #{makebilltime,jdbcType=BIGINT}, #{remarks,jdbcType=VARCHAR}, #{creator,jdbcType=VARCHAR}, 
       #{createtime,jdbcType=BIGINT}, #{modifier,jdbcType=VARCHAR}, #{modifytime,jdbcType=BIGINT},
-      #{startloadingtime,jdbcType=BIGINT}, #{endloadingtime,jdbcType=BIGINT}, #{sealtime,jdbcType=BIGINT}
+      #{startloadingtime,jdbcType=BIGINT}, #{endloadingtime,jdbcType=BIGINT}, #{sealtime,jdbcType=BIGINT},
+      #{forceOutFactory,jdbcType=BIT}, #{forceOutFactoryPerson,jdbcType=VARCHAR}, #{forceOutFactoryTime,jdbcType=BIGINT}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.tianrui.service.bean.businessManage.salesManage.SalesArrive" >
@@ -197,6 +202,15 @@
       <if test="sealtime != null" >
         sealtime,
       </if>
+      <if test="forceOutFactory != null" >
+        forceOutFactory,
+      </if>
+      <if test="forceOutFactoryPerson != null" >
+        forceOutFactoryPerson,
+      </if>
+      <if test="forceOutFactoryTime != null" >
+        forceOutFactoryTime,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -309,6 +323,15 @@
       </if>
       <if test="sealtime != null" >
         #{sealtime,jdbcType=BIGINT},
+      </if>
+      <if test="forceOutFactory != null" >
+        #{forceOutFactory,jdbcType=BIT},
+      </if>
+      <if test="forceOutFactoryPerson != null" >
+        #{forceOutFactoryPerson,jdbcType=VARCHAR},
+      </if>
+      <if test="forceOutFactoryTime != null" >
+        #{forceOutFactoryTime,jdbcType=BIGINT},
       </if>
     </trim>
   </insert>
@@ -423,6 +446,15 @@
       <if test="sealtime != null" >
         sealtime = #{sealtime,jdbcType=BIGINT},
       </if>
+      <if test="forceOutFactory != null" >
+        forceOutFactory = #{forceOutFactory,jdbcType=BIT},
+      </if>
+      <if test="forceOutFactoryPerson != null" >
+        forceOutFactoryPerson = #{forceOutFactoryPerson,jdbcType=VARCHAR},
+      </if>
+      <if test="forceOutFactoryTime != null" >
+        forceOutFactoryTime = #{forceOutFactoryTime,jdbcType=BIGINT},
+      </if>
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
@@ -463,7 +495,10 @@
       modifytime = #{modifytime,jdbcType=BIGINT},
       startloadingtime = #{startloadingtime,jdbcType=BIGINT},
       endloadingtime = #{endloadingtime,jdbcType=BIGINT},
-      sealtime = #{sealtime,jdbcType=BIGINT}
+      sealtime = #{sealtime,jdbcType=BIGINT},
+      forceOutFactory = #{forceOutFactory,jdbcType=BIT},
+      forceOutFactoryPerson = #{forceOutFactoryPerson,jdbcType=VARCHAR},
+      forceOutFactoryTime = #{forceOutFactoryTime,jdbcType=BIGINT}
     where id = #{id,jdbcType=VARCHAR}
   </update>
   <select id="selectSelective" resultMap="BaseResultMap" parameterType="com.tianrui.service.bean.businessManage.salesManage.SalesArrive">
@@ -582,6 +617,15 @@
       <if test="sealtime != null and sealtime != ''" >
         and sealtime = #{sealtime,jdbcType=BIGINT}
       </if>
+      <if test="forceOutFactory != null and forceOutFactory != ''" >
+        and forceOutFactory = #{forceOutFactory,jdbcType=BIT}
+      </if>
+      <if test="forceOutFactoryPerson != null and forceOutFactoryPerson != ''" >
+        and forceOutFactoryPerson = #{forceOutFactoryPerson,jdbcType=VARCHAR}
+      </if>
+      <if test="forceOutFactoryTime != null and forceOutFactoryTime != ''" >
+        and forceOutFactoryTime = #{forceOutFactoryTime,jdbcType=BIGINT}
+      </if>
   	</where>
   </select>
   <select id="findSalesArrivePage" resultMap="BaseResultMap" parameterType="com.tianrui.api.req.businessManage.salesManage.SalesArriveQuery">
@@ -591,6 +635,9 @@
   	left join tr_sales_db_application_detail s3
   	on s2.id = s3.salesid
   	<where>
+      <if test="state != null and state != '' ">
+        and s1.state = #{state,jdbcType=VARCHAR}
+      </if>
       <if test="code != null and code != '' ">
         and s1.code = #{code,jdbcType=VARCHAR}
       </if>
@@ -642,6 +689,9 @@
   	left join tr_sales_db_application_detail s3
   	on s2.id = s3.salesid
   	<where>
+      <if test="state != null and state != '' ">
+        and s1.state = #{state,jdbcType=VARCHAR}
+      </if>
       <if test="code != null and code != '' ">
         and s1.code = #{code,jdbcType=VARCHAR}
       </if>
