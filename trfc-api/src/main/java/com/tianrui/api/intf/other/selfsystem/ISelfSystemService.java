@@ -38,7 +38,7 @@ public interface ISelfSystemService {
 	 * @param query
 	 * @return
 	 */
-	Result SendCard(ApiSendCardReq paran);
+	Result sendCard(ApiSendCardReq paran);
 	
 	/**
 	 * 榜单查询
