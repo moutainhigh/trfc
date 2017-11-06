@@ -18,6 +18,8 @@ public interface SystemUserRoleMapper {
     int insertSelective(SystemUserRole record);
 
     SystemUserRole selectByPrimaryKey(String id);
+    
+    List<SystemUserRole> selectByUserId(String id);
 
     int updateByPrimaryKeySelective(SystemUserRole record);
 

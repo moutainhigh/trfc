@@ -120,10 +120,10 @@ public class SystemRolePermissionsAction {
 	
 	@RequestMapping("selectRole")
 	@ResponseBody
-	public Result selectRole(SystemUserQueryReq req){
+	public Result selectRole(String id){
 		Result result = Result.getErrorResult();
 		try {
-			result = systemRolePermissionsService.selectRole(req);
+			result = systemRolePermissionsService.selectRole(id);
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
 		}

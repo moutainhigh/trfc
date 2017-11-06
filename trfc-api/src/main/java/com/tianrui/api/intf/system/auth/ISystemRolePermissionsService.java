@@ -64,7 +64,7 @@ public interface ISystemRolePermissionsService {
 	 * @return Result    
 	 * @throws
 	 */
-	Result selectRole(SystemUserQueryReq req);
+	Result selectRole(String id);
 	/**
 	 * @Description 给角色授权菜单权限
 	 * @author zhanggaohao

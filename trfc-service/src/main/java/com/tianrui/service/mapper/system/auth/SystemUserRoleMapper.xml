@@ -21,6 +21,14 @@
     from tr_system_user_role
     where id = #{id,jdbcType=VARCHAR}
   </select>
+  
+  <select id="selectByUserId" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from tr_system_user_role
+    where userid = #{id,jdbcType=VARCHAR}
+  </select>
+  
    <select id="iphoneRole" resultMap="BaseResultMap" parameterType="java.lang.String" >
     SELECT t1.id as `roleid`
        FROM tr_system_role t1 

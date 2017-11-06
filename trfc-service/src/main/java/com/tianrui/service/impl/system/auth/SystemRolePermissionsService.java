@@ -36,11 +36,12 @@ public class SystemRolePermissionsService implements ISystemRolePermissionsServi
 	@Autowired
 	private SystemRoleMenuMapper systemRoleMenuMapper;
 	@Autowired
-	private SystemRoleMapper  systemRoleMapper;
+	private SystemRoleMapper systemRoleMapper;
+
 	@Override
 	public Result queryUserByRole(SystemUserQueryReq req) {
 		Result result = Result.getParamErrorResult();
-		if(req != null && StringUtils.isNotBlank(req.getRoleid())){
+		if (req != null && StringUtils.isNotBlank(req.getRoleid())) {
 			List<SystemUserRoleResp> list = systemUserRoleMapper.queryUserByRole(req);
 			result.setData(list);
 			result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
@@ -51,7 +52,7 @@ public class SystemRolePermissionsService implements ISystemRolePermissionsServi
 	@Override
 	public Result queryAllUserByRole(SystemUserQueryReq req) {
 		Result result = Result.getParamErrorResult();
-		if(req != null && StringUtils.isNotBlank(req.getRoleid())){
+		if (req != null && StringUtils.isNotBlank(req.getRoleid())) {
 			List<SystemUserRoleResp> list = systemUserRoleMapper.queryAllUserByRole(req);
 			result.setData(list);
 			result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
@@ -62,13 +63,12 @@ public class SystemRolePermissionsService implements ISystemRolePermissionsServi
 	@Override
 	public Result addUserToRole(SystemUserRoleSave save) {
 		Result result = Result.getParamErrorResult();
-		if(save != null &&StringUtils.isNotBlank(save.getUserIdJson()) 
-				&& StringUtils.isNotBlank(save.getRoleId())
-				&& StringUtils.isNotBlank(save.getCurrId())){
+		if (save != null && StringUtils.isNotBlank(save.getUserIdJson()) && StringUtils.isNotBlank(save.getRoleId())
+				&& StringUtils.isNotBlank(save.getCurrId())) {
 			List<String> ids = JSONArray.parseArray(save.getUserIdJson(), String.class);
-			if(CollectionUtils.isNotEmpty(ids)){
+			if (CollectionUtils.isNotEmpty(ids)) {
 				List<SystemUserRole> list = new ArrayList<SystemUserRole>();
-				for(String str : ids){
+				for (String str : ids) {
 					SystemUserRole bean = new SystemUserRole();
 					bean.setId(UUIDUtil.getId());
 					bean.setUserid(str);
@@ -78,9 +78,9 @@ public class SystemRolePermissionsService implements ISystemRolePermissionsServi
 					bean.setCreatetime(System.currentTimeMillis());
 					list.add(bean);
 				}
-				if(systemUserRoleMapper.insertBatch(list) == ids.size()){
+				if (systemUserRoleMapper.insertBatch(list) == ids.size()) {
 					result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
-				}else{
+				} else {
 					result.setErrorCode(ErrorCode.OPERATE_ERROR);
 				}
 			}
@@ -91,13 +91,13 @@ public class SystemRolePermissionsService implements ISystemRolePermissionsServi
 	@Override
 	public Result deleteUserToRole(SystemUserRoleSave save) {
 		Result result = Result.getParamErrorResult();
-		if(save != null &&StringUtils.isNotBlank(save.getUserRoleIdJson()) 
-				&& StringUtils.isNotBlank(save.getCurrId())){
+		if (save != null && StringUtils.isNotBlank(save.getUserRoleIdJson())
+				&& StringUtils.isNotBlank(save.getCurrId())) {
 			List<String> ids = JSONArray.parseArray(save.getUserRoleIdJson(), String.class);
-			if(CollectionUtils.isNotEmpty(ids)){
-				if(systemUserRoleMapper.deleteUserToRole(ids) == ids.size()){
+			if (CollectionUtils.isNotEmpty(ids)) {
+				if (systemUserRoleMapper.deleteUserToRole(ids) == ids.size()) {
 					result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
-				}else{
+				} else {
 					result.setErrorCode(ErrorCode.OPERATE_ERROR);
 				}
 			}
@@ -108,34 +108,35 @@ public class SystemRolePermissionsService implements ISystemRolePermissionsServi
 	@Override
 	public Result queryMenuByRole(SystemUserQueryReq req) {
 		Result result = Result.getParamErrorResult();
-		if(req != null && StringUtils.isNotBlank(req.getRoleid())){
+		if (req != null && StringUtils.isNotBlank(req.getRoleid())) {
 			List<SystemRoleMenuResp> list = systemRoleMenuMapper.queryMenuByRole(req);
 			result.setData(list);
 			result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
 		}
 		return result;
 	}
+
 	@Override
 	public Result queryIphoneByRole(SystemUserQueryReq req) {
 		Result result = Result.getParamErrorResult();
-		if(req != null && StringUtils.isNotBlank(req.getRoleid())){
+		if (req != null && StringUtils.isNotBlank(req.getRoleid())) {
 			List<SystemRoleMenuResp> list = systemRoleMenuMapper.queryIphoneByRole(req);
 			result.setData(list);
 			result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
 		}
 		return result;
 	}
+
 	@Transactional
 	@Override
 	public Result authorizeMenuToRole(SystemRoleMenuSave save) {
 		Result result = Result.getErrorResult();
-		if(save != null && StringUtils.isNotBlank(save.getRoleId()) 
-				&& StringUtils.isNotBlank(save.getMenuIdJson())){
+		if (save != null && StringUtils.isNotBlank(save.getRoleId()) && StringUtils.isNotBlank(save.getMenuIdJson())) {
 			List<String> menuIdList = JSONArray.parseArray(save.getMenuIdJson(), String.class);
 			systemRoleMenuMapper.deleteByRoleId(save.getRoleId());
 			List<SystemRoleMenu> list = new ArrayList<SystemRoleMenu>();
-			if(CollectionUtils.isNotEmpty(menuIdList)){
-				for(String str : menuIdList){
+			if (CollectionUtils.isNotEmpty(menuIdList)) {
+				for (String str : menuIdList) {
 					SystemRoleMenu bean = new SystemRoleMenu();
 					bean.setId(UUIDUtil.getId());
 					bean.setRoleid(save.getRoleId());
@@ -148,7 +149,7 @@ public class SystemRolePermissionsService implements ISystemRolePermissionsServi
 				systemRoleMenuMapper.insertBatch(list);
 			}
 			result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
-		}else{
+		} else {
 			result.setErrorCode(ErrorCode.OPERATE_ERROR);
 		}
 		return result;
@@ -157,29 +158,36 @@ public class SystemRolePermissionsService implements ISystemRolePermissionsServi
 	@Override
 	public Result resetMenuToRole(SystemRoleMenuSave save) {
 		Result result = Result.getErrorResult();
-		if(save != null && StringUtils.isNotBlank(save.getRoleId())){
+		if (save != null && StringUtils.isNotBlank(save.getRoleId())) {
 			systemRoleMenuMapper.deleteByRoleId(save.getRoleId());
 			result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
-		}else{
+		} else {
 			result.setErrorCode(ErrorCode.OPERATE_ERROR);
 		}
 		return result;
 	}
 
 	@Override
-	public Result selectRole(SystemUserQueryReq req) {
+	public Result selectRole(String id) {
 		Result result = Result.getParamErrorResult();
-		if(req != null && StringUtils.isNotBlank(req.getRoleid())){
-		//	List<SystemRoleMenuResp> list = systemRoleMenuMapper.queryMenuByRole(req);
-			String id = req.getRoleid();
-			SystemRole  systemRole  =systemRoleMapper.selectByPrimaryKey(id);
-			 Map  map = new HashMap(); 
+		if (id != null && StringUtils.isNotBlank(id)) {
+			// List<SystemRoleMenuResp> list =
+			// systemRoleMenuMapper.queryMenuByRole(req);
+			Map map = new HashMap();
 			List<SystemRoleMenuResp> lists = null;
-			if(systemRole.getRoleType().equals("4")){
-				 lists= systemRoleMenuMapper.selectIphoneRole(req);
+			List<SystemRoleMenuResp> list = null;
+			List<SystemUserRole> listRoleid = systemUserRoleMapper.selectByUserId(id);
+			for (SystemUserRole userRole : listRoleid) {
+				String roleid = userRole.getRoleid();
+				SystemUserQueryReq req = new SystemUserQueryReq();
+				req.setRoleid(roleid);
+				SystemRole systemRole = systemRoleMapper.selectByPrimaryKey(roleid);
+				if (systemRole.getRoleType().equals("4")) {
+					lists = systemRoleMenuMapper.selectIphoneRole(req);
+				} else {
+					list = systemRoleMenuMapper.selectRole(req);
+				}
 			}
-			List<SystemRoleMenuResp> list = systemRoleMenuMapper.selectRole(req);
-			
 			map.put("list", list);
 			map.put("lists", lists);
 			result.setData(map);
@@ -187,12 +195,13 @@ public class SystemRolePermissionsService implements ISystemRolePermissionsServi
 		}
 		return result;
 	}
+
 	@Override
 	public List<SystemRoleMenuResp> iphonRole(String id) {
-		SystemUserRole  systemUserRole =systemUserRoleMapper.iphoneRole(id);
-		
+		SystemUserRole systemUserRole = systemUserRoleMapper.iphoneRole(id);
+
 		List<SystemRoleMenuResp> list = systemRoleMenuMapper.iphoneRole(systemUserRole.getRoleid());
 		return list;
 	}
-	
+
 }

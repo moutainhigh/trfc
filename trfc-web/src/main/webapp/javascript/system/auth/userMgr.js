@@ -5,6 +5,7 @@ $(function() {
 		pageUrl : "/trfc/system/auth/user/page",
 		editUser : "/trfc/system/auth/user/editUser",
 		deleteUrl : "/trfc/system/auth/user/deleteUser",
+		selectRole : '/trfc/system/auth/rolePermissions/selectRole',
 		resetPwd : "/trfc/system/auth/user/resetPwd"
 	}
 
@@ -37,6 +38,15 @@ $(function() {
 	$('#list').on('click', 'tr [title="删除"]', function() {
 		deleteAction(this);
 	});
+	// 权限查看
+	$('#list').on('click', 'tr .select', function() {
+		// var role=$(this).closest('tr').data();
+		// alert(role.id);
+		// return;
+		// roleData.id=role.id;
+		selectRole(this);
+
+	});
 	// 绑定跳转按钮
 	$("#jumpButton").click(function() {
 		jumpPageAction();
@@ -47,7 +57,8 @@ $(function() {
 	});
 
 	// 刷新按钮
-	$(".refreshButton").off('click').on("click", ".refreshButton", refreshLocation);
+	$(".refreshButton").off('click').on("click", ".refreshButton",
+			refreshLocation);
 
 	/**
 	 * 获取搜索信息
@@ -73,7 +84,7 @@ $(function() {
 			codeLike : codeLike,
 			nameLike : nameLike,
 			accountLike : accountLike,
-			identityTypes: identityTypes,
+			identityTypes : identityTypes,
 			pageSize : pageSize
 		};
 	}
@@ -196,6 +207,8 @@ $(function() {
 								+ (obj.remark || '')
 								+ '</td>'
 								+ '<td><span class="update"><a><i class="iconfont" data-toggle="tooltip" data-placement="left" title="编辑">&#xe600;</i></a></span>'
+								+ '<span class="select"><a data-toggle="modal" data-target="#select"><i class="iconfont" id="selectRole" data-toggle="tooltip" data-placement="left" title="权限查看">&#xe651;</i></a></span>'
+								+ '<span class="addModal"><a><i class="iconfont" data-toggle="modal" data-target="#myModal" data-placement="left" title="添加角色">&#xe627;</i></a></span>'
 								+ '<span class="resetPwd"><a><i class="iconfont" data-toggle="tooltip" data-placement="left" title="重置密码">&#xe633;</i></a></span>'
 								+ '<span class="delete"><a><i class="iconfont" data-toggle="tooltip" data-placement="left" title="删除">&#xe63d;</i></a></span></td>'
 								+ '</tr>').data('obj', obj).appendTo('#list');
@@ -352,73 +365,233 @@ $(function() {
 			});
 		}
 	}
-	// 重置密码
-	function resetPwd(obj) {
-		layer.open({
-			title : '重置密码',
-			area : [ '500px', '300px' ],
-			btn : [ '确定', '取消' ],
-			shadeClose : true, //开启遮罩关闭
-			content : '<form class="layui-form" action="">'
-						+ '<div class="layui-form-item">'
-							+ '<label class="layui-form-label">账户：</label>'
-							+ '<div class="layui-input-inline">'
-								+ '<input type="text" class="layui-input" readonly="true" value="' + obj.name + '">'
-							+ '</div>'
-						+ '</div>'
-						+ '<div class="layui-form-item">'
-							+ '<label class="layui-form-label">新密码：</label>'
-							+ '<div class="layui-input-inline">'
-								+ '<input type="password" name="password1" required lay-verify="required|pass" placeholder="请输入密码" autocomplete="off" class="layui-input">'
-							+ '</div>'
-						+ '</div>'
-						+ '<div class="layui-form-item">'
-							+ '<label class="layui-form-label">确认密码：</label>'
-							+ '<div class="layui-input-inline">'
-								+ '<input type="password" name="password2" required lay-verify="required|pass" placeholder="请输入密码" autocomplete="off" class="layui-input">'
-							+ '</div>' 
-						+ '</div>' 
-					+ '</form>',
-			success : function(layero, index) {
-				var password1 = layero.find("input[name='password1']");
-				var password2 = layero.find("input[name='password2']");
-				password2.keyup(function(){
-					layer.closeAll('tips');
-					var p1 = password1.val();
-					var p2 = password2.val();
-					if(p1.length >= p2.length){
-						if(p1.substr(0, p2.length) != p2){
-							layer.tips('输入的密码不一致！', password2, {tips: [2, '#f44336']});
-						}
-					}else{
-						layer.tips('输入的密码不一致！', password2, {tips: [2, '#f44336']});
+
+	// 权限查看
+	function selectRole(span) {
+		var id = $(span).closest('tr').data('obj').id;
+		var url = URL.selectRole;
+		var param = {
+			id : id
+		};
+		$.post(url, param, function(result) {
+			if (result.code == '000000') {
+				var a = result.data;
+				var data = a.list;
+				var datas = a.lists;
+				$('.lookRole').empty();
+				$('#menubody').empty();
+				if (datas != undefined) {
+					for (var i = 0; i < datas.length; i++) {
+						var obj = datas[i];
+						$('<li class="nNone">' + obj.menuName + '</li>')
+								.appendTo('.lookRole');
 					}
-				});
-			},
-			yes : function(index, layero) {
-				var password = layero.find("input[name='password2']").val();
-				$.ajax({
-					url : URL.resetPwd,
-					data : {
-						id: obj.id,
-						password: password
+				} else {
+					for (var i = 0; i < 4; i++) {
+						$('<li class="nNone"></li>').appendTo('.lookRole');
+					}
+				}
+
+				data = parseMenuData(undefined, data);
+				for (var i = 0; i < data.length; i++) {
+					var obj = data[i];
+					$(
+							'<tr id="' + (obj.menuId || '') + '" pid="'
+									+ (obj.menuPid || '') + '">' + '<td>'
+									+ (i + 1) + '</td>'
+									+ '<td><span controller="true">'
+									+ (obj.menuName || '') + '</span></td>'
+									+ '<td>' + (obj.menuCode || '') + '</td>'
+									+ '<td>' + (obj.orderBy) + '</td>' + '<td>'
+									+ (obj.info) + '</td>' + '</tr>').data(obj)
+							.appendTo('#menubody');
+				}
+				var option = {
+					theme : 'vsStyle',
+					expandLevel : 10,
+					column : 1,
+					beforeExpand : function($treeTable, id) {
+						// 判断id是否已经有了孩子节点，如果有了就不再加载，这样就可以起到缓存的作用
+						if ($('.' + id, $treeTable).length) {
+							return;
+						}
 					},
-					async : true,
-					cache : false,
-					dataType : 'json',
-					type : 'post',
-					success : function(result) {
-						if (result.code == '000000') {
-							layer.msg('修改成功！', {icon: 1});
-						} else {
-							layer.msg(result.error, {
-								icon : 5
-							});
-						}
+					onSelect : function($treeTable, id) {
+						window.console && console.log('onSelect:' + id);
 					}
+				};
+				$('.intel_table table').treeTable(option);
+				$('#menubody>tr').find('td:eq(1) input').off('click').on(
+						'click', function() {
+							var menuId = $(this).closest('tr').data().menuId;
+							var menuPid = $(this).closest('tr').data().menuPid;
+							selectAllMenuByPid(menuId, this.checked);
+							selectParentMenuById(menuPid, true);
+						});
+
+			} else {
+				layer.msg(result.error, {
+					icon : 5
 				});
 			}
 		});
 	}
+
+	function selectParentMenuById(menuPid, checked) {
+		$('#menubody>tr[id="' + menuPid + '"]').each(function() {
+			$(this).find('td:eq(1) input')[0].checked = checked;
+			var menuPid = $(this).data().menuPid;
+			selectParentMenuById(menuPid, checked);
+		});
+	}
+
+	function selectAllMenuByPid(menuId, checked) {
+		$('#menubody>tr[pid="' + menuId + '"]').each(function() {
+			$(this).find('td:eq(1) input')[0].checked = checked;
+			var menuId = $(this).data().menuId;
+			selectAllMenuByPid(menuId, checked);
+		});
+	}
+
+	function parseMenuData(pid, data) {
+		var menuArr = [];
+		var _0 = data.filter(function(x) {
+			return x.menuPid == pid;
+		});
+		_0.forEach(function(x, i, a) {
+			menuArr.push(x);
+			var childMenuArr = parseMenuData(x.menuId, data);
+			if (childMenuArr && childMenuArr.length > 0) {
+				menuArr = menuArr.concat(childMenuArr);
+			}
+		});
+		return menuArr;
+	}
+	// 重置密码
+	function resetPwd(obj) {
+		layer
+				.open({
+					title : '重置密码',
+					area : [ '500px', '300px' ],
+					btn : [ '确定', '取消' ],
+					shadeClose : true, // 开启遮罩关闭
+					content : '<form class="layui-form" action="">'
+							+ '<div class="layui-form-item">'
+							+ '<label class="layui-form-label">账户：</label>'
+							+ '<div class="layui-input-inline">'
+							+ '<input type="text" class="layui-input" readonly="true" value="'
+							+ obj.name
+							+ '">'
+							+ '</div>'
+							+ '</div>'
+							+ '<div class="layui-form-item">'
+							+ '<label class="layui-form-label">新密码：</label>'
+							+ '<div class="layui-input-inline">'
+							+ '<input type="password" name="password1" required lay-verify="required|pass" placeholder="请输入密码" autocomplete="off" class="layui-input">'
+							+ '</div>'
+							+ '</div>'
+							+ '<div class="layui-form-item">'
+							+ '<label class="layui-form-label">确认密码：</label>'
+							+ '<div class="layui-input-inline">'
+							+ '<input type="password" name="password2" required lay-verify="required|pass" placeholder="请输入密码" autocomplete="off" class="layui-input">'
+							+ '</div>' + '</div>' + '</form>',
+					success : function(layero, index) {
+						var password1 = layero.find("input[name='password1']");
+						var password2 = layero.find("input[name='password2']");
+						password2.keyup(function() {
+							layer.closeAll('tips');
+							var p1 = password1.val();
+							var p2 = password2.val();
+							if (p1.length >= p2.length) {
+								if (p1.substr(0, p2.length) != p2) {
+									layer.tips('输入的密码不一致！', password2, {
+										tips : [ 2, '#f44336' ]
+									});
+								}
+							} else {
+								layer.tips('输入的密码不一致！', password2, {
+									tips : [ 2, '#f44336' ]
+								});
+							}
+						});
+					},
+					yes : function(index, layero) {
+						var password = layero.find("input[name='password2']")
+								.val();
+						$.ajax({
+							url : URL.resetPwd,
+							data : {
+								id : obj.id,
+								password : password
+							},
+							async : true,
+							cache : false,
+							dataType : 'json',
+							type : 'post',
+							success : function(result) {
+								if (result.code == '000000') {
+									layer.msg('修改成功！', {
+										icon : 1
+									});
+								} else {
+									layer.msg(result.error, {
+										icon : 5
+									});
+								}
+							}
+						});
+					}
+				});
+	}
+
+});
+
+
+
+$(function(){
+    //移到右边
+    $('#add').click(function(){
+        //先判断是否有选中
+        if(!$("#select1 option").is(":selected")){
+            alert("请选择需要移动的选项")
+        }
+        //获取选中的选项，删除并追加给对方
+        else{
+            $('#select1 option:selected').appendTo('#select2');
+        }
+    });
+
+    //移到左边
+    $('#remove').click(function(){
+        //先判断是否有选中
+        if(!$("#select2 option").is(":selected")){
+            alert("请选择需要移动的选项")
+        }
+        else{
+            $('#select2 option:selected').appendTo('#select1');
+        }
+    });
+
+    //全部移到右边
+    $('#add_all').click(function(){
+        //获取全部的选项,删除并追加给对方
+        $('#select1 option').appendTo('#select2');
+    });
+
+    //全部移到左边
+    $('#remove_all').click(function(){
+        $('#select2 option').appendTo('#select1');
+    });
+
+    //双击选项
+    $('#select1').dblclick(function(){ //绑定双击事件
+        //获取全部的选项,删除并追加给对方
+        $("option:selected",this).appendTo('#select2'); //追加给对方
+    });
+
+    //双击选项
+    $('#select2').dblclick(function(){
+        $("option:selected",this).appendTo('#select1');
+    });
 
 });

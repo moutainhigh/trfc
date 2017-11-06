@@ -22,6 +22,73 @@ label.layui-form-label {
 	margin: 20px;
 }
 </style>
+ <style>
+        /* 效果CSS开始 */
+        .selectbox{width:500px;height:220px;margin:0px auto;}
+        .selectbox div{float:left;}
+        .selectbox .select-bar{padding:0 20px;}
+        .selectbox .select-bar select{width:150px;height:200px;border:1px #A0A0A4 solid;padding:4px;font-size:14px;font-family:"microsoft yahei";}
+        .btn-bar{}
+        .btn-bar p{margin-top:16px;}
+        .btn-bar p .btn{width:50px;height:30px;cursor:pointer;font-size:14px;}
+        /* 效果CSS结束 */
+    </style>
+<style>
+.look {
+	background-color: #fafbff;
+	width: 90%;
+	height: 30px;
+	line-height: 30px;
+	color: #656c9d;
+	border: 1px solid #efeef4;
+	text-indent: 2em;
+}
+
+.phone, .module {
+	width: 80px;
+	height: 30px;
+	line-height: 30px;
+	text-align: center;
+	display: inline-block;
+	border: 1px solid #efeef4;
+	margin: 10px 0;
+}
+
+.module {
+	color: #656c9d;
+}
+
+.phone {
+	color: #fff;
+	background-color: #434e8c;
+}
+
+.lookRole {
+	list-style: none;
+	width: 100%;
+	margin: 0;
+	padding: 0;
+}
+
+.lookRole li {
+	background-color: #f5f6fb;
+	width: 90%;
+	height: 40px;
+	line-height: 40px;
+	color: #656c9d;
+	border: 1px solid #efeef4;
+	text-indent: 2em;
+}
+
+.nNone {
+	border-bottom: none;
+}
+
+.modal-dialog {
+	width: 1000px;
+	margin: 0 auto;
+}
+</style>
 </head>
 <body>
 	<div class="it_admin">
@@ -69,7 +136,7 @@ label.layui-form-label {
 						</div>
 					</div>
 					<div class="intel_opera">
-						 <div class="intel_operasolo" id="refreshButton">
+						<div class="intel_operasolo" id="refreshButton">
 							<a class="refreshButton"> <i class="iconfont colorlv">&#xe61b;</i>
 								<span>刷新</span>
 							</a>
@@ -78,7 +145,7 @@ label.layui-form-label {
 							<a class="addButton"> <i class="iconfont coloradd">&#xe627;</i>
 								<span>新增</span>
 							</a>
-						</div> 
+						</div>
 					</div>
 					<div class="intel_table">
 						<!--用户表格begin-->
@@ -126,6 +193,59 @@ label.layui-form-label {
 				<!--tab切换的内容end-->
 			</div>
 		</div>
+		<!-- 用户添加角色begin -->
+		<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+		    <div class="modal-dialog" role="document">
+		        <div class="modal-content">
+		            <div class="modal-header">
+		                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		                <h4 class="modal-title" id="myModalLabel">角色授权</h4>
+		            </div>
+		            <div class="modal-body">
+		                <div class="kePublic">
+		                    <!--效果html开始-->
+		                    <div class="selectbox">
+		                        <div class="select-bar">
+		                            <select multiple="multiple" id="select1">
+		                                <option value="超级管理员">超级管理员</option>
+		                                <option value="普通管理员">普通管理员</option>
+		                                <option value="信息发布员">信息发布员</option>
+		                                <option value="财务管理员">财务管理员</option>
+		                                <option value="产品管理员">产品管理员</option>
+		                                <option value="资源管理员">资源管理员</option>
+		                                <option value="系统管理员">系统管理员</option>
+		                                <option value="超级管理员">超级管理员</option>
+		                                <option value="普通管理员">普通管理员</option>
+		                                <option value="信息发布员">信息发布员</option>
+		                                <option value="财务管理员">财务管理员</option>
+		                                <option value="产品管理员">产品管理员</option>
+		                                <option value="资源管理员">资源管理员</option>
+		                            </select>
+		                        </div>
+		
+		                        <div class="btn-bar">
+		                            <p><span id="add"><input type="button" class="btn" value=">" title="移动选择项到右侧"/></span></p>
+		                            <p><span id="add_all"><input type="button" class="btn" value=">>" title="全部移到右侧"/></span></p>
+		                            <p><span id="remove"><input type="button" class="btn" value="<" title="移动选择项到左侧"/></span></p>
+		                            <p><span id="remove_all"><input type="button" class="btn" value="<<" title="全部移到左侧"/></span></p>
+		                        </div>
+		                        <div class="select-bar">
+		                            <select multiple="multiple" id="select2"></select>
+		                        </div>
+		                    </div>
+		                    <!--效果html结束-->
+		                    <div class="clear"></div>
+		                </div>
+		            </div>
+		            <div class="modal-footer">
+		                <button type="button" class="btn btn-primary">保存</button>
+		                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+		            </div>
+		        </div>
+		    </div>
+		</div>
+		<!-- 用户添加角色end -->
+		
 		<!--查看详情begin-->
 		<div class="modal fade" id="caigoubill" tabindex="-1" role="dialog"
 			aria-labelledby="myModalLabel">
@@ -316,13 +436,94 @@ label.layui-form-label {
 			</div>
 		</div>
 		<!--编辑end-->
+
+
+		<!-- 权限查看begin -->
+		<div class="modal fade" id="select" tabindex="-1" role="dialog"
+			aria-labelledby="myModalLabel">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal"
+							aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+						<h4 class="modal-title" id="myModalLabel" style="color: #5d91c3">角色查看</h4>
+					</div>
+					<div class="modal-body">
+						<div class="look">查看角色权限</div>
+						<div class="cg_dhadd">
+							<div class="cg_tabtit">
+								<ul>
+									<li class="select">手持机权限</li>
+									<li>平台权限</li>
+								</ul>
+							</div>
+						</div>
+						<div class="cg_tabbox">
+							<div class="cg_tabcont">
+								<ul class="lookRole">
+
+									<!-- <li style="color: #5d91c3" class="nNone">模块（菜单）名称</li>
+											<li class="nNone">倒运管理</li>
+											<li class="nNone">采样管理</li>
+											<li class="nNone">收货管理</li>
+											<li>发货管理</li> -->
+								</ul>
+							</div>
+							<div class="cg_tabcont hide">
+								<div class="intel_table">
+									<table id="juese_module" class="table table-bordered"
+										data-options="">
+										<thead>
+											<tr>
+												<th style="width: 20px;">序号</th>
+												<th>模块(菜单)名称</th>
+												<th>模块编码</th>
+												<th>排序</th>
+												<th>说明</th>
+											</tr>
+										</thead>
+										<tbody id="menubody">
+										</tbody>
+									</table>
+								</div>
+							</div>
+
+						</div>
+					</div>
+				</div>
+				<!-- 权限查看end -->
+				<!--tab切换的内容end-->
+			</div>
+		</div>
 	</div>
 	<!-- 引用公共footer部分 -->
 	<jsp:include page="../../common/base/footer_busi.jsp"></jsp:include>
 	<script type="text/javascript" src="${staticBasePath}/js/md5.js"></script>
 	<script type="text/javascript" src="/javascript/system/auth/userMgr.js"></script>
 	<script type="text/javascript">
-		
+		// 录入、参照tab切换菜单
+		var cg_li = $('.cg_tabtit ul li');
+		cg_li.click(function() {
+			$(this).addClass('select').siblings().removeClass('select');
+			var index = cg_li.index(this);
+			$('.cg_tabbox > .cg_tabcont').eq(index).show().siblings().hide();
+		});
+		// 模块权限表格每行选中背景变白
+		var tabletr = $('.intel_table table tr');
+		tabletr.on("click", function() {
+			$(this).addClass("select").siblings().removeClass("select");
+		});
+
+		// 顶部tab切换菜单
+		var $tab_li = $('.intel_menu li');
+		$tab_li.click(function() {
+			$(this).addClass('select').siblings().removeClass('select');
+			var index = $tab_li.index(this);
+			$('.intel_tabbox > .intel_tabcont').eq(index).show().siblings()
+					.hide();
+		});
 	</script>
 </body>
 </html>
