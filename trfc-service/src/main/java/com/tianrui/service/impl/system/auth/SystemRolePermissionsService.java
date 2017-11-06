@@ -171,9 +171,7 @@ public class SystemRolePermissionsService implements ISystemRolePermissionsServi
 	public Result selectRole(String id) {
 		Result result = Result.getParamErrorResult();
 		if (id != null && StringUtils.isNotBlank(id)) {
-			// List<SystemRoleMenuResp> list =
-			// systemRoleMenuMapper.queryMenuByRole(req);
-			Map map = new HashMap();
+			Map<String, Object>  map = new HashMap<String, Object>(); 
 			List<SystemRoleMenuResp> lists = null;
 			List<SystemRoleMenuResp> list = null;
 			List<SystemUserRole> listRoleid = systemUserRoleMapper.selectByUserId(id);
