@@ -18,7 +18,7 @@ public class UpdateFromDcService implements IUpdateFromDcService {
 	public Result updateFromDc(String type){
 		Result result = Result.getParamErrorResult();
 		if(StringUtils.isNotBlank(type)){
-			ApiResult apiResult = HttpUtils.post(ApiParamUtils.getApiParam(type), Constant.URL_PULL_FROM_DC);
+			ApiResult apiResult = HttpUtils.post(ApiParamUtils.getApiParam(type), Constant.URL_DOMAIN + Constant.URL_PULL_FROM_DC);
 			if(apiResult != null && StringUtils.equals(apiResult.getCode(), Constant.SUCCESS)){
 				result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
 			}else{

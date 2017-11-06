@@ -316,7 +316,7 @@ $(function(){
 			var tr = '<tr>'
 				+'<td>'+((pageNo-1)*pageSize+i+1)+'</td>'
 				+'<td>'+(obj.vehicleno || '')+'</td>'
-				+'<td '+(obj.status==='3'?'class="colorred">':'class="colorblue">')+(STATUS[obj.status] || '')+'</td>'
+				+'<td '+(obj.status==='3'?'class="colorred">':'class="colorblue">')+(obj.forceOutFactory == '1' ? '强制出厂' : (STATUS[obj.status] || ''))+'</td>'
 				+'<td class="colorblue">'+(TYPE[obj.type] || '')+'</td>'
 				+'<td>'+(obj.makebilltimeStr || '')+'</td>'
 				+'<td>'+(getNowFormatDate(true, obj.enterTime || '')|| '')+'</td>'

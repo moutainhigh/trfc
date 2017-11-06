@@ -1,7 +1,5 @@
 package com.tianrui.web.action.system.auth;
 
-import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;

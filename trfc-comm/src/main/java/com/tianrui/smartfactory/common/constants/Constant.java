@@ -45,10 +45,10 @@ public class Constant {
     // 接口URL
     public static String URL_DOMAIN = "";
 //     public final static String URL_DOMAIN = "http://172.20.10.210:8080";
-    public final static String URL_RETURN_SALESAPPLICATION = URL_DOMAIN + "/api/boOrder/orderReturn";
-    public final static String URL_RETURN_SALESOUTBOUNDCATION = URL_DOMAIN + "/api/saleoutboundorder/orderReturn";
-    public final static String URL_RETURN_PURCHASESTORAGEATION = URL_DOMAIN + "/api/purchasestorage/orderReturn";
-    public final static String URL_PULL_FROM_DC = URL_DOMAIN + "/api/fileSync/pull";
+    public static String URL_RETURN_SALESAPPLICATION = "/api/boOrder/orderReturn";
+    public static String URL_RETURN_SALESOUTBOUNDCATION = "/api/saleoutboundorder/orderReturn";
+    public static String URL_RETURN_PURCHASESTORAGEATION = "/api/purchasestorage/orderReturn";
+    public static String URL_PULL_FROM_DC = "/api/fileSync/pull";
 
     // 用户身份类型
     // 客户

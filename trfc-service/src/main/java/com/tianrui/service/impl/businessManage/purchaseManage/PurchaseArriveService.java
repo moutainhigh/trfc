@@ -83,7 +83,7 @@ public class PurchaseArriveService implements IPurchaseArriveService {
 	@Autowired
 	private PoundNoteMapper poundNoteMapper;
 	@Autowired
-	private AccessRecordMapper accessRecordMapper1;
+	private AccessRecordMapper accessRecordMapper;
 	@Autowired
 	private OtherArriveMapper otherArriveMapper;
 
@@ -367,7 +367,7 @@ public class PurchaseArriveService implements IPurchaseArriveService {
 					resp.setPoundNoteResp(poundResp);
 				}
 				//获取出入厂时间
-				AccessRecord access = accessRecordMapper1.selectByNoticeId(resp.getId());
+				AccessRecord access = accessRecordMapper.selectByNoticeId(resp.getId());
 				if(access!=null){
 					resp.setEnterTime(access.getEntertime());
 					resp.setOutTime(access.getOuttime());
@@ -624,7 +624,35 @@ public class PurchaseArriveService implements IPurchaseArriveService {
 		}
 		return page;
 	}
-	
-	
+
+	@Transactional
+    @Override
+    public Result outfactory(PurchaseArriveSave update) {
+        Result result = Result.getParamErrorResult();
+        if (update != null && StringUtils.isNotBlank(update.getId())) {
+            PurchaseArrive bean = purchaseArriveMapper.selectByPrimaryKey(update.getId());
+            if (bean != null) {
+                PurchaseArrive pa = new PurchaseArrive();
+                pa.setId(bean.getId());
+                pa.setStatus(Constant.FIVE_STRING);
+                pa.setForceOutFactory(Constant.ONE_NUMBER);
+                pa.setForceOutFactoryPerson(update.getCurrId());
+                pa.setForceOutFactoryTime(System.currentTimeMillis());
+                purchaseArriveMapper.updateByPrimaryKeySelective(pa);
+                AccessRecord accessRecord = accessRecordMapper.selectByNoticeId(pa.getId());
+                AccessRecord ar = new AccessRecord();
+                ar.setId(accessRecord.getId());
+                ar.setOuttime(System.currentTimeMillis());
+                ar.setAccesstype(Constant.TWO_STRING);
+                ar.setModifier(update.getCurrId());
+                ar.setModifytime(System.currentTimeMillis());
+                accessRecordMapper.updateByPrimaryKeySelective(ar);
+                result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+            } else {
+                result.setErrorCode(ErrorCode.NOTICE_NOT_EXIST);
+            }
+        }
+        return result;
+    }
 
 }

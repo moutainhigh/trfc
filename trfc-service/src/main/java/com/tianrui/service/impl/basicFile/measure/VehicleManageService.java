@@ -347,66 +347,6 @@ public class VehicleManageService implements IVehicleManageService {
 	    return result;
 	}
 
-/*	@Override
-	public Result addVehicleApi(VehicleManageApi vehicleManageApi) throws Exception {
-		Result result = Result.getParamErrorResult();
-		if (vehicleManageApi != null) {
-			if (StringUtils.isNotBlank(vehicleManageApi.getRfid())) {
-				RFID rfid = new RFID();
-				rfid.setRfid(vehicleManageApi.getRfid());
-				rfid.setState(true);
-				long count = rfidMapper.selectSelectiveCount(rfid);
-				if (count == Constant.ONE_NUMBER) {
-					if (StringUtils.isNotBlank(vehicleManageApi.getVehicleNo())) {
-						VehicleManage vehicle = new VehicleManage();
-						vehicle.setVehicleno(vehicleManageApi.getVehicleNo());
-						vehicle.setState(Constant.ONE_STRING);
-						List<VehicleManage> list = vehicleManageMapper.selectSelective(vehicle);
-						if (list != null && list.size() > 0) {
-							VehicleManage v = list.get(0);
-							if (StringUtils.equals(v.getRfid(), vehicleManageApi.getRfid())) {
-								// 已绑定rfid
-								result.setErrorCode(ErrorCode.RFID_VEHICLE_EXIST1);
-								return result;
-							} else {
-								// 绑定rfid
-								vehicle.setId(v.getId());
-								vehicle.setModifier(vehicleManageApi.getCurrUid());
-								vehicle.setModifytime(System.currentTimeMillis());
-								vehicle.setRfid(vehicleManageApi.getRfid());
-								if (vehicleManageMapper.updateByPrimaryKeySelective(vehicle) > 0) {
-									result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
-								} else {
-									result.setErrorCode(ErrorCode.OPERATE_ERROR);
-								}
-							}
-						} else {
-							// 新增
-							vehicle.setId(UUIDUtil.getId());
-							vehicle.setRfid(vehicleManageApi.getRfid());
-			                vehicle.setCode(getCode(vehicleManageApi.getCurrUid()));
-			                vehicle.setInternalcode(getInternalCode(vehicleManageApi.getCurrUid()));
-							vehicle.setCreator(vehicleManageApi.getCurrUid());
-							vehicle.setCreatetime(System.currentTimeMillis());
-							vehicle.setModifier(vehicleManageApi.getCurrUid());
-							vehicle.setModifytime(System.currentTimeMillis());
-							if (vehicleManageMapper.insertSelective(vehicle) == 1
-							        && updateCode(vehicleManageApi.getCurrUid())) {
-								result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
-							} else {
-								result.setErrorCode(ErrorCode.OPERATE_ERROR);
-							}
-						}
-					}
-				}else  {
-					result.setErrorCode(ErrorCode.RFID_NOT_EXIST);
-					return result;
-				}
-			}
-		}
-		return result;
-	}*/
-
 	@Override
 	public Result vehicleCheck(VehicleManageApi vehicleManageApi) {
 		Result result = Result.getParamErrorResult();

@@ -18,7 +18,7 @@ function readerOpen() {
 			layer.msg("打开读写器失败");
 			return false;
 		}
-		MWRFATL.readerLoadKey(0, 0, "ffffffffffff"); //加载2扇区密码,对M1卡操作时使用加载密码认证
+		MWRFATL.readerLoadKey(0, 0, "FD0AC27D8AC3"); //加载2扇区密码,对M1卡操作时使用加载密码认证
 		if (MWRFATL.LastRet != 0) {
 			layer.msg("加载扇区密码失败");
 			return false;

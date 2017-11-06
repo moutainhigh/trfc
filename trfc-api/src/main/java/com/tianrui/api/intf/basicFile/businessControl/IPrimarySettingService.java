@@ -4,7 +4,6 @@ import com.tianrui.api.req.basicFile.businessControl.PrimarySettingQuery;
 import com.tianrui.api.req.basicFile.businessControl.PrimarySettingSave;
 import com.tianrui.api.req.businessManage.handset.HandSetRequestParam;
 import com.tianrui.api.resp.basicFile.businessControl.PrimarySettingResp;
-import com.tianrui.smartfactory.common.api.ApiParam;
 import com.tianrui.smartfactory.common.vo.PaginationVO;
 import com.tianrui.smartfactory.common.vo.Result;
 /**

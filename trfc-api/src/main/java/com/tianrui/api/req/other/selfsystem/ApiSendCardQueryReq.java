@@ -13,11 +13,18 @@ public class ApiSendCardQueryReq extends BaseReq {
 	private static final long serialVersionUID = 4325189759681138634L;
 	//身份证号
 	private String icno;
+	private String currId;
 	public String getIcno() {
 		return icno;
 	}
 	public void setIcno(String icno) {
 		this.icno = icno;
+	}
+	public String getCurrId() {
+		return currId;
+	}
+	public void setCurrId(String currId) {
+		this.currId = currId;
 	}
 	
 	

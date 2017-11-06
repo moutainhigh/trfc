@@ -108,7 +108,7 @@ public class TaskJobService {
 					}
 				}
 			}
-			ApiResult apiResult = HttpUtils.post(ApiParamUtils.getApiParam(listSales), Constant.URL_RETURN_SALESAPPLICATION);
+			ApiResult apiResult = HttpUtils.post(ApiParamUtils.getApiParam(listSales), Constant.URL_DOMAIN + Constant.URL_RETURN_SALESAPPLICATION);
 			if(StringUtils.equals(apiResult.getCode(), ErrorCode.SYSTEM_SUCCESS.getCode())){
 				if(returnQueueMapper.deteleByIds(queueIds) > 0){
 					SalesApplication application = new SalesApplication();

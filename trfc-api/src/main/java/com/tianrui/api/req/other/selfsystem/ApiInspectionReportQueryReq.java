@@ -10,6 +10,18 @@ import com.tianrui.api.req.BaseReq;
 public class ApiInspectionReportQueryReq extends BaseReq {
 	
 	private static final long serialVersionUID = 4325189759681138634L;
+	//榜单号
+	private String poundno;
+
+	public String getPoundno() {
+		return poundno;
+	}
+
+	public void setPoundno(String poundno) {
+		this.poundno = poundno;
+	}
+	
+	
 	
 	
 

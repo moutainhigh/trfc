@@ -38,4 +38,10 @@ public interface IOtherArriveService {
 	Result updateOperation(OtherArriveReq req) throws Exception;
 
     PaginationVO<AppOtherArriveResp> appPage(AppOtherArriveReq req) throws Exception;
+    /**
+     * @annotation 强制出厂
+     * @param req
+     * @return
+     */
+    Result forceOutFactory(OtherArriveReq req);
 }

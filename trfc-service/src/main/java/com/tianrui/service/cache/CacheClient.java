@@ -34,11 +34,11 @@ public class CacheClient {
 	 * @创建人 tank
 	 * @创建时间 2016年1月16日下午2:36:51
 	 */
-	public <T> T getObj(String key,Class<?> clazz) {
+	public <T> T getObj(String key,Class<T> clazz) {
 		T rs =null;
 		try {
 			String  str=redisTemplate.opsForValue().get(key).toString();
-			rs= (T)JSON.parseObject(str,clazz);
+			rs= JSON.parseObject(str,clazz);
 		} catch (Exception e) {
 			logger.warn(e.getLocalizedMessage());
 		} 

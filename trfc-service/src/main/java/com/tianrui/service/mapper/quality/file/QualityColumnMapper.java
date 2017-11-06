@@ -2,8 +2,6 @@ package com.tianrui.service.mapper.quality.file;
 
 import java.util.List;
 
-import org.apache.ibatis.annotations.Param;
-
 import com.tianrui.service.bean.quality.file.QualityColumn;
 
 public interface QualityColumnMapper {

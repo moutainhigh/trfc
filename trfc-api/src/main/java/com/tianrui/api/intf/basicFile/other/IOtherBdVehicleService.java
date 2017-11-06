@@ -1,8 +1,6 @@
 package com.tianrui.api.intf.basicFile.other;
 
 import com.tianrui.api.req.basicFile.other.OtherBdVehicleReq;
-import com.tianrui.api.resp.basicFile.other.OtherBdVehicleResp;
-import com.tianrui.smartfactory.common.vo.PaginationVO;
 import com.tianrui.smartfactory.common.vo.Result;
 
 /**

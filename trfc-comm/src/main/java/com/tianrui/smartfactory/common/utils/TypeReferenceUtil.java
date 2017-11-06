@@ -13,7 +13,6 @@ public class TypeReferenceUtil {
 	
 	public static <T> Type getTypeReference(Class<T> clazz){
 		if(!map.containsKey(clazz.toString())){
-			Type type =type(ApiParam.class,clazz.getTypeParameters());
 			map.put(clazz.toString(), type(ApiParam.class,clazz));
 		}
 		return map.get(clazz.toString());

@@ -15,6 +15,7 @@ import com.tianrui.smartfactory.common.constants.Constant;
 import com.tianrui.smartfactory.common.utils.DateUtil;
 import com.tianrui.smartfactory.common.utils.Md5Utils;
 
+@SuppressWarnings("unused")
 public class TestApiDoorSystem {
 
 	private static String domin = "http://localhost/";
@@ -71,9 +72,9 @@ public class TestApiDoorSystem {
 		ApiParam<ApiDoorSystemSave> api =new ApiParam<ApiDoorSystemSave>();
 		
 		ApiDoorSystemSave req =new ApiDoorSystemSave();
-		req.setNotionformcode("TH201708160001");
-		req.setIcardno("1471014069");
-		req.setServicetype("2");
+		req.setNotionformcode("DH201711020181");
+		req.setIcardno("655152309");
+		req.setServicetype("0");
 		req.setType("1");
 		req.setTime(DateUtil.getNowDateString("yyyy-MM-dd HH:mm:ss"));
 		

@@ -40,19 +40,23 @@
     <result column="signPersonName" property="signPersonName" jdbcType="VARCHAR" />
     <result column="signTime" property="signTime" jdbcType="BIGINT" />
     <result column="signID" property="signID" jdbcType="VARCHAR" />
+    <result column="forceOutFactory" property="forceOutFactory" jdbcType="BIT" />
+    <result column="forceOutFactoryPerson" property="forceOutFactoryPerson" jdbcType="VARCHAR" />
+    <result column="forceOutFactoryTime" property="forceOutFactoryTime" jdbcType="BIGINT" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, code, auditstatus, source, status, type, vehicleid, 
     vehicleno, vehiclerfid, driverid, drivername, driveridentityno, billid, billcode, 
     billdetailid, poundnoteid, poundnotecode, abnormalperson, abnormalpersonname, abnormaltime, arrivalamount, signamount, unit, makerid, 
-    makebillname, makebilltime, icardid, state, creator, createtime, modifier, modifytime, remark, signStatus, signPerson, signPersonName, signTime, signID
+    makebillname, makebilltime, icardid, state, creator, createtime, modifier, modifytime, remark, signStatus, signPerson, signPersonName, signTime, signID, 
+    forceOutFactory, forceOutFactoryPerson, forceOutFactoryTime
   </sql>
   <sql id="P_Base_Column_List" >
     p1.id, p1.code, p1.auditstatus, p1.source, p1.status, p1.type, p1.vehicleid, 
     p1.vehicleno, p1.vehiclerfid, p1.driverid, p1.drivername, p1.driveridentityno, p1.billid, p1.billcode, 
     p1.billdetailid, p1.poundnoteid, p1.poundnotecode, p1.abnormalperson, p1.abnormalpersonname, p1.abnormaltime, p1.arrivalamount, p1.signamount, p1.unit, p1.makerid, 
     p1.makebillname, p1.makebilltime, p1.icardid, p1.state, p1.creator, p1.createtime, p1.modifier, p1.modifytime, p1.remark, p1.signStatus, p1.signPerson, p1.signPersonName, 
-    p1.signTime, p1.signID
+    p1.signTime, p1.signID, p1.forceOutFactory, p1.forceOutFactoryPerson, p1.forceOutFactoryTime
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
@@ -75,7 +79,7 @@
       makebillname, makebilltime, icardid, state, creator, 
       createtime, modifier, modifytime, 
       remark, signStatus, signPerson, signPersonName, 
-      signTime, signID)
+      signTime, signID, forceOutFactory, forceOutFactoryPerson, forceOutFactoryTime)
     values (#{id,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR}, #{auditstatus,jdbcType=VARCHAR}, 
       #{source,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, 
       #{vehicleid,jdbcType=VARCHAR}, #{vehicleno,jdbcType=VARCHAR}, 
@@ -87,7 +91,8 @@
       #{makebilltime,jdbcType=BIGINT}, #{icardid,jdbcType=VARCHAR}, #{state,jdbcType=VARCHAR}, #{creator,jdbcType=VARCHAR}, 
       #{createtime,jdbcType=BIGINT}, #{modifier,jdbcType=VARCHAR}, #{modifytime,jdbcType=BIGINT}, 
       #{remark,jdbcType=VARCHAR}, #{signStatus,jdbcType=TINYINT}, #{signPerson,jdbcType=VARCHAR}, 
-      #{signPersonName,jdbcType=VARCHAR}, #{signTime,jdbcType=BIGINT}, #{signID,jdbcType=VARCHAR})
+      #{signPersonName,jdbcType=VARCHAR}, #{signTime,jdbcType=BIGINT}, #{signID,jdbcType=VARCHAR},
+      #{forceOutFactory,jdbcType=BIT}, #{forceOutFactoryPerson,jdbcType=VARCHAR}, #{forceOutFactoryTime,jdbcType=BIGINT})
   </insert>
   <insert id="insertSelective" parameterType="com.tianrui.service.bean.businessManage.purchaseManage.PurchaseArrive" >
     insert into tr_purchase_db_arrive
@@ -206,6 +211,15 @@
       <if test="signID != null" >
         signID,
       </if>
+      <if test="forceOutFactory != null" >
+        forceOutFactory,
+      </if>
+      <if test="forceOutFactoryPerson != null" >
+        forceOutFactoryPerson,
+      </if>
+      <if test="forceOutFactoryTime != null" >
+        forceOutFactoryTime,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -321,6 +335,15 @@
       </if>
       <if test="signID != null" >
         #{signID,jdbcType=BIGINT},
+      </if>
+      <if test="forceOutFactory != null" >
+        #{forceOutFactory,jdbcType=BIT},
+      </if>
+      <if test="forceOutFactoryPerson != null" >
+        #{forceOutFactoryPerson,jdbcType=VARCHAR},
+      </if>
+      <if test="forceOutFactoryTime != null" >
+        #{forceOutFactoryTime,jdbcType=BIGINT},
       </if>
     </trim>
   </insert>
@@ -438,6 +461,15 @@
       <if test="signID != null" >
         signID = #{signID,jdbcType=BIGINT},
       </if>
+      <if test="forceOutFactory != null" >
+        forceOutFactory = #{forceOutFactory,jdbcType=BIT},
+      </if>
+      <if test="forceOutFactoryPerson != null" >
+        forceOutFactoryPerson = #{forceOutFactoryPerson,jdbcType=VARCHAR},
+      </if>
+      <if test="forceOutFactoryTime != null" >
+        forceOutFactoryTime = #{forceOutFactoryTime,jdbcType=BIGINT},
+      </if>
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
@@ -479,7 +511,10 @@
       signPerson = #{signPerson,jdbcType=VARCHAR},
       signPersonName = #{signPersonName,jdbcType=VARCHAR},
       signTime = #{signTime,jdbcType=BIGINT},
-      signID = #{signID,jdbcType=BIGINT}
+      signID = #{signID,jdbcType=BIGINT},
+      forceOutFactory = #{forceOutFactory,jdbcType=BIT},
+      forceOutFactoryPerson = #{forceOutFactoryPerson,jdbcType=VARCHAR},
+      forceOutFactoryTime = #{forceOutFactoryTime,jdbcType=BIGINT}
     where id = #{id,jdbcType=VARCHAR}
   </update>
   <select id="selectSelective" parameterType="com.tianrui.service.bean.businessManage.purchaseManage.PurchaseArrive" resultMap="BaseResultMap">
@@ -600,6 +635,15 @@
       </if>
       <if test="signID != null and signID != ''" >
         and signID = #{signID,jdbcType=BIGINT}
+      </if>
+      <if test="forceOutFactory != null and forceOutFactory != ''" >
+        and forceOutFactory = #{forceOutFactory,jdbcType=BIT}
+      </if>
+      <if test="forceOutFactoryPerson != null and forceOutFactoryPerson != ''" >
+        and forceOutFactoryPerson = #{forceOutFactoryPerson,jdbcType=VARCHAR}
+      </if>
+      <if test="forceOutFactoryTime != null and forceOutFactoryTime != ''" >
+        and forceOutFactoryTime = #{forceOutFactoryTime,jdbcType=BIGINT}
       </if>
     </where>    
   </select>
@@ -746,7 +790,7 @@
     select 
     <include refid="Base_Column_List" />
     from tr_purchase_db_arrive
-    where code = #{code,jdbcType=VARCHAR}
+    where code = #{code,jdbcType=VARCHAR} and status != 3
   </select>
    <select id="checkICUse" resultMap="BaseResultMap" parameterType="java.lang.String">
     select 

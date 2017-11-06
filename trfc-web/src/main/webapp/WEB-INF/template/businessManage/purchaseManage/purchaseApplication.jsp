@@ -77,7 +77,7 @@
 									<th>制单日期</th>
 									<th>审核人</th>
 									<th>审核日期</th>
-									<th>备注</th>
+									<th>供应商备注</th>
 								</tr>
 							</thead>
 							<tbody id="dataBody">

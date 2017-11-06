@@ -140,5 +140,11 @@ public interface IPurchaseArriveService {
 	 * @version 2017年6月6日 上午9:18:43
 	 */
 	PaginationVO<PurchaseLogisticsResp> logisticsPage(PurchaseLogisticsQuery query);
+	/**
+	 * @annotation 强制出厂
+	 * @param update
+	 * @return
+	 */
+    Result outfactory(PurchaseArriveSave update);
 
 }

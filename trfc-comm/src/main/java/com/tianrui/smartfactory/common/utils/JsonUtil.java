@@ -10,7 +10,7 @@ public class JsonUtil {
 	
 	static Logger logger =LoggerFactory.getLogger(JsonUtil.class);
 
-	public static  <T> ApiParam<T> getApiParam(String param, @SuppressWarnings("rawtypes") Class clazz){
+	public static  <T> ApiParam<T> getApiParam(String param, Class<T> clazz){
 		ApiParam<T> appParam =JSON.parseObject(param, TypeReferenceUtil.getTypeReference(clazz));
 		return appParam;
 	}

@@ -106,7 +106,7 @@ public class PurchaseStorageListService implements IPurchaseStorageListService {
 				subList.add(order);
 				// 调用dc 接口成功 则推单状态为推单中 榜单展示为推单中
 				ApiResult apiResult = HttpUtils.post(ApiParamUtils.getApiParam(subList),
-						Constant.URL_RETURN_PURCHASESTORAGEATION);
+				        Constant.URL_DOMAIN + Constant.URL_RETURN_PURCHASESTORAGEATION);
 				if (apiResult != null && StringUtils.equals(apiResult.getCode(), Constant.SUCCESS)) {
 					order.setStatus(Constant.PUSH_STATUS_ING);
 					if (purchaseStorageListMapper.updateByPrimaryKeySelective(order) > 0) {

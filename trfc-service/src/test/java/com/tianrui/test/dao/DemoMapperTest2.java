@@ -44,6 +44,7 @@ import com.tianrui.smartfactory.common.vo.Result;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath*:spring/appliactionContext-service.xml" })
 //@Ignore
+@SuppressWarnings("unused")
 public class DemoMapperTest2 {
 
 	public static Logger logger =LoggerFactory.getLogger(DemoMapperTest2.class);
