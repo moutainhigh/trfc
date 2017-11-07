@@ -46,7 +46,7 @@ public interface OtherArriveMapper {
 	 * 通过车号 判断是否含有通知单 
 	 * lixiaoyong
 	 */
-	OtherArrive hasOtherArrive(String vehicleid);
+	OtherArrive getByVehicleId(String vehicleid);
 	
 	/**
 	 * 通过IC卡ID判断是否正在使用

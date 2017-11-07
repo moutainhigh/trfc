@@ -4,6 +4,8 @@ import com.tianrui.api.req.BaseReq;
 
 public class ApiPoundNoteValidation extends BaseReq {
 	private static final long serialVersionUID = -6639269016047238506L;
+	//车牌ID
+	private String vehicleId;
 	//车牌号
 	private String vehicleno;
 	//RFID
@@ -12,53 +14,42 @@ public class ApiPoundNoteValidation extends BaseReq {
 	private String type;
 	//当前登录用户
 	private String currid;
-	/**
-	 * @return the vehicleno
-	 */
+	public String getVehicleId() {
+		return vehicleId;
+	}
+	public void setVehicleId(String vehicleId) {
+		this.vehicleId = vehicleId;
+	}
 	public String getVehicleno() {
 		return vehicleno;
 	}
-	/**
-	 * @return the rfid
-	 */
-	public String getRfid() {
-		return rfid;
-	}
-	/**
-	 * @return the type
-	 */
-	public String getType() {
-		return type;
-	}
-	/**
-	 * @return the currid
-	 */
-	public String getCurrid() {
-		return currid;
-	}
-	/**
-	 * @param vehicleno the vehicleno to set
-	 */
 	public void setVehicleno(String vehicleno) {
 		this.vehicleno = vehicleno;
 	}
-	/**
-	 * @param rfid the rfid to set
-	 */
+	public String getRfid() {
+		return rfid;
+	}
 	public void setRfid(String rfid) {
 		this.rfid = rfid;
 	}
-	/**
-	 * @param type the type to set
-	 */
+	public String getType() {
+		return type;
+	}
 	public void setType(String type) {
 		this.type = type;
 	}
-	/**
-	 * @param currid the currid to set
-	 */
+	public String getCurrid() {
+		return currid;
+	}
 	public void setCurrid(String currid) {
 		this.currid = currid;
 	}
-	
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+	@Override
+	public String toString() {
+		return "ApiPoundNoteValidation [vehicleId=" + vehicleId + ", vehicleno=" + vehicleno + ", rfid=" + rfid
+				+ ", type=" + type + ", currid=" + currid + "]";
+	}
 }

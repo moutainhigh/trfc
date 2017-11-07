@@ -1738,10 +1738,16 @@ public class PoundNoteService implements IPoundNoteService {
 		Result result = Result.getParamErrorResult();
 		if (valid != null && StringUtils.isNotBlank(valid.getVehicleno()) && StringUtils.isNotBlank(valid.getRfid())
 				&& StringUtils.isNotBlank(valid.getType()) && StringUtils.isNotBlank(valid.getCurrid())) {
-			if (StringUtils.equals(valid.getType(), "1")) {
-				result = validOneWeight(valid);
+			VehicleManage vehicle = vehicleManageMapper.getByVehicleNoAndRfid(valid.getVehicleno(), valid.getRfid());
+			if (vehicle != null) {
+				valid.setVehicleId(vehicle.getId());
+				if (StringUtils.equals(valid.getType(), "1")) {
+					result = validOneWeight(valid);
+				} else {
+					result = validTwoWeight(valid);
+				}
 			} else {
-				result = validTwoWeight(valid);
+				result.setErrorCode(ErrorCode.RFID_VEHICLE_NOT_EXIST);
 			}
 		}
 		return result;
@@ -1755,70 +1761,54 @@ public class PoundNoteService implements IPoundNoteService {
 	 */
 	private Result validOneWeight(ApiPoundNoteValidation valid) {
 		Result result = Result.getErrorResult();
-		List<SalesArrive> listSales = salesArriveMapper.validNoticeByVehicle(valid.getVehicleno(), valid.getRfid());
-		if (CollectionUtils.isEmpty(listSales)) {
-			List<PurchaseArrive> listPurchase = purchaseArriveMapper.validNoticeByVehicle(valid.getVehicleno(),
-					valid.getRfid());
-			if (CollectionUtils.isEmpty(listPurchase)) {
-
-				// 通过车号 获取车辆id和rfid 进行检测
-				VehicleManage vehicle = vehicleManageMapper.selectByVehicleno(valid.getVehicleno());
-				if (vehicle != null && StringUtils.equals(vehicle.getRfid(), valid.getRfid())) {
-					// 检测其他业务中时候有通知单
-					OtherArrive otherArrive = otherArriveMapper.hasOtherArrive(vehicle.getId());
-					if (otherArrive == null) {
-						// 该车辆没有通知单
-						result.setErrorCode(ErrorCode.VEHICLE_NOT_NOTICE);
-					} else {
-					    if (StringUtils.equals(otherArrive.getStatus(), "6")) {
-                            if (!StringUtils.equals(otherArrive.getBusinesstype(), Constant.FOUR_STRING)) {
-                                validNoticeInfoAccessRecord(result, otherArrive.getId());
-                            } else {
-                                //厂内倒运
-                                if (StringUtils.equals(otherArrive.getAuditstatus(), Constant.ONE_STRING)) {
-                                    result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
-                                } else {
-                                    result.setErrorCode(ErrorCode.NOTICE_NOT_AUDIT);
-                                }
-                            }
-					    } else {
-					        result.setErrorCode(ErrorCode.VEHICLE_NOTICE_NOT_ENTER);
-					    }
-					}
+		SalesArrive sales = salesArriveMapper.getByVehicleId(valid.getVehicleId());
+		if (sales == null) {
+			PurchaseArrive purchase = purchaseArriveMapper.getByVehicleId(valid.getVehicleId());
+			if (purchase == null) {
+				// 检测其他业务中时候有通知单
+				OtherArrive otherArrive = otherArriveMapper.getByVehicleId(valid.getVehicleId());
+				if (otherArrive == null) {
+					// 该车辆没有通知单
+					result.setErrorCode(ErrorCode.VEHICLE_NOT_NOTICE);
 				} else {
-					result.setErrorCode(ErrorCode.VEHICLE_NOT_EXIST);
+				    if (StringUtils.equals(otherArrive.getStatus(), "6")) {
+                        if (!StringUtils.equals(otherArrive.getBusinesstype(), Constant.FOUR_STRING)) {
+                        	result = validNoticeInfoAccessRecord(otherArrive.getId());
+                        } else {
+                            //厂内倒运
+                            if (StringUtils.equals(otherArrive.getAuditstatus(), Constant.ONE_STRING)) {
+                                result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+                            } else {
+                                result.setErrorCode(ErrorCode.NOTICE_NOT_AUDIT);
+                            }
+                        }
+				    } else {
+				        result.setErrorCode(ErrorCode.VEHICLE_NOTICE_NOT_ENTER);
+				    }
 				}
 			} else {
-				if (listPurchase.size() == 1) {
-					if (StringUtils.equals(listPurchase.get(0).getStatus(), "6")) {
-						validNoticeInfoAccessRecord(result, listPurchase.get(0).getId());
-					} else {
-						result.setErrorCode(ErrorCode.VEHICLE_NOTICE_NOT_ENTER);
-					}
-				} else {
-					result.setErrorCode(ErrorCode.VEHICLE_NOTICE_NOT_ONLY);
-				}
-			}
-		} else {
-			if (listSales.size() == 1) {
-				if (StringUtils.equals(listSales.get(0).getStatus(), "6")) {
-					validNoticeInfoAccessRecord(result, listSales.get(0).getId());
+				if (StringUtils.equals(purchase.getStatus(), Constant.SIX_STRING)) {
+					result = validNoticeInfoAccessRecord(purchase.getId());
 				} else {
 					result.setErrorCode(ErrorCode.VEHICLE_NOTICE_NOT_ENTER);
 				}
+			}
+		} else {
+			if (StringUtils.equals(sales.getStatus(), Constant.SIX_STRING)) {
+				result = validNoticeInfoAccessRecord(sales.getId());
 			} else {
-				result.setErrorCode(ErrorCode.VEHICLE_NOTICE_NOT_ONLY);
+				result.setErrorCode(ErrorCode.VEHICLE_NOTICE_NOT_ENTER);
 			}
 		}
 		return result;
 	}
 
 	// 检验通知单是否有入厂门禁
-	private void validNoticeInfoAccessRecord(Result result, String noticeId) {
-		// 验证是否有入场门禁记录
+	private Result validNoticeInfoAccessRecord(String noticeId) {
+		Result result = Result.getSuccessResult();
 		AccessRecord access = accessRecordMapper.selectByNoticeId(noticeId);
 		if (access != null) {
-			if (StringUtils.equals(access.getAccesstype(), "1")) {
+			if (StringUtils.equals(access.getAccesstype(), Constant.ONE_STRING)) {
 				result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
 			} else {
 				result.setErrorCode(ErrorCode.NOTICE_OUT_FACTORY);
@@ -1826,6 +1816,7 @@ public class PoundNoteService implements IPoundNoteService {
 		} else {
 			result.setErrorCode(ErrorCode.VEHICLE_NOTICE_NOT_ACCESSRECORD);
 		}
+		return result;
 	}
 
 	/**
@@ -1836,139 +1827,54 @@ public class PoundNoteService implements IPoundNoteService {
 	 */
 	private Result validTwoWeight(ApiPoundNoteValidation valid) {
 		Result result = Result.getErrorResult();
-		List<SalesArrive> listSales = salesArriveMapper.validNoticeByVehicle(valid.getVehicleno(), valid.getRfid());
-		if (CollectionUtils.isEmpty(listSales)) {
-			List<PurchaseArrive> listPurchase = purchaseArriveMapper.validNoticeByVehicle(valid.getVehicleno(),
-					valid.getRfid());
-			if (CollectionUtils.isEmpty(listPurchase)) {
-
-				// 通过车号 获取车辆id和rfid 进行检测
-				VehicleManage vehicle = vehicleManageMapper.selectByVehicleno(valid.getVehicleno());
-				if (vehicle != null && StringUtils.equals(vehicle.getRfid(), valid.getRfid())) {
-					// 检测其他业务中时候有通知单
-					OtherArrive otherArrive = otherArriveMapper.hasOtherArrive(vehicle.getId());
-					if (otherArrive == null) {
-						// 该车辆没有通知单
-						result.setErrorCode(ErrorCode.VEHICLE_NOT_NOTICE);
-					} else {
-						if (StringUtils.equals(otherArrive.getStatus(), "1")) {
-							isTwoWeight(result, otherArrive.getId(), otherArrive.getBusinesstype());
-						} else {
-							result.setErrorCode(ErrorCode.VEHICLE_NOTICE_NOT_ENTER);
-						}
-					}
-				} else {
+		SalesArrive sales = salesArriveMapper.getByVehicleId(valid.getVehicleId());
+		if (sales == null) {
+			PurchaseArrive purchase = purchaseArriveMapper.getByVehicleId(valid.getVehicleId());
+			if (purchase == null) {
+				// 检测其他业务中时候有通知单
+				OtherArrive otherArrive = otherArriveMapper.getByVehicleId(valid.getVehicleId());
+				if (otherArrive == null) {
 					// 该车辆没有通知单
-					result.setErrorCode(ErrorCode.VEHICLE_NOT_EXIST);
+					result.setErrorCode(ErrorCode.VEHICLE_NOT_NOTICE);
+				} else {
+					if (StringUtils.equals(otherArrive.getStatus(), Constant.ONE_STRING)) {
+						result = isOneWeight(otherArrive.getId(), otherArrive.getBusinesstype());
+					} else {
+						result.setErrorCode(ErrorCode.VEHICLE_NOTICE_NOT_ONE_WEIGHT);
+					}
 				}
 			} else {
-				// 判断通知单是否唯一
-				if (listPurchase.size() == 1) {
-			        //二次过磅校验变更为是否签收或退货  2017-09-06
-					if (StringUtils.equals(listPurchase.get(0).getStatus(), Constant.SEVEN_STRING)) {
-						isTwoWeight(result, listPurchase.get(0).getId(), listPurchase.get(0).getType());
-					} else {
-						result.setErrorCode(ErrorCode.NOTICE_NOT_SIGN);
-					}
+		        //二次过磅校验变更为是否签收或退货  2017-09-06
+				if (StringUtils.equals(purchase.getStatus(), Constant.SEVEN_STRING)) {
+					result = isOneWeight(purchase.getId(), purchase.getType());
 				} else {
-					result.setErrorCode(ErrorCode.VEHICLE_NOTICE_NOT_ONLY);
+					result.setErrorCode(ErrorCode.NOTICE_NOT_SIGN);
 				}
 			}
 		} else {
 			// 判断通知单是否唯一
-			if (listSales.size() == 1) {
-				if (StringUtils.equals(listSales.get(0).getStatus(), "7")) {
-					isTwoWeight(result, listSales.get(0).getId(), "2");
-				} else {
-					result.setErrorCode(ErrorCode.VEHICLE_NOTICE_NOT_LOAD);
-				}
+			if (StringUtils.equals(sales.getStatus(), Constant.SEVEN_STRING)) {
+				result = isOneWeight(sales.getId(), Constant.TWO_STRING);
 			} else {
-				result.setErrorCode(ErrorCode.VEHICLE_NOTICE_NOT_ONLY);
+				result.setErrorCode(ErrorCode.VEHICLE_NOTICE_NOT_LOAD);
 			}
 		}
 		return result;
 	}
 
-	private void isTwoWeight(Result result, String noticeid, String type) {
-		PoundNote poundNote = new PoundNote();
-		poundNote.setNoticeid(noticeid);
-		List<PoundNote> listPoundNote = poundNoteMapper.selectSelective(poundNote);
-//		Collections.sort(listPoundNote,new Comparator<PoundNote>() {
-//
-//            @Override
-//            public int compare(PoundNote o1, PoundNote o2) {
-//                int com = 0;
-//                long sub = o2.getMakebilltime()-o1.getMakebilltime();
-//                if (sub > 0) {
-//                    com = 1;
-//                }
-//                if (sub < 0) {
-//                    com = -1;
-//                }
-//                return com;
-//            }
-//		    
-//        });
+	private Result isOneWeight(String noticeid, String type) {
+		Result result = Result.getSuccessResult();
+		PoundNote poundNote = poundNoteMapper.selectByNoticeId(noticeid);
 		// 判断是否一次过磅
-		if (CollectionUtils.isNotEmpty(listPoundNote)) {
-		    if (!StringUtils.equals(listPoundNote.get(0).getStatus(), Constant.THREE_STRING)) {
-		        if (StringUtils.equals(type, "0")) {
-	                if (listPoundNote.get(0).getGrossweight() != null && listPoundNote.get(0).getGrossweight() > 0) {
-	                    result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
-	                } else {
-	                    result.setErrorCode(ErrorCode.VEHICLE_NOTICE_NOT_ONE_WEIGHT);
-	                }
-	            } else if (StringUtils.equals(type, "1")) {
-	                if (listPoundNote.get(0).getTareweight() != null
-	                        && listPoundNote.get(0).getTareweight() > 0) {
-	                    result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
-	                } else {
-	                    result.setErrorCode(ErrorCode.VEHICLE_NOTICE_NOT_ONE_WEIGHT);
-	                }
-	            } else if (StringUtils.equals(type, "2")) {
-	                if (listPoundNote.get(0).getTareweight() != null
-	                        && listPoundNote.get(0).getTareweight() > 0) {
-	                    result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
-	                } else {
-	                    result.setErrorCode(ErrorCode.VEHICLE_NOTICE_NOT_ONE_WEIGHT);
-	                }
-	            } else if (StringUtils.equals(type, "5")) {
-	                if (listPoundNote.get(0).getGrossweight() != null
-	                        && listPoundNote.get(0).getGrossweight() > 0) {
-	                    result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
-	                } else {
-	                    result.setErrorCode(ErrorCode.VEHICLE_NOTICE_NOT_ONE_WEIGHT);
-	                }
-	            } else if (StringUtils.equals(type, "7")) {
-	                if (listPoundNote.get(0).getTareweight() != null
-	                        && listPoundNote.get(0).getTareweight() > 0) {
-	                    result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
-	                } else {
-	                    result.setErrorCode(ErrorCode.VEHICLE_NOTICE_NOT_ONE_WEIGHT);
-	                }
-	            } else if (StringUtils.equals(type, "4")) {
-	                if (listPoundNote.get(0).getGrossweight() != null
-	                        && listPoundNote.get(0).getGrossweight() > 0) {
-	                    result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
-	                } else {
-	                    result.setErrorCode(ErrorCode.VEHICLE_NOTICE_NOT_ONE_WEIGHT);
-	                }
-	            } else if (StringUtils.equals(type, "9")) {
-	                if (listPoundNote.get(0).getTareweight() != null
-	                        && listPoundNote.get(0).getTareweight() > 0) {
-	                    result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
-	                } else {
-	                    result.setErrorCode(ErrorCode.VEHICLE_NOTICE_NOT_ONE_WEIGHT);
-	                }
-	            } else {
-	                result.setErrorCode(ErrorCode.NOTICE_NOT_EXIST);
-	            }
-            } else {
-                result.setErrorCode(ErrorCode.POUNDNOTE_ERROR0);
-            }
+		if (poundNote != null) {
+			if (StringUtils.equals(type, Constant.TWO_STRING)) {
+				//销售返回
+			}
+			result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
 		} else {
-		    result.setErrorCode(ErrorCode.POUNDNOTE_NOT_EXIST);
+			result.setErrorCode(ErrorCode.VEHICLE_NOTICE_NOT_ONE_WEIGHT);
 		}
+		return result;
 	}
 
 	@Override

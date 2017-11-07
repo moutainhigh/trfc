@@ -480,12 +480,13 @@
 		order by createtime desc
 		limit 0,20
 	</select>
-	<select id="validateVehicle" resultMap="BaseResultMap"
-		parameterType="java.lang.String">
+	<select id="getByVehicleNoAndRfid" resultMap="BaseResultMap" parameterType="java.lang.String">
 		select
 		<include refid="Base_Column_List" />
 		from tr_vehicle_db_manage
-		where vehicleno = #{vehicleno,jdbcType=VARCHAR} and RFID = #{rfid,jdbcType=VARCHAR} and state = '1'
+		where state = '1' and isvalid = '1' and isblacklist = '0'
+			and vehicleno = #{vehicleno,jdbcType=VARCHAR} 
+			and RFID = #{rfid,jdbcType=VARCHAR}
 	</select>
 	<select id="appQueryVehiclePage" parameterType="com.tianrui.api.req.businessManage.app.AppQueryReq" resultType="com.tianrui.api.resp.businessManage.app.AppVehicleResp">
 		select id, vehicleno as vehicle

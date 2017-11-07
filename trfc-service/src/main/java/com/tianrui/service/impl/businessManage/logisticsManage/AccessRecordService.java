@@ -774,7 +774,7 @@ public class AccessRecordService implements IAccessRecordService {
 	private boolean validateVehicle(String vehicleno, String rfid) {
 		boolean flag = false;
 		if (StringUtils.isNotBlank(vehicleno) && StringUtils.isNotBlank(rfid)) {
-			VehicleManage bean = vehicleManageMapper.validateVehicle(vehicleno, rfid);
+			VehicleManage bean = vehicleManageMapper.getByVehicleNoAndRfid(vehicleno, rfid);
 			if (bean != null) {
 				flag = true;
 			}
@@ -867,7 +867,7 @@ public class AccessRecordService implements IAccessRecordService {
 		if (StringUtils.isNotBlank(vehicleno)) {
 			VehicleManage vehicle = vehicleManageMapper.selectByVehicleno(vehicleno);
 			if(vehicle != null){
-				bean = otherArriveMapper.hasOtherArrive(vehicle.getId());
+				bean = otherArriveMapper.getByVehicleId(vehicle.getId());
 			}
 		}
 		return bean;

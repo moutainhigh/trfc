@@ -32,7 +32,7 @@ public interface VehicleManageMapper {
 
 	List<VehicleManage> autoCompleteSearch(@Param("isCutover")String isCutover, @Param("likeName")String likeName, @Param("isBlack")String isBlack);
 
-	VehicleManage validateVehicle(@Param("vehicleno")String vehicleno, @Param("rfid")String rfid);
+	VehicleManage getByVehicleNoAndRfid(@Param("vehicleno")String vehicleno, @Param("rfid")String rfid);
 
 	long appQueryVehiclePageCount(AppQueryReq req);
 
