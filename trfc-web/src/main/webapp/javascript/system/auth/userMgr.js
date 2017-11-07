@@ -1,6 +1,7 @@
 $(function() {
 	// 访问的url
 	var URL = {
+		queryAllRole: '/trfc/system/auth/role/queryAllRole',	
 		saveUrl : "/trfc/system/auth/user/addUser",
 		pageUrl : "/trfc/system/auth/user/page",
 		editUser : "/trfc/system/auth/user/editUser",
@@ -8,7 +9,37 @@ $(function() {
 		selectRole : '/trfc/system/auth/rolePermissions/selectRole',
 		resetPwd : "/trfc/system/auth/user/resetPwd"
 	}
-
+	
+	function loadRoleList(id){
+		$.ajax({
+			url:URL.queryAllRole,
+			data:{},
+			async:true,
+			cache:false,
+			dataType:'json',
+			type:'post',
+			success:function(result){
+				if(result.code == '000000'){
+					//readerRoleList(result.data);
+					var data =result.data;
+					if(data && data.length > 0){
+						$("#addrol").val("");
+						var select2 =$("#select2").val();
+						if(select2==null){
+							$("#select1").empty();
+							for(var i=0;i<data.length;i++){
+								var obj = data[i];
+								$(' <option value="'+obj.id+'">'+obj.name+'</option>').appendTo('#select1');
+							}
+						}
+						$("#addrol").val(id);
+					}
+				}else{
+					layer.msg(result.error, {icon: 5});
+				}
+			}
+		});
+	}
 	// 获取用户id
 	var userid = $('.user').attr('userid');
 
@@ -24,6 +55,11 @@ $(function() {
 	// 新增绑定
 	$("#addButton").off('click').on("click", function() {
 		openAddWindow();
+	});
+	// 查询所有角色
+	$('#list').on('click', 'tr .addModal', function() {
+		var id = $(this).closest('tr').data('obj').id;
+		loadRoleList(id);
 	});
 	// 新增弹出框 确认操作
 	$("#addModal").off('click').on("click", ".submitBtn", addsubmit);
@@ -546,7 +582,11 @@ $(function() {
 
 });
 
-
+function addRol(){
+	var id=$("#addrol").val();
+	var select =$("#select2").val();
+	alert(select);
+}
 
 $(function(){
     //移到右边

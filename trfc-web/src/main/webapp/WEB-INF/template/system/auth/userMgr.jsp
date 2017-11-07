@@ -207,7 +207,7 @@ label.layui-form-label {
 		                    <div class="selectbox">
 		                        <div class="select-bar">
 		                            <select multiple="multiple" id="select1">
-		                                <option value="超级管理员">超级管理员</option>
+		                               <!--  <option value="超级管理员">超级管理员</option>
 		                                <option value="普通管理员">普通管理员</option>
 		                                <option value="信息发布员">信息发布员</option>
 		                                <option value="财务管理员">财务管理员</option>
@@ -219,7 +219,7 @@ label.layui-form-label {
 		                                <option value="信息发布员">信息发布员</option>
 		                                <option value="财务管理员">财务管理员</option>
 		                                <option value="产品管理员">产品管理员</option>
-		                                <option value="资源管理员">资源管理员</option>
+		                                <option value="资源管理员">资源管理员</option> -->
 		                            </select>
 		                        </div>
 		
@@ -238,7 +238,8 @@ label.layui-form-label {
 		                </div>
 		            </div>
 		            <div class="modal-footer">
-		                <button type="button" class="btn btn-primary">保存</button>
+		            	<input type="hidden" value="" id="addrol"/>
+		                <button type="button" class="btn btn-primary"  onclick="addRol()">保存</button>
 		                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
 		            </div>
 		        </div>

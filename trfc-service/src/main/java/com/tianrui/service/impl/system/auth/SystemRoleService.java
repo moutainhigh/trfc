@@ -221,6 +221,7 @@ public class SystemRoleService implements ISystemRoleService {
 		result.setData(copySystemUserBeanList2RespList(list));
 		return result;
 	}
+	
 
 
 }
