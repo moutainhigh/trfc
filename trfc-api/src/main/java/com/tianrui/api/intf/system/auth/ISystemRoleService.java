@@ -53,5 +53,26 @@ public interface ISystemRoleService {
 	 * @throws Exception 
 	 */
 	Result queryAllRole() throws Exception;
+	/**
+	 * 查询用户角色
+	 * @Title: queryAllRole 
+	 * @Description: TODO
+	 * @param @return
+	 * @param @throws Exception   
+	 * @return Result    
+	 * @throws
+	 */
+	Result selectUserRole(SystemRoleQueryReq req) throws Exception;
+	/**
+	 * 保存所添加的角色
+	 * @Title: saveUserRoles 
+	 * @Description: TODO
+	 * @param @param req
+	 * @param @return
+	 * @param @throws Exception   
+	 * @return Result    
+	 * @throws
+	 */
+	Result saveUserRoles(SystemRoleQueryReq req) throws Exception;
 	
 }

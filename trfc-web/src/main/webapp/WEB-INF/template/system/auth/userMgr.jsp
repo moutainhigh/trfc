@@ -239,7 +239,7 @@ label.layui-form-label {
 		            </div>
 		            <div class="modal-footer">
 		            	<input type="hidden" value="" id="addrol"/>
-		                <button type="button" class="btn btn-primary"  onclick="addRol()">保存</button>
+		                <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="addRol()">保存</button>
 		                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
 		            </div>
 		        </div>

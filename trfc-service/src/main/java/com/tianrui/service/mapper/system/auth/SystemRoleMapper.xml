@@ -27,6 +27,15 @@
     from tr_system_role
     where id = #{id,jdbcType=VARCHAR}
   </select>
+  
+   <select id="selectOtherRole" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from tr_system_role
+    where id not in(select roleid from tr_system_user_role where userid =#{id,jdbcType=VARCHAR})
+  </select>
+  
+  
   <select id="selectByCondition" resultMap="BaseResultMap" parameterType="com.tianrui.api.req.system.auth.SystemRoleQueryReq" >
     select 
     	<include refid="Base_Column_List" />

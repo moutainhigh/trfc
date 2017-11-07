@@ -40,6 +40,10 @@
     delete from tr_system_user_role
     where id = #{id,jdbcType=VARCHAR}
   </delete>
+  <delete id="deleteByUserRole" parameterType="java.lang.String" >
+    delete from tr_system_user_role
+    where userid = #{id,jdbcType=VARCHAR}
+  </delete>
   <insert id="insert" parameterType="com.tianrui.service.bean.system.auth.SystemUserRole" >
     insert into tr_system_user_role (id, userid, roleid, 
       isvalid, creator, createtime, 

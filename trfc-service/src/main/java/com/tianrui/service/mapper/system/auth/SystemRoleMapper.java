@@ -42,4 +42,6 @@ public interface SystemRoleMapper {
      * @return
      */
 	List<SystemRole> queryAllRole();
+	
+	List<SystemRole> selectOtherRole(String id);
 }

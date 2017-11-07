@@ -9,6 +9,20 @@
 	padding: 15px 20px 15px 28px;
 }
 </style>
+<style>
+    tbody tr td[class="tag1"]{
+        font-size: 14px;
+        font-weight: bold;
+    }
+    tbody tr[id="1"] td:nth-of-type(2){
+        font-size: 14px;
+        font-weight: bold;
+    }
+    tbody tr td[class="tag2"]{
+        font-size: 12px;
+        font-weight: bold;
+    }
+</style>
 <!-- 引用公共header部分 -->
 <jsp:include page="../../common/base/header_busi.jsp"></jsp:include>
 <script type="text/javascript"

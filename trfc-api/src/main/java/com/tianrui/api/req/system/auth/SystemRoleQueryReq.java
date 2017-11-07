@@ -12,7 +12,7 @@ public class SystemRoleQueryReq extends BaseReq {
 	//当前用户id
 	private String currUId;
 	private String id;
-	
+	private String userid;
 	private Integer start;
 	private Integer limit;
 	
@@ -85,6 +85,14 @@ public class SystemRoleQueryReq extends BaseReq {
 
 	public void setRoleType(String roleType) {
 		this.roleType = roleType;
+	}
+
+	public String getUserid() {
+		return userid;
+	}
+
+	public void setUserid(String userid) {
+		this.userid = userid;
 	}
 	
 	

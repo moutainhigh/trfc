@@ -2,6 +2,8 @@ $(function() {
 	// 访问的url
 	var URL = {
 		queryAllRole: '/trfc/system/auth/role/queryAllRole',	
+		selectUserRole: '/trfc/system/auth/role/selectUserRole',	
+		saveUserRoles:'/trfc/system/auth/role/saveUserRoles',	
 		saveUrl : "/trfc/system/auth/user/addUser",
 		pageUrl : "/trfc/system/auth/user/page",
 		editUser : "/trfc/system/auth/user/editUser",
@@ -10,10 +12,13 @@ $(function() {
 		resetPwd : "/trfc/system/auth/user/resetPwd"
 	}
 	
-	function loadRoleList(id){
+	function loadRoleList(currUId){
+		$("#addrol").val("");
+		$("#select1").empty();
+		$("#select2").empty();
 		$.ajax({
-			url:URL.queryAllRole,
-			data:{},
+			url:URL.selectUserRole,
+			data:{currUId:currUId},
 			async:true,
 			cache:false,
 			dataType:'json',
@@ -21,25 +26,29 @@ $(function() {
 			success:function(result){
 				if(result.code == '000000'){
 					//readerRoleList(result.data);
-					var data =result.data;
-					if(data && data.length > 0){
-						$("#addrol").val("");
-						var select2 =$("#select2").val();
-						if(select2==null){
-							$("#select1").empty();
-							for(var i=0;i<data.length;i++){
-								var obj = data[i];
+					var data =result.data.list;
+					var dataOther =result.data.listOther;
+							for(var i=0;i<dataOther.length;i++){
+								var obj = dataOther[i];
 								$(' <option value="'+obj.id+'">'+obj.name+'</option>').appendTo('#select1');
 							}
-						}
-						$("#addrol").val(id);
+							for(var i=0;i<data.length;i++){
+								var obj = data[i];
+								$(' <option value="'+obj.id+'">'+obj.name+'</option>').appendTo('#select2');
+							}
+						$("#addrol").val(currUId);
+				}if(result.code == '111111'){
+					var data =result.data;
+					for(var i=0;i<data.length;i++){
+						var obj = data[i];
+						$(' <option value="'+obj.id+'">'+obj.name+'</option>').appendTo('#select1');
 					}
-				}else{
-					layer.msg(result.error, {icon: 5});
+					$("#addrol").val(currUId);
 				}
 			}
 		});
 	}
+
 	// 获取用户id
 	var userid = $('.user').attr('userid');
 
@@ -58,8 +67,8 @@ $(function() {
 	});
 	// 查询所有角色
 	$('#list').on('click', 'tr .addModal', function() {
-		var id = $(this).closest('tr').data('obj').id;
-		loadRoleList(id);
+		var currUId = $(this).closest('tr').data('obj').id;
+		loadRoleList(currUId);
 	});
 	// 新增弹出框 确认操作
 	$("#addModal").off('click').on("click", ".submitBtn", addsubmit);
@@ -316,7 +325,6 @@ $(function() {
 	function refreshLocation() {
 		initData();
 	}
-
 	/**
 	 * 删除功能
 	 */
@@ -582,12 +590,42 @@ $(function() {
 
 });
 
+/**
+ * 保存用户所分配角色
+ */
 function addRol(){
-	var id=$("#addrol").val();
-	var select =$("#select2").val();
-	alert(select);
+	var userid = $('.user').attr('userid');
+	var currUId=$("#addrol").val();
+	roleStr="";
+    $("#select2 option").each(function(){  //遍历所有option  
+         var txt = $(this).val();   //获取option值   
+         if(txt!=''){  
+        	 roleStr += txt+"|";  
+         }  
+    });
+    if(roleStr == "" || roleStr.length == 0){ 
+    	alert("请添加角色！");
+    	return;
+    }
+    //将选中的值传回到后台进行保存
+    $.ajax({
+		url:'/trfc/system/auth/role/saveUserRoles',	
+		data:{currUId:currUId,id:roleStr,userid:userid},
+		async:true,
+		cache:false,
+		dataType:'json',
+		type:'post',
+		success:function(result){
+			if(result.code=="000000"){
+				alert("保存成功！");
+			}else{
+				alert(result.setError());
+			}
+			
+		}
+    });
+    
 }
-
 $(function(){
     //移到右边
     $('#add').click(function(){

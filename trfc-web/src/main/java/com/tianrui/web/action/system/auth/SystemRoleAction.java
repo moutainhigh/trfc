@@ -1,5 +1,7 @@
 package com.tianrui.web.action.system.auth;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -103,6 +105,42 @@ public class SystemRoleAction {
 			log.error(e.getMessage(),e);
 			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
 		}
+		return result;
+	}
+	
+	/**
+	 * 查询用户角色
+	 * @Title: selectUserRole 
+	 * @Description: TODO
+	 * @param @param req
+	 * @param @return
+	 * @param @throws Exception   
+	 * @return Result    
+	 * @throws
+	 */
+	@RequestMapping(value="/selectUserRole",method=RequestMethod.POST)
+	@ResponseBody
+	public Result selectUserRole(SystemRoleQueryReq req) throws Exception{
+		Result result= Result.getErrorResult();
+		result = systemRoleService.selectUserRole(req);
+		return result;
+		
+	}
+	
+	/**
+	 * @throws Exception 
+	 * 保存用户所添加的角色
+	 * @Title: saveUserRole 
+	 * @Description: TODO
+	 * @param @return   
+	 * @return Result    
+	 * @throws
+	 */
+	@RequestMapping(value="/saveUserRoles",method=RequestMethod.POST)
+	@ResponseBody
+	public Result saveUserRoles(SystemRoleQueryReq req) throws Exception{
+		Result result =Result.getSuccessResult();
+		result = systemRoleService.saveUserRoles(req);
 		return result;
 	}
 	
