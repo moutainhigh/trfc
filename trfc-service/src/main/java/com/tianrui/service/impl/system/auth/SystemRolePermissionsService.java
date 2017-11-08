@@ -195,11 +195,22 @@ public class SystemRolePermissionsService implements ISystemRolePermissionsServi
 	}
 
 	@Override
-	public List<SystemRoleMenuResp> iphonRole(String id) {
+	public Result iphonRole(String id) {
+		Result result = Result.getSuccessResult();
 		SystemUserRole systemUserRole = systemUserRoleMapper.iphoneRole(id);
-
-		List<SystemRoleMenuResp> list = systemRoleMenuMapper.iphoneRole(systemUserRole.getRoleid());
-		return list;
+		if(systemUserRole!=null){
+			List<SystemRoleMenuResp> list = systemRoleMenuMapper.iphoneRole(systemUserRole.getRoleid());
+			if(list.size()>0){
+				result.setData(list);
+			}else{
+				result.setCode("222222");
+				result.setError("未查到该用户对应权限，请联系管理员！");
+			}
+		}else{
+			result.setCode("111111");
+			result.setError("该用户没有登录手持机权限，请授权后登录！");
+		}
+		return result;
 	}
 
 }

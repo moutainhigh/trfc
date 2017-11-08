@@ -90,6 +90,6 @@ public interface ISystemRolePermissionsService {
 	 * @return Result    
 	 * @throws
 	 */
-	List<SystemRoleMenuResp> iphonRole(String id);
+	Result iphonRole(String id);
 	
 }
