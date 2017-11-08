@@ -390,4 +390,10 @@
 		from tr_system_user
 		where mobilePhone = #{mobilePhone,jdbcType=VARCHAR}
 	</select>
+	<select id="getByAccount" parameterType="java.lang.String" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from tr_system_user
+		where (account = #{account,jdbcType=VARCHAR} or mobilePhone = #{account,jdbcType=VARCHAR}) and identityTypes = #{IDType,jdbcType=VARCHAR}
+	</select>
 </mapper>

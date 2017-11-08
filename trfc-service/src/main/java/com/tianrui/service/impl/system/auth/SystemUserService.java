@@ -403,7 +403,7 @@ public class SystemUserService implements ISystemUserService {
 		}
 		return user;
 	}
-
+	
 	@Override
 	public Result appLogin(AppUserReq req) throws Exception {
 		Result result = Result.getParamErrorResult();
@@ -540,7 +540,7 @@ public class SystemUserService implements ISystemUserService {
 		}
 		return result;
 	}
-
+	
 	@Override
 	public Result bindPhone(AppUserReq req) {
 		Result result = Result.getParamErrorResult();
@@ -581,7 +581,7 @@ public class SystemUserService implements ISystemUserService {
 		}
 		return result;
 	}
-
+	
 	@Override
 	public Result resetPwd(SystemUserSaveReq req) {
 		Result result = Result.getParamErrorResult();

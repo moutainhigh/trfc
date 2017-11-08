@@ -87,6 +87,7 @@ public enum ErrorCode {
 	/**
 	 * 用户相关
 	 */
+	SYSTEM_USER_ERROR0("E200000","账号不正确."),
 	SYSTEM_USER_ERROR1("E200001","账户不存在."),
 	SYSTEM_USER_ERROR2("E200002","密码错误."),
 	SYSTEM_USER_ERROR3("E200003","用户被锁定."),
@@ -96,10 +97,11 @@ public enum ErrorCode {
 	SYSTEM_USER_ERROR7("E200007","该登录账户已经存在."),
 	SYSTEM_USER_ERROR8("E200008","该用户编码已经存在."),
 	SYSTEM_USER_ERROR9("E200009","原密码错误."),
-	SYSTEM_USER_ERROR10("E200009","密码修改失败，请稍后重试."),
-	SYSTEM_USER_ERROR11("E200010","该用户没有登录网页平台的权限."),
-	SYSTEM_USER_ERROR12("E200011","该用户没有登录客商平台的权限."),
-	SYSTEM_USER_ERROR13("E200012","该手机号已经被绑定."),
+	SYSTEM_USER_ERROR10("E200010","密码修改失败，请稍后重试."),
+	SYSTEM_USER_ERROR11("E200011","该用户没有登录网页平台的权限."),
+	SYSTEM_USER_ERROR12("E200012","该用户没有登录客商平台的权限."),
+	SYSTEM_USER_ERROR13("E200013","该手机号已经被绑定."),
+	SYSTEM_USER_ERROR14("E200014","无法识别用户身份."),
 	
 	SYSTEM_MENU_ERROR6("E200106","找不到相关菜单记录."),
 	SYSTEM_MENU_ERROR7("E200107","该菜单名称已经存在."),

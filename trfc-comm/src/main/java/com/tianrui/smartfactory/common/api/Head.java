@@ -13,6 +13,8 @@ public class Head {
 	private String key;
 	//TOKEN
 	private String token;
+	//用户身份（1：客户，2：供应商）
+	private String IDType;
 	
 	public String getUserId() {
 		return userId;
@@ -50,5 +52,10 @@ public class Head {
 	public void setToken(String token) {
 		this.token = token;
 	}
-	
+	public String getIDType() {
+		return IDType;
+	}
+	public void setIDType(String iDType) {
+		IDType = iDType;
+	}
 }

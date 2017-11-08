@@ -60,9 +60,9 @@ import com.tianrui.web.smvc.ApiParamRawType;
  */
 @Controller
 @RequestMapping("api/android/static")
-public class ApiStaticAction {
+public class AppStaticAction {
 
-	private Logger log = LoggerFactory.getLogger(ApiStaticAction.class);
+	private Logger log = LoggerFactory.getLogger(AppStaticAction.class);
 	
 	@Autowired
 	private CacheClient cacheClient;

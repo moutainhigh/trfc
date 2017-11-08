@@ -312,9 +312,6 @@ public class SalesArriveService implements ISalesArriveService {
                     result.setError("此车辆己有其他出库通知单、待出厂后进行派车，现有车辆业务单据号为:"+listVehicle2.get(0).getCode()+"，如有疑问请与销售处联系！");
                     flag = false;
                 }
-            } else {
-                result.setErrorCode(ErrorCode.VEHICLE_NOT_EXIST);
-                flag = false;
             }
             //ic卡信息
             if(StringUtils.isNotBlank(save.getIcardno())){

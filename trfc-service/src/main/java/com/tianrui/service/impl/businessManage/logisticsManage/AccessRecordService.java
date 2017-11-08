@@ -307,7 +307,7 @@ public class AccessRecordService implements IAccessRecordService {
 							//修改通知单状态并绑定IC卡
 							pa = new PurchaseArrive();
 							pa.setId(purchase.getId());
-							pa.setStatus("6");
+							pa.setStatus(Constant.SIX_STRING);
 							pa.setIcardid(card.getId());
 							//回写订单的未入库占用量和预提占用
 							PurchaseApplicationDetail applicationDetail = purchaseApplicationDetailMapper.selectByPrimaryKey(purchase.getBilldetailid());

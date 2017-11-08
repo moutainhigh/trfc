@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.alibaba.fastjson.JSON;
 import com.tianrui.api.intf.businessManage.logisticsManage.IAccessRecordService;
 import com.tianrui.api.intf.businessManage.salesManage.ISalesArriveService;
 import com.tianrui.api.intf.common.IQueueNumberService;
@@ -54,7 +55,9 @@ public class ApiDoorSystemAction {
 		apiDoor.setCurrUid(req.getHead().getUserId());
 		Result rs=Result.getErrorResult();
 		try {
+			LoggerFactory.getLogger("accessRecord").info("通知单号{},上传门禁参数:{}", apiDoor.getNotionformcode(), JSON.toJSONString(apiDoor));
 			rs = accessRecordService.addAccessRecord(apiDoor);
+			LoggerFactory.getLogger("accessRecord").info("通知单号{},上传门禁返回结果:{}", apiDoor.getNotionformcode(), JSON.toJSONString(rs));
 		} catch (Exception e) {
 			rs.setErrorCode(ErrorCode.SYSTEM_ERROR);
 			log.error(e.getMessage(),e);

@@ -72,8 +72,8 @@ public class TestApiDoorSystem {
 		ApiParam<ApiDoorSystemSave> api =new ApiParam<ApiDoorSystemSave>();
 		
 		ApiDoorSystemSave req =new ApiDoorSystemSave();
-		req.setNotionformcode("DH201711020181");
-		req.setIcardno("655152309");
+		req.setNotionformcode("DH201711070259");
+		req.setIcardno("1742070453");
 		req.setServicetype("0");
 		req.setType("1");
 		req.setTime(DateUtil.getNowDateString("yyyy-MM-dd HH:mm:ss"));
@@ -95,8 +95,8 @@ public class TestApiDoorSystem {
 		ApiParam<VehicleCheckApi> api =new ApiParam<VehicleCheckApi>();
 		
 		VehicleCheckApi req =new VehicleCheckApi();
-		req.setRfid("E2000016130B0164218035ED");
-		req.setVehicleNo("豫CC6932");
+		req.setRfid("E2000016130B015121803606");
+		req.setVehicleNo("54");
 		
 		Head head =new Head();
 		head.setCallSource("1");

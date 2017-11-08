@@ -74,4 +74,11 @@ public interface SystemUserMapper {
 	 * @return
 	 */
 	SystemUser validPhoneIsOne(String mobilePhone);
+	/**
+	 * @annotation 根据帐号查询用户
+	 * @param account 帐号
+	 * @param IDType 身份类型
+	 * @return
+	 */
+	SystemUser getByAccount(String account, String IDType);
 }

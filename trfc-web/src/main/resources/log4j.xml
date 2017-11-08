@@ -104,6 +104,22 @@
             <param name="ConversionPattern" value="%d{ISO8601} - %m%n" />
         </layout>
     </appender>
+    <!-- Fop Performance Log appender -->
+    <appender name="accessRecordAppender" class="org.apache.log4j.DailyRollingFileAppender">
+        <param name="Encoding" value="UTF-8" />
+        <param name="File" value="${catalina.home}/logs/accessRecord/upAccessRecord.log" />
+        <param name="Append" value="true" />
+        <param name="DatePattern" value="'.'yyyy-MM-dd" />
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d{ISO8601} - %m%n" />
+        </layout>
+    </appender>
+
+	<!-- performance logger -->
+	<logger name="accessRecord" additivity="false">
+		<level value="INFO" />
+		<appender-ref ref="accessRecordAppender" />
+	</logger>
 
 	<!-- performance logger -->
 	<logger name="poundNote" additivity="false">

@@ -7,7 +7,7 @@ import java.net.URL;
 import java.util.Date;
 
 import com.alibaba.fastjson.JSON;
-import com.tianrui.api.req.system.auth.AppUserReq;
+import com.tianrui.api.req.android.LoginUserParam;
 import com.tianrui.smartfactory.common.api.ApiParam;
 import com.tianrui.smartfactory.common.api.Head;
 import com.tianrui.smartfactory.common.constants.Constant;
@@ -20,12 +20,12 @@ public class ApiAndroidTest {
 	private static String domin="http://127.0.0.1:8080/";
 	private static String uri_login="api/android/static/login";
 
-	static ApiParam<AppUserReq> getParam(){
-		ApiParam<AppUserReq> api =new ApiParam<AppUserReq>();
+	static ApiParam<LoginUserParam> getParam(){
+		ApiParam<LoginUserParam> api =new ApiParam<LoginUserParam>();
 		
-		AppUserReq va =new AppUserReq();
+		LoginUserParam va =new LoginUserParam();
 		va.setAccount("liyang");
-		va.setPswd(Md5Utils.MD5("666666"));
+		va.setPwd(Md5Utils.MD5("666666"));
 		
 		Head head =new Head();
 		head.setCallSource("1");
@@ -73,7 +73,7 @@ public class ApiAndroidTest {
 	    return sb.toString();
 	}
 	public static void main(String[] args) {
-		ApiParam<AppUserReq> req =getParam();
+		ApiParam<LoginUserParam> req =getParam();
 		setkey(req);
 		setMd5(req);
 		String param =JSON.toJSONString(req);
