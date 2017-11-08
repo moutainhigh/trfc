@@ -235,7 +235,7 @@ public class SystemRoleService implements ISystemRoleService {
 	public Result selectUserRole(SystemRoleQueryReq req) throws Exception {
 		Result result= Result.getErrorResult();
 			Map<String, Object>  map = new HashMap<String, Object>(); 	
-			List<SystemUserRole> userList =systemUserRoleMapper.selectByUserId(req.getCurrUId());
+			List<SystemUserRole> userList =systemUserRoleMapper.selectByUserRole(req.getCurrUId());
 			if(userList.size()>0){
 				List <SystemRole>list =new ArrayList<SystemRole>();
 				for(SystemUserRole systemUserRole :userList){
@@ -264,20 +264,24 @@ public class SystemRoleService implements ISystemRoleService {
 		if(Str.length()>0){
 			String Strs =Str.substring(0,Str.length() - 1);
 			String[] ids =Strs.split("\\|");
-			systemUserRoleMapper.deleteByUserRole(req.getCurrUId());
-			List<SystemUserRole> list = new ArrayList<SystemUserRole>();
-			for(int i=0;i<ids.length;i++){
-				SystemUserRole userRole = new SystemUserRole();
-				userRole.setId(UUIDUtil.getId());
-				userRole.setUserid(req.getCurrUId());
-				userRole.setRoleid(ids[i]);
-				userRole.setModifier(req.getUserid());
-				userRole.setModifytime(System.currentTimeMillis());
-				userRole.setIsvalid("1");
-				list.add(userRole);
-			}
-			int a =systemUserRoleMapper.insertBatch(list);
-			if(a!=1){
+			int b =systemUserRoleMapper.deleteByUserRole(req.getCurrUId());
+			if(b==1){
+				List<SystemUserRole> list = new ArrayList<SystemUserRole>();
+				for(int i=0;i<ids.length;i++){
+					SystemUserRole userRole = new SystemUserRole();
+					userRole.setId(UUIDUtil.getId());
+					userRole.setUserid(req.getCurrUId());
+					userRole.setRoleid(ids[i]);
+					userRole.setModifier(req.getUserid());
+					userRole.setModifytime(System.currentTimeMillis());
+					userRole.setIsvalid("1");
+					list.add(userRole);
+				}
+				int a =systemUserRoleMapper.insertBatch(list);
+				if(a!=1){
+					result.setError("保存失败！");
+				}
+			}else{
 				result.setError("保存失败！");
 			}
 		}else{

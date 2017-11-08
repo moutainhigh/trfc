@@ -20,6 +20,8 @@ public interface SystemUserRoleMapper {
 
 	SystemUserRole selectByPrimaryKey(String id);
 
+	List<SystemUserRole> selectByUserRole(String id);
+	
 	List<SystemUserRole> selectByUserId(String id);
 
 	int updateByPrimaryKeySelective(SystemUserRole record);
