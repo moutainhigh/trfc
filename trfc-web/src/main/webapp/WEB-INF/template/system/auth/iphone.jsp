@@ -27,7 +27,7 @@
 			<div class="intel_tabbox">
 				<!--采购申请单begin-->
 				<div class="intel_tabcont">
-					<div class="intel_opera">
+					 <div class="intel_opera">
 						<div class="intel_operasolo" id="refreshBtn">
 							<i class="iconfont colorlv">&#xe61b;</i> <span>刷新</span>
 						</div>
@@ -35,7 +35,7 @@
 							<a data-toggle="modal" data-target="#add"> <i
 								class="iconfont coloradd">&#xe627;</i> <span>新增</span>
 							</a>
-						</div> 
+						</div>  
 					</div>
 					<div class="intel_table">
 						<!--用户表格begin-->

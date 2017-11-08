@@ -58,7 +58,7 @@ margin-bottom: -20px!important;
 					</div>
 					<div class="juese_mbox">
 							<div class="intel_opera">
-								 <div class="intel_operasolo" id="refreshBtn">
+								   <div class="intel_operasolo" id="refreshBtn">
 									<i class="iconfont colorlv">&#xe61b;</i> <span>刷新
 										</h5>
 								</div>

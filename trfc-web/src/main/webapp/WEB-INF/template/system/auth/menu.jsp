@@ -42,7 +42,7 @@
 				<!--采购申请单begin-->
 				<div class="intel_tabcont">
 					<div class="intel_opera">
-						<div class="intel_operasolo" id="refreshBtn">
+						  <div class="intel_operasolo" id="refreshBtn">
 							<i class="iconfont colorlv">&#xe61b;</i> <span>刷新</span>
 						</div>
 						<div class="intel_operasolo" id="initAdd">

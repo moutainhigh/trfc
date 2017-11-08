@@ -102,7 +102,7 @@ $(function() {
 	});
 
 	// 刷新按钮
-	$(".refreshButton").off('click').on("click", ".refreshButton",
+	$("#refreshBtn").off('click').on("click", ".refreshButton",
 			refreshLocation);
 
 	/**

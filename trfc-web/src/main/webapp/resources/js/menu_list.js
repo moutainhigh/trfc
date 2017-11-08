@@ -92,13 +92,29 @@ function showMenu(list) {
 					//加载四级菜单
 					if (menu4.length > 0) {
 						for (var d = 0; d < menu4.length; d++) {
-							if(menu3Id==menu4[d].roleid){	
+							if(menu3Id==menu4[d].roleid){
 									var $div_oo ="";
 									var img="";
 									img = menu4[d].imgType ? '&' + menu4[d].imgType : '';
-									var menu =menu4[d].param.split("|");
-									$div_oo = $('<div class="intel_operasolo" id="'+menu[0]+'"></div>').append('<a><i class="'+menu[1]+'">'+img+'</i><span>'+ menu4[d].name + '</span></a>');
-									$('.intel_opera').append($div_oo);
+									var menu =menu4[d].param.split("|");0102030202
+									if(menu4[d].code=='0102020102'||menu4[d].code=='0102020402'||menu4[d].code=='0102020502'||menu4[d].code=='0102030102'
+										||menu4[d].code=='0102030202'||menu4[d].code=='0102030302'||menu4[d].code=='0102030502'
+										||menu4[d].code=='0102040102'||menu4[d].code=='0102040202'||menu4[d].code=='0102040302'||menu4[d].code=='0102040402'||menu4[d].code=='0102040502'
+										||menu4[d].code=='0101040502'||menu4[d].code=='0101040302' ||menu4[d].code=='0103020102'||menu4[d].code=='0103020202'
+										||menu4[d].code=='0101070102'||menu4[d].code=='0101070302' ||menu4[d].code=='0103030102'
+										||menu4[d].code=='0103010102' ||menu4[d].code=='0103010202'||menu4[d].code=='0103010302'){
+										$div_oo = $('<div class="intel_operasolo" id="'+menu[0]+'"></div>').append('<a data-toggle="modal" data-target="#add"><i class="'+menu[1]+'">'+img+'</i><span>'+ menu4[d].name + '</span></a>');
+										$('.intel_opera').append($div_oo);
+									}else if(menu4[d].code=='0103030202'){
+										$div_oo = $('<div class="intel_operasolo" id="'+menu[0]+'"></div>').append('<a data-toggle="modal" data-target="#additem"><i class="'+menu[1]+'">'+img+'</i><span>'+ menu4[d].name + '</span></a>');
+										$('.intel_opera').append($div_oo);
+									}else if(menu4[d].code=='0103010503'){
+										$div_oo = $('<div class="intel_operasolo" id="'+menu[0]+'"></div>').append('<a data-toggle="modal" data-target="#dele"><i class="'+menu[1]+'">'+img+'</i><span>'+ menu4[d].name + '</span></a>');
+										$('.intel_opera').append($div_oo);
+									}else{
+										$div_oo = $('<div class="intel_operasolo" id="'+menu[0]+'"></div>').append('<a><i class="'+menu[1]+'">'+img+'</i><span>'+ menu4[d].name + '</span></a>');
+										$('.intel_opera').append($div_oo);
+									}
 							}
 						}
 					}

@@ -47,7 +47,6 @@
 		$('#refreshBtn').off('click').on('click',function(){
 			queryData(1);
 		});
-		
 		//新增
 		$('#initAdd').off('click').on('click',function(){
 			initAddMenu();

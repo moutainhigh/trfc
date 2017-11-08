@@ -13,6 +13,12 @@ $(function(){
 			qschemeAutoCompleteSearch: "/trfc/quality/sales/file/qualityScheme/autoCompleteSearch",
 	};
 	ShowAction(1);
+	//绑定刷新按钮
+	//绑定刷新按钮
+	$('#fresh').click(function(){
+		ShowAction(1);
+		layer.closeAll('dialog');
+	});
 	//绑定搜索按键
 	$('#seek').click(function(){ShowAction(1);});
 	//绑定跳转按钮

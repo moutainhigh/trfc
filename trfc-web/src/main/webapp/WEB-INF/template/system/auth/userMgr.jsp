@@ -136,7 +136,7 @@ label.layui-form-label {
 						</div>
 					</div>
 					<div class="intel_opera">
-						<div class="intel_operasolo" id="refreshButton">
+						 <div class="intel_operasolo" id="refreshButton">
 							<a class="refreshButton"> <i class="iconfont colorlv">&#xe61b;</i>
 								<span>刷新</span>
 							</a>
