@@ -23,14 +23,15 @@ label.layui-form-label {
 }
 </style>
  <style>
-        /* 效果CSS开始 */
-        .selectbox{width:500px;height:220px;margin:0px auto;}
+         /* 效果CSS开始 */
+        .selectbox{width:436px;height:220px;margin:0px auto;}
         .selectbox div{float:left;}
         .selectbox .select-bar{padding:0 20px;}
         .selectbox .select-bar select{width:150px;height:200px;border:1px #A0A0A4 solid;padding:4px;font-size:14px;font-family:"microsoft yahei";}
-        .btn-bar{}
+        .btn-bar{margin-top: 30px;}
         .btn-bar p{margin-top:16px;}
         .btn-bar p .btn{width:50px;height:30px;cursor:pointer;font-size:14px;}
+        .select-bar p{text-align: center}
         /* 效果CSS结束 */
     </style>
 <style>
@@ -84,10 +85,34 @@ label.layui-form-label {
 	border-bottom: none;
 }
 
-.modal-dialog {
+.modal-dialog1 {
 	width: 1000px;
 	margin: 0 auto;
 }
+    .cg_tabtit {
+            border:none;
+            overflow: hidden;
+            margin-top: 15px;
+            margin-bottom: 15px;
+        }
+        .cg_tabtit ul li {
+            padding: 0 20px;
+            line-height: 45px;
+            border: 1px solid #ecedf3;
+            border-left: none;
+            float: left;
+            
+        }
+        .cg_tabtit ul li.select {
+            border: 1px solid #ecedf3;
+            border-top-left-radius: 3px;
+            border-top-right-radius: 3px;
+            
+        }
+         .select3{
+            background-color: #434e8c;
+            color: white !important;
+        }
 </style>
 </head>
 <body>
@@ -206,6 +231,7 @@ label.layui-form-label {
 		                    <!--效果html开始-->
 		                    <div class="selectbox">
 		                        <div class="select-bar">
+		                        	<p>待选项</p>
 		                            <select multiple="multiple" id="select1">
 		                               <!--  <option value="超级管理员">超级管理员</option>
 		                                <option value="普通管理员">普通管理员</option>
@@ -230,6 +256,7 @@ label.layui-form-label {
 		                            <p><span id="remove_all"><input type="button" class="btn" value="<<" title="全部移到左侧"/></span></p>
 		                        </div>
 		                        <div class="select-bar">
+		                        	<p>已选项</p>
 		                            <select multiple="multiple" id="select2"></select>
 		                        </div>
 		                    </div>
@@ -442,7 +469,7 @@ label.layui-form-label {
 		<!-- 权限查看begin -->
 		<div class="modal fade" id="select" tabindex="-1" role="dialog"
 			aria-labelledby="myModalLabel">
-			<div class="modal-dialog" role="document">
+			<div class="modal-dialog modal-dialog1" role="document">
 				<div class="modal-content">
 					<div class="modal-header">
 						<button type="button" class="close" data-dismiss="modal"
@@ -456,7 +483,7 @@ label.layui-form-label {
 						<div class="cg_dhadd">
 							<div class="cg_tabtit">
 								<ul>
-									<li class="select">手持机权限</li>
+									<li class="select3">手持机权限</li>
 									<li>平台权限</li>
 								</ul>
 							</div>
@@ -507,14 +534,14 @@ label.layui-form-label {
 		// 录入、参照tab切换菜单
 		var cg_li = $('.cg_tabtit ul li');
 		cg_li.click(function() {
-			$(this).addClass('select').siblings().removeClass('select');
+			$(this).addClass('select3').siblings().removeClass('select3');
 			var index = cg_li.index(this);
 			$('.cg_tabbox > .cg_tabcont').eq(index).show().siblings().hide();
 		});
 		// 模块权限表格每行选中背景变白
 		var tabletr = $('.intel_table table tr');
 		tabletr.on("click", function() {
-			$(this).addClass("select").siblings().removeClass("select");
+			$(this).addClass("select3").siblings().removeClass("select3");
 		});
 
 		// 顶部tab切换菜单

@@ -264,8 +264,7 @@ public class SystemRoleService implements ISystemRoleService {
 		if(Str.length()>0){
 			String Strs =Str.substring(0,Str.length() - 1);
 			String[] ids =Strs.split("\\|");
-			int b =systemUserRoleMapper.deleteByUserRole(req.getCurrUId());
-			if(b==1){
+			systemUserRoleMapper.deleteByUserRole(req.getCurrUId());
 				List<SystemUserRole> list = new ArrayList<SystemUserRole>();
 				for(int i=0;i<ids.length;i++){
 					SystemUserRole userRole = new SystemUserRole();
@@ -279,13 +278,12 @@ public class SystemRoleService implements ISystemRoleService {
 				}
 				int a =systemUserRoleMapper.insertBatch(list);
 				if(a!=1){
+					result.setCode("111111");
 					result.setError("保存失败！");
 				}
-			}else{
-				result.setError("保存失败！");
-			}
 		}else{
-			result.setError("保存失败！");
+			result.setCode("222222");
+			result.setError("保存失败，请分配角色！");
 		}
 		return result;
 	}

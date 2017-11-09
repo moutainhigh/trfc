@@ -604,7 +604,7 @@ function addRol(){
          }  
     });
     if(roleStr == "" || roleStr.length == 0){ 
-    	alert("请添加角色！");
+    	alert("请分配角色！");
     	return;
     }
     //将选中的值传回到后台进行保存
@@ -618,7 +618,9 @@ function addRol(){
 		success:function(result){
 			if(result.code=="000000"){
 				alert("保存成功！");
-			}else{
+			}else if(result.code=="111111"){
+				alert(result.setError());
+			}else if(result.code=="222222"){
 				alert(result.setError());
 			}
 			
