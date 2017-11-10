@@ -441,7 +441,7 @@ $(function() {
 					var obj = data[i];
 					$(
 							'<tr id="' + (obj.menuId || '') + '" pid="'
-									+ (obj.menuPid || '') + '">' + '<td>'
+									+ (obj.menuPid || '') + '">' + '<td style="width: 50px;">'
 									+ (i + 1) + '</td>'
 									+ '<td><span controller="true">'
 									+ (obj.menuName || '') + '</span></td>'
@@ -449,10 +449,11 @@ $(function() {
 									+ '<td>' + (obj.orderBy) + '</td>' + '<td>'
 									+ (obj.info) + '</td>' + '</tr>').data(obj)
 							.appendTo('#menubody');
+
 				}
 				var option = {
 					theme : 'vsStyle',
-					expandLevel : 10,
+					expandLevel : 2,
 					column : 1,
 					beforeExpand : function($treeTable, id) {
 						// 判断id是否已经有了孩子节点，如果有了就不再加载，这样就可以起到缓存的作用

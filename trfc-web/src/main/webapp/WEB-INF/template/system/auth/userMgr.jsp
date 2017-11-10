@@ -24,6 +24,11 @@ label.layui-form-label {
 </style>
  <style>
          /* 效果CSS开始 */
+         .modal-header {
+	    min-height: 16.43px;
+	    padding: 15px;
+	    border-bottom: 1px solid #e5e5e5;
+		}
         .selectbox{width:436px;height:220px;margin:0px auto;}
         .selectbox div{float:left;}
         .selectbox .select-bar{padding:0 20px;}
@@ -31,7 +36,7 @@ label.layui-form-label {
         .btn-bar{margin-top: 30px;}
         .btn-bar p{margin-top:16px;}
         .btn-bar p .btn{width:50px;height:30px;cursor:pointer;font-size:14px;}
-        .select-bar p{text-align: center}
+        .select-bar p{text-align: center;margin-bottom:10px;}
         /* 效果CSS结束 */
     </style>
 <style>
@@ -113,6 +118,20 @@ label.layui-form-label {
             background-color: #434e8c;
             color: white !important;
         }
+        #menubody{
+         display:block;
+   		 max-height:500px;
+   		 overflow-y:scroll;
+        }
+     
+        .table .thead, .tbody tr {
+	    display:table;
+	    width:100%;
+	    table-layout:fixed;
+		}
+		.table .thead {
+   	 width: calc( 100% - 1em )
+		}
 </style>
 </head>
 <body>
@@ -224,7 +243,7 @@ label.layui-form-label {
 		        <div class="modal-content">
 		            <div class="modal-header">
 		                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-		                <h4 class="modal-title" id="myModalLabel">角色授权</h4>
+		                <h4 class="modal-title" id="myModalLabel" style="font-size:18px;font-family:inherit;color:#5d91c3;">角色授权</h4>
 		            </div>
 		            <div class="modal-body">
 		                <div class="kePublic">
@@ -476,7 +495,7 @@ label.layui-form-label {
 							aria-label="Close">
 							<span aria-hidden="true">&times;</span>
 						</button>
-						<h4 class="modal-title" id="myModalLabel" style="color: #5d91c3">角色查看</h4>
+						<h4 class="modal-title" id="myModalLabel" style="color: #5d91c3;font-size:16px;">角色查看</h4>
 					</div>
 					<div class="modal-body">
 						<div class="look">查看角色权限</div>
@@ -503,16 +522,16 @@ label.layui-form-label {
 								<div class="intel_table">
 									<table id="juese_module" class="table table-bordered"
 										data-options="">
-										<thead>
+										<thead class="thead">
 											<tr>
-												<th style="width: 20px;">序号</th>
+												<th style="width: 50px;">序号</th>
 												<th>模块(菜单)名称</th>
 												<th>模块编码</th>
 												<th>排序</th>
 												<th>说明</th>
 											</tr>
 										</thead>
-										<tbody id="menubody">
+										<tbody class="tbody" id="menubody">
 										</tbody>
 									</table>
 								</div>
