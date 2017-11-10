@@ -193,7 +193,10 @@ public class SystemRolePermissionsService implements ISystemRolePermissionsServi
 		}
 		return result;
 	}
-
+	
+	/**
+	 * 查询用户手持机
+	 */
 	@Override
 	public Result iphonRole(String id) {
 		Result result = Result.getSuccessResult();
@@ -209,6 +212,64 @@ public class SystemRolePermissionsService implements ISystemRolePermissionsServi
 		}else{
 			result.setCode("111111");
 			result.setError("该用户没有登录手持机权限，请授权后登录！");
+		}
+		return result;
+	}
+	/**
+	 * 查询用户子系统权限
+	 * @Title: subsystemRole 
+	 * @Description: TODO
+	 * @param @param id
+	 * @param @return   
+	 * @return Result    
+	 * @throws
+	 */
+	@Override
+	public Result subsystemRole(String id){
+		Result result = Result.getSuccessResult();
+		SystemUserRole systemUserRole = systemUserRoleMapper.subsystemRole(id);
+		if(systemUserRole!=null){
+			List<SystemRoleMenuResp> list = systemRoleMenuMapper.subsystemRole(systemUserRole.getRoleid());
+			if(list.size()>0){
+				result.setData(list);
+			}else{
+				result.setCode("222222");
+				result.setError("未查到该用户对应权限，请联系管理员！");
+			}
+		}else{
+			result.setCode("111111");
+			result.setError("该用户没有登录子系统权限，请授权后登录！");
+		}
+		return result;
+	}
+	@Override
+	public Result selectByRole(String id) {
+		Result result = Result.getSuccessResult();
+		if (id != null && StringUtils.isNotBlank(id)) {
+			Map<String, Object>  map = new HashMap<String, Object>(); 
+			List<SystemRoleMenuResp> list = null;
+			SystemUserQueryReq req = new SystemUserQueryReq();
+			req.setRoleid(id);
+			SystemRole systemRole = systemRoleMapper.selectByPrimaryKey(id);
+			if (systemRole.getRoleType().equals("4")) {
+				list = systemRoleMenuMapper.selectIphoneRole(req);
+				map.put("list", list);
+			} else {
+				list = systemRoleMenuMapper.selectRole(req);
+				map.put("list", list);
+			}
+			result.setData(map);
+		}
+		return result;
+	}
+
+	@Override
+	public Result querySubsystemByRole(SystemUserQueryReq req) {
+		Result result = Result.getParamErrorResult();
+		if (req != null && StringUtils.isNotBlank(req.getRoleid())) {
+			List<SystemRoleMenuResp> list = systemRoleMenuMapper.querySubsystemByRole(req);
+			result.setData(list);
+			result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
 		}
 		return result;
 	}

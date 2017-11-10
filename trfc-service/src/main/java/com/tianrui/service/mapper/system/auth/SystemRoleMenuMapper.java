@@ -21,7 +21,7 @@ public interface SystemRoleMenuMapper {
 
 	List<SystemRoleMenuResp> queryMenuByRole(SystemUserQueryReq req);
     List<SystemRoleMenuResp> queryIphoneByRole(SystemUserQueryReq req);
-	
+    List<SystemRoleMenuResp> querySubsystemByRole(SystemUserQueryReq req);
     
 	List<SystemRoleMenuResp> selectRole(SystemUserQueryReq req);
     List<SystemRoleMenuResp> selectIphoneRole(SystemUserQueryReq req);
@@ -31,4 +31,5 @@ public interface SystemRoleMenuMapper {
 	int insertBatch(List<SystemRoleMenu> list);
 	
 	List<SystemRoleMenuResp> iphoneRole(String id);
+	List<SystemRoleMenuResp> subsystemRole(String id);
 }

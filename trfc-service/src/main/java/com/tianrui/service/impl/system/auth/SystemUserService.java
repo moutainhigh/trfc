@@ -59,10 +59,13 @@ public class SystemUserService implements ISystemUserService {
 						if(list.get(0).getIslock() == BusinessConstants.USER_UNLOCK_BYTE) {
 							if(StringUtils.equals(list.get(0).getIdentityTypes(), BusinessConstants.USER_PT_STR)) {
 								SystemUserResp resp = new SystemUserResp();
+								Result rse =systemRolePermissionsService.subsystemRole(list.get(0).getId());
+								resp.setMenuList((List<SystemRoleMenuResp>) rse.getData());		
 								resp.setId(list.get(0).getId());
 								resp.setName(list.get(0).getName());
 								rs.setData(resp);
 								rs.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+								
 							}else{
 								rs.setErrorCode(ErrorCode.SYSTEM_USER_ERROR11);
 							}
@@ -656,8 +659,8 @@ public class SystemUserService implements ISystemUserService {
                             if(StringUtils.equals(list.get(0).getIdentityTypes(), BusinessConstants.USER_PT_STR)) {
                                 cumulativeLoginCount(list.get(0));
                                 SystemUserResp user = copySystemUserBean2Resp(list.get(0));
-                                List<SystemRoleMenuResp> menuList = systemRolePermissionsService.iphonRole(user.getId());
-                                user.setMenuList(menuList);
+                                Result menuList = systemRolePermissionsService.iphonRole(user.getId());
+                                user.setMenuList((List<SystemRoleMenuResp>) menuList.getData());
                                 rs.setData(user);
                                 rs.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
                             }else{

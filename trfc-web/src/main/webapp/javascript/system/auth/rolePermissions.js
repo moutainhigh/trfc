@@ -7,6 +7,7 @@
 			deleteUserToRole: '/trfc/system/auth/rolePermissions/deleteUserToRole',
 			queryMenuByRole: '/trfc/system/auth/rolePermissions/queryMenuByRole',
 			queryPhoneMenuByRole: '/trfc/system/auth/rolePermissions/queryIphoneByRole',
+			querySubsystemMenuByRole: '/trfc/system/auth/rolePermissions/querySubsystemMenuByRole',
 			authorizeMenuToRole: '/trfc/system/auth/rolePermissions/authorizeMenuToRole',
 			resetMenuToRole: '/trfc/system/auth/rolePermissions/resetMenuToRole'
 	}
@@ -315,6 +316,8 @@
 		var type = $("#rolePhoneType").val();
 		if(type=="4"){
 			url = URL.queryPhoneMenuByRole;
+		}if(type=="5"){
+			url = URL.querySubsystemMenuByRole;
 		}
 		$.ajax({
 			url:url,

@@ -168,6 +168,21 @@
 	where t1.isvalid = '1'
 	order by t1.order_by
   </select>
+  <select id="querySubsystemByRole" parameterType="com.tianrui.api.req.system.auth.SystemUserQueryReq" resultType="com.tianrui.api.resp.system.auth.SystemRoleMenuResp">
+  	select t1.id as menuId, t1.name as menuName, t1.code as menuCode, t1.roleid as menuPid, t1.order_by as orderBy, t1.info as info, IF (t2.id IS NOT NULL, '1', '0') AS roleHasMenu, t2.roleId
+	from tr_subsystem_menu t1
+	left join (SELECT
+				id,
+				menuid,
+				roleid
+			FROM
+				tr_system_role_menu
+			WHERE
+				isvalid = '1' and roleid = #{roleid,jdbcType=VARCHAR}
+		) t2  on t1.id = t2.menuid
+	where t1.isvalid = '1'
+	order by t1.order_by
+  </select>
    <select id="selectRole" parameterType="com.tianrui.api.req.system.auth.SystemUserQueryReq" resultType="com.tianrui.api.resp.system.auth.SystemRoleMenuResp">
 	   SELECT 
 		t1.id AS menuId, t1.name AS menuName, t1.code AS menuCode, t1.roleid AS menuPid, t1.order_by AS orderBy, t1.info AS info
@@ -197,6 +212,16 @@
 		  (SELECT  t2.menuid FROM `tr_system_role_menu` t2
 		  WHERE t2.roleid =#{roleid,jdbcType=VARCHAR}) 
 		  AND t1.deep = '2' and t1.isvalid='1'
+  </select>	
+  <select id="subsystemRole"  resultType="com.tianrui.api.resp.system.auth.SystemRoleMenuResp" parameterType="java.lang.String" >
+    SELECT 
+		t1.id AS menuId, t1.name AS menuName, t1.code AS menuCode, t1.roleid AS menuPid, t1.order_by AS orderBy, t1.info AS info
+		FROM
+		  `tr_subsystem_menu` t1
+		WHERE id IN 
+		  (SELECT  t2.menuid FROM `tr_system_role_menu` t2
+		  WHERE t2.roleid =#{roleid,jdbcType=VARCHAR}) 
+		  AND t1.deep = '1' and t1.isvalid='1'
   </select>	
   <delete id="deleteByRoleId" parameterType="java.lang.String">
   	delete from tr_system_role_menu

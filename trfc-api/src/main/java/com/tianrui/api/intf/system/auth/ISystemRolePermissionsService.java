@@ -3,6 +3,7 @@ package com.tianrui.api.intf.system.auth;
 import java.util.List;
 
 import com.tianrui.api.req.system.auth.SystemRoleMenuSave;
+import com.tianrui.api.req.system.auth.SystemRoleQueryReq;
 import com.tianrui.api.req.system.auth.SystemUserQueryReq;
 import com.tianrui.api.req.system.auth.SystemUserRoleSave;
 import com.tianrui.api.resp.system.auth.SystemRoleMenuResp;
@@ -55,6 +56,7 @@ public interface ISystemRolePermissionsService {
 	Result queryMenuByRole(SystemUserQueryReq req);
 	
 	Result queryIphoneByRole(SystemUserQueryReq req);
+	Result querySubsystemByRole(SystemUserQueryReq req);
 	/**
 	 * 根据角色查看权限
 	 * @Title: selectRole 
@@ -65,6 +67,16 @@ public interface ISystemRolePermissionsService {
 	 * @throws
 	 */
 	Result selectRole(String id);
+	/**
+	 * 角色管理中查看角色权限
+	 * @Title: selectByRole 
+	 * @Description: TODO
+	 * @param @param id
+	 * @param @return   
+	 * @return Result    
+	 * @throws
+	 */
+	Result selectByRole(String id);
 	/**
 	 * @Description 给角色授权菜单权限
 	 * @author zhanggaohao
@@ -91,5 +103,6 @@ public interface ISystemRolePermissionsService {
 	 * @throws
 	 */
 	Result iphonRole(String id);
-	
+	Result subsystemRole(String id);
+
 }

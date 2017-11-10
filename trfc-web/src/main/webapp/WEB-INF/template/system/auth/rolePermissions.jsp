@@ -152,7 +152,7 @@
 											<tbody id="menubody">
 											</tbody>
 										</table>
-										<!--分页效果开始-->
+										<!--分页效果开始
 										<div class="row">
 											<div class="col-md-12">
 												<div class="page_middle">

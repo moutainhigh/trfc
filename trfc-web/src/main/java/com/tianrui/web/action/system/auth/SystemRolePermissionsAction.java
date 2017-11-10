@@ -7,11 +7,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.tianrui.api.intf.system.auth.ISystemRolePermissionsService;
 import com.tianrui.api.req.system.auth.SystemRoleMenuSave;
+import com.tianrui.api.req.system.auth.SystemRoleQueryReq;
 import com.tianrui.api.req.system.auth.SystemUserQueryReq;
 import com.tianrui.api.req.system.auth.SystemUserRoleSave;
 import com.tianrui.api.resp.system.auth.SystemUserResp;
@@ -118,6 +120,19 @@ public class SystemRolePermissionsAction {
 		return result;
 	}
 	
+	@RequestMapping("querySubsystemMenuByRole")
+	@ResponseBody
+	public Result querySubsystemMenuByRole(SystemUserQueryReq req){
+		Result result = Result.getErrorResult();
+		try {
+			result = systemRolePermissionsService.querySubsystemByRole(req);
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
+		}
+		return result;
+	}
+	
 	@RequestMapping("selectRole")
 	@ResponseBody
 	public Result selectRole(String id){
@@ -129,7 +144,23 @@ public class SystemRolePermissionsAction {
 		}
 		return result;
 	}
-	
+	/**
+	 * @throws Exception 
+	 * @Title: selectByRole 
+	 * @Description: 查看角色权限
+	 * @param @param req
+	 * @param @return   
+	 * @return Result    
+	 * @throws
+	 */
+	@RequestMapping(value="/selectByRole",method=RequestMethod.POST)
+	@ResponseBody
+	public Result selectByRole(String id) throws Exception {
+		Result result =Result.getSuccessResult();
+		result = systemRolePermissionsService.selectByRole(id);
+		return result;
+		
+	}
 	
 	@RequestMapping("authorizeMenuToRole")
 	@ResponseBody

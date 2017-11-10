@@ -252,19 +252,6 @@ label.layui-form-label {
 		                        <div class="select-bar">
 		                        	<p>待选项</p>
 		                            <select multiple="multiple" id="select1">
-		                               <!--  <option value="超级管理员">超级管理员</option>
-		                                <option value="普通管理员">普通管理员</option>
-		                                <option value="信息发布员">信息发布员</option>
-		                                <option value="财务管理员">财务管理员</option>
-		                                <option value="产品管理员">产品管理员</option>
-		                                <option value="资源管理员">资源管理员</option>
-		                                <option value="系统管理员">系统管理员</option>
-		                                <option value="超级管理员">超级管理员</option>
-		                                <option value="普通管理员">普通管理员</option>
-		                                <option value="信息发布员">信息发布员</option>
-		                                <option value="财务管理员">财务管理员</option>
-		                                <option value="产品管理员">产品管理员</option>
-		                                <option value="资源管理员">资源管理员</option> -->
 		                            </select>
 		                        </div>
 		
