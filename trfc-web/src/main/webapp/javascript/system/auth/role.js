@@ -69,7 +69,10 @@
 					roleType=0;
 					break;
 			}
+			var userType=role.userType;
+			
 			$('#update_role').val(roleType);
+		//	$('#userType').val(userType);
 			$('#update_isvalid')[0].checked=false;
 			if(role.isvalid==1){
 				$('#update_isvalid')[0].checked=true;
@@ -235,6 +238,7 @@
 		var code=$('#code').val();code=$.trim(code);
 		var name=$('#name').val();name=$.trim(name);
 		var roleType=$('#role_type option:selected').val();
+		var userType =$("#userTypes option:selected").val();
 		var info=$('#info').val();info=$.trim(info);
 		var isvalid = 0;
 		if($('#isvalid')[0].checked){
@@ -252,6 +256,7 @@
 			code:code,
 			name:name,
 			roleType:roleType,
+			userType:userType,
 			info:info,
 			isvalid:isvalid,
 			allowEdit:allow_edit,
@@ -301,6 +306,7 @@
 		var code=$('#update_code').val();code=$.trim(code);
 		var name=$('#update_name').val();name=$.trim(name);
 		var roleType=$('#update_role option:selected').val();
+		var userType=$('#userType option:selected').val();
 		var info=$('#update_info').val();info=$.trim(info);
 		var isvalid = 0;
 		if($('#update_isvalid')[0].checked){
@@ -318,6 +324,7 @@
 			code:code,
 			name:name,
 			roleType:roleType,
+			userType:userType,
 			info:info,
 			isvalid:isvalid,
 			allowEdit:allow_edit,

@@ -172,6 +172,14 @@ margin-bottom: -20px!important;
 							<input type="checkbox" id="allow_del"><span
 								style="margin: 0 15px 0 0.8px;">允许删除</span>
 						</div>
+						<div class="alt_edit_div">
+							<label>用户类型：</label> 
+							<select class="form-control" id="userType">
+								<option value="">==请选择==</option>
+								<option value="2">普通用户</option>
+								<option value="1">管理员</option>
+							</select>
+						</div>
 						<div class="alt_edit_textarea">
 							<label>描述： </label>
 							<textarea class="form-control" rows="1" id="info"></textarea>
@@ -226,6 +234,14 @@ margin-bottom: -20px!important;
 								id="update_edit"><span style="margin: 0 15px 0 0.8px;">允许编辑</span>
 							<input type="checkbox" id="update_del"><span
 								style="margin: 0 15px 0 0.8px;">允许删除</span>
+						</div>
+						<div class="alt_edit_div">
+							<label>用户类型：</label> 
+							<select class="form-control" id="userTypes">
+								<option value="">==请选择==</option>
+								<option value="2">普通用户</option>
+								<option value="1">管理员</option>
+							</select>
 						</div>
 						<div class="alt_edit_textarea">
 							<label>描述： </label>

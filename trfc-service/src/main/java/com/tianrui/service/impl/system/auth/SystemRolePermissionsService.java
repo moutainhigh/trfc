@@ -243,6 +243,23 @@ public class SystemRolePermissionsService implements ISystemRolePermissionsServi
 		return result;
 	}
 	@Override
+	public Result subsystemUserRole(String id){
+		Result result = Result.getSuccessResult();
+		SystemUserRole systemUserRole = systemUserRoleMapper.subsystemRole(id);
+		if(systemUserRole!=null){
+			result.setCode("000000");
+			result.setData(systemUserRole.getRemark());
+		}else{
+			result.setCode("111111");
+			result.setError("没有相关权限");
+		}
+		return result;
+	}
+	
+	
+	
+	
+	@Override
 	public Result selectByRole(String id) {
 		Result result = Result.getSuccessResult();
 		if (id != null && StringUtils.isNotBlank(id)) {

@@ -25,6 +25,15 @@ public class SystemRoleResp implements Serializable{
     private Byte allowDel;
     //说明
     private String info;
+    //用户类型
+    private String userType;
+    
+	public String getUserType() {
+		return userType;
+	}
+	public void setUserType(String userType) {
+		this.userType = userType;
+	}
 	public String getId() {
 		return id;
 	}

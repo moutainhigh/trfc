@@ -42,7 +42,7 @@
 		t1.role_type="4"
 	</select>
 	<select id="subsystemRole" resultMap="BaseResultMap" parameterType="java.lang.String">
-		SELECT t1.id as `roleid`,t1.name as `remark`
+		SELECT t1.id as `roleid`,t1.userType as `remark`
 		FROM tr_system_role t1
 		WHERE t1.id IN
 		(SELECT t2.roleid FROM tr_system_user_role t2

@@ -35,6 +35,9 @@ public class SystemRole {
     private Long modifytime;
     //时间戳
     private Date utc;
+    
+    //用户类型
+    private String userType;
 
     public String getId() {
         return id;
@@ -306,6 +309,14 @@ public class SystemRole {
 
 	public void setRolename(String rolename) {
 		this.rolename = rolename;
+	}
+
+	public String getUserType() {
+		return userType;
+	}
+
+	public void setUserType(String userType) {
+		this.userType = userType;
 	}
     
     

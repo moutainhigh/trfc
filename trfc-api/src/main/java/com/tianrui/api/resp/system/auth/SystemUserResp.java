@@ -31,7 +31,7 @@ public class SystemUserResp implements Serializable{
   	private String mobilePhone;
   	//手持机菜单权限集合
   	private List<SystemRoleMenuResp> menuList;
-	
+	private String userType;
 	public List<SystemRoleMenuResp> getMenuList() {
         return menuList;
     }
@@ -151,6 +151,12 @@ public class SystemUserResp implements Serializable{
 	}
 	public void setNcid(String ncid) {
 		this.ncid = ncid;
+	}
+	public String getUserType() {
+		return userType;
+	}
+	public void setUserType(String userType) {
+		this.userType = userType;
 	}
 	
 }

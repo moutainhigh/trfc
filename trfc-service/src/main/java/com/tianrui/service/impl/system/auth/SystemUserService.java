@@ -59,13 +59,18 @@ public class SystemUserService implements ISystemUserService {
 						if(list.get(0).getIslock() == BusinessConstants.USER_UNLOCK_BYTE) {
 							if(StringUtils.equals(list.get(0).getIdentityTypes(), BusinessConstants.USER_PT_STR)) {
 								SystemUserResp resp = new SystemUserResp();
-								Result rse =systemRolePermissionsService.subsystemRole(list.get(0).getId());
-								resp.setMenuList((List<SystemRoleMenuResp>) rse.getData());		
-								resp.setId(list.get(0).getId());
-								resp.setName(list.get(0).getName());
-								rs.setData(resp);
-								rs.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
-								
+								Result result =	systemRolePermissionsService.subsystemUserRole(list.get(0).getId());
+								if(result.getCode().equals("000000")){
+									Result rse =systemRolePermissionsService.subsystemRole(list.get(0).getId());
+									resp.setMenuList((List<SystemRoleMenuResp>) rse.getData());		
+									resp.setId(list.get(0).getId());
+									resp.setName(list.get(0).getName());
+									resp.setUserType((String) result.getData());
+									rs.setData(resp);
+									rs.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+								}else{
+									rs.setErrorCode(ErrorCode.SYSTEM_USER_ERROR14);
+								}
 							}else{
 								rs.setErrorCode(ErrorCode.SYSTEM_USER_ERROR11);
 							}

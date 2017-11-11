@@ -27,6 +27,8 @@ public class SystemRoleSaveReq extends BaseReq {
     private Byte allowDel;
     //说明
     private String info;
+    //用户类型
+    private String userType;
 	//当前用户
 	private String currUId;
 	public String getId() {
@@ -88,6 +90,12 @@ public class SystemRoleSaveReq extends BaseReq {
 	}
 	public void setInfo(String info) {
 		this.info = info;
+	}
+	public String getUserType() {
+		return userType;
+	}
+	public void setUserType(String userType) {
+		this.userType = userType;
 	}
 	
 }

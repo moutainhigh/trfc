@@ -104,5 +104,6 @@ public interface ISystemRolePermissionsService {
 	 */
 	Result iphonRole(String id);
 	Result subsystemRole(String id);
+	Result subsystemUserRole(String id);
 
 }
