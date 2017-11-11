@@ -7,6 +7,8 @@
 			deleteUrl:"/trfc/system/auth/role/delete",
 			getCodeUrl:"/trfc/system/base/code/getCode",
 			updateCodeUrl:"/trfc/system/base/code/updateCode",
+			//查看角色权限
+			selectRole : '/trfc/system/auth/rolePermissions/selectByRole',
 	};
 	
 	
@@ -87,7 +89,13 @@
 				updateRoleAction(this);
 			}
 		});
-		
+		//权限查看
+		$('#roles').on('click','tr .select',function(){
+			var role=$(this).closest('tr').data();
+			roleData.id=role.id;
+			selectRole(roleData);
+			
+		});
 		$('#roles').on('click','tr .delete',function(){
 			var role=$(this).closest('tr').data();
 			roleData.id=role.id;
@@ -160,6 +168,7 @@
 					}
 					var tr=$('<tr><td>'+(i+1)+'</td><td>'+role.code+'</td><td>'+role.name+'</td><td>'+roleType+'</td><td><input type="checkbox" disabled id="isvalid'+i+'">'+
 							'</td><td><input type="checkbox" disabled id="allow_edit'+i+'">'+'</td><td><input type="checkbox" disabled id="allow_dele'+i+'">'+'</td><td>'+role.info+'</td><td>'+
+							'<span class="select"><a data-toggle="modal" data-target="#select"><i class="iconfont" id="selectRole"  style="margin: 0 5px;" data-toggle="tooltip" data-placement="left" title="角色权限查看">&#xe651;</i></a></span>'+
 							'<span class="update"><a data-toggle="modal" data-target="#edit"><i class="iconfont" style="margin: 0 5px;" data-toggle="tooltip" data-placement="left" title="编辑">&#xe600;</i></a></span>'+
 							'<span class="delete"><a data-toggle="modal" data-target="#dele"><i class="iconfont" style="margin: 0 5px;" data-toggle="tooltip" data-placement="left" title="删除">&#xe63d;</i></a>'+'</span></td></tr>'
 					);
@@ -336,6 +345,88 @@
 		}else{
 			_this.disbaled=false;
 		}
+	}
+	
+	// 权限查看
+	function selectRole(span) {
+		var url=URL.selectRole;
+		var param={id:roleData.id};
+		$.post(url, param, function(result) {
+			if (result.code == '000000') {
+				var data= result.data.list;
+				$('#menubody').empty();
+				data = parseMenuData(undefined, data);
+				for (var i = 0; i < data.length; i++) {
+					var obj = data[i];
+					$('<tr id="'+(obj.menuId || '')+'" pid="'+(obj.menuPid || '')+'">'
+							+'<td>'+(i+1)+'</td>'
+							+'<td><span controller="true">'+(obj.menuName || '')+'</span></td>'
+							+'<td>'+(obj.menuCode || '')+'</td>'
+							+'<td>'+(obj.orderBy)+'</td>'
+							+'<td>'+(obj.info)+'</td>'
+							+'</tr>').data(obj).appendTo('#menubody');
+
+				}
+				var option = {
+					theme : 'vsStyle',
+					expandLevel : 2,
+					column : 1,
+					beforeExpand : function($treeTable, id) {
+						// 判断id是否已经有了孩子节点，如果有了就不再加载，这样就可以起到缓存的作用
+						if ($('.' + id, $treeTable).length) {
+							return;
+						}
+					},
+					onSelect : function($treeTable, id) {
+						window.console && console.log('onSelect:' + id);
+					}
+				};
+				$('.intel_table table').treeTable(option);
+				$('#menubody>tr').find('td:eq(1) input').off('click').on(
+						'click', function() {
+							var menuId = $(this).closest('tr').data().menuId;
+							var menuPid = $(this).closest('tr').data().menuPid;
+							selectAllMenuByPid(menuId, this.checked);
+							selectParentMenuById(menuPid, true);
+						});
+
+			} else {
+				layer.msg(result.error, {
+					icon : 5
+				});
+			}
+		});
+	}
+	
+	function selectParentMenuById(menuPid, checked) {
+		$('#menubody>tr[id="' + menuPid + '"]').each(function() {
+			$(this).find('td:eq(1) input')[0].checked = checked;
+			var menuPid = $(this).data().menuPid;
+			selectParentMenuById(menuPid, checked);
+		});
+	}
+
+	function selectAllMenuByPid(menuId, checked) {
+		$('#menubody>tr[pid="' + menuId + '"]').each(function() {
+			$(this).find('td:eq(1) input')[0].checked = checked;
+			var menuId = $(this).data().menuId;
+			selectAllMenuByPid(menuId, checked);
+		});
+	}
+
+	function parseMenuData(pid, data) {
+		var menuArr = [];
+		var _0 = data.filter(function(x) {
+			return x.menuPid == pid;
+		});
+		_0.forEach(function(x, i, a) {
+			menuArr.push(x);
+			var childMenuArr = parseMenuData(x.menuId, data);
+			if (childMenuArr && childMenuArr.length > 0) {
+				menuArr = menuArr.concat(childMenuArr);
+			}
+		});
+		return menuArr;
 	}
 	
 	function deleteRole(){

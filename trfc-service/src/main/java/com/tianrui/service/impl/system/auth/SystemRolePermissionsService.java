@@ -254,7 +254,10 @@ public class SystemRolePermissionsService implements ISystemRolePermissionsServi
 			if (systemRole.getRoleType().equals("4")) {
 				list = systemRoleMenuMapper.selectIphoneRole(req);
 				map.put("list", list);
-			} else {
+			} else if(systemRole.getRoleType().equals("5")){
+				list =systemRoleMenuMapper.selectSubsystemRole(req);
+				map.put("list", list);
+			}else {
 				list = systemRoleMenuMapper.selectRole(req);
 				map.put("list", list);
 			}

@@ -11,6 +11,47 @@
 margin-bottom: -20px!important;
 }
 </style>
+<style>
+        .phone,.module{
+            width: 80px;
+            height: 30px;
+            line-height: 30px;
+            text-align: center;
+            display: inline-block;
+            border: 1px solid #efeef4;
+            margin: 10px 0;
+        }
+        .module{
+            color: #656c9d;
+        }
+        .phone{
+            color: #fff;
+            background-color: #434e8c;
+        }
+        .lookRole{
+            list-style: none;
+            width: 100%;
+            margin: 0;
+            padding: 0;
+        }
+        .lookRole li{
+            background-color: #f5f6fb;
+            width: 90%;
+            height: 40px;
+            line-height: 40px;
+            color: #656c9d;
+            border: 1px solid #efeef4;
+            text-indent: 2em;
+        }
+        .nNone{
+            border-bottom: none;
+        }
+        .modal-dialog{
+            width:1000px;
+            margin: 0 auto;
+        }
+    </style>
+
 </head>
 <body>
 	<div class="it_admin">
@@ -200,10 +241,63 @@ margin-bottom: -20px!important;
 		</div>
 	</div>
 	<!--编辑end-->
-	
+	<div class="modal fade" id="select" tabindex="-1" role="dialog"
+			aria-labelledby="myModalLabel">
+			<div class="modal-dialog modal-dialog1" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal"
+							aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+						<h4 class="modal-title" id="myModalLabel" style="color: #5d91c3;font-size:16px;">角色查看</h4>
+					</div>
+					<div class="modal-body">
+						<div class="cg_tabbox">
+							<div class="cg_tabcont">
+								<ul class="lookRole">
+
+									<!-- <li style="color: #5d91c3" class="nNone">模块（菜单）名称</li>
+											<li class="nNone">倒运管理</li>
+											<li class="nNone">采样管理</li>
+											<li class="nNone">收货管理</li>
+											<li>发货管理</li> -->
+								</ul>
+							</div>
+								<div class="intel_table">
+									<table id="juese_module" class="table table-bordered"
+										data-options="">
+										<thead class="thead">
+											<tr>
+												<th style="width: 50px;">序号</th>
+												<th>模块(菜单)名称</th>
+												<th>模块编码</th>
+												<th>排序</th>
+												<th>说明</th>
+											</tr>
+										</thead>
+										<tbody class="tbody" id="menubody">
+										</tbody>
+									</table>
+								</div>
+							</div>
+					</div>
+				</div>
+				<!-- 权限查看end -->
+				<!--tab切换的内容end-->
+			</div>
+		</div>
 	<!-- 引用公共footer部分 -->
 	<jsp:include page="../../common/base/footer_busi.jsp"></jsp:include>
 	<script type="text/javascript" src="/javascript/system/auth/role.js"></script>
+	<script type="text/javascript">
+	// 模块权限表格每行选中背景变白
+	var tabletr = $('.intel_table table tr');
+	tabletr.on("click", function() {
+		$(this).addClass("select").siblings().removeClass("select");
+	});
 	
+	
+	</script>
 </body>
 </html>
