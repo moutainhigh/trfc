@@ -43,7 +43,7 @@
 		select
 		<include refid="Base_Column_List" />
 		from tr_system_user
-		<where>
+		<where>identityTypes='3'
 			<if test="codeLike != null and codeLike !=''">
 				and code like CONCAT('%',#{codeLike,jdbcType=VARCHAR},'%')
 			</if>
@@ -78,7 +78,7 @@
 		select
 		count(0)
 		from tr_system_user
-		<where>
+		<where> identityTypes='3'
 			<if test="codeLike != null and codeLike !=''">
 				and code like CONCAT('%',#{codeLike,jdbcType=VARCHAR},'%')
 			</if>
@@ -395,5 +395,62 @@
 		<include refid="Base_Column_List" />
 		from tr_system_user
 		where (account = #{account,jdbcType=VARCHAR} or mobilePhone = #{account,jdbcType=VARCHAR}) and identityTypes = #{IDType,jdbcType=VARCHAR}
+	</select>
+	
+	
+	<select id="selectUserClient" resultMap="BaseResultMap"
+		parameterType="com.tianrui.api.req.system.auth.SystemUserQueryReq">
+		select
+		<include refid="Base_Column_List" />
+		from tr_system_user
+		<where>identityTypes!='3'
+			<if test="codeLike != null and codeLike !=''">
+				and code like CONCAT('%',#{codeLike,jdbcType=VARCHAR},'%')
+			</if>
+			<if test="accountLike != null and accountLike !=''">
+				and account like CONCAT('%',#{accountLike,jdbcType=VARCHAR},'%')
+			</if>
+			<if test="nameLike != null and nameLike !=''">
+				and name like CONCAT('%',#{nameLike,jdbcType=VARCHAR},'%')
+			</if>
+            <if test="identityTypes != null and identityTypes !=''">
+                and identityTypes = #{identityTypes, jdbcType=VARCHAR}
+            </if>
+			<if test="code != null and code !=''">
+				and code = #{code,jdbcType=VARCHAR}
+			</if>
+			<if test="account != null and account !=''">
+				and account = #{account,jdbcType=VARCHAR}
+			</if>
+			<if test="appAccount != null and appAccount !=''">
+				and (account = #{appAccount,jdbcType=VARCHAR} or mobilePhone = #{appAccount,jdbcType=VARCHAR})
+			</if>
+		</where>
+		order by createtime desc
+		<if test="start != null and start >= 0">
+			<if test="limit != null">
+				limit #{start,jdbcType=INTEGER},#{limit,jdbcType=INTEGER}
+			</if>
+		</if>
+	</select>
+	<select id="countUserClient" resultType="long"
+		parameterType="com.tianrui.api.req.system.auth.SystemUserQueryReq">
+		select
+		count(0)
+		from tr_system_user
+		<where> identityTypes!='3'
+			<if test="codeLike != null and codeLike !=''">
+				and code like CONCAT('%',#{codeLike,jdbcType=VARCHAR},'%')
+			</if>
+			<if test="accountLike != null and accountLike !=''">
+				and account like CONCAT('%',#{accountLike,jdbcType=VARCHAR},'%')
+			</if>
+			<if test="nameLike != null and nameLike !=''">
+				and name like CONCAT('%',#{nameLike,jdbcType=VARCHAR},'%')
+			</if>
+			<if test="identityTypes != null and identityTypes !=''">
+				and identityTypes = #{identityTypes, jdbcType=VARCHAR}
+			</if>
+		</where>
 	</select>
 </mapper>

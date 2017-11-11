@@ -27,7 +27,7 @@ public interface ISystemUserService {
 	 * @throws Exception
 	 */
 	Result page(SystemUserQueryReq req) throws Exception;
-	
+	Result pages(SystemUserQueryReq req) throws Exception;
 	
 	/**
 	 * 用户详情查询

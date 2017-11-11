@@ -29,12 +29,14 @@ public interface SystemUserMapper {
      * @return
      */
     List<SystemUser> selectByCondition(SystemUserQueryReq queryReq );
+    List<SystemUser> selectUserClient(SystemUserQueryReq queryReq );
     /**
      * 查询总数
      * @param queryReq
      * @return
      */
     long countByCondition(SystemUserQueryReq queryReq );
+    long countUserClient(SystemUserQueryReq queryReq );
     /**
      * 自动搜索下拉框
      * @param queryReq

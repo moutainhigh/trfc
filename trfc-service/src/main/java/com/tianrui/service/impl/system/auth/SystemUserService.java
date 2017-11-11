@@ -681,5 +681,26 @@ public class SystemUserService implements ISystemUserService {
         }
         return rs;
     }
+
+	@Override
+	public Result pages(SystemUserQueryReq req) throws Exception {
+		Result rs =Result.getSuccessResult();
+		PaginationVO<SystemUserResp> page = null;
+		if (req != null) {
+			page = new PaginationVO<SystemUserResp>();
+			long count = userMapper.countUserClient(req);
+			if (count > 0) {
+				req.setStart((req.getPageNo()-1)*req.getPageSize());
+				req.setLimit(req.getPageSize());
+				List<SystemUser> list = userMapper.selectUserClient(req);
+				page.setList(copySystemUserBeanList2RespList(list));
+			}
+			page.setPageNo(req.getPageNo());
+			page.setPageSize(req.getPageSize());
+			page.setTotal(count);
+		}
+		rs.setData(page);
+		return rs;
+	}
 	
 }

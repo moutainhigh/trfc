@@ -3,7 +3,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>无人值守-系统管理-普通用户管理</title>
+<title>无人值守-系统管理-客户供应商管理</title>
 <!-- 引用公共header部分 -->
 <jsp:include page="../../common/base/header_busi.jsp"></jsp:include>
 <style type="text/css">
@@ -162,15 +162,15 @@ label.layui-form-label {
 									<label>关键字：</label> <input type="text" class="keyInput"
 										mexlength=20 />
 								</div>
-								<!-- <div class="intel_solo">
+								<div class="intel_solo">
 									<label>用户身份：</label> <select id="identityTypes"
 										class="form-control">
 										<option value="">全部</option>
 										<option value="1">客户</option>
 										<option value="2">供应商</option>
-										<option value="3">普通用户</option>
+										<!-- <option value="3">普通用户</option> -->
 									</select>
-								</div> -->
+								</div>
 								<div class="intel_solo">
 									<div class="intel_sbtn">
 										<button class="btn btnblue searchBtn">搜索</button>
@@ -535,7 +535,7 @@ label.layui-form-label {
 	<!-- 引用公共footer部分 -->
 	<jsp:include page="../../common/base/footer_busi.jsp"></jsp:include>
 	<script type="text/javascript" src="${staticBasePath}/js/md5.js"></script>
-	<script type="text/javascript" src="/javascript/system/auth/userMgr.js"></script>
+	<script type="text/javascript" src="/javascript/system/auth/userClientMgr.js"></script>
 	<script type="text/javascript">
 		// 录入、参照tab切换菜单
 		var cg_li = $('.cg_tabtit ul li');
