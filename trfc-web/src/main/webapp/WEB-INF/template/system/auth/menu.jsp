@@ -60,7 +60,7 @@
 									<th style="width: 200px;">模块(菜单)名称</th>
 									<th>模块编码</th>
 									<th>上级模块</th>
-									<th>连接目标</th>
+									<!-- <th>连接目标</th> -->
 									<th>Web连接地址</th>
 									<th>有效</th>
 									<th>排序</th>
@@ -105,27 +105,17 @@
 								class="easyui-combotree" required="true"
 								style="width: 220px; height: 28px">
 						</div>
-						<div class="alt_edit_div">
+						<!-- <div class="alt_edit_div">
 							<label>连接目标：</label> <select class="form-control" id="linkgoal">
 								<option value="1" name="type">Click</option>
 								<option value="2" name="type">Iframe</option>
 								<option value="3" name="type">Open</option>
 								<option value="4" name="type">href</option>
 							</select>
-						</div>
+						</div> -->
 						<div class="alt_edit_div" style="width: 100%">
 							<label>Web连接地址：</label> <input type="text" style="width: 500px"
 								id="uri">
-						</div>
-						<div class="alt_edit_div" style="width: 100%">
-							<label>选项：</label> <input type="checkbox" id="isvalid"
-								checked="checked"><span>有效</span> <input type="checkbox"
-								checked="checked" disabled="disabled"><span>展开</span> <input
-								type="checkbox" checked="checked" disabled="disabled"><span>允许编辑</span>
-							<input type="checkbox" checked="checked" disabled="disabled"><span>允许删除</span>
-							<input type="checkbox" disabled="disabled"><span>审核模型</span>
-							<input type="checkbox" disabled="disabled"><span>质检方案
-							</span>
 						</div>
 						<div class="alt_edit_div">
 							<label>显示顺序：</label> <input type="text" id="order_by">
@@ -150,6 +140,16 @@
 								<option value="4" name="type">4</option>
 								<option value="5" name="type">5</option>
 							</select>
+						</div>
+						<div class="alt_edit_div" >
+							<label>选项：</label> <input type="checkbox" id="isvalid"
+								checked="checked"><span>有效</span><!-- <input type="checkbox"
+								checked="checked" disabled="disabled"> <span>展开</span> <input
+								type="checkbox" checked="checked" disabled="disabled"><span>允许编辑</span>
+							<input type="checkbox" checked="checked" disabled="disabled"><span>允许删除</span>
+							<input type="checkbox" disabled="disabled"><span>审核模型</span>
+							<input type="checkbox" disabled="disabled"><span>质检方案
+							</span> -->
 						</div>
 					</div>
 				</div>
@@ -187,7 +187,7 @@
 							<label>上级模块：</label> <input type="text" id="update_role"
 								class="easyui-combotree" required="true" style="width: 220px;">
 						</div>
-						<div class="alt_edit_div">
+						<!-- <div class="alt_edit_div">
 							<label>连接目标：</label> <select class="form-control"
 								id="update_linkgoal">
 								<option value="1" name="type">Click</option>
@@ -195,20 +195,12 @@
 								<option value="3" name="type">Open</option>
 								<option value="4" name="type">href</option>
 							</select>
-						</div>
+						</div> -->
 						<div class="alt_edit_div" style="width: 100%">
 							<label>Web连接地址：</label> <input type="text" style="width: 500px"
 								id="update_uri">
 						</div>
-						<div class="alt_edit_div" style="width: 100%">
-							<label>选项：</label> <input type="checkbox" id="update_isvalid"><span>有效</span>
-							<input type="checkbox" checked="checked" disabled="disabled"><span>展开</span>
-							<input type="checkbox" checked="checked" disabled="disabled"><span>允许编辑</span>
-							<input type="checkbox" checked="checked" disabled="disabled"><span>允许删除</span>
-							<input type="checkbox" disabled="disabled"><span>审核模型</span>
-							<input type="checkbox" disabled="disabled"><span>质检方案
-							</span>
-						</div>
+						
 						<div class="alt_edit_div">
 							<label>显示顺序：</label> <input type="text" id="update_orderBy">
 						</div>
@@ -233,6 +225,15 @@
 								<option value="4" name="type">4</option>
 								<option value="5" name="type">5</option>
 							</select>
+						</div>
+						<div class="alt_edit_div" >
+							<label>选项：</label> <input type="checkbox" id="update_isvalid"><span>有效</span>
+							<!-- <input type="checkbox" checked="checked" disabled="disabled"><span>展开</span>
+							<input type="checkbox" checked="checked" disabled="disabled"><span>允许编辑</span>
+							<input type="checkbox" checked="checked" disabled="disabled"><span>允许删除</span>
+							<input type="checkbox" disabled="disabled"><span>审核模型</span>
+							<input type="checkbox" disabled="disabled"><span>质检方案
+							</span> -->
 						</div>
 					</div>
 				</div>

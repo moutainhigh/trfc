@@ -101,10 +101,10 @@ $(function() {
 		initData(1);
 	});
 
-	// 刷新按钮
-	$("#refreshBtn").off('click').on("click", ".refreshButton",
-			refreshLocation);
-
+	//刷新
+	$('#refreshButton').off('click').on('click',function(){
+		refreshLocation();
+	});
 	/**
 	 * 获取搜索信息
 	 */
@@ -234,9 +234,6 @@ $(function() {
 								+ (obj.name || '')
 								+ '</td>'
 								+ '<td>'
-								+ (obj.orgName || '')
-								+ '</td>'
-								+ '<td>'
 								+ (invalid || '')
 								+ '</td>'
 								+ '<td>'
@@ -244,9 +241,6 @@ $(function() {
 								+ '</td>'
 								+ '<td>'
 								+ (obj.logincount || 0)
-								+ '</td>'
-								+ '<td>'
-								+ (obj.lastLogintimeStr || '')
 								+ '</td>'
 								+ '<td>'
 								+ (obj.remark || '')

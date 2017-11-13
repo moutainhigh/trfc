@@ -211,14 +211,14 @@
 					}
 					if(!menu.roleid){//判断是否是一级节点
 						var tr=$('<tr id="'+menu.id+'" pid=""><td style="width: 200px;"><span controller="true"><i class="iconfont">'+img+'</i>'+menu.name+'</span></td><td>'+
-								menu.code+'</td><td>'+menu.roleType+'</td><td>'+menu.linkgoal+'</td><td>'+menu.uri+'</td><td><input type="checkbox" disabled id="list_isvalid'+i+
+								menu.code+'</td><td>'+menu.roleType+'</td><td>'+menu.uri+'</td><td><input type="checkbox" disabled id="list_isvalid'+i+
 								'" ></td><td>'+menu.orderBy+'</td><td><span class="update"><a data-toggle="modal" data-target="#edit"><i class="iconfont" data-toggle="tooltip" data-placement="left" title="编辑">&#xe600;</i></a>'+
 								'</span><span class="copy"> <a data-toggle="modal" data-target="#add"><i class="iconfont" data-toggle="tooltip" data-placement="left" title="复制">&#xe61c;</i></a>'+'</span><span class="delete"><a data-toggle="modal" data-target="#dele">'+
 								'<i class="iconfont" data-toggle="tooltip" data-placement="left" title="删除">&#xe63d;</i></a>'+'</span></td></tr>'
 						);
 					}else{
 						var tr=$('<tr id="'+menu.id+'" pid="'+menu.roleid+'"><td style="width: 200px;"><span controller="true"><i class="iconfont">'+img+'</i>'+menu.name+'</span></td><td>'+
-								menu.code+'</td><td>'+menu.roleType+'</td><td>'+menu.linkgoal+'</td><td>'+menu.uri+'</td><td><input type="checkbox" disabled id="list_isvalid'+i+
+								menu.code+'</td><td>'+menu.roleType+'</td><td>'+menu.uri+'</td><td><input type="checkbox" disabled id="list_isvalid'+i+
 								'" ></td><td>'+menu.orderBy+'</td><td><span class="update"><a data-toggle="modal" data-target="#edit"><i class="iconfont" data-toggle="tooltip" data-placement="left" title="编辑">&#xe600;</i></a>'+
 								'</span><span class="copy"> <a data-toggle="modal" data-target="#add"><i class="iconfont" data-toggle="tooltip" data-placement="left" title="复制">&#xe61c;</i></a>'+'</span><span class="delete"><a data-toggle="modal" data-target="#dele">'+
 								'<i class="iconfont" data-toggle="tooltip" data-placement="left" title="删除">&#xe63d;</i></a>'+'</span></td></tr>'

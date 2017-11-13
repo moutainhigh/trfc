@@ -200,11 +200,11 @@ label.layui-form-label {
 									<th>用户编号</th>
 									<th>登录账号</th>
 									<th>用户名称</th>
-									<th>所属组织</th>
+									<!-- <th>所属组织</th> -->
 									<th>有效</th>
 									<th>来源</th>
 									<th>登陆次数</th>
-									<th>最后登录时间</th>
+									<!-- <th>最后登录时间</th> -->
 									<th>说明</th>
 									<th>操作</th>
 								</tr>
