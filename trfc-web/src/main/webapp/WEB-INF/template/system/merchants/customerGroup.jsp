@@ -76,7 +76,7 @@ input[readonly] {
 							<i class="iconfont colorlv">&#xe61b;</i>
 							<span>刷新</span>
 						</div>
-						<div class="intel_operasolo" id="add">
+						<div class="intel_operasolo" id="adds">
 							<a data-toggle="modal" data-target="#add"> <i
 								class="iconfont coloradd">&#xe627;</i>
 								<span>新增</span>
