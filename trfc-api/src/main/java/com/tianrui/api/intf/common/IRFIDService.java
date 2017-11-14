@@ -8,6 +8,8 @@ public interface IRFIDService {
 	Result save(RFIDReq req) throws Exception;
 	
 	Result unbind(RFIDReq req) throws Exception;
+	
+	Result rfidTypeQuery(RFIDReq req) throws Exception;
 
 	
 }

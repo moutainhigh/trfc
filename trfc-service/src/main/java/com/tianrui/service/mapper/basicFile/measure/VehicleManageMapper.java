@@ -39,5 +39,6 @@ public interface VehicleManageMapper {
 	List<AppVehicleResp> appQueryVehiclePage(AppQueryReq req);
 
     VehicleManage  getVehicleByNo(String vehicleNo);
+    VehicleManage  getVehicleByRfid(String rfid);
     
 }

@@ -100,6 +100,27 @@ public class ApiCardAction {
 		}
 		return ApiResult.valueOf(rs);
 	}
+	/**
+	 * rfid卡类型查询
+	 * @param req
+	 * @return
+	 */
+	@RequestMapping(value="/rfidTypeQuery",method=RequestMethod.POST)
+	@ApiParamRawType(RFIDReq.class)
+	@ApiAuthValidation(callType="2")
+	@ResponseBody
+	public ApiResult rfidTypeQuery(ApiParam<RFIDReq> req){
+		RFIDReq rfidReq=req.getBody();
+		rfidReq.setCurrUid(req.getHead().getUserId());
+		Result rs=Result.getErrorResult();
+		try {
+			rs=rfidService.rfidTypeQuery(rfidReq);
+		} catch (Exception e) {
+			rs.setErrorCode(ErrorCode.SYSTEM_ERROR);
+			log.error(e.getMessage(),e);
+		}
+		return ApiResult.valueOf(rs);
+	}
 	
 	/**
 	 * 校验IC卡

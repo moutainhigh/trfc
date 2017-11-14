@@ -37,6 +37,7 @@ public enum ErrorCode {
     RFID_ERROR1("E10012","RFID类型不是临时卡"),
     RFID_ERROR2("E10013","RFID状态失效"),
     RFID_ERROR3("E10014","RFID与车辆绑定关系不一直"),
+    RFID_ERROR4("E10015","RFID未绑定车辆"),
 	
 	/**
 	 * IC卡

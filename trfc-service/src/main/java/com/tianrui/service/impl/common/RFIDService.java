@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.tianrui.api.intf.common.IRFIDService;
 import com.tianrui.api.req.common.RFIDReq;
+import com.tianrui.api.resp.businessManage.cardManage.RfidTypeResp;
 import com.tianrui.service.bean.basicFile.measure.VehicleManage;
 import com.tianrui.service.bean.common.RFID;
 import com.tianrui.service.mapper.basicFile.measure.VehicleManageMapper;
@@ -68,6 +69,7 @@ public class RFIDService implements IRFIDService {
 						if( StringUtils.isNotBlank(req.getVehicleNo())  ){
 							VehicleManage vehicle =vehicleManageMapper.getVehicleByNo(req.getVehicleNo());
 							if(vehicle !=null && StringUtils.isNotBlank(vehicle.getRfid()) &&  vehicle.getRfid().equals(req.getRfid()) ){
+								//修改车辆数据 重置rfid为null
 								VehicleManage  update =new VehicleManage();
 								update.setId(vehicle.getId());
 								update.setCode(vehicle.getCode());
@@ -104,6 +106,38 @@ public class RFIDService implements IRFIDService {
 		}
 		return rs;
 	}
+
+	@Override
+	public Result rfidTypeQuery(RFIDReq req) throws Exception {
+		Result rs =Result.getParamErrorResult();
+		if(req != null && StringUtils.isNotBlank(req.getRfid())){
+			//rfid存在 并且有车辆绑定关系时才返回
+			RFID db =rfidMapper.selectByPrimaryKey(req.getRfid());
+			if( db !=null ){
+				//查询对应车辆信息
+				VehicleManage vehicle =vehicleManageMapper.getVehicleByRfid(req.getRfid());
+				if(vehicle !=null && "1".equals(vehicle.getState()) && StringUtils.isNotBlank(vehicle.getVehicleno())){
+					//返回信息
+					RfidTypeResp resp =new RfidTypeResp();
+					resp.setRfidType(String.valueOf(db.getType()));
+					resp.setVehicleNo(vehicle.getVehicleno());
+					resp.setRfid(db.getRfid());
+					rs.setData(resp);
+					rs.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+				}else{
+					rs.setErrorCode(ErrorCode.RFID_ERROR4);
+				}
+			}else{
+				rs.setErrorCode(ErrorCode.RFID_NOT_EXIST);
+			}
+		}else{
+			rs.setErrorCode(ErrorCode.PARAM_REPEAT_ERROR);
+		}
+		return rs;
+	}
+	
+	
+	
 	
 	
 	
