@@ -9,49 +9,49 @@ package com.tianrui.service.bean.basicFile.measure;
 public class VehicleManage {
 	
     private String id;
-
+	//车辆编号
     private String code;
-
+	//内码
     private String internalcode;
-
+	//RFID
     private String rfid;
-
+	//车牌号
     private String vehicleno;
-
+	//运输类型（0：非倒运，1：倒运）
     private String transporttype;
-
+	//车辆类型
     private String vehicletype;
-
+	//运输单位
     private String transportunit;
-
+	//最大载重
     private Double maxweight;
-
+	//皮重
     private Double tareweight;
-
+	//车主名称
     private String ownername;
-
+	//电话
     private String telephone;
-
+	//地址
     private String address;
-
+	//组织id
     private String orgid;
-
+	//组织名称
     private String orgname;
-
+	//有效性（0：无效，1：有效）
     private String isvalid;
-
+	//是否黑名单（0：否，1：是）
     private String isblacklist;
-
+	//状态：（0：删除，1：正常）
     private String state;
-    
+	//备注
     private String remarks;
-
+	//创建人
     private String creator;
-
+	//创建时间
     private Long createtime;
-
+	//最后修改人
     private String modifier;
-
+	//最后修改时间
     private Long modifytime;
 
     public String getId() {

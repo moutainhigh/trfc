@@ -33,18 +33,27 @@
     <result column="modifier" property="modifier" jdbcType="VARCHAR" />
     <result column="modifytime" property="modifytime" jdbcType="BIGINT" />
     <result column="utc" property="utc" jdbcType="BIGINT" />
+    <result column="vehicle_id" property="vehicleId" jdbcType="VARCHAR" />
+    <result column="vehicle_no" property="vehicleNo" jdbcType="VARCHAR" />
+    <result column="RFID" property="rfid" jdbcType="VARCHAR" />
+    <result column="driver_id" property="driverId" jdbcType="VARCHAR" />
+    <result column="driver_name" property="driverName" jdbcType="VARCHAR" />
+    <result column="bill_source" property="billSource" jdbcType="BIT" />
+    <result column="nc_id" property="ncId" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, code, status, source, billtypeid, billtypename, customerid, customername, channelcode, 
     salesmanid, salesmanname, billtime, orgid, orgname, transportcompanyid, transportcompanyname, 
     departmentid, departmentname, auditid, auditname, audittime, state, makerid, makebillname, 
-    makebilltime, remarks, creator, createtime, modifier, modifytime, utc
+    makebilltime, remarks, creator, createtime, modifier, modifytime, utc, vehicle_id, 
+    vehicle_no, RFID, driver_id, driver_name, bill_source, nc_id
   </sql>
   <sql id="Base_Column_List_S1" >
     s1.id, s1.code, s1.status, s1.source, s1.billtypeid, s1.billtypename, s1.customerid, s1.customername, s1.channelcode, 
     s1.salesmanid, s1.salesmanname, s1.billtime, s1.orgid, s1.orgname, s1.transportcompanyid, s1.transportcompanyname, 
     s1.departmentid, s1.departmentname, s1.auditid, s1.auditname, s1.audittime, s1.state, s1.makerid, s1.makebillname, 
-    s1.makebilltime, s1.remarks, s1.creator, s1.createtime, s1.modifier, s1.modifytime, s1.utc
+    s1.makebilltime, s1.remarks, s1.creator, s1.createtime, s1.modifier, s1.modifytime, s1.utc, s1.vehicle_id, 
+    s1.vehicle_no, s1.RFID, s1.driver_id, s1.driver_name, s1.bill_source, s1.nc_id
   </sql>
   <sql id="Base_Column_List_S1_S2" >
     s1.id, s1.code, s1.status, s1.source, s1.billtypeid, s1.billtypename, s1.customerid, s1.customername, s1.channelcode, 
@@ -73,7 +82,9 @@
       auditid, auditname, audittime, 
       state, makerid, makebillname, makebilltime, 
       remarks, creator, createtime, 
-      modifier, modifytime, utc
+      modifier, modifytime, utc, 
+      vehicle_id, vehicle_no, RFID, 
+      driver_id, driver_name, bill_source, nc_id
       )
     values (#{id,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, 
       #{source,jdbcType=VARCHAR}, #{billtypeid,jdbcType=VARCHAR}, #{billtypename,jdbcType=VARCHAR}, 
@@ -84,7 +95,10 @@
       #{auditid,jdbcType=VARCHAR}, #{auditname,jdbcType=VARCHAR}, #{audittime,jdbcType=BIGINT}, 
       #{state,jdbcType=VARCHAR}, #{makerid,jdbcType=VARCHAR}, #{makebillname,jdbcType=VARCHAR}, #{makebilltime,jdbcType=BIGINT}, 
       #{remarks,jdbcType=VARCHAR}, #{creator,jdbcType=VARCHAR}, #{createtime,jdbcType=BIGINT}, 
-      #{modifier,jdbcType=VARCHAR}, #{modifytime,jdbcType=BIGINT}, #{utc,jdbcType=BIGINT}
+      #{modifier,jdbcType=VARCHAR}, #{modifytime,jdbcType=BIGINT}, #{utc,jdbcType=BIGINT},
+      #{vehicleId,jdbcType=VARCHAR}, #{vehicleNo,jdbcType=VARCHAR}, #{rfid,jdbcType=VARCHAR},
+      #{driverId,jdbcType=VARCHAR}, #{driverName,jdbcType=VARCHAR}, #{billSource,jdbcType=BIT}, 
+      #{ncId,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.tianrui.service.bean.businessManage.salesManage.SalesApplication" >
@@ -183,6 +197,27 @@
       <if test="utc != null" >
         utc,
       </if>
+      <if test="vehicleId != null" >
+        vehicle_id,
+      </if>
+      <if test="vehicleNo != null" >
+        vehicle_no,
+      </if>
+      <if test="rfid != null" >
+        RFID,
+      </if>
+      <if test="driverId != null" >
+        driver_id,
+      </if>
+      <if test="driverName != null" >
+        driver_name,
+      </if>
+      <if test="billSource != null" >
+        bill_source,
+      </if>
+      <if test="ncId != null" >
+        nc_id,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -277,6 +312,27 @@
       </if>
       <if test="utc != null" >
         #{utc,jdbcType=BIGINT},
+      </if>
+      <if test="vehicleId != null" >
+        #{vehicleId,jdbcType=VARCHAR},
+      </if>
+      <if test="vehicleNo != null" >
+        #{vehicleNo,jdbcType=VARCHAR}, 
+      </if>
+      <if test="rfid != null" >
+        #{rfid,jdbcType=VARCHAR},
+      </if>
+      <if test="driverId != null" >
+        #{driverId,jdbcType=VARCHAR},
+      </if>
+      <if test="driverName != null" >
+        #{driverName,jdbcType=VARCHAR},
+      </if>
+      <if test="billSource != null" >
+        #{billSource,jdbcType=BIT},
+      </if>
+      <if test="ncId != null" >
+        #{ncId,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -373,6 +429,27 @@
       <if test="utc != null" >
         utc = #{utc,jdbcType=BIGINT},
       </if>
+      <if test="vehicleId != null" >
+        vehicle_id = #{vehicleId,jdbcType=VARCHAR},
+      </if>
+      <if test="vehicleNo != null" >
+        vehicle_no = #{vehicleNo,jdbcType=VARCHAR}, 
+      </if>
+      <if test="rfid != null" >
+        RFID = #{rfid,jdbcType=VARCHAR},
+      </if>
+      <if test="driverId != null" >
+        driver_id = #{driverId,jdbcType=VARCHAR},
+      </if>
+      <if test="driverName != null" >
+        driver_name = #{driverName,jdbcType=VARCHAR},
+      </if>
+      <if test="billSource != null" >
+        bill_source = #{billSource,jdbcType=BIT},
+      </if>
+      <if test="ncId != null" >
+        nc_id = #{ncId,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
@@ -407,7 +484,14 @@
       createtime = #{createtime,jdbcType=BIGINT},
       modifier = #{modifier,jdbcType=VARCHAR},
       modifytime = #{modifytime,jdbcType=BIGINT},
-      utc = #{utc,jdbcType=BIGINT}
+      utc = #{utc,jdbcType=BIGINT},
+      vehicle_id = #{vehicleId,jdbcType=VARCHAR},
+      vehicle_no = #{vehicleNo,jdbcType=VARCHAR}, 
+      RFID = #{rfid,jdbcType=VARCHAR},
+      driver_id = #{driverId,jdbcType=VARCHAR},
+      driver_name = #{driverName,jdbcType=VARCHAR},
+      bill_source = #{billSource,jdbcType=BIT},
+      nc_id = #{ncId,jdbcType=VARCHAR},
     where id = #{id,jdbcType=VARCHAR}
   </update>
   <select id="selectSelective" parameterType="com.tianrui.service.bean.businessManage.salesManage.SalesApplication" resultMap="BaseResultMap">
@@ -507,6 +591,27 @@
       </if>
       <if test="utc != null and utc !=''" >
         and utc = #{utc,jdbcType=BIGINT}
+      </if>
+      <if test="vehicleId != null and vehicleId !=''" >
+        and vehicle_id = #{vehicleId,jdbcType=VARCHAR}
+      </if>
+      <if test="vehicleNo != null and vehicleNo !=''" >
+        and vehicle_no = #{vehicleNo,jdbcType=VARCHAR} 
+      </if>
+      <if test="rfid != null and rfid !=''" >
+        and RFID = #{rfid,jdbcType=VARCHAR}
+      </if>
+      <if test="driverId != null and driverId !=''" >
+        and driver_id = #{driverId,jdbcType=VARCHAR}
+      </if>
+      <if test="driverName != null and driverName !=''" >
+        and driver_name = #{driverName,jdbcType=VARCHAR}
+      </if>
+      <if test="billSource != null and billSource !=''" >
+        and bill_source = #{billSource,jdbcType=BIT}
+      </if>
+      <if test="ncId != null and ncId !=''" >
+        and nc_id = #{ncId,jdbcType=VARCHAR}
       </if>
   	</where>
   </select>
@@ -637,7 +742,8 @@
 	insert into tr_sales_db_application (id, code, status, source, billtypeid, billtypename, customerid, customername, channelcode, 
     salesmanid, salesmanname, billtime, orgid, orgname, transportcompanyid, transportcompanyname, 
     departmentid, departmentname, auditid, auditname, audittime, state, makerid, makebillname, 
-    makebilltime, remarks, creator, createtime, modifier, modifytime, utc)
+    makebilltime, remarks, creator, createtime, modifier, modifytime, utc, vehicle_id, 
+    vehicle_no, RFID, driver_id, driver_name, bill_source, nc_id)
 	values
 	<foreach collection="list" item="item" index="index" separator=",">
 		(#{item.id,jdbcType=VARCHAR}, 
@@ -670,7 +776,14 @@
 		#{item.createtime,jdbcType=VARCHAR},
 		#{item.modifier,jdbcType=VARCHAR},
 		#{item.modifytime,jdbcType=VARCHAR},
-		#{item.utc,jdbcType=VARCHAR}
+		#{item.utc,jdbcType=VARCHAR},
+		#{vehicleId,jdbcType=VARCHAR}, 
+		#{vehicleNo,jdbcType=VARCHAR}, 
+		#{rfid,jdbcType=VARCHAR},
+      	#{driverId,jdbcType=VARCHAR}, 
+      	#{driverName,jdbcType=VARCHAR}, 
+      	#{billSource,jdbcType=BIT}, 
+     	#{ncId,jdbcType=VARCHAR}
 		)
 	</foreach>
   </insert>
@@ -749,5 +862,150 @@
 			limit #{start,jdbcType=INTEGER},#{limit,jdbcType=INTEGER}
   		</if>
   	</if>
+  </select>
+  <select id="appHomeBill" parameterType="com.tianrui.api.req.android.HomePageParam" resultType="com.tianrui.api.resp.android.HomeBillVo">
+  	SELECT
+		t1.id,
+		t1.`code`,
+		t2.id AS detailId,
+		t2.materielname AS material,
+		FROM_UNIXTIME(
+			t1.billtime / 1000,
+			"%Y-%m-%d"
+		) AS billTime,
+		CASE
+		WHEN t1.bill_source = 0 THEN
+			'NC'
+		WHEN t1.bill_source = 1 THEN
+			'业务平台'
+		WHEN t1.bill_source = 2 THEN
+			'客商APP'
+		ELSE
+			''
+		END AS billSource
+	FROM
+		tr_sales_db_application t1
+	LEFT JOIN tr_sales_db_application_detail t2 ON t1.id = t2.salesid
+	WHERE
+		t1.customerid = #{userId,jdbcType=VARCHAR}
+	AND t1.orgid = #{salesOrg,jdbcType=VARCHAR}
+	AND t1.state = 1
+	AND t1.`status` = 1
+	ORDER BY t1.billtime DESC
+  </select>
+  <select id="appBillList" parameterType="com.tianrui.api.req.android.BillListParam" resultType="com.tianrui.api.resp.android.BillListVo">
+	SELECT
+		t1.id, t2.id AS detailId, t1.`code`, t1.billtypeid AS billType,
+		FROM_UNIXTIME(
+			t1.billtime / 1000,
+			"%Y-%m-%d"
+		) AS billTime,
+		CASE
+		WHEN t1.bill_source = 0 THEN
+			'NC'
+		WHEN t1.bill_source = 1 THEN
+			'业务平台'
+		WHEN t1.bill_source = 2 THEN
+			'客商APP'
+		ELSE
+			''
+		END AS billSource,
+		t2.materielname AS material, t2.margin, t2.unit
+	FROM
+		tr_sales_db_application t1
+	LEFT JOIN tr_sales_db_application_detail t2 ON t1.id = t2.salesid
+	WHERE t1.state = 1
+		and t1.customerid = #{userId, jdbcType=VARCHAR}
+		and t1.orgid = #{salesOrg, jdbcType=VARCHAR}
+		<choose>
+			<when test="type == 0">
+				and t1.status = 0
+			</when>
+			<when test="type == 1">
+				and t1.status = 1 and t2.margin > 0
+			</when>
+			<when test="type == 2">
+				and t1.status = 1 and t2.margin = 0
+			</when>
+			<otherwise></otherwise>
+		</choose>
+		<if test="billCode != null and billCode != ''">
+			and t1.code = #{billCode, jdbcType=VARCHAR}
+		</if>
+		<if test="billSource != null and billSource != ''">
+			and t1.bill_source = #{billSource, jdbcType=VARCHAR}
+		</if>
+		<if test="startTime != null and startTime != ''">
+			and t1.billtime <![CDATA[>=]]> #{startTime, jdbcType=BIGINT}
+		</if>
+		<if test="endTime != null and endTime != ''">
+			and t1.billtime <![CDATA[<]]> #{endTime, jdbcType=BIGINT}
+		</if>
+		ORDER BY t1.billtime
+		<if test="start != null and start >= 0">
+	  		<if test="limit != null">
+				limit #{start,jdbcType=INTEGER},#{limit,jdbcType=INTEGER}
+	  		</if>
+	  	</if>
+  </select>
+  <select id="appBillListCount" parameterType="com.tianrui.api.req.android.BillListParam" resultType="java.lang.Long">
+	SELECT
+		count(0)
+	FROM
+		tr_sales_db_application t1
+	LEFT JOIN tr_sales_db_application_detail t2 ON t1.id = t2.salesid
+	WHERE t1.state = 1
+		and t1.customerid = #{userId, jdbcType=VARCHAR}
+		and t1.orgid = #{salesOrg, jdbcType=VARCHAR}
+		<choose>
+			<when test="type == 0">
+				and t1.status = 0
+			</when>
+			<when test="type == 1">
+				and t1.status = 1 and t2.margin > 0
+			</when>
+			<when test="type == 2">
+				and t1.status = 1 and t2.margin = 0
+			</when>
+			<otherwise></otherwise>
+		</choose>
+		<if test="billCode != null and billCode != ''">
+			and t1.code = #{billCode, jdbcType=VARCHAR}
+		</if>
+		<if test="billSource != null and billSource != ''">
+			and t1.bill_source = #{billSource, jdbcType=VARCHAR}
+		</if>
+		<if test="startTime != null and startTime != ''">
+			and t1.billtime <![CDATA[>=]]> #{startTime, jdbcType=BIGINT}
+		</if>
+		<if test="endTime != null and endTime != ''">
+			and t1.billtime <![CDATA[<]]> #{endTime, jdbcType=BIGINT}
+		</if>
+  </select>
+  <select id="appBillDetail" parameterType="com.tianrui.api.req.android.BillListParam" resultType="com.tianrui.api.resp.android.BillListVo">
+	SELECT
+		t1.id, t2.id AS detailId, t1.`code`, t1.billtypename AS billType,
+		FROM_UNIXTIME(
+			t1.billtime / 1000,
+			"%Y-%m-%d"
+		) AS billTime,
+		CASE
+		WHEN t1.bill_source = 0 THEN
+			'NC'
+		WHEN t1.bill_source = 1 THEN
+			'业务平台'
+		WHEN t1.bill_source = 2 THEN
+			'客商APP'
+		ELSE
+			''
+		END AS billSource,
+		t2.materielname AS material, t2.margin, t2.unit, 
+		t2.salessum as sumNum, t2.storagequantity as outInNum,
+		t2.unstoragequantity as unOutInNum, t2.pretendingtake as planNum,
+	FROM
+		tr_sales_db_application t1
+	LEFT JOIN tr_sales_db_application_detail t2 ON t1.id = t2.salesid
+	WHERE t1.state = 1 and t1.id = #{id, jdbcType=VARCHAR} 
+						and t2.id = #{detailId, jdbcType=VARCHAR}
   </select>
 </mapper>

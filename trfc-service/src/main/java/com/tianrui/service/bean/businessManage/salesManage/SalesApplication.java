@@ -67,6 +67,20 @@ public class SalesApplication {
     private Long modifytime;
     //NC同步时间戳
     private Long utc;
+    //车辆ID
+    private String vehicleId;
+    //车牌号
+    private String vehicleNo;
+    //RFID
+    private String rfid;
+    //司机ID
+    private String driverId;
+    //司机名称
+    private String driverName;
+    //订单来源（0：NC，1：业务平台，2：客商APP）
+    private Integer billSource;
+    //NC主键
+    private String ncId;
 
     public String getId() {
         return id;
@@ -315,4 +329,60 @@ public class SalesApplication {
     public void setUtc(Long utc) {
         this.utc = utc;
     }
+
+	public String getVehicleId() {
+		return vehicleId;
+	}
+
+	public void setVehicleId(String vehicleId) {
+		this.vehicleId = vehicleId;
+	}
+
+	public String getVehicleNo() {
+		return vehicleNo;
+	}
+
+	public void setVehicleNo(String vehicleNo) {
+		this.vehicleNo = vehicleNo;
+	}
+
+	public String getRfid() {
+		return rfid;
+	}
+
+	public void setRfid(String rfid) {
+		this.rfid = rfid;
+	}
+
+	public String getDriverId() {
+		return driverId;
+	}
+
+	public void setDriverId(String driverId) {
+		this.driverId = driverId;
+	}
+
+	public String getDriverName() {
+		return driverName;
+	}
+
+	public void setDriverName(String driverName) {
+		this.driverName = driverName;
+	}
+
+	public Integer getBillSource() {
+		return billSource;
+	}
+
+	public void setBillSource(Integer billSource) {
+		this.billSource = billSource;
+	}
+
+	public String getNcId() {
+		return ncId;
+	}
+
+	public void setNcId(String ncId) {
+		this.ncId = ncId;
+	}
 }

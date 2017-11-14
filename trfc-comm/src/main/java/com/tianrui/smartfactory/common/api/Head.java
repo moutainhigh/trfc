@@ -15,6 +15,10 @@ public class Head {
 	private String token;
 	//用户身份（1：客户，2：供应商）
 	private String IDType;
+	//销售组织
+	private String salesOrg;
+	//用户NCID
+	private String ncId;
 	
 	public String getUserId() {
 		return userId;
@@ -57,5 +61,17 @@ public class Head {
 	}
 	public void setIDType(String iDType) {
 		IDType = iDType;
+	}
+	public String getSalesOrg() {
+		return salesOrg;
+	}
+	public void setSalesOrg(String salesOrg) {
+		this.salesOrg = salesOrg;
+	}
+	public String getNcId() {
+		return ncId;
+	}
+	public void setNcId(String ncId) {
+		this.ncId = ncId;
 	}
 }

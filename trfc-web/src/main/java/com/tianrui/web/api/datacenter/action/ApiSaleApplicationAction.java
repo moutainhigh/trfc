@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.tianrui.api.intf.businessManage.salesManage.ISalesApplicationService;
 import com.tianrui.api.req.businessManage.salesManage.SalesApplicationQuery;
@@ -16,6 +18,7 @@ import com.tianrui.smartfactory.common.api.ApiParam;
 import com.tianrui.smartfactory.common.api.ApiResult;
 import com.tianrui.smartfactory.common.constants.ErrorCode;
 import com.tianrui.smartfactory.common.vo.Result;
+import com.tianrui.web.smvc.ApiNotTokenValidation;
 import com.tianrui.web.smvc.ApiParamRawType;
 
 
@@ -63,7 +66,6 @@ public class ApiSaleApplicationAction {
 	@ResponseBody
 	public ApiResult updateData(ApiParam<List<JSONObject>> req){
 		Result rs=Result.getErrorResult();
-
 		List<JSONObject> list=req.getBody();
 		try {
 			rs = salesApplicationService.updateDataWithDC(list);
@@ -73,6 +75,45 @@ public class ApiSaleApplicationAction {
 		}
 		return ApiResult.valueOf(rs);
 	}
-	
+
+	/**
+	 * NC销售订单同步厂区
+	 * @param req
+	 * @return
+	 */
+	@RequestMapping(value="/writeBack",method=RequestMethod.POST)
+	@ApiParamRawType(List.class)
+	@ApiNotTokenValidation
+	@ResponseBody
+	public ApiResult writeBack(JSONArray req){
+		Result rs=Result.getErrorResult();
+		try {
+//			rs = salesApplicationService.updateDataWithNC(req.getBody());
+			System.out.println(JSON.toJSONString(req));
+		} catch (Exception e) {
+			rs.setErrorCode(ErrorCode.SYSTEM_ERROR);
+			log.error(e.getMessage(),e);
+		}
+		return ApiResult.valueOf(rs);
+	}
+
+//	/**
+//	 * 一车一单审批回写
+//	 * @param req
+//	 * @return
+//	 */
+//	@RequestMapping(value="/writeBack",method=RequestMethod.POST)
+//	@ApiParamRawType(List.class)
+//	@ResponseBody
+//	public ApiResult writeBack(ApiParam<List<JSONObject>> req){
+//		Result rs=Result.getErrorResult();
+//		try {
+//			rs = salesApplicationService.updateDataWithNC(req.getBody());
+//		} catch (Exception e) {
+//			rs.setErrorCode(ErrorCode.SYSTEM_ERROR);
+//			log.error(e.getMessage(),e);
+//		}
+//		return ApiResult.valueOf(rs);
+//	}
 	
 }

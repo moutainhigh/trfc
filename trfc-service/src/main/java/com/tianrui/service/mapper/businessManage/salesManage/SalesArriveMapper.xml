@@ -777,10 +777,32 @@
 	</foreach>
   </select>
   <select id="hasPurchaseArrive" resultMap="BaseResultMap" parameterType="java.lang.String" >
-    select 
-    <include refid="Base_Column_List" />
-    from tr_sales_db_arrive
-    where vehicleno = #{vehicleno,jdbcType=VARCHAR} and state = '1' and status!='3' and status!='5'
+    SELECT
+		<include refid="Base_Column_List" />
+	FROM
+		tr_purchase_db_arrive
+	WHERE
+		vehicleno = #{vehicleno,jdbcType=VARCHAR}
+	AND state = '1'
+	AND STATUS != '3'
+	AND (
+		STATUS != '5'
+		OR forceOutFactory = 1
+	)
+	AND forceOutFactoryTime = (
+		SELECT
+			MAX(forceOutFactoryTime)
+		FROM
+			tr_purchase_db_arrive
+		WHERE
+			vehicleno = #{vehicleno,jdbcType=VARCHAR}
+		AND state = '1'
+		AND STATUS != '3'
+		AND (
+			STATUS != '5'
+			OR forceOutFactory = 1
+		)
+	)
   </select>
   <select id="selectByCode" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
@@ -976,5 +998,43 @@
     select <include refid="Base_Column_List"/>
     from tr_sales_db_arrive
     where status not in ('3', '5') and state = 1 and vehicleno = #{vehicleNo,jdbcType=VARCHAR}
+  </select>
+  <select id="appHomeNotice" parameterType="com.tianrui.api.req.android.HomePageParam" resultType="com.tianrui.api.resp.android.HomeNoticeVo">
+  	SELECT
+		t1.id,
+		t1.`code`,
+		t1.vehicleno AS vehicle,
+		t1.drivername AS driver,
+		FROM_UNIXTIME(
+			t2.billtime / 1000,
+			"%Y-%m-%d"
+		) AS billTime
+	FROM
+		tr_sales_db_arrive t1
+	LEFT JOIN tr_sales_db_application t2 ON t1.billid = t2.id
+	WHERE
+		t1.auditstatus = 1
+	AND t2.customerid = #{userId,jdbcType=VARCHAR}
+	AND t2.orgid = #{salesOrg,jdbcType=VARCHAR}
+	AND t2.state = 1
+	AND t2.`status` = 1
+	ORDER BY
+		t2.billtime DESC
+  </select>
+  <select id="appHomeVehicle" parameterType="com.tianrui.api.req.android.HomePageParam" resultType="java.lang.String">
+  	SELECT
+		t1.vehicleno
+	FROM
+		tr_sales_db_arrive t1
+	LEFT JOIN tr_sales_db_application t2 ON t1.billid = t2.id
+	WHERE
+		t1.auditstatus = 1
+	AND t1.`status` IN (1, 2, 4, 6, 7)
+	AND t2.customerid = #{userId,jdbcType=VARCHAR}
+	AND t2.orgid = #{salesOrg,jdbcType=VARCHAR}
+	AND t2.state = 1
+	AND t2.`status` = 1
+	ORDER BY
+		t2.billtime DESC
   </select>
 </mapper>

@@ -40,13 +40,6 @@ public class ApiPoundNoteAction {
 	 * @param req
 	 * @return
 	 */
-	public static void main(String[] args) {
-	    ApiParam<ApiPoundNoteQuery> req = new ApiParam<ApiPoundNoteQuery>();
-	    ApiPoundNoteQuery a = new ApiPoundNoteQuery();
-	    a.setNetweight("123");
-	    req.setBody(a);
-        System.out.println(JSON.toJSONString(req.getBody()));
-    }
 	@RequestMapping(value = "/up/weight", method = RequestMethod.POST)
 	@ApiParamRawType(ApiPoundNoteQuery.class)
 	@ApiAuthValidation(callType = "2")

@@ -61,5 +61,10 @@ public class LoginUserParam extends BaseReq {
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
+	@Override
+	public String toString() {
+		return "LoginUserParam [id=" + id + ", account=" + account + ", pwd=" + pwd + ", newPwd=" + newPwd
+				+ ", mobilePhone=" + mobilePhone + ", IDType=" + IDType + "]";
+	}
 	
 }

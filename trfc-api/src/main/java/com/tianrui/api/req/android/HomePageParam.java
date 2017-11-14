@@ -32,4 +32,8 @@ public class HomePageParam extends BaseReq {
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
+	@Override
+	public String toString() {
+		return "HomePageParam [userId=" + userId + ", IDType=" + IDType + ", salesOrg=" + salesOrg + "]";
+	}
 }

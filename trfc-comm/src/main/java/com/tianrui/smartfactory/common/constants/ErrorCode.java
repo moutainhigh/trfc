@@ -51,6 +51,8 @@ public enum ErrorCode {
 	 */
 	APPLICATION_NOT_EXIST("E11001", "该订单不存在."),
 	APPLICATION_NOT_RETURN("E11002", "自制的订单未推送至NC."),
+	APPLICATION_NOT_DELETE1("E11003", "已审核的单据不能作废."),
+	APPLICATION_NOT_DELETE2("E11004", "联机的单据不能作废."),
 	
 	/**
 	 * 通知单
