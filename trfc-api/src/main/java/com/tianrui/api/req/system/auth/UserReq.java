@@ -13,6 +13,8 @@ public class UserReq extends BaseReq {
 	private String account;
 	private String pswd;
 	private String newPswd;
+	//子系统编码    01=门禁 02=磅房 03=排队  04=卡务 
+	private String subSystemCode;
 	
 	public String getAccount() {
 		return account;
@@ -31,6 +33,12 @@ public class UserReq extends BaseReq {
 	}
 	public void setNewPswd(String newPswd) {
 		this.newPswd = newPswd;
+	}
+	public String getSubSystemCode() {
+		return subSystemCode;
+	}
+	public void setSubSystemCode(String subSystemCode) {
+		this.subSystemCode = subSystemCode;
 	}
 	
 	

@@ -60,8 +60,8 @@ public class FileServiceTest {
 	@Test
 	public void testIphone() throws Exception{
 		String id="67d0ff0e6a8d11e7b574ac162d75633c";
-		List<SystemRoleMenuResp> rs = iSystemRolePermissionsService.iphonRole(id);
-		System.out.println(JSON.toJSONString(rs));
+//		List<SystemRoleMenuResp> rs = iSystemRolePermissionsService.iphonRole(id);
+//		System.out.println(JSON.toJSONString(rs));
 	}
 	
 //	@Test

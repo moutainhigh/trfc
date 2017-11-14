@@ -79,6 +79,27 @@ public class ApiCardAction {
 		}
 		return ApiResult.valueOf(rs);
 	}
+	/**
+	 * rfid解绑 临时卡业务
+	 * @param req
+	 * @return
+	 */
+	@RequestMapping(value="/unBindRfid",method=RequestMethod.POST)
+	@ApiParamRawType(RFIDReq.class)
+	@ApiAuthValidation(callType="2")
+	@ResponseBody
+	public ApiResult unBindRfid(ApiParam<RFIDReq> req){
+		RFIDReq rfidReq=req.getBody();
+		rfidReq.setCurrUid(req.getHead().getUserId());
+		Result rs=Result.getErrorResult();
+		try {
+			//rs = rfidService.save(rfidReq);
+		} catch (Exception e) {
+			rs.setErrorCode(ErrorCode.SYSTEM_ERROR);
+			log.error(e.getMessage(),e);
+		}
+		return ApiResult.valueOf(rs);
+	}
 	
 	/**
 	 * 校验IC卡

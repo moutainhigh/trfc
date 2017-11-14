@@ -34,6 +34,9 @@ public enum ErrorCode {
 	RFID_VEHICLE_NOT_EXIST("E10010","该车辆于RFID未绑定，请先绑定."),
 	RFID_VEHICLE_EXIST1("E10009","这个RFID与该车辆已经绑定，无需重复绑定！"),
     RFID_VEHICLE_EXIST2("E10011","这个RFID已经绑定过其他车辆了！"),
+    RFID_ERROR1("E10012","RFID类型不是临时卡"),
+    RFID_ERROR2("E10013","RFID状态失效"),
+    RFID_ERROR3("E10014","RFID与车辆绑定关系不一直"),
 	
 	/**
 	 * IC卡
