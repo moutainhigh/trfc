@@ -25,8 +25,8 @@ import com.tianrui.smartfactory.common.utils.Md5Utils;
 @SuppressWarnings("unused")
 public class ApiTest {
 
-	//private static String domin="http://172.19.4.73:8080/";
-	private static String domin="http://127.0.0.1/";
+	private static String domin="http://172.19.4.97:28080/";
+//	private static String domin="http://localhost/";
 	private static String uri_login="api/system/login";
 	private static String uri_rfid="api/card/rfidReg";
 	private static String url_enterFactoryCheck = "api/doorSystem/enterFactoryCheck";
@@ -35,6 +35,7 @@ public class ApiTest {
 	private static String url_pound = "api/poundNote/validation";
 	private static String url_up_weight = "api/poundNote/up/weight";
 	private static String uri_rfidvehicle = "api/vehicle/vehicleCard";
+	private static String uri_rfidvehicleCheck = "api/vehicle/vehicleCheck";
 	
 	//磅单回传
 	static ApiParam<ApiPoundNoteQuery> getParam(){
@@ -125,8 +126,8 @@ public class ApiTest {
 		ApiParam<VehicleManageApi> api =new ApiParam<VehicleManageApi>();
 		
 		VehicleManageApi va =new VehicleManageApi();
-		va.setRfid("E2005024861501660240F5D9");
-		va.setVehicleNo("豫05744");
+		va.setRfid("E2000016130B008521803685");
+		va.setVehicleNo("59823");
 		
 		Head head =new Head();
 		head.setCallSource("1");
@@ -211,11 +212,11 @@ public class ApiTest {
 //		System.out.println(httpPost(domin+url_leaveFactoryCheck,"p="+param));
 		
 		//生成门禁
-		ApiParam<ApiDoorSystemSave> req =getParam1();
+		ApiParam<VehicleManageApi> req =getParam7();
 		setkey(req);
 		setMd5(req);
 		String param =JSON.toJSONString(req);
-		System.out.println(httpPost(domin+url_record,"p="+param));
+		System.out.println(httpPost(domin+uri_rfidvehicleCheck,"p="+param));
 //		
 //		ApiParam<ApiPoundNoteQuery> req =getParam();
 //		setkey(req);

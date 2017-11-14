@@ -5,9 +5,10 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import com.alibaba.fastjson.JSON;
-import com.tianrui.api.req.android.LoginUserParam;
 import com.tianrui.smartfactory.common.api.ApiParam;
 import com.tianrui.smartfactory.common.api.Head;
 import com.tianrui.smartfactory.common.constants.Constant;
@@ -16,24 +17,20 @@ import com.tianrui.smartfactory.common.utils.Md5Utils;
 
 public class ApiAndroidTest {
 
-	//private static String domin="http://172.19.4.73:8080/";
-	private static String domin="http://127.0.0.1:8080/";
-	private static String uri_login="api/android/static/login";
-
-	static ApiParam<LoginUserParam> getParam(){
-		ApiParam<LoginUserParam> api =new ApiParam<LoginUserParam>();
+	static ApiParam<Map<String, Object>> getParam(){
+		ApiParam<Map<String, Object>> api =new ApiParam<Map<String, Object>>();
 		
-		LoginUserParam va =new LoginUserParam();
-		va.setAccount("liyang");
-		va.setPwd(Md5Utils.MD5("666666"));
+		Map<String, Object>	map = new HashMap<String, Object>();
 		
 		Head head =new Head();
 		head.setCallSource("1");
 		head.setCallType("2");
+		head.setIDType("1");
+		head.setUserId("9cebfdead185422498fa86007f25eee0");
 		head.setCallTime(DateUtil.getDateString(new Date(), "yyyy-MM-dd HH:mm:ss"));
 		
 		
-		api.setBody(va);
+		api.setBody(map);
 		api.setHead(head);
 		return api;
 	}
@@ -73,13 +70,11 @@ public class ApiAndroidTest {
 	    return sb.toString();
 	}
 	public static void main(String[] args) {
-		ApiParam<LoginUserParam> req =getParam();
+		ApiParam<Map<String, Object>> req = getParam();
 		setkey(req);
 		setMd5(req);
 		String param =JSON.toJSONString(req);
-		System.out.println(httpPost(domin+uri_login,"p="+param));
-		
-
+		System.out.println(httpPost("http://localhost/api/android/static_new/home", "p="+param));
 	}
 	
 }
