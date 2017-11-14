@@ -139,6 +139,7 @@ public enum ErrorCode {
     EXCEPTION_AUDIT_ERROR("E800000","未找到异常审批单据."),
     EXCEPTION_AUDIT_ERROR1("E800001","该单据已被审批，请勿重复审批."),
     EXCEPTION_AUDIT_ERROR2("E800002","该车辆已经空车出厂确认."),
+    EXCEPTION_AUDIT_ERROR4("E800004","该通知单已经存在未审核的申请."),
     EXCEPTION_AUDIT_ERROR3("E800003","该车辆已经无需补包确认.");
     
 	private String code;

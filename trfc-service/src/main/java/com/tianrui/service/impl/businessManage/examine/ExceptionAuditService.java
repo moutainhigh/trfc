@@ -3,6 +3,7 @@ package com.tianrui.service.impl.businessManage.examine;
 import java.util.List;
 
 import org.apache.commons.beanutils.PropertyUtils;
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 import com.tianrui.api.intf.businessManage.examine.IExceptionAuditService;
 import com.tianrui.api.req.businessManage.examine.ExceptionAuditQuery;
 import com.tianrui.api.req.businessManage.examine.ExceptionAuditReq;
+import com.tianrui.api.req.businessManage.examine.ExceptionAuditSaveReq;
 import com.tianrui.api.resp.businessManage.examine.ExceptionAuditQueryResp;
 import com.tianrui.api.resp.businessManage.examine.ExceptionAuditResp;
 import com.tianrui.service.bean.businessManage.examine.ExceptionAudit;
@@ -17,6 +19,7 @@ import com.tianrui.service.bean.system.auth.SystemUser;
 import com.tianrui.service.mapper.businessManage.examine.ExceptionAuditMapper;
 import com.tianrui.service.mapper.system.auth.SystemUserMapper;
 import com.tianrui.smartfactory.common.constants.ErrorCode;
+import com.tianrui.smartfactory.common.utils.UUIDUtil;
 import com.tianrui.smartfactory.common.vo.PaginationVO;
 import com.tianrui.smartfactory.common.vo.Result;
 
@@ -87,5 +90,61 @@ public class ExceptionAuditService implements IExceptionAuditService {
         }
         return resp;
     }
+
+	@Override
+	public Result apply(ExceptionAuditSaveReq req) {
+		Result result = Result.getParamErrorResult();
+	    if (req != null && StringUtils.isNotBlank(req.getNoticeNo()) 
+	    		&& StringUtils.isNotBlank(req.getNoticeType()) 
+	    		&& StringUtils.isNotBlank(req.getSeqNo())){	
+	    	//查询下不能有该通知单未审批的单据
+	    	List<ExceptionAudit> list =exceptionAuditMapper.listByPnId("5",req.getNoticeNo());
+	    	boolean flag = true;
+	    	if( CollectionUtils.isNotEmpty(list) ){
+	    		for(ExceptionAudit bean :list ){
+	    			if(bean.getAuditStatus()==false){
+	    				flag=false;
+	    			}
+	    		}
+	    	}
+	    	if(flag){
+	    		ExceptionAudit bean =new ExceptionAudit();
+	    		bean.setId(UUIDUtil.getId());
+	    		bean.setPnId(req.getNoticeNo());
+	    		bean.setType(5);
+	    		bean.setAuditStatus(true);
+	    		bean.setState(true);
+	    		bean.setCreator(req.getCurrUid());
+	    		bean.setCreatetime(System.currentTimeMillis());
+	    		bean.setRemark(req.getSeqNo());
+	    		bean.setModifier(req.getCurrUid());
+	    		bean.setModifytime(System.currentTimeMillis());
+	    		exceptionAuditMapper.insert(bean);
+	    		result.setData(bean.getId());
+	    		result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+	    	}else{
+	    		result.setErrorCode(ErrorCode.EXCEPTION_AUDIT_ERROR4);
+	    	}
+	    }
+	    return result;
+	}
+
+	@Override
+	public Result query(ExceptionAuditReq req) {
+		Result result = Result.getParamErrorResult();
+		if (req != null && StringUtils.isNotBlank(req.getId()) ) {
+			ExceptionAudit bean =exceptionAuditMapper.selectByPrimaryKey(req.getId());
+			if( bean !=null){
+	    		result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+				if(bean.getState()){
+					result.setData(1);
+				}else{
+					result.setData(2);
+					
+				}
+			}
+		}
+		return result;
+	}
 
 }
