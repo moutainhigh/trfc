@@ -93,7 +93,7 @@ public class ApiCardAction {
 		rfidReq.setCurrUid(req.getHead().getUserId());
 		Result rs=Result.getErrorResult();
 		try {
-			//rs = rfidService.save(rfidReq);
+			rs=rfidService.unbind(rfidReq);
 		} catch (Exception e) {
 			rs.setErrorCode(ErrorCode.SYSTEM_ERROR);
 			log.error(e.getMessage(),e);

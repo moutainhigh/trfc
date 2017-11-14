@@ -7,7 +7,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.tianrui.api.intf.common.IRFIDService;
 import com.tianrui.api.req.common.RFIDReq;
-import com.tianrui.api.resp.basicFile.measure.VehicleManageResp;
 import com.tianrui.service.bean.basicFile.measure.VehicleManage;
 import com.tianrui.service.bean.common.RFID;
 import com.tianrui.service.mapper.basicFile.measure.VehicleManageMapper;
@@ -69,7 +68,23 @@ public class RFIDService implements IRFIDService {
 						if( StringUtils.isNotBlank(req.getVehicleNo())  ){
 							VehicleManage vehicle =vehicleManageMapper.getVehicleByNo(req.getVehicleNo());
 							if(vehicle !=null && StringUtils.isNotBlank(vehicle.getRfid()) &&  vehicle.getRfid().equals(req.getRfid()) ){
-								vehicleManageMapper.deleteByPrimaryKey(vehicle.getId());
+								VehicleManage  update =new VehicleManage();
+								update.setId(vehicle.getId());
+								update.setCode(vehicle.getCode());
+								update.setInternalcode(vehicle.getInternalcode());
+								update.setVehicleno(vehicle.getVehicleno());
+								update.setTransporttype(vehicle.getTransporttype());
+								update.setVehicletype(vehicle.getVehicletype());
+								update.setOrgid(vehicle.getOrgid());
+								update.setOrgname(vehicle.getOrgname());
+								update.setIsvalid(vehicle.getIsvalid());
+								update.setIsblacklist(vehicle.getIsblacklist());
+								update.setState(vehicle.getState());
+								update.setCreator(vehicle.getCreator());
+								update.setCreatetime(vehicle.getCreatetime());
+								update.setModifier(req.getCurrUid());
+								update.setModifytime(System.currentTimeMillis());
+								vehicleManageMapper.updateByPrimaryKey(update);
 								rs.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
 							}else{
 								rs.setErrorCode(ErrorCode.RFID_ERROR3);
