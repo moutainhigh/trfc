@@ -194,16 +194,11 @@
 					}], trs);
 				}else if(trs.length >1 && trs.length <= 3){
 					var flag = true;
-					var bills = [];
 					var salessum = 0;
 					var marginsum = 0;
 					var div = '<div class="layer-content-radio-div">';
 					trs.each(function(i){
 						var rightData = $(trs[i]).data();
-						bills.push({
-							billid: rightData.id,
-							billdetailid: rightData.detailid
-						});
 						if(i > 0){
 							var leftData = $(trs[i-1]).data();
 							if(leftData.customerid == rightData.customerid && leftData.materielname == rightData.materielname){
@@ -242,6 +237,15 @@
 											}
 										}
 										return aData.margin - bData.margin;
+									});
+									var bills = [];
+									trs.each(function() {
+										var rightData = $(this).data();
+										bills.push({
+											billid: rightData.id,
+											billdetailid: rightData.detailid,
+											margin: rightData.margin
+										});
 									});
 									selectSalesApplication(obj, bills, trs);
 									$('#margin').val(marginsum);

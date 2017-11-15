@@ -248,5 +248,6 @@
   	select <include refid="Base_Column_List"/>
   	from tr_sales_application_join_natice
   	where naticeid = #{naticeid,jdbcType=VARCHAR} and state = '1'
+  	order by margin
   </select>
 </mapper>
