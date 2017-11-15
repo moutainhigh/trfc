@@ -47,7 +47,7 @@
 		WHERE t1.id IN
 		(SELECT t2.roleid FROM tr_system_user_role t2
 		WHERE t2.isvalid='1' and t2.userid = #{id,jdbcType=VARCHAR}) AND
-		t1.role_type="5"
+		t1.role_type="5" order by userType desc
 	</select>
 	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
 		delete from tr_system_user_role

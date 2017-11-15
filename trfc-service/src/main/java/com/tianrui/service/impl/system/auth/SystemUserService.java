@@ -9,7 +9,6 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.alibaba.fastjson.JSONArray;
 import com.tianrui.api.intf.system.auth.ISystemRolePermissionsService;
 import com.tianrui.api.intf.system.auth.ISystemUserService;
 import com.tianrui.api.req.businessManage.app.AppUserEditReq;
@@ -25,7 +24,6 @@ import com.tianrui.api.resp.system.auth.SystemUserResp;
 import com.tianrui.service.bean.system.auth.Organization;
 import com.tianrui.service.bean.system.auth.SystemRole;
 import com.tianrui.service.bean.system.auth.SystemUser;
-import com.tianrui.service.bean.system.auth.SystemUserRole;
 import com.tianrui.service.cache.CacheClient;
 import com.tianrui.service.cache.CacheHelper;
 import com.tianrui.service.cache.CacheModule;
@@ -59,6 +57,7 @@ public class SystemUserService implements ISystemUserService {
 		if (req!=null && StringUtils.isNotBlank(req.getPswd()) && StringUtils.isNotBlank(req.getAccount()) && StringUtils.isNotBlank(req.getSubSystemCode())) {
 			SystemUserQueryReq query =new SystemUserQueryReq();
 			query.setAccount(req.getAccount());
+			//获取当前用户
 			List<SystemUser> list = userMapper.selectByCondition(query);
 			if (CollectionUtils.isNotEmpty(list)) {
 				if (StringUtils.equals(list.get(0).getPassword(),req.getPswd() )) {
@@ -66,10 +65,12 @@ public class SystemUserService implements ISystemUserService {
 						if(list.get(0).getIslock() == BusinessConstants.USER_UNLOCK_BYTE) {
 							if(StringUtils.equals(list.get(0).getIdentityTypes(), BusinessConstants.USER_PT_STR)) {
 								String userId=list.get(0).getId();
+								//获取当前用户的所有子系统角色
 								List<SystemRole> roles =systemUserRoleMapper.subsystemRole(userId);
 								if(  CollectionUtils.isNotEmpty(roles) ){
 									String subSystem =tranSystemName(req.getSubSystemCode());
 									String tempUserType =null;
+									//比对当前子系统与用户角色
 									for(SystemRole role :roles ){
 										if( role.getName().contains(subSystem) ){
 											tempUserType = role.getUserType();
@@ -735,7 +736,7 @@ public class SystemUserService implements ISystemUserService {
 	private String tranSystemName(String subSystemCode){
 		String rs ="";
 		if(StringUtils.equals(subSystemCode, "01") ){
-			rs="门禁";
+			rs="门岗";
 		}else if(StringUtils.equals(subSystemCode, "02") ){
 			rs="磅房";
 		}else if(StringUtils.equals(subSystemCode, "03") ){
