@@ -168,4 +168,10 @@ public interface SalesArriveMapper {
 	 * @return
 	 */
 	List<String> appHomeVehicle(HomePageParam param);
+	/**
+	 * @annotation 根据车牌号把上次强制出厂的单据改为出厂
+	 * @param vehicleId
+	 * @return
+	 */
+	int emptyForceOutFactoryByVehicle(String vehicleId);
 }

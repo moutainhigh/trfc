@@ -82,7 +82,7 @@ public class AppStaticService implements IAppStaticService {
 	@Transactional
 	@Override
 	public AppResult appLogin(LoginUserParam param) throws Exception {
-		AppResult result = AppResult.getInstance();
+		AppResult result = AppResult.getAppResult();
 		if (param != null && StringUtils.isNotBlank(param.getAccount())
 				&& StringUtils.isNotBlank(param.getPwd())
 				&& StringUtils.isNotBlank(param.getIDType())) {
@@ -158,7 +158,7 @@ public class AppStaticService implements IAppStaticService {
 
 	@Override
 	public AppResult appLoginOut(LoginUserParam param) {
-		AppResult result = AppResult.getInstance();
+		AppResult result = AppResult.getAppResult();
 		if (param != null && StringUtils.isNotBlank(param.getId())) {
 			cacheClient.remove(param.getId());
 			result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
@@ -170,7 +170,7 @@ public class AppStaticService implements IAppStaticService {
 	
 	@Override
 	public AppResult appUpdatePwd(LoginUserParam param) {
-		AppResult result = AppResult.getInstance();
+		AppResult result = AppResult.getAppResult();
 		if (param != null && StringUtils.isNotBlank(param.getId())
 				&& StringUtils.isNotBlank(param.getPwd())
 				&& StringUtils.isNotBlank(param.getNewPwd())) {
@@ -190,7 +190,7 @@ public class AppStaticService implements IAppStaticService {
 	
 	@Override
 	public AppResult appBindPhoneNumber(LoginUserParam param) {
-		AppResult result = AppResult.getInstance();
+		AppResult result = AppResult.getAppResult();
 		if (param != null && StringUtils.isNotBlank(param.getId())
 				&& StringUtils.isNotBlank(param.getMobilePhone())){
 			SystemUser user = userMapper.validPhoneIsOne(param.getMobilePhone());
@@ -213,7 +213,7 @@ public class AppStaticService implements IAppStaticService {
 	
 	@Override
 	public AppResult appUnBindPhoneNumber(LoginUserParam param) {
-		AppResult result = AppResult.getInstance();
+		AppResult result = AppResult.getAppResult();
 		if (param != null && StringUtils.isNotBlank(param.getId())){
 			SystemUser bean = new SystemUser();
 			bean.setId(param.getId());
@@ -230,7 +230,7 @@ public class AppStaticService implements IAppStaticService {
 
 	@Override
 	public AppResult home(HomePageParam param) {
-		AppResult result = AppResult.getInstance();
+		AppResult result = AppResult.getAppResult();
 		if (param != null && StringUtils.isNotBlank(param.getUserId())
 				&& StringUtils.isNotBlank(param.getIDType())) {
 			switch (param.getIDType()) {
@@ -258,7 +258,7 @@ public class AppStaticService implements IAppStaticService {
 	 * @return
 	 */
 	private AppResult customerHome(HomePageParam param) {
-		AppResult result = AppResult.getInstance();
+		AppResult result = AppResult.getAppResult();
 		if (StringUtils.isNotBlank(param.getSalesOrg())) {
 			Object[] objArr = new Object[] {"","",""};
 			List<HomeBillVo> billList = salesApplicationMapper.appHomeBill(param);
@@ -299,7 +299,7 @@ public class AppStaticService implements IAppStaticService {
 
 	@Override
 	public AppResult billList(BillListParam param) {
-		AppResult result = AppResult.getInstance();
+		AppResult result = AppResult.getAppResult();
 		if (param != null && StringUtils.isNotBlank(param.getUserId())
 				&& StringUtils.isNotBlank(param.getIDType())
 				&& StringUtils.isNotBlank(param.getSalesOrg())
@@ -324,7 +324,7 @@ public class AppStaticService implements IAppStaticService {
 	}
 
 	private AppResult customerBillList(BillListParam param) {
-		AppResult result = AppResult.getInstance();
+		AppResult result = AppResult.getAppResult();
 		PaginationVO<BillListVo> page = new PaginationVO<BillListVo>();
 		long count = salesApplicationMapper.appBillListCount(param);
 		if (count > 0) {
@@ -347,7 +347,7 @@ public class AppStaticService implements IAppStaticService {
 
 	@Override
 	public AppResult billDetail(BillListParam param) {
-		AppResult result = AppResult.getInstance();
+		AppResult result = AppResult.getAppResult();
 		if (param != null && StringUtils.isNotBlank(param.getId())
 				&& StringUtils.isNotBlank(param.getDetailId())
 				&& StringUtils.isNotBlank(param.getIDType())) {
@@ -374,7 +374,7 @@ public class AppStaticService implements IAppStaticService {
 	@Transactional
 	@Override
 	public AppResult saveBill(BillSave param) throws Exception {
-		AppResult result = AppResult.getInstance();
+		AppResult result = AppResult.getAppResult();
 		if (param != null && StringUtils.isNotBlank(param.getUserId())
 				&& StringUtils.isNotBlank(param.getIDType())
 				&& StringUtils.isNotBlank(param.getSalesOrg())
@@ -484,7 +484,7 @@ public class AppStaticService implements IAppStaticService {
 
 	@Override
 	public AppResult billDelete(BillListParam param) {
-		AppResult result = AppResult.getInstance();
+		AppResult result = AppResult.getAppResult();
 		if (param != null && StringUtils.isNotBlank(param.getUserId())
 				&& StringUtils.isNotBlank(param.getId())) {
 			SalesApplication sa = salesApplicationMapper.selectByPrimaryKey(param.getId());

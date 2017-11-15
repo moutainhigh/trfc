@@ -459,68 +459,68 @@ public class SalesApplicationService implements ISalesApplicationService {
 				for( SalesApplication update :toUpdate){
 					salesApplicationMapper.updateByPrimaryKeySelective(update);
 				}
-				for( SalesApplicationDetail updateItem :toUpdateItem){
-					salesApplicationDetailMapper.updateByPrimaryKeySelective(updateItem);
-				}
+//				for( SalesApplicationDetail updateItem :toUpdateItem){
+//					salesApplicationDetailMapper.updateByPrimaryKeySelective(updateItem);
+//				}
 			}
-			if( CollectionUtils.isNotEmpty(toUpdate) ){
-				for( SalesApplication update :toUpdate){
-					if (StringUtils.equals(update.getBilltypeid(), Constant.ONE_STRING) 
-							&& StringUtils.equals(update.getStatus(), Constant.ONE_STRING)
-							&& StringUtils.equals(update.getSource(), Constant.ZERO_STRING)) {
-						SalesArrive sa = new SalesArrive();
-						sa.setBillid(update.getId());
-						List<SalesArrive> saList = salesArriveMapper.selectSelective(sa);
-						if (CollectionUtils.isEmpty(saList)) {
-							insertSalesArrive(update);
-						}
-					}
-				}
-			}
+//			if( CollectionUtils.isNotEmpty(toUpdate) ){
+//				for( SalesApplication update :toUpdate){
+//					if (StringUtils.equals(update.getBilltypeid(), Constant.ONE_STRING) 
+//							&& StringUtils.equals(update.getStatus(), Constant.ONE_STRING)
+//							&& StringUtils.equals(update.getSource(), Constant.ZERO_STRING)) {
+//						SalesArrive sa = new SalesArrive();
+//						sa.setBillid(update.getId());
+//						List<SalesArrive> saList = salesArriveMapper.selectSelective(sa);
+//						if (CollectionUtils.isEmpty(saList)) {
+//							insertSalesArrive(update);
+//						}
+//					}
+//				}
+//			}
 			rs.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
 		}
 		return rs;
 	}
 
 	
-	private void insertSalesArrive(SalesApplication sa) throws Exception {
-		SalesArrive bean = new SalesArrive();
-		bean.setId(UUIDUtil.getId());
-		bean.setCode(getCode("TH", sa.getMakerid()));
-		bean.setAuditstatus(Constant.ONE_STRING);
-		bean.setSource(Constant.TWO_STRING);
-		bean.setStatus(Constant.ZERO_STRING);
-		bean.setVehicleid(sa.getVehicleId());
-		bean.setVehicleno(sa.getVehicleNo());
-		bean.setVehiclerfid(sa.getRfid());
-		if (StringUtils.isNotBlank(sa.getDriverId())) {
-			bean.setDriverid(sa.getDriverId());
-			bean.setDrivername(sa.getDriverName());
-			DriverManage driver = driverManageMapper.selectByPrimaryKey(sa.getDriverId());
-			if (driver != null) {
-				bean.setDriveridentityno(driver.getIdentityno());
-			}
-		}
-		bean.setBillid(sa.getId());
-		bean.setBillcode(sa.getCode());
-		List<SalesApplicationDetail> list = salesApplicationDetailMapper.selectBySalesId(sa.getId());
-		bean.setBilldetailid(list.get(0).getId());
-		bean.setUnit(list.get(0).getUnit());
-		bean.setTakeamount(list.get(0).getMargin());
-		bean.setState(Constant.ONE_STRING);
-		bean.setMakerid(sa.getMakerid());
-		bean.setMakebillname(sa.getMakebillname());
-		bean.setMakebilltime(System.currentTimeMillis());
-		bean.setCreator(sa.getMakerid());
-		bean.setCreatetime(System.currentTimeMillis());
-		salesArriveMapper.insertSelective(bean);
-		updateCode("TH", sa.getMakerid());
-		SalesApplicationDetail sad = new SalesApplicationDetail();
-		sad.setId(list.get(0).getId());
-		sad.setMargin(0D);
-		sad.setPretendingtake(bean.getTakeamount());
-		salesApplicationDetailMapper.updateByPrimaryKeySelective(sad);
-	}
+//	private void insertSalesArrive(SalesApplication sa) throws Exception {
+//		SalesArrive bean = new SalesArrive();
+//		bean.setId(UUIDUtil.getId());
+//		bean.setCode(getCode("TH", sa.getMakerid()));
+//		bean.setAuditstatus(Constant.ONE_STRING);
+//		bean.setSource(Constant.TWO_STRING);
+//		bean.setStatus(Constant.ZERO_STRING);
+//		bean.setVehicleid(sa.getVehicleId());
+//		bean.setVehicleno(sa.getVehicleNo());
+//		bean.setVehiclerfid(sa.getRfid());
+//		if (StringUtils.isNotBlank(sa.getDriverId())) {
+//			bean.setDriverid(sa.getDriverId());
+//			bean.setDrivername(sa.getDriverName());
+//			DriverManage driver = driverManageMapper.selectByPrimaryKey(sa.getDriverId());
+//			if (driver != null) {
+//				bean.setDriveridentityno(driver.getIdentityno());
+//			}
+//		}
+//		bean.setBillid(sa.getId());
+//		bean.setBillcode(sa.getCode());
+//		List<SalesApplicationDetail> list = salesApplicationDetailMapper.selectBySalesId(sa.getId());
+//		bean.setBilldetailid(list.get(0).getId());
+//		bean.setUnit(list.get(0).getUnit());
+//		bean.setTakeamount(list.get(0).getMargin());
+//		bean.setState(Constant.ONE_STRING);
+//		bean.setMakerid(sa.getMakerid());
+//		bean.setMakebillname(sa.getMakebillname());
+//		bean.setMakebilltime(System.currentTimeMillis());
+//		bean.setCreator(sa.getMakerid());
+//		bean.setCreatetime(System.currentTimeMillis());
+//		salesArriveMapper.insertSelective(bean);
+//		updateCode("TH", sa.getMakerid());
+//		SalesApplicationDetail sad = new SalesApplicationDetail();
+//		sad.setId(list.get(0).getId());
+//		sad.setMargin(0D);
+//		sad.setPretendingtake(bean.getTakeamount());
+//		salesApplicationDetailMapper.updateByPrimaryKeySelective(sad);
+//	}
 
 	private Set<String> getAllIds(){
 		Set<String> rs = new HashSet<String>();

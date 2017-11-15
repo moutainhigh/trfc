@@ -270,6 +270,7 @@ public class SalesArriveService implements ISalesArriveService {
 				if(flag && salesArriveMapper.insertSelective(bean) > 0 
 						&& StringUtils.equals(systemCodeService.updateCodeItem(codeReq).getCode(), ErrorCode.SYSTEM_SUCCESS.getCode())
 						&& salesApplicationJoinNaticeMapper.insertBatch(list) > 0){
+					salesArriveMapper.emptyForceOutFactoryByVehicle(save.getVehicleid());
 					result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
 				}else{
 					result.setErrorCode(ErrorCode.OPERATE_ERROR);
@@ -953,6 +954,7 @@ public class SalesArriveService implements ISalesArriveService {
 					}else{
 						result.setErrorCode(ErrorCode.OPERATE_ERROR);
 					}
+					salesArriveMapper.emptyForceOutFactoryByVehicle(save.getVehicleid());
 				}else{
 					result.setErrorCode(ErrorCode.OPERATE_ERROR);
 				}

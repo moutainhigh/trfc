@@ -56,5 +56,11 @@ public interface OtherArriveMapper {
 	List<AppOtherArriveResp> appPage(AppOtherArriveReq req);
 
     long appPageCount(AppOtherArriveReq req);
+	/**
+	 * @annotation 根据车辆把上次强制出厂的单据改为出厂
+	 * @param vehicleId
+	 * @return
+	 */
+	int emptyForceOutFactoryByVehicle(String vehicleId);
     
 }

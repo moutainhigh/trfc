@@ -149,6 +149,7 @@ public class PurchaseArriveService implements IPurchaseArriveService {
 							result.setErrorCode(ErrorCode.OPERATE_ERROR);
 						}
 					}
+					purchaseArriveMapper.emptyForceOutFactoryByVehicle(save.getVehicleid());
 				}else{
 					result.setErrorCode(ErrorCode.OPERATE_ERROR);
 				}
@@ -269,6 +270,7 @@ public class PurchaseArriveService implements IPurchaseArriveService {
 						pa.setModifytime(System.currentTimeMillis());
 						if(purchaseArriveMapper.insertSelective(pa) > 0 
 								&& StringUtils.equals(systemCodeService.updateCodeItem(codeReq).getCode(), ErrorCode.SYSTEM_SUCCESS.getCode())){
+							purchaseArriveMapper.emptyForceOutFactoryByVehicle(save.getVehicleid());
 							result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
 						}else{
 							result.setErrorCode(ErrorCode.OPERATE_ERROR);
@@ -578,6 +580,7 @@ public class PurchaseArriveService implements IPurchaseArriveService {
 								result.setErrorCode(ErrorCode.OPERATE_ERROR);
 							}
 						}
+						purchaseArriveMapper.emptyForceOutFactoryByVehicle(save.getVehicleid());
 					}else{
 						result.setErrorCode(ErrorCode.OPERATE_ERROR);
 					}

@@ -15,9 +15,16 @@ import com.tianrui.api.req.businessManage.examine.ExceptionAuditSaveReq;
 import com.tianrui.api.resp.businessManage.examine.ExceptionAuditQueryResp;
 import com.tianrui.api.resp.businessManage.examine.ExceptionAuditResp;
 import com.tianrui.service.bean.businessManage.examine.ExceptionAudit;
+import com.tianrui.service.bean.businessManage.poundNoteMaintain.PoundNote;
+import com.tianrui.service.bean.businessManage.salesManage.SalesApplicationDetail;
+import com.tianrui.service.bean.businessManage.salesManage.SalesArrive;
 import com.tianrui.service.bean.system.auth.SystemUser;
 import com.tianrui.service.mapper.businessManage.examine.ExceptionAuditMapper;
+import com.tianrui.service.mapper.businessManage.poundNoteMaintain.PoundNoteMapper;
+import com.tianrui.service.mapper.businessManage.salesManage.SalesApplicationDetailMapper;
+import com.tianrui.service.mapper.businessManage.salesManage.SalesArriveMapper;
 import com.tianrui.service.mapper.system.auth.SystemUserMapper;
+import com.tianrui.smartfactory.common.constants.Constant;
 import com.tianrui.smartfactory.common.constants.ErrorCode;
 import com.tianrui.smartfactory.common.utils.UUIDUtil;
 import com.tianrui.smartfactory.common.vo.PaginationVO;
@@ -30,6 +37,12 @@ public class ExceptionAuditService implements IExceptionAuditService {
     private ExceptionAuditMapper exceptionAuditMapper;
     @Autowired
     private SystemUserMapper systemUserMapper;
+    @Autowired
+    private PoundNoteMapper poundNoteMapper;
+    @Autowired
+    private SalesArriveMapper salesArriveMapper;
+    @Autowired
+    private SalesApplicationDetailMapper salesApplicationDetailMapper;
     
     @Override
     public PaginationVO<ExceptionAuditQueryResp> page(ExceptionAuditQuery query) {
@@ -66,6 +79,20 @@ public class ExceptionAuditService implements IExceptionAuditService {
                     bean.setModifytime(System.currentTimeMillis());
                     exceptionAuditMapper.updateByPrimaryKeySelective(bean);
                     result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+                    //未考虑多个订单合成的通知单
+//                    if (bean.getType() == Constant.ONE_NUMBER) {
+//                    	PoundNote pn = poundNoteMapper.selectByPrimaryKey(bean.getPnId());
+//                    	if (pn != null) {
+//                    		//余量加上，未出库量减去
+//                    		SalesArrive sa = salesArriveMapper.selectByPrimaryKey(pn.getNoticeid());
+//                    		SalesApplicationDetail sad = salesApplicationDetailMapper.selectByPrimaryKey(pn.getBilldetailid());
+//                    		if (sa != null && sad != null) {
+//                    			sad.setMargin(sad.getMargin() + sa.getTakeamount());
+//                    			sad.setUnstoragequantity(sad.getUnstoragequantity() - sa.getTakeamount());
+//                    			salesApplicationDetailMapper.updateByPrimaryKeySelective(sad);
+//                    		}
+//                    	}
+//                    }
                 } else {
                     result.setErrorCode(ErrorCode.EXCEPTION_AUDIT_ERROR1);
                 }

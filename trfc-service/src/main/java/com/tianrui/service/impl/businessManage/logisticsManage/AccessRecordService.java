@@ -645,18 +645,18 @@ public class AccessRecordService implements IAccessRecordService {
                                 } else {
                                     //验证是否过二次磅
                                     if (StringUtils.equals(resp.getStatus(), Constant.TWO_STRING)) {
-                                    	if (resp.getForceOutFactory() == 1 && StringUtils.equals(resp.getStatus(), Constant.FIVE_STRING)) {
+                                		//校验入库单是否推送成功
+                                        if (validatePushRKD(resp.getNoticeId(), resp.getSignStatus())) {
+                                            result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+                                        } else {
+                                            result.setErrorCode(ErrorCode.POUNDNOTE_RETURN_ERROR3); 
+                                        }
+                                    } else {
+                                        if (resp.getForceOutFactory() == 1 && StringUtils.equals(resp.getStatus(), Constant.FIVE_STRING)) {
                                     		result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
                                     	} else {
-                                    		//校验入库单是否推送成功
-                                            if (validatePushRKD(resp.getNoticeId(), resp.getSignStatus())) {
-                                                result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
-                                            } else {
-                                                result.setErrorCode(ErrorCode.POUNDNOTE_RETURN_ERROR3); 
-                                            }
+                                    		result.setErrorCode(ErrorCode.VEHICLE_NOTICE_NOT_TWO_WEIGHT);
                                     	}
-                                    }else {
-                                        result.setErrorCode(ErrorCode.VEHICLE_NOTICE_NOT_TWO_WEIGHT);
                                     }
                                 }
                             } else {

@@ -12,17 +12,21 @@ public class AppResult {
 	
 	private Long serviceTime = System.currentTimeMillis();
 	
-	private static volatile AppResult appResult = null;
+//	private static volatile AppResult appResult = null;
+//	
+//	public static AppResult getInstance() {
+//		if (appResult == null) {
+//			synchronized (AppResult.class) {
+//				if (appResult == null) {
+//					appResult = new AppResult();
+//				}
+//			}
+//		}
+//		return appResult;
+//	}
 	
-	public static AppResult getInstance() {
-		if (appResult == null) {
-			synchronized (AppResult.class) {
-				if (appResult == null) {
-					appResult = new AppResult();
-				}
-			}
-		}
-		return appResult;
+	public static AppResult getAppResult() {
+		return new AppResult();
 	}
 
 	public AppResult() {

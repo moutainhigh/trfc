@@ -16,8 +16,8 @@ public class PurchaseStorageListSchedule {
 	@Autowired
 	private IPurchaseStorageListService purchaseStorageListService;
 	
-	//@Scheduled(cron="0/10 * *  * * ? ") //每10秒执行一次
-	@Scheduled(cron="0 0/10 *  * * ? ")
+	@Scheduled(cron="0/10 * *  * * ? ") //每10秒执行一次
+//	@Scheduled(cron="0 0/10 *  * * ? ")
 	public void sync(){
 		try {
 			purchaseStorageListService.returnPurchaseStorageList();

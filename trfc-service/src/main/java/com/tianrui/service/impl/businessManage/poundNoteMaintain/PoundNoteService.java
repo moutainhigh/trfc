@@ -1371,13 +1371,20 @@ public class PoundNoteService implements IPoundNoteService {
 					detail.setStoragequantity(applicationDetail.getStoragequantity() + bean.getNetweight());
 					detail.setUnstoragequantity(applicationDetail.getUnstoragequantity() - arrive.getArrivalamount());
 					detail.setMargin(applicationDetail.getMargin() + (arrive.getArrivalamount() - bean.getNetweight()));
+				} else {
+					detail = new PurchaseApplicationDetail();
+					detail.setId(applicationDetail.getId());
+					detail.setUnstoragequantity(applicationDetail.getUnstoragequantity() - arrive.getArrivalamount());
+					detail.setMargin(applicationDetail.getMargin() + arrive.getArrivalamount());
 				}
 				if (poundNoteMapper.updateByPrimaryKeySelective(bean) > 0
 						&& purchaseArriveMapper.updateByPrimaryKeySelective(pa) > 0) {
 				    result.setData(bean.getCode());
-					if(detail != null && storage != null && storageItem != null){
-						if(purchaseApplicationDetailMapper.updateByPrimaryKeySelective(detail) > 0 
-								&& purchaseStorageListMapper.insertSelective(storage) > 0
+				    if (detail != null) {
+				    	purchaseApplicationDetailMapper.updateByPrimaryKeySelective(detail);
+				    }
+					if (storage != null && storageItem != null) {
+						if(purchaseStorageListMapper.insertSelective(storage) > 0
 								&& purchaseStorageListItemMapper.insertSelective(storageItem) > 0
 								&& updateCode("RKD", query.getCurrid())){
 							result.setErrorCode(returnPurchaseStorage(storage, storageItem));

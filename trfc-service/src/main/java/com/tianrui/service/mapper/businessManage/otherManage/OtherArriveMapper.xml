@@ -68,27 +68,27 @@
 		SELECT
 			<include refid="Base_Column_List" />
 		FROM
-			tr_purchase_db_arrive
+			tr_other_db_arrive
 		WHERE
-			vehicleno = #{vehicleid,jdbcType=VARCHAR}
+			vehicleid = #{vehicleid,jdbcType=VARCHAR}
 		AND STATUS != '3'
 		AND (
 			STATUS != '5'
 			OR forceOutFactory = 1
 		)
-		AND forceOutFactoryTime = (
+		<!-- AND forceOutFactoryTime = (
 			SELECT
 				MAX(forceOutFactoryTime)
 			FROM
-				tr_purchase_db_arrive
+				tr_other_db_arrive
 			WHERE
-				vehicleno = #{vehicleid,jdbcType=VARCHAR}
+				vehicleid = #{vehicleid,jdbcType=VARCHAR}
 			AND STATUS != '3'
 			AND (
 				STATUS != '5'
 				OR forceOutFactory = 1
 			)
-		)
+		) -->
 	</select>
 	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
 		delete from
@@ -682,4 +682,14 @@
             </if>
         </where>
     </select>
+  <select id="emptyForceOutFactoryByVehicle" parameterType="java.lang.String">
+	UPDATE
+		tr_other_db_arrive
+	SET forceOutFactory = 0
+	WHERE
+		vehicleid = #{vehicleId,jdbcType=VARCHAR}
+	AND STATUS = 5
+	AND forceOutFactory = 1
+	AND state = 1
+  </select>
 </mapper>

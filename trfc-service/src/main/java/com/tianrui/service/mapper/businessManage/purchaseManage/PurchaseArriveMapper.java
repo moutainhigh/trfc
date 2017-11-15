@@ -142,4 +142,10 @@ public interface PurchaseArriveMapper {
 	 * @return
 	 */
 	PurchaseArrive getByVehicleId(String vehicleId);
+	/**
+	 * @annotation 根据车辆把上次强制出厂的单据改为出厂
+	 * @param vehicleId
+	 * @return
+	 */
+	int emptyForceOutFactoryByVehicle(String vehicleId);
 }

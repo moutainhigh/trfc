@@ -35,7 +35,7 @@ public class AppStaticAction_new {
 	@ApiParamRawType(LoginUserParam.class)
 	@ResponseBody
 	public AppResult login(ApiParam<LoginUserParam> param){
-		AppResult result = AppResult.getInstance();
+		AppResult result = AppResult.getAppResult();
 		try {
 			result = appService.appLogin(param.getBody());
 		} catch (Exception e) {
@@ -49,7 +49,7 @@ public class AppStaticAction_new {
 	@ApiParamRawType(LoginUserParam.class)
 	@ResponseBody
 	public AppResult loginOut(ApiParam<LoginUserParam> param){
-		AppResult result = AppResult.getInstance();
+		AppResult result = AppResult.getAppResult();
 		try {
 			param.getBody().setId(param.getHead().getKey());
 			result = appService.appLoginOut(param.getBody());
@@ -64,7 +64,7 @@ public class AppStaticAction_new {
 	@ApiParamRawType(LoginUserParam.class)
 	@ResponseBody
 	public AppResult updatePwd(ApiParam<LoginUserParam> param){
-		AppResult result = AppResult.getInstance();
+		AppResult result = AppResult.getAppResult();
 		try {
 			result = appService.appUpdatePwd(param.getBody());
 		} catch (Exception e) {
@@ -78,7 +78,7 @@ public class AppStaticAction_new {
 	@ApiParamRawType(LoginUserParam.class)
 	@ResponseBody
 	public AppResult bindPhoneNumber(ApiParam<LoginUserParam> param){
-		AppResult result = AppResult.getInstance();
+		AppResult result = AppResult.getAppResult();
 		try {
 			result = appService.appBindPhoneNumber(param.getBody());
 		} catch (Exception e) {
@@ -92,7 +92,7 @@ public class AppStaticAction_new {
 	@ApiParamRawType(LoginUserParam.class)
 	@ResponseBody
 	public AppResult unBindPhoneNumber(ApiParam<LoginUserParam> param){
-		AppResult result = AppResult.getInstance();
+		AppResult result = AppResult.getAppResult();
 		try {
 			result = appService.appUnBindPhoneNumber(param.getBody());
 		} catch (Exception e) {
@@ -106,7 +106,7 @@ public class AppStaticAction_new {
 	@ApiParamRawType(HomePageParam.class)
 	@ResponseBody
 	public AppResult home(ApiParam<HomePageParam> param){
-		AppResult result = AppResult.getInstance();
+		AppResult result = AppResult.getAppResult();
 		try {
 			param.getBody().setUserId(param.getHead().getNcId());
 			param.getBody().setIDType(param.getHead().getIDType());
@@ -123,7 +123,7 @@ public class AppStaticAction_new {
 	@ApiParamRawType(BillListParam.class)
 	@ResponseBody
 	public AppResult billList(ApiParam<BillListParam> param){
-		AppResult result = AppResult.getInstance();
+		AppResult result = AppResult.getAppResult();
 		try {
 			param.getBody().setUserId(param.getHead().getUserId());
 			param.getBody().setIDType(param.getHead().getIDType());
@@ -140,7 +140,7 @@ public class AppStaticAction_new {
 	@ApiParamRawType(BillListParam.class)
 	@ResponseBody
 	public AppResult billDetail(ApiParam<BillListParam> param){
-		AppResult result = AppResult.getInstance();
+		AppResult result = AppResult.getAppResult();
 		try {
 			param.getBody().setIDType(param.getHead().getIDType());
 			result = appService.billDetail(param.getBody());
@@ -155,7 +155,7 @@ public class AppStaticAction_new {
 	@ApiParamRawType(BillListParam.class)
 	@ResponseBody
 	public AppResult billDelete(ApiParam<BillListParam> param){
-		AppResult result = AppResult.getInstance();
+		AppResult result = AppResult.getAppResult();
 		try {
 			param.getBody().setUserId(param.getHead().getUserId());
 			result = appService.billDelete(param.getBody());
@@ -170,7 +170,7 @@ public class AppStaticAction_new {
 	@ApiParamRawType(BillSave.class)
 	@ResponseBody
 	public AppResult saveBill(ApiParam<BillSave> param){
-		AppResult result = AppResult.getInstance();
+		AppResult result = AppResult.getAppResult();
 		try {
 			param.getBody().setUserId(param.getHead().getUserId());
 			param.getBody().setIDType(param.getHead().getIDType());
@@ -187,7 +187,7 @@ public class AppStaticAction_new {
 	@ApiParamRawType(BillSave.class)
 	@ResponseBody
 	public AppResult saveNotice(ApiParam<BillSave> param){
-		AppResult result = AppResult.getInstance();
+		AppResult result = AppResult.getAppResult();
 		try {
 			param.getBody().setUserId(param.getHead().getUserId());
 			param.getBody().setIDType(param.getHead().getIDType());

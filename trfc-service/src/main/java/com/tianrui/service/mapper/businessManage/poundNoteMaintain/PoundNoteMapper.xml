@@ -1465,6 +1465,7 @@
     	select tareweight
     	from tr_pound_db_note
     	where vehicleno = #{vehicleno,jdbcType=VARCHAR} and vehiclerfid = #{rfid,jdbcType=VARCHAR} and state = '1' and tareweight >= #{notReturnNum,jdbcType=VARCHAR} and status != 3
+    	and EXISTS(select * from tr_purchase_db_arrive where signStatus != 0 and t.noticeid = id)
     	limit 0,#{limit,jdbcType=INTEGER}
     </select>
     <select id="selectByNoticeId" parameterType="java.lang.String" resultMap="BaseResultMap">

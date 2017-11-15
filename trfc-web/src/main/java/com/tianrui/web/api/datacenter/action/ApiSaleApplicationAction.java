@@ -83,7 +83,6 @@ public class ApiSaleApplicationAction {
 	 */
 	@RequestMapping(value="/writeBack",method=RequestMethod.POST)
 	@ApiParamRawType(List.class)
-	@ApiNotTokenValidation
 	@ResponseBody
 	public ApiResult writeBack(JSONArray req){
 		Result rs=Result.getErrorResult();

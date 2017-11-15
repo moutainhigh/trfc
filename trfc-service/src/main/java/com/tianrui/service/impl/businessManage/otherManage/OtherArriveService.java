@@ -162,6 +162,7 @@ public class OtherArriveService implements IOtherArriveService {
 			//判断操作是否成功
 			if(index>0){
 				systemCodeService.updateCodeItem(codeReq);
+				otherArriveMapper.emptyForceOutFactoryByVehicle(req.getVehicleid());
 				rs = Result.getSuccessResult();
 			}else{
 				rs.setErrorCode(ErrorCode.OPERATE_ERROR);
