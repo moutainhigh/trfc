@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.tianrui.api.req.system.auth.SystemUserQueryReq;
 import com.tianrui.api.resp.system.auth.SystemUserRoleResp;
+import com.tianrui.service.bean.system.auth.SystemRole;
 import com.tianrui.service.bean.system.auth.SystemUserRole;
 
 /**
@@ -40,5 +41,5 @@ public interface SystemUserRoleMapper {
 
 	SystemUserRole iphoneRole(String id);
 	
-	SystemUserRole subsystemRole(String id);
+	List<SystemRole> subsystemRole(String id);
 }

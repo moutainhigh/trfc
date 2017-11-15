@@ -106,6 +106,8 @@ public enum ErrorCode {
 	SYSTEM_USER_ERROR12("E200012","该用户没有登录客商平台的权限."),
 	SYSTEM_USER_ERROR13("E200013","该手机号已经被绑定."),
 	SYSTEM_USER_ERROR14("E200014","无法识别用户身份."),
+	SYSTEM_USER_ERROR15("E200015","用户无子系统角色."),
+	SYSTEM_USER_ERROR16("E200016","用户无对应子系统角色."),
 	
 	SYSTEM_MENU_ERROR6("E200106","找不到相关菜单记录."),
 	SYSTEM_MENU_ERROR7("E200107","该菜单名称已经存在."),

@@ -215,46 +215,6 @@ public class SystemRolePermissionsService implements ISystemRolePermissionsServi
 		}
 		return result;
 	}
-	/**
-	 * 查询用户子系统权限
-	 * @Title: subsystemRole 
-	 * @Description: TODO
-	 * @param @param id
-	 * @param @return   
-	 * @return Result    
-	 * @throws
-	 */
-	@Override
-	public Result subsystemRole(String id){
-		Result result = Result.getSuccessResult();
-		SystemUserRole systemUserRole = systemUserRoleMapper.subsystemRole(id);
-		if(systemUserRole!=null){
-			List<SystemRoleMenuResp> list = systemRoleMenuMapper.subsystemRole(systemUserRole.getRoleid());
-			if(list.size()>0){
-				result.setData(list);
-			}else{
-				result.setCode("222222");
-				result.setError("未查到该用户对应权限，请联系管理员！");
-			}
-		}else{
-			result.setCode("111111");
-			result.setError("该用户没有登录子系统权限，请授权后登录！");
-		}
-		return result;
-	}
-	@Override
-	public Result subsystemUserRole(String id){
-		Result result = Result.getSuccessResult();
-		SystemUserRole systemUserRole = systemUserRoleMapper.subsystemRole(id);
-		if(systemUserRole!=null){
-			result.setCode("000000");
-			result.setData(systemUserRole.getRemark());
-		}else{
-			result.setCode("111111");
-			result.setError("没有相关权限");
-		}
-		return result;
-	}
 	
 	
 	

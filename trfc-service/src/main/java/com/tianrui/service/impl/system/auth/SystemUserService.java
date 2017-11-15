@@ -18,15 +18,19 @@ import com.tianrui.api.req.system.auth.SystemUserQueryReq;
 import com.tianrui.api.req.system.auth.SystemUserSaveReq;
 import com.tianrui.api.req.system.auth.UserReq;
 import com.tianrui.api.resp.system.auth.AppUserResp;
+import com.tianrui.api.resp.system.auth.SubSystemUserResp;
 import com.tianrui.api.resp.system.auth.SystemRoleMenuResp;
 import com.tianrui.api.resp.system.auth.SystemUserResp;
 import com.tianrui.service.bean.system.auth.Organization;
+import com.tianrui.service.bean.system.auth.SystemRole;
 import com.tianrui.service.bean.system.auth.SystemUser;
+import com.tianrui.service.bean.system.auth.SystemUserRole;
 import com.tianrui.service.cache.CacheClient;
 import com.tianrui.service.cache.CacheHelper;
 import com.tianrui.service.cache.CacheModule;
 import com.tianrui.service.mapper.system.auth.OrganizationMapper;
 import com.tianrui.service.mapper.system.auth.SystemUserMapper;
+import com.tianrui.service.mapper.system.auth.SystemUserRoleMapper;
 import com.tianrui.smartfactory.common.constants.BusinessConstants;
 import com.tianrui.smartfactory.common.constants.Constant;
 import com.tianrui.smartfactory.common.constants.ErrorCode;
@@ -45,11 +49,13 @@ public class SystemUserService implements ISystemUserService {
 	CacheClient cacheClient;
     @Autowired
     ISystemRolePermissionsService systemRolePermissionsService;
+	@Autowired
+	private SystemUserRoleMapper systemUserRoleMapper;
 	
 	@Override
 	public Result apiLogin(UserReq req) throws Exception {
 		Result rs =Result.getParamErrorResult();
-		if (req!=null && StringUtils.isNotBlank(req.getPswd()) && StringUtils.isNotBlank(req.getAccount())) {
+		if (req!=null && StringUtils.isNotBlank(req.getPswd()) && StringUtils.isNotBlank(req.getAccount()) && StringUtils.isNotBlank(req.getSubSystemCode())) {
 			SystemUserQueryReq query =new SystemUserQueryReq();
 			query.setAccount(req.getAccount());
 			List<SystemUser> list = userMapper.selectByCondition(query);
@@ -58,18 +64,30 @@ public class SystemUserService implements ISystemUserService {
 					if ( list.get(0).getIsvalid() == BusinessConstants.USER_VALID_BYTE ) {
 						if(list.get(0).getIslock() == BusinessConstants.USER_UNLOCK_BYTE) {
 							if(StringUtils.equals(list.get(0).getIdentityTypes(), BusinessConstants.USER_PT_STR)) {
-								SystemUserResp resp = new SystemUserResp();
-								Result result =	systemRolePermissionsService.subsystemUserRole(list.get(0).getId());
-								if(result.getCode().equals("000000")){
-									Result rse =systemRolePermissionsService.subsystemRole(list.get(0).getId());
-									resp.setMenuList((List<SystemRoleMenuResp>) rse.getData());		
-									resp.setId(list.get(0).getId());
-									resp.setName(list.get(0).getName());
-									resp.setUserType((String) result.getData());
-									rs.setData(resp);
-									rs.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+								String userId=list.get(0).getId();
+								List<SystemRole> roles =systemUserRoleMapper.subsystemRole(userId);
+								if(  CollectionUtils.isNotEmpty(roles) ){
+									String subSystem =tranSystemName(req.getSubSystemCode());
+									String tempUserType =null;
+									for(SystemRole role :roles ){
+										if( role.getName().contains(subSystem) ){
+											tempUserType = role.getUserType();
+										}
+									}
+									if( tempUserType !=null ){
+										SubSystemUserResp resp = new SubSystemUserResp();
+										resp.setId(userId);
+										resp.setName(list.get(0).getName());
+										resp.setUserType(tempUserType);
+										rs.setData(resp);
+										rs.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+									//用户没相关权限
+									}else{
+										rs.setErrorCode(ErrorCode.SYSTEM_USER_ERROR16);
+									}
+								//该用户没有子系统用户角色权限	
 								}else{
-									rs.setErrorCode(ErrorCode.SYSTEM_USER_ERROR14);
+									rs.setErrorCode(ErrorCode.SYSTEM_USER_ERROR15);
 								}
 							}else{
 								rs.setErrorCode(ErrorCode.SYSTEM_USER_ERROR11);
@@ -708,4 +726,18 @@ public class SystemUserService implements ISystemUserService {
 		return rs;
 	}
 	
+	//将子系统标识转换为名称识别
+	private String tranSystemName(String subSystemCode){
+		String rs ="";
+		if(StringUtils.equals(subSystemCode, "01") ){
+			rs="门禁";
+		}else if(StringUtils.equals(subSystemCode, "02") ){
+			rs="磅房";
+		}else if(StringUtils.equals(subSystemCode, "03") ){
+			rs="排队";
+		}else if(StringUtils.equals(subSystemCode, "04") ){
+			rs="卡务";
+		}
+		return rs;
+	}
 }

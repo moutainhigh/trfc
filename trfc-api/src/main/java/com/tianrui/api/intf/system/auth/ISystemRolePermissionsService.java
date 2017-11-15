@@ -103,7 +103,5 @@ public interface ISystemRolePermissionsService {
 	 * @throws
 	 */
 	Result iphonRole(String id);
-	Result subsystemRole(String id);
-	Result subsystemUserRole(String id);
 
 }
