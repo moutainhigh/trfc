@@ -174,7 +174,7 @@ margin-bottom: -20px!important;
 						</div>
 						<div class="alt_edit_div">
 							<label>用户类型：</label> 
-							<select class="form-control" id="userType">
+							<select class="form-control" id="userTypes">
 								<option value="">==请选择==</option>
 								<option value="2">普通用户</option>
 								<option value="1">管理员</option>
@@ -237,7 +237,7 @@ margin-bottom: -20px!important;
 						</div>
 						<div class="alt_edit_div">
 							<label>用户类型：</label> 
-							<select class="form-control" id="userTypes">
+							<select class="form-control" id="userType">
 								<option value="">==请选择==</option>
 								<option value="2">普通用户</option>
 								<option value="1">管理员</option>

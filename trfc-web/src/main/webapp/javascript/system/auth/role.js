@@ -70,9 +70,19 @@
 					break;
 			}
 			var userType=role.userType;
-			
+			switch(userType){
+				case '1':
+					userType=1;
+					break;
+				case '2':
+					userType=2;
+					break;
+				default:
+					userType="";
+					break;
+			}
 			$('#update_role').val(roleType);
-		//	$('#userType').val(userType);
+			$('#userType').val(userType);
 			$('#update_isvalid')[0].checked=false;
 			if(role.isvalid==1){
 				$('#update_isvalid')[0].checked=true;
