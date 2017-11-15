@@ -781,10 +781,32 @@
     </foreach>
   </select>
   <select id="hasPurchaseArrive" parameterType="java.lang.String" resultMap="BaseResultMap">
-    select
-    <include refid="Base_Column_List" />
-    from tr_purchase_db_arrive
-    where vehicleno = #{vehicleno,jdbcType=VARCHAR} and state = '1' and status!='3' and status!='5'
+    SELECT
+		<include refid="Base_Column_List" />
+	FROM
+		tr_purchase_db_arrive
+	WHERE
+		vehicleno = #{vehicleno,jdbcType=VARCHAR}
+	AND state = '1'
+	AND STATUS != '3'
+	AND (
+		STATUS != '5'
+		OR forceOutFactory = 1
+	)
+	AND forceOutFactoryTime = (
+		SELECT
+			MAX(forceOutFactoryTime)
+		FROM
+			tr_purchase_db_arrive
+		WHERE
+			vehicleno = #{vehicleno,jdbcType=VARCHAR}
+		AND state = '1'
+		AND STATUS != '3'
+		AND (
+			STATUS != '5'
+			OR forceOutFactory = 1
+		)
+	)
   </select>
     <select id="selectByCode" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 

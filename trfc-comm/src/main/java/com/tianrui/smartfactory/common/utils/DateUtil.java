@@ -101,12 +101,25 @@ public class DateUtil {
 	}
 	
 	/**
-	 * 
-	 * @return Date
+	 * @annotation 获取昨天日期
+	 * @return date
 	 */
 	public static Date getYesterday(){
 	    Calendar c = Calendar.getInstance();
         c.set(Calendar.DATE, c.get(Calendar.DATE) - 1);
+        c.set(Calendar.HOUR, 0);
+        c.set(Calendar.MINUTE, 0);
+        c.set(Calendar.SECOND, 0);
+        c.set(Calendar.MILLISECOND, 0);
+        return c.getTime();
+	}
+	
+	/**
+	 * @annotation 获取今天日期
+	 * @return date
+	 */
+	public static Date getToday(){
+	    Calendar c = Calendar.getInstance();
         c.set(Calendar.HOUR, 0);
         c.set(Calendar.MINUTE, 0);
         c.set(Calendar.SECOND, 0);

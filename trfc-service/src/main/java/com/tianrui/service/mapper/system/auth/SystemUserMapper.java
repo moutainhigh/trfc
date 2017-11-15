@@ -82,5 +82,5 @@ public interface SystemUserMapper {
 	 * @param IDType 身份类型
 	 * @return
 	 */
-	SystemUser getByAccount(String account, String IDType);
+	SystemUser getByAccount(@Param("account")String account, @Param("IDType")String IDType);
 }

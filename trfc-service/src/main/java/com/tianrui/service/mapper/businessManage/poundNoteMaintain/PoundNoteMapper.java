@@ -139,4 +139,10 @@ public interface PoundNoteMapper {
 	 * @return
 	 */
 	PoundNote getByVehicleNo(String vehicleNo);
+	/**
+	 * @annotation 根据通知单查询最新的榜单(内倒)
+	 * @param noticeId
+	 * @return
+	 */
+	PoundNote getNewByNoticeId(String noticeId);
 }

@@ -28,18 +28,22 @@ import com.tianrui.api.resp.businessManage.app.AppOrderResp;
 import com.tianrui.api.resp.businessManage.salesManage.SalesApplicationDetailResp;
 import com.tianrui.api.resp.businessManage.salesManage.SalesApplicationJoinDetailResp;
 import com.tianrui.api.resp.businessManage.salesManage.SalesApplicationResp;
+import com.tianrui.service.bean.basicFile.measure.DriverManage;
 import com.tianrui.service.bean.basicFile.nc.CustomerManage;
 import com.tianrui.service.bean.basicFile.nc.MaterielManage;
 import com.tianrui.service.bean.basicFile.nc.WarehouseManage;
 import com.tianrui.service.bean.businessManage.salesManage.SalesApplication;
 import com.tianrui.service.bean.businessManage.salesManage.SalesApplicationDetail;
+import com.tianrui.service.bean.businessManage.salesManage.SalesArrive;
 import com.tianrui.service.bean.common.BillType;
 import com.tianrui.service.bean.common.ReturnQueue;
+import com.tianrui.service.mapper.basicFile.measure.DriverManageMapper;
 import com.tianrui.service.mapper.basicFile.nc.CustomerManageMapper;
 import com.tianrui.service.mapper.basicFile.nc.MaterielManageMapper;
 import com.tianrui.service.mapper.basicFile.nc.WarehouseManageMapper;
 import com.tianrui.service.mapper.businessManage.salesManage.SalesApplicationDetailMapper;
 import com.tianrui.service.mapper.businessManage.salesManage.SalesApplicationMapper;
+import com.tianrui.service.mapper.businessManage.salesManage.SalesArriveMapper;
 import com.tianrui.service.mapper.common.BillTypeMapper;
 import com.tianrui.service.mapper.common.ReturnQueueMapper;
 import com.tianrui.smartfactory.common.constants.Constant;
@@ -70,6 +74,10 @@ public class SalesApplicationService implements ISalesApplicationService {
 	private MaterielManageMapper materielManageMapper;
 	@Autowired
 	private WarehouseManageMapper warehouseManageMapper;
+	@Autowired
+	private SalesArriveMapper salesArriveMapper;
+	@Autowired
+	private DriverManageMapper driverManageMapper;
 	
 	@Override
 	public PaginationVO<SalesApplicationResp> page(SalesApplicationQuery query) throws Exception{
@@ -420,12 +428,14 @@ public class SalesApplicationService implements ISalesApplicationService {
 		return rs;
 	}
 
+	@Transactional
 	@Override
 	public Result updateDataWithDC(List<JSONObject> list) throws Exception {
 		Result rs = Result.getErrorResult();
 		if(CollectionUtils.isNotEmpty(list) ){
 			Set<String> ids =getAllIds();
 			List<SalesApplication> toUpdate =new ArrayList<SalesApplication>();
+			List<SalesApplicationDetail> toUpdateItem =new ArrayList<SalesApplicationDetail>();
 			List<SalesApplication> toSave =new ArrayList<SalesApplication>();
 			List<SalesApplicationDetail> toSaveItem =new ArrayList<SalesApplicationDetail>();
 			
@@ -433,6 +443,7 @@ public class SalesApplicationService implements ISalesApplicationService {
 				String id =jsonObject.getString("id");
 				if( ids.contains(id) ){
 					toUpdate.add(converJson2Bean(jsonObject));
+					toUpdateItem.addAll(converJson2ItemList(jsonObject,id));
 				}else{
 					toSave.add(converJson2Bean(jsonObject));
 					toSaveItem.addAll(converJson2ItemList(jsonObject,id));
@@ -445,8 +456,25 @@ public class SalesApplicationService implements ISalesApplicationService {
 			}
 			
 			if( CollectionUtils.isNotEmpty(toUpdate) ){
-				for( SalesApplication item :toUpdate){
-					salesApplicationMapper.updateByPrimaryKeySelective(item);
+				for( SalesApplication update :toUpdate){
+					salesApplicationMapper.updateByPrimaryKeySelective(update);
+				}
+				for( SalesApplicationDetail updateItem :toUpdateItem){
+					salesApplicationDetailMapper.updateByPrimaryKeySelective(updateItem);
+				}
+			}
+			if( CollectionUtils.isNotEmpty(toUpdate) ){
+				for( SalesApplication update :toUpdate){
+					if (StringUtils.equals(update.getBilltypeid(), Constant.ONE_STRING) 
+							&& StringUtils.equals(update.getStatus(), Constant.ONE_STRING)
+							&& StringUtils.equals(update.getSource(), Constant.ZERO_STRING)) {
+						SalesArrive sa = new SalesArrive();
+						sa.setBillid(update.getId());
+						List<SalesArrive> saList = salesArriveMapper.selectSelective(sa);
+						if (CollectionUtils.isEmpty(saList)) {
+							insertSalesArrive(update);
+						}
+					}
 				}
 			}
 			rs.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
@@ -455,6 +483,45 @@ public class SalesApplicationService implements ISalesApplicationService {
 	}
 
 	
+	private void insertSalesArrive(SalesApplication sa) throws Exception {
+		SalesArrive bean = new SalesArrive();
+		bean.setId(UUIDUtil.getId());
+		bean.setCode(getCode("TH", sa.getMakerid()));
+		bean.setAuditstatus(Constant.ONE_STRING);
+		bean.setSource(Constant.TWO_STRING);
+		bean.setStatus(Constant.ZERO_STRING);
+		bean.setVehicleid(sa.getVehicleId());
+		bean.setVehicleno(sa.getVehicleNo());
+		bean.setVehiclerfid(sa.getRfid());
+		if (StringUtils.isNotBlank(sa.getDriverId())) {
+			bean.setDriverid(sa.getDriverId());
+			bean.setDrivername(sa.getDriverName());
+			DriverManage driver = driverManageMapper.selectByPrimaryKey(sa.getDriverId());
+			if (driver != null) {
+				bean.setDriveridentityno(driver.getIdentityno());
+			}
+		}
+		bean.setBillid(sa.getId());
+		bean.setBillcode(sa.getCode());
+		List<SalesApplicationDetail> list = salesApplicationDetailMapper.selectBySalesId(sa.getId());
+		bean.setBilldetailid(list.get(0).getId());
+		bean.setUnit(list.get(0).getUnit());
+		bean.setTakeamount(list.get(0).getMargin());
+		bean.setState(Constant.ONE_STRING);
+		bean.setMakerid(sa.getMakerid());
+		bean.setMakebillname(sa.getMakebillname());
+		bean.setMakebilltime(System.currentTimeMillis());
+		bean.setCreator(sa.getMakerid());
+		bean.setCreatetime(System.currentTimeMillis());
+		salesArriveMapper.insertSelective(bean);
+		updateCode("TH", sa.getMakerid());
+		SalesApplicationDetail sad = new SalesApplicationDetail();
+		sad.setId(list.get(0).getId());
+		sad.setMargin(0D);
+		sad.setPretendingtake(bean.getTakeamount());
+		salesApplicationDetailMapper.updateByPrimaryKeySelective(sad);
+	}
+
 	private Set<String> getAllIds(){
 		Set<String> rs = new HashSet<String>();
 		List<SalesApplication> list=salesApplicationMapper.selectSelective(null);
@@ -469,10 +536,10 @@ public class SalesApplicationService implements ISalesApplicationService {
 		//编码
 		item.setCode(jsonItem.getString("code"));
 		//状态
-		item.setStatus("1");
-		item.setState("1");
+		item.setStatus(Constant.ONE_STRING);
+		item.setState(Constant.ONE_STRING);
 		//来源
-		item.setSource("0");
+		item.setSource(Constant.ZERO_STRING);
 		//类型
 		String billtypeid = jsonItem.getString("type");
 		if(StringUtils.isNotBlank(billtypeid)){
@@ -499,8 +566,8 @@ public class SalesApplicationService implements ISalesApplicationService {
 		//订单日期
 		item.setBilltime(DateUtil.parse(jsonItem.getString("orderData"), "yyyy-MM-dd HH:mm:ss"));
 		//销售组织
-		item.setOrgid(Constant.ORG_ID);
-		item.setOrgname(Constant.ORG_NAME);
+		item.setOrgid(jsonItem.getString("orgId"));
+		item.setOrgname(jsonItem.getString("transComp"));
 		//运输公司
 		item.setTransportcompanyid(jsonItem.getString("transComp"));
 		item.setTransportcompanyname(jsonItem.getString("transport"));
@@ -524,6 +591,8 @@ public class SalesApplicationService implements ISalesApplicationService {
 		if(StringUtils.isNotBlank(jsonItem.getString("ts"))){
 			item.setUtc(Long.valueOf(jsonItem.getString("ts")));
 		}
+		item.setNcId(jsonItem.getString("ncId"));
+		item.setBillSource(Constant.ZERO_NUMBER);
 		return item;
 	}
 	private List<SalesApplicationDetail> converJson2ItemList(JSONObject jsonItem,String id){
@@ -557,6 +626,7 @@ public class SalesApplicationService implements ISalesApplicationService {
 					saleItem.setUntaxprice(Double.valueOf(itemJon.getString("nqtorigprice")));
 					saleItem.setTaxrate(Double.valueOf(itemJon.getString("ntaxrate")));
 					saleItem.setRemarks(itemJon.getString("remark"));
+					saleItem.setNcId(itemJon.getString("ncId"));
 					itemList.add(saleItem);
 				}
 			}
@@ -586,8 +656,7 @@ public class SalesApplicationService implements ISalesApplicationService {
 	@Override
 	public Result appToDetail(AppOrderReq req) {
 		Result result = Result.getParamErrorResult();
-		if(req != null 
-				&& StringUtils.isNotBlank(req.getId())
+		if(req != null && StringUtils.isNotBlank(req.getId())
 				&& StringUtils.isNotBlank(req.getDetailid())){
 			SalesApplication application = salesApplicationMapper.selectByPrimaryKey(req.getId());
 			SalesApplicationDetail applicationDetail = salesApplicationDetailMapper.selectByPrimaryKey(req.getDetailid());
@@ -608,5 +677,21 @@ public class SalesApplicationService implements ISalesApplicationService {
 			}
 		}
 		return result;
+	}
+	
+	private String getCode(String code, String userId) throws Exception {
+		GetCodeReq codeReq = new GetCodeReq();
+		codeReq.setCode(code);
+		codeReq.setCodeType(true);
+		codeReq.setUserid(userId);
+		return systemCodeService.getCode(codeReq).getData().toString();
+	}
+	
+	private void updateCode(String code, String userId) throws Exception {
+		GetCodeReq codeReq = new GetCodeReq();
+		codeReq.setCode(code);
+		codeReq.setCodeType(true);
+		codeReq.setUserid(userId);
+		systemCodeService.updateCodeItem(codeReq);
 	}
 }

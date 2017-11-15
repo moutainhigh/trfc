@@ -1864,15 +1864,22 @@ public class PoundNoteService implements IPoundNoteService {
 
 	private Result isOneWeight(String noticeid, String type) {
 		Result result = Result.getSuccessResult();
-		PoundNote poundNote = poundNoteMapper.selectByNoticeId(noticeid);
-		// 判断是否一次过磅
-		if (poundNote != null) {
-			if (StringUtils.equals(type, Constant.TWO_STRING)) {
-				//销售返回
+		PoundNote poundNote = null;
+		if (StringUtils.equals(type, Constant.FOUR_STRING)) {
+			poundNote = poundNoteMapper.getNewByNoticeId(noticeid);
+			if (poundNote != null && poundNote.getGrossweight() != null && poundNote.getGrossweight() > 0) {
+                result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+			} else {
+				result.setErrorCode(ErrorCode.VEHICLE_NOTICE_NOT_ONE_WEIGHT);
 			}
-			result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
 		} else {
-			result.setErrorCode(ErrorCode.VEHICLE_NOTICE_NOT_ONE_WEIGHT);
+			poundNote = poundNoteMapper.selectByNoticeId(noticeid);
+			// 判断是否一次过磅
+			if (poundNote != null) {
+				result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+			} else {
+				result.setErrorCode(ErrorCode.VEHICLE_NOTICE_NOT_ONE_WEIGHT);
+			}
 		}
 		return result;
 	}

@@ -9,6 +9,7 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.alibaba.fastjson.JSONArray;
 import com.tianrui.api.intf.system.auth.ISystemRolePermissionsService;
 import com.tianrui.api.intf.system.auth.ISystemUserService;
 import com.tianrui.api.req.businessManage.app.AppUserEditReq;
@@ -682,10 +683,14 @@ public class SystemUserService implements ISystemUserService {
                             if(StringUtils.equals(list.get(0).getIdentityTypes(), BusinessConstants.USER_PT_STR)) {
                                 cumulativeLoginCount(list.get(0));
                                 SystemUserResp user = copySystemUserBean2Resp(list.get(0));
-                                Result menuList = systemRolePermissionsService.iphonRole(user.getId());
-                                user.setMenuList((List<SystemRoleMenuResp>) menuList.getData());
+                                Result menuListResult = systemRolePermissionsService.iphonRole(user.getId());
+								List<SystemRoleMenuResp> menuList = (List<SystemRoleMenuResp>) menuListResult.getData();
+                            	user.setMenuList(menuList);
                                 rs.setData(user);
                                 rs.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+                                if (!StringUtils.equals(menuListResult.getCode(), ErrorCode.SYSTEM_SUCCESS.getCode())) {
+                                	rs.setError(menuListResult.getError());
+                                }
                             }else{
                                 rs.setErrorCode(ErrorCode.SYSTEM_USER_ERROR11);
                             }

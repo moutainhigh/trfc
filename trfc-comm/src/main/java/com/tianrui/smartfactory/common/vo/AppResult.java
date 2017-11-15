@@ -64,7 +64,7 @@ public class AppResult {
 	public void setErrorCode(ErrorCode errorCode ){
 		this.code = errorCode.getCode();
 		this.message = errorCode.getMsg();
-		this.serviceTime = this.serviceTime - System.currentTimeMillis();
+		this.serviceTime = System.currentTimeMillis() - this.serviceTime;
 	}
 	
 }

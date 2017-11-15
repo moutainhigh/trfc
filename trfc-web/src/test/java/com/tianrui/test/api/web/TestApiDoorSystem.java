@@ -25,7 +25,7 @@ public class TestApiDoorSystem {
 	private static String uri_queryWaiting = "api/doorSystem/queryWaiting";
 	
 	public static void main(String[] args) throws Exception {
-		URL url = new URL(domin + uri_record);
+		URL url = new URL(domin + uri_leave);
 		// 打开url连接
 		HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 		// 设置url请求方式 ‘get’ 或者 ‘post’
@@ -34,7 +34,7 @@ public class TestApiDoorSystem {
 		
 	    // 表单参数与get形式一样
 		connection.setDoOutput(true);// 是否输入参数
-        params.append("p").append("=").append(JSON.toJSONString(getParam1()));
+        params.append("p").append("=").append(JSON.toJSONString(getParam0()));
         
         String aa =params.toString();
         System.out.println(aa);
@@ -72,9 +72,9 @@ public class TestApiDoorSystem {
 		ApiParam<ApiDoorSystemSave> api =new ApiParam<ApiDoorSystemSave>();
 		
 		ApiDoorSystemSave req =new ApiDoorSystemSave();
-		req.setNotionformcode("DH201711070259");
-		req.setIcardno("1742070453");
-		req.setServicetype("0");
+		req.setNotionformcode("TH201711140001");
+		req.setIcardno("1765055207");
+		req.setServicetype("2");
 		req.setType("1");
 		req.setTime(DateUtil.getNowDateString("yyyy-MM-dd HH:mm:ss"));
 		
@@ -95,8 +95,8 @@ public class TestApiDoorSystem {
 		ApiParam<VehicleCheckApi> api =new ApiParam<VehicleCheckApi>();
 		
 		VehicleCheckApi req =new VehicleCheckApi();
-		req.setRfid("E2000016130B015121803606");
-		req.setVehicleNo("54");
+		req.setRfid("E2000016130B014121803615");
+		req.setVehicleNo("15");
 		
 		Head head =new Head();
 		head.setCallSource("1");

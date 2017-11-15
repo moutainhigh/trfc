@@ -1800,4 +1800,27 @@
 		    )
 		AND p0.vehicleno = #{vehicleNo,jdbcType=VARCHAR}
     </select>
+    <!--  -->
+    <select id="getNewByNoticeId" parameterType="java.lang.String" resultMap="BaseResultMap">
+		SELECT
+			<include refid="Base_Column_List_P"/>
+		FROM
+			(
+				SELECT
+					*
+				FROM
+					tr_pound_db_note
+				WHERE
+					noticeid = #{noticeId,jdbcType=VARCHAR} and state = 1
+			) p0
+		WHERE
+			p0.makebilltime = (
+				SELECT
+					MAX(makebilltime)
+				FROM
+					tr_pound_db_note
+				WHERE
+					noticeid = #{noticeId,jdbcType=VARCHAR} and state = 1
+			)
+    </select>
 </mapper>

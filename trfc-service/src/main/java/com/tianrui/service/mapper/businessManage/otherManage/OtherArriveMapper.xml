@@ -65,10 +65,30 @@
 		where code = #{code,jdbcType=VARCHAR}
 	</select>
 	<select id="getByVehicleId" resultMap="BaseResultMap" parameterType="java.lang.String">
-		select
-		<include refid="Base_Column_List" />
-		from tr_other_db_arrive
-		where vehicleid = #{vehicleid,jdbcType=VARCHAR} and status != '3' and status != '5' and state = 1
+		SELECT
+			<include refid="Base_Column_List" />
+		FROM
+			tr_purchase_db_arrive
+		WHERE
+			vehicleno = #{vehicleid,jdbcType=VARCHAR}
+		AND STATUS != '3'
+		AND (
+			STATUS != '5'
+			OR forceOutFactory = 1
+		)
+		AND forceOutFactoryTime = (
+			SELECT
+				MAX(forceOutFactoryTime)
+			FROM
+				tr_purchase_db_arrive
+			WHERE
+				vehicleno = #{vehicleid,jdbcType=VARCHAR}
+			AND STATUS != '3'
+			AND (
+				STATUS != '5'
+				OR forceOutFactory = 1
+			)
+		)
 	</select>
 	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
 		delete from
