@@ -69,6 +69,7 @@ public enum ErrorCode {
 	NOTICE_NOT_VALID_TIME("E10027","该通知单不在有效时间内."), 
 	NOTICE_NOT_ENTER("E10028","该通知单已入厂."), 
 	NOTICE_OUT_FACTORY2("E10029","该通知单无相关入厂记录."), 
+	NOTICE_NUMBER_ERROR("E10030","到货量/提货量必须大于零且小于等于订单余量."), 
 	/**
 	 * 磅单
 	 */
@@ -92,6 +93,13 @@ public enum ErrorCode {
 	VEHICLE_NOTICE_NOT_LOAD("E10019","该车辆还未完成装货."),
 	VEHICLE_NOTICE_NOT_OUT_FACTORY("E10020","该车辆还未出厂."),
 	VEHICLE_NOTICE_TWO_WEIGHT("E10021","该车辆已过二次磅房."),
+	VEHICLE_IS_WX("E10022","车辆已无效."),
+	VEHICLE_IS_BLACK("E10023","车辆被列入黑名单."),
+	/**
+	 * 司机
+	 */
+	DRIVER_NOT_EXIST("E11001","该司机不存在."),
+	DRIVER_IS_WX("E11002","该司机已无效."),
 	
 	/**
 	 * 用户相关
@@ -113,6 +121,7 @@ public enum ErrorCode {
 	SYSTEM_USER_ERROR14("E200014","无法识别用户身份."),
 	SYSTEM_USER_ERROR15("E200015","用户无子系统角色."),
 	SYSTEM_USER_ERROR16("E200016","用户无对应子系统角色."),
+	SYSTEM_USER_ERROR17("E200017","当前用户不存在."),
 	
 	SYSTEM_MENU_ERROR6("E200106","找不到相关菜单记录."),
 	SYSTEM_MENU_ERROR7("E200107","该菜单名称已经存在."),

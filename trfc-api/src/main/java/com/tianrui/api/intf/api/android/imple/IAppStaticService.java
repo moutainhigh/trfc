@@ -4,6 +4,8 @@ import com.tianrui.api.req.android.BillListParam;
 import com.tianrui.api.req.android.BillSave;
 import com.tianrui.api.req.android.HomePageParam;
 import com.tianrui.api.req.android.LoginUserParam;
+import com.tianrui.api.req.android.NoticeListParam;
+import com.tianrui.api.req.android.NoticeSave;
 import com.tianrui.smartfactory.common.vo.AppResult;
 
 /**
@@ -79,6 +81,26 @@ public interface IAppStaticService {
 	 * @annotation 派车
 	 * @param param
 	 * @return
+	 * @throws Exception 
 	 */
-	AppResult saveNotice(BillSave param);
+	AppResult saveNotice(NoticeSave param) throws Exception;
+	/**
+	 * @annotation 通知单列表
+	 * @param param
+	 * @return
+	 */
+	AppResult noticeList(NoticeListParam param);
+	/**
+	 * @annotation 通知单详情
+	 * @param param
+	 * @return
+	 */
+	AppResult noticeDetail(NoticeListParam param);
+	/**
+	 * @annotation 通知单修改
+	 * @param param
+	 * @return
+	 * @throws Exception 
+	 */
+	AppResult noticeUpdate(NoticeSave param) throws Exception;
 }

@@ -13,6 +13,8 @@ import com.tianrui.api.req.android.BillListParam;
 import com.tianrui.api.req.android.BillSave;
 import com.tianrui.api.req.android.HomePageParam;
 import com.tianrui.api.req.android.LoginUserParam;
+import com.tianrui.api.req.android.NoticeListParam;
+import com.tianrui.api.req.android.NoticeSave;
 import com.tianrui.smartfactory.common.api.ApiParam;
 import com.tianrui.smartfactory.common.constants.ErrorCode;
 import com.tianrui.smartfactory.common.vo.AppResult;
@@ -183,16 +185,80 @@ public class AppStaticAction_new {
 		return result;
 	}
 	
-	@RequestMapping(value="/saveNotice",method=RequestMethod.POST)
-	@ApiParamRawType(BillSave.class)
+	@RequestMapping(value="/sendCar",method=RequestMethod.POST)
+	@ApiParamRawType(NoticeSave.class)
 	@ResponseBody
-	public AppResult saveNotice(ApiParam<BillSave> param){
+	public AppResult saveNotice(ApiParam<NoticeSave> param){
+		AppResult result = AppResult.getAppResult();
+		try {
+			param.getBody().setUserId(param.getHead().getUserId());
+			param.getBody().setIDType(param.getHead().getIDType());
+			result = appService.saveNotice(param.getBody());
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
+		}
+		return result;
+	}
+	
+	@RequestMapping(value="/notice/list",method=RequestMethod.POST)
+	@ApiParamRawType(NoticeListParam.class)
+	@ResponseBody
+	public AppResult noticeList(ApiParam<NoticeListParam> param){
 		AppResult result = AppResult.getAppResult();
 		try {
 			param.getBody().setUserId(param.getHead().getUserId());
 			param.getBody().setIDType(param.getHead().getIDType());
 			param.getBody().setSalesOrg(param.getHead().getSalesOrg());
-			result = appService.saveNotice(param.getBody());
+			result = appService.noticeList(param.getBody());
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
+		}
+		return result;
+	}
+	
+	@RequestMapping(value="/notice/detail",method=RequestMethod.POST)
+	@ApiParamRawType(NoticeListParam.class)
+	@ResponseBody
+	public AppResult noticeDetail(ApiParam<NoticeListParam> param){
+		AppResult result = AppResult.getAppResult();
+		try {
+			param.getBody().setUserId(param.getHead().getUserId());
+			param.getBody().setIDType(param.getHead().getIDType());
+			result = appService.noticeDetail(param.getBody());
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
+		}
+		return result;
+	}
+	
+	@RequestMapping(value="/notice/update",method=RequestMethod.POST)
+	@ApiParamRawType(NoticeSave.class)
+	@ResponseBody
+	public AppResult noticeUpdate(ApiParam<NoticeSave> param){
+		AppResult result = AppResult.getAppResult();
+		try {
+			param.getBody().setUserId(param.getHead().getUserId());
+			param.getBody().setIDType(param.getHead().getIDType());
+			result = appService.noticeUpdate(param.getBody());
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
+		}
+		return result;
+	}
+	
+	@RequestMapping(value="/notice/cancel",method=RequestMethod.POST)
+	@ApiParamRawType(NoticeSave.class)
+	@ResponseBody
+	public AppResult noticeCancel(ApiParam<NoticeSave> param){
+		AppResult result = AppResult.getAppResult();
+		try {
+			param.getBody().setUserId(param.getHead().getUserId());
+			param.getBody().setIDType(param.getHead().getIDType());
+			result = appService.noticeUpdate(param.getBody());
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 			result.setErrorCode(ErrorCode.SYSTEM_ERROR);

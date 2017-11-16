@@ -1030,7 +1030,6 @@
 	WHERE
 		t1.auditstatus = 1
 	AND t2.supplierid = #{userId,jdbcType=VARCHAR}
-	AND t2.orgid = #{salesOrg,jdbcType=VARCHAR}
 	AND t2.state = 1
 	AND t2.auditstatus = 1
 	ORDER BY
@@ -1046,10 +1045,160 @@
 		t1.auditstatus = 1
 	AND t1.`status` IN (1, 2, 4, 6, 7)
 	AND t2.supplierid = #{userId,jdbcType=VARCHAR}
-	AND t2.orgid = #{salesOrg,jdbcType=VARCHAR}
 	AND t2.state = 1
 	AND t2.auditstatus = 1
 	ORDER BY
 		t2.billtime DESC
+  </select>
+  <select id="appNoticeList" parameterType="com.tianrui.api.req.android.NoticeListParam" resultType="com.tianrui.api.resp.android.NoticeListVo">
+  	SELECT
+		t1.id,
+		t1.`code`,
+		FROM_UNIXTIME(
+			t2.billtime / 1000,
+			'%Y-%m-%d'
+		) as billTime,
+		t1.vehicleno as vehicle,
+		t3.materielname as material,
+		t1.drivername as driver
+	FROM
+		tr_purchase_db_arrive t1
+	LEFT JOIN tr_purchase_db_application t2 ON t1.billid = t2.id
+	LEFT JOIN tr_purchase_db_application_detail t3 ON t1.billdetailid = t3.id
+	WHERE
+		t1.state = 1
+	AND t1.`status` != 3 
+	AND t2.supplierid = #{userId, jdbcType=VARCHAR}
+	<choose>
+		<when test="type == 0">
+			and t1.auditstatus = 0
+		</when>
+		<when test="type == 1">
+			and t1.auditstatus = 1 and t1.`status` = 0
+		</when>
+		<when test="type == 2">
+			and t1.auditstatus = 1 and t1.`status` in (1,2,4,6,7)
+		</when>
+		<when test="type == 3">
+			and t1.auditstatus = 1 and t1.`status` = 5
+		</when>
+		<otherwise></otherwise>
+	</choose>
+	<if test="code != null and code != ''">
+		AND t1.`code` = #{code,jdbcType=VARCHAR}
+	</if>
+	<if test="vehicle != null and vehicle != ''">
+		AND t1.vehicleid = #{vehicle,jdbcType=VARCHAR}
+	</if>
+	<if test="driver != null and driver != ''">
+		AND t1.driverid = #{driver,jdbcType=VARCHAR}
+	</if>
+	<if test="material != null and material != ''">
+		AND t3.materielid = #{material,jdbcType=VARCHAR}
+	</if>
+	<if test="source != null and source != ''">
+		AND t1.source = #{source,jdbcType=VARCHAR}
+	</if>
+	<if test="startTime != null">
+		and t2.billtime <![CDATA[>=]]> #{startTime, jdbcType=BIGINT}
+	</if>
+	<if test="endTime != null">
+		and t2.billtime <![CDATA[<]]> #{endTime, jdbcType=BIGINT}
+	</if>
+	ORDER BY t1.createtime DESC
+	<if test="start != null and start >= 0">
+        <if test="limit != null">
+            limit #{start,jdbcType=INTEGER},#{limit,jdbcType=INTEGER}
+        </if>
+    </if>
+  </select>
+  <select id="appNoticeListCount" parameterType="com.tianrui.api.req.android.NoticeListParam" resultType="java.lang.Long">
+  	SELECT
+		count(0)
+	FROM
+		tr_purchase_db_arrive t1
+	LEFT JOIN tr_purchase_db_application t2 ON t1.billid = t2.id
+	LEFT JOIN tr_purchase_db_application_detail t3 ON t1.billdetailid = t3.id
+	WHERE
+		t1.state = 1
+	AND t1.`status` != 3 
+	AND t2.supplierid = #{userId, jdbcType=VARCHAR}
+	<choose>
+		<when test="type == 0">
+			and t1.auditstatus = 0
+		</when>
+		<when test="type == 1">
+			and t1.auditstatus = 1 and t1.`status` = 0
+		</when>
+		<when test="type == 2">
+			and t1.auditstatus = 1 and t1.`status` in (1,2,4,6,7)
+		</when>
+		<when test="type == 3">
+			and t1.auditstatus = 1 and t1.`status` = 5
+		</when>
+		<otherwise></otherwise>
+	</choose>
+	<if test="code != null and code != ''">
+		AND t1.`code` = #{code,jdbcType=VARCHAR}
+	</if>
+	<if test="vehicle != null and vehicle != ''">
+		AND t1.vehicleid = #{vehicle,jdbcType=VARCHAR}
+	</if>
+	<if test="driver != null and driver != ''">
+		AND t1.driverid = #{driver,jdbcType=VARCHAR}
+	</if>
+	<if test="material != null and material != ''">
+		AND t3.materielid = #{material,jdbcType=VARCHAR}
+	</if>
+	<if test="source != null and source != ''">
+		AND t1.source = #{source,jdbcType=VARCHAR}
+	</if>
+	<if test="startTime != null">
+		and t2.billtime <![CDATA[>=]]> #{startTime, jdbcType=BIGINT}
+	</if>
+	<if test="endTime != null">
+		and t2.billtime <![CDATA[<]]> #{endTime, jdbcType=BIGINT}
+	</if>
+  </select>
+  <select id="appNoticeDetail" parameterType="com.tianrui.api.req.android.NoticeListParam" resultType="com.tianrui.api.resp.android.NoticeListVo">
+  	SELECT
+		t1.id,
+		t2.`code` AS billCode,
+		t1.`code`,
+		FROM_UNIXTIME(
+			t2.billtime / 1000,
+			'%Y-%m-%d'
+		) AS billTime,
+		t1.vehicleno AS vehicle,
+		t3.materielname AS material,
+		t1.drivername AS driver,
+		CASE
+		WHEN t1.source = 0 THEN
+			'业务平台'
+		WHEN t1.source = 2 THEN
+			'客商APP'
+		ELSE
+			''
+		END AS source,
+		t4.grossweight AS grossWeight,
+		t4.tareweight AS tareWeight,
+		t4.netweight AS netWeight,
+		FROM_UNIXTIME(
+			t4.lighttime / 1000,
+			'%Y-%m-%d %h:%m:%s'
+		) AS lightTime,
+		 FROM_UNIXTIME(
+			t4.weighttime / 1000,
+			'%Y-%m-%d %h:%m:%s'
+		) AS weightTime
+	FROM
+		tr_purchase_db_arrive t1
+	LEFT JOIN tr_purchase_db_application t2 ON t1.billid = t2.id
+	LEFT JOIN tr_purchase_db_application_detail t3 ON t1.billdetailid = t3.id
+	LEFT JOIN tr_pound_db_note t4 ON t1.id = t4.noticeid
+	WHERE
+		t1.state = 1
+	AND t1.`status` != 3
+	AND t1.id = #{id, jdbcType=VARCHAR}
   </select>
 </mapper>

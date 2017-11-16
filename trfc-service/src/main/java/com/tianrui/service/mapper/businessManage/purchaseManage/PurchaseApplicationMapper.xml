@@ -762,24 +762,119 @@
 			t1.billtime / 1000,
 			"%Y-%m-%d"
 		) AS billTime,
-		CASE
-		WHEN t1.bill_source = 0 THEN
-			'NC'
-		WHEN t1.bill_source = 1 THEN
-			'业务平台'
-		WHEN t1.bill_source = 2 THEN
-			'客商APP'
-		ELSE
-			''
-		END AS billSource
+		'NC' AS billSource
 	FROM
 		tr_purchase_db_application t1
 	LEFT JOIN tr_purchase_db_application_detail t2 ON t1.id = t2.purchaseid
 	WHERE
 		t1.supplierid = #{userId,jdbcType=VARCHAR}
-	AND t1.orgid = #{salesOrg,jdbcType=VARCHAR}
 	AND t1.state = 1
 	AND t1.auditstatus = 1
 	ORDER BY t1.billtime DESC
+  </select>
+  <select id="appBillList" parameterType="com.tianrui.api.req.android.BillListParam" resultType="com.tianrui.api.resp.android.BillListVo">
+  	SELECT
+		t1.id,
+		t2.id AS detailId,
+		t1.`code`,
+		FROM_UNIXTIME(
+			t1.billtime / 1000,
+			"%Y-%m-%d"
+		) AS billTime,
+		'NC' AS billSource,
+		t2.materielname AS material,
+		t2.margin,
+		t2.unit
+	FROM
+		tr_purchase_db_application t1
+	LEFT JOIN tr_purchase_db_application_detail t2 ON t1.id = t2.purchaseid
+	WHERE
+		t1.state = 1
+	AND t1.supplierid = #{userId, jdbcType=VARCHAR}
+	<choose>
+		<when test="type == 0">
+			and t1.status = 0
+		</when>
+		<when test="type == 1">
+			and t1.status = 1 and t2.margin > 0
+		</when>
+		<when test="type == 2">
+			and t1.status = 1 and t2.margin = 0
+		</when>
+		<otherwise></otherwise>
+	</choose>
+	<if test="billCode != null and billCode != ''">
+		and t1.code = #{billCode, jdbcType=VARCHAR}
+	</if>
+	<if test="startTime != null and startTime != ''">
+		and t1.billtime <![CDATA[>=]]> #{startTime, jdbcType=BIGINT}
+	</if>
+	<if test="endTime != null and endTime != ''">
+		and t1.billtime <![CDATA[<]]> #{endTime, jdbcType=BIGINT}
+	</if>
+	ORDER BY
+		t1.billtime
+	<if test="start != null and start >= 0">
+  		<if test="limit != null">
+			LIMIT #{start,jdbcType=INTEGER},#{limit,jdbcType=INTEGER}
+  		</if>
+  	</if>
+  </select>
+  <select id="appBillListCount" parameterType="com.tianrui.api.req.android.BillListParam" resultType="java.lang.Long">
+  	SELECT
+		count(0)
+	FROM
+		tr_purchase_db_application t1
+	LEFT JOIN tr_purchase_db_application_detail t2 ON t1.id = t2.purchaseid
+	WHERE
+		t1.state = 1
+	AND t1.supplierid = #{userId, jdbcType=VARCHAR}
+	<choose>
+		<when test="type == 0">
+			and t1.status = 0
+		</when>
+		<when test="type == 1">
+			and t1.status = 1 and t2.margin > 0
+		</when>
+		<when test="type == 2">
+			and t1.status = 1 and t2.margin = 0
+		</when>
+		<otherwise></otherwise>
+	</choose>
+	<if test="billCode != null and billCode != ''">
+		and t1.code = #{billCode, jdbcType=VARCHAR}
+	</if>
+	<if test="startTime != null and startTime != ''">
+		and t1.billtime <![CDATA[>=]]> #{startTime, jdbcType=BIGINT}
+	</if>
+	<if test="endTime != null and endTime != ''">
+		and t1.billtime <![CDATA[<]]> #{endTime, jdbcType=BIGINT}
+	</if>
+  </select>
+  <select id="appBillDetail" parameterType="com.tianrui.api.req.android.BillListParam" resultType="com.tianrui.api.resp.android.BillListVo">
+	SELECT
+		t1.id,
+		t2.id AS detailId,
+		t1.`code`,
+		t1.billtypename AS billType,
+		FROM_UNIXTIME(
+			t1.billtime / 1000,
+			"%Y-%m-%d"
+		) AS billTime,
+		'NC' AS billSource,
+		t2.materielname AS material,
+		t2.margin,
+		t2.unit,
+		t2.purchasesum	 AS sumNum,
+		t2.storagequantity AS outInNum,
+		t2.unstoragequantity AS unOutInNum,
+		t2.pretendingtake AS planNum
+	FROM
+		tr_purchase_db_application t1
+	LEFT JOIN tr_purchase_db_application_detail t2 ON t1.id = t2.purchaseid
+	WHERE
+		t1.state = 1
+	AND t1.id = #{id, jdbcType=VARCHAR} 
+	AND t2.id = #{detailId, jdbcType=VARCHAR}
   </select>
 </mapper>
