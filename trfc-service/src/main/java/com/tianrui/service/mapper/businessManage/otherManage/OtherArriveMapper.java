@@ -63,6 +63,6 @@ public interface OtherArriveMapper {
 	 * @param vehicleId
 	 * @return
 	 */
-	int emptyForceOutFactoryByVehicle(String vehicleId);
+	void emptyForceOutFactoryByVehicle(String vehicleId);
     
 }
