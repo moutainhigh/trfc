@@ -43,7 +43,7 @@
 		select
 		<include refid="Base_Column_List" />
 		from tr_system_user
-		<where>identityTypes='3'
+		<where>
 			<if test="codeLike != null and codeLike !=''">
 				and code like CONCAT('%',#{codeLike,jdbcType=VARCHAR},'%')
 			</if>

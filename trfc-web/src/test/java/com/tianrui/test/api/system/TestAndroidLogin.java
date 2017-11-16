@@ -6,9 +6,10 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 import com.alibaba.fastjson.JSON;
+import com.tianrui.api.req.android.LoginUserParam;
 import com.tianrui.api.req.basicFile.measure.VehicleCheckApi;
-import com.tianrui.api.req.businessManage.poundNoteMaintain.ApiPoundNoteQuery;
 import com.tianrui.api.req.businessManage.salesManage.ApiDoorQueueQuery;
+import com.tianrui.api.req.system.auth.AppUserReq;
 import com.tianrui.smartfactory.common.api.ApiParam;
 import com.tianrui.smartfactory.common.api.Head;
 import com.tianrui.smartfactory.common.constants.Constant;
@@ -16,14 +17,14 @@ import com.tianrui.smartfactory.common.utils.DateUtil;
 import com.tianrui.smartfactory.common.utils.Md5Utils;
 
 @SuppressWarnings("unused")
-public class TestApiPountNoteSystem {
+public class TestAndroidLogin {
 
 	private static String domin = "http://localhost/";
 	//private static String domin = "http://172.19.4.97:28080/";
-	private static String uri_tareWeight = "api/poundNote/history/tareWeight";
+	private static String uri_login = "api/android/static/login";
 	
 	public static void main(String[] args) throws Exception {
-		URL url = new URL(domin + uri_tareWeight);
+		URL url = new URL(domin + uri_login);
 		// 打开url连接
 		HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 		// 设置url请求方式 ‘get’ 或者 ‘post’
@@ -50,19 +51,20 @@ public class TestApiPountNoteSystem {
 	}
 	
 	
-	static ApiParam<ApiPoundNoteQuery> getParam0(){
-		ApiParam<ApiPoundNoteQuery> api =new ApiParam<ApiPoundNoteQuery>();
+	static ApiParam<AppUserReq> getParam0(){
+		ApiParam<AppUserReq> api =new ApiParam<AppUserReq>();
 		
-		ApiPoundNoteQuery req =new ApiPoundNoteQuery();
-		req.setRfid("E2000016060D007427100885");
-		req.setVehicleno("80032");
-		req.setLimit(10);
+		AppUserReq req =new AppUserReq();
+		req.setAccount("GY0141044516");
+		req.setPswd("f379eaf3c831b04de153469d1bec345e");
+		
+		
 		
 		Head head =new Head();
 		head.setCallSource("1");
-		head.setCallType("2");
+		head.setCallType("3");
 		head.setCallTime(DateUtil.getNowDateString("yyyy-MM-dd HH:mm:ss"));
-		head.setUserId("043e657203f841fcbbeed0118b49a185");
+		//head.setUserId("043e657203f841fcbbeed0118b49a185");
 		
 		api.setBody(req);
 		api.setHead(head);
