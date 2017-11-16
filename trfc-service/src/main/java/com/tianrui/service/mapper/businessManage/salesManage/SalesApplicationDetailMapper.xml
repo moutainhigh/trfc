@@ -258,4 +258,15 @@
 		#{item}  
 	</foreach>
   </select>
+  <select id="getSumMarginBySalesId" parameterType="java.util.List" resultType="double">
+  	SELECT
+		IFNULL(sum(margin),0)
+	FROM
+		tr_sales_db_application_detail
+	WHERE
+		id IN 
+	<foreach item="item" index="index" collection="list" open="(" separator="," close=")">  
+		#{item}  
+	</foreach>
+  </select>
 </mapper>

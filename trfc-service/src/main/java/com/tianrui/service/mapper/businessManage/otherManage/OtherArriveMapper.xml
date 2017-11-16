@@ -633,6 +633,13 @@
 			</if>
 		</where>
 	</select>
+	<select id="validNoticeByVehicle" resultMap="BaseResultMap" parameterType="java.lang.String" >
+	  select 
+	  <include refid="Base_Column_List" />
+	  from tr_other_db_arrive
+	  where vehicleid = #{vehicleid,jdbcType=VARCHAR}
+	      and status != '3' and (status != '5' or forceOutFactory = 1)
+	</select>
 	<select id="checkICUse" parameterType="java.lang.String" resultMap="BaseResultMap">
 	  select 
 	  <include refid="Base_Column_List" />
@@ -690,6 +697,5 @@
 		vehicleid = #{vehicleId,jdbcType=VARCHAR}
 	AND STATUS = 5
 	AND forceOutFactory = 1
-	AND state = 1
   </select>
 </mapper>

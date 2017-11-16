@@ -335,6 +335,69 @@ public class PurchaseArriveService implements IPurchaseArriveService {
 		}
 		return result;
 	}
+	
+	@Override
+	public Result invalid(PurchaseArriveSave update) {
+		Result result = Result.getParamErrorResult();
+		if(update != null && StringUtils.isNotBlank(update.getId())
+				&& StringUtils.isNotBlank(update.getCurrId())){
+			PurchaseArrive pa = purchaseArriveMapper.selectByPrimaryKey(update.getId());
+			if (pa != null) {
+				if (!StringUtils.equals(pa.getStatus(), Constant.THREE_STRING)) {
+					if (!StringUtils.equals(pa.getStatus(), Constant.FIVE_STRING)) {
+						if (StringUtils.equals(pa.getStatus(), Constant.ZERO_STRING)) {
+							PurchaseArrive bean = new PurchaseArrive();
+							bean.setId(pa.getId());
+							bean.setStatus(Constant.THREE_STRING);
+							bean.setModifier(update.getCurrId());
+							bean.setModifytime(System.currentTimeMillis());
+							callBackBillMargin(pa.getId());
+							purchaseArriveMapper.updateByPrimaryKeySelective(bean);
+							result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+						} else {
+							result.setErrorCode(ErrorCode.NOTICE_NOT_ENTER);
+						}
+					} else {
+						result.setErrorCode(ErrorCode.NOTICE_OUT_FACTORY);
+					}
+				} else {
+					result.setErrorCode(ErrorCode.NOTICE_ON_INVALID);
+				}
+			} else {
+				result.setErrorCode(ErrorCode.NOTICE_NOT_EXIST);
+			}
+		}
+		return result;
+	}
+	
+	private void callBackBillMargin(String noticeId) {
+		PurchaseArrive pa = purchaseArriveMapper.selectByPrimaryKey(noticeId);
+		if (pa != null) {
+			PurchaseApplicationDetail pad = purchaseApplicationDetailMapper.selectByPrimaryKey(pa.getBilldetailid());
+			double noticeNumber = pa.getArrivalamount();
+			switch (pa.getStatus()) {
+			case "0":
+				//未入厂
+				pad.setMargin(pad.getMargin() + noticeNumber);
+				pad.setPretendingtake(pad.getPretendingtake() - noticeNumber);
+				break;
+			case "6":
+				//入厂
+				pad.setMargin(pad.getMargin() + noticeNumber);
+				pad.setUnstoragequantity(pad.getUnstoragequantity() - noticeNumber);
+				break;
+			case "2":
+				//二次过磅
+				PoundNote pn = poundNoteMapper.selectByNoticeId(noticeId);
+				pad.setMargin(pad.getMargin() + pn.getNetweight());
+				pad.setStoragequantity(pad.getStoragequantity() - pn.getNetweight());
+				break;
+			default:
+				break;
+			}
+			purchaseApplicationDetailMapper.updateByPrimaryKeySelective(pad);
+		}
+	}
 
 	@Override
 	public PurchaseArriveResp findOne(String id) throws Exception {

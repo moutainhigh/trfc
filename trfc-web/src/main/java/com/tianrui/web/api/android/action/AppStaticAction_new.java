@@ -125,7 +125,7 @@ public class AppStaticAction_new {
 	public AppResult billList(ApiParam<BillListParam> param){
 		AppResult result = AppResult.getAppResult();
 		try {
-			param.getBody().setUserId(param.getHead().getUserId());
+			param.getBody().setUserId(param.getHead().getNcId());
 			param.getBody().setIDType(param.getHead().getIDType());
 			param.getBody().setSalesOrg(param.getHead().getSalesOrg());
 			result = appService.billList(param.getBody());

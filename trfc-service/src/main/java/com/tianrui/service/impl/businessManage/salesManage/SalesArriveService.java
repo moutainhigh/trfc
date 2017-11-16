@@ -1,7 +1,9 @@
 package com.tianrui.service.impl.businessManage.salesManage;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.collections.CollectionUtils;
@@ -209,75 +211,144 @@ public class SalesArriveService implements ISalesArriveService {
 				bean.setCreatetime(System.currentTimeMillis());
 				bean.setModifier(save.getCurrUId());
 				bean.setModifytime(System.currentTimeMillis());
+				//保存通知单
+				salesArriveMapper.insertSelective(bean);
+				systemCodeService.updateCodeItem(codeReq);
+				salesArriveMapper.emptyForceOutFactoryByVehicle(save.getVehicleid());
+				result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+				//回写订单余量
+				double ytl = save.getTakeamount();
 				JSONArray array = JSONArray.parseArray(bills);
-				List<SalesApplicationJoinNatice> list = new ArrayList<SalesApplicationJoinNatice>();
-				boolean flag = false;
 				if(array != null && array.size() > 0){
-					Double takeamount = bean.getTakeamount();
+					List<String> ids = new ArrayList<String>();
+					List<Map<String, String>> list = new ArrayList<Map<String, String>>();
 					for(Object object : array){
-						SalesApplicationJoinNatice join = new SalesApplicationJoinNatice();
 						JSONObject jsonObject = (JSONObject) object;
-						String billid = jsonObject.getString("billid");
-						String billdetailid = jsonObject.getString("billdetailid");
-						join.setId(UUIDUtil.getId());
-						join.setBillid(billid);
-						join.setBilldetailid(billdetailid);
-						join.setNaticeid(bean.getId());
-						join.setTakeamount(bean.getTakeamount());
-						join.setState(Constant.ONE_STRING);
-						join.setCreator(bean.getCreator());
-						join.setCreatetime(System.currentTimeMillis());
-						join.setModifier(bean.getModifier());
-						join.setModifytime(System.currentTimeMillis());
-						list.add(join);
-						//					SalesApplicationResp application = salesApplicationService.findOne(billid, false);
-						SalesApplicationDetailResp applicationDetailResp = salesApplicationDetailService.findOne(billdetailid);
-						if(applicationDetailResp != null && takeamount > 0){
-							join.setBillsum(applicationDetailResp.getSalessum());
-							join.setMargin(applicationDetailResp.getMargin());
-							join.setOutstoragequantity(applicationDetailResp.getStoragequantity());
-							join.setUnoutstoragequantity(applicationDetailResp.getUnstoragequantity());
-							join.setPretendingtake(applicationDetailResp.getPretendingtake());
-							//回写订单预提占用
-							if(takeamount > applicationDetailResp.getMargin()){
-								SalesApplicationDetail applicationDetail = new SalesApplicationDetail();
-								applicationDetail.setId(applicationDetailResp.getId());
-								applicationDetail.setMargin(applicationDetailResp.getMargin() - applicationDetailResp.getMargin());
-								applicationDetail.setPretendingtake(applicationDetailResp.getPretendingtake() + applicationDetailResp.getMargin());
-								if(salesApplicationDetailMapper.updateByPrimaryKeySelective(applicationDetail) > 0){
-									flag = true;
-								}else{
-									flag = false;
-									break;
+						String billId = jsonObject.getString("billid");
+						String billDetailId = jsonObject.getString("billdetailid");
+						Map<String, String> itemMap = new HashMap<String, String>();
+						itemMap.put("id", billId);
+						itemMap.put("zId", billDetailId);
+						list.add(itemMap);
+						ids.add(billDetailId);
+					}
+					double sumMargin = salesApplicationDetailMapper.getSumMarginBySalesId(ids);
+					if (sumMargin >= ytl) {
+						if (StringUtils.equals(save.getMaindeduction(), Constant.ONE_STRING)) {
+							//主单扣量
+							//重新排序主单扣量放在最前面
+							List<Map<String, String>> list1 = new ArrayList<Map<String, String>>();
+							List<Map<String, String>> list2 = new ArrayList<Map<String, String>>();
+							for(Map<String, String> item : list){
+								if (StringUtils.equals(item.get("id"), bean.getBillid())) {
+									list1.add(item);
+								} else {
+									list2.add(item);
 								}
-								takeamount -= applicationDetailResp.getMargin();
-							}else{
-								SalesApplicationDetail applicationDetail = new SalesApplicationDetail();
-								applicationDetail.setId(applicationDetailResp.getId());
-								applicationDetail.setMargin(applicationDetailResp.getMargin() - takeamount);
-								applicationDetail.setPretendingtake(applicationDetailResp.getPretendingtake() + takeamount);
-								if(salesApplicationDetailMapper.updateByPrimaryKeySelective(applicationDetail) > 0){
-									flag = true;
-								}else{
-									flag = false;
-									break;
-								}
-								takeamount = 0D;
+							}
+							list.clear();
+							list.addAll(list1);
+							list.addAll(list2);
+						}
+						for(Map<String, String> item : list){
+							String billId = item.get("id");
+							String billDetailId = item.get("zId");
+							saveApplicationJoinNatice(bean, billId, billDetailId);
+							SalesApplicationDetail sad = salesApplicationDetailMapper.selectByPrimaryKey(billDetailId);
+							double margin = sad.getMargin();
+							if (ytl > sad.getMargin()) {
+								sad.setPretendingtake(sad.getPretendingtake() + margin);
+								sad.setMargin(0D);
+								ytl -= margin;
+								salesApplicationDetailMapper.updateByPrimaryKeySelective(sad);
+							} else {
+								sad.setPretendingtake(sad.getPretendingtake() + margin);
+								sad.setMargin(margin - ytl);
+								salesApplicationDetailMapper.updateByPrimaryKeySelective(sad);
+								break;
 							}
 						}
+					} else {
+						//订单余量不足
+						result.setErrorCode(ErrorCode.APPLICATION_MARGIN_ERROR);
+						return result;
 					}
 				}
-				if(flag && salesArriveMapper.insertSelective(bean) > 0 
-						&& StringUtils.equals(systemCodeService.updateCodeItem(codeReq).getCode(), ErrorCode.SYSTEM_SUCCESS.getCode())
-						&& salesApplicationJoinNaticeMapper.insertBatch(list) > 0){
-					salesArriveMapper.emptyForceOutFactoryByVehicle(save.getVehicleid());
-					result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
-				}else{
-					result.setErrorCode(ErrorCode.OPERATE_ERROR);
-				}
+//				List<SalesApplicationJoinNatice> list = new ArrayList<SalesApplicationJoinNatice>();
+//				boolean flag = false;
+//				if(array != null && array.size() > 0){
+//					Double takeamount = bean.getTakeamount();
+//					for(Object object : array){
+//						SalesApplicationJoinNatice join = new SalesApplicationJoinNatice();
+//						JSONObject jsonObject = (JSONObject) object;
+//						String billid = jsonObject.getString("billid");
+//						String billdetailid = jsonObject.getString("billdetailid");
+//						join.setId(UUIDUtil.getId());
+//						join.setBillid(billid);
+//						join.setBilldetailid(billdetailid);
+//						join.setNaticeid(bean.getId());
+//						join.setTakeamount(bean.getTakeamount());
+//						join.setState(Constant.ONE_STRING);
+//						join.setCreator(bean.getCreator());
+//						join.setCreatetime(System.currentTimeMillis());
+//						join.setModifier(bean.getModifier());
+//						join.setModifytime(System.currentTimeMillis());
+//						list.add(join);
+//						//					SalesApplicationResp application = salesApplicationService.findOne(billid, false);
+//						SalesApplicationDetailResp applicationDetailResp = salesApplicationDetailService.findOne(billdetailid);
+//						if(applicationDetailResp != null && takeamount > 0){
+//							join.setBillsum(applicationDetailResp.getSalessum());
+//							join.setMargin(applicationDetailResp.getMargin());
+//							join.setOutstoragequantity(applicationDetailResp.getStoragequantity());
+//							join.setUnoutstoragequantity(applicationDetailResp.getUnstoragequantity());
+//							join.setPretendingtake(applicationDetailResp.getPretendingtake());
+//							//回写订单预提占用
+//							if(takeamount > applicationDetailResp.getMargin()){
+//								SalesApplicationDetail applicationDetail = new SalesApplicationDetail();
+//								applicationDetail.setId(applicationDetailResp.getId());
+//								applicationDetail.setMargin(applicationDetailResp.getMargin() - applicationDetailResp.getMargin());
+//								applicationDetail.setPretendingtake(applicationDetailResp.getPretendingtake() + applicationDetailResp.getMargin());
+//								if(salesApplicationDetailMapper.updateByPrimaryKeySelective(applicationDetail) > 0){
+//									flag = true;
+//								}else{
+//									flag = false;
+//									break;
+//								}
+//								takeamount -= applicationDetailResp.getMargin();
+//							}else{
+//								SalesApplicationDetail applicationDetail = new SalesApplicationDetail();
+//								applicationDetail.setId(applicationDetailResp.getId());
+//								applicationDetail.setMargin(applicationDetailResp.getMargin() - takeamount);
+//								applicationDetail.setPretendingtake(applicationDetailResp.getPretendingtake() + takeamount);
+//								if(salesApplicationDetailMapper.updateByPrimaryKeySelective(applicationDetail) > 0){
+//									flag = true;
+//								}else{
+//									flag = false;
+//									break;
+//								}
+//								takeamount = 0D;
+//							}
+//						}
+//					}
+//				}
 			}
 		}
 		return result;
+	}
+
+	private void saveApplicationJoinNatice(SalesArrive bean, String billId, String billDetailId) {
+		SalesApplicationJoinNatice join = new SalesApplicationJoinNatice();
+		join.setId(UUIDUtil.getId());
+		join.setBillid(billId);
+		join.setBilldetailid(billDetailId);
+		join.setNaticeid(bean.getId());
+		join.setTakeamount(bean.getTakeamount());
+		join.setState(Constant.ONE_STRING);
+		join.setCreator(bean.getCreator());
+		join.setCreatetime(System.currentTimeMillis());
+		join.setModifier(bean.getModifier());
+		join.setModifytime(System.currentTimeMillis());
+		salesApplicationJoinNaticeMapper.insertSelective(join);
 	}
 
 	private boolean validVehicleAndDriver(SalesArriveSave save, Result result, SalesArrive bean) throws Exception {
@@ -710,49 +781,46 @@ public class SalesArriveService implements ISalesArriveService {
 	}
 	private ApiNoticeResp getOtherArriveDetail(String vehicleno, String vehiclerfid) {
 		ApiNoticeResp api = null;
-		OtherArrive oa = new OtherArrive();
-		oa.setVehicleid("123");
 		if(StringUtils.isNotBlank(vehicleno)){
 			VehicleManage vehicle = vehicleManageMapper.selectByVehicleno(vehicleno);
 			if(vehicle!=null){
-				oa.setVehicleid(vehicle.getId());
-			}
-		}
-		List<OtherArrive> listPurchase = otherArriveMapper.checkDriverAndVehicleAndIcardIsUse(oa);
-		if(CollectionUtils.isNotEmpty(listPurchase)){
-			api = new ApiNoticeResp();
-//			PurchaseApplication application = purchaseApplicationMapper.selectByPrimaryKey(listPurchase.get(0).getBillid());
-//			PurchaseApplicationDetail applicationDetail = purchaseApplicationDetailMapper.selectByPrimaryKey(listPurchase.get(0).getBilldetailid());
-			OtherArriveResp oaResp = new OtherArriveResp();
-			try {
-				oaResp = (OtherArriveResp)otherArriveService.findOne(listPurchase.get(0).getId()).getData();
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			api.setVehicleid(oaResp.getVehicleid());
-			api.setVehicleno(oaResp.getVehicleno());
-			if(StringUtils.isNotBlank(oaResp.getSupplierid())){				
-				api.setCustomerid(oaResp.getSupplierid());
-				api.setCustomer(oaResp.getSuppliername());
-			}else{
-				api.setCustomerid(oaResp.getCustomerid());
-				api.setCustomer(oaResp.getCustomername());
-			}
-			api.setMaterielid(oaResp.getMaterielid());
-			api.setMateriel(oaResp.getMaterielname());
-			if(StringUtils.isNotBlank(oaResp.getMaterielname()) && oaResp.getMaterielname().contains("水泥")){
-				if(oaResp.getMaterielname().contains("袋装")){
-					api.setCementtype("1");
+				List<OtherArrive> listPurchase = otherArriveMapper.validNoticeByVehicle(vehicle.getId());
+				if(CollectionUtils.isNotEmpty(listPurchase)){
+					api = new ApiNoticeResp();
+//					PurchaseApplication application = purchaseApplicationMapper.selectByPrimaryKey(listPurchase.get(0).getBillid());
+//					PurchaseApplicationDetail applicationDetail = purchaseApplicationDetailMapper.selectByPrimaryKey(listPurchase.get(0).getBilldetailid());
+					OtherArriveResp oaResp = new OtherArriveResp();
+					try {
+						oaResp = (OtherArriveResp)otherArriveService.findOne(listPurchase.get(0).getId()).getData();
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+					api.setVehicleid(oaResp.getVehicleid());
+					api.setVehicleno(oaResp.getVehicleno());
+					if(StringUtils.isNotBlank(oaResp.getSupplierid())){				
+						api.setCustomerid(oaResp.getSupplierid());
+						api.setCustomer(oaResp.getSuppliername());
+					}else{
+						api.setCustomerid(oaResp.getCustomerid());
+						api.setCustomer(oaResp.getCustomername());
+					}
+					api.setMaterielid(oaResp.getMaterielid());
+					api.setMateriel(oaResp.getMaterielname());
+					if(StringUtils.isNotBlank(oaResp.getMaterielname()) && oaResp.getMaterielname().contains("水泥")){
+						if(oaResp.getMaterielname().contains("袋装")){
+							api.setCementtype("1");
+						}
+						if(oaResp.getMaterielname().contains("散装")){
+							api.setCementtype("2");
+						}
+					}
+					api.setPrimary("");//是否原发？？？
+					api.setServicetype(oaResp.getBusinesstype());
+					api.setNotionformcode(oaResp.getCode());
+					api.setNumber(oaResp.getCount() == null ? "" : oaResp.getCount().toString());
+					api.setStatus(oaResp.getStatus());
 				}
-				if(oaResp.getMaterielname().contains("散装")){
-					api.setCementtype("2");
-				}
 			}
-			api.setPrimary("");//是否原发？？？
-			api.setServicetype(oaResp.getBusinesstype());
-			api.setNotionformcode(oaResp.getCode());
-			api.setNumber(oaResp.getCount() == null ? "" : oaResp.getCount().toString());
-			api.setStatus(oaResp.getStatus());
 		}
 		return api;
 	}

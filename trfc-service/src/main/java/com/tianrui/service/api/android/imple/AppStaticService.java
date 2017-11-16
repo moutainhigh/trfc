@@ -336,6 +336,7 @@ public class AppStaticService implements IAppStaticService {
 		page.setPageNo(param.getPageNo());
 		page.setPageSize(param.getPageSize());
 		page.setTotal(count);
+		result.setData(page);
 		result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
 		return result;
 	}

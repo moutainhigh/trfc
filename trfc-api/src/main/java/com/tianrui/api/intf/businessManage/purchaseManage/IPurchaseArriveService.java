@@ -146,5 +146,11 @@ public interface IPurchaseArriveService {
 	 * @return
 	 */
     Result outfactory(PurchaseArriveSave update);
+    /**
+     * @annotation 作废
+     * @param update
+     * @return
+     */
+	Result invalid(PurchaseArriveSave update);
 
 }

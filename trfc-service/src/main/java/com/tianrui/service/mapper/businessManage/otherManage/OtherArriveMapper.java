@@ -42,6 +42,8 @@ public interface OtherArriveMapper {
 	
 	List<OtherArrive> checkDriverAndVehicleAndIcardIsUse(OtherArrive record);
 	
+	List<OtherArrive> validNoticeByVehicle(String vehicleid);
+	
 	/**
 	 * 通过车号 判断是否含有通知单 
 	 * lixiaoyong

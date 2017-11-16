@@ -53,6 +53,7 @@ public enum ErrorCode {
 	APPLICATION_NOT_RETURN("E11002", "自制的订单未推送至NC."),
 	APPLICATION_NOT_DELETE1("E11003", "已审核的单据不能作废."),
 	APPLICATION_NOT_DELETE2("E11004", "联机的单据不能作废."),
+	APPLICATION_MARGIN_ERROR("E11005", "订单余量已不足."),
 	
 	/**
 	 * 通知单
@@ -61,11 +62,12 @@ public enum ErrorCode {
 	NOTICE_NOT_AUDIT("E10021","该通知单未通过审核."),
 	NOTICE_ON_INVALID("E10022","该通知单已作废."),
 	NOTICE_NOT_LOAD("E10023","该通知单还未完成装货."),
-	NOTICE_OUT_FACTORY("E10024","该通知单绑定的车辆已出厂."),
+	NOTICE_OUT_FACTORY("E10024","该通知单已出厂."),
 	NOTICE_NOT_ONE_POUNDNOTE("E10025","该通知单未过一次磅房."),
 	NOTICE_NOT_SIGN("E10025","该通知单未签收确认."), 
 	NOTICE_ON_SIGN("E10026","该通知单已确认,请勿重复确认."), 
 	NOTICE_NOT_VALID_TIME("E10027","该通知单不在有效时间内."), 
+	NOTICE_NOT_ENTER("E10028","该通知单已入厂."), 
 	/**
 	 * 磅单
 	 */

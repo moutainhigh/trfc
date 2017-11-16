@@ -26,4 +26,6 @@ public interface SalesApplicationDetailMapper {
     
     List<SalesApplicationDetail> selectByIds(List<String> list);
     
+    double getSumMarginBySalesId(List<String> list);
+    
 }

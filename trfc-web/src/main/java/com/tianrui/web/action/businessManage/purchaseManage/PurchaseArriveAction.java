@@ -204,7 +204,7 @@ public class PurchaseArriveAction {
 			SystemUserResp user = SessionManager.getSessionUser(request);
 			update.setCurrId(user.getId());
 			update.setStatus("3");
-			result = purchaseArriveService.updateOperation(update);
+			result = purchaseArriveService.invalid(update);
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
