@@ -1,10 +1,7 @@
 ;(function($){
 	var URL = {
 		page: '/trfc/infraredBlock/page',
-		audit: '/trfc/infraredBlock/audit',
-		customerAutoCompleteSearch: "/trfc/customer/autoCompleteSearch",
-		vehicleAutoCompleteSearch: "/trfc/vehicle/autoCompleteSearch",
-		materialAutoCompleteSearch: "/trfc/materiel/autoCompleteSearch"	
+		audit: '/trfc/infraredBlock/audit'
 	};
 	init();
 	function init(){
@@ -17,108 +14,6 @@
 	}
 	function initAutoComplete(){
 		var cache = {};
-		$("#customer").autocomplete({
-			source: function( request, response ) {
-				var term = request.term;
-				var customer = cache['customer'] || {};
-				if ( term in customer ) {
-					response( customer[ term ] );
-					return;
-				}
-				$.post( URL.customerAutoCompleteSearch, request, function( data, status, xhr ) {
-					customer[ term ] = data;
-					response( data );
-				});
-			},
-			response: function( event, ui ) {
-				if(ui.content && ui.content.length > 0){
-					ui.content.forEach(function(x,i,a){
-						x.label = x.name;
-						x.value = x.id;
-					});
-				}
-			},
-			select: function( event, ui ) {
-				$(this).val(ui.item.name).attr('customerId', ui.item.id);
-				return false;
-			}
-		}).off('click').on('click',function(){
-			$(this).autocomplete('search',' ');
-		}).on('input keydown',function(){
-			$(this).removeAttr('customerId');
-		}).change(function(){
-			if(!$(this).attr('customerId')){
-				$(this).val('');
-			}
-		});
-		$("#material").autocomplete({
-			source: function( request, response ) {
-				var term = request.term;
-				var material = cache['material'] || {};
-				if ( term in material ) {
-					response( material[ term ] );
-					return;
-				}
-				$.post( URL.materialAutoCompleteSearch, request, function( data, status, xhr ) {
-					material[ term ] = data;
-					response( data );
-				});
-			},
-			response: function( event, ui ) {
-				if(ui.content && ui.content.length > 0){
-					ui.content.forEach(function(x,i,a){
-						x.label = x.name;
-						x.value = x.id;
-					});
-				}
-			},
-			select: function( event, ui ) {
-				$(this).val(ui.item.name).attr('materialId', ui.item.id);
-				return false;
-			}
-		}).off('click').on('click',function(){
-			$(this).autocomplete('search',' ');
-		}).on('input keydown',function(){
-			$(this).removeAttr('materialId');
-		}).change(function(){
-			if(!$(this).attr('materialId')){
-				$(this).val('');
-			}
-		});
-		$("#vehicle").autocomplete({
-			source: function( request, response ) {
-				var term = request.term;
-				var vehicle = cache['vehicle'] || {};
-				if ( term in vehicle ) {
-					response( vehicle[ term ] );
-					return;
-				}
-				$.post( URL.vehicleAutoCompleteSearch, request, function( data, status, xhr ) {
-					vehicle[ term ] = data;
-					response( data );
-				});
-			},
-			response: function( event, ui ) {
-				if(ui.content && ui.content.length > 0){
-					ui.content.forEach(function(x,i,a){
-						x.label = x.vehicleno;
-						x.value = x.id;
-					});
-				}
-			},
-			select: function( event, ui ) {
-				$(this).val(ui.item.vehicleno).attr('vehicleId', ui.item.id);
-				return false;
-			}
-		}).off('click').on('click',function(){
-			$(this).autocomplete('search',' ');
-		}).on('input keydown',function(){
-			$(this).removeAttr('vehicleId');
-		}).change(function(){
-			if(!$(this).attr('vehicleId')){
-				$(this).val('');
-			}
-		});
 	}
 	
 	//绑定按钮
@@ -133,7 +28,7 @@
 			e.stopPropagation();
 			var obj = $('table.maintable tbody tr.active').data();
 			if(!obj) {layer.msg('需要选中一行才能操作哦！'); return;}
-				//window.location.href = '/trfc/exceptionAudit/emptyCarLeavingFactory/auditView?id=' + obj.id;
+				window.location.href = '/trfc/infraredBlock/auditView?id=' + obj.id;
 		});
 		$('#jumpPageNoBtn').off('click').on('click',function(){
 			var pageNo = $('input#jumpPageNo').val();pageNo = $.trim(pageNo);pageNo = parseInt(pageNo);
@@ -224,16 +119,15 @@
 				.append('<td>'+(obj.pnId || '')+'</td>')
 				.append('<td>'+(obj.remark || '')+'</td>')
 				.append('<td>'+(obj.auditStatus == '0' ? '未审批' : obj.auditStatus == '1' ? '已审批' : '')+'</td>')
-				.append('<td>'+(obj.auditPerson || '')+'</td>')
-				.append('<td>'+(obj.auditTime || '')+'</td>')
-				.append('<td>'+(obj.createtime || '')+'</td>')
+				.append('<td>'+(obj.auditTimeStr || '')+'</td>')
+				.append('<td>'+(obj.createtimeStr || '')+'</td>')
 				
 				.data(obj)
 				.appendTo('#dataBody');
 			}
 			$('#dataBody tr').off('dblclick').on('dblclick', function() {
 				var obj = $(this).data();
-					//window.location.href = '/trfc/exceptionAudit/emptyCarLeavingFactory/auditView?id=' + obj.id;
+					window.location.href = '/trfc/infraredBlock/auditView?id=' + obj.id;
 			});
 		} else {
 			layer.msg('暂无数据.');

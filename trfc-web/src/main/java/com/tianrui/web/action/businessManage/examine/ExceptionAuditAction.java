@@ -43,11 +43,19 @@ public class ExceptionAuditAction {
     @Autowired
     private IPoundNoteService poundNoteService;
     
-    @RequestMapping({"emptyCarLeavingFactory/main", "noNeedToFillTheBag/main"})
-    public ModelAndView emptyCarLeavingFactoryMain(String type) {
+    @RequestMapping("emptyCarLeavingFactory/main")
+    public ModelAndView emptyCarLeavingFactorymain() {
         ModelAndView view = new ModelAndView("businessManage/examine/exceptionAudit");
-        view.addObject("type", type);
+        //1：空车出厂，2：补包，3：回包，4：无需补包
+        view.addObject("type", "1");
         return view;
+    }
+    @RequestMapping( "noNeedToFillTheBag/main")
+    public ModelAndView noNeedToFillTheBagmain() {
+    	ModelAndView view = new ModelAndView("businessManage/examine/exceptionAudit");
+    	//1：空车出厂，2：补包，3：回包，4：无需补包
+    	view.addObject("type", "4");
+    	return view;
     }
     
     @RequestMapping("page")

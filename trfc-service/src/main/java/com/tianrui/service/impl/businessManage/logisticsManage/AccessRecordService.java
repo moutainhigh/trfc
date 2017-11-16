@@ -329,8 +329,9 @@ public class AccessRecordService implements IAccessRecordService {
 					}
 				//出厂
 				}else{
+					//强制出场或者二次榜
 					if(StringUtils.equals(purchase.getStatus(), Constant.TWO_STRING) 
-					        || StringUtils.equals(purchase.getStatus(), Constant.EIGHT_STRING)){
+					        || purchase.getForceOutFactory()== 1){
 						//修改通知单状态
 						PurchaseArrive pa = new PurchaseArrive();
 						pa.setId(purchase.getId());

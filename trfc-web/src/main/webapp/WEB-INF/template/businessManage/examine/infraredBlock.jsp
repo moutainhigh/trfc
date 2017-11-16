@@ -61,7 +61,6 @@
                                     <th>通知单号</th>
                                     <th>流水号</th>
                                     <th>审批状态</th>
-                                    <th>审批人</th>
                                     <th>审批时间</th>
                                     <th>创建时间</th>
                                 </tr>
@@ -98,6 +97,6 @@
     <!-- 引用公共footer部分 -->
     <jsp:include page="../../common/base/footer_busi.jsp"></jsp:include>
     <script type="text/javascript"
-        src="/javascript/businessManage/examine/infraredBlock.js"></script>
+        src="/javascript/businessManage/examine/infraredBlock.js?03"></script>
 </body>
 </html>

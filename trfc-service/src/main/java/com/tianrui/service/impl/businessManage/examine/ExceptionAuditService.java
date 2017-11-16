@@ -178,7 +178,7 @@ public class ExceptionAuditService implements IExceptionAuditService {
 			ExceptionAudit bean =exceptionAuditMapper.selectByPrimaryKey(req.getId());
 			if( bean !=null){
 	    		result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
-				if(bean.getState()){
+				if(bean.getAuditStatus()){
 					result.setData(1);
 				}else{
 					result.setData(2);

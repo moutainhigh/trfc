@@ -31,6 +31,7 @@ public class ExceptionAuditResp extends BaseResp {
     private String creator;
     //创建时间
     private Long createtime;
+    private String createtimeStr;
     //最后修改人
     private String modifier;
     //最后修改时间
@@ -115,6 +116,7 @@ public class ExceptionAuditResp extends BaseResp {
     }
     public void setCreatetime(Long createtime) {
         this.createtime = createtime;
+        this.createtimeStr = DateUtil.parse(createtime, DateUtil.Y_M_D_H_M_S);
     }
     public String getModifier() {
         return modifier;
@@ -137,7 +139,12 @@ public class ExceptionAuditResp extends BaseResp {
     public static long getSerialversionuid() {
         return serialVersionUID;
     }
-    @Override
+    		
+    		
+    public String getCreatetimeStr() {
+		return createtimeStr;
+	}
+	@Override
     public String toString() {
         return "ExceptionAuditQueryResp [id=" + id + ", pnId=" + pnId + ", type=" + type + ", number=" + number
                 + ", auditStatus=" + auditStatus + ", auditOpinion=" + auditOpinion + ", auditPerson=" + auditPerson

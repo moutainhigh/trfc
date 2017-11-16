@@ -58,35 +58,11 @@ public class InfraredBlockAuditAction {
         return result;
     }
     
-    @RequestMapping({"auditView"})
+    @RequestMapping("auditView")
     public ModelAndView auditView(String id) throws Exception {
-       ModelAndView view = new ModelAndView("businessManage/examine/exceptionAuditView");
-//        ExceptionAuditResp resp = exceptionAuditService.getById(id);
-//        view.addObject("resp", resp);
-//        PoundNoteResp poundNote = poundNoteService.findOne(resp.getPnId());
-//        view.addObject("poundNote", poundNote);
-//        List<UploadImageResp> list = poundNoteService.getPoundImages(poundNote.getNoticecode());
-//        String intoFcImg = null, lightImg = null, weightImg = null;
-//        if (CollectionUtils.isNotEmpty(list)) {
-//            for (UploadImageResp image : list) {
-//                switch (image.getSource()) {
-//                case "1":
-//                    intoFcImg = image.getImgurl();
-//                    break;
-//                case "2":
-//                    lightImg = image.getImgurl();
-//                    break;
-//                case "3":
-//                    weightImg = image.getImgurl();
-//                    break;
-//                default:
-//                    break;
-//                }
-//            }
-//        }
-//        view.addObject("intoFcImg", intoFcImg);
-//        view.addObject("lightImg", lightImg);
-//        view.addObject("weightImg", weightImg);
+       ModelAndView view = new ModelAndView("businessManage/examine/infraredBlockAuditView");
+        ExceptionAuditResp resp = exceptionAuditService.getById(id);
+        view.addObject("resp", resp);
         return view;
     }
     
