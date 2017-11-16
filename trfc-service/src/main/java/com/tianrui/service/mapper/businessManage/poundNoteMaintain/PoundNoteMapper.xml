@@ -1462,12 +1462,29 @@
     	</where>
     </select>
     <select id="historyTareWeight" parameterType="com.tianrui.api.req.businessManage.poundNoteMaintain.ApiPoundNoteQuery" resultType="java.lang.Double">
-    	select tareweight
-    	from tr_pound_db_note t
-    	where t.vehicleno = #{vehicleno,jdbcType=VARCHAR} and t.vehiclerfid = #{rfid,jdbcType=VARCHAR} 
-    		and t.state = '1' and t.tareweight >= #{notReturnNum,jdbcType=VARCHAR} and t.status != 3
-    	and EXISTS(select * from tr_purchase_db_arrive where signStatus != 0 and t.noticeid = id)
-    	limit 0,#{limit,jdbcType=INTEGER}
+    	SELECT
+			t.tareweight
+		FROM
+			tr_pound_db_note t
+		WHERE
+			t.vehicleno = #{vehicleno,jdbcType=VARCHAR}
+		AND t.vehiclerfid = #{rfid,jdbcType=VARCHAR}
+		AND t.state = '1'
+		AND t.tareweight >= #{notReturnNum,jdbcType=VARCHAR}
+		AND t. STATUS != 3
+		AND billcode NOT IN (
+			SELECT
+				`code`
+			FROM
+				tr_purchase_db_arrive
+			WHERE
+				vehicleno = #{vehicleno,jdbcType=VARCHAR}
+			AND vehiclerfid = #{rfid,jdbcType=VARCHAR}
+			AND state = 1
+			AND signStatus != 0
+			AND type = 0
+		)
+		LIMIT 0,#{limit,jdbcType=INTEGER}
     </select>
     <select id="selectByNoticeId" parameterType="java.lang.String" resultMap="BaseResultMap">
     	select 

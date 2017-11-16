@@ -37,6 +37,8 @@ import com.tianrui.service.mapper.basicFile.measure.DriverManageMapper;
 import com.tianrui.service.mapper.basicFile.measure.VehicleManageMapper;
 import com.tianrui.service.mapper.basicFile.nc.CustomerManageMapper;
 import com.tianrui.service.mapper.basicFile.nc.MaterielManageMapper;
+import com.tianrui.service.mapper.businessManage.purchaseManage.PurchaseApplicationMapper;
+import com.tianrui.service.mapper.businessManage.purchaseManage.PurchaseArriveMapper;
 import com.tianrui.service.mapper.businessManage.salesManage.SalesApplicationDetailMapper;
 import com.tianrui.service.mapper.businessManage.salesManage.SalesApplicationMapper;
 import com.tianrui.service.mapper.businessManage.salesManage.SalesArriveMapper;
@@ -78,6 +80,10 @@ public class AppStaticService implements IAppStaticService {
 	private MaterielManageMapper materielManageMapper;
 	@Autowired
 	private ReturnQueueMapper returnQueueMapper;
+	@Autowired
+	private PurchaseApplicationMapper purchaseApplicationMapper;
+	@Autowired
+	private PurchaseArriveMapper purchaseArriveMapper;
 	
 	@Transactional
 	@Override
@@ -86,6 +92,11 @@ public class AppStaticService implements IAppStaticService {
 		if (param != null && StringUtils.isNotBlank(param.getAccount())
 				&& StringUtils.isNotBlank(param.getPwd())
 				&& StringUtils.isNotBlank(param.getIDType())) {
+			if (StringUtils.equals(param.getIDType(), Constant.ONE_STRING)) {
+				result.setCode("-1");
+				result.setMessage("待开发。");
+				return result;
+			}
 			SystemUser user = userMapper.getByAccount(param.getAccount(), param.getIDType());
 			if (user != null) {
 				if (StringUtils.equals(user.getPassword(), param.getPwd())) {
@@ -293,8 +304,30 @@ public class AppStaticService implements IAppStaticService {
 	 * @return
 	 */
 	private AppResult supplierHome(HomePageParam param) {
-		// TODO Auto-generated method stub
-		return null;
+		AppResult result = AppResult.getAppResult();
+		Object[] objArr = new Object[] {"","",""};
+		List<HomeBillVo> billList = purchaseApplicationMapper.appHomeBill(param);
+		if (CollectionUtils.isNotEmpty(billList)) {
+			objArr[0] = billList.get(0);
+		}
+		List<HomeNoticeVo> noticeList = purchaseArriveMapper.appHomeNotice(param);
+		if (CollectionUtils.isNotEmpty(noticeList)) {
+			objArr[1] = noticeList.get(0);
+		}
+		List<String> vehicleList = purchaseArriveMapper.appHomeVehicle(param);
+		if (CollectionUtils.isNotEmpty(vehicleList)) {
+			String[] strArr = new String[] {"","",""};
+			for (int i=0;i<vehicleList.size();i++) {
+				if (i > 2) {
+					break;
+				}
+				strArr[i] = vehicleList.get(i);
+			}
+			objArr[2] = strArr;
+		}
+		result.setData(objArr);
+		result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+		return result;
 	}
 
 	@Override

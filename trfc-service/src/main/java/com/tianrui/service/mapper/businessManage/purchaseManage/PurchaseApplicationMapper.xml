@@ -752,4 +752,34 @@
   		</if>
   	</if>
   </select>
+  <select id="appHomeBill" parameterType="com.tianrui.api.req.android.HomePageParam" resultType="com.tianrui.api.resp.android.HomeBillVo">
+  	SELECT
+		t1.id,
+		t1.`code`,
+		t2.id AS detailId,
+		t2.materielname AS material,
+		FROM_UNIXTIME(
+			t1.billtime / 1000,
+			"%Y-%m-%d"
+		) AS billTime,
+		CASE
+		WHEN t1.bill_source = 0 THEN
+			'NC'
+		WHEN t1.bill_source = 1 THEN
+			'业务平台'
+		WHEN t1.bill_source = 2 THEN
+			'客商APP'
+		ELSE
+			''
+		END AS billSource
+	FROM
+		tr_purchase_db_application t1
+	LEFT JOIN tr_purchase_db_application_detail t2 ON t1.id = t2.purchaseid
+	WHERE
+		t1.supplierid = #{userId,jdbcType=VARCHAR}
+	AND t1.orgid = #{salesOrg,jdbcType=VARCHAR}
+	AND t1.state = 1
+	AND t1.auditstatus = 1
+	ORDER BY t1.billtime DESC
+  </select>
 </mapper>
