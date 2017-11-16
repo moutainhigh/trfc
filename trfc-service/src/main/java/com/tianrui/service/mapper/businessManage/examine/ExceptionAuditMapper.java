@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Param;
 
 import com.tianrui.api.req.businessManage.examine.ExceptionAuditQuery;
 import com.tianrui.api.resp.businessManage.examine.ExceptionAuditQueryResp;
+import com.tianrui.api.resp.businessManage.examine.ExceptionAuditResp;
 import com.tianrui.service.bean.businessManage.examine.ExceptionAudit;
 
 public interface ExceptionAuditMapper {
@@ -24,6 +25,10 @@ public interface ExceptionAuditMapper {
     List<ExceptionAuditQueryResp> listByPageParams(ExceptionAuditQuery req);
     
     long countByPageParams(ExceptionAuditQuery req);
+    //单表的条件查询
+    List<ExceptionAudit> listByCondition(ExceptionAuditQuery req);
+    //单表的总数条件查询
+    long countByCondition(ExceptionAuditQuery req);
     
     List<ExceptionAudit> listByPnId(@Param("type")String type, @Param("pnId")String pnId);
 }

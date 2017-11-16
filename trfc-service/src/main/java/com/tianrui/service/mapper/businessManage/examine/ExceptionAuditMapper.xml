@@ -247,6 +247,53 @@
         </if>
     </if>
   </select>
+  <select id="listByCondition" parameterType="com.tianrui.api.req.businessManage.examine.ExceptionAuditQuery" 
+  		  resultMap="BaseResultMap">
+	SELECT
+	    <include refid="Base_Column_List" />
+	FROM
+	    tr_exception_db_audit
+	WHERE
+        state = 1
+    <if test="type != null and type != ''">
+        and type = #{type,jdbcType=VARCHAR}
+    </if>
+    <if test="pnCode != null and pnCode != ''">
+        and pn_id = #{pnCode,jdbcType=VARCHAR}
+    </if>
+    <if test="startTime != null and startTime != ''">
+        and createtime <![CDATA[>=]]> #{startTime,jdbcType=BIGINT}
+    </if>
+    <if test="endTime != null and endTime != ''">
+        and createtime <![CDATA[<]]> #{endTime,jdbcType=BIGINT}
+    </if>
+    order by createtime desc
+    <if test="start != null and start >= 0">
+        <if test="limit != null">
+            limit #{start,jdbcType=INTEGER},#{limit,jdbcType=INTEGER}
+        </if>
+    </if>
+  </select>
+  <select id="countByCondition" parameterType="com.tianrui.api.req.businessManage.examine.ExceptionAuditQuery" resultType="java.lang.Long">
+	SELECT
+	   count(1)
+	FROM
+	    tr_exception_db_audit 
+	WHERE
+        state = 1
+    <if test="type != null and type != ''">
+        and type = #{type,jdbcType=VARCHAR}
+    </if>
+    <if test="pnCode != null and pnCode != ''">
+        and pn_id = #{pnCode,jdbcType=VARCHAR}
+    </if>
+    <if test="startTime != null and startTime != ''">
+        and createtime <![CDATA[>=]]> #{startTime,jdbcType=BIGINT}
+    </if>
+    <if test="endTime != null and endTime != ''">
+        and createtime <![CDATA[<]]> #{endTime,jdbcType=BIGINT}
+    </if>
+  </select>
   <select id="countByPageParams" parameterType="com.tianrui.api.req.businessManage.examine.ExceptionAuditQuery" resultType="java.lang.Long">
 	SELECT
 	    count(0)

@@ -7,6 +7,7 @@ import java.net.URL;
 
 import com.alibaba.fastjson.JSON;
 import com.tianrui.api.req.basicFile.measure.VehicleCheckApi;
+import com.tianrui.api.req.businessManage.poundNoteMaintain.ApiPoundNoteQuery;
 import com.tianrui.api.req.businessManage.salesManage.ApiDoorQueueQuery;
 import com.tianrui.smartfactory.common.api.ApiParam;
 import com.tianrui.smartfactory.common.api.Head;
@@ -15,14 +16,14 @@ import com.tianrui.smartfactory.common.utils.DateUtil;
 import com.tianrui.smartfactory.common.utils.Md5Utils;
 
 @SuppressWarnings("unused")
-public class TestApiDoorSystem {
+public class TestApiPountNoteSystem {
 
 	private static String domin = "http://localhost/";
 	//private static String domin = "http://172.19.4.97:28080/";
-	private static String uri_enterFactoryCheck = "api/doorSystem/enterFactoryCheck";
+	private static String uri_tareWeight = "api/poundNote/history/tareWeight";
 	
 	public static void main(String[] args) throws Exception {
-		URL url = new URL(domin + uri_enterFactoryCheck);
+		URL url = new URL(domin + uri_tareWeight);
 		// 打开url连接
 		HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 		// 设置url请求方式 ‘get’ 或者 ‘post’
@@ -49,12 +50,13 @@ public class TestApiDoorSystem {
 	}
 	
 	
-	static ApiParam<VehicleCheckApi> getParam0(){
-		ApiParam<VehicleCheckApi> api =new ApiParam<VehicleCheckApi>();
+	static ApiParam<ApiPoundNoteQuery> getParam0(){
+		ApiParam<ApiPoundNoteQuery> api =new ApiParam<ApiPoundNoteQuery>();
 		
-		VehicleCheckApi req =new VehicleCheckApi();
-		req.setRfid("E2000016130B0171218035E8");
-		req.setVehicleNo("豫D55555");
+		ApiPoundNoteQuery req =new ApiPoundNoteQuery();
+		req.setRfid("E2000016130B008621703789");
+		req.setVehicleno("45612");
+		req.setLimit(10);
 		
 		Head head =new Head();
 		head.setCallSource("1");

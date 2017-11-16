@@ -1,5 +1,6 @@
 package com.tianrui.service.impl.businessManage.examine;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.beanutils.PropertyUtils;
@@ -15,16 +16,12 @@ import com.tianrui.api.req.businessManage.examine.ExceptionAuditSaveReq;
 import com.tianrui.api.resp.businessManage.examine.ExceptionAuditQueryResp;
 import com.tianrui.api.resp.businessManage.examine.ExceptionAuditResp;
 import com.tianrui.service.bean.businessManage.examine.ExceptionAudit;
-import com.tianrui.service.bean.businessManage.poundNoteMaintain.PoundNote;
-import com.tianrui.service.bean.businessManage.salesManage.SalesApplicationDetail;
-import com.tianrui.service.bean.businessManage.salesManage.SalesArrive;
 import com.tianrui.service.bean.system.auth.SystemUser;
 import com.tianrui.service.mapper.businessManage.examine.ExceptionAuditMapper;
 import com.tianrui.service.mapper.businessManage.poundNoteMaintain.PoundNoteMapper;
 import com.tianrui.service.mapper.businessManage.salesManage.SalesApplicationDetailMapper;
 import com.tianrui.service.mapper.businessManage.salesManage.SalesArriveMapper;
 import com.tianrui.service.mapper.system.auth.SystemUserMapper;
-import com.tianrui.smartfactory.common.constants.Constant;
 import com.tianrui.smartfactory.common.constants.ErrorCode;
 import com.tianrui.smartfactory.common.utils.UUIDUtil;
 import com.tianrui.smartfactory.common.vo.PaginationVO;
@@ -61,6 +58,24 @@ public class ExceptionAuditService implements IExceptionAuditService {
             page.setTotal(count);
         }
         return page;
+    }
+    @Override
+    public PaginationVO<ExceptionAuditResp> pageForInfraredBlock(ExceptionAuditQuery query) {
+    	PaginationVO<ExceptionAuditResp> page = null;
+    	if (query != null) {
+    		page = new PaginationVO<ExceptionAuditResp>();
+    		long count = exceptionAuditMapper.countByCondition(query);
+    		if (count > 0) {
+    			query.setStart((query.getPageNo() - 1) * query.getPageSize());
+    			query.setLimit(query.getPageSize());
+    			List<ExceptionAudit> list = exceptionAuditMapper.listByCondition(query);
+    			page.setList(conver2Resps(list));
+    		}
+    		page.setPageNo(query.getPageNo());
+    		page.setPageSize(query.getPageSize());
+    		page.setTotal(count);
+    	}
+    	return page;
     }
 
     @Override
@@ -139,7 +154,7 @@ public class ExceptionAuditService implements IExceptionAuditService {
 	    		bean.setId(UUIDUtil.getId());
 	    		bean.setPnId(req.getNoticeNo());
 	    		bean.setType(5);
-	    		bean.setAuditStatus(true);
+	    		bean.setAuditStatus(false);
 	    		bean.setState(true);
 	    		bean.setCreator(req.getCurrUid());
 	    		bean.setCreatetime(System.currentTimeMillis());
@@ -172,6 +187,28 @@ public class ExceptionAuditService implements IExceptionAuditService {
 			}
 		}
 		return result;
+	}
+	
+	private List<ExceptionAuditResp> conver2Resps(List<ExceptionAudit> list){
+		List<ExceptionAuditResp> rs =null;
+		if( CollectionUtils.isNotEmpty(list) ){
+			rs =new ArrayList<ExceptionAuditResp>();
+			for( ExceptionAudit bean :list ){
+				if( bean !=null ){
+					ExceptionAuditResp item = new ExceptionAuditResp();
+					item.setId(bean.getId());
+					item.setRemark(bean.getRemark());
+					item.setCreatetime(bean.getCreatetime());
+					item.setCreator(bean.getCreator());
+					item.setAuditPerson(bean.getAuditPerson());
+					item.setAuditTime(bean.getAuditTime());
+					item.setAuditStatus(bean.getAuditStatus());
+					item.setPnId(bean.getPnId());
+					rs.add(item);
+				}
+			}
+		}
+		return rs;
 	}
 
 }

@@ -11,6 +11,9 @@ import com.tianrui.smartfactory.common.vo.Result;
 public interface IExceptionAuditService {
 
     PaginationVO<ExceptionAuditQueryResp> page(ExceptionAuditQuery query);
+    
+    //红外被挡分页
+    PaginationVO<ExceptionAuditResp> pageForInfraredBlock(ExceptionAuditQuery query);
 
     Result audit(ExceptionAuditReq req);
     //红外被挡申请

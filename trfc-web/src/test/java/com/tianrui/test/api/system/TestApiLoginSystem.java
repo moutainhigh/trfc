@@ -8,6 +8,7 @@ import java.net.URL;
 import com.alibaba.fastjson.JSON;
 import com.tianrui.api.req.basicFile.measure.VehicleCheckApi;
 import com.tianrui.api.req.businessManage.salesManage.ApiDoorQueueQuery;
+import com.tianrui.api.req.system.auth.UserReq;
 import com.tianrui.smartfactory.common.api.ApiParam;
 import com.tianrui.smartfactory.common.api.Head;
 import com.tianrui.smartfactory.common.constants.Constant;
@@ -15,11 +16,11 @@ import com.tianrui.smartfactory.common.utils.DateUtil;
 import com.tianrui.smartfactory.common.utils.Md5Utils;
 
 @SuppressWarnings("unused")
-public class TestApiDoorSystem {
+public class TestApiLoginSystem {
 
-	private static String domin = "http://localhost/";
-	//private static String domin = "http://172.19.4.97:28080/";
-	private static String uri_enterFactoryCheck = "api/doorSystem/enterFactoryCheck";
+	//private static String domin = "http://localhost/";
+	private static String domin = "http://172.19.4.97:28080/";
+	private static String uri_enterFactoryCheck = "api/system/login";
 	
 	public static void main(String[] args) throws Exception {
 		URL url = new URL(domin + uri_enterFactoryCheck);
@@ -49,18 +50,19 @@ public class TestApiDoorSystem {
 	}
 	
 	
-	static ApiParam<VehicleCheckApi> getParam0(){
-		ApiParam<VehicleCheckApi> api =new ApiParam<VehicleCheckApi>();
+	static ApiParam<UserReq> getParam0(){
+		ApiParam<UserReq> api =new ApiParam<UserReq>();
 		
-		VehicleCheckApi req =new VehicleCheckApi();
-		req.setRfid("E2000016130B0171218035E8");
-		req.setVehicleNo("豫D55555");
+		UserReq req =new UserReq();
+
+		req.setAccount("jinxin");
+		req.setPswd(Md5Utils.MD5("666666"));
+		req.setSubSystemCode("01");
 		
 		Head head =new Head();
 		head.setCallSource("1");
 		head.setCallType("2");
 		head.setCallTime(DateUtil.getNowDateString("yyyy-MM-dd HH:mm:ss"));
-		head.setUserId("043e657203f841fcbbeed0118b49a185");
 		
 		api.setBody(req);
 		api.setHead(head);
