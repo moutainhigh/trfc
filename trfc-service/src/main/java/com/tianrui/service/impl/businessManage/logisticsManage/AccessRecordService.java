@@ -339,11 +339,11 @@ public class AccessRecordService implements IAccessRecordService {
 						pa.setForceOutFactory(Constant.ZERO_NUMBER);
 						if(purchaseArriveMapper.updateByPrimaryKeySelective(pa) > 0){
 							AccessRecord access = accessRecordMapper.selectByNoticeId(purchase.getId());
-							if(StringUtils.equals(access.getAccesstype(), "1")){
+							if(StringUtils.isNotBlank(access.getId())){
 								result.setErrorCode(addOutAccessRecordApi(apiParam, access.getId()));
 								result.setData(access.getCode());
 							}else{
-								result.setErrorCode(ErrorCode.NOTICE_OUT_FACTORY);
+								result.setErrorCode(ErrorCode.NOTICE_OUT_FACTORY2);
 							}
 						}else{
 							result.setErrorCode(ErrorCode.OPERATE_ERROR);

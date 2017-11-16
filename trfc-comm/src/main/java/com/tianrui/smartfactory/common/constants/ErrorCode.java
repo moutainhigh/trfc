@@ -68,6 +68,7 @@ public enum ErrorCode {
 	NOTICE_ON_SIGN("E10026","该通知单已确认,请勿重复确认."), 
 	NOTICE_NOT_VALID_TIME("E10027","该通知单不在有效时间内."), 
 	NOTICE_NOT_ENTER("E10028","该通知单已入厂."), 
+	NOTICE_OUT_FACTORY2("E10029","该通知单无相关入厂记录."), 
 	/**
 	 * 磅单
 	 */
