@@ -1,6 +1,7 @@
 package com.tianrui.api.resp.businessManage.purchaseManage;
 
 import com.tianrui.api.resp.BaseResp;
+import com.tianrui.smartfactory.common.utils.DateUtil;
 
 public class PushSingleResp extends BaseResp {
 
@@ -22,18 +23,22 @@ public class PushSingleResp extends BaseResp {
 		private String reasonFailure;
 		//轻车时间
 		private Long lightCarTime;
+		private String  lightCarTimeStr;
 		//重车时间
 		private Long heavyCarTime;
+		private String  heavyCarTimeStr;
 		//净重
 		private String netWeight;
 		//创建人
 		private  String creator;
 		//创建时间（推送时间）
 		private Long createtime;
+		private String  createtimeStr;
 		//修改人
 		private String modifier;
 		//修改时间（NC回写时间）
 		private Long modifytime;
+		private String  modifytimeStr;
 		private String desc1;
 		private String desc2;
 		private String desc3;
@@ -79,12 +84,14 @@ public class PushSingleResp extends BaseResp {
 		}
 		public void setLightCarTime(Long lightCarTime) {
 			this.lightCarTime = lightCarTime;
+			this.lightCarTimeStr = DateUtil.parse(lightCarTime, "yyyy-MM-dd HH:mm:ss");
 		}
 		public Long getHeavyCarTime() {
 			return heavyCarTime;
 		}
 		public void setHeavyCarTime(Long heavyCarTime) {
 			this.heavyCarTime = heavyCarTime;
+			this.heavyCarTimeStr = DateUtil.parse(heavyCarTime, "yyyy-MM-dd HH:mm:ss");
 		}
 		public String getNetWeight() {
 			return netWeight;
@@ -103,6 +110,7 @@ public class PushSingleResp extends BaseResp {
 		}
 		public void setCreatetime(Long createtime) {
 			this.createtime = createtime;
+			this.createtimeStr = DateUtil.parse(createtime, "yyyy-MM-dd HH:mm:ss");
 		}
 		public String getModifier() {
 			return modifier;
@@ -115,6 +123,7 @@ public class PushSingleResp extends BaseResp {
 		}
 		public void setModifytime(Long modifytime) {
 			this.modifytime = modifytime;
+			this.modifytimeStr = DateUtil.parse(modifytime, "yyyy-MM-dd HH:mm:ss");
 		}
 		public String getDesc1() {
 			return desc1;
@@ -142,6 +151,30 @@ public class PushSingleResp extends BaseResp {
 		}
 		public static long getSerialversionuid() {
 			return serialVersionUID;
+		}
+		public String getLightCarTimeStr() {
+			return lightCarTimeStr;
+		}
+		public void setLightCarTimeStr(String lightCarTimeStr) {
+			this.lightCarTimeStr = lightCarTimeStr;
+		}
+		public String getHeavyCarTimeStr() {
+			return heavyCarTimeStr;
+		}
+		public void setHeavyCarTimeStr(String heavyCarTimeStr) {
+			this.heavyCarTimeStr = heavyCarTimeStr;
+		}
+		public String getCreatetimeStr() {
+			return createtimeStr;
+		}
+		public void setCreatetimeStr(String createtimeStr) {
+			this.createtimeStr = createtimeStr;
+		}
+		public String getModifytimeStr() {
+			return modifytimeStr;
+		}
+		public void setModifytimeStr(String modifytimeStr) {
+			this.modifytimeStr = modifytimeStr;
 		}
 		
 		

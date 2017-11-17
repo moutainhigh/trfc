@@ -162,13 +162,13 @@
 				var noticeNum = obj.noticeNum || '';
 				var desc1 = obj.desc1 || '';
 				var reasonFailure = obj.reasonFailure || '';
-				var lightCarTime = obj.lightCarTime || '';
-				var heavyCarTime = obj.heavyCarTime || '';
+				var lightCarTime = obj.lightCarTimeStr || '';
+				var heavyCarTime = obj.heavyCarTimeStr || '';
 				var netWeight = obj.netWeight || '';
 				var creator = obj.creator || '';
-				var createtime = obj.createtime || '';
+				var createtime = obj.createtimeStr || '';
 				var modifier = obj.modifier || '';
-				var modifytime = obj.modifytime || '';
+				var modifytime = obj.modifytimeStr || '';
 				//设置字体颜色 (LXY)
 				var pushStatus = obj.pushStatus || '';
 				switch (pushStatus) {
