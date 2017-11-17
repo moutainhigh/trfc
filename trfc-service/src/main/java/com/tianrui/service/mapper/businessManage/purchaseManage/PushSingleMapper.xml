@@ -42,7 +42,7 @@
 		where id = #{id,jdbcType=VARCHAR}
 	</delete>
 	<insert id="insert"
-		parameterType="com.tianrui.service.bean.businessManage.purchaseManage.PushSingle">
+		parameterType="com.tianrui.api.req.businessManage.purchaseManage.PushSingleReq">
 		insert into tr_push_single (id, requisitionNum, noticeNum, pushStatus,
 		requisitionType,
 		reasonFailure, netWeight, heavyCarTime, lightCarTime,
@@ -58,7 +58,7 @@
 		#{desc3,jdbcType=VARCHAR}, #{desc4,jdbcType=VARCHAR})
 	</insert>
 	<insert id="insertSelective"
-		parameterType="com.tianrui.service.bean.businessManage.purchaseManage.PushSingle">
+		parameterType="com.tianrui.api.req.businessManage.purchaseManage.PushSingleReq">
 		insert into tr_push_single
 		<trim prefix="(" suffix=")" suffixOverrides=",">
 			<if test="id != null">
@@ -168,7 +168,7 @@
 		</trim>
 	</insert>
 	<update id="updateByPrimaryKeySelective"
-		parameterType="com.tianrui.service.bean.businessManage.purchaseManage.PushSingle">
+		parameterType="com.tianrui.api.req.businessManage.purchaseManage.PushSingleReq">
 		update tr_push_single
 		<set>
 			<if test="requisitionNum != null">
@@ -223,7 +223,7 @@
 		where id = #{id,jdbcType=VARCHAR}
 	</update>
 	<update id="updateByPrimaryKey"
-		parameterType="com.tianrui.service.bean.businessManage.purchaseManage.PushSingle">
+		parameterType="com.tianrui.api.req.businessManage.purchaseManage.PushSingleReq">
 		update tr_push_single
 		set requisitionNum = #{requisitionNum,jdbcType=VARCHAR},
 		noticeNum = #{noticeNum,jdbcType=VARCHAR},
@@ -244,7 +244,7 @@
 		where id = #{id,jdbcType=VARCHAR}
 	</update>
 	<select id="findReasonFailure" resultMap="BaseResultMap"
-		parameterType="com.tianrui.service.bean.businessManage.purchaseManage.PushSingle">
+		parameterType="com.tianrui.api.req.businessManage.purchaseManage.PushSingleReq">
 		select
 		id, requisitionNum, noticeNum, pushStatus, requisitionType,
 		reasonFailure, netWeight, heavyCarTime, lightCarTime,

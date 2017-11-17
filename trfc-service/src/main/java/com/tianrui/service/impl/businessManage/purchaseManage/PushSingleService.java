@@ -13,6 +13,7 @@ import com.tianrui.api.resp.businessManage.purchaseManage.PushSingleResp;
 import com.tianrui.service.bean.businessManage.purchaseManage.PushSingle;
 import com.tianrui.service.mapper.businessManage.purchaseManage.PushSingleMapper;
 import com.tianrui.smartfactory.common.vo.PaginationVO;
+import com.tianrui.smartfactory.common.vo.Result;
 
 
 /**
@@ -50,6 +51,9 @@ public class PushSingleService implements IPushSingleService{
 		}
 		return page;
 	}
+	
+	
+	
 	private List<PushSingleResp> copyBeanList2RespList(List<PushSingle> list) throws Exception {
 		List<PushSingleResp> listResp = null;
 		if(list != null && list.size() > 0){
@@ -67,6 +71,55 @@ public class PushSingleService implements IPushSingleService{
 			PropertyUtils.copyProperties(resp, bean);
 		}
 		return resp;
+	}
+
+
+
+	@Override
+	public Result savePushSingle(PushSingleReq pushSingle) throws Exception {
+		Result rs =Result.getSuccessResult();
+		// TODO Auto-generated method stub
+		int a =pushSingleMapper.insert(pushSingle);
+		if(a!=1){
+			rs.setCode("111111");
+			rs.setError("推送管理日志保存失败！");
+		}
+		return rs;
+	}
+
+
+
+	@Override
+	public Result updatePushSingle(PushSingleReq pushSingle) throws Exception {
+		Result rs =Result.getSuccessResult();
+		PushSingle push =pushSingleMapper.findReasonFailure(pushSingle);
+		if(push!=null){
+			pushSingle.setId(push.getId());
+			int a =pushSingleMapper.updateByPrimaryKeySelective(pushSingle);
+			if(a!=1){
+				rs.setCode("111111");
+				rs.setError("推送管理日志修改失败！");
+			}
+		}else{
+			rs.setCode("222222");
+			rs.setError("未查到要修改的数据！");
+		}
+		return rs;
+	}
+
+
+
+	@Override
+	public Result findPushSingle(PushSingleReq pushSingle) throws Exception {
+		Result rs =Result.getSuccessResult();
+		PushSingle push =pushSingleMapper.findReasonFailure(pushSingle);
+		if(push!=null){
+			rs.setData(push);
+		}else{
+			rs.setCode("111111");
+			rs.setError("未查到异常信息！");
+		}
+		return rs;
 	}
 
 }

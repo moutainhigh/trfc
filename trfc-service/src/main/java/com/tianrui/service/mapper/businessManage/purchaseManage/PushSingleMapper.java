@@ -17,15 +17,15 @@ public interface PushSingleMapper {
 		
 		int deleteByPrimaryKey(String id);
 
-	    int insert(PushSingle pushSingle);
+	    int insert(PushSingleReq req);
 
-	    int insertSelective(PushSingle record);
+	    int insertSelective(PushSingleReq req);
 
-	    int updateByPrimaryKeySelective(PushSingle record);
+	    int updateByPrimaryKeySelective(PushSingleReq req);
 
-	    int updateByPrimaryKey(PushSingle record);
+	    int updateByPrimaryKey(PushSingleReq req);
 	    
-	    PushSingle findReasonFailure(PushSingle record );
+	    PushSingle findReasonFailure(PushSingleReq req );
 	    
 	    long findPushSinglePageCount(PushSingleReq req);
 	    
