@@ -79,7 +79,7 @@ public class PushSingleService implements IPushSingleService{
 	public Result savePushSingle(PushSingleReq pushSingle) throws Exception {
 		Result rs =Result.getSuccessResult();
 		// TODO Auto-generated method stub
-		int a =pushSingleMapper.insert(pushSingle);
+		int a =pushSingleMapper.insertSelective(pushSingle);
 		if(a!=1){
 			rs.setCode("111111");
 			rs.setError("推送管理日志保存失败！");
@@ -92,7 +92,10 @@ public class PushSingleService implements IPushSingleService{
 	@Override
 	public Result updatePushSingle(PushSingleReq pushSingle) throws Exception {
 		Result rs =Result.getSuccessResult();
-		PushSingle push =pushSingleMapper.findReasonFailure(pushSingle);
+		PushSingleReq p = new PushSingleReq();
+		p.setRequisitionNum(pushSingle.getRequisitionNum());
+		p.setNoticeNum(pushSingle.getNoticeNum());
+		PushSingle push =pushSingleMapper.findReasonFailure(p);
 		if(push!=null){
 			pushSingle.setId(push.getId());
 			int a =pushSingleMapper.updateByPrimaryKeySelective(pushSingle);
