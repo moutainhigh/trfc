@@ -300,4 +300,127 @@
 			and desc4 = #{desc4,jdbcType=VARCHAR},
 		</if>
 	</select>
+	
+	
+	<select id="findPushSinglePageCount" parameterType="com.tianrui.api.req.businessManage.purchaseManage.PushSingleReq" resultType="java.lang.Long">
+  	select count(1)
+  	from tr_push_single
+  	<where>1=1
+  		<if test="requisitionNum != null and requisitionNum != ''">
+			and requisitionNum = #{requisitionNum,jdbcType=VARCHAR}
+		</if>
+		<if test="noticeNum != null and noticeNum != ''">
+			and noticeNum = #{noticeNum,jdbcType=VARCHAR}
+		</if>
+		<if test="pushStatus != null and pushStatus != ''">
+			and pushStatus = #{pushStatus,jdbcType=VARCHAR}
+		</if>
+		<if test="requisitionType != null and requisitionType != ''">
+			and requisitionType = #{requisitionType,jdbcType=VARCHAR}
+		</if>
+		<if test="reasonFailure != null and reasonFailure != ''">
+			and reasonFailure = #{reasonFailure,jdbcType=VARCHAR}
+		</if>
+		<if test="netWeight != null and netWeight != ''">
+			and netWeight = #{netWeight,jdbcType=VARCHAR}
+		</if>
+		<if test="heavyCarTime != null and heavyCarTime != ''">
+			and heavyCarTime = #{heavyCarTime,jdbcType=BIGINT}
+		</if>
+		<if test="lightCarTime != null and lightCarTime != ''">
+			and lightCarTime = #{lightCarTime,jdbcType=BIGINT}
+		</if>
+		<if test="creator != null and creator != ''">
+			and creator = #{creator,jdbcType=VARCHAR}
+		</if>
+		<if test="starttime != null and starttime != ''">
+  			and createtime <![CDATA[>=]]> #{starttime,jdbcType=BIGINT}
+  		</if>
+  		<if test="endtime != null and endtime != ''">
+  			and createtime <![CDATA[<]]> #{endtime,jdbcType=BIGINT}
+  		</if>
+		<if test="modifier != null and modifier != ''">
+			and modifier = #{modifier,jdbcType=VARCHAR}
+		</if>
+		<if test="modifytime != null and modifytime != ''">
+			and modifytime = #{modifytime,jdbcType=BIGINT}
+		</if>
+		<if test="desc1 != null and desc1 != ''">
+			and desc1 = #{desc1,jdbcType=VARCHAR}
+		</if>
+		<if test="desc2 != null and desc2 != ''">
+			and desc2 = #{desc2,jdbcType=VARCHAR}
+		</if>
+		<if test="desc3 != null and desc3 != ''">
+			and desc3 = #{desc3,jdbcType=VARCHAR}
+		</if>
+		<if test="desc4 != null and desc4 != ''">
+			and desc4 = #{desc4,jdbcType=VARCHAR}
+		</if>
+  	</where>
+  </select>
+   <select id="findPushSinglePage" parameterType="com.tianrui.api.req.businessManage.purchaseManage.PushSingleReq" resultMap="BaseResultMap">
+  	select 
+  	<include refid="Base_Column_List" />
+  	from tr_push_single
+  	<where>1=1
+  		<if test="requisitionNum != null and requisitionNum != ''">
+			and requisitionNum = #{requisitionNum,jdbcType=VARCHAR}
+		</if>
+		<if test="noticeNum != null and noticeNum != ''">
+			and noticeNum = #{noticeNum,jdbcType=VARCHAR}
+		</if>
+		<if test="pushStatus != null and pushStatus != ''">
+			and pushStatus = #{pushStatus,jdbcType=VARCHAR}
+		</if>
+		<if test="requisitionType != null and requisitionType != ''">
+			and requisitionType = #{requisitionType,jdbcType=VARCHAR}
+		</if>
+		<if test="reasonFailure != null and reasonFailure != ''">
+			and reasonFailure = #{reasonFailure,jdbcType=VARCHAR}
+		</if>
+		<if test="netWeight != null and netWeight != ''">
+			and netWeight = #{netWeight,jdbcType=VARCHAR}
+		</if>
+		<if test="heavyCarTime != null and heavyCarTime != ''">
+			and heavyCarTime = #{heavyCarTime,jdbcType=BIGINT}
+		</if>
+		<if test="lightCarTime != null and lightCarTime != ''">
+			and lightCarTime = #{lightCarTime,jdbcType=BIGINT}
+		</if>
+		<if test="creator != null and creator != ''">
+			and creator = #{creator,jdbcType=VARCHAR}
+		</if>
+		<if test="starttime != null and starttime != ''">
+  			and createtime <![CDATA[>=]]> #{starttime,jdbcType=BIGINT}
+  		</if>
+  		<if test="endtime != null and endtime != ''">
+  			and createtime <![CDATA[<]]> #{endtime,jdbcType=BIGINT}
+  		</if>
+		<if test="modifier != null and modifier != ''">
+			and modifier = #{modifier,jdbcType=VARCHAR}
+		</if>
+		<if test="modifytime != null and modifytime != ''">
+			and modifytime = #{modifytime,jdbcType=BIGINT}
+		</if>
+		<if test="desc1 != null and desc1 != ''">
+			and desc1 = #{desc1,jdbcType=VARCHAR}
+		</if>
+		<if test="desc2 != null and desc2 != ''">
+			and desc2 = #{desc2,jdbcType=VARCHAR}
+		</if>
+		<if test="desc3 != null and desc3 != ''">
+			and desc3 = #{desc3,jdbcType=VARCHAR}
+		</if>
+		<if test="desc4 != null and desc4 != ''">
+			and desc4 = #{desc4,jdbcType=VARCHAR}
+		</if>
+  	</where>
+  	order by modifytime desc
+  	<if test="start != null and start >= 0">
+  		<if test="limit != null">
+			limit #{start,jdbcType=INTEGER},#{limit,jdbcType=INTEGER}
+  		</if>
+  	</if>
+  </select>
 </mapper>

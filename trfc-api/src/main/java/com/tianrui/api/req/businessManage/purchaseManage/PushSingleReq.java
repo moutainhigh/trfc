@@ -41,6 +41,9 @@ public class PushSingleReq extends BaseReq{
 		private String modifier;
 		//修改时间（NC回写时间）
 		private Long modifytime;
+		
+		private Long starttime;
+		private Long endtime;
 		 //起始页
 	    private Integer start;
 	    //条数
@@ -165,6 +168,18 @@ public class PushSingleReq extends BaseReq{
 		}
 		public void setLimit(Integer limit) {
 			this.limit = limit;
+		}
+		public Long getStarttime() {
+			return starttime;
+		}
+		public void setStarttime(Long starttime) {
+			this.starttime = starttime;
+		}
+		public Long getEndtime() {
+			return endtime;
+		}
+		public void setEndtime(Long endtime) {
+			this.endtime = endtime;
 		}
 		
 		

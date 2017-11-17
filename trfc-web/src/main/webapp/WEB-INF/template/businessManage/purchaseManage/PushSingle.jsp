@@ -26,18 +26,19 @@
 						<div class="intel_sconditon">
 							<div class="intel_sline">
 								<div class="intel_solo">
-									<label>订单号：</label> <input id="code" type="text"
-										placeholder="请输入订单号">
+									<label>申请单号：</label> <input id="requisitionNum" type="text"
+										placeholder="请输入申请单号">
 								</div>
 								<div class="intel_solo">
-									<label>供应商：</label> <input id="supplier" type="text"
-										placeholder="请选择供应商" />
+									<label>通知单号：</label> <input id="noticeNum" type="text"
+										placeholder="请输入通知单号" />
 								</div>
 								<div class="intel_solo">
-									<label>单据来源：</label> <select id="source" class="form-control">
+									<label>状态：</label> <select id="pushStatus" class="form-control">
 										<option value="">全部</option>
-										<option value="0">联机</option>
-										<option value="1">脱机</option>
+										<option value="1">推单中</option>
+										<option value="2">推单成功</option>
+										<option value="3">推单失败</option>
 									</select>
 								</div>
 								<div class="intel_solo">
@@ -48,16 +49,21 @@
 										onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:00:00',minDate:'#F{$dp.$D(\'starttime\')}'})"
 										class="Wdate" style="width: 160px" placeholder="请选择结束时间" />
 								</div>
-								<div class="intel_solo">
-									<div class="intel_sbtn">
-										<button id="searchBtn" class="btn btnblue">搜索</button>
-									</div>
+							</div>
+							<div class="intel_solo">
+								<div class="intel_sbtn">
+									<button id="searchBtn" class="btn btnblue">搜索</button>
+								</div>
+							</div>
+							<div class="intel_solo">
+								<div class="intel_sbtn">
+									<button id="clean" class="btn"
+										style="color: #166aa8; margin: 0 5px 0 -20px">清空</button>
 								</div>
 							</div>
 						</div>
 					</div>
-					<div class="intel_opera">
-					</div>
+					<div class="intel_opera"></div>
 					<div class="intel_table">
 						<!--用户表格begin-->
 						<table class="table table-hover">
@@ -75,7 +81,6 @@
 									<th>净重</th>
 									<th>创建人</th>
 									<th>创建时间</th>
-									<th>制单日期</th>
 									<th>修改人</th>
 									<th>修改时间</th>
 								</tr>
@@ -106,134 +111,9 @@
 					<!--分页效果结束-->
 				</div>
 			</div>
-			<!--查看详情begin-->
-			<div class="modal fade" id="dataDetail" tabindex="-1" role="dialog"
-				aria-labelledby="myModalLabel">
-				<div class="modal-dialog" role="document" style="width: 900px;">
-					<div class="modal-content">
-						<div class="modal-header">
-							<button type="button" class="close" data-dismiss="modal"
-								aria-label="Close">
-								<span aria-hidden="true">&times;</span>
-							</button>
-							<div class="alt_head">
-								<h5>采购申请单详细信息</h5>
-								<img id="shImg" src="/resources/images/sh.png">
-							</div>
-						</div>
-						<div class="modal-body">
-							<div class="">
-								<div class="cg_div">
-									<div class="cg_solo">
-										<label>单据编号：</label> <input id="v_code" type="text" readonly>
-									</div>
-									<div class="cg_solo">
-										<label>单据来源：</label> <input id="v_source" type="text" readonly>
-									</div>
-									<div class="cg_solo">
-										<label>订单类型：</label> <input id="v_billtypename" type="text"
-											readonly>
-									</div>
-									<div class="cg_solo">
-										<label>订单日期：</label> <input id="v_billtime" type="text"
-											readonly>
-									</div>
-									<div class="cg_solo">
-										<label>供应商：</label> <input id="v_suppliername" type="text"
-											readonly>
-									</div>
-									<div class="cg_solo">
-										<label>总数量：</label> <input id="v_sumnum" type="text" readonly>
-									</div>
-									<div class="cg_solo">
-										<label>采购员：</label> <input id="v_buyername" type="text"
-											readonly>
-									</div>
-									<div class="cg_solo">
-										<label>制单人： </label> <input id="v_makebillname" type="text"
-											readonly>
-									</div>
-									<div class="cg_solo">
-										<label> 制单日期：</label> <input id="v_makebilltime" type="text"
-											readonly>
-									</div>
-									<div class="cg_bz">
-										<label>备注：</label> <input id="v_remark" type="text" readonly>
-									</div>
-								</div>
-								<div id="alt_tab">
-									<div class="cg_tabtit">
-										<ul>
-											<li class="select">订单明细</li>
-											<li>质检信息</li>
-										</ul>
-									</div>
-									<div class="cg_tabbox">
-										<!--tab切换的内容-->
-										<div class="cg_tabcont">
-											<table class="table table-bordered">
-												<thead>
-													<tr>
-														<th>序号</th>
-														<th>采购组织</th>
-														<th>物料</th>
-														<th>质检方案</th>
-														<th>数量</th>
-														<th>备注</th>
-													</tr>
-												</thead>
-												<tbody id="detailtab1">
-												</tbody>
-											</table>
-										</div>
-										<div class="cg_tabcont hide">
-											<table class="table table-bordered">
-												<thead>
-													<tr>
-														<th>物料</th>
-														<th>检验项目</th>
-														<th>比较符</th>
-														<th>下限</th>
-														<th>比较符</th>
-														<th>上限</th>
-														<th>基准值</th>
-														<th>浮动值</th>
-														<th>扣价</th>
-														<th>扣吨</th>
-													</tr>
-												</thead>
-												<tbody id="detailtab2">
-												</tbody>
-											</table>
-										</div>
-										<!--tab切换的内容end-->
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="modal-footer">
-							<button type="button" class="btn btn-default"
-								data-dismiss="modal">关闭</button>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	<!--查看详情end-->
-	<!-- 引用公共footer部分 -->
-	<jsp:include page="../../common/base/footer_busi.jsp"></jsp:include>
-	<script type="text/javascript"
-		src="/javascript/businessManage/purchaseManage/purchaseApplication.js"></script>
-	<script type="text/javascript">
-		// 弹出信息的tab切换菜单
-		var alt_li = $('#alt_tab .cg_tabtit ul li');
-		alt_li.click(function() {
-			$(this).addClass('select').siblings().removeClass('select');
-			var index_alt = alt_li.index(this);
-			$('#alt_tab .cg_tabbox > .cg_tabcont').eq(index_alt).show()
-					.siblings().hide();
-		});
-	</script>
+			<!-- 引用公共footer部分 -->
+			<jsp:include page="../../common/base/footer_busi.jsp"></jsp:include>
+			<script type="text/javascript"
+				src="/javascript/businessManage/purchaseManage/PushSingle.js"></script>
 </body>
 </html>
