@@ -11,11 +11,11 @@ public class AppCutoverGroup extends BaseResp {
 	
 	private static final long serialVersionUID = 5391895839927532175L;
 	//待切换用户id
-	private String cutoverid;
+	private String cutoverid = "";
 	//待切换用户名称
-	private String cutovername;
+	private String cutovername = "";
 	//所属组id(所属用户id)
-	private String groupid;
+	private String groupid = "";
 	
 	public String getCutoverid() {
 		return cutoverid;

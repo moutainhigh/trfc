@@ -1014,7 +1014,7 @@
 	LEFT JOIN tr_sales_db_application t2 ON t1.billid = t2.id
 	WHERE
 		t1.auditstatus = 1
-	AND t2.customerid = #{userId,jdbcType=VARCHAR}
+	AND t2.customerid = #{ncId,jdbcType=VARCHAR}
 	AND t2.orgid = #{salesOrg,jdbcType=VARCHAR}
 	AND t2.state = 1
 	AND t2.`status` = 1
@@ -1030,7 +1030,7 @@
 	WHERE
 		t1.auditstatus = 1
 	AND t1.`status` IN (1, 2, 4, 6, 7)
-	AND t2.customerid = #{userId,jdbcType=VARCHAR}
+	AND t2.customerid = #{ncId,jdbcType=VARCHAR}
 	AND t2.orgid = #{salesOrg,jdbcType=VARCHAR}
 	AND t2.state = 1
 	AND t2.`status` = 1

@@ -11,10 +11,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.tianrui.api.intf.api.android.imple.IAppStaticService;
 import com.tianrui.api.req.android.BillListParam;
 import com.tianrui.api.req.android.BillSave;
+import com.tianrui.api.req.android.DriverSave;
 import com.tianrui.api.req.android.HomePageParam;
 import com.tianrui.api.req.android.LoginUserParam;
+import com.tianrui.api.req.android.MyPnListParam;
+import com.tianrui.api.req.android.MyVehicleListParam;
 import com.tianrui.api.req.android.NoticeListParam;
 import com.tianrui.api.req.android.NoticeSave;
+import com.tianrui.api.req.android.SearchKeyParam;
 import com.tianrui.smartfactory.common.api.ApiParam;
 import com.tianrui.smartfactory.common.constants.ErrorCode;
 import com.tianrui.smartfactory.common.vo.AppResult;
@@ -110,7 +114,8 @@ public class AppStaticAction_new {
 	public AppResult home(ApiParam<HomePageParam> param){
 		AppResult result = AppResult.getAppResult();
 		try {
-			param.getBody().setUserId(param.getHead().getNcId());
+			param.getBody().setUserId(param.getHead().getUserId());
+			param.getBody().setNcId(param.getHead().getNcId());
 			param.getBody().setIDType(param.getHead().getIDType());
 			param.getBody().setSalesOrg(param.getHead().getSalesOrg());
 			result = appService.home(param.getBody());
@@ -127,7 +132,8 @@ public class AppStaticAction_new {
 	public AppResult billList(ApiParam<BillListParam> param){
 		AppResult result = AppResult.getAppResult();
 		try {
-			param.getBody().setUserId(param.getHead().getNcId());
+			param.getBody().setUserId(param.getHead().getUserId());
+			param.getBody().setNcId(param.getHead().getNcId());
 			param.getBody().setIDType(param.getHead().getIDType());
 			param.getBody().setSalesOrg(param.getHead().getSalesOrg());
 			result = appService.billList(param.getBody());
@@ -208,6 +214,7 @@ public class AppStaticAction_new {
 		AppResult result = AppResult.getAppResult();
 		try {
 			param.getBody().setUserId(param.getHead().getUserId());
+			param.getBody().setNcId(param.getHead().getNcId());
 			param.getBody().setIDType(param.getHead().getIDType());
 			param.getBody().setSalesOrg(param.getHead().getSalesOrg());
 			result = appService.noticeList(param.getBody());
@@ -251,14 +258,164 @@ public class AppStaticAction_new {
 	}
 	
 	@RequestMapping(value="/notice/cancel",method=RequestMethod.POST)
-	@ApiParamRawType(NoticeSave.class)
+	@ApiParamRawType(NoticeListParam.class)
 	@ResponseBody
-	public AppResult noticeCancel(ApiParam<NoticeSave> param){
+	public AppResult noticeCancel(ApiParam<NoticeListParam> param){
 		AppResult result = AppResult.getAppResult();
 		try {
 			param.getBody().setUserId(param.getHead().getUserId());
 			param.getBody().setIDType(param.getHead().getIDType());
-			result = appService.noticeUpdate(param.getBody());
+			result = appService.noticeCancel(param.getBody());
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
+		}
+		return result;
+	}
+	
+	@RequestMapping(value="/my/vehicle",method=RequestMethod.POST)
+	@ApiParamRawType(MyVehicleListParam.class)
+	@ResponseBody
+	public AppResult myVehicle(ApiParam<MyVehicleListParam> param){
+		AppResult result = AppResult.getAppResult();
+		try {
+			param.getBody().setUserId(param.getHead().getUserId());
+			param.getBody().setNcId(param.getHead().getNcId());
+			param.getBody().setIDType(param.getHead().getIDType());
+			result = appService.myVehicle(param.getBody());
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
+		}
+		return result;
+	}
+	
+	@RequestMapping(value="/my/pn",method=RequestMethod.POST)
+	@ApiParamRawType(MyPnListParam.class)
+	@ResponseBody
+	public AppResult myPn(ApiParam<MyPnListParam> param){
+		AppResult result = AppResult.getAppResult();
+		try {
+			param.getBody().setUserId(param.getHead().getUserId());
+			param.getBody().setNcId(param.getHead().getNcId());
+			param.getBody().setIDType(param.getHead().getIDType());
+			param.getBody().setSalesOrg(param.getHead().getSalesOrg());
+			result = appService.myPn(param.getBody());
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
+		}
+		return result;
+	}
+	
+	@RequestMapping(value="/my/pn/detail",method=RequestMethod.POST)
+	@ApiParamRawType(MyPnListParam.class)
+	@ResponseBody
+	public AppResult myPnDetail(ApiParam<MyPnListParam> param){
+		AppResult result = AppResult.getAppResult();
+		try {
+			result = appService.myPnDetail(param.getBody());
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
+		}
+		return result;
+	}
+	
+	@RequestMapping(value="/save/driver",method=RequestMethod.POST)
+	@ApiParamRawType(DriverSave.class)
+	@ResponseBody
+	public AppResult saveDriver(ApiParam<DriverSave> param){
+		AppResult result = AppResult.getAppResult();
+		try {
+			param.getBody().setUserId(param.getHead().getUserId());
+			result = appService.saveDriver(param.getBody());
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
+		}
+		return result;
+	}
+	
+	@RequestMapping(value="/vehicle/search",method=RequestMethod.POST)
+	@ApiParamRawType(SearchKeyParam.class)
+	@ResponseBody
+	public AppResult vehicleSearch(ApiParam<SearchKeyParam> param){
+		AppResult result = AppResult.getAppResult();
+		try {
+			result = appService.vehicleSearch(param.getBody());
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
+		}
+		return result;
+	}
+	
+	@RequestMapping(value="/driver/search",method=RequestMethod.POST)
+	@ApiParamRawType(SearchKeyParam.class)
+	@ResponseBody
+	public AppResult driverSearch(ApiParam<SearchKeyParam> param){
+		AppResult result = AppResult.getAppResult();
+		try {
+			result = appService.driverSearch(param.getBody());
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
+		}
+		return result;
+	}
+	
+	@RequestMapping(value="/material/search",method=RequestMethod.POST)
+	@ApiParamRawType(SearchKeyParam.class)
+	@ResponseBody
+	public AppResult materialSearch(ApiParam<SearchKeyParam> param){
+		AppResult result = AppResult.getAppResult();
+		try {
+			// TODO
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
+		}
+		return result;
+	}
+
+	/**
+	 * 查询用户组成员
+	 * @param req
+	 * @return
+	 */
+	@RequestMapping(value="/group/user",method=RequestMethod.POST)
+	@ApiParamRawType(LoginUserParam.class)
+	@ResponseBody
+	public AppResult queryGroupUser(ApiParam<LoginUserParam> param){
+		AppResult result = AppResult.getAppResult();
+		try {
+			param.getBody().setUserId(param.getHead().getUserId());
+			param.getBody().setNcId(param.getHead().getNcId());
+			param.getBody().setIDType(param.getHead().getIDType());
+			result = appService.queryGroupUser(param.getBody());
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
+		}
+		return result;
+	}
+
+	/**
+	 * 切换用户
+	 * @param req
+	 * @return
+	 */
+	@RequestMapping(value="/user/cutover",method=RequestMethod.POST)
+	@ApiParamRawType(LoginUserParam.class)
+	@ResponseBody
+	public AppResult userCutover(ApiParam<LoginUserParam> param){
+		AppResult result = AppResult.getAppResult();
+		try {
+			param.getBody().setNcId(param.getHead().getNcId());
+			param.getBody().setIDType(param.getHead().getIDType());
+			param.getBody().setKey(param.getHead().getKey());
+			result = appService.userCutover(param.getBody());
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 			result.setErrorCode(ErrorCode.SYSTEM_ERROR);

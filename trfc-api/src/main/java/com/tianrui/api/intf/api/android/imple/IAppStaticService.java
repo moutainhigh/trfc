@@ -2,10 +2,14 @@ package com.tianrui.api.intf.api.android.imple;
 
 import com.tianrui.api.req.android.BillListParam;
 import com.tianrui.api.req.android.BillSave;
+import com.tianrui.api.req.android.DriverSave;
 import com.tianrui.api.req.android.HomePageParam;
 import com.tianrui.api.req.android.LoginUserParam;
+import com.tianrui.api.req.android.MyPnListParam;
+import com.tianrui.api.req.android.MyVehicleListParam;
 import com.tianrui.api.req.android.NoticeListParam;
 import com.tianrui.api.req.android.NoticeSave;
+import com.tianrui.api.req.android.SearchKeyParam;
 import com.tianrui.smartfactory.common.vo.AppResult;
 
 /**
@@ -103,4 +107,66 @@ public interface IAppStaticService {
 	 * @throws Exception 
 	 */
 	AppResult noticeUpdate(NoticeSave param) throws Exception;
+	/**
+	 * @annotation 通知单作废
+	 * @param param
+	 * @return
+	 */
+	AppResult noticeCancel(NoticeListParam param);
+	/**
+	 * @annotation 我的车辆
+	 * @param param
+	 * @return
+	 */
+	AppResult myVehicle(MyVehicleListParam param);
+	/**
+	 * @annotation 我的磅单
+	 * @param param
+	 * @return
+	 */
+	AppResult myPn(MyPnListParam param);
+	/**
+	 * @annotation 我的磅单详情
+	 * @param param
+	 * @return
+	 */
+	AppResult myPnDetail(MyPnListParam param);
+	/**
+	 * @annotation 新增司机
+	 * @param param
+	 * @return
+	 * @throws Exception 
+	 */
+	AppResult saveDriver(DriverSave param) throws Exception;
+	/**
+	 * @annotation 车辆模糊搜索
+	 * @param param
+	 * @return
+	 */
+	AppResult vehicleSearch(SearchKeyParam param);
+	/**
+	 * @annotation 司机模糊搜索
+	 * @param param
+	 * @return
+	 */
+	AppResult driverSearch(SearchKeyParam param);
+	/**
+	 * @annotation 物料模糊搜索
+	 * @param param
+	 * @return
+	 */
+	AppResult materialSearch(SearchKeyParam param);
+	/**
+	 * @annotation 查询用户组成员
+	 * @param param
+	 * @return
+	 */
+	AppResult queryGroupUser(LoginUserParam param);
+	/**
+	 * @annotation 切换用户
+	 * @param param
+	 * @return
+	 * @throws Exception 
+	 */
+	AppResult userCutover(LoginUserParam param) throws Exception;
 }

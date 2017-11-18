@@ -6,31 +6,37 @@ public class NoticeListVo extends BaseResp {
 
 	private static final long serialVersionUID = -2177834189585238320L;
 	//通知单ID
-	private String id;
+	private String id = "";
 	//订单号
-	private String billCode;
+	private String billCode = "";
 	//通知单号
-	private String code;
+	private String code = "";
 	//订单日期
-	private String billTime;
+	private String billTime = "";
 	//车辆
-	private String vehicle;
+	private String vehicle = "";
 	//物料
-	private String material;
+	private String material = "";
 	//司机
-	private String driver;
+	private String driver = "";
 	//来源
-	private String source;
+	private String source = "";
 	//毛重
-	private Double grossWeight;
+	private Double grossWeight = 0D;
 	//皮重
-	private Double tareWeight;
+	private Double tareWeight = 0D;
 	//净重
-	private Double netWeight;
+	private Double netWeight = 0D;
 	//轻车时间
-	private String lightTime;
+	private String lightTime = "";
 	//重车时间
-	private String weightTime;
+	private String weightTime = "";
+	//到货量/提货量
+	private Double number = 0D;
+	//余量
+	private Double margin = 0D;
+	//通知单状态
+	private String status = "";
 	public String getId() {
 		return id;
 	}
@@ -109,6 +115,24 @@ public class NoticeListVo extends BaseResp {
 	public void setWeightTime(String weightTime) {
 		this.weightTime = weightTime;
 	}
+	public Double getNumber() {
+		return number;
+	}
+	public void setNumber(Double number) {
+		this.number = number;
+	}
+	public Double getMargin() {
+		return margin;
+	}
+	public void setMargin(Double margin) {
+		this.margin = margin;
+	}
+	public String getStatus() {
+		return status;
+	}
+	public void setStatus(String status) {
+		this.status = status;
+	}
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
@@ -117,6 +141,7 @@ public class NoticeListVo extends BaseResp {
 		return "NoticeListVo [id=" + id + ", billCode=" + billCode + ", code=" + code + ", billTime=" + billTime
 				+ ", vehicle=" + vehicle + ", material=" + material + ", driver=" + driver + ", source=" + source
 				+ ", grossWeight=" + grossWeight + ", tareWeight=" + tareWeight + ", netWeight=" + netWeight
-				+ ", lightTime=" + lightTime + ", weightTime=" + weightTime + "]";
+				+ ", lightTime=" + lightTime + ", weightTime=" + weightTime + ", number=" + number + ", margin="
+				+ margin + ", status=" + status + "]";
 	}
 }

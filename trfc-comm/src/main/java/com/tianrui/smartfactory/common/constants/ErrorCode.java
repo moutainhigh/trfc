@@ -14,6 +14,7 @@ public enum ErrorCode {
 	CONNECTION_TIMEOUT_ERROR("000000","数据中心连接超时，该单据未推送成功."),
 	//推单失败
 	RETURN_ERROR("000000","上传榜单成功，推单NC失败."),
+	DATE_NOT_UPDATE("E00003","未做修改无需保存."),
 	
 	/**
 	 * 参数相关
@@ -70,6 +71,7 @@ public enum ErrorCode {
 	NOTICE_NOT_ENTER("E10028","该通知单已入厂."), 
 	NOTICE_OUT_FACTORY2("E10029","该通知单无相关入厂记录."), 
 	NOTICE_NUMBER_ERROR("E10030","到货量/提货量必须大于零且小于等于订单余量."), 
+	NOTICE_YES_AUDIT("E10031","该通知单已经通过审核无法作废."),
 	/**
 	 * 磅单
 	 */

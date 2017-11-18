@@ -1,10 +1,10 @@
 package com.tianrui.service.api.android.imple;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
-import org.apache.ibatis.annotations.Results;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,29 +14,43 @@ import com.tianrui.api.intf.system.auth.ISystemUserService;
 import com.tianrui.api.intf.system.base.ISystemCodeService;
 import com.tianrui.api.req.android.BillListParam;
 import com.tianrui.api.req.android.BillSave;
+import com.tianrui.api.req.android.DriverSave;
 import com.tianrui.api.req.android.HomePageParam;
 import com.tianrui.api.req.android.LoginUserParam;
+import com.tianrui.api.req.android.MyPnListParam;
+import com.tianrui.api.req.android.MyVehicleListParam;
 import com.tianrui.api.req.android.NoticeListParam;
 import com.tianrui.api.req.android.NoticeSave;
+import com.tianrui.api.req.android.SearchKeyParam;
 import com.tianrui.api.req.system.base.GetCodeReq;
 import com.tianrui.api.resp.android.BillListVo;
 import com.tianrui.api.resp.android.HomeBillVo;
 import com.tianrui.api.resp.android.HomeNoticeVo;
 import com.tianrui.api.resp.android.LoginUserVo;
+import com.tianrui.api.resp.android.MyPnListVo;
+import com.tianrui.api.resp.android.MyVehicleListVo;
 import com.tianrui.api.resp.android.NoticeListVo;
+import com.tianrui.api.resp.android.UserDriverVo;
+import com.tianrui.api.resp.android.UserVehicleVo;
 import com.tianrui.api.resp.system.auth.SystemUserResp;
+import com.tianrui.api.resp.system.merchants.AppCutoverGroup;
 import com.tianrui.service.bean.basicFile.measure.DriverManage;
 import com.tianrui.service.bean.basicFile.measure.VehicleManage;
 import com.tianrui.service.bean.basicFile.nc.CustomerManage;
 import com.tianrui.service.bean.basicFile.nc.MaterielManage;
+import com.tianrui.service.bean.businessManage.otherManage.OtherArrive;
 import com.tianrui.service.bean.businessManage.purchaseManage.PurchaseApplication;
 import com.tianrui.service.bean.businessManage.purchaseManage.PurchaseApplicationDetail;
 import com.tianrui.service.bean.businessManage.purchaseManage.PurchaseArrive;
 import com.tianrui.service.bean.businessManage.salesManage.SalesApplication;
 import com.tianrui.service.bean.businessManage.salesManage.SalesApplicationDetail;
+import com.tianrui.service.bean.businessManage.salesManage.SalesArrive;
 import com.tianrui.service.bean.common.ReturnQueue;
+import com.tianrui.service.bean.common.UserDriver;
+import com.tianrui.service.bean.common.UserVehicle;
 import com.tianrui.service.bean.system.auth.Organization;
 import com.tianrui.service.bean.system.auth.SystemUser;
+import com.tianrui.service.bean.system.merchants.SupplierGroup;
 import com.tianrui.service.cache.CacheClient;
 import com.tianrui.service.cache.CacheHelper;
 import com.tianrui.service.cache.CacheModule;
@@ -44,6 +58,8 @@ import com.tianrui.service.mapper.basicFile.measure.DriverManageMapper;
 import com.tianrui.service.mapper.basicFile.measure.VehicleManageMapper;
 import com.tianrui.service.mapper.basicFile.nc.CustomerManageMapper;
 import com.tianrui.service.mapper.basicFile.nc.MaterielManageMapper;
+import com.tianrui.service.mapper.businessManage.otherManage.OtherArriveMapper;
+import com.tianrui.service.mapper.businessManage.poundNoteMaintain.PoundNoteMapper;
 import com.tianrui.service.mapper.businessManage.purchaseManage.PurchaseApplicationDetailMapper;
 import com.tianrui.service.mapper.businessManage.purchaseManage.PurchaseApplicationMapper;
 import com.tianrui.service.mapper.businessManage.purchaseManage.PurchaseArriveMapper;
@@ -51,8 +67,11 @@ import com.tianrui.service.mapper.businessManage.salesManage.SalesApplicationDet
 import com.tianrui.service.mapper.businessManage.salesManage.SalesApplicationMapper;
 import com.tianrui.service.mapper.businessManage.salesManage.SalesArriveMapper;
 import com.tianrui.service.mapper.common.ReturnQueueMapper;
+import com.tianrui.service.mapper.common.UserDriverMapper;
+import com.tianrui.service.mapper.common.UserVehicleMapper;
 import com.tianrui.service.mapper.system.auth.OrganizationMapper;
 import com.tianrui.service.mapper.system.auth.SystemUserMapper;
+import com.tianrui.service.mapper.system.merchants.SupplierGroupMapper;
 import com.tianrui.smartfactory.common.constants.Constant;
 import com.tianrui.smartfactory.common.constants.ErrorCode;
 import com.tianrui.smartfactory.common.utils.UUIDUtil;
@@ -94,6 +113,16 @@ public class AppStaticService implements IAppStaticService {
 	private PurchaseApplicationDetailMapper purchaseApplicationDetailMapper;
 	@Autowired
 	private PurchaseArriveMapper purchaseArriveMapper;
+	@Autowired
+	private UserVehicleMapper userVehicleMapper;
+	@Autowired
+	private UserDriverMapper userDriverMapper;
+	@Autowired
+	private PoundNoteMapper poundNoteMapper;
+	@Autowired
+	private OtherArriveMapper otherArriveMapper;
+	@Autowired
+	private SupplierGroupMapper supplierGroupMapper;
 	
 	@Transactional
 	@Override
@@ -399,7 +428,7 @@ public class AppStaticService implements IAppStaticService {
 		page.setTotal(count);
 		result.setData(page);
 		result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
-		return null;
+		return result;
 	}
 
 	@Override
@@ -469,7 +498,7 @@ public class AppStaticService implements IAppStaticService {
 	private SalesApplication setSalesApplication(BillSave param, SystemUserResp user) throws Exception {
 		SalesApplication sa = new SalesApplication();
 		sa.setId(UUIDUtil.getId());
-		sa.setCode(getCode("XXSO", param.getUserId()));
+		sa.setCode(getCode("XXSO", param.getUserId(), true));
 		sa.setStatus(Constant.ZERO_STRING);
 		sa.setSource(Constant.ONE_STRING);
 		sa.setBilltypeid(Constant.ONE_STRING);
@@ -524,10 +553,10 @@ public class AppStaticService implements IAppStaticService {
 		return sad;
 	}
 	
-	private String getCode(String code, String userId) throws Exception {
+	private String getCode(String code, String userId, boolean flag) throws Exception {
 		GetCodeReq codeReq = new GetCodeReq();
 		codeReq.setCode(code);
-		codeReq.setCodeType(true);
+		codeReq.setCodeType(flag);
 		codeReq.setUserid(userId);
 		return systemCodeService.getCode(codeReq).getData().toString();
 	}
@@ -577,7 +606,6 @@ public class AppStaticService implements IAppStaticService {
 				&& StringUtils.isNotBlank(param.getId())
 				&& StringUtils.isNotBlank(param.getDetailId())
 				&& StringUtils.isNotBlank(param.getVehicle())
-				&& StringUtils.isNotBlank(param.getDriver())
 				&& param.getNumber() != null) {
 			switch (param.getIDType()) {
 			//客户
@@ -643,7 +671,7 @@ public class AppStaticService implements IAppStaticService {
 		AppResult result = AppResult.getAppResult();
 		PurchaseArrive bean = new PurchaseArrive();
 		bean.setId(UUIDUtil.getId());
-		bean.setCode(getCode("DH", param.getUserId()));
+		bean.setCode(getCode("DH", param.getUserId(), true));
 		bean.setAuditstatus(Constant.ZERO_STRING);
 		bean.setSource(Constant.TWO_STRING);
 		bean.setStatus(Constant.ZERO_STRING);
@@ -655,6 +683,7 @@ public class AppStaticService implements IAppStaticService {
 			bean.setDriverid(driver.getId());
 			bean.setDrivername(driver.getName());
 			bean.setDriveridentityno(driver.getIdentityno());
+			saveUserDriver(user.getId(), driver.getId());
 		}
 		bean.setBillid(pa.getId());
 		bean.setBillcode(pa.getCode());
@@ -672,7 +701,39 @@ public class AppStaticService implements IAppStaticService {
 		pad.setPretendingtake(pad.getPretendingtake() + param.getNumber());
 		purchaseApplicationDetailMapper.updateByPrimaryKeySelective(pad);
 		result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+		updateCode("DH", param.getUserId());
+		saveUserVehicle(user.getId(), vehicle.getId());
 		return result;
+	}
+	//熟车记录更新次数
+	private void saveUserVehicle(String userId, String vehicleId) {
+		UserVehicle uv = userVehicleMapper.getByUIdAndVId(userId, vehicleId);
+		if (uv != null) {
+			uv.setNumber(uv.getNumber() + 1);
+			userVehicleMapper.updateByPrimaryKeySelective(uv);
+		} else {
+			uv = new UserVehicle();
+			uv.setId(UUIDUtil.getId());
+			uv.setNumber(1);
+			uv.setUserId(userId);
+			uv.setVehicleId(vehicleId);
+			userVehicleMapper.insertSelective(uv);
+		}
+	}
+	//熟司机记录更新次数
+	private void saveUserDriver(String userId, String driverId) {
+		UserDriver ud = userDriverMapper.getByUIdAndDId(userId, driverId);
+		if (ud != null) {
+			ud.setNumber(ud.getNumber() + 1);
+			userDriverMapper.updateByPrimaryKeySelective(ud);
+		} else {
+			ud = new UserDriver();
+			ud.setId(UUIDUtil.getId());
+			ud.setNumber(1);
+			ud.setUserId(userId);
+			ud.setDriverId(driverId);
+			userDriverMapper.insertSelective(ud);
+		}
 	}
 
 	private boolean validVehicle(VehicleManage vehicle, AppResult result) {
@@ -680,7 +741,38 @@ public class AppStaticService implements IAppStaticService {
 		if (vehicle != null && StringUtils.equals(vehicle.getState(), Constant.ONE_STRING)) {
 			if (StringUtils.equals(vehicle.getIsvalid(), Constant.ONE_STRING)) {
 				if (StringUtils.equals(vehicle.getIsblacklist(), Constant.ZERO_STRING)) {
-					flag = true;
+					PurchaseArrive pa = new PurchaseArrive();
+					pa.setVehicleid(vehicle.getId());
+					List<PurchaseArrive> paList = purchaseArriveMapper.checkDriverAndVehicleIsUse(pa);
+					if (CollectionUtils.isNotEmpty(paList)) {
+		                result.setErrorCode(ErrorCode.PARAM_REPEAT_ERROR);
+		                result.setMessage("此车辆己有到货通知单、待出厂后进行派车，现有车辆业务单据号为:"+paList.get(0).getCode()+"，如有疑问请与销售处联系！");
+		            } else {
+		            	SalesArrive sa = new SalesArrive();
+		                sa.setVehicleid(vehicle.getId());
+		                List<SalesArrive> saList = salesArriveMapper.checkDriverAndVehicleIsUse(sa);
+		                if (CollectionUtils.isNotEmpty(saList)) {
+		                    result.setErrorCode(ErrorCode.PARAM_REPEAT_ERROR);
+		                    result.setMessage("此车辆己有提货通知单、待出厂后进行派车，现有车辆业务单据号为:"+saList.get(0).getCode()+"，如有疑问请与销售处联系！");
+		                } else {
+		                	OtherArrive oa = new OtherArrive();
+		                    oa.setVehicleid(vehicle.getId());
+		                    List<OtherArrive> oaList = otherArriveMapper.checkDriverAndVehicleAndIcardIsUse(oa);
+		                    if (CollectionUtils.isNotEmpty(oaList)) {
+		                        if(StringUtils.equals(oaList.get(0).getBusinesstype(), Constant.FIVE_STRING)){
+		                            result.setErrorCode(ErrorCode.PARAM_REPEAT_ERROR);
+		                            result.setMessage("此车辆己有其他入库通知单、待出厂后进行派车，现有车辆业务单据号为:"+oaList.get(0).getCode()+"，如有疑问请与销售处联系！");
+		                        }else if(StringUtils.equals(oaList.get(0).getBusinesstype(), Constant.SEVEN_STRING)){
+		                            result.setErrorCode(ErrorCode.PARAM_REPEAT_ERROR);
+		                            result.setMessage("此车辆己有其他出库通知单、待出厂后进行派车，现有车辆业务单据号为:"+oaList.get(0).getCode()+"，如有疑问请与销售处联系！");
+		                        } else {
+		                        	flag = true;
+		                        }
+		                    } else {
+	                        	flag = true;
+	                        }
+		                }
+		            }
 				} else {
 					result.setErrorCode(ErrorCode.VEHICLE_IS_BLACK);
 				}
@@ -742,6 +834,8 @@ public class AppStaticService implements IAppStaticService {
 		PaginationVO<NoticeListVo> page = new PaginationVO<NoticeListVo>();
 		long count = purchaseArriveMapper.appNoticeListCount(param);
 		if (count > 0) {
+			param.setStart((param.getPageNo() - 1) * param.getPageSize());
+			param.setLimit(param.getPageSize());
 			List<NoticeListVo> list = purchaseArriveMapper.appNoticeList(param);
 			page.setList(list);
 		}
@@ -766,6 +860,7 @@ public class AppStaticService implements IAppStaticService {
 			//供应商				
 			case "2":
 				result.setData(purchaseArriveMapper.appNoticeDetail(param));
+				result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
 				break;
 			default:
 				result.setErrorCode(ErrorCode.SYSTEM_USER_ERROR14);
@@ -782,22 +877,26 @@ public class AppStaticService implements IAppStaticService {
 		AppResult result = AppResult.getAppResult();
 		if (param != null && StringUtils.isNotBlank(param.getUserId())
 				&& StringUtils.isNotBlank(param.getIDType())
-				&& StringUtils.isNotBlank(param.getId())
-				&& StringUtils.isNotBlank(param.getVehicle())
-				&& StringUtils.isNotBlank(param.getDriver())
-				&& param.getNumber() != null) {
-			switch (param.getIDType()) {
-			//客户
-			case "1":
-				// TODO
-				break;
-			//供应商				
-			case "2":
-				result = supplierNoticeUpdate(param);
-				break;
-			default:
-				result.setErrorCode(ErrorCode.SYSTEM_USER_ERROR14);
-				break;
+				&& (StringUtils.isNotBlank(param.getId()))) {
+			if (StringUtils.isNotBlank(param.getId())
+					|| StringUtils.isNotBlank(param.getVehicle())
+					|| StringUtils.isNotBlank(param.getDriver())
+					|| param.getNumber() != null) {
+				switch (param.getIDType()) {
+				//客户
+				case "1":
+					// TODO
+					break;
+				//供应商				
+				case "2":
+					result = supplierNoticeUpdate(param);
+					break;
+				default:
+					result.setErrorCode(ErrorCode.SYSTEM_USER_ERROR14);
+					break;
+				}
+			} else {
+				result.setErrorCode(ErrorCode.DATE_NOT_UPDATE);
 			}
 		} else {
 			result.setErrorCode(ErrorCode.PARAM_NULL_ERROR);
@@ -809,58 +908,416 @@ public class AppStaticService implements IAppStaticService {
 		AppResult result = AppResult.getAppResult();
 		SystemUser user = userMapper.selectByPrimaryKey(param.getUserId());
 		if (user != null) {
-			if (param.getNumber() > 0) {
-				PurchaseArrive notice = purchaseArriveMapper.selectByPrimaryKey(param.getId());
-				if (notice != null && StringUtils.equals(notice.getState(), Constant.ONE_STRING)) {
-					if (!StringUtils.equals(notice.getStatus(), Constant.THREE_STRING)) {
-						double number = notice.getArrivalamount();
-						PurchaseApplication pa = purchaseApplicationMapper.selectByPrimaryKey(param.getId());
-						PurchaseApplicationDetail pad = purchaseApplicationDetailMapper.selectByPrimaryKey(param.getDetailId());
-						if (pa != null && pad != null) {
-							if (param.getNumber() <= pad.getMargin() + number) {
-								VehicleManage vehicle = vehicleManageMapper.selectByPrimaryKey(param.getVehicle());
-								if (validVehicle(vehicle, result)) {
-									if (StringUtils.isNotBlank(param.getDriver())) {
-										DriverManage driver = driverManageMapper.selectByPrimaryKey(param.getDriver());
-										if (validDriver(driver, result)) {
-											notice.setVehicleid(vehicle.getId());
-											notice.setVehicleno(vehicle.getVehicleno());
-											notice.setVehiclerfid(vehicle.getRfid());
-											notice.setDriverid(driver.getId());
-											notice.setDrivername(driver.getName());
-											notice.setDriveridentityno(driver.getIdentityno());
-											notice.setArrivalamount(param.getNumber());
-											notice.setModifier(param.getUserId());
-											notice.setModifytime(System.currentTimeMillis());
-											purchaseArriveMapper.updateByPrimaryKeySelective(notice);
-											pad.setMargin(pad.getMargin() + number - param.getNumber());
-											pad.setPretendingtake(pad.getPretendingtake() - number + param.getNumber());
-											purchaseApplicationDetailMapper.updateByPrimaryKeySelective(pad);
-											result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
-										}
-									} else {
-										result = putSupplierNoticeValue(param, user, pa, pad, vehicle, null);
-									}
+			PurchaseArrive notice = purchaseArriveMapper.selectByPrimaryKey(param.getId());
+			if (notice != null && StringUtils.equals(notice.getState(), Constant.ONE_STRING)) {
+				if (!StringUtils.equals(notice.getStatus(), Constant.THREE_STRING)) {
+					double number = notice.getArrivalamount();
+					PurchaseApplication pa = purchaseApplicationMapper.selectByPrimaryKey(notice.getBillid());
+					PurchaseApplicationDetail pad = purchaseApplicationDetailMapper.selectByPrimaryKey(notice.getBilldetailid());
+					if (pa != null && pad != null) {
+						boolean flag = false;
+						//判断是否修改到货量
+						PurchaseArrive bean = new PurchaseArrive();
+						if (param.getNumber() != null) {
+							if (param.getNumber() > 0) {
+								if (param.getNumber() <= pad.getMargin() + number) {
+									bean.setArrivalamount(param.getNumber());
+									pad.setMargin(pad.getMargin() + number - param.getNumber());
+									pad.setPretendingtake(pad.getPretendingtake() - number + param.getNumber());
+									purchaseApplicationDetailMapper.updateByPrimaryKeySelective(pad);
+									flag = true;
+								} else {
+									result.setErrorCode(ErrorCode.NOTICE_NUMBER_ERROR);
 								}
 							} else {
 								result.setErrorCode(ErrorCode.NOTICE_NUMBER_ERROR);
 							}
-						} else {
-							result.setErrorCode(ErrorCode.APPLICATION_NOT_EXIST);
+						}
+						//判断是否修改车辆
+						if (StringUtils.isNotBlank(param.getVehicle()) && !StringUtils.equals(notice.getVehicleid(), param.getVehicle())) {
+							VehicleManage vehicle = vehicleManageMapper.selectByPrimaryKey(param.getVehicle());
+							if (validVehicle(vehicle, result)) {
+								bean.setVehicleid(vehicle.getId());
+								bean.setVehicleno(vehicle.getVehicleno());
+								bean.setVehiclerfid(vehicle.getRfid());
+								saveUserVehicle(user.getId(), vehicle.getId());
+								flag = true;
+							}
+						}
+						//判断是否修改司机
+						if (StringUtils.isNotBlank(param.getDriver()) && !StringUtils.equals(notice.getDriverid(), param.getDriver())) {
+							DriverManage driver = driverManageMapper.selectByPrimaryKey(param.getDriver());
+							if (validDriver(driver, result)) {
+								bean.setDriverid(driver.getId());
+								bean.setDrivername(driver.getName());
+								bean.setDriveridentityno(driver.getIdentityno());
+								saveUserVehicle(user.getId(), driver.getId());
+								flag = true;
+							}
+						}
+						if (flag) {
+							bean.setId(notice.getId());
+							bean.setModifier(param.getUserId());
+							bean.setModifytime(System.currentTimeMillis());
+							purchaseArriveMapper.updateByPrimaryKeySelective(bean);
+							result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
 						}
 					} else {
-						result.setErrorCode(ErrorCode.NOTICE_ON_INVALID);
+						result.setErrorCode(ErrorCode.APPLICATION_NOT_EXIST);
 					}
 				} else {
-					result.setErrorCode(ErrorCode.NOTICE_NOT_EXIST);
+					result.setErrorCode(ErrorCode.NOTICE_ON_INVALID);
 				}
 			} else {
-				result.setErrorCode(ErrorCode.NOTICE_NUMBER_ERROR);
+				result.setErrorCode(ErrorCode.NOTICE_NOT_EXIST);
 			}
 		} else {
 			result.setErrorCode(ErrorCode.SYSTEM_USER_ERROR17);
 		}
 		return result;
 	}
+
+	@Override
+	public AppResult noticeCancel(NoticeListParam param) {
+		AppResult result = AppResult.getAppResult();
+		if (param != null && StringUtils.isNotBlank(param.getUserId())
+				&& StringUtils.isNotBlank(param.getIDType())
+				&& StringUtils.isNotBlank(param.getId())) {
+			switch (param.getIDType()) {
+			//客户
+			case "1":
+				result = customerNoticeCancel(param);
+				break;
+			//供应商				
+			case "2":
+				result = supplierNoticeCancel(param);
+				break;
+			default:
+				result.setErrorCode(ErrorCode.SYSTEM_USER_ERROR14);
+				break;
+			}
+		} else {
+			result.setErrorCode(ErrorCode.PARAM_NULL_ERROR);
+		}
+		return result;
+	}
+
+	private AppResult customerNoticeCancel(NoticeListParam param) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	private AppResult supplierNoticeCancel(NoticeListParam param) {
+		AppResult result = AppResult.getAppResult();
+		SystemUser user = userMapper.selectByPrimaryKey(param.getUserId());
+		if (user != null) {
+			PurchaseArrive notice = purchaseArriveMapper.selectByPrimaryKey(param.getId());
+			if (notice != null) {
+				if (StringUtils.equals(notice.getAuditstatus(), Constant.ZERO_STRING)) {
+					//关闭通知单并回写余量和预提量
+					notice.setStatus(Constant.THREE_STRING);
+					notice.setAbnormalperson(user.getId());
+					notice.setAbnormalpersonname(user.getName());
+					notice.setAbnormaltime(System.currentTimeMillis());
+					purchaseArriveMapper.updateByPrimaryKeySelective(notice);
+					PurchaseApplicationDetail pad = purchaseApplicationDetailMapper.selectByPrimaryKey(notice.getBilldetailid());
+					if (pad != null) {
+						pad.setMargin(pad.getMargin() + notice.getArrivalamount());
+						pad.setPretendingtake(pad.getPretendingtake() - notice.getArrivalamount());
+						purchaseApplicationDetailMapper.updateByPrimaryKeySelective(pad);
+					}
+					result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+				} else {
+					result.setErrorCode(ErrorCode.NOTICE_YES_AUDIT);
+				}
+			} else {
+				result.setErrorCode(ErrorCode.NOTICE_NOT_EXIST);
+			}
+		} else {
+			result.setErrorCode(ErrorCode.SYSTEM_USER_ERROR17);
+		}
+		return result;
+	}
+
+	@Override
+	public AppResult myVehicle(MyVehicleListParam param) {
+		AppResult result = AppResult.getAppResult();
+		if (param != null && StringUtils.isNotBlank(param.getIDType())
+				&& StringUtils.isNotBlank(param.getNcId())
+				&& StringUtils.isNotBlank(param.getType())) {
+			switch (param.getType()) {
+			case "2":
+				//熟车
+				result = myVehicleInSc(param);
+				break;
+			default:
+				result = myVehicleInFc(param);
+				break;
+			}
+		} else {
+			result.setErrorCode(ErrorCode.PARAM_NULL_ERROR);
+		}
+		return result;
+	}
+	//熟车
+	private AppResult myVehicleInSc(MyVehicleListParam param) {
+		AppResult result = AppResult.getAppResult();
+		PaginationVO<MyVehicleListVo> page = new PaginationVO<MyVehicleListVo>();
+		long list1count = userVehicleMapper.listMyVehicleOrderNumCount(param);
+		long list2count = userDriverMapper.listMyDriverOrderNumCount(param);
+		long count = list1count;
+		if (list2count > list1count) {
+			count = list2count;
+		}
+		if (count > 0) {
+			param.setStart((param.getPageNo() - 1) * param.getPageSize());
+			param.setLimit(param.getPageSize());
+			List<UserVehicleVo> list1 = userVehicleMapper.listMyVehicleOrderNum(param);
+			List<UserDriverVo> list2 = userDriverMapper.listMyDriverOrderNum(param);
+			int index = 0;
+			if (CollectionUtils.isNotEmpty(list1)) {
+				index = list1.size();
+			}
+			if (CollectionUtils.isNotEmpty(list2) && list2.size() > index) {
+				index = list2.size();
+			}
+			List<MyVehicleListVo> list = new ArrayList<MyVehicleListVo>();
+			for (int i = 0; i < index; i++) {
+				MyVehicleListVo vo = new MyVehicleListVo();
+				if (i < list1.size()) {
+					vo.setVehicle(list1.get(i).getVehicleNo());
+				}
+				if (i < list2.size()) {
+					vo.setDriver(list2.get(i).getName());
+					vo.setTelephone(list2.get(i).getTelephone());
+				}
+				list.add(vo);
+			}
+			page.setList(list);
+		}
+		page.setTotal(count);
+		page.setPageNo(param.getPageNo());
+		page.setPageSize(param.getPageSize());
+		result.setData(page);
+		result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+		return result;
+	}
+	//在运输车辆
+	private AppResult myVehicleInFc(MyVehicleListParam param) {
+		AppResult result = AppResult.getAppResult();
+		switch (param.getIDType()) {
+		//客户
+		case "1":
+			result = customerMyVehicle(param);
+			break;
+		//供应商				
+		case "2":
+			result = supplierMyVehicle(param);
+			break;
+		default:
+			result.setErrorCode(ErrorCode.SYSTEM_USER_ERROR14);
+			break;
+		}
+		return result;
+	}
+
+	private AppResult customerMyVehicle(MyVehicleListParam param) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	private AppResult supplierMyVehicle(MyVehicleListParam param) {
+		AppResult result = AppResult.getAppResult();
+		PaginationVO<MyVehicleListVo> page = new PaginationVO<MyVehicleListVo>();
+		long count = purchaseArriveMapper.appMyVehicleListCount(param);
+		if (count > 0) {
+			param.setStart((param.getPageNo() - 1) * param.getPageSize());
+			param.setLimit(param.getPageSize());
+			List<MyVehicleListVo> list = purchaseArriveMapper.appMyVehicleList(param);
+			page.setList(list);
+		}
+		page.setTotal(count);
+		page.setPageNo(param.getPageNo());
+		page.setPageSize(param.getPageSize());
+		result.setData(page);
+		result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+		return result;
+	}
 	
+	@Override
+	public AppResult myPn(MyPnListParam param) {
+		AppResult result = AppResult.getAppResult();
+		if (param != null && StringUtils.isNotBlank(param.getNcId())
+				&& StringUtils.isNotBlank(param.getIDType())) {
+			switch (param.getIDType()) {
+			//客户
+			case "1":
+				result = customerMyPn(param);
+				break;
+			//供应商				
+			case "2":
+				result = supplierMyPn(param);
+				break;
+			default:
+				result.setErrorCode(ErrorCode.SYSTEM_USER_ERROR14);
+				break;
+			}
+		} else {
+			result.setErrorCode(ErrorCode.PARAM_NULL_ERROR);
+		}
+		return result;
+	}
+
+	private AppResult customerMyPn(MyPnListParam param) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	private AppResult supplierMyPn(MyPnListParam param) {
+		AppResult result = AppResult.getAppResult();
+		PaginationVO<MyPnListVo> page = new PaginationVO<MyPnListVo>();
+		long count = poundNoteMapper.appPnSupListCount(param);
+		if (count > 0) {
+			param.setStart((param.getPageNo() - 1) * param.getPageSize());
+			param.setLimit(param.getPageSize());
+			List<MyPnListVo> list = poundNoteMapper.appSupPnList(param);
+			page.setList(list);
+		}
+		page.setTotal(count);
+		page.setPageNo(param.getPageNo());
+		page.setPageSize(param.getPageSize());
+		result.setData(page);
+		result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+		return result;
+	}
+
+	@Override
+	public AppResult myPnDetail(MyPnListParam param) {
+		AppResult result = AppResult.getAppResult();
+		if (param != null && StringUtils.isNotBlank(param.getId())) {
+			result.setData(poundNoteMapper.appPnDetail(param));
+			result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+		} else {
+			result.setErrorCode(ErrorCode.PARAM_NULL_ERROR);
+		}
+		return result;
+	}
+
+	@Override
+	public AppResult saveDriver(DriverSave param) throws Exception {
+		AppResult result = AppResult.getAppResult();
+		if (param != null && StringUtils.isNotBlank(param.getUserId())
+				&& StringUtils.isNotBlank(param.getName())
+				&& StringUtils.isNotBlank(param.getTelephone())
+				&& StringUtils.isNotBlank(param.getIdNo())) {
+			DriverManage driver = new DriverManage();
+			driver.setId(UUIDUtil.getId());
+			driver.setCode(getCode("DR", param.getUserId(), true));
+			driver.setInternalcode(getCode("DR", param.getUserId(), false));
+			driver.setName(param.getName());
+			driver.setAbbrname(param.getAbbrName());
+			driver.setTelephone(param.getTelephone());
+			driver.setIdentityno(param.getIdNo());
+			driver.setIsvalid(Constant.ONE_STRING);
+			driver.setOrgid(Constant.ORG_ID);
+			driver.setOrgname(Constant.ORG_NAME);
+			driver.setState(Constant.ONE_STRING);
+			driver.setCreator(param.getUserId());
+			driver.setCreatetime(System.currentTimeMillis());
+			driverManageMapper.insertSelective(driver);
+			updateCode("DR", param.getUserId());
+			result.setData(driver.getId());
+			result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+		} else {
+			result.setErrorCode(ErrorCode.PARAM_NULL_ERROR);
+		}
+		return result;
+	}
+
+	@Override
+	public AppResult vehicleSearch(SearchKeyParam param) {
+		AppResult result = AppResult.getAppResult();
+		if (param != null) {
+			result.setData(vehicleManageMapper.appAutoCompleteSearch(param));
+			result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+		} else {
+			result.setErrorCode(ErrorCode.PARAM_NULL_ERROR);
+		}
+		return result;
+	}
+
+	@Override
+	public AppResult driverSearch(SearchKeyParam param) {
+		AppResult result = AppResult.getAppResult();
+		if (param != null) {
+			result.setData(driverManageMapper.appAutoCompleteSearch(param));
+			result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+		} else {
+			result.setErrorCode(ErrorCode.PARAM_NULL_ERROR);
+		}
+		return result;
+	}
+
+	@Override
+	public AppResult materialSearch(SearchKeyParam param) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public AppResult queryGroupUser(LoginUserParam param) {
+		AppResult result = AppResult.getAppResult();
+		if (param != null && StringUtils.isNotBlank(param.getNcId())
+				&& StringUtils.isNotBlank(param.getIDType())) {
+			switch (param.getIDType()) {
+			//客户
+			case "1":
+				break;
+			//供应商				
+			case "2":
+				result = SupplierGroupUser(param);
+				break;
+			default:
+				result.setErrorCode(ErrorCode.SYSTEM_USER_ERROR14);
+				break;
+			}
+		} else {
+			result.setErrorCode(ErrorCode.PARAM_NULL_ERROR);
+		}
+		return result;
+	}
+
+	private AppResult SupplierGroupUser(LoginUserParam param) {
+		AppResult result = AppResult.getAppResult();
+		SupplierGroup supplierGroup = supplierGroupMapper.validateSupplier(param.getNcId());
+		if(supplierGroup != null){
+			List<AppCutoverGroup> list = supplierGroupMapper.selectSupplierByGroupId(supplierGroup.getGroupid());
+			result.setData(list);
+			result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+		}else{
+			result.setErrorCode(ErrorCode.SUPPLIER_GROUP_ERROR1);
+		}
+		return result;
+	}
+
+	@Override
+	public AppResult userCutover(LoginUserParam param) throws Exception {
+		AppResult result = AppResult.getAppResult();
+		if (param != null && StringUtils.isNotBlank(param.getCutoverUserNCId())
+				&& StringUtils.isNotBlank(param.getIDType())
+				&& StringUtils.isNotBlank(param.getKey())) {
+			SystemUser user = userMapper.selectByNcIdAndIdentityTypes(param.getCutoverUserNCId(), param.getIDType());
+			if(user != null){
+				//累计登录次数
+				addLoginCount(user);
+				//缓存默认保存一天 && 返回登录结果
+				result.setData(cacheUserAndReturnLoginData(user.getId()));
+				result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+				cacheClient.remove(param.getKey());
+			}
+		} else {
+			result.setErrorCode(ErrorCode.PARAM_NULL_ERROR);
+		}
+		return result;
+	}
 }

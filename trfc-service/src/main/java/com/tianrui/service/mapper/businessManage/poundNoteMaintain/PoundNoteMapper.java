@@ -2,10 +2,13 @@ package com.tianrui.service.mapper.businessManage.poundNoteMaintain;
 
 import java.util.List;
 
+import com.tianrui.api.req.android.MyPnListParam;
 import com.tianrui.api.req.businessManage.app.AppPoundOrderReq;
 import com.tianrui.api.req.businessManage.app.AppPoundOrderResp;
 import com.tianrui.api.req.businessManage.poundNoteMaintain.ApiPoundNoteQuery;
 import com.tianrui.api.req.businessManage.poundNoteMaintain.PoundNoteQuery;
+import com.tianrui.api.resp.android.MyPnListVo;
+import com.tianrui.api.resp.android.MyPnVo;
 import com.tianrui.api.resp.businessManage.poundNoteMaintain.PoundNoteResp;
 import com.tianrui.service.bean.businessManage.poundNoteMaintain.PoundNote;
 
@@ -145,4 +148,22 @@ public interface PoundNoteMapper {
 	 * @return
 	 */
 	PoundNote getNewByNoticeId(String noticeId);
+	/**
+	 * @annotation 客商APP查询我的榜单（供应商）
+	 * @param param
+	 * @return
+	 */
+	List<MyPnListVo> appSupPnList(MyPnListParam param);
+	/**
+	 * @annotation 客商APP查询我的榜单总条数（供应商）
+	 * @param param
+	 * @return
+	 */
+	long appPnSupListCount(MyPnListParam param);
+	/**
+	 * @annotation 客商APP查询我的榜单详情
+	 * @param param
+	 * @return
+	 */
+	List<MyPnVo> appPnDetail(MyPnListParam param);
 }

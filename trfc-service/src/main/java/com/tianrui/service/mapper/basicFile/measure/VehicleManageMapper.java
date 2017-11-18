@@ -4,8 +4,10 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
+import com.tianrui.api.req.android.SearchKeyParam;
 import com.tianrui.api.req.basicFile.measure.VehicleManageQuery;
 import com.tianrui.api.req.businessManage.app.AppQueryReq;
+import com.tianrui.api.resp.android.SearchListVo;
 import com.tianrui.api.resp.businessManage.app.AppVehicleResp;
 import com.tianrui.service.bean.basicFile.measure.VehicleManage;
 
@@ -39,6 +41,8 @@ public interface VehicleManageMapper {
 	List<AppVehicleResp> appQueryVehiclePage(AppQueryReq req);
 
     VehicleManage  getVehicleByNo(String vehicleNo);
+    
     VehicleManage  getVehicleByRfid(String rfid);
     
+    List<SearchListVo> appAutoCompleteSearch(SearchKeyParam param);
 }

@@ -1572,6 +1572,9 @@ public class PoundNoteService implements IPoundNoteService {
 		bean.setCreatetime(System.currentTimeMillis());
 		bean.setModifier(query.getCurrid());
 		bean.setModifytime(System.currentTimeMillis());
+		//2017/11/18客商APP测试发现
+		bean.setMaterialid(applicationDetail.getMaterielid());
+		bean.setMaterialname(applicationDetail.getMaterielname());
 		return codeReq;
 	}
 

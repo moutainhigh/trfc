@@ -6,17 +6,17 @@ public class HomeBillVo extends BaseResp {
 
 	private static final long serialVersionUID = -8334906301337503006L;
 	//订单ID
-	private String id;
+	private String id = "";
 	//子表ID
-	private String detailId;
+	private String detailId = "";
 	//订单编号
-	private String code;
+	private String code = "";
 	//物料
-	private String material;
+	private String material = "";
 	//订单日期
-	private String billTime;
+	private String billTime = "";
 	//订单来源
-	private String billSource;
+	private String billSource = "";
 	public String getId() {
 		return id;
 	}

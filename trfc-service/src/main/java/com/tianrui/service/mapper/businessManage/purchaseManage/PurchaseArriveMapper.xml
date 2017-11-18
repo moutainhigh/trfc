@@ -1029,7 +1029,7 @@
 	LEFT JOIN tr_purchase_db_application t2 ON t1.billid = t2.id
 	WHERE
 		t1.auditstatus = 1
-	AND t2.supplierid = #{userId,jdbcType=VARCHAR}
+	AND t2.supplierid = #{ncId,jdbcType=VARCHAR}
 	AND t2.state = 1
 	AND t2.auditstatus = 1
 	ORDER BY
@@ -1044,7 +1044,7 @@
 	WHERE
 		t1.auditstatus = 1
 	AND t1.`status` IN (1, 2, 4, 6, 7)
-	AND t2.supplierid = #{userId,jdbcType=VARCHAR}
+	AND t2.supplierid = #{ncId,jdbcType=VARCHAR}
 	AND t2.state = 1
 	AND t2.auditstatus = 1
 	ORDER BY
@@ -1060,7 +1060,33 @@
 		) as billTime,
 		t1.vehicleno as vehicle,
 		t3.materielname as material,
-		t1.drivername as driver
+		t1.drivername as driver,
+		t1.arrivalamount number,
+		t3.margin,
+		CASE
+			WHEN t1.`status` = 0 THEN
+				'未入厂'
+			WHEN t1.`status` = 1 THEN
+				'一次过磅'
+			WHEN t1.`status` = 2 THEN
+				'二次过磅'
+			WHEN t1.`status` = 3 THEN
+				'作废'
+			WHEN t1.`status` = 4 THEN
+				'发卡'
+			WHEN t1.`status` = 5
+			AND t1.forceOutFactory = 0 THEN
+				'出厂'
+			WHEN t1.`status` = 5
+			AND t1.forceOutFactory = 1 THEN
+				'强制出厂'
+			WHEN t1.`status` = 6 THEN
+				'入厂'
+			WHEN t1.`status` = 7 THEN
+				'装车'
+			ELSE
+				''
+		END AS status
 	FROM
 		tr_purchase_db_arrive t1
 	LEFT JOIN tr_purchase_db_application t2 ON t1.billid = t2.id
@@ -1068,7 +1094,7 @@
 	WHERE
 		t1.state = 1
 	AND t1.`status` != 3 
-	AND t2.supplierid = #{userId, jdbcType=VARCHAR}
+	AND t2.supplierid = #{ncId, jdbcType=VARCHAR}
 	<choose>
 		<when test="type == 0">
 			and t1.auditstatus = 0
@@ -1088,13 +1114,19 @@
 		AND t1.`code` = #{code,jdbcType=VARCHAR}
 	</if>
 	<if test="vehicle != null and vehicle != ''">
-		AND t1.vehicleid = #{vehicle,jdbcType=VARCHAR}
+		AND (t1.vehicleid = #{vehicle,jdbcType=VARCHAR}
+			OR 
+			t1.vehicleno = #{vehicle,jdbcType=VARCHAR})
 	</if>
 	<if test="driver != null and driver != ''">
-		AND t1.driverid = #{driver,jdbcType=VARCHAR}
+		AND (t1.driverid = #{driver,jdbcType=VARCHAR}
+			OR 
+			t1.drivername = #{driver,jdbcType=VARCHAR})
 	</if>
 	<if test="material != null and material != ''">
-		AND t3.materielid = #{material,jdbcType=VARCHAR}
+		AND (t3.materielid = #{material,jdbcType=VARCHAR}
+			OR 
+			t3.materielname = #{material,jdbcType=VARCHAR})
 	</if>
 	<if test="source != null and source != ''">
 		AND t1.source = #{source,jdbcType=VARCHAR}
@@ -1122,7 +1154,7 @@
 	WHERE
 		t1.state = 1
 	AND t1.`status` != 3 
-	AND t2.supplierid = #{userId, jdbcType=VARCHAR}
+	AND t2.supplierid = #{ncId, jdbcType=VARCHAR}
 	<choose>
 		<when test="type == 0">
 			and t1.auditstatus = 0
@@ -1142,13 +1174,19 @@
 		AND t1.`code` = #{code,jdbcType=VARCHAR}
 	</if>
 	<if test="vehicle != null and vehicle != ''">
-		AND t1.vehicleid = #{vehicle,jdbcType=VARCHAR}
+		AND (t1.vehicleid = #{vehicle,jdbcType=VARCHAR}
+			OR 
+			t1.vehicleno = #{vehicle,jdbcType=VARCHAR})
 	</if>
 	<if test="driver != null and driver != ''">
-		AND t1.driverid = #{driver,jdbcType=VARCHAR}
+		AND (t1.driverid = #{driver,jdbcType=VARCHAR}
+			OR 
+			t1.drivername = #{driver,jdbcType=VARCHAR})
 	</if>
 	<if test="material != null and material != ''">
-		AND t3.materielid = #{material,jdbcType=VARCHAR}
+		AND (t3.materielid = #{material,jdbcType=VARCHAR}
+			OR 
+			t3.materielname = #{material,jdbcType=VARCHAR})
 	</if>
 	<if test="source != null and source != ''">
 		AND t1.source = #{source,jdbcType=VARCHAR}
@@ -1200,5 +1238,77 @@
 		t1.state = 1
 	AND t1.`status` != 3
 	AND t1.id = #{id, jdbcType=VARCHAR}
+  </select>
+  <select id="appMyVehicleList" parameterType="com.tianrui.api.req.android.MyVehicleListParam" resultType="com.tianrui.api.resp.android.MyVehicleListVo">
+  	SELECT
+		t1.vehicleno AS vehicle,
+		t3.telephone,
+		t3.`name` AS driver,
+		CASE
+		WHEN t1.`status` = 0 THEN
+			'未入厂'
+		WHEN t1.`status` = 1 THEN
+			'一次过磅'
+		WHEN t1.`status` = 2 THEN
+			'二次过磅'
+		WHEN t1.`status` = 4 THEN
+			'发卡'
+		WHEN t1.`status` = 5
+		AND t1.forceOutFactory = 0 THEN
+			'出厂'
+		WHEN t1.`status` = 5
+		AND t1.forceOutFactory = 1 THEN
+			'强制出厂'
+		WHEN t1.`status` = 6 THEN
+			'入厂'
+		WHEN t1.`status` = 7 THEN
+			'装车'
+		ELSE
+			''
+		END AS `status`
+	FROM
+		tr_purchase_db_arrive t1
+	LEFT JOIN tr_purchase_db_application t2 ON t1.billid = t2.id
+	LEFT JOIN tr_driver_db_manage t3 ON t1.driverid = t3.id
+	WHERE
+		t1.state = 1
+	AND t1.`status` != 3
+	AND t2.supplierid = #{ncId, jdbcType=VARCHAR}
+	<choose>
+		<when test="type == 0">
+			and t1.`status` = 0
+		</when>
+		<when test="type == 1">
+			and t1.`status` in (1,2,4,6,7)
+		</when>
+		<otherwise></otherwise>
+	</choose>
+	ORDER BY t1.createtime DESC
+	<if test="start != null and start >= 0">
+        <if test="limit != null">
+            limit #{start,jdbcType=INTEGER},#{limit,jdbcType=INTEGER}
+        </if>
+    </if>
+  </select>
+  <select id="appMyVehicleListCount" parameterType="com.tianrui.api.req.android.MyVehicleListParam" resultType="java.lang.Long">
+  	SELECT
+		count(0)
+	FROM
+		tr_purchase_db_arrive t1
+	LEFT JOIN tr_purchase_db_application t2 ON t1.billid = t2.id
+	LEFT JOIN tr_driver_db_manage t3 ON t1.driverid = t3.id
+	WHERE
+		t1.state = 1
+	AND t1.`status` != 3
+	AND t2.supplierid = #{ncId, jdbcType=VARCHAR}
+	<choose>
+		<when test="type == 0">
+			and t1.`status` = 0
+		</when>
+		<when test="type == 1">
+			and t1.`status` in (1,2,4,6,7)
+		</when>
+		<otherwise></otherwise>
+	</choose>
   </select>
 </mapper>

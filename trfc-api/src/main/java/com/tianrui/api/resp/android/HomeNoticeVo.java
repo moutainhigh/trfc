@@ -6,15 +6,15 @@ public class HomeNoticeVo extends BaseResp {
 
 	private static final long serialVersionUID = -8334906301337503006L;
 	//通知单ID
-	private String id;
+	private String id = "";
 	//通知单号
-	private String code;
+	private String code = "";
 	//车辆
-	private String vehicle;
+	private String vehicle = "";
 	//司机
-	private String driver;
+	private String driver = "";
 	//订单日期
-	private String billTime;
+	private String billTime = "";
 	public String getId() {
 		return id;
 	}

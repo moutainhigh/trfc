@@ -5,12 +5,14 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 import com.tianrui.api.req.android.HomePageParam;
+import com.tianrui.api.req.android.MyVehicleListParam;
 import com.tianrui.api.req.android.NoticeListParam;
 import com.tianrui.api.req.businessManage.app.AppNoticeOrderReq;
 import com.tianrui.api.req.businessManage.app.AppOrderReq;
 import com.tianrui.api.req.businessManage.logisticsManage.PurchaseLogisticsQuery;
 import com.tianrui.api.req.businessManage.purchaseManage.PurchaseArriveQuery;
 import com.tianrui.api.resp.android.HomeNoticeVo;
+import com.tianrui.api.resp.android.MyVehicleListVo;
 import com.tianrui.api.resp.android.NoticeListVo;
 import com.tianrui.api.resp.businessManage.app.AppNoticeOrderResp;
 import com.tianrui.api.resp.businessManage.app.AppVehicleInFactoryResp;
@@ -182,4 +184,16 @@ public interface PurchaseArriveMapper {
 	 * @return
 	 */
 	NoticeListVo appNoticeDetail(NoticeListParam param);
+	/**
+	 * @annotation 客商APP我的车辆列表
+	 * @param param
+	 * @return
+	 */
+	List<MyVehicleListVo> appMyVehicleList(MyVehicleListParam param);
+	/**
+	 * @annotation 客商APP我的车辆总条数
+	 * @param param
+	 * @return
+	 */
+	long appMyVehicleListCount(MyVehicleListParam param);
 }

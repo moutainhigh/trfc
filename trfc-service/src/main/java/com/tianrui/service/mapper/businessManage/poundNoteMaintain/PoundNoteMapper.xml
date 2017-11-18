@@ -1842,4 +1842,147 @@
 					noticeid = #{noticeId,jdbcType=VARCHAR} and state = 1
 			)
     </select>
+    <select id="appSupPnList" parameterType="com.tianrui.api.req.android.MyPnListParam" resultType="com.tianrui.api.resp.android.MyPnListVo">
+		SELECT
+			t1.id,
+			t1.`code`,
+			t4.materielname AS material,
+			t2.vehicleno AS vehicle,
+			t2.drivername AS driver,
+			CASE
+			WHEN t1.billtype = 0 THEN
+				t1.weighttime
+			ELSE
+				t1.lighttime
+			END AS oneTime,
+			 CASE
+			WHEN t1.billtype = 0 THEN
+				t1.lighttime
+			ELSE
+				t1.weighttime
+			END AS twoTime,
+			 CASE
+			WHEN (
+				t1.billtype = 0
+				AND t1.lighttime IS NULL
+			)
+			OR (
+				t1.billtype = 1
+				AND t1.weighttime IS NULL
+			) THEN
+				'1'
+			ELSE
+				'2'
+			END AS `status`
+		FROM
+			tr_pound_db_note t1
+		LEFT JOIN tr_purchase_db_arrive t2 ON t1.noticeid = t2.id
+		LEFT JOIN tr_purchase_db_application t3 ON t2.billid = t3.id
+		LEFT JOIN tr_purchase_db_application_detail t4 ON t2.billdetailid = t4.id
+		WHERE
+			t1.billtype IN (0, 1)
+		AND t1.state = 1
+		AND t2.state = 1
+		AND t3.supplierid = #{ncId,jdbcType=VARCHAR}
+		<if test="noticeCode != null and noticeCode != ''">
+			and t2.code = #{noticeCode,jdbcType=VARCHAR}
+		</if>
+		<if test="vehicle != null and vehicle != ''">
+			and (t2.vehicleid = #{vehicle,jdbcType=VARCHAR}
+				OR 
+				t2.vehicleno = #{vehicle,jdbcType=VARCHAR})
+		</if>
+		<if test="driver != null and driver != ''">
+			and (t2.driverid = #{driver,jdbcType=VARCHAR}
+				OR 
+				t2.drivername = #{driver,jdbcType=VARCHAR})
+		</if>
+		<if test="material != null and material != ''">
+			and (t4.materielid = #{material,jdbcType=VARCHAR}
+				OR 
+				t4.materielname = #{material,jdbcType=VARCHAR})
+		</if>
+		<if test="startTime != null">
+			and t3.billtime <![CDATA[>=]]> #{startTime,jdbcType=BIGINT}
+		</if>
+		<if test="endTime != null">
+			and t3.billtime <![CDATA[<]]> #{endTime,jdbcType=BIGINT}
+		</if>
+		ORDER BY t3.billtime desc
+		<if test="start != null and start >= 0">
+	  		<if test="limit != null">
+				limit #{start,jdbcType=INTEGER},#{limit,jdbcType=INTEGER}
+	  		</if>
+	  	</if>
+    </select>
+    <select id="appPnSupListCount" parameterType="com.tianrui.api.req.android.MyPnListParam" resultType="java.lang.Long">
+		SELECT
+			count(0)
+		FROM
+			tr_pound_db_note t1
+		LEFT JOIN tr_purchase_db_arrive t2 ON t1.noticeid = t2.id
+		LEFT JOIN tr_purchase_db_application t3 ON t2.billid = t3.id
+		LEFT JOIN tr_purchase_db_application_detail t4 ON t2.billdetailid = t4.id
+		WHERE
+			t1.billtype IN (0, 1)
+		AND t1.state = 1
+		AND t2.state = 1
+		AND t3.supplierid = #{ncId,jdbcType=VARCHAR}
+		<if test="noticeCode != null and noticeCode != ''">
+			and t2.code = #{noticeCode,jdbcType=VARCHAR}
+		</if>
+		<if test="vehicle != null and vehicle != ''">
+			and (t2.vehicleid = #{vehicle,jdbcType=VARCHAR}
+				OR 
+				t2.vehicleno = #{vehicle,jdbcType=VARCHAR})
+		</if>
+		<if test="driver != null and driver != ''">
+			and (t2.driverid = #{driver,jdbcType=VARCHAR}
+				OR 
+				t2.drivername = #{driver,jdbcType=VARCHAR})
+		</if>
+		<if test="material != null and material != ''">
+			and (t4.materielid = #{material,jdbcType=VARCHAR}
+				OR 
+				t4.materielname = #{material,jdbcType=VARCHAR})
+		</if>
+		<if test="startTime != null">
+			and t3.billtime <![CDATA[>=]]> #{startTime,jdbcType=BIGINT}
+		</if>
+		<if test="endTime != null">
+			and t3.billtime <![CDATA[<]]> #{endTime,jdbcType=BIGINT}
+		</if>
+    </select>
+    <select id="appPnDetail" parameterType="com.tianrui.api.req.android.MyPnListParam" resultType="com.tianrui.api.resp.android.MyPnVo">
+		SELECT
+			t1.id,
+			t1.`code`,
+			t1.vehicleno AS vehicle,
+			t1.drivername AS driver,
+			t1.materialname AS material,
+			t1.grossweight,
+			t1.tareweight,
+			t1.netweight,
+			IF (
+				t1.lighttime > t1.weighttime,
+				FROM_UNIXTIME(
+					t1.lighttime / 1000,
+					"%Y-%m-%d %H:%m:%s"
+				),
+				FROM_UNIXTIME(
+					t1.weighttime / 1000,
+					"%Y-%m-%d %H:%m:%s"
+				)
+			) AS time,
+			IF (
+				t2.unit IS NULL,
+				t3.unit,
+				t2.unit
+			) AS unit
+		FROM
+			tr_pound_db_note t1
+		LEFT JOIN tr_purchase_db_application_detail t2 ON t1.billdetailid = t2.id
+		LEFT JOIN tr_sales_db_application_detail t3 ON t1.billdetailid = t3.id
+		WHERE t1.state = 1 AND	t1.id = #{id,jdbcType=VARCHAR}
+    </select>
 </mapper>

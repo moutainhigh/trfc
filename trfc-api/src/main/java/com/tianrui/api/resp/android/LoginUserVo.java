@@ -6,15 +6,15 @@ public class LoginUserVo implements Serializable{
 
 	private static final long serialVersionUID = -6047532361711189172L;
 
-	private String id;
-	private String ncid;
-	private String token;
-	private String userName;
-	private String mobile;
-	private String orgid;
-    private String orgName;
+	private String id = "";
+	private String ncid = "";
+	private String token = "";
+	private String userName = "";
+	private String mobile = "";
+	private String orgid = "";
+    private String orgName = "";
     //身份类型：1客户，2供应商，3普通用户
-	private String IDType;
+	private String IDType = "";
 	public String getId() {
 		return id;
 	}

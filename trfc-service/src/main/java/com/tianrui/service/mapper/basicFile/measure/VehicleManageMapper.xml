@@ -529,4 +529,21 @@
 		from tr_vehicle_db_manage
 		where RFID = #{rfid,jdbcType=VARCHAR} 
 	</select>
+	<select id="appAutoCompleteSearch" parameterType="com.tianrui.api.req.android.SearchKeyParam" resultType="com.tianrui.api.resp.android.SearchListVo">
+		SELECT
+			id,
+			vehicleno AS name
+		FROM
+			tr_vehicle_db_manage
+		WHERE
+			state = 1
+		AND isvalid = 1
+		AND isblacklist = 0
+		AND transporttype = 0
+		<if test="key != null and key != ''">
+			and vehicleno like CONCAT('%', #{key,jdbcType=VARCHAR}, '%')
+		</if>
+		ORDER BY createtime DESC
+		limit 0, #{pageSize,jdbcType=INTEGER}
+	</select>
 </mapper>

@@ -397,4 +397,20 @@
 			</if>
 		</where>
 	</select>
+	<select id="appAutoCompleteSearch" parameterType="com.tianrui.api.req.android.SearchKeyParam" resultType="com.tianrui.api.resp.android.SearchListVo">
+		SELECT
+			id,
+			`name`,
+			telephone
+		FROM
+			tr_driver_db_manage
+		WHERE
+			state = 1
+		AND isvalid = 1
+		<if test="key != null and key != ''">
+			and vehicleno like CONCAT('%', #{key,jdbcType=VARCHAR}, '%')
+		</if>
+		ORDER BY createtime DESC
+		limit 0, #{pageSize,jdbcType=INTEGER}
+	</select>
 </mapper>

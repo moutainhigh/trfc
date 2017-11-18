@@ -1,17 +1,9 @@
 package com.tianrui.api.req.android;
 
-import com.tianrui.api.req.BaseReq;
-
-public class BillListParam extends BaseReq {
+public class BillListParam extends AppBase {
 
 	private static final long serialVersionUID = 3365589892403864792L;
-	//当前用户ID
-	private String userId;
-	//当前登录用户身份（1：客户，2：供应商）
-	private String IDType;
-	//销售组织ID
-	private String salesOrg;
-	//页签类别
+	//页签类别（0：待审核，1：可派车，2：已完成）
 	private String type;
 	//订单ID
 	private String id;
@@ -28,24 +20,6 @@ public class BillListParam extends BaseReq {
 
 	private int start;
 	private int limit;
-	public String getUserId() {
-		return userId;
-	}
-	public void setUserId(String userId) {
-		this.userId = userId;
-	}
-	public String getIDType() {
-		return IDType;
-	}
-	public void setIDType(String iDType) {
-		IDType = iDType;
-	}
-	public String getSalesOrg() {
-		return salesOrg;
-	}
-	public void setSalesOrg(String salesOrg) {
-		this.salesOrg = salesOrg;
-	}
 	public String getType() {
 		return type;
 	}
@@ -105,8 +79,8 @@ public class BillListParam extends BaseReq {
 	}
 	@Override
 	public String toString() {
-		return "BillListParam [userId=" + userId + ", IDType=" + IDType + ", salesOrg=" + salesOrg + ", type=" + type
-				+ ", id=" + id + ", detailId=" + detailId + ", billCode=" + billCode + ", startTime=" + startTime
-				+ ", endTime=" + endTime + ", billSource=" + billSource + ", start=" + start + ", limit=" + limit + "]";
+		return "BillListParam [type=" + type + ", id=" + id + ", detailId=" + detailId + ", billCode=" + billCode
+				+ ", startTime=" + startTime + ", endTime=" + endTime + ", billSource=" + billSource + ", start="
+				+ start + ", limit=" + limit + "]";
 	}
 }

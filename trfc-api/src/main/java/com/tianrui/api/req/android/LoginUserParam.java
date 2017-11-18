@@ -1,12 +1,11 @@
 package com.tianrui.api.req.android;
 
-import com.tianrui.api.req.BaseReq;
 /**
  * 用户登录
  * @author lixp
  *
  */
-public class LoginUserParam extends BaseReq {
+public class LoginUserParam extends AppBase {
 
 	private static final long serialVersionUID = 7754051527490768321L;
 	//用户id
@@ -19,8 +18,8 @@ public class LoginUserParam extends BaseReq {
 	private String newPwd;
 	//手机号
 	private String mobilePhone;
-	//身份（1：客户，2：供应商）
-	private String IDType;
+	//待切换用户NCID
+	private String cutoverUserNCId;
 	
 	public String getId() {
 		return id;
@@ -52,19 +51,19 @@ public class LoginUserParam extends BaseReq {
 	public void setMobilePhone(String mobilePhone) {
 		this.mobilePhone = mobilePhone;
 	}
-	public String getIDType() {
-		return IDType;
-	}
-	public void setIDType(String IDType) {
-		this.IDType = IDType;
-	}
 	public static long getSerialversionuid() {
 		return serialVersionUID;
+	}
+	public String getCutoverUserNCId() {
+		return cutoverUserNCId;
+	}
+	public void setCutoverUserNCId(String cutoverUserNCId) {
+		this.cutoverUserNCId = cutoverUserNCId;
 	}
 	@Override
 	public String toString() {
 		return "LoginUserParam [id=" + id + ", account=" + account + ", pwd=" + pwd + ", newPwd=" + newPwd
-				+ ", mobilePhone=" + mobilePhone + ", IDType=" + IDType + "]";
+				+ ", mobilePhone=" + mobilePhone + ", cutoverUserNCId=" + cutoverUserNCId + "]";
 	}
 	
 }

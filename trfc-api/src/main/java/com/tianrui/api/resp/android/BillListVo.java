@@ -6,31 +6,31 @@ public class BillListVo extends BaseResp {
 
 	private static final long serialVersionUID = 5599908659929080197L;
 	//订单主表ID
-	private String id;
+	private String id = "";
 	//订单子表ID
-	private String detailId;
+	private String detailId = "";
 	//订单号
-	private String code;
+	private String code = "";
 	//订单类型
-	private String billType;
+	private String billType = "";
 	//订单时间
-	private String billTime;
+	private String billTime = "";
 	//订单来源
-	private String billSource;
+	private String billSource = "";
 	//物料
-	private String material;
+	private String material = "";
 	//余量
-	private String margin;
+	private Double margin = 0D;
 	//单位
-	private String unit;
+	private String unit = "";
 	//总量
-	private String sumNum;
+	private Double sumNum = 0D;
 	//出库占用量
-	private String outInNum;
+	private Double outInNum = 0D;
 	//未出库占用量
-	private String unOutInNum;
+	private Double unOutInNum = 0D;
 	//预提占用量
-	private String planNum;
+	private Double planNum = 0D;
 	public String getId() {
 		return id;
 	}
@@ -73,10 +73,10 @@ public class BillListVo extends BaseResp {
 	public void setMaterial(String material) {
 		this.material = material;
 	}
-	public String getMargin() {
+	public Double getMargin() {
 		return margin;
 	}
-	public void setMargin(String margin) {
+	public void setMargin(Double margin) {
 		this.margin = margin;
 	}
 	public String getUnit() {
@@ -85,28 +85,28 @@ public class BillListVo extends BaseResp {
 	public void setUnit(String unit) {
 		this.unit = unit;
 	}
-	public String getSumNum() {
+	public Double getSumNum() {
 		return sumNum;
 	}
-	public void setSumNum(String sumNum) {
+	public void setSumNum(Double sumNum) {
 		this.sumNum = sumNum;
 	}
-	public String getOutInNum() {
+	public Double getOutInNum() {
 		return outInNum;
 	}
-	public void setOutInNum(String outInNum) {
+	public void setOutInNum(Double outInNum) {
 		this.outInNum = outInNum;
 	}
-	public String getUnOutInNum() {
+	public Double getUnOutInNum() {
 		return unOutInNum;
 	}
-	public void setUnOutInNum(String unOutInNum) {
+	public void setUnOutInNum(Double unOutInNum) {
 		this.unOutInNum = unOutInNum;
 	}
-	public String getPlanNum() {
+	public Double getPlanNum() {
 		return planNum;
 	}
-	public void setPlanNum(String planNum) {
+	public void setPlanNum(Double planNum) {
 		this.planNum = planNum;
 	}
 	public static long getSerialversionuid() {
