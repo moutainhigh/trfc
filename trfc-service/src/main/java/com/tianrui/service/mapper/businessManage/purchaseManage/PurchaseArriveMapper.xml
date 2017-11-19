@@ -1228,7 +1228,24 @@
 		 FROM_UNIXTIME(
 			t4.weighttime / 1000,
 			'%Y-%m-%d %h:%m:%s'
-		) AS weightTime
+		) AS weightTime,
+		 CASE
+		WHEN t1.auditstatus = 0 THEN
+			0
+		WHEN t1.auditstatus = 1
+		AND t1.`status` = 0 THEN
+			1
+		WHEN t1.auditstatus = 1
+		AND t1.`status` IN (1, 2, 4, 6, 7) THEN
+			2
+		WHEN t1.auditstatus = 1
+		AND t1.`status` = 5 THEN
+			3
+		ELSE
+			''
+		END AS type,
+		t4.`code` AS pnCode,
+		t3.unit
 	FROM
 		tr_purchase_db_arrive t1
 	LEFT JOIN tr_purchase_db_application t2 ON t1.billid = t2.id

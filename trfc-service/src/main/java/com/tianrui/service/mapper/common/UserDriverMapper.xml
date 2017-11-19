@@ -116,4 +116,18 @@
 	WHERE
 		user_id = #{userId,jdbcType=VARCHAR} AND driver_id = #{driverId,jdbcType=VARCHAR}
   </select>
+  <select id="listUserDriver" parameterType="com.tianrui.api.req.android.MyVehicleListParam" resultType="com.tianrui.api.resp.android.SearchListVo">
+	SELECT
+		t1.driver_id AS id, 
+		t2.name, 
+		t2.telephone
+	FROM
+		tr_user_db_driver t1
+	LEFT JOIN tr_driver_db_manage t2 ON t1.driver_id = t2.id
+	WHERE
+		t1.user_id = #{userId,jdbcType=VARCHAR}
+	ORDER BY
+		t1.number DESC
+    LIMIT 0,#{limit,jdbcType=INTEGER}
+  </select>
 </mapper>

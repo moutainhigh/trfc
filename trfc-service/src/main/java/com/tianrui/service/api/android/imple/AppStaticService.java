@@ -30,6 +30,7 @@ import com.tianrui.api.resp.android.LoginUserVo;
 import com.tianrui.api.resp.android.MyPnListVo;
 import com.tianrui.api.resp.android.MyVehicleListVo;
 import com.tianrui.api.resp.android.NoticeListVo;
+import com.tianrui.api.resp.android.SearchListVo;
 import com.tianrui.api.resp.android.UserDriverVo;
 import com.tianrui.api.resp.android.UserVehicleVo;
 import com.tianrui.api.resp.system.auth.SystemUserResp;
@@ -374,7 +375,6 @@ public class AppStaticService implements IAppStaticService {
 		AppResult result = AppResult.getAppResult();
 		if (param != null && StringUtils.isNotBlank(param.getUserId())
 				&& StringUtils.isNotBlank(param.getIDType())
-				&& StringUtils.isNotBlank(param.getSalesOrg())
 				&& StringUtils.isNotBlank(param.getType())) {
 			switch (param.getIDType()) {
 			//客户
@@ -576,18 +576,22 @@ public class AppStaticService implements IAppStaticService {
 				&& StringUtils.isNotBlank(param.getId())) {
 			SalesApplication sa = salesApplicationMapper.selectByPrimaryKey(param.getId());
 			if (sa != null) {
-				if (StringUtils.equals(sa.getStatus(), Constant.ZERO_STRING)) {
-					if (StringUtils.equals(sa.getSource(), Constant.ONE_STRING)) {
-						SalesApplication bean = new SalesApplication();
-						bean.setId(sa.getId());
-						bean.setState(Constant.ZERO_STRING);
-						salesApplicationMapper.updateByPrimaryKeySelective(bean);
-						result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+				if (StringUtils.equals(sa.getCustomerid(), param.getNcId())) {
+					if (StringUtils.equals(sa.getStatus(), Constant.ZERO_STRING)) {
+						if (StringUtils.equals(sa.getSource(), Constant.ONE_STRING)) {
+							SalesApplication bean = new SalesApplication();
+							bean.setId(sa.getId());
+							bean.setState(Constant.ZERO_STRING);
+							salesApplicationMapper.updateByPrimaryKeySelective(bean);
+							result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+						} else {
+							result.setErrorCode(ErrorCode.APPLICATION_NOT_DELETE2);
+						}
 					} else {
-						result.setErrorCode(ErrorCode.APPLICATION_NOT_DELETE2);
+						result.setErrorCode(ErrorCode.APPLICATION_NOT_DELETE1);
 					}
 				} else {
-					result.setErrorCode(ErrorCode.APPLICATION_NOT_DELETE1);
+					result.setErrorCode(ErrorCode.APPLICATION_NOT_EXIST);
 				}
 			} else {
 				result.setErrorCode(ErrorCode.APPLICATION_NOT_EXIST);
@@ -639,20 +643,24 @@ public class AppStaticService implements IAppStaticService {
 				PurchaseApplication pa = purchaseApplicationMapper.selectByPrimaryKey(param.getId());
 				PurchaseApplicationDetail pad = purchaseApplicationDetailMapper.selectByPrimaryKey(param.getDetailId());
 				if (pa != null && pad != null) {
-					if (param.getNumber() <= pad.getMargin()) {
-						VehicleManage vehicle = vehicleManageMapper.selectByPrimaryKey(param.getVehicle());
-						if (validVehicle(vehicle, result)) {
-							if (StringUtils.isNotBlank(param.getDriver())) {
-								DriverManage driver = driverManageMapper.selectByPrimaryKey(param.getDriver());
-								if (validDriver(driver, result)) {
-									result = putSupplierNoticeValue(param, user, pa, pad, vehicle, driver);
+					if (StringUtils.equals(pa.getSupplierid(), param.getNcId())) {
+						if (param.getNumber() <= pad.getMargin()) {
+							VehicleManage vehicle = vehicleManageMapper.selectByPrimaryKey(param.getVehicle());
+							if (validVehicle(vehicle, result)) {
+								if (StringUtils.isNotBlank(param.getDriver())) {
+									DriverManage driver = driverManageMapper.selectByPrimaryKey(param.getDriver());
+									if (validDriver(driver, result)) {
+										result = putSupplierNoticeValue(param, user, pa, pad, vehicle, driver);
+									}
+								} else {
+									result = putSupplierNoticeValue(param, user, pa, pad, vehicle, null);
 								}
-							} else {
-								result = putSupplierNoticeValue(param, user, pa, pad, vehicle, null);
 							}
+						} else {
+							result.setErrorCode(ErrorCode.NOTICE_NUMBER_ERROR);
 						}
 					} else {
-						result.setErrorCode(ErrorCode.NOTICE_NUMBER_ERROR);
+						result.setErrorCode(ErrorCode.APPLICATION_NOT_EXIST);
 					}
 				} else {
 					result.setErrorCode(ErrorCode.APPLICATION_NOT_EXIST);
@@ -914,7 +922,7 @@ public class AppStaticService implements IAppStaticService {
 					double number = notice.getArrivalamount();
 					PurchaseApplication pa = purchaseApplicationMapper.selectByPrimaryKey(notice.getBillid());
 					PurchaseApplicationDetail pad = purchaseApplicationDetailMapper.selectByPrimaryKey(notice.getBilldetailid());
-					if (pa != null && pad != null) {
+					if (pa != null && pad != null && StringUtils.equals(pa.getSupplierid(), param.getNcId())) {
 						boolean flag = false;
 						//判断是否修改到货量
 						PurchaseArrive bean = new PurchaseArrive();
@@ -1013,22 +1021,25 @@ public class AppStaticService implements IAppStaticService {
 		if (user != null) {
 			PurchaseArrive notice = purchaseArriveMapper.selectByPrimaryKey(param.getId());
 			if (notice != null) {
-				if (StringUtils.equals(notice.getAuditstatus(), Constant.ZERO_STRING)) {
-					//关闭通知单并回写余量和预提量
-					notice.setStatus(Constant.THREE_STRING);
-					notice.setAbnormalperson(user.getId());
-					notice.setAbnormalpersonname(user.getName());
-					notice.setAbnormaltime(System.currentTimeMillis());
-					purchaseArriveMapper.updateByPrimaryKeySelective(notice);
-					PurchaseApplicationDetail pad = purchaseApplicationDetailMapper.selectByPrimaryKey(notice.getBilldetailid());
-					if (pad != null) {
+				PurchaseApplication pa = purchaseApplicationMapper.selectByPrimaryKey(notice.getBillid());
+				PurchaseApplicationDetail pad = purchaseApplicationDetailMapper.selectByPrimaryKey(notice.getBilldetailid());
+				if (pa != null && pad != null && StringUtils.equals(pa.getSupplierid(), param.getNcId())) {
+					if (StringUtils.equals(notice.getAuditstatus(), Constant.ZERO_STRING)) {
+						//关闭通知单并回写余量和预提量
+						notice.setStatus(Constant.THREE_STRING);
+						notice.setAbnormalperson(user.getId());
+						notice.setAbnormalpersonname(user.getName());
+						notice.setAbnormaltime(System.currentTimeMillis());
+						purchaseArriveMapper.updateByPrimaryKeySelective(notice);
 						pad.setMargin(pad.getMargin() + notice.getArrivalamount());
 						pad.setPretendingtake(pad.getPretendingtake() - notice.getArrivalamount());
 						purchaseApplicationDetailMapper.updateByPrimaryKeySelective(pad);
+						result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+					} else {
+						result.setErrorCode(ErrorCode.NOTICE_YES_AUDIT);
 					}
-					result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
 				} else {
-					result.setErrorCode(ErrorCode.NOTICE_YES_AUDIT);
+					result.setErrorCode(ErrorCode.APPLICATION_NOT_EXIST);
 				}
 			} else {
 				result.setErrorCode(ErrorCode.NOTICE_NOT_EXIST);
@@ -1315,6 +1326,33 @@ public class AppStaticService implements IAppStaticService {
 				result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
 				cacheClient.remove(param.getKey());
 			}
+		} else {
+			result.setErrorCode(ErrorCode.PARAM_NULL_ERROR);
+		}
+		return result;
+	}
+
+	@Override
+	public AppResult userVehicle(MyVehicleListParam param) {
+		AppResult result = AppResult.getAppResult();
+		if (param != null && StringUtils.isNotBlank(param.getUserId())) {
+			List<SearchListVo> list = userVehicleMapper.listUserVehicle(param);
+			result.setData(list);
+			result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+		} else {
+			result.setErrorCode(ErrorCode.PARAM_NULL_ERROR);
+		}
+		return result;
+	}
+
+	@Override
+	public AppResult userDriver(MyVehicleListParam param) {
+		AppResult result = AppResult.getAppResult();
+		if (param != null && StringUtils.isNotBlank(param.getUserId())) {
+			param.setStart(0);
+			List<SearchListVo> list = userDriverMapper.listUserDriver(param);
+			result.setData(list);
+			result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
 		} else {
 			result.setErrorCode(ErrorCode.PARAM_NULL_ERROR);
 		}

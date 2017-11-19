@@ -86,6 +86,7 @@ public class AppStaticAction_new {
 	public AppResult bindPhoneNumber(ApiParam<LoginUserParam> param){
 		AppResult result = AppResult.getAppResult();
 		try {
+			param.getBody().setId(param.getHead().getUserId());
 			result = appService.appBindPhoneNumber(param.getBody());
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
@@ -100,6 +101,7 @@ public class AppStaticAction_new {
 	public AppResult unBindPhoneNumber(ApiParam<LoginUserParam> param){
 		AppResult result = AppResult.getAppResult();
 		try {
+			param.getBody().setId(param.getHead().getUserId());
 			result = appService.appUnBindPhoneNumber(param.getBody());
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
@@ -166,6 +168,7 @@ public class AppStaticAction_new {
 		AppResult result = AppResult.getAppResult();
 		try {
 			param.getBody().setUserId(param.getHead().getUserId());
+			param.getBody().setNcId(param.getHead().getNcId());
 			result = appService.billDelete(param.getBody());
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
@@ -198,6 +201,7 @@ public class AppStaticAction_new {
 		AppResult result = AppResult.getAppResult();
 		try {
 			param.getBody().setUserId(param.getHead().getUserId());
+			param.getBody().setNcId(param.getHead().getNcId());
 			param.getBody().setIDType(param.getHead().getIDType());
 			result = appService.saveNotice(param.getBody());
 		} catch (Exception e) {
@@ -248,6 +252,7 @@ public class AppStaticAction_new {
 		AppResult result = AppResult.getAppResult();
 		try {
 			param.getBody().setUserId(param.getHead().getUserId());
+			param.getBody().setNcId(param.getHead().getNcId());
 			param.getBody().setIDType(param.getHead().getIDType());
 			result = appService.noticeUpdate(param.getBody());
 		} catch (Exception e) {
@@ -264,6 +269,7 @@ public class AppStaticAction_new {
 		AppResult result = AppResult.getAppResult();
 		try {
 			param.getBody().setUserId(param.getHead().getUserId());
+			param.getBody().setNcId(param.getHead().getNcId());
 			param.getBody().setIDType(param.getHead().getIDType());
 			result = appService.noticeCancel(param.getBody());
 		} catch (Exception e) {
@@ -416,6 +422,46 @@ public class AppStaticAction_new {
 			param.getBody().setIDType(param.getHead().getIDType());
 			param.getBody().setKey(param.getHead().getKey());
 			result = appService.userCutover(param.getBody());
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
+		}
+		return result;
+	}
+
+	/**
+	 * 切换用户
+	 * @param req
+	 * @return
+	 */
+	@RequestMapping(value="/user/vehicle",method=RequestMethod.POST)
+	@ApiParamRawType(MyVehicleListParam.class)
+	@ResponseBody
+	public AppResult userVehicle(ApiParam<MyVehicleListParam> param){
+		AppResult result = AppResult.getAppResult();
+		try {
+			param.getBody().setUserId(param.getHead().getUserId());
+			result = appService.userVehicle(param.getBody());
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
+		}
+		return result;
+	}
+
+	/**
+	 * 切换用户
+	 * @param req
+	 * @return
+	 */
+	@RequestMapping(value="/user/driver",method=RequestMethod.POST)
+	@ApiParamRawType(MyVehicleListParam.class)
+	@ResponseBody
+	public AppResult userDriver(ApiParam<MyVehicleListParam> param){
+		AppResult result = AppResult.getAppResult();
+		try {
+			param.getBody().setUserId(param.getHead().getUserId());
+			result = appService.userDriver(param.getBody());
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 			result.setErrorCode(ErrorCode.SYSTEM_ERROR);

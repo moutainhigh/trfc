@@ -169,4 +169,16 @@ public interface IAppStaticService {
 	 * @throws Exception 
 	 */
 	AppResult userCutover(LoginUserParam param) throws Exception;
+	/**
+	 * @annotation 熟车列表
+	 * @param param
+	 * @return
+	 */
+	AppResult userVehicle(MyVehicleListParam param);
+	/**
+	 * @annotation 熟司机列表
+	 * @param param
+	 * @return
+	 */
+	AppResult userDriver(MyVehicleListParam param);
 }

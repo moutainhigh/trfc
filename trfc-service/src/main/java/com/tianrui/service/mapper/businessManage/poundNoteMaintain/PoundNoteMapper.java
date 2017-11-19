@@ -165,5 +165,5 @@ public interface PoundNoteMapper {
 	 * @param param
 	 * @return
 	 */
-	List<MyPnVo> appPnDetail(MyPnListParam param);
+	MyPnVo appPnDetail(MyPnListParam param);
 }

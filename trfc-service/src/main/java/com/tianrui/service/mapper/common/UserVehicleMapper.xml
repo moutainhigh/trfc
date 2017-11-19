@@ -115,4 +115,17 @@
 	WHERE 
 		user_id = #{userId,jdbcType=VARCHAR} and vehicle_id = #{vehicleId,jdbcType=VARCHAR}
   </select>
+  <select id="listUserVehicle" parameterType="com.tianrui.api.req.android.MyVehicleListParam" resultType="com.tianrui.api.resp.android.SearchListVo">
+	SELECT
+		t1.vehicle_id AS id, 
+		t2.vehicleno AS name
+	FROM
+		tr_user_db_vehicle t1
+	LEFT JOIN tr_vehicle_db_manage t2 ON t1.vehicle_id = t2.id
+	WHERE
+		t1.user_id = #{userId,jdbcType=VARCHAR}
+	ORDER BY
+		t1.number DESC
+    LIMIT 0,#{pageSize,jdbcType=INTEGER}
+  </select>
 </mapper>

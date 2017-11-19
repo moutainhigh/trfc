@@ -31,6 +31,10 @@ public class BillListVo extends BaseResp {
 	private Double unOutInNum = 0D;
 	//预提占用量
 	private Double planNum = 0D;
+	//单价
+	private String price = "";
+	//状态（0：待审核，1：可派车，2：已完成）
+	private String type = "";
 	public String getId() {
 		return id;
 	}
@@ -109,6 +113,18 @@ public class BillListVo extends BaseResp {
 	public void setPlanNum(Double planNum) {
 		this.planNum = planNum;
 	}
+	public String getPrice() {
+		return price;
+	}
+	public void setPrice(String price) {
+		this.price = price;
+	}
+	public String getType() {
+		return type;
+	}
+	public void setType(String type) {
+		this.type = type;
+	}
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
@@ -117,6 +133,6 @@ public class BillListVo extends BaseResp {
 		return "BillListVo [id=" + id + ", detailId=" + detailId + ", code=" + code + ", billType=" + billType
 				+ ", billTime=" + billTime + ", billSource=" + billSource + ", material=" + material + ", margin="
 				+ margin + ", unit=" + unit + ", sumNum=" + sumNum + ", outInNum=" + outInNum + ", unOutInNum="
-				+ unOutInNum + ", planNum=" + planNum + "]";
+				+ unOutInNum + ", planNum=" + planNum + ", price=" + price + ", type=" + type + "]";
 	}
 }

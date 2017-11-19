@@ -2,7 +2,10 @@ package com.tianrui.service.mapper.common;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.tianrui.api.req.android.MyVehicleListParam;
+import com.tianrui.api.resp.android.SearchListVo;
 import com.tianrui.api.resp.android.UserDriverVo;
 import com.tianrui.service.bean.common.UserDriver;
 
@@ -23,5 +26,7 @@ public interface UserDriverMapper {
 
 	long listMyDriverOrderNumCount(MyVehicleListParam param);
 
-	UserDriver getByUIdAndDId(String userId, String driverId);
+	UserDriver getByUIdAndDId(@Param("userId")String userId, @Param("driverId")String driverId);
+
+	List<SearchListVo> listUserDriver(MyVehicleListParam param);
 }

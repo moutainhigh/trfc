@@ -37,6 +37,12 @@ public class NoticeListVo extends BaseResp {
 	private Double margin = 0D;
 	//通知单状态
 	private String status = "";
+	//页签类别（0：待审核，1：未入厂，2：厂区，3：已出厂）
+	private String type = "";
+	//榜单编号
+	private String pnCode;
+	//单位
+	private String unit;
 	public String getId() {
 		return id;
 	}
@@ -133,6 +139,24 @@ public class NoticeListVo extends BaseResp {
 	public void setStatus(String status) {
 		this.status = status;
 	}
+	public String getType() {
+		return type;
+	}
+	public void setType(String type) {
+		this.type = type;
+	}
+	public String getPnCode() {
+		return pnCode;
+	}
+	public void setPnCode(String pnCode) {
+		this.pnCode = pnCode;
+	}
+	public String getUnit() {
+		return unit;
+	}
+	public void setUnit(String unit) {
+		this.unit = unit;
+	}
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
@@ -142,6 +166,6 @@ public class NoticeListVo extends BaseResp {
 				+ ", vehicle=" + vehicle + ", material=" + material + ", driver=" + driver + ", source=" + source
 				+ ", grossWeight=" + grossWeight + ", tareWeight=" + tareWeight + ", netWeight=" + netWeight
 				+ ", lightTime=" + lightTime + ", weightTime=" + weightTime + ", number=" + number + ", margin="
-				+ margin + ", status=" + status + "]";
+				+ margin + ", status=" + status + ", type=" + type + ", pnCode=" + pnCode + ", unit=" + unit + "]";
 	}
 }

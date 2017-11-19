@@ -21,6 +21,7 @@ public class LoginUserParam extends AppBase {
 	//待切换用户NCID
 	private String cutoverUserNCId;
 	
+	private int limit;
 	public String getId() {
 		return id;
 	}
@@ -51,19 +52,25 @@ public class LoginUserParam extends AppBase {
 	public void setMobilePhone(String mobilePhone) {
 		this.mobilePhone = mobilePhone;
 	}
-	public static long getSerialversionuid() {
-		return serialVersionUID;
-	}
 	public String getCutoverUserNCId() {
 		return cutoverUserNCId;
 	}
 	public void setCutoverUserNCId(String cutoverUserNCId) {
 		this.cutoverUserNCId = cutoverUserNCId;
 	}
+	public int getLimit() {
+		return limit;
+	}
+	public void setLimit(int limit) {
+		this.limit = limit;
+	}
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
 	@Override
 	public String toString() {
 		return "LoginUserParam [id=" + id + ", account=" + account + ", pwd=" + pwd + ", newPwd=" + newPwd
-				+ ", mobilePhone=" + mobilePhone + ", cutoverUserNCId=" + cutoverUserNCId + "]";
+				+ ", mobilePhone=" + mobilePhone + ", cutoverUserNCId=" + cutoverUserNCId + ", limit=" + limit + "]";
 	}
 	
 }
