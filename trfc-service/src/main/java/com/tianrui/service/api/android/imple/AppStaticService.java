@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.tianrui.api.intf.api.android.imple.IAppStaticService;
 import com.tianrui.api.intf.system.auth.ISystemUserService;
 import com.tianrui.api.intf.system.base.ISystemCodeService;
+import com.tianrui.api.req.android.AppVersionParam;
 import com.tianrui.api.req.android.BillListParam;
 import com.tianrui.api.req.android.BillSave;
 import com.tianrui.api.req.android.DriverSave;
@@ -23,6 +24,7 @@ import com.tianrui.api.req.android.NoticeListParam;
 import com.tianrui.api.req.android.NoticeSave;
 import com.tianrui.api.req.android.SearchKeyParam;
 import com.tianrui.api.req.system.base.GetCodeReq;
+import com.tianrui.api.resp.android.AppVersionVo;
 import com.tianrui.api.resp.android.BillListVo;
 import com.tianrui.api.resp.android.HomeBillVo;
 import com.tianrui.api.resp.android.HomeNoticeVo;
@@ -46,6 +48,7 @@ import com.tianrui.service.bean.businessManage.purchaseManage.PurchaseArrive;
 import com.tianrui.service.bean.businessManage.salesManage.SalesApplication;
 import com.tianrui.service.bean.businessManage.salesManage.SalesApplicationDetail;
 import com.tianrui.service.bean.businessManage.salesManage.SalesArrive;
+import com.tianrui.service.bean.common.AppVersion;
 import com.tianrui.service.bean.common.ReturnQueue;
 import com.tianrui.service.bean.common.UserDriver;
 import com.tianrui.service.bean.common.UserVehicle;
@@ -67,6 +70,7 @@ import com.tianrui.service.mapper.businessManage.purchaseManage.PurchaseArriveMa
 import com.tianrui.service.mapper.businessManage.salesManage.SalesApplicationDetailMapper;
 import com.tianrui.service.mapper.businessManage.salesManage.SalesApplicationMapper;
 import com.tianrui.service.mapper.businessManage.salesManage.SalesArriveMapper;
+import com.tianrui.service.mapper.common.AppVersionMapper;
 import com.tianrui.service.mapper.common.ReturnQueueMapper;
 import com.tianrui.service.mapper.common.UserDriverMapper;
 import com.tianrui.service.mapper.common.UserVehicleMapper;
@@ -124,6 +128,8 @@ public class AppStaticService implements IAppStaticService {
 	private OtherArriveMapper otherArriveMapper;
 	@Autowired
 	private SupplierGroupMapper supplierGroupMapper;
+	@Autowired
+	private AppVersionMapper appVersionMapper;
 	
 	@Transactional
 	@Override
@@ -1271,8 +1277,14 @@ public class AppStaticService implements IAppStaticService {
 
 	@Override
 	public AppResult materialSearch(SearchKeyParam param) {
-		// TODO Auto-generated method stub
-		return null;
+		AppResult result = AppResult.getAppResult();
+		if (param != null) {
+			result.setData(materielManageMapper.appAutoCompleteSearch(param));
+			result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+		} else {
+			result.setErrorCode(ErrorCode.PARAM_NULL_ERROR);
+		}
+		return result;
 	}
 
 	@Override
@@ -1355,6 +1367,29 @@ public class AppStaticService implements IAppStaticService {
 			result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
 		} else {
 			result.setErrorCode(ErrorCode.PARAM_NULL_ERROR);
+		}
+		return result;
+	}
+	
+	@Override
+	public AppResult appVersion(AppVersionParam param){
+		AppResult result = AppResult.getAppResult();
+		if(param != null && StringUtils.isNotBlank(param.getPhoneType())
+				&& StringUtils.isNotBlank(param.getVersion())){
+			AppVersion version = appVersionMapper.selectByPrimaryKey(param.getPhoneType());
+			if(version != null){
+				AppVersionVo vo = new AppVersionVo();
+				if(!StringUtils.equals(param.getVersion(), version.getCode())){
+					vo.setFlag(Constant.ONE_STRING);
+					vo.setUrl(version.getVersionurl());
+				}else{
+					vo.setFlag(Constant.ZERO_STRING);
+				}
+				result.setData(vo);
+				result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+			}else{
+				result.setErrorCode(ErrorCode.APP_VERSION_EXIST);
+			}
 		}
 		return result;
 	}

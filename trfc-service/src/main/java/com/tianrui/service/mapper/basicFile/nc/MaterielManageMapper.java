@@ -4,9 +4,11 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
+import com.tianrui.api.req.android.SearchKeyParam;
 import com.tianrui.api.req.basicFile.nc.MaterielManageQuery;
 import com.tianrui.api.req.businessManage.app.AppQueryReq;
 import com.tianrui.api.req.businessManage.handset.HandSetRequestParam;
+import com.tianrui.api.resp.android.SearchListVo;
 import com.tianrui.api.resp.businessManage.app.AppMaterialResp;
 import com.tianrui.api.resp.businessManage.handset.HandSetReturnResp;
 import com.tianrui.service.bean.basicFile.nc.MaterielManage;
@@ -65,4 +67,10 @@ public interface MaterielManageMapper {
 	 * @return
 	 */
 	List<HandSetReturnResp> handSetQueryAll(HandSetRequestParam req);
+	/**
+	 * @annotation 客商APP物料模糊查询接口
+	 * @param param
+	 * @return
+	 */
+	List<SearchListVo> appAutoCompleteSearch(SearchKeyParam param);
 }

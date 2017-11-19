@@ -1,5 +1,6 @@
 package com.tianrui.api.intf.api.android.imple;
 
+import com.tianrui.api.req.android.AppVersionParam;
 import com.tianrui.api.req.android.BillListParam;
 import com.tianrui.api.req.android.BillSave;
 import com.tianrui.api.req.android.DriverSave;
@@ -181,4 +182,10 @@ public interface IAppStaticService {
 	 * @return
 	 */
 	AppResult userDriver(MyVehicleListParam param);
+	/**
+	 * @annotation 通过版本号查询是否需要更新
+	 * @param param
+	 * @return
+	 */
+	AppResult appVersion(AppVersionParam param);
 }

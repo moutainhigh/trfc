@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.tianrui.api.intf.api.android.imple.IAppStaticService;
+import com.tianrui.api.req.android.AppVersionParam;
 import com.tianrui.api.req.android.BillListParam;
 import com.tianrui.api.req.android.BillSave;
 import com.tianrui.api.req.android.DriverSave;
@@ -72,6 +73,7 @@ public class AppStaticAction_new {
 	public AppResult updatePwd(ApiParam<LoginUserParam> param){
 		AppResult result = AppResult.getAppResult();
 		try {
+			param.getBody().setId(param.getHead().getUserId());
 			result = appService.appUpdatePwd(param.getBody());
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
@@ -377,7 +379,7 @@ public class AppStaticAction_new {
 	public AppResult materialSearch(ApiParam<SearchKeyParam> param){
 		AppResult result = AppResult.getAppResult();
 		try {
-			// TODO
+			result = appService.materialSearch(param.getBody());
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
@@ -430,7 +432,7 @@ public class AppStaticAction_new {
 	}
 
 	/**
-	 * 切换用户
+	 * 常用的车辆
 	 * @param req
 	 * @return
 	 */
@@ -450,7 +452,7 @@ public class AppStaticAction_new {
 	}
 
 	/**
-	 * 切换用户
+	 * 常用的司机
 	 * @param req
 	 * @return
 	 */
@@ -462,6 +464,25 @@ public class AppStaticAction_new {
 		try {
 			param.getBody().setUserId(param.getHead().getUserId());
 			result = appService.userDriver(param.getBody());
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
+		}
+		return result;
+	}
+	
+	/**
+	 * 版本是否需要更新查询
+	 * @param req
+	 * @return
+	 */
+	@RequestMapping(value="/version",method=RequestMethod.POST)
+	@ApiParamRawType(AppVersionParam.class)
+	@ResponseBody
+	public AppResult versionQuery(ApiParam<AppVersionParam> param){
+		AppResult result = AppResult.getAppResult();
+		try {
+			result = appService.appVersion(param.getBody());
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 			result.setErrorCode(ErrorCode.SYSTEM_ERROR);

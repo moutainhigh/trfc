@@ -1967,11 +1967,11 @@
 				t1.lighttime > t1.weighttime,
 				FROM_UNIXTIME(
 					t1.lighttime / 1000,
-					"%Y-%m-%d %H:%m:%s"
+					"%Y-%m-%d %H:%i:%s"
 				),
 				FROM_UNIXTIME(
 					t1.weighttime / 1000,
-					"%Y-%m-%d %H:%m:%s"
+					"%Y-%m-%d %H:%i:%s"
 				)
 			) AS time,
 			IF (

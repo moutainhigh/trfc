@@ -506,11 +506,23 @@
 			</if>
 		</where>
 	</select>
-	<select id="handSetQueryAll"
-		parameterType="com.tianrui.api.req.businessManage.handset.HandSetRequestParam"
-		resultType="com.tianrui.api.resp.businessManage.handset.HandSetReturnResp">
+	<select id="handSetQueryAll" parameterType="com.tianrui.api.req.businessManage.handset.HandSetRequestParam" resultType="com.tianrui.api.resp.businessManage.handset.HandSetReturnResp">
 		select id, name
 		from tr_materiel_db_manage
 		where state = 1
+	</select>
+	<select id="appAutoCompleteSearch" parameterType="com.tianrui.api.req.android.SearchKeyParam" resultType="com.tianrui.api.resp.android.SearchListVo">
+		SELECT
+			id,
+			`name`
+		FROM
+			tr_materiel_db_manage
+		WHERE
+			state = 1
+		<if test="key != null and key != ''">
+			and name like CONCAT('%', #{key,jdbcType=VARCHAR}, '%')
+		</if>
+		ORDER BY createtime DESC
+		limit 0, #{pageSize,jdbcType=INTEGER}
 	</select>
 </mapper>

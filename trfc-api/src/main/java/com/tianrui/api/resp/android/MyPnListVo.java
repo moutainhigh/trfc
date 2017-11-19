@@ -20,7 +20,7 @@ public class MyPnListVo extends BaseResp {
 	//物料
 	private String material = "";
 	//一次过磅时间
-	private String ontTime = "";
+	private String oneTime = "";
 	//二次过磅时间
 	private String twoTime = "";
 	//榜单状态（1：一次过磅，2：二次过磅）
@@ -55,11 +55,11 @@ public class MyPnListVo extends BaseResp {
 	public void setMaterial(String material) {
 		this.material = material;
 	}
-	public String getOntTime() {
-		return ontTime;
+	public String getOneTime() {
+		return oneTime;
 	}
-	public void setOntTime(String ontTime) {
-		this.ontTime = ontTime;
+	public void setOneTime(String oneTime) {
+		this.oneTime = oneTime;
 	}
 	public String getTwoTime() {
 		return twoTime;
@@ -78,8 +78,7 @@ public class MyPnListVo extends BaseResp {
 	}
 	@Override
 	public String toString() {
-		return "MyPnListParam [id=" + id + ", code=" + code + ", vehicle=" + vehicle + ", driver=" + driver
-				+ ", material=" + material + ", ontTime=" + ontTime + ", twoTime=" + twoTime + ", status=" + status
-				+ "]";
+		return "MyPnListVo [id=" + id + ", code=" + code + ", vehicle=" + vehicle + ", driver=" + driver + ", material="
+				+ material + ", oneTime=" + oneTime + ", twoTime=" + twoTime + ", status=" + status + "]";
 	}
 }

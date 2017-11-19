@@ -540,6 +540,7 @@
 		AND isvalid = 1
 		AND isblacklist = 0
 		AND transporttype = 0
+		AND RFID IS NOT NULL
 		<if test="key != null and key != ''">
 			and vehicleno like CONCAT('%', #{key,jdbcType=VARCHAR}, '%')
 		</if>

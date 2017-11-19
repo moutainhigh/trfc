@@ -1223,11 +1223,11 @@
 		t4.netweight AS netWeight,
 		FROM_UNIXTIME(
 			t4.lighttime / 1000,
-			'%Y-%m-%d %h:%m:%s'
+			'%Y-%m-%d %H:%i:%s'
 		) AS lightTime,
 		 FROM_UNIXTIME(
 			t4.weighttime / 1000,
-			'%Y-%m-%d %h:%m:%s'
+			'%Y-%m-%d %H:%i:%s'
 		) AS weightTime,
 		 CASE
 		WHEN t1.auditstatus = 0 THEN
@@ -1245,7 +1245,9 @@
 			''
 		END AS type,
 		t4.`code` AS pnCode,
-		t3.unit
+		t3.unit,
+		t1.arrivalamount number,
+		t3.margin
 	FROM
 		tr_purchase_db_arrive t1
 	LEFT JOIN tr_purchase_db_application t2 ON t1.billid = t2.id
