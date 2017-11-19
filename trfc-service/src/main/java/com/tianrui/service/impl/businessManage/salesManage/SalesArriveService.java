@@ -776,6 +776,8 @@ public class SalesArriveService implements ISalesArriveService {
 			api.setNumber(listPurchase.get(0).getArrivalamount() == null ? "" : listPurchase.get(0).getArrivalamount().toString());
 			api.setStatus(listPurchase.get(0).getStatus());
 			api.setSignStatus(listPurchase.get(0).getSignStatus());
+			api.setBillNo(application.getCode());
+			api.setRemark(application.getRemark());
 		}
 		return api;
 	}
@@ -819,6 +821,8 @@ public class SalesArriveService implements ISalesArriveService {
 					api.setNotionformcode(oaResp.getCode());
 					api.setNumber(oaResp.getCount() == null ? "" : oaResp.getCount().toString());
 					api.setStatus(oaResp.getStatus());
+					api.setBillNo(oaResp.getCode());
+					api.setRemark(oaResp.getRemark());
 				}
 			}
 		}
@@ -853,6 +857,7 @@ public class SalesArriveService implements ISalesArriveService {
 			api.setMinemouth("");
 			api.setNumber(String.valueOf(resp.getTakeamount()==null?"":resp.getTakeamount()));
 			api.setStatus(resp.getStatus());
+			api.setBillNo(resp.getCode());
 		}
 		return api;
 	}
