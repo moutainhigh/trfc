@@ -11,5 +11,5 @@ import com.tianrui.smartfactory.common.vo.Result;
 public interface IPurchaseStorageService {
 
 	
-	public Result poundPushUp(PurchaseStorageUpReq req ); 
+	public Result poundPushUp(PurchaseStorageUpReq req ) throws Exception; 
 }
