@@ -72,6 +72,8 @@ public enum ErrorCode {
 	NOTICE_OUT_FACTORY2("E10029","该通知单无相关入厂记录."), 
 	NOTICE_NUMBER_ERROR("E10030","到货量/提货量必须大于零且小于等于订单余量."), 
 	NOTICE_YES_AUDIT("E10031","该通知单已经通过审核无法作废."),
+	NOTICE_NOT_EXIST2("E10032","该通知单不是其他入库类型."),
+	NOTICE_STATUS_ERROR("E10033","通知单状态不合法."),
 	/**
 	 * 磅单
 	 */
@@ -97,6 +99,7 @@ public enum ErrorCode {
 	VEHICLE_NOTICE_TWO_WEIGHT("E10021","该车辆已过二次磅房."),
 	VEHICLE_IS_WX("E10022","车辆已无效."),
 	VEHICLE_IS_BLACK("E10023","车辆被列入黑名单."),
+	VEHICLE_NOTICE_NOT_LOAD2("E10024","该车辆还未在平台确认收货."),
 	/**
 	 * 司机
 	 */

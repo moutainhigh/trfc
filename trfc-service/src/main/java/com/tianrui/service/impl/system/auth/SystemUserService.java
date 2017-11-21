@@ -206,9 +206,11 @@ public class SystemUserService implements ISystemUserService {
 			if ( db !=null ) {
 				//保存数据
 				SystemUser update =new SystemUser();
-				update.setId(UUIDUtil.getId());
+//				update.setId(UUIDUtil.getId());
+				update.setId(req.getId());
 				update.setPassword(Md5Utils.MD5(req.getPassword()));
 				update.setRemark(req.getRemark());
+				update.setAccount(req.getAccount());
 				if (StringUtils.equals(req.getIsvalid(), BusinessConstants.USER_VALID_STR)) {
 					update.setIsvalid(BusinessConstants.USER_VALID_BYTE);
 				}else{
@@ -743,6 +745,17 @@ public class SystemUserService implements ISystemUserService {
 			rs="排队";
 		}else if(StringUtils.equals(subSystemCode, "04") ){
 			rs="卡务";
+		}
+		return rs;
+	}
+
+	@Override
+	public Result selectAccountUser(String phone) throws Exception {
+		Result rs =Result.getSuccessResult();
+		List<SystemUser> list =userMapper.selectAccountUser(phone);
+		if(list!=null && !list.isEmpty()){
+			rs.setCode("111111");
+			rs.setError("手机号重复，请更换手机号！");
 		}
 		return rs;
 	}

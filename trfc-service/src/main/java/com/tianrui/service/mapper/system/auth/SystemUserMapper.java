@@ -19,6 +19,9 @@ public interface SystemUserMapper {
     int insertSelective(SystemUser record);
 
     SystemUser selectByPrimaryKey(String id);
+    //查询手机号码是否唯一
+    List<SystemUser> selectAccountUser(String phone);
+    
 
     int updateByPrimaryKeySelective(SystemUser record);
 

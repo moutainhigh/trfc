@@ -7,6 +7,7 @@ $(function() {
 			findOne:"/trfc/otherRKArrive/findOne",
 			update:"/trfc/otherRKArrive/updateOperation",
 			forceOutFactory:"/trfc/otherRKArrive/forceOutFactory",
+			goodsConfirm:"/trfc/otherRKArrive/goodsConfirm",
 			updateVeiw:"/trfc/otherRKArrive/editMain",
 			supplierAutoCompleteSearch: "/trfc/supplier/autoCompleteSearch",
 			vehicleAutoCompleteSearch: "/trfc/vehicle/autoCompleteSearch",
@@ -21,7 +22,7 @@ $(function() {
 			'4':'发卡',
 			'5':'出厂',
 			'6':'入厂',
-			'7':'装车',
+			'7':'收货确认',
 	};
 	ShowAction(1);
 	initAutoComplete();
@@ -164,6 +165,21 @@ $(function() {
 			layer.msg('已出厂,无法进行此操作!');
 		}else{
 			layer.msg('未进行二次过磅,无法进行此操作');
+		}
+	});
+	
+	$('#goodsConfirm').off('click').on('click',function(e) {
+		e.stopPropagation();
+		var obj = $('table.maintable tbody tr.active').data('obj');
+		if(!obj) {layer.msg('需要选中一行才能操作哦！'); return;}
+		if(obj.status=='1'){
+			var params = {
+					id:obj.id
+			}
+			var msg = '注：确定收货确认吗？';
+			updateAction(URL.goodsConfirm,params,msg);
+		}else{
+			layer.msg('未进行一次过磅,无法进行此操作');
 		}
 	});
 
@@ -510,10 +526,6 @@ $(function() {
 	}
 //	展示列表
 	function showPageData(list,pageSize,pageNo) {
-
-
-
-
 		//加载时清空列表和跳转值
 		$('#jumpPageNo').val('');
 		var tbody = $('#tbody_list');

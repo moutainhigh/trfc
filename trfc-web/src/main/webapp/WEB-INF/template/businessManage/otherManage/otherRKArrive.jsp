@@ -334,6 +334,6 @@
 		<script type="text/javascript"
 			src="${staticBasePath}/js/cardReader.js"></script>
 		<script type="text/javascript"
-			src="/javascript/businessManage/otherManage/otherRKArrive.js"></script>
+			src="/javascript/businessManage/otherManage/otherRKArrive.js?17112101"></script>
 </body>
 </html>

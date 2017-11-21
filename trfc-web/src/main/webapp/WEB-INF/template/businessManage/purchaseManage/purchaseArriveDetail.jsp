@@ -105,7 +105,7 @@
 							<div class="daohuo_add_solo">
 								<c:set var="s" value="${purchaseArrive.status }"></c:set>
 								<label>状态：</label> <input
-									value="${purchaseArrive.forceOutFactory == '1' ? '强制出厂' : s eq '0' ? '未入厂' : s eq '1' ? '空车' : s eq '2' ? '重车' : s eq '3' ? '作废' : s eq '4' ? '发卡' : s eq '5' ? '出厂' : s eq '6' ? '入厂' : s eq '7' ? '卸货' : '' }"
+									value="${purchaseArrive.forceOutFactory == '1' ? '强制出厂' : s eq '0' ? '未入厂' : s eq '1' ? '重车' : s eq '2' ? '空车' : s eq '3' ? '作废' : s eq '4' ? '发卡' : s eq '5' ? '出厂' : s eq '6' ? '入厂' : s eq '7' ? '卸货' : '' }"
 									type="text" readonly>
 							</div>
 							<div class="daohuo_add_solo">

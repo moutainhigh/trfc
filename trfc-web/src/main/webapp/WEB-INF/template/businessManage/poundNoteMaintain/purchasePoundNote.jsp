@@ -92,37 +92,6 @@
 						</div>
 					</div>
 					<div class="intel_opera">
-						<!-- <div id="refreshBtn" class="intel_operasolo">
-							<a> <i class="iconfont colorlv">&#xe61b;</i>
-								<span>刷新</span>
-							</a>
-						</div>
-						<div id="addBtn" class="intel_operasolo">
-							<a data-toggle="modal" data-target="#add"> <i
-								class="iconfont coloradd">&#xe647;</i>
-								<span>补增</span>
-							</a>
-						</div>
-						<div id="redcollide" class="intel_operasolo">
-							<a> <i class="iconfont redcollide">&#xe631;</i>
-								<span>红冲</span>
-							</a>
-						</div>
-						<div id="copy" class="intel_operasolo">
-                            <a> <i class="iconfont copy">&#xe61c;</i>
-                                <span>参照</span>
-                            </a>
-                        </div>
-						<div id="invalid" class="intel_operasolo">
-							<a> <i class="iconfont invalid">&#xe60c;</i>
-								<span>作废</span>
-							</a>
-						</div> 
-						<div id="print" class="intel_operasolo">
-							<a> <i class="iconfont print">&#xe726;</i>
-								<span>补打榜单</span>
-							</a>
-						</div>-->
 					</div>
 					<div class="intel_table">
 						<!--用户表格begin-->
@@ -148,6 +117,8 @@
 									<th>扣杂</th>
 									<th>轻车时间</th>
 									<th>重车时间</th>
+									<th>收货时间</th>
+									<th>收货人</th>
 									<th>供应商备注</th>
 									<th>制单人</th>
 									<th>制单日期</th>
@@ -187,6 +158,6 @@
 	<jsp:include page="../../common/base/footer_busi.jsp"></jsp:include>
 	<jsp:include page="../../common/module/printTemplate.jsp"></jsp:include>
 	<script type="text/javascript"
-		src="/javascript/businessManage/poundNoteMaintain/purchasePoundNote.js"></script>
+		src="/javascript/businessManage/poundNoteMaintain/purchasePoundNote.js?17112101"></script>
 </body>
 </html>

@@ -101,6 +101,4 @@ public class ApiPurchaseApplicationAction {
 		return ApiResult.valueOf(rs);
 	}
 	
-	
-	
 }
