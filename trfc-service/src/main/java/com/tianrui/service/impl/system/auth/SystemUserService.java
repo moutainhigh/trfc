@@ -746,4 +746,15 @@ public class SystemUserService implements ISystemUserService {
 		}
 		return rs;
 	}
+
+	@Override
+	public Result selectAccountUser(String phone) throws Exception {
+		Result rs =Result.getSuccessResult();
+		List<SystemUser> list =userMapper.selectAccountUser(phone);
+		if(list!=null && !list.isEmpty()){
+			rs.setCode("111111");
+			rs.setError("手机号重复，请更换手机号！");
+		}
+		return rs;
+	}
 }

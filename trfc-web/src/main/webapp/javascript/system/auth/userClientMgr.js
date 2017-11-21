@@ -9,6 +9,7 @@ $(function() {
 		editUser : "/trfc/system/auth/userClient/editUser",
 		deleteUrl : "/trfc/system/auth/userClient/deleteUser",
 		selectRole : '/trfc/system/auth/rolePermissions/selectRole',
+		selectAccountUser : "/trfc/system/auth/userClient/selectAccountUser",
 		resetPwd : "/trfc/system/auth/userClient/resetPwd"
 	}
 	
@@ -357,11 +358,37 @@ $(function() {
 		var password = $('#edit_psd').val();
 		password = $.trim(password);
 		var remark = $('#edit_remark').val();
+		var account =$('#edit_account').val();
+		if(!(/^1[34578]\d{9}$/.test(account))){ 
+	        alert("手机号码有误，请重填");  
+	        return false; 
+	    }else{
+	    	$.ajax({
+				url : URL.selectAccountUser,
+				data : {"account":account},
+				async : false,
+				cache : false,
+				dataType : 'json',
+				type : 'post',
+				success : function(result) {
+					if (result.code != '000000') {
+						layer.msg(result.error);
+						return;
+					}else{
+						alert(account);
+						alert("66666");
+					}
+					
+				}
+	    	});
+	    }
+		alert("ok"+":"+account);
 		remark = $.trim(remark);
 		var isvalid = Number($('#edit_isvalid')[0].checked);
 		return {
 			id : id,
 			password : password,
+			account:account,
 			remark : remark,
 			isvalid : isvalid
 		}
