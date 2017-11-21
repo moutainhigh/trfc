@@ -54,6 +54,10 @@ public interface ISystemUserService {
 	 */
 	Result editUser(SystemUserSaveReq  req) throws Exception;
 	/**
+	 * 查询用户手机号是否重复
+	 */
+	Result selectAccountUser(String  phone) throws Exception;
+	/**
 	 * 删除用户
 	 * @param req
 	 * @return

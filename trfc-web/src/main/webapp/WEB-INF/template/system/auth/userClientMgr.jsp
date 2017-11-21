@@ -428,7 +428,7 @@ label.layui-form-label {
 							<span aria-hidden="true">&times;</span>
 						</button>
 						<div class="alt_head">
-							<h5>用户信息-新增</h5>
+							<h5>用户信息-修改</h5>
 						</div>
 					</div>
 					<div class="modal-body">
@@ -439,8 +439,7 @@ label.layui-form-label {
 									readonly="true">
 							</div>
 							<div class="alt_edit_div">
-								<label>登录账户：</label> <input type="text" id="edit_account"
-									readonly="true">
+								<label>登录账户：</label> <input type="text" id="edit_account">
 							</div>
 							<div class="alt_edit_div">
 								<label>用户名称：</label> <input type="text" id="edit_name"

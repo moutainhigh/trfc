@@ -19,6 +19,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.tianrui.api.intf.businessManage.poundNoteMaintain.IPoundNoteService;
+import com.tianrui.api.intf.businessManage.purchaseManage.IPushSingleService;
 import com.tianrui.api.intf.businessManage.salesManage.ISalesApplicationDetailService;
 import com.tianrui.api.intf.businessManage.salesManage.ISalesApplicationService;
 import com.tianrui.api.intf.system.auth.ISystemUserService;
@@ -30,6 +31,7 @@ import com.tianrui.api.req.businessManage.poundNoteMaintain.ApiPoundNoteValidati
 import com.tianrui.api.req.businessManage.poundNoteMaintain.PoundNoteCopyDTO;
 import com.tianrui.api.req.businessManage.poundNoteMaintain.PoundNoteQuery;
 import com.tianrui.api.req.businessManage.poundNoteMaintain.PoundNoteSave;
+import com.tianrui.api.req.businessManage.purchaseManage.PushSingleReq;
 import com.tianrui.api.req.system.base.GetCodeReq;
 import com.tianrui.api.resp.businessManage.poundNoteMaintain.ApiSignDetailResp;
 import com.tianrui.api.resp.businessManage.poundNoteMaintain.PoundNotePrintVo;
@@ -70,7 +72,6 @@ import com.tianrui.service.mapper.basicFile.nc.CustomerManageMapper;
 import com.tianrui.service.mapper.basicFile.nc.MaterielManageMapper;
 import com.tianrui.service.mapper.basicFile.nc.SupplierManageMapper;
 import com.tianrui.service.mapper.basicFile.nc.WarehouseManageMapper;
-import com.tianrui.service.mapper.businessManage.examine.ExceptionAuditMapper;
 import com.tianrui.service.mapper.businessManage.logisticsManage.AccessRecordMapper;
 import com.tianrui.service.mapper.businessManage.otherManage.OtherArriveMapper;
 import com.tianrui.service.mapper.businessManage.poundNoteMaintain.PoundNoteMapper;
@@ -158,7 +159,7 @@ public class PoundNoteService implements IPoundNoteService {
 	@Autowired
 	private MaterielManageMapper materielManageMapper;
 	@Autowired
-	private ExceptionAuditMapper exceptionAuditMapper;
+	private IPushSingleService pushSingleService;
 
 	@Override
 	public PaginationVO<PoundNoteResp> purchasePage(PoundNoteQuery query) throws Exception {
@@ -260,7 +261,7 @@ public class PoundNoteService implements IPoundNoteService {
 					&& purchaseStorageListMapper.insertSelective(storage) > 0
 					&& purchaseStorageListItemMapper.insertSelective(storageItem) > 0
 					&& updateCode("RKD", save.getMakerid())) {
-				result.setErrorCode(returnPurchaseStorage(storage, storageItem));
+				result.setErrorCode(returnPurchaseStorage(storage, storageItem, bean));
 			} else {
 				result.setErrorCode(ErrorCode.OPERATE_ERROR);
 			}
@@ -408,7 +409,7 @@ public class PoundNoteService implements IPoundNoteService {
 						&& purchaseStorageListMapper.insertSelective(storage) > 0
 						&& purchaseStorageListItemMapper.insertSelective(storageItem) > 0
 						&& updateCode("RKD", bean.getMakerid())) {
-					result.setErrorCode(returnPurchaseStorage(storage, storageItem));
+					result.setErrorCode(returnPurchaseStorage(storage, storageItem, bean));
 				} else {
 					result.setErrorCode(ErrorCode.OPERATE_ERROR);
 				}
@@ -745,7 +746,7 @@ public class PoundNoteService implements IPoundNoteService {
 						order.setBillmaker(bean.getMakerid());
 						order.setDmakedate(DateUtil.getNowDateString("yyyy-MM-dd HH:mm:ss"));
 						order.setTs(DateUtil.getNowDateString("yyyy-MM-dd HH:mm:ss"));
-						order.setStatus("0");
+						order.setStatus(Constant.ZERO_STRING);
 						order.setCreateTime(System.currentTimeMillis());
 						orderList.add(order);
 						SalesOutboundOrderItem orderItem = new SalesOutboundOrderItem();
@@ -972,7 +973,7 @@ public class PoundNoteService implements IPoundNoteService {
 							&& purchaseStorageListMapper.insertSelective(storage) > 0
 							&& purchaseStorageListItemMapper.insertSelective(storageItem) > 0
 							&& updateCode("RKD", query.getCurrid())) {
-						ErrorCode ec = returnPurchaseStorage(storage, storageItem);
+						ErrorCode ec = returnPurchaseStorage(storage, storageItem, bean);
 						result.setErrorCode(ec);
 						result.setData(bean.getCode());
 					} else {
@@ -1403,7 +1404,7 @@ public class PoundNoteService implements IPoundNoteService {
 						if(purchaseStorageListMapper.insertSelective(storage) > 0
 								&& purchaseStorageListItemMapper.insertSelective(storageItem) > 0
 								&& updateCode("RKD", query.getCurrid())){
-							result.setErrorCode(returnPurchaseStorage(storage, storageItem));
+							result.setErrorCode(returnPurchaseStorage(storage, storageItem, bean));
 				            LoggerFactory.getLogger("poundNote").info("上传皮重榜单:上传成功 {} ", JSON.toJSONString(query.getVehicleno()));
 						}else{
 							result.setErrorCode(ErrorCode.OPERATE_ERROR);
@@ -1438,7 +1439,7 @@ public class PoundNoteService implements IPoundNoteService {
 	}
 
 	// 推送采购入库单
-	private ErrorCode returnPurchaseStorage(PurchaseStorageList storage, PurchaseStorageListItem storageItem) {
+	private ErrorCode returnPurchaseStorage(PurchaseStorageList storage, PurchaseStorageListItem storageItem, PoundNote pn) throws Exception {
 		ErrorCode ec = ErrorCode.OPERATE_ERROR;
 		List<PurchaseStorageList> list = new ArrayList<PurchaseStorageList>();
 		list.add(storage);
@@ -1448,25 +1449,43 @@ public class PoundNoteService implements IPoundNoteService {
 		ApiResult apiResult = HttpUtils.post(ApiParamUtils.getApiParam(list),
 				Constant.URL_DOMAIN + Constant.URL_RETURN_PURCHASESTORAGEATION);
 		// 调用dc 接口成功 则推单状态为推单中 榜单展示为推单中
+		PushSingleReq ps = new PushSingleReq();
+		ps.setId(UUIDUtil.getId());
+		ps.setRequisitionNum(pn.getBillcode());
+		ps.setNoticeNum(pn.getNoticecode());
+		ps.setRequisitionType(Constant.ONE_STRING);
+		ps.setLightCarTime(pn.getLighttime());
+		ps.setHeavyCarTime(pn.getWeighttime());
+		ps.setNetWeight(pn.getNetweight().toString());
+		ps.setCreator(pn.getModifier());
+		ps.setCreatetime(System.currentTimeMillis());
+		ps.setModifytime(System.currentTimeMillis());
 		if (apiResult != null) {
             if (StringUtils.equals(apiResult.getCode(), Constant.SUCCESS)) {
                 PurchaseStorageList storageUpdate = new PurchaseStorageList();
                 storageUpdate.setId(storage.getId());
                 storageUpdate.setStatus(Constant.PUSH_STATUS_ING);
                 purchaseStorageListMapper.updateByPrimaryKeySelective(storageUpdate);
-                PoundNote pn = new PoundNote();
                 pn.setId(storage.getPoundId());
                 pn.setReturnstatus(Constant.POUND_PUSH_STATUS_ING);
                 poundNoteMapper.updateByPrimaryKeySelective(pn);
                 ec = ErrorCode.SYSTEM_SUCCESS;
+                ps.setPushStatus(Constant.ONE_STRING);
             } else {
                 ec = ErrorCode.RETURN_ERROR;
+                ps.setPushStatus(Constant.THREE_STRING);
             }
+            ps.setReasonFailure(apiResult.getError());
+            ps.setDesc1(apiResult.getCode());
             LoggerFactory.getLogger("ncPush").info("入库单推送NC: {}", JSON.toJSONString(apiResult));
 		} else {
 		    LoggerFactory.getLogger("ncPush").info("入库单推送NC: {}", "连接超时。");
 		    ec = ErrorCode.CONNECTION_TIMEOUT_ERROR;
+		    ps.setPushStatus(Constant.THREE_STRING);
+		    ps.setReasonFailure("FC-DC到货单推单失败，连接超时。");
+		    ps.setDesc1("-1");
 		}
+		pushSingleService.savePushSingle(ps);
 		return ec;
 	}
 
@@ -1646,7 +1665,7 @@ public class PoundNoteService implements IPoundNoteService {
 							salesApplicationDetailMapper.updateByPrimaryKeySelective(salesApplicationDetail);
 						}
 					}
-					ErrorCode ec = returnSalesStorage(orderList, orderItemList);
+					ErrorCode ec = returnSalesStorage(orderList, orderItemList, bean);
 					result.setErrorCode(ec);
 					result.setData(bean.getCode());
 				} else {
@@ -1659,8 +1678,8 @@ public class PoundNoteService implements IPoundNoteService {
 
 	// 推送采购入库单
 	private ErrorCode returnSalesStorage(List<SalesOutboundOrder> orderList,
-			List<SalesOutboundOrderItem> orderItemList) {
-		ErrorCode ec = ErrorCode.OPERATE_ERROR;
+			List<SalesOutboundOrderItem> orderItemList, PoundNote pn) throws Exception {
+		ErrorCode ec = ErrorCode.SYSTEM_SUCCESS;
 		List<SalesOutboundOrder> list = new ArrayList<SalesOutboundOrder>();
 		List<String> ids = new ArrayList<String>();
 		for (SalesOutboundOrder order : orderList) {
@@ -1684,26 +1703,37 @@ public class PoundNoteService implements IPoundNoteService {
 			list.add(order);
 		    ApiResult apiResult = HttpUtils.post(ApiParamUtils.getApiParam(list),
 		            Constant.URL_DOMAIN + Constant.URL_RETURN_SALESOUTBOUNDCATION);
-		    if (apiResult != null && StringUtils.equals(apiResult.getCode(), Constant.SUCCESS)) {
-		        SalesOutboundOrder orderUpdate = new SalesOutboundOrder();
-		        orderUpdate.setId(order.getId());
-		        orderUpdate.setStatus("1");
-		        if (salesOutboundOrderMapper.updateByPrimaryKeySelective(orderUpdate) > 0) {
-		            PoundNote pn = new PoundNote();
-		            pn.setId(order.getPoundId());
-		            pn.setReturnstatus("2");
-		            if (poundNoteMapper.updateByPrimaryKeySelective(pn) == 1) {
-		                ec = ErrorCode.SYSTEM_SUCCESS;
-		            }
-		        }
-		    } else {
-		        SalesOutboundOrder so = new SalesOutboundOrder();
-		        so.setId(order.getId());
-		        so.setStatus("0");
-		        if (salesOutboundOrderMapper.updateByPrimaryKeySelective(so) > 0) {
-		            ec = ErrorCode.SYSTEM_SUCCESS;
-		        }
-		    }
+		    PushSingleReq ps = new PushSingleReq();
+			ps.setId(UUIDUtil.getId());
+			ps.setRequisitionNum(pn.getBillcode());
+			ps.setNoticeNum(pn.getNoticecode());
+			ps.setRequisitionType(Constant.ONE_STRING);
+			ps.setLightCarTime(pn.getLighttime());
+			ps.setHeavyCarTime(pn.getWeighttime());
+			ps.setNetWeight(pn.getNetweight().toString());
+			ps.setCreatetime(System.currentTimeMillis());
+			ps.setModifytime(System.currentTimeMillis());
+			if (apiResult != null) {
+				if (StringUtils.equals(apiResult.getCode(), Constant.SUCCESS)) {
+					SalesOutboundOrder orderUpdate = new SalesOutboundOrder();
+			        orderUpdate.setId(order.getId());
+			        orderUpdate.setStatus(Constant.ONE_STRING);
+			        if (salesOutboundOrderMapper.updateByPrimaryKeySelective(orderUpdate) > 0) {
+			            PoundNote poundNote = new PoundNote();
+			            poundNote.setId(order.getPoundId());
+			            poundNote.setReturnstatus(Constant.TWO_STRING);
+			            poundNoteMapper.updateByPrimaryKeySelective(poundNote);
+			        }
+				} else {
+					ps.setPushStatus(Constant.THREE_STRING);
+				}
+				ps.setReasonFailure(apiResult.getError());
+			} else {
+				ps.setPushStatus(Constant.THREE_STRING);
+				ps.setReasonFailure("FC-DC出库单推单失败，连接超时。");
+				ps.setDesc1("-1");
+			}
+			pushSingleService.savePushSingle(ps);
 		}
 		return ec;
 	}

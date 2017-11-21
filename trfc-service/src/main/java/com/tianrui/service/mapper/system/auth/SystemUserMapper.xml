@@ -453,4 +453,13 @@
 			</if>
 		</where>
 	</select>
+	
+	
+	<select id="selectAccountUser" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from tr_system_user
+		where account = #{phone,jdbcType=VARCHAR}
+	</select>
 </mapper>

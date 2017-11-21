@@ -68,7 +68,7 @@ public class SystemUserclientAction {
 		return rs;
 	}
 	
-	//新增数据
+	//编辑数据
 	@RequestMapping(value="/editUser",method=RequestMethod.POST)
 	@ResponseBody
 	public Result editUser(SystemUserSaveReq req, HttpServletRequest request){
@@ -81,6 +81,12 @@ public class SystemUserclientAction {
 			log.error(e.getMessage(),e);
 		}
 		return rs;
+	}
+	public Result selectAccountUser(String phone) throws Exception {
+		Result rs= Result.getErrorResult();
+		rs = systemUserService.selectAccountUser(phone);
+		return rs;
+		
 	}
 	//删除数据
 	@RequestMapping(value="/deleteUser",method=RequestMethod.POST)
