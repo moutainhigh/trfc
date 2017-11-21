@@ -46,7 +46,6 @@ import com.tianrui.service.bean.basicFile.nc.CustomerManage;
 import com.tianrui.service.bean.basicFile.nc.MaterielManage;
 import com.tianrui.service.bean.basicFile.nc.SupplierManage;
 import com.tianrui.service.bean.basicFile.nc.WarehouseManage;
-import com.tianrui.service.bean.businessManage.examine.ExceptionAudit;
 import com.tianrui.service.bean.businessManage.logisticsManage.AccessRecord;
 import com.tianrui.service.bean.businessManage.otherManage.OtherArrive;
 import com.tianrui.service.bean.businessManage.poundNoteMaintain.PoundNote;
@@ -1864,11 +1863,24 @@ public class PoundNoteService implements IPoundNoteService {
 					// 该车辆没有通知单
 					result.setErrorCode(ErrorCode.VEHICLE_NOT_NOTICE);
 				} else {
-					if (StringUtils.equals(otherArrive.getStatus(), Constant.ONE_STRING)) {
-						result = isOneWeight(otherArrive.getId(), otherArrive.getBusinesstype());
-					} else {
-						result.setErrorCode(ErrorCode.VEHICLE_NOTICE_NOT_ONE_WEIGHT);
+					//如果是其他入库 需要判断状态为收货确认 
+					if(StringUtils.equals(otherArrive.getBusinesstype(), Constant.NOTICE_OF_QTRK) ){
+						//判断是否为收货状态
+						if (StringUtils.equals(otherArrive.getStatus(), Constant.SEVEN_STRING)) {
+							result = isOneWeight(otherArrive.getId(), otherArrive.getBusinesstype());
+						} else {
+							result.setErrorCode(ErrorCode.VEHICLE_NOTICE_NOT_LOAD2);
+						}
+					//工程车辆 其他出 内倒
+					}else{
+						//判断是否为一次磅
+						if (StringUtils.equals(otherArrive.getStatus(), Constant.ONE_STRING)) {
+							result = isOneWeight(otherArrive.getId(), otherArrive.getBusinesstype());
+						} else {
+							result.setErrorCode(ErrorCode.VEHICLE_NOTICE_NOT_LOAD2);
+						}
 					}
+					
 				}
 			} else {
 		        //二次过磅校验变更为是否签收或退货  2017-09-06
@@ -1889,25 +1901,15 @@ public class PoundNoteService implements IPoundNoteService {
 		return result;
 	}
 
+	//判断是否有榜单
 	private Result isOneWeight(String noticeid, String type) {
 		Result result = Result.getSuccessResult();
-		PoundNote poundNote = null;
-		if (StringUtils.equals(type, Constant.FOUR_STRING)) {
-			poundNote = poundNoteMapper.getNewByNoticeId(noticeid);
-			if (poundNote != null && poundNote.getGrossweight() != null && poundNote.getGrossweight() > 0) {
+		PoundNote poundNote = poundNoteMapper.getNewByNoticeId(noticeid);
+			if (poundNote != null ) {
                 result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
 			} else {
 				result.setErrorCode(ErrorCode.VEHICLE_NOTICE_NOT_ONE_WEIGHT);
 			}
-		} else {
-			poundNote = poundNoteMapper.selectByNoticeId(noticeid);
-			// 判断是否一次过磅
-			if (poundNote != null) {
-				result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
-			} else {
-				result.setErrorCode(ErrorCode.VEHICLE_NOTICE_NOT_ONE_WEIGHT);
-			}
-		}
 		return result;
 	}
 

@@ -97,6 +97,7 @@ public enum ErrorCode {
 	VEHICLE_NOTICE_TWO_WEIGHT("E10021","该车辆已过二次磅房."),
 	VEHICLE_IS_WX("E10022","车辆已无效."),
 	VEHICLE_IS_BLACK("E10023","车辆被列入黑名单."),
+	VEHICLE_NOTICE_NOT_LOAD2("E10024","该车辆还未在平台确认收货."),
 	/**
 	 * 司机
 	 */
