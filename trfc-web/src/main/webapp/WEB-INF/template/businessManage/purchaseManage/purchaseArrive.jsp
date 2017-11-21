@@ -280,7 +280,7 @@
 	<jsp:include page="../../common/base/footer_busi.jsp"></jsp:include>
     <script type="text/javascript" src="${staticBasePath}/js/cardReader.js"></script>
 	<script type="text/javascript"
-		src="/javascript/businessManage/purchaseManage/purchaseArrive.js"></script>
+		src="/javascript/businessManage/purchaseManage/purchaseArrive.js?171121"></script>
 	<script type="text/javascript">
 		// 首页底部的tab切换菜单
 		var ind_li = $('#ind_tab ul li');
