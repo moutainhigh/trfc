@@ -352,12 +352,7 @@ $(function() {
 			});
 		});
 	}
-	function getUpdateParams() {
-		var id = $('#userId').val();
-		id = $.trim(id);
-		var password = $('#edit_psd').val();
-		password = $.trim(password);
-		var remark = $('#edit_remark').val();
+	$("input#edit_account").blur(function(){
 		var account =$('#edit_account').val();
 		if(!(/^1[34578]\d{9}$/.test(account))){ 
 	        alert("手机号码有误，请重填");  
@@ -373,16 +368,20 @@ $(function() {
 				success : function(result) {
 					if (result.code != '000000') {
 						layer.msg(result.error);
+						$('#edit_account').val("");
 						return;
-					}else{
-						alert(account);
-						alert("66666");
 					}
-					
 				}
 	    	});
 	    }
-		alert("ok"+":"+account);
+	})
+	function getUpdateParams() {
+		var id = $('#userId').val();
+		id = $.trim(id);
+		var password = $('#edit_psd').val();
+		password = $.trim(password);
+		var remark = $('#edit_remark').val();
+		var account =$('#edit_account').val();
 		remark = $.trim(remark);
 		var isvalid = Number($('#edit_isvalid')[0].checked);
 		return {

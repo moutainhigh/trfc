@@ -82,9 +82,12 @@ public class SystemUserclientAction {
 		}
 		return rs;
 	}
-	public Result selectAccountUser(String phone) throws Exception {
+	//编辑数据
+	@RequestMapping(value="/selectAccountUser",method=RequestMethod.POST)
+	@ResponseBody
+	public Result selectAccountUser(SystemUserSaveReq req, HttpServletRequest request) throws Exception {
 		Result rs= Result.getErrorResult();
-		rs = systemUserService.selectAccountUser(phone);
+		rs = systemUserService.selectAccountUser(req.getAccount());
 		return rs;
 		
 	}

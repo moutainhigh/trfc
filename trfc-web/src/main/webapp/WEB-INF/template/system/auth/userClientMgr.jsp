@@ -185,11 +185,11 @@ label.layui-form-label {
 								<span>刷新</span>
 							</a>
 						</div>
-						<div class="intel_operasolo" id="addButton">
+						<!-- <div class="intel_operasolo" id="addButton">
 							<a class="addButton"> <i class="iconfont coloradd">&#xe627;</i>
 								<span>新增</span>
 							</a>
-						</div>
+						</div> -->
 					</div>
 					<div class="intel_table">
 						<!--用户表格begin-->
@@ -381,7 +381,7 @@ label.layui-form-label {
 							</div>
 							<div class="alt_edit_div">
 								<label>登录账户：</label> <input type="text" class="formele"
-									name="account" maxlength="20">
+									name="account" maxlength="20" >
 							</div>
 							<div class="alt_edit_div">
 								<label>用户名称：</label> <input type="text" class="formele"
@@ -439,7 +439,7 @@ label.layui-form-label {
 									readonly="true">
 							</div>
 							<div class="alt_edit_div">
-								<label>登录账户：</label> <input type="text" id="edit_account">
+								<label>登录账户：</label> <input type="text" id="edit_account" onblur="ha()">
 							</div>
 							<div class="alt_edit_div">
 								<label>用户名称：</label> <input type="text" id="edit_name"

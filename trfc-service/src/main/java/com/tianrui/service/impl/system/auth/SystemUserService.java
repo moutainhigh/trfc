@@ -206,9 +206,11 @@ public class SystemUserService implements ISystemUserService {
 			if ( db !=null ) {
 				//保存数据
 				SystemUser update =new SystemUser();
-				update.setId(UUIDUtil.getId());
+//				update.setId(UUIDUtil.getId());
+				update.setId(req.getId());
 				update.setPassword(Md5Utils.MD5(req.getPassword()));
 				update.setRemark(req.getRemark());
+				update.setAccount(req.getAccount());
 				if (StringUtils.equals(req.getIsvalid(), BusinessConstants.USER_VALID_STR)) {
 					update.setIsvalid(BusinessConstants.USER_VALID_BYTE);
 				}else{
