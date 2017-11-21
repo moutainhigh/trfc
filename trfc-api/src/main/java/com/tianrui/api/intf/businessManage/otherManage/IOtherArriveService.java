@@ -36,6 +36,10 @@ public interface IOtherArriveService {
 	 * 更新状态
 	 */
 	Result updateOperation(OtherArriveReq req) throws Exception;
+	/**
+	 * 其他入库的收货确认
+	 */
+	Result goodsConfirm(OtherArriveReq req) throws Exception;
 
     PaginationVO<AppOtherArriveResp> appPage(AppOtherArriveReq req) throws Exception;
     /**

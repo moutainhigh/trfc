@@ -72,6 +72,8 @@ public enum ErrorCode {
 	NOTICE_OUT_FACTORY2("E10029","该通知单无相关入厂记录."), 
 	NOTICE_NUMBER_ERROR("E10030","到货量/提货量必须大于零且小于等于订单余量."), 
 	NOTICE_YES_AUDIT("E10031","该通知单已经通过审核无法作废."),
+	NOTICE_NOT_EXIST2("E10032","该通知单不是其他入库类型."),
+	NOTICE_STATUS_ERROR("E10033","通知单状态不合法."),
 	/**
 	 * 磅单
 	 */

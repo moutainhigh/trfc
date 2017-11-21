@@ -69,8 +69,8 @@
 									<label>状态：</label> <select id="status" class="form-control">
 										<option value="">请选择</option>
 										<option value="0">未入厂</option>
-										<option value="1">空车</option>
-										<option value="2">重车</option>
+										<option value="1">重车</option>
+										<option value="2">空车</option>
 										<option value="3">作废</option>
 										<option value="4">发卡</option>
 										<option value="5">出厂</option>

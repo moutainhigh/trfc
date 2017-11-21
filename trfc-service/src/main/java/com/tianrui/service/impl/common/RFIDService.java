@@ -64,7 +64,7 @@ public class RFIDService implements IRFIDService {
 				//验证rfid是否为临时卡
 				if( db.getType()!=null && db.getType()==2 ){
 					//验证是否为启用状态
-					if( db.getState() !=true ){
+					if( db.getState()){
 						//验证车牌号是否一直
 						if( StringUtils.isNotBlank(req.getVehicleNo())  ){
 							VehicleManage vehicle =vehicleManageMapper.getVehicleByNo(req.getVehicleNo());
