@@ -13,6 +13,8 @@ public class NoticeSave extends AppBase {
 	private String id;
 	//订单子表ID
 	private String detailId;
+	//多单一车订单集合
+	private String ids;
 	public String getVehicle() {
 		return vehicle;
 	}
@@ -43,12 +45,25 @@ public class NoticeSave extends AppBase {
 	public void setDetailId(String detailId) {
 		this.detailId = detailId;
 	}
+	public String getIds() {
+		return ids;
+	}
+	public void setIds(String ids) {
+		this.ids = ids;
+	}
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
 	@Override
 	public String toString() {
 		return "NoticeSave [vehicle=" + vehicle + ", driver=" + driver + ", number=" + number + ", id=" + id
-				+ ", detailId=" + detailId + "]";
+				+ ", detailId=" + detailId + ", ids=" + ids + ", pageNo=" + pageNo + ", pageSize=" + pageSize
+				+ ", getVehicle()=" + getVehicle() + ", getDriver()=" + getDriver() + ", getNumber()=" + getNumber()
+				+ ", getId()=" + getId() + ", getDetailId()=" + getDetailId() + ", getIds()=" + getIds()
+				+ ", getUserId()=" + getUserId() + ", getIDType()=" + getIDType() + ", getSalesOrg()=" + getSalesOrg()
+				+ ", getNcId()=" + getNcId() + ", getKey()=" + getKey() + ", toString()=" + super.toString()
+				+ ", getCallSource()=" + getCallSource() + ", getCallTime()=" + getCallTime() + ", getCallId()="
+				+ getCallId() + ", getPageNo()=" + getPageNo() + ", getPageSize()=" + getPageSize() + ", getClass()="
+				+ getClass() + ", hashCode()=" + hashCode() + "]";
 	}
 }

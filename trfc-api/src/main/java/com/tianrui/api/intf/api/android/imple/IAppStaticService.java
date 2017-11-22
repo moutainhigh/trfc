@@ -188,4 +188,10 @@ public interface IAppStaticService {
 	 * @return
 	 */
 	AppResult appVersion(AppVersionParam param);
+	/**
+	 * 常用车辆和司机
+	 * @param param
+	 * @return
+	 */
+	AppResult vcAndDr(MyVehicleListParam param);
 }

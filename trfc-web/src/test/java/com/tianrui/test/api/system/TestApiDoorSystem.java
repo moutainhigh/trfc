@@ -53,8 +53,8 @@ public class TestApiDoorSystem {
 		ApiParam<VehicleCheckApi> api =new ApiParam<VehicleCheckApi>();
 		
 		VehicleCheckApi req =new VehicleCheckApi();
-		req.setRfid("E2000016130B0171218035E8");
-		req.setVehicleNo("豫D55555");
+		req.setRfid("E2000016130B0231219034B7");
+		req.setVehicleNo("豫D63673");
 		
 		Head head =new Head();
 		head.setCallSource("1");

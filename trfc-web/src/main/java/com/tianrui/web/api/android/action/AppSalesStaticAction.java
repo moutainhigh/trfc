@@ -8,18 +8,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.tianrui.api.intf.api.android.imple.IAppStaticService;
-import com.tianrui.api.req.android.AppVersionParam;
+import com.tianrui.api.intf.api.android.imple.IAppSalesStaticService;
 import com.tianrui.api.req.android.BillListParam;
 import com.tianrui.api.req.android.BillSave;
-import com.tianrui.api.req.android.DriverSave;
 import com.tianrui.api.req.android.HomePageParam;
 import com.tianrui.api.req.android.LoginUserParam;
 import com.tianrui.api.req.android.MyPnListParam;
 import com.tianrui.api.req.android.MyVehicleListParam;
 import com.tianrui.api.req.android.NoticeListParam;
 import com.tianrui.api.req.android.NoticeSave;
-import com.tianrui.api.req.android.SearchKeyParam;
 import com.tianrui.smartfactory.common.api.ApiParam;
 import com.tianrui.smartfactory.common.constants.ErrorCode;
 import com.tianrui.smartfactory.common.vo.AppResult;
@@ -30,88 +27,14 @@ import com.tianrui.web.smvc.ApiParamRawType;
  * @author zhanggaohao
  */
 @Controller
-@RequestMapping("api/android/static_new")
-public class AppStaticAction_new {
+@RequestMapping("api/android/sales/static")
+public class AppSalesStaticAction {
 
-	private Logger log = LoggerFactory.getLogger(AppStaticAction_new.class);
+	private Logger log = LoggerFactory.getLogger(AppSalesStaticAction.class);
 
 	@Autowired
-	private IAppStaticService appService;
+	private IAppSalesStaticService appService;
 
-	@RequestMapping(value="/login",method=RequestMethod.POST)
-	@ApiParamRawType(LoginUserParam.class)
-	@ResponseBody
-	public AppResult login(ApiParam<LoginUserParam> param){
-		AppResult result = AppResult.getAppResult();
-		try {
-			result = appService.appLogin(param.getBody());
-		} catch (Exception e) {
-			log.error(e.getMessage(), e);
-			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
-		}
-		return result;
-	}
-
-	@RequestMapping(value="/loginOut",method=RequestMethod.POST)
-	@ApiParamRawType(LoginUserParam.class)
-	@ResponseBody
-	public AppResult loginOut(ApiParam<LoginUserParam> param){
-		AppResult result = AppResult.getAppResult();
-		try {
-			param.getBody().setId(param.getHead().getKey());
-			result = appService.appLoginOut(param.getBody());
-		} catch (Exception e) {
-			log.error(e.getMessage(), e);
-			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
-		}
-		return result;
-	}
-	
-	@RequestMapping(value="/updatePwd",method=RequestMethod.POST)
-	@ApiParamRawType(LoginUserParam.class)
-	@ResponseBody
-	public AppResult updatePwd(ApiParam<LoginUserParam> param){
-		AppResult result = AppResult.getAppResult();
-		try {
-			param.getBody().setId(param.getHead().getUserId());
-			result = appService.appUpdatePwd(param.getBody());
-		} catch (Exception e) {
-			log.error(e.getMessage(), e);
-			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
-		}
-		return result;
-	}
-	
-	@RequestMapping(value="/bindPhoneNumber",method=RequestMethod.POST)
-	@ApiParamRawType(LoginUserParam.class)
-	@ResponseBody
-	public AppResult bindPhoneNumber(ApiParam<LoginUserParam> param){
-		AppResult result = AppResult.getAppResult();
-		try {
-			param.getBody().setId(param.getHead().getUserId());
-			result = appService.appBindPhoneNumber(param.getBody());
-		} catch (Exception e) {
-			log.error(e.getMessage(), e);
-			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
-		}
-		return result;
-	}
-	
-	@RequestMapping(value="/unBindPhoneNumber",method=RequestMethod.POST)
-	@ApiParamRawType(LoginUserParam.class)
-	@ResponseBody
-	public AppResult unBindPhoneNumber(ApiParam<LoginUserParam> param){
-		AppResult result = AppResult.getAppResult();
-		try {
-			param.getBody().setId(param.getHead().getUserId());
-			result = appService.appUnBindPhoneNumber(param.getBody());
-		} catch (Exception e) {
-			log.error(e.getMessage(), e);
-			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
-		}
-		return result;
-	}
-	
 	@RequestMapping(value="/home",method=RequestMethod.POST)
 	@ApiParamRawType(HomePageParam.class)
 	@ResponseBody
@@ -123,6 +46,27 @@ public class AppStaticAction_new {
 			param.getBody().setIDType(param.getHead().getIDType());
 			param.getBody().setSalesOrg(param.getHead().getSalesOrg());
 			result = appService.home(param.getBody());
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
+		}
+		return result;
+	}
+	/**
+	 * @annotation 客商APP一单一车下单
+	 * @param param
+	 * @return
+	 */
+	@RequestMapping(value="/saveBill",method=RequestMethod.POST)
+	@ApiParamRawType(BillSave.class)
+	@ResponseBody
+	public AppResult saveBill(ApiParam<BillSave> param){
+		AppResult result = AppResult.getAppResult();
+		try {
+			param.getBody().setUserId(param.getHead().getUserId());
+			param.getBody().setIDType(param.getHead().getIDType());
+			param.getBody().setSalesOrg(param.getHead().getSalesOrg());
+			result = appService.saveBill(param.getBody());
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
@@ -163,6 +107,11 @@ public class AppStaticAction_new {
 		return result;
 	}
 	
+	/**
+	 * @annotation 销售订单作废（一车一单）
+	 * @param param
+	 * @return
+	 */
 	@RequestMapping(value="/bill/delete",method=RequestMethod.POST)
 	@ApiParamRawType(BillListParam.class)
 	@ResponseBody
@@ -172,23 +121,6 @@ public class AppStaticAction_new {
 			param.getBody().setUserId(param.getHead().getUserId());
 			param.getBody().setNcId(param.getHead().getNcId());
 			result = appService.billDelete(param.getBody());
-		} catch (Exception e) {
-			log.error(e.getMessage(), e);
-			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
-		}
-		return result;
-	}
-	
-	@RequestMapping(value="/saveBill",method=RequestMethod.POST)
-	@ApiParamRawType(BillSave.class)
-	@ResponseBody
-	public AppResult saveBill(ApiParam<BillSave> param){
-		AppResult result = AppResult.getAppResult();
-		try {
-			param.getBody().setUserId(param.getHead().getUserId());
-			param.getBody().setIDType(param.getHead().getIDType());
-			param.getBody().setSalesOrg(param.getHead().getSalesOrg());
-			result = appService.saveBill(param.getBody());
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
@@ -206,6 +138,40 @@ public class AppStaticAction_new {
 			param.getBody().setNcId(param.getHead().getNcId());
 			param.getBody().setIDType(param.getHead().getIDType());
 			result = appService.saveNotice(param.getBody());
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
+		}
+		return result;
+	}
+	
+	@RequestMapping(value="/listMoreBill",method=RequestMethod.POST)
+	@ApiParamRawType(BillListParam.class)
+	@ResponseBody
+	public AppResult listMoreBill(ApiParam<BillListParam> param){
+		AppResult result = AppResult.getAppResult();
+		try {
+			param.getBody().setUserId(param.getHead().getUserId());
+			param.getBody().setNcId(param.getHead().getNcId());
+			param.getBody().setIDType(param.getHead().getIDType());
+			result = appService.listMoreBill(param.getBody());
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
+		}
+		return result;
+	}
+	
+	@RequestMapping(value="/moreSendCar",method=RequestMethod.POST)
+	@ApiParamRawType(NoticeSave.class)
+	@ResponseBody
+	public AppResult moreSendCar(ApiParam<NoticeSave> param){
+		AppResult result = AppResult.getAppResult();
+		try {
+			param.getBody().setUserId(param.getHead().getUserId());
+			param.getBody().setNcId(param.getHead().getNcId());
+			param.getBody().setIDType(param.getHead().getIDType());
+			result = appService.moreSendCar(param.getBody());
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
@@ -246,7 +212,7 @@ public class AppStaticAction_new {
 		}
 		return result;
 	}
-	
+	//未审核的通知单可以修改，一单一车不能修改
 	@RequestMapping(value="/notice/update",method=RequestMethod.POST)
 	@ApiParamRawType(NoticeSave.class)
 	@ResponseBody
@@ -263,7 +229,7 @@ public class AppStaticAction_new {
 		}
 		return result;
 	}
-	
+	//
 	@RequestMapping(value="/notice/cancel",method=RequestMethod.POST)
 	@ApiParamRawType(NoticeListParam.class)
 	@ResponseBody
@@ -316,76 +282,19 @@ public class AppStaticAction_new {
 		return result;
 	}
 	
-	@RequestMapping(value="/my/pn/detail",method=RequestMethod.POST)
-	@ApiParamRawType(MyPnListParam.class)
-	@ResponseBody
-	public AppResult myPnDetail(ApiParam<MyPnListParam> param){
-		AppResult result = AppResult.getAppResult();
-		try {
-			result = appService.myPnDetail(param.getBody());
-		} catch (Exception e) {
-			log.error(e.getMessage(), e);
-			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
-		}
-		return result;
-	}
-	
-	@RequestMapping(value="/save/driver",method=RequestMethod.POST)
-	@ApiParamRawType(DriverSave.class)
-	@ResponseBody
-	public AppResult saveDriver(ApiParam<DriverSave> param){
-		AppResult result = AppResult.getAppResult();
-		try {
-			param.getBody().setUserId(param.getHead().getUserId());
-			result = appService.saveDriver(param.getBody());
-		} catch (Exception e) {
-			log.error(e.getMessage(), e);
-			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
-		}
-		return result;
-	}
-	
-	@RequestMapping(value="/vehicle/search",method=RequestMethod.POST)
-	@ApiParamRawType(SearchKeyParam.class)
-	@ResponseBody
-	public AppResult vehicleSearch(ApiParam<SearchKeyParam> param){
-		AppResult result = AppResult.getAppResult();
-		try {
-			result = appService.vehicleSearch(param.getBody());
-		} catch (Exception e) {
-			log.error(e.getMessage(), e);
-			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
-		}
-		return result;
-	}
-	
-	@RequestMapping(value="/driver/search",method=RequestMethod.POST)
-	@ApiParamRawType(SearchKeyParam.class)
-	@ResponseBody
-	public AppResult driverSearch(ApiParam<SearchKeyParam> param){
-		AppResult result = AppResult.getAppResult();
-		try {
-			result = appService.driverSearch(param.getBody());
-		} catch (Exception e) {
-			log.error(e.getMessage(), e);
-			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
-		}
-		return result;
-	}
-	
-	@RequestMapping(value="/material/search",method=RequestMethod.POST)
-	@ApiParamRawType(SearchKeyParam.class)
-	@ResponseBody
-	public AppResult materialSearch(ApiParam<SearchKeyParam> param){
-		AppResult result = AppResult.getAppResult();
-		try {
-			result = appService.materialSearch(param.getBody());
-		} catch (Exception e) {
-			log.error(e.getMessage(), e);
-			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
-		}
-		return result;
-	}
+//	@RequestMapping(value="/my/pn/detail",method=RequestMethod.POST)
+//	@ApiParamRawType(MyPnListParam.class)
+//	@ResponseBody
+//	public AppResult myPnDetail(ApiParam<MyPnListParam> param){
+//		AppResult result = AppResult.getAppResult();
+//		try {
+//			result = appService.myPnDetail(param.getBody());
+//		} catch (Exception e) {
+//			log.error(e.getMessage(), e);
+//			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
+//		}
+//		return result;
+//	}
 
 	/**
 	 * 查询用户组成员
@@ -424,84 +333,6 @@ public class AppStaticAction_new {
 			param.getBody().setIDType(param.getHead().getIDType());
 			param.getBody().setKey(param.getHead().getKey());
 			result = appService.userCutover(param.getBody());
-		} catch (Exception e) {
-			log.error(e.getMessage(), e);
-			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
-		}
-		return result;
-	}
-
-	/**
-	 * 常用的车辆
-	 * @param req
-	 * @return
-	 */
-	@RequestMapping(value="/user/vehicle",method=RequestMethod.POST)
-	@ApiParamRawType(MyVehicleListParam.class)
-	@ResponseBody
-	public AppResult userVehicle(ApiParam<MyVehicleListParam> param){
-		AppResult result = AppResult.getAppResult();
-		try {
-			param.getBody().setUserId(param.getHead().getUserId());
-			result = appService.userVehicle(param.getBody());
-		} catch (Exception e) {
-			log.error(e.getMessage(), e);
-			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
-		}
-		return result;
-	}
-
-	/**
-	 * 常用的司机
-	 * @param req
-	 * @return
-	 */
-	@RequestMapping(value="/user/driver",method=RequestMethod.POST)
-	@ApiParamRawType(MyVehicleListParam.class)
-	@ResponseBody
-	public AppResult userDriver(ApiParam<MyVehicleListParam> param){
-		AppResult result = AppResult.getAppResult();
-		try {
-			param.getBody().setUserId(param.getHead().getUserId());
-			result = appService.userDriver(param.getBody());
-		} catch (Exception e) {
-			log.error(e.getMessage(), e);
-			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
-		}
-		return result;
-	}
-	
-	/**
-	 * 版本是否需要更新查询
-	 * @param req
-	 * @return
-	 */
-	@RequestMapping(value="/version",method=RequestMethod.POST)
-	@ApiParamRawType(AppVersionParam.class)
-	@ResponseBody
-	public AppResult versionQuery(ApiParam<AppVersionParam> param){
-		AppResult result = AppResult.getAppResult();
-		try {
-			result = appService.appVersion(param.getBody());
-		} catch (Exception e) {
-			log.error(e.getMessage(), e);
-			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
-		}
-		return result;
-	}
-	
-	/**
-	 * 常用车辆和司机
-	 * @param req
-	 * @return
-	 */
-	@RequestMapping(value="/common/vcAndDr",method=RequestMethod.POST)
-	@ApiParamRawType(MyVehicleListParam.class)
-	@ResponseBody
-	public AppResult vcAndDr(ApiParam<MyVehicleListParam> param){
-		AppResult result = AppResult.getAppResult();
-		try {
-			result = appService.vcAndDr(param.getBody());
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
