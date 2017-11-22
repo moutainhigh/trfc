@@ -687,13 +687,18 @@ public class SystemUserService implements ISystemUserService {
                                 cumulativeLoginCount(list.get(0));
                                 SystemUserResp user = copySystemUserBean2Resp(list.get(0));
                                 Result menuListResult = systemRolePermissionsService.iphonRole(user.getId());
-								List<SystemRoleMenuResp> menuList = (List<SystemRoleMenuResp>) menuListResult.getData();
-                            	user.setMenuList(menuList);
-                                rs.setData(user);
-                                rs.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
-                                if (!StringUtils.equals(menuListResult.getCode(), ErrorCode.SYSTEM_SUCCESS.getCode())) {
+                                if(menuListResult.getCode().equals("000000")){
+                                	List<SystemRoleMenuResp> menuList = (List<SystemRoleMenuResp>) menuListResult.getData();
+                                	user.setMenuList(menuList);
+                                	rs.setData(user);
+                                	rs.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+                                }else{
+                                	rs.setCode(menuListResult.getCode());
                                 	rs.setError(menuListResult.getError());
                                 }
+//                                if (!StringUtils.equals(menuListResult.getCode(), ErrorCode.SYSTEM_SUCCESS.getCode())) {
+//                                	rs.setError(menuListResult.getError());
+//                                }
                             }else{
                                 rs.setErrorCode(ErrorCode.SYSTEM_USER_ERROR11);
                             }
