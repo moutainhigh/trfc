@@ -39,7 +39,7 @@ public interface SystemUserRoleMapper {
 
 	int deleteByUserRole(String id);
 
-	SystemUserRole iphoneRole(String id);
+	List<SystemUserRole> iphoneRole(String id);
 	
 	List<SystemRole> subsystemRole(String id);
 }

@@ -211,6 +211,7 @@ public class SystemUserService implements ISystemUserService {
 				update.setPassword(Md5Utils.MD5(req.getPassword()));
 				update.setRemark(req.getRemark());
 				update.setAccount(req.getAccount());
+				update.setMobilePhone(req.getMobilePhone());
 				if (StringUtils.equals(req.getIsvalid(), BusinessConstants.USER_VALID_STR)) {
 					update.setIsvalid(BusinessConstants.USER_VALID_BYTE);
 				}else{

@@ -15,6 +15,8 @@ public class SystemUserSaveReq extends BaseReq {
 	private String code;
 	//账户
 	private String account;
+	//手机号码
+	private String mobilePhone;
 	//名称
 	private String name;
 	private String password;
@@ -79,6 +81,12 @@ public class SystemUserSaveReq extends BaseReq {
 	}
 	public void setCurrUId(String currUId) {
 		this.currUId = currUId;
+	}
+	public String getMobilePhone() {
+		return mobilePhone;
+	}
+	public void setMobilePhone(String mobilePhone) {
+		this.mobilePhone = mobilePhone;
 	}
 	
 }

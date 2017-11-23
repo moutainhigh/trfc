@@ -199,6 +199,7 @@ label.layui-form-label {
 									<th>序号</th>
 									<th>用户编号</th>
 									<th>登录账号</th>
+									<th>手机号码</th>
 									<th>用户名称</th>
 									<!-- <th>所属组织</th> -->
 									<th>有效</th>
@@ -439,7 +440,10 @@ label.layui-form-label {
 									readonly="true">
 							</div>
 							<div class="alt_edit_div">
-								<label>登录账户：</label> <input type="text" id="edit_account" onblur="ha()">
+								<label>登录账户：</label> <input type="text" id="edit_account">
+							</div>
+							<div class="alt_edit_div">
+								<label>手机号码：</label> <input type="text" id="mobilePhone" onblur="ha()">
 							</div>
 							<div class="alt_edit_div">
 								<label>用户名称：</label> <input type="text" id="edit_name"
