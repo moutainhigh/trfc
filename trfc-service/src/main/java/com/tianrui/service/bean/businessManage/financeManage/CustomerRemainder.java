@@ -46,6 +46,12 @@ public class CustomerRemainder {
     //  NC同步时间
     private Long utc;
 
+    //  币种名称
+    private String corigcurrencyName;
+
+    //  客户编码
+    private String customerCode;
+
     public String getId() {
         return id;
     }
@@ -164,5 +170,21 @@ public class CustomerRemainder {
 
     public void setUtc(Long utc) {
         this.utc = utc;
+    }
+
+    public String getCorigcurrencyName() {
+        return corigcurrencyName;
+    }
+
+    public void setCorigcurrencyName(String corigcurrencyName) {
+        this.corigcurrencyName = corigcurrencyName == null ? null : corigcurrencyName.trim();
+    }
+
+    public String getCustomerCode() {
+        return customerCode;
+    }
+
+    public void setCustomerCode(String customerCode) {
+        this.customerCode = customerCode == null ? null : customerCode.trim();
     }
 }

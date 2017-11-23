@@ -17,10 +17,13 @@
     <result column="modifytime" property="modifytime" jdbcType="BIGINT" />
     <result column="remark" property="remark" jdbcType="VARCHAR" />
     <result column="utc" property="utc" jdbcType="BIGINT" />
+    <result column="corigcurrency_name" property="corigcurrencyName" jdbcType="VARCHAR" />
+    <result column="customer_code" property="customerCode" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, org_name, org_id, customer_name, customer_id, nlimitmny, nengrossmny, nbalancemny, 
-    corigcurrencyid, creator, createtime, modifier, modifytime, remark, utc
+    corigcurrencyid, creator, createtime, modifier, modifytime, remark, utc, corigcurrency_name, 
+    customer_code
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
@@ -37,14 +40,14 @@
       customer_name, customer_id, nlimitmny, 
       nengrossmny, nbalancemny, corigcurrencyid, 
       creator, createtime, modifier, 
-      modifytime, remark, utc
-      )
+      modifytime, remark, utc, 
+      corigcurrency_name, customer_code)
     values (#{id,jdbcType=VARCHAR}, #{orgName,jdbcType=VARCHAR}, #{orgId,jdbcType=VARCHAR}, 
       #{customerName,jdbcType=VARCHAR}, #{customerId,jdbcType=VARCHAR}, #{nlimitmny,jdbcType=DOUBLE}, 
       #{nengrossmny,jdbcType=DOUBLE}, #{nbalancemny,jdbcType=DOUBLE}, #{corigcurrencyid,jdbcType=VARCHAR}, 
       #{creator,jdbcType=VARCHAR}, #{createtime,jdbcType=BIGINT}, #{modifier,jdbcType=VARCHAR}, 
-      #{modifytime,jdbcType=BIGINT}, #{remark,jdbcType=VARCHAR}, #{utc,jdbcType=BIGINT}
-      )
+      #{modifytime,jdbcType=BIGINT}, #{remark,jdbcType=VARCHAR}, #{utc,jdbcType=BIGINT}, 
+      #{corigcurrencyName,jdbcType=VARCHAR}, #{customerCode,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.tianrui.service.bean.businessManage.financeManage.CustomerRemainder" >
     insert into tr_finance_db_customer_remainder
@@ -94,6 +97,12 @@
       <if test="utc != null" >
         utc,
       </if>
+      <if test="corigcurrencyName != null" >
+        corigcurrency_name,
+      </if>
+      <if test="customerCode != null" >
+        customer_code,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -140,6 +149,12 @@
       </if>
       <if test="utc != null" >
         #{utc,jdbcType=BIGINT},
+      </if>
+      <if test="corigcurrencyName != null" >
+        #{corigcurrencyName,jdbcType=VARCHAR},
+      </if>
+      <if test="customerCode != null" >
+        #{customerCode,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -188,6 +203,12 @@
       <if test="utc != null" >
         utc = #{utc,jdbcType=BIGINT},
       </if>
+      <if test="corigcurrencyName != null" >
+        corigcurrency_name = #{corigcurrencyName,jdbcType=VARCHAR},
+      </if>
+      <if test="customerCode != null" >
+        customer_code = #{customerCode,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
@@ -206,7 +227,9 @@
       modifier = #{modifier,jdbcType=VARCHAR},
       modifytime = #{modifytime,jdbcType=BIGINT},
       remark = #{remark,jdbcType=VARCHAR},
-      utc = #{utc,jdbcType=BIGINT}
+      utc = #{utc,jdbcType=BIGINT},
+      corigcurrency_name = #{corigcurrencyName,jdbcType=VARCHAR},
+      customer_code = #{customerCode,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
 </mapper>
