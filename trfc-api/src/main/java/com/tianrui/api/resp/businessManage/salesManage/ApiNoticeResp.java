@@ -50,17 +50,17 @@ public class ApiNoticeResp extends BaseResp {
 	//通知单状态
 	private String status="";
 	//通知单审核状态（0：未审核，1：已审核）
-    private String auditstatus;
+    private String auditstatus="";
     //通知单ID
-    private String noticeId;
+    private String noticeId="";
     //签收状态（0：退货，1：签收）
-    private Integer signStatus;
+    private Integer signStatus=0;
     //强制出厂表示（0：否，1：是）
-    private Integer forceOutFactory;
+    private Integer forceOutFactory=0;
     //备注
-    private String remark;
+    private String remark="";
     //订单编码
-    private String billNo;
+    private String billNo="";
 	
 	public String getVehicleno() {
 		return vehicleno;

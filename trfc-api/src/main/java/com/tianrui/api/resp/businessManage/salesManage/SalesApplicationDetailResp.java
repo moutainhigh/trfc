@@ -7,37 +7,37 @@ public class SalesApplicationDetailResp extends BaseResp {
 	private static final long serialVersionUID = -1813964842063776104L;
 
     //主键id
-    private String id;
+    private String id="";
     //销售申请单id
-    private String salesid;
+    private String salesid="";
     //物料id
-    private String materielid;
+    private String materielid="";
     //物料名称
-    private String materielname;
+    private String materielname="";
     //仓库id
-    private String warehouseid;
+    private String warehouseid="";
     //仓库名称
-    private String warehousename;
+    private String warehousename="";
     //单位 default:吨
-    private String unit;
+    private String unit="";
     //数量
-    private Double salessum;
+    private Double salessum=0d;
     //余量
-    private Double margin;
+    private Double margin=0d;
     //出库占用量
-    private Double storagequantity;
+    private Double storagequantity=0d;
     //未出库占用量
-    private Double unstoragequantity;
+    private Double unstoragequantity=0d;
     //预提占用
-    private Double pretendingtake;
+    private Double pretendingtake=0d;
     //含税单价
-    private  Double taxprice;
+    private  Double taxprice=0d;
     //不含税单价
-    private Double untaxprice;
+    private Double untaxprice=0d;
     //税率
-    private Double taxrate;
+    private Double taxrate=0d;
     //备注
-    private String remarks;
+    private String remarks="";
     //TODO为出库数量 折扣额  发货仓库
     //为出库占用 预提占用 余量
     

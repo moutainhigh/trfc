@@ -6,37 +6,37 @@ public class AppPoundOrderResp extends BaseResp{
 
 	private static final long serialVersionUID = 4409597097855350344L;
     //登录用户id
-	private String userId;
+	private String userId="";
 	//磅单id
-	private String id;
+	private String id="";
 	//磅单编号 
-	private String code;
+	private String code="";
 	//订单编号
-	private String billcode;
+	private String billcode="";
 	//通知单号
-	private String noticecode;
+	private String noticecode="";
 	//物料
-	private String materielname;
+	private String materielname="";
 	//客户/供应商
-	private String customerName ;
+	private String customerName="" ;
 	//车号
-	private String vehicleno;
+	private String vehicleno="";
 	//轻车时间
-	private String lighttime;
+	private String lighttime="";
 	//重车时间
-	private String weighttime;
+	private String weighttime="";
 	//预提量
-	private Double pickupquantity;
+	private Double pickupquantity=0d;
 	//毛重
-	private Double grossweight;
+	private Double grossweight=0d;
 	//皮重
-	private Double tareweight;
+	private Double tareweight=0d;
 	//净重
-	private Double netweight;
+	private Double netweight=0d;
 	//出厂编号
-	private String serialnumber;
+	private String serialnumber="";
 	//销售组织
-	private String orgname;
+	private String orgname="";
 	/**
 	 * @return the userId
 	 */
