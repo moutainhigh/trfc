@@ -79,6 +79,7 @@ public class PrimarySettingAction {
 		return result;
 	}
 	
+	
 	@RequestMapping("add")
 	@ResponseBody
 	public Result add(PrimarySettingSave save, HttpServletRequest request){
@@ -122,6 +123,11 @@ public class PrimarySettingAction {
 		return result;
 	}
 	
+	/**
+	 * 
+	 * @param id
+	 * @return
+	 */
 	@RequestMapping("delete")
 	@ResponseBody
 	public Result delete(String id){

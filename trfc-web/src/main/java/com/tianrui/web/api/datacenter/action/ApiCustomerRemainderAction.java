@@ -25,7 +25,7 @@ import com.tianrui.web.smvc.ApiParamRawType;
  * @createtime 2017年1月18日 上午8:45:30
  */
 @Controller
-@RequestMapping("api/dc/customer")
+@RequestMapping("api/dc/customerRemainder")
 public class ApiCustomerRemainderAction {
 	private Logger log = LoggerFactory.getLogger(ApiCustomerRemainderAction.class);
 //	@Autowired
