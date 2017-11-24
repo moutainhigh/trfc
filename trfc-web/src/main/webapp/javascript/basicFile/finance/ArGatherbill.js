@@ -219,8 +219,11 @@
 					if (charge.localMoney != null) {
 						localMoney = parseFloat(charge.localMoney).toFixed(2);
 					}
-					var tr=$('<tr><td>'+((pageNo-1)*pageSize+i+1)+'</td><td>'+charge.billno+'</td><td id="if_audit'+i+'">'+status+'</td><td>'+
-							billdate+'</td><td>'+charge.customerName+'</td><td>'+money+'</td><td>'+
+					var customerName = charge.customerName;
+					
+					
+					var tr=$('<tr><td>'+((pageNo-1)*pageSize+i+1)+'</td><td>'+charge.billno+'</td><td>'+
+							billdate+'</td><td>'+customerName+'</td><td>'+money+'</td><td>'+
 							localMoney+'</td><td>'+charge.saleOrgName+'</td><td>'+
 							approver+'</td><td>'+approvedated+'</td><td>'+charge.billmaker+'</td>');
 					tbody.append(tr);
