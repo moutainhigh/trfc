@@ -2,6 +2,7 @@ package com.tianrui.service.mapper.basicFile.finance;
 
 import java.util.List;
 
+import com.tianrui.api.req.basicFile.finance.ArGatherbillQuery;
 import com.tianrui.service.bean.basicFile.finance.ArGatherbill;
 
 public interface ArGatherbillMapper {
@@ -22,4 +23,8 @@ public interface ArGatherbillMapper {
     List<String> selectIds();
     
     String findMaxUtc();
+    Long findpagecountArGatherbill(ArGatherbillQuery query);
+    List<ArGatherbill> findpageArGatherbill(ArGatherbillQuery query);
+    
+    
 }

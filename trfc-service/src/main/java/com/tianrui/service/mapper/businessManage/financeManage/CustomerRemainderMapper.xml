@@ -49,6 +49,24 @@
       #{modifytime,jdbcType=BIGINT}, #{remark,jdbcType=VARCHAR}, #{utc,jdbcType=BIGINT}, 
       #{corigcurrencyName,jdbcType=VARCHAR}, #{customerCode,jdbcType=VARCHAR})
   </insert>
+  <insert id="insertBatch" parameterType="java.util.List" >
+    insert into tr_finance_db_customer_remainder (id, org_name, org_id, 
+      customer_name, customer_id, nlimitmny, 
+      nengrossmny, nbalancemny, corigcurrencyid, 
+      creator, createtime, modifier, 
+      modifytime, remark, utc, 
+      corigcurrency_name, customer_code)
+    values 
+	    <foreach collection="list" item="item" index="index" separator=",">
+		    ( #{item.id,jdbcType=VARCHAR}, #{item.orgName,jdbcType=VARCHAR}, #{item.orgId,jdbcType=VARCHAR}, 
+		      #{item.customerName,jdbcType=VARCHAR}, #{item.customerId,jdbcType=VARCHAR}, #{item.nlimitmny,jdbcType=DOUBLE}, 
+		      #{item.nengrossmny,jdbcType=DOUBLE}, #{item.nbalancemny,jdbcType=DOUBLE}, #{item.corigcurrencyid,jdbcType=VARCHAR}, 
+		      #{item.creator,jdbcType=VARCHAR}, #{item.createtime,jdbcType=BIGINT}, #{item.modifier,jdbcType=VARCHAR}, 
+		      #{item.modifytime,jdbcType=BIGINT}, #{item.remark,jdbcType=VARCHAR}, #{item.utc,jdbcType=BIGINT}, 
+		      #{item.corigcurrencyName,jdbcType=VARCHAR}, #{item.customerCode,jdbcType=VARCHAR}
+		    )
+	    </foreach>
+  </insert>
   <insert id="insertSelective" parameterType="com.tianrui.service.bean.businessManage.financeManage.CustomerRemainder" >
     insert into tr_finance_db_customer_remainder
     <trim prefix="(" suffix=")" suffixOverrides="," >
@@ -231,5 +249,17 @@
       corigcurrency_name = #{corigcurrencyName,jdbcType=VARCHAR},
       customer_code = #{customerCode,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
-  </update>
+  </update>  
+  <select id="findMaxUtc" resultType="String">
+  	select 
+  		max(utc) 
+  	from 
+  		tr_finance_db_customer_remainder;
+  </select>
+  <select id="queryIds" resultType="String">
+    select 
+    	id 
+   	from 
+   		tr_finance_db_customer_remainder;
+  </select>
 </mapper>

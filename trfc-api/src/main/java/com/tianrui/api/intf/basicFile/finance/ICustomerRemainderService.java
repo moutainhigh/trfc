@@ -4,27 +4,24 @@ import java.util.List;
 
 import com.alibaba.fastjson.JSONObject;
 import com.tianrui.api.req.BaseReq;
-
 import com.tianrui.smartfactory.common.vo.Result;
-/**
- * 销售收款service接口
- * @author lenovo
- *
- */
-public interface IArRecbillService {
+
+public interface ICustomerRemainderService {
+
 	/**
 	 * 获取最大时间戳
-	 * @param query
-	 * @return
-	 * @throws Exception
+	 * xcy 
+	 * @return Result
+	 * @date 2017年11月24日
 	 */
-	Result findMaxUtc(BaseReq query) throws Exception;
+	Result findMaxUtc(BaseReq baseReq);
+
 	/**
-	 * 把数据中心的最新数据更新到本地
-	 * @param list
-	 * @return
+	 * 批量更新保存
+	 * xcy 
+	 * @return Result
+	 * @date 2017年11月24日
 	 */
 	Result updateDataWithDC(List<JSONObject> list);
-	
-	
+
 }

@@ -5,22 +5,28 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.annotation.Resource;
+
+import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.collections.CollectionUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.alibaba.fastjson.JSONObject;
 import com.tianrui.api.intf.basicFile.finance.IArGatherbillService;
 import com.tianrui.api.req.BaseReq;
+import com.tianrui.api.req.basicFile.finance.ArGatherbillQuery;
+import com.tianrui.api.req.basicFile.finance.ArGatherbillSave;
+import com.tianrui.api.resp.basicFile.finance.ArGatherbillResp;
 import com.tianrui.service.bean.basicFile.finance.ArGatherbill;
 import com.tianrui.service.mapper.basicFile.finance.ArGatherbillMapper;
 import com.tianrui.smartfactory.common.constants.ErrorCode;
+import com.tianrui.smartfactory.common.vo.PaginationVO;
 import com.tianrui.smartfactory.common.vo.Result;
 
 @Service
 public class ArGatherbillService implements IArGatherbillService {
 	
-	@Autowired
+	@Resource
 	ArGatherbillMapper  arGatherbillMapper;
 	
 	
@@ -112,6 +118,73 @@ public class ArGatherbillService implements IArGatherbillService {
 		item.setCreateTime(System.currentTimeMillis());
 
 		return item;
+	}
+
+	@Override
+	public Result page(ArGatherbillQuery query) throws Exception {
+		// TODO Auto-generated method stub
+		//返回错误信息
+		Result result = Result.getParamErrorResult();
+		if (query!=null) {
+			PaginationVO<ArGatherbillResp> page = new PaginationVO<ArGatherbillResp>();
+			Long count = arGatherbillMapper.findpagecountArGatherbill(query);
+			if (count>0) {
+				query.setStart((query.getPageNo()-1)*query.getPageSize());
+				query.setLimit(query.getPageSize());
+				List<ArGatherbill> list = arGatherbillMapper.findpageArGatherbill(query);
+				page.setList(copyBeanList2RespList(list));
+				page.setTotal(count);
+				page.setPageNo(query.getPageNo());
+				page.setPageSize(query.getPageSize());
+				//保存返回的数据信息
+				result.setData(page);
+				result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+ 			}else{
+ 				page.setTotal(count);
+				page.setPageNo(query.getPageNo());
+				page.setPageSize(query.getPageSize());
+				result.setData(page);
+			}
+		}
+		return result;
+	}
+	/**
+	 * 集合转换
+	 * @param list
+	 * @return
+	 * @throws Exception 
+	 */
+	private List<ArGatherbillResp> copyBeanList2RespList(List<ArGatherbill> list) throws Exception {
+		// TODO Auto-generated method stub
+		List<ArGatherbillResp> listResp = null;
+		if (list != null && list.size() >0) {
+			listResp = new ArrayList<ArGatherbillResp>();
+			for (ArGatherbill begin : list) {
+				listResp.add(copyBeanList2RespList(begin));
+			}
+		}
+		return listResp;
+	}
+	
+	/**
+	 * 实体bean类型转换
+	 * @param ArGatherbill bean
+	 * @return ArGatherbillResp
+	 * @throws Exception
+	 */
+	private ArGatherbillResp copyBeanList2RespList(ArGatherbill bean) throws Exception {
+		ArGatherbillResp resp = null;
+		if(bean != null){
+			resp = new ArGatherbillResp();
+			PropertyUtils.copyProperties(resp, bean);
+		}
+		return resp;
+	}
+
+	@Override
+	public Result save(ArGatherbillSave save) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 	

@@ -1,56 +1,57 @@
 package com.tianrui.service.bean.businessManage.financeManage;
 
 public class CustomerBegin {
+    //  主键id
     private String id;
-
+    //客户期初编号
     private String code;
-
+    //'审核状态 0-未审核，1-已审核'
     private String auditstatus;
-
+    //组织id
     private String orgid;
-
+    // 组织名称
     private String orgname;
-
+    // 客户id
     private String customerid;
-
+    // 客户名称
     private String customername;
-
+    // 收款方式
     private String paymentmethod;
-
+    // 付款人
     private String payer;
-
+    // 单据日期
     private String billdate;
-
+    // 金额
     private Double money;
-    
+    // 金额大写
     private String moneybig;
-
+    // 收款单位
     private String collectionunit;
-
+    // 制单人id
     private String makeid;
-
+    // 制单人名称
     private String makebillname;
-
+    // 制单日期
     private Long makebilltime;
-
+    // 审核人id
     private String auditid;
-
+    // 审核人名称
     private String auditname;
-
+    // 审核日期
     private Long audittime;
-
+    // 状态（0：删除，1：正常）
     private String state;
-
+    // 创建人
     private String creator;
-
+    // 创建日期
     private Long createtime;
-
+    // 客户名称
     private String modifier;
-
+    // 客户名称
     private Long modifytime;
-
+    // 客户名称
     private String remark;
-
+    // 客户名称
     private Long utc;
 
     public String getId() {

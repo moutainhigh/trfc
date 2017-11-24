@@ -41,6 +41,61 @@
     from tr_ar_gatherbill
     where id = #{id,jdbcType=VARCHAR}
   </select>
+  <select id="findpagecountArGatherbill" parameterType="com.tianrui.api.req.basicFile.finance.ArGatherbillQuery" resultType="long">
+  	select count(0) from tr_ar_gatherbill
+  	<where>
+  		<if test="billno != null and billno != ''">
+  			and billno = #{billno,jdbcType=VARCHAR}
+  		</if>
+  		<if test="approvestatus != null and approvestatus != ''">
+  			and approvestatus = #{approvestatus,jdbcType=VARCHAR}
+  		</if>
+  		<if test="customerName != null and customerName != ''">
+  			and customer_name = #{customerName,jdbcType=VARCHAR}
+  		</if>
+  		<if test="saleOrgName != null and saleOrgName != ''">
+  			and sale_org_name = #{saleOrgName,jdbcType=VARCHAR}
+  		</if>
+  		<if test="starttime != null and starttime != ''">
+  			and billdate <![CDATA[>=]]> #{starttime,jdbcType=BIGINT}
+  		</if>
+  		<if test="endtime != null and endtime != ''">
+  			and billdate <![CDATA[<]]> #{endtime,jdbcType=BIGINT}
+  		</if>
+  	</where>
+  </select>
+   <select id="findpageArGatherbill" parameterType="com.tianrui.api.req.basicFile.finance.ArGatherbillQuery" resultMap="BaseResultMap">
+  	select 
+  	<include refid="Base_Column_List" />
+  	from tr_ar_gatherbill
+  	<where>
+  		<if test="billno != null and billno != ''">
+  			and billno = #{billno,jdbcType=VARCHAR}
+  		</if>
+  		<if test="approvestatus != null and approvestatus != ''">
+  			and approvestatus = #{approvestatus,jdbcType=VARCHAR}
+  		</if>
+  		<if test="customerName != null and customerName != ''">
+  			and customer_name = #{customerName,jdbcType=VARCHAR}
+  		</if>
+  		<if test="saleOrgName != null and saleOrgName != ''">
+  			and sale_org_name = #{saleOrgName,jdbcType=VARCHAR}
+  		</if>
+  		<if test="starttime != null and starttime != ''">
+  			and billdate <![CDATA[>=]]> #{starttime,jdbcType=BIGINT}
+  		</if>
+  		<if test="endtime != null and endtime != ''">
+  			and billdate <![CDATA[<]]> #{endtime,jdbcType=BIGINT}
+  		</if>
+  	</where>
+  		order by approvedated desc
+  		
+  		<if test="start != null and start >= 0">
+	  		<if test="limit != null">
+				limit #{start,jdbcType=INTEGER},#{limit,jdbcType=INTEGER}
+	  		</if>
+	  	</if>
+  </select>
   <select id="findMaxUtc" resultType="String"  >
     select 
    		max(ts)
