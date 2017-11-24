@@ -16,91 +16,91 @@ public class SalesArriveResp extends BaseResp {
 	
 	private static final long serialVersionUID = 4625515863613381387L;
 	//主键id
-	private String id;
+	private String id="";
 	//提货单号
-    private String code;
+    private String code="";
     //审核状态
-    private String auditstatus;
+    private String auditstatus="";
     //来源
-    private String source;
+    private String source="";
     //状态：（0：未入厂，1：一次过磅，2：二次过磅，3：作废，4：发卡，5：出厂，6：入厂，7：装车）
-    private String status;
+    private String status="";
     //车辆id
-    private String vehicleid;
+    private String vehicleid="";
     //车牌号
-    private String vehicleno;
+    private String vehicleno="";
     //RFID
-    private String vehiclerfid;
+    private String vehiclerfid="";
     //司机id
-    private String driverid;
+    private String driverid="";
     //司机名称
-    private String drivername;
+    private String drivername="";
     //司机身份证号
-    private String driveridentityno;
+    private String driveridentityno="";
     //销售订单id
-    private String billid;
+    private String billid="";
     //销售订单编号
-    private String billcode;
+    private String billcode="";
     //销售订单详情id
-    private String billdetailid;
+    private String billdetailid="";
     //作废/强制出厂人
-    private String abnormalperson;
+    private String abnormalperson="";
     //作废/强制出厂人名称
-    private String abnormalpersonname;
+    private String abnormalpersonname="";
     //作废/强制出厂时间
-    private Long abnormaltime;
+    private Long abnormaltime=0l;
     //作废/强制出厂时间Str
-	private String abnormaltimeStr;
+	private String abnormaltimeStr="";
 	//单位
-    private String unit;
+    private String unit="";
     //提货量
-    private Double takeamount;
+    private Double takeamount=0d;
     //实际提货量
-    private Double actualtakeamount;
+    private Double actualtakeamount=0d;
     //喷码
-    private String spraycode;
+    private String spraycode="";
     //出厂编号
-    private String serialnumber;
+    private String serialnumber="";
     //IC卡id
-    private String icardid;
+    private String icardid="";
     //卡序号
-    private String icardno;
+    private String icardno="";
     //数据状态：（0：删除，1：正常）
-    private String state;
+    private String state="";
     //主单扣量（0：否，1：是）
-    private String maindeduction;
+    private String maindeduction="";
     //制单人id
-    private String makerid;
+    private String makerid="";
     //制单人名称
-    private String makebillname;
+    private String makebillname="";
     //制单时间
-    private Long makebilltime;
+    private Long makebilltime=0l;
     //制单时间Str
-    private String makebilltimeStr;
+    private String makebilltimeStr="";
     //备注
-    private String remarks;
+    private String remarks="";
     //创建人
-    private String creator;
+    private String creator="";
     //创建人名称
-    private String creatorname;
+    private String creatorname="";
     //创建时间
-    private Long createtime;
+    private Long createtime=0l;
     //创建时间Str
-    private String createtimeStr;
+    private String createtimeStr="";
     //最后修改人
-    private String modifier;
+    private String modifier="";
     //最后修改人名称
-    private String modifiername;
+    private String modifiername="";
     //最后修改时间
-    private Long modifytime;
+    private Long modifytime=0l;
     //最后修改时间Str
-    private String modifytimeStr;
+    private String modifytimeStr="";
     //开始装车
-    private Long startloadingtime;
+    private Long startloadingtime=0l;
     //结束装车
-    private Long endloadingtime;
+    private Long endloadingtime=0l;
     //铅封时间
-    private Long sealtime;
+    private Long sealtime=0l;
     //销售订单列表
     private List<SalesApplicationResp> listApplication;
     

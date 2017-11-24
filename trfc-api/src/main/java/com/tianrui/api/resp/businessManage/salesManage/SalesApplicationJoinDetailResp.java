@@ -7,104 +7,104 @@ public class SalesApplicationJoinDetailResp extends BaseResp {
 	
 	private static final long serialVersionUID = -2559538852082320742L;
 	//主键id
-    private String id;
+    private String id="";
     //订单编号
-    private String code;
+    private String code="";
     //订单状态
-    private String status;
+    private String status="";
     //来源
-    private String source;
+    private String source="";
     //订单类型id
-    private String billtypeid;
+    private String billtypeid="";
     //订单类型名称
-    private String billtypename;
+    private String billtypename="";
     //客户id
-    private String customerid;
+    private String customerid="";
     //客户名称
-    private String customername;
+    private String customername="";
     //区域码
-    private String channelcode;
+    private String channelcode="";
     //业务员id
-    private String salesmanid;
+    private String salesmanid="";
     //业务员名称
-    private String salesmanname;
+    private String salesmanname="";
     //订单日期
-    private Long billtime;
+    private Long billtime=0l;
     //订单日期Str
-    private String billtimeStr;
+    private String billtimeStr="";
     //组织id
-    private String orgid;
+    private String orgid="";
     //组织名称
-    private String orgname;
+    private String orgname="";
     //运输公司id
-    private String transportcompanyid;
+    private String transportcompanyid="";
     //运输公司名称
-    private String transportcompanyname;
+    private String transportcompanyname="";
     //部门id
-    private String departmentid;
+    private String departmentid="";
     //部门名称
-    private String departmentname;
+    private String departmentname="";
     //审核人id
-    private String auditid;
+    private String auditid="";
     //审核人姓名
-    private String auditname;
+    private String auditname="";
     //审核日期
-    private Long audittime;
+    private Long audittime=0l;
     //审核日期Str
-    private String audittimeStr;
+    private String audittimeStr="";
     //状态：（0：删除，1：正常）
-    private String state;
+    private String state="";
     //制单人id
-    private String makerid;
+    private String makerid="";
     //制单人名称
-    private String makebillname;
+    private String makebillname="";
     //制单时间
-    private Long makebilltime;
+    private Long makebilltime=0l;
     //制单日期Str
-    private String makebilltimeStr;
+    private String makebilltimeStr="";
     //备注
-    private String remarks;
+    private String remarks="";
     //创建人
-    private String creator;
+    private String creator="";
     //创建时间
-    private Long createtime;
+    private Long createtime=0l;
     //创建时间Str
-    private String createtimeStr;
+    private String createtimeStr="";
     //最后修改人
-    private String modifier;
+    private String modifier="";
     //最后修改时间
-    private Long modifytime;
+    private Long modifytime=0l;
     //最后修改时间Str
-    private String modifytimeStr;
+    private String modifytimeStr="";
     /**
      * 订单详情
      */
     //字表id
-    private String detailid;
+    private String detailid="";
     //物料名称
-    private String materielid;
+    private String materielid="";
     //物料名称
-    private String materielname;
+    private String materielname="";
     //包装类型
-    private String packagetype;
+    private String packagetype="";
     //订单数量
-    private Double salessum;
+    private Double salessum=0d;
     //单位
-    private String unit;
+    private String unit="";
     //单价
-    private Double taxprice;
+    private Double taxprice=0d;
 
     /**
      * 仓库物料数量统计
      */
     //余量
-    private Double margin;
+    private Double margin=0d;
     //入库占用量
-    private Double storagequantity;
+    private Double storagequantity=0d;
     //未入库占用量
-    private Double unstoragequantity;
+    private Double unstoragequantity=0d;
     //到货占用量
-    private Double pretendingtake;
+    private Double pretendingtake=0d;
     
 	public String getId() {
 		return id;

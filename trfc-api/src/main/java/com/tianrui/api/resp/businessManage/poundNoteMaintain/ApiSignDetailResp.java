@@ -22,35 +22,35 @@ public class ApiSignDetailResp extends BaseResp {
 
 	private static final long serialVersionUID = 2216553760770399508L;
 	//榜单号
-	private String poundNoteCode;
+	private String poundNoteCode="";
 	//通知单code
-    private String noticeCode;
+    private String noticeCode="";
     //物料
-    private String material;
+    private String material="";
     //供应商
-    private String supplier;
+    private String supplier="";
 	//毛重
-    private Double grossweight;
+    private Double grossweight=0d;
     //皮重
-    private Double tareweight;
+    private Double tareweight=0d;
     //净重
-    private Double netweight;
+    private Double netweight=0d;
     //原发净重
-    private Double originalnetweight;
+    private Double originalnetweight=0d;
 	//扣重
-    private Double deductionweight;
+    private Double deductionweight=0d;
 	//扣杂
-    private Double deductionother;
+    private Double deductionother=0d;
     //装卸员
-    private String signPersonName;
+    private String signPersonName="";
     //手持机号
-    private String signID;
+    private String signID="";
     //装卸时间
-    private String signTime;
+    private String signTime="";
     //仓库
-    private String warehouse;
+    private String warehouse="";
     //堆场
-    private String yard;
+    private String yard="";
     public String getPoundNoteCode() {
         return poundNoteCode;
     }
