@@ -87,7 +87,7 @@ public class SystemUserclientAction {
 	@ResponseBody
 	public Result selectAccountUser(SystemUserSaveReq req, HttpServletRequest request) throws Exception {
 		Result rs= Result.getErrorResult();
-		rs = systemUserService.selectAccountUser(req.getAccount());
+		rs = systemUserService.selectAccountUser(req.getMobilePhone());
 		return rs;
 		
 	}

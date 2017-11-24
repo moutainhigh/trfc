@@ -118,6 +118,7 @@ public class AccessRecordService implements IAccessRecordService {
 		if (CollectionUtils.isNotEmpty(listArrive)) {
 			for (AccessRecordResp resp : list) {
 				for (PurchaseArriveResp arriveResp : listArrive) {
+					//TODO 注释 +日志
 					if (StringUtils.equals(resp.getNoticeid(), arriveResp.getId())) {
 						resp.setVehicleno(arriveResp.getVehicleno());
 						resp.setMaterielname(arriveResp.getPurchaseApplicationDetailResp().getMaterielname());

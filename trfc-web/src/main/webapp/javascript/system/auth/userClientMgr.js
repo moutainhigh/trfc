@@ -233,6 +233,9 @@ $(function() {
 								+ (obj.account || '')
 								+ '</td>'
 								+ '<td>'
+								+ (obj.mobilePhone || '')
+								+ '</td>'
+								+ '<td>'
 								+ (obj.name || '')
 								+ '</td>'
 								+ '<td>'
@@ -275,6 +278,7 @@ $(function() {
 		$('#userId').val(obj.id);
 		$('#edit_code').val(obj.code);
 		$('#edit_account').val(obj.account);
+		$('#mobilePhone').val(obj.mobilePhone);
 		$('#edit_name').val(obj.name);
 		$('#edit_org').val(obj.orgName);
 		switch (obj.isvalid) {
@@ -352,15 +356,16 @@ $(function() {
 			});
 		});
 	}
-	$("input#edit_account").blur(function(){
-		var account =$('#edit_account').val();
-		if(!(/^1[34578]\d{9}$/.test(account))){ 
+	$("input#mobilePhone").blur(function(){
+		var mobilePhone =$('#mobilePhone').val();
+		mobilePhone = $.trim(mobilePhone);
+		if(!(/^1[34578]\d{9}$/.test(mobilePhone))){ 
 	        alert("手机号码有误，请重填");  
 	        return false; 
 	    }else{
 	    	$.ajax({
 				url : URL.selectAccountUser,
-				data : {"account":account},
+				data : {"mobilePhone":mobilePhone},
 				async : false,
 				cache : false,
 				dataType : 'json',
@@ -368,7 +373,7 @@ $(function() {
 				success : function(result) {
 					if (result.code != '000000') {
 						layer.msg(result.error);
-						$('#edit_account').val("");
+						$('#mobilePhone').val("");
 						return;
 					}
 				}
@@ -382,12 +387,15 @@ $(function() {
 		password = $.trim(password);
 		var remark = $('#edit_remark').val();
 		var account =$('#edit_account').val();
+		var mobilePhone =$('#mobilePhone').val();
+		mobilePhone = $.trim(mobilePhone);
 		remark = $.trim(remark);
 		var isvalid = Number($('#edit_isvalid')[0].checked);
 		return {
 			id : id,
 			password : password,
 			account:account,
+			mobilePhone:mobilePhone,
 			remark : remark,
 			isvalid : isvalid
 		}

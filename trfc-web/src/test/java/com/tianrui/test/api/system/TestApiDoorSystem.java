@@ -17,8 +17,8 @@ import com.tianrui.smartfactory.common.utils.Md5Utils;
 @SuppressWarnings("unused")
 public class TestApiDoorSystem {
 
-	private static String domin = "http://localhost/";
-	//private static String domin = "http://172.19.4.97:28080/";
+	//private static String domin = "http://localhost/";
+	private static String domin = "http://172.19.4.97:28080/";
 	private static String uri_enterFactoryCheck = "api/doorSystem/enterFactoryCheck";
 	
 	public static void main(String[] args) throws Exception {
@@ -54,7 +54,7 @@ public class TestApiDoorSystem {
 		
 		VehicleCheckApi req =new VehicleCheckApi();
 		req.setRfid("E2000016130B0231219034B7");
-		req.setVehicleNo("豫D63673");
+		req.setVehicleNo("豫22");
 		
 		Head head =new Head();
 		head.setCallSource("1");

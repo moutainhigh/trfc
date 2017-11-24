@@ -460,6 +460,6 @@
 		select
 		<include refid="Base_Column_List" />
 		from tr_system_user
-		where account = #{phone,jdbcType=VARCHAR}
+		where mobilePhone = #{phone,jdbcType=VARCHAR}
 	</select>
 </mapper>
