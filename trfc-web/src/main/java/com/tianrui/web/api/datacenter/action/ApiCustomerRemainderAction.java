@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSONObject;
-import com.tianrui.api.req.basicFile.nc.CustomerManageQuery;
-import com.tianrui.service.impl.basicFile.nc.CustomerManageService;
+import com.tianrui.api.intf.basicFile.finance.ICustomerRemainderService;
+import com.tianrui.api.req.BaseReq;
 import com.tianrui.smartfactory.common.api.ApiParam;
 import com.tianrui.smartfactory.common.api.ApiResult;
 import com.tianrui.smartfactory.common.constants.ErrorCode;
@@ -20,49 +20,53 @@ import com.tianrui.smartfactory.common.vo.Result;
 import com.tianrui.web.smvc.ApiParamRawType;
 
 /**
- * 客户对接数据中心
- * @author Yangzhenfu
- * @createtime 2017年1月18日 上午8:45:30
+ * 余额对接数据中心
+ * @author xcy
+ * @date 2017年11月23日
  */
 @Controller
 @RequestMapping("api/dc/customer")
 public class ApiCustomerRemainderAction {
 	private Logger log = LoggerFactory.getLogger(ApiCustomerRemainderAction.class);
-//	@Autowired
-//	CustomerManageService customerService;
+	
+	@Autowired
+	private ICustomerRemainderService icustomerRemainderService;
 	
 	/**
 	 * 获取最大时间戳
-	 * @param req
-	 * @return
+	 * xcy 
+	 * @return ApiResult
+	 * @date 2017年11月23日
 	 */
 	@RequestMapping(value="/getLastUTC",method=RequestMethod.POST)
-	@ApiParamRawType(CustomerManageQuery.class)
+	@ApiParamRawType(BaseReq.class)
 	@ResponseBody
-	public ApiResult getLastUTC(ApiParam<CustomerManageQuery> req){
+	public ApiResult getLastUTC(ApiParam<BaseReq> req){
 		Result rs=Result.getErrorResult();
-//		try {
-//			rs = customerService.findMaxUtc(null);
-//		} catch (Exception e) {
-//			rs.setErrorCode(ErrorCode.SYSTEM_ERROR);
-//			log.error(e.getMessage(),e);
-//		}
+		BaseReq baseReq =req.getBody();
+		try {
+			rs = icustomerRemainderService.findMaxUtc(baseReq);
+		} catch (Exception e) {
+			rs.setErrorCode(ErrorCode.SYSTEM_ERROR);
+			log.error(e.getMessage(),e);
+		}
 		return ApiResult.valueOf(rs);
 	}
 	
 	/**
 	 * 批量更新数据
-	 * @param req
-	 * @return
+	 * xcy 
+	 * @return ApiResult
+	 * @date 2017年11月23日
 	 */
 	@RequestMapping(value="/updateData",method=RequestMethod.POST)
 	@ApiParamRawType(List.class)
 	@ResponseBody
 	public ApiResult updateData(ApiParam<List<JSONObject>> req){
 		Result rs=Result.getErrorResult();
-
 		List<JSONObject> list=req.getBody();
 		try {
+			rs = icustomerRemainderService.updateDataWithDC(list);
 		} catch (Exception e) {
 			rs.setErrorCode(ErrorCode.SYSTEM_ERROR);
 			log.error(e.getMessage(),e);
