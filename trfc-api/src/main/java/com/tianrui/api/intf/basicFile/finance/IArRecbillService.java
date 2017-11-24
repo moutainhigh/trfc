@@ -4,7 +4,13 @@ import java.util.List;
 
 import com.alibaba.fastjson.JSONObject;
 import com.tianrui.api.req.BaseReq;
+
 import com.tianrui.smartfactory.common.vo.Result;
+/**
+ * 销售收款service接口
+ * @author lenovo
+ *
+ */
 public interface IArRecbillService {
 	/**
 	 * 获取最大时间戳
@@ -19,4 +25,6 @@ public interface IArRecbillService {
 	 * @return
 	 */
 	Result updateDataWithDC(List<JSONObject> list);
+	
+	
 }

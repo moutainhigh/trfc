@@ -4,6 +4,8 @@ import java.util.List;
 
 import com.alibaba.fastjson.JSONObject;
 import com.tianrui.api.req.BaseReq;
+import com.tianrui.api.req.basicFile.finance.ArGatherbillQuery;
+import com.tianrui.api.req.basicFile.finance.ArGatherbillSave;
 import com.tianrui.smartfactory.common.vo.Result;
 public interface IArGatherbillService {
 	/**
@@ -19,5 +21,6 @@ public interface IArGatherbillService {
 	 * @return
 	 */
 	Result updateDataWithDC(List<JSONObject> list);
-
+	Result page(ArGatherbillQuery query) throws Exception;
+	Result save(ArGatherbillSave save) throws Exception;
 }
