@@ -185,11 +185,11 @@ label.layui-form-label {
 								<span>刷新</span>
 							</a>
 						</div>
-						<div class="intel_operasolo" id="addButton">
+						<!-- <div class="intel_operasolo" id="addButton">
 							<a class="addButton"> <i class="iconfont coloradd">&#xe627;</i>
 								<span>新增</span>
 							</a>
-						</div>
+						</div> -->
 					</div>
 					<div class="intel_table">
 						<!--用户表格begin-->
@@ -199,6 +199,7 @@ label.layui-form-label {
 									<th>序号</th>
 									<th>用户编号</th>
 									<th>登录账号</th>
+									<th>手机号码</th>
 									<th>用户名称</th>
 									<!-- <th>所属组织</th> -->
 									<th>有效</th>
@@ -381,7 +382,7 @@ label.layui-form-label {
 							</div>
 							<div class="alt_edit_div">
 								<label>登录账户：</label> <input type="text" class="formele"
-									name="account" maxlength="20">
+									name="account" maxlength="20" >
 							</div>
 							<div class="alt_edit_div">
 								<label>用户名称：</label> <input type="text" class="formele"
@@ -428,7 +429,7 @@ label.layui-form-label {
 							<span aria-hidden="true">&times;</span>
 						</button>
 						<div class="alt_head">
-							<h5>用户信息-新增</h5>
+							<h5>用户信息-修改</h5>
 						</div>
 					</div>
 					<div class="modal-body">
@@ -439,8 +440,10 @@ label.layui-form-label {
 									readonly="true">
 							</div>
 							<div class="alt_edit_div">
-								<label>登录账户：</label> <input type="text" id="edit_account"
-									readonly="true">
+								<label>登录账户：</label> <input type="text" id="edit_account">
+							</div>
+							<div class="alt_edit_div">
+								<label>手机号码：</label> <input type="text" id="mobilePhone" onblur="ha()">
 							</div>
 							<div class="alt_edit_div">
 								<label>用户名称：</label> <input type="text" id="edit_name"

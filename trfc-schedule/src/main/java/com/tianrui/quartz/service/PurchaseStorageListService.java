@@ -13,7 +13,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.tianrui.api.intf.businessManage.purchaseManage.IPushSingleService;
 import com.tianrui.api.intf.system.auth.ISystemUserService;
+import com.tianrui.api.req.businessManage.purchaseManage.PushSingleReq;
 import com.tianrui.api.resp.system.auth.SystemUserResp;
 import com.tianrui.quartz.common.ApiParamUtils;
 import com.tianrui.quartz.common.HttpUtils;
@@ -28,6 +30,7 @@ import com.tianrui.service.mapper.system.auth.SmUserMapper;
 import com.tianrui.smartfactory.common.api.ApiResult;
 import com.tianrui.smartfactory.common.constants.Constant;
 import com.tianrui.smartfactory.common.constants.ErrorCode;
+import com.tianrui.smartfactory.common.utils.UUIDUtil;
 
 /**
  * 厂区到数据中心采购入库单数据同步接口
@@ -50,6 +53,8 @@ public class PurchaseStorageListService implements IPurchaseStorageListService {
 	private ISystemUserService systemUserService;
 	@Autowired
 	private SmUserMapper smUserMapper;
+	@Autowired
+	private IPushSingleService pushSingleService;
 
 	/**
 	 * 获取采购入库单数据
@@ -107,25 +112,41 @@ public class PurchaseStorageListService implements IPurchaseStorageListService {
 				// 调用dc 接口成功 则推单状态为推单中 榜单展示为推单中
 				ApiResult apiResult = HttpUtils.post(ApiParamUtils.getApiParam(subList),
 				        Constant.URL_DOMAIN + Constant.URL_RETURN_PURCHASESTORAGEATION);
+				PoundNote pn = poundNoteMapper.selectByPrimaryKey(order.getPoundId());
+				PushSingleReq ps = new PushSingleReq();
+				ps.setId(UUIDUtil.getId());
+				ps.setRequisitionNum(pn.getBillcode());
+				ps.setNoticeNum(pn.getNoticecode());
+				ps.setRequisitionType(Constant.ONE_STRING);
+				ps.setLightCarTime(pn.getLighttime());
+				ps.setHeavyCarTime(pn.getWeighttime());
+				ps.setNetWeight(pn.getNetweight().toString());
+				ps.setCreatetime(System.currentTimeMillis());
+				ps.setModifytime(System.currentTimeMillis());
 				if (apiResult != null && StringUtils.equals(apiResult.getCode(), Constant.SUCCESS)) {
 					order.setStatus(Constant.PUSH_STATUS_ING);
 					if (purchaseStorageListMapper.updateByPrimaryKeySelective(order) > 0) {
-						PoundNote pn = new PoundNote();
 						pn.setId(order.getPoundId());
 						pn.setReturnstatus(Constant.POUND_PUSH_STATUS_ING);
 						poundNoteMapper.updateByPrimaryKeySelective(pn);
 						Logger.info("操作成功!");
 					} else {
 						Logger.info(ErrorCode.OPERATE_ERROR.getMsg());
+						ps.setPushStatus(Constant.THREE_STRING);
 					}
+					ps.setReasonFailure(apiResult.getError());
+					ps.setDesc1(apiResult.getCode());
 				} else {
 					Logger.error(apiResult.getError());
+					ps.setPushStatus(Constant.THREE_STRING);
+					ps.setReasonFailure("FC-DC到货单推单失败，连接超时。");
+					ps.setDesc1("-1");
 				}
+				pushSingleService.savePushSingle(ps);
 				subList.clear();
 			}
 			Logger.info("同步完成!");
 		}
-
 	}
 
 	private List<SmUser> getSmUser(String id) throws Exception {

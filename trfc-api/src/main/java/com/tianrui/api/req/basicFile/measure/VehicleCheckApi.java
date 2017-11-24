@@ -6,8 +6,9 @@ public class VehicleCheckApi extends BaseReq {
 
 	private static final long serialVersionUID = 2171660010873631914L;
 
-
+	//车牌号
 	private String vehicleNo;
+	//rfid标识
 	private String rfid;
 	
 	private String currUid;

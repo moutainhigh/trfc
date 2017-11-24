@@ -74,7 +74,7 @@
                     </div>
                     <div class="daohuo_add_solo">
                         <label class="colorred">*发货单位：</label>
-                        <input type="text" id="add_senddepartment" readonly="true">
+                        <input type="text" id="add_senddepartment" readonly="true" value="天瑞集团水泥有限公司（裕泰公司）">
                     </div>
                     <div class="daohuo_add_solo">
                         <label class="colorred">*车号：</label>

@@ -490,4 +490,23 @@ public class AppStaticAction_new {
 		return result;
 	}
 	
+	/**
+	 * 常用车辆和司机
+	 * @param req
+	 * @return
+	 */
+	@RequestMapping(value="/common/vcAndDr",method=RequestMethod.POST)
+	@ApiParamRawType(MyVehicleListParam.class)
+	@ResponseBody
+	public AppResult vcAndDr(ApiParam<MyVehicleListParam> param){
+		AppResult result = AppResult.getAppResult();
+		try {
+			result = appService.vcAndDr(param.getBody());
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
+		}
+		return result;
+	}
+	
 }

@@ -316,6 +316,8 @@
 				var weighttimeStr = obj.weighttimeStr || '';
 				var makebillname = obj.makebillname || '';
 				var makebilltimeStr = obj.makebilltimeStr || '';
+				var signTimeStr = obj.signTimeStr || '';
+				var signPersonName = obj.signPersonName || '';
 				$('<tr>').append('<td>'+(i+1)+'</td>')
 						.append('<td>'+code+'</td>')
 						.append('<td'+(obj.returnstatus == '0' ? ' class="colorred"' : '')+'>'+returnstatus+'</td>')
@@ -335,6 +337,8 @@
 						.append('<td>'+deductionother+'</td>')
 						.append('<td>'+lighttimeStr+'</td>')
 						.append('<td>'+weighttimeStr+'</td>')
+						.append('<td>'+signTimeStr+'</td>')
+						.append('<td>'+signPersonName+'</td>')
 						.append('<td>'+supplierremark+'</td>')
 						.append('<td>'+makebillname+'</td>')
 						.append('<td>'+makebilltimeStr+'</td>')

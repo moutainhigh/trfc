@@ -9,6 +9,7 @@ $(function() {
 		editUser : "/trfc/system/auth/userClient/editUser",
 		deleteUrl : "/trfc/system/auth/userClient/deleteUser",
 		selectRole : '/trfc/system/auth/rolePermissions/selectRole',
+		selectAccountUser : "/trfc/system/auth/userClient/selectAccountUser",
 		resetPwd : "/trfc/system/auth/userClient/resetPwd"
 	}
 	
@@ -232,6 +233,9 @@ $(function() {
 								+ (obj.account || '')
 								+ '</td>'
 								+ '<td>'
+								+ (obj.mobilePhone || '')
+								+ '</td>'
+								+ '<td>'
 								+ (obj.name || '')
 								+ '</td>'
 								+ '<td>'
@@ -274,6 +278,7 @@ $(function() {
 		$('#userId').val(obj.id);
 		$('#edit_code').val(obj.code);
 		$('#edit_account').val(obj.account);
+		$('#mobilePhone').val(obj.mobilePhone);
 		$('#edit_name').val(obj.name);
 		$('#edit_org').val(obj.orgName);
 		switch (obj.isvalid) {
@@ -351,17 +356,46 @@ $(function() {
 			});
 		});
 	}
+	$("input#mobilePhone").blur(function(){
+		var mobilePhone =$('#mobilePhone').val();
+		mobilePhone = $.trim(mobilePhone);
+		if(!(/^1[34578]\d{9}$/.test(mobilePhone))){ 
+	        alert("手机号码有误，请重填");  
+	        return false; 
+	    }else{
+	    	$.ajax({
+				url : URL.selectAccountUser,
+				data : {"mobilePhone":mobilePhone},
+				async : false,
+				cache : false,
+				dataType : 'json',
+				type : 'post',
+				success : function(result) {
+					if (result.code != '000000') {
+						layer.msg(result.error);
+						$('#mobilePhone').val("");
+						return;
+					}
+				}
+	    	});
+	    }
+	})
 	function getUpdateParams() {
 		var id = $('#userId').val();
 		id = $.trim(id);
 		var password = $('#edit_psd').val();
 		password = $.trim(password);
 		var remark = $('#edit_remark').val();
+		var account =$('#edit_account').val();
+		var mobilePhone =$('#mobilePhone').val();
+		mobilePhone = $.trim(mobilePhone);
 		remark = $.trim(remark);
 		var isvalid = Number($('#edit_isvalid')[0].checked);
 		return {
 			id : id,
 			password : password,
+			account:account,
+			mobilePhone:mobilePhone,
 			remark : remark,
 			isvalid : isvalid
 		}

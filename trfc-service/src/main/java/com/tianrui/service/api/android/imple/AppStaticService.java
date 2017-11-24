@@ -33,6 +33,7 @@ import com.tianrui.api.resp.android.MyPnListVo;
 import com.tianrui.api.resp.android.MyVehicleListVo;
 import com.tianrui.api.resp.android.NoticeListVo;
 import com.tianrui.api.resp.android.SearchListVo;
+import com.tianrui.api.resp.android.UserDriverVehicleVo;
 import com.tianrui.api.resp.android.UserDriverVo;
 import com.tianrui.api.resp.android.UserVehicleVo;
 import com.tianrui.api.resp.system.auth.SystemUserResp;
@@ -189,16 +190,16 @@ public class AppStaticService implements IAppStaticService {
 		String key = CacheHelper.buildKey(CacheModule.MEMBERLOGIN_APP, tokenId);
 		cacheClient.saveObject(key, resp, 7*24*60*60);
 		//整理登录结果对象
-		LoginUserVo appResp = new LoginUserVo();
-		appResp.setId(resp.getId());
-		appResp.setNcid(resp.getNcid());
-		appResp.setUserName(resp.getName());
-		appResp.setIDType(resp.getIdentityTypes());
-		appResp.setMobile(resp.getMobilePhone());
-		appResp.setToken(resp.getTokenId());
-		appResp.setOrgid(resp.getOrgid());
-		appResp.setOrgName(resp.getOrgName());
-		return appResp;
+		LoginUserVo vo = new LoginUserVo();
+		vo.setId(resp.getId());
+		vo.setNcid(resp.getNcid());
+		vo.setUserName(resp.getName());
+		vo.setIDType(resp.getIdentityTypes());
+		vo.setMobile(resp.getMobilePhone());
+		vo.setToken(resp.getTokenId());
+		vo.setOrgid(resp.getOrgid());
+		vo.setOrgName(resp.getOrgName());
+		return vo;
 	}
 
 	/**
@@ -1361,7 +1362,6 @@ public class AppStaticService implements IAppStaticService {
 	public AppResult userDriver(MyVehicleListParam param) {
 		AppResult result = AppResult.getAppResult();
 		if (param != null && StringUtils.isNotBlank(param.getUserId())) {
-			param.setStart(0);
 			List<SearchListVo> list = userDriverMapper.listUserDriver(param);
 			result.setData(list);
 			result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
@@ -1390,6 +1390,30 @@ public class AppStaticService implements IAppStaticService {
 			}else{
 				result.setErrorCode(ErrorCode.APP_VERSION_EXIST);
 			}
+		}
+		return result;
+	}
+
+	@Override
+	public AppResult vcAndDr(MyVehicleListParam param) {
+		AppResult result = AppResult.getAppResult();
+		if (param != null && StringUtils.isNotBlank(param.getUserId())) {
+			param.setPageSize(1);
+			List<SearchListVo> listVc = userVehicleMapper.listUserVehicle(param);
+			List<SearchListVo> listDr = userDriverMapper.listUserDriver(param);
+			UserDriverVehicleVo vo = new UserDriverVehicleVo();
+			if (CollectionUtils.isNotEmpty(listVc)) {
+				vo.setVehicleId(listVc.get(0).getId());
+				vo.setVehicleNo(listVc.get(0).getName());
+			}
+			if (CollectionUtils.isNotEmpty(listDr)) {
+				vo.setDriverId(listDr.get(0).getId());
+				vo.setDriverName(listDr.get(0).getName());
+			}
+			result.setData(vo);
+			result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+		} else {
+			result.setErrorCode(ErrorCode.PARAM_NULL_ERROR);
 		}
 		return result;
 	}

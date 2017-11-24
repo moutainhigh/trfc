@@ -206,9 +206,12 @@ public class SystemUserService implements ISystemUserService {
 			if ( db !=null ) {
 				//保存数据
 				SystemUser update =new SystemUser();
-				update.setId(UUIDUtil.getId());
+//				update.setId(UUIDUtil.getId());
+				update.setId(req.getId());
 				update.setPassword(Md5Utils.MD5(req.getPassword()));
 				update.setRemark(req.getRemark());
+				update.setAccount(req.getAccount());
+				update.setMobilePhone(req.getMobilePhone());
 				if (StringUtils.equals(req.getIsvalid(), BusinessConstants.USER_VALID_STR)) {
 					update.setIsvalid(BusinessConstants.USER_VALID_BYTE);
 				}else{
@@ -685,13 +688,18 @@ public class SystemUserService implements ISystemUserService {
                                 cumulativeLoginCount(list.get(0));
                                 SystemUserResp user = copySystemUserBean2Resp(list.get(0));
                                 Result menuListResult = systemRolePermissionsService.iphonRole(user.getId());
-								List<SystemRoleMenuResp> menuList = (List<SystemRoleMenuResp>) menuListResult.getData();
-                            	user.setMenuList(menuList);
-                                rs.setData(user);
-                                rs.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
-                                if (!StringUtils.equals(menuListResult.getCode(), ErrorCode.SYSTEM_SUCCESS.getCode())) {
+                                if(menuListResult.getCode().equals("000000")){
+                                	List<SystemRoleMenuResp> menuList = (List<SystemRoleMenuResp>) menuListResult.getData();
+                                	user.setMenuList(menuList);
+                                	rs.setData(user);
+                                	rs.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+                                }else{
+                                	rs.setCode(menuListResult.getCode());
                                 	rs.setError(menuListResult.getError());
                                 }
+//                                if (!StringUtils.equals(menuListResult.getCode(), ErrorCode.SYSTEM_SUCCESS.getCode())) {
+//                                	rs.setError(menuListResult.getError());
+//                                }
                             }else{
                                 rs.setErrorCode(ErrorCode.SYSTEM_USER_ERROR11);
                             }
@@ -743,6 +751,17 @@ public class SystemUserService implements ISystemUserService {
 			rs="排队";
 		}else if(StringUtils.equals(subSystemCode, "04") ){
 			rs="卡务";
+		}
+		return rs;
+	}
+
+	@Override
+	public Result selectAccountUser(String phone) throws Exception {
+		Result rs =Result.getSuccessResult();
+		List<SystemUser> list =userMapper.selectAccountUser(phone);
+		if(list!=null && !list.isEmpty()){
+			rs.setCode("111111");
+			rs.setError("手机号重复，请更换手机号！");
 		}
 		return rs;
 	}

@@ -182,6 +182,18 @@ public class PoundNoteResp extends BaseResp {
     private List<PurchaseApplicationResp> purchaseApplicationList;
     //订单详情
     private List<SalesApplicationResp> salesApplicationList;
+    //收货时间
+    private String signPersonName;
+    //收货人
+    private Long signTime; 
+    
+    private String signTimeStr;
+    
+    
+    
+	public String getSignTimeStr() {
+		return signTimeStr;
+	}
 	/**
 	 * @return the id
 	 */
@@ -1266,4 +1278,19 @@ public class PoundNoteResp extends BaseResp {
 		}
 		return new SalesApplicationResp();
 	}
+	public String getSignPersonName() {
+		return signPersonName;
+	}
+	public void setSignPersonName(String signPersonName) {
+		this.signPersonName = signPersonName;
+	}
+	public Long getSignTime() {
+		return signTime;
+	}
+	public void setSignTime(Long signTime) {
+		this.signTime = signTime;
+		this.signTimeStr = DateUtil.parse(signTime, "yyyy-MM-dd HH:mm:ss");
+	}
+	
+	
 }

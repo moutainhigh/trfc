@@ -253,8 +253,8 @@ public class SalesArriveService implements ISalesArriveService {
 						for(Map<String, String> item : list){
 							String billId = item.get("id");
 							String billDetailId = item.get("zId");
-							saveApplicationJoinNatice(bean, billId, billDetailId);
 							SalesApplicationDetail sad = salesApplicationDetailMapper.selectByPrimaryKey(billDetailId);
+							saveApplicationJoinNatice(bean, billId, billDetailId, sad);
 							double margin = sad.getMargin();
 							if (ytl > sad.getMargin()) {
 								sad.setPretendingtake(sad.getPretendingtake() + margin);
@@ -336,7 +336,7 @@ public class SalesArriveService implements ISalesArriveService {
 		return result;
 	}
 
-	private void saveApplicationJoinNatice(SalesArrive bean, String billId, String billDetailId) {
+	private void saveApplicationJoinNatice(SalesArrive bean, String billId, String billDetailId, SalesApplicationDetail sad) {
 		SalesApplicationJoinNatice join = new SalesApplicationJoinNatice();
 		join.setId(UUIDUtil.getId());
 		join.setBillid(billId);
@@ -348,6 +348,13 @@ public class SalesArriveService implements ISalesArriveService {
 		join.setCreatetime(System.currentTimeMillis());
 		join.setModifier(bean.getModifier());
 		join.setModifytime(System.currentTimeMillis());
+		//2017-11-22
+		//临时回退，计划重构取消记录量数据
+		join.setMargin(sad.getMargin());
+		join.setBillsum(sad.getSalessum());
+		join.setUnoutstoragequantity(sad.getUnstoragequantity());
+		join.setOutstoragequantity(sad.getStoragequantity());
+		join.setPretendingtake(sad.getPretendingtake());
 		salesApplicationJoinNaticeMapper.insertSelective(join);
 	}
 

@@ -5,6 +5,7 @@ import java.util.List;
 import com.tianrui.api.req.system.auth.SystemUserQueryReq;
 import com.tianrui.api.resp.system.auth.SystemRoleMenuResp;
 import com.tianrui.service.bean.system.auth.SystemRoleMenu;
+import com.tianrui.service.bean.system.auth.SystemUserRole;
 
 public interface SystemRoleMenuMapper {
     int deleteByPrimaryKey(String id);
@@ -30,6 +31,7 @@ public interface SystemRoleMenuMapper {
 
 	int insertBatch(List<SystemRoleMenu> list);
 	
-	List<SystemRoleMenuResp> iphoneRole(String id);
+	List<SystemRoleMenuResp> iphoneRole(List<SystemUserRole> lists);
+
 	List<SystemRoleMenuResp> subsystemRole(String id);
 }

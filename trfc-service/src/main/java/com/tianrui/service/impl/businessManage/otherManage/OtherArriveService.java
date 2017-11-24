@@ -7,6 +7,7 @@ import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.tianrui.api.intf.businessManage.otherManage.IOtherArriveService;
 import com.tianrui.api.intf.system.base.ISystemCodeService;
@@ -484,5 +485,39 @@ public class OtherArriveService implements IOtherArriveService {
         }
         return result;
     }
+
+	@Override
+	public Result goodsConfirm(OtherArriveReq req) throws Exception {
+		Result result = Result.getParamErrorResult();
+		//验证参数
+        if (req != null && StringUtils.isNotBlank(req.getId())) {
+        	//查询通知单
+            OtherArrive bean = otherArriveMapper.selectByPrimaryKey(req.getId());
+            if (bean != null ) {
+               //类型为入库通知单
+               if (StringUtils.equals(bean.getBusinesstype(), Constant.NOTICE_OF_QTRK)){
+            	   //状态为一次磅
+            	   if(StringUtils.equals(bean.getStatus(), Constant.ONE_STRING) ){
+            		   OtherArrive oa = new OtherArrive();
+                       oa.setId(bean.getId());
+                       oa.setStatus(Constant.SEVEN_STRING);
+                       oa.setModifier(req.getUserid());
+                       oa.setModifytime(System.currentTimeMillis());
+                       otherArriveMapper.updateByPrimaryKeySelective(oa);
+                       result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+            	   }else{
+            		   result.setErrorCode(ErrorCode.NOTICE_STATUS_ERROR);
+            	   }
+               }else{
+            	   result.setErrorCode(ErrorCode.NOTICE_NOT_EXIST2);
+               }
+            } else {
+                result.setErrorCode(ErrorCode.NOTICE_NOT_EXIST);
+            }
+        }
+        return result;
+	}
+    
+    
 
 }
