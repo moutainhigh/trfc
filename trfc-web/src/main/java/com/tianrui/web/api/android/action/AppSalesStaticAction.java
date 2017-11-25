@@ -52,27 +52,6 @@ public class AppSalesStaticAction {
 		}
 		return result;
 	}
-	/**
-	 * @annotation 客商APP一单一车下单
-	 * @param param
-	 * @return
-	 */
-	@RequestMapping(value="/saveBill",method=RequestMethod.POST)
-	@ApiParamRawType(BillSave.class)
-	@ResponseBody
-	public AppResult saveBill(ApiParam<BillSave> param){
-		AppResult result = AppResult.getAppResult();
-		try {
-			param.getBody().setUserId(param.getHead().getUserId());
-			param.getBody().setIDType(param.getHead().getIDType());
-			param.getBody().setSalesOrg(param.getHead().getSalesOrg());
-			result = appService.saveBill(param.getBody());
-		} catch (Exception e) {
-			log.error(e.getMessage(), e);
-			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
-		}
-		return result;
-	}
 	
 	@RequestMapping(value="/bill/list",method=RequestMethod.POST)
 	@ApiParamRawType(BillListParam.class)
@@ -100,6 +79,29 @@ public class AppSalesStaticAction {
 		try {
 			param.getBody().setIDType(param.getHead().getIDType());
 			result = appService.billDetail(param.getBody());
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
+		}
+		return result;
+	}
+	
+	/**
+	 * @annotation 客商APP一单一车下单
+	 * @param param
+	 * @return
+	 */
+	@RequestMapping(value="/saveBill",method=RequestMethod.POST)
+	@ApiParamRawType(BillSave.class)
+	@ResponseBody
+	public AppResult saveBill(ApiParam<BillSave> param){
+		AppResult result = AppResult.getAppResult();
+		try {
+			param.getBody().setUserId(param.getHead().getUserId());
+			param.getBody().setNcId(param.getHead().getNcId());
+			param.getBody().setIDType(param.getHead().getIDType());
+			param.getBody().setSalesOrg(param.getHead().getSalesOrg());
+			result = appService.saveBill(param.getBody());
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
@@ -212,6 +214,7 @@ public class AppSalesStaticAction {
 		}
 		return result;
 	}
+	
 	//未审核的通知单可以修改，一单一车不能修改
 	@RequestMapping(value="/notice/update",method=RequestMethod.POST)
 	@ApiParamRawType(NoticeSave.class)
@@ -229,7 +232,8 @@ public class AppSalesStaticAction {
 		}
 		return result;
 	}
-	//
+	
+	//一单一车的通知单不能作废
 	@RequestMapping(value="/notice/cancel",method=RequestMethod.POST)
 	@ApiParamRawType(NoticeListParam.class)
 	@ResponseBody
@@ -282,19 +286,19 @@ public class AppSalesStaticAction {
 		return result;
 	}
 	
-//	@RequestMapping(value="/my/pn/detail",method=RequestMethod.POST)
-//	@ApiParamRawType(MyPnListParam.class)
-//	@ResponseBody
-//	public AppResult myPnDetail(ApiParam<MyPnListParam> param){
-//		AppResult result = AppResult.getAppResult();
-//		try {
-//			result = appService.myPnDetail(param.getBody());
-//		} catch (Exception e) {
-//			log.error(e.getMessage(), e);
-//			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
-//		}
-//		return result;
-//	}
+	@RequestMapping(value="/my/pn/detail",method=RequestMethod.POST)
+	@ApiParamRawType(MyPnListParam.class)
+	@ResponseBody
+	public AppResult myPnDetail(ApiParam<MyPnListParam> param){
+		AppResult result = AppResult.getAppResult();
+		try {
+			result = appService.myPnDetail(param.getBody());
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
+		}
+		return result;
+	}
 
 	/**
 	 * 查询用户组成员
@@ -310,7 +314,7 @@ public class AppSalesStaticAction {
 			param.getBody().setUserId(param.getHead().getUserId());
 			param.getBody().setNcId(param.getHead().getNcId());
 			param.getBody().setIDType(param.getHead().getIDType());
-			result = appService.queryGroupUser(param.getBody());
+			result = appService.customerGroupUser(param.getBody());
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
@@ -318,26 +322,4 @@ public class AppSalesStaticAction {
 		return result;
 	}
 
-	/**
-	 * 切换用户
-	 * @param req
-	 * @return
-	 */
-	@RequestMapping(value="/user/cutover",method=RequestMethod.POST)
-	@ApiParamRawType(LoginUserParam.class)
-	@ResponseBody
-	public AppResult userCutover(ApiParam<LoginUserParam> param){
-		AppResult result = AppResult.getAppResult();
-		try {
-			param.getBody().setNcId(param.getHead().getNcId());
-			param.getBody().setIDType(param.getHead().getIDType());
-			param.getBody().setKey(param.getHead().getKey());
-			result = appService.userCutover(param.getBody());
-		} catch (Exception e) {
-			log.error(e.getMessage(), e);
-			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
-		}
-		return result;
-	}
-	
 }

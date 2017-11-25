@@ -52,4 +52,6 @@ public interface SalesApplicationMapper {
 	long appBillListCount(BillListParam param);
 	
 	BillListVo appBillDetail(BillListParam param);
+	
+	List<BillListVo> appMoreBillList(BillListParam param);
 }

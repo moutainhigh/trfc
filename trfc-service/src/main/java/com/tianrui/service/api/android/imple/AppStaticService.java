@@ -139,11 +139,6 @@ public class AppStaticService implements IAppStaticService {
 		if (param != null && StringUtils.isNotBlank(param.getAccount())
 				&& StringUtils.isNotBlank(param.getPwd())
 				&& StringUtils.isNotBlank(param.getIDType())) {
-			if (StringUtils.equals(param.getIDType(), Constant.ONE_STRING)) {
-				result.setCode("-1");
-				result.setMessage("待开发。");
-				return result;
-			}
 			SystemUser user = userMapper.getByAccount(param.getAccount(), param.getIDType());
 			if (user != null) {
 				if (StringUtils.equals(user.getPassword(), param.getPwd())) {
@@ -576,6 +571,7 @@ public class AppStaticService implements IAppStaticService {
 		systemCodeService.updateCodeItem(codeReq);
 	}
 
+	@Transactional
 	@Override
 	public AppResult billDelete(BillListParam param) {
 		AppResult result = AppResult.getAppResult();
@@ -609,6 +605,7 @@ public class AppStaticService implements IAppStaticService {
 		return result;
 	}
 
+	@Transactional
 	@Override
 	public AppResult saveNotice(NoticeSave param) throws Exception {
 		AppResult result = AppResult.getAppResult();
@@ -715,9 +712,9 @@ public class AppStaticService implements IAppStaticService {
 		pad.setMargin(pad.getMargin() - param.getNumber());
 		pad.setPretendingtake(pad.getPretendingtake() + param.getNumber());
 		purchaseApplicationDetailMapper.updateByPrimaryKeySelective(pad);
-		result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
 		updateCode("DH", param.getUserId());
 		saveUserVehicle(user.getId(), vehicle.getId());
+		result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
 		return result;
 	}
 	//熟车记录更新次数
@@ -887,6 +884,7 @@ public class AppStaticService implements IAppStaticService {
 		return result;
 	}
 
+	@Transactional
 	@Override
 	public AppResult noticeUpdate(NoticeSave param) throws Exception {
 		AppResult result = AppResult.getAppResult();
@@ -992,6 +990,7 @@ public class AppStaticService implements IAppStaticService {
 		return result;
 	}
 
+	@Transactional
 	@Override
 	public AppResult noticeCancel(NoticeListParam param) {
 		AppResult result = AppResult.getAppResult();
@@ -1213,7 +1212,7 @@ public class AppStaticService implements IAppStaticService {
 	public AppResult myPnDetail(MyPnListParam param) {
 		AppResult result = AppResult.getAppResult();
 		if (param != null && StringUtils.isNotBlank(param.getId())) {
-			result.setData(poundNoteMapper.appPnDetail(param));
+			result.setData(poundNoteMapper.appPnSupDetail(param));
 			result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
 		} else {
 			result.setErrorCode(ErrorCode.PARAM_NULL_ERROR);
@@ -1299,7 +1298,7 @@ public class AppStaticService implements IAppStaticService {
 				break;
 			//供应商				
 			case "2":
-				result = SupplierGroupUser(param);
+				result = supplierGroupUser(param);
 				break;
 			default:
 				result.setErrorCode(ErrorCode.SYSTEM_USER_ERROR14);
@@ -1311,7 +1310,7 @@ public class AppStaticService implements IAppStaticService {
 		return result;
 	}
 
-	private AppResult SupplierGroupUser(LoginUserParam param) {
+	private AppResult supplierGroupUser(LoginUserParam param) {
 		AppResult result = AppResult.getAppResult();
 		SupplierGroup supplierGroup = supplierGroupMapper.validateSupplier(param.getNcId());
 		if(supplierGroup != null){
@@ -1324,6 +1323,7 @@ public class AppStaticService implements IAppStaticService {
 		return result;
 	}
 
+	@Transactional
 	@Override
 	public AppResult userCutover(LoginUserParam param) throws Exception {
 		AppResult result = AppResult.getAppResult();

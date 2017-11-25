@@ -81,6 +81,8 @@ public class SalesApplication {
     private Integer billSource;
     //NC主键
     private String ncId;
+    //作废状态
+    private String validStatus;
 
     public String getId() {
         return id;
@@ -385,4 +387,13 @@ public class SalesApplication {
 	public void setNcId(String ncId) {
 		this.ncId = ncId;
 	}
+
+	public String getValidStatus() {
+		return validStatus;
+	}
+
+	public void setValidStatus(String validStatus) {
+		this.validStatus = validStatus;
+	}
+	
 }

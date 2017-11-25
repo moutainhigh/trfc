@@ -49,6 +49,7 @@ public class Constant {
     public static String URL_RETURN_SALESOUTBOUNDCATION = "/api/saleoutboundorder/orderReturn";
     public static String URL_RETURN_PURCHASESTORAGEATION = "/api/purchasestorage/orderReturn";
     public static String URL_PULL_FROM_DC = "/api/fileSync/pull";
+    public static String URL_SALESAPPLICATION_DELETE = "/api/saleOrder/cancelSaleOrder";
 
     // 用户身份类型
     // 客户

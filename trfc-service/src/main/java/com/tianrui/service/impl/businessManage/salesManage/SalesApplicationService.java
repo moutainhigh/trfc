@@ -593,6 +593,7 @@ public class SalesApplicationService implements ISalesApplicationService {
 		}
 		item.setNcId(jsonItem.getString("ncId"));
 		item.setBillSource(Constant.ZERO_NUMBER);
+		item.setValidStatus(Constant.ZERO_STRING);
 		return item;
 	}
 	private List<SalesApplicationDetail> converJson2ItemList(JSONObject jsonItem,String id){
