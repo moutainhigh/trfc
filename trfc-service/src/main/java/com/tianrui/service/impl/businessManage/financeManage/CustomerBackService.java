@@ -36,7 +36,9 @@ public class CustomerBackService implements ICustomerBackService {
 	private CustomerBackMapper customerBackMapper;
 	@Autowired
 	private ISystemCodeService systemCodeService;
-	
+	/**
+	 * 分页查询
+	 */
 	@Override
 	public Result page(CustomerBackQuery query) throws Exception {
 		Result result=Result.getParamErrorResult();

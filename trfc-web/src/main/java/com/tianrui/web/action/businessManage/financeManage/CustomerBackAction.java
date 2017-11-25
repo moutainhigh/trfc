@@ -52,7 +52,11 @@ public class CustomerBackAction {
 		return view;
 	}
 	
-	
+	/**
+	 * 客户退补分页查询action
+	 * @param query
+	 * @return
+	 */
 	@RequestMapping(value="/page",method=RequestMethod.POST)
 	@ResponseBody
 	public Result page(CustomerBackQuery query){
@@ -66,7 +70,11 @@ public class CustomerBackAction {
 		return result;
 	}
 	
-	
+	/**
+	 * 客户退补获取编号
+	 * @param request
+	 * @return
+	 */
 	@RequestMapping(value="/initAdd",method=RequestMethod.POST)
 	@ResponseBody
 	public Result initAdd(HttpServletRequest request){
@@ -88,7 +96,11 @@ public class CustomerBackAction {
 		}
 		return result;
 	}
-	
+	/**
+	 * 客户退补添加
+	 * @param save
+	 * @return
+	 */
 	@RequestMapping(value="/add",method=RequestMethod.POST)
 	@ResponseBody
 	public Result add(CustomerBackSave save){
@@ -101,7 +113,12 @@ public class CustomerBackAction {
 		}
 		return result;
 	}
-	
+	/**
+	 * 客户退补审核
+	 * @param query
+	 * @param request
+	 * @return
+	 */
 	@RequestMapping(value="/audit",method=RequestMethod.POST)
 	@ResponseBody
 	public Result audit(CustomerBackQuery query,HttpServletRequest request){
@@ -118,7 +135,11 @@ public class CustomerBackAction {
 		return result;
 	}
 	
-	
+	/**
+	 * 客户退补删除
+	 * @param query
+	 * @return
+	 */
 	@RequestMapping(value="/delete",method=RequestMethod.POST)
 	@ResponseBody
 	public Result delete(CustomerBackQuery query){

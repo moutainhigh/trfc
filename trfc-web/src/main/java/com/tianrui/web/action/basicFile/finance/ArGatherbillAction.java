@@ -3,7 +3,7 @@ package com.tianrui.web.action.basicFile.finance;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.ibatis.annotations.ResultMap;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.sun.tools.internal.ws.processor.model.Request;
+
 import com.tianrui.api.intf.basicFile.finance.IArGatherbillService;
 import com.tianrui.api.req.basicFile.finance.ArGatherbillQuery;
 import com.tianrui.api.resp.system.auth.SystemUserResp;
