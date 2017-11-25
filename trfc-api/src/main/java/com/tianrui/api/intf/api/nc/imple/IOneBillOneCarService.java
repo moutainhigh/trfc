@@ -1,12 +1,12 @@
 package com.tianrui.api.intf.api.nc.imple;
 
-import com.tianrui.api.req.basicFile.nc.oneBillOneCar;
+import com.tianrui.api.req.basicFile.nc.oneBillOneCarReq;
 import com.tianrui.smartfactory.common.vo.Result;
 
 public interface IOneBillOneCarService {
 
-	Result auditCallBack(oneBillOneCar req);
+	Result auditCallBack(oneBillOneCarReq req);
 
-	Result validCallBack(oneBillOneCar body);
+	Result validCallBack(oneBillOneCarReq body);
 }
 

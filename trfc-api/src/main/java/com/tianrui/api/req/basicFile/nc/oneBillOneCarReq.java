@@ -2,7 +2,7 @@ package com.tianrui.api.req.basicFile.nc;
 
 import com.tianrui.api.req.BaseReq;
 
-public class oneBillOneCar extends BaseReq {
+public class oneBillOneCarReq extends BaseReq {
 
 	private static final long serialVersionUID = 6271753428934507938L;
 	//订单ID

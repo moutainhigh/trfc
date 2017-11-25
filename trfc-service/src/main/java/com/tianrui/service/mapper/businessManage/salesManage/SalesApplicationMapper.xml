@@ -1068,7 +1068,7 @@
 	WHERE
 		t1.state = 1
 	AND t1.`status` = 1
-	AND t1.source = 0
+	<!-- AND t1.source = 0 -->
 	AND t1.valid_status = 0
 	AND t1.orgid = #{salesOrg, jdbcType=VARCHAR} 
 	AND t1.customerid = #{ncId, jdbcType=VARCHAR} 

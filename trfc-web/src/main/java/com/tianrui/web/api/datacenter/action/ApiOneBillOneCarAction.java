@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.tianrui.api.intf.api.nc.imple.IOneBillOneCarService;
-import com.tianrui.api.req.basicFile.nc.oneBillOneCar;
+import com.tianrui.api.req.basicFile.nc.oneBillOneCarReq;
 import com.tianrui.smartfactory.common.api.ApiParam;
 import com.tianrui.smartfactory.common.api.ApiResult;
 import com.tianrui.smartfactory.common.constants.ErrorCode;
@@ -35,9 +35,9 @@ public class ApiOneBillOneCarAction {
 	 * @return
 	 */
 	@RequestMapping(value="/audit",method=RequestMethod.POST)
-	@ApiParamRawType(oneBillOneCar.class)
+	@ApiParamRawType(oneBillOneCarReq.class)
 	@ResponseBody
-	public ApiResult auditCallBack(ApiParam<oneBillOneCar> req){
+	public ApiResult auditCallBack(ApiParam<oneBillOneCarReq> req){
 		Result rs = Result.getErrorResult();
 		try {
 			rs = oneBillOneCarService.auditCallBack(req.getBody());
@@ -53,9 +53,9 @@ public class ApiOneBillOneCarAction {
 	 * @return
 	 */
 	@RequestMapping(value="/validCallBack",method=RequestMethod.POST)
-	@ApiParamRawType(oneBillOneCar.class)
+	@ApiParamRawType(oneBillOneCarReq.class)
 	@ResponseBody
-	public ApiResult validCallBack(ApiParam<oneBillOneCar> req){
+	public ApiResult validCallBack(ApiParam<oneBillOneCarReq> req){
 		Result rs = Result.getErrorResult();
 		try {
 			rs = oneBillOneCarService.validCallBack(req.getBody());

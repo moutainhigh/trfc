@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 
 import com.tianrui.api.intf.api.nc.imple.IOneBillOneCarService;
 import com.tianrui.api.intf.system.base.ISystemCodeService;
-import com.tianrui.api.req.basicFile.nc.oneBillOneCar;
+import com.tianrui.api.req.basicFile.nc.oneBillOneCarReq;
 import com.tianrui.api.req.system.base.GetCodeReq;
 import com.tianrui.service.bean.businessManage.salesManage.SalesApplication;
 import com.tianrui.service.bean.businessManage.salesManage.SalesApplicationArrive;
@@ -32,7 +32,7 @@ public class OneBillOneCarService implements IOneBillOneCarService {
 	private ISystemCodeService systemCodeService;
 	
 	@Override
-	public Result auditCallBack(oneBillOneCar req) {
+	public Result auditCallBack(oneBillOneCarReq req) {
 		Result result = Result.getParamErrorResult();
 //		if (req != null && StringUtils.isNotBlank(req.getBillId())
 //				&& StringUtils.isNotBlank(req.getBillDetailId())) {
@@ -100,7 +100,7 @@ public class OneBillOneCarService implements IOneBillOneCarService {
 	}
 
 	@Override
-	public Result validCallBack(oneBillOneCar body) {
+	public Result validCallBack(oneBillOneCarReq body) {
 		
 		return null;
 	}
