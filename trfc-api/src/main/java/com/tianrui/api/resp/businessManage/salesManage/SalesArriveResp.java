@@ -116,6 +116,8 @@ public class SalesArriveResp extends BaseResp {
     private String forceOutFactoryPerson;
     //强制出厂操作时间
     private Long forceOutFactoryTime;
+    //作废状态（0：未作废，1：作废中，2：已作废）
+    private String validStatus;
 	public String getId() {
 		return id;
 	}
@@ -578,4 +580,15 @@ public class SalesArriveResp extends BaseResp {
         this.forceOutFactoryTime = forceOutFactoryTime;
     }
 
+	public String getValidStatus() {
+		return validStatus;
+	}
+
+	public void setValidStatus(String validStatus) {
+		this.validStatus = validStatus;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
 }

@@ -1018,7 +1018,19 @@
 		t2.storagequantity AS outInNum,
 		t2.unstoragequantity AS unOutInNum, 
 		t2.pretendingtake AS planNum,
-		t2.taxprice AS price
+		t2.taxprice AS price,
+		CASE
+		WHEN t1.auditstatus = 0 THEN
+			0
+		WHEN t1.auditstatus = 1
+		AND t2.margin > 0 THEN
+			1
+		WHEN t1.auditstatus = 2
+		AND t2.margin = 0 THEN
+			2
+		ELSE
+			''
+		END AS type
 	FROM
 		tr_sales_db_application t1
 	LEFT JOIN tr_sales_db_application_detail t2 ON t1.id = t2.salesid

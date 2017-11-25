@@ -77,6 +77,9 @@ public enum ErrorCode {
 	NOTICE_YES_AUDIT("E10031","该通知单已经通过审核无法作废."),
 	NOTICE_NOT_EXIST2("E10032","该通知单不是其他入库类型."),
 	NOTICE_STATUS_ERROR("E10033","通知单状态不合法."),
+	NOTICE_SEND_CAR_ERROR("E10034","订单余量过剩."),
+	NOTICE_DONT_VALID_ERROR("E10035","未入厂的通知单才可以作废."), 
+	NOTICE_DONT_UPDATE_ERROR("E10036","该通知单已经通过审核无法修改."),
 	/**
 	 * 磅单
 	 */
