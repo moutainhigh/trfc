@@ -81,7 +81,10 @@ public class ReportPurchaseResp {
 
     //  榜单单据状态：（0：计量系统，1：补增，2：退货，3：作废）
     private String status;
-
+    
+    
+  
+    
 	public String getId() {
 		return id;
 	}
@@ -297,6 +300,5 @@ public class ReportPurchaseResp {
 	public void setStatus(String status) {
 		this.status = status;
 	}
-    
     
 }

@@ -79,6 +79,30 @@ public class ReportPurchase {
     //  榜单单据状态：（0：计量系统，1：补增，2：退货，3：作废）
     private String status;
 
+    
+    /**
+     * 查询条件
+     */
+    //供应商名称
+    private String supplierNameLike;
+    //车辆名称
+    private String vehicleNoLike;
+    //矿口
+    private String minemouthNameLike;
+    //司机名称
+    private String driverNameLike;
+    //开始时间
+    private Long beginTimeLong;
+    //结束时间
+    private Long endTimeLong;
+    //物料
+    private String cargoNameLike;
+    //备注
+    private String remarkLike;
+    //分页参数
+    private Integer start;
+    private Integer limit;
+
     public String getId() {
         return id;
     }
@@ -286,4 +310,86 @@ public class ReportPurchase {
     public void setStatus(String status) {
         this.status = status == null ? null : status.trim();
     }
+
+	public String getSupplierNameLike() {
+		return supplierNameLike;
+	}
+
+	public void setSupplierNameLike(String supplierNameLike) {
+		this.supplierNameLike = supplierNameLike;
+	}
+
+	public String getVehicleNoLike() {
+		return vehicleNoLike;
+	}
+
+	public void setVehicleNoLike(String vehicleNoLike) {
+		this.vehicleNoLike = vehicleNoLike;
+	}
+
+	public String getMinemouthNameLike() {
+		return minemouthNameLike;
+	}
+
+	public void setMinemouthNameLike(String minemouthNameLike) {
+		this.minemouthNameLike = minemouthNameLike;
+	}
+
+	public String getDriverNameLike() {
+		return driverNameLike;
+	}
+
+	public void setDriverNameLike(String driverNameLike) {
+		this.driverNameLike = driverNameLike;
+	}
+
+	public Long getBeginTimeLong() {
+		return beginTimeLong;
+	}
+
+	public void setBeginTimeLong(Long beginTimeLong) {
+		this.beginTimeLong = beginTimeLong;
+	}
+
+	public Long getEndTimeLong() {
+		return endTimeLong;
+	}
+
+	public void setEndTimeLong(Long endTimeLong) {
+		this.endTimeLong = endTimeLong;
+	}
+
+	public String getCargoNameLike() {
+		return cargoNameLike;
+	}
+
+	public void setCargoNameLike(String cargoNameLike) {
+		this.cargoNameLike = cargoNameLike;
+	}
+
+	public String getRemarkLike() {
+		return remarkLike;
+	}
+
+	public void setRemarkLike(String remarkLike) {
+		this.remarkLike = remarkLike;
+	}
+
+	public Integer getStart() {
+		return start;
+	}
+
+	public void setStart(Integer start) {
+		this.start = start;
+	}
+
+	public Integer getLimit() {
+		return limit;
+	}
+
+	public void setLimit(Integer limit) {
+		this.limit = limit;
+	}
+    
+    
 }

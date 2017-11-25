@@ -39,23 +39,83 @@
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
     <include refid="Base_Column_List" />
-    from test_view
+    from v_report_purchase
     where id = #{id,jdbcType=VARCHAR}
   </select>
   
   <select id="selectByCondition" resultMap="BaseResultMap" parameterType="com.tianrui.service.bean.businessManage.report.ReportPurchase" >
     select 
     <include refid="Base_Column_List" />
-    from test_view
+    from v_report_purchase
    	<where>
+   		<if test="beginTimeLong != null and beginTimeLong != 0L ">
+			and billtime <![CDATA[>]]> #{beginTimeLong,jdbcType=BIGINT}
+		</if>
+   		<if test="endTimeLong != null and endTimeLong != 0L ">
+			and billtime <![CDATA[<]]> #{endTimeLong,jdbcType=BIGINT}
+		</if>
+		<if test="supplierNameLike != null and supplierNameLike != ''">
+			and suppliername like concat(#{supplierNameLike,jdbcType=VARCHAR},'%')
+		</if>
+		<if test="vehicleNoLike != null and vehicleNoLike != ''">
+			and vehicleno like concat(#{vehicleNoLike,jdbcType=VARCHAR},'%')
+		</if>
+		<if test="minemouthNameLike != null and minemouthNameLike != ''">
+			and minemouthname like concat(#{minemouthNameLike,jdbcType=VARCHAR},'%')
+		</if>
+		<if test="driverNameLike != null and driverNameLike != ''">
+			and drivername like concat(#{driverNameLike,jdbcType=VARCHAR},'%')
+		</if>
+		<if test="cargoNameLike != null and cargoNameLike != ''">
+			and materialname like concat(#{cargoNameLike,jdbcType=VARCHAR},'%') 
+		</if>
+		<if test="remarkLike != null and remarkLike != ''">
+			and remark like concat(#{remarkLike,jdbcType=VARCHAR},'%')
+		</if>
+		<if test="returnstatus != null and returnstatus != ''">
+			and returnstatus = #{returnstatus,jdbcType=VARCHAR}
+		</if>
    	</where>
+  	order by lighttime desc
+	<if test="start != null and start >= 0">
+		<if test="limit != null">
+			limit #{start,jdbcType=INTEGER},#{limit,jdbcType=INTEGER}
+		</if>
+	</if>
   </select>
   
   <select id="countByCondition" resultType="long" parameterType="com.tianrui.service.bean.businessManage.report.ReportPurchase" >
     select 
-    <include refid="Base_Column_List" />
-    from test_view
+   		count(1)
+    from v_report_purchase
   	<where>
+   		<if test="beginTimeLong != null and beginTimeLong != 0L ">
+			and billtime <![CDATA[>]]> #{beginTimeLong,jdbcType=BIGINT}
+		</if>
+   		<if test="endTimeLong != null and endTimeLong != 0L ">
+			and billtime <![CDATA[<]]> #{endTimeLong,jdbcType=BIGINT}
+		</if>
+		<if test="supplierNameLike != null and supplierNameLike != ''">
+			and suppliername like concat(#{supplierNameLike,jdbcType=VARCHAR},'%')
+		</if>
+		<if test="vehicleNoLike != null and vehicleNoLike != ''">
+			and vehicleno like concat(#{vehicleNoLike,jdbcType=VARCHAR},'%')
+		</if>
+		<if test="minemouthNameLike != null and minemouthNameLike != ''">
+			and minemouthname like concat(#{minemouthNameLike,jdbcType=VARCHAR},'%')
+		</if>
+		<if test="driverNameLike != null and driverNameLike != ''">
+			and drivername like concat(#{driverNameLike,jdbcType=VARCHAR},'%')
+		</if>
+		<if test="cargoNameLike != null and cargoNameLike != ''">
+			and materialname like concat(#{cargoNameLike,jdbcType=VARCHAR},'%') 
+		</if>
+		<if test="remarkLike != null and remarkLike != ''">
+			and remark  like concat(#{remarkLike,jdbcType=VARCHAR},'%')
+		</if>
+		<if test="returnstatus != null and returnstatus != ''">
+			and returnstatus = #{returnstatus,jdbcType=VARCHAR}
+		</if>
    	</where>
   </select>
  
