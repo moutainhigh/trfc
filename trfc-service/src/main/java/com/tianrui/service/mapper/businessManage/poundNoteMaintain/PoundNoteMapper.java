@@ -161,9 +161,27 @@ public interface PoundNoteMapper {
 	 */
 	long appPnSupListCount(MyPnListParam param);
 	/**
-	 * @annotation 客商APP查询我的榜单详情
+	 * @annotation 客商APP查询我的榜单详情（供应商）
 	 * @param param
 	 * @return
 	 */
-	MyPnVo appPnDetail(MyPnListParam param);
+	MyPnVo appPnSupDetail(MyPnListParam param);
+	/**
+	 * @annotation 客商APP查询我的榜单（客户）
+	 * @param param
+	 * @return
+	 */
+	List<MyPnListVo> appPnCusList(MyPnListParam param);
+	/**
+	 * @annotation 客商APP查询我的榜单总条数（客户）
+	 * @param param
+	 * @return
+	 */
+	long appPnCusListCount(MyPnListParam param);
+	/**
+	 * @annotation 客商APP查询我的榜单详情（客户）
+	 * @param param
+	 * @return
+	 */
+	MyPnVo appPnCusDetail(MyPnListParam param);
 }

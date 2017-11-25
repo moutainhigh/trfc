@@ -12,8 +12,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.tianrui.api.intf.businessManage.purchaseManage.IPushSingleService;
 import com.tianrui.api.intf.businessManage.salesManage.ISalesApplicationService;
 import com.tianrui.api.intf.system.auth.ISystemUserService;
+import com.tianrui.api.req.businessManage.purchaseManage.PushSingleReq;
 import com.tianrui.api.resp.businessManage.salesManage.SalesApplicationResp;
 import com.tianrui.api.resp.system.auth.SystemUserResp;
 import com.tianrui.quartz.common.ApiParamUtils;
@@ -56,6 +58,8 @@ public class TaskJobService {
 	private SupplierManageMapper supplierManageMapper;
 	@Autowired
 	private SystemUserMapper systemUserMapper;
+	@Autowired
+	private IPushSingleService pushSingleService;
 
 	public void returnDataCenter() throws Exception{
 		List<ReturnQueue> list = returnQueueMapper.selectSelective(null);
@@ -108,16 +112,36 @@ public class TaskJobService {
 					}
 				}
 			}
+			PushSingleReq ps = new PushSingleReq();
+			ps.setRequisitionType(Constant.TWO_STRING);
+			ps.setCreatetime(System.currentTimeMillis());
+			ps.setModifytime(System.currentTimeMillis());
 			ApiResult apiResult = HttpUtils.post(ApiParamUtils.getApiParam(listSales), Constant.URL_DOMAIN + Constant.URL_RETURN_SALESAPPLICATION);
-			if(StringUtils.equals(apiResult.getCode(), ErrorCode.SYSTEM_SUCCESS.getCode())){
-				if(returnQueueMapper.deteleByIds(queueIds) > 0){
-					SalesApplication application = new SalesApplication();
-					for(ReturnQueue queue : list){
-						application.setId(queue.getDataid());
-						application.setSource("0");
-						salesApplicationMapper.updateByPrimaryKeySelective(application);
+			if(apiResult != null){
+				if (StringUtils.equals(apiResult.getCode(), ErrorCode.SYSTEM_SUCCESS.getCode())) {
+					if(returnQueueMapper.deteleByIds(queueIds) > 0){
+						SalesApplication application = new SalesApplication();
+						for(ReturnQueue queue : list){
+							application.setId(queue.getDataid());
+							application.setSource("0");
+							salesApplicationMapper.updateByPrimaryKeySelective(application);
+						}
 					}
+	                ps.setPushStatus(Constant.ONE_STRING);
+				} else {
+	                ps.setPushStatus(Constant.THREE_STRING);
 				}
+	            ps.setReasonFailure(apiResult.getError());
+	            ps.setDesc1(apiResult.getCode());
+			} else {
+				ps.setPushStatus(Constant.THREE_STRING);
+			    ps.setReasonFailure("FC-DC销售申请单推单失败，连接超时。");
+			    ps.setDesc1("-1");
+			}
+			for (SalesApplicationResp sa : listSales) {
+				ps.setId(UUIDUtil.getId());
+				ps.setRequisitionNum(sa.getCode());
+				pushSingleService.savePushSingle(ps);
 			}
 		}
 	}

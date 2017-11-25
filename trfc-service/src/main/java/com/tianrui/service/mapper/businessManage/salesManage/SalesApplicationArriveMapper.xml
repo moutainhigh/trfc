@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tianrui.service.mapper.businessManage.salesManage.SalesApplicationArriveMapper">
+  <resultMap id="BaseResultMap" type="com.tianrui.service.bean.businessManage.salesManage.SalesApplicationArrive">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="bill_id" jdbcType="VARCHAR" property="billId" />
+    <result column="bill_detail_id" jdbcType="VARCHAR" property="billDetailId" />
+    <result column="notice_id" jdbcType="VARCHAR" property="noticeId" />
+    <result column="number" jdbcType="DOUBLE" property="number" />
+    <result column="sequence" jdbcType="BIT" property="sequence" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, bill_id, bill_detail_id, notice_id, number, sequence
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tr_sales_application_arrive
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from tr_sales_application_arrive
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.tianrui.service.bean.businessManage.salesManage.SalesApplicationArrive">
+    insert into tr_sales_application_arrive (id, bill_id, bill_detail_id, 
+      notice_id, number, sequence
+      )
+    values (#{id,jdbcType=VARCHAR}, #{billId,jdbcType=VARCHAR}, #{billDetailId,jdbcType=VARCHAR}, 
+      #{noticeId,jdbcType=VARCHAR}, #{number,jdbcType=DOUBLE}, #{sequence,jdbcType=BIT}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.tianrui.service.bean.businessManage.salesManage.SalesApplicationArrive">
+    insert into tr_sales_application_arrive
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="billId != null">
+        bill_id,
+      </if>
+      <if test="billDetailId != null">
+        bill_detail_id,
+      </if>
+      <if test="noticeId != null">
+        notice_id,
+      </if>
+      <if test="number != null">
+        number,
+      </if>
+      <if test="sequence != null">
+        sequence,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="billId != null">
+        #{billId,jdbcType=VARCHAR},
+      </if>
+      <if test="billDetailId != null">
+        #{billDetailId,jdbcType=VARCHAR},
+      </if>
+      <if test="noticeId != null">
+        #{noticeId,jdbcType=VARCHAR},
+      </if>
+      <if test="number != null">
+        #{number,jdbcType=DOUBLE},
+      </if>
+      <if test="sequence != null">
+        #{sequence,jdbcType=BIT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tianrui.service.bean.businessManage.salesManage.SalesApplicationArrive">
+    update tr_sales_application_arrive
+    <set>
+      <if test="billId != null">
+        bill_id = #{billId,jdbcType=VARCHAR},
+      </if>
+      <if test="billDetailId != null">
+        bill_detail_id = #{billDetailId,jdbcType=VARCHAR},
+      </if>
+      <if test="noticeId != null">
+        notice_id = #{noticeId,jdbcType=VARCHAR},
+      </if>
+      <if test="number != null">
+        number = #{number,jdbcType=DOUBLE},
+      </if>
+      <if test="sequence != null">
+        sequence = #{sequence,jdbcType=BIT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tianrui.service.bean.businessManage.salesManage.SalesApplicationArrive">
+    update tr_sales_application_arrive
+    set bill_id = #{billId,jdbcType=VARCHAR},
+      bill_detail_id = #{billDetailId,jdbcType=VARCHAR},
+      notice_id = #{noticeId,jdbcType=VARCHAR},
+      number = #{number,jdbcType=DOUBLE},
+      sequence = #{sequence,jdbcType=BIT}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

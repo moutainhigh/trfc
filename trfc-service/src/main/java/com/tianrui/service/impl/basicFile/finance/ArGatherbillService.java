@@ -128,7 +128,7 @@ public class ArGatherbillService implements IArGatherbillService {
 		if (query!=null) {
 			PaginationVO<ArGatherbillResp> page = new PaginationVO<ArGatherbillResp>();
 			Long count = arGatherbillMapper.findpagecountArGatherbill(query);
-			if (count>0) {
+//			if (count>0) {
 				query.setStart((query.getPageNo()-1)*query.getPageSize());
 				query.setLimit(query.getPageSize());
 				List<ArGatherbill> list = arGatherbillMapper.findpageArGatherbill(query);
@@ -139,12 +139,13 @@ public class ArGatherbillService implements IArGatherbillService {
 				//保存返回的数据信息
 				result.setData(page);
 				result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
- 			}else{
+ 			/*}else{
  				page.setTotal(count);
 				page.setPageNo(query.getPageNo());
 				page.setPageSize(query.getPageSize());
 				result.setData(page);
-			}
+				//result.setErrorCode(ErrorCode.DATA_ERROR);
+			}*/
 		}
 		return result;
 	}

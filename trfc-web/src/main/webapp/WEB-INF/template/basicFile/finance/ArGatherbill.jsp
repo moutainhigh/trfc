@@ -40,13 +40,13 @@
 								class="Wdate" style="width: 160px;" readonly
 								placeholder="请选择结束时间" />
 						</div>
-						<div class="intel_solo">
+						<!-- <div class="intel_solo">
                             <label>收款单位：</label>
                             <select id="branch" class="form-control">
                             	<option value="0">天瑞集团</option>
                             	<option value="1" selected="selected">天瑞集团汝州水泥有限公司</option>
                             </select>
-                        </div>
+                        </div> -->
                         <div class="intel_solo">
 						<label>客户：</label> <input id="s_customer" type="text"
 									placeholder="请选择客户">
@@ -86,7 +86,6 @@
                     <tr>
                         <th>序号</th>
                         <th>单据号</th>
-                        <th>审批状态</th>
                         <th>单据日期</th>
                         <th>客户名称</th>
                         <th>贷方原币金额</th>

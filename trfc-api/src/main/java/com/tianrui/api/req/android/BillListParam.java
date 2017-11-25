@@ -11,6 +11,8 @@ public class BillListParam extends AppBase {
 	private String detailId;
 	//订单编号
 	private String billCode;
+	//物料
+	private String material;
 	//开始时间
 	private Long startTime;
 	//结束时间
@@ -43,6 +45,12 @@ public class BillListParam extends AppBase {
 	}
 	public void setBillCode(String billCode) {
 		this.billCode = billCode;
+	}
+	public String getMaterial() {
+		return material;
+	}
+	public void setMaterial(String material) {
+		this.material = material;
 	}
 	public Long getStartTime() {
 		return startTime;
@@ -80,7 +88,7 @@ public class BillListParam extends AppBase {
 	@Override
 	public String toString() {
 		return "BillListParam [type=" + type + ", id=" + id + ", detailId=" + detailId + ", billCode=" + billCode
-				+ ", startTime=" + startTime + ", endTime=" + endTime + ", billSource=" + billSource + ", start="
-				+ start + ", limit=" + limit + "]";
+				+ ", material=" + material + ", startTime=" + startTime + ", endTime=" + endTime + ", billSource="
+				+ billSource + ", start=" + start + ", limit=" + limit + "]";
 	}
 }

@@ -5,11 +5,15 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 import com.tianrui.api.req.android.HomePageParam;
+import com.tianrui.api.req.android.MyVehicleListParam;
+import com.tianrui.api.req.android.NoticeListParam;
 import com.tianrui.api.req.businessManage.app.AppNoticeOrderReq;
 import com.tianrui.api.req.businessManage.app.AppOrderReq;
 import com.tianrui.api.req.businessManage.logisticsManage.SalesLogisticsQuery;
 import com.tianrui.api.req.businessManage.salesManage.SalesArriveQuery;
 import com.tianrui.api.resp.android.HomeNoticeVo;
+import com.tianrui.api.resp.android.MyVehicleListVo;
+import com.tianrui.api.resp.android.NoticeListVo;
 import com.tianrui.api.resp.businessManage.app.AppNoticeOrderResp;
 import com.tianrui.api.resp.businessManage.app.AppVehicleInFactoryResp;
 import com.tianrui.api.resp.businessManage.logisticsManage.SalesLogisticsResp;
@@ -157,6 +161,12 @@ public interface SalesArriveMapper {
 	 */
 	SalesArrive getByVehicleNo(String vehicleNo);
 	/**
+	 * @annotation 根据车牌号把上次强制出厂的单据改为出厂
+	 * @param vehicleId
+	 * @return
+	 */
+	void emptyForceOutFactoryByVehicle(String vehicleId);
+	/**
 	 * @annotation app首页通知单
 	 * @param param
 	 * @return
@@ -169,9 +179,33 @@ public interface SalesArriveMapper {
 	 */
 	List<String> appHomeVehicle(HomePageParam param);
 	/**
-	 * @annotation 根据车牌号把上次强制出厂的单据改为出厂
-	 * @param vehicleId
+	 * @annotation 客商APP通知单列表
+	 * @param param
 	 * @return
 	 */
-	void emptyForceOutFactoryByVehicle(String vehicleId);
+	List<NoticeListVo> appNoticeList(NoticeListParam param);
+	/**
+	 * @annotation 客商APP通知单总条数
+	 * @param param
+	 * @return
+	 */
+	long appNoticeListCount(NoticeListParam param);
+	/**
+	 * @annotation 客商APP通知单详情
+	 * @param param
+	 * @return
+	 */
+	NoticeListVo appNoticeDetail(NoticeListParam param);
+	/**
+	 * @annotation 客商APP我的车辆列表
+	 * @param param
+	 * @return
+	 */
+	List<MyVehicleListVo> appMyVehicleList(MyVehicleListParam param);
+	/**
+	 * @annotation 客商APP我的车辆总条数
+	 * @param param
+	 * @return
+	 */
+	long appMyVehicleListCount(MyVehicleListParam param);
 }
