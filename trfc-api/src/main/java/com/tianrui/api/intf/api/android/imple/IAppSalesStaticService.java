@@ -26,7 +26,7 @@ public interface IAppSalesStaticService {
 
 	AppResult listMoreBill(BillListParam param);
 
-	AppResult moreSendCar(NoticeSave param);
+	AppResult moreSendCar(NoticeSave param) throws Exception;
 
 	AppResult noticeList(NoticeListParam param);
 
@@ -34,7 +34,7 @@ public interface IAppSalesStaticService {
 
 	AppResult noticeUpdate(NoticeSave param) throws Exception;
 
-	AppResult noticeCancel(NoticeListParam param);
+	AppResult noticeCancel(NoticeListParam param) throws Exception;
 
 	AppResult myVehicle(MyVehicleListParam param);
 

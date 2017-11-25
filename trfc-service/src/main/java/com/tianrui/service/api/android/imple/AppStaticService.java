@@ -924,59 +924,63 @@ public class AppStaticService implements IAppStaticService {
 			PurchaseArrive notice = purchaseArriveMapper.selectByPrimaryKey(param.getId());
 			if (notice != null && StringUtils.equals(notice.getState(), Constant.ONE_STRING)) {
 				if (!StringUtils.equals(notice.getStatus(), Constant.THREE_STRING)) {
-					double number = notice.getArrivalamount();
-					PurchaseApplication pa = purchaseApplicationMapper.selectByPrimaryKey(notice.getBillid());
-					PurchaseApplicationDetail pad = purchaseApplicationDetailMapper.selectByPrimaryKey(notice.getBilldetailid());
-					if (pa != null && pad != null && StringUtils.equals(pa.getSupplierid(), param.getNcId())) {
-						boolean flag = false;
-						//判断是否修改到货量
-						PurchaseArrive bean = new PurchaseArrive();
-						if (param.getNumber() != null) {
-							if (param.getNumber() > 0) {
-								if (param.getNumber() <= pad.getMargin() + number) {
-									bean.setArrivalamount(param.getNumber());
-									pad.setMargin(pad.getMargin() + number - param.getNumber());
-									pad.setPretendingtake(pad.getPretendingtake() - number + param.getNumber());
-									purchaseApplicationDetailMapper.updateByPrimaryKeySelective(pad);
-									flag = true;
+					if (StringUtils.equals(notice.getAuditstatus(), Constant.ZERO_STRING)) {
+						double number = notice.getArrivalamount();
+						PurchaseApplication pa = purchaseApplicationMapper.selectByPrimaryKey(notice.getBillid());
+						PurchaseApplicationDetail pad = purchaseApplicationDetailMapper.selectByPrimaryKey(notice.getBilldetailid());
+						if (pa != null && pad != null && StringUtils.equals(pa.getSupplierid(), param.getNcId())) {
+							boolean flag = false;
+							//判断是否修改到货量
+							PurchaseArrive bean = new PurchaseArrive();
+							if (param.getNumber() != null) {
+								if (param.getNumber() > 0) {
+									if (param.getNumber() <= pad.getMargin() + number) {
+										bean.setArrivalamount(param.getNumber());
+										pad.setMargin(pad.getMargin() + number - param.getNumber());
+										pad.setPretendingtake(pad.getPretendingtake() - number + param.getNumber());
+										purchaseApplicationDetailMapper.updateByPrimaryKeySelective(pad);
+										flag = true;
+									} else {
+										result.setErrorCode(ErrorCode.NOTICE_NUMBER_ERROR);
+									}
 								} else {
 									result.setErrorCode(ErrorCode.NOTICE_NUMBER_ERROR);
 								}
-							} else {
-								result.setErrorCode(ErrorCode.NOTICE_NUMBER_ERROR);
 							}
-						}
-						//判断是否修改车辆
-						if (StringUtils.isNotBlank(param.getVehicle()) && !StringUtils.equals(notice.getVehicleid(), param.getVehicle())) {
-							VehicleManage vehicle = vehicleManageMapper.selectByPrimaryKey(param.getVehicle());
-							if (validVehicle(vehicle, result)) {
-								bean.setVehicleid(vehicle.getId());
-								bean.setVehicleno(vehicle.getVehicleno());
-								bean.setVehiclerfid(vehicle.getRfid());
-								saveUserVehicle(user.getId(), vehicle.getId());
-								flag = true;
+							//判断是否修改车辆
+							if (StringUtils.isNotBlank(param.getVehicle()) && !StringUtils.equals(notice.getVehicleid(), param.getVehicle())) {
+								VehicleManage vehicle = vehicleManageMapper.selectByPrimaryKey(param.getVehicle());
+								if (validVehicle(vehicle, result)) {
+									bean.setVehicleid(vehicle.getId());
+									bean.setVehicleno(vehicle.getVehicleno());
+									bean.setVehiclerfid(vehicle.getRfid());
+									saveUserVehicle(user.getId(), vehicle.getId());
+									flag = true;
+								}
 							}
-						}
-						//判断是否修改司机
-						if (StringUtils.isNotBlank(param.getDriver()) && !StringUtils.equals(notice.getDriverid(), param.getDriver())) {
-							DriverManage driver = driverManageMapper.selectByPrimaryKey(param.getDriver());
-							if (validDriver(driver, result)) {
-								bean.setDriverid(driver.getId());
-								bean.setDrivername(driver.getName());
-								bean.setDriveridentityno(driver.getIdentityno());
-								saveUserVehicle(user.getId(), driver.getId());
-								flag = true;
+							//判断是否修改司机
+							if (StringUtils.isNotBlank(param.getDriver()) && !StringUtils.equals(notice.getDriverid(), param.getDriver())) {
+								DriverManage driver = driverManageMapper.selectByPrimaryKey(param.getDriver());
+								if (validDriver(driver, result)) {
+									bean.setDriverid(driver.getId());
+									bean.setDrivername(driver.getName());
+									bean.setDriveridentityno(driver.getIdentityno());
+									saveUserVehicle(user.getId(), driver.getId());
+									flag = true;
+								}
 							}
-						}
-						if (flag) {
-							bean.setId(notice.getId());
-							bean.setModifier(param.getUserId());
-							bean.setModifytime(System.currentTimeMillis());
-							purchaseArriveMapper.updateByPrimaryKeySelective(bean);
-							result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+							if (flag) {
+								bean.setId(notice.getId());
+								bean.setModifier(param.getUserId());
+								bean.setModifytime(System.currentTimeMillis());
+								purchaseArriveMapper.updateByPrimaryKeySelective(bean);
+								result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+							}
+						} else {
+							result.setErrorCode(ErrorCode.APPLICATION_NOT_EXIST);
 						}
 					} else {
-						result.setErrorCode(ErrorCode.APPLICATION_NOT_EXIST);
+						result.setErrorCode(ErrorCode.NOTICE_DONT_UPDATE_ERROR);
 					}
 				} else {
 					result.setErrorCode(ErrorCode.NOTICE_ON_INVALID);

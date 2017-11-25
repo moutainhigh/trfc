@@ -233,7 +233,6 @@ public class AppSalesStaticAction {
 		return result;
 	}
 	
-	//一单一车的通知单不能作废
 	@RequestMapping(value="/notice/cancel",method=RequestMethod.POST)
 	@ApiParamRawType(NoticeListParam.class)
 	@ResponseBody

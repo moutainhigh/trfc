@@ -1,7 +1,6 @@
 package com.tianrui.service.api.android.imple;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -43,8 +42,6 @@ import com.tianrui.service.bean.basicFile.measure.VehicleManage;
 import com.tianrui.service.bean.basicFile.nc.CustomerManage;
 import com.tianrui.service.bean.basicFile.nc.MaterielManage;
 import com.tianrui.service.bean.businessManage.otherManage.OtherArrive;
-import com.tianrui.service.bean.businessManage.purchaseManage.PurchaseApplication;
-import com.tianrui.service.bean.businessManage.purchaseManage.PurchaseApplicationDetail;
 import com.tianrui.service.bean.businessManage.purchaseManage.PurchaseArrive;
 import com.tianrui.service.bean.businessManage.salesManage.SalesApplication;
 import com.tianrui.service.bean.businessManage.salesManage.SalesApplicationArrive;
@@ -327,7 +324,7 @@ public class AppSalesStaticService implements IAppSalesStaticService {
 		sad.setMaterielname(material.getName());
 		sad.setUnit(param.getUnit());
 		sad.setSalessum(param.getNumber());
-		sad.setMargin(param.getNumber());
+		sad.setMargin(0D);
 		return sad;
 	}
 	
@@ -362,6 +359,7 @@ public class AppSalesStaticService implements IAppSalesStaticService {
 							Map<String, String> map = new HashMap<String, String>();
 							map.put("id", sa.getId());
 							map.put("detailId", list.get(0).getId());
+							map.put("type", Constant.ZERO_STRING);
 							//上传dc，申请作废，状态改为作废中
 							//由dc回写作废状态
 							//记录推送日志
@@ -409,7 +407,7 @@ public class AppSalesStaticService implements IAppSalesStaticService {
 		    ps.setDesc1(apiResult.getCode());
 		} else {
 		    ps.setPushStatus(Constant.THREE_STRING);
-		    ps.setReasonFailure("FC-DC客商APP自制一单一车推单失败，连接超时。");
+		    ps.setReasonFailure("FC-DC客商APP自制一单一车订单作废推单失败，连接超时。");
 		    ps.setDesc1("-1");
 	        result.setErrorCode(ErrorCode.APP_BILL_RETURN_ERROR);
 		}
@@ -628,7 +626,9 @@ public class AppSalesStaticService implements IAppSalesStaticService {
 		if (param != null && StringUtils.isNotBlank(param.getUserId())
 				&& StringUtils.isNotBlank(param.getNcId())
 				&& StringUtils.isNotBlank(param.getSalesOrg())
-				&& StringUtils.isNotBlank(param.getMaterial())) {
+				&& StringUtils.isNotBlank(param.getDetailId())) {
+			SalesApplicationDetail sad = salesApplicationDetailMapper.selectByPrimaryKey(param.getDetailId());
+			param.setMaterial(sad.getMaterielid());
 			List<BillListVo> list = salesApplicationMapper.appMoreBillList(param);
 			result.setData(list);
 			result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
@@ -640,7 +640,7 @@ public class AppSalesStaticService implements IAppSalesStaticService {
 
 	@Transactional
 	@Override
-	public AppResult moreSendCar(NoticeSave param) {
+	public AppResult moreSendCar(NoticeSave param) throws Exception {
 		AppResult result = AppResult.getAppResult();
 		if (param != null && StringUtils.isNotBlank(param.getUserId())
 				&& StringUtils.isNotBlank(param.getNcId())
@@ -656,7 +656,7 @@ public class AppSalesStaticService implements IAppSalesStaticService {
 		return result;
 	}
 
-	private AppResult customerMoreSendCar(NoticeSave param) {
+	private AppResult customerMoreSendCar(NoticeSave param) throws Exception {
 		AppResult result = AppResult.getAppResult();
 		SystemUser user = userMapper.selectByPrimaryKey(param.getUserId());
 		if (user != null) {
@@ -671,38 +671,120 @@ public class AppSalesStaticService implements IAppSalesStaticService {
 					SalesApplication sa = salesApplicationMapper.selectByPrimaryKey(id);
 					SalesApplicationDetail sad = salesApplicationDetailMapper.selectByPrimaryKey(detailId);
 					sumMargin += sad.getMargin();
+					if (i < ids.size() - 1) {
+						if (param.getNumber() <= sumMargin) {
+							result.setErrorCode(ErrorCode.NOTICE_SEND_CAR_ERROR);
+							return result;
+						}
+					}
 					List<Object> item = new ArrayList<Object>();
 					item.add(sa);
 					item.add(sad);
 					list.add(item);
 				}
-				//对余量进行排序，升序
-				Collections.sort(list, new Comparator<List<Object>>() {
-					@Override
-					public int compare(List<Object> o1, List<Object> o2) {
-						int index = 0;
-						SalesApplicationDetail s1 = (SalesApplicationDetail) o1.get(1);
-						SalesApplicationDetail s2 = (SalesApplicationDetail) o2.get(1);
-						double margin1 = s1.getMargin();
-						double margin2 = s2.getMargin();
-						if (margin1 >= margin2) {
-							index = 1;
-						} else {
-							index = -1;
+				if (param.getNumber() <= sumMargin) {
+					//对余量进行排序，升序
+					Collections.sort(list, new Comparator<List<Object>>() {
+						@Override
+						public int compare(List<Object> o1, List<Object> o2) {
+							int index = 0;
+							SalesApplicationDetail s1 = (SalesApplicationDetail) o1.get(1);
+							SalesApplicationDetail s2 = (SalesApplicationDetail) o2.get(1);
+							double margin1 = s1.getMargin();
+							double margin2 = s2.getMargin();
+							if (margin1 >= margin2) {
+								index = 1;
+							} else {
+								index = -1;
+							}
+							return index;
 						}
-						return index;
+					});
+					//以最后一个订单为主参考订单
+					SalesApplication refBill = (SalesApplication) list.get(list.size() - 1).get(0);
+					SalesApplicationDetail refBillDetail = (SalesApplicationDetail) list.get(list.size() - 1).get(1);
+					VehicleManage vehicle = vehicleManageMapper.selectByPrimaryKey(param.getVehicle());
+					if (validVehicle(vehicle, result)) {
+						if (StringUtils.isNotBlank(param.getDriver())) {
+							DriverManage driver = driverManageMapper.selectByPrimaryKey(param.getDriver());
+							if (validDriver(driver, result)) {
+								result = putCustomerMoreSendCarNoticeValue(param, user, list, refBill, refBillDetail, vehicle, driver);
+							}
+						} else {
+							result = putCustomerMoreSendCarNoticeValue(param, user, list, refBill, refBillDetail, vehicle, null);
+						}
 					}
-				});
-				// TODO
-				//循环list 记录绑定关系和减扣量，并回写子表 量。
-				//以哪个订单为参考生成通知单，明天带讨论
-				
+				} else {
+					result.setErrorCode(ErrorCode.NOTICE_NUMBER_ERROR);
+				}
 			} else {
 				result.setErrorCode(ErrorCode.NOTICE_NUMBER_ERROR);
 			}
 		} else {
 			result.setErrorCode(ErrorCode.SYSTEM_USER_ERROR17);
 		}
+		return result;
+	}
+	
+	//多单合并派车
+	private AppResult putCustomerMoreSendCarNoticeValue(NoticeSave param, SystemUser user, List<List<Object>> list, SalesApplication refBill,
+			SalesApplicationDetail refBillDetail, VehicleManage vehicle, DriverManage driver) throws Exception {
+		AppResult result = AppResult.getAppResult();
+		SalesArrive bean = new SalesArrive();
+		bean.setId(UUIDUtil.getId());
+		bean.setCode(getCode("TH", param.getUserId(), true));
+		bean.setAuditstatus(Constant.ZERO_STRING);
+		bean.setSource(Constant.TWO_STRING);
+		bean.setStatus(Constant.ZERO_STRING);
+		bean.setVehicleid(vehicle.getId());
+		bean.setVehicleno(vehicle.getVehicleno());
+		bean.setVehiclerfid(vehicle.getRfid());
+		if (driver != null) {
+			bean.setDriverid(driver.getId());
+			bean.setDrivername(driver.getName());
+			bean.setDriveridentityno(driver.getIdentityno());
+		}
+		bean.setBillid(refBill.getId());
+		bean.setBillcode(refBill.getCode());
+		bean.setBilldetailid(refBillDetail.getId());
+		bean.setUnit(refBillDetail.getUnit());
+		bean.setTakeamount(param.getNumber());
+		bean.setState(Constant.ONE_STRING);
+		bean.setMaindeduction(Constant.ZERO_STRING);
+		bean.setMakerid(user.getId());
+		bean.setMakebillname(user.getName());
+		bean.setMakebilltime(System.currentTimeMillis());
+		bean.setCreator(user.getId());
+		bean.setCreatetime(System.currentTimeMillis());
+		salesArriveMapper.insertSelective(bean);
+		updateCode("TH", user.getId());
+		// TODO
+		//循环list 记录绑定关系和减扣量，并回写子表 量。
+		double number = param.getNumber();
+		int idex = 1;
+		for (List<Object> item : list) {
+			SalesApplication sa = (SalesApplication) item.get(0);
+			SalesApplicationDetail sad = (SalesApplicationDetail) item.get(1);
+			double subNum = sad.getMargin();
+			if (number > sad.getMargin()) {
+				number -= subNum;
+			} else {
+				subNum = number;
+			}
+			SalesApplicationArrive join = new SalesApplicationArrive();
+			join.setId(UUIDUtil.getId());
+			join.setBillId(sa.getId());
+			join.setBillDetailId(sad.getId());
+			join.setNoticeId(bean.getId());
+			join.setNumber(subNum);
+			join.setSequence(idex);
+			idex++;
+			salesApplicationArriveMapper.insertSelective(join);
+			sad.setMargin(sad.getMargin() - subNum);
+			sad.setPretendingtake(sad.getPretendingtake() + subNum);
+			salesApplicationDetailMapper.updateByPrimaryKeySelective(sad);
+		}
+		result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
 		return result;
 	}
 
@@ -757,8 +839,7 @@ public class AppSalesStaticService implements IAppSalesStaticService {
 					|| StringUtils.isNotBlank(param.getVehicle())
 					|| StringUtils.isNotBlank(param.getDriver())
 					|| param.getNumber() != null) {
-				// TODO
-				
+				result = customerNoticeUpdate(param);
 				result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
 			} else {
 				result.setErrorCode(ErrorCode.DATE_NOT_UPDATE);
@@ -769,18 +850,229 @@ public class AppSalesStaticService implements IAppSalesStaticService {
 		return result;
 	}
 
+	private AppResult customerNoticeUpdate(NoticeSave param) {
+		AppResult result = AppResult.getAppResult();
+		SystemUser user = userMapper.selectByPrimaryKey(param.getUserId());
+		if (user != null) {
+			SalesArrive notice = salesArriveMapper.selectByPrimaryKey(param.getId());
+			if (notice != null && StringUtils.equals(notice.getState(), Constant.ONE_STRING)) {
+				if (!StringUtils.equals(notice.getStatus(), Constant.THREE_STRING)) {
+					if (StringUtils.equals(notice.getAuditstatus(), Constant.ZERO_STRING)) {
+						boolean flag = false;
+						//判断是否修改到货量
+						SalesArrive bean = new SalesArrive();
+						if (param.getNumber() != null) {
+							if (param.getNumber() > 0) {
+								// TODO
+								double number = param.getNumber();
+								//最后一个订单子表（余量最多）
+								SalesApplicationDetail lastDetail = null;
+								//最后一个关系扣减量
+								SalesApplicationArrive lastJoin = null; 
+								//最后一个订单（余量最多）的扣减量
+								double lastNumber = 0D;
+								List<SalesApplicationArrive> list = salesApplicationArriveMapper.listByNoticeId(notice.getId());
+								for (int i = 0; i < list.size(); i++) {
+									SalesApplicationArrive join = list.get(i);
+									if (i < list.size() - 1) {
+										if (number <= join.getNumber()) {
+											result.setErrorCode(ErrorCode.NOTICE_SEND_CAR_ERROR);
+											return result;
+										}
+										number -= join.getNumber();
+									} else {
+										lastJoin = join;
+										lastDetail = salesApplicationDetailMapper.selectByPrimaryKey(join.getBillDetailId());
+										lastNumber = join.getNumber();
+									}
+								}
+								if (number <= lastNumber + lastDetail.getMargin()) {
+									//由于限制多单派车根据余量降序，除去最后一个订单（余量最多）外，其他订单余量都必须扣减到0，
+									//所以修改提货量只能修改到最后一个订单（余量最多）的余量
+									bean.setTakeamount(param.getNumber());
+									lastDetail.setMargin(lastDetail.getMargin() + lastNumber - number);
+									lastDetail.setPretendingtake(lastDetail.getPretendingtake() -lastNumber + number );
+									salesApplicationDetailMapper.updateByPrimaryKeySelective(lastDetail);
+									lastJoin.setNumber(number);
+									salesApplicationArriveMapper.updateByPrimaryKeySelective(lastJoin);
+									flag = true;
+								} else {
+									result.setErrorCode(ErrorCode.NOTICE_NUMBER_ERROR);
+								}
+							} else {
+								result.setErrorCode(ErrorCode.NOTICE_NUMBER_ERROR);
+							}
+						}
+						//判断是否修改车辆
+						if (StringUtils.isNotBlank(param.getVehicle()) && !StringUtils.equals(notice.getVehicleid(), param.getVehicle())) {
+							VehicleManage vehicle = vehicleManageMapper.selectByPrimaryKey(param.getVehicle());
+							if (validVehicle(vehicle, result)) {
+								bean.setVehicleid(vehicle.getId());
+								bean.setVehicleno(vehicle.getVehicleno());
+								bean.setVehiclerfid(vehicle.getRfid());
+								saveUserVehicle(user.getId(), vehicle.getId());
+								flag = true;
+							}
+						}
+						//判断是否修改司机
+						if (StringUtils.isNotBlank(param.getDriver()) && !StringUtils.equals(notice.getDriverid(), param.getDriver())) {
+							DriverManage driver = driverManageMapper.selectByPrimaryKey(param.getDriver());
+							if (validDriver(driver, result)) {
+								bean.setDriverid(driver.getId());
+								bean.setDrivername(driver.getName());
+								bean.setDriveridentityno(driver.getIdentityno());
+								saveUserVehicle(user.getId(), driver.getId());
+								flag = true;
+							}
+						}
+						if (flag) {
+							bean.setId(notice.getId());
+							bean.setModifier(param.getUserId());
+							bean.setModifytime(System.currentTimeMillis());
+							salesArriveMapper.updateByPrimaryKeySelective(bean);
+							result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+						}
+					} else {
+						result.setErrorCode(ErrorCode.NOTICE_DONT_UPDATE_ERROR);
+					}
+				} else {
+					result.setErrorCode(ErrorCode.NOTICE_ON_INVALID);
+				}
+			} else {
+				result.setErrorCode(ErrorCode.NOTICE_NOT_EXIST);
+			}
+		} else {
+			result.setErrorCode(ErrorCode.SYSTEM_USER_ERROR17);
+		}
+		return result;
+	}
+
 	@Transactional
 	@Override
-	public AppResult noticeCancel(NoticeListParam param) {
+	public AppResult noticeCancel(NoticeListParam param) throws Exception {
 		AppResult result = AppResult.getAppResult();
 		if (param != null && StringUtils.isNotBlank(param.getUserId())
 				&& StringUtils.isNotBlank(param.getIDType())
 				&& StringUtils.isNotBlank(param.getId())) {
-			
-			result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+			result = customerNoticeCancel(param);
 		} else {
 			result.setErrorCode(ErrorCode.PARAM_NULL_ERROR);
 		}
+		return result;
+	}
+	
+	private AppResult customerNoticeCancel(NoticeListParam param) throws Exception {
+		AppResult result = AppResult.getAppResult();
+		SystemUser user = systemUserMapper.selectByPrimaryKey(param.getUserId());
+		if (user != null) {
+			//判断是否为有效通知单
+			SalesArrive sa = salesArriveMapper.selectByPrimaryKey(param.getId());
+			if (sa != null && StringUtils.equals(sa.getState(), Constant.ONE_STRING)) {
+				if (!StringUtils.equals(sa.getStatus(), Constant.THREE_STRING)) {
+					//未入厂的才允许作废
+					if (StringUtils.equals(sa.getStatus(), Constant.ZERO_STRING)) {
+						//判断订单的订单类型
+						//一单一车 修改通知单为作废中，并推送给DC， 等待DC回写（非实时）（回写内容：修改通知单为作废，修改订单为作废），订单不做变化
+						//一单多车 修改通知单为作废，并回写订单 量 数据
+						SalesApplication bill = salesApplicationMapper.selectByPrimaryKey(sa.getBillid());
+						if (StringUtils.equals(bill.getBilltypeid(), Constant.ZERO_STRING)) {
+							//一单一车
+							result = oneBillOneCarCancel(user, sa);
+						} else {
+							//一单多车
+							result = oneBillMoreCarCancel(user, sa);
+						}
+					} else {
+						result.setErrorCode(ErrorCode.NOTICE_DONT_VALID_ERROR);
+					}
+				} else {
+					result.setErrorCode(ErrorCode.NOTICE_ON_INVALID);
+				}
+			} else {
+				result.setErrorCode(ErrorCode.NOTICE_NOT_EXIST);
+			}
+		} else {
+			result.setErrorCode(ErrorCode.SYSTEM_USER_ERROR17);
+		}
+		return result;
+	}
+	/**
+	 * @annotation 一单一车作废
+	 * @param param
+	 * @param user
+	 * @param sa
+	 * @return
+	 * @throws Exception 
+	 */
+	private AppResult oneBillOneCarCancel(SystemUser user, SalesArrive sa) throws Exception {
+		AppResult result = AppResult.getAppResult();
+		// 修改通知单为作废中，并推送给DC， 等待DC回写（非实时）（回写内容：修改通知单为作废，修改订单为作废），订单不做变化
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("id", sa.getBillid());
+		map.put("detailId", sa.getBilldetailid());
+		map.put("type", Constant.ONE_STRING);
+		//上传dc，申请作废，状态改为作废中
+		//由dc回写作废状态
+		//记录推送日志
+		PushSingleReq ps = new PushSingleReq();
+		ps.setId(UUIDUtil.getId());
+		ps.setRequisitionNum(sa.getBillcode());
+		ps.setRequisitionType(Constant.FOUR_STRING);
+		ps.setCreator(user.getId());
+		ps.setCreatetime(System.currentTimeMillis());
+		ps.setModifytime(System.currentTimeMillis());
+		ApiResult apiResult = HttpUtils.post(ApiParamUtils.getApiParam(map), Constant.URL_DOMAIN + Constant.URL_SALESAPPLICATION_DELETE);
+		if (apiResult != null) {
+			if (StringUtils.equals(apiResult.getCode(), Constant.SUCCESS)) {
+				//修改通知单为作废中
+				sa.setStatus(Constant.THREE_STRING);
+				sa.setValidStatus(Constant.ONE_STRING);
+				sa.setAbnormalperson(user.getId());
+				sa.setAbnormalpersonname(user.getName());
+				sa.setAbnormaltime(System.currentTimeMillis());
+				salesArriveMapper.updateByPrimaryKeySelective(sa);
+		        ps.setPushStatus(Constant.ONE_STRING);
+		        result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+		    } else {
+		        ps.setPushStatus(Constant.THREE_STRING);
+		        result.setErrorCode(ErrorCode.APP_BILL_RETURN_ERROR);
+		        result.setMessage(apiResult.getError());
+		    }
+		    ps.setReasonFailure(apiResult.getError());
+		    ps.setDesc1(apiResult.getCode());
+		} else {
+		    ps.setPushStatus(Constant.THREE_STRING);
+		    ps.setReasonFailure("FC-DC客商APP自制一单一车通知单作废推单失败，连接超时。");
+		    ps.setDesc1("-1");
+	        result.setErrorCode(ErrorCode.APP_BILL_RETURN_ERROR);
+		}
+		pushSingleService.savePushSingle(ps);
+		return result;
+	}
+	/**
+	 * @annotation 一单多车作废
+	 * @param param
+	 * @param user
+	 * @param sa
+	 * @return
+	 */
+	private AppResult oneBillMoreCarCancel(SystemUser user, SalesArrive sa) {
+		//一单多车 修改通知单为作废，并回写订单 量 数据
+		AppResult result = AppResult.getAppResult();
+		sa.setStatus(Constant.THREE_STRING);
+		sa.setValidStatus(Constant.TWO_STRING);
+		sa.setAbnormalperson(user.getId());
+		sa.setAbnormalpersonname(user.getName());
+		sa.setAbnormaltime(System.currentTimeMillis());
+		salesArriveMapper.updateByPrimaryKeySelective(sa);
+		List<SalesApplicationArrive> list = salesApplicationArriveMapper.listByNoticeId(sa.getId());
+		for (SalesApplicationArrive join : list) {
+			SalesApplicationDetail sad = salesApplicationDetailMapper.selectByPrimaryKey(join.getBillDetailId());
+			sad.setMargin(sad.getMargin() + join.getNumber());
+			sad.setPretendingtake(sad.getPretendingtake() - join.getNumber());
+			salesApplicationDetailMapper.updateByPrimaryKeySelective(sad);
+		}
+		result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
 		return result;
 	}
 

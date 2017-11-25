@@ -103,4 +103,11 @@
       sequence = #{sequence,jdbcType=BIT}
     where id = #{id,jdbcType=VARCHAR}
   </update>
+  <select id="listByNoticeId" parameterType="java.lang.String" resultMap="BaseResultMap">
+  	select 
+  	<include refid="Base_Column_List" />
+  	from tr_sales_application_arrive
+  	where notice_id = #{noticeId,jdbcType=VARCHAR}
+  	order by sequence desc
+  </select>
 </mapper>
