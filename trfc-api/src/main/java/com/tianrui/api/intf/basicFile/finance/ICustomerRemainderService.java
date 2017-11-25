@@ -3,7 +3,6 @@ package com.tianrui.api.intf.basicFile.finance;
 import java.util.List;
 
 import com.alibaba.fastjson.JSONObject;
-import com.tianrui.api.req.BaseReq;
 import com.tianrui.smartfactory.common.vo.Result;
 
 public interface ICustomerRemainderService {
@@ -14,7 +13,7 @@ public interface ICustomerRemainderService {
 	 * @return Result
 	 * @date 2017年11月24日
 	 */
-	Result findMaxUtc(BaseReq baseReq);
+	Result findMaxUtc(String orgId);
 
 	/**
 	 * 批量更新保存

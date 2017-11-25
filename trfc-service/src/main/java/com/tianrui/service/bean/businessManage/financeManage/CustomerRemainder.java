@@ -51,6 +51,9 @@ public class CustomerRemainder {
 
     //  客户编码
     private String customerCode;
+    
+    //  状态
+    private String status;
 
     public String getId() {
         return id;
@@ -187,4 +190,13 @@ public class CustomerRemainder {
     public void setCustomerCode(String customerCode) {
         this.customerCode = customerCode == null ? null : customerCode.trim();
     }
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status == null ? null : status.trim();
+	}
+       
 }
