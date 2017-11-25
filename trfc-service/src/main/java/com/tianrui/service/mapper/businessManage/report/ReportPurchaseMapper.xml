@@ -29,6 +29,12 @@
     <result column="returnstatus" property="returnstatus" jdbcType="VARCHAR" />
     <result column="status" property="status" jdbcType="VARCHAR" />
   </resultMap>
+  
+  <resultMap id="BaseResultMap2" type="com.tianrui.api.resp.businessManage.report.ReportPurchaseMaterResp" >
+   
+  </resultMap>
+  
+  
   <sql id="Base_Column_List" >
     id, billcode, poundcode, supplierid, suppliername, minemouthname, yardname, materialname, 
     vehicleid, vehicleno, grossweight, tareweight, netweight, originalnetweight, lighttime, 
@@ -84,6 +90,61 @@
 	</if>
   </select>
   
+  
+  
+  <select id="selectByConditionForMater" resultMap="BaseResultMap2" parameterType="com.tianrui.service.bean.businessManage.report.ReportPurchase" >
+	SELECT
+		suppliername ,
+		materialname,
+		remark,
+		count(vehicleno) countVehicleno,
+		sum(grossweight) sumGrossweight,
+		sum(tareweight) sumTareweight,
+		sum(netweight) sumNetweight
+	FROM
+		v_report_purchase
+	 <where>
+   		<if test="beginTimeLong != null and beginTimeLong != 0L ">
+			and billtime <![CDATA[>]]> #{beginTimeLong,jdbcType=BIGINT}
+		</if>
+   		<if test="endTimeLong != null and endTimeLong != 0L ">
+			and billtime <![CDATA[<]]> #{endTimeLong,jdbcType=BIGINT}
+		</if>
+		<if test="supplierNameLike != null and supplierNameLike != ''">
+			and suppliername like concat(#{supplierNameLike,jdbcType=VARCHAR},'%')
+		</if>
+		<if test="vehicleNoLike != null and vehicleNoLike != ''">
+			and vehicleno like concat(#{vehicleNoLike,jdbcType=VARCHAR},'%')
+		</if>
+		<if test="minemouthNameLike != null and minemouthNameLike != ''">
+			and minemouthname like concat(#{minemouthNameLike,jdbcType=VARCHAR},'%')
+		</if>
+		<if test="driverNameLike != null and driverNameLike != ''">
+			and drivername like concat(#{driverNameLike,jdbcType=VARCHAR},'%')
+		</if>
+		<if test="cargoNameLike != null and cargoNameLike != ''">
+			and materialname like concat(#{cargoNameLike,jdbcType=VARCHAR},'%') 
+		</if>
+		<if test="remarkLike != null and remarkLike != ''">
+			and remark like concat(#{remarkLike,jdbcType=VARCHAR},'%')
+		</if>
+		<if test="returnstatus != null and returnstatus != ''">
+			and returnstatus = #{returnstatus,jdbcType=VARCHAR}
+		</if>
+   	</where>	
+	GROUP BY
+		supplierid,
+		materialname,
+		remark
+	ORDER BY
+		supplierid 
+	<if test="start != null and start >= 0">
+		<if test="limit != null">
+			limit #{start,jdbcType=INTEGER},#{limit,jdbcType=INTEGER}
+		</if>
+	</if>
+  </select>
+  
   <select id="countByCondition" resultType="long" parameterType="com.tianrui.service.bean.businessManage.report.ReportPurchase" >
     select 
    		count(1)
@@ -117,6 +178,44 @@
 			and returnstatus = #{returnstatus,jdbcType=VARCHAR}
 		</if>
    	</where>
+  </select>
+  <select id="countByConditionForMater" resultType="long" parameterType="com.tianrui.service.bean.businessManage.report.ReportPurchase" >
+    select 
+   		count(1)
+    from v_report_purchase
+  	<where>
+   		<if test="beginTimeLong != null and beginTimeLong != 0L ">
+			and billtime <![CDATA[>]]> #{beginTimeLong,jdbcType=BIGINT}
+		</if>
+   		<if test="endTimeLong != null and endTimeLong != 0L ">
+			and billtime <![CDATA[<]]> #{endTimeLong,jdbcType=BIGINT}
+		</if>
+		<if test="supplierNameLike != null and supplierNameLike != ''">
+			and suppliername like concat(#{supplierNameLike,jdbcType=VARCHAR},'%')
+		</if>
+		<if test="vehicleNoLike != null and vehicleNoLike != ''">
+			and vehicleno like concat(#{vehicleNoLike,jdbcType=VARCHAR},'%')
+		</if>
+		<if test="minemouthNameLike != null and minemouthNameLike != ''">
+			and minemouthname like concat(#{minemouthNameLike,jdbcType=VARCHAR},'%')
+		</if>
+		<if test="driverNameLike != null and driverNameLike != ''">
+			and drivername like concat(#{driverNameLike,jdbcType=VARCHAR},'%')
+		</if>
+		<if test="cargoNameLike != null and cargoNameLike != ''">
+			and materialname like concat(#{cargoNameLike,jdbcType=VARCHAR},'%') 
+		</if>
+		<if test="remarkLike != null and remarkLike != ''">
+			and remark  like concat(#{remarkLike,jdbcType=VARCHAR},'%')
+		</if>
+		<if test="returnstatus != null and returnstatus != ''">
+			and returnstatus = #{returnstatus,jdbcType=VARCHAR}
+		</if>
+   	</where>
+   		GROUP BY
+		supplierid,
+		materialname,
+		remark
   </select>
  
 </mapper>
