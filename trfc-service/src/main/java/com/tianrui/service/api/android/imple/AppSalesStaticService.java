@@ -296,13 +296,11 @@ public class AppSalesStaticService implements IAppSalesStaticService {
 		sa.setMakebilltime(System.currentTimeMillis());
 		sa.setCreator(param.getUserId());
 		sa.setCreatetime(System.currentTimeMillis());
-		if (StringUtils.isNotBlank(param.getVehicle())) {
-			sa.setVehicleId(param.getVehicle());
-			VehicleManage vehicle = vehicleManageMapper.selectByPrimaryKey(param.getVehicle());
-			if (vehicle != null) {
-				sa.setVehicleNo(vehicle.getVehicleno());
-				sa.setRfid(vehicle.getRfid());
-			}
+		VehicleManage vehicle = vehicleManageMapper.selectByPrimaryKey(param.getVehicle());
+		if (vehicle != null) {
+			sa.setVehicleId(vehicle.getId());
+			sa.setVehicleNo(vehicle.getVehicleno());
+			sa.setRfid(vehicle.getRfid());
 		}
 		if (StringUtils.isNotBlank(param.getDriver())) {
 			sa.setDriverId(param.getDriver());

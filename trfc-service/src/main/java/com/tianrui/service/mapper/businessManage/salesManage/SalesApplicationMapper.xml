@@ -1020,12 +1020,12 @@
 		t2.pretendingtake AS planNum,
 		t2.taxprice AS price,
 		CASE
-		WHEN t1.auditstatus = 0 THEN
+		WHEN t1.status = 0 THEN
 			0
-		WHEN t1.auditstatus = 1
+		WHEN t1.status = 1
 		AND t2.margin > 0 THEN
 			1
-		WHEN t1.auditstatus = 2
+		WHEN t1.status = 2
 		AND t2.margin = 0 THEN
 			2
 		ELSE
