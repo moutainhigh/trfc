@@ -20,9 +20,13 @@ public interface IAppSalesStaticService {
 
 	AppResult saveBill(BillSave param) throws Exception;
 
-	AppResult billDelete(BillListParam param);
+	AppResult billDelete(BillListParam param) throws Exception;
 
 	AppResult saveNotice(NoticeSave param) throws Exception;
+
+	AppResult listMoreBill(BillListParam param);
+
+	AppResult moreSendCar(NoticeSave param);
 
 	AppResult noticeList(NoticeListParam param);
 
@@ -38,12 +42,6 @@ public interface IAppSalesStaticService {
 
 	AppResult myPnDetail(MyPnListParam param);
 
-	AppResult queryGroupUser(LoginUserParam param);
-
-	AppResult listMoreBill(BillListParam param);
-
-	AppResult moreSendCar(NoticeSave param);
-
-	AppResult userCutover(LoginUserParam param);
+	AppResult customerGroupUser(LoginUserParam param);
 
 }

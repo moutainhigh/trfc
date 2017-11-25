@@ -15,6 +15,7 @@ public enum ErrorCode {
 	//推单失败
 	RETURN_ERROR("000000","上传榜单成功，推单NC失败."),
 	DATE_NOT_UPDATE("E00003","未做修改无需保存."),
+	APP_BILL_RETURN_ERROR("000004","FC-DC推单失败，请稍候重试."),
 	
 	/**
 	 * 参数相关
@@ -55,6 +56,8 @@ public enum ErrorCode {
 	APPLICATION_NOT_DELETE1("E11003", "已审核的单据不能作废."),
 	APPLICATION_NOT_DELETE2("E11004", "联机的单据不能作废."),
 	APPLICATION_MARGIN_ERROR("E11005", "订单余量已不足."),
+	APPLICATION_IS_VALID_ERROR("E11006", "已作废或作废中的订单不能派单."),
+	APPLICATION_DONT_SEND_CAR("E11007", "一单一车的订单不允许派车."),
 	
 	/**
 	 * 通知单
