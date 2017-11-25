@@ -1,8 +1,6 @@
 package com.tianrui.service.impl.businessManage.report;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.beanutils.PropertyUtils;
@@ -101,6 +99,7 @@ public class PurchaseReportService implements IPurchaseReportService {
 					ReportPurchaseResp itemResp = new ReportPurchaseResp();
 					try {
 						PropertyUtils.copyProperties(itemResp, item);
+						rs.add(itemResp);
 					}  catch (Exception e) {
 						e.printStackTrace();
 					}
