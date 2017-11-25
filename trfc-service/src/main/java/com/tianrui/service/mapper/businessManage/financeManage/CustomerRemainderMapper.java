@@ -19,7 +19,7 @@ public interface CustomerRemainderMapper {
 
     int updateByPrimaryKey(CustomerRemainder record);
 
-    Long findMaxUtc();
+    Long findMaxUtc(String orgId);
 
 	List<String> queryIds();
 

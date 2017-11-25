@@ -1,5 +1,7 @@
 package com.tianrui.service.impl.businessManage.financeManage;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -11,7 +13,6 @@ import org.springframework.stereotype.Service;
 
 import com.alibaba.fastjson.JSONObject;
 import com.tianrui.api.intf.basicFile.finance.ICustomerRemainderService;
-import com.tianrui.api.req.BaseReq;
 import com.tianrui.service.bean.businessManage.financeManage.CustomerRemainder;
 import com.tianrui.service.mapper.businessManage.financeManage.CustomerRemainderMapper;
 import com.tianrui.smartfactory.common.constants.ErrorCode;
@@ -24,12 +25,12 @@ public class CustomerRemainderService implements ICustomerRemainderService {
 	private CustomerRemainderMapper CustomerRemainderMapper;
 
 	@Override
-	public Result findMaxUtc(BaseReq baseReq) {
+	public Result findMaxUtc(String orgId) {
 		Result rs = Result.getErrorResult();
-		Long maxUtc = CustomerRemainderMapper.findMaxUtc();
+		Long maxUtc = CustomerRemainderMapper.findMaxUtc(orgId);
 		rs.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
 		rs.setData(maxUtc);
-		return rs;
+		return rs;			
 	}
 
 	@Override
@@ -73,24 +74,28 @@ public class CustomerRemainderService implements ICustomerRemainderService {
 	}
 
 	private CustomerRemainder converJson2Bean(JSONObject jsonItem){
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
 		CustomerRemainder item = new CustomerRemainder();
 		item.setId(jsonItem.getString("id"));
 		item.setOrgName(jsonItem.getString("orgName"));
 		item.setOrgId(jsonItem.getString("orgId"));
 		item.setCustomerName(jsonItem.getString("customerName"));
 		item.setCustomerId(jsonItem.getString("customerId"));
-		item.setNlimitmny(Double.valueOf(jsonItem.getString("nlimitmny")));
-		item.setNengrossmny(Double.valueOf(jsonItem.getString("nengrossmny")));
-		item.setNbalancemny(Double.valueOf(jsonItem.getString("nbalancemny")));
+		item.setNlimitmny(Double.valueOf(jsonItem.getString("nlimitmny") == null || jsonItem.getString("nlimitmny").equals("") ? "0" : jsonItem.getString("nlimitmny")));
+		item.setNengrossmny(Double.valueOf(jsonItem.getString("nengrossmny")==null||jsonItem.getString("nengrossmny")==""? "0":jsonItem.getString("nengrossmny")));
+		item.setNbalancemny(Double.valueOf(jsonItem.getString("nbalancemny")==null||jsonItem.getString("nbalancemny")==""? "0":jsonItem.getString("nbalancemny")));
 		item.setCorigcurrencyid(jsonItem.getString("corigcurrencyid"));
-		item.setCreator(jsonItem.getString("creator"));
-		item.setCreatetime(Long.parseLong(jsonItem.getString("createtime")));
-		item.setModifier(jsonItem.getString("modifier"));
+		item.setCreatetime(System.currentTimeMillis());
 		item.setModifytime(System.currentTimeMillis());
-		item.setRemark(jsonItem.getString("remark"));
-		item.setUtc(Long.parseLong(jsonItem.getString("utc")));
+		item.setRemark(jsonItem.getString("memo"));
+		try {
+			item.setUtc(format.parse(jsonItem.getString("ts")).getTime());
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
 		item.setCorigcurrencyName(jsonItem.getString("corigcurrencyName"));
-		item.setCustomerCode(jsonItem.getString("customerCode"));
+		item.setCustomerCode(jsonItem.getString("customerCode") == null ? "" : jsonItem.getString("customerCode"));
+		item.setStatus(jsonItem.getString("status"));
 		return item;
 	}
 	
