@@ -54,8 +54,8 @@ public class TestApiNoticeDetailSystem {
 		ApiParam<ApiSalesArriveQuery> api =new ApiParam<ApiSalesArriveQuery>();
 		
 		ApiSalesArriveQuery req =new ApiSalesArriveQuery();
-		req.setRfid("E2000016060D0090271008A5");
-		req.setVehicleno("58527");
+		req.setRfid("E2000016130B0064218036BF");
+		req.setVehicleno("豫A22222");
 		
 		
 		Head head =new Head();

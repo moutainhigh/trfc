@@ -782,9 +782,9 @@ public class SalesArriveService implements ISalesArriveService {
 			api.setMinemouth(application.getMinemouthname());
 			api.setNumber(listPurchase.get(0).getArrivalamount() == null ? "" : listPurchase.get(0).getArrivalamount().toString());
 			api.setStatus(listPurchase.get(0).getStatus());
-			api.setSignStatus(listPurchase.get(0).getSignStatus());
+			api.setSignStatus(listPurchase.get(0).getSignStatus()== null ? 0 : listPurchase.get(0).getSignStatus());
 			api.setBillNo(application.getCode());
-			api.setRemark(application.getRemark());
+			api.setRemark(application.getRemark()==null?"":application.getRemark());
 		}
 		return api;
 	}
