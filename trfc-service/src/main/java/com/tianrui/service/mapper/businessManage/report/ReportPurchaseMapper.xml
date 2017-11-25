@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tianrui.service.mapper.businessManage.report.ReportPurchaseMapper" >
+  <resultMap id="BaseResultMap" type="com.tianrui.service.bean.businessManage.report.ReportPurchase" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="billcode" property="billcode" jdbcType="VARCHAR" />
+    <result column="poundcode" property="poundcode" jdbcType="VARCHAR" />
+    <result column="supplierid" property="supplierid" jdbcType="VARCHAR" />
+    <result column="suppliername" property="suppliername" jdbcType="VARCHAR" />
+    <result column="minemouthname" property="minemouthname" jdbcType="VARCHAR" />
+    <result column="yardname" property="yardname" jdbcType="VARCHAR" />
+    <result column="materialname" property="materialname" jdbcType="VARCHAR" />
+    <result column="vehicleid" property="vehicleid" jdbcType="VARCHAR" />
+    <result column="vehicleno" property="vehicleno" jdbcType="VARCHAR" />
+    <result column="grossweight" property="grossweight" jdbcType="DOUBLE" />
+    <result column="tareweight" property="tareweight" jdbcType="DOUBLE" />
+    <result column="netweight" property="netweight" jdbcType="DOUBLE" />
+    <result column="originalnetweight" property="originalnetweight" jdbcType="DOUBLE" />
+    <result column="lighttime" property="lighttime" jdbcType="BIGINT" />
+    <result column="weighttime" property="weighttime" jdbcType="BIGINT" />
+    <result column="billtime" property="billtime" jdbcType="BIGINT" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="signPersonName" property="signpersonname" jdbcType="VARCHAR" />
+    <result column="signTime" property="signtime" jdbcType="BIGINT" />
+    <result column="type" property="type" jdbcType="VARCHAR" />
+    <result column="drivername" property="drivername" jdbcType="VARCHAR" />
+    <result column="driverid" property="driverid" jdbcType="VARCHAR" />
+    <result column="cargo" property="cargo" jdbcType="VARCHAR" />
+    <result column="returnstatus" property="returnstatus" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, billcode, poundcode, supplierid, suppliername, minemouthname, yardname, materialname, 
+    vehicleid, vehicleno, grossweight, tareweight, netweight, originalnetweight, lighttime, 
+    weighttime, billtime, remark, signPersonName, signTime, type, drivername, driverid, 
+    cargo, returnstatus, status
+  </sql>
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from test_view
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="selectByCondition" resultMap="BaseResultMap" parameterType="com.tianrui.service.bean.businessManage.report.ReportPurchase" >
+    select 
+    <include refid="Base_Column_List" />
+    from test_view
+   	<where>
+   	</where>
+  </select>
+  
+  <select id="countByCondition" resultType="long" parameterType="com.tianrui.service.bean.businessManage.report.ReportPurchase" >
+    select 
+    <include refid="Base_Column_List" />
+    from test_view
+  	<where>
+   	</where>
+  </select>
+ 
+</mapper>
