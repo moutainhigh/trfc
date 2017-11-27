@@ -39,13 +39,13 @@
 						<label>客户：</label> <input id="s_customer" type="text"
 									placeholder="请选择客户">
 						</div>
-                        <div class="intel_solo">
+                        <!-- <div class="intel_solo">
                             <label>分支机构：</label>
                             <select id="branch" class="form-control">
                             	<option value="0">天瑞集团</option>
                             	<option value="1" selected="selected">天瑞集团汝州水泥有限公司</option>
                             </select>
-                        </div>
+                        </div> -->
                         <div class="intel_solo">
                             <label>制单人：</label>
                             <input type="text" placeholder="请输入制单人" id="makebillname">

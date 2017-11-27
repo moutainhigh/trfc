@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.tianrui.api.intf.businessManage.report.IPurchaseReportService;
 import com.tianrui.api.req.businessManage.purchaseManage.PushSingleReq;
 import com.tianrui.api.req.businessManage.report.ReportPurchaseQuery;
+import com.tianrui.api.resp.businessManage.report.ReportPurchaseMaterResp;
 import com.tianrui.api.resp.businessManage.report.ReportPurchaseResp;
 import com.tianrui.api.resp.system.auth.SystemUserResp;
 import com.tianrui.smartfactory.common.constants.ErrorCode;
@@ -62,15 +63,21 @@ public class PurchaseReportAction {
 	 */
 	@RequestMapping("/materPage")
 	@ResponseBody
-	public Result materPage(PushSingleReq req){
+	public Result materPage(ReportPurchaseQuery req,HttpServletRequest request){
 		Result result = Result.getSuccessResult();
 		try {
-			//PaginationVO<PushSingleResp> page = pushSingleService.page(req);
-			//result.setData(page);
+			SystemUserResp user = SessionManager.getSessionUser(request);
+			if(req==null){
+				req =new ReportPurchaseQuery();
+			}
+			req.setCurrUid(user.getId());
+			PaginationVO<ReportPurchaseMaterResp> page = purchaseReportService.page1(req);
+			result.setData(page);
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
 		}
+
 		return result;
 	}
 	
@@ -82,11 +89,18 @@ public class PurchaseReportAction {
 	 */
 	@RequestMapping("/customPage")
 	@ResponseBody
-	public Result customPage(PushSingleReq req){
+	public Result customPage(ReportPurchaseQuery req,HttpServletRequest request){
 		Result result = Result.getSuccessResult();
+		
+			
 		try {
-			//PaginationVO<PushSingleResp> page = pushSingleService.page(req);
-			//result.setData(page);
+			SystemUserResp user = SessionManager.getSessionUser(request);
+			if(req==null){
+				req =new ReportPurchaseQuery();
+			}
+			req.setCurrUid(user.getId());
+			PaginationVO<ReportPurchaseMaterResp> page = purchaseReportService.page2(req);
+			result.setData(page);
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
@@ -102,11 +116,16 @@ public class PurchaseReportAction {
 	 */
 	@RequestMapping("/receivePage")
 	@ResponseBody
-	public Result receivePage(PushSingleReq req){
+	public Result receivePage(ReportPurchaseQuery req,HttpServletRequest request){
 		Result result = Result.getSuccessResult();
 		try {
-			//PaginationVO<PushSingleResp> page = pushSingleService.page(req);
-			//result.setData(page);
+			SystemUserResp user = SessionManager.getSessionUser(request);
+			if(req==null){
+				req =new ReportPurchaseQuery();
+			}
+			req.setCurrUid(user.getId());
+			PaginationVO<ReportPurchaseResp> page = purchaseReportService.page3(req);
+			result.setData(page);
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 			result.setErrorCode(ErrorCode.SYSTEM_ERROR);

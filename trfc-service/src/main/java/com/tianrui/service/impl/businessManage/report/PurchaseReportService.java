@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import com.tianrui.api.intf.businessManage.report.IPurchaseReportService;
 import com.tianrui.api.req.businessManage.report.ReportPurchaseQuery;
+import com.tianrui.api.resp.businessManage.report.ReportPurchaseMaterResp;
 import com.tianrui.api.resp.businessManage.report.ReportPurchaseResp;
 import com.tianrui.service.bean.businessManage.report.ReportPurchase;
 import com.tianrui.service.mapper.businessManage.report.ReportPurchaseMapper;
@@ -53,6 +54,7 @@ public class PurchaseReportService implements IPurchaseReportService {
 		if(query!=null){
 			bean =new ReportPurchase();
 			//开始时间
+			//StringUtils.isNotBlank(query.getBeginTime())空字符串检查
 			if( StringUtils.isNotBlank(query.getBeginTime()) ){
 				bean.setBeginTimeLong(DateUtil.parse(query.getBeginTime()+" 00:00:00", "yyyy-MM-dd HH:mm:ss"));
 			}
@@ -108,6 +110,96 @@ public class PurchaseReportService implements IPurchaseReportService {
 		}
 		return rs;
 	}
+	//返回对象拼装
+	private List<ReportPurchaseMaterResp> copyBeanList2RespList1(List<ReportPurchase> list){
+		List<ReportPurchaseMaterResp> rs =null;
+		if( CollectionUtils.isNotEmpty(list) ){
+			rs=new ArrayList<ReportPurchaseMaterResp>();
+			for(ReportPurchase item:list){
+				if( item !=null ){
+					ReportPurchaseMaterResp itemResp = new ReportPurchaseMaterResp();
+					try {
+						PropertyUtils.copyProperties(itemResp, item);
+						rs.add(itemResp);
+					}  catch (Exception e) {
+						e.printStackTrace();
+					}
+				}
+			}
+		}
+		return rs;
+	}
+
+
+	@Override
+	public PaginationVO<ReportPurchaseMaterResp> page1(ReportPurchaseQuery reportPurchaseQuery) throws Exception {
+		 PaginationVO<ReportPurchaseMaterResp> page = null;
+		 if (reportPurchaseQuery !=null ) {
+			ReportPurchase query = queryParam(reportPurchaseQuery);
+			if (query !=null) {
+				page = new PaginationVO<ReportPurchaseMaterResp>();
+				//查询总数
+				Long count = reportPurchaseMapper.countByConditionForMater(query);
+				if (count >0) {
+					page.setList(copyBeanList2RespList1(reportPurchaseMapper.selectByConditionForMater(query)));
+				}
+				//返回结果参数补全
+				page.setPageNo(reportPurchaseQuery.getPageNo());
+				page.setPageSize(reportPurchaseQuery.getPageSize());
+				page.setTotal(count);
+			}
+		}
+		return page;
+	}
+
+
+	@Override
+	public PaginationVO<ReportPurchaseMaterResp> page2(ReportPurchaseQuery reportPurchaseQuery) throws Exception {
+		 PaginationVO<ReportPurchaseMaterResp> page = null;
+		 if (reportPurchaseQuery !=null ) {
+			ReportPurchase query = queryParam(reportPurchaseQuery);
+			if (query !=null) {
+				page = new PaginationVO<ReportPurchaseMaterResp>();
+				//查询总数
+				Long count = reportPurchaseMapper.countByConditionForMatercg(query);
+				if (count >0) {
+					page.setList(copyBeanList2RespList1(reportPurchaseMapper.selectByConditionForMatercg(query)));
+				}
+				//返回结果参数补全
+				page.setPageNo(reportPurchaseQuery.getPageNo());
+				page.setPageSize(reportPurchaseQuery.getPageSize());
+				page.setTotal(count);
+			}
+		}
+		return page;
+	}
+
+
+	@Override
+	public PaginationVO<ReportPurchaseResp> page3(ReportPurchaseQuery reportPurchaseQuery) throws Exception {
+		PaginationVO<ReportPurchaseResp> page = null;
+		if (reportPurchaseQuery !=null) {
+			ReportPurchase query = queryParam(reportPurchaseQuery);
+			if (query !=null) {
+				page  = new PaginationVO<ReportPurchaseResp>();
+				Long count = reportPurchaseMapper.countByConditionForMaterSignPersonName(query);
+				if (count >0) {
+					page.setList(copyBeanList2RespList(reportPurchaseMapper.selectByConditionForMaterSignPersonName(query)));
+				}
+				//返回结果参数补全
+				page.setPageNo(reportPurchaseQuery.getPageNo());
+				page.setPageSize(reportPurchaseQuery.getPageSize());
+				page.setTotal(count);
+			}
+		}
+		return page;
+	}
+
+
+
+
+	
+
 
 
 }

@@ -21,5 +21,16 @@ public interface ReportPurchaseMapper {
      * @return
      */
     Long countByCondition(ReportPurchase reportPurchase);
-
+    //物料（根据条件查找数据）
+    List<ReportPurchase> selectByConditionForMater(ReportPurchase reportPurchase);
+    //物料（根据条件查找条数）
+    Long countByConditionForMater(ReportPurchase reportPurchase);
+    //采购物料（根据条件查找数据）
+    List<ReportPurchase> selectByConditionForMatercg(ReportPurchase reportPurchase);
+    //采购物料（根据条件查找条数）
+    Long countByConditionForMatercg(ReportPurchase reportPurchase);
+    //采购物料收货人（根据条件查找数据）
+    List<ReportPurchase> selectByConditionForMaterSignPersonName(ReportPurchase reportPurchase);
+    //采购物料收货人（根据条件查找条数）
+    Long countByConditionForMaterSignPersonName(ReportPurchase reportPurchase);
 }
