@@ -141,7 +141,7 @@ public class PurchaseReportService implements IPurchaseReportService {
 				//查询总数
 				Long count = reportPurchaseMapper.countByConditionForMater(query);
 				if (count >0) {
-					page.setList(copyBeanList2RespList1(reportPurchaseMapper.selectByConditionForMater(query)));
+					page.setList(reportPurchaseMapper.selectByConditionForMater(query));
 				}
 				//返回结果参数补全
 				page.setPageNo(reportPurchaseQuery.getPageNo());
@@ -163,7 +163,7 @@ public class PurchaseReportService implements IPurchaseReportService {
 				//查询总数
 				Long count = reportPurchaseMapper.countByConditionForMatercg(query);
 				if (count >0) {
-					page.setList(copyBeanList2RespList1(reportPurchaseMapper.selectByConditionForMatercg(query)));
+					page.setList(reportPurchaseMapper.selectByConditionForMatercg(query));
 				}
 				//返回结果参数补全
 				page.setPageNo(reportPurchaseQuery.getPageNo());

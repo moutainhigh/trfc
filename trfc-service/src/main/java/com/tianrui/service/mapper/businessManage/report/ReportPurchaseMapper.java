@@ -2,6 +2,7 @@ package com.tianrui.service.mapper.businessManage.report;
 
 import java.util.List;
 
+import com.tianrui.api.resp.businessManage.report.ReportPurchaseMaterResp;
 import com.tianrui.service.bean.businessManage.report.ReportPurchase;
 
 public interface ReportPurchaseMapper {
@@ -22,11 +23,11 @@ public interface ReportPurchaseMapper {
      */
     Long countByCondition(ReportPurchase reportPurchase);
     //物料（根据条件查找数据）
-    List<ReportPurchase> selectByConditionForMater(ReportPurchase reportPurchase);
+    List<ReportPurchaseMaterResp> selectByConditionForMater(ReportPurchase reportPurchase);
     //物料（根据条件查找条数）
     Long countByConditionForMater(ReportPurchase reportPurchase);
     //采购物料（根据条件查找数据）
-    List<ReportPurchase> selectByConditionForMatercg(ReportPurchase reportPurchase);
+    List<ReportPurchaseMaterResp> selectByConditionForMatercg(ReportPurchase reportPurchase);
     //采购物料（根据条件查找条数）
     Long countByConditionForMatercg(ReportPurchase reportPurchase);
     //采购物料收货人（根据条件查找数据）
