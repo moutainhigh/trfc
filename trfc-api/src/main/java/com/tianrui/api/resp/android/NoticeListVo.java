@@ -43,6 +43,8 @@ public class NoticeListVo extends BaseResp {
 	private String pnCode;
 	//单位
 	private String unit;
+	//收获时间
+	private String signTime = "";
 	public String getId() {
 		return id;
 	}
@@ -157,6 +159,12 @@ public class NoticeListVo extends BaseResp {
 	public void setUnit(String unit) {
 		this.unit = unit;
 	}
+	public String getSignTime() {
+		return signTime;
+	}
+	public void setSignTime(String signTime) {
+		this.signTime = signTime;
+	}
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
@@ -166,6 +174,7 @@ public class NoticeListVo extends BaseResp {
 				+ ", vehicle=" + vehicle + ", material=" + material + ", driver=" + driver + ", source=" + source
 				+ ", grossWeight=" + grossWeight + ", tareWeight=" + tareWeight + ", netWeight=" + netWeight
 				+ ", lightTime=" + lightTime + ", weightTime=" + weightTime + ", number=" + number + ", margin="
-				+ margin + ", status=" + status + ", type=" + type + ", pnCode=" + pnCode + ", unit=" + unit + "]";
+				+ margin + ", status=" + status + ", type=" + type + ", pnCode=" + pnCode + ", unit=" + unit
+				+ ", signTime=" + signTime + "]";
 	}
 }

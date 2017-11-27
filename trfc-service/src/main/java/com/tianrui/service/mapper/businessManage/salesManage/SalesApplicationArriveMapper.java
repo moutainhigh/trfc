@@ -1,5 +1,7 @@
 package com.tianrui.service.mapper.businessManage.salesManage;
 
+import java.util.List;
+
 import com.tianrui.service.bean.businessManage.salesManage.SalesApplicationArrive;
 
 public interface SalesApplicationArriveMapper {
@@ -14,4 +16,6 @@ public interface SalesApplicationArriveMapper {
     int updateByPrimaryKeySelective(SalesApplicationArrive record);
 
     int updateByPrimaryKey(SalesApplicationArrive record);
+
+	List<SalesApplicationArrive> listByNoticeId(String noticId);
 }

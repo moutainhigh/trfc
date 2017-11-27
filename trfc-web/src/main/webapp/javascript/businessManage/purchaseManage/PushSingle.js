@@ -196,6 +196,9 @@
 				case '3':
 					requisitionType = '提货单';
 					break;
+				case '4':
+					requisitionType = '通知单';
+					break;
 				default:
 					requisitionType = '';
 					break;

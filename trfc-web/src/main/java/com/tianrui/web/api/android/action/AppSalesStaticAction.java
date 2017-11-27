@@ -155,6 +155,7 @@ public class AppSalesStaticAction {
 		try {
 			param.getBody().setUserId(param.getHead().getUserId());
 			param.getBody().setNcId(param.getHead().getNcId());
+			param.getBody().setSalesOrg(param.getHead().getSalesOrg());
 			param.getBody().setIDType(param.getHead().getIDType());
 			result = appService.listMoreBill(param.getBody());
 		} catch (Exception e) {
@@ -233,7 +234,6 @@ public class AppSalesStaticAction {
 		return result;
 	}
 	
-	//一单一车的通知单不能作废
 	@RequestMapping(value="/notice/cancel",method=RequestMethod.POST)
 	@ApiParamRawType(NoticeListParam.class)
 	@ResponseBody

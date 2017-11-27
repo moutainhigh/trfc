@@ -16,7 +16,7 @@ public class PushSingle {
 	private String noticeNum;
 	//推送状态（1、推单中 2、成功 3、失败）
 	private String pushStatus;
-	//申请单类型（1、入库单2、申请单 3、提货单）
+	//申请单类型（1、入库单2、申请单 3、提货单 4、通知单）
 	private String requisitionType;
 	//失败原因
 	private String reasonFailure;
