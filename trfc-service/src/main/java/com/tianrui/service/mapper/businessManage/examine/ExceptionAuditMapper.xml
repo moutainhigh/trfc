@@ -338,5 +338,6 @@
     <if test="pnId != null and pnId != ''">
         and pn_id = #{pnId,jdbcType=VARCHAR}
     </if>
+    order by createtime desc
   </select>
 </mapper>
