@@ -275,4 +275,64 @@
    	from 
    		tr_finance_db_customer_remainder;
   </select>
+  <select id="findCustomerRemainderPageCount" parameterType="com.tianrui.api.req.businessManage.financeManage.CustomerRemainderQuery" resultType="java.lang.Long">
+  	select count(0) from tr_finance_db_customer_remainder 
+  	<where>
+  		<if test="status != null and status != ''">
+  			and status = #{status,jdbcType=VARCHAR}
+  		</if>
+  		<if test="orgId != null and orgId != ''">
+  			and org_id like CONCAT('%',#{orgId},'%')
+  		</if>
+  		<if test="orgName != null and orgName != ''">
+  			and org_name like CONCAT('%',#{orgName},'%')
+  		</if>
+  		<if test="customerId != null and customerId != ''">
+  			and customer_id like CONCAT('%',#{customerId},'%')
+  		</if>
+  		<if test="customerName != null and customerName != ''">
+  			and customer_name like CONCAT('%',#{customerName},'%')
+  		</if>
+  		<if test="starttime != null and starttime != ''">
+  			and createtime <![CDATA[>=]]> #{starttime,jdbcType=BIGINT}
+  		</if>
+  		<if test="endtime != null and endtime != ''">
+  			and createtime <![CDATA[<]]> #{endtime,jdbcType=BIGINT}
+  		</if>
+  	</where>
+  </select>
+  <select id="findCustomerRemainderPage" parameterType="com.tianrui.api.req.businessManage.financeManage.CustomerRemainderQuery" resultMap="BaseResultMap">
+  	select
+  	<include refid="Base_Column_List"/>
+  	from tr_finance_db_customer_remainder
+  	<where>
+  		<if test="status != null and status != ''">
+  			and status = #{status,jdbcType=VARCHAR}
+  		</if>
+  		<if test="orgId != null and orgId != ''">
+  			and org_id like CONCAT('%',#{orgId},'%')
+  		</if>
+  		<if test="orgName != null and orgName != ''">
+  			and org_name like CONCAT('%',#{orgName},'%')
+  		</if>
+  		<if test="customerId != null and customerId != ''">
+  			and customer_id like CONCAT('%',#{customerId},'%')
+  		</if>
+  		<if test="customerName != null and customerName != ''">
+  			and customer_name like CONCAT('%',#{customerName},'%')
+  		</if>
+  		<if test="starttime != null and starttime != ''">
+  			and createtime <![CDATA[>=]]> #{starttime,jdbcType=BIGINT}
+  		</if>
+  		<if test="endtime != null and endtime != ''">
+  			and createtime <![CDATA[<]]> #{endtime,jdbcType=BIGINT}
+  		</if>
+  	</where>
+  	order by createtime desc
+  	<if test="start != null and start >= 0">
+  		<if test="limit != null">
+			limit #{start,jdbcType=INTEGER},#{limit,jdbcType=INTEGER}
+  		</if>
+  	</if>
+  </select>
 </mapper>

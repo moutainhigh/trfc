@@ -21,8 +21,7 @@ public class DemoMapperTest3 {
 	@Test
 	public void test() throws Exception{
 		
-		Long maxUtc = customerRemainderMapper.findMaxUtc();
-		System.out.println(maxUtc);
+		
 	}
 	
 }
