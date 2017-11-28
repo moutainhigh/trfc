@@ -29,7 +29,7 @@ public class PurchaseReportService implements IPurchaseReportService {
 		PaginationVO<ReportPurchaseResp> page = null;
 		if(reportPurchaseQuery != null){
 			//参数转换
-			ReportPurchase query= queryParam(reportPurchaseQuery);
+			ReportPurchase query= queryParam(reportPurchaseQuery,true);
 			if( query !=null ){
 				page = new PaginationVO<ReportPurchaseResp>();
 				//查询总数
@@ -47,9 +47,32 @@ public class PurchaseReportService implements IPurchaseReportService {
 		return page;
 	}
 	
-	
-	//拼装查询参数
-	private ReportPurchase queryParam(ReportPurchaseQuery query){
+	@Override
+	public List<ReportPurchaseResp> list(ReportPurchaseQuery reportPurchaseQuery) throws Exception {
+		// TODO Auto-generated method stub
+		List<ReportPurchaseResp> rs = null;
+		if(reportPurchaseQuery != null){
+			//参数转换
+			ReportPurchase query= queryParam(reportPurchaseQuery,false);
+			
+			if( query !=null ){
+				//查询结果转换
+				rs=copyBeanList2RespList( reportPurchaseMapper.selectByCondition(query));
+			}
+		}
+		if( CollectionUtils.isNotEmpty(rs) ){
+			rs =new ArrayList<ReportPurchaseResp>();
+		}
+		return rs;
+	}
+	//拼装查询参数   
+	/**
+	 * 
+	 * @param query
+	 * @param bb 当bb=true时调用分页，bb=false时，不调用分页
+	 * @return
+	 */
+	private ReportPurchase queryParam(ReportPurchaseQuery query,boolean bb){
 		ReportPurchase bean =null;
 		if(query!=null){
 			bean =new ReportPurchase();
@@ -82,10 +105,12 @@ public class PurchaseReportService implements IPurchaseReportService {
 			if( StringUtils.isNotBlank(query.getMinemouthname()) ){
 				bean.setMinemouthNameLike(query.getMinemouthname());
 			}
+			if (bb=true) {
+				//分页参数
+				bean.setStart((query.getPageNo()-1)*query.getPageSize());
+				bean.setLimit(query.getPageSize());
+			}
 			
-			//分页参数
-			bean.setStart((query.getPageNo()-1)*query.getPageSize());
-			bean.setLimit(query.getPageSize());
 		}
 		return bean;
 		
@@ -135,7 +160,7 @@ public class PurchaseReportService implements IPurchaseReportService {
 	public PaginationVO<ReportPurchaseMaterResp> page1(ReportPurchaseQuery reportPurchaseQuery) throws Exception {
 		 PaginationVO<ReportPurchaseMaterResp> page = null;
 		 if (reportPurchaseQuery !=null ) {
-			ReportPurchase query = queryParam(reportPurchaseQuery);
+			ReportPurchase query = queryParam(reportPurchaseQuery,true);
 			if (query !=null) {
 				page = new PaginationVO<ReportPurchaseMaterResp>();
 				//查询总数
@@ -152,12 +177,29 @@ public class PurchaseReportService implements IPurchaseReportService {
 		return page;
 	}
 
+	@Override
+	public List<ReportPurchaseMaterResp> list1(ReportPurchaseQuery reportPurchaseQuery) throws Exception {
+		// TODO Auto-generated method stub
+		List<ReportPurchaseMaterResp> rs = null;
+		if (reportPurchaseQuery !=null) {
+			ReportPurchase query = queryParam(reportPurchaseQuery,false);
+			if (query !=null) {
+				rs = reportPurchaseMapper.selectByConditionForMater(query);
+			}
+			
+		}
+		if( CollectionUtils.isNotEmpty(rs) ){
+			rs =new ArrayList<ReportPurchaseMaterResp>();
+		}
+		return rs;
+	}
+
 
 	@Override
 	public PaginationVO<ReportPurchaseMaterResp> page2(ReportPurchaseQuery reportPurchaseQuery) throws Exception {
 		 PaginationVO<ReportPurchaseMaterResp> page = null;
 		 if (reportPurchaseQuery !=null ) {
-			ReportPurchase query = queryParam(reportPurchaseQuery);
+			ReportPurchase query = queryParam(reportPurchaseQuery,true);
 			if (query !=null) {
 				page = new PaginationVO<ReportPurchaseMaterResp>();
 				//查询总数
@@ -174,12 +216,27 @@ public class PurchaseReportService implements IPurchaseReportService {
 		return page;
 	}
 
-
+	@Override
+	public List<ReportPurchaseMaterResp> list2(ReportPurchaseQuery reportPurchaseQuery) throws Exception {
+		// TODO Auto-generated method stub
+				List<ReportPurchaseMaterResp> rs = null;
+				if (reportPurchaseQuery !=null) {
+					ReportPurchase query = queryParam(reportPurchaseQuery,false);
+					if (query !=null) {
+						rs = reportPurchaseMapper.selectByConditionForMatercg(query);
+					}
+					
+				}
+				if( CollectionUtils.isNotEmpty(rs) ){
+					rs =new ArrayList<ReportPurchaseMaterResp>();
+				}
+				return rs;
+	}
 	@Override
 	public PaginationVO<ReportPurchaseResp> page3(ReportPurchaseQuery reportPurchaseQuery) throws Exception {
 		PaginationVO<ReportPurchaseResp> page = null;
 		if (reportPurchaseQuery !=null) {
-			ReportPurchase query = queryParam(reportPurchaseQuery);
+			ReportPurchase query = queryParam(reportPurchaseQuery,true);
 			if (query !=null) {
 				page  = new PaginationVO<ReportPurchaseResp>();
 				Long count = reportPurchaseMapper.countByConditionForMaterSignPersonName(query);
@@ -193,6 +250,25 @@ public class PurchaseReportService implements IPurchaseReportService {
 			}
 		}
 		return page;
+	}
+
+	@Override
+	public List<ReportPurchaseResp> list3(ReportPurchaseQuery reportPurchaseQuery) throws Exception {
+		// TODO Auto-generated method stub
+		List<ReportPurchaseResp> rs = null;
+		if(reportPurchaseQuery != null){
+			//参数转换
+			ReportPurchase query= queryParam(reportPurchaseQuery,false);
+			
+			if( query !=null ){
+				//查询结果转换
+				rs=copyBeanList2RespList( reportPurchaseMapper.selectByConditionForMaterSignPersonName(query));
+			}
+		}
+		if( CollectionUtils.isNotEmpty(rs) ){
+			rs =new ArrayList<ReportPurchaseResp>();
+		}
+		return rs;
 	}
 
 
