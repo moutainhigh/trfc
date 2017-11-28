@@ -198,6 +198,8 @@ public class HandSetStaticService implements IHandSetStaticService {
                             update.setSignPersonName(updateItem.getReceiverpersonname());
                             update.setSignTime(System.currentTimeMillis());
                             update.setSignID(param.getSignID());
+                            update.setModifier(param.getUserId());
+                            update.setModifytime(System.currentTimeMillis());
                             purchaseArriveMapper.updateByPrimaryKeySelective(update);
                         }
                     } else {
@@ -254,6 +256,8 @@ public class HandSetStaticService implements IHandSetStaticService {
                         update.setId(pa.getId());
                         update.setStatus(Constant.SEVEN_STRING);
                         update.setSignStatus(Constant.ZERO_NUMBER);
+                        update.setModifier(param.getUserId());
+                        update.setModifytime(System.currentTimeMillis());
                         purchaseArriveMapper.updateByPrimaryKeySelective(update);
                         result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
                     } else {
@@ -283,6 +287,8 @@ public class HandSetStaticService implements IHandSetStaticService {
                         update.setId(pa.getId());
                         update.setStatus(Constant.SEVEN_STRING);
                         update.setSignStatus(Constant.ZERO_NUMBER);
+                        update.setModifier(param.getUserId());
+                        update.setModifytime(System.currentTimeMillis());
                         purchaseArriveMapper.updateByPrimaryKeySelective(update);
                         result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
                     } else {
@@ -302,30 +308,41 @@ public class HandSetStaticService implements IHandSetStaticService {
     public Result confirmationOfShipment(HandSetRequestParam param) {
         Result rs = Result.getParamErrorResult();
         if (param != null && StringUtils.isNotBlank(param.getVehicleNo())) {
-            SalesArrive sa = salesArriveMapper.getByVehicleNo(param.getVehicleNo());
-            if (sa != null) {
-                if (!StringUtils.equals(sa.getStatus(), Constant.SEVEN_STRING)) {
-                    if (StringUtils.equals(sa.getStatus(), Constant.ONE_STRING)) {
-                        PoundNote pn = poundNoteMapper.selectByNoticeId(sa.getId());
-                        List<ExceptionAudit> list = exceptionAuditMapper.listByPnId(Constant.ONE_STRING, pn.getId());
-                        if (CollectionUtils.isEmpty(list)) {
-                            SalesArrive bean = new SalesArrive();
-                            bean.setId(sa.getId());
-                            bean.setStatus(Constant.SEVEN_STRING);
-                            salesArriveMapper.updateByPrimaryKeySelective(bean);
-                            rs.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
-                        } else {
-                            rs.setErrorCode(ErrorCode.EXCEPTION_AUDIT_ERROR2);
-                        }
-                    } else {
-                        rs.setErrorCode(ErrorCode.NOTICE_NOT_ONE_POUNDNOTE);
-                    }
-                } else {
-                    rs.setErrorCode(ErrorCode.NOTICE_ON_SIGN);
-                }
-            } else {
-                rs.setErrorCode(ErrorCode.NOTICE_NOT_EXIST);
-            }
+        	SystemUser user = systemUserMapper.selectByPrimaryKey(param.getUserId());
+        	if (user != null) {
+        		SalesArrive sa = salesArriveMapper.getByVehicleNo(param.getVehicleNo());
+        		if (sa != null) {
+        			if (!StringUtils.equals(sa.getStatus(), Constant.SEVEN_STRING)) {
+        				if (StringUtils.equals(sa.getStatus(), Constant.ONE_STRING)) {
+        					PoundNote pn = poundNoteMapper.selectByNoticeId(sa.getId());
+        					List<ExceptionAudit> list = exceptionAuditMapper.listByPnId(Constant.ONE_STRING, pn.getId());
+        					if (CollectionUtils.isEmpty(list)) {
+        						SalesArrive bean = new SalesArrive();
+        						bean.setId(sa.getId());
+        						bean.setStatus(Constant.SEVEN_STRING);
+        						bean.setSendPerson(user.getId());
+        						bean.setSendPersonName(user.getName());
+        						bean.setSendTime(System.currentTimeMillis());
+        						bean.setSendID(param.getSignID());
+        						bean.setModifier(param.getUserId());
+        						bean.setModifytime(System.currentTimeMillis());
+        						salesArriveMapper.updateByPrimaryKeySelective(bean);
+        						rs.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+        					} else {
+        						rs.setErrorCode(ErrorCode.EXCEPTION_AUDIT_ERROR2);
+        					}
+        				} else {
+        					rs.setErrorCode(ErrorCode.NOTICE_NOT_ONE_POUNDNOTE);
+        				}
+        			} else {
+        				rs.setErrorCode(ErrorCode.NOTICE_ON_SIGN);
+        			}
+        		} else {
+        			rs.setErrorCode(ErrorCode.NOTICE_NOT_EXIST);
+        		}
+        	} else {
+        		rs.setErrorCode(ErrorCode.SYSTEM_USER_ERROR18);
+        	}
         }
         return rs;
     }

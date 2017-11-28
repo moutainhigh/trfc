@@ -1,5 +1,7 @@
 package com.tianrui.web.action.businessManage.report;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
@@ -65,6 +67,27 @@ public class PurchaseReportAction {
 		return result;
 	}
 	
+	@RequestMapping("/commonList")
+	@ResponseBody
+	public Result commonList(ReportPurchaseQuery req,HttpServletRequest request){
+		Result result = Result.getSuccessResult();
+		try {
+			SystemUserResp user = SessionManager.getSessionUser(request);
+			if(req==null){
+				req =new ReportPurchaseQuery();
+			}
+			req.setCurrUid(user.getId());
+			List<ReportPurchaseResp> list = purchaseReportService.list(req);
+			
+			result.setData(list);
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
+		}
+		return result;
+	}
+	
+	
 	/**
 	 * 物料明细
 	 * @param req
@@ -82,6 +105,26 @@ public class PurchaseReportAction {
 			req.setCurrUid(user.getId());
 			PaginationVO<ReportPurchaseMaterResp> page = purchaseReportService.page1(req);
 			result.setData(page);
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
+		}
+
+		return result;
+	}
+	
+	@RequestMapping("/materList")
+	@ResponseBody
+	public Result materList(ReportPurchaseQuery req,HttpServletRequest request){
+		Result result = Result.getSuccessResult();
+		try {
+			SystemUserResp user = SessionManager.getSessionUser(request);
+			if(req==null){
+				req =new ReportPurchaseQuery();
+			}
+			req.setCurrUid(user.getId());
+			List<ReportPurchaseMaterResp> list1 = purchaseReportService.list1(req);
+			result.setData(list1);
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
@@ -117,6 +160,27 @@ public class PurchaseReportAction {
 		return result;
 	}
 	
+	@RequestMapping("/customList")
+	@ResponseBody
+	public Result customList(ReportPurchaseQuery req,HttpServletRequest request){
+		Result result = Result.getSuccessResult();
+		
+			
+		try {
+			SystemUserResp user = SessionManager.getSessionUser(request);
+			if(req==null){
+				req =new ReportPurchaseQuery();
+			}
+			req.setCurrUid(user.getId());
+			List<ReportPurchaseMaterResp> list2 = purchaseReportService.list2(req);
+			result.setData(list2);
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
+		}
+		return result;
+	}
+	
 	
 	/**
 	 * 采购收料明细
@@ -135,6 +199,24 @@ public class PurchaseReportAction {
 			req.setCurrUid(user.getId());
 			PaginationVO<ReportPurchaseResp> page = purchaseReportService.page3(req);
 			result.setData(page);
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
+		}
+		return result;
+	}
+	@RequestMapping("/receiveList")
+	@ResponseBody
+	public Result receiveList(ReportPurchaseQuery req,HttpServletRequest request){
+		Result result = Result.getSuccessResult();
+		try {
+			SystemUserResp user = SessionManager.getSessionUser(request);
+			if(req==null){
+				req =new ReportPurchaseQuery();
+			}
+			req.setCurrUid(user.getId());
+			List<ReportPurchaseResp> list3 = purchaseReportService.list3(req);
+			result.setData(list3);
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 			result.setErrorCode(ErrorCode.SYSTEM_ERROR);

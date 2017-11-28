@@ -82,13 +82,13 @@ public interface SalesArriveMapper {
 	 */
 	List<SalesArrive> selectByIds(List<String> ids);
 	/**
-	 * @Description 验证是否有销售通知单
+	 * @Description 验证是否有销售通知单（未完成的通知单，即未作废，未出厂的）
 	 * @author zhanggaohao
 	 * @version 2017年3月2日 上午10:33:24
 	 * @param vehicleno
 	 * @return
 	 */
-	SalesArrive hasPurchaseArrive(String vehicleno);
+	SalesArrive hasSalesArrive(String vehicleno);
 	/**
 	 * @Description 根据通知单号查询通知单
 	 * @author zhanggaohao

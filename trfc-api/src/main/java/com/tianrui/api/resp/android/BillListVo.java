@@ -35,6 +35,12 @@ public class BillListVo extends BaseResp {
 	private String price = "";
 	//状态（0：待审核，1：可派车，2：已完成）
 	private String type = "";
+	//供应商备注
+	private String supRemark = "";
+	//矿口
+	private String minemouth = "";
+	//矿口
+	private String vehicle = "";
 	public String getId() {
 		return id;
 	}
@@ -125,6 +131,24 @@ public class BillListVo extends BaseResp {
 	public void setType(String type) {
 		this.type = type;
 	}
+	public String getSupRemark() {
+		return supRemark;
+	}
+	public void setSupRemark(String supRemark) {
+		this.supRemark = supRemark;
+	}
+	public String getMinemouth() {
+		return minemouth;
+	}
+	public void setMinemouth(String minemouth) {
+		this.minemouth = minemouth;
+	}
+	public String getVehicle() {
+		return vehicle;
+	}
+	public void setVehicle(String vehicle) {
+		this.vehicle = vehicle;
+	}
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
@@ -133,6 +157,7 @@ public class BillListVo extends BaseResp {
 		return "BillListVo [id=" + id + ", detailId=" + detailId + ", code=" + code + ", billType=" + billType
 				+ ", billTime=" + billTime + ", billSource=" + billSource + ", material=" + material + ", margin="
 				+ margin + ", unit=" + unit + ", sumNum=" + sumNum + ", outInNum=" + outInNum + ", unOutInNum="
-				+ unOutInNum + ", planNum=" + planNum + ", price=" + price + ", type=" + type + "]";
+				+ unOutInNum + ", planNum=" + planNum + ", price=" + price + ", type=" + type + ", supRemark="
+				+ supRemark + ", minemouth=" + minemouth + ", vehicle=" + vehicle + "]";
 	}
 }

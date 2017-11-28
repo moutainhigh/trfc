@@ -87,338 +87,282 @@ public class SalesArrive {
     private Long forceOutFactoryTime;
     //作废状态（0：未作废，1：作废中，2：已作废）
     private String validStatus;
-    
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id == null ? null : id.trim();
-    }
-
-    public String getCode() {
-        return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code == null ? null : code.trim();
-    }
-
-    public String getAuditstatus() {
-        return auditstatus;
-    }
-
-    public void setAuditstatus(String auditstatus) {
-        this.auditstatus = auditstatus == null ? null : auditstatus.trim();
-    }
-
-    public String getSource() {
-        return source;
-    }
-
-    public void setSource(String source) {
-        this.source = source == null ? null : source.trim();
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status == null ? null : status.trim();
-    }
-
-    public String getVehicleid() {
-        return vehicleid;
-    }
-
-    public void setVehicleid(String vehicleid) {
-        this.vehicleid = vehicleid == null ? null : vehicleid.trim();
-    }
-
-    public String getVehicleno() {
-        return vehicleno;
-    }
-
-    public void setVehicleno(String vehicleno) {
-        this.vehicleno = vehicleno == null ? null : vehicleno.trim();
-    }
-
-    public String getVehiclerfid() {
+    //发货人ID
+    private String sendPerson;
+    //发货人名称
+    private String sendPersonName;
+    //发货时间
+    private Long sendTime;
+    //发货设备ID
+    private String sendID;
+	public String getId() {
+		return id;
+	}
+	public void setId(String id) {
+		this.id = id;
+	}
+	public String getCode() {
+		return code;
+	}
+	public void setCode(String code) {
+		this.code = code;
+	}
+	public String getAuditstatus() {
+		return auditstatus;
+	}
+	public void setAuditstatus(String auditstatus) {
+		this.auditstatus = auditstatus;
+	}
+	public String getSource() {
+		return source;
+	}
+	public void setSource(String source) {
+		this.source = source;
+	}
+	public String getStatus() {
+		return status;
+	}
+	public void setStatus(String status) {
+		this.status = status;
+	}
+	public String getVehicleid() {
+		return vehicleid;
+	}
+	public void setVehicleid(String vehicleid) {
+		this.vehicleid = vehicleid;
+	}
+	public String getVehicleno() {
+		return vehicleno;
+	}
+	public void setVehicleno(String vehicleno) {
+		this.vehicleno = vehicleno;
+	}
+	public String getVehiclerfid() {
 		return vehiclerfid;
 	}
-
 	public void setVehiclerfid(String vehiclerfid) {
 		this.vehiclerfid = vehiclerfid;
 	}
-
 	public String getDriverid() {
-        return driverid;
-    }
-
-    public void setDriverid(String driverid) {
-        this.driverid = driverid == null ? null : driverid.trim();
-    }
-
-    public String getDrivername() {
-        return drivername;
-    }
-
-    public void setDrivername(String drivername) {
-        this.drivername = drivername == null ? null : drivername.trim();
-    }
-
-    public String getDriveridentityno() {
-        return driveridentityno;
-    }
-
-    public void setDriveridentityno(String driveridentityno) {
-        this.driveridentityno = driveridentityno == null ? null : driveridentityno.trim();
-    }
-
-    public String getBillid() {
-        return billid;
-    }
-
-    public void setBillid(String billid) {
-        this.billid = billid == null ? null : billid.trim();
-    }
-
-    public String getBillcode() {
-        return billcode;
-    }
-
-    public void setBillcode(String billcode) {
-        this.billcode = billcode == null ? null : billcode.trim();
-    }
-
-    public String getBilldetailid() {
+		return driverid;
+	}
+	public void setDriverid(String driverid) {
+		this.driverid = driverid;
+	}
+	public String getDrivername() {
+		return drivername;
+	}
+	public void setDrivername(String drivername) {
+		this.drivername = drivername;
+	}
+	public String getDriveridentityno() {
+		return driveridentityno;
+	}
+	public void setDriveridentityno(String driveridentityno) {
+		this.driveridentityno = driveridentityno;
+	}
+	public String getBillid() {
+		return billid;
+	}
+	public void setBillid(String billid) {
+		this.billid = billid;
+	}
+	public String getBillcode() {
+		return billcode;
+	}
+	public void setBillcode(String billcode) {
+		this.billcode = billcode;
+	}
+	public String getBilldetailid() {
 		return billdetailid;
 	}
-
 	public void setBilldetailid(String billdetailid) {
-        this.billdetailid = billdetailid == null ? null : billdetailid.trim();
+		this.billdetailid = billdetailid;
 	}
-
 	public String getAbnormalperson() {
-        return abnormalperson;
-    }
-
-    public void setAbnormalperson(String abnormalperson) {
-        this.abnormalperson = abnormalperson == null ? null : abnormalperson.trim();
-    }
-
-    public String getAbnormalpersonname() {
-        return abnormalpersonname;
-    }
-
-    public void setAbnormalpersonname(String abnormalpersonname) {
-        this.abnormalpersonname = abnormalpersonname == null ? null : abnormalpersonname.trim();
-    }
-
-    public Long getAbnormaltime() {
-        return abnormaltime;
-    }
-
-    public void setAbnormaltime(Long abnormaltime) {
-        this.abnormaltime = abnormaltime;
-    }
-
-    public String getUnit() {
-        return unit;
-    }
-
-    public void setUnit(String unit) {
-        this.unit = unit == null ? null : unit.trim();
-    }
-
-    public Double getTakeamount() {
-        return takeamount;
-    }
-
-    public void setTakeamount(Double takeamount) {
-        this.takeamount = takeamount;
-    }
-
-    /**
-	 * @return the actualtakeamount
-	 */
+		return abnormalperson;
+	}
+	public void setAbnormalperson(String abnormalperson) {
+		this.abnormalperson = abnormalperson;
+	}
+	public String getAbnormalpersonname() {
+		return abnormalpersonname;
+	}
+	public void setAbnormalpersonname(String abnormalpersonname) {
+		this.abnormalpersonname = abnormalpersonname;
+	}
+	public Long getAbnormaltime() {
+		return abnormaltime;
+	}
+	public void setAbnormaltime(Long abnormaltime) {
+		this.abnormaltime = abnormaltime;
+	}
+	public String getUnit() {
+		return unit;
+	}
+	public void setUnit(String unit) {
+		this.unit = unit;
+	}
+	public Double getTakeamount() {
+		return takeamount;
+	}
+	public void setTakeamount(Double takeamount) {
+		this.takeamount = takeamount;
+	}
 	public Double getActualtakeamount() {
 		return actualtakeamount;
 	}
-
-	/**
-	 * @param actualtakeamount the actualtakeamount to set
-	 */
 	public void setActualtakeamount(Double actualtakeamount) {
 		this.actualtakeamount = actualtakeamount;
 	}
-
 	public String getSpraycode() {
-        return spraycode;
-    }
-
-    public void setSpraycode(String spraycode) {
-        this.spraycode = spraycode == null ? null : spraycode.trim();
-    }
-
-    public String getSerialnumber() {
-        return serialnumber;
-    }
-
-    public void setSerialnumber(String serialnumber) {
-        this.serialnumber = serialnumber == null ? null : serialnumber.trim();
-    }
-
-    public String getIcardid() {
-        return icardid;
-    }
-
-    public void setIcardid(String icardid) {
-        this.icardid = icardid == null ? null : icardid.trim();
-    }
-
-    public String getIcardno() {
-    	return icardno;
-    }
-    
-    public void setIcardno(String icardno) {
-    	this.icardno = icardno == null ? null : icardno.trim();
-    }
-
-    public String getState() {
-        return state;
-    }
-
+		return spraycode;
+	}
+	public void setSpraycode(String spraycode) {
+		this.spraycode = spraycode;
+	}
+	public String getSerialnumber() {
+		return serialnumber;
+	}
+	public void setSerialnumber(String serialnumber) {
+		this.serialnumber = serialnumber;
+	}
+	public String getIcardid() {
+		return icardid;
+	}
+	public void setIcardid(String icardid) {
+		this.icardid = icardid;
+	}
+	public String getIcardno() {
+		return icardno;
+	}
+	public void setIcardno(String icardno) {
+		this.icardno = icardno;
+	}
+	public String getState() {
+		return state;
+	}
 	public void setState(String state) {
-        this.state = state == null ? null : state.trim();
-    }
-
-    public String getMaindeduction() {
-        return maindeduction;
-    }
-
-    public void setMaindeduction(String maindeduction) {
-        this.maindeduction = maindeduction == null ? null : maindeduction.trim();
-    }
-
-    public String getMakerid() {
-        return makerid;
-    }
-
-    public void setMakerid(String makerid) {
-        this.makerid = makerid == null ? null : makerid.trim();
-    }
-    
-    public String getMakebillname() {
-    	return makebillname;
-    }
-    
-    public void setMakebillname(String makebillname) {
-    	this.makebillname = makebillname == null ? null : makebillname.trim();
-    }
-
-    public Long getMakebilltime() {
-        return makebilltime;
-    }
-
-    public void setMakebilltime(Long makebilltime) {
-        this.makebilltime = makebilltime;
-    }
-
-    public String getRemarks() {
-        return remarks;
-    }
-
-    public void setRemarks(String remarks) {
-        this.remarks = remarks == null ? null : remarks.trim();
-    }
-
-    public String getCreator() {
-        return creator;
-    }
-
-    public void setCreator(String creator) {
-        this.creator = creator == null ? null : creator.trim();
-    }
-
-    public Long getCreatetime() {
-        return createtime;
-    }
-
-    public void setCreatetime(Long createtime) {
-        this.createtime = createtime;
-    }
-
-    public String getModifier() {
-        return modifier;
-    }
-
-    public void setModifier(String modifier) {
-        this.modifier = modifier == null ? null : modifier.trim();
-    }
-
-    public Long getModifytime() {
-        return modifytime;
-    }
-
-    public void setModifytime(Long modifytime) {
-        this.modifytime = modifytime;
-    }
-
+		this.state = state;
+	}
+	public String getMaindeduction() {
+		return maindeduction;
+	}
+	public void setMaindeduction(String maindeduction) {
+		this.maindeduction = maindeduction;
+	}
+	public String getMakerid() {
+		return makerid;
+	}
+	public void setMakerid(String makerid) {
+		this.makerid = makerid;
+	}
+	public String getMakebillname() {
+		return makebillname;
+	}
+	public void setMakebillname(String makebillname) {
+		this.makebillname = makebillname;
+	}
+	public Long getMakebilltime() {
+		return makebilltime;
+	}
+	public void setMakebilltime(Long makebilltime) {
+		this.makebilltime = makebilltime;
+	}
+	public String getRemarks() {
+		return remarks;
+	}
+	public void setRemarks(String remarks) {
+		this.remarks = remarks;
+	}
+	public String getCreator() {
+		return creator;
+	}
+	public void setCreator(String creator) {
+		this.creator = creator;
+	}
+	public Long getCreatetime() {
+		return createtime;
+	}
+	public void setCreatetime(Long createtime) {
+		this.createtime = createtime;
+	}
+	public String getModifier() {
+		return modifier;
+	}
+	public void setModifier(String modifier) {
+		this.modifier = modifier;
+	}
+	public Long getModifytime() {
+		return modifytime;
+	}
+	public void setModifytime(Long modifytime) {
+		this.modifytime = modifytime;
+	}
 	public Long getStartloadingtime() {
 		return startloadingtime;
 	}
-
 	public void setStartloadingtime(Long startloadingtime) {
 		this.startloadingtime = startloadingtime;
 	}
-
 	public Long getEndloadingtime() {
 		return endloadingtime;
 	}
-
 	public void setEndloadingtime(Long endloadingtime) {
 		this.endloadingtime = endloadingtime;
 	}
-
 	public Long getSealtime() {
 		return sealtime;
 	}
-
 	public void setSealtime(Long sealtime) {
 		this.sealtime = sealtime;
 	}
-
-    public Integer getForceOutFactory() {
-        return forceOutFactory;
-    }
-
-    public void setForceOutFactory(Integer forceOutFactory) {
-        this.forceOutFactory = forceOutFactory;
-    }
-
-    public String getForceOutFactoryPerson() {
-        return forceOutFactoryPerson;
-    }
-
-    public void setForceOutFactoryPerson(String forceOutFactoryPerson) {
-        this.forceOutFactoryPerson = forceOutFactoryPerson;
-    }
-
-    public Long getForceOutFactoryTime() {
-        return forceOutFactoryTime;
-    }
-
-    public void setForceOutFactoryTime(Long forceOutFactoryTime) {
-        this.forceOutFactoryTime = forceOutFactoryTime;
-    }
-
+	public Integer getForceOutFactory() {
+		return forceOutFactory;
+	}
+	public void setForceOutFactory(Integer forceOutFactory) {
+		this.forceOutFactory = forceOutFactory;
+	}
+	public String getForceOutFactoryPerson() {
+		return forceOutFactoryPerson;
+	}
+	public void setForceOutFactoryPerson(String forceOutFactoryPerson) {
+		this.forceOutFactoryPerson = forceOutFactoryPerson;
+	}
+	public Long getForceOutFactoryTime() {
+		return forceOutFactoryTime;
+	}
+	public void setForceOutFactoryTime(Long forceOutFactoryTime) {
+		this.forceOutFactoryTime = forceOutFactoryTime;
+	}
 	public String getValidStatus() {
 		return validStatus;
 	}
-
 	public void setValidStatus(String validStatus) {
 		this.validStatus = validStatus;
+	}
+	public String getSendPerson() {
+		return sendPerson;
+	}
+	public void setSendPerson(String sendPerson) {
+		this.sendPerson = sendPerson;
+	}
+	public String getSendPersonName() {
+		return sendPersonName;
+	}
+	public void setSendPersonName(String sendPersonName) {
+		this.sendPersonName = sendPersonName;
+	}
+	public Long getSendTime() {
+		return sendTime;
+	}
+	public void setSendTime(Long sendTime) {
+		this.sendTime = sendTime;
+	}
+	public String getSendID() {
+		return sendID;
+	}
+	public void setSendID(String sendID) {
+		this.sendID = sendID;
 	}
 }

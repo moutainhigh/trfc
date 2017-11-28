@@ -881,7 +881,9 @@
 			2
 		ELSE
 			''
-		END AS type
+		END AS type,
+		t1.supplierremark as supRemark,
+		t1.minemouthname as minemouth
 	FROM
 		tr_purchase_db_application t1
 	LEFT JOIN tr_purchase_db_application_detail t2 ON t1.id = t2.purchaseid

@@ -1,17 +1,17 @@
 ;(function($, win){
 	
 	var URL = {
-			initAddUrl:"/trfc/customerbegin/initAdd",
-			addBtnUrl:"/trfc/customerbegin/add",
-			pageUrl:"/trfc/customerbegin/page",
-			auditUrl:"/trfc/customerbegin/audit",
-			deleteUrl:"/trfc/customerbegin/delete",
-			customerAutoCompleteSearch: "/trfc/customer/autoCompleteSearch"
+			initAddUrl:"/trfc/customerRemainder/initAdd",
+			//addBtnUrl:"/trfc/customerRemainder/add",
+			pageUrl:"/trfc/customerRemainder/page",
+			//auditUrl:"/trfc/customerRemainder/audit",
+			//deleteUrl:"/trfc/customerRemainder/delete",
+			//customerAutoCompleteSearch: "/trfc/customer/autoCompleteSearch"
 	};
 	
 	
 	init();
-	function init(){s
+	function init(){
 		//初始化autocomplete
 		initAutoComplete();
 		bindEvent();
@@ -154,28 +154,34 @@
 			}
 		});
 		// 表格内容每行单击出来下面的详细信息
+		/*orgId 组织编码   orgName 组织名称  customerId 客户编码  customerName 客户名称
+    	  nlimitmny 信用额度    nengrossmny 信用占用  nbalancemny 信用余额 corigcurrencyid 币种
+		  creator 创建人   createtime 创建时间
+		  */
 		$('#begins').on('dblclick','tr',function(){
 			$('#caigoubill').modal('show');
 			var begin=$(this).closest('tr').data();
 //			console.log(begin);
-			$('#detail_code').val(begin.code);
-			$('#detail_customer').val(begin.customername);
-			$('#detail_date').val(begin.billdate);
-			$('#detail_method').val(begin.paymentmethod);
-			$('#detail_payer').val(begin.payer);
-			$('#detail_unit').val(begin.collectionunit);
-			$('#detail_money').val(begin.money);
-			$('#detail_capital').val(begin.moneybig);
-			$('#detail_maker').val(begin.makebillname);
-			$('#detail_makebilltime').val(begin.billdate.substring(0,10));
+			var createtime=begin.createtime;
+			createtimeformat=new Date(createtime).format('yyyy-MM-dd hh:mm:ss');
+			$('#detail_orgId').val(begin.orgId);
+			$('#detail_orgName').val(begin.orgName);
+			$('#detail_date').val(createtimeformat.substring(0,10));
+			$('#detail_customerId').val(begin.customerId);
+			$('#detail_customerName').val(begin.customerName);
+			$('#detail_nlimitmny').val(begin.nlimitmny);
+			$('#detail_nengrossmny').val(begin.nengrossmny);
+			$('#detail_nbalancemny').val(begin.nbalancemny);
+			$('#detail_corigcurrencyid').val(begin.corigcurrencyid);
+			$('#detail_creator').val(begin.creator);
 			$('#detail_remark').val(begin.remark);
-			if(begin.auditstatus=='0'){
+			/*if(begin.auditstatus=='0'){
 				$('#un_sh').show();
 				$('#sh').hide();
 			}else{
 				$('#sh').show();
 				$('#un_sh').hide();
-			}
+			}*/
 		});
 		
 		//新增页面金额输入框键盘按下事件
@@ -260,24 +266,30 @@
 	
 	
 	function queryData(pageNo){
+		debugger
 		var index = layer.load(2, {
 			shade: [0.3,'#fff'] //0.1透明度的白色背景
 		});
 		var url=URL.pageUrl;
 		var starttime=$('#s_starttime').val();starttime=$.trim(starttime);
 		var endtime=$('#s_endtime').val();endtime=$.trim(endtime);
-		var customername=$('#s_customer').val();customername=$.trim(customername);
 		var orgname=$('#branch option:checked').text();
-		var makebillname=$('#makebillname').val();makebillname=$.trim(makebillname);
+		var orgId=$('#orgId').val();orgId=$.trim(orgId);
+		var orgName=$('#orgName').val();orgName=$.trim(orgName);
+		var customerId=$('#customerId').val();customerId=$.trim(customerId);
+		var customerName=$('#customerName').val();customerName=$.trim(customerName);
 		var pageNo=pageNo;
 		var pageSize = $('#pageSize').val();pageSize = $.trim(pageSize);
 		
+		debugger
 		var params={
 				starttime:str2Long(starttime),
 				endtime:str2Long(endtime),
-				customername:customername,
+				orgId:orgId,
+				orgName:orgName,
+				customerId:customerId,
+				customerName:customerName,				
 				orgname:orgname,
-				makebillname:makebillname,
 				pageNo:pageNo,
 				pageSize:pageSize
 		};
@@ -311,28 +323,20 @@
 					return;
 				}
 				for(var i=0;i<list.length;i++){
-					var begin=list[i];
-					var status=begin.auditstatus;
-					switch(status){
-						case '0':
-							status='未审核';
-							break;
-						case '1':
-							status='已审核'
-							break;
-						default:
-							status='';
-							break;
-					}
-					var tr=$('<tr><td>'+((pageNo-1)*pageSize+i+1)+'</td><td>'+begin.code+'</td><td id="if_audit'+i+'">'+status+'</td><td>'+
-							begin.billdate+'</td><td>'+begin.customername+'</td><td>'+begin.paymentmethod+'</td><td>'+
-							begin.money+'</td><td>'+begin.collectionunit+'</td><td>'+begin.payer+'</td><td>'+
-							begin.makebillname+'</td><td>'+begin.billdate.substring(0,10)+'</td><td>'+begin.remark+'</td>'     
+					var begin=list[i];			
+					/* orgId 组织编码   orgName 组织名称  customerId 客户编码  customerName 客户名称
+					   nlimitmny 信用额度    nengrossmny 信用占用  nbalancemny 信用余额 corigcurrencyid 币种
+					   creator 创建人   createtime 创建时间
+					 */
+					var createtime=begin.createtime;
+					createtimeformat=new Date(createtime).format('yyyy-MM-dd hh:mm:ss');
+					var tr=$('<tr><td>'+((pageNo-1)*pageSize+i+1)+'</td><td>'+begin.orgId+'</td><td>'+begin.orgName+'</td><td>'+
+							begin.customerId+'</td><td>'+begin.customerName+'</td><td>'+begin.nlimitmny+'</td><td>'+
+							begin.nengrossmny+'</td><td>'+begin.nbalancemny+'</td><td>'+begin.corigcurrencyid+'</td><td>'+
+							begin.creator+'</td><td>'+createtimeformat.substring(0,10)+'</td><td>'+begin.remark+'</td>'     
 					);
 					tbody.append(tr);
-					if(status=='未审核'){
-						$('#if_audit'+i).addClass('colorred');
-					}
+					
 					tr.data(begin);
 				}
 				
@@ -355,7 +359,7 @@
 			if(result.code=='000000'){
 				var data=result.data;
 //				console.log(data);
-				$('#code').val(data.code);
+				$('#code').val(data.orgName);
 				$('#a_customer').val('');
 				$('#a_billtimeStr').val(data.nowDate);
 				$('#paymentmethod').val('');

@@ -476,6 +476,7 @@ public class SalesArriveService implements ISalesArriveService {
 		bean.setMaindeduction(save.getMaindeduction());
 		bean.setMakerid(user.getId());
 		bean.setMakebillname(user.getName());
+		bean.setMakebilltime(System.currentTimeMillis());
 		bean.setCreator(user.getId());
 		bean.setCreatetime(System.currentTimeMillis());
 		bean.setRemarks(save.getRemarks());

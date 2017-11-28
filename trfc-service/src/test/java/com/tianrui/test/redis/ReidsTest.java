@@ -1,29 +1,24 @@
-package com.tianrui.test.dao;
+package com.tianrui.test.redis;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.tianrui.service.mapper.businessManage.financeManage.CustomerRemainderMapper;
+import com.tianrui.service.cache.CacheClient;
+import com.tianrui.service.mongo.CodeGenDao;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath*:spring/appliactionContext-service.xml" })
-public class DemoMapperTest3 {
+//@Ignore
+public class ReidsTest {
 
-	public static Logger logger =LoggerFactory.getLogger(DemoMapperTest3.class);
 	@Autowired
-	CustomerRemainderMapper customerRemainderMapper;
-	
+	CacheClient cacheClient; 
 	@Test
-	public void test() throws Exception{
-		
-		
-		System.out.println();
-		
+	public void testCode(){
+		cacheClient.saveString("key2","value1",0);
+		System.out.println(cacheClient.getString("key2"));
 	}
-	
 }
