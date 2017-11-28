@@ -85,6 +85,8 @@
 		var starttime=$('#s_starttime').val();starttime=$.trim(starttime);
 		var endtime=$('#s_endtime').val();endtime=$.trim(endtime);
 		var deliveryunit=$('#branch option:checked').text();
+		var ordercode=$('#ordercode').val();ordercode=$.trim(ordercode);
+		var goodcode=$('#goodcode').val();goodcode=$.trim(goodcode);
 		var customername=$('#s_customer').val();customername=$.trim(customername);
 		var pageNo=pageNo;
 		var pageSize=$('#pageSize').val();
@@ -92,6 +94,8 @@
 				starttime:str2Long(starttime),
 				endtime:str2Long(endtime),
 				deliveryunit:deliveryunit,
+				ordercode:ordercode,
+				goodcode:goodcode,
 				customername:customername,
 				pageNo:pageNo,
 				pageSize:pageSize
