@@ -14,11 +14,13 @@ public class ReportPurchaseMaterResp {
     //  供应商名称
     private String suppliername;
 
-
+    
     //  物料名称
     private String materialname;
     //  备注
     private String remark;
+    //矿口名称
+    private String minemouthname;
 
     //  毛重
     private Double sumGrossweight;
@@ -66,6 +68,14 @@ public class ReportPurchaseMaterResp {
 		this.remark = remark;
 	}
 
+	public String getMinemouthname() {
+		return minemouthname;
+	}
+
+	public void setMinemouthname(String minemouthname) {
+		this.minemouthname = minemouthname;
+	}
+
 	public Double getSumGrossweight() {
 		return sumGrossweight;
 	}
@@ -105,9 +115,7 @@ public class ReportPurchaseMaterResp {
 	public void setCountVehicleNo(Integer countVehicleNo) {
 		this.countVehicleNo = countVehicleNo;
 	}
-    
-  
-    
-	
-    
+
+
+
 }

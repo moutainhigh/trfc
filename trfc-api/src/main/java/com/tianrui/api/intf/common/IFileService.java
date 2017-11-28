@@ -1,5 +1,7 @@
 package com.tianrui.api.intf.common;
 
+import java.io.InputStream;
+
 import com.tianrui.api.req.common.FileUploadReq;
 import com.tianrui.smartfactory.common.vo.Result;
 
@@ -17,4 +19,6 @@ import com.tianrui.smartfactory.common.vo.Result;
 public interface IFileService  {
 	
 	Result uploadImg(FileUploadReq fileUploadReq)throws Exception;
+	
+	InputStream download(String fileName) throws Exception; 
 }

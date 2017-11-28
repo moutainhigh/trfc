@@ -155,6 +155,7 @@ public class AppSalesStaticAction {
 		try {
 			param.getBody().setUserId(param.getHead().getUserId());
 			param.getBody().setNcId(param.getHead().getNcId());
+			param.getBody().setSalesOrg(param.getHead().getSalesOrg());
 			param.getBody().setIDType(param.getHead().getIDType());
 			result = appService.listMoreBill(param.getBody());
 		} catch (Exception e) {

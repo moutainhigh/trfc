@@ -189,22 +189,17 @@
 					}], trs);
 				}else if(trs.length >1 && trs.length <= 3){
 					var flag = true;
-					var bills = [];
 					var salessum = 0;
 					var marginsum = 0;
-					var div = '<div class="layer-content-radio-div">';
+					var bills = [];
+					var div = '<div class="layer-content-radio-div" style="margin:30px;">';
 					trs.each(function(i){
 						var rightData = $(trs[i]).data();
-						bills.push({
-							billid: rightData.id,
-							billdetailid: rightData.detailid
-						});
 						if(i > 0){
 							var leftData = $(trs[i-1]).data();
-							if(leftData.customerid == rightData.customerid && leftData.materielname == rightData.materielname){
-								
-							}else{
-								layer.msg('不能同时选择多个客户和物料！'); flag = false;
+							if(leftData.customerid != rightData.customerid || leftData.materielname != rightData.materielname){
+								layer.msg('不能同时选择多个客户和物料！'); 
+								flag = false;
 								return;
 							}
 						}
@@ -212,7 +207,8 @@
 						if(rightData.margin){
 							salessum += rightData.salessum;
 						}
-						div += '<div><label><input name="billcode" type="radio">'+rightData.code+'</label></div>';
+						bills.push([rightData.id, rightData.detailid]);
+						div += '<div style="padding: 3px 0px;"><label><input name="billcode" type="radio">'+rightData.code+'</label></div>';
 					});
 					div += '</div>';
 					if(flag){
@@ -228,16 +224,6 @@
 								}else{
 									var index = $('.layer-content-radio-div input:radio:checked').closest('div').index();
 									var obj = $(trs[index]).data();
-									trs.sort(function(a,b){
-										var aData = $(a).data();
-										var bData = $(b).data();
-										if($('#maindeduction')[0].checked){
-											if(aData.billid == obj.billid){
-												return -1;
-											}
-										}
-										return aData.margin - bData.margin;
-									});
 									selectSalesApplication(obj, bills, trs);
 									$('#margin').val(marginsum);
 									if(!$('#maindeduction').is(':checked')){
@@ -474,31 +460,21 @@
 		if($('#maindeduction').is(':checked')){
 			maindeduction = '1';
 		}
-		var code = $('#code').val(); code = $.trim(code);
-		var createtimeStr = $('#createtimeStr').val(); code = $.trim(code);
 		var vehicleid = $('#vehicle').attr('vehicleid'); vehicleid = $.trim(vehicleid);
 		var driverid = $('#driver').attr('driverid'); driverid = $.trim(driverid);
 		var takeamount = $('#takeamount').val(); takeamount = $.trim(takeamount);
 		var remarks = $('#remarks').val(); remarks = $.trim(remarks);
-		var spraycode = $('#spraycode').val(); spraycode = $.trim(spraycode);
-		var serialnumber = $('#serialnumber').val(); serialnumber = $.trim(serialnumber);
-		var icardid = $('#icardid').attr('icardid'); icardid = $.trim(icardid);
 		var bills = $('#billcode').attr('bills');
 		return {
 			id:id,
 			billid:billid,
 			billdetailid:billdetailid,
 			maindeduction:maindeduction,
-			code:code,
-			makebilltime:str2Long(createtimeStr),
 			vehicleid:vehicleid,
 			driverid:driverid,
 			takeamount:takeamount,
 			remarks:remarks,
-			spraycode:spraycode,
-			serialnumber:serialnumber,
-			icardid:icardid,
-			bills:bills
+			ids:bills
 		};
 	}
 	function saveSalesArrive(){

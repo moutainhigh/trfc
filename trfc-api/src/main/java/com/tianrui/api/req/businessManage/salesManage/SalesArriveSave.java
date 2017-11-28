@@ -88,6 +88,9 @@ public class SalesArriveSave extends BaseReq {
     private String forceOutFactoryPerson;
     //强制出厂操作时间
     private Long forceOutFactoryTime;
+    
+    //多单合并派车  订单集合
+    private String ids;
 
 	public String getId() {
 		return id;
@@ -422,5 +425,17 @@ public class SalesArriveSave extends BaseReq {
     public void setForceOutFactoryTime(Long forceOutFactoryTime) {
         this.forceOutFactoryTime = forceOutFactoryTime;
     }
+
+	public String getIds() {
+		return ids;
+	}
+
+	public void setIds(String ids) {
+		this.ids = ids;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
 
 }

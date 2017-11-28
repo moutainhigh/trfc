@@ -80,6 +80,7 @@ public enum ErrorCode {
 	NOTICE_SEND_CAR_ERROR("E10034","订单余量过剩."),
 	NOTICE_DONT_VALID_ERROR("E10035","未入厂的通知单才可以作废."), 
 	NOTICE_DONT_UPDATE_ERROR("E10036","该通知单已经通过审核无法修改."),
+	NOTICE_YES_POUNDNOTE("E10037","该通知单已过一次磅房."),
 	/**
 	 * 磅单
 	 */

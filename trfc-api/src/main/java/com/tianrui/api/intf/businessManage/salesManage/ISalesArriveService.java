@@ -34,11 +34,10 @@ public interface ISalesArriveService {
 	/**
 	 * 新增销售提货通知单
 	 * @param save
-	 * @param bills 
 	 * @return
 	 * @throws Exception 
 	 */
-	Result add(SalesArriveSave save, String bills) throws Exception;
+	Result add(SalesArriveSave save) throws Exception;
 	/**
 	 * 查询销售提货通知单
 	 * @param query
@@ -49,11 +48,10 @@ public interface ISalesArriveService {
 	/**
 	 * 修改销售提货通知单
 	 * @param save
-	 * @param bills 
 	 * @return
 	 * @throws Exception 
 	 */
-	Result update(SalesArriveSave save, String bills) throws Exception;
+	Result update(SalesArriveSave save) throws Exception;
 	/**
 	 * 审核销售提货通知单
 	 * @param query

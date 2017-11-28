@@ -16,7 +16,7 @@
 		http://www.springframework.org/schema/data/mongo 
 		http://www.springframework.org/schema/data/mongo/spring-mongo.xsd">
 		
- 	<mongo:mongo replica-set="${mongo.replica}">
+<!--  	<mongo:mongo replica-set="${mongo.replica}">
  		<mongo:options connections-per-host="100"
                        threads-allowed-to-block-for-connection-multiplier="10"
                        connect-timeout="30000"
@@ -29,9 +29,12 @@
                        write-timeout="0"
                        write-fsync="true"/>
  	
- 	</mongo:mongo>
+ 	</mongo:mongo> -->
+ 	
+ 	<mongo:mongo host="${mongo.db.ip}" port="${mongo.db.port}"   />  
+ 	
     
-	<mongo:db-factory dbname="${mongo.dbname}" mongo-ref="mongo"/> <!-- username="${mongo.username}" password="${mongo.password}" --> 
+	<mongo:db-factory dbname="${mongo.dbname}" mongo-ref="mongo" username="${mongo.username}" password="${mongo.password}" /> 
    
 	
 	<bean id="mappingContext" class="org.springframework.data.mongodb.core.mapping.MongoMappingContext" />

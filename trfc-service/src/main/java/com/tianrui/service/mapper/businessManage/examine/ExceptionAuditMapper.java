@@ -6,7 +6,6 @@ import org.apache.ibatis.annotations.Param;
 
 import com.tianrui.api.req.businessManage.examine.ExceptionAuditQuery;
 import com.tianrui.api.resp.businessManage.examine.ExceptionAuditQueryResp;
-import com.tianrui.api.resp.businessManage.examine.ExceptionAuditResp;
 import com.tianrui.service.bean.businessManage.examine.ExceptionAudit;
 
 public interface ExceptionAuditMapper {

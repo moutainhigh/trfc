@@ -1,5 +1,6 @@
 package com.tianrui.api.resp.businessManage.salesManage;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.tianrui.api.resp.BaseResp;
@@ -99,7 +100,7 @@ public class SalesApplicationResp extends BaseResp {
     //NC主键
     private String ncId;
     //订单详情
-    private List<SalesApplicationDetailResp> list;
+    private List<SalesApplicationDetailResp> list = new ArrayList<SalesApplicationDetailResp>();
     
 	public String getId() {
 		return id;

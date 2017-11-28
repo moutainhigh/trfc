@@ -296,13 +296,11 @@ public class AppSalesStaticService implements IAppSalesStaticService {
 		sa.setMakebilltime(System.currentTimeMillis());
 		sa.setCreator(param.getUserId());
 		sa.setCreatetime(System.currentTimeMillis());
-		if (StringUtils.isNotBlank(param.getVehicle())) {
-			sa.setVehicleId(param.getVehicle());
-			VehicleManage vehicle = vehicleManageMapper.selectByPrimaryKey(param.getVehicle());
-			if (vehicle != null) {
-				sa.setVehicleNo(vehicle.getVehicleno());
-				sa.setRfid(vehicle.getRfid());
-			}
+		VehicleManage vehicle = vehicleManageMapper.selectByPrimaryKey(param.getVehicle());
+		if (vehicle != null) {
+			sa.setVehicleId(vehicle.getId());
+			sa.setVehicleNo(vehicle.getVehicleno());
+			sa.setRfid(vehicle.getRfid());
 		}
 		if (StringUtils.isNotBlank(param.getDriver())) {
 			sa.setDriverId(param.getDriver());
@@ -663,6 +661,7 @@ public class AppSalesStaticService implements IAppSalesStaticService {
 			if (param.getNumber() > 0) {
 				JSONArray ids = JSON.parseArray(param.getIds());
 				List<List<Object>> list = new ArrayList<List<Object>>();
+				//总余量
 				double sumMargin = 0D;
 				for (int i = 0; i < ids.size(); i++) {
 					JSONArray arr = ids.getJSONArray(i);
@@ -672,6 +671,7 @@ public class AppSalesStaticService implements IAppSalesStaticService {
 					SalesApplicationDetail sad = salesApplicationDetailMapper.selectByPrimaryKey(detailId);
 					sumMargin += sad.getMargin();
 					if (i < ids.size() - 1) {
+						//判断预提量是否满足多单合并规则（预提量必须满足多单的余量都有扣减行为,且除最后一个扣减单外，其余的余量剩余0）
 						if (param.getNumber() <= sumMargin) {
 							result.setErrorCode(ErrorCode.NOTICE_SEND_CAR_ERROR);
 							return result;
@@ -692,7 +692,7 @@ public class AppSalesStaticService implements IAppSalesStaticService {
 							SalesApplicationDetail s2 = (SalesApplicationDetail) o2.get(1);
 							double margin1 = s1.getMargin();
 							double margin2 = s2.getMargin();
-							if (margin1 >= margin2) {
+							if (margin1 > margin2) {
 								index = 1;
 							} else {
 								index = -1;
@@ -756,6 +756,8 @@ public class AppSalesStaticService implements IAppSalesStaticService {
 		bean.setMakebilltime(System.currentTimeMillis());
 		bean.setCreator(user.getId());
 		bean.setCreatetime(System.currentTimeMillis());
+		bean.setForceOutFactory(Constant.ZERO_NUMBER);
+		bean.setValidStatus(Constant.ZERO_STRING);
 		salesArriveMapper.insertSelective(bean);
 		updateCode("TH", user.getId());
 		// TODO

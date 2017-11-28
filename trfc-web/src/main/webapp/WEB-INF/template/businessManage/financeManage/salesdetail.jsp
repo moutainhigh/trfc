@@ -35,12 +35,20 @@
 								class="Wdate" style="width: 160px;" readonly
 								placeholder="请选择结束时间" />
 						</div>
-						<div class="intel_solo">
+						<!-- <div class="intel_solo">
                             <label>分支机构：</label>
                             <select id="branch" class="form-control">
                             	<option value="0">天瑞集团</option>
                             	<option value="1" selected="selected">天瑞集团汝州水泥有限公司</option>
                             </select>
+                        </div> -->
+                        <div class="intel_solo">
+                            <label>订单号：</label>
+                            <input type="text" placeholder="请输入订单号" id="ordercode">
+                        </div>
+                        <div class="intel_solo">
+                            <label>提货单号：</label>
+                            <input type="text" placeholder="请输入提货单号" id="goodcode">
                         </div>
                         <div class="intel_solo">
 						<label>客户：</label> <input id="s_customer" type="text"
@@ -79,18 +87,7 @@
                     </tr>
                     </thead>
                     <tbody id="charges">
-                    <tr>
-                        <td> CD201601010138</td>
-                        <td>审核中</td>
-                        <td>客商APP</td>
-                        <td>未入厂</td>
-                        <td>粉煤灰1</td>
-                        <td>粉煤灰1</td>
-                        <td>未入厂</td>
-                        <td>粉煤灰1</td>
-                        <td>粉煤灰1</td>
-                        <td>粉煤灰1</td>
-                    </tr>
+                    
                     </tbody>
                 </table>
                 <!--用户表格end-->
@@ -138,7 +135,7 @@
 <!-- 引用公共footer部分 -->
 <jsp:include page="../../common/base/footer_busi.jsp"></jsp:include>
 <script type="text/javascript"
-		src="/javascript/businessManage/financeManage/salesDetail.js"></script>
+		src="/javascript/businessManage/financeManage/salesDetail.js?1"></script>
 
 
 
