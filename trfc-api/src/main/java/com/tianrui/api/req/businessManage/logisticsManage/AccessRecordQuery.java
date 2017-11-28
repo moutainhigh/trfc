@@ -34,6 +34,8 @@ public class AccessRecordQuery extends BaseReq {
     private Integer start;
     //条数
     private Integer limit;
+    
+    private String currId;
 	public String getId() {
 		return id;
 	}
@@ -106,5 +108,13 @@ public class AccessRecordQuery extends BaseReq {
 	public void setIcardid(String icardid) {
 		this.icardid = icardid;
 	}
-
+	public String getCurrId() {
+		return currId;
+	}
+	public void setCurrId(String currId) {
+		this.currId = currId;
+	}
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
 }

@@ -684,7 +684,7 @@ public class AppStaticService implements IAppStaticService {
 		PurchaseArrive bean = new PurchaseArrive();
 		bean.setId(UUIDUtil.getId());
 		bean.setCode(getCode("DH", param.getUserId(), true));
-		bean.setAuditstatus(Constant.ZERO_STRING);
+		bean.setAuditstatus(Constant.ONE_STRING);
 		bean.setSource(Constant.TWO_STRING);
 		bean.setStatus(Constant.ZERO_STRING);
 		bean.setType(Constant.ZERO_STRING);
@@ -1040,6 +1040,8 @@ public class AppStaticService implements IAppStaticService {
 						notice.setAbnormalperson(user.getId());
 						notice.setAbnormalpersonname(user.getName());
 						notice.setAbnormaltime(System.currentTimeMillis());
+						notice.setModifier(user.getId());
+						notice.setModifytime(System.currentTimeMillis());
 						purchaseArriveMapper.updateByPrimaryKeySelective(notice);
 						pad.setMargin(pad.getMargin() + notice.getArrivalamount());
 						pad.setPretendingtake(pad.getPretendingtake() - notice.getArrivalamount());
@@ -1197,7 +1199,7 @@ public class AppStaticService implements IAppStaticService {
 	private AppResult supplierMyPn(MyPnListParam param) {
 		AppResult result = AppResult.getAppResult();
 		PaginationVO<MyPnListVo> page = new PaginationVO<MyPnListVo>();
-		long count = poundNoteMapper.appPnSupListCount(param);
+		long count = poundNoteMapper.appSupPnListCount(param);
 		if (count > 0) {
 			param.setStart((param.getPageNo() - 1) * param.getPageSize());
 			param.setLimit(param.getPageSize());
@@ -1216,7 +1218,7 @@ public class AppStaticService implements IAppStaticService {
 	public AppResult myPnDetail(MyPnListParam param) {
 		AppResult result = AppResult.getAppResult();
 		if (param != null && StringUtils.isNotBlank(param.getId())) {
-			result.setData(poundNoteMapper.appPnSupDetail(param));
+			result.setData(poundNoteMapper.appSupPnDetail(param));
 			result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
 		} else {
 			result.setErrorCode(ErrorCode.PARAM_NULL_ERROR);

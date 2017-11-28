@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +37,8 @@ import com.tianrui.api.resp.android.MyVehicleListVo;
 import com.tianrui.api.resp.android.NoticeListVo;
 import com.tianrui.api.resp.android.UserDriverVo;
 import com.tianrui.api.resp.android.UserVehicleVo;
+import com.tianrui.api.resp.businessManage.salesManage.SalesApplicationDetailResp;
+import com.tianrui.api.resp.businessManage.salesManage.SalesApplicationResp;
 import com.tianrui.api.resp.system.merchants.AppCutoverGroup;
 import com.tianrui.service.bean.basicFile.measure.DriverManage;
 import com.tianrui.service.bean.basicFile.measure.VehicleManage;
@@ -51,6 +54,7 @@ import com.tianrui.service.bean.common.ReturnQueue;
 import com.tianrui.service.bean.common.UserDriver;
 import com.tianrui.service.bean.common.UserVehicle;
 import com.tianrui.service.bean.system.auth.Organization;
+import com.tianrui.service.bean.system.auth.SmUser;
 import com.tianrui.service.bean.system.auth.SystemUser;
 import com.tianrui.service.bean.system.merchants.CustomerGroup;
 import com.tianrui.service.mapper.basicFile.measure.DriverManageMapper;
@@ -68,6 +72,7 @@ import com.tianrui.service.mapper.common.ReturnQueueMapper;
 import com.tianrui.service.mapper.common.UserDriverMapper;
 import com.tianrui.service.mapper.common.UserVehicleMapper;
 import com.tianrui.service.mapper.system.auth.OrganizationMapper;
+import com.tianrui.service.mapper.system.auth.SmUserMapper;
 import com.tianrui.service.mapper.system.auth.SystemUserMapper;
 import com.tianrui.service.mapper.system.merchants.CustomerGroupMapper;
 import com.tianrui.smartfactory.common.api.ApiResult;
@@ -123,6 +128,8 @@ public class AppSalesStaticService implements IAppSalesStaticService {
 	private CustomerGroupMapper customerGroupMapper;
 	@Autowired
 	private IPushSingleService pushSingleService;
+	@Autowired
+	private SmUserMapper smUserMapper;
 	
 	@Override
 	public AppResult home(HomePageParam param) {
@@ -243,20 +250,16 @@ public class AppSalesStaticService implements IAppSalesStaticService {
 				&& param.getBillTime() !=null) {
 			SystemUser user = systemUserMapper.selectByPrimaryKey(param.getUserId());
 			if (user != null) {
-				SalesApplication sa = setSalesApplication(param, user);
-				SalesApplicationDetail sad = setSalesApplicationDetail(param, sa.getId());
-				salesApplicationMapper.insertSelective(sa);
-				salesApplicationDetailMapper.insertSelective(sad);
-				updateCode("XXSO", param.getUserId());
-				//自制订单列队
-				ReturnQueue queue = new ReturnQueue();
-				queue.setId(UUIDUtil.getId());
-				queue.setDataid(sa.getId());
-				queue.setDatatype(Constant.ZERO_STRING);
-				queue.setCreator(sa.getMakerid());
-				queue.setCreatetime(System.currentTimeMillis());
-				returnQueueMapper.insertSelective(queue);
-				result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+				VehicleManage vehicle = vehicleManageMapper.selectByPrimaryKey(param.getVehicle());
+				if (validVehicle(vehicle, result)) {
+					SalesApplication sa = setSalesApplication(param, user, vehicle);
+					SalesApplicationDetail sad = setSalesApplicationDetail(param, sa.getId());
+					oneBillOneCarPush(sa, sad);
+					salesApplicationMapper.insertSelective(sa);
+					salesApplicationDetailMapper.insertSelective(sad);
+					updateCode("XXSO", param.getUserId());
+					result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+				}
 			} else {
 				result.setErrorCode(ErrorCode.SYSTEM_USER_ERROR1);
 			}
@@ -266,11 +269,84 @@ public class AppSalesStaticService implements IAppSalesStaticService {
 		return result;
 	}
 
-	private SalesApplication setSalesApplication(BillSave param, SystemUser user) throws Exception {
+	private void oneBillOneCarPush(SalesApplication sa, SalesApplicationDetail sad) throws Exception {
+		SalesApplicationResp sar = new SalesApplicationResp(); 
+		PropertyUtils.copyProperties(sar, sa);
+		SalesApplicationDetailResp sadr = new SalesApplicationDetailResp(); 
+		PropertyUtils.copyProperties(sadr, sad);
+		
+		List<SmUser> smUserList = null;
+		smUserList = getSmUser(sar.getAuditid());
+		if(CollectionUtils.isNotEmpty(smUserList)){
+			sar.setAuditid(smUserList.get(0).getId());
+		}
+		smUserList = getSmUser(sar.getMakerid());
+		if(CollectionUtils.isNotEmpty(smUserList)){
+			sar.setMakerid(smUserList.get(0).getId());
+		}
+		smUserList = getSmUser(sar.getCreator());
+		if(CollectionUtils.isNotEmpty(smUserList)){
+			sar.setCreator(smUserList.get(0).getId());
+		}
+		smUserList = getSmUser(sar.getModifier());
+		if(CollectionUtils.isNotEmpty(smUserList)){
+			sar.setModifier(smUserList.get(0).getId());
+		}
+		
+		List<SalesApplicationResp> sarList = new ArrayList<SalesApplicationResp>();
+		List<SalesApplicationDetailResp> sadrList = new ArrayList<SalesApplicationDetailResp>();
+		sadrList.add(sadr);
+		sar.setList(sadrList);
+		sarList.add(sar);
+		
+		ApiResult apiResult = HttpUtils.post(ApiParamUtils.getApiParam(sarList), Constant.URL_DOMAIN + Constant.URL_RETURN_SALESAPPLICATION);
+		PushSingleReq ps = new PushSingleReq();
+		ps.setId(UUIDUtil.getId());
+		ps.setRequisitionNum(sa.getCode());
+		ps.setRequisitionType(Constant.TWO_STRING);
+		ps.setCreatetime(System.currentTimeMillis());
+		ps.setModifytime(System.currentTimeMillis());
+		if(apiResult != null){
+			if (StringUtils.equals(apiResult.getCode(), ErrorCode.SYSTEM_SUCCESS.getCode())) {
+				sa.setSource(Constant.ZERO_STRING);
+                ps.setPushStatus(Constant.ONE_STRING);
+			} else {
+				//自制订单列队
+				ReturnQueue queue = new ReturnQueue();
+				queue.setId(UUIDUtil.getId());
+				queue.setDataid(sa.getId());
+				queue.setDatatype(Constant.ZERO_STRING);
+				queue.setCreator(sa.getMakerid());
+				queue.setCreatetime(System.currentTimeMillis());
+				returnQueueMapper.insertSelective(queue);
+                ps.setPushStatus(Constant.THREE_STRING);
+			}
+            ps.setReasonFailure(apiResult.getError());
+            ps.setDesc1(apiResult.getCode());
+		} else {
+			ps.setPushStatus(Constant.THREE_STRING);
+		    ps.setReasonFailure("FC-DC客商APP自制销售一单一车申请单推单失败，连接超时。");
+		    ps.setDesc1("-1");
+		}
+		pushSingleService.savePushSingle(ps);
+	}
+
+	private List<SmUser> getSmUser(String id) throws Exception {
+		List<SmUser> smUserList = null;
+		SystemUser user = systemUserMapper.selectByPrimaryKey(id);
+		if(user != null){
+			SmUser smUser = new SmUser();
+			smUser.setCode(user.getCode());
+			smUserList = smUserMapper.selectSelective(smUser);
+		}
+		return smUserList;
+	}
+
+	private SalesApplication setSalesApplication(BillSave param, SystemUser user, VehicleManage vehicle) throws Exception {
 		SalesApplication sa = new SalesApplication();
 		sa.setId(UUIDUtil.getId());
 		sa.setCode(getCode("XXSO", param.getUserId(), true));
-		sa.setStatus(Constant.ZERO_STRING);
+		sa.setStatus(Constant.ONE_STRING);
 		sa.setSource(Constant.ONE_STRING);
 		sa.setBilltypeid(BillTypeEnum.BILL_TYPE_ONE_CAR.getCode());
 		sa.setBilltypename(BillTypeEnum.BILL_TYPE_ONE_CAR.getName());
@@ -296,16 +372,13 @@ public class AppSalesStaticService implements IAppSalesStaticService {
 		sa.setMakebilltime(System.currentTimeMillis());
 		sa.setCreator(param.getUserId());
 		sa.setCreatetime(System.currentTimeMillis());
-		VehicleManage vehicle = vehicleManageMapper.selectByPrimaryKey(param.getVehicle());
-		if (vehicle != null) {
-			sa.setVehicleId(vehicle.getId());
-			sa.setVehicleNo(vehicle.getVehicleno());
-			sa.setRfid(vehicle.getRfid());
-		}
+		sa.setVehicleId(vehicle.getId());
+		sa.setVehicleNo(vehicle.getVehicleno());
+		sa.setRfid(vehicle.getRfid());
 		if (StringUtils.isNotBlank(param.getDriver())) {
-			sa.setDriverId(param.getDriver());
 			DriverManage driver = driverManageMapper.selectByPrimaryKey(param.getDriver());
 			if (driver != null) {
+				sa.setDriverId(driver.getId());
 				sa.setDriverName(driver.getName());
 			}
 		}
@@ -349,30 +422,33 @@ public class AppSalesStaticService implements IAppSalesStaticService {
 		if (param != null && StringUtils.isNotBlank(param.getUserId())
 				&& StringUtils.isNotBlank(param.getId())) {
 			SalesApplication sa = salesApplicationMapper.selectByPrimaryKey(param.getId());
+			if (StringUtils.equals(sa.getStatus(), Constant.ZERO_STRING)) {
 				List<SalesApplicationDetail> list = salesApplicationDetailMapper.selectBySalesId(sa.getId());
-			if (sa != null && CollectionUtils.isNotEmpty(list)) {
-				if (StringUtils.equals(sa.getCustomerid(), param.getNcId())) {
-					if (StringUtils.equals(sa.getStatus(), Constant.ZERO_STRING)) {
-						if (StringUtils.equals(sa.getSource(), Constant.ONE_STRING)) {
-							Map<String, String> map = new HashMap<String, String>();
-							map.put("id", sa.getId());
-							map.put("detailId", list.get(0).getId());
-							map.put("type", Constant.ZERO_STRING);
-							//上传dc，申请作废，状态改为作废中
-							//由dc回写作废状态
-							//记录推送日志
-							result = pushDC(param, sa, map);
+				if (sa != null && CollectionUtils.isNotEmpty(list)) {
+					if (StringUtils.equals(sa.getCustomerid(), param.getNcId())) {
+						if (StringUtils.equals(sa.getStatus(), Constant.ZERO_STRING)) {
+							if (StringUtils.equals(sa.getSource(), Constant.ONE_STRING)) {
+								Map<String, String> map = new HashMap<String, String>();
+								map.put("id", sa.getId());
+								map.put("detailId", list.get(0).getId());
+								//上传dc，申请作废，状态改为作废中
+								//由dc回写作废状态
+								//记录推送日志
+								result = pushDC(param, sa, map);
+							} else {
+								result.setErrorCode(ErrorCode.APPLICATION_NOT_DELETE2);
+							}
 						} else {
-							result.setErrorCode(ErrorCode.APPLICATION_NOT_DELETE2);
+							result.setErrorCode(ErrorCode.APPLICATION_NOT_DELETE1);
 						}
 					} else {
-						result.setErrorCode(ErrorCode.APPLICATION_NOT_DELETE1);
+						result.setErrorCode(ErrorCode.APPLICATION_NOT_EXIST);
 					}
 				} else {
 					result.setErrorCode(ErrorCode.APPLICATION_NOT_EXIST);
 				}
 			} else {
-				result.setErrorCode(ErrorCode.APPLICATION_NOT_EXIST);
+				result.setErrorCode(ErrorCode.APPLICATION_NOT_DELETE1);
 			}
 		} else {
 			result.setErrorCode(ErrorCode.PARAM_NULL_ERROR);
@@ -441,15 +517,17 @@ public class AppSalesStaticService implements IAppSalesStaticService {
 						if (StringUtils.equals(sa.getCustomerid(), param.getNcId())) {
 							if (StringUtils.equals(sa.getBilltypeid(), BillTypeEnum.BILL_TYPE_MORE_CAR.getCode())) {
 								if (param.getNumber() <= sad.getMargin()) {
-									VehicleManage vehicle = vehicleManageMapper.selectByPrimaryKey(param.getVehicle());
-									if (validVehicle(vehicle, result)) {
-										if (StringUtils.isNotBlank(param.getDriver())) {
-											DriverManage driver = driverManageMapper.selectByPrimaryKey(param.getDriver());
-											if (validDriver(driver, result)) {
-												result = putCustomerNoticeValue(param, user, sa, sad, vehicle, driver);
+									synchronized (this) {
+										VehicleManage vehicle = vehicleManageMapper.selectByPrimaryKey(param.getVehicle());
+										if (validVehicle(vehicle, result)) {
+											if (StringUtils.isNotBlank(param.getDriver())) {
+												DriverManage driver = driverManageMapper.selectByPrimaryKey(param.getDriver());
+												if (validDriver(driver, result)) {
+													result = putCustomerNoticeValue(param, user, sa, sad, vehicle, driver);
+												}
+											} else {
+												result = putCustomerNoticeValue(param, user, sa, sad, vehicle, null);
 											}
-										} else {
-											result = putCustomerNoticeValue(param, user, sa, sad, vehicle, null);
 										}
 									}
 								} else {
@@ -654,7 +732,7 @@ public class AppSalesStaticService implements IAppSalesStaticService {
 		return result;
 	}
 
-	private AppResult customerMoreSendCar(NoticeSave param) throws Exception {
+	private synchronized AppResult customerMoreSendCar(NoticeSave param) throws Exception {
 		AppResult result = AppResult.getAppResult();
 		SystemUser user = userMapper.selectByPrimaryKey(param.getUserId());
 		if (user != null) {
@@ -842,7 +920,6 @@ public class AppSalesStaticService implements IAppSalesStaticService {
 					|| StringUtils.isNotBlank(param.getDriver())
 					|| param.getNumber() != null) {
 				result = customerNoticeUpdate(param);
-				result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
 			} else {
 				result.setErrorCode(ErrorCode.DATE_NOT_UPDATE);
 			}
@@ -852,7 +929,7 @@ public class AppSalesStaticService implements IAppSalesStaticService {
 		return result;
 	}
 
-	private AppResult customerNoticeUpdate(NoticeSave param) {
+	private synchronized AppResult customerNoticeUpdate(NoticeSave param) {
 		AppResult result = AppResult.getAppResult();
 		SystemUser user = userMapper.selectByPrimaryKey(param.getUserId());
 		if (user != null) {
@@ -1166,11 +1243,11 @@ public class AppSalesStaticService implements IAppSalesStaticService {
 		if (param != null && StringUtils.isNotBlank(param.getNcId())
 				&& StringUtils.isNotBlank(param.getIDType())) {
 			PaginationVO<MyPnListVo> page = new PaginationVO<MyPnListVo>();
-			long count = poundNoteMapper.appPnCusListCount(param);
+			long count = poundNoteMapper.appCusPnListCount(param);
 			if (count > 0) {
 				param.setStart((param.getPageNo() - 1) * param.getPageSize());
 				param.setLimit(param.getPageSize());
-				List<MyPnListVo> list = poundNoteMapper.appPnCusList(param);
+				List<MyPnListVo> list = poundNoteMapper.appCusPnList(param);
 				page.setList(list);
 			}
 			page.setTotal(count);
@@ -1189,7 +1266,7 @@ public class AppSalesStaticService implements IAppSalesStaticService {
 	public AppResult myPnDetail(MyPnListParam param) {
 		AppResult result = AppResult.getAppResult();
 		if (param != null && StringUtils.isNotBlank(param.getId())) {
-			result.setData(poundNoteMapper.appPnCusDetail(param));
+			result.setData(poundNoteMapper.appCusPnetail(param));
 			result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
 		} else {
 			result.setErrorCode(ErrorCode.PARAM_NULL_ERROR);

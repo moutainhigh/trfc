@@ -111,14 +111,14 @@
 	<foreach item="item" index="index" collection="list" open="(" separator="," close=")">  
 		#{item}  
 	</foreach>
-  	order by sequence desc
+  	order by sequence
   </select>
   <select id="listByNoticeId" parameterType="java.lang.String" resultMap="BaseResultMap">
   	select 
   	<include refid="Base_Column_List" />
   	from tr_sales_application_arrive
   	where notice_id = #{noticeId,jdbcType=VARCHAR}
-  	order by sequence desc
+  	order by sequence
   </select>
   <delete id="deleteByNoticeId" parameterType="java.lang.String">
     delete from tr_sales_application_arrive

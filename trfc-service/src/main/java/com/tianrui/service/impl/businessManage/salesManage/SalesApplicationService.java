@@ -22,6 +22,7 @@ import com.tianrui.api.req.businessManage.salesManage.SalesApplicationDetailQuer
 import com.tianrui.api.req.businessManage.salesManage.SalesApplicationDetailSave;
 import com.tianrui.api.req.businessManage.salesManage.SalesApplicationQuery;
 import com.tianrui.api.req.businessManage.salesManage.SalesApplicationSave;
+import com.tianrui.api.req.dc.BillValidReq;
 import com.tianrui.api.req.system.base.GetCodeReq;
 import com.tianrui.api.resp.businessManage.app.AppOrderDetailResp;
 import com.tianrui.api.resp.businessManage.app.AppOrderResp;
@@ -29,18 +30,26 @@ import com.tianrui.api.resp.businessManage.salesManage.SalesApplicationDetailRes
 import com.tianrui.api.resp.businessManage.salesManage.SalesApplicationJoinDetailResp;
 import com.tianrui.api.resp.businessManage.salesManage.SalesApplicationResp;
 import com.tianrui.service.bean.basicFile.measure.DriverManage;
+import com.tianrui.service.bean.basicFile.measure.VehicleManage;
 import com.tianrui.service.bean.basicFile.nc.CustomerManage;
 import com.tianrui.service.bean.basicFile.nc.MaterielManage;
 import com.tianrui.service.bean.basicFile.nc.WarehouseManage;
+import com.tianrui.service.bean.businessManage.otherManage.OtherArrive;
+import com.tianrui.service.bean.businessManage.purchaseManage.PurchaseArrive;
 import com.tianrui.service.bean.businessManage.salesManage.SalesApplication;
+import com.tianrui.service.bean.businessManage.salesManage.SalesApplicationArrive;
 import com.tianrui.service.bean.businessManage.salesManage.SalesApplicationDetail;
 import com.tianrui.service.bean.businessManage.salesManage.SalesArrive;
 import com.tianrui.service.bean.common.BillType;
 import com.tianrui.service.bean.common.ReturnQueue;
 import com.tianrui.service.mapper.basicFile.measure.DriverManageMapper;
+import com.tianrui.service.mapper.basicFile.measure.VehicleManageMapper;
 import com.tianrui.service.mapper.basicFile.nc.CustomerManageMapper;
 import com.tianrui.service.mapper.basicFile.nc.MaterielManageMapper;
 import com.tianrui.service.mapper.basicFile.nc.WarehouseManageMapper;
+import com.tianrui.service.mapper.businessManage.otherManage.OtherArriveMapper;
+import com.tianrui.service.mapper.businessManage.purchaseManage.PurchaseArriveMapper;
+import com.tianrui.service.mapper.businessManage.salesManage.SalesApplicationArriveMapper;
 import com.tianrui.service.mapper.businessManage.salesManage.SalesApplicationDetailMapper;
 import com.tianrui.service.mapper.businessManage.salesManage.SalesApplicationMapper;
 import com.tianrui.service.mapper.businessManage.salesManage.SalesArriveMapper;
@@ -78,6 +87,14 @@ public class SalesApplicationService implements ISalesApplicationService {
 	private SalesArriveMapper salesArriveMapper;
 	@Autowired
 	private DriverManageMapper driverManageMapper;
+	@Autowired
+	private VehicleManageMapper vehicleManageMapper;
+	@Autowired
+	private PurchaseArriveMapper purchaseArriveMapper;
+	@Autowired
+	private OtherArriveMapper otherArriveMapper;
+	@Autowired
+	private SalesApplicationArriveMapper salesApplicationArriveMapper;
 	
 	@Override
 	public PaginationVO<SalesApplicationResp> page(SalesApplicationQuery query) throws Exception{
@@ -135,12 +152,8 @@ public class SalesApplicationService implements ISalesApplicationService {
 	public Result add(SalesApplicationSave save) throws Exception {
 		Result result = Result.getSuccessResult();
 		if(save != null){
-			GetCodeReq codeReq = new GetCodeReq();
-			codeReq.setCode("XXSO");
-			codeReq.setCodeType(true);
-			codeReq.setUserid(save.getMakerid());
 			SalesApplication sa = new SalesApplication();
-			sa.setCode(String.valueOf(systemCodeService.getCode(codeReq).getData()));
+			sa.setCode(getCode("XXSO", save.getMakerid()));
 			List<SalesApplication> list = salesApplicationMapper.selectSelective(sa);
 			if(list != null && list.size() > 0){
 				result.setErrorCode(ErrorCode.PARAM_REPEAT_ERROR);
@@ -179,7 +192,8 @@ public class SalesApplicationService implements ISalesApplicationService {
 			sa.setModifier(save.getMakerid());
 			sa.setModifytime(System.currentTimeMillis());
 			if(salesApplicationMapper.insertSelective(sa) > 0){
-				SalesApplicationDetailSave sd = new SalesApplicationDetailSave();
+				updateCode("XXSO", save.getMakerid());
+				SalesApplicationDetail sd = new SalesApplicationDetail();
 				sd.setId(UUIDUtil.getId());
 				sd.setSalesid(sa.getId());
 				sd.setMaterielid(save.getMaterielid());
@@ -208,19 +222,14 @@ public class SalesApplicationService implements ISalesApplicationService {
 				sa.setModifier(save.getMakerid());
 				sa.setModifytime(System.currentTimeMillis());
 				sa.setUtc(System.currentTimeMillis());
-				result = salesApplicationDetailService.add(sd);
-				if(StringUtils.equals(result.getCode(), ErrorCode.SYSTEM_SUCCESS.getCode())){
-					if(!StringUtils.equals(systemCodeService.updateCodeItem(codeReq).getCode(), ErrorCode.SYSTEM_SUCCESS.getCode())){
-						result.setErrorCode(ErrorCode.OPERATE_ERROR);
-					}
-					ReturnQueue returnQueue = new ReturnQueue();
-					returnQueue.setId(UUIDUtil.getId());
-					returnQueue.setDataid(sa.getId());
-					returnQueue.setDatatype("0");
-					returnQueue.setCreator(sa.getMakerid());
-					returnQueue.setCreatetime(System.currentTimeMillis());
-					returnQueueMapper.insertSelective(returnQueue);
-				}
+				salesApplicationDetailMapper.insertSelective(sd);
+				ReturnQueue returnQueue = new ReturnQueue();
+				returnQueue.setId(UUIDUtil.getId());
+				returnQueue.setDataid(sa.getId());
+				returnQueue.setDatatype("0");
+				returnQueue.setCreator(sa.getMakerid());
+				returnQueue.setCreatetime(System.currentTimeMillis());
+				returnQueueMapper.insertSelective(returnQueue);
 			}else{
 				result.setErrorCode(ErrorCode.OPERATE_ERROR);
 			}
@@ -694,5 +703,172 @@ public class SalesApplicationService implements ISalesApplicationService {
 		codeReq.setCodeType(true);
 		codeReq.setUserid(userId);
 		systemCodeService.updateCodeItem(codeReq);
+	}
+
+	@Override
+	public Result billNotAuditValid(BillValidReq req) {
+		Result result = Result.getParamErrorResult();
+		if (req != null && StringUtils.isNotBlank(req.getId())
+				&& StringUtils.isNotBlank(req.getDetailId())
+				&& StringUtils.isNotBlank(req.getStatus())) {
+			SalesApplication sa = salesApplicationMapper.selectByPrimaryKey(req.getId());
+			if (StringUtils.equals(req.getStatus(), Constant.ONE_STRING)) {
+				sa.setValidStatus(Constant.TWO_STRING);
+			} else {
+				sa.setValidStatus(Constant.THREE_STRING);
+				sa.setValidError(req.getMsg());
+			}
+			salesApplicationMapper.updateByPrimaryKeySelective(sa);
+			result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+		}
+		return result;
+	}
+
+	@Override
+	public Result billYesAuditValid(BillValidReq req) {
+		Result result = Result.getParamErrorResult();
+		if (req != null && StringUtils.isNotBlank(req.getId())
+				&& StringUtils.isNotBlank(req.getDetailId())
+				&& StringUtils.isNotBlank(req.getStatus())) {
+			SalesApplication sa = salesApplicationMapper.selectByPrimaryKey(req.getId());
+			if (StringUtils.equals(req.getStatus(), Constant.ONE_STRING)) {
+				sa.setValidStatus(Constant.TWO_STRING);
+				SalesArrive bean = new SalesArrive();
+				bean.setBillid(req.getId());
+				bean.setBilldetailid(req.getDetailId());
+				List<SalesArrive> list = salesArriveMapper.selectSelective(bean);
+				if (CollectionUtils.isNotEmpty(list)) {
+					bean = list.get(0);
+					if (StringUtils.equals(bean.getStatus(), Constant.ZERO_STRING)) {
+						bean.setStatus(Constant.THREE_STRING);
+						salesArriveMapper.updateByPrimaryKeySelective(bean);
+					}
+				}
+			} else {
+				sa.setValidStatus(Constant.THREE_STRING);
+				sa.setValidError(req.getMsg());
+			}
+			salesApplicationMapper.updateByPrimaryKeySelective(sa);
+			result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+		}
+		return result;
+	}
+
+	@Override
+	public Result billAuditCallBack(BillValidReq req) throws Exception {
+		Result result = Result.getParamErrorResult();
+		if (req != null && StringUtils.isNotBlank(req.getId())
+				&& StringUtils.isNotBlank(req.getDetailId())
+				&& StringUtils.isNotBlank(req.getNcId())
+				&& StringUtils.isNotBlank(req.getDetailNcId())) {
+			SalesApplication sa = salesApplicationMapper.selectByPrimaryKey(req.getId());
+			SalesApplicationDetail sad = salesApplicationDetailMapper.selectByPrimaryKey(req.getDetailId());
+			if (StringUtils.equals(sa.getValidStatus(), Constant.ZERO_STRING)) {
+				sa.setStatus(Constant.ONE_STRING);
+				sa.setNcId(req.getNcId());
+				salesApplicationMapper.updateByPrimaryKeySelective(sa);
+				sad.setNcId(req.getDetailNcId());
+				salesApplicationDetailMapper.updateByPrimaryKeySelective(sad);
+				result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+				//一单一车
+				if (StringUtils.equals(sa.getBilltypeid(), Constant.ZERO_STRING)) {
+					VehicleManage vehicle = vehicleManageMapper.selectByPrimaryKey(sa.getVehicleId());
+					//校验车辆是否运行创建通知单
+					if (validVehicle(vehicle)) {
+						if (StringUtils.isNotBlank(sa.getDriverId())) {
+							DriverManage driver = driverManageMapper.selectByPrimaryKey(sa.getDriverId());
+							if (validDriver(driver)) {
+								saveOneBillOneCarNotice(sa, sad, vehicle, driver);
+							}
+						} else {
+							saveOneBillOneCarNotice(sa, sad, vehicle, null);
+						}
+					}
+				}
+			} else {
+				result.setErrorCode(ErrorCode.APPLICATION_IS_VALID_ERROR);
+			}
+		}
+		return result;
+	}
+
+	private void saveOneBillOneCarNotice(SalesApplication sa, SalesApplicationDetail sad, VehicleManage vehicle,
+			DriverManage driver) throws Exception {
+		SalesArrive bean = new SalesArrive();
+		bean.setId(UUIDUtil.getId());
+		bean.setCode(getCode("TH", sa.getMakerid()));
+		bean.setAuditstatus(Constant.ZERO_STRING);
+		bean.setSource(Constant.TWO_STRING);
+		bean.setStatus(Constant.ZERO_STRING);
+		bean.setVehicleid(vehicle.getId());
+		bean.setVehicleno(vehicle.getVehicleno());
+		bean.setVehiclerfid(vehicle.getRfid());
+		if (driver != null) {
+			bean.setDriverid(driver.getId());
+			bean.setDrivername(driver.getName());
+			bean.setDriveridentityno(driver.getIdentityno());
+		}
+		bean.setBillid(sa.getId());
+		bean.setBillcode(sa.getCode());
+		bean.setBilldetailid(sad.getId());
+		bean.setUnit(sad.getUnit());
+		bean.setTakeamount(sad.getSalessum());
+		bean.setState(Constant.ONE_STRING);
+		bean.setMakerid(sa.getMakerid());
+		bean.setMakebillname(sa.getMakebillname());
+		bean.setMakebilltime(System.currentTimeMillis());
+		bean.setCreator(sa.getMakerid());
+		bean.setCreatetime(System.currentTimeMillis());
+		salesArriveMapper.insertSelective(bean);
+		updateCode("TH", sa.getMakerid());
+		SalesApplicationArrive join = new SalesApplicationArrive();
+		join.setId(UUIDUtil.getId());
+		join.setBillId(sa.getId());
+		join.setBillDetailId(sad.getId());
+		join.setNoticeId(bean.getId());
+		join.setNumber(sad.getSalessum());
+		join.setSequence(1);
+		salesApplicationArriveMapper.insertSelective(join);
+	}
+
+	private boolean validVehicle(VehicleManage vehicle) {
+		boolean flag = false;
+		if (vehicle != null && StringUtils.equals(vehicle.getState(), Constant.ONE_STRING)) {
+			if (StringUtils.equals(vehicle.getIsvalid(), Constant.ONE_STRING)) {
+				if (StringUtils.equals(vehicle.getIsblacklist(), Constant.ZERO_STRING)) {
+					PurchaseArrive pa = new PurchaseArrive();
+					pa.setVehicleid(vehicle.getId());
+					List<PurchaseArrive> paList = purchaseArriveMapper.checkDriverAndVehicleIsUse(pa);
+					if (CollectionUtils.isEmpty(paList)) {
+		            	SalesArrive sa = new SalesArrive();
+		                sa.setVehicleid(vehicle.getId());
+		                List<SalesArrive> saList = salesArriveMapper.checkDriverAndVehicleIsUse(sa);
+		                if (CollectionUtils.isEmpty(saList)) {
+		                	OtherArrive oa = new OtherArrive();
+		                    oa.setVehicleid(vehicle.getId());
+		                    List<OtherArrive> oaList = otherArriveMapper.checkDriverAndVehicleAndIcardIsUse(oa);
+		                    if (CollectionUtils.isNotEmpty(oaList)) {
+		                        if(!StringUtils.equals(oaList.get(0).getBusinesstype(), Constant.FIVE_STRING) && !StringUtils.equals(oaList.get(0).getBusinesstype(), Constant.SEVEN_STRING)){
+		                        	flag = true;
+		                        }
+		                    } else {
+	                        	flag = true;
+	                        }
+		                }
+		            }
+				}
+			}
+		}
+		return flag;
+	}
+	
+	private boolean validDriver(DriverManage driver) {
+		boolean flag = false;
+		if (driver != null && StringUtils.equals(driver.getState(), Constant.ONE_STRING)) {
+			if (StringUtils.equals(driver.getIsvalid(), Constant.ONE_STRING)) {
+				flag = true;
+			}
+		}
+		return flag;
 	}
 }

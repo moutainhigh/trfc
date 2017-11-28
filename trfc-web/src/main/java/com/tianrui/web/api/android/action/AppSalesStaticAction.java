@@ -174,6 +174,7 @@ public class AppSalesStaticAction {
 			param.getBody().setUserId(param.getHead().getUserId());
 			param.getBody().setNcId(param.getHead().getNcId());
 			param.getBody().setIDType(param.getHead().getIDType());
+			param.getBody().setSalesOrg(param.getHead().getSalesOrg());
 			result = appService.moreSendCar(param.getBody());
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);

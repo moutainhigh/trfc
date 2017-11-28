@@ -911,6 +911,8 @@ public class PoundNoteService implements IPoundNoteService {
 			PurchaseArrive pa = new PurchaseArrive();
 			pa.setId(arrive.getId());
 			pa.setStatus("1");
+			pa.setModifier(query.getCurrid());
+			pa.setModifytime(System.currentTimeMillis());
 			if (poundNoteMapper.insertSelective(bean) > 0
 					&& StringUtils.equals(systemCodeService.updateCodeItem(codeReq).getCode(),
 							ErrorCode.SYSTEM_SUCCESS.getCode())
@@ -951,6 +953,8 @@ public class PoundNoteService implements IPoundNoteService {
 					PurchaseArrive pa = new PurchaseArrive();
 					pa.setId(arrive.getId());
 					pa.setStatus("2");
+					pa.setModifier(query.getCurrid());
+					pa.setModifytime(System.currentTimeMillis());
 					// 生成入库单
 					PurchaseStorageList storage = setPurchaseStorage(query.getCurrid(), application, bean);
 					double item = Math.abs(Double.parseDouble(storage.getNtotalnum()));
@@ -1381,6 +1385,8 @@ public class PoundNoteService implements IPoundNoteService {
 				PurchaseArrive pa = new PurchaseArrive();
 				pa.setId(arrive.getId());
 				pa.setStatus(Constant.TWO_STRING);
+				pa.setModifier(query.getCurrid());
+				pa.setModifytime(System.currentTimeMillis());
 				// 生成入库单
 				PurchaseStorageList storage = null;
 				PurchaseStorageListItem storageItem = null;
@@ -1432,6 +1438,8 @@ public class PoundNoteService implements IPoundNoteService {
 			PurchaseArrive pa = new PurchaseArrive();
 			pa.setId(arrive.getId());
 			pa.setStatus("1");
+			pa.setModifier(query.getCurrid());
+			pa.setModifytime(System.currentTimeMillis());
 			if (poundNoteMapper.insertSelective(bean) > 0
 					&& StringUtils.equals(systemCodeService.updateCodeItem(codeReq).getCode(),
 							ErrorCode.SYSTEM_SUCCESS.getCode())
@@ -1624,7 +1632,7 @@ public class PoundNoteService implements IPoundNoteService {
 							if (pn != null) {
 								pn.setGrossweight(Double.parseDouble(query.getNumber()));
 								pn.setWeighttime(DateUtil.parse(query.getTime(), DateUtil.Y_M_D_H_M_S));
-								pn.setNetweight(Double.valueOf(query.getNumber()));
+								pn.setNetweight(Double.valueOf(query.getNetweight()));
 								pn.setDeductionweight(Double.valueOf(query.getDeductionweight()));
 								pn.setDeductionother(Double.valueOf(query.getDeductionother()));
 								pn.setOriginalnetweight(Double.valueOf(query.getOriginalnetweight()));
