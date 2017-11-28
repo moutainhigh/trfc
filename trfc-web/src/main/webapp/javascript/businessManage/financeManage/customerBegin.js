@@ -11,7 +11,7 @@
 	
 	
 	init();
-	function init(){
+	function init(){s
 		//初始化autocomplete
 		initAutoComplete();
 		bindEvent();
