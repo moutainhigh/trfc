@@ -1,9 +1,9 @@
 package com.tianrui.service.impl.businessManage.salesManage;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.collections.CollectionUtils;
@@ -12,11 +12,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
 import com.tianrui.api.intf.basicFile.measure.IDriverManageService;
 import com.tianrui.api.intf.basicFile.measure.IVehicleManageService;
-import com.tianrui.api.intf.businessManage.cardManage.ICardService;
 import com.tianrui.api.intf.businessManage.salesManage.ISalesApplicationDetailService;
 import com.tianrui.api.intf.businessManage.salesManage.ISalesApplicationService;
 import com.tianrui.api.intf.businessManage.salesManage.ISalesArriveService;
@@ -34,7 +33,6 @@ import com.tianrui.api.req.system.base.GetCodeReq;
 import com.tianrui.api.resp.basicFile.measure.DriverManageResp;
 import com.tianrui.api.resp.basicFile.measure.VehicleManageResp;
 import com.tianrui.api.resp.businessManage.app.AppNoticeOrderResp;
-import com.tianrui.api.resp.businessManage.cardManage.CardResp;
 import com.tianrui.api.resp.businessManage.logisticsManage.SalesLogisticsResp;
 import com.tianrui.api.resp.businessManage.otherManage.OtherArriveResp;
 import com.tianrui.api.resp.businessManage.poundNoteMaintain.PoundNoteResp;
@@ -44,6 +42,7 @@ import com.tianrui.api.resp.businessManage.salesManage.SalesApplicationDetailRes
 import com.tianrui.api.resp.businessManage.salesManage.SalesApplicationResp;
 import com.tianrui.api.resp.businessManage.salesManage.SalesArriveResp;
 import com.tianrui.service.bean.basicFile.businessControl.PrimarySetting;
+import com.tianrui.service.bean.basicFile.measure.DriverManage;
 import com.tianrui.service.bean.basicFile.measure.VehicleManage;
 import com.tianrui.service.bean.businessManage.cardManage.Card;
 import com.tianrui.service.bean.businessManage.logisticsManage.AccessRecord;
@@ -53,13 +52,15 @@ import com.tianrui.service.bean.businessManage.purchaseManage.PurchaseApplicatio
 import com.tianrui.service.bean.businessManage.purchaseManage.PurchaseApplicationDetail;
 import com.tianrui.service.bean.businessManage.purchaseManage.PurchaseArrive;
 import com.tianrui.service.bean.businessManage.salesManage.SalesApplication;
+import com.tianrui.service.bean.businessManage.salesManage.SalesApplicationArrive;
 import com.tianrui.service.bean.businessManage.salesManage.SalesApplicationDetail;
-import com.tianrui.service.bean.businessManage.salesManage.SalesApplicationJoinNatice;
 import com.tianrui.service.bean.businessManage.salesManage.SalesArrive;
 import com.tianrui.service.bean.common.QueueNumber;
 import com.tianrui.service.bean.common.RFID;
+import com.tianrui.service.bean.system.auth.SystemUser;
 import com.tianrui.service.impl.businessManage.otherManage.OtherArriveService;
 import com.tianrui.service.mapper.basicFile.businessControl.PrimarySettingMapper;
+import com.tianrui.service.mapper.basicFile.measure.DriverManageMapper;
 import com.tianrui.service.mapper.basicFile.measure.VehicleManageMapper;
 import com.tianrui.service.mapper.businessManage.cardManage.CardMapper;
 import com.tianrui.service.mapper.businessManage.logisticsManage.AccessRecordMapper;
@@ -68,15 +69,17 @@ import com.tianrui.service.mapper.businessManage.poundNoteMaintain.PoundNoteMapp
 import com.tianrui.service.mapper.businessManage.purchaseManage.PurchaseApplicationDetailMapper;
 import com.tianrui.service.mapper.businessManage.purchaseManage.PurchaseApplicationMapper;
 import com.tianrui.service.mapper.businessManage.purchaseManage.PurchaseArriveMapper;
+import com.tianrui.service.mapper.businessManage.salesManage.SalesApplicationArriveMapper;
 import com.tianrui.service.mapper.businessManage.salesManage.SalesApplicationDetailMapper;
-import com.tianrui.service.mapper.businessManage.salesManage.SalesApplicationJoinNaticeMapper;
 import com.tianrui.service.mapper.businessManage.salesManage.SalesApplicationMapper;
 import com.tianrui.service.mapper.businessManage.salesManage.SalesArriveMapper;
 import com.tianrui.service.mapper.common.QueueNumberMapper;
 import com.tianrui.service.mapper.common.RFIDMapper;
+import com.tianrui.service.mapper.system.auth.SystemUserMapper;
 import com.tianrui.service.mongo.impl.CodeGenDaoImpl;
 import com.tianrui.smartfactory.common.constants.Constant;
 import com.tianrui.smartfactory.common.constants.ErrorCode;
+import com.tianrui.smartfactory.common.enums.BillTypeEnum;
 import com.tianrui.smartfactory.common.utils.DateUtil;
 import com.tianrui.smartfactory.common.utils.UUIDUtil;
 import com.tianrui.smartfactory.common.vo.PaginationVO;
@@ -104,6 +107,8 @@ public class SalesArriveService implements ISalesArriveService {
 	@Autowired
 	private VehicleManageMapper vehicleManageMapper;
 	@Autowired
+	private DriverManageMapper driverManageMapper;
+	@Autowired
 	private RFIDMapper rfidMapper;
 	@Autowired
 	private CodeGenDaoImpl codeGenDaoImpl;
@@ -118,11 +123,7 @@ public class SalesArriveService implements ISalesArriveService {
 	@Autowired
 	private IDriverManageService driverManageService;
 	@Autowired
-	private ICardService cardService;
-	@Autowired
 	private CardMapper cardMapper;
-	@Autowired
-	private SalesApplicationJoinNaticeMapper salesApplicationJoinNaticeMapper;
 	@Autowired
 	private PurchaseApplicationMapper purchaseApplicationMapper;
 	@Autowired
@@ -139,6 +140,10 @@ public class SalesArriveService implements ISalesArriveService {
 	private QueueNumberMapper queueNumberMapper;
 	@Autowired
 	private PrimarySettingMapper primarySettingMapper;
+	@Autowired
+	private SystemUserMapper userMapper;
+	@Autowired
+	private SalesApplicationArriveMapper salesApplicationArriveMapper;
 
 	@Override
 	public PaginationVO<SalesArriveResp> page(SalesArriveQuery query) throws Exception {
@@ -162,200 +167,350 @@ public class SalesArriveService implements ISalesArriveService {
 		return page;
 	}
 
-	@Transactional
-	@Override
-	public Result add(SalesArriveSave save, String bills) throws Exception {
-		Result result = Result.getParamErrorResult();
-		if(save != null && StringUtils.isNotBlank(save.getBillid()) 
-				&& StringUtils.isNotBlank(save.getVehicleid())
-				&& StringUtils.isNotBlank(save.getBilldetailid())){
-			SalesArrive bean = new SalesArrive();
-			if(validVehicleAndDriver(save, result, bean)){
-				PropertyUtils.copyProperties(bean, save);
-				bean.setId(UUIDUtil.getId());
-				VehicleManageResp vehicle = vehicleManageService.findOne(save.getVehicleid());
-				if(vehicle != null){
-					bean.setVehicleno(vehicle.getVehicleno());
-					bean.setVehiclerfid(vehicle.getRfid());
+	private void ListArriveRespSetListApplicationResp(List<SalesArriveResp> listArrive) throws Exception{
+		if(CollectionUtils.isNotEmpty(listArrive)){
+			List<String> noticeIds = new ArrayList<String>();
+			for(SalesArriveResp resp : listArrive){
+				noticeIds.add(resp.getId());
+				//获取磅单信息
+				PoundNote pound = poundNoteMapper.selectByNoticeId(resp.getId());
+				if(pound!=null){
+					PoundNoteResp poundResp = new PoundNoteResp();
+					PropertyUtils.copyProperties(poundResp, pound);
+					resp.setPoundNoteResp(poundResp);
 				}
-				DriverManageResp driver = driverManageService.findOne(save.getDriverid());
-				if(driver != null){
-					bean.setDrivername(driver.getName());
-					bean.setDriveridentityno(driver.getIdentityno());
+				//获取出入厂时间
+				AccessRecord access = accessRecordMapper.selectByNoticeId(resp.getId());
+				if(access!=null){
+					resp.setEnterTime(access.getEntertime());
+					resp.setOutTime(access.getOuttime());
 				}
-				Card card = cardMapper.selectByCardno(save.getIcardno());
-				if(card!=null){
-					bean.setIcardid(card.getId());
-					bean.setIcardno(save.getIcardno());
-				}
-				SalesApplicationResp salesApplicationResp = salesApplicationService.findOne(save.getBillid(), false);
-				if(salesApplicationResp != null){
-					bean.setBillcode(salesApplicationResp.getCode());
-				}
-				SalesApplicationDetailResp salesApplicationDetailResp = salesApplicationDetailService.findOne(save.getBilldetailid());
-				if(salesApplicationDetailResp != null){
-					bean.setUnit(salesApplicationDetailResp.getUnit());
-				}
-				GetCodeReq codeReq = new GetCodeReq();
-				codeReq.setCode("TH");
-				codeReq.setCodeType(true);
-				codeReq.setUserid(save.getCurrUId());
-				bean.setCode(systemCodeService.getCode(codeReq).getData().toString());
-				bean.setAuditstatus(Constant.ONE_STRING);
-				bean.setStatus(Constant.ZERO_STRING);
-				bean.setState(Constant.ONE_STRING);
-				bean.setSource(Constant.ZERO_STRING);
-				bean.setMakerid(save.getCurrUId());
-				bean.setMakebillname(systemUserService.getUser(save.getCurrUId()).getName());
-				bean.setCreator(save.getCurrUId());
-				bean.setCreatetime(System.currentTimeMillis());
-				bean.setModifier(save.getCurrUId());
-				bean.setModifytime(System.currentTimeMillis());
-				//保存通知单
-				salesArriveMapper.insertSelective(bean);
-				systemCodeService.updateCodeItem(codeReq);
-				salesArriveMapper.emptyForceOutFactoryByVehicle(save.getVehicleid());
-				result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
-				//回写订单余量
-				double ytl = save.getTakeamount();
-				JSONArray array = JSONArray.parseArray(bills);
-				if(array != null && array.size() > 0){
-					List<String> ids = new ArrayList<String>();
-					List<Map<String, String>> list = new ArrayList<Map<String, String>>();
-					for(Object object : array){
-						JSONObject jsonObject = (JSONObject) object;
-						String billId = jsonObject.getString("billid");
-						String billDetailId = jsonObject.getString("billdetailid");
-						Map<String, String> itemMap = new HashMap<String, String>();
-						itemMap.put("id", billId);
-						itemMap.put("zId", billDetailId);
-						list.add(itemMap);
-						ids.add(billDetailId);
-					}
-					double sumMargin = salesApplicationDetailMapper.getSumMarginBySalesId(ids);
-					if (sumMargin >= ytl) {
-						if (StringUtils.equals(save.getMaindeduction(), Constant.ONE_STRING)) {
-							//主单扣量
-							//重新排序主单扣量放在最前面
-							List<Map<String, String>> list1 = new ArrayList<Map<String, String>>();
-							List<Map<String, String>> list2 = new ArrayList<Map<String, String>>();
-							for(Map<String, String> item : list){
-								if (StringUtils.equals(item.get("id"), bean.getBillid())) {
-									list1.add(item);
-								} else {
-									list2.add(item);
+			}
+			setListApplication(listArrive, noticeIds);
+		}
+	}
+
+	private void setListApplication(List<SalesArriveResp> listArrive, List<String> noticeIds) throws Exception {
+		List<SalesApplicationArrive> listJoin = salesApplicationArriveMapper.listByNoticeIds(noticeIds);
+		List<String> billIds = new ArrayList<String>();
+		List<String> billDetailIds = new ArrayList<String>();
+		for (SalesApplicationArrive join : listJoin) {
+			billIds.add(join.getBillId());
+			billDetailIds.add(join.getBillDetailId());
+		}
+		List<SalesApplicationResp> listApplication = salesApplicationService.selectByIds(billIds, false);
+		List<SalesApplicationDetailResp> listApplicationDetail = salesApplicationDetailService.selectByIds(billDetailIds);
+		for(SalesArriveResp resp : listArrive){
+			for(SalesApplicationArrive join : listJoin){
+				if (StringUtils.equals(resp.getId(), join.getNoticeId())) {
+					for(SalesApplicationResp applicationResp : listApplication){
+						if(StringUtils.equals(applicationResp.getId(), join.getBillId())){
+							for(SalesApplicationDetailResp detailResp : listApplicationDetail){
+								if(StringUtils.equals(detailResp.getId(), join.getBillDetailId())){
+									applicationResp.getList().add(detailResp);
+									resp.getListApplication().add(applicationResp);
 								}
 							}
-							list.clear();
-							list.addAll(list1);
-							list.addAll(list2);
 						}
-						for(Map<String, String> item : list){
-							String billId = item.get("id");
-							String billDetailId = item.get("zId");
-							SalesApplicationDetail sad = salesApplicationDetailMapper.selectByPrimaryKey(billDetailId);
-							saveApplicationJoinNatice(bean, billId, billDetailId, sad);
-							double margin = sad.getMargin();
-							if (ytl > sad.getMargin()) {
-								sad.setPretendingtake(sad.getPretendingtake() + margin);
-								sad.setMargin(0D);
-								ytl -= margin;
-								salesApplicationDetailMapper.updateByPrimaryKeySelective(sad);
-							} else {
-								sad.setPretendingtake(sad.getPretendingtake() + margin);
-								sad.setMargin(margin - ytl);
-								salesApplicationDetailMapper.updateByPrimaryKeySelective(sad);
-								break;
-							}
-						}
-					} else {
-						//订单余量不足
-						result.setErrorCode(ErrorCode.APPLICATION_MARGIN_ERROR);
-						return result;
 					}
 				}
-//				List<SalesApplicationJoinNatice> list = new ArrayList<SalesApplicationJoinNatice>();
-//				boolean flag = false;
-//				if(array != null && array.size() > 0){
-//					Double takeamount = bean.getTakeamount();
-//					for(Object object : array){
-//						SalesApplicationJoinNatice join = new SalesApplicationJoinNatice();
-//						JSONObject jsonObject = (JSONObject) object;
-//						String billid = jsonObject.getString("billid");
-//						String billdetailid = jsonObject.getString("billdetailid");
-//						join.setId(UUIDUtil.getId());
-//						join.setBillid(billid);
-//						join.setBilldetailid(billdetailid);
-//						join.setNaticeid(bean.getId());
-//						join.setTakeamount(bean.getTakeamount());
-//						join.setState(Constant.ONE_STRING);
-//						join.setCreator(bean.getCreator());
-//						join.setCreatetime(System.currentTimeMillis());
-//						join.setModifier(bean.getModifier());
-//						join.setModifytime(System.currentTimeMillis());
-//						list.add(join);
-//						//					SalesApplicationResp application = salesApplicationService.findOne(billid, false);
-//						SalesApplicationDetailResp applicationDetailResp = salesApplicationDetailService.findOne(billdetailid);
-//						if(applicationDetailResp != null && takeamount > 0){
-//							join.setBillsum(applicationDetailResp.getSalessum());
-//							join.setMargin(applicationDetailResp.getMargin());
-//							join.setOutstoragequantity(applicationDetailResp.getStoragequantity());
-//							join.setUnoutstoragequantity(applicationDetailResp.getUnstoragequantity());
-//							join.setPretendingtake(applicationDetailResp.getPretendingtake());
-//							//回写订单预提占用
-//							if(takeamount > applicationDetailResp.getMargin()){
-//								SalesApplicationDetail applicationDetail = new SalesApplicationDetail();
-//								applicationDetail.setId(applicationDetailResp.getId());
-//								applicationDetail.setMargin(applicationDetailResp.getMargin() - applicationDetailResp.getMargin());
-//								applicationDetail.setPretendingtake(applicationDetailResp.getPretendingtake() + applicationDetailResp.getMargin());
-//								if(salesApplicationDetailMapper.updateByPrimaryKeySelective(applicationDetail) > 0){
-//									flag = true;
-//								}else{
-//									flag = false;
-//									break;
-//								}
-//								takeamount -= applicationDetailResp.getMargin();
-//							}else{
-//								SalesApplicationDetail applicationDetail = new SalesApplicationDetail();
-//								applicationDetail.setId(applicationDetailResp.getId());
-//								applicationDetail.setMargin(applicationDetailResp.getMargin() - takeamount);
-//								applicationDetail.setPretendingtake(applicationDetailResp.getPretendingtake() + takeamount);
-//								if(salesApplicationDetailMapper.updateByPrimaryKeySelective(applicationDetail) > 0){
-//									flag = true;
-//								}else{
-//									flag = false;
-//									break;
-//								}
-//								takeamount = 0D;
-//							}
-//						}
-//					}
-//				}
+			}
+		}
+	}
+	
+	//校验车辆是否可用
+	private boolean validVehicle(VehicleManage vehicle, Result result) {
+		boolean flag = false;
+		if (vehicle != null && StringUtils.equals(vehicle.getState(), Constant.ONE_STRING)) {
+			if (StringUtils.equals(vehicle.getIsvalid(), Constant.ONE_STRING)) {
+				if (StringUtils.equals(vehicle.getIsblacklist(), Constant.ZERO_STRING)) {
+					PurchaseArrive pa = new PurchaseArrive();
+					pa.setVehicleid(vehicle.getId());
+					List<PurchaseArrive> paList = purchaseArriveMapper.checkDriverAndVehicleIsUse(pa);
+					if (CollectionUtils.isNotEmpty(paList)) {
+		                result.setErrorCode(ErrorCode.PARAM_REPEAT_ERROR);
+		                result.setError("此车辆己有到货通知单、待出厂后进行派车，现有车辆业务单据号为:"+paList.get(0).getCode()+"，如有疑问请与销售处联系！");
+		            } else {
+		            	SalesArrive sa = new SalesArrive();
+		                sa.setVehicleid(vehicle.getId());
+		                List<SalesArrive> saList = salesArriveMapper.checkDriverAndVehicleIsUse(sa);
+		                if (CollectionUtils.isNotEmpty(saList)) {
+		                    result.setErrorCode(ErrorCode.PARAM_REPEAT_ERROR);
+		                    result.setError("此车辆己有提货通知单、待出厂后进行派车，现有车辆业务单据号为:"+saList.get(0).getCode()+"，如有疑问请与销售处联系！");
+		                } else {
+		                	OtherArrive oa = new OtherArrive();
+		                    oa.setVehicleid(vehicle.getId());
+		                    List<OtherArrive> oaList = otherArriveMapper.checkDriverAndVehicleAndIcardIsUse(oa);
+		                    if (CollectionUtils.isNotEmpty(oaList)) {
+		                        if(StringUtils.equals(oaList.get(0).getBusinesstype(), Constant.FIVE_STRING)){
+		                            result.setErrorCode(ErrorCode.PARAM_REPEAT_ERROR);
+		                            result.setError("此车辆己有其他入库通知单、待出厂后进行派车，现有车辆业务单据号为:"+oaList.get(0).getCode()+"，如有疑问请与销售处联系！");
+		                        }else if(StringUtils.equals(oaList.get(0).getBusinesstype(), Constant.SEVEN_STRING)){
+		                            result.setErrorCode(ErrorCode.PARAM_REPEAT_ERROR);
+		                            result.setError("此车辆己有其他出库通知单、待出厂后进行派车，现有车辆业务单据号为:"+oaList.get(0).getCode()+"，如有疑问请与销售处联系！");
+		                        } else {
+		                        	flag = true;
+		                        }
+		                    } else {
+	                        	flag = true;
+	                        }
+		                }
+		            }
+				} else {
+					result.setErrorCode(ErrorCode.VEHICLE_IS_BLACK);
+				}
+			} else {
+				result.setErrorCode(ErrorCode.VEHICLE_IS_WX);
+			}
+		} else {
+			result.setErrorCode(ErrorCode.VEHICLE_NOT_EXIST);
+		}
+		return flag;
+	}
+	
+	private boolean validDriver(DriverManage driver, Result result) {
+		boolean flag = false;
+		if (driver != null && StringUtils.equals(driver.getState(), Constant.ONE_STRING)) {
+			if (StringUtils.equals(driver.getIsvalid(), Constant.ONE_STRING)) {
+				flag = true;
+			} else {
+				result.setErrorCode(ErrorCode.DRIVER_IS_WX);
+			}
+		} else {
+			result.setErrorCode(ErrorCode.DRIVER_NOT_EXIST);
+		}
+		return flag;
+	}
+	
+	private boolean validCard(SalesArriveSave save, Result result) {
+		boolean flag = false;
+		if(StringUtils.isNotBlank(save.getIcardno())){
+            Card card = cardMapper.selectByCardno(save.getIcardno());
+            if(card!=null){
+                //ic卡是否占用
+                SalesArrive sales = salesArriveMapper.checkICUse(card.getId());
+                PurchaseArrive purchase = purchaseArriveMapper.checkICUse(card.getId());
+                OtherArrive oa = new OtherArrive();
+                oa.setIcardid(card.getId());
+                List<OtherArrive> listOther = otherArriveMapper.checkDriverAndVehicleAndIcardIsUse(oa);
+                if(sales == null && purchase == null && CollectionUtils.isEmpty(listOther)) {
+                	flag = true;
+                	save.setIcardid(card.getId());
+                }else{
+                    result.setErrorCode(ErrorCode.CARD_IN_USE);
+                    return false;
+                }
+            }else{
+                result.setErrorCode(ErrorCode.CARD_NOT_EXIST);
+                return false;
+            }
+        } else {
+        	flag = true;
+        }
+		return flag;
+	}
+	
+	private String getCode(String code, String userId, boolean flag) throws Exception {
+		GetCodeReq codeReq = new GetCodeReq();
+		codeReq.setCode(code);
+		codeReq.setCodeType(flag);
+		codeReq.setUserid(userId);
+		return systemCodeService.getCode(codeReq).getData().toString();
+	}
+	
+	private void updateCode(String code, String userId) throws Exception {
+		GetCodeReq codeReq = new GetCodeReq();
+		codeReq.setCode(code);
+		codeReq.setCodeType(true);
+		codeReq.setUserid(userId);
+		systemCodeService.updateCodeItem(codeReq);
+	}
+	
+	@Transactional
+	@Override
+	public Result add(SalesArriveSave save) throws Exception {
+		Result result = Result.getParamErrorResult();
+		if(save != null && StringUtils.isNotBlank(save.getBillid()) 
+				&& StringUtils.isNotBlank(save.getBilldetailid())
+				&& StringUtils.isNotBlank(save.getMaindeduction())
+				&& StringUtils.isNotBlank(save.getVehicleid())
+				&& save.getTakeamount() != null
+				&& StringUtils.isNotBlank(save.getIds())){
+			SystemUser user = userMapper.selectByPrimaryKey(save.getCurrUId());
+			if (user != null) {
+				if (save.getTakeamount() > 0) {
+					SalesApplication refBill = salesApplicationMapper.selectByPrimaryKey(save.getBillid());
+					SalesApplicationDetail refBillDetail = salesApplicationDetailMapper.selectByPrimaryKey(save.getBilldetailid());
+					if (refBill != null && refBillDetail != null) {
+						if (StringUtils.equals(refBill.getValidStatus(), Constant.ZERO_STRING)) {
+							if (StringUtils.equals(refBill.getBilltypeid(), BillTypeEnum.BILL_TYPE_MORE_CAR.getCode())) {
+								//TODO
+								JSONArray ids = JSON.parseArray(save.getIds());
+								List<List<Object>> list = new ArrayList<List<Object>>();
+								//总余量
+								double sumMargin = 0D;
+								for (int i = 0; i < ids.size(); i++) {
+									JSONArray arr = ids.getJSONArray(i);
+									String id = arr.getString(0);
+									String detailId = arr.getString(1);
+									SalesApplication sa = salesApplicationMapper.selectByPrimaryKey(id);
+									SalesApplicationDetail sad = salesApplicationDetailMapper.selectByPrimaryKey(detailId);
+									sumMargin += sad.getMargin();
+									List<Object> item = new ArrayList<Object>();
+									item.add(sa);
+									item.add(sad);
+									list.add(item);
+								}
+								if (save.getTakeamount() <= sumMargin) {
+									final String mainBillDetailId = save.getBilldetailid();
+									final String maindeduction = save.getMaindeduction();
+									//对余量进行排序，升序（由小到大）
+									sortMorBill(list, mainBillDetailId, maindeduction);
+									//判断预提量是否满足多单合并规则
+									if (validateMoreBillMargin(save, result, list)) {
+										if (validCard(save, result)) {
+											VehicleManage vehicle = vehicleManageMapper.selectByPrimaryKey(save.getVehicleid());
+											if(validVehicle(vehicle, result)){
+												if (StringUtils.isNotBlank(save.getDriverid())) {
+													DriverManage driver = driverManageMapper.selectByPrimaryKey(save.getDriverid());
+													if (validDriver(driver, result)) {
+														result = putNoticeValue(save, user, list, refBill, refBillDetail, vehicle, driver);
+													}
+												} else {
+													result = putNoticeValue(save, user, list, refBill, refBillDetail, vehicle, null);
+												}
+											}
+										}
+									}
+								} else {
+									result.setErrorCode(ErrorCode.NOTICE_NUMBER_ERROR);
+								}
+							} else {
+								result.setErrorCode(ErrorCode.APPLICATION_DONT_SEND_CAR);
+							}
+						} else {
+							result.setErrorCode(ErrorCode.APPLICATION_IS_VALID_ERROR);
+						}
+					} else {
+						result.setErrorCode(ErrorCode.APPLICATION_NOT_EXIST);
+					}
+				} else {
+					result.setErrorCode(ErrorCode.NOTICE_NUMBER_ERROR);
+				}
+			} else {
+				result.setErrorCode(ErrorCode.SYSTEM_USER_ERROR17);
 			}
 		}
 		return result;
 	}
+	
+	//判断预提量是否满足多单合并规则
+	private boolean validateMoreBillMargin(SalesArriveSave save, Result result, List<List<Object>> list) {
+		double number = save.getTakeamount();
+		//判断预提量是否满足多单合并规则（预提量必须满足多单的余量都有扣减行为,且除最后一个扣减单外，其余的余量剩余0）
+		for (int i = 0; i < list.size(); i++) {
+			SalesApplicationDetail sad = (SalesApplicationDetail) list.get(i).get(1);
+			if (i < list.size() - 1) {
+				if (number - sad.getMargin() <= 0) {
+					result.setErrorCode(ErrorCode.NOTICE_SEND_CAR_ERROR);
+					return false;
+				}
+				number -= sad.getMargin();
+			}
+		}
+		return true;
+	}
 
-	private void saveApplicationJoinNatice(SalesArrive bean, String billId, String billDetailId, SalesApplicationDetail sad) {
-		SalesApplicationJoinNatice join = new SalesApplicationJoinNatice();
-		join.setId(UUIDUtil.getId());
-		join.setBillid(billId);
-		join.setBilldetailid(billDetailId);
-		join.setNaticeid(bean.getId());
-		join.setTakeamount(bean.getTakeamount());
-		join.setState(Constant.ONE_STRING);
-		join.setCreator(bean.getCreator());
-		join.setCreatetime(System.currentTimeMillis());
-		join.setModifier(bean.getModifier());
-		join.setModifytime(System.currentTimeMillis());
-		//2017-11-22
-		//临时回退，计划重构取消记录量数据
-		join.setMargin(sad.getMargin());
-		join.setBillsum(sad.getSalessum());
-		join.setUnoutstoragequantity(sad.getUnstoragequantity());
-		join.setOutstoragequantity(sad.getStoragequantity());
-		join.setPretendingtake(sad.getPretendingtake());
-		salesApplicationJoinNaticeMapper.insertSelective(join);
+	//对余量进行排序，升序（由小到大）
+	private void sortMorBill(List<List<Object>> list, final String mainBillDetailId, final String maindeduction) {
+		Collections.sort(list, new Comparator<List<Object>>() {
+			@Override
+			public int compare(List<Object> o1, List<Object> o2) {
+				int index = 0;
+				SalesApplicationDetail s1 = (SalesApplicationDetail) o1.get(1);
+				SalesApplicationDetail s2 = (SalesApplicationDetail) o2.get(1);
+				//如果有勾选主扣单量，将该订单放在第一位
+				if (StringUtils.equals(maindeduction, Constant.ONE_STRING)
+						&& StringUtils.equals(s2.getId(), mainBillDetailId) ) {
+					index = -1;
+				} else {
+					double margin1 = s1.getMargin();
+					double margin2 = s2.getMargin();
+					if (margin1 > margin2) {
+						index = 1;
+					} else {
+						index = -1;
+					}
+				}
+				return index;
+			}
+		});
+	}
+
+	//保存通知单和多单合并关系记录及回写订单余量、预提量
+	private Result putNoticeValue(SalesArriveSave save, SystemUser user, List<List<Object>> list, SalesApplication refBill,
+			SalesApplicationDetail refBillDetail, VehicleManage vehicle, DriverManage driver) throws Exception {
+		Result result = Result.getSuccessResult();
+		SalesArrive bean = new SalesArrive();
+		bean.setId(UUIDUtil.getId());
+		bean.setCode(getCode("TH", user.getId(), true));
+		bean.setAuditstatus(Constant.ONE_STRING);
+		bean.setSource(Constant.ZERO_STRING);
+		bean.setStatus(Constant.ZERO_STRING);
+		bean.setVehicleid(vehicle.getId());
+		bean.setVehicleno(vehicle.getVehicleno());
+		bean.setVehiclerfid(vehicle.getRfid());
+		if (driver != null) {
+			bean.setDriverid(driver.getId());
+			bean.setDrivername(driver.getName());
+			bean.setDriveridentityno(driver.getIdentityno());
+		}
+		bean.setBillid(refBill.getId());
+		bean.setBillcode(refBill.getCode());
+		bean.setBilldetailid(refBillDetail.getId());
+		bean.setUnit(refBillDetail.getUnit());
+		bean.setTakeamount(save.getTakeamount());
+		bean.setIcardid(save.getIcardid());
+		bean.setIcardno(save.getIcardno());
+		bean.setState(Constant.ONE_STRING);
+		bean.setMaindeduction(save.getMaindeduction());
+		bean.setMakerid(user.getId());
+		bean.setMakebillname(user.getName());
+		bean.setCreator(user.getId());
+		bean.setCreatetime(System.currentTimeMillis());
+		bean.setRemarks(save.getRemarks());
+		bean.setForceOutFactory(Constant.ZERO_NUMBER);
+		bean.setValidStatus(Constant.ZERO_STRING);
+		//保存通知单
+		salesArriveMapper.insertSelective(bean);
+		updateCode("TH", user.getId());
+		// TODO
+		//循环list 记录绑定关系和减扣量、扣减顺序，并回写子表 量。
+		double number = save.getTakeamount();
+		int idex = 1;
+		for (List<Object> item : list) {
+			SalesApplication sa = (SalesApplication) item.get(0);
+			SalesApplicationDetail sad = (SalesApplicationDetail) item.get(1);
+			double subNum = sad.getMargin();
+			if (number > sad.getMargin()) {
+				number -= subNum;
+			} else {
+				subNum = number;
+			}
+			SalesApplicationArrive join = new SalesApplicationArrive();
+			join.setId(UUIDUtil.getId());
+			join.setBillId(sa.getId());
+			join.setBillDetailId(sad.getId());
+			join.setNoticeId(bean.getId());
+			join.setNumber(subNum);
+			join.setSequence(idex);
+			idex++;
+			salesApplicationArriveMapper.insertSelective(join);
+			sad.setMargin(sad.getMargin() - subNum);
+			sad.setPretendingtake(sad.getPretendingtake() + subNum);
+			salesApplicationDetailMapper.updateByPrimaryKeySelective(sad);
+		}
+		return result;
 	}
 
 	private boolean validVehicleAndDriver(SalesArriveSave save, Result result, SalesArrive bean) throws Exception {
@@ -363,11 +518,13 @@ public class SalesArriveService implements ISalesArriveService {
 		VehicleManageResp vehicle = vehicleManageService.findOne(save.getVehicleid());
         if(vehicle != null){
             bean.setVehicleid(save.getVehicleid());
+            bean.setVehicleno(vehicle.getVehicleno());
+            bean.setVehiclerfid(vehicle.getRfid());
             List<SalesArrive> listVehicle = salesArriveMapper.checkDriverAndVehicleIsUse(bean);
             if(listVehicle != null && listVehicle.size() > 0){
                 result.setErrorCode(ErrorCode.PARAM_REPEAT_ERROR);
                 result.setError("此车辆己有提货通知单、待出厂后进行派车，现有车辆业务单据号为:"+listVehicle.get(0).getCode()+"，如有疑问请与销售处联系！");
-                flag = false;
+                return false;
             }
             PurchaseArrive pa = new PurchaseArrive();
             pa.setVehicleid(save.getVehicleid());
@@ -375,7 +532,7 @@ public class SalesArriveService implements ISalesArriveService {
             if(listVehicle1 != null && listVehicle1.size() > 0){
                 result.setErrorCode(ErrorCode.PARAM_REPEAT_ERROR);
                 result.setError("此车辆己有到货通知单、待出厂后进行派车，现有车辆业务单据号为:"+listVehicle1.get(0).getCode()+"，如有疑问请与销售处联系！");
-                flag = false;
+                return false;
             }
             //验证其他业务中的通知单
             OtherArrive oa = new OtherArrive();
@@ -385,11 +542,11 @@ public class SalesArriveService implements ISalesArriveService {
                 if(StringUtils.equals(listVehicle2.get(0).getBusinesstype(), "5")){
                     result.setErrorCode(ErrorCode.PARAM_REPEAT_ERROR);
                     result.setError("此车辆己有其他入库通知单、待出厂后进行派车，现有车辆业务单据号为:"+listVehicle2.get(0).getCode()+"，如有疑问请与销售处联系！");
-                    flag = false;
+                    return false;
                 }else if(StringUtils.equals(listVehicle2.get(0).getBusinesstype(), "7")){
                     result.setErrorCode(ErrorCode.PARAM_REPEAT_ERROR);
                     result.setError("此车辆己有其他出库通知单、待出厂后进行派车，现有车辆业务单据号为:"+listVehicle2.get(0).getCode()+"，如有疑问请与销售处联系！");
-                    flag = false;
+                    return false;
                 }
             }
             //ic卡信息
@@ -406,16 +563,16 @@ public class SalesArriveService implements ISalesArriveService {
                         save.setIcardid(card.getId());
                     }else{
                         result.setErrorCode(ErrorCode.CARD_IN_USE);
-                        flag = false;
+                        return false;
                     }
                 }else{
                     result.setErrorCode(ErrorCode.CARD_NOT_EXIST);
-                    flag = false;
+                    return false;
                 }
             }
         } else {
             result.setErrorCode(ErrorCode.VEHICLE_NOT_EXIST);
-            flag = false;
+            return false;
         }
 		return flag;
 	}
@@ -440,45 +597,157 @@ public class SalesArriveService implements ISalesArriveService {
 		return rs;
 	}
 
+	@Transactional
 	@Override
-	public Result update(SalesArriveSave save, String bills) throws Exception {
+	public Result update(SalesArriveSave save) throws Exception {
 		Result result = Result.getParamErrorResult();
-		if(save != null && StringUtils.isNotBlank(save.getBillid()) 
-				&& StringUtils.isNotBlank(save.getVehicleid())){
-			SalesArrive bean = new SalesArrive();
-			bean.setId(save.getId());
-			if(validVehicleAndDriver(save, result, bean)){
-				PropertyUtils.copyProperties(bean, save);
-				VehicleManageResp vehicle = vehicleManageService.findOne(save.getVehicleid());
-				if(vehicle != null){
-					bean.setVehicleno(vehicle.getVehicleno());
-					bean.setVehiclerfid(vehicle.getRfid());
+		if(save != null && StringUtils.isNotBlank(save.getId())
+				&& StringUtils.isNotBlank(save.getBillid()) 
+				&& StringUtils.isNotBlank(save.getBilldetailid())
+				&& StringUtils.isNotBlank(save.getMaindeduction())
+				&& StringUtils.isNotBlank(save.getVehicleid())
+				&& save.getTakeamount() != null
+				&& StringUtils.isNotBlank(save.getIds())){
+			SystemUser user = userMapper.selectByPrimaryKey(save.getCurrUId());
+			if (user != null) {
+				if (save.getTakeamount() > 0) {
+					SalesApplication refBill = salesApplicationMapper.selectByPrimaryKey(save.getBillid());
+					SalesApplicationDetail refBillDetail = salesApplicationDetailMapper.selectByPrimaryKey(save.getBilldetailid());
+					if (refBill != null && refBillDetail != null) {
+						if (StringUtils.equals(refBill.getValidStatus(), Constant.ZERO_STRING)) {
+							if (StringUtils.equals(refBill.getBilltypeid(), BillTypeEnum.BILL_TYPE_MORE_CAR.getCode())) {
+								SalesArrive notice = salesArriveMapper.selectByPrimaryKey(save.getId());
+								//仅有效的、未入厂的、未审核的通知单允许修改
+								if (notice != null && StringUtils.equals(notice.getState(), Constant.ONE_STRING)) {
+									if (!StringUtils.equals(notice.getStatus(), Constant.THREE_STRING)) {
+										if (StringUtils.equals(notice.getAuditstatus(), Constant.ZERO_STRING)) {
+											//查询原多单合并关系集
+											List<SalesApplicationArrive> oldJoin = salesApplicationArriveMapper.listByNoticeId(save.getId());
+											//循环回滚订单余量、预提量
+											for (SalesApplicationArrive join : oldJoin) {
+												SalesApplicationDetail sad = salesApplicationDetailMapper.selectByPrimaryKey(join.getBillDetailId());
+												sad.setMargin(sad.getMargin() + join.getNumber());
+												sad.setPretendingtake(sad.getPretendingtake() - join.getNumber());
+												salesApplicationDetailMapper.updateByPrimaryKeySelective(sad);
+											}
+											//解除原多单合并关系
+											salesApplicationArriveMapper.deleteByNoticeId(save.getId());
+											//TODO
+											JSONArray ids = JSON.parseArray(save.getIds());
+											List<List<Object>> list = new ArrayList<List<Object>>();
+											//总余量
+											double sumMargin = 0D;
+											for (int i = 0; i < ids.size(); i++) {
+												JSONArray arr = ids.getJSONArray(i);
+												String id = arr.getString(0);
+												String detailId = arr.getString(1);
+												SalesApplication sa = salesApplicationMapper.selectByPrimaryKey(id);
+												SalesApplicationDetail sad = salesApplicationDetailMapper.selectByPrimaryKey(detailId);
+												sumMargin += sad.getMargin();
+												List<Object> item = new ArrayList<Object>();
+												item.add(sa);
+												item.add(sad);
+												list.add(item);
+											}
+											if (save.getTakeamount() <= sumMargin) {
+												final String mainBillDetailId = save.getBilldetailid();
+												final String maindeduction = save.getMaindeduction();
+												//对余量进行排序，升序（由小到大）
+												sortMorBill(list, mainBillDetailId, maindeduction);
+												//判断预提量是否满足多单合并规则
+												if (validateMoreBillMargin(save, result, list)) {
+													VehicleManage vehicle = vehicleManageMapper.selectByPrimaryKey(save.getVehicleid());
+													if(StringUtils.equals(notice.getVehicleid(), vehicle.getId()) || validVehicle(vehicle, result)){
+														if (StringUtils.isNotBlank(save.getDriverid())) {
+															DriverManage driver = driverManageMapper.selectByPrimaryKey(save.getDriverid());
+															if (validDriver(driver, result)) {
+																result = updateNotice(save, user, list, refBill, refBillDetail, vehicle, driver);
+															}
+														} else {
+															result = updateNotice(save, user, list, refBill, refBillDetail, vehicle, null);
+														}
+													}
+												}
+											} else {
+												result.setErrorCode(ErrorCode.NOTICE_NUMBER_ERROR);
+											}
+										} else {
+											result.setErrorCode(ErrorCode.NOTICE_DONT_UPDATE_ERROR);
+										}
+									} else {
+										result.setErrorCode(ErrorCode.NOTICE_ON_INVALID);
+									}
+								} else {
+									result.setErrorCode(ErrorCode.NOTICE_NOT_EXIST);
+								}
+							} else {
+								result.setErrorCode(ErrorCode.APPLICATION_DONT_SEND_CAR);
+							}
+						} else {
+							result.setErrorCode(ErrorCode.APPLICATION_IS_VALID_ERROR);
+						}
+					} else {
+						result.setErrorCode(ErrorCode.APPLICATION_NOT_EXIST);
+					}
+				} else {
+					result.setErrorCode(ErrorCode.NOTICE_NUMBER_ERROR);
 				}
-				DriverManageResp driver = driverManageService.findOne(save.getDriverid());
-				if(driver != null){
-					bean.setDrivername(driver.getName());
-					bean.setDriveridentityno(driver.getIdentityno());
-				}
-				CardResp card = cardService.findOne(save.getIcardid());
-				if(card != null){
-					bean.setIcardno(card.getCardno());
-				}
-				SalesApplicationResp salesApplicationResp = salesApplicationService.findOne(save.getBillid(), false);
-				if(salesApplicationResp != null){
-					bean.setBillcode(salesApplicationResp.getCode());
-				}
-				SalesApplicationDetailResp salesApplicationDetailResp = salesApplicationDetailService.findOne(save.getBilldetailid());
-				if(salesApplicationDetailResp != null){
-					bean.setUnit(salesApplicationDetailResp.getUnit());
-				}
-				bean.setModifier(save.getCurrUId());
-				bean.setModifytime(save.getCreatetime());
-				if(salesArriveMapper.updateByPrimaryKeySelective(bean) > 0){
-					result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
-				}else{
-					result.setErrorCode(ErrorCode.OPERATE_ERROR);
-				}
+			} else {
+				result.setErrorCode(ErrorCode.SYSTEM_USER_ERROR17);
 			}
+		}
+		return result;
+	}
+
+	//修改通知单，解除原多单合并关系记录和回滚订单余量和预提量，并重新绑定多单合并关系记录和回写订单余量和预提量
+	private Result updateNotice(SalesArriveSave save, SystemUser user, List<List<Object>> list,
+			SalesApplication refBill, SalesApplicationDetail refBillDetail, VehicleManage vehicle, DriverManage driver) {
+		Result result = Result.getSuccessResult();
+		SalesArrive bean = new SalesArrive();
+		bean.setId(save.getId());
+		bean.setVehicleid(vehicle.getId());
+		bean.setVehicleno(vehicle.getVehicleno());
+		bean.setVehiclerfid(vehicle.getRfid());
+		if (driver != null) {
+			bean.setDriverid(driver.getId());
+			bean.setDrivername(driver.getName());
+			bean.setDriveridentityno(driver.getIdentityno());
+		}
+		bean.setBillid(refBill.getId());
+		bean.setBillcode(refBill.getCode());
+		bean.setBilldetailid(refBillDetail.getId());
+		bean.setUnit(refBillDetail.getUnit());
+		bean.setTakeamount(save.getTakeamount());
+		bean.setMaindeduction(save.getMaindeduction());
+		bean.setRemarks(save.getRemarks());
+		bean.setModifier(user.getId());
+		bean.setModifytime(System.currentTimeMillis());
+		salesArriveMapper.updateByPrimaryKeySelective(bean);
+		//重新绑定多单合并关系
+		//循环list 记录绑定关系和减扣量、扣减顺序，并回写子表 量。
+		double number = save.getTakeamount();
+		int idex = 1;
+		for (List<Object> item : list) {
+			SalesApplication sa = (SalesApplication) item.get(0);
+			SalesApplicationDetail sad = (SalesApplicationDetail) item.get(1);
+			double subNum = sad.getMargin();
+			if (number > sad.getMargin()) {
+				number -= subNum;
+			} else {
+				subNum = number;
+			}
+			SalesApplicationArrive join = new SalesApplicationArrive();
+			join.setId(UUIDUtil.getId());
+			join.setBillId(sa.getId());
+			join.setBillDetailId(sad.getId());
+			join.setNoticeId(bean.getId());
+			join.setNumber(subNum);
+			join.setSequence(idex);
+			idex++;
+			salesApplicationArriveMapper.insertSelective(join);
+			sad.setMargin(sad.getMargin() - subNum);
+			sad.setPretendingtake(sad.getPretendingtake() + subNum);
+			salesApplicationDetailMapper.updateByPrimaryKeySelective(sad);
 		}
 		return result;
 	}
@@ -502,81 +771,6 @@ public class SalesArriveService implements ISalesArriveService {
 		return listResp;
 	}
 
-	private void ListArriveRespSetListApplicationResp(List<SalesArriveResp> listArrive) throws Exception{
-		if(CollectionUtils.isNotEmpty(listArrive)){
-			List<String> ids = new ArrayList<String>();
-			List<String> detailIds = new ArrayList<String>();
-			for(SalesArriveResp resp : listArrive){
-				List<SalesApplicationJoinNatice> listJoin = salesApplicationJoinNaticeMapper.selectByNaticeId(resp.getId());
-				for(SalesApplicationJoinNatice join : listJoin){
-					ids.add(join.getBillid());
-					detailIds.add(join.getBilldetailid());
-					//获取磅单信息
-					PoundNote pound = poundNoteMapper.selectByNoticeId(resp.getId());
-					if(pound!=null){
-						PoundNoteResp poundResp = new PoundNoteResp();
-						PropertyUtils.copyProperties(poundResp, pound);
-						resp.setPoundNoteResp(poundResp);
-					}
-					//获取出入厂时间
-					AccessRecord access = accessRecordMapper.selectByNoticeId(resp.getId());
-					if(access!=null){
-						resp.setEnterTime(access.getEntertime());
-						resp.setOutTime(access.getOuttime());
-					}
-				}
-				List<SalesApplicationResp> listApplication = salesApplicationService.selectByIds(ids, false);
-				List<SalesApplicationDetailResp> listApplicationDetail = salesApplicationDetailService.selectByIds(detailIds);
-				if(CollectionUtils.isNotEmpty(listApplication)){
-					for(SalesArriveResp arriveResp : listArrive){
-						List<SalesApplicationResp> list = arriveResp.getListApplication();
-						if(CollectionUtils.isEmpty(list)){
-							list = new ArrayList<SalesApplicationResp>();
-						}
-						for(SalesApplicationJoinNatice join : listJoin){
-							if(StringUtils.equals(arriveResp.getId(), join.getNaticeid())){
-								SalesApplicationResp application = null;
-								for(SalesApplicationResp applicationResp : listApplication){
-									if(StringUtils.equals(applicationResp.getId(), join.getBillid())){
-										application = applicationResp;
-									}
-								}
-								if(application != null){
-									List<SalesApplicationDetailResp> listDetail = application.getList();
-									if(CollectionUtils.isEmpty(listDetail)){
-										listDetail = new ArrayList<SalesApplicationDetailResp>();
-									}
-									for(SalesApplicationDetailResp detailResp : listApplicationDetail){
-										if(StringUtils.equals(detailResp.getId(), join.getBilldetailid())){
-											listDetail.add(detailResp);
-											application.setList(listDetail);
-										}
-									}
-								}
-								list.add(application);
-							}
-						}
-						arriveResp.setListApplication(list);
-					}
-				}
-				/*if(CollectionUtils.isNotEmpty(listApplicationDetail)){
-					for(SalesArriveResp arriveResp : listArrive){
-						List<SalesApplicationResp> list = arriveResp.getListApplication();
-						for(SalesApplicationJoinNatice join : listJoin){
-							if(StringUtils.equals(arriveResp.getId(), join.getNaticeid())){
-								for(SalesApplicationDetailResp applicationDetailResp : listApplicationDetail){
-									if(StringUtils.equals(applicationDetailResp.getId(), join.getBilldetailid())){
-										arriveResp.setSalesApplicationDetail(applicationDetailResp);
-									}
-								}
-							}
-						}
-					}
-				}*/
-			}
-		}
-	}
-
 	private List<SalesArriveResp> copyBeanList2RespList(List<SalesArrive> list, boolean setApplication) throws Exception {
 		List<SalesArriveResp> listResp = null;
 		if(list != null && list.size() > 0){
@@ -594,21 +788,26 @@ public class SalesArriveService implements ISalesArriveService {
 			resp = new SalesArriveResp();
 			PropertyUtils.copyProperties(resp, bean);
 			if(setApplication){
-				List<SalesApplicationJoinNatice> list = salesApplicationJoinNaticeMapper.selectByNaticeId(resp.getId());
-				if(CollectionUtils.isNotEmpty(list)){
-					for(SalesApplicationJoinNatice join : list){
-						SalesApplicationResp salesApplicationResp = salesApplicationService.findOne(join.getBillid(), false);
-						if(salesApplicationResp != null){
-							List<SalesApplicationDetailResp> listApplcationDetail = new ArrayList<SalesApplicationDetailResp>();
-							listApplcationDetail.add(salesApplicationDetailService.findOne(join.getBilldetailid()));
-							salesApplicationResp.setList(listApplcationDetail);
+				List<SalesApplicationArrive> list = salesApplicationArriveMapper.listByNoticeId(bean.getId());
+				List<String> billIds = new ArrayList<String>();
+				List<String> billDetailIds = new ArrayList<String>();
+				for (SalesApplicationArrive join : list) {
+					billIds.add(join.getBillId());
+					billDetailIds.add(join.getBillDetailId());
+				}
+				List<SalesApplicationResp> listApplication = salesApplicationService.selectByIds(billIds, false);
+				List<SalesApplicationDetailResp> listApplicationDetail = salesApplicationDetailService.selectByIds(billDetailIds);
+				for(SalesApplicationArrive join : list){
+					for(SalesApplicationResp applicationResp : listApplication){
+						if(StringUtils.equals(applicationResp.getId(), join.getBillId())){
+							for(SalesApplicationDetailResp detailResp : listApplicationDetail){
+								if(StringUtils.equals(detailResp.getId(), join.getBillDetailId())){
+									applicationResp.getList().add(detailResp);
+									resp.getListApplication().add(applicationResp);
+								}
+							}
+							
 						}
-						List<SalesApplicationResp> listApplication = resp.getListApplication();
-						if(CollectionUtils.isEmpty(listApplication)){
-							listApplication = new ArrayList<SalesApplicationResp>();
-						}
-						listApplication.add(salesApplicationResp);
-						resp.setListApplication(listApplication);
 					}
 				}
 			}
@@ -1010,20 +1209,16 @@ public class SalesArriveService implements ISalesArriveService {
 				bean.setCreatetime(System.currentTimeMillis());
 				bean.setModifier(req.getUserId());
 				bean.setModifytime(System.currentTimeMillis());
-				SalesApplicationJoinNatice join = new SalesApplicationJoinNatice();
+				SalesApplicationArrive join = new SalesApplicationArrive();
 				join.setId(UUIDUtil.getId());
-				join.setBillid(bean.getBillid());
-				join.setBilldetailid(bean.getBilldetailid());
-				join.setNaticeid(bean.getId());
-				join.setTakeamount(bean.getTakeamount());
-				join.setState("1");
-				join.setCreator(bean.getCreator());
-				join.setCreatetime(System.currentTimeMillis());
-				join.setModifier(bean.getModifier());
-				join.setModifytime(System.currentTimeMillis());
+				join.setBillId(bean.getBillid());
+				join.setBillDetailId(bean.getBilldetailid());
+				join.setNoticeId(bean.getId());
+				join.setNumber(bean.getTakeamount());
+				join.setSequence(1);
 				if(salesArriveMapper.insertSelective(bean) > 0 
 						&& StringUtils.equals(systemCodeService.updateCodeItem(codeReq).getCode(), ErrorCode.SYSTEM_SUCCESS.getCode())
-						&& salesApplicationJoinNaticeMapper.insertSelective(join) > 0){
+						&& salesApplicationArriveMapper.insertSelective(join) > 0){
 					SalesApplicationDetail applicationDetail = salesApplicationDetailMapper.selectByPrimaryKey(bean.getBilldetailid());
 					SalesApplicationDetail detail = new SalesApplicationDetail();
 					detail.setId(applicationDetail.getId());

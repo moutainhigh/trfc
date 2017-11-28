@@ -17,5 +17,9 @@ public interface SalesApplicationArriveMapper {
 
     int updateByPrimaryKey(SalesApplicationArrive record);
 
-	List<SalesApplicationArrive> listByNoticeId(String noticId);
+	List<SalesApplicationArrive> listByNoticeIds(List<String> list);
+
+	List<SalesApplicationArrive> listByNoticeId(String noticeId);
+	
+    int deleteByNoticeId(String noticeId);
 }

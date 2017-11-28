@@ -1,9 +1,12 @@
 package com.tianrui.api.resp.businessManage.salesManage;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 
+import com.alibaba.fastjson.JSON;
 import com.tianrui.api.resp.BaseResp;
 import com.tianrui.api.resp.businessManage.poundNoteMaintain.PoundNoteResp;
 import com.tianrui.smartfactory.common.utils.DateUtil;
@@ -102,7 +105,7 @@ public class SalesArriveResp extends BaseResp {
     //铅封时间
     private Long sealtime=0l;
     //销售订单列表
-    private List<SalesApplicationResp> listApplication;
+    private List<SalesApplicationResp> listApplication = new ArrayList<SalesApplicationResp>();
     
     //磅单信息
     private PoundNoteResp poundNoteResp;
@@ -508,7 +511,7 @@ public class SalesArriveResp extends BaseResp {
 		return null;
 	}
 	
-	public Double getBillSum(){
+	public Double getBillSum() {
 		if (StringUtils.equals(this.maindeduction, "0")) {
 			Double billSum = 0.0;
 			if (this.listApplication != null && this.listApplication.size() > 0) {
@@ -522,7 +525,7 @@ public class SalesArriveResp extends BaseResp {
 		}
 	}
 	
-	public Double getYlSum(){
+	public Double getYlSum() {
 		Double billSum = 0.0;
 		if (this.listApplication != null && this.listApplication.size() > 0) {
 			for (SalesApplicationResp resp : this.listApplication) {
@@ -530,6 +533,20 @@ public class SalesArriveResp extends BaseResp {
 			}
 		}
 		return billSum;
+	}
+	
+	public String getIds() {
+		if (CollectionUtils.isNotEmpty(listApplication)) {
+			List<List<String>> list = new ArrayList<List<String>>();
+			for (SalesApplicationResp bill : listApplication) {
+				List<String> item = new ArrayList<String>();
+				item.add(bill.getId());
+				item.add(bill.getList().get(0).getId());
+				list.add(item);
+			}
+			return JSON.toJSONString(list);
+		}
+		return null;
 	}
 
 	public PoundNoteResp getPoundNoteResp() {

@@ -44,7 +44,8 @@
 								<label><em class="colorred">*</em>订单号：</label>
 								<div class="input_withlogo">
 									<input id="billcode" billid="${salesArrive.billid }"
-										billdetailid="${salesArrive.billdetailid }"
+										billdetailid="${salesArrive.billdetailid }" 
+										bills='${salesArrive.getIds()}'
 										value="${salesArrive.billcode }" type="text"
 										readonly="readonly" placeholder="请选择订单"> <span
 										class="form-control-feedback"><i class="iconfont">&#xe608;</i></span>

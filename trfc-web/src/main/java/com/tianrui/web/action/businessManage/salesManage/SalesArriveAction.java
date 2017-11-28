@@ -90,12 +90,12 @@ public class SalesArriveAction {
 
 	@RequestMapping("/add")
 	@ResponseBody
-	public Result add(SalesArriveSave save, String bills, HttpServletRequest request){
+	public Result add(SalesArriveSave save, HttpServletRequest request){
 		Result result = Result.getSuccessResult();
 		try {
 			SystemUserResp user = SessionManager.getSessionUser(request);
 			save.setCurrUId(user.getId());
-			result = salesArriveService.add(save, bills);
+			result = salesArriveService.add(save);
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
@@ -130,12 +130,12 @@ public class SalesArriveAction {
 
 	@RequestMapping("/update")
 	@ResponseBody
-	public Result update(SalesArriveSave save, String bills, HttpServletRequest request){
+	public Result update(SalesArriveSave save, HttpServletRequest request){
 		Result result = Result.getSuccessResult();
 		try {
 			SystemUserResp user = SessionManager.getSessionUser(request);
 			save.setCurrUId(user.getId());
-			result = salesArriveService.update(save, bills);
+			result = salesArriveService.update(save);
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 			result.setErrorCode(ErrorCode.SYSTEM_ERROR);

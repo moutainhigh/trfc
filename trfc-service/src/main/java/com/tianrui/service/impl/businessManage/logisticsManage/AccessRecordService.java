@@ -31,8 +31,8 @@ import com.tianrui.service.bean.businessManage.otherManage.OtherArrive;
 import com.tianrui.service.bean.businessManage.poundNoteMaintain.PoundNote;
 import com.tianrui.service.bean.businessManage.purchaseManage.PurchaseApplicationDetail;
 import com.tianrui.service.bean.businessManage.purchaseManage.PurchaseArrive;
+import com.tianrui.service.bean.businessManage.salesManage.SalesApplicationArrive;
 import com.tianrui.service.bean.businessManage.salesManage.SalesApplicationDetail;
-import com.tianrui.service.bean.businessManage.salesManage.SalesApplicationJoinNatice;
 import com.tianrui.service.bean.businessManage.salesManage.SalesArrive;
 import com.tianrui.service.bean.common.RFID;
 import com.tianrui.service.impl.businessManage.otherManage.OtherArriveService;
@@ -43,8 +43,8 @@ import com.tianrui.service.mapper.businessManage.otherManage.OtherArriveMapper;
 import com.tianrui.service.mapper.businessManage.poundNoteMaintain.PoundNoteMapper;
 import com.tianrui.service.mapper.businessManage.purchaseManage.PurchaseApplicationDetailMapper;
 import com.tianrui.service.mapper.businessManage.purchaseManage.PurchaseArriveMapper;
+import com.tianrui.service.mapper.businessManage.salesManage.SalesApplicationArriveMapper;
 import com.tianrui.service.mapper.businessManage.salesManage.SalesApplicationDetailMapper;
-import com.tianrui.service.mapper.businessManage.salesManage.SalesApplicationJoinNaticeMapper;
 import com.tianrui.service.mapper.businessManage.salesManage.SalesArriveMapper;
 import com.tianrui.service.mapper.common.RFIDMapper;
 import com.tianrui.smartfactory.common.constants.Constant;
@@ -76,8 +76,6 @@ public class AccessRecordService implements IAccessRecordService {
 	@Autowired
 	private SalesApplicationDetailMapper salesApplicationDetailMapper;
 	@Autowired
-	private SalesApplicationJoinNaticeMapper salesApplicationJoinNaticeMapper;
-	@Autowired
 	private RFIDMapper rfidMapper;
 	@Autowired
 	private VehicleManageMapper vehicleManageMapper;
@@ -87,6 +85,8 @@ public class AccessRecordService implements IAccessRecordService {
 	private OtherArriveService otherArriveService;
 	@Autowired
 	private PoundNoteMapper poundNoteMapper;
+	@Autowired
+	private SalesApplicationArriveMapper salesApplicationArriveMapper;
 	
 	@Override
 	public PaginationVO<AccessRecordResp> page(AccessRecordQuery query) throws Exception{
@@ -443,51 +443,15 @@ public class AccessRecordService implements IAccessRecordService {
 							sa.setStatus("6");
 							sa.setIcardid(card.getId());
 							sa.setIcardno(card.getCardno());
-							if(salesArriveMapper.updateByPrimaryKeySelective(sa) > 0){
-								//回写订单的未入库占用量和预提占用
-								List<SalesApplicationJoinNatice> list = salesApplicationJoinNaticeMapper.selectByNaticeId(sales.getId());
-								if(CollectionUtils.isNotEmpty(list)){
-									boolean flag = false;
-									Double takeamount = sales.getTakeamount();
-									for(SalesApplicationJoinNatice join : list){
-										SalesApplicationDetail applicationDetail = salesApplicationDetailMapper.selectByPrimaryKey(join.getBilldetailid());
-										if(applicationDetail != null && takeamount > 0){
-											if(takeamount > join.getMargin()){
-												SalesApplicationDetail sd = new SalesApplicationDetail();
-												sd.setId(applicationDetail.getId());
-												sd.setUnstoragequantity(applicationDetail.getUnstoragequantity() + join.getMargin());
-												sd.setPretendingtake(applicationDetail.getPretendingtake() - join.getMargin());
-												if(salesApplicationDetailMapper.updateByPrimaryKeySelective(sd) > 0){
-													flag = true;
-												}else{
-													flag = false;
-													break;
-												}
-												takeamount -= join.getMargin();
-											}else{
-												SalesApplicationDetail sd = new SalesApplicationDetail();
-												sd.setId(applicationDetail.getId());
-												sd.setUnstoragequantity(applicationDetail.getUnstoragequantity() + takeamount);
-												sd.setPretendingtake(applicationDetail.getPretendingtake() - takeamount);
-												if(salesApplicationDetailMapper.updateByPrimaryKeySelective(sd) > 0){
-													flag = true;
-												}else{
-													flag = false;
-													break;
-												}
-												takeamount = 0D;
-											}
-										}
-									}
-									if(flag){
-										addInfoAccessRecordApi(result, apiParam, sales.getId(), sales.getCode(), "2");
-									}else{
-										result.setErrorCode(ErrorCode.OPERATE_ERROR);
-									}
-								}	
-							}else{
-								result.setErrorCode(ErrorCode.OPERATE_ERROR);
+							salesArriveMapper.updateByPrimaryKeySelective(sa);
+							List<SalesApplicationArrive> listJoin = salesApplicationArriveMapper.listByNoticeId(sales.getId());
+							for (SalesApplicationArrive join : listJoin) {
+								SalesApplicationDetail sad = salesApplicationDetailMapper.selectByPrimaryKey(join.getBillDetailId());
+								sad.setPretendingtake(sad.getPretendingtake() - join.getNumber());
+								sad.setUnstoragequantity(sad.getUnstoragequantity() + join.getNumber());
+								salesApplicationDetailMapper.updateByPrimaryKeySelective(sad);
 							}
+							addInfoAccessRecordApi(result, apiParam, sales.getId(), sales.getCode(), Constant.TWO_STRING);
 						}else{
 							result.setErrorCode(ErrorCode.CARD_IN_USE);
 						}
@@ -579,7 +543,6 @@ public class AccessRecordService implements IAccessRecordService {
 
 	//添加入厂门禁记录
 	private void addInfoAccessRecordApi(Result result, ApiDoorSystemSave apiParam, String noticeid, String noticecode, String businesstype) throws Exception {
-		ErrorCode ec;
 		AccessRecord access = new AccessRecord();
 		access.setId(UUIDUtil.getId());
 		GetCodeReq codeReq = new GetCodeReq();
@@ -598,14 +561,10 @@ public class AccessRecordService implements IAccessRecordService {
 		access.setCreatetime(System.currentTimeMillis());
 		access.setModifier(apiParam.getCurrUid());
 		access.setModifytime(System.currentTimeMillis());
-		if(accessRecordMapper.insertSelective(access) > 0
-				&& StringUtils.equals(systemCodeService.updateCodeItem(codeReq).getCode(), ErrorCode.SYSTEM_SUCCESS.getCode())){
-			ec = ErrorCode.SYSTEM_SUCCESS;
-		}else{
-			ec = ErrorCode.OPERATE_ERROR;
-		}
+		accessRecordMapper.insertSelective(access);
+		systemCodeService.updateCodeItem(codeReq);
 		result.setData(access.getCode());
-		result.setErrorCode(ec);
+		result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
 	}
 	
 	//添加出厂门禁记录
