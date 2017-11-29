@@ -83,42 +83,66 @@ function preview()
     window.document.body.innerHTML=prnhtml;
     window.print();
 }
-//    除页脚页眉的js代码
-var HKEY_Root,HKEY_Path,HKEY_Key;
-HKEY_Root="HKEY_CURRENT_USER";
-HKEY_Path="\\Software\\Microsoft\\Internet Explorer\\PageSetup\\";
-//设置网页打印的页眉页脚为空
-function PageSetup_Null()
+function preview1()
 {
-    try
-    {
-        var Wsh=new ActiveXObject("WScript.Shell");
-        HKEY_Key="header";
-        Wsh.RegWrite(HKEY_Root+HKEY_Path+HKEY_Key,"");
-        HKEY_Key="footer";
-        Wsh.RegWrite(HKEY_Root+HKEY_Path+HKEY_Key,"");
-    }
-    catch(e)
-    {}
-
+    bdhtml=window.document.body.innerHTML;
+    sprnstr="<!--startprint1-->";
+    eprnstr="<!--endprint1-->";
+    prnhtml=bdhtml.substr(bdhtml.indexOf(sprnstr)+17);
+    prnhtml=prnhtml.substring(0,prnhtml.indexOf(eprnstr));
+    window.document.body.innerHTML=prnhtml;
+    window.print();
 }
-
-//设置网页打印的页眉页脚为默认值
-function PageSetup_Default()
+function preview2()
 {
-    try
-    {
-        var Wsh=new ActiveXObject("WScript.Shell");
-        HKEY_Key="header";
-        Wsh.RegWrite(HKEY_Root+HKEY_Path+HKEY_Key,"&w&b页码,&p/&P");
-        HKEY_Key="footer";
-        Wsh.RegWrite(HKEY_Root+HKEY_Path+HKEY_Key,"&u&b&d");
-    }
-    catch(e)
-    {}
-
+    bdhtml=window.document.body.innerHTML;
+    sprnstr="<!--startprint2-->";
+    eprnstr="<!--endprint2-->";
+    prnhtml=bdhtml.substr(bdhtml.indexOf(sprnstr)+17);
+    prnhtml=prnhtml.substring(0,prnhtml.indexOf(eprnstr));
+    window.document.body.innerHTML=prnhtml;
+    window.print();
 }
-PageSetup_Default();
+function preview3()
+{
+    bdhtml=window.document.body.innerHTML;
+    sprnstr="<!--startprint3-->";
+    eprnstr="<!--endprint3-->";
+    prnhtml=bdhtml.substr(bdhtml.indexOf(sprnstr)+17);
+    prnhtml=prnhtml.substring(0,prnhtml.indexOf(eprnstr));
+    window.document.body.innerHTML=prnhtml;
+    window.print();
+}
+$('#yearNow').off('click').on('click',function(){
+	  var date = new Date();
+	    this.year = date.getFullYear();
+	    var clock1=document.getElementById("clock1");
+	    var clock2=document.getElementById("clock2");
+	    clock1.value="";
+	    clock2.value="";
+	    clock1.value=this.year+"年";
+	    clock2.value=this.year+"年";
+});
+$('#monthNow').off('click').on('click',function(){
+	 var date = new Date();
+	    this.month = date.getMonth() + 1;
+	    var clock1=document.getElementById("clock1");
+	    var clock2=document.getElementById("clock2");
+	    clock1.value="";
+	    clock2.value="";
+	    clock1.value=this.month+"月";
+	    clock2.value=this.month+"月";
+});
+$('#dayNow').off('click').on('click',function(){
+	 var date = new Date();
+	    this.date = date.getDate();
+	    var clock1=document.getElementById("clock1");
+	    var clock2=document.getElementById("clock2");
+	    clock1.value="";
+	    clock2.value="";
+	    clock1.value=this.date+"日";
+	    clock2.value=this.date+"日";
+});
 //获取系统时间 年月日
 function Clock() {
     var date = new Date();
@@ -145,7 +169,7 @@ function Clock1() {
     this.second = date.getSeconds() < 10 ? "0" + date.getSeconds() : date.getSeconds();
 
     this.toString = function() {
-        return  this.year + "-" + this.month + "-" + this.date +"  "+this.hour + ":" + this.minute + ":" + this.second ;
+        return  this.year + "-" + this.month + "-" + this.date +"  "+this.hour + ":" + this.minute;
     };
 
     this.display = function(ele) {
@@ -167,11 +191,34 @@ function bbgClick(){
     var bbg_tiaojian2=document.querySelector(".bbg_tiaojian2");
     var bbg_tiaojian3=document.querySelector(".bbg_tiaojian3");
     var bbg_tiaojian4=document.querySelector(".bbg_tiaojian4");
-    bbg_tiaojian1.innerHTML=bbg_gys+" "+bbg_kk+" "+gys+" "+bbg_sjn+" "+clock1+" "+clock2+" "+bbg_cph+" "+bbg_bz;
-    bbg_tiaojian2.innerHTML=bbg_gys+" "+bbg_kk+" "+gys+" "+bbg_sjn+" "+clock1+" "+clock2+" "+bbg_cph+" "+bbg_bz;
-    bbg_tiaojian3.innerHTML=bbg_gys+" "+bbg_kk+" "+gys+" "+bbg_sjn+" "+clock1+" "+clock2+" "+bbg_cph+" "+bbg_bz;
-    bbg_tiaojian4.innerHTML=bbg_gys+" "+bbg_kk+" "+gys+" "+bbg_sjn+" "+clock1+" "+clock2+" "+bbg_cph+" "+bbg_bz;
-
+    var str="";
+    if(bbg_gys!=""){
+        str+="供应商："+bbg_gys+" ";
+    }
+   if(bbg_kk!=""){
+        str+="矿口："+bbg_kk+" ";
+    }
+   if(gys!=""){
+        str+="物料："+gys+" ";
+    }else if(bbg_sjn!=""){
+        str+="司机姓名：："+bbg_sjn+" ";
+    }
+   /* if(clock1!=""){
+        str+="开始时间："+clock1+" ";
+    }
+    if(clock2!=""){
+        str+="结束时间："+clock2+" ";
+    }*/
+    if(bbg_cph!=""){
+        str+="车牌号："+bbg_cph+" ";
+    }
+    if(bbg_bz!=""){
+        str+="备注："+bbg_bz+" ";
+    }
+    bbg_tiaojian1.innerHTML=str;
+    bbg_tiaojian2.innerHTML=str;
+    bbg_tiaojian3.innerHTML=str;
+    bbg_tiaojian4.innerHTML=str;
 }
 
 //页面时间
@@ -179,25 +226,25 @@ var clock1 = new Clock();
 clock1.display(document.getElementById("clock1"));
 var clock2 = new Clock();
 clock2.display(document.getElementById("clock2"));
-var clock3 = new Clock1();
+var clock3 = new Clock();
 clock3.display(document.querySelector(".clock3"));
 var clock4 = new Clock();
 clock4.display(document.querySelector(".clock4"));
 var clock5 = new Clock1();
 clock5.display(document.querySelector(".clock5"));
-var clock6 = new Clock1();
+var clock6 = new Clock();
 clock6.display(document.querySelector(".clock6"));
 var clock7 = new Clock();
 clock7.display(document.querySelector(".clock7"));
 var clock8 = new Clock1();
 clock8.display(document.querySelector(".clock8"));
-var clock9 = new Clock1();
+var clock9 = new Clock();
 clock9.display(document.querySelector(".clock9"));
 var clock10 = new Clock();
 clock10.display(document.querySelector(".clock10"));
 var clock11 = new Clock1();
 clock11.display(document.querySelector(".clock11"));
-var clock12 = new Clock1();
+var clock12 = new Clock();
 clock12.display(document.querySelector(".clock12"));
 var clock13 = new Clock();
 clock13.display(document.querySelector(".clock13"));
@@ -212,16 +259,8 @@ wl_li.click(function () {
 });
 $( function() {
     var availableTags = [
-        "上海欧瑞仪器设备有限公司",
-        "上海对接口",
-        "阿拉滴上海",
-        "我德歌功",
-        "上海啊",
-        "上海对接口",
-        "阿拉滴上海",
-        "上海呵呵呵限公司",
-        "上海对接口",
-        "阿拉滴上海"
+        "石灰石",
+        "粉煤灰",
     ];
     $( "#gys" ).autocomplete({
         source: availableTags

@@ -83,6 +83,15 @@
                        style="width:160px"/>
             </div>
             <div class="intel_solo">
+           <button class="btn" id="yearNow" style="color: #166aa8;margin: 0 5px 0 -10px">当年</button>
+            </div>
+            <div class="intel_solo">
+            <button class="btn" id="monthNow" style="color: #166aa8;margin: 0 5px 0 -10px">当月</button>
+            </div>
+            <div class="intel_solo">
+            <button class="btn" id="dayNow" style="color: #166aa8;margin: 0 5px 0 -10px">当日</button>
+            </div>
+            <div class="intel_solo">
                 <label class="colorB">车牌号：</label>
                 <input type="text" id="bbg_cph">
             </div>
@@ -104,20 +113,6 @@
 							</div>
 						</div>
 						<div class="intel_opera">
-	 <div class="intel_operasolo" >
-        <i class="iconfont" style="color: #0174c3;font-size: 25px;margin-left: 22px">&#xe63c;</i>
-        <p>导出全部</p>
-    </div>					
-    <div class="intel_operasolo" onclick="method('.tableExcel')">
-        <i class="iconfont" style="color: #0174c3;font-size: 25px;margin-left: 22px">&#xe63c;</i>
-        <p>导出当前页</p>
-    </div>
-    <div class="intel_operasolo" onclick="preview()">
-        <a data-toggle="modal" data-target="#add">
-            <i class="iconfont" style="color: #7fe29f;font-size: 25px;margin-left: 22px">&#xe726;</i>
-            <p>打印当前页</p>
-        </a>
-    </div>
     <!--物料四个按钮切换-->
     <div class="wuliao_opera">
         <div class="wuliao_tab">
@@ -133,6 +128,22 @@
                 <div class="intel_table">
                     <div class="intel_table">
                         <div class="intel_table">
+                        <div">
+						  <div class="intel_operasolo" >
+						        <i class="iconfont" style="color: #0174c3;font-size: 25px;margin-left: 22px">&#xe63c;</i>
+						        <p>导出全部</p>
+						    </div>					
+						    <div class="intel_operasolo" onclick="method('.tableExcel')">
+						        <i class="iconfont" style="color: #0174c3;font-size: 25px;margin-left: 22px">&#xe63c;</i>
+						        <p>导出当前页</p>
+						    </div>
+						    <div class="intel_operasolo" onclick="preview()">
+						        <a data-toggle="modal" data-target="#add">
+						            <i class="iconfont" style="color: #7fe29f;font-size: 25px;margin-left: 22px">&#xe726;</i>
+						            <p>打印当前页</p>
+						        </a>
+						    </div>
+                        </div>
                             <!--startprint-->
                             <div class="intel_table" style="border:1px solid #dbe7f3;margin-top: 20px">
                                 <!--用户表格begin-->
@@ -142,7 +153,7 @@
                                         <td colspan="14" align="center" style="color:#434e8d;font-size: 40px;line-height:normal">
                                             卫辉市天瑞水泥有限公司采购物料统计
                                             <p class="biobiaop" style="margin-top: 10px">
-                                                <span class="clock6"></span>至<span class="clock7"></span>&nbsp;&nbsp;23:59:59
+                                                <span class="clock6"></span>至<span class="clock7"></span>
                                             </p>
                                             <p class="biobiaop" style="margin-bottom: 10px">条件：<span class="bbg_tiaojian1"></span></p>
                                         </td>
@@ -179,16 +190,32 @@
             </div>
             <div class="wuliao_tabcont hide">
                 <div class="intel_table">
-                    <!--startprint-->
+                 <div>
+						  <div class="intel_operasolo" >
+						        <i class="iconfont" style="color: #0174c3;font-size: 25px;margin-left: 22px">&#xe63c;</i>
+						        <p>导出全部</p>
+						    </div>					
+						    <div class="intel_operasolo" onclick="method('.tableExcel1')">
+						        <i class="iconfont" style="color: #0174c3;font-size: 25px;margin-left: 22px">&#xe63c;</i>
+						        <p>导出当前页</p>
+						    </div>
+						    <div class="intel_operasolo" onclick="preview1()">
+						        <a data-toggle="modal" data-target="#add">
+						            <i class="iconfont" style="color: #7fe29f;font-size: 25px;margin-left: 22px">&#xe726;</i>
+						            <p>打印当前页</p>
+						        </a>
+						    </div>
+                        </div>
+                    <!--startprint1-->
                     <div class="intel_table" style="border:1px solid #dbe7f3;margin-top: 20px">
                         <!--用户表格begin-->
-                        <table class="tableExcel" width="100%" border="1" cellspacing="0" cellpadding="0">
+                        <table class="tableExcel1" width="100%" border="1" cellspacing="0" cellpadding="0">
                             <thead>
                             <tr>
                                 <td colspan="7" align="center" style="color:#434e8d;font-size: 40px;line-height:normal">
                                     卫辉市天瑞水泥有限公司采购物料统计
                                     <p class="biobiaop" style="margin-top: 10px">
-                                        <span class="clock9"></span>至<span class="clock10"></span>&nbsp;&nbsp;23:59:59
+                                        <span class="clock9"></span>至<span class="clock10"></span>
                                     </p>
                                     <p class="biobiaop" style="margin-bottom: 10px">条件：<span class="bbg_tiaojian2"></span></p>
                                 </td>
@@ -211,22 +238,38 @@
                         </div>
                         <!--用户表格end-->
                     </div>
-                    <!--endprint-->
+                    <!--endprint1-->
                 </div>
             </div>
             <div class="wuliao_tabcont hide">
                 <div class="intel_table">
                     <div class="intel_table">
-                        <!--startprint-->
+                     <div>
+						  <div class="intel_operasolo" >
+						        <i class="iconfont" style="color: #0174c3;font-size: 25px;margin-left: 22px">&#xe63c;</i>
+						        <p>导出全部</p>
+						    </div>					
+						    <div class="intel_operasolo" onclick="method('.tableExcel2')">
+						        <i class="iconfont" style="color: #0174c3;font-size: 25px;margin-left: 22px">&#xe63c;</i>
+						        <p>导出当前页</p>
+						    </div>
+						    <div class="intel_operasolo" onclick="preview2()">
+						        <a data-toggle="modal" data-target="#add">
+						            <i class="iconfont" style="color: #7fe29f;font-size: 25px;margin-left: 22px">&#xe726;</i>
+						            <p>打印当前页</p>
+						        </a>
+						    </div>
+                        </div>
+                        <!--startprint2-->
                         <div class="intel_table" style="border:1px solid #dbe7f3;margin-top: 20px">
                             <!--用户表格begin-->
-                            <table class="tableExcel" width="100%" border="1" cellspacing="0" cellpadding="0">
+                            <table class="tableExcel2" width="100%" border="1" cellspacing="0" cellpadding="0">
                                 <thead>
                                 <tr>
-                                    <td colspan="13" align="center" style="color:#434e8d;font-size: 40px;line-height:normal">
+                                    <td colspan="12" align="center" style="color:#434e8d;font-size: 40px;line-height:normal">
                                         卫辉市天瑞水泥有限公司采购物料统计
                                         <p class="biobiaop" style="margin-top: 10px">
-                                            <span class="clock12"></span>至<span class="clock13"></span>&nbsp;&nbsp;23:59:59
+                                            <span class="clock12"></span>至<span class="clock13"></span>
                                         </p>
                                         <p class="biobiaop" style="margin-bottom: 10px">条件：<span class="bbg_tiaojian3"></span></p>
                                     </td>
@@ -239,11 +282,10 @@
                                     <th style="font-size: 20px">矿口</th>
                                     <th style="font-size: 20px">堆场</th>
                                     <th style="font-size: 20px">收料人</th>
-                                    <th style="font-size: 20px">收料时间</th>
-                                    <th style="font-size: 20px">手持编号</th>
+                                    <th style="font-size: 20px" id="shoulaioTime">收料时间</th>
                                     <th style="font-size: 20px">原发净重</th>
                                     <th style="font-size: 20px">净重</th>
-                                    <th style="font-size: 20px">重车时间</th>
+                                    <th style="font-size: 20px" id="weightCarTime">重车时间</th>
                                     <th style="font-size: 20px">备注</th>
                                 </tr>
                                 </thead>
@@ -256,22 +298,38 @@
                             </div>
                             <!--用户表格end-->
                         </div>
-                        <!--endprint-->
+                        <!--endprint2-->
                     </div>
                 </div>
             </div>
             <div class="wuliao_tabcont">
                 <div class="intel_table">
-                    <!--startprint-->
+                 <div>
+						  <div class="intel_operasolo" >
+						        <i class="iconfont" style="color: #0174c3;font-size: 25px;margin-left: 22px">&#xe63c;</i>
+						        <p>导出全部</p>
+						    </div>					
+						    <div class="intel_operasolo" onclick="method('.tableExcel3')">
+						        <i class="iconfont" style="color: #0174c3;font-size: 25px;margin-left: 22px">&#xe63c;</i>
+						        <p>导出当前页</p>
+						    </div>
+						    <div class="intel_operasolo" onclick="preview3()">
+						        <a data-toggle="modal" data-target="#add">
+						            <i class="iconfont" style="color: #7fe29f;font-size: 25px;margin-left: 22px">&#xe726;</i>
+						            <p>打印当前页</p>
+						        </a>
+						    </div>
+                        </div>
+                    <!--startprint3-->
                     <div class="intel_table" style="border:1px solid #dbe7f3;margin-top: 20px">
                         <!--用户表格begin-->
-                        <table class="tableExcel" width="100%" border="1" cellspacing="0" cellpadding="0">
+                        <table class="tableExcel3" width="100%" border="1" cellspacing="0" cellpadding="0">
                             <thead>
                             <tr>
                                 <td colspan="8" align="center" style="color:#434e8d;font-size: 40px;line-height:normal">
                                 卫辉市天瑞水泥有限公司采购物料统计
                                     <p class="biobiaop" style="margin-top: 10px">
-                                    <span class="clock3"></span>至<span class="clock4"></span>&nbsp;&nbsp;23:59:59
+                                    <span class="clock3"></span>至<span class="clock4"></span>
                                     </p>
                                     <p class="biobiaop" style="margin-bottom: 10px">条件：<span class="bbg_tiaojian4"></span></p>
                                 </td>
@@ -296,7 +354,7 @@
                         </div>
                         <!--用户表格end-->
                     </div>
-                    <!--endprint-->
+                    <!--endprint3-->
                 </div>
             </div>
         </div>
@@ -316,9 +374,9 @@
 						</div>
 						<div class="page_date">
 							<label>每页记录：</label> <select id="pageSize" class="form-control">
-								<option value="10">10</option>
 								<option value="20">20</option>
 								<option value="30">30</option>
+								<option value="40">40</option>
 							</select>
 						</div>
 						<div class="page_btn" id="pagination"></div>
@@ -329,8 +387,8 @@
 			<!-- 引用公共footer部分 -->
 			<jsp:include page="../../common/base/footer_busi.jsp"></jsp:include>
 			<script type="text/javascript"
-				src="/javascript/businessManage/Report/ReportManagement.js"></script>
+				src="/javascript/businessManage/Report/ReportManagement.js?112"></script>
 			<script type="text/javascript"
-				src="/javascript/businessManage/Report/ReportManagement2.js"></script>
+				src="/javascript/businessManage/Report/ReportManagement2.js?112"></script>
 </body>
 </html>

@@ -1,4 +1,4 @@
-;(function($, win){
+(function($, win){
 	//请求路径
 	var URL = {
 			pageUrl:"/trfc/PushSingleAction/page",

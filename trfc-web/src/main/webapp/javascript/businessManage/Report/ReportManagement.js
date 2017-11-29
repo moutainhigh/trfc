@@ -13,20 +13,35 @@
 		queryData();
 	}
 	$('#thing').off('click').on('click',function(){
+		$('input#jumpPageNo').val('');
 		queryData4(1);
 	});
 	$('#receive').off('click').on('click',function(){
+		$('input#jumpPageNo').val('');
 		queryData3(1);
 	});
 	$('#unit').off('click').on('click',function(){
+		$('input#jumpPageNo').val('');
 		queryData2(1);
 	});
 	$('#buyCar').off('click').on('click',function(){
+		$('input#jumpPageNo').val('');
 		queryData(1);
 	});
 	
 	$('#searchBtn').off('click').on('click',function(){
-		queryData(1);
+		if(queryData){
+			queryData(1);
+		}
+		if(queryData2){
+			queryData2(1);	
+		}
+		if(queryData3){
+			queryData3(1);
+		}
+		if(queryData4){
+			queryData4(1);
+		}
 	});
 	$('#clean').off('click').on('click',function(){
 		clean();
@@ -41,11 +56,35 @@
 				$('input#jumpPageNo').val('');
 			}else{
 				$('input#jumpPageNo').val(pageNo);
-				queryData(pageNo);
+				if(queryData){
+					queryData(pageNo);
+				}
+				if(queryData2){
+					queryData2(pageNo);	
+				}
+				if(queryData3){
+					queryData3(pageNo);
+				}
+				if(queryData4){
+					queryData4(pageNo);
+				}
+				
 			}
 		});
 		$('#pageSize').change(function(){
-			queryData(1);
+			if(queryData){
+				queryData(1);
+			}
+			if(queryData2){
+				queryData2(1);
+			}
+			if(queryData3){
+				queryData3(1);
+			}
+			if(queryData4){
+				queryData4(1);
+			}
+//			queryData(1);
 		});
 	}
 	function str2Long(dateStr){
@@ -56,24 +95,24 @@
 	}
 	function getParams(){
 		var params = {};
-		var bbg_gys = $('#bbg_gys').val();bbg_gys = $.trim(bbg_gys);
-		var bbg_kk = $('#bbg_kk').val();bbg_kk = $.trim(bbg_kk);
-		var gys = $('#gys').val();gys = $.trim(gys);
-		var bbg_sjn = $('#bbg_sjn').val();bbg_sjn = $.trim(bbg_sjn);
-		var clock1 = $('#clock1').val();clock1 = $.trim(clock1);
-		var clock2 = $('#clock2').val();clock2 = $.trim(clock2);
-		var bbg_cph = $('#bbg_cph').val();bbg_cph = $.trim(bbg_cph);
-		var bbg_bz = $('#bbg_bz').val();bbg_bz = $.trim(bbg_bz);
-		var pageSize = $('#pageSize').val() || 10;pageSize = $.trim(pageSize);
+		var suppliername = $('#bbg_gys').val();suppliername = $.trim(suppliername);
+		var minemouthname = $('#bbg_kk').val();minemouthname = $.trim(minemouthname);
+		var cargo = $('#gys').val();cargo = $.trim(cargo);
+		var drivername = $('#bbg_sjn').val();drivername = $.trim(drivername);
+		var beginTime = $('#clock1').val();beginTime = $.trim(beginTime);
+		var endTime = $('#clock2').val();endTime = $.trim(endTime);
+		var vehicleno = $('#bbg_cph').val();vehicleno = $.trim(vehicleno);
+		var remark = $('#bbg_bz').val();remark = $.trim(remark);
+		var pageSize = $('#pageSize').val() || 20;pageSize = $.trim(pageSize);
 		return {
-			bbg_gys:bbg_gys,
-			bbg_kk:bbg_kk,
-			gys:gys,
-			bbg_sjn:bbg_sjn,
-			clock1:str2Long(clock1),
-			clock2:str2Long(clock2),
-			bbg_cph:bbg_cph,
-			bbg_bz:bbg_bz,
+			suppliername:suppliername,
+			minemouthname:minemouthname,
+			cargo:cargo,
+			drivername:drivername,
+			beginTime:str2Long(beginTime),
+			endTime:str2Long(endTime),
+			vehicleno:vehicleno,
+			remark:remark,
 			pageSize:pageSize
 		};
 	}
@@ -89,7 +128,6 @@
 		 $('#bbg_bz').val("");
 //		 queryData(1);
 	}
-//	$("#buyCar").click(function(){
 //		//初始化页面
 //		queryData(1);
 		function queryData(pageNo){
@@ -282,11 +320,10 @@
 						.append('<td>'+(list[i].minemouthname||"")+'</td>')
 						.append('<td>'+(list[i].yardname||"")+'</td>')
 						.append('<td>'+(list[i].signpersonname||"")+'</td>')
-						.append('<td>'+(list[i].signtime||"")+'</td>')
-						.append('<td>'+("")+'</td>')
+						.append('<td>'+(new Date(list[i].signtime).format("yyyy-MM-dd HH:mm:ss")||"")+'</td>')
 						.append('<td>'+(list[i].originalnetweight||"")+'</td>')
 						.append('<td>'+(list[i].netweight||"")+'</td>')
-						.append('<td>'+(list[i].weighttime||"")+'</td>')
+						.append('<td>'+(new Date(list[i].weighttime||"").format("yyyy-MM-dd HH:mm:ss"))+'</td>')
 						.append('<td>'+(list[i].remark||"")+'</td>')
 						.appendTo('#RMg3');
 			}
