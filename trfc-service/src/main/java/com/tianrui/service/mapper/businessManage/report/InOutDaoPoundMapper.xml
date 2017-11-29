@@ -1,0 +1,918 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tianrui.service.mapper.businessManage.report.InOutDaoPoundMapper" >
+  <resultMap id="BaseResultMap" type="com.tianrui.service.bean.businessManage.report.InOutDaoPound" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="code" property="code" jdbcType="VARCHAR" />
+    <result column="returnstatus" property="returnstatus" jdbcType="VARCHAR" />
+    <result column="redcollide" property="redcollide" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="billtype" property="billtype" jdbcType="VARCHAR" />
+    <result column="putinwarehouseid" property="putinwarehouseid" jdbcType="VARCHAR" />
+    <result column="putinwarehousecode" property="putinwarehousecode" jdbcType="VARCHAR" />
+    <result column="billid" property="billid" jdbcType="VARCHAR" />
+    <result column="billcode" property="billcode" jdbcType="VARCHAR" />
+    <result column="billdetailid" property="billdetailid" jdbcType="VARCHAR" />
+    <result column="noticeid" property="noticeid" jdbcType="VARCHAR" />
+    <result column="noticecode" property="noticecode" jdbcType="VARCHAR" />
+    <result column="driverid" property="driverid" jdbcType="VARCHAR" />
+    <result column="drivername" property="drivername" jdbcType="VARCHAR" />
+    <result column="driveridentityno" property="driveridentityno" jdbcType="VARCHAR" />
+    <result column="vehicleid" property="vehicleid" jdbcType="VARCHAR" />
+    <result column="vehicleno" property="vehicleno" jdbcType="VARCHAR" />
+    <result column="vehiclerfid" property="vehiclerfid" jdbcType="VARCHAR" />
+    <result column="receivedepartmentid" property="receivedepartmentid" jdbcType="VARCHAR" />
+    <result column="receivedepartmentname" property="receivedepartmentname" jdbcType="VARCHAR" />
+    <result column="minemouthid" property="minemouthid" jdbcType="VARCHAR" />
+    <result column="minemouthname" property="minemouthname" jdbcType="VARCHAR" />
+    <result column="warehouseid" property="warehouseid" jdbcType="VARCHAR" />
+    <result column="warehousename" property="warehousename" jdbcType="VARCHAR" />
+    <result column="yardid" property="yardid" jdbcType="VARCHAR" />
+    <result column="yardname" property="yardname" jdbcType="VARCHAR" />
+    <result column="receiverpersonid" property="receiverpersonid" jdbcType="VARCHAR" />
+    <result column="receiverpersonname" property="receiverpersonname" jdbcType="VARCHAR" />
+    <result column="weigherid" property="weigherid" jdbcType="VARCHAR" />
+    <result column="weighername" property="weighername" jdbcType="VARCHAR" />
+    <result column="receivertime" property="receivertime" jdbcType="BIGINT" />
+    <result column="pickupquantity" property="pickupquantity" jdbcType="DOUBLE" />
+    <result column="grossweight" property="grossweight" jdbcType="DOUBLE" />
+    <result column="tareweight" property="tareweight" jdbcType="DOUBLE" />
+    <result column="netweight" property="netweight" jdbcType="DOUBLE" />
+    <result column="originalnetweight" property="originalnetweight" jdbcType="DOUBLE" />
+    <result column="deductionweight" property="deductionweight" jdbcType="DOUBLE" />
+    <result column="deductionother" property="deductionother" jdbcType="DOUBLE" />
+    <result column="batchnumberid" property="batchnumberid" jdbcType="VARCHAR" />
+    <result column="serialnumber" property="serialnumber" jdbcType="VARCHAR" />
+    <result column="lighttime" property="lighttime" jdbcType="BIGINT" />
+    <result column="weighttime" property="weighttime" jdbcType="BIGINT" />
+    <result column="makerid" property="makerid" jdbcType="VARCHAR" />
+    <result column="makebillname" property="makebillname" jdbcType="VARCHAR" />
+    <result column="makebilltime" property="makebilltime" jdbcType="BIGINT" />
+    <result column="state" property="state" jdbcType="VARCHAR" />
+    <result column="creator" property="creator" jdbcType="VARCHAR" />
+    <result column="createtime" property="createtime" jdbcType="BIGINT" />
+    <result column="modifier" property="modifier" jdbcType="VARCHAR" />
+    <result column="modifytime" property="modifytime" jdbcType="BIGINT" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="customerid" property="customerid" jdbcType="VARCHAR" />
+    <result column="customername" property="customername" jdbcType="VARCHAR" />
+    <result column="supplierid" property="supplierid" jdbcType="VARCHAR" />
+    <result column="suppliername" property="suppliername" jdbcType="VARCHAR" />
+    <result column="department" property="department" jdbcType="VARCHAR" />
+    <result column="cutoverpartmentid" property="cutoverpartmentid" jdbcType="VARCHAR" />
+    <result column="cutoverpartmentname" property="cutoverpartmentname" jdbcType="VARCHAR" />
+    <result column="materialid" property="materialid" jdbcType="VARCHAR" />
+    <result column="materialname" property="materialname" jdbcType="VARCHAR" />
+    <result column="cargo" property="cargo" jdbcType="VARCHAR" />
+    <result column="enteryardid" property="enteryardid" jdbcType="VARCHAR" />
+    <result column="enteryardname" property="enteryardname" jdbcType="VARCHAR" />
+    <result column="leaveyardid" property="leaveyardid" jdbcType="VARCHAR" />
+    <result column="leaveyardname" property="leaveyardname" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    id, code, returnstatus, redcollide, status, billtype, putinwarehouseid, putinwarehousecode, billid, billcode, billdetailid,
+    noticeid, noticecode, arrivepoundnotecode, senddepartmentid, senddepartmentname, driverid, drivername, driveridentityno, vehicleid, vehicleno, 
+    receivedepartmentid, receivedepartmentname, minemouthid, minemouthname, warehouseid, 
+    vehiclerfid, warehousename, yardid, yardname, receiverpersonid, receiverpersonname, weigherid, weighername, receivertime, pickupquantity, 
+    grossweight, tareweight, netweight, originalnetweight, deductionweight, deductionother, batchnumberid,
+    serialnumber, lighttime, weighttime, makerid, makebillname, makebilltime, state, creator, 
+    createtime, modifier, modifytime, remark, customerid, customername, supplierid, suppliername, department, cutoverpartmentid, cutoverpartmentname, 
+    materialid, materialname, cargo, enteryardid, enteryardname, leaveyardid, leaveyardname
+  </sql>
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from tr_pound_db_note
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from tr_pound_db_note
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.tianrui.service.bean.businessManage.report.InOutDaoPound" >
+    insert into tr_pound_db_note (id, code, returnstatus, 
+      redcollide, status, billtype, 
+      putinwarehouseid, putinwarehousecode, billid, billcode, billdetailid, noticeid, 
+      noticecode, arrivepoundnotecode, senddepartmentid, senddepartmentname, driverid, drivername, 
+      driveridentityno, vehicleid, vehicleno, vehiclerfid,
+      receivedepartmentid, receivedepartmentname, 
+      minemouthid, minemouthname, warehouseid, 
+      warehousename, yardid, yardname, 
+      receiverpersonid, receiverpersonname, weigherid, weighername, receivertime, pickupquantity, 
+      grossweight, tareweight, netweight, 
+      originalnetweight, deductionweight, deductionother, batchnumberid,
+      serialnumber, lighttime, weighttime, 
+      makerid, makebillname, makebilltime, state,
+      creator, createtime, modifier, 
+      modifytime, remark, customerid, customername, supplierid, suppliername, department, cutoverpartmentid, cutoverpartmentname, 
+      materialid, materialname, cargo, enteryardid, enteryardname, leaveyardid, leaveyardname)
+    values (#{id,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR}, #{returnstatus,jdbcType=VARCHAR}, 
+      #{redcollide,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, #{billtype,jdbcType=VARCHAR}, 
+      #{putinwarehouseid,jdbcType=VARCHAR}, #{putinwarehousecode,jdbcType=VARCHAR}, #{billid,jdbcType=VARCHAR}, 
+      #{billcode,jdbcType=VARCHAR}, #{billdetailid,jdbcType=VARCHAR}, #{noticeid,jdbcType=VARCHAR}, 
+      #{noticecode,jdbcType=VARCHAR}, #{arrivepoundnotecode,jdbcType=VARCHAR}, #{senddepartmentid,jdbcType=VARCHAR},
+      #{senddepartmentname,jdbcType=VARCHAR}, #{driverid,jdbcType=VARCHAR}, #{drivername,jdbcType=VARCHAR}, 
+      #{driveridentityno,jdbcType=VARCHAR}, #{vehicleid,jdbcType=VARCHAR}, #{vehicleno,jdbcType=VARCHAR}, #{vehiclerfid,jdbcType=VARCHAR}, 
+      #{receivedepartmentid,jdbcType=VARCHAR}, #{receivedepartmentname,jdbcType=VARCHAR}, 
+      #{minemouthid,jdbcType=VARCHAR}, #{minemouthname,jdbcType=VARCHAR}, #{warehouseid,jdbcType=VARCHAR}, 
+      #{warehousename,jdbcType=VARCHAR}, #{yardid,jdbcType=VARCHAR}, #{yardname,jdbcType=VARCHAR}, 
+      #{receiverpersonid,jdbcType=VARCHAR}, #{receiverpersonname,jdbcType=VARCHAR}, #{weigherid,jdbcType=VARCHAR}, 
+      #{weighername,jdbcType=VARCHAR}, #{receivertime,jdbcType=BIGINT}, #{pickupquantity,jdbcType=DOUBLE}, 
+      #{grossweight,jdbcType=DOUBLE}, #{tareweight,jdbcType=DOUBLE}, #{netweight,jdbcType=DOUBLE}, 
+      #{originalnetweight,jdbcType=DOUBLE}, #{deductionweight,jdbcType=DOUBLE}, #{deductionother,jdbcType=DOUBLE}, 
+      #{batchnumberid,jdbcType=VARCHAR},  #{serialnumber,jdbcType=VARCHAR}, #{lighttime,jdbcType=BIGINT}, #{weighttime,jdbcType=BIGINT}, 
+      #{makerid,jdbcType=VARCHAR}, #{makebillname,jdbcType=VARCHAR}, #{makebilltime,jdbcType=BIGINT}, #{state,jdbcType=BIGINT}, 
+      #{creator,jdbcType=VARCHAR}, #{createtime,jdbcType=BIGINT}, #{modifier,jdbcType=VARCHAR}, 
+      #{modifytime,jdbcType=BIGINT}, #{remark,jdbcType=VARCHAR}, #{customerid,jdbcType=VARCHAR}, 
+      #{customername,jdbcType=VARCHAR}, #{supplierid,jdbcType=VARCHAR}, #{suppliername,jdbcType=VARCHAR}, 
+      #{department,jdbcType=VARCHAR}, #{cutoverpartmentid,jdbcType=VARCHAR}, #{cutoverpartmentname,jdbcType=VARCHAR}, 
+      #{materialid,jdbcType=VARCHAR}, #{materialname,jdbcType=VARCHAR}, #{cargo,jdbcType=VARCHAR}, 
+      #{enteryardid,jdbcType=VARCHAR}, #{enteryardname,jdbcType=VARCHAR}, #{leaveyardid,jdbcType=VARCHAR}, 
+      #{leaveyardname,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.tianrui.service.bean.businessManage.report.InOutDaoPound" >
+    insert into tr_pound_db_note
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="code != null" >
+        code,
+      </if>
+      <if test="returnstatus != null" >
+        returnstatus,
+      </if>
+      <if test="redcollide != null" >
+        redcollide,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="billtype != null" >
+        billtype,
+      </if>
+      <if test="putinwarehouseid != null" >
+        putinwarehouseid,
+      </if>
+      <if test="putinwarehousecode != null" >
+        putinwarehousecode,
+      </if>
+      <if test="billid != null" >
+        billid,
+      </if>
+      <if test="billcode != null" >
+        billcode,
+      </if>
+      <if test="billdetailid != null" >
+        billdetailid,
+      </if>
+      <if test="noticeid != null" >
+        noticeid,
+      </if>
+      <if test="noticecode != null" >
+        noticecode,
+      </if>
+      <if test="arrivepoundnotecode != null" >
+        arrivepoundnotecode,
+      </if>
+      <if test="senddepartmentid != null" >
+        senddepartmentid,
+      </if>
+      <if test="senddepartmentname != null" >
+        senddepartmentname,
+      </if>
+      <if test="driverid != null" >
+        driverid,
+      </if>
+      <if test="drivername != null" >
+        drivername,
+      </if>
+      <if test="driveridentityno != null" >
+        driveridentityno,
+      </if>
+      <if test="vehicleid != null" >
+        vehicleid,
+      </if>
+      <if test="vehicleno != null" >
+        vehicleno,
+      </if>
+      <if test="vehiclerfid != null" >
+        vehiclerfid,
+      </if>
+      <if test="receivedepartmentid != null" >
+        receivedepartmentid,
+      </if>
+      <if test="receivedepartmentname != null" >
+        receivedepartmentname,
+      </if>
+      <if test="minemouthid != null" >
+        minemouthid,
+      </if>
+      <if test="minemouthname != null" >
+        minemouthname,
+      </if>
+      <if test="warehouseid != null" >
+        warehouseid,
+      </if>
+      <if test="warehousename != null" >
+        warehousename,
+      </if>
+      <if test="yardid != null" >
+        yardid,
+      </if>
+      <if test="yardname != null" >
+        yardname,
+      </if>
+      <if test="receiverpersonid != null" >
+        receiverpersonid,
+      </if>
+      <if test="receiverpersonname != null" >
+        receiverpersonname,
+      </if>
+      <if test="weigherid != null" >
+        weigherid,
+      </if>
+      <if test="weighername != null" >
+        weighername,
+      </if>
+      <if test="receivertime != null" >
+        receivertime,
+      </if>
+      <if test="pickupquantity != null" >
+        pickupquantity,
+      </if>
+      <if test="grossweight != null" >
+        grossweight,
+      </if>
+      <if test="tareweight != null" >
+        tareweight,
+      </if>
+      <if test="netweight != null" >
+        netweight,
+      </if>
+      <if test="originalnetweight != null" >
+        originalnetweight,
+      </if>
+      <if test="deductionweight != null" >
+        deductionweight,
+      </if>
+      <if test="deductionother != null" >
+        deductionother,
+      </if>
+      <if test="batchnumberid != null" >
+        batchnumberid,
+      </if>
+      <if test="serialnumber != null" >
+        serialnumber,
+      </if>
+      <if test="lighttime != null" >
+        lighttime,
+      </if>
+      <if test="weighttime != null" >
+        weighttime,
+      </if>
+      <if test="makerid != null" >
+        makerid,
+      </if>
+      <if test="makebillname != null" >
+        makebillname,
+      </if>
+      <if test="makebilltime != null" >
+        makebilltime,
+      </if>
+      <if test="state != null" >
+        state,
+      </if>
+      <if test="creator != null" >
+        creator,
+      </if>
+      <if test="createtime != null" >
+        createtime,
+      </if>
+      <if test="modifier != null" >
+        modifier,
+      </if>
+      <if test="modifytime != null" >
+        modifytime,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+      <if test="customerid != null" >
+        customerid,
+      </if>
+      <if test="customername != null" >
+        customername,
+      </if>
+      <if test="supplierid != null" >
+        supplierid,
+      </if>
+      <if test="suppliername != null" >
+        suppliername,
+      </if>
+      <if test="department != null" >
+        department,
+      </if>
+      <if test="cutoverpartmentid != null" >
+        cutoverpartmentid,
+      </if>
+      <if test="cutoverpartmentname != null" >
+        cutoverpartmentname,
+      </if>
+      <if test="materialid != null" >
+        materialid,
+      </if>
+      <if test="materialname != null" >
+        materialname,
+      </if>
+      <if test="cargo != null" >
+        cargo,
+      </if>
+      <if test="enteryardid != null" >
+        enteryardid,
+      </if>
+      <if test="enteryardname != null" >
+        enteryardname,
+      </if>
+      <if test="leaveyardid != null" >
+        leaveyardid,
+      </if>
+      <if test="leaveyardname != null" >
+        leaveyardname,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="code != null" >
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="returnstatus != null" >
+        #{returnstatus,jdbcType=VARCHAR},
+      </if>
+      <if test="redcollide != null" >
+        #{redcollide,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="billtype != null" >
+        #{billtype,jdbcType=VARCHAR},
+      </if>
+      <if test="putinwarehouseid != null" >
+        #{putinwarehouseid,jdbcType=VARCHAR},
+      </if>
+      <if test="putinwarehousecode != null" >
+        #{putinwarehousecode,jdbcType=VARCHAR},
+      </if>
+      <if test="billid != null" >
+        #{billid,jdbcType=VARCHAR},
+      </if>
+      <if test="billcode != null" >
+        #{billcode,jdbcType=VARCHAR},
+      </if>
+      <if test="billdetailid != null" >
+        #{billdetailid,jdbcType=VARCHAR},
+      </if>
+      <if test="noticeid != null" >
+        #{noticeid,jdbcType=VARCHAR},
+      </if>
+      <if test="noticecode != null" >
+        #{noticecode,jdbcType=VARCHAR},
+      </if>
+      <if test="arrivepoundnotecode != null" >
+        #{arrivepoundnotecode,jdbcType=VARCHAR},
+      </if>
+      <if test="senddepartmentid != null" >
+        #{senddepartmentid,jdbcType=VARCHAR},
+      </if>
+      <if test="senddepartmentname != null" >
+        #{senddepartmentname,jdbcType=VARCHAR},
+      </if>
+      <if test="driverid != null" >
+        #{driverid,jdbcType=VARCHAR},
+      </if>
+      <if test="drivername != null" >
+        #{drivername,jdbcType=VARCHAR},
+      </if>
+      <if test="driveridentityno != null" >
+        #{driveridentityno,jdbcType=VARCHAR},
+      </if>
+      <if test="vehicleid != null" >
+        #{vehicleid,jdbcType=VARCHAR},
+      </if>
+      <if test="vehicleno != null" >
+        #{vehicleno,jdbcType=VARCHAR},
+      </if>
+      <if test="vehiclerfid != null" >
+        #{vehiclerfid,jdbcType=VARCHAR},
+      </if>
+      <if test="receivedepartmentid != null" >
+        #{receivedepartmentid,jdbcType=VARCHAR},
+      </if>
+      <if test="receivedepartmentname != null" >
+        #{receivedepartmentname,jdbcType=VARCHAR},
+      </if>
+      <if test="minemouthid != null" >
+        #{minemouthid,jdbcType=VARCHAR},
+      </if>
+      <if test="minemouthname != null" >
+        #{minemouthname,jdbcType=VARCHAR},
+      </if>
+      <if test="warehouseid != null" >
+        #{warehouseid,jdbcType=VARCHAR},
+      </if>
+      <if test="warehousename != null" >
+        #{warehousename,jdbcType=VARCHAR},
+      </if>
+      <if test="yardid != null" >
+        #{yardid,jdbcType=VARCHAR},
+      </if>
+      <if test="yardname != null" >
+        #{yardname,jdbcType=VARCHAR},
+      </if>
+      <if test="receiverpersonid != null" >
+        #{receiverpersonid,jdbcType=VARCHAR},
+      </if>
+      <if test="receiverpersonname != null" >
+        #{receiverpersonname,jdbcType=VARCHAR},
+      </if>
+      <if test="weigherid != null" >
+        #{weigherid,jdbcType=VARCHAR},
+      </if>
+      <if test="weighername != null" >
+        #{weighername,jdbcType=VARCHAR},
+      </if>
+      <if test="receivertime != null" >
+        #{receivertime,jdbcType=BIGINT},
+      </if>
+      <if test="pickupquantity != null" >
+        #{pickupquantity,jdbcType=DOUBLE},
+      </if>
+      <if test="grossweight != null" >
+        #{grossweight,jdbcType=DOUBLE},
+      </if>
+      <if test="tareweight != null" >
+        #{tareweight,jdbcType=DOUBLE},
+      </if>
+      <if test="netweight != null" >
+        #{netweight,jdbcType=DOUBLE},
+      </if>
+      <if test="originalnetweight != null" >
+        #{originalnetweight,jdbcType=DOUBLE},
+      </if>
+      <if test="deductionweight != null" >
+        #{deductionweight,jdbcType=DOUBLE},
+      </if>
+      <if test="deductionother != null" >
+        #{deductionother,jdbcType=DOUBLE},
+      </if>
+      <if test="batchnumberid != null" >
+        #{batchnumberid,jdbcType=VARCHAR},
+      </if>
+      <if test="serialnumber != null" >
+        #{serialnumber,jdbcType=VARCHAR},
+      </if>
+      <if test="lighttime != null" >
+        #{lighttime,jdbcType=BIGINT},
+      </if>
+      <if test="weighttime != null" >
+        #{weighttime,jdbcType=BIGINT},
+      </if>
+      <if test="makerid != null" >
+        #{makerid,jdbcType=VARCHAR},
+      </if>
+      <if test="makebillname != null" >
+        #{makebillname,jdbcType=VARCHAR},
+      </if>
+      <if test="makebilltime != null" >
+        #{makebilltime,jdbcType=BIGINT},
+      </if>
+      <if test="state != null" >
+        #{state,jdbcType=VARCHAR},
+      </if>
+      <if test="creator != null" >
+        #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=BIGINT},
+      </if>
+      <if test="modifier != null" >
+        #{modifier,jdbcType=VARCHAR},
+      </if>
+      <if test="modifytime != null" >
+        #{modifytime,jdbcType=BIGINT},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="customerid != null" >
+        #{customerid,jdbcType=VARCHAR},
+      </if>
+      <if test="customername != null" >
+        #{customername,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierid != null" >
+        #{supplierid,jdbcType=VARCHAR},
+      </if>
+      <if test="suppliername != null" >
+        #{suppliername,jdbcType=VARCHAR},
+      </if>
+      <if test="department != null" >
+        #{department,jdbcType=VARCHAR},
+      </if>
+      <if test="cutoverpartmentid != null" >
+        #{cutoverpartmentid,jdbcType=VARCHAR},
+      </if>
+      <if test="cutoverpartmentname != null" >
+        #{cutoverpartmentname,jdbcType=VARCHAR},
+      </if>
+      <if test="materialid != null" >
+        #{materialid,jdbcType=VARCHAR},
+      </if>
+      <if test="materialname != null" >
+        #{materialname,jdbcType=VARCHAR},
+      </if>
+      <if test="cargo != null" >
+        #{cargo,jdbcType=VARCHAR},
+      </if>
+      <if test="enteryardid != null" >
+        #{enteryardid,jdbcType=VARCHAR},
+      </if>
+      <if test="enteryardname != null" >
+        #{enteryardname,jdbcType=VARCHAR},
+      </if>
+      <if test="leaveyardid != null" >
+        #{leaveyardid,jdbcType=VARCHAR},
+      </if>
+      <if test="leaveyardname != null" >
+        #{leaveyardname,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tianrui.service.bean.businessManage.report.InOutDaoPound" >
+    update tr_pound_db_note
+    <set >
+      <if test="code != null" >
+        code = #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="returnstatus != null" >
+        returnstatus = #{returnstatus,jdbcType=VARCHAR},
+      </if>
+      <if test="redcollide != null" >
+        redcollide = #{redcollide,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="billtype != null" >
+        billtype = #{billtype,jdbcType=VARCHAR},
+      </if>
+      <if test="putinwarehouseid != null" >
+        putinwarehouseid = #{putinwarehouseid,jdbcType=VARCHAR},
+      </if>
+      <if test="putinwarehousecode != null" >
+        putinwarehousecode = #{putinwarehousecode,jdbcType=VARCHAR},
+      </if>
+      <if test="billid != null" >
+        billid = #{billid,jdbcType=VARCHAR},
+      </if>
+      <if test="billcode != null" >
+        billcode = #{billcode,jdbcType=VARCHAR},
+      </if>
+      <if test="billdetailid != null" >
+        billdetailid = #{billdetailid,jdbcType=VARCHAR},
+      </if>
+      <if test="noticeid != null" >
+        noticeid = #{noticeid,jdbcType=VARCHAR},
+      </if>
+      <if test="noticecode != null" >
+        noticecode = #{noticecode,jdbcType=VARCHAR},
+      </if>
+      <if test="arrivepoundnotecode != null" >
+        arrivepoundnotecode = #{arrivepoundnotecode,jdbcType=VARCHAR},
+      </if>
+      <if test="senddepartmentid != null" >
+        senddepartmentid = #{senddepartmentid,jdbcType=VARCHAR},
+      </if>
+      <if test="senddepartmentname != null" >
+        senddepartmentname = #{senddepartmentname,jdbcType=VARCHAR},
+      </if>
+      <if test="driverid != null" >
+        driverid = #{driverid,jdbcType=VARCHAR},
+      </if>
+      <if test="drivername != null" >
+        drivername = #{drivername,jdbcType=VARCHAR},
+      </if>
+      <if test="driveridentityno != null" >
+        driveridentityno = #{driveridentityno,jdbcType=VARCHAR},
+      </if>
+      <if test="vehicleid != null" >
+        vehicleid = #{vehicleid,jdbcType=VARCHAR},
+      </if>
+      <if test="vehicleno != null" >
+        vehicleno = #{vehicleno,jdbcType=VARCHAR},
+      </if>
+      <if test="vehiclerfid != null" >
+        vehiclerfid = #{vehiclerfid,jdbcType=VARCHAR},
+      </if>
+      <if test="receivedepartmentid != null" >
+        receivedepartmentid = #{receivedepartmentid,jdbcType=VARCHAR},
+      </if>
+      <if test="receivedepartmentname != null" >
+        receivedepartmentname = #{receivedepartmentname,jdbcType=VARCHAR},
+      </if>
+      <if test="minemouthid != null" >
+        minemouthid = #{minemouthid,jdbcType=VARCHAR},
+      </if>
+      <if test="minemouthname != null" >
+        minemouthname = #{minemouthname,jdbcType=VARCHAR},
+      </if>
+      <if test="warehouseid != null" >
+        warehouseid = #{warehouseid,jdbcType=VARCHAR},
+      </if>
+      <if test="warehousename != null" >
+        warehousename = #{warehousename,jdbcType=VARCHAR},
+      </if>
+      <if test="yardid != null" >
+        yardid = #{yardid,jdbcType=VARCHAR},
+      </if>
+      <if test="yardname != null" >
+        yardname = #{yardname,jdbcType=VARCHAR},
+      </if>
+      <if test="receiverpersonid != null" >
+        receiverpersonid = #{receiverpersonid,jdbcType=VARCHAR},
+      </if>
+      <if test="receiverpersonname != null" >
+        receiverpersonname = #{receiverpersonname,jdbcType=VARCHAR},
+      </if>
+      <if test="weigherid != null" >
+        weigherid = #{weigherid,jdbcType=VARCHAR},
+      </if>
+      <if test="weighername != null" >
+        weighername = #{weighername,jdbcType=VARCHAR},
+      </if>
+      <if test="receivertime != null" >
+        receivertime = #{receivertime,jdbcType=BIGINT},
+      </if>
+      <if test="pickupquantity != null" >
+        pickupquantity = #{pickupquantity,jdbcType=DOUBLE},
+      </if>
+      <if test="grossweight != null" >
+        grossweight = #{grossweight,jdbcType=DOUBLE},
+      </if>
+      <if test="tareweight != null" >
+        tareweight = #{tareweight,jdbcType=DOUBLE},
+      </if>
+      <if test="netweight != null" >
+        netweight = #{netweight,jdbcType=DOUBLE},
+      </if>
+      <if test="originalnetweight != null" >
+        originalnetweight = #{originalnetweight,jdbcType=DOUBLE},
+      </if>
+      <if test="deductionweight != null" >
+        deductionweight = #{deductionweight,jdbcType=DOUBLE},
+      </if>
+      <if test="deductionother != null" >
+        deductionother = #{deductionother,jdbcType=DOUBLE},
+      </if>
+      <if test="batchnumberid != null" >
+        batchnumberid = #{batchnumberid,jdbcType=VARCHAR},
+      </if>
+      <if test="serialnumber != null" >
+        serialnumber = #{serialnumber,jdbcType=VARCHAR},
+      </if>
+      <if test="lighttime != null" >
+        lighttime = #{lighttime,jdbcType=BIGINT},
+      </if>
+      <if test="weighttime != null" >
+        weighttime = #{weighttime,jdbcType=BIGINT},
+      </if>
+      <if test="makerid != null" >
+        makerid = #{makerid,jdbcType=VARCHAR},
+      </if>
+      <if test="makebillname != null" >
+        makebillname = #{makebillname,jdbcType=VARCHAR},
+      </if>
+      <if test="makebilltime != null" >
+        makebilltime = #{makebilltime,jdbcType=BIGINT},
+      </if>
+      <if test="state != null" >
+        state = #{state,jdbcType=VARCHAR},
+      </if>
+      <if test="creator != null" >
+        creator = #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        createtime = #{createtime,jdbcType=BIGINT},
+      </if>
+      <if test="modifier != null" >
+        modifier = #{modifier,jdbcType=VARCHAR},
+      </if>
+      <if test="modifytime != null" >
+        modifytime = #{modifytime,jdbcType=BIGINT},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="customerid != null" >
+        customerid = #{customerid,jdbcType=VARCHAR},
+      </if>
+      <if test="customername != null" >
+        customername = #{customername,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierid != null" >
+        supplierid = #{supplierid,jdbcType=VARCHAR},
+      </if>
+      <if test="suppliername != null" >
+        suppliername = #{suppliername,jdbcType=VARCHAR},
+      </if>
+      <if test="department != null" >
+        department = #{department,jdbcType=VARCHAR},
+      </if>
+      <if test="cutoverpartmentid != null" >
+        cutoverpartmentid = #{cutoverpartmentid,jdbcType=VARCHAR},
+      </if>
+      <if test="cutoverpartmentname != null" >
+        cutoverpartmentname = #{cutoverpartmentname,jdbcType=VARCHAR},
+      </if>
+      <if test="materialid != null" >
+        materialid = #{materialid,jdbcType=VARCHAR},
+      </if>
+      <if test="materialname != null" >
+        materialname = #{materialname,jdbcType=VARCHAR},
+      </if>
+      <if test="cargo != null" >
+        cargo = #{cargo,jdbcType=VARCHAR},
+      </if>
+      <if test="enteryardid != null" >
+        enteryardid = #{enteryardid,jdbcType=VARCHAR},
+      </if>
+      <if test="enteryardname != null" >
+        enteryardname = #{enteryardname,jdbcType=VARCHAR},
+      </if>
+      <if test="leaveyardid != null" >
+        leaveyardid = #{leaveyardid,jdbcType=VARCHAR},
+      </if>
+      <if test="leaveyardname != null" >
+        leaveyardname = #{leaveyardname,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tianrui.service.bean.businessManage.report.InOutDaoPound" >
+    update tr_pound_db_note
+    set code = #{code,jdbcType=VARCHAR},
+      returnstatus = #{returnstatus,jdbcType=VARCHAR},
+      redcollide = #{redcollide,jdbcType=VARCHAR},
+      status = #{status,jdbcType=VARCHAR},
+      billtype = #{billtype,jdbcType=VARCHAR},
+      putinwarehouseid = #{putinwarehouseid,jdbcType=VARCHAR},
+      putinwarehousecode = #{putinwarehousecode,jdbcType=VARCHAR},
+      billid = #{billid,jdbcType=VARCHAR},
+      billcode = #{billcode,jdbcType=VARCHAR},
+      billdetailid = #{billdetailid,jdbcType=VARCHAR},
+      noticeid = #{noticeid,jdbcType=VARCHAR},
+      noticecode = #{noticecode,jdbcType=VARCHAR},
+      arrivepoundnotecode = #{arrivepoundnotecode,jdbcType=VARCHAR},
+      senddepartmentid = #{senddepartmentid,jdbcType=VARCHAR},
+      senddepartmentname = #{senddepartmentname,jdbcType=VARCHAR},
+      driverid = #{driverid,jdbcType=VARCHAR},
+      drivername = #{drivername,jdbcType=VARCHAR},
+      driveridentityno = #{driveridentityno,jdbcType=VARCHAR},
+      vehicleid = #{vehicleid,jdbcType=VARCHAR},
+      vehicleno = #{vehicleno,jdbcType=VARCHAR},
+      vehiclerfid = #{vehiclerfid,jdbcType=VARCHAR},
+      receivedepartmentid = #{receivedepartmentid,jdbcType=VARCHAR},
+      receivedepartmentname = #{receivedepartmentname,jdbcType=VARCHAR},
+      minemouthid = #{minemouthid,jdbcType=VARCHAR},
+      minemouthname = #{minemouthname,jdbcType=VARCHAR},
+      warehouseid = #{warehouseid,jdbcType=VARCHAR},
+      warehousename = #{warehousename,jdbcType=VARCHAR},
+      yardid = #{yardid,jdbcType=VARCHAR},
+      yardname = #{yardname,jdbcType=VARCHAR},
+      receiverpersonid = #{receiverpersonid,jdbcType=VARCHAR},
+      receiverpersonname = #{receiverpersonname,jdbcType=VARCHAR},
+      weigherid = #{weigherid,jdbcType=VARCHAR},
+      weighername = #{weighername,jdbcType=VARCHAR},
+      receivertime = #{receivertime,jdbcType=BIGINT},
+      pickupquantity = #{pickupquantity,jdbcType=DOUBLE},
+      grossweight = #{grossweight,jdbcType=DOUBLE},
+      tareweight = #{tareweight,jdbcType=DOUBLE},
+      netweight = #{netweight,jdbcType=DOUBLE},
+      originalnetweight = #{originalnetweight,jdbcType=DOUBLE},
+      deductionweight = #{deductionweight,jdbcType=DOUBLE},
+      deductionother = #{deductionother,jdbcType=DOUBLE},
+      batchnumberid = #{batchnumberid,jdbcType=VARCHAR},
+      serialnumber = #{serialnumber,jdbcType=VARCHAR},
+      lighttime = #{lighttime,jdbcType=BIGINT},
+      weighttime = #{weighttime,jdbcType=BIGINT},
+      makerid = #{makerid,jdbcType=VARCHAR},
+      makebillname = #{makebillname,jdbcType=VARCHAR},
+      makebilltime = #{makebilltime,jdbcType=BIGINT},
+      state = #{state,jdbcType=VARCHAR},
+      creator = #{creator,jdbcType=VARCHAR},
+      createtime = #{createtime,jdbcType=BIGINT},
+      modifier = #{modifier,jdbcType=VARCHAR},
+      modifytime = #{modifytime,jdbcType=BIGINT},
+      remark = #{remark,jdbcType=VARCHAR},
+      customerid = #{customerid,jdbcType=VARCHAR},
+      customername = #{customername,jdbcType=VARCHAR},
+      supplierid = #{supplierid,jdbcType=VARCHAR},
+      suppliername = #{suppliername,jdbcType=VARCHAR},
+      department = #{department,jdbcType=VARCHAR},
+      cutoverpartmentid = #{cutoverpartmentid,jdbcType=VARCHAR},
+      cutoverpartmentname = #{cutoverpartmentname,jdbcType=VARCHAR},
+      materialid = #{materialid,jdbcType=VARCHAR},
+      materialname = #{materialname,jdbcType=VARCHAR},
+      cargo = #{cargo,jdbcType=VARCHAR},
+      enteryardid = #{enteryardid,jdbcType=VARCHAR},
+      enteryardname = #{enteryardname,jdbcType=VARCHAR},
+      leaveyardid = #{leaveyardid,jdbcType=VARCHAR},
+      leaveyardname = #{leaveyardname,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <select id="selectByCondition" parameterType="com.tianrui.service.bean.businessManage.report.InOutDaoPound" resultMap="BaseResultMap">
+   select 
+    <include refid="Base_Column_List" />
+    from tr_pound_db_note
+   	<where>
+   		
+   		<if test="beginTimeLong != null and beginTimeLong != 0L ">
+			and makebilltime <![CDATA[>]]> #{beginTimeLong,jdbcType=BIGINT}
+		</if>
+   		<if test="endTimeLong != null and endTimeLong != 0L ">
+			and makebilltime <![CDATA[<]]> #{endTimeLong,jdbcType=BIGINT}
+		</if>
+		<if test="supplierNameLike != null and supplierNameLike != ''">
+			and suppliername like concat(#{supplierNameLike,jdbcType=VARCHAR},'%')
+		</if>
+		<if test="vehicleNoLike != null and vehicleNoLike != ''">
+			and vehicleno like concat(#{vehicleNoLike,jdbcType=VARCHAR},'%')
+		</if>
+		<if test="customerNameLike != null and customerNameLike != ''">
+			and customername like concat(#{customerNameLike,jdbcType=VARCHAR},'%')
+		</if>
+		<if test="driverNameLike != null and driverNameLike != ''">
+			and drivername like concat(#{driverNameLike,jdbcType=VARCHAR},'%')
+		</if>
+		<if test="cargoNameLike != null and cargoNameLike != ''">
+			and materialname like concat(#{cargoNameLike,jdbcType=VARCHAR},'%') 
+		</if>
+		<if test="remarkLike != null and remarkLike != ''">
+			and remark like concat(#{remarkLike,jdbcType=VARCHAR},'%')
+		</if>
+		<if test="billtype != null and billtype != ''">
+  			and billtype = #{billtype,jdbcType=VARCHAR}
+  		</if>
+		
+   	</where>
+  	order by lighttime desc
+	<if test="start != null and start >= 0">
+		<if test="limit != null">
+			limit #{start,jdbcType=INTEGER},#{limit,jdbcType=INTEGER}
+		</if>
+	</if>
+  
+  </select>
+  <select id="countByCondition" parameterType="com.tianrui.service.bean.businessManage.report.InOutDaoPound" resultType="long">
+   select 
+    count(1)
+    from tr_pound_db_note
+   	<where>
+   		
+   		<if test="beginTimeLong != null and beginTimeLong != 0L ">
+			and makebilltime <![CDATA[>]]> #{beginTimeLong,jdbcType=BIGINT}
+		</if>
+   		<if test="endTimeLong != null and endTimeLong != 0L ">
+			and makebilltime <![CDATA[<]]> #{endTimeLong,jdbcType=BIGINT}
+		</if>
+		<if test="supplierNameLike != null and supplierNameLike != ''">
+			and suppliername like concat(#{supplierNameLike,jdbcType=VARCHAR},'%')
+		</if>
+		<if test="vehicleNoLike != null and vehicleNoLike != ''">
+			and vehicleno like concat(#{vehicleNoLike,jdbcType=VARCHAR},'%')
+		</if>
+		<if test="customerNameLike != null and customerNameLike != ''">
+			and customername like concat(#{customerNameLike,jdbcType=VARCHAR},'%')
+		</if>
+		<if test="driverNameLike != null and driverNameLike != ''">
+			and drivername like concat(#{driverNameLike,jdbcType=VARCHAR},'%')
+		</if>
+		<if test="cargoNameLike != null and cargoNameLike != ''">
+			and materialname like concat(#{cargoNameLike,jdbcType=VARCHAR},'%') 
+		</if>
+		<if test="remarkLike != null and remarkLike != ''">
+			and remark like concat(#{remarkLike,jdbcType=VARCHAR},'%')
+		</if>
+		<if test="billtype != null and billtype != ''">
+  			and billtype = #{billtype,jdbcType=VARCHAR}
+  		</if>
+		
+   	</where>
+  
+  </select>
+</mapper>

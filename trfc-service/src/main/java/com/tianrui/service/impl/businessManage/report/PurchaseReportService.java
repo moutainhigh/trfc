@@ -33,6 +33,7 @@ public class PurchaseReportService implements IPurchaseReportService {
 			if( query !=null ){
 				page = new PaginationVO<ReportPurchaseResp>();
 				//查询总数
+				
 				long count = reportPurchaseMapper.countByCondition(query);
 				if(count > 0){
 					//查询结果转换

@@ -77,9 +77,7 @@ public class SalesDetailService implements ISalesDetailService{
 		rs.setData(max);
 		return rs;
 	}
-
-
-
+	
 	@Override
 	public Result updateDataWithDC(List<JSONObject> list) {
 		// TODO Auto-generated method stub
@@ -139,8 +137,6 @@ public class SalesDetailService implements ISalesDetailService{
 		return result;
 	}
 
-	
-	
 	/**
 	 * 集合转换
 	 * @param List<SalesDetail> list
@@ -157,9 +153,6 @@ public class SalesDetailService implements ISalesDetailService{
 		}
 		return listResp;
 	}
-	
-	
-	
 	/**
 	 * 实体bean类型转换
 	 * @param SalesDetail bean
