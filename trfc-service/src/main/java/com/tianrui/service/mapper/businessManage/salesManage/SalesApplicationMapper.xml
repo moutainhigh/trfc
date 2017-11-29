@@ -42,20 +42,21 @@
     <result column="nc_id" property="ncId" jdbcType="VARCHAR" />
     <result column="valid_status" property="validStatus" jdbcType="VARCHAR" />
     <result column="valid_error" property="validError" jdbcType="VARCHAR" />
+    <result column="nc_audit_status" property="ncAuditStatus" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, code, status, source, billtypeid, billtypename, customerid, customername, channelcode, 
     salesmanid, salesmanname, billtime, orgid, orgname, transportcompanyid, transportcompanyname, 
     departmentid, departmentname, auditid, auditname, audittime, state, makerid, makebillname, 
     makebilltime, remarks, creator, createtime, modifier, modifytime, utc, vehicle_id, 
-    vehicle_no, RFID, driver_id, driver_name, bill_source, nc_id, valid_status, valid_error
+    vehicle_no, RFID, driver_id, driver_name, bill_source, nc_id, valid_status, valid_error, nc_audit_status
   </sql>
   <sql id="Base_Column_List_S1" >
     s1.id, s1.code, s1.status, s1.source, s1.billtypeid, s1.billtypename, s1.customerid, s1.customername, s1.channelcode, 
     s1.salesmanid, s1.salesmanname, s1.billtime, s1.orgid, s1.orgname, s1.transportcompanyid, s1.transportcompanyname, 
     s1.departmentid, s1.departmentname, s1.auditid, s1.auditname, s1.audittime, s1.state, s1.makerid, s1.makebillname, 
     s1.makebilltime, s1.remarks, s1.creator, s1.createtime, s1.modifier, s1.modifytime, s1.utc, s1.vehicle_id, 
-    s1.vehicle_no, s1.RFID, s1.driver_id, s1.driver_name, s1.bill_source, s1.nc_id, s1.valid_status, s1.valid_error
+    s1.vehicle_no, s1.RFID, s1.driver_id, s1.driver_name, s1.bill_source, s1.nc_id, s1.valid_status, s1.valid_error, s1.nc_audit_status
   </sql>
   <sql id="Base_Column_List_S1_S2" >
     s1.id, s1.code, s1.status, s1.source, s1.billtypeid, s1.billtypename, s1.customerid, s1.customername, s1.channelcode, 
@@ -87,7 +88,7 @@
       modifier, modifytime, utc, 
       vehicle_id, vehicle_no, RFID, 
       driver_id, driver_name, bill_source, nc_id, 
-      valid_status, valid_error
+      valid_status, valid_error, nc_audit_status
       )
     values (#{id,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, 
       #{source,jdbcType=VARCHAR}, #{billtypeid,jdbcType=VARCHAR}, #{billtypename,jdbcType=VARCHAR}, 
@@ -101,7 +102,8 @@
       #{modifier,jdbcType=VARCHAR}, #{modifytime,jdbcType=BIGINT}, #{utc,jdbcType=BIGINT},
       #{vehicleId,jdbcType=VARCHAR}, #{vehicleNo,jdbcType=VARCHAR}, #{rfid,jdbcType=VARCHAR},
       #{driverId,jdbcType=VARCHAR}, #{driverName,jdbcType=VARCHAR}, #{billSource,jdbcType=BIT}, 
-      #{ncId,jdbcType=VARCHAR}, #{validStatus,jdbcType=VARCHAR}, #{valid_error,jdbcType=VARCHAR}
+      #{ncId,jdbcType=VARCHAR}, #{validStatus,jdbcType=VARCHAR}, #{validError,jdbcType=VARCHAR},
+      #{ncAuditStatus,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.tianrui.service.bean.businessManage.salesManage.SalesApplication" >
@@ -224,8 +226,11 @@
       <if test="validStatus != null" >
         valid_status,
       </if>
-      <if test="valid_error != null" >
+      <if test="validError != null" >
         valid_error,
+      </if>
+      <if test="ncAuditStatus != null" >
+        nc_audit_status,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
@@ -342,6 +347,15 @@
       </if>
       <if test="ncId != null" >
         #{ncId,jdbcType=VARCHAR},
+      </if>
+      <if test="validStatus != null" >
+        #{validStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="validError != null" >
+        #{validError,jdbcType=VARCHAR},
+      </if>
+      <if test="ncAuditStatus != null" >
+        #{ncAuditStatus,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -465,6 +479,9 @@
       <if test="validError != null" >
         valid_error = #{validError,jdbcType=VARCHAR},
       </if>
+      <if test="ncAuditStatus != null" >
+        nc_audit_status = #{ncAuditStatus,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
@@ -509,6 +526,7 @@
       nc_id = #{ncId,jdbcType=VARCHAR},
       valid_status = #{validStatus,jdbcType=VARCHAR},
       valid_error = #{validError,jdbcType=VARCHAR},
+      nc_audit_status = #{ncAuditStatus,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
   <select id="selectSelective" parameterType="com.tianrui.service.bean.businessManage.salesManage.SalesApplication" resultMap="BaseResultMap">
@@ -635,6 +653,9 @@
       </if>
       <if test="validError != null and validError !=''" >
         and valid_error = #{validError,jdbcType=VARCHAR}
+      </if>
+      <if test="ncAuditStatus != null and ncAuditStatus !=''" >
+        and nc_audit_status = #{ncAuditStatus,jdbcType=VARCHAR}
       </if>
   	</where>
   </select>
@@ -766,7 +787,7 @@
     salesmanid, salesmanname, billtime, orgid, orgname, transportcompanyid, transportcompanyname, 
     departmentid, departmentname, auditid, auditname, audittime, state, makerid, makebillname, 
     makebilltime, remarks, creator, createtime, modifier, modifytime, utc, vehicle_id, 
-    vehicle_no, RFID, driver_id, driver_name, bill_source, nc_id, valid_status, valid_error)
+    vehicle_no, RFID, driver_id, driver_name, bill_source, nc_id, valid_status, valid_error, nc_audit_status)
 	values
 	<foreach collection="list" item="item" index="index" separator=",">
 		(#{item.id,jdbcType=VARCHAR}, 
@@ -800,15 +821,16 @@
 		#{item.modifier,jdbcType=VARCHAR},
 		#{item.modifytime,jdbcType=VARCHAR},
 		#{item.utc,jdbcType=VARCHAR},
-		#{vehicleId,jdbcType=VARCHAR}, 
-		#{vehicleNo,jdbcType=VARCHAR}, 
-		#{rfid,jdbcType=VARCHAR},
-      	#{driverId,jdbcType=VARCHAR}, 
-      	#{driverName,jdbcType=VARCHAR}, 
-      	#{billSource,jdbcType=BIT}, 
-     	#{ncId,jdbcType=VARCHAR},
-     	#{validStatus,jdbcType=VARCHAR}
-     	#{validError,jdbcType=VARCHAR}
+		#{item.vehicleId,jdbcType=VARCHAR}, 
+		#{item.vehicleNo,jdbcType=VARCHAR}, 
+		#{item.rfid,jdbcType=VARCHAR},
+      	#{item.driverId,jdbcType=VARCHAR}, 
+      	#{item.driverName,jdbcType=VARCHAR}, 
+      	#{item.billSource,jdbcType=BIT}, 
+     	#{item.ncId,jdbcType=VARCHAR},
+     	#{item.validStatus,jdbcType=VARCHAR},
+     	#{item.validError,jdbcType=VARCHAR},
+     	#{item.ncAuditStatus,jdbcType=VARCHAR}
 		)
 	</foreach>
   </insert>
@@ -916,6 +938,7 @@
 	AND t1.orgid = #{salesOrg,jdbcType=VARCHAR}
 	AND t1.state = 1
 	AND t1.`status` = 1
+	<!-- AND t1.nc_audit_status = 2 -->
 	ORDER BY t1.billtime DESC
   </select>
   <select id="appBillList" parameterType="com.tianrui.api.req.android.BillListParam" resultType="com.tianrui.api.resp.android.BillListVo">
@@ -946,13 +969,13 @@
 		and t1.orgid = #{salesOrg, jdbcType=VARCHAR}
 		<choose>
 			<when test="type == 0">
-				and t1.status = 0
+				and (t1.status = 0 or t1.nc_audit_status in (0, 1))
 			</when>
 			<when test="type == 1">
-				and t1.status = 1 and t2.margin > 0
+				and (t1.status = 1 or t1.nc_audit_status = 2) and t2.margin > 0
 			</when>
 			<when test="type == 2">
-				and t1.status = 1 and t2.margin = 0
+				and (t1.status = 1 or t1.nc_audit_status = 2) and t2.margin <![CDATA[<=]]> 0
 			</when>
 			<otherwise></otherwise>
 		</choose>
@@ -986,13 +1009,13 @@
 		and t1.orgid = #{salesOrg, jdbcType=VARCHAR}
 		<choose>
 			<when test="type == 0">
-				and t1.status = 0
+				and (t1.status = 0 or t1.nc_audit_status in (0, 1))
 			</when>
 			<when test="type == 1">
-				and t1.status = 1 and t2.margin > 0
+				and (t1.status = 1 or t1.nc_audit_status = 2) and t2.margin > 0
 			</when>
 			<when test="type == 2">
-				and t1.status = 1 and t2.margin = 0
+				and (t1.status = 1 or t1.nc_audit_status = 2) and t2.margin <![CDATA[<=]]> 0
 			</when>
 			<otherwise></otherwise>
 		</choose>
@@ -1035,13 +1058,13 @@
 		t2.pretendingtake AS planNum,
 		t2.taxprice AS price,
 		CASE
-		WHEN t1.status = 0 THEN
+		WHEN t1.status = 0 or t1.nc_audit_status in (0, 1) THEN
 			0
 		WHEN t1.status = 1
-		AND t2.margin > 0 THEN
+		AND (t1.status = 1 or t1.nc_audit_status = 2) and t2.margin > 0 THEN
 			1
 		WHEN t1.status = 2
-		AND t2.margin = 0 THEN
+		AND (t1.status = 1 or t1.nc_audit_status = 2) and t2.margin <![CDATA[<=]]> 0 THEN
 			2
 		ELSE
 			''

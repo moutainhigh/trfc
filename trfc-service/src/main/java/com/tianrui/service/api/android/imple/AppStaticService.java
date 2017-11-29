@@ -50,7 +50,6 @@ import com.tianrui.service.bean.businessManage.salesManage.SalesApplication;
 import com.tianrui.service.bean.businessManage.salesManage.SalesApplicationDetail;
 import com.tianrui.service.bean.businessManage.salesManage.SalesArrive;
 import com.tianrui.service.bean.common.AppVersion;
-import com.tianrui.service.bean.common.ReturnQueue;
 import com.tianrui.service.bean.common.UserDriver;
 import com.tianrui.service.bean.common.UserVehicle;
 import com.tianrui.service.bean.system.auth.Organization;
@@ -72,7 +71,6 @@ import com.tianrui.service.mapper.businessManage.salesManage.SalesApplicationDet
 import com.tianrui.service.mapper.businessManage.salesManage.SalesApplicationMapper;
 import com.tianrui.service.mapper.businessManage.salesManage.SalesArriveMapper;
 import com.tianrui.service.mapper.common.AppVersionMapper;
-import com.tianrui.service.mapper.common.ReturnQueueMapper;
 import com.tianrui.service.mapper.common.UserDriverMapper;
 import com.tianrui.service.mapper.common.UserVehicleMapper;
 import com.tianrui.service.mapper.system.auth.OrganizationMapper;
@@ -111,8 +109,6 @@ public class AppStaticService implements IAppStaticService {
 	private DriverManageMapper driverManageMapper;
 	@Autowired
 	private MaterielManageMapper materielManageMapper;
-	@Autowired
-	private ReturnQueueMapper returnQueueMapper;
 	@Autowired
 	private PurchaseApplicationMapper purchaseApplicationMapper;
 	@Autowired
@@ -479,14 +475,6 @@ public class AppStaticService implements IAppStaticService {
 				salesApplicationMapper.insertSelective(sa);
 				salesApplicationDetailMapper.insertSelective(sad);
 				updateCode("XXSO", param.getUserId());
-				//自制订单列队
-				ReturnQueue returnQueue = new ReturnQueue();
-				returnQueue.setId(UUIDUtil.getId());
-				returnQueue.setDataid(sa.getId());
-				returnQueue.setDatatype(Constant.ZERO_STRING);
-				returnQueue.setCreator(sa.getMakerid());
-				returnQueue.setCreatetime(System.currentTimeMillis());
-				returnQueueMapper.insertSelective(returnQueue);
 				result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
 			} else {
 				result.setErrorCode(ErrorCode.SYSTEM_USER_ERROR1);

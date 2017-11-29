@@ -32,7 +32,6 @@ import com.tianrui.service.bean.businessManage.salesManage.SalesApplication;
 import com.tianrui.service.bean.businessManage.salesManage.SalesApplicationArrive;
 import com.tianrui.service.bean.businessManage.salesManage.SalesApplicationDetail;
 import com.tianrui.service.bean.businessManage.salesManage.SalesArrive;
-import com.tianrui.service.bean.common.ReturnQueue;
 import com.tianrui.service.bean.system.auth.SmUser;
 import com.tianrui.service.bean.system.auth.SystemUser;
 import com.tianrui.service.mapper.basicFile.measure.DriverManageMapper;
@@ -45,7 +44,6 @@ import com.tianrui.service.mapper.businessManage.salesManage.SalesApplicationArr
 import com.tianrui.service.mapper.businessManage.salesManage.SalesApplicationDetailMapper;
 import com.tianrui.service.mapper.businessManage.salesManage.SalesApplicationMapper;
 import com.tianrui.service.mapper.businessManage.salesManage.SalesArriveMapper;
-import com.tianrui.service.mapper.common.ReturnQueueMapper;
 import com.tianrui.service.mapper.system.auth.SmUserMapper;
 import com.tianrui.service.mapper.system.auth.SystemUserMapper;
 import com.tianrui.smartfactory.common.api.ApiResult;
@@ -58,8 +56,6 @@ import com.tianrui.smartfactory.common.utils.UUIDUtil;
 @Service
 public class TaskJobService {
 	
-	@Autowired
-	private ReturnQueueMapper returnQueueMapper;
 	@Autowired
 	private ISalesApplicationService salesApplicationService;
 	@Autowired
@@ -93,36 +89,19 @@ public class TaskJobService {
 	@Autowired
 	private SalesApplicationArriveMapper salesApplicationArriveMapper;
 
-	public void returnDataCenter() throws Exception{
-		List<ReturnQueue> list = returnQueueMapper.selectSelective(null);
-		//销售申请单回传
-		returnSalesApplication(groupList(list, "0"));
-	}
-	
-	private List<ReturnQueue> groupList(List<ReturnQueue> list, String dataType){
-		List<ReturnQueue> groupList = null;
-		if(CollectionUtils.isNotEmpty(list)){
-			groupList = new ArrayList<ReturnQueue>();
-			for(ReturnQueue rq : list){
-				//销售申请单
-				if(StringUtils.equals(rq.getDatatype(), dataType)){
-					groupList.add(rq);
-				}
-			}
-		}
-		return groupList;
-	}
-
 	@Transactional
-	private void returnSalesApplication(List<ReturnQueue> list) throws Exception {
-		if(list != null){
-			Set<String> dataIds = new HashSet<String>();
-			List<String> queueIds = new ArrayList<String>();
-			for(ReturnQueue rq : list){
-				dataIds.add(rq.getDataid());
-				queueIds.add(rq.getId());
+	public void returnSalesApplication() throws Exception {
+		SalesApplication sa = new SalesApplication();
+		sa.setSource(Constant.ONE_STRING);
+		sa.setState(Constant.ONE_STRING);
+		sa.setValidStatus(Constant.ZERO_STRING);
+		List<SalesApplication> list1 = salesApplicationMapper.selectSelective(sa);
+		if(CollectionUtils.isNotEmpty(list1)){
+			Set<String> billIds = new HashSet<String>();
+			for(SalesApplication bean : list1){
+				billIds.add(bean.getId());
 			}
-			List<SalesApplicationResp> listSales = salesApplicationService.selectByIds(new ArrayList<String>(dataIds), true);
+			List<SalesApplicationResp> listSales = salesApplicationService.selectByIds(new ArrayList<String>(billIds), true);
 			if(CollectionUtils.isNotEmpty(listSales)){
 				List<SmUser> smUserList = null;
 				for(SalesApplicationResp resp : listSales){
@@ -151,13 +130,12 @@ public class TaskJobService {
 			ApiResult apiResult = HttpUtils.post(ApiParamUtils.getApiParam(listSales), Constant.URL_DOMAIN + Constant.URL_RETURN_SALESAPPLICATION);
 			if(apiResult != null){
 				if (StringUtils.equals(apiResult.getCode(), ErrorCode.SYSTEM_SUCCESS.getCode())) {
-					if(returnQueueMapper.deteleByIds(queueIds) > 0){
-						SalesApplication application = new SalesApplication();
-						for(ReturnQueue queue : list){
-							application.setId(queue.getDataid());
-							application.setSource("0");
-							salesApplicationMapper.updateByPrimaryKeySelective(application);
-						}
+					SalesApplication bill = new SalesApplication();
+					bill.setSource(Constant.ZERO_STRING);
+					bill.setNcAuditStatus(Constant.ONE_STRING);
+					for(String billId : billIds){
+						bill.setId(billId);
+						salesApplicationMapper.updateByPrimaryKeySelective(bill);
 					}
 	                ps.setPushStatus(Constant.ONE_STRING);
 				} else {
@@ -170,9 +148,9 @@ public class TaskJobService {
 			    ps.setReasonFailure("FC-DC销售申请单推单失败，连接超时。");
 			    ps.setDesc1("-1");
 			}
-			for (SalesApplicationResp sa : listSales) {
+			for (SalesApplication bean : list1) {
 				ps.setId(UUIDUtil.getId());
-				ps.setRequisitionNum(sa.getCode());
+				ps.setRequisitionNum(bean.getCode());
 				pushSingleService.savePushSingle(ps);
 			}
 		}

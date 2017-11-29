@@ -99,6 +99,12 @@ public class SalesApplicationResp extends BaseResp {
     private Integer billSource;
     //NC主键
     private String ncId;
+    //作废状态：（0：未作废，1：作废中，2：已作废，3：作废失败）
+    private String validStatus;
+    //作废失败原因
+    private String validError;
+    //NC审核状态（0：未审核，1：审核中，2：审核通过，3：审核不通过）
+    private String ncAuditStatus;
     //订单详情
     private List<SalesApplicationDetailResp> list = new ArrayList<SalesApplicationDetailResp>();
     
@@ -371,8 +377,25 @@ public class SalesApplicationResp extends BaseResp {
 	public void setNcId(String ncId) {
 		this.ncId = ncId;
 	}
+	public String getValidStatus() {
+		return validStatus;
+	}
+	public void setValidStatus(String validStatus) {
+		this.validStatus = validStatus;
+	}
+	public String getValidError() {
+		return validError;
+	}
+	public void setValidError(String validError) {
+		this.validError = validError;
+	}
+	public String getNcAuditStatus() {
+		return ncAuditStatus;
+	}
+	public void setNcAuditStatus(String ncAuditStatus) {
+		this.ncAuditStatus = ncAuditStatus;
+	}
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
-
 }

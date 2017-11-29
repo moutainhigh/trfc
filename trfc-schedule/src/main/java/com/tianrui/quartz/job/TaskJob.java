@@ -31,7 +31,7 @@ public class TaskJob {
     @Scheduled(cron="0 0/10 * * * ? ") 
 	public void returnDataCenter(){
 		 try {
-			taskJobService.returnDataCenter();
+			taskJobService.returnSalesApplication();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

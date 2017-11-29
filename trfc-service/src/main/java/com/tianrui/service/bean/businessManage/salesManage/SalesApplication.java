@@ -85,6 +85,8 @@ public class SalesApplication {
     private String validStatus;
     //作废失败原因
     private String validError;
+    //NC审核状态（0：未审核，1：审核中，2：审核通过，3：审核不通过）
+    private String ncAuditStatus;
 	public String getId() {
 		return id;
 	}
@@ -324,5 +326,11 @@ public class SalesApplication {
 	}
 	public void setValidError(String validError) {
 		this.validError = validError;
+	}
+	public String getNcAuditStatus() {
+		return ncAuditStatus;
+	}
+	public void setNcAuditStatus(String ncAuditStatus) {
+		this.ncAuditStatus = ncAuditStatus;
 	}
 }

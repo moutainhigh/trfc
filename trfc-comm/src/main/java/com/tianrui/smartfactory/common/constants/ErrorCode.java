@@ -58,6 +58,7 @@ public enum ErrorCode {
 	APPLICATION_MARGIN_ERROR("E11005", "订单余量已不足."),
 	APPLICATION_IS_VALID_ERROR("E11006", "已作废或作废中的订单不能派单."),
 	APPLICATION_DONT_SEND_CAR("E11007", "一单一车的订单不允许派车."),
+	APPLICATION_DONT_MORE_SEND_VALID("E11008", "一单多车的订单不允许APP不允许作废."),
 	
 	/**
 	 * 通知单

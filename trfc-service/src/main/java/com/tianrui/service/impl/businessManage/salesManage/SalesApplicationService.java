@@ -41,7 +41,6 @@ import com.tianrui.service.bean.businessManage.salesManage.SalesApplicationArriv
 import com.tianrui.service.bean.businessManage.salesManage.SalesApplicationDetail;
 import com.tianrui.service.bean.businessManage.salesManage.SalesArrive;
 import com.tianrui.service.bean.common.BillType;
-import com.tianrui.service.bean.common.ReturnQueue;
 import com.tianrui.service.mapper.basicFile.measure.DriverManageMapper;
 import com.tianrui.service.mapper.basicFile.measure.VehicleManageMapper;
 import com.tianrui.service.mapper.basicFile.nc.CustomerManageMapper;
@@ -54,7 +53,6 @@ import com.tianrui.service.mapper.businessManage.salesManage.SalesApplicationDet
 import com.tianrui.service.mapper.businessManage.salesManage.SalesApplicationMapper;
 import com.tianrui.service.mapper.businessManage.salesManage.SalesArriveMapper;
 import com.tianrui.service.mapper.common.BillTypeMapper;
-import com.tianrui.service.mapper.common.ReturnQueueMapper;
 import com.tianrui.smartfactory.common.constants.Constant;
 import com.tianrui.smartfactory.common.constants.ErrorCode;
 import com.tianrui.smartfactory.common.utils.DateUtil;
@@ -73,8 +71,6 @@ public class SalesApplicationService implements ISalesApplicationService {
 	private ISalesApplicationDetailService salesApplicationDetailService;
 	@Autowired
 	private ISystemCodeService systemCodeService;
-	@Autowired
-	private ReturnQueueMapper returnQueueMapper;
 	@Autowired
 	private BillTypeMapper billTypeMapper;
 	@Autowired
@@ -223,13 +219,6 @@ public class SalesApplicationService implements ISalesApplicationService {
 				sa.setModifytime(System.currentTimeMillis());
 				sa.setUtc(System.currentTimeMillis());
 				salesApplicationDetailMapper.insertSelective(sd);
-				ReturnQueue returnQueue = new ReturnQueue();
-				returnQueue.setId(UUIDUtil.getId());
-				returnQueue.setDataid(sa.getId());
-				returnQueue.setDatatype("0");
-				returnQueue.setCreator(sa.getMakerid());
-				returnQueue.setCreatetime(System.currentTimeMillis());
-				returnQueueMapper.insertSelective(returnQueue);
 			}else{
 				result.setErrorCode(ErrorCode.OPERATE_ERROR);
 			}
@@ -468,68 +457,11 @@ public class SalesApplicationService implements ISalesApplicationService {
 				for( SalesApplication update :toUpdate){
 					salesApplicationMapper.updateByPrimaryKeySelective(update);
 				}
-//				for( SalesApplicationDetail updateItem :toUpdateItem){
-//					salesApplicationDetailMapper.updateByPrimaryKeySelective(updateItem);
-//				}
 			}
-//			if( CollectionUtils.isNotEmpty(toUpdate) ){
-//				for( SalesApplication update :toUpdate){
-//					if (StringUtils.equals(update.getBilltypeid(), Constant.ONE_STRING) 
-//							&& StringUtils.equals(update.getStatus(), Constant.ONE_STRING)
-//							&& StringUtils.equals(update.getSource(), Constant.ZERO_STRING)) {
-//						SalesArrive sa = new SalesArrive();
-//						sa.setBillid(update.getId());
-//						List<SalesArrive> saList = salesArriveMapper.selectSelective(sa);
-//						if (CollectionUtils.isEmpty(saList)) {
-//							insertSalesArrive(update);
-//						}
-//					}
-//				}
-//			}
 			rs.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
 		}
 		return rs;
 	}
-
-	
-//	private void insertSalesArrive(SalesApplication sa) throws Exception {
-//		SalesArrive bean = new SalesArrive();
-//		bean.setId(UUIDUtil.getId());
-//		bean.setCode(getCode("TH", sa.getMakerid()));
-//		bean.setAuditstatus(Constant.ONE_STRING);
-//		bean.setSource(Constant.TWO_STRING);
-//		bean.setStatus(Constant.ZERO_STRING);
-//		bean.setVehicleid(sa.getVehicleId());
-//		bean.setVehicleno(sa.getVehicleNo());
-//		bean.setVehiclerfid(sa.getRfid());
-//		if (StringUtils.isNotBlank(sa.getDriverId())) {
-//			bean.setDriverid(sa.getDriverId());
-//			bean.setDrivername(sa.getDriverName());
-//			DriverManage driver = driverManageMapper.selectByPrimaryKey(sa.getDriverId());
-//			if (driver != null) {
-//				bean.setDriveridentityno(driver.getIdentityno());
-//			}
-//		}
-//		bean.setBillid(sa.getId());
-//		bean.setBillcode(sa.getCode());
-//		List<SalesApplicationDetail> list = salesApplicationDetailMapper.selectBySalesId(sa.getId());
-//		bean.setBilldetailid(list.get(0).getId());
-//		bean.setUnit(list.get(0).getUnit());
-//		bean.setTakeamount(list.get(0).getMargin());
-//		bean.setState(Constant.ONE_STRING);
-//		bean.setMakerid(sa.getMakerid());
-//		bean.setMakebillname(sa.getMakebillname());
-//		bean.setMakebilltime(System.currentTimeMillis());
-//		bean.setCreator(sa.getMakerid());
-//		bean.setCreatetime(System.currentTimeMillis());
-//		salesArriveMapper.insertSelective(bean);
-//		updateCode("TH", sa.getMakerid());
-//		SalesApplicationDetail sad = new SalesApplicationDetail();
-//		sad.setId(list.get(0).getId());
-//		sad.setMargin(0D);
-//		sad.setPretendingtake(bean.getTakeamount());
-//		salesApplicationDetailMapper.updateByPrimaryKeySelective(sad);
-//	}
 
 	private Set<String> getAllIds(){
 		Set<String> rs = new HashSet<String>();
@@ -576,7 +508,7 @@ public class SalesApplicationService implements ISalesApplicationService {
 		item.setBilltime(DateUtil.parse(jsonItem.getString("orderData"), "yyyy-MM-dd HH:mm:ss"));
 		//销售组织
 		item.setOrgid(jsonItem.getString("orgId"));
-		item.setOrgname(jsonItem.getString("transComp"));
+		item.setOrgname(jsonItem.getString("orgName"));
 		//运输公司
 		item.setTransportcompanyid(jsonItem.getString("transComp"));
 		item.setTransportcompanyname(jsonItem.getString("transport"));
@@ -603,6 +535,7 @@ public class SalesApplicationService implements ISalesApplicationService {
 		item.setNcId(jsonItem.getString("ncId"));
 		item.setBillSource(Constant.ZERO_NUMBER);
 		item.setValidStatus(Constant.ZERO_STRING);
+		item.setNcAuditStatus(Constant.TWO_STRING);
 		return item;
 	}
 	private List<SalesApplicationDetail> converJson2ItemList(JSONObject jsonItem,String id){

@@ -50,7 +50,6 @@ import com.tianrui.service.bean.businessManage.salesManage.SalesApplication;
 import com.tianrui.service.bean.businessManage.salesManage.SalesApplicationArrive;
 import com.tianrui.service.bean.businessManage.salesManage.SalesApplicationDetail;
 import com.tianrui.service.bean.businessManage.salesManage.SalesArrive;
-import com.tianrui.service.bean.common.ReturnQueue;
 import com.tianrui.service.bean.common.UserDriver;
 import com.tianrui.service.bean.common.UserVehicle;
 import com.tianrui.service.bean.system.auth.Organization;
@@ -68,7 +67,6 @@ import com.tianrui.service.mapper.businessManage.salesManage.SalesApplicationArr
 import com.tianrui.service.mapper.businessManage.salesManage.SalesApplicationDetailMapper;
 import com.tianrui.service.mapper.businessManage.salesManage.SalesApplicationMapper;
 import com.tianrui.service.mapper.businessManage.salesManage.SalesArriveMapper;
-import com.tianrui.service.mapper.common.ReturnQueueMapper;
 import com.tianrui.service.mapper.common.UserDriverMapper;
 import com.tianrui.service.mapper.common.UserVehicleMapper;
 import com.tianrui.service.mapper.system.auth.OrganizationMapper;
@@ -114,8 +112,6 @@ public class AppSalesStaticService implements IAppSalesStaticService {
 	private DriverManageMapper driverManageMapper;
 	@Autowired
 	private MaterielManageMapper materielManageMapper;
-	@Autowired
-	private ReturnQueueMapper returnQueueMapper;
 	@Autowired
 	private UserVehicleMapper userVehicleMapper;
 	@Autowired
@@ -309,16 +305,9 @@ public class AppSalesStaticService implements IAppSalesStaticService {
 		if(apiResult != null){
 			if (StringUtils.equals(apiResult.getCode(), ErrorCode.SYSTEM_SUCCESS.getCode())) {
 				sa.setSource(Constant.ZERO_STRING);
+				sa.setNcAuditStatus(Constant.ONE_STRING);
                 ps.setPushStatus(Constant.ONE_STRING);
 			} else {
-				//自制订单列队
-				ReturnQueue queue = new ReturnQueue();
-				queue.setId(UUIDUtil.getId());
-				queue.setDataid(sa.getId());
-				queue.setDatatype(Constant.ZERO_STRING);
-				queue.setCreator(sa.getMakerid());
-				queue.setCreatetime(System.currentTimeMillis());
-				returnQueueMapper.insertSelective(queue);
                 ps.setPushStatus(Constant.THREE_STRING);
 			}
             ps.setReasonFailure(apiResult.getError());
@@ -383,6 +372,8 @@ public class AppSalesStaticService implements IAppSalesStaticService {
 			}
 		}
 		sa.setBillSource(Constant.TWO_NUMBER);
+		sa.setValidStatus(Constant.ZERO_STRING);
+		sa.setNcAuditStatus(Constant.ZERO_STRING);
 		return sa;
 	}
 
@@ -422,12 +413,19 @@ public class AppSalesStaticService implements IAppSalesStaticService {
 		if (param != null && StringUtils.isNotBlank(param.getUserId())
 				&& StringUtils.isNotBlank(param.getId())) {
 			SalesApplication sa = salesApplicationMapper.selectByPrimaryKey(param.getId());
-			if (StringUtils.equals(sa.getStatus(), Constant.ZERO_STRING)) {
+			if (!StringUtils.equals(sa.getNcAuditStatus(), Constant.TWO_STRING)) {
 				List<SalesApplicationDetail> list = salesApplicationDetailMapper.selectBySalesId(sa.getId());
 				if (sa != null && CollectionUtils.isNotEmpty(list)) {
 					if (StringUtils.equals(sa.getCustomerid(), param.getNcId())) {
-						if (StringUtils.equals(sa.getStatus(), Constant.ZERO_STRING)) {
-							if (StringUtils.equals(sa.getSource(), Constant.ONE_STRING)) {
+						if (StringUtils.equals(sa.getBilltypeid(), Constant.ZERO_STRING)) {
+							//一单一车作废
+							if (StringUtils.equals(sa.getSource(), Constant.ONE_STRING) && 
+									StringUtils.equals(sa.getNcAuditStatus(), Constant.ZERO_STRING)) {
+								//脱机的未审核的直接作废
+								sa.setValidStatus(Constant.TWO_STRING);
+								salesApplicationMapper.updateByPrimaryKeySelective(sa);
+							} else {
+								//已经联机（推送到DC）的，发送作废请求
 								Map<String, String> map = new HashMap<String, String>();
 								map.put("id", sa.getId());
 								map.put("detailId", list.get(0).getId());
@@ -435,11 +433,10 @@ public class AppSalesStaticService implements IAppSalesStaticService {
 								//由dc回写作废状态
 								//记录推送日志
 								result = pushDC(param, sa, map);
-							} else {
-								result.setErrorCode(ErrorCode.APPLICATION_NOT_DELETE2);
 							}
 						} else {
-							result.setErrorCode(ErrorCode.APPLICATION_NOT_DELETE1);
+							//一单多车不允许作废
+							result.setErrorCode(ErrorCode.APPLICATION_DONT_MORE_SEND_VALID);
 						}
 					} else {
 						result.setErrorCode(ErrorCode.APPLICATION_NOT_EXIST);
