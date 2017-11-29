@@ -2,6 +2,7 @@ package com.tianrui.service.mapper.businessManage.financeManage;
 
 import java.util.List;
 
+import com.tianrui.api.req.businessManage.financeManage.CustomerRemainderQuery;
 import com.tianrui.service.bean.businessManage.financeManage.CustomerRemainder;
 
 public interface CustomerRemainderMapper {
@@ -22,5 +23,21 @@ public interface CustomerRemainderMapper {
     Long findMaxUtc(String orgId);
 
 	List<String> queryIds();
+
+	/**
+	 * 查询数据的总条数
+	 * xcy 
+	 * @return Long
+	 * @date 2017年11月27日
+	 */
+	Long findCustomerRemainderPageCount(CustomerRemainderQuery crQuery);
+
+	/**
+	 * 分页查询数据
+	 * xcy 
+	 * @return List<CustomerRemainder>
+	 * @date 2017年11月27日
+	 */
+	List<CustomerRemainder> findCustomerRemainderPage(CustomerRemainderQuery crQuery);
 
 }

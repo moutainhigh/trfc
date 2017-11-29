@@ -18,11 +18,12 @@ public class DemoMapperTest3 {
 	@Autowired
 	CustomerRemainderMapper customerRemainderMapper;
 	
-	/*@Test
+	@Test
 	public void test() throws Exception{
 		
-		Long maxUtc = customerRemainderMapper.findMaxUtc();
-		System.out.println(maxUtc);
-	}*/
+		
+		System.out.println();
+		
+	}
 	
 }

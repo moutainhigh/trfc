@@ -276,7 +276,6 @@ public class AccessRecordService implements IAccessRecordService {
         case "2":
             result = setICardToSalesArrive(card, apiParam);
             break;
-        //销售提货通知单
         case "5":
             result = setICardToOtherArrive(card, apiParam);
             break;
@@ -310,6 +309,8 @@ public class AccessRecordService implements IAccessRecordService {
 							pa.setId(purchase.getId());
 							pa.setStatus(Constant.SIX_STRING);
 							pa.setIcardid(card.getId());
+							pa.setModifier(apiParam.getCurrUid());
+							pa.setModifytime(System.currentTimeMillis());
 							//回写订单的未入库占用量和预提占用
 							PurchaseApplicationDetail applicationDetail = purchaseApplicationDetailMapper.selectByPrimaryKey(purchase.getBilldetailid());
 							PurchaseApplicationDetail save = new PurchaseApplicationDetail();
@@ -338,6 +339,8 @@ public class AccessRecordService implements IAccessRecordService {
 						pa.setId(purchase.getId());
 						pa.setStatus("5");
 						pa.setForceOutFactory(Constant.ZERO_NUMBER);
+						pa.setModifier(apiParam.getCurrUid());
+						pa.setModifytime(System.currentTimeMillis());
 						if(purchaseArriveMapper.updateByPrimaryKeySelective(pa) > 0){
 							AccessRecord access = accessRecordMapper.selectByNoticeId(purchase.getId());
 							if(StringUtils.isNotBlank(access.getId())){
@@ -377,6 +380,8 @@ public class AccessRecordService implements IAccessRecordService {
 							pa.setId(purchase.getId());
 							pa.setStatus("6");
 							pa.setIcardid(card.getId());
+							pa.setModifier(apiParam.getCurrUid());
+							pa.setModifytime(System.currentTimeMillis());
 							//回写订单的未入库占用量和预提占用
 							PurchaseApplicationDetail applicationDetail = purchaseApplicationDetailMapper.selectByPrimaryKey(purchase.getBilldetailid());
 							PurchaseApplicationDetail save = new PurchaseApplicationDetail();
@@ -403,6 +408,8 @@ public class AccessRecordService implements IAccessRecordService {
 						pa.setId(purchase.getId());
 						pa.setStatus("5");
                         pa.setForceOutFactory(Constant.ZERO_NUMBER);
+						pa.setModifier(apiParam.getCurrUid());
+						pa.setModifytime(System.currentTimeMillis());
 						if(purchaseArriveMapper.updateByPrimaryKeySelective(pa) > 0){
 							AccessRecord access = accessRecordMapper.selectByNoticeId(purchase.getId());
 							if(StringUtils.equals(access.getAccesstype(), "1")){
@@ -430,20 +437,20 @@ public class AccessRecordService implements IAccessRecordService {
 	private Result setICardToSalesArrive(Card card, ApiDoorSystemSave apiParam) throws Exception {
 		Result result = Result.getErrorResult();
 		SalesArrive sales = salesArriveMapper.selectByCode(apiParam.getNotionformcode());
-		if(StringUtils.equals(sales.getAuditstatus(), "1")){
-			if(!StringUtils.equals(sales.getStatus(), "3")){
+		if(StringUtils.equals(sales.getAuditstatus(), Constant.ONE_STRING)){
+			if(!StringUtils.equals(sales.getStatus(), Constant.THREE_STRING)){
 				//入厂
-				if(StringUtils.equals(apiParam.getType(), "1")){
-					if(StringUtils.equals(apiParam.getType(), "1")){
+				if(StringUtils.equals(apiParam.getType(), Constant.ONE_STRING)){
+					if(StringUtils.equals(sales.getStatus(), Constant.ZERO_STRING)){
 						SalesArrive sa = salesArriveMapper.checkICUse(card.getId());
 						if(sa == null){
 							//修改通知单状态并绑定IC卡
-							sa = new SalesArrive();
-							sa.setId(sales.getId());
-							sa.setStatus("6");
-							sa.setIcardid(card.getId());
-							sa.setIcardno(card.getCardno());
-							salesArriveMapper.updateByPrimaryKeySelective(sa);
+							sales.setStatus(Constant.SIX_STRING);
+							sales.setIcardid(card.getId());
+							sales.setIcardno(card.getCardno());
+							sales.setModifier(apiParam.getCurrUid());
+							sales.setModifytime(System.currentTimeMillis());
+							salesArriveMapper.updateByPrimaryKeySelective(sales);
 							List<SalesApplicationArrive> listJoin = salesApplicationArriveMapper.listByNoticeId(sales.getId());
 							for (SalesApplicationArrive join : listJoin) {
 								SalesApplicationDetail sad = salesApplicationDetailMapper.selectByPrimaryKey(join.getBillDetailId());
@@ -462,11 +469,11 @@ public class AccessRecordService implements IAccessRecordService {
 				}else{
 					if(StringUtils.equals(sales.getStatus(), Constant.TWO_STRING)){
 						//修改通知单状态并绑定IC卡
-						SalesArrive sa = new SalesArrive();
-						sa.setId(sales.getId());
-						sa.setStatus(Constant.FIVE_STRING);
-						sa.setForceOutFactory(Constant.ZERO_NUMBER);
-						if(salesArriveMapper.updateByPrimaryKeySelective(sa) > 0){
+						sales.setStatus(Constant.FIVE_STRING);
+						sales.setForceOutFactory(Constant.ZERO_NUMBER);
+						sales.setModifier(apiParam.getCurrUid());
+						sales.setModifytime(System.currentTimeMillis());
+						if(salesArriveMapper.updateByPrimaryKeySelective(sales) > 0){
 							AccessRecord access = accessRecordMapper.selectByNoticeId(sales.getId());
 							if(access != null){
 								result.setErrorCode(addOutAccessRecordApi(apiParam, access.getId()));
@@ -815,7 +822,7 @@ public class AccessRecordService implements IAccessRecordService {
 	private SalesArrive hasSalesArrive(String vehicleno) {
 		SalesArrive bean = null;
 		if (StringUtils.isNotBlank(vehicleno)) {
-			bean = salesArriveMapper.hasPurchaseArrive(vehicleno);
+			bean = salesArriveMapper.hasSalesArrive(vehicleno);
 		}
 		return bean;
 	}
@@ -858,6 +865,8 @@ public class AccessRecordService implements IAccessRecordService {
                             PurchaseArrive item = new PurchaseArrive();
                             item.setId(pa.getId());
                             item.setStatus(Constant.ZERO_STRING);
+                            item.setModifier(query.getCurrId());
+                            item.setModifytime(System.currentTimeMillis());
                             purchaseArriveMapper.updateByPrimaryKeySelective(item);
                             flag = true;
                         }

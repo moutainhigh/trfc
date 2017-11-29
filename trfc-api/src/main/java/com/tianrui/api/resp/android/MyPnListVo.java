@@ -25,6 +25,8 @@ public class MyPnListVo extends BaseResp {
 	private String twoTime = "";
 	//榜单状态（1：一次过磅，2：二次过磅）
 	private String status = "";
+	//通知单号
+	private String noticeCode = "";
 	public String getId() {
 		return id;
 	}
@@ -73,12 +75,19 @@ public class MyPnListVo extends BaseResp {
 	public void setStatus(String status) {
 		this.status = status;
 	}
+	public String getNoticeCode() {
+		return noticeCode;
+	}
+	public void setNoticeCode(String noticeCode) {
+		this.noticeCode = noticeCode;
+	}
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
 	@Override
 	public String toString() {
 		return "MyPnListVo [id=" + id + ", code=" + code + ", vehicle=" + vehicle + ", driver=" + driver + ", material="
-				+ material + ", oneTime=" + oneTime + ", twoTime=" + twoTime + ", status=" + status + "]";
+				+ material + ", oneTime=" + oneTime + ", twoTime=" + twoTime + ", status=" + status + ", noticeCode="
+				+ noticeCode + "]";
 	}
 }

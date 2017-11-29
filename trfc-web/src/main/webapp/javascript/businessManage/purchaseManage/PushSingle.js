@@ -1,55 +1,15 @@
-;(function($, win){
+(function($, win){
 	//请求路径
 	var URL = {
-			pageUrl:"/trfc/PushSingleAction/page",
-//			autoCompleteSearch: "/trfc/supplier/autoCompleteSearch"
+			pageUrl:"/trfc/PushSingleAction/page"
 	};
 	init();
 	function init(){
-		//初始化autocomplete
-//		initAutoComplete();
 		//初始化页面按钮绑定事件
 		bindEvent();
 		//初始化页面
 		queryData(1);
 	}
-//	function initAutoComplete(){
-//		var cache = {};
-//	    $("#supplier").autocomplete({
-//	    	source: function( request, response ) {
-//	    		var term = request.term;
-//	    		var supplier = cache['supplier'] || {};
-//	    		if ( term in supplier ) {
-//	    			response( supplier[ term ] );
-//	    			return;
-//	    		}
-//	    		$.post( URL.autoCompleteSearch, request, function( data, status, xhr ) {
-//	    			supplier[ term ] = data;
-//	    			response( data );
-//	    		});
-//	    	},
-//	    	response: function( event, ui ) {
-//	    		if(ui.content && ui.content.length > 0){
-//		    		ui.content.forEach(function(x,i,a){
-//		    			x.label = x.name;
-//		    			x.value = x.id;
-//		    		});
-//	    		}
-//	    	},
-//	    	select: function( event, ui ) {
-//	    		$(this).val(ui.item.name).attr('supplierid', ui.item.id);
-//	    		return false;
-//    		}
-//	    }).off('click').on('click',function(){
-//	    	$(this).autocomplete('search',' ');
-//	    }).on('input keydown',function(){
-//	    	$(this).removeAttr('supplierid');
-//	    }).change(function(){
-//    		if(!$(this).attr('supplierid')){
-//    			$(this).val('');
-//    		}
-//	    });
-//	}
 	function bindEvent(){
 		$('#refreshBtn').off('click').on('click',function(){
 			queryData(1);
@@ -213,10 +173,7 @@
 						.append('<td>'+lightCarTime+'</td>')
 						.append('<td>'+heavyCarTime+'</td>')
 						.append('<td>'+netWeight+'</td>')
-						.append('<td>'+creator+'</td>')
 						.append('<td>'+createtime+'</td>')
-						.append('<td>'+modifier+'</td>')
-						.append('<td>'+modifytime+'</td>')
 						.data(obj)
 						.appendTo('#dataBody');
 			}

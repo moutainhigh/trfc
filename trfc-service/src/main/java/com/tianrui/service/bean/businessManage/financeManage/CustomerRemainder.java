@@ -1,16 +1,16 @@
 package com.tianrui.service.bean.businessManage.financeManage;
 
 public class CustomerRemainder {
-    //  
+  
     private String id;
 
-    //   组织名称
+    //   组织id
     private String orgName;
 
     //   组织名称
     private String orgId;
 
-    //  客户id
+    //  客户名称
     private String customerName;
 
     //  客户id
@@ -163,8 +163,8 @@ public class CustomerRemainder {
         return remark;
     }
 
-    public void setRemark(String remark) {
-        this.remark = remark == null ? null : remark.trim();
+	public void setRemark(String remark) {
+        this.remark = remark == null ? null:remark.trim() ;
     }
 
     public Long getUtc() {

@@ -14,6 +14,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.tianrui.api.intf.businessManage.salesManage.ISalesApplicationService;
 import com.tianrui.api.req.businessManage.salesManage.SalesApplicationQuery;
+import com.tianrui.api.req.dc.BillValidReq;
 import com.tianrui.smartfactory.common.api.ApiParam;
 import com.tianrui.smartfactory.common.api.ApiResult;
 import com.tianrui.smartfactory.common.constants.ErrorCode;
@@ -95,23 +96,61 @@ public class ApiSaleApplicationAction {
 		return ApiResult.valueOf(rs);
 	}
 
-//	/**
-//	 * 一车一单审批回写
-//	 * @param req
-//	 * @return
-//	 */
-//	@RequestMapping(value="/writeBack",method=RequestMethod.POST)
-//	@ApiParamRawType(List.class)
-//	@ResponseBody
-//	public ApiResult writeBack(ApiParam<List<JSONObject>> req){
-//		Result rs=Result.getErrorResult();
-//		try {
-//			rs = salesApplicationService.updateDataWithNC(req.getBody());
-//		} catch (Exception e) {
-//			rs.setErrorCode(ErrorCode.SYSTEM_ERROR);
-//			log.error(e.getMessage(),e);
-//		}
-//		return ApiResult.valueOf(rs);
-//	}
+	/**
+	 * 自制订单审批回写
+	 * @param req
+	 * @return
+	 */
+	@RequestMapping(value="/bill/audit/callback",method=RequestMethod.POST)
+	@ApiParamRawType(BillValidReq.class)
+	@ResponseBody
+	public ApiResult auditCallBack(ApiParam<BillValidReq> req){
+		Result rs = Result.getErrorResult();
+		try {
+			rs = salesApplicationService.billAuditCallBack(req.getBody());
+		} catch (Exception e) {
+			rs.setErrorCode(ErrorCode.SYSTEM_ERROR);
+			log.error(e.getMessage(),e);
+		}
+		return ApiResult.valueOf(rs);
+	}
+
+	/**
+	 * 一车一单作废回写（未审核）
+	 * @param req
+	 * @return
+	 */
+	@RequestMapping(value="/bill/notAudit/valid",method=RequestMethod.POST)
+	@ApiParamRawType(BillValidReq.class)
+	@ResponseBody
+	public ApiResult billNotAuditValid(ApiParam<BillValidReq> req){
+		Result rs = Result.getErrorResult();
+		try {
+			rs = salesApplicationService.billNotAuditValid(req.getBody());
+		} catch (Exception e) {
+			rs.setErrorCode(ErrorCode.SYSTEM_ERROR);
+			log.error(e.getMessage(),e);
+		}
+		return ApiResult.valueOf(rs);
+	}
+	
+	/**
+	 * 一车一单作废回写（已审核）
+	 * @param req
+	 * @return
+	 */
+	@RequestMapping(value="/bill/yesAudit/valid",method=RequestMethod.POST)
+	@ApiParamRawType(BillValidReq.class)
+	@ResponseBody
+	public ApiResult billYesAuditValid(ApiParam<BillValidReq> req){
+		Result rs = Result.getErrorResult();
+		try {
+			rs = salesApplicationService.billYesAuditValid(req.getBody());
+		} catch (Exception e) {
+			rs.setErrorCode(ErrorCode.SYSTEM_ERROR);
+			log.error(e.getMessage(),e);
+		}
+		return ApiResult.valueOf(rs);
+	}
 	
 }

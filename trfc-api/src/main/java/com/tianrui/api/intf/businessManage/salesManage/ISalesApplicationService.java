@@ -6,6 +6,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.tianrui.api.req.businessManage.app.AppOrderReq;
 import com.tianrui.api.req.businessManage.salesManage.SalesApplicationQuery;
 import com.tianrui.api.req.businessManage.salesManage.SalesApplicationSave;
+import com.tianrui.api.req.dc.BillValidReq;
 import com.tianrui.api.resp.businessManage.app.AppOrderResp;
 import com.tianrui.api.resp.businessManage.salesManage.SalesApplicationJoinDetailResp;
 import com.tianrui.api.resp.businessManage.salesManage.SalesApplicationResp;
@@ -52,8 +53,22 @@ public interface ISalesApplicationService {
 	 * @return
 	 */
 	Result appToDetail(AppOrderReq req);
-
-
-
+	/**
+	 * @annotation DC 自制订单审批通过回写
+	 * @param req
+	 * @return 
+	 * @throws Exception 
+	 */
+	Result billAuditCallBack(BillValidReq req) throws Exception;
+	/**
+	 * @annotation DC 作废回写  一单一车作废回写（未审核）
+	 * @param req
+	 */
+	Result billNotAuditValid(BillValidReq req);
+	/**
+	 * @annotation DC 作废回写  一单一车作废回写（已审核）
+	 * @param req
+	 */
+	Result billYesAuditValid(BillValidReq req);
 
 }

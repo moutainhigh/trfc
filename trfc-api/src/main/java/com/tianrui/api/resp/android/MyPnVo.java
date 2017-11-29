@@ -29,6 +29,8 @@ public class MyPnVo extends BaseResp {
 	private String time = "";
 	//单位
 	private String unit = "";
+	//通知单号
+	private String noticeCode = "";
 	public String getId() {
 		return id;
 	}
@@ -89,6 +91,12 @@ public class MyPnVo extends BaseResp {
 	public void setUnit(String unit) {
 		this.unit = unit;
 	}
+	public String getNoticeCode() {
+		return noticeCode;
+	}
+	public void setNoticeCode(String noticeCode) {
+		this.noticeCode = noticeCode;
+	}
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
@@ -96,6 +104,6 @@ public class MyPnVo extends BaseResp {
 	public String toString() {
 		return "MyPnVo [id=" + id + ", code=" + code + ", vehicle=" + vehicle + ", driver=" + driver + ", material="
 				+ material + ", grossWeight=" + grossWeight + ", tareWeight=" + tareWeight + ", netWeight=" + netWeight
-				+ ", time=" + time + ", unit=" + unit + "]";
+				+ ", time=" + time + ", unit=" + unit + ", noticeCode=" + noticeCode + "]";
 	}
 }

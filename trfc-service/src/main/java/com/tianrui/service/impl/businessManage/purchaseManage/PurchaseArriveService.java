@@ -133,8 +133,6 @@ public class PurchaseArriveService implements IPurchaseArriveService {
 				pa.setMakebillname(systemUserService.getUser(save.getCurrId()).getName());
 				pa.setCreator(save.getCurrId());
 				pa.setCreatetime(System.currentTimeMillis());
-				pa.setModifier(save.getCurrId());
-				pa.setModifytime(System.currentTimeMillis());
 				if(purchaseArriveMapper.insertSelective(pa) > 0 
 						&& StringUtils.equals(systemCodeService.updateCodeItem(codeReq).getCode(), ErrorCode.SYSTEM_SUCCESS.getCode())){
 					if(StringUtils.isNotBlank(pa.getBilldetailid())){
@@ -266,8 +264,6 @@ public class PurchaseArriveService implements IPurchaseArriveService {
 						pa.setMakebilltime(System.currentTimeMillis());
 						pa.setCreator(save.getCurrId());
 						pa.setCreatetime(System.currentTimeMillis());
-						pa.setModifier(save.getCurrId());
-						pa.setModifytime(System.currentTimeMillis());
 						if(purchaseArriveMapper.insertSelective(pa) > 0 
 								&& StringUtils.equals(systemCodeService.updateCodeItem(codeReq).getCode(), ErrorCode.SYSTEM_SUCCESS.getCode())){
 							purchaseArriveMapper.emptyForceOutFactoryByVehicle(save.getVehicleid());
@@ -627,8 +623,6 @@ public class PurchaseArriveService implements IPurchaseArriveService {
 					bean.setMakebilltime(System.currentTimeMillis());
 					bean.setCreator(req.getUserId());
 					bean.setCreatetime(System.currentTimeMillis());
-					bean.setModifier(req.getUserId());
-					bean.setModifytime(System.currentTimeMillis());
 					if(purchaseArriveMapper.insertSelective(bean) > 0 
 							&& StringUtils.equals(systemCodeService.updateCodeItem(codeReq).getCode(), ErrorCode.SYSTEM_SUCCESS.getCode())){
 						if(StringUtils.isNotBlank(bean.getBilldetailid())){
@@ -704,6 +698,8 @@ public class PurchaseArriveService implements IPurchaseArriveService {
                 pa.setForceOutFactory(Constant.ONE_NUMBER);
                 pa.setForceOutFactoryPerson(update.getCurrId());
                 pa.setForceOutFactoryTime(System.currentTimeMillis());
+                pa.setModifier(update.getCurrId());
+                pa.setModifytime(System.currentTimeMillis());
                 purchaseArriveMapper.updateByPrimaryKeySelective(pa);
                 AccessRecord accessRecord = accessRecordMapper.selectByNoticeId(pa.getId());
                 AccessRecord ar = new AccessRecord();

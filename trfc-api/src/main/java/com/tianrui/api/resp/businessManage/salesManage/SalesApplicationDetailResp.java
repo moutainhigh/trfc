@@ -40,6 +40,8 @@ public class SalesApplicationDetailResp extends BaseResp {
     private String remarks="";
     //TODO为出库数量 折扣额  发货仓库
     //为出库占用 预提占用 余量
+    //NC子表ID
+    private String ncId;
     
     public String getId() {
         return id;
@@ -192,5 +194,17 @@ public class SalesApplicationDetailResp extends BaseResp {
     public void setRemarks(String remarks) {
         this.remarks = remarks == null ? null : remarks.trim();
     }
+
+	public String getNcId() {
+		return ncId;
+	}
+
+	public void setNcId(String ncId) {
+		this.ncId = ncId;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
 
 }

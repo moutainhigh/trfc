@@ -45,6 +45,14 @@ public class NoticeListVo extends BaseResp {
 	private String unit;
 	//收获时间
 	private String signTime = "";
+	//通知单类型（1：普通派车，2：多单合并派车）
+	private String noticeType = "";
+	//订单类型（0：一单一车，1：一单多车）
+	private String billType = "";
+	//供应商备注
+	private String supRemark = "";
+	//矿口
+	private String minemouth = "";
 	public String getId() {
 		return id;
 	}
@@ -165,8 +173,32 @@ public class NoticeListVo extends BaseResp {
 	public void setSignTime(String signTime) {
 		this.signTime = signTime;
 	}
+	public String getNoticeType() {
+		return noticeType;
+	}
+	public void setNoticeType(String noticeType) {
+		this.noticeType = noticeType;
+	}
 	public static long getSerialversionuid() {
 		return serialVersionUID;
+	}
+	public String getBillType() {
+		return billType;
+	}
+	public void setBillType(String billType) {
+		this.billType = billType;
+	}
+	public String getSupRemark() {
+		return supRemark;
+	}
+	public void setSupRemark(String supRemark) {
+		this.supRemark = supRemark;
+	}
+	public String getMinemouth() {
+		return minemouth;
+	}
+	public void setMinemouth(String minemouth) {
+		this.minemouth = minemouth;
 	}
 	@Override
 	public String toString() {
@@ -175,6 +207,7 @@ public class NoticeListVo extends BaseResp {
 				+ ", grossWeight=" + grossWeight + ", tareWeight=" + tareWeight + ", netWeight=" + netWeight
 				+ ", lightTime=" + lightTime + ", weightTime=" + weightTime + ", number=" + number + ", margin="
 				+ margin + ", status=" + status + ", type=" + type + ", pnCode=" + pnCode + ", unit=" + unit
-				+ ", signTime=" + signTime + "]";
+				+ ", signTime=" + signTime + ", noticeType=" + noticeType + ", billType=" + billType + ", supRemark="
+				+ supRemark + ", minemouth=" + minemouth + "]";
 	}
 }
