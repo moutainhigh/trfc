@@ -124,7 +124,7 @@
             </ul>
         </div>
         <div class="wuliao_tabbox">
-            <div class="wuliao_tabcont hide">
+            <div class="wuliao_tabcont hide_buyCar">
                 <div class="intel_table">
                     <div class="intel_table">
                         <div class="intel_table">
@@ -188,7 +188,7 @@
                     </div>
                 </div>
             </div>
-            <div class="wuliao_tabcont hide">
+            <div class="wuliao_tabcont hide_unit">
                 <div class="intel_table">
                  <div>
 						  <div class="intel_operasolo" >
@@ -241,7 +241,7 @@
                     <!--endprint1-->
                 </div>
             </div>
-            <div class="wuliao_tabcont hide">
+            <div class="wuliao_tabcont hide_receive">
                 <div class="intel_table">
                     <div class="intel_table">
                      <div>
@@ -302,7 +302,7 @@
                     </div>
                 </div>
             </div>
-            <div class="wuliao_tabcont">
+            <div class="wuliao_tabcont hide_thing">
                 <div class="intel_table">
                  <div>
 						  <div class="intel_operasolo" >
@@ -387,8 +387,8 @@
 			<!-- 引用公共footer部分 -->
 			<jsp:include page="../../common/base/footer_busi.jsp"></jsp:include>
 			<script type="text/javascript"
-				src="/javascript/businessManage/Report/ReportManagement.js?112"></script>
+				src="/javascript/businessManage/Report/ReportManagement.js?1126"></script>
 			<script type="text/javascript"
-				src="/javascript/businessManage/Report/ReportManagement2.js?112"></script>
+				src="/javascript/businessManage/Report/ReportManagement2.js?1126"></script>
 </body>
 </html>

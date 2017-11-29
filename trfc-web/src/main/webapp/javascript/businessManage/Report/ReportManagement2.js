@@ -250,13 +250,7 @@ var clock13 = new Clock();
 clock13.display(document.querySelector(".clock13"));
 var clock14 = new Clock1();
 clock14.display(document.querySelector(".clock14"));
-// 物料的四个tab切换菜单
-var wl_li = $('.wuliao_tab ul li');
-wl_li.click(function () {
-    $(this).addClass('select').siblings().removeClass('select');
-    var index = wl_li.index(this);
-    $('.wuliao_tabbox > .wuliao_tabcont').eq(index).show().siblings().hide();
-});
+
 $( function() {
     var availableTags = [
         "石灰石",

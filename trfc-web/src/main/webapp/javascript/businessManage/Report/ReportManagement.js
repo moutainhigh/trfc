@@ -11,23 +11,42 @@
 	function init(){
 		bindEvent();
 		queryData();
+		$(".wuliao_tabcont").hide();
+		$(".hide_thing").show();
 	}
 	$('#thing').off('click').on('click',function(){
 		$('input#jumpPageNo').val('');
+		$(".wuliao_tabcont").hide();
+		$(".hide_thing").show();
 		queryData4(1);
 	});
 	$('#receive').off('click').on('click',function(){
 		$('input#jumpPageNo').val('');
+		$(".wuliao_tabcont").hide();
+		$(".hide_receive").show();
 		queryData3(1);
 	});
 	$('#unit').off('click').on('click',function(){
 		$('input#jumpPageNo').val('');
+		$(".wuliao_tabcont").hide();
+		$(".hide_unit").show();
 		queryData2(1);
 	});
 	$('#buyCar').off('click').on('click',function(){
 		$('input#jumpPageNo').val('');
+		$(".wuliao_tabcont").hide();
+		$(".hide_buyCar").show();
 		queryData(1);
 	});
+	
+//	// 物料的四个tab切换菜单
+	var wl_li = $('.wuliao_tab ul li');
+	wl_li.click(function () {
+	    $(this).addClass('select').siblings().removeClass('select');
+	    var index = wl_li.index(this);
+//	    $('.wuliao_tabbox > .wuliao_tabcont').eq(index).show().siblings().hide();
+	});
+	
 	
 	$('#searchBtn').off('click').on('click',function(){
 		if(queryData){
