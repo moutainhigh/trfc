@@ -79,10 +79,7 @@
 									<th>轻车时间</th>
 									<th>重车时间</th>
 									<th>净重</th>
-									<th>创建人</th>
 									<th>创建时间</th>
-									<th>修改人</th>
-									<th>修改时间</th>
 								</tr>
 							</thead>
 							<tbody id="dataBody">
@@ -114,6 +111,6 @@
 			<!-- 引用公共footer部分 -->
 			<jsp:include page="../../common/base/footer_busi.jsp"></jsp:include>
 			<script type="text/javascript"
-				src="/javascript/businessManage/purchaseManage/PushSingle.js"></script>
+				src="/javascript/businessManage/purchaseManage/PushSingle.js?1129"></script>
 </body>
 </html>
