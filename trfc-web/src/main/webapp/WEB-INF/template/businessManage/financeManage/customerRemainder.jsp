@@ -96,9 +96,7 @@
                         <th>信用占用</th>
                         <th>信用余额</th>
                         <th>币种</th>
-                        <th>创建人</th>
                         <th>创建时间</th>
-                        <th>备注</th>
                     </tr>
                     </thead>
                     <tbody id="begins">
@@ -241,7 +239,7 @@
                     </div>
                     <div class="alt_edit_div">
                         <label>创建日期：</label>
-                        <input type="text" class="Wdate_cg" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})" 
+                        <input type="text" 
                         style="width:220px" id="detail_date" readonly="readonly"/>
                     </div>
                     <div class="alt_edit_div">
@@ -268,14 +266,14 @@
                         <label>币 种：</label>
                         <input type="text"  id="detail_corigcurrencyid" readonly="readonly">
                     </div>
-                    <div class="alt_edit_div">
+                    <!-- <div class="alt_edit_div">
                         <label>创建人：</label>
                         <input type="text" id="detail_creator" readonly="readonly">
-                    </div>
-                    <div class="alt_edit_div" style="width: 100%">
+                    </div> -->
+                    <!-- <div class="alt_edit_div" style="width: 100%">
                         <label>备注：</label>
                         <input type="text" style="width: 500px" id="detail_remark" readonly="readonly">
-                    </div>
+                    </div> -->
                 </div>
             </div>
             <div class="modal-footer">
