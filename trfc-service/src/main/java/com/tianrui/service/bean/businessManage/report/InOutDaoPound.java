@@ -160,9 +160,26 @@ public class InOutDaoPound {
     private String cargoNameLike;
     //备注
     private String remarkLike;
+    //订单号
+    private String billcodeLike;
+    //磅单号
+    private String codeLike;
     //分页参数
     private Integer start;
     private Integer limit;
+    
+	public String getBillcodeLike() {
+		return billcodeLike;
+	}
+	public void setBillcodeLike(String billcodeLike) {
+		this.billcodeLike = billcodeLike;
+	}
+	public String getCodeLike() {
+		return codeLike;
+	}
+	public void setCodeLike(String codeLike) {
+		this.codeLike = codeLike;
+	}
 	public String getId() {
 		return id;
 	}

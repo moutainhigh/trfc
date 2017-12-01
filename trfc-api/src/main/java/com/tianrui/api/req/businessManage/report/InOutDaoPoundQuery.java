@@ -25,9 +25,31 @@ public class InOutDaoPoundQuery extends BaseReq{
 	private String endTime;
 	// 备注
 	private String remark;
+	//订单号
+	private String billcode;
+	//磅单号
+	private String code;
 
 	private String currUid;
 	private String billtype;
+	
+	
+	public String getBillcode() {
+		return billcode;
+	}
+
+	public void setBillcode(String billcode) {
+		this.billcode = billcode;
+	}
+
+	public String getCode() {
+		return code;
+	}
+
+	public void setCode(String code) {
+		this.code = code;
+	}
+
 	public String getSuppliername() {
 		return suppliername;
 	}

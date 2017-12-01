@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.tianrui.api.intf.businessManage.report.IPurchaseReportService;
-import com.tianrui.api.req.businessManage.purchaseManage.PushSingleReq;
 import com.tianrui.api.req.businessManage.report.ReportPurchaseQuery;
 import com.tianrui.api.resp.businessManage.report.ReportPurchaseMaterResp;
 import com.tianrui.api.resp.businessManage.report.ReportPurchaseResp;
