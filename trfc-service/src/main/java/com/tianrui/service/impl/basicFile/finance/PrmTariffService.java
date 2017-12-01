@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -74,6 +75,26 @@ public class PrmTariffService implements IPrmTariffService {
 	}
 	
 	
+	
+	
+	@Override
+	public Result getPrmTariffByMater(String materId) {
+		Result rs =Result.getParamErrorResult();
+		if( StringUtils.isNotBlank(materId) ){
+			PrmTariff query  =new PrmTariff();
+			query.setMaterialId(materId);
+			List<PrmTariff> list  =prmTariffMapper.selectByCondition(query);
+			if( CollectionUtils.isNotEmpty(list) ){
+				rs.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+				rs.setData(list.get(0));
+			}else{
+				rs.setErrorCode(ErrorCode.DATA_ERROR);
+			}
+		}
+		
+		return rs;
+	}
+
 	private PrmTariff converJson2Bean(JSONObject jsonItem){
 		PrmTariff item  =new PrmTariff();
 		
