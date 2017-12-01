@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.tianrui.api.intf.businessManage.report.IInPoundService;
 import com.tianrui.api.req.businessManage.report.InOutDaoPoundQuery;
@@ -33,6 +34,12 @@ public class InPoundAction {
 	@Resource
 	private IInPoundService inPoundService;
 	
+	
+	@RequestMapping("/main")
+	public ModelAndView main(){
+	    ModelAndView view = new ModelAndView("businessManage/Report/ReportOtherTable");
+	    return view;
+	}
 	/**
 	 * 其他入库逐车明细分页方法
 	 * @param req

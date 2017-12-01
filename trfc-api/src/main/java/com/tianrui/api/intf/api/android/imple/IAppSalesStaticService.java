@@ -8,6 +8,7 @@ import com.tianrui.api.req.android.MyPnListParam;
 import com.tianrui.api.req.android.MyVehicleListParam;
 import com.tianrui.api.req.android.NoticeListParam;
 import com.tianrui.api.req.android.NoticeSave;
+import com.tianrui.api.req.android.SearchKeyParam;
 import com.tianrui.smartfactory.common.vo.AppResult;
 
 public interface IAppSalesStaticService {
@@ -113,5 +114,11 @@ public interface IAppSalesStaticService {
 	 * @return
 	 */
 	AppResult customerGroupUser(LoginUserParam param);
+	/**
+	 * 查询仓库id和名称
+	 * @param body
+	 * @return
+	 */
+	AppResult queryWarehouse(SearchKeyParam param);
 
 }

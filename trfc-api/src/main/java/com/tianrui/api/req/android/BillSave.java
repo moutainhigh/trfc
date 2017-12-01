@@ -14,6 +14,8 @@ public class BillSave extends AppBase {
 	private String unit;
 	//订单日期
 	private Long billTime;
+	//仓库id
+	private String warehouseId;
 	public String getMaterial() {
 		return material;
 	}
@@ -49,6 +51,12 @@ public class BillSave extends AppBase {
 	}
 	public void setBillTime(Long billTime) {
 		this.billTime = billTime;
+	}	
+	public String getWarehouseId() {
+		return warehouseId;
+	}
+	public void setWarehouseId(String warehouseId) {
+		this.warehouseId = warehouseId;
 	}
 	public static long getSerialversionuid() {
 		return serialVersionUID;
@@ -56,6 +64,6 @@ public class BillSave extends AppBase {
 	@Override
 	public String toString() {
 		return "BillSave [material=" + material + ", vehicle=" + vehicle + ", driver=" + driver + ", number=" + number
-				+ ", unit=" + unit + ", billTime=" + billTime + "]";
-	}
+				+ ", unit=" + unit + ", billTime=" + billTime + ", warehouseId=" + warehouseId + "]";
+	}	
 }
