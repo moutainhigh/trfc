@@ -865,6 +865,12 @@
 		<if test="remarkLike != null and remarkLike != ''">
 			and remark like concat(#{remarkLike,jdbcType=VARCHAR},'%')
 		</if>
+		<if test="codeLike != null and codeLike != ''">
+			and code like concat(#{codeLike,jdbcType=VARCHAR},'%')
+		</if>
+		<if test="billcodeLike != null and billcodeLike != ''">
+			and billcode like concat(#{billcodeLike,jdbcType=VARCHAR},'%')
+		</if>
 		<if test="billtype != null and billtype != ''">
   			and billtype = #{billtype,jdbcType=VARCHAR}
   		</if>
@@ -904,6 +910,12 @@
 		</if>
 		<if test="cargoNameLike != null and cargoNameLike != ''">
 			and materialname like concat(#{cargoNameLike,jdbcType=VARCHAR},'%') 
+		</if>
+		<if test="codeLike != null and codeLike != ''">
+			and code like concat(#{codeLike,jdbcType=VARCHAR},'%')
+		</if>
+		<if test="billcodeLike != null and billcodeLike != ''">
+			and billcode like concat(#{billcodeLike,jdbcType=VARCHAR},'%')
 		</if>
 		<if test="remarkLike != null and remarkLike != ''">
 			and remark like concat(#{remarkLike,jdbcType=VARCHAR},'%')

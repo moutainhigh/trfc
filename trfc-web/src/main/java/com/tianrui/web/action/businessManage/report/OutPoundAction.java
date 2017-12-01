@@ -22,7 +22,7 @@ import com.tianrui.web.util.SessionManager;
 
 
 /**
- * 其他出库逐车明细
+ * 其他出库逐车明细Action
  * @author lenovo
  *
  */
