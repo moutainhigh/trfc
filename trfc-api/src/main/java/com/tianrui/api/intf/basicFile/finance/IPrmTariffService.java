@@ -19,5 +19,8 @@ public interface IPrmTariffService {
 	 * @return
 	 */
 	Result updateDataWithDC(List<JSONObject> list);
+	
+	
+	Result getPrmTariffByMater(String materId);
 
 }

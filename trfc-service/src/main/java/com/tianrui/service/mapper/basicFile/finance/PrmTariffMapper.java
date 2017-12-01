@@ -21,5 +21,7 @@ public interface PrmTariffMapper {
     
     List<String> selectIds();
     
+    List<PrmTariff> selectByCondition(PrmTariff record);
+    
     String findMaxUtc();
 }
