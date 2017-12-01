@@ -117,7 +117,7 @@
     <div class="wuliao_opera">
         <div class="wuliao_tab">
             <ul>
-                <li style="width:150px;" id="buyCar" class="select">调拨逐车明细</li>
+                <li id="buyCar" class="select">厂内倒运</li>
             </ul>
         </div>
         <div class="wuliao_tabbox">

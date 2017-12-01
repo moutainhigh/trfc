@@ -113,7 +113,7 @@
 							</div>
 						</div>
 						<div class="intel_opera">
-    <!--物料四个按钮切换-->
+    <!--按钮切换-->
     <div class="wuliao_opera">
         <div class="wuliao_tab">
             <ul>
@@ -147,7 +147,7 @@
                                 <table class="tableExcel" width="100%" border="1" cellspacing="0" cellpadding="0">
                                     <thead>
                                     <tr>
-                                        <td colspan="11" align="center" style="color:#434e8d;font-size: 40px;line-height:normal">
+                                        <td colspan="10" align="center" style="color:#434e8d;font-size: 40px;line-height:normal">
                                             卫辉市天瑞水泥有限公司采购物料统计
                                             <p class="biobiaop" style="margin-top: 10px">
                                                 <span class="clock6"></span>至<span class="clock7"></span>
@@ -164,7 +164,6 @@
                                         <th style="font-size: 20px">毛重</th>      
                                         <th style="font-size: 20px">皮重</th>
                                         <th style="font-size: 20px">净重</th>
-                                        <th style="font-size: 20px">结算净重</th>
                                         <th style="font-size: 20px">轻车时间</th>
                                         <th style="font-size: 20px">重车时间</th>
                                     </tr>

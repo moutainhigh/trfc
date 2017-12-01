@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.tianrui.api.intf.businessManage.report.IInPoundService;
 import com.tianrui.api.req.businessManage.report.InOutDaoPoundQuery;
@@ -31,6 +32,12 @@ public class SalesPoundAction {
 	private Logger log = LoggerFactory.getLogger(SalesPoundAction.class);
 	@Resource
 	private IInPoundService salesPoundService;
+	
+	@RequestMapping("/main")
+	public ModelAndView main(){
+	    ModelAndView view = new ModelAndView("businessManage/Report/ReportSales");
+	    return view;
+	}
 	/**
 	 * 分页展示
 	 * @param req

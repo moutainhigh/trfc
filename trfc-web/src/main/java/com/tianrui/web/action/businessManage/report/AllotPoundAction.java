@@ -33,6 +33,7 @@ public class AllotPoundAction {
 	private Logger log = LoggerFactory.getLogger(AllotPoundAction.class);
 	@Resource
 	private IInPoundService allotPoundService;
+	
 	@RequestMapping("/main")
 	public ModelAndView main(){
 	    ModelAndView view = new ModelAndView("businessManage/Report/ReportAllocting");

@@ -104,7 +104,7 @@
 			var params = getParams();
 			params.pageNo = pageNo;
 //			销售逐车
-			$.ajax({
+			$.ajax({  
 				url:URL.commonUrl,
 				data:params,
 				async:true,
@@ -139,19 +139,17 @@
 				}
 			});
 		}
-		//过磅单号   通知单号   发货单位   收货单位     仓库  物料    车号   毛重    皮重    净重      轻车时间   重车时间  
+		 //磅单编号 客户   物料   车号   库号    毛重   皮重   净重   结算净重   轻车时间   重车时间 
 		function renderHtml(data){
 			$('#RMg1').empty();   
 			var list = data.list;
 			if(list && list.length>0){
 				for(var i=0;i<list.length;i++){
 					$('<tr>').append('<td>'+(list[i].code||"")+'</td>')
-							.append('<td>'+(list[i].noticecode||"")+'</td>')
-							.append('<td>'+(list[i].senddepartmentname||"")+'</td>')
-							.append('<td>'+(list[i].receivedepartmentname||"")+'</td>')
-							.append('<td>'+(list[i].warehousename||"")+'</td>')
-							.append('<td>'+(list[i].materialname||"")+'</td>')
+							.append('<td>'+(list[i].customername||"")+'</td>')
+							.append('<td>'+(list[i].cargo||"")+'</td>')
 							.append('<td>'+(list[i].vehicleno||"")+'</td>')
+							.append('<td>'+(list[i].noticecode||"")+'</td>')
 							.append('<td>'+(list[i].grossweight||"")+'</td>')
 							.append('<td>'+(list[i].tareweight||"")+'</td>')
 							.append('<td>'+(list[i].netweight||"")+'</td>')
