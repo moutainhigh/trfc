@@ -330,4 +330,16 @@
 		from tr_warehouse_db_manage
 		where state = 1
 	</select>
+	<select id="queryWarehouse" parameterType="com.tianrui.api.req.android.SearchKeyParam" resultType="com.tianrui.api.resp.android.SearchWarehouseListVo">
+		select 
+			id,name 
+		from 
+			tr_warehouse_db_manage 
+		<where>
+			<if test="key != null and key != ''">
+			and name like CONCAT('%', #{key,jdbcType=VARCHAR}, '%')
+		</if>
+		</where>
+		limit 0, #{pageSize,jdbcType=INTEGER}
+	</select>
 </mapper>
