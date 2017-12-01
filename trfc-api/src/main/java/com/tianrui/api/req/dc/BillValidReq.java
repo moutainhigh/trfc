@@ -11,6 +11,9 @@ public class BillValidReq extends BaseReq {
 	private String msg;
 	private String ncId;
 	private String detailNcId;
+	private String auditid;
+	private String auditname;
+	private Long audittime;
 	public String getId() {
 		return id;
 	}
@@ -47,12 +50,31 @@ public class BillValidReq extends BaseReq {
 	public void setDetailNcId(String detailNcId) {
 		this.detailNcId = detailNcId;
 	}
+	public String getAuditid() {
+		return auditid;
+	}
+	public void setAuditid(String auditid) {
+		this.auditid = auditid;
+	}
+	public String getAuditname() {
+		return auditname;
+	}
+	public void setAuditname(String auditname) {
+		this.auditname = auditname;
+	}
+	public Long getAudittime() {
+		return audittime;
+	}
+	public void setAudittime(Long audittime) {
+		this.audittime = audittime;
+	}
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
 	@Override
 	public String toString() {
 		return "BillValidReq [id=" + id + ", detailId=" + detailId + ", status=" + status + ", msg=" + msg + ", ncId="
-				+ ncId + ", detailNcId=" + detailNcId + "]";
+				+ ncId + ", detailNcId=" + detailNcId + ", auditid=" + auditid + ", auditname=" + auditname
+				+ ", audittime=" + audittime + "]";
 	}
 }

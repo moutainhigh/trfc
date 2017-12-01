@@ -95,6 +95,8 @@ public class SalesApplicationResp extends BaseResp {
     private String driverId;
     //司机名称
     private String driverName;
+    //身份证号
+    private String idNo;
     //订单来源（0：NC，1：业务平台，2：客商APP）
     private Integer billSource;
     //NC主键
@@ -364,6 +366,12 @@ public class SalesApplicationResp extends BaseResp {
 	}
 	public void setDriverName(String driverName) {
 		this.driverName = driverName;
+	}
+	public String getIdNo() {
+		return idNo;
+	}
+	public void setIdNo(String idNo) {
+		this.idNo = idNo;
 	}
 	public Integer getBillSource() {
 		return billSource;
