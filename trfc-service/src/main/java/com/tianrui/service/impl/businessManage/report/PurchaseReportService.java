@@ -61,7 +61,7 @@ public class PurchaseReportService implements IPurchaseReportService {
 				rs=copyBeanList2RespList( reportPurchaseMapper.selectByCondition(query));
 			}
 		}
-		if( CollectionUtils.isNotEmpty(rs) ){
+		if( !CollectionUtils.isNotEmpty(rs) ){
 			rs =new ArrayList<ReportPurchaseResp>();
 		}
 		return rs;
@@ -106,7 +106,7 @@ public class PurchaseReportService implements IPurchaseReportService {
 			if( StringUtils.isNotBlank(query.getMinemouthname()) ){
 				bean.setMinemouthNameLike(query.getMinemouthname());
 			}
-			if (bb=true) {
+			if (bb==true) {
 				//分页参数
 				bean.setStart((query.getPageNo()-1)*query.getPageSize());
 				bean.setLimit(query.getPageSize());
@@ -189,7 +189,7 @@ public class PurchaseReportService implements IPurchaseReportService {
 			}
 			
 		}
-		if( CollectionUtils.isNotEmpty(rs) ){
+		if( !CollectionUtils.isNotEmpty(rs) ){
 			rs =new ArrayList<ReportPurchaseMaterResp>();
 		}
 		return rs;
@@ -220,18 +220,18 @@ public class PurchaseReportService implements IPurchaseReportService {
 	@Override
 	public List<ReportPurchaseMaterResp> list2(ReportPurchaseQuery reportPurchaseQuery) throws Exception {
 		// TODO Auto-generated method stub
-				List<ReportPurchaseMaterResp> rs = null;
-				if (reportPurchaseQuery !=null) {
-					ReportPurchase query = queryParam(reportPurchaseQuery,false);
-					if (query !=null) {
-						rs = reportPurchaseMapper.selectByConditionForMatercg(query);
-					}
-					
-				}
-				if( CollectionUtils.isNotEmpty(rs) ){
-					rs =new ArrayList<ReportPurchaseMaterResp>();
-				}
-				return rs;
+		List<ReportPurchaseMaterResp> rs = null;
+		if (reportPurchaseQuery !=null) {
+			ReportPurchase query = queryParam(reportPurchaseQuery,false);
+			if (query !=null) {
+				rs = reportPurchaseMapper.selectByConditionForMatercg(query);
+			}
+			
+		}
+		if( !CollectionUtils.isNotEmpty(rs) ){
+			rs =new ArrayList<ReportPurchaseMaterResp>();
+		}
+		return rs;
 	}
 	@Override
 	public PaginationVO<ReportPurchaseResp> page3(ReportPurchaseQuery reportPurchaseQuery) throws Exception {
@@ -266,7 +266,7 @@ public class PurchaseReportService implements IPurchaseReportService {
 				rs=copyBeanList2RespList( reportPurchaseMapper.selectByConditionForMaterSignPersonName(query));
 			}
 		}
-		if( CollectionUtils.isNotEmpty(rs) ){
+		if( !CollectionUtils.isNotEmpty(rs) ){
 			rs =new ArrayList<ReportPurchaseResp>();
 		}
 		return rs;
