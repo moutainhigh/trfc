@@ -18,33 +18,33 @@ import com.tianrui.service.mapper.businessManage.report.InOutDaoPoundMapper;
 import com.tianrui.smartfactory.common.utils.DateUtil;
 import com.tianrui.smartfactory.common.vo.PaginationVO;
 
+
+
 /**
- * 调拨逐车明细Service
+ * 销售逐车明细Service
  * @author lenovo
  *
  */
 @Service
-public class AllotPoundService implements IInPoundService{
+public class SalesPoundService implements IInPoundService{
 	@Resource
 	private InOutDaoPoundMapper inOutDaoPoundMapper;
 	
-	/**
-	 * 分页
-	 */
+	
 	@Override
 	public PaginationVO<InOutDaoPoundResp> page(InOutDaoPoundQuery inOutDaoPoundQuery) throws Exception {
 		// TODO Auto-generated method stub
-		PaginationVO<InOutDaoPoundResp> page = null;
+		PaginationVO<InOutDaoPoundResp> page= null;
 		if (inOutDaoPoundQuery != null) {
 			InOutDaoPound query = queryParam(inOutDaoPoundQuery, true);
 			if (query !=null) {
 				page = new PaginationVO<InOutDaoPoundResp>();
 			}
-			//4表示厂内倒运
-			query.setBilltype("4");
+			//2表示销售提货通知单
+			query.setBilltype("2");
 			//查询总条数
 			Long count = inOutDaoPoundMapper.countByCondition(query);
-			if (count>0) {
+			if (count > 0) {
 				page.setList(copyBeanList2RespList(inOutDaoPoundMapper.selectByCondition(query)));
 			}
 			//返回结果参数补全
@@ -53,28 +53,22 @@ public class AllotPoundService implements IInPoundService{
 			page.setTotal(count);
 		}
 		
-		
 		return page;
 	}
 
 	@Override
 	public List<InOutDaoPoundResp> list(InOutDaoPoundQuery inOutDaoPoundQuery) throws Exception {
 		// TODO Auto-generated method stub
-		
 		List<InOutDaoPoundResp> rs = null;
 		if (inOutDaoPoundQuery != null) {
 			InOutDaoPound query = queryParam(inOutDaoPoundQuery, false);
-			//4 表示厂内倒运
-			query.setBilltype("4");
-			if (query != null) {
-				//参数转换
+			//2表示销售提货通知单
+			query.setBilltype("2");
+			if (query !=null) {
 				rs = copyBeanList2RespList(inOutDaoPoundMapper.selectByCondition(query));
 			}
+
 		}
-		
-		/*if( CollectionUtils.isNotEmpty(rs) ){
-			rs =new ArrayList<InOutDaoPoundResp>();
-		}*/
 		return rs;
 	}
 	/**
@@ -115,7 +109,15 @@ public class AllotPoundService implements IInPoundService{
 			//客户
 			if( StringUtils.isNotBlank(query.getCustomername()) ){
 				bean.setCustomerNameLike(query.getCustomername());
-			}		
+			}
+			//订单号
+			if (StringUtils.isNotBlank(query.getBillcode())) {
+				bean.setBillcodeLike(query.getBillcode());
+			}
+			//榜单号
+			if (StringUtils.isNotBlank(query.getCode())) {
+				bean.setCodeLike(query.getCode());
+			}
 			if (bb==true) {
 				//分页参数
 				bean.setStart((query.getPageNo()-1)*query.getPageSize());
@@ -146,5 +148,4 @@ public class AllotPoundService implements IInPoundService{
 		}
 		return rs;
 	}
-
 }
