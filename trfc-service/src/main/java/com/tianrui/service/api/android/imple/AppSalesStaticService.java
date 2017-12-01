@@ -45,6 +45,7 @@ import com.tianrui.service.bean.basicFile.measure.DriverManage;
 import com.tianrui.service.bean.basicFile.measure.VehicleManage;
 import com.tianrui.service.bean.basicFile.nc.CustomerManage;
 import com.tianrui.service.bean.basicFile.nc.MaterielManage;
+import com.tianrui.service.bean.basicFile.nc.WarehouseManage;
 import com.tianrui.service.bean.businessManage.otherManage.OtherArrive;
 import com.tianrui.service.bean.businessManage.purchaseManage.PurchaseArrive;
 import com.tianrui.service.bean.businessManage.salesManage.SalesApplication;
@@ -247,7 +248,8 @@ public class AppSalesStaticService implements IAppSalesStaticService {
 				&& StringUtils.isNotBlank(param.getVehicle())
 				&& param.getNumber() !=null
 				&& StringUtils.isNotBlank(param.getUnit())
-				&& param.getBillTime() !=null) {
+				&& param.getBillTime() !=null
+				&& StringUtils.isNotBlank(param.getWarehouseId())) {
 			SystemUser user = systemUserMapper.selectByPrimaryKey(param.getUserId());
 			if (user != null) {
 				VehicleManage vehicle = vehicleManageMapper.selectByPrimaryKey(param.getVehicle());
@@ -387,10 +389,16 @@ public class AppSalesStaticService implements IAppSalesStaticService {
 		sad.setSalesid(salesId);
 		sad.setMaterielid(param.getMaterial());
 		MaterielManage material = materielManageMapper.selectByPrimaryKey(param.getMaterial());
+		//根据仓库id去查询仓库的名称
+		WarehouseManage wm = warehouseManageMapper.selectByPrimaryKey(param.getWarehouseId());
+		if(wm!=null){
+			sad.setWarehouseid(wm.getId());
+			sad.setWarehousename(wm.getName());
+		}
 		sad.setMaterielname(material.getName());
 		sad.setUnit(param.getUnit());
 		sad.setSalessum(param.getNumber());
-		sad.setMargin(0D);
+		sad.setMargin(0D);		
 		return sad;
 	}
 	
