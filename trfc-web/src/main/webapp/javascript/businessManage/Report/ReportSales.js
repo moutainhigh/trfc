@@ -157,7 +157,7 @@
 							.append('<td>'+(new Date(list[i].weighttime||"").format("yyyy-MM-dd HH:mm:ss"))+'</td>')
 							.appendTo('#RMg1');
 				}
-			}else{
+			}else if(list.length<=0){
 				layer.msg('暂无数据');
 //				$('#dataMore').hide();
 			}

@@ -181,7 +181,7 @@
 						.append('<td>'+(new Date(list[i].weighttime||"").format("yyyy-MM-dd HH:mm:ss"))+'</td>')
 						.appendTo('#RMg3');
 			}
-		}else{
+		}else if(list.length<=0){
 			layer.msg('暂无数据');
 //			$('#dataMore').hide();
 		}
@@ -252,7 +252,7 @@
 						.append('<td>'+(list[i].remark||"")+'</td>')
 						.appendTo('#RMg4');
 			}
-		}else{
+		}else if(list.length<=0){
 			layer.msg('暂无数据');
 //			$('#dataMore').hide();
 		}
