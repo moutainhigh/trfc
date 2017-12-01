@@ -27,6 +27,7 @@ import com.tianrui.api.req.android.MyPnListParam;
 import com.tianrui.api.req.android.MyVehicleListParam;
 import com.tianrui.api.req.android.NoticeListParam;
 import com.tianrui.api.req.android.NoticeSave;
+import com.tianrui.api.req.android.SearchKeyParam;
 import com.tianrui.api.req.businessManage.purchaseManage.PushSingleReq;
 import com.tianrui.api.req.system.base.GetCodeReq;
 import com.tianrui.api.resp.android.BillListVo;
@@ -60,6 +61,7 @@ import com.tianrui.service.mapper.basicFile.measure.DriverManageMapper;
 import com.tianrui.service.mapper.basicFile.measure.VehicleManageMapper;
 import com.tianrui.service.mapper.basicFile.nc.CustomerManageMapper;
 import com.tianrui.service.mapper.basicFile.nc.MaterielManageMapper;
+import com.tianrui.service.mapper.basicFile.nc.WarehouseManageMapper;
 import com.tianrui.service.mapper.businessManage.otherManage.OtherArriveMapper;
 import com.tianrui.service.mapper.businessManage.poundNoteMaintain.PoundNoteMapper;
 import com.tianrui.service.mapper.businessManage.purchaseManage.PurchaseArriveMapper;
@@ -126,6 +128,8 @@ public class AppSalesStaticService implements IAppSalesStaticService {
 	private IPushSingleService pushSingleService;
 	@Autowired
 	private SmUserMapper smUserMapper;
+	@Autowired
+	private WarehouseManageMapper warehouseManageMapper;
 	
 	@Override
 	public AppResult home(HomePageParam param) {
@@ -1284,6 +1288,21 @@ public class AppSalesStaticService implements IAppSalesStaticService {
 			}else{
 				result.setErrorCode(ErrorCode.SUPPLIER_GROUP_ERROR1);
 			}
+		} else {
+			result.setErrorCode(ErrorCode.PARAM_NULL_ERROR);
+		}
+		return result;
+	}
+
+	/**
+	 * 查询仓库id和名称
+	 */
+	@Override
+	public AppResult queryWarehouse(SearchKeyParam param) {
+		AppResult result = AppResult.getAppResult();
+		if (param != null) {
+			result.setData(warehouseManageMapper.queryWarehouse(param));
+			result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
 		} else {
 			result.setErrorCode(ErrorCode.PARAM_NULL_ERROR);
 		}

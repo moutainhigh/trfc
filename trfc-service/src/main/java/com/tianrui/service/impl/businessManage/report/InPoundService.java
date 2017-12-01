@@ -64,9 +64,9 @@ public class InPoundService implements IInPoundService{
 				rs=copyBeanList2RespList( inOutDaoPoundMapper.selectByCondition(query));
 			}
 		}
-		if( CollectionUtils.isNotEmpty(rs) ){
+		/*if( CollectionUtils.isNotEmpty(rs) ){
 			rs =new ArrayList<InOutDaoPoundResp>();
-		}
+		}*/
 		return rs;
 	}
 

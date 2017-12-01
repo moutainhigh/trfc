@@ -17,6 +17,7 @@ import com.tianrui.api.req.android.MyPnListParam;
 import com.tianrui.api.req.android.MyVehicleListParam;
 import com.tianrui.api.req.android.NoticeListParam;
 import com.tianrui.api.req.android.NoticeSave;
+import com.tianrui.api.req.android.SearchKeyParam;
 import com.tianrui.smartfactory.common.api.ApiParam;
 import com.tianrui.smartfactory.common.constants.ErrorCode;
 import com.tianrui.smartfactory.common.vo.AppResult;
@@ -316,6 +317,25 @@ public class AppSalesStaticAction {
 			param.getBody().setNcId(param.getHead().getNcId());
 			param.getBody().setIDType(param.getHead().getIDType());
 			result = appService.customerGroupUser(param.getBody());
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
+		}
+		return result;
+	}
+	
+	/**
+	 * 查询仓库的id和名称
+	 * @param param
+	 * @return
+	 */
+	@RequestMapping(value="/warehouse/search",method=RequestMethod.POST)
+	@ApiParamRawType(SearchKeyParam.class)
+	@ResponseBody
+	public AppResult queryWarehouse(ApiParam<SearchKeyParam> param){
+		AppResult result = AppResult.getAppResult();
+		try {
+			result = appService.queryWarehouse(param.getBody());
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 			result.setErrorCode(ErrorCode.SYSTEM_ERROR);

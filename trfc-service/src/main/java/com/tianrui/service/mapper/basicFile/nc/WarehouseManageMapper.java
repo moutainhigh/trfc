@@ -4,8 +4,10 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
+import com.tianrui.api.req.android.SearchKeyParam;
 import com.tianrui.api.req.basicFile.nc.WarehouseManageQuery;
 import com.tianrui.api.req.businessManage.handset.HandSetRequestParam;
+import com.tianrui.api.resp.android.SearchWarehouseListVo;
 import com.tianrui.api.resp.businessManage.handset.HandSetReturnResp;
 import com.tianrui.service.bean.basicFile.nc.WarehouseManage;
 /**
@@ -46,4 +48,11 @@ public interface WarehouseManageMapper {
 	 * @return
 	 */
 	List<HandSetReturnResp> handSetQueryAll(HandSetRequestParam req);
+
+	/**
+	 * 查询仓库的id和名称
+	 * @param param
+	 * @return
+	 */
+	List<SearchWarehouseListVo> queryWarehouse(SearchKeyParam param);
 }
