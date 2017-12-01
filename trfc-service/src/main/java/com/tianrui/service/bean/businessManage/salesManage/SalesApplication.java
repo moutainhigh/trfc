@@ -87,6 +87,10 @@ public class SalesApplication {
     private String validError;
     //NC审核状态（0：未审核，1：审核中，2：审核通过，3：审核不通过）
     private String ncAuditStatus;
+    //nc审核状态（1=自由,2=审批通过,3=冻结,4=关闭,5=失败,7=审批中,8=审批不通过,9=删除）
+    private String ncStatus;
+    //0：未推送，1推送中，2：已推送
+    private String pushStatus;
 	public String getId() {
 		return id;
 	}
@@ -333,4 +337,17 @@ public class SalesApplication {
 	public void setNcAuditStatus(String ncAuditStatus) {
 		this.ncAuditStatus = ncAuditStatus;
 	}
+	public String getNcStatus() {
+		return ncStatus;
+	}
+	public void setNcStatus(String ncStatus) {
+		this.ncStatus = ncStatus;
+	}
+	public String getPushStatus() {
+		return pushStatus;
+	}
+	public void setPushStatus(String pushStatus) {
+		this.pushStatus = pushStatus;
+	}
+	
 }

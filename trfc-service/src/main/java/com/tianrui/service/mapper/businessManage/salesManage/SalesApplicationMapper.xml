@@ -43,20 +43,23 @@
     <result column="valid_status" property="validStatus" jdbcType="VARCHAR" />
     <result column="valid_error" property="validError" jdbcType="VARCHAR" />
     <result column="nc_audit_status" property="ncAuditStatus" jdbcType="VARCHAR" />
+    <result column="ncStatus" property="ncStatus" jdbcType="VARCHAR" />
+    <result column="pushStatus" property="pushStatus" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, code, status, source, billtypeid, billtypename, customerid, customername, channelcode, 
     salesmanid, salesmanname, billtime, orgid, orgname, transportcompanyid, transportcompanyname, 
     departmentid, departmentname, auditid, auditname, audittime, state, makerid, makebillname, 
     makebilltime, remarks, creator, createtime, modifier, modifytime, utc, vehicle_id, 
-    vehicle_no, RFID, driver_id, driver_name, bill_source, nc_id, valid_status, valid_error, nc_audit_status
+    vehicle_no, RFID, driver_id, driver_name, bill_source, nc_id, valid_status, valid_error, nc_audit_status, ncStatus, pushStatus 
   </sql>
   <sql id="Base_Column_List_S1" >
     s1.id, s1.code, s1.status, s1.source, s1.billtypeid, s1.billtypename, s1.customerid, s1.customername, s1.channelcode, 
     s1.salesmanid, s1.salesmanname, s1.billtime, s1.orgid, s1.orgname, s1.transportcompanyid, s1.transportcompanyname, 
     s1.departmentid, s1.departmentname, s1.auditid, s1.auditname, s1.audittime, s1.state, s1.makerid, s1.makebillname, 
     s1.makebilltime, s1.remarks, s1.creator, s1.createtime, s1.modifier, s1.modifytime, s1.utc, s1.vehicle_id, 
-    s1.vehicle_no, s1.RFID, s1.driver_id, s1.driver_name, s1.bill_source, s1.nc_id, s1.valid_status, s1.valid_error, s1.nc_audit_status
+    s1.vehicle_no, s1.RFID, s1.driver_id, s1.driver_name, s1.bill_source, s1.nc_id, s1.valid_status, s1.valid_error, s1.nc_audit_status,
+    s1.ncStatus, s1.pushStatus
   </sql>
   <sql id="Base_Column_List_S1_S2" >
     s1.id, s1.code, s1.status, s1.source, s1.billtypeid, s1.billtypename, s1.customerid, s1.customername, s1.channelcode, 
@@ -88,7 +91,7 @@
       modifier, modifytime, utc, 
       vehicle_id, vehicle_no, RFID, 
       driver_id, driver_name, bill_source, nc_id, 
-      valid_status, valid_error, nc_audit_status
+      valid_status, valid_error, nc_audit_status, ncStatus, pushStatus
       )
     values (#{id,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, 
       #{source,jdbcType=VARCHAR}, #{billtypeid,jdbcType=VARCHAR}, #{billtypename,jdbcType=VARCHAR}, 
@@ -103,7 +106,7 @@
       #{vehicleId,jdbcType=VARCHAR}, #{vehicleNo,jdbcType=VARCHAR}, #{rfid,jdbcType=VARCHAR},
       #{driverId,jdbcType=VARCHAR}, #{driverName,jdbcType=VARCHAR}, #{billSource,jdbcType=BIT}, 
       #{ncId,jdbcType=VARCHAR}, #{validStatus,jdbcType=VARCHAR}, #{validError,jdbcType=VARCHAR},
-      #{ncAuditStatus,jdbcType=VARCHAR}
+      #{ncAuditStatus,jdbcType=VARCHAR}, #{ncStatus,jdbcType=VARCHAR},#{pushStatus,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.tianrui.service.bean.businessManage.salesManage.SalesApplication" >
@@ -232,6 +235,12 @@
       <if test="ncAuditStatus != null" >
         nc_audit_status,
       </if>
+      <if test="ncStatus != null" >
+        ncStatus,
+      </if>
+      <if test="pushStatus != null" >
+        pushStatus,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -356,6 +365,12 @@
       </if>
       <if test="ncAuditStatus != null" >
         #{ncAuditStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="ncStatus != null" >
+        #{ncStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="pushStatus != null" >
+        #{pushStatus,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -482,6 +497,12 @@
       <if test="ncAuditStatus != null" >
         nc_audit_status = #{ncAuditStatus,jdbcType=VARCHAR},
       </if>
+      <if test="ncStatus != null" >
+        ncStatus = #{ncStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="pushStatus != null" >
+        pushStatus = #{pushStatus,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
@@ -526,7 +547,9 @@
       nc_id = #{ncId,jdbcType=VARCHAR},
       valid_status = #{validStatus,jdbcType=VARCHAR},
       valid_error = #{validError,jdbcType=VARCHAR},
-      nc_audit_status = #{ncAuditStatus,jdbcType=VARCHAR}
+      nc_audit_status = #{ncAuditStatus,jdbcType=VARCHAR},
+      ncStatus = #{ncStatus,jdbcType=VARCHAR},
+      pushStatus = #{pushStatus,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
   <select id="selectSelective" parameterType="com.tianrui.service.bean.businessManage.salesManage.SalesApplication" resultMap="BaseResultMap">
@@ -656,6 +679,12 @@
       </if>
       <if test="ncAuditStatus != null and ncAuditStatus !=''" >
         and nc_audit_status = #{ncAuditStatus,jdbcType=VARCHAR}
+      </if>
+      <if test="ncStatus != null and ncStatus !=''" >
+        and ncStatus = #{ncStatus,jdbcType=VARCHAR}
+      </if>
+      <if test="pushStatus != null and pushStatus !=''" >
+        and pushStatus = #{pushStatus,jdbcType=VARCHAR}
       </if>
   	</where>
   </select>
@@ -830,7 +859,9 @@
      	#{item.ncId,jdbcType=VARCHAR},
      	#{item.validStatus,jdbcType=VARCHAR},
      	#{item.validError,jdbcType=VARCHAR},
-     	#{item.ncAuditStatus,jdbcType=VARCHAR}
+     	#{item.ncAuditStatus,jdbcType=VARCHAR},
+     	#{item.ncStatus,jdbcType=VARCHAR},
+     	#{item.pushStatus,jdbcType=VARCHAR}
 		)
 	</foreach>
   </insert>

@@ -33,6 +33,8 @@ public class SalesApplicationDetail {
     private Double taxrate;
     //备注
     private String remarks;
+    //nc审核状态（1=自由,2=审批通过,3=冻结,4=关闭,5=失败,7=审批中,8=审批不通过,9=删除）
+    private String ncStatus;
     //NC子表ID
     private String ncId;
 	public String getId() {
@@ -130,6 +132,12 @@ public class SalesApplicationDetail {
 	}
 	public void setRemarks(String remarks) {
 		this.remarks = remarks;
+	}	
+	public String getNcStatus() {
+		return ncStatus;
+	}
+	public void setNcStatus(String ncStatus) {
+		this.ncStatus = ncStatus;
 	}
 	public String getNcId() {
 		return ncId;
