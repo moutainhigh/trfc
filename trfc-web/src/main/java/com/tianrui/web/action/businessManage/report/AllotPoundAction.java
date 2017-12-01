@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.tianrui.api.intf.businessManage.report.IInPoundService;
 import com.tianrui.api.req.businessManage.report.InOutDaoPoundQuery;
@@ -33,7 +34,11 @@ public class AllotPoundAction {
 	private Logger log = LoggerFactory.getLogger(AllotPoundAction.class);
 	@Resource
 	private IInPoundService allotPoundService;
-	
+	@RequestMapping("/main")
+	public ModelAndView main(){
+	    ModelAndView view = new ModelAndView("businessManage/Report/ReportAllocting");
+	    return view;
+	}
 	/**
 	 * 调拨逐车明细分页展示
 	 * @param req
