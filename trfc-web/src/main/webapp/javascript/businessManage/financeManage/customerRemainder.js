@@ -163,10 +163,10 @@
 			var begin=$(this).closest('tr').data();
 //			console.log(begin);
 			var createtime=begin.createtime;
-			createtimeformat=new Date(createtime).format('yyyy-MM-dd hh:mm:ss');
+			createtimeformat=new Date(createtime).format('yyyy-MM-dd HH:mm:ss');
 			$('#detail_orgId').val(begin.orgId);
 			$('#detail_orgName').val(begin.orgName);
-			$('#detail_date').val(createtimeformat.substring(0,10));
+			$('#detail_date').val(createtimeformat);
 			$('#detail_customerId').val(begin.customerId);
 			$('#detail_customerName').val(begin.customerName);
 			$('#detail_nlimitmny').val(begin.nlimitmny);
@@ -266,7 +266,6 @@
 	
 	
 	function queryData(pageNo){
-		debugger
 		var index = layer.load(2, {
 			shade: [0.3,'#fff'] //0.1透明度的白色背景
 		});
@@ -329,11 +328,11 @@
 					   creator 创建人   createtime 创建时间
 					 */
 					var createtime=begin.createtime;
-					createtimeformat=new Date(createtime).format('yyyy-MM-dd hh:mm:ss');
+					createtimeformat=new Date(createtime).format('yyyy-MM-dd HH:mm:ss');
 					var tr=$('<tr><td>'+((pageNo-1)*pageSize+i+1)+'</td><td>'+begin.orgId+'</td><td>'+begin.orgName+'</td><td>'+
 							begin.customerId+'</td><td>'+begin.customerName+'</td><td>'+begin.nlimitmny+'</td><td>'+
-							begin.nengrossmny+'</td><td>'+begin.nbalancemny+'</td><td>'+begin.corigcurrencyid+'</td><td>'+
-							begin.creator+'</td><td>'+createtimeformat.substring(0,10)+'</td><td>'+begin.remark+'</td>'     
+							begin.nengrossmny+'</td><td>'+begin.nbalancemny+'</td><td>'+begin.corigcurrencyid+
+							'</td><td>'+createtimeformat+'</td>'     
 					);
 					tbody.append(tr);
 					

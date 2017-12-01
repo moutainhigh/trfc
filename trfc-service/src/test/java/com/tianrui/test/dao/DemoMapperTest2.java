@@ -21,7 +21,7 @@ public class DemoMapperTest2 {
 	@Test
 	public void hasPurchaseArriveTest() throws Exception{
 
-		salesArriveMapper.hasPurchaseArrive("豫D55555");
+		//salesArriveMapper.hasPurchaseArrive("豫D55555");
 	}
 	
 }
