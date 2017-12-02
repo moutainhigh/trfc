@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import com.tianrui.api.intf.businessManage.report.IInPoundService;
+import com.tianrui.api.intf.businessManage.report.IOutPoundService;
 import com.tianrui.api.req.businessManage.report.InOutDaoPoundQuery;
 import com.tianrui.api.resp.businessManage.report.InOutDaoPoundResp;
 import com.tianrui.api.resp.system.auth.SystemUserResp;
@@ -28,7 +29,7 @@ import com.tianrui.web.util.SessionManager;
 public class OutPoundAction {
 	private Logger log = LoggerFactory.getLogger(OutPoundAction.class);
 	@Resource
-	private IInPoundService outPoundService;
+	private IOutPoundService outPoundService;
 	
 	/**
 	 * 其他出库逐车明细分页展示
@@ -49,6 +50,7 @@ public class OutPoundAction {
 			req.setCurrUid(user.getId());
 			PaginationVO<InOutDaoPoundResp> page = outPoundService.page(req);
 			result.setData(page);
+			result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
@@ -74,6 +76,7 @@ public class OutPoundAction {
 			List<InOutDaoPoundResp> list = outPoundService.list(req);
 			
 			result.setData(list);
+			result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 			result.setErrorCode(ErrorCode.SYSTEM_ERROR);

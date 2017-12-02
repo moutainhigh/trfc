@@ -10,7 +10,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;
 
-import com.tianrui.api.intf.businessManage.report.IInPoundService;
+import com.tianrui.api.intf.businessManage.report.IOutPoundService;
 import com.tianrui.api.req.businessManage.report.InOutDaoPoundQuery;
 import com.tianrui.api.resp.businessManage.report.InOutDaoPoundResp;
 import com.tianrui.service.bean.businessManage.report.InOutDaoPound;
@@ -18,7 +18,7 @@ import com.tianrui.service.mapper.businessManage.report.InOutDaoPoundMapper;
 import com.tianrui.smartfactory.common.utils.DateUtil;
 import com.tianrui.smartfactory.common.vo.PaginationVO;
 @Service
-public class OutPoundService implements IInPoundService{
+public class OutPoundService implements IOutPoundService{
 
 	@Resource
 	private InOutDaoPoundMapper inOutDaoPoundMapper;

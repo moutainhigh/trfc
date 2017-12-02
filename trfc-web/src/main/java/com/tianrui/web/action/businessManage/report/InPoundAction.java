@@ -58,6 +58,7 @@ public class InPoundAction {
 			req.setCurrUid(user.getId());
 			PaginationVO<InOutDaoPoundResp> page = inPoundService.page(req);
 			result.setData(page);
+			result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
@@ -79,6 +80,7 @@ public class InPoundAction {
 			List<InOutDaoPoundResp> list = inPoundService.list(req);
 			
 			result.setData(list);
+			result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 			result.setErrorCode(ErrorCode.SYSTEM_ERROR);

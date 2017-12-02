@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.tianrui.api.intf.businessManage.report.IInPoundService;
+import com.tianrui.api.intf.businessManage.report.ISalesPoundService;
 import com.tianrui.api.req.businessManage.report.InOutDaoPoundQuery;
 import com.tianrui.api.resp.businessManage.report.InOutDaoPoundResp;
 import com.tianrui.api.resp.system.auth.SystemUserResp;
@@ -31,7 +32,7 @@ import com.tianrui.web.util.SessionManager;
 public class SalesPoundAction {
 	private Logger log = LoggerFactory.getLogger(SalesPoundAction.class);
 	@Resource
-	private IInPoundService salesPoundService;
+	private ISalesPoundService salesPoundService;
 	
 	@RequestMapping("/main")
 	public ModelAndView main(){
@@ -55,6 +56,7 @@ public class SalesPoundAction {
 				req = new InOutDaoPoundQuery();
 			}
 			req.setCurrUid(user.getId());
+			result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
 			PaginationVO<InOutDaoPoundResp> page = salesPoundService.page(req);
 			result.setData(page);
 		} catch (Exception e) {

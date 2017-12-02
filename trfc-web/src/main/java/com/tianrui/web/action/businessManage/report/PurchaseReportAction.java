@@ -59,6 +59,7 @@ public class PurchaseReportAction {
 			req.setCurrUid(user.getId());
 			PaginationVO<ReportPurchaseResp> page = purchaseReportService.page(req);
 			result.setData(page);
+			result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
@@ -77,7 +78,7 @@ public class PurchaseReportAction {
 			}
 			req.setCurrUid(user.getId());
 			List<ReportPurchaseResp> list = purchaseReportService.list(req);
-			
+			result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
 			result.setData(list);
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);

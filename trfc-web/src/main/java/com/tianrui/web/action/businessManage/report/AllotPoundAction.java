@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.tianrui.api.intf.businessManage.report.IAllotPoundService;
 import com.tianrui.api.intf.businessManage.report.IInPoundService;
 import com.tianrui.api.req.businessManage.report.InOutDaoPoundQuery;
 import com.tianrui.api.resp.businessManage.report.InOutDaoPoundResp;
@@ -32,7 +33,7 @@ import com.tianrui.web.util.SessionManager;
 public class AllotPoundAction {
 	private Logger log = LoggerFactory.getLogger(AllotPoundAction.class);
 	@Resource
-	private IInPoundService allotPoundService;
+	private IAllotPoundService allotPoundService;
 	
 	@RequestMapping("/main")
 	public ModelAndView main(){
@@ -57,6 +58,7 @@ public class AllotPoundAction {
 			req.setCurrUid(user.getId());
 			PaginationVO<InOutDaoPoundResp> page = allotPoundService.page(req);
 			result.setData(page);
+			result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
@@ -79,6 +81,7 @@ public class AllotPoundAction {
 			req.setCurrUid(user.getId());
 			List<InOutDaoPoundResp> list = allotPoundService.list(req);
 			result.setData(list);
+			result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
 		} catch (Exception e) {
 			// TODO: handle exception
 			log.error(e.getMessage(), e);

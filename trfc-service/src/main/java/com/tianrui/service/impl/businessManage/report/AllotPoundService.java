@@ -10,7 +10,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;
 
-import com.tianrui.api.intf.businessManage.report.IInPoundService;
+import com.tianrui.api.intf.businessManage.report.IAllotPoundService;
 import com.tianrui.api.req.businessManage.report.InOutDaoPoundQuery;
 import com.tianrui.api.resp.businessManage.report.InOutDaoPoundResp;
 import com.tianrui.service.bean.businessManage.report.InOutDaoPound;
@@ -24,7 +24,7 @@ import com.tianrui.smartfactory.common.vo.PaginationVO;
  *
  */
 @Service
-public class AllotPoundService implements IInPoundService{
+public class AllotPoundService implements IAllotPoundService{
 	@Resource
 	private InOutDaoPoundMapper inOutDaoPoundMapper;
 	
