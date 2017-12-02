@@ -1966,6 +1966,9 @@
 			t1.grossweight,
 			t1.tareweight,
 			t1.netweight,
+			CASE
+			WHEN t1.lighttime IS NOT NULL
+			AND t1.weighttime IS NOT NULL THEN
 			IF (
 				t1.lighttime > t1.weighttime,
 				FROM_UNIXTIME(
@@ -1976,7 +1979,20 @@
 					t1.weighttime / 1000,
 					"%Y-%m-%d %H:%i:%s"
 				)
-			) AS time,
+			)
+			WHEN t1.lighttime IS NOT NULL THEN
+				FROM_UNIXTIME(
+					t1.lighttime / 1000,
+					"%Y-%m-%d %H:%i:%s"
+				)
+			WHEN t1.weighttime IS NOT NULL THEN
+				FROM_UNIXTIME(
+					t1.weighttime / 1000,
+					"%Y-%m-%d %H:%i:%s"
+				)
+			ELSE
+				''
+			END AS time,
 			t2.unit,
 			t1.noticecode AS noticeCode
 		FROM
@@ -2101,6 +2117,9 @@
 			t1.grossweight,
 			t1.tareweight,
 			t1.netweight,
+			CASE
+			WHEN t1.lighttime IS NOT NULL
+			AND t1.weighttime IS NOT NULL THEN
 			IF (
 				t1.lighttime > t1.weighttime,
 				FROM_UNIXTIME(
@@ -2111,7 +2130,20 @@
 					t1.weighttime / 1000,
 					"%Y-%m-%d %H:%i:%s"
 				)
-			) AS time,
+			)
+			WHEN t1.lighttime IS NOT NULL THEN
+				FROM_UNIXTIME(
+					t1.lighttime / 1000,
+					"%Y-%m-%d %H:%i:%s"
+				)
+			WHEN t1.weighttime IS NOT NULL THEN
+				FROM_UNIXTIME(
+					t1.weighttime / 1000,
+					"%Y-%m-%d %H:%i:%s"
+				)
+			ELSE
+				''
+			END AS time,
 			t2.unit,
 			t1.noticecode AS noticeCode
 		FROM

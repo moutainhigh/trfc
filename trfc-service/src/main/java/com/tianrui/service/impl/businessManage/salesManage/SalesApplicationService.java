@@ -1016,6 +1016,7 @@ public class SalesApplicationService implements ISalesApplicationService {
 				sa.setAudittime(req.getAudittime());
 				salesApplicationMapper.updateByPrimaryKeySelective(sa);
 				sad.setNcId(req.getDetailNcId());
+				sad.setPretendingtake(sad.getSalessum());
 				salesApplicationDetailMapper.updateByPrimaryKeySelective(sad);
 				result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
 				//一单一车
@@ -1045,7 +1046,7 @@ public class SalesApplicationService implements ISalesApplicationService {
 		SalesArrive bean = new SalesArrive();
 		bean.setId(UUIDUtil.getId());
 		bean.setCode(getCode("TH", sa.getMakerid()));
-		bean.setAuditstatus(Constant.ZERO_STRING);
+		bean.setAuditstatus(Constant.ONE_STRING);
 		bean.setSource(Constant.TWO_STRING);
 		bean.setStatus(Constant.ZERO_STRING);
 		bean.setVehicleid(vehicle.getId());

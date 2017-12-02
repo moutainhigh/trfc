@@ -230,6 +230,7 @@ public class TaskJobService {
 		bean.setStatus(Constant.ONE_STRING);
 		bean.setBilltypeid(Constant.ZERO_STRING);
 		bean.setValidStatus(Constant.ZERO_STRING);
+		bean.setNcStatus(Constant.TWO_STRING);
 		List<SalesApplication> list = salesApplicationMapper.selectSelective(bean);
 		if (CollectionUtils.isNotEmpty(list)) {
 			for (SalesApplication sa : list) {
@@ -285,7 +286,7 @@ public class TaskJobService {
 		SalesArrive bean = new SalesArrive();
 		bean.setId(UUIDUtil.getId());
 		bean.setCode(getCode("TH", sa.getMakerid(), true));
-		bean.setAuditstatus(Constant.ZERO_STRING);
+		bean.setAuditstatus(Constant.ONE_STRING);
 		bean.setSource(Constant.TWO_STRING);
 		bean.setStatus(Constant.ZERO_STRING);
 		bean.setVehicleid(vehicle.getId());
@@ -317,6 +318,9 @@ public class TaskJobService {
 		join.setNumber(sad.getSalessum());
 		join.setSequence(1);
 		salesApplicationArriveMapper.insertSelective(join);
+		sad.setMargin(0D);
+		sad.setPretendingtake(sad.getSalessum());
+		salesApplicationDetailMapper.updateByPrimaryKeySelective(sad);
 	}
 
 	private boolean validVehicle(VehicleManage vehicle) {

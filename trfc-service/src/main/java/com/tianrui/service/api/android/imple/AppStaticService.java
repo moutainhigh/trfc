@@ -703,6 +703,7 @@ public class AppStaticService implements IAppStaticService {
 		updateCode("DH", param.getUserId());
 		saveUserVehicle(user.getId(), vehicle.getId());
 		result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+		purchaseArriveMapper.emptyForceOutFactoryByVehicle(param.getVehicle());
 		return result;
 	}
 	//熟车记录更新次数
@@ -943,6 +944,7 @@ public class AppStaticService implements IAppStaticService {
 									bean.setVehicleno(vehicle.getVehicleno());
 									bean.setVehiclerfid(vehicle.getRfid());
 									saveUserVehicle(user.getId(), vehicle.getId());
+									purchaseArriveMapper.emptyForceOutFactoryByVehicle(param.getVehicle());
 									flag = true;
 								}
 							}

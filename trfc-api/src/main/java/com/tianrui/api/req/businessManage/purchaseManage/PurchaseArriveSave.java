@@ -340,5 +340,4 @@ public class PurchaseArriveSave extends BaseReq {
     public static long getSerialversionuid() {
         return serialVersionUID;
     }
-    
 }

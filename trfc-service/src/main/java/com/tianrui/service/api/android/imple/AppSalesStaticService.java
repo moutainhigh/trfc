@@ -607,6 +607,7 @@ public class AppSalesStaticService implements IAppSalesStaticService {
 		salesApplicationDetailMapper.updateByPrimaryKeySelective(sad);
 		updateCode("TH", param.getUserId());
 		saveUserVehicle(user.getId(), vehicle.getId());
+		salesArriveMapper.emptyForceOutFactoryByVehicle(param.getVehicle());
 		result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
 		return result;
 	}
@@ -874,6 +875,7 @@ public class AppSalesStaticService implements IAppSalesStaticService {
 			sad.setPretendingtake(sad.getPretendingtake() + subNum);
 			salesApplicationDetailMapper.updateByPrimaryKeySelective(sad);
 		}
+		salesArriveMapper.emptyForceOutFactoryByVehicle(param.getVehicle());
 		result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
 		return result;
 	}
@@ -1000,6 +1002,7 @@ public class AppSalesStaticService implements IAppSalesStaticService {
 								bean.setVehicleno(vehicle.getVehicleno());
 								bean.setVehiclerfid(vehicle.getRfid());
 								saveUserVehicle(user.getId(), vehicle.getId());
+								salesArriveMapper.emptyForceOutFactoryByVehicle(param.getVehicle());
 								flag = true;
 							}
 						}
