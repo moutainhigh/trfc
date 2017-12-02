@@ -42,6 +42,8 @@ public class SalesApplicationDetailResp extends BaseResp {
     //为出库占用 预提占用 余量
     //NC子表ID
     private String ncId;
+    //nc审核状态（1=自由,2=审批通过,3=冻结,4=关闭,5=失败,7=审批中,8=审批不通过,9=删除）
+    private String ncStatus;
     
     public String getId() {
         return id;
@@ -207,4 +209,11 @@ public class SalesApplicationDetailResp extends BaseResp {
 		return serialVersionUID;
 	}
 
+	public String getNcStatus() {
+		return ncStatus;
+	}
+
+	public void setNcStatus(String ncStatus) {
+		this.ncStatus = ncStatus;
+	}	
 }

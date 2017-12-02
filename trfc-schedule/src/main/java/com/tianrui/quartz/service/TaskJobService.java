@@ -132,7 +132,7 @@ public class TaskJobService {
 				if (StringUtils.equals(apiResult.getCode(), ErrorCode.SYSTEM_SUCCESS.getCode())) {
 					SalesApplication bill = new SalesApplication();
 					bill.setSource(Constant.ZERO_STRING);
-					bill.setNcAuditStatus(Constant.ONE_STRING);
+					bill.setPushStatus(Constant.ONE_STRING);
 					for(String billId : billIds){
 						bill.setId(billId);
 						salesApplicationMapper.updateByPrimaryKeySelective(bill);

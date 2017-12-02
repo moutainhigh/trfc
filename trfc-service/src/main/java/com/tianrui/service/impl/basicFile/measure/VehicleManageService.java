@@ -237,7 +237,17 @@ public class VehicleManageService implements IVehicleManageService {
 
 	@Override
 	public List<VehicleManageResp> autoCompleteSearch(String isCutover, String likeName, String isBlack) throws Exception {
-		return copyBeanList2RespList(vehicleManageMapper.autoCompleteSearch(isCutover, likeName, isBlack));
+		List<VehicleManage> list = vehicleManageMapper.autoCompleteSearch(isCutover, likeName, isBlack);
+		if (CollectionUtils.isNotEmpty(list)) {
+			List<VehicleManageResp> respList = new ArrayList<VehicleManageResp>();
+			for (VehicleManage vehicle : list) {
+				VehicleManageResp resp = new VehicleManageResp();
+				PropertyUtils.copyProperties(resp, vehicle);
+				respList.add(resp);
+			}
+			return respList;
+		}
+		return null;
 	}
 
 	private List<VehicleManageResp> copyBeanList2RespList(List<VehicleManage> list) throws Exception {

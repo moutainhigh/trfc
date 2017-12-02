@@ -18,10 +18,11 @@
     <result column="untaxprice" property="untaxprice" jdbcType="DOUBLE" />
     <result column="taxrate" property="taxrate" jdbcType="DOUBLE" />
     <result column="remarks" property="remarks" jdbcType="VARCHAR" />
+    <result column="ncStatus" property="ncStatus" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, salesid, materielid, materielname, warehouseid, warehousename, unit, salessum, 
-    margin, storagequantity, unstoragequantity, pretendingtake, taxprice, untaxprice, taxrate, remarks
+    margin, storagequantity, unstoragequantity, pretendingtake, taxprice, untaxprice, taxrate, remarks, ncStatus
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
@@ -37,20 +38,20 @@
     insert into tr_sales_db_application_detail (id, salesid, materielid, 
       materielname, warehouseid, warehousename, unit, 
       salessum, margin, storagequantity, unstoragequantity, pretendingtake, 
-      taxprice, untaxprice, taxrate, remarks)
+      taxprice, untaxprice, taxrate, remarks, ncStatus)
     values (#{id,jdbcType=VARCHAR}, #{salesid,jdbcType=VARCHAR}, #{materielid,jdbcType=VARCHAR}, 
       #{materielname,jdbcType=VARCHAR}, #{warehouseid,jdbcType=VARCHAR}, #{warehousename,jdbcType=VARCHAR}, 
       #{unit,jdbcType=VARCHAR}, #{salessum,jdbcType=DOUBLE}, #{margin,jdbcType=DOUBLE}, #{storagequantity,jdbcType=DOUBLE}, 
       #{unstoragequantity,jdbcType=DOUBLE}, #{pretendingtake,jdbcType=DOUBLE}, 
       #{taxprice,jdbcType=DOUBLE}, #{untaxprice,jdbcType=DOUBLE}, 
-      #{taxrate,jdbcType=DOUBLE}, #{remarks,jdbcType=VARCHAR})
+      #{taxrate,jdbcType=DOUBLE}, #{remarks,jdbcType=VARCHAR}, #{ncStatus,jdbcType=VARCHAR})
   </insert>
   <insert id="insertBatch"  parameterType="java.util.List" >
     insert into tr_sales_db_application_detail (
       id, salesid, materielid, 
       materielname, warehouseid, warehousename, unit, 
       salessum, margin, storagequantity, unstoragequantity, pretendingtake, 
-      taxprice, untaxprice, taxrate, remarks)
+      taxprice, untaxprice, taxrate, remarks, ncStatus)
        values
       <foreach collection="list" item="item" index="index" separator=",">
     (#{item.id,jdbcType=VARCHAR}, #{item.salesid,jdbcType=VARCHAR}, #{item.materielid,jdbcType=VARCHAR}, 
@@ -58,7 +59,7 @@
       #{item.unit,jdbcType=VARCHAR}, #{item.salessum,jdbcType=DOUBLE}, #{item.margin,jdbcType=DOUBLE}, #{item.storagequantity,jdbcType=DOUBLE}, 
       #{item.unstoragequantity,jdbcType=DOUBLE}, #{item.pretendingtake,jdbcType=DOUBLE}, 
       #{item.taxprice,jdbcType=DOUBLE}, #{item.untaxprice,jdbcType=DOUBLE}, 
-      #{item.taxrate,jdbcType=DOUBLE}, #{item.remarks,jdbcType=VARCHAR})
+      #{item.taxrate,jdbcType=DOUBLE}, #{item.remarks,jdbcType=VARCHAR}, #{item.ncStatus,jdbcType=VARCHAR})
       </foreach>
   </insert>
   <insert id="insertSelective" parameterType="com.tianrui.service.bean.businessManage.salesManage.SalesApplicationDetail" >
@@ -162,6 +163,9 @@
       <if test="remarks != null" >
         #{remarks,jdbcType=VARCHAR},
       </if>
+      <if test="ncStatus != null" >
+        #{ncStatus,jdbcType=VARCHAR},
+      </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.tianrui.service.bean.businessManage.salesManage.SalesApplicationDetail" >
@@ -212,6 +216,9 @@
       <if test="remarks != null" >
         remarks = #{remarks,jdbcType=VARCHAR},
       </if>
+      <if test="ncStatus != null" >
+        ncStatus = #{ncStatus,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
@@ -231,7 +238,8 @@
       taxprice = #{taxprice,jdbcType=DOUBLE},
       untaxprice = #{untaxprice,jdbcType=DOUBLE},
       taxrate = #{taxrate,jdbcType=DOUBLE},
-      remarks = #{remarks,jdbcType=VARCHAR}
+      remarks = #{remarks,jdbcType=VARCHAR},
+      ncStatus = #{ncStatus,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
   <select id="selectBySalesId" resultMap="BaseResultMap" parameterType="java.lang.String">

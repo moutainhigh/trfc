@@ -1,12 +1,10 @@
 package com.tianrui.web.action.businessManage.salesManage;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,15 +14,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.tianrui.api.intf.businessManage.salesManage.ISalesApplicationService;
-import com.tianrui.api.intf.common.IBillTypeService;
 import com.tianrui.api.intf.system.base.ISystemCodeService;
 import com.tianrui.api.req.businessManage.salesManage.SalesApplicationQuery;
 import com.tianrui.api.req.businessManage.salesManage.SalesApplicationSave;
-import com.tianrui.api.req.common.BillTypeQuery;
 import com.tianrui.api.req.system.base.GetCodeReq;
 import com.tianrui.api.resp.businessManage.salesManage.SalesApplicationJoinDetailResp;
 import com.tianrui.api.resp.businessManage.salesManage.SalesApplicationResp;
-import com.tianrui.api.resp.common.BillTypeResp;
 import com.tianrui.api.resp.system.auth.SystemUserResp;
 import com.tianrui.smartfactory.common.constants.Constant;
 import com.tianrui.smartfactory.common.constants.ErrorCode;
@@ -47,20 +42,12 @@ public class SalesApplicationAction {
 	private ISalesApplicationService salesApplicationService;
 	@Autowired
 	private ISystemCodeService systemCodeService;
-	@Autowired
-	private IBillTypeService billTypeService;
 	
 	@RequestMapping("/main")
 	public ModelAndView main(HttpServletRequest request){
 		ModelAndView view = new ModelAndView("businessManage/salesManage/salesApplication");
-		try {
-			SystemUserResp user = SessionManager.getSessionUser(request);
-			view.addObject("user", user);
-			view.addObject("orgid", Constant.ORG_ID);
-			view.addObject("orgname", Constant.ORG_NAME);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		view.addObject("orgId", Constant.ORG_ID);
+		view.addObject("orgName", Constant.ORG_NAME);
 		return view;
 	}
 	
@@ -94,7 +81,7 @@ public class SalesApplicationAction {
 	
 	@RequestMapping("/initAdd")
 	@ResponseBody
-	public Result initAdd(SalesApplicationSave save, HttpServletRequest request){
+	public Result initAdd(HttpServletRequest request){
 		Result result = Result.getSuccessResult();
 		try {
 			Map<String, Object> map = new HashMap<String, Object>();
@@ -104,16 +91,7 @@ public class SalesApplicationAction {
 			codeReq.setCodeType(true);
 			codeReq.setUserid(user.getId());
 			map.put("code", systemCodeService.getCode(codeReq).getData());
-			BillTypeQuery query = new BillTypeQuery();
-			query.setType("1");
-			query.setDefaultshow("1");
-			List<BillTypeResp> list = billTypeService.findListByParmas(query);
-			if(CollectionUtils.isNotEmpty(list)){
-				map.put("initBillType", list.get(0));
-			}else{
-				map.put("initBillType", new BillTypeResp());
-			}
-			map.put("nowDate", DateUtil.getNowDateString("yyyy-MM-dd HH:mm:ss"));
+			map.put("nowDate", DateUtil.getNowDateString(DateUtil.Y_M_D_H_M_S));
 			result.setData(map);
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
@@ -128,8 +106,8 @@ public class SalesApplicationAction {
 		Result result = Result.getSuccessResult();
 		try {
 			SystemUserResp user = SessionManager.getSessionUser(request);
-			save.setMakerid(user.getId());
-			save.setMakebillname(user.getName());
+			save.setUserId(user.getId());
+			save.setUserName(user.getName());
 			result = salesApplicationService.add(save);
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
@@ -144,7 +122,8 @@ public class SalesApplicationAction {
 		Result result = Result.getSuccessResult();
 		try {
 			SystemUserResp user = SessionManager.getSessionUser(request);
-			save.setCurrid(user.getId());
+			save.setUserId(user.getId());
+			save.setUserName(user.getName());
 			result = salesApplicationService.update(save);
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
