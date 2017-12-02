@@ -154,7 +154,7 @@ public class ApiSaleApplicationAction {
 	}
 
 //	/**
-//	 * 自制订单审批回写
+//	 * 
 //	 * @param req
 //	 * @return
 //	 */
