@@ -5,49 +5,179 @@
 			materUrl:"/trfc/purchaseReport/materPage",			//物料统计
 			customUrl:"/trfc/purchaseReport/customPage",		//单位统计
 			receiveUrl:"/trfc/purchaseReport/receivePage",    //收料统计
+			commonListUrl:"/trfc/purchaseReport/commonList",
+			customListUrl:"/trfc/purchaseReport/customList",
+			receiveListUrl:"/trfc/purchaseReport/receiveList",    //收料统计
+			materListUrl:"/trfc/purchaseReport/materList",			//物料统计
 //			autoCompleteSearch: "/trfc/supplier/autoCompleteSearch"
 	};
 	init();
 	function init(){
 		bindEvent();
 		queryData();
-	/*	$(".wuliao_tabcont").hide();
-		$(".hide_thing").show();*/
+		$(".wuliao_tabcont").hide();
+		$(".hide_thing").show();
 	}
 	$('#thing').off('click').on('click',function(){
 		$('input#jumpPageNo').val('');
-		/*$(".wuliao_tabcont").hide();
-		$(".hide_thing").show();*/
+		$(".wuliao_tabcont").hide();
+		$(".hide_thing").show();
 		queryData4(1);
+		materList();
 	});
 	$('#receive').off('click').on('click',function(){
 		$('input#jumpPageNo').val('');
-		/*$(".wuliao_tabcont").hide();
-		$(".hide_receive").show();*/
+		$(".wuliao_tabcont").hide();
+		$(".hide_receive").show();
 		queryData3(1);
+		receiveList();
 	});
 	$('#unit').off('click').on('click',function(){
 		$('input#jumpPageNo').val('');
-		/*$(".wuliao_tabcont").hide();
-		$(".hide_unit").show();*/
+	    $(".wuliao_tabcont").hide();
+		$(".hide_unit").show();
 		queryData2(1);
+		customList();
 	});
 	$('#buyCar').off('click').on('click',function(){
 		$('input#jumpPageNo').val('');
-		/*$(".wuliao_tabcont").hide();
-		$(".hide_buyCar").show();*/
+		$(".wuliao_tabcont").hide();
+		$(".hide_buyCar").show();
 		queryData(1);
-	});
-	
+		commonList();
+	});	
+
 //	// 物料的四个tab切换菜单
 	var wl_li = $('.wuliao_tab ul li');
 	wl_li.click(function () {
 	    $(this).addClass('select').siblings().removeClass('select');
 	    var index = wl_li.index(this);
-	    $('.wuliao_tabbox > .wuliao_tabcont').eq(index).show().siblings().hide();
+//	    $('.wuliao_tabbox > .wuliao_tabcont').eq(index).show().siblings().hide();
 	});
-	
-	
+//	采购逐车
+	function commonList(){
+		 $.ajax({
+	            url:URL.commonListUrl,
+	            async:true,
+	            cache:false,
+	            dataType:'json',
+	            type:'post',
+	            success:function(result){
+	                if(result.code == '000000'){
+	                console.log(result.data)           	
+	                	$('#RMgA').empty();
+	        	        var list = result.data;
+	        	            for(var i=0;i<list.length;i++){
+	        	            	$('<tr>').append('<td>'+(list[i].poundcode||"")+'</td>')
+	        					.append('<td>'+(list[i].billcode||"")+'</td>')
+	        					.append('<td>'+(list[i].suppliername||"")+'</td>')
+	        					.append('<td>'+(list[i].minemouthname||"")+'</td>')
+	        					.append('<td>'+(list[i].yardname||"")+'</td>')
+	        					.append('<td>'+(list[i].materialname||"")+'</td>')
+	        					.append('<td>'+(list[i].vehicleid||"")+'</td>')
+	        					.append('<td>'+(list[i].originalnetweight||"")+'</td>')
+	        					.append('<td>'+(list[i].grossweight||"")+'</td>')
+	        					.append('<td>'+(list[i].tareweight||"")+'</td>')
+	        					.append('<td>'+(list[i].netweight||"")+'</td>')
+	        					.append('<td>'+(list[i].lighttime||"")+'</td>')
+	        					.append('<td>'+(list[i].weighttime||"")+'</td>')
+	        					.append('<td>'+(list[i].remark||"")+'</td>')
+	        	                .appendTo('#RMgA');
+	        	            }       	
+	                }
+	            }
+	        });
+	}
+//	单位统计
+	function customList(){
+		 $.ajax({
+	            url:URL.customListUrl,
+	            async:true,
+	            cache:false,
+	            dataType:'json',
+	            type:'post',
+	            success:function(result){
+	                if(result.code == '000000'){
+	                	console.log(2)
+	                console.log(result.data)           	
+	                	$('#RMgB').empty();
+	        	        var list = result.data;
+	        	            for(var i=0;i<list.length;i++){
+	        	            	$('<tr>').append('<td>'+(list[i].suppliername||"")+'</td>')
+								.append('<td>'+(list[i].minemouthname||"")+'</td>')
+								.append('<td>'+(list[i].cargo||"")+'</td>')
+								.append('<td>'+(list[i].countVehicleNo||"")+'</td>')
+								.append('<td>'+(list[i].sumGrossweight||"")+'</td>')
+								.append('<td>'+(list[i].sumTareweight||"")+'</td>')
+								.append('<td>'+(list[i].sumNetweight||"")+'</td>')
+	        	                .appendTo('#RMgB');
+	        	            }       	
+	                }
+	            }
+	        });
+	}
+//	收料统计
+	function receiveList(){
+		 $.ajax({
+	            url:URL.receiveListUrl,
+	            async:true,
+	            cache:false,
+	            dataType:'json',
+	            type:'post',
+	            success:function(result){
+	                if(result.code == '000000'){
+	                	console.log(2)
+	                console.log(result.data)           	
+	                	$('#RMgC').empty();
+	        	        var list = result.data;
+	        	            for(var i=0;i<list.length;i++){
+	        	            	$('<tr>').append('<td>'+(list[i].poundcode||"")+'</td>')
+	    						.append('<td>'+(list[i].suppliername||"")+'</td>')
+	    						.append('<td>'+(list[i].materialname||"")+'</td>')
+	    						.append('<td>'+(list[i].vehicleno||"")+'</td>')
+	    						.append('<td>'+(list[i].minemouthname||"")+'</td>')
+	    						.append('<td>'+(list[i].yardname||"")+'</td>')
+	    						.append('<td>'+(list[i].signpersonname||"")+'</td>')
+	    						.append('<td>'+(new Date(list[i].signtime).format("yyyy-MM-dd HH:mm:ss")||"")+'</td>')
+	    						.append('<td>'+(list[i].originalnetweight||"")+'</td>')
+	    						.append('<td>'+(list[i].netweight||"")+'</td>')
+	    						.append('<td>'+(new Date(list[i].weighttime||"").format("yyyy-MM-dd HH:mm:ss"))+'</td>')
+	    						.append('<td>'+(list[i].remark||"")+'</td>')
+	        	                .appendTo('#RMgC');
+	        	            }       	
+	                }
+	            }
+	        });
+	}
+//	物料统计
+	function materList(){
+		 $.ajax({
+	            url:URL.materListUrl,
+	            async:true,
+	            cache:false,
+	            dataType:'json',
+	            type:'post',
+	            success:function(result){
+	                if(result.code == '000000'){
+	                	console.log(2)
+	                console.log(result.data)           	
+	                	$('#RMgC').empty();
+	        	        var list = result.data;
+	        	            for(var i=0;i<list.length;i++){
+	        	            	$('<tr>').append('<td>'+(list[i].suppliername||"")+'</td>')
+	    						.append('<td>'+(list[i].cargo||"")+'</td>')
+	    						.append('<td>'+(list[i].countVehicleNo||"")+'</td>')
+	    						.append('<td>'+(list[i].sumOriginalnetweight||"")+'</td>')
+	    						.append('<td>'+(list[i].sumGrossweight||"")+'</td>')
+	    						.append('<td>'+(list[i].sumTareweight||"")+'</td>')
+	    						.append('<td>'+(list[i].sumNetweight||"")+'</td>')
+	    						.append('<td>'+(list[i].remark||"")+'</td>')
+	        	                .appendTo('#RMgD');
+	        	            }       	
+	                }
+	            }
+	        });
+	}
 	$('#searchBtn').off('click').on('click',function(){
 		if(queryData){
 			queryData(1);
@@ -213,8 +343,8 @@
 							.append('<td>'+(list[i].remark||"")+'</td>')
 							.appendTo('#RMg1');
 				}
-			}else if(list.length<=0){
-				layer.msg('暂无数据');
+			}else{
+//				layer.msg('暂无数据');
 //				$('#dataMore').hide();
 			}
 		}
@@ -277,8 +407,8 @@
 							.append('<td>'+(list[i].sumNetweight||"")+'</td>')
 							.appendTo('#RMg2');
 				}
-			}else if(list.length<=0){
-				layer.msg('暂无数据');
+			}else{
+//				layer.msg('暂无数据');
 //				$('#dataMore').hide();
 			}
 		}
@@ -346,9 +476,9 @@
 						.append('<td>'+(list[i].remark||"")+'</td>')
 						.appendTo('#RMg3');
 			}
-		}else if(list.length<=0){
-			layer.msg('暂无数据');
-			$('#dataMore').hide();
+		}else{
+//			layer.msg('暂无数据');
+//			$('#dataMore').hide();
 		}
 	}
 
@@ -412,8 +542,8 @@
 						.append('<td>'+(list[i].remark||"")+'</td>')
 						.appendTo('#RMg4');
 			}
-		}else if(list.length<=0){
-			layer.msg('暂无数据');
+		}else{
+//			layer.msg('暂无数据');
 //			$('#dataMore').hide();
 		}
 	}

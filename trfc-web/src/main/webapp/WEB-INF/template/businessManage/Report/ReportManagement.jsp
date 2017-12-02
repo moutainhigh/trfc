@@ -129,7 +129,7 @@
                     <div class="intel_table">
                         <div class="intel_table">
                         <div style="position: absolute;left:210px;top:191px;">
-						  <div class="intel_operasolo" >
+						  <div class="intel_operasolo" onclick="method('.tableExcelA')" id="tableExcelA">
 						        <i class="iconfont" style="color: #0174c3;font-size: 25px;margin-left: 22px">&#xe63c;</i>
 						        <p>导出全部</p>
 						    </div>					
@@ -184,6 +184,39 @@
                                 <!--用户表格end-->
                             </div>
                             <!--endprint-->
+                            <!-- 全部导出模块 -->
+                            <div style="display: none;text-indent:-9999px;height: 0px !important;" class="intel_table" style="border:1px solid #dbe7f3;margin-top: 20px">
+                                <!--用户表格begin-->
+                                <table class="tableExcelA" width="100%" border="1" cellspacing="0" cellpadding="0">
+                                    <thead>
+                                    <tr>
+                                        <td colspan="14" align="center" style="color:#434e8d;font-size: 40px;line-height:normal">
+                                          	  卫辉市天瑞水泥有限公司采购物料统计                      
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th style="font-size: 20px">磅单编号</th>
+                                        <th style="font-size: 20px">通知编号</th>
+                                        <th style="font-size: 20px">供应商</th>
+                                        <th style="font-size: 20px">矿口</th>
+                                        <th style="font-size: 20px">堆场</th>
+                                        <th style="font-size: 20px">物料</th>
+                                        <th style="font-size: 20px">车号</th>
+                                        <th style="font-size: 20px">原发净重</th>
+                                        <th style="font-size: 20px">毛重</th>
+                                        <th style="font-size: 20px">皮重</th>
+                                        <th style="font-size: 20px">净重</th>
+                                        <th style="font-size: 20px">轻车时间</th>
+                                        <th style="font-size: 20px">重车时间</th>
+                                        <th style="font-size: 20px">备注</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody id="RMgA">
+                                   
+                                    </tbody>
+                                </table>
+                                <!--用户表格end-->
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -191,7 +224,7 @@
             <div class="wuliao_tabcont hide_unit hide">
                 <div class="intel_table">
                  <div style="position: absolute;left:210px;top:191px;">
-						  <div class="intel_operasolo" >
+						  <div class="intel_operasolo" onclick="method('.tableExcelB')">
 						        <i class="iconfont" style="color: #0174c3;font-size: 25px;margin-left: 22px">&#xe63c;</i>
 						        <p>导出全部</p>
 						    </div>					
@@ -239,13 +272,38 @@
                         <!--用户表格end-->
                     </div>
                     <!--endprint1-->
+                    <!--全部导出begin-->
+                            <div style="display: none;text-indent:-9999px;height: 0px !important;" class="intel_table" style="border:1px solid #dbe7f3;margin-top: 20px">
+                        <table class="tableExcelB" width="100%" border="1" cellspacing="0" cellpadding="0">
+                            <thead>
+                            <tr>
+                                <td colspan="7" align="center" style="color:#434e8d;font-size: 40px;line-height:normal">
+                                   	 卫辉市天瑞水泥有限公司采购物料统计
+                                </td>
+                            </tr>
+                            <tr>
+                                <th style="font-size: 20px">供应商</th>
+                                <th style="font-size: 20px">矿口</th>
+                                <th style="font-size: 20px">物料</th>
+                                <th style="font-size: 20px">车数</th>
+                                <th style="font-size: 20px">毛重</th>
+                                <th style="font-size: 20px">皮重</th>
+                                <th style="font-size: 20px">净重</th>
+                            </tr>
+                            </thead>
+                            <tbody id="RMgB">
+                            
+                            </tbody>
+                        </table>  
+                      </div>               
+                <!--全部导出end -->
                 </div>
             </div>
             <div class="wuliao_tabcont hide_receive hide">
                 <div class="intel_table">
                     <div class="intel_table">
                      <div style="position: absolute;left:210px;top:191px;">
-						  <div class="intel_operasolo" >
+						  <div class="intel_operasolo" onclick="method('.tableExcelC')">
 						        <i class="iconfont" style="color: #0174c3;font-size: 25px;margin-left: 22px">&#xe63c;</i>
 						        <p>导出全部</p>
 						    </div>					
@@ -299,13 +357,45 @@
                             <!--用户表格end-->
                         </div>
                         <!--endprint2-->
+                        <!-- 全部导出begin -->
+                        <div style="display: none;text-indent:-9999px;height: 0px !important;" class="intel_table" style="border:1px solid #dbe7f3;margin-top: 20px">
+                            <!--用户表格begin-->
+                            <table class="tableExcelC" width="100%" border="1" cellspacing="0" cellpadding="0">
+                                <thead>
+                                <tr>
+                                    <td colspan="12" align="center" style="color:#434e8d;font-size: 40px;line-height:normal">
+                                 	       卫辉市天瑞水泥有限公司采购物料统计   
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th style="font-size: 20px">磅单编号</th>
+                                    <th style="font-size: 20px">供应商</th>
+                                    <th style="font-size: 20px">物料</th>
+                                    <th style="font-size: 20px">车号</th>
+                                    <th style="font-size: 20px">矿口</th>
+                                    <th style="font-size: 20px">堆场</th>
+                                    <th style="font-size: 20px">收料人</th>
+                                    <th style="font-size: 20px" id="shoulaioTime">收料时间</th>
+                                    <th style="font-size: 20px">原发净重</th>
+                                    <th style="font-size: 20px">净重</th>
+                                    <th style="font-size: 20px" id="weightCarTime">重车时间</th>
+                                    <th style="font-size: 20px">备注</th>
+                                </tr>
+                                </thead>
+                                <tbody id="RMgC">
+                                
+                                </tbody>
+                            </table>     
+                            <!--用户表格end-->
+                        </div>
+                      <!--   全部导出end -->
                     </div>
                 </div>
             </div>
             <div class="wuliao_tabcont hide_thing hide">
                 <div class="intel_table">
                  <div style="position: absolute;left:210px;top:191px;">
-						  <div class="intel_operasolo" >
+						  <div class="intel_operasolo" onclick="method('.tableExcelD')">
 						        <i class="iconfont" style="color: #0174c3;font-size: 25px;margin-left: 22px">&#xe63c;</i>
 						        <p>导出全部</p>
 						    </div>					
@@ -355,6 +445,32 @@
                         <!--用户表格end-->
                     </div>
                     <!--endprint3-->
+                    <!-- 全部导出begin -->
+                     <div style="display: none;text-indent:-9999px;height: 0px !important;" class="intel_table" style="border:1px solid #dbe7f3;margin-top: 20px">
+                        <table class="tableExcelD" width="100%" border="1" cellspacing="0" cellpadding="0">
+                            <thead>
+                            <tr>
+                                <td colspan="8" align="center" style="color:#434e8d;font-size: 40px;line-height:normal">
+                           			       卫辉市天瑞水泥有限公司采购物料统计     
+                                </td>
+                            </tr>
+                            <tr>
+                                <th style="font-size: 20px">供应商</th>
+                                <th style="font-size: 20px">物料</th>
+                                <th style="font-size: 20px">车数</th>
+                                <th style="font-size: 20px">原发净重</th>
+                                <th style="font-size: 20px">毛重</th>
+                                <th style="font-size: 20px">皮重</th>
+                                <th style="font-size: 20px">净重</th>
+                                <th style="font-size: 20px">备注</th>
+                            </tr>
+                            </thead>
+                            <tbody id="RMgD">
+                            
+                            </tbody>
+                        </table>                  
+                    </div>
+                   <!--  全部导出end -->
                 </div>
             </div>
         </div>
@@ -387,8 +503,8 @@
 			<!-- 引用公共footer部分 -->
 			<jsp:include page="../../common/base/footer_busi.jsp"></jsp:include>
 			<script type="text/javascript"
-				src="/javascript/businessManage/Report/ReportManagement.js?112"></script>
+				src="/javascript/businessManage/Report/ReportManagement.js?11"></script>
 			<script type="text/javascript"
-				src="/javascript/businessManage/Report/ReportManagement2.js?112"></script>
+				src="/javascript/businessManage/Report/ReportManagement2.js?11"></script>
 </body>
 </html>
