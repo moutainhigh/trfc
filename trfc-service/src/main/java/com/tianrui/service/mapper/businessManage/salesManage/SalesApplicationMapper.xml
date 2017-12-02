@@ -803,7 +803,7 @@
     salesmanid, salesmanname, billtime, orgid, orgname, transportcompanyid, transportcompanyname, 
     departmentid, departmentname, auditid, auditname, audittime, state, makerid, makebillname, 
     makebilltime, remarks, creator, createtime, modifier, modifytime, utc, vehicle_id, 
-    vehicle_no, RFID, driver_id, driver_name, bill_source, nc_id, valid_status, valid_error)
+    vehicle_no, RFID, driver_id, driver_name, bill_source, nc_id, valid_status, valid_error, ncStatus, pushStatus)
 	values
 	<foreach collection="list" item="item" index="index" separator=",">
 		(#{item.id,jdbcType=VARCHAR}, 

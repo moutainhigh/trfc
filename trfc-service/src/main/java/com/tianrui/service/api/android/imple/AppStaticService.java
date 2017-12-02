@@ -1022,7 +1022,7 @@ public class AppStaticService implements IAppStaticService {
 				PurchaseApplication pa = purchaseApplicationMapper.selectByPrimaryKey(notice.getBillid());
 				PurchaseApplicationDetail pad = purchaseApplicationDetailMapper.selectByPrimaryKey(notice.getBilldetailid());
 				if (pa != null && pad != null && StringUtils.equals(pa.getSupplierid(), param.getNcId())) {
-					if (StringUtils.equals(notice.getAuditstatus(), Constant.ZERO_STRING)) {
+					if (StringUtils.equals(notice.getStatus(), Constant.ZERO_STRING)) {
 						//关闭通知单并回写余量和预提量
 						notice.setStatus(Constant.THREE_STRING);
 						notice.setAbnormalperson(user.getId());
