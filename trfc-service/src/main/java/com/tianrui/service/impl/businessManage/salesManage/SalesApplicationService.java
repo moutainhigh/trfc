@@ -43,7 +43,6 @@ import com.tianrui.service.bean.businessManage.salesManage.SalesApplication;
 import com.tianrui.service.bean.businessManage.salesManage.SalesApplicationArrive;
 import com.tianrui.service.bean.businessManage.salesManage.SalesApplicationDetail;
 import com.tianrui.service.bean.businessManage.salesManage.SalesArrive;
-import com.tianrui.service.bean.common.BillType;
 import com.tianrui.service.bean.system.auth.Organization;
 import com.tianrui.service.bean.system.auth.SmUser;
 import com.tianrui.service.bean.system.auth.SystemUser;
@@ -58,7 +57,6 @@ import com.tianrui.service.mapper.businessManage.salesManage.SalesApplicationArr
 import com.tianrui.service.mapper.businessManage.salesManage.SalesApplicationDetailMapper;
 import com.tianrui.service.mapper.businessManage.salesManage.SalesApplicationMapper;
 import com.tianrui.service.mapper.businessManage.salesManage.SalesArriveMapper;
-import com.tianrui.service.mapper.common.BillTypeMapper;
 import com.tianrui.service.mapper.system.auth.OrganizationMapper;
 import com.tianrui.service.mapper.system.auth.SmUserMapper;
 import com.tianrui.service.mapper.system.auth.SystemUserMapper;
@@ -84,8 +82,6 @@ public class SalesApplicationService implements ISalesApplicationService {
 	private ISalesApplicationDetailService salesApplicationDetailService;
 	@Autowired
 	private ISystemCodeService systemCodeService;
-	@Autowired
-	private BillTypeMapper billTypeMapper;
 	@Autowired
 	private CustomerManageMapper customerManageMapper;
 	@Autowired
@@ -779,6 +775,7 @@ public class SalesApplicationService implements ISalesApplicationService {
 		}
 		return rs;
 	}
+	
 	private SalesApplication converJson2Bean(JSONObject jsonItem){
 		SalesApplication item  =new SalesApplication();
 		item.setId(jsonItem.getString("id"));
@@ -791,22 +788,19 @@ public class SalesApplicationService implements ISalesApplicationService {
 		item.setSource(Constant.ZERO_STRING);
 		//类型
 		String billtypeid = jsonItem.getString("type");
-		if(StringUtils.isNotBlank(billtypeid)){
-			item.setBilltypeid(billtypeid);
-			BillType bt = billTypeMapper.selectByPrimaryKey(billtypeid);
-			if(bt != null && StringUtils.isNotBlank(bt.getName())){
-				item.setBilltypename(bt.getName());
-			}
-		}
+		item.setBilltypeid(billtypeid);
+		item.setBilltypename(BillTypeEnum.getName(billtypeid));
 		//客户
-		String customerid = jsonItem.getString("customerId");
-		if(StringUtils.isNotBlank(customerid)){
-			item.setCustomerid(customerid);
-			CustomerManage cm = customerManageMapper.selectByPrimaryKey(customerid);
-			if(cm != null && StringUtils.isNotBlank(cm.getName())){
-				item.setCustomername(cm.getName());
-			}
-		}
+		item.setCustomerid(jsonItem.getString("customerId"));
+		item.setCustomername(jsonItem.getString("customerName"));
+//		String customerid = jsonItem.getString("customerId");
+//		if(StringUtils.isNotBlank(customerid)){
+//			item.setCustomerid(customerid);
+//			CustomerManage cm = customerManageMapper.selectByPrimaryKey(customerid);
+//			if(cm != null && StringUtils.isNotBlank(cm.getName())){
+//				item.setCustomername(cm.getName());
+//			}
+//		}
 		//区域码
 		item.setChannelcode(jsonItem.getString("channelTypeCode"));
 		//业务员
@@ -840,6 +834,7 @@ public class SalesApplicationService implements ISalesApplicationService {
 		if(StringUtils.isNotBlank(jsonItem.getString("ts"))){
 			item.setUtc(Long.valueOf(jsonItem.getString("ts")));
 		}
+//		item.setVehicleNo(jsonItem.getString(""));
 		item.setNcId(jsonItem.getString("ncId"));
 		item.setBillSource(Constant.ZERO_NUMBER);
 		item.setValidStatus(Constant.ZERO_STRING);
@@ -857,14 +852,16 @@ public class SalesApplicationService implements ISalesApplicationService {
 					saleItem.setId(itemJon.getString("id"));
 					saleItem.setSalesid(id);
 					//物料
-					String materielid = itemJon.getString("materialId");
-					if(StringUtils.isNotBlank(materielid)){
-						saleItem.setMaterielid(materielid);
-						MaterielManage m = materielManageMapper.selectByPrimaryKey(materielid);
-						if(m != null && StringUtils.isNotBlank(m.getName())){
-							saleItem.setMaterielname(m.getName());
-						}
-					}
+					saleItem.setMaterielid(itemJon.getString("materialId"));
+					saleItem.setMaterielname(itemJon.getString("materialName"));
+//					String materielid = itemJon.getString("materialId");
+//					if(StringUtils.isNotBlank(materielid)){
+//						saleItem.setMaterielid(materielid);
+//						MaterielManage m = materielManageMapper.selectByPrimaryKey(materielid);
+//						if(m != null && StringUtils.isNotBlank(m.getName())){
+//							saleItem.setMaterielname(m.getName());
+//						}
+//					}
 					saleItem.setWarehouseid(itemJon.getString("csendstordocId"));
 					saleItem.setWarehousename(itemJon.getString("csendstordocName"));
 					saleItem.setUnit("吨");
@@ -983,6 +980,7 @@ public class SalesApplicationService implements ISalesApplicationService {
 					bean = list.get(0);
 					if (StringUtils.equals(bean.getStatus(), Constant.ZERO_STRING)) {
 						bean.setStatus(Constant.THREE_STRING);
+						bean.setValidStatus(Constant.TWO_STRING);
 						salesArriveMapper.updateByPrimaryKeySelective(bean);
 					}
 				}

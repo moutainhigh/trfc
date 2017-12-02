@@ -1114,7 +1114,6 @@ public class AppSalesStaticService implements IAppSalesStaticService {
 		if (apiResult != null) {
 			if (StringUtils.equals(apiResult.getCode(), Constant.SUCCESS)) {
 				//修改通知单为作废中
-				sa.setStatus(Constant.THREE_STRING);
 				sa.setValidStatus(Constant.ONE_STRING);
 				sa.setAbnormalperson(user.getId());
 				sa.setAbnormalpersonname(user.getName());
