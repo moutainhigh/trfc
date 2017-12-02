@@ -1120,4 +1120,109 @@ public class SalesApplicationService implements ISalesApplicationService {
 		}
 		return flag;
 	}
+
+	/**
+	 * NC自制实时推送到FC
+	 * @throws Exception 
+	 */
+	@Override
+	public Result pushSalesTofc(JSONArray array) throws Exception {
+		Result result = Result.getParamErrorResult();
+		if (array != null && array.size() == 2) {
+			JSONObject jsonItem = array.getJSONObject(0);
+			JSONArray jsonItem2 = array.getJSONArray(1);
+			if(jsonItem!=null && jsonItem2!=null){
+				SalesApplication sa = converSalesJson2Bean(jsonItem);
+				List<SalesApplicationDetail> SalesApplicationDetailList = converSalesDetailJson2Bean(jsonItem2);
+				//保存主表数据
+				salesApplicationMapper.insertSelective(sa);
+				for (SalesApplicationDetail sad : SalesApplicationDetailList) {
+					salesApplicationDetailMapper.insertSelective(sad);
+				}
+				result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+			}	
+		}
+		return result;
+	}
+	
+	/**
+	 * 推送过来的主表数据对象封装成主表bean对象
+	 * @author xcy
+	 * @param jsonItem
+	 * @return
+	 * @throws Exception 
+	 */
+	private SalesApplication converSalesJson2Bean(JSONObject jsonItem) throws Exception{
+		SalesApplication sa  = new SalesApplication();
+		sa.setId(jsonItem.getString("ncId"));		
+		sa.setCode(jsonItem.getString("code"));
+		sa.setStatus(Constant.ONE_STRING);
+		sa.setSource(Constant.ZERO_STRING);
+		sa.setBilltypeid(jsonItem.getString("billtypeid"));
+		sa.setBilltypename(BillTypeEnum.getName(jsonItem.getString("billtypeid")));
+		sa.setCustomerid(jsonItem.getString("customerid"));
+		sa.setCustomername(jsonItem.getString("customername"));
+		sa.setChannelcode(jsonItem.getString("channelcode"));
+		sa.setSalesmanid(jsonItem.getString("salesmanid"));
+		sa.setSalesmanname(jsonItem.getString("salesmanname"));
+		sa.setBilltime(jsonItem.getLong("billtime"));
+		sa.setOrgid(jsonItem.getString("orgid"));
+		sa.setOrgname(jsonItem.getString("orgname"));
+		sa.setTransportcompanyid(jsonItem.getString("transportcompanyid"));
+		sa.setTransportcompanyname(jsonItem.getString("transportcompanyname"));
+		sa.setDepartmentid(jsonItem.getString("departmentid"));
+		sa.setDepartmentname(jsonItem.getString("departmentname"));
+		sa.setAuditid(jsonItem.getString("auditid"));
+		sa.setAuditname(jsonItem.getString("auditname"));
+		sa.setAudittime(jsonItem.getLong("audittime"));
+		sa.setState(Constant.ONE_STRING);
+		sa.setMakerid(jsonItem.getString("makerid"));
+		sa.setMakebillname(jsonItem.getString("makebillname"));
+		sa.setMakebilltime(jsonItem.getLong("makebilltime"));
+		sa.setRemarks(jsonItem.getString("remarks"));		
+		sa.setCreator(jsonItem.getString("creator"));
+		sa.setCreatetime(jsonItem.getLong("createtime"));
+		sa.setVehicleNo(jsonItem.getString("vehicleNo"));
+		sa.setBillSource(Constant.ZERO_NUMBER);
+		sa.setNcId(jsonItem.getString("ncId"));
+		sa.setValidStatus(Constant.ZERO_STRING);
+		sa.setNcStatus(jsonItem.getString("ncStatus"));
+		return sa;
+	}
+	
+	/**
+	 *  推送过来的子表数据对象封装成子表bean对象
+	 * @author xcy
+	 * @param jsonItem2
+	 * @return
+	 * @throws Exception	 
+	 */
+	private List<SalesApplicationDetail> converSalesDetailJson2Bean(JSONArray array) throws Exception{
+		List<SalesApplicationDetail> list = null;
+		if (array != null && array.size() > 0) {
+			list = new ArrayList<SalesApplicationDetail>();
+			for (int i = 0; i < array.size(); i++) {
+				JSONObject item = array.getJSONObject(i);
+				SalesApplicationDetail sad = new SalesApplicationDetail();
+				sad.setId(item.getString("ncId"));
+				sad.setSalesid(item.getString("salesid"));
+				sad.setMaterielid(item.getString("materielid"));
+				sad.setMaterielname(item.getString("materielname"));
+				sad.setWarehouseid(item.getString("warehouseid"));
+				sad.setWarehousename(item.getString("warehousename"));
+				sad.setUnit("吨");
+				sad.setSalessum(item.getDouble("salessum"));
+				sad.setMargin(item.getDouble("margin"));
+				sad.setStoragequantity(0D);
+				sad.setUnstoragequantity(0D);
+				sad.setPretendingtake(0D);
+				sad.setTaxprice(item.getDouble("taxprice"));
+				sad.setRemarks(item.getString("remarks"));
+				sad.setNcStatus(item.getString("ncStatus"));
+				sad.setNcId(item.getString("ncId"));			
+				list.add(sad);
+			}
+		}
+		return list;		
+	}
 }
