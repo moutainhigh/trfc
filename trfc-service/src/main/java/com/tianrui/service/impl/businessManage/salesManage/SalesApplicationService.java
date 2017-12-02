@@ -299,7 +299,7 @@ public class SalesApplicationService implements ISalesApplicationService {
 		sa.setRemarks(save.getRemark());
 		sa.setBillSource(Constant.ONE_NUMBER);
 		sa.setValidStatus(Constant.ZERO_STRING);
-		sa.setNcAuditStatus(Constant.ZERO_STRING);
+		sa.setPushStatus(Constant.ZERO_STRING);
 		if (vehicle != null) {
 			sa.setVehicleId(vehicle.getId());
 			sa.setVehicleNo(vehicle.getVehicleno());
@@ -509,7 +509,7 @@ public class SalesApplicationService implements ISalesApplicationService {
 		if(apiResult != null){
 			if (StringUtils.equals(apiResult.getCode(), ErrorCode.SYSTEM_SUCCESS.getCode())) {
 				sa.setSource(Constant.ZERO_STRING);
-				sa.setNcAuditStatus(Constant.ONE_STRING);
+				sa.setPushStatus(Constant.ONE_STRING);
                 ps.setPushStatus(Constant.ONE_STRING);
 			} else {
                 ps.setPushStatus(Constant.THREE_STRING);
@@ -715,8 +715,8 @@ public class SalesApplicationService implements ISalesApplicationService {
 			for( JSONObject jsonObject:list ){
 				String id =jsonObject.getString("id");
 				if( ids.contains(id) ){
-					toUpdate.add(converJson2Bean(jsonObject));
-					toUpdateItem.addAll(converJson2ItemList(jsonObject,id));
+					toUpdate.add(converUpdateJson2Bean(jsonObject));
+					toUpdateItem.addAll(converUpdateJson2ItemList(jsonObject,id));
 				}else{
 					toSave.add(converJson2Bean(jsonObject));
 					toSaveItem.addAll(converJson2ItemList(jsonObject,id));
@@ -732,10 +732,43 @@ public class SalesApplicationService implements ISalesApplicationService {
 				for( SalesApplication update :toUpdate){
 					salesApplicationMapper.updateByPrimaryKeySelective(update);
 				}
+				for( SalesApplicationDetail updateItem :toUpdateItem){
+					salesApplicationDetailMapper.updateByPrimaryKeySelective(updateItem);
+				}
 			}
 			rs.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
 		}
 		return rs;
+	}
+
+	private SalesApplication converUpdateJson2Bean(JSONObject jsonItem) {
+		SalesApplication item  =new SalesApplication();
+		item.setId(jsonItem.getString("id"));
+		item.setNcId(jsonItem.getString("ncId"));
+		item.setNcStatus(jsonItem.getString("status"));
+		//TS
+		if(StringUtils.isNotBlank(jsonItem.getString("ts"))){
+			item.setUtc(Long.valueOf(jsonItem.getString("ts")));
+		}
+		return item;
+	}
+
+	private List<SalesApplicationDetail> converUpdateJson2ItemList(JSONObject jsonItem, String id) {
+		List<SalesApplicationDetail> itemList = new ArrayList<SalesApplicationDetail>();
+		if( jsonItem.getJSONArray("list") !=null ){
+			JSONArray arr =jsonItem.getJSONArray("list");
+			if( arr.size()>0){
+				for(int i=0;i<arr.size();i++){
+					JSONObject itemJon=JSONObject.parseObject(arr.get(0).toString());
+					SalesApplicationDetail saleItem = new SalesApplicationDetail();
+					saleItem.setId(itemJon.getString("id"));
+					saleItem.setNcId(itemJon.getString("ncId"));
+					saleItem.setNcStatus(itemJon.getString("status"));
+					itemList.add(saleItem);
+				}
+			}
+		}
+		return itemList;
 	}
 
 	private Set<String> getAllIds(){
@@ -810,7 +843,7 @@ public class SalesApplicationService implements ISalesApplicationService {
 		item.setNcId(jsonItem.getString("ncId"));
 		item.setBillSource(Constant.ZERO_NUMBER);
 		item.setValidStatus(Constant.ZERO_STRING);
-		item.setNcAuditStatus(Constant.TWO_STRING);
+		item.setNcStatus(jsonItem.getString("status"));
 		return item;
 	}
 	private List<SalesApplicationDetail> converJson2ItemList(JSONObject jsonItem,String id){
@@ -845,6 +878,7 @@ public class SalesApplicationService implements ISalesApplicationService {
 					saleItem.setTaxrate(Double.valueOf(itemJon.getString("ntaxrate")));
 					saleItem.setRemarks(itemJon.getString("remark"));
 					saleItem.setNcId(itemJon.getString("ncId"));
+					saleItem.setNcStatus(itemJon.getString("status"));
 					itemList.add(saleItem);
 				}
 			}
@@ -962,6 +996,7 @@ public class SalesApplicationService implements ISalesApplicationService {
 		return result;
 	}
 
+	//审核通过才会回写状态的接口
 	@Override
 	public Result billAuditCallBack(BillValidReq req) throws Exception {
 		Result result = Result.getParamErrorResult();
@@ -977,7 +1012,7 @@ public class SalesApplicationService implements ISalesApplicationService {
 			if (StringUtils.equals(sa.getValidStatus(), Constant.ZERO_STRING)) {
 				sa.setStatus(Constant.ONE_STRING);
 				sa.setNcId(req.getNcId());
-				sa.setNcAuditStatus(Constant.TWO_STRING);
+				sa.setNcStatus(Constant.TWO_STRING);
 				sa.setAuditid(req.getAuditid());
 				sa.setAuditname(req.getAuditname());
 				sa.setAudittime(req.getAudittime());

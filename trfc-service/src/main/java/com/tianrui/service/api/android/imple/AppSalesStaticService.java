@@ -311,7 +311,7 @@ public class AppSalesStaticService implements IAppSalesStaticService {
 		if(apiResult != null){
 			if (StringUtils.equals(apiResult.getCode(), ErrorCode.SYSTEM_SUCCESS.getCode())) {
 				sa.setSource(Constant.ZERO_STRING);
-				sa.setNcAuditStatus(Constant.ONE_STRING);
+				sa.setPushStatus(Constant.ONE_STRING);
                 ps.setPushStatus(Constant.ONE_STRING);
 			} else {
                 ps.setPushStatus(Constant.THREE_STRING);
@@ -379,7 +379,7 @@ public class AppSalesStaticService implements IAppSalesStaticService {
 		}
 		sa.setBillSource(Constant.TWO_NUMBER);
 		sa.setValidStatus(Constant.ZERO_STRING);
-		sa.setNcAuditStatus(Constant.ZERO_STRING);
+		sa.setPushStatus(Constant.ZERO_STRING);
 		return sa;
 	}
 
@@ -425,16 +425,14 @@ public class AppSalesStaticService implements IAppSalesStaticService {
 		if (param != null && StringUtils.isNotBlank(param.getUserId())
 				&& StringUtils.isNotBlank(param.getId())) {
 			SalesApplication sa = salesApplicationMapper.selectByPrimaryKey(param.getId());
-			if (!StringUtils.equals(sa.getNcAuditStatus(), Constant.TWO_STRING)) {
-				if (!StringUtils.equals(sa.getValidStatus(), Constant.TWO_STRING)) {
-					List<SalesApplicationDetail> list = salesApplicationDetailMapper.selectBySalesId(sa.getId());
-					if (sa != null && CollectionUtils.isNotEmpty(list)) {
-						if (StringUtils.equals(sa.getCustomerid(), param.getNcId())) {
-							if (StringUtils.equals(sa.getBilltypeid(), Constant.ZERO_STRING)) {
-								//一单一车作废
-								if (StringUtils.equals(sa.getSource(), Constant.ONE_STRING) && 
-										StringUtils.equals(sa.getNcAuditStatus(), Constant.ZERO_STRING)) {
-									//脱机的未审核的直接作废
+			List<SalesApplicationDetail> list = salesApplicationDetailMapper.selectBySalesId(sa.getId());
+			if (sa != null && CollectionUtils.isNotEmpty(list)) {
+				if (StringUtils.equals(sa.getCustomerid(), param.getNcId())) {
+					if (StringUtils.equals(sa.getBilltypeid(), Constant.ZERO_STRING)) {
+						if (!StringUtils.equals(sa.getNcStatus(), Constant.TWO_STRING)) {
+							if (!StringUtils.equals(sa.getValidStatus(), Constant.TWO_STRING)) {	
+								if (StringUtils.equals(sa.getPushStatus(), Constant.ZERO_STRING)) {
+									//未推送的直接作废
 									sa.setValidStatus(Constant.TWO_STRING);
 									salesApplicationMapper.updateByPrimaryKeySelective(sa);
 								} else {
@@ -443,21 +441,21 @@ public class AppSalesStaticService implements IAppSalesStaticService {
 									result = pushDC(param, sa, list.get(0));
 								}
 							} else {
-								//一单多车不允许作废
-								result.setErrorCode(ErrorCode.APPLICATION_DONT_MORE_SEND_VALID);
+								//已作废不能重复作废
+								result.setErrorCode(ErrorCode.APPLICATION_NOT_DELETE1);
 							}
 						} else {
-							result.setErrorCode(ErrorCode.APPLICATION_NOT_EXIST);
-						}
+							result.setErrorCode(ErrorCode.APPLICATION_NOT_DELETE1);
+						}	
 					} else {
-						result.setErrorCode(ErrorCode.APPLICATION_NOT_EXIST);
+						//一单多车不允许作废
+						result.setErrorCode(ErrorCode.APPLICATION_DONT_MORE_SEND_VALID);
 					}
 				} else {
-					//已作废不能重复作废
-					result.setErrorCode(ErrorCode.APPLICATION_NOT_DELETE1);
+					result.setErrorCode(ErrorCode.APPLICATION_DONT_HAVE_PERMISSIONS);
 				}
 			} else {
-				result.setErrorCode(ErrorCode.APPLICATION_NOT_DELETE1);
+				result.setErrorCode(ErrorCode.APPLICATION_NOT_EXIST);
 			}
 		} else {
 			result.setErrorCode(ErrorCode.PARAM_NULL_ERROR);

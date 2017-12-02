@@ -69,6 +69,7 @@ public enum ErrorCode {
 	APPLICATION_DONT_NEED_AUDIT("E11016", "已审核的订单无需再审."),
 	APPLICATION_DONT_UNAUDIT("E11017", "联机的订单不能反审."),
 	APPLICATION_DONT_AUDIT("E11018", "联机的订单不能审核."),
+	APPLICATION_DONT_HAVE_PERMISSIONS("E11019", "您没有对该订单操作的权限."),
 	
 	/**
 	 * 通知单

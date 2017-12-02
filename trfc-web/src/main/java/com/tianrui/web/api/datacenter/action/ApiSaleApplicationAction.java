@@ -115,24 +115,24 @@ public class ApiSaleApplicationAction {
 		return ApiResult.valueOf(rs);
 	}
 
-	/**
-	 * 一车一单作废回写（未审核）
-	 * @param req
-	 * @return
-	 */
-	@RequestMapping(value="/bill/notAudit/valid",method=RequestMethod.POST)
-	@ApiParamRawType(BillValidReq.class)
-	@ResponseBody
-	public ApiResult billNotAuditValid(ApiParam<BillValidReq> req){
-		Result rs = Result.getErrorResult();
-		try {
-			rs = salesApplicationService.billNotAuditValid(req.getBody());
-		} catch (Exception e) {
-			rs.setErrorCode(ErrorCode.SYSTEM_ERROR);
-			log.error(e.getMessage(),e);
-		}
-		return ApiResult.valueOf(rs);
-	}
+//	/**
+//	 * 一车一单作废回写（未审核）
+//	 * @param req
+//	 * @return
+//	 */
+//	@RequestMapping(value="/bill/notAudit/valid",method=RequestMethod.POST)
+//	@ApiParamRawType(BillValidReq.class)
+//	@ResponseBody
+//	public ApiResult billNotAuditValid(ApiParam<BillValidReq> req){
+//		Result rs = Result.getErrorResult();
+//		try {
+//			rs = salesApplicationService.billNotAuditValid(req.getBody());
+//		} catch (Exception e) {
+//			rs.setErrorCode(ErrorCode.SYSTEM_ERROR);
+//			log.error(e.getMessage(),e);
+//		}
+//		return ApiResult.valueOf(rs);
+//	}
 	
 	/**
 	 * 一车一单作废回写（已审核）
@@ -152,5 +152,24 @@ public class ApiSaleApplicationAction {
 		}
 		return ApiResult.valueOf(rs);
 	}
+
+//	/**
+//	 * 自制订单审批回写
+//	 * @param req
+//	 * @return
+//	 */
+//	@RequestMapping(value="/bill/nc/save",method=RequestMethod.POST)
+//	@ApiParamRawType(BillValidReq.class)
+//	@ResponseBody
+//	public ApiResult auditCallBack(ApiParam<BillValidReq> req){
+//		Result rs = Result.getErrorResult();
+//		try {
+//			rs = salesApplicationService.billAuditCallBack(req.getBody());
+//		} catch (Exception e) {
+//			rs.setErrorCode(ErrorCode.SYSTEM_ERROR);
+//			log.error(e.getMessage(),e);
+//		}
+//		return ApiResult.valueOf(rs);
+//	}
 	
 }
