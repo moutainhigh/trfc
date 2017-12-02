@@ -113,6 +113,9 @@
       <if test="remarks != null" >
         remarks,
       </if>
+      <if test="ncStatus != null" >
+        ncStatus,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
