@@ -15,6 +15,7 @@
 	function init(){
 		bindEvent();
 		queryData();
+		materList();
 		$(".wuliao_tabcont").hide();
 		$(".hide_thing").show();
 	}

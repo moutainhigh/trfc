@@ -2,12 +2,14 @@
 	//请求路径
 	var URL = {
 			commonUrl:"/trfc/salesPound/salesPage",		//销售逐车
+			commonListUrl:"/trfc/salesPound/salesList",	
 //			autoCompleteSearch: "/trfc/supplier/autoCompleteSearch"
 	};
 	init();
 	function init(){
 		bindEvent();
 		queryData();
+		commonList();
 	/*	$(".wuliao_tabcont").hide();
 		$(".hide_thing").show();*/
 	}
@@ -26,6 +28,36 @@
 //	    $('.wuliao_tabbox > .wuliao_tabcont').eq(index).show().siblings().hide();
 	});
 	
+	
+	function commonList(){
+		$.ajax({
+            url:URL.commonListUrl,
+            async:true,
+            cache:false,
+            dataType:'json',
+            type:'post',
+            success:function(result){          
+                if(result.code == 'E10002'){
+                console.log(result.data)           	
+                	$('#RMgA').empty();
+        	        var list = result.data;
+        	            for(var i=0;i<list.length;i++){
+        	            	$('<tr>').append('<td>'+(list[i].code||"")+'</td>')
+							.append('<td>'+(list[i].customername||"")+'</td>')
+							.append('<td>'+(list[i].cargo||"")+'</td>')
+							.append('<td>'+(list[i].vehicleno||"")+'</td>')
+							.append('<td>'+(list[i].noticecode||"")+'</td>')
+							.append('<td>'+(list[i].grossweight||"")+'</td>')
+							.append('<td>'+(list[i].tareweight||"")+'</td>')
+							.append('<td>'+(list[i].netweight||"")+'</td>')
+							.append('<td>'+(new Date(list[i].lighttime||"").format("yyyy-MM-dd HH:mm:ss")||"")+'</td>')
+							.append('<td>'+(new Date(list[i].weighttime||"").format("yyyy-MM-dd HH:mm:ss"))+'</td>')
+        	                .appendTo('#RMgA');
+        	            }       	
+                }
+            }
+        });
+	}
 	
 	$('#searchBtn').off('click').on('click',function(){
 		if(queryData){
