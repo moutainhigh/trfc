@@ -80,8 +80,8 @@
 	        					.append('<td>'+(list[i].grossweight||"")+'</td>')
 	        					.append('<td>'+(list[i].tareweight||"")+'</td>')
 	        					.append('<td>'+(list[i].netweight||"")+'</td>')
-	        					.append('<td>'+(new Date(list[i].lighttime||"").format("yyyy-MM-dd HH:mm:ss")||"")+'</td>')
-							.append('<td>'+(new Date(list[i].weighttime||"").format("yyyy-MM-dd HH:mm:ss"))+'</td>')
+	        					.append('<td>'+(new Date(list[i].lighttime||"").format("yyyy-MM-dd HH:mm:ss"))+'</td>')
+	        					.append('<td>'+(new Date(list[i].weighttime||"").format("yyyy-MM-dd HH:mm:ss"))+'</td>')
 	        					.append('<td>'+(list[i].remark||"")+'</td>')
 	        	                .appendTo('#RMgA');
 	        	            }       	
@@ -339,8 +339,8 @@
 							.append('<td>'+(list[i].grossweight||"")+'</td>')
 							.append('<td>'+(list[i].tareweight||"")+'</td>')
 							.append('<td>'+(list[i].netweight||"")+'</td>')
-							.append('<td>'+(list[i].lighttime||"")+'</td>')
-							.append('<td>'+(list[i].weighttime||"")+'</td>')
+							.append('<td>'+(new Date(list[i].lighttime||"").format("yyyy-MM-dd HH:mm:ss")||"")+'</td>')
+							.append('<td>'+(new Date(list[i].weighttime||"").format("yyyy-MM-dd HH:mm:ss")||"")+'</td>')
 							.append('<td>'+(list[i].remark||"")+'</td>')
 							.appendTo('#RMg1');
 				}
