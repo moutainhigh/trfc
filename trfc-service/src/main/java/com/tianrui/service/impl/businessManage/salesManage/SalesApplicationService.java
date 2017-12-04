@@ -833,7 +833,7 @@ public class SalesApplicationService implements ISalesApplicationService {
 		if(StringUtils.isNotBlank(jsonItem.getString("ts"))){
 			item.setUtc(Long.valueOf(jsonItem.getString("ts")));
 		}
-		item.setVehicleNo(jsonItem.getString("vehicleNo"));
+		item.setVehicleNo(jsonItem.getString("vehicleno"));
 		item.setNcId(jsonItem.getString("ncId"));
 		item.setBillSource(Constant.ZERO_NUMBER);
 		item.setValidStatus(Constant.ZERO_STRING);
@@ -1046,7 +1046,22 @@ public class SalesApplicationService implements ISalesApplicationService {
 		bean.setId(UUIDUtil.getId());
 		bean.setCode(getCode("TH", sa.getMakerid()));
 		bean.setAuditstatus(Constant.ONE_STRING);
-		bean.setSource(Constant.TWO_STRING);
+		switch (sa.getBillSource()) {
+		case 0:
+			//NC
+			bean.setSource(Constant.ZERO_STRING);
+			break;
+		case 1:
+			//业务平台
+			bean.setSource(Constant.ZERO_STRING);
+			break;
+		case 2:
+			//客商APP
+			bean.setSource(Constant.TWO_STRING);
+			break;
+		default:
+			break;
+		}
 		bean.setStatus(Constant.ZERO_STRING);
 		bean.setVehicleid(vehicle.getId());
 		bean.setVehicleno(vehicle.getVehicleno());

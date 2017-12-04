@@ -282,7 +282,22 @@ public class TaskJobService {
 		bean.setId(UUIDUtil.getId());
 		bean.setCode(getCode("TH", sa.getMakerid(), true));
 		bean.setAuditstatus(Constant.ONE_STRING);
-		bean.setSource(Constant.TWO_STRING);
+		switch (sa.getBillSource()) {
+		case 0:
+			//NC
+			bean.setSource(Constant.ZERO_STRING);
+			break;
+		case 1:
+			//业务平台
+			bean.setSource(Constant.ZERO_STRING);
+			break;
+		case 2:
+			//客商APP
+			bean.setSource(Constant.TWO_STRING);
+			break;
+		default:
+			break;
+		}
 		bean.setStatus(Constant.ZERO_STRING);
 		bean.setVehicleid(vehicle.getId());
 		bean.setVehicleno(vehicle.getVehicleno());
