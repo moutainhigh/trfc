@@ -226,12 +226,7 @@ public class TaskJobService {
 	}
 
 	public void oneBilOneCarSaveNotice() throws Exception {
-		SalesApplication bean = new SalesApplication();
-		bean.setStatus(Constant.ONE_STRING);
-		bean.setBilltypeid(Constant.ZERO_STRING);
-		bean.setValidStatus(Constant.ZERO_STRING);
-		bean.setNcStatus(Constant.TWO_STRING);
-		List<SalesApplication> list = salesApplicationMapper.selectSelective(bean);
+		List<SalesApplication> list = salesApplicationMapper.listOneBillOneCarNotNotice();
 		if (CollectionUtils.isNotEmpty(list)) {
 			for (SalesApplication sa : list) {
 				if (sa.getBillSource() == Constant.ZERO_NUMBER) {
@@ -258,12 +253,12 @@ public class TaskJobService {
 						}
 					}
 				} else {
+					//app 和 平台
 					List<SalesApplicationDetail> detailList = salesApplicationDetailMapper.selectBySalesId(sa.getId());
 					SalesArrive notice = new SalesArrive();
 					notice.setBillid(sa.getId());
 					List<SalesArrive> noticeList = salesArriveMapper.selectSelective(notice);
 					if (CollectionUtils.isEmpty(noticeList)) {
-						//app 和 平台
 						VehicleManage vehicle = vehicleManageMapper.selectByPrimaryKey(sa.getVehicleId());
 						if (validVehicle(vehicle)) {
 							if (StringUtils.isNotBlank(sa.getDriverId())) {
@@ -318,6 +313,8 @@ public class TaskJobService {
 		join.setNumber(sad.getSalessum());
 		join.setSequence(1);
 		salesApplicationArriveMapper.insertSelective(join);
+		sa.setNoticeMark(Constant.ONE_STRING);
+		salesApplicationMapper.updateByPrimaryKeySelective(sa);
 		sad.setMargin(0D);
 		sad.setPretendingtake(sad.getSalessum());
 		salesApplicationDetailMapper.updateByPrimaryKeySelective(sad);

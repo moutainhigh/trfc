@@ -829,12 +829,11 @@ public class SalesApplicationService implements ISalesApplicationService {
 		item.setMakebilltime(DateUtil.parse(jsonItem.getString("singleData"), "yyyy-MM-dd HH:mm:ss"));
 		item.setRemarks(jsonItem.getString("remark"));
 		item.setCreatetime(System.currentTimeMillis());
-		item.setModifytime(System.currentTimeMillis());
 		//TS
 		if(StringUtils.isNotBlank(jsonItem.getString("ts"))){
 			item.setUtc(Long.valueOf(jsonItem.getString("ts")));
 		}
-//		item.setVehicleNo(jsonItem.getString(""));
+		item.setVehicleNo(jsonItem.getString("vehicleNo"));
 		item.setNcId(jsonItem.getString("ncId"));
 		item.setBillSource(Constant.ZERO_NUMBER);
 		item.setValidStatus(Constant.ZERO_STRING);
@@ -1078,6 +1077,11 @@ public class SalesApplicationService implements ISalesApplicationService {
 		join.setNumber(sad.getSalessum());
 		join.setSequence(1);
 		salesApplicationArriveMapper.insertSelective(join);
+		sa.setNoticeMark(Constant.ONE_STRING);
+		salesApplicationMapper.updateByPrimaryKeySelective(sa);
+		sad.setMargin(0D);
+		sad.setPretendingtake(sad.getSalessum());
+		salesApplicationDetailMapper.updateByPrimaryKeySelective(sad);
 	}
 
 	private boolean validVehicle(VehicleManage vehicle) {
