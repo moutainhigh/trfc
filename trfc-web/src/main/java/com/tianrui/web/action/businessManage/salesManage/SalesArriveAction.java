@@ -149,7 +149,7 @@ public class SalesArriveAction {
 		Result result = Result.getSuccessResult();
 		try {
 			SystemUserResp user = SessionManager.getSessionUser(request);
-			query.setCurrUId(user.getId());
+			query.setUserId(user.getId());
 			result = salesArriveService.audit(query);
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
@@ -164,7 +164,7 @@ public class SalesArriveAction {
 		Result result = Result.getSuccessResult();
 		try {
 			SystemUserResp user = SessionManager.getSessionUser(request);
-			query.setCurrUId(user.getId());
+			query.setUserId(user.getId());
 			result = salesArriveService.unaudit(query);
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
@@ -179,7 +179,7 @@ public class SalesArriveAction {
 		Result result = Result.getSuccessResult();
 		try {
 			SystemUserResp user = SessionManager.getSessionUser(request);
-			query.setCurrUId(user.getId());
+			query.setUserId(user.getId());
 			result = salesArriveService.invalid(query);
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
@@ -193,7 +193,8 @@ public class SalesArriveAction {
 		Result result = Result.getSuccessResult();
 		try {
 			SystemUserResp user = SessionManager.getSessionUser(request);
-			query.setCurrUId(user.getId());
+			query.setUserId(user.getId());
+			query.setUserName(user.getName());
 			SalesArriveResp resp = salesArriveService.findOne(query.getId());
 			result.setData(resp);
 		} catch (Exception e) {
@@ -208,7 +209,8 @@ public class SalesArriveAction {
 		Result result = Result.getSuccessResult();
 		try {
 			SystemUserResp user = SessionManager.getSessionUser(request);
-			query.setCurrUId(user.getId());
+			query.setUserId(user.getId());
+			query.setUserName(user.getName());
 			result = salesArriveService.outfactory(query);
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);

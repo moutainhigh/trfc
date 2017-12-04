@@ -40,7 +40,7 @@
                 if(result.code == 'E10002'){
                 console.log(result.data)           	
                 	$('#RMgA').empty();
-        	        var list = result.data;
+        	        var list = result.data||[];
         	            for(var i=0;i<list.length;i++){
         	            	$('<tr>').append('<td>'+(list[i].code||"")+'</td>')
 							.append('<td>'+(list[i].customername||"")+'</td>')
@@ -189,7 +189,7 @@
 							.append('<td>'+(new Date(list[i].weighttime||"").format("yyyy-MM-dd HH:mm:ss"))+'</td>')
 							.appendTo('#RMg1');
 				}
-			}else if(list.length<=0){
+			}else{
 				layer.msg('暂无数据');
 //				$('#dataMore').hide();
 			}

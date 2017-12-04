@@ -226,12 +226,7 @@ public class TaskJobService {
 	}
 
 	public void oneBilOneCarSaveNotice() throws Exception {
-		SalesApplication bean = new SalesApplication();
-		bean.setStatus(Constant.ONE_STRING);
-		bean.setBilltypeid(Constant.ZERO_STRING);
-		bean.setValidStatus(Constant.ZERO_STRING);
-		bean.setNcStatus(Constant.TWO_STRING);
-		List<SalesApplication> list = salesApplicationMapper.selectSelective(bean);
+		List<SalesApplication> list = salesApplicationMapper.listOneBillOneCarNotNotice();
 		if (CollectionUtils.isNotEmpty(list)) {
 			for (SalesApplication sa : list) {
 				if (sa.getBillSource() == Constant.ZERO_NUMBER) {
@@ -258,12 +253,12 @@ public class TaskJobService {
 						}
 					}
 				} else {
+					//app 和 平台
 					List<SalesApplicationDetail> detailList = salesApplicationDetailMapper.selectBySalesId(sa.getId());
 					SalesArrive notice = new SalesArrive();
 					notice.setBillid(sa.getId());
 					List<SalesArrive> noticeList = salesArriveMapper.selectSelective(notice);
 					if (CollectionUtils.isEmpty(noticeList)) {
-						//app 和 平台
 						VehicleManage vehicle = vehicleManageMapper.selectByPrimaryKey(sa.getVehicleId());
 						if (validVehicle(vehicle)) {
 							if (StringUtils.isNotBlank(sa.getDriverId())) {
@@ -287,7 +282,22 @@ public class TaskJobService {
 		bean.setId(UUIDUtil.getId());
 		bean.setCode(getCode("TH", sa.getMakerid(), true));
 		bean.setAuditstatus(Constant.ONE_STRING);
-		bean.setSource(Constant.TWO_STRING);
+		switch (sa.getBillSource()) {
+		case 0:
+			//NC
+			bean.setSource(Constant.ZERO_STRING);
+			break;
+		case 1:
+			//业务平台
+			bean.setSource(Constant.ZERO_STRING);
+			break;
+		case 2:
+			//客商APP
+			bean.setSource(Constant.TWO_STRING);
+			break;
+		default:
+			break;
+		}
 		bean.setStatus(Constant.ZERO_STRING);
 		bean.setVehicleid(vehicle.getId());
 		bean.setVehicleno(vehicle.getVehicleno());
@@ -318,6 +328,8 @@ public class TaskJobService {
 		join.setNumber(sad.getSalessum());
 		join.setSequence(1);
 		salesApplicationArriveMapper.insertSelective(join);
+		sa.setNoticeMark(Constant.ONE_STRING);
+		salesApplicationMapper.updateByPrimaryKeySelective(sa);
 		sad.setMargin(0D);
 		sad.setPretendingtake(sad.getSalessum());
 		salesApplicationDetailMapper.updateByPrimaryKeySelective(sad);

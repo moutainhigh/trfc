@@ -819,87 +819,193 @@ public class SalesArriveService implements ISalesArriveService {
 	}
 
 	@Override
-	public Result audit(SalesArriveQuery query) {
+	public synchronized Result audit(SalesArriveQuery query) {
 		Result result = Result.getParamErrorResult();
 		if(query != null && StringUtils.isNotBlank(query.getId())){
-			SalesArrive sa = new SalesArrive();
-			sa.setId(query.getId());
-			sa.setAuditstatus("1");
-			sa.setModifier(query.getCurrUId());
-			sa.setModifytime(System.currentTimeMillis());
-			if(salesArriveMapper.updateByPrimaryKeySelective(sa) > 0){
-				result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
-			}else{
-				result.setErrorCode(ErrorCode.OPERATE_ERROR);
+			SalesArrive sa = salesArriveMapper.selectByPrimaryKey(query.getId());
+			if (sa != null) {
+				if (StringUtils.equals(sa.getState(), Constant.ONE_STRING)) {
+					if (!StringUtils.equals(sa.getStatus(), Constant.THREE_STRING)) {
+						if (StringUtils.equals(sa.getAuditstatus(), Constant.ZERO_STRING)) {
+							if (StringUtils.equals(sa.getStatus(), Constant.ZERO_STRING)) {
+								SalesApplication bill = salesApplicationMapper.selectByPrimaryKey(sa.getBillid());
+								if (bill != null) {
+									if (StringUtils.equals(bill.getBilltypeid(), Constant.ONE_STRING)) {
+										sa.setAuditstatus(Constant.ONE_STRING);
+										sa.setModifier(query.getUserId());
+										sa.setModifytime(System.currentTimeMillis());
+										salesArriveMapper.updateByPrimaryKeySelective(sa);
+										result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+									} else {
+										result.setErrorCode(ErrorCode.NOTICE_ONE_BILL_ONE_CAR_DONT_AUDIT);
+									}
+								} else {
+									result.setErrorCode(ErrorCode.APPLICATION_NOT_EXIST);
+								}
+							} else {
+								result.setErrorCode(ErrorCode.NOTICE_DONT_AUDIT);
+							}
+						} else {
+							result.setErrorCode(ErrorCode.NOTICE_DONT_REPEAT_AUDIT);
+						}
+					} else {
+						result.setErrorCode(ErrorCode.NOTICE_ON_INVALID);
+					}
+				} else {
+					result.setErrorCode(ErrorCode.NOTICE_NOT_VALID);
+				}
+			} else {
+				result.setErrorCode(ErrorCode.NOTICE_NOT_EXIST);
 			}
 		}
 		return result;
 	}
 
 	@Override
-	public Result unaudit(SalesArriveQuery query) {
+	public synchronized Result unaudit(SalesArriveQuery query) {
 		Result result = Result.getParamErrorResult();
 		if(query != null && StringUtils.isNotBlank(query.getId())){
-			SalesArrive sa = new SalesArrive();
-			sa.setId(query.getId());
-			sa.setAuditstatus("0");
-			sa.setModifier(query.getCurrUId());
-			sa.setModifytime(System.currentTimeMillis());
-			if(salesArriveMapper.updateByPrimaryKeySelective(sa) > 0){
-				result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
-			}else{
-				result.setErrorCode(ErrorCode.OPERATE_ERROR);
+			SalesArrive sa = salesArriveMapper.selectByPrimaryKey(query.getId());
+			if (sa != null) {
+				if (StringUtils.equals(sa.getState(), Constant.ONE_STRING)) {
+					if (!StringUtils.equals(sa.getStatus(), Constant.THREE_STRING)) {
+						if (StringUtils.equals(sa.getAuditstatus(), Constant.ONE_STRING)) {
+							if (StringUtils.equals(sa.getStatus(), Constant.ZERO_STRING)) {
+								SalesApplication bill = salesApplicationMapper.selectByPrimaryKey(sa.getBillid());
+								if (bill != null) {
+									if (StringUtils.equals(bill.getBilltypeid(), Constant.ONE_STRING)) {
+										sa.setAuditstatus(Constant.ZERO_STRING);
+										sa.setModifier(query.getUserId());
+										sa.setModifytime(System.currentTimeMillis());
+										salesArriveMapper.updateByPrimaryKeySelective(sa);
+										result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+									} else {
+										result.setErrorCode(ErrorCode.NOTICE_ONE_BILL_ONE_CAR_DONT_UNAUDIT);
+									}
+								} else {
+									result.setErrorCode(ErrorCode.APPLICATION_NOT_EXIST);
+								}
+							} else {
+								result.setErrorCode(ErrorCode.NOTICE_DONT_UNAUDIT);
+							}
+						} else {
+							result.setErrorCode(ErrorCode.NOTICE_DONT_REPEAT_UNAUDIT);
+						}
+					} else {
+						result.setErrorCode(ErrorCode.NOTICE_ON_INVALID);
+					}
+				} else {
+					result.setErrorCode(ErrorCode.NOTICE_NOT_VALID);
+				}
+			} else {
+				result.setErrorCode(ErrorCode.NOTICE_NOT_EXIST);
 			}
 		}
 		return result;
 	}
 
+	@Transactional
 	@Override
-	public Result invalid(SalesArriveQuery query) throws Exception {
+	public synchronized Result invalid(SalesArriveQuery query) throws Exception {
 		Result result = Result.getParamErrorResult();
 		if(query != null && StringUtils.isNotBlank(query.getId())){
-			SalesArrive sa = new SalesArrive();
-			sa.setId(query.getId());
-			sa.setStatus("3");
-			sa.setAbnormalperson(query.getCurrUId());
-			sa.setAbnormalpersonname(systemUserService.getUser(query.getCurrUId()).getName());
-			sa.setAbnormaltime(System.currentTimeMillis());
-			sa.setModifier(query.getCurrUId());
-			sa.setModifytime(System.currentTimeMillis());
-			if(salesArriveMapper.updateByPrimaryKeySelective(sa) > 0){
-				result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
-			}else{
-				result.setErrorCode(ErrorCode.OPERATE_ERROR);
+			SalesArrive sa = salesArriveMapper.selectByPrimaryKey(query.getId());
+			if (sa != null) {
+				if (StringUtils.equals(sa.getState(), Constant.ONE_STRING)) {
+					if (!StringUtils.equals(sa.getStatus(), Constant.THREE_STRING)) {
+						if (StringUtils.equals(sa.getStatus(), Constant.ZERO_STRING)) {
+							SalesApplication bill = salesApplicationMapper.selectByPrimaryKey(sa.getBillid());
+							if (bill != null) {
+								if (StringUtils.equals(bill.getBilltypeid(), Constant.ONE_STRING)) {
+									sa.setStatus(Constant.THREE_STRING);
+									sa.setValidStatus(Constant.TWO_STRING);
+									sa.setAbnormalperson(query.getUserId());
+									sa.setAbnormalpersonname(query.getUserName());
+									sa.setAbnormaltime(System.currentTimeMillis());
+									sa.setModifier(query.getUserId());
+									sa.setModifytime(System.currentTimeMillis());
+									salesArriveMapper.updateByPrimaryKeySelective(sa);
+									List<SalesApplicationArrive> list = salesApplicationArriveMapper.listByNoticeId(sa.getId());
+									for (SalesApplicationArrive join : list) {
+										SalesApplicationDetail sad = salesApplicationDetailMapper.selectByPrimaryKey(join.getBillDetailId());
+										sad.setMargin(sad.getMargin() + join.getNumber());
+										sad.setPretendingtake(sad.getPretendingtake() - join.getNumber());
+										salesApplicationDetailMapper.updateByPrimaryKeySelective(sad);
+									}
+									result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+								} else {
+									result.setErrorCode(ErrorCode.NOTICE_ONE_BILL_ONE_CAR_DONT_VALID);
+								}
+							} else {
+								result.setErrorCode(ErrorCode.APPLICATION_NOT_EXIST);
+							}
+						} else {
+							result.setErrorCode(ErrorCode.NOTICE_DONT_VALID_ERROR);
+						}
+					} else {
+						result.setErrorCode(ErrorCode.NOTICE_ON_INVALID);
+					}
+				} else {
+					result.setErrorCode(ErrorCode.NOTICE_NOT_VALID);
+				}
+			} else {
+				result.setErrorCode(ErrorCode.NOTICE_NOT_EXIST);
 			}
 		}
 		return result;
 	}
-
+	
+	@Transactional
 	@Override
-	public Result outfactory(SalesArriveQuery query) throws Exception {
+	public synchronized Result outfactory(SalesArriveQuery query) throws Exception {
 		Result result = Result.getParamErrorResult();
 		if(query != null && StringUtils.isNotBlank(query.getId())){
-			SalesArrive sa = new SalesArrive();
-			sa.setId(query.getId());
-			sa.setStatus(Constant.FIVE_STRING);
-			sa.setForceOutFactory(Constant.ONE_NUMBER);
-			sa.setForceOutFactoryPerson(query.getCurrUId());
-			sa.setForceOutFactoryTime(System.currentTimeMillis());
-			sa.setAbnormalperson(query.getCurrUId());
-			sa.setAbnormalpersonname(systemUserService.getUser(query.getCurrUId()).getName());
-			sa.setAbnormaltime(System.currentTimeMillis());
-			sa.setModifier(query.getCurrUId());
-			sa.setModifytime(System.currentTimeMillis());
-			salesArriveMapper.updateByPrimaryKeySelective(sa);
-			AccessRecord accessRecord = accessRecordMapper.selectByNoticeId(sa.getId());
-			AccessRecord ar = new AccessRecord();
-			ar.setId(accessRecord.getId());
-			ar.setOuttime(System.currentTimeMillis());
-			ar.setAccesstype(Constant.TWO_STRING);
-			ar.setModifier(query.getCurrUId());
-			ar.setModifytime(System.currentTimeMillis());
-			accessRecordMapper.updateByPrimaryKeySelective(ar);
-			result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+			SalesArrive sa = salesArriveMapper.selectByPrimaryKey(query.getId());
+			if (sa != null) {
+				if (StringUtils.equals(sa.getState(), Constant.ONE_STRING)) {
+					if (StringUtils.equals(sa.getStatus(), Constant.THREE_STRING)) {
+						if (!(StringUtils.equals(sa.getStatus(), Constant.FIVE_STRING)
+								&& sa.getForceOutFactory() == Constant.ZERO_NUMBER)) {
+							if (!(StringUtils.equals(sa.getStatus(), Constant.FIVE_STRING)
+									&& sa.getForceOutFactory() == Constant.ONE_NUMBER)) {
+								if (StringUtils.equals(sa.getStatus(), Constant.TWO_STRING)) {
+									sa.setStatus(Constant.FIVE_STRING);
+									sa.setForceOutFactory(Constant.ONE_NUMBER);
+									sa.setForceOutFactoryPerson(query.getUserId());
+									sa.setForceOutFactoryTime(System.currentTimeMillis());
+									sa.setAbnormalperson(query.getUserId());
+									sa.setAbnormalpersonname(query.getUserName());
+									sa.setAbnormaltime(System.currentTimeMillis());
+									sa.setModifier(query.getUserId());
+									sa.setModifytime(System.currentTimeMillis());
+									salesArriveMapper.updateByPrimaryKeySelective(sa);
+									AccessRecord accessRecord = accessRecordMapper.selectByNoticeId(sa.getId());
+									AccessRecord ar = new AccessRecord();
+									ar.setId(accessRecord.getId());
+									ar.setOuttime(System.currentTimeMillis());
+									ar.setAccesstype(Constant.TWO_STRING);
+									ar.setModifier(query.getUserId());
+									ar.setModifytime(System.currentTimeMillis());
+									accessRecordMapper.updateByPrimaryKeySelective(ar);
+									result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+								} else {
+									result.setErrorCode(ErrorCode.NOTICE_NOT_TWO_POUNDNOTE);
+								}
+							} else {
+								result.setErrorCode(ErrorCode.NOTICE_FORCE_OUT_FACTORY);
+							}
+						} else {
+							result.setErrorCode(ErrorCode.NOTICE_OUT_FACTORY);
+						}	
+					} else {
+						result.setErrorCode(ErrorCode.NOTICE_ON_INVALID);
+					}
+				} else {
+					result.setErrorCode(ErrorCode.NOTICE_NOT_VALID);
+				}
+			} else {
+				result.setErrorCode(ErrorCode.NOTICE_NOT_EXIST);
+			}
 		}
 		return result;
 	}
