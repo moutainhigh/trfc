@@ -3,6 +3,8 @@ package com.tianrui.api.resp.system.auth;
 import java.io.Serializable;
 import java.util.List;
 
+import com.tianrui.smartfactory.common.utils.DateUtil;
+
 public class SystemUserResp implements Serializable{
 
 	private static final long serialVersionUID = -5817774971738348903L;
@@ -91,6 +93,7 @@ public class SystemUserResp implements Serializable{
 	}
 	public void setLastLogintime(Long lastLogintime) {
 		this.lastLogintime = lastLogintime;
+		this.lastLogintimeStr = DateUtil.parse(lastLogintime, "yyyy-MM-dd HH:mm:ss");
 	}
 	public String getSource() {
 		return source;

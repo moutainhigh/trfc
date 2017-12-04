@@ -237,7 +237,7 @@ $(function() {
 								+ (invalid || '')
 								+ '</td>'
 								+ '<td>'
-								+ (new Date(obj.lastLogintime).format("yyyy-MM-dd HH:mm:ss") || '')
+								+ (obj.lastLogintimeStr || '')
 								+ '</td>'
 								+ '<td>'
 								+ (obj.logincount || 0)
