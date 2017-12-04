@@ -869,7 +869,7 @@ public class SalesArriveService implements ISalesArriveService {
 			if (sa != null) {
 				if (StringUtils.equals(sa.getState(), Constant.ONE_STRING)) {
 					if (!StringUtils.equals(sa.getStatus(), Constant.THREE_STRING)) {
-						if (StringUtils.equals(sa.getAuditstatus(), Constant.ZERO_STRING)) {
+						if (StringUtils.equals(sa.getAuditstatus(), Constant.ONE_STRING)) {
 							if (StringUtils.equals(sa.getStatus(), Constant.ZERO_STRING)) {
 								SalesApplication bill = salesApplicationMapper.selectByPrimaryKey(sa.getBillid());
 								if (bill != null) {
