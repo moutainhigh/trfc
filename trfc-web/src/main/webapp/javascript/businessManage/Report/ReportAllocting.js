@@ -2,6 +2,7 @@
 	//请求路径
 	var URL = {
 			commonUrl:"/trfc/allotPound/allotPage",		//调拨逐车明细
+			commonListUrl:"/trfc/allotPound/allotList",		
 //			autoCompleteSearch: "/trfc/supplier/autoCompleteSearch"
 	};
 	init();
@@ -16,6 +17,7 @@
 	/*	$(".wuliao_tabcont").hide();
 		$(".hide_buyCar").show();*/
 		queryData(1);
+//		commonList();
 	});
 	
 //	// 物料的四个tab切换菜单
@@ -26,6 +28,36 @@
 //	    $('.wuliao_tabbox > .wuliao_tabcont').eq(index).show().siblings().hide();
 	});
 	
+	
+		 $.ajax({
+	            url:URL.commonListUrl,
+	            async:true,
+	            cache:false,
+	            dataType:'json',
+	            type:'post',
+	            success:function(result){
+	                if(result.code == '000000'){
+	                console.log(result.data)           	
+	                	$('#RMgA').empty();
+	        	        var list = result.data;
+	        	            for(var i=0;i<list.length;i++){
+	        	            	$('<tr>').append('<td>'+(list[i].code||"")+'</td>')
+								.append('<td>'+(list[i].noticecode||"")+'</td>')
+								.append('<td>'+(list[i].senddepartmentname||"")+'</td>')
+								.append('<td>'+(list[i].receivedepartmentname||"")+'</td>')
+								.append('<td>'+(list[i].warehousename||"")+'</td>')
+								.append('<td>'+(list[i].materialname||"")+'</td>')
+								.append('<td>'+(list[i].vehicleno||"")+'</td>')
+								.append('<td>'+(list[i].grossweight||"")+'</td>')
+								.append('<td>'+(list[i].tareweight||"")+'</td>')
+								.append('<td>'+(list[i].netweight||"")+'</td>')
+								.append('<td>'+(new Date(list[i].lighttime||"").format("yyyy-MM-dd HH:mm:ss")||"")+'</td>')
+								.append('<td>'+(new Date(list[i].weighttime||"").format("yyyy-MM-dd HH:mm:ss"))+'</td>')
+	        	                .appendTo('#RMgA');
+	        	            }       	
+	                }
+	            }
+	        });
 	
 	$('#searchBtn').off('click').on('click',function(){
 		if(queryData){

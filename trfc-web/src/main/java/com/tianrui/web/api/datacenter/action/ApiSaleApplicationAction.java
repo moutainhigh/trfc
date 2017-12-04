@@ -153,23 +153,25 @@ public class ApiSaleApplicationAction {
 		return ApiResult.valueOf(rs);
 	}
 
-//	/**
-//	 * 
-//	 * @param req
-//	 * @return
-//	 */
-//	@RequestMapping(value="/bill/nc/save",method=RequestMethod.POST)
-//	@ApiParamRawType(BillValidReq.class)
-//	@ResponseBody
-//	public ApiResult auditCallBack(ApiParam<BillValidReq> req){
-//		Result rs = Result.getErrorResult();
-//		try {
-//			rs = salesApplicationService.billAuditCallBack(req.getBody());
-//		} catch (Exception e) {
-//			rs.setErrorCode(ErrorCode.SYSTEM_ERROR);
-//			log.error(e.getMessage(),e);
-//		}
-//		return ApiResult.valueOf(rs);
-//	}
+	/**
+	 * NC自制实时推送到FC
+	 * @author xcy
+	 * @param req
+	 * @return
+	 */
+	@RequestMapping(value="/bill/nc/save",method=RequestMethod.POST)
+	@ApiParamRawType(JSONArray.class)
+	@ResponseBody
+	public ApiResult pushSalesTofc(ApiParam<JSONArray> req){
+		Result rs = Result.getErrorResult();
+		JSONArray array = req.getBody();
+		try {
+			rs = salesApplicationService.pushSalesTofc(array);
+		} catch (Exception e) {
+			rs.setErrorCode(ErrorCode.SYSTEM_ERROR);
+			log.error(e.getMessage(),e);
+		}
+		return ApiResult.valueOf(rs);
+	}
 	
 }

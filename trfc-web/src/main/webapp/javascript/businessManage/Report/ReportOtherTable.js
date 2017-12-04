@@ -3,11 +3,14 @@
 	var URL = {
 			materUrl:"/trfc/inPound/putInPage",			//其他入库逐车明细
 			receiveUrl:"/trfc/outPound/outStorePage",    //其他出库逐车明细
+			receiveListUrl:"/trfc/outPound/outStoreList",
+			materListUrl:"/trfc/inPound/putInList",
 //			autoCompleteSearch: "/trfc/supplier/autoCompleteSearch"
 	};
 	init();
 	function init(){
 		bindEvent();
+		materList();
 //		queryData();
 		/*$(".wuliao_tabcont").hide();
 		$(".hide_thing").show();*/
@@ -17,12 +20,14 @@
 		/*$(".wuliao_tabcont").hide();
 		$(".hide_thing").show();*/
 		queryData4(1);
+		materList();
 	});
 	$('#receive').off('click').on('click',function(){
 		$('input#jumpPageNo').val('');
 	/*	$(".wuliao_tabcont").hide();
 		$(".hide_receive").show();*/
 		queryData3(1);
+		receiveList();
 	});
 	
 //	// 物料的四个tab切换菜单
@@ -33,7 +38,71 @@
 	    $('.wuliao_tabbox > .wuliao_tabcont').eq(index).show().siblings().hide();
 	});
 	
-	
+	 //其他出库逐车明细
+	function receiveList(){
+		 $.ajax({
+	            url:URL.receiveListUrl,
+	            async:true,
+	            cache:false,
+	            dataType:'json',
+	            type:'post',
+	            success:function(result){
+	                if(result.code == '000000'){
+	                console.log(result.data)           	
+	                	$('#RMgA').empty();
+	        	        var list = result.data;
+	        	            for(var i=0;i<list.length;i++){
+	        	            	$('<tr>').append('<td>'+(list[i].code||"")+'</td>')
+	    						.append('<td>'+(list[i].noticecode||"")+'</td>')
+	    						.append('<td>'+(list[i].receivedepartmentname||"")+'</td>')
+	    						.append('<td>'+(list[i].senddepartmentname||"")+'</td>')
+	    						.append('<td>'+(list[i].warehousename||"")+'</td>')
+	    						.append('<td>'+(list[i].cargo||"")+'</td>')
+	    						.append('<td>'+(list[i].vehicleno||"")+'</td>')
+	    						.append('<td>'+(list[i].grossweight||"")+'</td>')
+	    						.append('<td>'+(list[i].tareweight||"")+'</td>')
+	    						.append('<td>'+(list[i].netweight||"")+'</td>')
+	    						.append('<td>'+(new Date(list[i].lighttime||"").format("yyyy-MM-dd HH:mm:ss")||"")+'</td>')
+	    						.append('<td>'+(new Date(list[i].weighttime||"").format("yyyy-MM-dd HH:mm:ss"))+'</td>')
+	        	                .appendTo('#RMgA');
+	        	            }       	
+	                }
+	            }
+	        });
+	}
+	 //其他入库逐车明细
+	function materList(){
+		 $.ajax({
+	            url:URL.materListUrl,
+	            async:true,
+	            cache:false,
+	            dataType:'json',
+	            type:'post',
+	            success:function(result){
+	                if(result.code == '000000'){
+	                console.log(result.data)           	
+	                	$('#RMgB').empty();
+	        	        var list = result.data;
+	        	            for(var i=0;i<list.length;i++){
+	        	            	$('<tr>').append('<td>'+(list[i].code||"")+'</td>')
+	    						.append('<td>'+(list[i].noticecode||"")+'</td>')
+	    						.append('<td>'+(list[i].senddepartmentname||"")+'</td>')
+	    						.append('<td>'+(list[i].receivedepartmentname||"")+'</td>')
+	    						.append('<td>'+(list[i].warehousename||"")+'</td>')
+	    						.append('<td>'+(list[i].cargo||"")+'</td>')
+	    						.append('<td>'+(list[i].vehicleno||"")+'</td>')
+	    						.append('<td>'+(list[i].grossweight||"")+'</td>')
+	    						.append('<td>'+(list[i].tareweight||"")+'</td>')
+	    						.append('<td>'+(list[i].netweight||"")+'</td>')
+	    						.append('<td>'+(new Date(list[i].lighttime||"").format("yyyy-MM-dd HH:mm:ss")||"")+'</td>')
+	    						.append('<td>'+(new Date(list[i].weighttime||"").format("yyyy-MM-dd HH:mm:ss"))+'</td>')
+	    						.append('<td>'+(list[i].remark||"")+'</td>')
+	        	                .appendTo('#RMgB');
+	        	            }       	
+	                }
+	            }
+	        });
+	}
 	$('#searchBtn').off('click').on('click',function(){
 		if(queryData3){
 			queryData3(1);

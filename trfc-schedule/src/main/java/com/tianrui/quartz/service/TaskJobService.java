@@ -230,23 +230,50 @@ public class TaskJobService {
 		bean.setStatus(Constant.ONE_STRING);
 		bean.setBilltypeid(Constant.ZERO_STRING);
 		bean.setValidStatus(Constant.ZERO_STRING);
+		bean.setNcStatus(Constant.TWO_STRING);
 		List<SalesApplication> list = salesApplicationMapper.selectSelective(bean);
 		if (CollectionUtils.isNotEmpty(list)) {
 			for (SalesApplication sa : list) {
-				List<SalesApplicationDetail> detailList = salesApplicationDetailMapper.selectBySalesId(sa.getId());
-				SalesArrive notice = new SalesArrive();
-				notice.setBillid(sa.getId());
-				List<SalesArrive> noticeList = salesArriveMapper.selectSelective(notice);
-				if (CollectionUtils.isEmpty(noticeList)) {
-					VehicleManage vehicle = vehicleManageMapper.selectByPrimaryKey(sa.getVehicleId());
-					if (validVehicle(vehicle)) {
-						if (StringUtils.isNotBlank(sa.getDriverId())) {
-							DriverManage driver = driverManageMapper.selectByPrimaryKey(sa.getDriverId());
-							if (validDriver(driver)) {
-								saveOneBillOneCarNotice(sa, detailList.get(0), vehicle, driver);
-							}
-						} else {
+				if (sa.getBillSource() == Constant.ZERO_NUMBER) {
+					//nc
+					if (StringUtils.isNotBlank(sa.getVehicleNo())) {
+						List<SalesApplicationDetail> detailList = salesApplicationDetailMapper.selectBySalesId(sa.getId());
+						SalesArrive notice = new SalesArrive();
+						notice.setBillid(sa.getId());
+						List<SalesArrive> noticeList = salesArriveMapper.selectSelective(notice);
+						if (CollectionUtils.isEmpty(noticeList)) {
+							VehicleManage vehicle = new VehicleManage();
+							vehicle.setId(UUIDUtil.getId());
+							vehicle.setCode(getCode("CL", sa.getMakerid(), true));
+							vehicle.setInternalcode(getCode("CL", sa.getMakerid(), false));
+							vehicle.setVehicleno(sa.getVehicleNo());
+							vehicle.setTransporttype(Constant.ZERO_STRING);
+							vehicle.setOrgid(Constant.ORG_ID);
+							vehicle.setOrgname(Constant.ORG_NAME);
+							vehicle.setIsvalid(Constant.ONE_STRING);
+							vehicle.setIsblacklist(Constant.ZERO_STRING);
+							vehicle.setState(Constant.ONE_STRING);
+							vehicleManageMapper.insertSelective(vehicle);
 							saveOneBillOneCarNotice(sa, detailList.get(0), vehicle, null);
+						}
+					}
+				} else {
+					List<SalesApplicationDetail> detailList = salesApplicationDetailMapper.selectBySalesId(sa.getId());
+					SalesArrive notice = new SalesArrive();
+					notice.setBillid(sa.getId());
+					List<SalesArrive> noticeList = salesArriveMapper.selectSelective(notice);
+					if (CollectionUtils.isEmpty(noticeList)) {
+						//app 和 平台
+						VehicleManage vehicle = vehicleManageMapper.selectByPrimaryKey(sa.getVehicleId());
+						if (validVehicle(vehicle)) {
+							if (StringUtils.isNotBlank(sa.getDriverId())) {
+								DriverManage driver = driverManageMapper.selectByPrimaryKey(sa.getDriverId());
+								if (validDriver(driver)) {
+									saveOneBillOneCarNotice(sa, detailList.get(0), vehicle, driver);
+								}
+							} else {
+								saveOneBillOneCarNotice(sa, detailList.get(0), vehicle, null);
+							}
 						}
 					}
 				}
@@ -258,8 +285,8 @@ public class TaskJobService {
 			VehicleManage vehicle, DriverManage driver) throws Exception {
 		SalesArrive bean = new SalesArrive();
 		bean.setId(UUIDUtil.getId());
-		bean.setCode(getCode("TH", sa.getMakerid()));
-		bean.setAuditstatus(Constant.ZERO_STRING);
+		bean.setCode(getCode("TH", sa.getMakerid(), true));
+		bean.setAuditstatus(Constant.ONE_STRING);
 		bean.setSource(Constant.TWO_STRING);
 		bean.setStatus(Constant.ZERO_STRING);
 		bean.setVehicleid(vehicle.getId());
@@ -291,6 +318,9 @@ public class TaskJobService {
 		join.setNumber(sad.getSalessum());
 		join.setSequence(1);
 		salesApplicationArriveMapper.insertSelective(join);
+		sad.setMargin(0D);
+		sad.setPretendingtake(sad.getSalessum());
+		salesApplicationDetailMapper.updateByPrimaryKeySelective(sad);
 	}
 
 	private boolean validVehicle(VehicleManage vehicle) {
@@ -334,10 +364,10 @@ public class TaskJobService {
 		return flag;
 	}
 	
-	private String getCode(String code, String userId) throws Exception {
+	private String getCode(String code, String userId, boolean flag) throws Exception {
 		GetCodeReq codeReq = new GetCodeReq();
 		codeReq.setCode(code);
-		codeReq.setCodeType(true);
+		codeReq.setCodeType(flag);
 		codeReq.setUserid(userId);
 		return systemCodeService.getCode(codeReq).getData().toString();
 	}

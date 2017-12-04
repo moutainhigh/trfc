@@ -25,9 +25,13 @@ import com.tianrui.api.resp.businessManage.app.AppVehicleResp;
 import com.tianrui.api.resp.system.auth.SystemUserResp;
 import com.tianrui.service.bean.basicFile.measure.TransportunitManage;
 import com.tianrui.service.bean.basicFile.measure.VehicleManage;
+import com.tianrui.service.bean.businessManage.purchaseManage.PurchaseArrive;
+import com.tianrui.service.bean.businessManage.salesManage.SalesArrive;
 import com.tianrui.service.bean.common.RFID;
 import com.tianrui.service.mapper.basicFile.measure.TransportunitManageMapper;
 import com.tianrui.service.mapper.basicFile.measure.VehicleManageMapper;
+import com.tianrui.service.mapper.businessManage.purchaseManage.PurchaseArriveMapper;
+import com.tianrui.service.mapper.businessManage.salesManage.SalesArriveMapper;
 import com.tianrui.service.mapper.common.RFIDMapper;
 import com.tianrui.smartfactory.common.constants.Constant;
 import com.tianrui.smartfactory.common.constants.ErrorCode;
@@ -57,6 +61,10 @@ public class VehicleManageService implements IVehicleManageService {
 	private TransportunitManageMapper transportunitManageMapper;
 	@Autowired
 	private ISystemUserService systemUserService;
+	@Autowired
+	private SalesArriveMapper salesArriveMapper;
+	@Autowired
+	private PurchaseArriveMapper purchaseArriveMapper;
 
 	@Override
 	public PaginationVO<VehicleManageResp> page(VehicleManageQuery query) throws Exception {
@@ -315,9 +323,11 @@ public class VehicleManageService implements IVehicleManageService {
         List<VehicleManage> list = vehicleManageMapper.selectSelective(vehicle);
         if (CollectionUtils.isNotEmpty(list)) {
             //车辆存在  直接绑定RFID
-            vehicle.setId(list.get(0).getId());
+        	vehicle = list.get(0);
             vehicle.setRfid(apiParams.getRfid());
             vehicleManageMapper.updateByPrimaryKeySelective(vehicle);
+            //修改未出厂的通知单和磅单的车辆信息
+            updateNoticeAndPoundNoteDetail(vehicle);
         } else {
             //车辆不存在  新增并绑定RFID
             vehicle.setId(UUIDUtil.getId());
@@ -339,6 +349,36 @@ public class VehicleManageService implements IVehicleManageService {
         result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
 	}
 	
+	private void updateNoticeAndPoundNoteDetail(VehicleManage vehicle) {
+		SalesArrive sa = new SalesArrive();
+		sa.setVehicleno(vehicle.getVehicleno());
+		sa.setStatus(Constant.ZERO_STRING);
+		sa.setState(Constant.ONE_STRING);
+		sa.setValidStatus(Constant.ZERO_STRING);
+		List<SalesArrive> salesList = salesArriveMapper.selectSelective(sa);
+		if (CollectionUtils.isNotEmpty(salesList)) {
+			sa = salesList.get(0);
+			sa.setVehicleid(vehicle.getId());
+			sa.setVehicleno(vehicle.getVehicleno());
+			sa.setVehiclerfid(vehicle.getRfid());
+			salesArriveMapper.updateByPrimaryKeySelective(sa);
+		} else {
+			PurchaseArrive pa = new PurchaseArrive();
+			pa.setVehicleno(vehicle.getVehicleno());
+			pa.setStatus(Constant.ZERO_STRING);
+			pa.setState(Constant.ONE_STRING);
+			List<PurchaseArrive> purList = purchaseArriveMapper.selectSelective(pa);
+			if (CollectionUtils.isNotEmpty(purList)) {
+				pa = purList.get(0);
+				pa.setVehicleid(vehicle.getId());
+				pa.setVehicleno(vehicle.getVehicleno());
+				pa.setVehiclerfid(vehicle.getRfid());
+				purchaseArriveMapper.updateByPrimaryKeySelective(pa);
+			}
+		}
+		
+	}
+
 	@Override
 	public Result addVehicleApi(VehicleManageApi apiParams) throws Exception {
 	    Result result = Result.getParamErrorResult();

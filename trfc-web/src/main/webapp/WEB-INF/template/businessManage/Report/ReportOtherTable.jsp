@@ -126,7 +126,7 @@
                 <div class="intel_table">
                     <div class="intel_table">
                      <div style="position: absolute;left:210px;top:191px;">
-						  <div class="intel_operasolo" >
+						  <div class="intel_operasolo" onclick="method('.tableExcelA')">
 						        <i class="iconfont" style="color: #0174c3;font-size: 25px;margin-left: 22px">&#xe63c;</i>
 						        <p>导出全部</p>
 						    </div>					
@@ -180,13 +180,44 @@
                             <!--用户表格end-->
                         </div>
                         <!--endprint2-->
+                       <!--  全部导出begin -->
+                       <div style="display: none;text-indent:-9999px;height: 0px !important;" class="intel_table" style="border:1px solid #dbe7f3;margin-top: 20px">
+                            <!--用户表格begin-->
+                            <table class="tableExcelA" width="100%" border="1" cellspacing="0" cellpadding="0">
+                                <thead>
+                                <tr>
+                                    <td colspan="12" align="center" style="color:#434e8d;font-size: 40px;line-height:normal">
+                         			               卫辉市天瑞水泥有限公司采购物料统计
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th style="font-size: 20px">过磅单号</th>
+                                    <th style="font-size: 20px">通知单号</th>
+                                    <th style="font-size: 20px">收货单位</th>
+                                    <th style="font-size: 20px">发货单位</th>
+                                    <th style="font-size: 20px">仓库</th>
+                                    <th style="font-size: 20px">货物</th>
+                                    <th style="font-size: 20px">车号</th>
+                                    <th style="font-size: 20px">毛重</th>
+                                    <th style="font-size: 20px">皮重</th>
+                                    <th style="font-size: 20px">净重</th>
+                                    <th style="font-size: 20px">轻车时间</th>
+                                    <th style="font-size: 20px">重车时间</th>
+                                </tr>
+                                </thead>
+                                <tbody id="RMgA">
+                                
+                                </tbody>
+                            </table>  
+                        </div>
+                       <!--  全部导出end -->
                     </div>
                 </div>
             </div>
             <div class="wuliao_tabcont hide_thing">
                 <div class="intel_table">
                  <div style="position: absolute;left:210px;top:191px;">
-						  <div class="intel_operasolo" >
+						  <div class="intel_operasolo" onclick="method('.tableExcelB')">
 						        <i class="iconfont" style="color: #0174c3;font-size: 25px;margin-left: 22px">&#xe63c;</i>
 						        <p>导出全部</p>
 						    </div>					
@@ -241,6 +272,38 @@
                         <!--用户表格end-->
                     </div>
                     <!--endprint3-->
+                  <!--   导出全部begin -->
+                  <div style="display: none;text-indent:-9999px;height: 0px !important;" class="intel_table" style="border:1px solid #dbe7f3;margin-top: 20px">
+                        <!--用户表格begin-->
+                        <table class="tableExcelB" width="100%" border="1" cellspacing="0" cellpadding="0">
+                            <thead>
+                            <tr>
+                                <td colspan="13" align="center" style="color:#434e8d;font-size: 40px;line-height:normal">
+                                	卫辉市天瑞水泥有限公司采购物料统计                       
+                                </td>
+                            </tr>
+                            <tr>
+	                            <th style="font-size: 20px">过磅单号</th>
+	                            <th style="font-size: 20px">通知单号</th>
+	                            <th style="font-size: 20px">单位</th>
+                                <th style="font-size: 20px">收货单位</th>
+                                <th style="font-size: 20px">仓库</th>
+                                <th style="font-size: 20px">货物</th>
+                                <th style="font-size: 20px">车号</th>
+                                <th style="font-size: 20px">毛重</th>
+                                <th style="font-size: 20px">皮重</th>
+                                <th style="font-size: 20px">净重</th>
+                                <th style="font-size: 20px">轻车时间</th>
+                                <th style="font-size: 20px">重车时间</th>
+                                <th style="font-size: 20px">备注</th>
+                            </tr>
+                            </thead>
+                            <tbody id="RMgB">
+                            
+                            </tbody>
+                        </table>
+                    </div>
+                  <!--   导出全部end -->
                 </div>
             </div>
         </div>

@@ -245,6 +245,7 @@ public class AppSalesStaticAction {
 			param.getBody().setUserId(param.getHead().getUserId());
 			param.getBody().setNcId(param.getHead().getNcId());
 			param.getBody().setIDType(param.getHead().getIDType());
+			param.getBody().setSalesOrg(param.getHead().getSalesOrg());
 			result = appService.noticeCancel(param.getBody());
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
@@ -262,6 +263,7 @@ public class AppSalesStaticAction {
 			param.getBody().setUserId(param.getHead().getUserId());
 			param.getBody().setNcId(param.getHead().getNcId());
 			param.getBody().setIDType(param.getHead().getIDType());
+			param.getBody().setSalesOrg(param.getHead().getSalesOrg());
 			result = appService.myVehicle(param.getBody());
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
