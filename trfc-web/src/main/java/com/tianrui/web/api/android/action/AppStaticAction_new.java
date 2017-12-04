@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.tianrui.api.intf.api.android.imple.IAppStaticService;
+import com.tianrui.api.intf.api.android.imple.IAppStaticUserService;
 import com.tianrui.api.req.android.AppVersionParam;
 import com.tianrui.api.req.android.BillListParam;
 import com.tianrui.api.req.android.BillSave;
@@ -37,14 +38,19 @@ public class AppStaticAction_new {
 
 	@Autowired
 	private IAppStaticService appService;
-
+	@Autowired
+	IAppStaticUserService  appUserService;
 	@RequestMapping(value="/login",method=RequestMethod.POST)
 	@ApiParamRawType(LoginUserParam.class)
 	@ResponseBody
 	public AppResult login(ApiParam<LoginUserParam> param){
 		AppResult result = AppResult.getAppResult();
 		try {
-			result = appService.appLogin(param.getBody());
+			if(param.getBody().getIDType().equals("1")){
+				result = appService.appLogin(param.getBody());
+			}else if(param.getBody().getIDType().equals("2")){
+				result = appUserService.appLogin(param.getBody());
+			}
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 			result.setErrorCode(ErrorCode.SYSTEM_ERROR);

@@ -3,6 +3,7 @@ package com.tianrui.service.api.android.imple;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -75,6 +76,7 @@ import com.tianrui.service.mapper.common.UserDriverMapper;
 import com.tianrui.service.mapper.common.UserVehicleMapper;
 import com.tianrui.service.mapper.system.auth.OrganizationMapper;
 import com.tianrui.service.mapper.system.auth.SystemUserMapper;
+import com.tianrui.service.mapper.system.auth.SystemUserclientMapper;
 import com.tianrui.service.mapper.system.merchants.SupplierGroupMapper;
 import com.tianrui.smartfactory.common.constants.Constant;
 import com.tianrui.smartfactory.common.constants.ErrorCode;
@@ -127,6 +129,8 @@ public class AppStaticService implements IAppStaticService {
 	private SupplierGroupMapper supplierGroupMapper;
 	@Autowired
 	private AppVersionMapper appVersionMapper;
+	@Autowired
+	SystemUserclientMapper userclientMapper;
 	
 	@Transactional
 	@Override
@@ -135,7 +139,8 @@ public class AppStaticService implements IAppStaticService {
 		if (param != null && StringUtils.isNotBlank(param.getAccount())
 				&& StringUtils.isNotBlank(param.getPwd())
 				&& StringUtils.isNotBlank(param.getIDType())) {
-			SystemUser user = userMapper.getByAccount(param.getAccount(), param.getIDType());
+//			SystemUser user = userMapper.getByAccount(param.getAccount(), param.getIDType());
+			SystemUser user = userclientMapper.getByAccount(param.getAccount());
 			if (user != null) {
 				if (StringUtils.equals(user.getPassword(), param.getPwd())) {
 					if (user.getIslock() == 0) {
@@ -175,7 +180,7 @@ public class AppStaticService implements IAppStaticService {
 	 */
 	private LoginUserVo cacheUserAndReturnLoginData(String userId) throws Exception {
 		//缓存默认保存一天
-		SystemUserResp resp = systemUserService.get(userId, true);
+		SystemUserResp resp = get(userId, true);
 		String tokenId =UUIDUtil.getId();
 		resp.setTokenId(tokenId);
 		String key = CacheHelper.buildKey(CacheModule.MEMBERLOGIN_APP, tokenId);
@@ -192,7 +197,62 @@ public class AppStaticService implements IAppStaticService {
 		vo.setOrgName(resp.getOrgName());
 		return vo;
 	}
-
+	
+	
+	
+	@Override
+	public SystemUserResp getUser(String id) throws Exception{
+		SystemUser db = null;
+		//主键不能为空
+		if (StringUtils.isNotBlank(id)) {
+			db = userclientMapper.selectByPrimaryKey(id);
+			db.setIdentityTypes("1");
+			db.setNcid(db.getId());
+		}
+		return copySystemUserBean2Resp(db);
+	}
+	@Override
+	public SystemUserResp get(String id, boolean isFlush) throws Exception {
+		SystemUserResp user = null;
+		if (StringUtils.isNotBlank(id)) {
+			String key = CacheHelper.buildKey(CacheModule.MEMBERVO, id);
+			if (isFlush) {
+				user = getUser(id);
+				cacheClient.saveObject(key, user);
+			} else {
+				user = get(id);
+			}
+		}
+		return user;
+	}
+	@Override
+	public SystemUserResp get(String id) throws Exception{
+		SystemUserResp user = null;
+		if (StringUtils.isNotBlank(id)) {
+			String key = CacheHelper.buildKey(CacheModule.MEMBERVO, id);
+			user = cacheClient.getObj(key, SystemUserResp.class);
+			if (user == null) {
+				user = getUser(id);
+				cacheClient.saveObject(key, user);
+			}
+		}
+		return user;
+	}
+	//包装返回对象
+	private SystemUserResp copySystemUserBean2Resp(SystemUser bean) throws Exception {
+		SystemUserResp resp = null;
+		if (bean != null) {
+			resp =new SystemUserResp();
+			PropertyUtils.copyProperties(resp, bean);
+			if(StringUtils.isNotBlank(bean.getOrgid())){
+				Organization org = organizationMapper.selectByPrimaryKey(bean.getOrgid());
+				if(org != null){
+					resp.setOrgName(org.getName());
+				}
+			}
+		}
+		return resp;
+	}
 	/**
 	 * @annotation 累计登录次数
 	 * @param user
@@ -202,7 +262,7 @@ public class AppStaticService implements IAppStaticService {
 		bean.setId(user.getId());
 		bean.setLogincount(user.getLogincount()+1);
 		bean.setLastLogintime(System.currentTimeMillis());
-		userMapper.updateByPrimaryKeySelective(bean);
+		userclientMapper.updateByPrimaryKeySelective(bean);
 	}
 
 	@Override
@@ -1022,7 +1082,7 @@ public class AppStaticService implements IAppStaticService {
 				PurchaseApplication pa = purchaseApplicationMapper.selectByPrimaryKey(notice.getBillid());
 				PurchaseApplicationDetail pad = purchaseApplicationDetailMapper.selectByPrimaryKey(notice.getBilldetailid());
 				if (pa != null && pad != null && StringUtils.equals(pa.getSupplierid(), param.getNcId())) {
-					if (StringUtils.equals(notice.getStatus(), Constant.ZERO_STRING)) {
+					if (StringUtils.equals(notice.getAuditstatus(), Constant.ZERO_STRING)) {
 						//关闭通知单并回写余量和预提量
 						notice.setStatus(Constant.THREE_STRING);
 						notice.setAbnormalperson(user.getId());

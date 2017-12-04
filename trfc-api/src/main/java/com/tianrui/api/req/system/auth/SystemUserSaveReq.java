@@ -28,6 +28,7 @@ public class SystemUserSaveReq extends BaseReq {
     private String isvalid="0";
 	//当前用户
 	private String currUId;
+	private String identityTypes;
 	public String getId() {
 		return id;
 	}
@@ -87,6 +88,12 @@ public class SystemUserSaveReq extends BaseReq {
 	}
 	public void setMobilePhone(String mobilePhone) {
 		this.mobilePhone = mobilePhone;
+	}
+	public String getIdentityTypes() {
+		return identityTypes;
+	}
+	public void setIdentityTypes(String identityTypes) {
+		this.identityTypes = identityTypes;
 	}
 	
 }

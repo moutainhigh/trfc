@@ -22,6 +22,8 @@ import com.tianrui.api.intf.businessManage.salesManage.ISalesApplicationService;
 import com.tianrui.api.intf.businessManage.salesManage.ISalesArriveService;
 import com.tianrui.api.intf.common.IAppVersionService;
 import com.tianrui.api.intf.system.auth.ISystemUserService;
+import com.tianrui.api.intf.system.auth.ISystemUserclientService;
+import com.tianrui.api.intf.system.auth.ISystemUsersupplierService;
 import com.tianrui.api.intf.system.merchants.ISupplierGroupService;
 import com.tianrui.api.req.businessManage.app.AppDriverSaveReq;
 import com.tianrui.api.req.businessManage.app.AppNoticeOrderReq;
@@ -88,6 +90,10 @@ public class AppStaticAction {
 	private IMaterielManageService materielManageService;
 	@Autowired
 	private ISupplierGroupService supplierGroupService;
+	@Autowired
+	ISystemUserclientService iSystemUserclientService;
+	@Autowired
+	ISystemUsersupplierService iSystemUsersupplierService;
 	
 	@RequestMapping(value="/login",method=RequestMethod.POST)
 	@ApiParamRawType(AppUserReq.class)
@@ -95,7 +101,12 @@ public class AppStaticAction {
 	public ApiResult login(ApiParam<AppUserReq> req){
 		Result rs = Result.getErrorResult();
 		try {
-			rs = systemUserService.appLogin(req.getBody());
+			if(req.getHead().getIDType().equals("1")){
+				rs = iSystemUserclientService.appLogin(req.getBody());
+			}else if(req.getHead().getIDType().equals("2")){
+				rs = iSystemUsersupplierService.appLogin(req.getBody());
+			}
+//			rs = systemUserService.appLogin(req.getBody());
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 			rs.setErrorCode(ErrorCode.SYSTEM_ERROR);
