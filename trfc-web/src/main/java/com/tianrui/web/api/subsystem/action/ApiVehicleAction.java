@@ -68,4 +68,23 @@ public class ApiVehicleAction {
 		}
 		return ApiResult.valueOf(rs);
 	}
+	
+	
+	//车辆验证 
+	@RequestMapping("vehicleDetail")
+	@ApiParamRawType(VehicleManageApi.class)
+	@ApiAuthValidation(callType="1")
+	@ResponseBody
+	public ApiResult vehicleDetail(ApiParam<VehicleManageApi> req){
+		Result rs=Result.getErrorResult();
+		VehicleManageApi vehicleManageApi = req.getBody();
+		vehicleManageApi.setCurrUid(req.getHead().getUserId());
+		try {
+			rs=vehicleManageService.selectByVehicleNo(vehicleManageApi);
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			rs.setErrorCode(ErrorCode.SYSTEM_ERROR);
+		}
+		return ApiResult.valueOf(rs);
+	}
 }
