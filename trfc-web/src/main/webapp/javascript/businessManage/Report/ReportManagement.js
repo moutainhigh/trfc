@@ -80,8 +80,8 @@
 	        					.append('<td>'+(list[i].grossweight||"")+'</td>')
 	        					.append('<td>'+(list[i].tareweight||"")+'</td>')
 	        					.append('<td>'+(list[i].netweight||"")+'</td>')
-	        					.append('<td>'+(list[i].lighttime||"")+'</td>')
-	        					.append('<td>'+(list[i].weighttime||"")+'</td>')
+	        					.append('<td>'+(new Date(list[i].lighttime||"").format("yyyy-MM-dd HH:mm:ss")||"")+'</td>')
+							.append('<td>'+(new Date(list[i].weighttime||"").format("yyyy-MM-dd HH:mm:ss"))+'</td>')
 	        					.append('<td>'+(list[i].remark||"")+'</td>')
 	        	                .appendTo('#RMgA');
 	        	            }       	
@@ -106,7 +106,7 @@
 	        	            for(var i=0;i<list.length;i++){
 	        	            	$('<tr>').append('<td>'+(list[i].suppliername||"")+'</td>')
 								.append('<td>'+(list[i].minemouthname||"")+'</td>')
-								.append('<td>'+(list[i].cargo||"")+'</td>')
+								.append('<td>'+(list[i].materialname||"")+'</td>')
 								.append('<td>'+(list[i].countVehicleNo||"")+'</td>')
 								.append('<td>'+(list[i].sumGrossweight||"")+'</td>')
 								.append('<td>'+(list[i].sumTareweight||"")+'</td>')
@@ -166,7 +166,7 @@
 	        	        var list = result.data;
 	        	            for(var i=0;i<list.length;i++){
 	        	            	$('<tr>').append('<td>'+(list[i].suppliername||"")+'</td>')
-	    						.append('<td>'+(list[i].cargo||"")+'</td>')
+	    						.append('<td>'+(list[i].materialname||"")+'</td>')
 	    						.append('<td>'+(list[i].countVehicleNo||"")+'</td>')
 	    						.append('<td>'+(list[i].sumOriginalnetweight||"")+'</td>')
 	    						.append('<td>'+(list[i].sumGrossweight||"")+'</td>')
@@ -401,7 +401,7 @@
 				for(var i=0;i<list.length;i++){
 					$('<tr>').append('<td>'+(list[i].suppliername||"")+'</td>')
 							.append('<td>'+(list[i].minemouthname||"")+'</td>')
-							.append('<td>'+(list[i].cargo||"")+'</td>')
+							.append('<td>'+(list[i].materialname||"")+'</td>')
 							.append('<td>'+(list[i].countVehicleNo||"")+'</td>')
 							.append('<td>'+(list[i].sumGrossweight||"")+'</td>')
 							.append('<td>'+(list[i].sumTareweight||"")+'</td>')
@@ -534,7 +534,7 @@
 		if(list && list.length>0){
 			for(var i=0;i<list.length;i++){
 				$('<tr>').append('<td>'+(list[i].suppliername||"")+'</td>')
-						.append('<td>'+(list[i].cargo||"")+'</td>')
+						.append('<td>'+(list[i].materialname||"")+'</td>')
 						.append('<td>'+(list[i].countVehicleNo||"")+'</td>')
 						.append('<td>'+(list[i].sumOriginalnetweight||"")+'</td>')
 						.append('<td>'+(list[i].sumGrossweight||"")+'</td>')
