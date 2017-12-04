@@ -93,6 +93,17 @@ public enum ErrorCode {
 	NOTICE_DONT_VALID_ERROR("E10035","未入厂的通知单才可以作废."), 
 	NOTICE_DONT_UPDATE_ERROR("E10036","该通知单已经通过审核无法修改."),
 	NOTICE_YES_POUNDNOTE("E10037","该通知单已过一次磅房."),
+	NOTICE_NOT_VALID("E10038","该通知单已失效."),
+	NOTICE_DONT_REPEAT_AUDIT("E10039","该通知单已审核，无需重复审核."),
+	NOTICE_DONT_AUDIT("E10040","未入厂的通知单才可以审核."), 
+	NOTICE_DONT_REPEAT_UNAUDIT("E10041","该通知单已反审，无需重复反审."),
+	NOTICE_DONT_UNAUDIT("E10042","未入厂的通知单才可以反审."),
+	NOTICE_FORCE_OUT_FACTORY("E10043","该通知单已强制出厂."),
+	NOTICE_NOT_TWO_POUNDNOTE("E10044","该通知单未过二次磅房."),
+	NOTICE_ONE_BILL_ONE_CAR_DONT_AUDIT("E10045", "一单一车的通知单不能审核."),
+	NOTICE_ONE_BILL_ONE_CAR_DONT_UNAUDIT("E10046", "一单一车的通知单不能反审."),
+	NOTICE_ONE_BILL_ONE_CAR_DONT_VALID("E10047", "一单一车的通知单不能作废."),
+	
 	/**
 	 * 磅单
 	 */

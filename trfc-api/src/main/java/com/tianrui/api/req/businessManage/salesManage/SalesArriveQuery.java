@@ -48,158 +48,128 @@ public class SalesArriveQuery extends BaseReq {
     
     private int limit;
     
-    private String currUId;
-
-	public String getCurrUId() {
-		return currUId;
-	}
-
-	public void setCurrUId(String currUId) {
-		this.currUId = currUId;
-	}
+    private String userId;
+    
+    private String userName;
 
 	public String getId() {
 		return id;
 	}
-
 	public void setId(String id) {
 		this.id = id;
 	}
-
 	public String getCode() {
 		return code;
 	}
-
 	public void setCode(String code) {
 		this.code = code;
 	}
-
 	public String getAuditstatus() {
 		return auditstatus;
 	}
-
 	public void setAuditstatus(String auditstatus) {
 		this.auditstatus = auditstatus;
 	}
-
 	public String getSource() {
 		return source;
 	}
-
 	public void setSource(String source) {
 		this.source = source;
 	}
-
 	public String getStatus() {
 		return status;
 	}
-
 	public void setStatus(String status) {
 		this.status = status;
 	}
-
 	public String getVehicleid() {
 		return vehicleid;
 	}
-
 	public void setVehicleid(String vehicleid) {
 		this.vehicleid = vehicleid;
 	}
-
 	public String getVehicleno() {
         return vehicleno;
     }
-
     public void setVehicleno(String vehicleno) {
         this.vehicleno = vehicleno;
     }
-
     public String getDriverid() {
 		return driverid;
 	}
-
 	public void setDriverid(String driverid) {
 		this.driverid = driverid;
 	}
-
 	public String getCustomerid() {
 		return customerid;
 	}
-
 	public void setCustomerid(String customerid) {
 		this.customerid = customerid;
 	}
-
 	public String getMaterielid() {
 		return materielid;
 	}
-
 	public void setMaterielid(String materielid) {
 		this.materielid = materielid;
 	}
-
 	public String getPackagetype() {
 		return packagetype;
 	}
-
 	public void setPackagetype(String packagetype) {
 		this.packagetype = packagetype;
 	}
-
 	public String getBillcode() {
 		return billcode;
 	}
-
 	public void setBillcode(String billcode) {
 		this.billcode = billcode;
 	}
-
 	public int getStart() {
 		return start;
 	}
-
 	public void setStart(int start) {
 		this.start = start;
 	}
-
 	public int getLimit() {
 		return limit;
 	}
-
 	public void setLimit(int limit) {
 		this.limit = limit;
 	}
-
 	public String getState() {
 		return state;
 	}
-
 	public void setState(String state) {
 		this.state = state;
 	}
-
 	public Long getStarttime() {
 		return starttime;
 	}
-
 	public void setStarttime(Long starttime) {
 		this.starttime = starttime;
 	}
-
 	public Long getEndtime() {
 		return endtime;
 	}
-
 	public void setEndtime(Long endtime) {
 		this.endtime = endtime;
 	}
-
 	public String getIcardid() {
 		return icardid;
 	}
-
 	public void setIcardid(String icardid) {
 		this.icardid = icardid;
 	}
-	
+	public String getUserId() {
+		return userId;
+	}
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
+	public String getUserName() {
+		return userName;
+	}
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
 }
