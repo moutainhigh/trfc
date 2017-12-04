@@ -511,6 +511,7 @@ public class SalesArriveService implements ISalesArriveService {
 			sad.setPretendingtake(sad.getPretendingtake() + subNum);
 			salesApplicationDetailMapper.updateByPrimaryKeySelective(sad);
 		}
+		salesArriveMapper.emptyForceOutFactoryByVehicle(save.getVehicleid());
 		return result;
 	}
 
@@ -750,6 +751,7 @@ public class SalesArriveService implements ISalesArriveService {
 			sad.setPretendingtake(sad.getPretendingtake() + subNum);
 			salesApplicationDetailMapper.updateByPrimaryKeySelective(sad);
 		}
+		salesArriveMapper.emptyForceOutFactoryByVehicle(save.getVehicleid());
 		return result;
 	}
 
@@ -879,6 +881,7 @@ public class SalesArriveService implements ISalesArriveService {
 		if(query != null && StringUtils.isNotBlank(query.getId())){
 			SalesArrive sa = new SalesArrive();
 			sa.setId(query.getId());
+			sa.setStatus(Constant.FIVE_STRING);
 			sa.setForceOutFactory(Constant.ONE_NUMBER);
 			sa.setForceOutFactoryPerson(query.getCurrUId());
 			sa.setForceOutFactoryTime(System.currentTimeMillis());

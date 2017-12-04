@@ -364,6 +364,9 @@
 				case '7': status = '装车'; break;
 				default: status = ''; break;
 				}
+				if (obj.validStatus == '1') {
+					status = '作废中';
+				}
 				if (obj.forceOutFactory == '1') {
 					status = '强制出厂';
 				}

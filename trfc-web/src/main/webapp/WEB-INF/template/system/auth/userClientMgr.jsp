@@ -165,7 +165,6 @@ label.layui-form-label {
 								<div class="intel_solo">
 									<label>用户身份：</label> <select id="identityTypes"
 										class="form-control">
-										<option value="">全部</option>
 										<option value="1">客户</option>
 										<option value="2">供应商</option>
 										<!-- <option value="3">普通用户</option> -->
@@ -203,9 +202,9 @@ label.layui-form-label {
 									<th>用户名称</th>
 									<!-- <th>所属组织</th> -->
 									<th>有效</th>
-									<th>来源</th>
+								    <th>最后登录时间</th> 
 									<th>登陆次数</th>
-									<!-- <th>最后登录时间</th> -->
+									<!--<th>来源</th>-->
 									<th>说明</th>
 									<th>操作</th>
 								</tr>
@@ -440,7 +439,7 @@ label.layui-form-label {
 									readonly="true">
 							</div>
 							<div class="alt_edit_div">
-								<label>登录账户：</label> <input type="text" id="edit_account">
+								<label>登录账户：</label> <input type="text" id="edit_account" readonly="true">
 							</div>
 							<div class="alt_edit_div">
 								<label>手机号码：</label> <input type="text" id="mobilePhone" onblur="ha()">

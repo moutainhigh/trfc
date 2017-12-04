@@ -1,0 +1,450 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tianrui.service.mapper.system.auth.SystemUserclientMapper">
+	<resultMap id="BaseResultMap"
+		type="com.tianrui.service.bean.system.auth.SystemUser">
+		<id column="id" property="id" jdbcType="VARCHAR" />
+		<result column="ncid" property="ncid" jdbcType="VARCHAR" />
+		<result column="code" property="code" jdbcType="VARCHAR" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="account" property="account" jdbcType="VARCHAR" />
+		<result column="password" property="password" jdbcType="VARCHAR" />
+		<result column="identityTypes" property="identityTypes"
+			jdbcType="VARCHAR" />
+		<result column="mobilePhone" property="mobilePhone" jdbcType="VARCHAR" />
+		<result column="orgid" property="orgid" jdbcType="VARCHAR" />
+		<result column="source" property="source" jdbcType="VARCHAR" />
+		<result column="islock" property="islock" jdbcType="TINYINT" />
+		<result column="isvalid" property="isvalid" jdbcType="TINYINT" />
+		<result column="logincount" property="logincount" jdbcType="INTEGER" />
+		<result column="last_logintime" property="lastLogintime"
+			jdbcType="BIGINT" />
+		<result column="creator" property="creator" jdbcType="VARCHAR" />
+		<result column="createtime" property="createtime" jdbcType="BIGINT" />
+		<result column="modifier" property="modifier" jdbcType="VARCHAR" />
+		<result column="modifytime" property="modifytime" jdbcType="BIGINT" />
+		<result column="remark" property="remark" jdbcType="VARCHAR" />
+		<result column="utc" property="utc" jdbcType="TIMESTAMP" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, code, name, password, mobilePhone, orgid,
+		 isvalid, logincount, last_logintime as lastLogintime,
+		creator, createtime, modifier, modifytime, remark,islock
+	</sql>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from tr_customer_db_manage
+		where id = #{id,jdbcType=VARCHAR}
+	</select>
+	<select id="selectByCondition" resultMap="BaseResultMap"
+		parameterType="com.tianrui.api.req.system.auth.SystemUserQueryReq">
+		select
+		<include refid="Base_Column_List" />
+		from tr_customer_db_manage
+		<where>
+			<if test="codeLike != null and codeLike !=''">
+				and code like CONCAT('%',#{codeLike,jdbcType=VARCHAR},'%')
+			</if>
+			<if test="accountLike != null and accountLike !=''">
+				and code like CONCAT('%',#{accountLike,jdbcType=VARCHAR},'%')
+			</if>
+			<if test="nameLike != null and nameLike !=''">
+				and name like CONCAT('%',#{nameLike,jdbcType=VARCHAR},'%')
+			</if>
+            <if test="identityTypes != null and identityTypes !=''">
+                and identityTypes = #{identityTypes, jdbcType=VARCHAR}
+            </if>
+			<if test="code != null and code !=''">
+				and code = #{code,jdbcType=VARCHAR}
+			</if>
+			<if test="account != null and account !=''">
+				and code = #{account,jdbcType=VARCHAR}
+			</if>
+			<if test="appAccount != null and appAccount !=''">
+				and (code = #{appAccount,jdbcType=VARCHAR} or mobilePhone = #{appAccount,jdbcType=VARCHAR})
+			</if>
+		</where>
+		order by createtime desc
+		<if test="start != null and start >= 0">
+			<if test="limit != null">
+				limit #{start,jdbcType=INTEGER},#{limit,jdbcType=INTEGER}
+			</if>
+		</if>
+	</select>
+	<select id="countByCondition" resultType="long"
+		parameterType="com.tianrui.api.req.system.auth.SystemUserQueryReq">
+		select
+		count(0)
+		from tr_system_user
+		<where> identityTypes='3'
+			<if test="codeLike != null and codeLike !=''">
+				and code like CONCAT('%',#{codeLike,jdbcType=VARCHAR},'%')
+			</if>
+			<if test="accountLike != null and accountLike !=''">
+				and account like CONCAT('%',#{accountLike,jdbcType=VARCHAR},'%')
+			</if>
+			<if test="nameLike != null and nameLike !=''">
+				and name like CONCAT('%',#{nameLike,jdbcType=VARCHAR},'%')
+			</if>
+			<if test="identityTypes != null and identityTypes !=''">
+				and identityTypes = #{identityTypes, jdbcType=VARCHAR}
+			</if>
+		</where>
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from tr_customer_db_manage
+		where id = #{id,jdbcType=VARCHAR}
+	</delete>
+	<insert id="insert" parameterType="com.tianrui.service.bean.system.auth.SystemUser">
+		insert into tr_system_user (id, ncid, code, name,
+		account, password, identityTypes, mobilePhone, orgid,
+		source, islock, isvalid, logincount,
+		last_logintime, creator, createtime,
+		modifier, modifytime, remark
+		)
+		values (#{id,jdbcType=VARCHAR}, #{ncid,jdbcType=VARCHAR},
+		#{code,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR},
+		#{account,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{identityTypes,jdbcType=VARCHAR},
+		#{mobilePhone,jdbcType=VARCHAR}, #{orgid,jdbcType=VARCHAR},
+		#{source,jdbcType=VARCHAR}, #{islock,jdbcType=TINYINT},
+		#{isvalid,jdbcType=TINYINT}, #{logincount,jdbcType=INTEGER},
+		#{lastLogintime,jdbcType=BIGINT}, #{creator,jdbcType=VARCHAR}, #{createtime,jdbcType=BIGINT},
+		#{modifier,jdbcType=VARCHAR}, #{modifytime,jdbcType=BIGINT}, #{remark,jdbcType=VARCHAR}
+		)
+	</insert>
+	<insert id="insertSelective" parameterType="com.tianrui.service.bean.system.auth.SystemUser">
+		insert into tr_system_user
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="ncid != null">
+				ncid,
+			</if>
+			<if test="code != null">
+				code,
+			</if>
+			<if test="name != null">
+				name,
+			</if>
+			<if test="account != null">
+				account,
+			</if>
+			<if test="password != null">
+				password,
+			</if>
+			<if test="identityTypes != null">
+				identityTypes,
+			</if>
+			<if test="mobilePhone != null">
+				mobilePhone,
+			</if>
+			<if test="orgid != null">
+				orgid,
+			</if>
+			<if test="source != null">
+				source,
+			</if>
+			<if test="islock != null">
+				islock,
+			</if>
+			<if test="isvalid != null">
+				isvalid,
+			</if>
+			<if test="logincount != null">
+				logincount,
+			</if>
+			<if test="lastLogintime != null">
+				last_logintime,
+			</if>
+			<if test="creator != null">
+				creator,
+			</if>
+			<if test="createtime != null">
+				createtime,
+			</if>
+			<if test="modifier != null">
+				modifier,
+			</if>
+			<if test="modifytime != null">
+				modifytime,
+			</if>
+			<if test="remark != null">
+				remark,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=VARCHAR},
+			</if>
+			<if test="ncid != null">
+				#{ncid,jdbcType=VARCHAR},
+			</if>
+			<if test="code != null">
+				#{code,jdbcType=VARCHAR},
+			</if>
+			<if test="name != null">
+				#{name,jdbcType=VARCHAR},
+			</if>
+			<if test="account != null">
+				#{account,jdbcType=VARCHAR},
+			</if>
+			<if test="password != null">
+				#{password,jdbcType=VARCHAR},
+			</if>
+			<if test="identityTypes != null">
+				#{identityTypes,jdbcType=VARCHAR},
+			</if>
+			<if test="mobilePhone != null">
+				#{mobilePhone,jdbcType=VARCHAR},
+			</if>
+			<if test="orgid != null">
+				#{orgid,jdbcType=VARCHAR},
+			</if>
+			<if test="source != null">
+				#{source,jdbcType=VARCHAR},
+			</if>
+			<if test="islock != null">
+				#{islock,jdbcType=TINYINT},
+			</if>
+			<if test="isvalid != null">
+				#{isvalid,jdbcType=TINYINT},
+			</if>
+			<if test="logincount != null">
+				#{logincount,jdbcType=INTEGER},
+			</if>
+			<if test="lastLogintime != null">
+				#{lastLogintime,jdbcType=BIGINT},
+			</if>
+			<if test="creator != null">
+				#{creator,jdbcType=VARCHAR},
+			</if>
+			<if test="createtime != null">
+				#{createtime,jdbcType=BIGINT},
+			</if>
+			<if test="modifier != null">
+				#{modifier,jdbcType=VARCHAR},
+			</if>
+			<if test="modifytime != null">
+				#{modifytime,jdbcType=BIGINT},
+			</if>
+			<if test="remark != null">
+				#{remark,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.tianrui.service.bean.system.auth.SystemUser">
+		update tr_customer_db_manage
+		<set>
+			<if test="code != null">
+				code = #{code,jdbcType=VARCHAR},
+			</if>
+			<if test="name != null">
+				name = #{name,jdbcType=VARCHAR},
+			</if>
+			<if test="password != null">
+				password = #{password,jdbcType=VARCHAR},
+			</if>
+			<if test="mobilePhone != null">
+				mobilePhone = #{mobilePhone,jdbcType=VARCHAR},
+			</if>
+			<if test="orgid != null">
+				orgid = #{orgid,jdbcType=VARCHAR},
+			</if>
+			<if test="source != null">
+				source = #{source,jdbcType=VARCHAR},
+			</if>
+			<if test="islock != null">
+				islock = #{islock,jdbcType=TINYINT},
+			</if>
+			<if test="isvalid != null">
+				isvalid = #{isvalid,jdbcType=TINYINT},
+			</if>
+			<if test="logincount != null">
+				logincount = #{logincount,jdbcType=INTEGER},
+			</if>
+			<if test="lastLogintime != null">
+				last_logintime = #{lastLogintime,jdbcType=BIGINT},
+			</if>
+			<if test="creator != null">
+				creator = #{creator,jdbcType=VARCHAR},
+			</if>
+			<if test="createtime != null">
+				createtime = #{createtime,jdbcType=BIGINT},
+			</if>
+			<if test="modifier != null">
+				modifier = #{modifier,jdbcType=VARCHAR},
+			</if>
+			<if test="modifytime != null">
+				modifytime = #{modifytime,jdbcType=BIGINT},
+			</if>
+			<if test="remark != null">
+				remark = #{remark,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where id = #{id,jdbcType=VARCHAR}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.tianrui.service.bean.system.auth.SystemUser">
+		update tr_system_user
+		set ncid = #{ncid,jdbcType=VARCHAR},
+		code = #{code,jdbcType=VARCHAR},
+		name = #{name,jdbcType=VARCHAR},
+		account = #{account,jdbcType=VARCHAR},
+		password = #{password,jdbcType=VARCHAR},
+		identityTypes = #{identityTypes,jdbcType=VARCHAR},
+		mobilePhone = #{mobilePhone,jdbcType=VARCHAR},
+		orgid = #{orgid,jdbcType=VARCHAR},
+		source = #{source,jdbcType=VARCHAR},
+		islock = #{islock,jdbcType=TINYINT},
+		isvalid = #{isvalid,jdbcType=TINYINT},
+		logincount = #{logincount,jdbcType=INTEGER},
+		last_logintime = #{lastLogintime,jdbcType=BIGINT},
+		creator = #{creator,jdbcType=VARCHAR},
+		createtime = #{createtime,jdbcType=BIGINT},
+		modifier = #{modifier,jdbcType=VARCHAR},
+		modifytime = #{modifytime,jdbcType=BIGINT},
+		remark = #{remark,jdbcType=VARCHAR}
+		where id = #{id,jdbcType=VARCHAR}
+	</update>
+	<select id="autoCompleteSearch" parameterType="com.tianrui.api.req.system.auth.SystemUserQueryReq"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from tr_system_user
+		<where>
+			<if test="nameLike != null and nameLike !=''">
+				and name like CONCAT('%', #{nameLike,jdbcType=VARCHAR}, '%')
+			</if>
+		</where>
+		order by createtime desc
+		limit 0,20
+	</select>
+	<select id="queryAllUserByOrgId" parameterType="java.lang.String"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from tr_system_user
+		where orgid = #{orgid,jdbcType=VARCHAR} and isvalid = 1
+		order by createtime desc
+	</select>
+	<insert id="insertBatch" parameterType="java.util.List">
+		insert into tr_system_user 
+		(
+			id, 
+			ncid, 
+			code, 
+			name,
+			account, 
+			password, 
+			identityTypes, 
+			mobilePhone, 
+			orgid,
+			source, 
+			islock, 
+			isvalid, 
+			creator, 
+			createtime,
+			utc
+		)
+		values
+		<foreach collection="list" item="item" index="index"
+			separator=",">
+			(#{item.id},
+			#{item.ncid},
+			#{item.code},
+			#{item.name},
+			#{item.account},
+			#{item.password},
+			#{item.identityTypes},
+			#{item.mobilePhone},
+			#{item.orgid},
+			#{item.source},
+			#{item.islock},
+			#{item.isvalid},
+			#{item.creator},
+			#{item.createtime},
+			#{item.utc}
+			)
+		</foreach>
+	</insert>
+	<select id="selectByNcIdAndIdentityTypes" resultMap="BaseResultMap" parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from tr_system_user
+		where islock = 0 and isvalid = 1
+			 and ncid = #{ncid,jdbcType=VARCHAR} and identityTypes = #{identityTypes,jdbcType=VARCHAR}
+	</select>
+	<select id="validPhoneIsOne" parameterType="java.lang.String" resultMap="BaseResultMap">
+		select <include refid="Base_Column_List"/>
+		from tr_system_user
+		where mobilePhone = #{mobilePhone,jdbcType=VARCHAR}
+	</select>
+	<select id="getByAccount" parameterType="java.lang.String" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from tr_customer_db_manage
+		where (code = #{account,jdbcType=VARCHAR} or mobilePhone = #{account,jdbcType=VARCHAR})
+	</select>
+	
+	
+	<select id="selectUserClient" resultMap="BaseResultMap"
+		parameterType="com.tianrui.api.req.system.auth.SystemUserQueryReq">
+		select
+		<include refid="Base_Column_List" />
+		from tr_customer_db_manage
+		<where>
+			<if test="codeLike != null and codeLike !=''">
+				and code like CONCAT('%',#{codeLike,jdbcType=VARCHAR},'%')
+			</if>
+			<if test="accountLike != null and accountLike !=''">
+				and code like CONCAT('%',#{accountLike,jdbcType=VARCHAR},'%')
+			</if>
+			<if test="nameLike != null and nameLike !=''">
+				and name like CONCAT('%',#{nameLike,jdbcType=VARCHAR},'%')
+			</if>
+			<if test="code != null and code !=''">
+				and code = #{code,jdbcType=VARCHAR}
+			</if>
+			<if test="account != null and account !=''">
+				and code = #{account,jdbcType=VARCHAR}
+			</if>
+			<if test="appAccount != null and appAccount !=''">
+				and (code = #{appAccount,jdbcType=VARCHAR} or mobilePhone = #{appAccount,jdbcType=VARCHAR})
+			</if>
+		</where>
+		order by createtime desc
+		<if test="start != null and start >= 0">
+			<if test="limit != null">
+				limit #{start,jdbcType=INTEGER},#{limit,jdbcType=INTEGER}
+			</if>
+		</if>
+	</select>
+	<select id="countUserClient" resultType="long"
+		parameterType="com.tianrui.api.req.system.auth.SystemUserQueryReq">
+		select
+		count(0)
+		from tr_customer_db_manage
+		<where> 
+			<if test="codeLike != null and codeLike !=''">
+				and code like CONCAT('%',#{codeLike,jdbcType=VARCHAR},'%')
+			</if>
+			<if test="accountLike != null and accountLike !=''">
+				and code like CONCAT('%',#{accountLike,jdbcType=VARCHAR},'%')
+			</if>
+			<if test="nameLike != null and nameLike !=''">
+				and name like CONCAT('%',#{nameLike,jdbcType=VARCHAR},'%')
+			</if>
+		</where>
+	</select>
+	
+	
+	<select id="selectAccountUser" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from tr_customer_db_manage
+		where mobilePhone = #{phone,jdbcType=VARCHAR}
+	</select>
+</mapper>

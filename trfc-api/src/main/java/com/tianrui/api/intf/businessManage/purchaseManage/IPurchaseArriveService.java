@@ -144,8 +144,9 @@ public interface IPurchaseArriveService {
 	 * @annotation 强制出厂
 	 * @param update
 	 * @return
+	 * @throws Exception 
 	 */
-    Result outfactory(PurchaseArriveSave update);
+    Result outfactory(PurchaseArriveSave update) throws Exception;
     /**
      * @annotation 作废
      * @param update

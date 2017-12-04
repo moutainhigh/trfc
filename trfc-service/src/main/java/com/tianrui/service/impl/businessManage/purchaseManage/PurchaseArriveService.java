@@ -687,7 +687,7 @@ public class PurchaseArriveService implements IPurchaseArriveService {
 
 	@Transactional
     @Override
-    public Result outfactory(PurchaseArriveSave update) {
+    public Result outfactory(PurchaseArriveSave update) throws Exception {
         Result result = Result.getParamErrorResult();
         if (update != null && StringUtils.isNotBlank(update.getId())) {
             PurchaseArrive bean = purchaseArriveMapper.selectByPrimaryKey(update.getId());
@@ -698,6 +698,9 @@ public class PurchaseArriveService implements IPurchaseArriveService {
                 pa.setForceOutFactory(Constant.ONE_NUMBER);
                 pa.setForceOutFactoryPerson(update.getCurrId());
                 pa.setForceOutFactoryTime(System.currentTimeMillis());
+                pa.setAbnormalperson(update.getCurrId());
+                pa.setAbnormalpersonname(systemUserService.getUser(update.getCurrId()).getName());
+                pa.setAbnormaltime(System.currentTimeMillis());
                 pa.setModifier(update.getCurrId());
                 pa.setModifytime(System.currentTimeMillis());
                 purchaseArriveMapper.updateByPrimaryKeySelective(pa);

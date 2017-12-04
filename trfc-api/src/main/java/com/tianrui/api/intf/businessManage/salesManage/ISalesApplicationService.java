@@ -2,6 +2,7 @@ package com.tianrui.api.intf.businessManage.salesManage;
 
 import java.util.List;
 
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.tianrui.api.req.businessManage.app.AppOrderReq;
 import com.tianrui.api.req.businessManage.salesManage.SalesApplicationQuery;
@@ -70,5 +71,13 @@ public interface ISalesApplicationService {
 	 * @param req
 	 */
 	Result billYesAuditValid(BillValidReq req);
+
+	/**
+	 * NC自制实时推送到FC
+	 * @param list
+	 * @return
+	 * @throws Exception 
+	 */
+	Result pushSalesTofc(JSONArray array) throws Exception;
 
 }

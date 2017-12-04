@@ -1,14 +1,9 @@
 $(function() {
 	// 访问的url
 	var URL = {
-		queryAllRole: '/trfc/system/auth/role/queryAllRole',	
-		selectUserRole: '/trfc/system/auth/role/selectUserRole',	
-		saveUserRoles:'/trfc/system/auth/role/saveUserRoles',	
-		saveUrl : "/trfc/system/auth/userClient/addUser",
 		pageUrl : "/trfc/system/auth/userClient/page",
 		editUser : "/trfc/system/auth/userClient/editUser",
 		deleteUrl : "/trfc/system/auth/userClient/deleteUser",
-		selectRole : '/trfc/system/auth/rolePermissions/selectRole',
 		selectAccountUser : "/trfc/system/auth/userClient/selectAccountUser",
 		resetPwd : "/trfc/system/auth/userClient/resetPwd"
 	}
@@ -230,7 +225,7 @@ $(function() {
 								+ (obj.code || '')
 								+ '</td>'
 								+ '<td>'
-								+ (obj.account || '')
+								+ (obj.code || '')
 								+ '</td>'
 								+ '<td>'
 								+ (obj.mobilePhone || '')
@@ -242,7 +237,7 @@ $(function() {
 								+ (invalid || '')
 								+ '</td>'
 								+ '<td>'
-								+ (obj.source || '')
+								+ (obj.lastLogintimeStr || '')
 								+ '</td>'
 								+ '<td>'
 								+ (obj.logincount || 0)
@@ -277,7 +272,7 @@ $(function() {
 	function initEditData(obj) {
 		$('#userId').val(obj.id);
 		$('#edit_code').val(obj.code);
-		$('#edit_account').val(obj.account);
+		$('#edit_account').val(obj.code);
 		$('#mobilePhone').val(obj.mobilePhone);
 		$('#edit_name').val(obj.name);
 		$('#edit_org').val(obj.orgName);
@@ -330,8 +325,10 @@ $(function() {
 	 */
 	function deleteAction(span) {
 		var id = $(span).closest('tr').data('obj').id;
+		var identityTypes = $('#identityTypes').val();
 		var params = {
 			id : id,
+			identityTypes:identityTypes
 		};
 		layer.confirm('注：您确定要删除吗？', {
 			btn : [ '确定', '取消' ],
@@ -358,6 +355,7 @@ $(function() {
 	}
 	$("input#mobilePhone").blur(function(){
 		var mobilePhone =$('#mobilePhone').val();
+		var identityTypes = $('#identityTypes').val();
 		mobilePhone = $.trim(mobilePhone);
 		if(!(/^1[34578]\d{9}$/.test(mobilePhone))){ 
 	        alert("手机号码有误，请重填");  
@@ -365,7 +363,7 @@ $(function() {
 	    }else{
 	    	$.ajax({
 				url : URL.selectAccountUser,
-				data : {"mobilePhone":mobilePhone},
+				data : {"mobilePhone":mobilePhone,"identityTypes":identityTypes},
 				async : false,
 				cache : false,
 				dataType : 'json',
@@ -391,12 +389,14 @@ $(function() {
 		mobilePhone = $.trim(mobilePhone);
 		remark = $.trim(remark);
 		var isvalid = Number($('#edit_isvalid')[0].checked);
+		var identityTypes = $('#identityTypes').val();
 		return {
 			id : id,
 			password : password,
 			account:account,
 			mobilePhone:mobilePhone,
 			remark : remark,
+			identityTypes:identityTypes,
 			isvalid : isvalid
 		}
 	}
@@ -590,12 +590,13 @@ $(function() {
 						});
 					},
 					yes : function(index, layero) {
-						var password = layero.find("input[name='password2']")
-								.val();
+						var password = layero.find("input[name='password2']").val();
+						var identityTypes = $('#identityTypes').val();		
 						$.ajax({
 							url : URL.resetPwd,
 							data : {
 								id : obj.id,
+								identityTypes:identityTypes,
 								password : password
 							},
 							async : true,

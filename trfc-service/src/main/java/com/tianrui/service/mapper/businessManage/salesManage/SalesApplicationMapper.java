@@ -54,4 +54,6 @@ public interface SalesApplicationMapper {
 	BillListVo appBillDetail(BillListParam param);
 	
 	List<BillListVo> appMoreBillList(BillListParam param);
+	
+	List<SalesApplication> listOneBillOneCarNotNotice();
 }

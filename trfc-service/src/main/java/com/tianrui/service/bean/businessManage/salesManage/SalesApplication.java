@@ -89,6 +89,8 @@ public class SalesApplication {
     private String ncStatus;
     //0：未推送，1推送中，2：已推送
     private String pushStatus;
+    //是否生成通知单标识（0 or null：否，1：是）（一单一车）
+    private String noticeMark;
 	public String getId() {
 		return id;
 	}
@@ -341,5 +343,10 @@ public class SalesApplication {
 	public void setPushStatus(String pushStatus) {
 		this.pushStatus = pushStatus;
 	}
-	
+	public String getNoticeMark() {
+		return noticeMark;
+	}
+	public void setNoticeMark(String noticeMark) {
+		this.noticeMark = noticeMark;
+	}
 }
