@@ -1,5 +1,6 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ page import="java.util.Date"%>
 <!Doctype html>
 <html>
 <head>
@@ -247,8 +248,8 @@
 			<!-- 引用公共footer部分 -->
 			<jsp:include page="../../common/base/footer_busi.jsp"></jsp:include>
 			<script type="text/javascript"
-				src="/javascript/businessManage/Report/ReportAllocting.js?1126"></script>
+				src="/javascript/businessManage/Report/ReportAllocting.js?time=<%=new Date().getTime()%>"></script>
 			<script type="text/javascript"
-				src="/javascript/businessManage/Report/ReportAllocting2.js?1126"></script>
+				src="/javascript/businessManage/Report/ReportAllocting2.js?time=<%=new Date().getTime()%>"></script>
 </body>
 </html>

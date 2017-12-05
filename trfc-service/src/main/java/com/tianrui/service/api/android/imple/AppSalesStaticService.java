@@ -1127,6 +1127,8 @@ public class AppSalesStaticService implements IAppSalesStaticService {
 				sa.setAbnormalperson(user.getId());
 				sa.setAbnormalpersonname(user.getName());
 				sa.setAbnormaltime(System.currentTimeMillis());
+				sa.setModifier(user.getId());
+				sa.setModifytime(System.currentTimeMillis());
 				salesArriveMapper.updateByPrimaryKeySelective(sa);
 		        ps.setPushStatus(Constant.ONE_STRING);
 		        result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
@@ -1161,6 +1163,8 @@ public class AppSalesStaticService implements IAppSalesStaticService {
 		sa.setAbnormalperson(user.getId());
 		sa.setAbnormalpersonname(user.getName());
 		sa.setAbnormaltime(System.currentTimeMillis());
+		sa.setModifier(user.getId());
+		sa.setModifytime(System.currentTimeMillis());
 		salesArriveMapper.updateByPrimaryKeySelective(sa);
 		List<SalesApplicationArrive> list = salesApplicationArriveMapper.listByNoticeId(sa.getId());
 		for (SalesApplicationArrive join : list) {

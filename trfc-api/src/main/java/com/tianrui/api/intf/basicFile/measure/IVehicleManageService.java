@@ -36,7 +36,9 @@ public interface IVehicleManageService {
 
 	VehicleManageResp findOne(String id) throws Exception;
 	
-	Result addVehicleApi(VehicleManageApi vehicleSaveReq) throws Exception;
+	Result addVehicleApi(VehicleManageApi vehicleManageApi) throws Exception;
+	
+	Result selectByVehicleNo(VehicleManageApi vehicleSaveReq) throws Exception;
 
 	Result vehicleCheck(VehicleManageApi vehicleManageApi);
 
