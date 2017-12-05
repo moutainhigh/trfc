@@ -373,8 +373,8 @@
 		select
 		<include refid="Base_Column_List" />
 		from tr_customer_db_manage
-		where islock = 0 and isvalid = 1
-			 and id = #{ncid,jdbcType=VARCHAR}
+		where 
+			 id = #{ncid,jdbcType=VARCHAR}
 	</select>
 	<select id="validPhoneIsOne" parameterType="java.lang.String" resultMap="BaseResultMap">
 		select <include refid="Base_Column_List"/>
