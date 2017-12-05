@@ -18,6 +18,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.tianrui.api.intf.api.android.imple.IAppSalesStaticService;
 import com.tianrui.api.intf.businessManage.purchaseManage.IPushSingleService;
+import com.tianrui.api.intf.system.auth.ISystemUserService;
 import com.tianrui.api.intf.system.base.ISystemCodeService;
 import com.tianrui.api.req.android.BillListParam;
 import com.tianrui.api.req.android.BillSave;
@@ -40,6 +41,7 @@ import com.tianrui.api.resp.android.UserDriverVo;
 import com.tianrui.api.resp.android.UserVehicleVo;
 import com.tianrui.api.resp.businessManage.salesManage.SalesApplicationDetailResp;
 import com.tianrui.api.resp.businessManage.salesManage.SalesApplicationResp;
+import com.tianrui.api.resp.system.auth.SystemUserResp;
 import com.tianrui.api.resp.system.merchants.AppCutoverGroup;
 import com.tianrui.service.bean.basicFile.measure.DriverManage;
 import com.tianrui.service.bean.basicFile.measure.VehicleManage;
@@ -74,7 +76,7 @@ import com.tianrui.service.mapper.common.UserDriverMapper;
 import com.tianrui.service.mapper.common.UserVehicleMapper;
 import com.tianrui.service.mapper.system.auth.OrganizationMapper;
 import com.tianrui.service.mapper.system.auth.SmUserMapper;
-import com.tianrui.service.mapper.system.auth.SystemUserMapper;
+import com.tianrui.service.mapper.system.auth.SystemUserclientMapper;
 import com.tianrui.service.mapper.system.merchants.CustomerGroupMapper;
 import com.tianrui.smartfactory.common.api.ApiResult;
 import com.tianrui.smartfactory.common.common.ApiParamUtils;
@@ -89,10 +91,12 @@ import com.tianrui.smartfactory.common.vo.PaginationVO;
 @Service
 public class AppSalesStaticService implements IAppSalesStaticService {
 
+//	@Autowired
+//	private SystemUserMapper userMapper;
+//	@Autowired
+//	private SystemUserMapper systemUserMapper;
 	@Autowired
-	private SystemUserMapper userMapper;
-	@Autowired
-	private SystemUserMapper systemUserMapper;
+	SystemUserclientMapper userclientMapper;
 	@Autowired
 	private SalesApplicationMapper salesApplicationMapper;
 	@Autowired
@@ -127,6 +131,8 @@ public class AppSalesStaticService implements IAppSalesStaticService {
 	private CustomerGroupMapper customerGroupMapper;
 	@Autowired
 	private IPushSingleService pushSingleService;
+	@Autowired
+	private ISystemUserService systemUserService;
 	@Autowired
 	private SmUserMapper smUserMapper;
 	@Autowired
@@ -250,7 +256,7 @@ public class AppSalesStaticService implements IAppSalesStaticService {
 				&& StringUtils.isNotBlank(param.getUnit())
 				&& param.getBillTime() !=null
 				&& StringUtils.isNotBlank(param.getWarehouseId())) {
-			SystemUser user = systemUserMapper.selectByPrimaryKey(param.getUserId());
+				SystemUser user = userclientMapper.selectByPrimaryKey(param.getUserId());
 			if (user != null) {
 				VehicleManage vehicle = vehicleManageMapper.selectByPrimaryKey(param.getVehicle());
 				if (validVehicle(vehicle, result)) {
@@ -328,7 +334,7 @@ public class AppSalesStaticService implements IAppSalesStaticService {
 
 	private List<SmUser> getSmUser(String id) throws Exception {
 		List<SmUser> smUserList = null;
-		SystemUser user = systemUserMapper.selectByPrimaryKey(id);
+		SystemUserResp user = systemUserService.getUser(id);
 		if(user != null){
 			SmUser smUser = new SmUser();
 			smUser.setCode(user.getCode());
@@ -517,7 +523,7 @@ public class AppSalesStaticService implements IAppSalesStaticService {
 	}
 	private AppResult saveCustomerNotice(NoticeSave param) throws Exception {
 		AppResult result = AppResult.getAppResult();
-		SystemUser user = userMapper.selectByPrimaryKey(param.getUserId());
+		SystemUser	user = userclientMapper.selectByPrimaryKey(param.getUserId());
 		if (user != null) {
 			if (param.getNumber() > 0) {
 				SalesApplication sa = salesApplicationMapper.selectByPrimaryKey(param.getId());
@@ -745,7 +751,7 @@ public class AppSalesStaticService implements IAppSalesStaticService {
 
 	private synchronized AppResult customerMoreSendCar(NoticeSave param) throws Exception {
 		AppResult result = AppResult.getAppResult();
-		SystemUser user = userMapper.selectByPrimaryKey(param.getUserId());
+		SystemUser user = userclientMapper.selectByPrimaryKey(param.getUserId());
 		if (user != null) {
 			if (param.getNumber() > 0) {
 				JSONArray ids = JSON.parseArray(param.getIds());
@@ -943,7 +949,7 @@ public class AppSalesStaticService implements IAppSalesStaticService {
 
 	private synchronized AppResult customerNoticeUpdate(NoticeSave param) {
 		AppResult result = AppResult.getAppResult();
-		SystemUser user = userMapper.selectByPrimaryKey(param.getUserId());
+		 SystemUser user = userclientMapper.selectByPrimaryKey(param.getUserId());
 		if (user != null) {
 			SalesArrive notice = salesArriveMapper.selectByPrimaryKey(param.getId());
 			if (notice != null && StringUtils.equals(notice.getState(), Constant.ONE_STRING)) {
@@ -1055,7 +1061,7 @@ public class AppSalesStaticService implements IAppSalesStaticService {
 	
 	private AppResult customerNoticeCancel(NoticeListParam param) throws Exception {
 		AppResult result = AppResult.getAppResult();
-		SystemUser user = systemUserMapper.selectByPrimaryKey(param.getUserId());
+		SystemUser user = userclientMapper.selectByPrimaryKey(param.getUserId());
 		if (user != null) {
 			//判断是否为有效通知单
 			SalesArrive sa = salesArriveMapper.selectByPrimaryKey(param.getId());

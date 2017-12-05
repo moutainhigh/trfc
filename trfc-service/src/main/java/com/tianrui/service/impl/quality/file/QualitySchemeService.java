@@ -32,7 +32,6 @@ public class QualitySchemeService implements IQualitySchemeService {
 	private MaterielManageMapper materielManageMapper;
 	@Resource
 	private	SystemDataDictItemMapper systemDataDictItemMapper;
-	
 	@Override
 	@Transactional
 	public Result delete(QualitySchemeReq req) throws Exception {
@@ -206,6 +205,24 @@ public class QualitySchemeService implements IQualitySchemeService {
 		}
 		Result rs = Result.getSuccessResult();
 		rs.setData(resps);
+		return rs;
+	}
+	
+	/**
+	 * 根据项目类型查找物料
+	 */
+	@Override
+	public Result selectaddType(QualitySchemeReq req) throws Exception {
+		Result rs = Result.getSuccessResult();
+		MaterielManage record = new MaterielManage();
+		record.setBusinesstype(req.getType());
+		List<MaterielManage> list =materielManageMapper.selectSelective(record);
+		if(list!=null && !list.isEmpty()){
+			rs.setData(list);
+		}else{
+			rs.setCode("111111");
+			rs.setError("该类型没有对应的物料！");
+		}
 		return rs;
 	}
 

@@ -118,6 +118,21 @@ public class QualitySchemeAction {
 		return rs;
 	}
 	/**
+	 * 根据项目类型查找物料名称
+	 */
+	@ResponseBody
+	@RequestMapping("/selectaddType")
+	public Result selectaddType(QualitySchemeReq req){
+		Result rs = Result.getErrorResult();
+		try {
+			rs = qualitySchemeService.selectaddType(req);
+		} catch (Exception e) {
+			log.error(e.getMessage(),e);
+			rs.setErrorCode(ErrorCode.SYSTEM_ERROR);
+		}
+		return rs;
+	}
+	/**
 	 * 获取单据类型下拉框数据
 	 */
 	@ResponseBody

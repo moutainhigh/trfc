@@ -199,15 +199,14 @@
 									<input id="add_material" type="text" class="materialSelect" placeholder="请选择物料">
 							</div>
 							<div class="alt_edit_div">
-								<label>类型：</label> <select class="form-control" id="add_type">
-									<option></option>
+								<label>类型：</label> <select class="form-control" id="add_type" onchange="selectaddType()" >
 									<option value="0">采购项目</option>
 									<option value="1">销售项目</option>
 								</select>
 							</div>
 							<div class="alt_edit_div">
-								<label>选项：</label> <input type="checkbox" id="add_invalid"><span>有效</span>
-								<input type="checkbox" id="add_def"><span>默认</span> <input
+								<label>选项：</label> <input type="checkbox" id="add_invalid" checked="checked"><span>有效</span>
+								<input type="checkbox" id="add_def" checked="checked"><span>默认</span> <input
 									type="checkbox" id="add_standard"><span>质量标准</span>
 							</div>
 							<div class="alt_edit_textarea">
