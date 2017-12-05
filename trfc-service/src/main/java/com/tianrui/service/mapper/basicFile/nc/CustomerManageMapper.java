@@ -43,7 +43,5 @@ public interface CustomerManageMapper {
 	 */
 	List<HandSetReturnResp> handSetQueryAll(HandSetRequestParam req);
 	
-	List<CustomerManage> findCustomerNotSystemUser();
-
 	List<CustomerManageResp> autoCompleteNotGroupSearch(@Param("likeSearch")String likeSearch);
 }

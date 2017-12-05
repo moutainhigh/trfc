@@ -575,12 +575,6 @@
 		from tr_customer_db_manage
 		where state = 1
 	</select>
-	<select id="findCustomerNotSystemUser" resultMap="BaseResultMap">
-		select <include refid="Base_Column_List_C"/>
-		from tr_customer_db_manage c
-		where NOT EXISTS(select id from
-		tr_system_user where code = c.code);
-	</select>
 	<select id="autoCompleteNotGroupSearch" parameterType="java.lang.String" resultType="com.tianrui.api.resp.basicFile.nc.CustomerManageResp">
 		select
 		<include refid="Base_Column_List_C" />, t.mobilePhone

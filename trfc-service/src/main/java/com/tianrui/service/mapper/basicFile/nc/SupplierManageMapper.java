@@ -52,7 +52,5 @@ public interface SupplierManageMapper {
      */
 	List<HandSetReturnResp> handSetQueryAll(HandSetRequestParam req);
 	
-    List<SupplierManage> findSupplierNotSystemUser();
-    
     List<SupplierManageResp> autoCompleteNotGroupSearch(@Param("likeSearch")String likeSearch);
 }

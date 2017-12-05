@@ -435,13 +435,6 @@
 		from tr_supplier_db_manage
 		where state = 1
 	</select>
-	<select id="findSupplierNotSystemUser" resultMap="BaseResultMap">
-		select
-		<include refid="Base_Column_List_S" />
-		from tr_supplier_db_manage s
-		where NOT EXISTS(select id from
-		tr_system_user where code = s.code);
-	</select>
 	<select id="autoCompleteNotGroupSearch" parameterType="java.lang.String" resultType="com.tianrui.api.resp.basicFile.nc.SupplierManageResp">
 		select
 		<include refid="Base_Column_List_S" />, t.mobilePhone
