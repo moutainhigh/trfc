@@ -150,8 +150,8 @@ public class OtherArriveService implements IOtherArriveService {
 			oa.setCode(String.valueOf(systemCodeService.getCode(codeReq).getData()));
 			//获取id
 			oa.setId(UUIDUtil.getId());
-			oa.setAuditstatus("0");
-			oa.setStatus("6");
+			oa.setAuditstatus(Constant.ONE_STRING);
+			oa.setStatus(Constant.ZERO_STRING);
 			oa.setReceivedepartmentid(Constant.ORG_ID);
 			oa.setCreator(req.getUserid());
 			oa.setCreatetime(System.currentTimeMillis());

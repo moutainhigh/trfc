@@ -762,7 +762,9 @@
 			t1.billtime / 1000,
 			"%Y-%m-%d"
 		) AS billTime,
-		'NC' AS billSource
+		'NC' AS billSource,
+		t1.supplierremark as supRemark,
+		t1.minemouthname as minemouth
 	FROM
 		tr_purchase_db_application t1
 	LEFT JOIN tr_purchase_db_application_detail t2 ON t1.id = t2.purchaseid
@@ -784,7 +786,9 @@
 		'NC' AS billSource,
 		t2.materielname AS material,
 		t2.margin,
-		t2.unit
+		t2.unit,
+		t1.supplierremark as supRemark,
+		t1.minemouthname as minemouth
 	FROM
 		tr_purchase_db_application t1
 	LEFT JOIN tr_purchase_db_application_detail t2 ON t1.id = t2.purchaseid

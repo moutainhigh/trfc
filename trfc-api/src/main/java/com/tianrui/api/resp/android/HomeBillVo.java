@@ -17,6 +17,10 @@ public class HomeBillVo extends BaseResp {
 	private String billTime = "";
 	//订单来源
 	private String billSource = "";
+	//供应商备注
+	private String supRemark = "";
+	//矿口
+	private String minemouth = "";
 	public String getId() {
 		return id;
 	}
@@ -53,15 +57,25 @@ public class HomeBillVo extends BaseResp {
 	public void setBillSource(String billSource) {
 		this.billSource = billSource;
 	}
+	public String getSupRemark() {
+		return supRemark;
+	}
+	public void setSupRemark(String supRemark) {
+		this.supRemark = supRemark;
+	}
+	public String getMinemouth() {
+		return minemouth;
+	}
+	public void setMinemouth(String minemouth) {
+		this.minemouth = minemouth;
+	}
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
 	@Override
 	public String toString() {
 		return "HomeBillVo [id=" + id + ", detailId=" + detailId + ", code=" + code + ", material=" + material
-				+ ", billTime=" + billTime + ", billSource=" + billSource + ", getId()=" + getId() + ", getDetailId()="
-				+ getDetailId() + ", getCode()=" + getCode() + ", getMaterial()=" + getMaterial() + ", getBillTime()="
-				+ getBillTime() + ", getBillSource()=" + getBillSource() + ", getClass()=" + getClass()
-				+ ", hashCode()=" + hashCode() + ", toString()=" + super.toString() + "]";
+				+ ", billTime=" + billTime + ", billSource=" + billSource + ", supRemark=" + supRemark + ", minemouth="
+				+ minemouth + "]";
 	}
 }

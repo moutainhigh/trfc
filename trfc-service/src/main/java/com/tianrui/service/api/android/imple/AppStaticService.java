@@ -75,8 +75,8 @@ import com.tianrui.service.mapper.common.AppVersionMapper;
 import com.tianrui.service.mapper.common.UserDriverMapper;
 import com.tianrui.service.mapper.common.UserVehicleMapper;
 import com.tianrui.service.mapper.system.auth.OrganizationMapper;
-import com.tianrui.service.mapper.system.auth.SystemUserMapper;
 import com.tianrui.service.mapper.system.auth.SystemUserclientMapper;
+import com.tianrui.service.mapper.system.auth.SystemUsersupplierMapper;
 import com.tianrui.service.mapper.system.merchants.SupplierGroupMapper;
 import com.tianrui.smartfactory.common.constants.Constant;
 import com.tianrui.smartfactory.common.constants.ErrorCode;
@@ -87,8 +87,10 @@ import com.tianrui.smartfactory.common.vo.PaginationVO;
 @Service
 public class AppStaticService implements IAppStaticService {
 
+//	@Autowired
+//	private SystemUserMapper userMapper;
 	@Autowired
-	private SystemUserMapper userMapper;
+	SystemUsersupplierMapper usersupplierMapper;
 	@Autowired
 	private CacheClient cacheClient;
 	@Autowired
@@ -283,10 +285,10 @@ public class AppStaticService implements IAppStaticService {
 		if (param != null && StringUtils.isNotBlank(param.getId())
 				&& StringUtils.isNotBlank(param.getPwd())
 				&& StringUtils.isNotBlank(param.getNewPwd())) {
-			SystemUser user = userMapper.selectByPrimaryKey(param.getId());
+			SystemUser user = usersupplierMapper.selectByPrimaryKey(param.getId());
 			if (StringUtils.equals(user.getPassword(), param.getPwd())) {
 				user.setPassword(param.getNewPwd());
-				userMapper.updateByPrimaryKeySelective(user);
+				usersupplierMapper.updateByPrimaryKeySelective(user);
 				result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
 			} else {
 				result.setErrorCode(ErrorCode.SYSTEM_USER_ERROR9);
@@ -302,14 +304,14 @@ public class AppStaticService implements IAppStaticService {
 		AppResult result = AppResult.getAppResult();
 		if (param != null && StringUtils.isNotBlank(param.getId())
 				&& StringUtils.isNotBlank(param.getMobilePhone())){
-			SystemUser user = userMapper.validPhoneIsOne(param.getMobilePhone());
+			SystemUser user = usersupplierMapper.validPhoneIsOne(param.getMobilePhone());
 			if (user == null) {
 				SystemUser bean = new SystemUser();
 				bean.setId(param.getId());
 				bean.setMobilePhone(param.getMobilePhone());
 				bean.setModifier(param.getId());
 				bean.setModifytime(System.currentTimeMillis());
-				userMapper.updateByPrimaryKeySelective(bean);
+				usersupplierMapper.updateByPrimaryKeySelective(bean);
 				result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
 			} else {
 				result.setErrorCode(ErrorCode.SYSTEM_USER_ERROR13);
@@ -329,7 +331,7 @@ public class AppStaticService implements IAppStaticService {
 			bean.setMobilePhone("");
 			bean.setModifier(param.getId());
 			bean.setModifytime(System.currentTimeMillis());
-			userMapper.updateByPrimaryKeySelective(bean);
+			usersupplierMapper.updateByPrimaryKeySelective(bean);
 			result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
 		} else {
 			result.setErrorCode(ErrorCode.PARAM_NULL_ERROR);
@@ -689,7 +691,7 @@ public class AppStaticService implements IAppStaticService {
 	//保存到货通知单
 	private AppResult saveSupplierNotice(NoticeSave param) throws Exception {
 		AppResult result = AppResult.getAppResult();
-		SystemUser user = userMapper.selectByPrimaryKey(param.getUserId());
+		SystemUser user = usersupplierMapper.selectByPrimaryKey(param.getUserId());
 		if (user != null) {
 			if (param.getNumber() > 0) {
 				PurchaseApplication pa = purchaseApplicationMapper.selectByPrimaryKey(param.getId());
@@ -968,7 +970,7 @@ public class AppStaticService implements IAppStaticService {
 
 	private AppResult supplierNoticeUpdate(NoticeSave param) throws Exception {
 		AppResult result = AppResult.getAppResult();
-		SystemUser user = userMapper.selectByPrimaryKey(param.getUserId());
+		SystemUser user = usersupplierMapper.selectByPrimaryKey(param.getUserId());
 		if (user != null) {
 			PurchaseArrive notice = purchaseArriveMapper.selectByPrimaryKey(param.getId());
 			if (notice != null && StringUtils.equals(notice.getState(), Constant.ONE_STRING)) {
@@ -1077,14 +1079,14 @@ public class AppStaticService implements IAppStaticService {
 
 	private AppResult supplierNoticeCancel(NoticeListParam param) {
 		AppResult result = AppResult.getAppResult();
-		SystemUser user = userMapper.selectByPrimaryKey(param.getUserId());
+		SystemUser user = usersupplierMapper.selectByPrimaryKey(param.getUserId());
 		if (user != null) {
 			PurchaseArrive notice = purchaseArriveMapper.selectByPrimaryKey(param.getId());
 			if (notice != null) {
 				PurchaseApplication pa = purchaseApplicationMapper.selectByPrimaryKey(notice.getBillid());
 				PurchaseApplicationDetail pad = purchaseApplicationDetailMapper.selectByPrimaryKey(notice.getBilldetailid());
 				if (pa != null && pad != null && StringUtils.equals(pa.getSupplierid(), param.getNcId())) {
-					if (StringUtils.equals(notice.getAuditstatus(), Constant.ZERO_STRING)) {
+					if (StringUtils.equals(notice.getStatus(), Constant.ZERO_STRING)) {
 						//关闭通知单并回写余量和预提量
 						notice.setStatus(Constant.THREE_STRING);
 						notice.setAbnormalperson(user.getId());
@@ -1098,7 +1100,7 @@ public class AppStaticService implements IAppStaticService {
 						purchaseApplicationDetailMapper.updateByPrimaryKeySelective(pad);
 						result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
 					} else {
-						result.setErrorCode(ErrorCode.NOTICE_YES_AUDIT);
+						result.setErrorCode(ErrorCode.NOTICE_DONT_VALID_ERROR);
 					}
 				} else {
 					result.setErrorCode(ErrorCode.APPLICATION_NOT_EXIST);
@@ -1386,7 +1388,12 @@ public class AppStaticService implements IAppStaticService {
 		if (param != null && StringUtils.isNotBlank(param.getCutoverUserNCId())
 				&& StringUtils.isNotBlank(param.getIDType())
 				&& StringUtils.isNotBlank(param.getKey())) {
-			SystemUser user = userMapper.selectByNcIdAndIdentityTypes(param.getCutoverUserNCId(), param.getIDType());
+			SystemUser user=null;
+			if(param.getIDType().equals("1")){
+				 user = userclientMapper.selectByNcIdAndIdentityTypes(param.getCutoverUserNCId());
+			}else{
+				 user = usersupplierMapper.selectByNcIdAndIdentityTypes(param.getCutoverUserNCId());
+			}
 			if(user != null){
 				//累计登录次数
 				addLoginCount(user);

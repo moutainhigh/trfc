@@ -1,7 +1,6 @@
 package com.tianrui.quartz.service;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -24,8 +23,6 @@ import com.tianrui.quartz.common.ApiParamUtils;
 import com.tianrui.quartz.common.HttpUtils;
 import com.tianrui.service.bean.basicFile.measure.DriverManage;
 import com.tianrui.service.bean.basicFile.measure.VehicleManage;
-import com.tianrui.service.bean.basicFile.nc.CustomerManage;
-import com.tianrui.service.bean.basicFile.nc.SupplierManage;
 import com.tianrui.service.bean.businessManage.otherManage.OtherArrive;
 import com.tianrui.service.bean.businessManage.purchaseManage.PurchaseArrive;
 import com.tianrui.service.bean.businessManage.salesManage.SalesApplication;
@@ -33,11 +30,8 @@ import com.tianrui.service.bean.businessManage.salesManage.SalesApplicationArriv
 import com.tianrui.service.bean.businessManage.salesManage.SalesApplicationDetail;
 import com.tianrui.service.bean.businessManage.salesManage.SalesArrive;
 import com.tianrui.service.bean.system.auth.SmUser;
-import com.tianrui.service.bean.system.auth.SystemUser;
 import com.tianrui.service.mapper.basicFile.measure.DriverManageMapper;
 import com.tianrui.service.mapper.basicFile.measure.VehicleManageMapper;
-import com.tianrui.service.mapper.basicFile.nc.CustomerManageMapper;
-import com.tianrui.service.mapper.basicFile.nc.SupplierManageMapper;
 import com.tianrui.service.mapper.businessManage.otherManage.OtherArriveMapper;
 import com.tianrui.service.mapper.businessManage.purchaseManage.PurchaseArriveMapper;
 import com.tianrui.service.mapper.businessManage.salesManage.SalesApplicationArriveMapper;
@@ -45,12 +39,9 @@ import com.tianrui.service.mapper.businessManage.salesManage.SalesApplicationDet
 import com.tianrui.service.mapper.businessManage.salesManage.SalesApplicationMapper;
 import com.tianrui.service.mapper.businessManage.salesManage.SalesArriveMapper;
 import com.tianrui.service.mapper.system.auth.SmUserMapper;
-import com.tianrui.service.mapper.system.auth.SystemUserMapper;
 import com.tianrui.smartfactory.common.api.ApiResult;
-import com.tianrui.smartfactory.common.constants.BusinessConstants;
 import com.tianrui.smartfactory.common.constants.Constant;
 import com.tianrui.smartfactory.common.constants.ErrorCode;
-import com.tianrui.smartfactory.common.utils.Md5Utils;
 import com.tianrui.smartfactory.common.utils.UUIDUtil;
 
 @Service
@@ -66,12 +57,6 @@ public class TaskJobService {
 	private ISystemUserService systemUserService;
 	@Autowired
 	private SmUserMapper smUserMapper;
-	@Autowired
-	private CustomerManageMapper customerManageMapper;
-	@Autowired
-	private SupplierManageMapper supplierManageMapper;
-	@Autowired
-	private SystemUserMapper systemUserMapper;
 	@Autowired
 	private IPushSingleService pushSingleService;
 	@Autowired
@@ -92,6 +77,7 @@ public class TaskJobService {
 	@Transactional
 	public void returnSalesApplication() throws Exception {
 		SalesApplication sa = new SalesApplication();
+		sa.setStatus(Constant.ONE_STRING);
 		sa.setSource(Constant.ONE_STRING);
 		sa.setState(Constant.ONE_STRING);
 		sa.setValidStatus(Constant.ZERO_STRING);
@@ -165,64 +151,6 @@ public class TaskJobService {
 			smUserList = smUserMapper.selectSelective(smUser);
 		}
 		return smUserList;
-	}
-
-	@Transactional
-	public void customer_supplier_user() throws Exception {
-		List<CustomerManage> customerList = customerManageMapper.findCustomerNotSystemUser();
-		List<SupplierManage> supplierList = supplierManageMapper.findSupplierNotSystemUser();
-		List<SystemUser> list = new ArrayList<SystemUser>();
-		if(CollectionUtils.isNotEmpty(customerList)){
-			list.clear();
-			for(CustomerManage cm : customerList){
-				SystemUser user = new SystemUser();
-				user.setId(UUIDUtil.getId());
-				user.setNcid(cm.getId());
-				user.setCode(cm.getCode());
-				user.setName(cm.getName());
-				user.setAccount(cm.getCode());
-				user.setPassword(Md5Utils.MD5("666666"));
-				user.setIdentityTypes("1");
-				user.setMobilePhone(" ");
-				user.setOrgid(Constant.ORG_ID);
-				user.setSource("1");
-				user.setIsvalid(BusinessConstants.USER_VALID_BYTE);
-				user.setIslock(BusinessConstants.USER_INVALID_BYTE);
-				user.setCreator("admin");
-				user.setCreatetime(System.currentTimeMillis());
-				user.setUtc(new Date());
-				list.add(user);
-			}
-			int count = systemUserMapper.insertBatch(list);
-			System.out.println("客户同步到用户表成功：共"+count+"条！");
-		}
-		if(CollectionUtils.isNotEmpty(supplierList)){
-			list.clear();
-			for(SupplierManage sm : supplierList){
-				if (systemUserMapper.selectByPrimaryKey(sm.getId()) == null) {
-					SystemUser user = new SystemUser();
-					user.setId(UUIDUtil.getId());
-					user.setNcid(sm.getId());
-					user.setCode(sm.getCode());
-					user.setAccount(sm.getCode());
-					user.setName(sm.getName());
-					user.setPassword(Md5Utils.MD5("666666"));
-					user.setIdentityTypes("2");
-					user.setMobilePhone(" ");
-					user.setOrgid(Constant.ORG_ID);
-					user.setSource("1");
-					user.setIsvalid(BusinessConstants.USER_VALID_BYTE);
-					user.setIslock(BusinessConstants.USER_INVALID_BYTE);
-					user.setCreator("admin");
-					user.setCreatetime(System.currentTimeMillis());
-					user.setUtc(new Date());
-					list.add(user);
-				}
-			}
-			int count = systemUserMapper.insertBatch(list);
-			System.out.println("供应商同步到用户表成功：共"+count+"条！");
-		}
-		
 	}
 
 	public void oneBilOneCarSaveNotice() throws Exception {

@@ -447,6 +447,31 @@ public class VehicleManageService implements IVehicleManageService {
 		return page;
 	}
 
+	@Override
+	public Result selectByVehicleNo(VehicleManageApi vehicleManageApi) throws Exception {
+		Result result = Result.getParamErrorResult();
+		if (vehicleManageApi != null && StringUtils.isNotBlank(vehicleManageApi.getVehicleNo()) ) {
+			VehicleManage vehicle = new VehicleManage();
+			vehicle.setVehicleno(vehicleManageApi.getVehicleNo());
+			List<VehicleManage> list = vehicleManageMapper.selectSelective(vehicle);
+			if( CollectionUtils.isNotEmpty(list) ){
+				VehicleManage db=list.get(0);
+				if( StringUtils.isNotBlank(db.getRfid()) ){
+					//成功返回rfid
+					result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+					result.setData(db);
+				//没有rfid信息	
+				}else{
+					result.setErrorCode(ErrorCode.RFID_ERROR4);
+				}
+			//车辆不存在	
+			}else{
+				result.setErrorCode(ErrorCode.VEHICLE_NOT_EXIST);
+			}
+		}	
+		return result;
+	}
+
 	
 
 }

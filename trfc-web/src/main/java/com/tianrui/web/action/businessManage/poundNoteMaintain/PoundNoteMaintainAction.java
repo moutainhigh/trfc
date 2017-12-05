@@ -319,7 +319,8 @@ public class PoundNoteMaintainAction {
 		try {
 			SystemUserResp user = SessionManager.getSessionUser(request);
 			query.setCurrId(user.getId());
-			result = poundNoteService.salesRedcollide(query);
+			//result = poundNoteService.salesRedcollide(query);
+			result.setError("销售没有红冲！");
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
 			result.setErrorCode(ErrorCode.SYSTEM_ERROR);

@@ -19,6 +19,10 @@ public interface IQualitySchemeService {
 	 */
 	Result update(QualitySchemeReq req) throws Exception;
 	/**
+	 * 根据项目类型查找物料
+	 */
+	Result selectaddType(QualitySchemeReq req) throws Exception;
+	/**
 	 * 分页查询
 	 */
 	Result page(QualitySchemeReq req) throws Exception;

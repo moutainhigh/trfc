@@ -27,7 +27,7 @@
 		<result column="utc" property="utc" jdbcType="TIMESTAMP" />
 	</resultMap>
 	<sql id="Base_Column_List">
-		id, code, name, password, mobilePhone, orgid,
+		id, id as ncid, code, name, password, mobilePhone, orgid,
 		 isvalid, logincount, last_logintime as lastLogintime,
 		creator, createtime, modifier, modifytime, remark,islock
 	</sql>
@@ -372,13 +372,13 @@
 	<select id="selectByNcIdAndIdentityTypes" resultMap="BaseResultMap" parameterType="java.lang.String">
 		select
 		<include refid="Base_Column_List" />
-		from tr_system_user
+		from tr_supplier_db_manage
 		where islock = 0 and isvalid = 1
-			 and ncid = #{ncid,jdbcType=VARCHAR} and identityTypes = #{identityTypes,jdbcType=VARCHAR}
+			 and id = #{ncid,jdbcType=VARCHAR} 
 	</select>
 	<select id="validPhoneIsOne" parameterType="java.lang.String" resultMap="BaseResultMap">
 		select <include refid="Base_Column_List"/>
-		from tr_system_user
+		from tr_supplier_db_manage
 		where mobilePhone = #{mobilePhone,jdbcType=VARCHAR}
 	</select>
 	<select id="getByAccount" parameterType="java.lang.String" resultMap="BaseResultMap">
