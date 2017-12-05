@@ -149,7 +149,7 @@
                                 <thead>
                                 <tr>
                                     <td colspan="12" align="center" style="color:#434e8d;font-size: 40px;line-height:normal">
-                                        卫辉市天瑞水泥有限公司采购物料统计
+                                        	裕泰采购物料统计
                                         <p class="biobiaop" style="margin-top: 10px">
                                             <span class="clock12"></span>至<span class="clock13"></span>
                                         </p>
@@ -188,7 +188,7 @@
                                 <thead>
                                 <tr>
                                     <td colspan="12" align="center" style="color:#434e8d;font-size: 40px;line-height:normal">
-                         			               卫辉市天瑞水泥有限公司采购物料统计
+                         			               裕泰采购物料统计
                                     </td>
                                 </tr>
                                 <tr>
@@ -240,7 +240,7 @@
                             <thead>
                             <tr>
                                 <td colspan="13" align="center" style="color:#434e8d;font-size: 40px;line-height:normal">
-                                卫辉市天瑞水泥有限公司采购物料统计
+                           				  裕泰采购物料统计
                                     <p class="biobiaop" style="margin-top: 10px">
                                     <span class="clock3"></span>至<span class="clock4"></span>
                                     </p>
@@ -280,7 +280,7 @@
                             <thead>
                             <tr>
                                 <td colspan="13" align="center" style="color:#434e8d;font-size: 40px;line-height:normal">
-                                	卫辉市天瑞水泥有限公司采购物料统计                       
+                                	裕泰采购物料统计                   
                                 </td>
                             </tr>
                             <tr>

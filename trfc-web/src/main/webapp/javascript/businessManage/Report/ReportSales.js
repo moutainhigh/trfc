@@ -174,7 +174,7 @@
 		 //磅单编号 客户   物料   车号   库号    毛重   皮重   净重   结算净重   轻车时间   重车时间 
 		function renderHtml(data){
 			$('#RMg1').empty();   
-			var list = data.list;
+			var list = data.list||[];
 			if(list && list.length>0){
 				for(var i=0;i<list.length;i++){
 					$('<tr>').append('<td>'+(list[i].code||"")+'</td>')

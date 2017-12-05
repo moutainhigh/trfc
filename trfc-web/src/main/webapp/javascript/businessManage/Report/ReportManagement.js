@@ -67,7 +67,7 @@
 	                if(result.code == '000000'){
 	                console.log(result.data)           	
 	                	$('#RMgA').empty();
-	        	        var list = result.data;
+	        	        var list = result.data||[];
 	        	            for(var i=0;i<list.length;i++){
 	        	            	$('<tr>').append('<td>'+(list[i].poundcode||"")+'</td>')
 	        					.append('<td>'+(list[i].billcode||"")+'</td>')
@@ -102,7 +102,7 @@
 	                	console.log(2)
 	                console.log(result.data)           	
 	                	$('#RMgB').empty();
-	        	        var list = result.data;
+	        	        var list = result.data||[];
 	        	            for(var i=0;i<list.length;i++){
 	        	            	$('<tr>').append('<td>'+(list[i].suppliername||"")+'</td>')
 								.append('<td>'+(list[i].minemouthname||"")+'</td>')
@@ -130,7 +130,7 @@
 	                	console.log(2)
 	                console.log(result.data)           	
 	                	$('#RMgC').empty();
-	        	        var list = result.data;
+	        	        var list = result.data||[];
 	        	            for(var i=0;i<list.length;i++){
 	        	            	$('<tr>').append('<td>'+(list[i].poundcode||"")+'</td>')
 	    						.append('<td>'+(list[i].suppliername||"")+'</td>')
@@ -163,7 +163,7 @@
 	                	console.log(2)
 	                console.log(result.data)           	
 	                	$('#RMgC').empty();
-	        	        var list = result.data;
+	        	        var list = result.data||[];
 	        	            for(var i=0;i<list.length;i++){
 	        	            	$('<tr>').append('<td>'+(list[i].suppliername||"")+'</td>')
 	    						.append('<td>'+(list[i].materialname||"")+'</td>')
@@ -325,7 +325,7 @@
 		
 		function renderHtml(data){
 			$('#RMg1').empty();
-			var list = data.list;
+			var list = data.list||[];
 			if(list && list.length>0){
 				for(var i=0;i<list.length;i++){
 					$('<tr>').append('<td>'+(list[i].poundcode||"")+'</td>')
@@ -396,7 +396,7 @@
 		
 		function renderHtml2(data){
 			$('#RMg2').empty();
-			var list = data.list;
+			var list = data.list||[];
 			if(list && list.length>0){
 				for(var i=0;i<list.length;i++){
 					$('<tr>').append('<td>'+(list[i].suppliername||"")+'</td>')
@@ -460,7 +460,7 @@
 	
 	function renderHtml3(data){
 		$('#RMg3').empty();
-		var list = data.list;
+		var list = data.list||[];
 		if(list && list.length>0){
 			for(var i=0;i<list.length;i++){
 				$('<tr>').append('<td>'+(list[i].poundcode||"")+'</td>')
@@ -530,7 +530,7 @@
 	
 	function renderHtml4(data){
 		$('#RMg4').empty();
-		var list = data.list;
+		var list = data.list||[];
 		if(list && list.length>0){
 			for(var i=0;i<list.length;i++){
 				$('<tr>').append('<td>'+(list[i].suppliername||"")+'</td>')

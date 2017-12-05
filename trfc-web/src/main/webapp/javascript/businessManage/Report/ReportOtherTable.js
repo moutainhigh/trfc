@@ -50,7 +50,7 @@
 	                if(result.code == '000000'){
 	                console.log(result.data)           	
 	                	$('#RMgA').empty();
-	        	        var list = result.data;
+	        	        var list = result.data||[];
 	        	            for(var i=0;i<list.length;i++){
 	        	            	$('<tr>').append('<td>'+(list[i].code||"")+'</td>')
 	    						.append('<td>'+(list[i].noticecode||"")+'</td>')
@@ -82,7 +82,7 @@
 	                if(result.code == '000000'){
 	                console.log(result.data)           	
 	                	$('#RMgB').empty();
-	        	        var list = result.data;
+	        	        var list = result.data||[];
 	        	            for(var i=0;i<list.length;i++){
 	        	            	$('<tr>').append('<td>'+(list[i].code||"")+'</td>')
 	    						.append('<td>'+(list[i].noticecode||"")+'</td>')
@@ -232,7 +232,7 @@
 	//过磅单号   通知单号   单位    发货单位     仓库    货物    车号   毛重   皮重   净重    单价     金额   轻车时间   重车时间
 	function renderHtml3(data){
 		$('#RMg3').empty();
-		var list = data.list;
+		var list = data.list||[];
 		if(list && list.length>0){
 			for(var i=0;i<list.length;i++){   //其他出库逐车明细
 				$('<tr>').append('<td>'+(list[i].code||"")+'</td>')
@@ -302,7 +302,7 @@
 	//过磅单号    通知单号   单位    收货单位      仓库     货物   车号  毛重 皮重  净重   轻车时间   重车时间    备注  
 	function renderHtml4(data){
 		$('#RMg4').empty();
-		var list = data.list;
+		var list = data.list||[];
 		if(list && list.length>0){    //	其他入库逐车明细
 			for(var i=0;i<list.length;i++){
 				$('<tr>').append('<td>'+(list[i].code||"")+'</td>')

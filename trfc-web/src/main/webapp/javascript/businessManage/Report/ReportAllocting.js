@@ -39,7 +39,7 @@
 	                if(result.code == '000000'){
 	                console.log(result.data)           	
 	                	$('#RMgA').empty();
-	        	        var list = result.data;
+	        	        var list = result.data||[];
 	        	            for(var i=0;i<list.length;i++){
 	        	            	$('<tr>').append('<td>'+(list[i].code||"")+'</td>')
 								.append('<td>'+(list[i].noticecode||"")+'</td>')
@@ -174,7 +174,7 @@
 		//过磅单号   通知单号   发货单位   收货单位     仓库  物料    车号   毛重    皮重    净重      轻车时间   重车时间  
 		function renderHtml(data){
 			$('#RMg1').empty();
-			var list = data.list;
+			var list = data.list||[];
 			if(list && list.length>0){
 				for(var i=0;i<list.length;i++){
 					$('<tr>').append('<td>'+(list[i].code||"")+'</td>')
