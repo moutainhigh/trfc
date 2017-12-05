@@ -70,7 +70,7 @@ public interface SystemUsersupplierMapper {
 	 * @param identityTypes
 	 * @return
 	 */
-	SystemUser selectByNcIdAndIdentityTypes(@Param("ncid")String ncid, @Param("identityTypes")String identityTypes);
+	SystemUser selectByNcIdAndIdentityTypes(@Param("ncid")String ncid);
 	/**
 	 * @Description 校验手机号是否唯一
 	 * @author zhanggaohao

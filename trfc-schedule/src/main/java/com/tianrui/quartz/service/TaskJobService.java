@@ -92,6 +92,7 @@ public class TaskJobService {
 	@Transactional
 	public void returnSalesApplication() throws Exception {
 		SalesApplication sa = new SalesApplication();
+		sa.setStatus(Constant.ONE_STRING);
 		sa.setSource(Constant.ONE_STRING);
 		sa.setState(Constant.ONE_STRING);
 		sa.setValidStatus(Constant.ZERO_STRING);

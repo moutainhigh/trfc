@@ -10,6 +10,7 @@ $(function(){
 			codeUrl:"/trfc/system/base/code/getCode",
 			updateCodeUrl:"/trfc/system/base/code/updateCode",
 			itemUrl:"/trfc/quality/sales/file/qualityScheme/item",
+			selectaddTypeUrl:"/trfc/quality/sales/file/qualityScheme/selectaddType",
 			standardUrl:"/trfc/quality/sales/file/qualityScheme/standard"
 	};
 	//设置一个公共变量,当点击编辑按钮时,将原数据存入该变量中
@@ -76,12 +77,37 @@ $(function(){
 		});
 
 		$('#add_name').val('');
-		$('#add_type').val('');
-		$('#add_invalid').removeAttr('checked');
-		$('#add_def').removeAttr('checked');
+		var addType = $('#add_type').val();
+		selectaddType();
+//		$('#add_type').val('');
+//		$('#add_invalid').removeAttr('checked');
+//		$('#add_def').removeAttr('checked');
 		$('#add_standard').removeAttr('checked');
 		$('#add_describe').val('');
 	}
+	//根据项目名称获取物料名称
+	function selectaddType(){
+		var addType =$('#add_type').val()
+		alert(addType);
+		$.ajax({
+			url : URL.selectaddTypeUrl,
+			data : {"type":addType},
+			async : false,
+			cache : false,
+			dataType : 'json',
+			type : 'post',
+			success : function(result) {
+				if (result.code != '000000') {
+					layer.msg(result.error);
+					$('#add_material').val('');
+					return;
+				}else{
+					alert("成功了！开心的像朵花！");
+				}
+			}
+    	});
+	}
+	
 	
 	//获取下拉框数据并填充
 	function materialSelect(){
