@@ -576,7 +576,7 @@ public class AppSalesStaticService implements IAppSalesStaticService {
 		SalesArrive bean = new SalesArrive();
 		bean.setId(UUIDUtil.getId());
 		bean.setCode(getCode("TH", user.getId(), true));
-		bean.setAuditstatus(Constant.ZERO_STRING);
+		bean.setAuditstatus(Constant.ONE_STRING);
 		bean.setSource(Constant.TWO_STRING);
 		bean.setStatus(Constant.ZERO_STRING);
 		bean.setVehicleid(vehicle.getId());
@@ -1123,6 +1123,7 @@ public class AppSalesStaticService implements IAppSalesStaticService {
 		if (apiResult != null) {
 			if (StringUtils.equals(apiResult.getCode(), Constant.SUCCESS)) {
 				//修改通知单为作废中
+				sa.setStatus(Constant.THREE_STRING);
 				sa.setValidStatus(Constant.ONE_STRING);
 				sa.setAbnormalperson(user.getId());
 				sa.setAbnormalpersonname(user.getName());

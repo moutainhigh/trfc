@@ -963,7 +963,7 @@ public class SalesArriveService implements ISalesArriveService {
 			SalesArrive sa = salesArriveMapper.selectByPrimaryKey(query.getId());
 			if (sa != null) {
 				if (StringUtils.equals(sa.getState(), Constant.ONE_STRING)) {
-					if (StringUtils.equals(sa.getStatus(), Constant.THREE_STRING)) {
+					if (!StringUtils.equals(sa.getStatus(), Constant.THREE_STRING)) {
 						if (!(StringUtils.equals(sa.getStatus(), Constant.FIVE_STRING)
 								&& sa.getForceOutFactory() == Constant.ZERO_NUMBER)) {
 							if (!(StringUtils.equals(sa.getStatus(), Constant.FIVE_STRING)
