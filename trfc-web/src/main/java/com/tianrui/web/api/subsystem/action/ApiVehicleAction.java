@@ -52,7 +52,7 @@ public class ApiVehicleAction {
 	//车辆验证 
 	@RequestMapping("vehicleCheck")
 	@ApiParamRawType(VehicleManageApi.class)
-	@ApiAuthValidation(callType="2")
+	@ApiAuthValidation(callType="1,3,4")
 	@ResponseBody
 	public ApiResult vehicleCheck(ApiParam<VehicleManageApi> req){
 		//车辆是否绑定rfid 且已经注册

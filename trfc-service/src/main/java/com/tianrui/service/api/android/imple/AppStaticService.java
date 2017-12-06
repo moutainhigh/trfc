@@ -87,8 +87,6 @@ import com.tianrui.smartfactory.common.vo.PaginationVO;
 @Service
 public class AppStaticService implements IAppStaticService {
 
-//	@Autowired
-//	private SystemUserMapper userMapper;
 	@Autowired
 	SystemUsersupplierMapper usersupplierMapper;
 	@Autowired
@@ -141,16 +139,23 @@ public class AppStaticService implements IAppStaticService {
 		if (param != null && StringUtils.isNotBlank(param.getAccount())
 				&& StringUtils.isNotBlank(param.getPwd())
 				&& StringUtils.isNotBlank(param.getIDType())) {
-//			SystemUser user = userMapper.getByAccount(param.getAccount(), param.getIDType());
-			SystemUser user = userclientMapper.getByAccount(param.getAccount());
+			SystemUser user = null;
+			//客户
+			if (StringUtils.equals(param.getIDType(), Constant.ONE_STRING)) {
+				user = userclientMapper.getByAccount(param.getAccount());
+			//供应商	
+			} else {
+				user = usersupplierMapper.getByAccount(param.getAccount());
+			}
 			if (user != null) {
+				user.setIdentityTypes(param.getIDType());
 				if (StringUtils.equals(user.getPassword(), param.getPwd())) {
 					if (user.getIslock() == 0) {
 						if (user.getIsvalid() == 1) {
 							//累计登录次数
 							addLoginCount(user);
 							//缓存默认保存一天 && 返回登录结果
-							result.setData(cacheUserAndReturnLoginData(user.getId()));
+							result.setData(cacheUserAndReturnLoginData(user.getId(), param.getIDType()));
 							result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
 						} else {
 							//用户无效
@@ -180,9 +185,9 @@ public class AppStaticService implements IAppStaticService {
 	 * @return
 	 * @throws Exception
 	 */
-	private LoginUserVo cacheUserAndReturnLoginData(String userId) throws Exception {
+	private LoginUserVo cacheUserAndReturnLoginData(String userId, String IDType) throws Exception {
 		//缓存默认保存一天
-		SystemUserResp resp = get(userId, true);
+		SystemUserResp resp = get(userId, IDType, true);
 		String tokenId =UUIDUtil.getId();
 		resp.setTokenId(tokenId);
 		String key = CacheHelper.buildKey(CacheModule.MEMBERLOGIN_APP, tokenId);
@@ -200,52 +205,51 @@ public class AppStaticService implements IAppStaticService {
 		return vo;
 	}
 	
-	
-	
-	@Override
-	public SystemUserResp getUser(String id) throws Exception{
-		SystemUser db = null;
-		//主键不能为空
-		if (StringUtils.isNotBlank(id)) {
-			db = userclientMapper.selectByPrimaryKey(id);
-			db.setIdentityTypes("1");
-			db.setNcid(db.getId());
+	public SystemUserResp getUser(String id, String IDType) throws Exception{
+		SystemUser user = null;
+		//客户
+		if (StringUtils.equals(IDType, Constant.ONE_STRING)) {
+			user = userclientMapper.selectByPrimaryKey(id);
+		//供应商	
+		} else {
+			user = usersupplierMapper.selectByPrimaryKey(id);
 		}
-		return copySystemUserBean2Resp(db);
+		return copySystemUserBean2Resp(user, IDType);
 	}
-	@Override
-	public SystemUserResp get(String id, boolean isFlush) throws Exception {
+	
+	public SystemUserResp get(String id, String IDType, boolean isFlush) throws Exception {
 		SystemUserResp user = null;
 		if (StringUtils.isNotBlank(id)) {
 			String key = CacheHelper.buildKey(CacheModule.MEMBERVO, id);
 			if (isFlush) {
-				user = getUser(id);
+				user = getUser(id, IDType);
 				cacheClient.saveObject(key, user);
 			} else {
-				user = get(id);
+				user = get(id, IDType);
 			}
 		}
 		return user;
 	}
-	@Override
-	public SystemUserResp get(String id) throws Exception{
+	
+	public SystemUserResp get(String id, String IDType) throws Exception{
 		SystemUserResp user = null;
 		if (StringUtils.isNotBlank(id)) {
 			String key = CacheHelper.buildKey(CacheModule.MEMBERVO, id);
 			user = cacheClient.getObj(key, SystemUserResp.class);
 			if (user == null) {
-				user = getUser(id);
+				user = getUser(id, IDType);
 				cacheClient.saveObject(key, user);
 			}
 		}
 		return user;
 	}
 	//包装返回对象
-	private SystemUserResp copySystemUserBean2Resp(SystemUser bean) throws Exception {
+	private SystemUserResp copySystemUserBean2Resp(SystemUser bean, String IDType) throws Exception {
 		SystemUserResp resp = null;
 		if (bean != null) {
 			resp =new SystemUserResp();
 			PropertyUtils.copyProperties(resp, bean);
+			resp.setIdentityTypes(IDType);
 			if(StringUtils.isNotBlank(bean.getOrgid())){
 				Organization org = organizationMapper.selectByPrimaryKey(bean.getOrgid());
 				if(org != null){
@@ -283,15 +287,37 @@ public class AppStaticService implements IAppStaticService {
 	public AppResult appUpdatePwd(LoginUserParam param) {
 		AppResult result = AppResult.getAppResult();
 		if (param != null && StringUtils.isNotBlank(param.getId())
+				&& StringUtils.isNotBlank(param.getIDType())
 				&& StringUtils.isNotBlank(param.getPwd())
 				&& StringUtils.isNotBlank(param.getNewPwd())) {
-			SystemUser user = usersupplierMapper.selectByPrimaryKey(param.getId());
-			if (StringUtils.equals(user.getPassword(), param.getPwd())) {
-				user.setPassword(param.getNewPwd());
-				usersupplierMapper.updateByPrimaryKeySelective(user);
-				result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+			//客户
+			if (StringUtils.equals(param.getIDType(), Constant.ONE_STRING)) {
+				SystemUser user = userclientMapper.selectByPrimaryKey(param.getId());
+				if (user != null) {
+					if (StringUtils.equals(user.getPassword(), param.getPwd())) {
+						user.setPassword(param.getNewPwd());
+						userclientMapper.updateByPrimaryKeySelective(user);
+						result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+					} else {
+						result.setErrorCode(ErrorCode.SYSTEM_USER_ERROR9);
+					}
+				} else {
+					result.setErrorCode(ErrorCode.SYSTEM_USER_ERROR17);
+				}
+			//供应商	
 			} else {
-				result.setErrorCode(ErrorCode.SYSTEM_USER_ERROR9);
+				SystemUser user = usersupplierMapper.selectByPrimaryKey(param.getId());
+				if (user != null) {
+					if (StringUtils.equals(user.getPassword(), param.getPwd())) {
+						user.setPassword(param.getNewPwd());
+						usersupplierMapper.updateByPrimaryKeySelective(user);
+						result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+					} else {
+						result.setErrorCode(ErrorCode.SYSTEM_USER_ERROR9);
+					}
+				} else {
+					result.setErrorCode(ErrorCode.SYSTEM_USER_ERROR17);
+				}
 			}
 		} else {
 			result.setErrorCode(ErrorCode.PARAM_NULL_ERROR);
@@ -303,18 +329,36 @@ public class AppStaticService implements IAppStaticService {
 	public AppResult appBindPhoneNumber(LoginUserParam param) {
 		AppResult result = AppResult.getAppResult();
 		if (param != null && StringUtils.isNotBlank(param.getId())
+				&& StringUtils.isNotBlank(param.getIDType())
 				&& StringUtils.isNotBlank(param.getMobilePhone())){
-			SystemUser user = usersupplierMapper.validPhoneIsOne(param.getMobilePhone());
-			if (user == null) {
-				SystemUser bean = new SystemUser();
-				bean.setId(param.getId());
-				bean.setMobilePhone(param.getMobilePhone());
-				bean.setModifier(param.getId());
-				bean.setModifytime(System.currentTimeMillis());
-				usersupplierMapper.updateByPrimaryKeySelective(bean);
-				result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+			//客户
+			if (StringUtils.equals(param.getIDType(), Constant.ONE_STRING)) {
+				SystemUser user = userclientMapper.validPhoneIsOne(param.getMobilePhone());
+				if (user == null) {
+					SystemUser bean = new SystemUser();
+					bean.setId(param.getId());
+					bean.setMobilePhone(param.getMobilePhone());
+					bean.setModifier(param.getId());
+					bean.setModifytime(System.currentTimeMillis());
+					userclientMapper.updateByPrimaryKeySelective(bean);
+					result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+				} else {
+					result.setErrorCode(ErrorCode.SYSTEM_USER_ERROR13);
+				}
+			//供应商	
 			} else {
-				result.setErrorCode(ErrorCode.SYSTEM_USER_ERROR13);
+				SystemUser user = usersupplierMapper.validPhoneIsOne(param.getMobilePhone());
+				if (user == null) {
+					SystemUser bean = new SystemUser();
+					bean.setId(param.getId());
+					bean.setMobilePhone(param.getMobilePhone());
+					bean.setModifier(param.getId());
+					bean.setModifytime(System.currentTimeMillis());
+					usersupplierMapper.updateByPrimaryKeySelective(bean);
+					result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+				} else {
+					result.setErrorCode(ErrorCode.SYSTEM_USER_ERROR13);
+				}
 			}
 		} else {
 			result.setErrorCode(ErrorCode.PARAM_NULL_ERROR);
@@ -325,13 +369,20 @@ public class AppStaticService implements IAppStaticService {
 	@Override
 	public AppResult appUnBindPhoneNumber(LoginUserParam param) {
 		AppResult result = AppResult.getAppResult();
-		if (param != null && StringUtils.isNotBlank(param.getId())){
+		if (param != null && StringUtils.isNotBlank(param.getId())
+				&& StringUtils.isNotBlank(param.getIDType())){
 			SystemUser bean = new SystemUser();
 			bean.setId(param.getId());
 			bean.setMobilePhone("");
 			bean.setModifier(param.getId());
 			bean.setModifytime(System.currentTimeMillis());
-			usersupplierMapper.updateByPrimaryKeySelective(bean);
+			//客户
+			if (StringUtils.equals(param.getIDType(), Constant.ONE_STRING)) {
+				userclientMapper.updateByPrimaryKeySelective(bean);
+			//供应商	
+			} else {
+				usersupplierMapper.updateByPrimaryKeySelective(bean);
+			}
 			result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
 		} else {
 			result.setErrorCode(ErrorCode.PARAM_NULL_ERROR);
@@ -347,7 +398,8 @@ public class AppStaticService implements IAppStaticService {
 			switch (param.getIDType()) {
 			//客户
 			case "1":
-				result = customerHome(param);
+				result.setErrorCode(ErrorCode.SYSTEM_USER_ERROR14);
+				//result = customerHome(param);
 				break;
 			//供应商				
 			case "2":
@@ -439,7 +491,8 @@ public class AppStaticService implements IAppStaticService {
 			switch (param.getIDType()) {
 			//客户
 			case "1":
-				result = customerBillList(param);
+				result.setErrorCode(ErrorCode.SYSTEM_USER_ERROR14);
+				//result = customerBillList(param);
 				break;
 			//供应商				
 			case "2":
@@ -500,8 +553,9 @@ public class AppStaticService implements IAppStaticService {
 			switch (param.getIDType()) {
 			//客户
 			case "1":
-				result.setData(salesApplicationMapper.appBillDetail(param));
-				result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+				result.setErrorCode(ErrorCode.SYSTEM_USER_ERROR14);
+				//result.setData(salesApplicationMapper.appBillDetail(param));
+				//result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
 				break;
 			//供应商				
 			case "2":
@@ -668,7 +722,8 @@ public class AppStaticService implements IAppStaticService {
 			switch (param.getIDType()) {
 			//客户
 			case "1":
-				result = saveCustomerNotice(param);
+				result.setErrorCode(ErrorCode.SYSTEM_USER_ERROR14);
+				//result = saveCustomerNotice(param);
 				break;
 			//供应商				
 			case "2":
@@ -871,7 +926,8 @@ public class AppStaticService implements IAppStaticService {
 			switch (param.getIDType()) {
 			//客户
 			case "1":
-				result = customerNoticeList(param);
+				result.setErrorCode(ErrorCode.SYSTEM_USER_ERROR14);
+				//result = customerNoticeList(param);
 				break;
 			//供应商				
 			case "2":
@@ -919,6 +975,7 @@ public class AppStaticService implements IAppStaticService {
 			//客户
 			case "1":
 				// TODO
+				result.setErrorCode(ErrorCode.SYSTEM_USER_ERROR14);
 				break;
 			//供应商				
 			case "2":
@@ -950,6 +1007,7 @@ public class AppStaticService implements IAppStaticService {
 				//客户
 				case "1":
 					// TODO
+					result.setErrorCode(ErrorCode.SYSTEM_USER_ERROR14);
 					break;
 				//供应商				
 				case "2":
@@ -1056,7 +1114,8 @@ public class AppStaticService implements IAppStaticService {
 			switch (param.getIDType()) {
 			//客户
 			case "1":
-				result = customerNoticeCancel(param);
+				result.setErrorCode(ErrorCode.SYSTEM_USER_ERROR14);
+				//result = customerNoticeCancel(param);
 				break;
 			//供应商				
 			case "2":
@@ -1183,7 +1242,8 @@ public class AppStaticService implements IAppStaticService {
 		switch (param.getIDType()) {
 		//客户
 		case "1":
-			result = customerMyVehicle(param);
+			result.setErrorCode(ErrorCode.SYSTEM_USER_ERROR14);
+			//result = customerMyVehicle(param);
 			break;
 		//供应商				
 		case "2":
@@ -1227,7 +1287,8 @@ public class AppStaticService implements IAppStaticService {
 			switch (param.getIDType()) {
 			//客户
 			case "1":
-				result = customerMyPn(param);
+				result.setErrorCode(ErrorCode.SYSTEM_USER_ERROR14);
+				//result = customerMyPn(param);
 				break;
 			//供应商				
 			case "2":
@@ -1353,6 +1414,8 @@ public class AppStaticService implements IAppStaticService {
 			switch (param.getIDType()) {
 			//客户
 			case "1":
+				result.setErrorCode(ErrorCode.SYSTEM_USER_ERROR14);
+				//result.setErrorCode(ErrorCode.SYSTEM_USER_ERROR14);
 				break;
 			//供应商				
 			case "2":
@@ -1390,17 +1453,30 @@ public class AppStaticService implements IAppStaticService {
 				&& StringUtils.isNotBlank(param.getKey())) {
 			SystemUser user=null;
 			if(param.getIDType().equals("1")){
-				 user = userclientMapper.selectByNcIdAndIdentityTypes(param.getCutoverUserNCId());
+				 user = userclientMapper.selectByPrimaryKey(param.getCutoverUserNCId());
 			}else{
-				 user = usersupplierMapper.selectByNcIdAndIdentityTypes(param.getCutoverUserNCId());
+				 user = usersupplierMapper.selectByPrimaryKey(param.getCutoverUserNCId());
 			}
 			if(user != null){
-				//累计登录次数
-				addLoginCount(user);
-				//缓存默认保存一天 && 返回登录结果
-				result.setData(cacheUserAndReturnLoginData(user.getId()));
-				result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
-				cacheClient.remove(param.getKey());
+				if (user.getIslock() == 0) {
+					if (user.getIsvalid() == 1) {
+						//累计登录次数
+						addLoginCount(user);
+						//缓存默认保存一天 && 返回登录结果
+						result.setData(cacheUserAndReturnLoginData(user.getId(), param.getIDType()));
+						result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+						cacheClient.remove(param.getKey());
+					} else {
+						//用户无效
+						result.setErrorCode(ErrorCode.SYSTEM_USER_ERROR5);
+					}
+				} else {
+					//用户被锁定
+					result.setErrorCode(ErrorCode.SYSTEM_USER_ERROR3);
+				}
+			} else {
+				//找不到该用户
+				result.setErrorCode(ErrorCode.SYSTEM_USER_ERROR1);
 			}
 		} else {
 			result.setErrorCode(ErrorCode.PARAM_NULL_ERROR);

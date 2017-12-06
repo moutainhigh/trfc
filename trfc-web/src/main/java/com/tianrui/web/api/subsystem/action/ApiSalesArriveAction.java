@@ -39,7 +39,7 @@ public class ApiSalesArriveAction {
 	 */
 	@RequestMapping(value="/detail",method=RequestMethod.POST)
 	@ApiParamRawType(ApiSalesArriveQuery.class)
-	@ApiAuthValidation(callType="2")
+	@ApiAuthValidation(callType="1,3,4")
 	@ResponseBody
 	public ApiResult detail(ApiParam<ApiSalesArriveQuery> req){
 		Result rs=Result.getErrorResult();

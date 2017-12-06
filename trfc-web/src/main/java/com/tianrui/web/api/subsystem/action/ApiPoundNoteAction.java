@@ -42,7 +42,7 @@ public class ApiPoundNoteAction {
 	 */
 	@RequestMapping(value = "/up/weight", method = RequestMethod.POST)
 	@ApiParamRawType(ApiPoundNoteQuery.class)
-	@ApiAuthValidation(callType = "2")
+	@ApiAuthValidation(callType = "3")
 	@ResponseBody
 	public ApiResult detail(ApiParam<ApiPoundNoteQuery> req) {
 		Result rs = Result.getErrorResult();
@@ -67,7 +67,7 @@ public class ApiPoundNoteAction {
 	 */
 	@RequestMapping(value = "/validation", method = RequestMethod.POST)
 	@ApiParamRawType(ApiPoundNoteValidation.class)
-	@ApiAuthValidation(callType = "2")
+	@ApiAuthValidation(callType = "3")
 	@ResponseBody
 	public ApiResult validation(ApiParam<ApiPoundNoteValidation> req) {
 		Result rs = Result.getErrorResult();
@@ -91,7 +91,7 @@ public class ApiPoundNoteAction {
 	 */
 	@RequestMapping(value = "/history/tareWeight", method = RequestMethod.POST)
 	@ApiParamRawType(ApiPoundNoteQuery.class)
-	@ApiAuthValidation(callType = "2")
+	@ApiAuthValidation(callType = "3")
 	@ResponseBody
 	public ApiResult tareWeight(ApiParam<ApiPoundNoteQuery> req) {
 		Result rs = Result.getErrorResult();
@@ -115,7 +115,7 @@ public class ApiPoundNoteAction {
 	 */
 	@RequestMapping(value = "/queryPountNote", method = RequestMethod.POST)
 	@ApiParamRawType(ApiPoundNoteQuery.class)
-	@ApiAuthValidation(callType = "2")
+	@ApiAuthValidation(callType = "1,3")
 	@ResponseBody
 	public ApiResult query(ApiParam<ApiPoundNoteQuery> req) {
 		Result rs = Result.getErrorResult();
@@ -138,7 +138,7 @@ public class ApiPoundNoteAction {
 	 */
 	@RequestMapping(value = "/querySignDetail", method = RequestMethod.POST)
     @ApiParamRawType(ApiPoundNoteQuery.class)
-    @ApiAuthValidation(callType = "2")
+    @ApiAuthValidation(callType = "1,3")
     @ResponseBody
     public ApiResult querySignDetail(ApiParam<ApiPoundNoteQuery> req) {
         Result rs = Result.getErrorResult();

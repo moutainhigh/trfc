@@ -165,19 +165,24 @@ public class TaskJobService {
 						notice.setBillid(sa.getId());
 						List<SalesArrive> noticeList = salesArriveMapper.selectSelective(notice);
 						if (CollectionUtils.isEmpty(noticeList)) {
-							VehicleManage vehicle = new VehicleManage();
-							vehicle.setId(UUIDUtil.getId());
-							vehicle.setCode(getCode("CL", sa.getMakerid(), true));
-							vehicle.setInternalcode(getCode("CL", sa.getMakerid(), false));
-							vehicle.setVehicleno(sa.getVehicleNo());
-							vehicle.setTransporttype(Constant.ZERO_STRING);
-							vehicle.setOrgid(Constant.ORG_ID);
-							vehicle.setOrgname(Constant.ORG_NAME);
-							vehicle.setIsvalid(Constant.ONE_STRING);
-							vehicle.setIsblacklist(Constant.ZERO_STRING);
-							vehicle.setState(Constant.ONE_STRING);
-							vehicleManageMapper.insertSelective(vehicle);
-							saveOneBillOneCarNotice(sa, detailList.get(0), vehicle, null);
+							VehicleManage vehicle = vehicleManageMapper.getVehicleByNo(sa.getVehicleNo());
+							if (vehicle == null) {
+								vehicle = new VehicleManage();
+								vehicle.setId(UUIDUtil.getId());
+								vehicle.setCode(getCode("CL", sa.getMakerid(), true));
+								vehicle.setInternalcode(getCode("CL", sa.getMakerid(), false));
+								vehicle.setVehicleno(sa.getVehicleNo());
+								vehicle.setTransporttype(Constant.ZERO_STRING);
+								vehicle.setOrgid(Constant.ORG_ID);
+								vehicle.setOrgname(Constant.ORG_NAME);
+								vehicle.setIsvalid(Constant.ONE_STRING);
+								vehicle.setIsblacklist(Constant.ZERO_STRING);
+								vehicle.setState(Constant.ONE_STRING);
+								vehicleManageMapper.insertSelective(vehicle);
+							}
+							if (validVehicle(vehicle)) {
+								saveOneBillOneCarNotice(sa, detailList.get(0), vehicle, null);
+							}
 						}
 					}
 				} else {
