@@ -12,7 +12,8 @@
 		<!-- 引用公共left部分 -->
 		<jsp:include page="../../common/base/left_busi.jsp"></jsp:include>
 		<div class="right">
-
+		<!-- 引用公共right部分 -->
+		<jsp:include page="../../common/base/right_head_busi.jsp"></jsp:include>
 			<!--tab切换的内容-->
 			<div class="intel_tabbox">
 				<!--采购申请单begin-->
@@ -236,6 +237,8 @@
 	<!--编辑end-->
 
 
+<!-- 引用公共footer部分 -->
+<jsp:include page="../../common/base/footer_busi.jsp"></jsp:include>
 
 	<script type="text/javascript"
 		src="/javascript/basicFile/other/supplier.js"></script>
