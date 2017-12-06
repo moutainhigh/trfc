@@ -398,7 +398,8 @@ public class AppStaticService implements IAppStaticService {
 			switch (param.getIDType()) {
 			//客户
 			case "1":
-				result = customerHome(param);
+				result.setErrorCode(ErrorCode.SYSTEM_USER_ERROR14);
+				//result = customerHome(param);
 				break;
 			//供应商				
 			case "2":
@@ -490,7 +491,8 @@ public class AppStaticService implements IAppStaticService {
 			switch (param.getIDType()) {
 			//客户
 			case "1":
-				result = customerBillList(param);
+				result.setErrorCode(ErrorCode.SYSTEM_USER_ERROR14);
+				//result = customerBillList(param);
 				break;
 			//供应商				
 			case "2":
@@ -551,8 +553,9 @@ public class AppStaticService implements IAppStaticService {
 			switch (param.getIDType()) {
 			//客户
 			case "1":
-				result.setData(salesApplicationMapper.appBillDetail(param));
-				result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+				result.setErrorCode(ErrorCode.SYSTEM_USER_ERROR14);
+				//result.setData(salesApplicationMapper.appBillDetail(param));
+				//result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
 				break;
 			//供应商				
 			case "2":
@@ -719,7 +722,8 @@ public class AppStaticService implements IAppStaticService {
 			switch (param.getIDType()) {
 			//客户
 			case "1":
-				result = saveCustomerNotice(param);
+				result.setErrorCode(ErrorCode.SYSTEM_USER_ERROR14);
+				//result = saveCustomerNotice(param);
 				break;
 			//供应商				
 			case "2":
@@ -922,7 +926,8 @@ public class AppStaticService implements IAppStaticService {
 			switch (param.getIDType()) {
 			//客户
 			case "1":
-				result = customerNoticeList(param);
+				result.setErrorCode(ErrorCode.SYSTEM_USER_ERROR14);
+				//result = customerNoticeList(param);
 				break;
 			//供应商				
 			case "2":
@@ -970,6 +975,7 @@ public class AppStaticService implements IAppStaticService {
 			//客户
 			case "1":
 				// TODO
+				result.setErrorCode(ErrorCode.SYSTEM_USER_ERROR14);
 				break;
 			//供应商				
 			case "2":
@@ -1001,6 +1007,7 @@ public class AppStaticService implements IAppStaticService {
 				//客户
 				case "1":
 					// TODO
+					result.setErrorCode(ErrorCode.SYSTEM_USER_ERROR14);
 					break;
 				//供应商				
 				case "2":
@@ -1107,7 +1114,8 @@ public class AppStaticService implements IAppStaticService {
 			switch (param.getIDType()) {
 			//客户
 			case "1":
-				result = customerNoticeCancel(param);
+				result.setErrorCode(ErrorCode.SYSTEM_USER_ERROR14);
+				//result = customerNoticeCancel(param);
 				break;
 			//供应商				
 			case "2":
@@ -1234,7 +1242,8 @@ public class AppStaticService implements IAppStaticService {
 		switch (param.getIDType()) {
 		//客户
 		case "1":
-			result = customerMyVehicle(param);
+			result.setErrorCode(ErrorCode.SYSTEM_USER_ERROR14);
+			//result = customerMyVehicle(param);
 			break;
 		//供应商				
 		case "2":
@@ -1278,7 +1287,8 @@ public class AppStaticService implements IAppStaticService {
 			switch (param.getIDType()) {
 			//客户
 			case "1":
-				result = customerMyPn(param);
+				result.setErrorCode(ErrorCode.SYSTEM_USER_ERROR14);
+				//result = customerMyPn(param);
 				break;
 			//供应商				
 			case "2":
@@ -1404,6 +1414,8 @@ public class AppStaticService implements IAppStaticService {
 			switch (param.getIDType()) {
 			//客户
 			case "1":
+				result.setErrorCode(ErrorCode.SYSTEM_USER_ERROR14);
+				//result.setErrorCode(ErrorCode.SYSTEM_USER_ERROR14);
 				break;
 			//供应商				
 			case "2":
