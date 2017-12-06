@@ -86,7 +86,7 @@ public class ApiCardAction {
 	 */
 	@RequestMapping(value="/unBindRfid",method=RequestMethod.POST)
 	@ApiParamRawType(RFIDReq.class)
-	@ApiAuthValidation(callType="2")
+	@ApiAuthValidation(callType="1")
 	@ResponseBody
 	public ApiResult unBindRfid(ApiParam<RFIDReq> req){
 		RFIDReq rfidReq=req.getBody();
@@ -107,7 +107,7 @@ public class ApiCardAction {
 	 */
 	@RequestMapping(value="/rfidTypeQuery",method=RequestMethod.POST)
 	@ApiParamRawType(RFIDReq.class)
-	@ApiAuthValidation(callType="2")
+	@ApiAuthValidation(callType="1")
 	@ResponseBody
 	public ApiResult rfidTypeQuery(ApiParam<RFIDReq> req){
 		RFIDReq rfidReq=req.getBody();
@@ -129,7 +129,7 @@ public class ApiCardAction {
 	 */
 	@RequestMapping(value="/validate",method=RequestMethod.POST)
 	@ApiParamRawType(CardApi.class)
-	@ApiAuthValidation(callType="2")
+	@ApiAuthValidation(callType="1,2,3")
 	@ResponseBody
 	public ApiResult validate(ApiParam<CardApi> req){
 	    Result rs = Result.getErrorResult();

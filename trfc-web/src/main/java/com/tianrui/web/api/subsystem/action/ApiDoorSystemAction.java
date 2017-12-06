@@ -138,7 +138,7 @@ public class ApiDoorSystemAction {
 	 */
 	@RequestMapping(value="/queryWaiting",method=RequestMethod.POST)
 	@ApiParamRawType(ApiDoorQueueQuery.class)
-	@ApiAuthValidation(callType="1")
+	@ApiAuthValidation(callType="4")
 	@ResponseBody
 	public ApiResult queryWaiting(ApiParam<ApiDoorQueueQuery> req){
 		ApiDoorQueueQuery queue = req.getBody();

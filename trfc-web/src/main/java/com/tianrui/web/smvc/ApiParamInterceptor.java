@@ -83,7 +83,7 @@ public class ApiParamInterceptor implements HandlerInterceptor{
 							if( StringUtils.isBlank(appParamObj.getHead().getUserId())  ){
 								// TODO 用户 权限验证.  用户存在验证
 								writeJsonResponse(response,ApiResult.valueOf(ErrorCode.PARAM_NULL_USER_ERROR));
-							}else if(!allowcallType.equals(appParamObj.getHead().getCallType())){
+							}else if(StringUtils.isNotBlank(allowcallType) && !allowcallType.contains(appParamObj.getHead().getCallType())  ){
 								writeJsonResponse(response,ApiResult.valueOf(ErrorCode.SYSTEM_AUTH_API_ERROR6));
 							}else{
 								flag=true;

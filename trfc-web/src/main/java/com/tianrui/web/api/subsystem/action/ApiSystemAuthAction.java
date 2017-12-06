@@ -14,6 +14,7 @@ import com.tianrui.smartfactory.common.api.ApiParam;
 import com.tianrui.smartfactory.common.api.ApiResult;
 import com.tianrui.smartfactory.common.constants.ErrorCode;
 import com.tianrui.smartfactory.common.vo.Result;
+import com.tianrui.web.smvc.ApiAuthValidation;
 import com.tianrui.web.smvc.ApiParamRawType;
 
 
@@ -33,6 +34,7 @@ public class ApiSystemAuthAction {
 	
 	@RequestMapping(value="/login",method=RequestMethod.POST)
 	@ApiParamRawType(UserReq.class)
+	@ApiAuthValidation(callType="1,3,4,2")
 	@ResponseBody
 	public ApiResult login(ApiParam<UserReq> req){
 		UserReq userReq =req.getBody();
