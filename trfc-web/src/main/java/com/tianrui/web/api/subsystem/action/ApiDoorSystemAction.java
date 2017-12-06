@@ -48,7 +48,7 @@ public class ApiDoorSystemAction {
 	 */
 	@RequestMapping(value="/record",method=RequestMethod.POST)
 	@ApiParamRawType(ApiDoorSystemSave.class)
-	@ApiAuthValidation(callType="2")
+	@ApiAuthValidation(callType="1")
 	@ResponseBody
 	public ApiResult record(ApiParam<ApiDoorSystemSave> req){
 		ApiDoorSystemSave apiDoor = req.getBody();
@@ -72,7 +72,7 @@ public class ApiDoorSystemAction {
 	 */
 	@RequestMapping(value="/enterFactoryCheck",method=RequestMethod.POST)
 	@ApiParamRawType(VehicleCheckApi.class)
-	@ApiAuthValidation(callType="2")
+	@ApiAuthValidation(callType="1")
 	@ResponseBody
 	public ApiResult enterFactoryCheck(ApiParam<VehicleCheckApi> req){
 		VehicleCheckApi checkApi = req.getBody();
@@ -94,7 +94,7 @@ public class ApiDoorSystemAction {
 	 */
 	@RequestMapping(value="/leaveFactoryCheck",method=RequestMethod.POST)
 	@ApiParamRawType(VehicleCheckApi.class)
-	@ApiAuthValidation(callType="2")
+	@ApiAuthValidation(callType="1")
 	@ResponseBody
 	public ApiResult leaveFactoryCheck(ApiParam<VehicleCheckApi> req){
 		VehicleCheckApi checkApi = req.getBody();
@@ -116,7 +116,7 @@ public class ApiDoorSystemAction {
 	 */
 	@RequestMapping(value="/queueNumber",method=RequestMethod.POST)
 	@ApiParamRawType(ApiDoorQueueQuery.class)
-	@ApiAuthValidation(callType="2")
+	@ApiAuthValidation(callType="1")
 	@ResponseBody
 	public ApiResult queueNumber(ApiParam<ApiDoorQueueQuery> req){
 		ApiDoorQueueQuery queue = req.getBody();
@@ -138,7 +138,7 @@ public class ApiDoorSystemAction {
 	 */
 	@RequestMapping(value="/queryWaiting",method=RequestMethod.POST)
 	@ApiParamRawType(ApiDoorQueueQuery.class)
-	@ApiAuthValidation(callType="2")
+	@ApiAuthValidation(callType="1")
 	@ResponseBody
 	public ApiResult queryWaiting(ApiParam<ApiDoorQueueQuery> req){
 		ApiDoorQueueQuery queue = req.getBody();
