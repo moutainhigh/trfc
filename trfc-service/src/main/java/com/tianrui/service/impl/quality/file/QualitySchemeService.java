@@ -187,8 +187,9 @@ public class QualitySchemeService implements IQualitySchemeService {
 	}
 
 	@Override
-	public Result autoCompleteSearch(String likeName) throws Exception {
-		List<QualityScheme> list = qualitySchemeMapper.autoCompleteSearch(likeName);
+	public Result autoCompleteSearch(String likeName ,String type) throws Exception {
+		Result rs = Result.getSuccessResult();
+		List<QualityScheme> list = qualitySchemeMapper.autoCompleteSearch(likeName,type);
 		List<QualitySchemeResp> resps = new ArrayList<QualitySchemeResp>();
 		if(list!=null && list.size()>0){
 			for(QualityScheme ms : list){
@@ -203,7 +204,6 @@ public class QualitySchemeService implements IQualitySchemeService {
 				resps.add(resp);
 			}
 		}
-		Result rs = Result.getSuccessResult();
 		rs.setData(resps);
 		return rs;
 	}

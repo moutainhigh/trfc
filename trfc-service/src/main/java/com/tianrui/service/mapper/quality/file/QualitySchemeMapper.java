@@ -53,6 +53,6 @@ public interface QualitySchemeMapper {
     /**
      * 下拉框自动搜索
      */
-    List<QualityScheme> autoCompleteSearch(@Param("likeName")String likeName);
+    List<QualityScheme> autoCompleteSearch(@Param("likeName")String likeName,@Param("type")String type);
 
 }

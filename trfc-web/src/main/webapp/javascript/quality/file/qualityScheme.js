@@ -1,6 +1,4 @@
-$(function(){
-	//整合url
-	var URL = {
+var URL = {
 			materialAutoCompleteSearch:"/trfc/materiel/autoCompleteSearch",
 			billsUrl:"/trfc/quality/sales/file/qualityScheme/billsData",
 			pageUrl:"/trfc/quality/sales/file/qualityScheme/page",
@@ -13,6 +11,9 @@ $(function(){
 			selectaddTypeUrl:"/trfc/quality/sales/file/qualityScheme/selectaddType",
 			standardUrl:"/trfc/quality/sales/file/qualityScheme/standard"
 	};
+$(function(){
+	//整合url
+	
 	//设置一个公共变量,当点击编辑按钮时,将原数据存入该变量中
 	var editOD = {};
 	//加载列表
@@ -85,30 +86,6 @@ $(function(){
 		$('#add_standard').removeAttr('checked');
 		$('#add_describe').val('');
 	}
-	//根据项目名称获取物料名称
-	function selectaddType(){
-		var addType =$('#add_type').val()
-		alert(addType);
-		$.ajax({
-			url : URL.selectaddTypeUrl,
-			data : {"type":addType},
-			async : false,
-			cache : false,
-			dataType : 'json',
-			type : 'post',
-			success : function(result) {
-				if (result.code != '000000') {
-					layer.msg(result.error);
-					$('#add_material').val('');
-					return;
-				}else{
-					alert("成功了！开心的像朵花！");
-				}
-			}
-    	});
-	}
-	
-	
 	//获取下拉框数据并填充
 	function materialSelect(){
 		var cache={};
@@ -116,11 +93,13 @@ $(function(){
 			//数据源
 			source: function( request, response ) {
 				var term = request.term;
-				var material = cache['material'] || {};
+				var material = cache['material1'] || {};
 				if ( term in material ) {
 					response( material[ term ] );
 					return;
 				}
+				var addType =$('#add_type').val()
+				request.type=addType;
 				$.post( URL.materialAutoCompleteSearch, request, function( data, status, xhr ) {
 					material[ term ] = data.data;
 					response( data );
@@ -618,3 +597,25 @@ $(function(){
 
 
 });
+//根据项目名称获取物料名称
+//function selectaddType(){
+//	var addType =$('#add_type').val()
+//	$.ajax({
+//		url : URL.selectaddTypeUrl,
+//		data : {"type":addType},
+//		async : false,
+//		cache : false,
+//		dataType : 'json',
+//		type : 'post',
+//		success : function(result) {
+//			if (result.code != '000000') {
+//				//layer.msg(result.error);
+//				$('#add_material').val('');
+//				return;
+//			}else{
+//				
+//				alert("成功了！开心的像朵花！");
+//			}
+//		}
+//	});
+//}

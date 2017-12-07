@@ -303,6 +303,16 @@
 			</if>
 		</where>
 	</select>
+	<select id="selectName" parameterType="com.tianrui.api.req.quality.file.QualityItemReq" resultType="int">
+		select 
+		count(1)
+		from tr_quality_db_item
+		<where>
+			<if test="name!=null and name!=''">
+				and name=#{name,jdbcType=VARCHAR}
+			</if>
+		</where>
+	</select>
     <select id="selectOne" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />

@@ -141,4 +141,21 @@ public class MaterialSchemeAction {
 		}
 		return rs;
 	}
+	
+	/**
+	 * 根据物料查询
+	 */
+	@ResponseBody
+	@RequestMapping("/selectMaterial")
+	public Result selectMaterial(MaterialSchemeReq req){
+		Result rs = Result.getErrorResult();
+		try {
+//			rs = materialSchemeService.page(req);
+			rs = materialSchemeService.selectMaterial(req);
+		} catch (Exception e) {
+			log.error(e.getMessage(),e);
+			rs.setErrorCode(ErrorCode.SYSTEM_ERROR);
+		}
+		return rs;
+	}
 }

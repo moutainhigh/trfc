@@ -6,7 +6,6 @@
 <title>质检方案-质检标准</title>
 <link href="${staticBasePath}/css/select2.css" rel="stylesheet">
 <jsp:include page="../../common/base/header_busi.jsp"></jsp:include>
-
 </head>
 <body>
 	<div class="it_admin">
@@ -154,8 +153,8 @@
 								<label>有效性：</label> <input type="checkbox" id="add_invalid"><span>有效</span>
 							</div>
 						</div>
-						<div class="zj_biaozhun_table">
-							<div class="zj_biaozhun_table2">
+					<div class="zj_biaozhun_table"> 
+							 <div class="zj_biaozhun_table2"> 
 								<table class="table table-hover">
 									<thead>
 										<tr>
@@ -218,7 +217,7 @@
 									</tbody>
 								</table>
 							</div>
-						</div>
+					</div> 
 
 					</div>
 					<div class="modal-footer">

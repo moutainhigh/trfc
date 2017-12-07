@@ -65,7 +65,7 @@ public interface IMaterielManageService {
 	 * @return
 	 * @throws Exception
 	 */
-	List<MaterielManageResp> autoCompleteSearch(String likeName) throws Exception;
+	List<MaterielManageResp> autoCompleteSearch(String likeName,String type) throws Exception;
 	/**
 	 * @Description app物料列表
 	 * @author zhanggaohao
