@@ -52,12 +52,12 @@ $(function(){
 					var obj = list[i];
 					var invlid = obj.invlid;
 					var tr = '<tr>'
-                       +' <td><input type="text" class="w80" >'+(i+1)+'</td>'
-                       +' <td><input type="text" class="w80" >'+(DATA.schemeobj.name || '')+'</td>'
-                       +' <td><input type="text" class="w80" >'+(obj.materialname || '')+'</td>'
-                       +' <td><input type="text" class="w80" >'+(obj.itemcode || '')+'</td>'
-                       +' <td><input type="text" class="w80" >'+(obj.itemname || '')+'</td>'
-                       +' <td><input type="text" class="w80" >'+(obj.units || '')+'</td>'
+                       +' <td>'+(i+1)+'</td>'
+                       +' <td>'+(DATA.schemeobj.name || '')+'</td>'
+                       +' <td>'+(obj.materialname || '')+'</td>'
+                       +' <td>'+(obj.itemcode || '')+'</td>'
+                       +' <td>'+(obj.itemname || '')+'</td>'
+                       +' <td>'+(obj.units || '')+'</td>'
                        +' <td><select class="comparison form-control" style="width:100px;"></select></td>'
                        +' <td><input type="text" class="w80" ></td>'
                        +' <td><select class="comparison form-control" style="width:100px;"></select></td>'
