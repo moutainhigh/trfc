@@ -1703,7 +1703,7 @@ public class PoundNoteService implements IPoundNoteService {
 		bean.setCreator(query.getCurrid());
 		bean.setCreatetime(System.currentTimeMillis());
 		poundNoteMapper.insertSelective(bean);
-		updateCode("", user.getId());
+		updateCode("CK", user.getId());
 		notice.setStatus(Constant.ONE_STRING);
 		salesArriveMapper.updateByPrimaryKeySelective(notice);
 		result.setData(bean.getCode());
