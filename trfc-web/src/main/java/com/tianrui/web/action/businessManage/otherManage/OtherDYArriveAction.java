@@ -11,8 +11,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.tianrui.api.intf.businessManage.otherManage.IOtherArriveService;
+import com.tianrui.api.intf.businessManage.otherManage.IOtherDYArriveService;
 import com.tianrui.api.req.businessManage.otherManage.OtherArriveReq;
 import com.tianrui.api.resp.system.auth.SystemUserResp;
+import com.tianrui.service.impl.businessManage.otherManage.OtherDYArriveService;
 import com.tianrui.smartfactory.common.constants.Constant;
 import com.tianrui.smartfactory.common.constants.ErrorCode;
 import com.tianrui.smartfactory.common.vo.Result;
@@ -25,6 +27,8 @@ public class OtherDYArriveAction {
 	
 	@Autowired
 	private IOtherArriveService otherArriveService;
+	@Autowired
+	private IOtherDYArriveService otherDYArriveService;
 	
 	@RequestMapping("main")
 	public ModelAndView main(){
@@ -83,7 +87,7 @@ public class OtherDYArriveAction {
 			req.setUserid(user.getId());
 			req.setBusinesstype("4");
 			req.setCodekey("ND");
-			rs = otherArriveService.add(req);
+			rs = otherDYArriveService.add(req);
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
 			rs.setErrorCode(ErrorCode.SYSTEM_ERROR);
