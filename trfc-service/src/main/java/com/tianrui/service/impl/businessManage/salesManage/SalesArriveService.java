@@ -45,6 +45,7 @@ import com.tianrui.service.bean.basicFile.businessControl.PrimarySetting;
 import com.tianrui.service.bean.basicFile.measure.DriverManage;
 import com.tianrui.service.bean.basicFile.measure.VehicleManage;
 import com.tianrui.service.bean.businessManage.cardManage.Card;
+import com.tianrui.service.bean.businessManage.examine.ExceptionAudit;
 import com.tianrui.service.bean.businessManage.logisticsManage.AccessRecord;
 import com.tianrui.service.bean.businessManage.otherManage.OtherArrive;
 import com.tianrui.service.bean.businessManage.poundNoteMaintain.PoundNote;
@@ -63,6 +64,7 @@ import com.tianrui.service.mapper.basicFile.businessControl.PrimarySettingMapper
 import com.tianrui.service.mapper.basicFile.measure.DriverManageMapper;
 import com.tianrui.service.mapper.basicFile.measure.VehicleManageMapper;
 import com.tianrui.service.mapper.businessManage.cardManage.CardMapper;
+import com.tianrui.service.mapper.businessManage.examine.ExceptionAuditMapper;
 import com.tianrui.service.mapper.businessManage.logisticsManage.AccessRecordMapper;
 import com.tianrui.service.mapper.businessManage.otherManage.OtherArriveMapper;
 import com.tianrui.service.mapper.businessManage.poundNoteMaintain.PoundNoteMapper;
@@ -144,6 +146,8 @@ public class SalesArriveService implements ISalesArriveService {
 	private SystemUserMapper userMapper;
 	@Autowired
 	private SalesApplicationArriveMapper salesApplicationArriveMapper;
+	@Autowired
+	private ExceptionAuditMapper exceptionAuditMapper;
 
 	@Override
 	public PaginationVO<SalesArriveResp> page(SalesArriveQuery query) throws Exception {
@@ -963,7 +967,7 @@ public class SalesArriveService implements ISalesArriveService {
 			SalesArrive sa = salesArriveMapper.selectByPrimaryKey(query.getId());
 			if (sa != null) {
 				if (StringUtils.equals(sa.getState(), Constant.ONE_STRING)) {
-					if (StringUtils.equals(sa.getStatus(), Constant.THREE_STRING)) {
+					if (!StringUtils.equals(sa.getStatus(), Constant.THREE_STRING)) {
 						if (!(StringUtils.equals(sa.getStatus(), Constant.FIVE_STRING)
 								&& sa.getForceOutFactory() == Constant.ZERO_NUMBER)) {
 							if (!(StringUtils.equals(sa.getStatus(), Constant.FIVE_STRING)
@@ -1174,6 +1178,19 @@ public class SalesArriveService implements ISalesArriveService {
 			api.setNumber(String.valueOf(resp.getTakeamount()==null?"":resp.getTakeamount()));
 			api.setStatus(resp.getStatus());
 			api.setBillNo(resp.getCode());
+			PoundNote pn = poundNoteMapper.selectByNoticeId(resp.getId());
+			if (pn != null) {
+				List<ExceptionAudit> emptyOutList = exceptionAuditMapper.listByPnId(Constant.ONE_STRING, pn.getId());
+				if (CollectionUtils.isNotEmpty(emptyOutList)) {
+					api.setIsEmptyOut(Constant.ONE_STRING);
+					api.setEmptyOutStatus(emptyOutList.get(0).getAuditStatus() ? Constant.ONE_STRING : Constant.ZERO_STRING);
+				}
+				List<ExceptionAudit> dontFillList = exceptionAuditMapper.listByPnId(Constant.FOUR_STRING, pn.getId());
+				if (CollectionUtils.isNotEmpty(dontFillList)) {
+					api.setIsDontFill(Constant.ONE_STRING);
+					api.setDontFillStatus(dontFillList.get(0).getAuditStatus() ? Constant.ONE_STRING : Constant.ZERO_STRING);
+				}
+			}
 		}
 		return api;
 	}

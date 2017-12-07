@@ -11,7 +11,6 @@ import com.tianrui.api.req.android.MyVehicleListParam;
 import com.tianrui.api.req.android.NoticeListParam;
 import com.tianrui.api.req.android.NoticeSave;
 import com.tianrui.api.req.android.SearchKeyParam;
-import com.tianrui.api.resp.system.auth.SystemUserResp;
 import com.tianrui.smartfactory.common.vo.AppResult;
 
 /**
@@ -195,26 +194,4 @@ public interface IAppStaticService {
 	 * @return
 	 */
 	AppResult vcAndDr(MyVehicleListParam param);
-	
-	SystemUserResp getUser(String id) throws Exception;
-	
-	/**
-	 * @Description 根据id获取用户
-	 * @author zhanggaohao
-	 * @version 2017年4月13日 上午11:48:31
-	 * @param id
-	 * @param isFlush 是否刷新缓存
-	 * @return
-	 * @throws Exception 
-	 */
-	SystemUserResp get(String id, boolean isFlush) throws Exception;
-	/**
-	 * @Description 根据id获取用户
-	 * @author zhanggaohao
-	 * @version 2017年4月13日 下午2:47:02
-	 * @param id
-	 * @return
-	 * @throws Exception
-	 */
-	SystemUserResp get(String id) throws Exception;
 }

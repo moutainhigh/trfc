@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.tianrui.api.intf.api.android.imple.IAppStaticService;
-import com.tianrui.api.intf.api.android.imple.IAppStaticUserService;
 import com.tianrui.api.req.android.AppVersionParam;
 import com.tianrui.api.req.android.BillListParam;
 import com.tianrui.api.req.android.BillSave;
@@ -32,25 +31,20 @@ import com.tianrui.web.smvc.ApiParamRawType;
  */
 @Controller
 @RequestMapping("api/android/static_new")
-public class AppStaticAction_new {
+public class AppPurchaseStaticAction {
 
-	private Logger log = LoggerFactory.getLogger(AppStaticAction_new.class);
+	private Logger log = LoggerFactory.getLogger(AppPurchaseStaticAction.class);
 
 	@Autowired
 	private IAppStaticService appService;
-	@Autowired
-	IAppStaticUserService  appUserService;
+	
 	@RequestMapping(value="/login",method=RequestMethod.POST)
 	@ApiParamRawType(LoginUserParam.class)
 	@ResponseBody
 	public AppResult login(ApiParam<LoginUserParam> param){
 		AppResult result = AppResult.getAppResult();
 		try {
-			if(param.getBody().getIDType().equals("1")){
-				result = appService.appLogin(param.getBody());
-			}else if(param.getBody().getIDType().equals("2")){
-				result = appUserService.appLogin(param.getBody());
-			}
+			result = appService.appLogin(param.getBody());
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
@@ -80,6 +74,7 @@ public class AppStaticAction_new {
 		AppResult result = AppResult.getAppResult();
 		try {
 			param.getBody().setId(param.getHead().getUserId());
+			param.getBody().setIDType(param.getHead().getIDType());
 			result = appService.appUpdatePwd(param.getBody());
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
@@ -95,6 +90,7 @@ public class AppStaticAction_new {
 		AppResult result = AppResult.getAppResult();
 		try {
 			param.getBody().setId(param.getHead().getUserId());
+			param.getBody().setIDType(param.getHead().getIDType());
 			result = appService.appBindPhoneNumber(param.getBody());
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
@@ -110,6 +106,7 @@ public class AppStaticAction_new {
 		AppResult result = AppResult.getAppResult();
 		try {
 			param.getBody().setId(param.getHead().getUserId());
+			param.getBody().setIDType(param.getHead().getIDType());
 			result = appService.appUnBindPhoneNumber(param.getBody());
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);

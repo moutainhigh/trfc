@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.tianrui.api.intf.api.android.imple.IAppSalesStaticService;
+import com.tianrui.api.intf.basicFile.finance.IPrmTariffService;
 import com.tianrui.api.intf.businessManage.purchaseManage.IPushSingleService;
 import com.tianrui.api.intf.system.auth.ISystemUserService;
 import com.tianrui.api.intf.system.base.ISystemCodeService;
@@ -43,6 +44,7 @@ import com.tianrui.api.resp.businessManage.salesManage.SalesApplicationDetailRes
 import com.tianrui.api.resp.businessManage.salesManage.SalesApplicationResp;
 import com.tianrui.api.resp.system.auth.SystemUserResp;
 import com.tianrui.api.resp.system.merchants.AppCutoverGroup;
+import com.tianrui.service.bean.basicFile.finance.PrmTariff;
 import com.tianrui.service.bean.basicFile.measure.DriverManage;
 import com.tianrui.service.bean.basicFile.measure.VehicleManage;
 import com.tianrui.service.bean.basicFile.nc.CustomerManage;
@@ -87,14 +89,11 @@ import com.tianrui.smartfactory.common.enums.BillTypeEnum;
 import com.tianrui.smartfactory.common.utils.UUIDUtil;
 import com.tianrui.smartfactory.common.vo.AppResult;
 import com.tianrui.smartfactory.common.vo.PaginationVO;
+import com.tianrui.smartfactory.common.vo.Result;
 
 @Service
 public class AppSalesStaticService implements IAppSalesStaticService {
 
-//	@Autowired
-//	private SystemUserMapper userMapper;
-//	@Autowired
-//	private SystemUserMapper systemUserMapper;
 	@Autowired
 	SystemUserclientMapper userclientMapper;
 	@Autowired
@@ -137,6 +136,8 @@ public class AppSalesStaticService implements IAppSalesStaticService {
 	private SmUserMapper smUserMapper;
 	@Autowired
 	private WarehouseManageMapper warehouseManageMapper;
+	@Autowired
+	private IPrmTariffService prmTariffService;
 	
 	@Override
 	public AppResult home(HomePageParam param) {
@@ -404,7 +405,16 @@ public class AppSalesStaticService implements IAppSalesStaticService {
 		sad.setMaterielname(material.getName());
 		sad.setUnit(param.getUnit());
 		sad.setSalessum(param.getNumber());
-		sad.setMargin(0D);		
+		sad.setMargin(0D);	
+		sad.setStoragequantity(0D);
+		sad.setUnstoragequantity(0D);
+		sad.setPretendingtake(0D);
+		//单价
+		Result ptRs = prmTariffService.getPrmTariffByMater(sad.getMaterielid());
+		if (ptRs != null && ptRs.getData() != null) {
+			PrmTariff pt = (PrmTariff) ptRs.getData();
+			sad.setTaxprice(Double.valueOf(pt.getNprice1()));
+		}	
 		return sad;
 	}
 	
@@ -576,7 +586,7 @@ public class AppSalesStaticService implements IAppSalesStaticService {
 		SalesArrive bean = new SalesArrive();
 		bean.setId(UUIDUtil.getId());
 		bean.setCode(getCode("TH", user.getId(), true));
-		bean.setAuditstatus(Constant.ZERO_STRING);
+		bean.setAuditstatus(Constant.ONE_STRING);
 		bean.setSource(Constant.TWO_STRING);
 		bean.setStatus(Constant.ZERO_STRING);
 		bean.setVehicleid(vehicle.getId());
@@ -1123,6 +1133,7 @@ public class AppSalesStaticService implements IAppSalesStaticService {
 		if (apiResult != null) {
 			if (StringUtils.equals(apiResult.getCode(), Constant.SUCCESS)) {
 				//修改通知单为作废中
+				sa.setStatus(Constant.THREE_STRING);
 				sa.setValidStatus(Constant.ONE_STRING);
 				sa.setAbnormalperson(user.getId());
 				sa.setAbnormalpersonname(user.getName());

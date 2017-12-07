@@ -1097,6 +1097,7 @@ public class SalesApplicationService implements ISalesApplicationService {
 		sad.setMargin(0D);
 		sad.setPretendingtake(sad.getSalessum());
 		salesApplicationDetailMapper.updateByPrimaryKeySelective(sad);
+		salesArriveMapper.emptyForceOutFactoryByVehicle(vehicle.getId());
 	}
 
 	private boolean validVehicle(VehicleManage vehicle) {
