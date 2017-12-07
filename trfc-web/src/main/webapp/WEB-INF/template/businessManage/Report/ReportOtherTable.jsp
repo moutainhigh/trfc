@@ -62,10 +62,6 @@
                 <input type="text" id="bbg_gys">
             </div>
             <div class="intel_solo">
-                <label class="colorB">矿口：</label>
-                <input type="text" id="bbg_kk">
-            </div>
-            <div class="intel_solo">
                 <label class="colorB">物料：</label>
                 <input type="text" id="gys">
             </div>
@@ -149,7 +145,7 @@
                                 <thead>
                                 <tr>
                                     <td colspan="12" align="center" style="color:#434e8d;font-size: 40px;line-height:normal">
-                                        	裕泰采购物料统计
+                                        	裕泰其他出库逐车明细
                                         <p class="biobiaop" style="margin-top: 10px">
                                             <span class="clock12"></span>至<span class="clock13"></span>
                                         </p>
@@ -188,7 +184,7 @@
                                 <thead>
                                 <tr>
                                     <td colspan="12" align="center" style="color:#434e8d;font-size: 40px;line-height:normal">
-                         			               裕泰采购物料统计
+                         			               裕泰其他出库逐车明细
                                     </td>
                                 </tr>
                                 <tr>
@@ -240,7 +236,7 @@
                             <thead>
                             <tr>
                                 <td colspan="13" align="center" style="color:#434e8d;font-size: 40px;line-height:normal">
-                           				  裕泰采购物料统计
+                           				  裕泰其他入库逐车明细
                                     <p class="biobiaop" style="margin-top: 10px">
                                     <span class="clock3"></span>至<span class="clock4"></span>
                                     </p>
@@ -280,7 +276,7 @@
                             <thead>
                             <tr>
                                 <td colspan="13" align="center" style="color:#434e8d;font-size: 40px;line-height:normal">
-                                	裕泰采购物料统计                   
+                                	裕泰其他入库逐车明细               
                                 </td>
                             </tr>
                             <tr>

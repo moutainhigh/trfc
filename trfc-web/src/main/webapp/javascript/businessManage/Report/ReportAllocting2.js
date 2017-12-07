@@ -151,20 +151,15 @@ function Clock1() {
 //条件搜索
 function bbgClick(){
     var bbg_gys=document.getElementById("bbg_gys").value;
-    var bbg_kk=document.getElementById("bbg_kk").value;
     var gys=document.getElementById("gys").value;
     var bbg_sjn=document.getElementById("bbg_sjn").value;
     var clock1=document.getElementById("clock1").value;
     var clock2=document.getElementById("clock2").value;
     var bbg_cph=document.getElementById("bbg_cph").value;
-    var bbg_bz=document.getElementById("bbg_bz").value;
     var bbg_tiaojian1=document.querySelector(".bbg_tiaojian1");
     var str="";
     if(bbg_gys!=""){
-        str+="供应商："+bbg_gys+" ";
-    }
-   if(bbg_kk!=""){
-        str+="矿口："+bbg_kk+" ";
+        str+="客户姓名："+bbg_gys+" ";
     }
    if(gys!=""){
         str+="物料："+gys+" ";
@@ -178,11 +173,9 @@ function bbgClick(){
         str+="结束时间："+clock2+" ";
     }*/
     if(bbg_cph!=""){
-        str+="车牌号："+bbg_cph+" ";
+        str+="车号："+bbg_cph+" ";
     }
-    if(bbg_bz!=""){
-        str+="备注："+bbg_bz+" ";
-    }
+    
     bbg_tiaojian1.innerHTML=str; 
 }
 

@@ -160,7 +160,6 @@ function Clock1() {
 //条件搜索
 function bbgClick(){
     var bbg_gys=document.getElementById("bbg_gys").value;
-    var bbg_kk=document.getElementById("bbg_kk").value;
     var gys=document.getElementById("gys").value;
     var bbg_sjn=document.getElementById("bbg_sjn").value;
     var clock1=document.getElementById("clock1").value;
@@ -173,20 +172,11 @@ function bbgClick(){
     if(bbg_gys!=""){
         str+="供应商："+bbg_gys+" ";
     }
-   if(bbg_kk!=""){
-        str+="矿口："+bbg_kk+" ";
-    }
    if(gys!=""){
         str+="物料："+gys+" ";
     }else if(bbg_sjn!=""){
         str+="司机姓名：："+bbg_sjn+" ";
     }
-   /* if(clock1!=""){
-        str+="开始时间："+clock1+" ";
-    }
-    if(clock2!=""){
-        str+="结束时间："+clock2+" ";
-    }*/
     if(bbg_cph!=""){
         str+="车牌号："+bbg_cph+" ";
     }

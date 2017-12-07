@@ -58,12 +58,8 @@
 						<div class="intel_sconditon">
 							 <div class="intel_sline">
             <div class="intel_solo">
-                <label class="colorB">供应商：</label>
+                <label class="colorB">客户姓名：</label>
                 <input type="text" id="bbg_gys">
-            </div>
-            <div class="intel_solo">
-                <label class="colorB">矿口：</label>
-                <input type="text" id="bbg_kk">
             </div>
             <div class="intel_solo">
                 <label class="colorB">物料：</label>
@@ -72,6 +68,10 @@
             <div class="intel_solo">
                 <label class="colorB">司机姓名：</label>
                 <input type="text" id="bbg_sjn">
+            </div>
+             <div class="intel_solo">
+                <label class="colorB">车号：</label>
+                <input type="text" id="bbg_cph">
             </div>
             <div class="intel_solo">
                 <label class="colorB">开始时间：</label>
@@ -91,15 +91,7 @@
             </div>
             <div class="intel_solo">
             <button class="btn" id="dayNow" style="color: #166aa8;margin: 0 5px 0 -10px">当日</button>
-            </div>
-            <div class="intel_solo">
-                <label class="colorB">车牌号：</label>
-                <input type="text" id="bbg_cph">
-            </div>
-            <div class="intel_solo">
-                <label class="colorB">备注：</label>
-                <input type="text" id="bbg_bz">
-            </div>
+            </div>      
             <div class="intel_solo">
                 <div class="intel_sbtn">
                     <button id="searchBtn" class="btn btnblue" onclick="bbgClick()">搜索</button>
@@ -149,7 +141,7 @@
                                     <thead>
                                     <tr>
                                         <td colspan="12" align="center" style="color:#434e8d;font-size: 40px;line-height:normal">
-                                         	裕泰采购物料统计
+                                         	裕泰厂内倒运逐车明细
                                             <p class="biobiaop" style="margin-top: 10px">
                                                 <span class="clock6"></span>至<span class="clock7"></span>
                                             </p>
@@ -187,7 +179,7 @@
                                     <thead>
                                     <tr>
                                         <td colspan="12" align="center" style="color:#434e8d;font-size: 40px;line-height:normal">
-                                		            裕泰采购物料统计             
+                                		            裕泰厂内倒运逐车明细             
                                         </td>
                                     </tr>
                                     <tr>                       

@@ -41,6 +41,17 @@
 	                	$('#RMgA').empty();
 	        	        var list = result.data||[];
 	        	            for(var i=0;i<list.length;i++){
+	        	            	var lightt,weightt;
+	        					if(list[i].lighttime){
+	        						lightt=new Date(list[i].lighttime).format("yyyy-MM-dd HH:mm:ss");
+	        					}else{
+	        						lightt="";
+	        					}
+	        					if(list[i].weighttime){
+	        						weightt=new Date(list[i].weighttime).format("yyyy-MM-dd HH:mm:ss");
+	        					}else{
+	        						weightt="";
+	        					}
 	        	            	$('<tr>').append('<td>'+(list[i].code||"")+'</td>')
 								.append('<td>'+(list[i].noticecode||"")+'</td>')
 								.append('<td>'+(list[i].senddepartmentname||"")+'</td>')
@@ -51,8 +62,8 @@
 								.append('<td>'+(list[i].grossweight||"")+'</td>')
 								.append('<td>'+(list[i].tareweight||"")+'</td>')
 								.append('<td>'+(list[i].netweight||"")+'</td>')
-								.append('<td>'+(new Date(list[i].lighttime||"").format("yyyy-MM-dd HH:mm:ss")||"")+'</td>')
-								.append('<td>'+(new Date(list[i].weighttime||"").format("yyyy-MM-dd HH:mm:ss"))+'</td>')
+								.append('<td>'+(lightt)+'</td>')
+								.append('<td>'+(weightt)+'</td>')
 	        	                .appendTo('#RMgA');
 	        	            }       	
 	                }
@@ -94,37 +105,31 @@
 	}
 	function getParams(){
 		var params = {};
-		var suppliername = $('#bbg_gys').val();suppliername = $.trim(suppliername);
-		var minemouthname = $('#bbg_kk').val();minemouthname = $.trim(minemouthname);
+		var customername = $('#bbg_gys').val();customername = $.trim(customername);
 		var cargo = $('#gys').val();cargo = $.trim(cargo);
 		var drivername = $('#bbg_sjn').val();drivername = $.trim(drivername);
 		var beginTime = $('#clock1').val();beginTime = $.trim(beginTime);
 		var endTime = $('#clock2').val();endTime = $.trim(endTime);
 		var vehicleno = $('#bbg_cph').val();vehicleno = $.trim(vehicleno);
-		var remark = $('#bbg_bz').val();remark = $.trim(remark);
 		var pageSize = $('#pageSize').val() || 20;pageSize = $.trim(pageSize);
 		return {
-			suppliername:suppliername,
-			minemouthname:minemouthname,
+			customername:customername,
 			cargo:cargo,
 			drivername:drivername,
 			beginTime:str2Long(beginTime),
 			endTime:str2Long(endTime),
 			vehicleno:vehicleno,
-			remark:remark,
 			pageSize:pageSize
 		};
 	}
 	
 	function clean(){
-		 $('#bbg_gys').val("");
-		 $('#bbg_kk').val("");
+		 $('#bbg_gys').val("");	
 		 $('#gys').val("");
 		 $('#bbg_sjn').val("");
 		 $('#clock1').val("");
 		 $('#clock2').val("");
 		 $('#bbg_cph').val("");
-		 $('#bbg_bz').val("");
 //		 queryData(1);
 	}
 //		//初始化页面
@@ -177,6 +182,17 @@
 			var list = data.list||[];
 			if(list && list.length>0){
 				for(var i=0;i<list.length;i++){
+					var lightt,weightt;
+					if(list[i].lighttime){
+						lightt=new Date(list[i].lighttime).format("yyyy-MM-dd HH:mm:ss");
+					}else{
+						lightt="";
+					}
+					if(list[i].weighttime){
+						weightt=new Date(list[i].weighttime).format("yyyy-MM-dd HH:mm:ss");
+					}else{
+						weightt="";
+					}
 					$('<tr>').append('<td>'+(list[i].code||"")+'</td>')
 							.append('<td>'+(list[i].noticecode||"")+'</td>')
 							.append('<td>'+(list[i].senddepartmentname||"")+'</td>')
@@ -187,8 +203,8 @@
 							.append('<td>'+(list[i].grossweight||"")+'</td>')
 							.append('<td>'+(list[i].tareweight||"")+'</td>')
 							.append('<td>'+(list[i].netweight||"")+'</td>')
-							.append('<td>'+(new Date(list[i].lighttime||"").format("yyyy-MM-dd HH:mm:ss")||"")+'</td>')
-							.append('<td>'+(new Date(list[i].weighttime||"").format("yyyy-MM-dd HH:mm:ss"))+'</td>')
+							.append('<td>'+(lightt)+'</td>')
+							.append('<td>'+(weightt)+'</td>')
 							.appendTo('#RMg1');
 				}
 			}else if(list.length<=0){

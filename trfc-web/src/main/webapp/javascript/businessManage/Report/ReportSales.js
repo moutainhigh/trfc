@@ -42,6 +42,17 @@
                 	$('#RMgA').empty();
         	        var list = result.data||[];
         	            for(var i=0;i<list.length;i++){
+        	            	var lightt,weightt;
+        					if(list[i].lighttime){
+        						lightt=new Date(list[i].lighttime).format("yyyy-MM-dd HH:mm:ss");
+        					}else{
+        						lightt="";
+        					}
+        					if(list[i].weighttime){
+        						weightt=new Date(list[i].weighttime).format("yyyy-MM-dd HH:mm:ss");
+        					}else{
+        						weightt="";
+        					}
         	            	$('<tr>').append('<td>'+(list[i].code||"")+'</td>')
 							.append('<td>'+(list[i].customername||"")+'</td>')
 							.append('<td>'+(list[i].cargo||"")+'</td>')
@@ -50,8 +61,8 @@
 							.append('<td>'+(list[i].grossweight||"")+'</td>')
 							.append('<td>'+(list[i].tareweight||"")+'</td>')
 							.append('<td>'+(list[i].netweight||"")+'</td>')
-							.append('<td>'+(new Date(list[i].lighttime||"").format("yyyy-MM-dd HH:mm:ss")||"")+'</td>')
-							.append('<td>'+(new Date(list[i].weighttime||"").format("yyyy-MM-dd HH:mm:ss"))+'</td>')
+							.append('<td>'+(lightt)+'</td>')
+							.append('<td>'+(weightt)+'</td>')
         	                .appendTo('#RMgA');
         	            }       	
                 }
@@ -94,24 +105,24 @@
 	}
 	function getParams(){
 		var params = {};
-		var suppliername = $('#bbg_gys').val();suppliername = $.trim(suppliername);
-		var minemouthname = $('#bbg_kk').val();minemouthname = $.trim(minemouthname);
+		var code = $('#bbg_gys').val();code = $.trim(code);
+		var customername = $('#bbg_kk').val();customername = $.trim(customername);
 		var cargo = $('#gys').val();cargo = $.trim(cargo);
 		var drivername = $('#bbg_sjn').val();drivername = $.trim(drivername);
 		var beginTime = $('#clock1').val();beginTime = $.trim(beginTime);
 		var endTime = $('#clock2').val();endTime = $.trim(endTime);
 		var vehicleno = $('#bbg_cph').val();vehicleno = $.trim(vehicleno);
-		var remark = $('#bbg_bz').val();remark = $.trim(remark);
+		var billcode = $('#billcode').val();billcode = $.trim(billcode);
 		var pageSize = $('#pageSize').val() || 20;pageSize = $.trim(pageSize);
 		return {
-			suppliername:suppliername,
-			minemouthname:minemouthname,
+			code:code,
+			customername:customername,
 			cargo:cargo,
 			drivername:drivername,
 			beginTime:str2Long(beginTime),
 			endTime:str2Long(endTime),
 			vehicleno:vehicleno,
-			remark:remark,
+			billcode:billcode,
 			pageSize:pageSize
 		};
 	}
@@ -177,6 +188,17 @@
 			var list = data.list||[];
 			if(list && list.length>0){
 				for(var i=0;i<list.length;i++){
+					var lightt,weightt;
+					if(list[i].lighttime){
+						lightt=new Date(list[i].lighttime).format("yyyy-MM-dd HH:mm:ss");
+					}else{
+						lightt="";
+					}
+					if(list[i].weighttime){
+						weightt=new Date(list[i].weighttime).format("yyyy-MM-dd HH:mm:ss");
+					}else{
+						weightt="";
+					}
 					$('<tr>').append('<td>'+(list[i].code||"")+'</td>')
 							.append('<td>'+(list[i].customername||"")+'</td>')
 							.append('<td>'+(list[i].cargo||"")+'</td>')
@@ -185,8 +207,8 @@
 							.append('<td>'+(list[i].grossweight||"")+'</td>')
 							.append('<td>'+(list[i].tareweight||"")+'</td>')
 							.append('<td>'+(list[i].netweight||"")+'</td>')
-							.append('<td>'+(new Date(list[i].lighttime||"").format("yyyy-MM-dd HH:mm:ss")||"")+'</td>')
-							.append('<td>'+(new Date(list[i].weighttime||"").format("yyyy-MM-dd HH:mm:ss"))+'</td>')
+							.append('<td>'+(lightt)+'</td>')
+							.append('<td>'+(weightt)+'</td>')
 							.appendTo('#RMg1');
 				}
 			}else{

@@ -152,7 +152,7 @@
                                     <thead>
                                     <tr>
                                         <td colspan="14" align="center" style="color:#434e8d;font-size: 40px;line-height:normal">
-                                           	裕泰采购物料统计
+                                           	裕泰采购逐车明细
                                             <p class="biobiaop" style="margin-top: 10px">
                                                 <span class="clock6"></span>至<span class="clock7"></span>
                                             </p>
@@ -192,7 +192,7 @@
                                     <thead>
                                     <tr>
                                         <td colspan="14" align="center" style="color:#434e8d;font-size: 40px;line-height:normal">
-                                          	  裕泰采购物料统计                   
+                                          	裕泰采购逐车明细                
                                         </td>
                                     </tr>
                                     <tr>
@@ -247,7 +247,7 @@
                             <thead>
                             <tr>
                                 <td colspan="7" align="center" style="color:#434e8d;font-size: 40px;line-height:normal">
-                                   	裕泰采购物料统计
+                                  	 裕泰采购单位统计
                                     <p class="biobiaop" style="margin-top: 10px">
                                         <span class="clock9"></span>至<span class="clock10"></span>
                                     </p>
@@ -279,7 +279,7 @@
                             <thead>
                             <tr>
                                 <td colspan="7" align="center" style="color:#434e8d;font-size: 40px;line-height:normal">
-                                   	 裕泰采购物料统计
+                                   	 裕泰采购单位统计
                                 </td>
                             </tr>
                             <tr>
@@ -326,7 +326,7 @@
                                 <thead>
                                 <tr>
                                     <td colspan="12" align="center" style="color:#434e8d;font-size: 40px;line-height:normal">
-                                       	裕泰采购物料统计
+                                       	裕泰采购收料统计
                                         <p class="biobiaop" style="margin-top: 10px">
                                             <span class="clock12"></span>至<span class="clock13"></span>
                                         </p>
@@ -365,7 +365,7 @@
                                 <thead>
                                 <tr>
                                     <td colspan="12" align="center" style="color:#434e8d;font-size: 40px;line-height:normal">
-                                 	       裕泰采购物料统计
+                                 	       裕泰采购收料统计
                                     </td>
                                 </tr>
                                 <tr>

@@ -69,6 +69,17 @@
 	                	$('#RMgA').empty();
 	        	        var list = result.data||[];
 	        	            for(var i=0;i<list.length;i++){
+	        	            	var lightt,weightt;
+	        					if(list[i].lighttime){
+	        						lightt=new Date(list[i].lighttime).format("yyyy-MM-dd HH:mm:ss");
+	        					}else{
+	        						lightt="";
+	        					}
+	        					if(list[i].weighttime){
+	        						weightt=new Date(list[i].weighttime).format("yyyy-MM-dd HH:mm:ss");
+	        					}else{
+	        						weightt="";
+	        					}
 	        	            	$('<tr>').append('<td>'+(list[i].poundcode||"")+'</td>')
 	        					.append('<td>'+(list[i].billcode||"")+'</td>')
 	        					.append('<td>'+(list[i].suppliername||"")+'</td>')
@@ -80,8 +91,8 @@
 	        					.append('<td>'+(list[i].grossweight||"")+'</td>')
 	        					.append('<td>'+(list[i].tareweight||"")+'</td>')
 	        					.append('<td>'+(list[i].netweight||"")+'</td>')
-	        					.append('<td>'+(new Date(list[i].lighttime||"").format("yyyy-MM-dd HH:mm:ss"))+'</td>')
-	        					.append('<td>'+(new Date(list[i].weighttime||"").format("yyyy-MM-dd HH:mm:ss"))+'</td>')
+	        					.append('<td>'+(lightt)+'</td>')
+	        					.append('<td>'+(weightt)+'</td>')
 	        					.append('<td>'+(list[i].remark||"")+'</td>')
 	        	                .appendTo('#RMgA');
 	        	            }       	
@@ -132,6 +143,17 @@
 	                	$('#RMgC').empty();
 	        	        var list = result.data||[];
 	        	            for(var i=0;i<list.length;i++){
+	        	            	var signt,weightt;
+	        					if(list[i].signtime){
+	        						signt=new Date(list[i].signtime).format("yyyy-MM-dd HH:mm:ss");
+	        					}else{
+	        						signt="";
+	        					}
+	        					if(list[i].weighttime){
+	        						weightt=new Date(list[i].weighttime).format("yyyy-MM-dd HH:mm:ss");
+	        					}else{
+	        						weightt="";
+	        					}
 	        	            	$('<tr>').append('<td>'+(list[i].poundcode||"")+'</td>')
 	    						.append('<td>'+(list[i].suppliername||"")+'</td>')
 	    						.append('<td>'+(list[i].materialname||"")+'</td>')
@@ -139,10 +161,10 @@
 	    						.append('<td>'+(list[i].minemouthname||"")+'</td>')
 	    						.append('<td>'+(list[i].yardname||"")+'</td>')
 	    						.append('<td>'+(list[i].signpersonname||"")+'</td>')
-	    						.append('<td>'+(new Date(list[i].signtime).format("yyyy-MM-dd HH:mm:ss")||"")+'</td>')
+	    						.append('<td>'+(signt)+'</td>')
 	    						.append('<td>'+(list[i].originalnetweight||"")+'</td>')
 	    						.append('<td>'+(list[i].netweight||"")+'</td>')
-	    						.append('<td>'+(new Date(list[i].weighttime||"").format("yyyy-MM-dd HH:mm:ss"))+'</td>')
+	    						.append('<td>'+(weightt)+'</td>')
 	    						.append('<td>'+(list[i].remark||"")+'</td>')
 	        	                .appendTo('#RMgC');
 	        	            }       	
@@ -328,6 +350,17 @@
 			var list = data.list||[];
 			if(list && list.length>0){
 				for(var i=0;i<list.length;i++){
+					var lightt,weightt;
+					if(list[i].lighttime){
+						lightt=new Date(list[i].lighttime).format("yyyy-MM-dd HH:mm:ss");
+					}else{
+						lightt="";
+					}
+					if(list[i].weighttime){
+						weightt=new Date(list[i].weighttime).format("yyyy-MM-dd HH:mm:ss");
+					}else{
+						weightt="";
+					}
 					$('<tr>').append('<td>'+(list[i].poundcode||"")+'</td>')
 							.append('<td>'+(list[i].billcode||"")+'</td>')
 							.append('<td>'+(list[i].suppliername||"")+'</td>')
@@ -339,8 +372,8 @@
 							.append('<td>'+(list[i].grossweight||"")+'</td>')
 							.append('<td>'+(list[i].tareweight||"")+'</td>')
 							.append('<td>'+(list[i].netweight||"")+'</td>')
-							.append('<td>'+(new Date(list[i].lighttime||"").format("yyyy-MM-dd HH:mm:ss")||"")+'</td>')
-							.append('<td>'+(new Date(list[i].weighttime||"").format("yyyy-MM-dd HH:mm:ss")||"")+'</td>')
+							.append('<td>'+(lightt)+'</td>')
+							.append('<td>'+(weightt)+'</td>')
 							.append('<td>'+(list[i].remark||"")+'</td>')
 							.appendTo('#RMg1');
 				}
@@ -463,6 +496,17 @@
 		var list = data.list||[];
 		if(list && list.length>0){
 			for(var i=0;i<list.length;i++){
+				var signt,weightt;
+				if(list[i].signtime){
+					signt=new Date(list[i].signtime).format("yyyy-MM-dd HH:mm:ss");
+				}else{
+					signt="";
+				}
+				if(list[i].weighttime){
+					weightt=new Date(list[i].weighttime).format("yyyy-MM-dd HH:mm:ss");
+				}else{
+					weightt="";
+				}
 				$('<tr>').append('<td>'+(list[i].poundcode||"")+'</td>')
 						.append('<td>'+(list[i].suppliername||"")+'</td>')
 						.append('<td>'+(list[i].materialname||"")+'</td>')
@@ -470,10 +514,10 @@
 						.append('<td>'+(list[i].minemouthname||"")+'</td>')
 						.append('<td>'+(list[i].yardname||"")+'</td>')
 						.append('<td>'+(list[i].signpersonname||"")+'</td>')
-						.append('<td>'+(new Date(list[i].signtime).format("yyyy-MM-dd HH:mm:ss")||"")+'</td>')
+						.append('<td>'+(signt)+'</td>')
 						.append('<td>'+(list[i].originalnetweight||"")+'</td>')
 						.append('<td>'+(list[i].netweight||"")+'</td>')
-						.append('<td>'+(new Date(list[i].weighttime||"").format("yyyy-MM-dd HH:mm:ss"))+'</td>')
+						.append('<td>'+(weightt)+'</td>')
 						.append('<td>'+(list[i].remark||"")+'</td>')
 						.appendTo('#RMg3');
 			}

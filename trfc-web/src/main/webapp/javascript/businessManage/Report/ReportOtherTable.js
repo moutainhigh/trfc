@@ -52,6 +52,17 @@
 	                	$('#RMgA').empty();
 	        	        var list = result.data||[];
 	        	            for(var i=0;i<list.length;i++){
+	        	            	var lightt,weightt;
+	        					if(list[i].lighttime){
+	        						lightt=new Date(list[i].lighttime).format("yyyy-MM-dd HH:mm:ss");
+	        					}else{
+	        						lightt="";
+	        					}
+	        					if(list[i].weighttime){
+	        						weightt=new Date(list[i].weighttime).format("yyyy-MM-dd HH:mm:ss");
+	        					}else{
+	        						weightt="";
+	        					}
 	        	            	$('<tr>').append('<td>'+(list[i].code||"")+'</td>')
 	    						.append('<td>'+(list[i].noticecode||"")+'</td>')
 	    						.append('<td>'+(list[i].receivedepartmentname||"")+'</td>')
@@ -62,8 +73,8 @@
 	    						.append('<td>'+(list[i].grossweight||"")+'</td>')
 	    						.append('<td>'+(list[i].tareweight||"")+'</td>')
 	    						.append('<td>'+(list[i].netweight||"")+'</td>')
-	    						.append('<td>'+(new Date(list[i].lighttime||"").format("yyyy-MM-dd HH:mm:ss")||"")+'</td>')
-	    						.append('<td>'+(new Date(list[i].weighttime||"").format("yyyy-MM-dd HH:mm:ss"))+'</td>')
+	    						.append('<td>'+(lightt)+'</td>')
+	    						.append('<td>'+(weightt)+'</td>')
 	        	                .appendTo('#RMgA');
 	        	            }       	
 	                }
@@ -84,6 +95,17 @@
 	                	$('#RMgB').empty();
 	        	        var list = result.data||[];
 	        	            for(var i=0;i<list.length;i++){
+	        	            	var lightt,weightt;
+	        					if(list[i].lighttime){
+	        						lightt=new Date(list[i].lighttime).format("yyyy-MM-dd HH:mm:ss");
+	        					}else{
+	        						lightt="";
+	        					}
+	        					if(list[i].weighttime){
+	        						weightt=new Date(list[i].weighttime).format("yyyy-MM-dd HH:mm:ss");
+	        					}else{
+	        						weightt="";
+	        					}
 	        	            	$('<tr>').append('<td>'+(list[i].code||"")+'</td>')
 	    						.append('<td>'+(list[i].noticecode||"")+'</td>')
 	    						.append('<td>'+(list[i].senddepartmentname||"")+'</td>')
@@ -94,8 +116,8 @@
 	    						.append('<td>'+(list[i].grossweight||"")+'</td>')
 	    						.append('<td>'+(list[i].tareweight||"")+'</td>')
 	    						.append('<td>'+(list[i].netweight||"")+'</td>')
-	    						.append('<td>'+(new Date(list[i].lighttime||"").format("yyyy-MM-dd HH:mm:ss")||"")+'</td>')
-	    						.append('<td>'+(new Date(list[i].weighttime||"").format("yyyy-MM-dd HH:mm:ss"))+'</td>')
+	    						.append('<td>'+(lightt)+'</td>')
+	    						.append('<td>'+(weightt)+'</td>')
 	    						.append('<td>'+(list[i].remark||"")+'</td>')
 	        	                .appendTo('#RMgB');
 	        	            }       	
@@ -153,7 +175,6 @@
 	function getParams(){
 		var params = {};
 		var suppliername = $('#bbg_gys').val();suppliername = $.trim(suppliername);
-		var minemouthname = $('#bbg_kk').val();minemouthname = $.trim(minemouthname);
 		var cargo = $('#gys').val();cargo = $.trim(cargo);
 		var drivername = $('#bbg_sjn').val();drivername = $.trim(drivername);
 		var beginTime = $('#clock1').val();beginTime = $.trim(beginTime);
@@ -163,7 +184,6 @@
 		var pageSize = $('#pageSize').val() || 20;pageSize = $.trim(pageSize);
 		return {
 			suppliername:suppliername,
-			minemouthname:minemouthname,
 			cargo:cargo,
 			drivername:drivername,
 			beginTime:str2Long(beginTime),
@@ -235,6 +255,17 @@
 		var list = data.list||[];
 		if(list && list.length>0){
 			for(var i=0;i<list.length;i++){   //其他出库逐车明细
+				var lightt,weightt;
+				if(list[i].lighttime){
+					lightt=new Date(list[i].lighttime).format("yyyy-MM-dd HH:mm:ss");
+				}else{
+					lightt="";
+				}
+				if(list[i].weighttime){
+					weightt=new Date(list[i].weighttime).format("yyyy-MM-dd HH:mm:ss");
+				}else{
+					weightt="";
+				}
 				$('<tr>').append('<td>'+(list[i].code||"")+'</td>')
 						.append('<td>'+(list[i].noticecode||"")+'</td>')
 						.append('<td>'+(list[i].receivedepartmentname||"")+'</td>')
@@ -245,8 +276,8 @@
 						.append('<td>'+(list[i].grossweight||"")+'</td>')
 						.append('<td>'+(list[i].tareweight||"")+'</td>')
 						.append('<td>'+(list[i].netweight||"")+'</td>')
-						.append('<td>'+(new Date(list[i].lighttime||"").format("yyyy-MM-dd HH:mm:ss")||"")+'</td>')
-						.append('<td>'+(new Date(list[i].weighttime||"").format("yyyy-MM-dd HH:mm:ss"))+'</td>')
+						.append('<td>'+(lightt)+'</td>')
+						.append('<td>'+(weightt)+'</td>')
 						.appendTo('#RMg3');
 			}
 		}else if(list.length<=0){
@@ -305,6 +336,17 @@
 		var list = data.list||[];
 		if(list && list.length>0){    //	其他入库逐车明细
 			for(var i=0;i<list.length;i++){
+				var lightt,weightt;
+				if(list[i].lighttime){
+					lightt=new Date(list[i].lighttime).format("yyyy-MM-dd HH:mm:ss");
+				}else{
+					lightt="";
+				}
+				if(list[i].weighttime){
+					weightt=new Date(list[i].weighttime).format("yyyy-MM-dd HH:mm:ss");
+				}else{
+					weightt="";
+				}
 				$('<tr>').append('<td>'+(list[i].code||"")+'</td>')
 						.append('<td>'+(list[i].noticecode||"")+'</td>')
 						.append('<td>'+(list[i].senddepartmentname||"")+'</td>')
@@ -315,8 +357,8 @@
 						.append('<td>'+(list[i].grossweight||"")+'</td>')
 						.append('<td>'+(list[i].tareweight||"")+'</td>')
 						.append('<td>'+(list[i].netweight||"")+'</td>')
-						.append('<td>'+(new Date(list[i].lighttime||"").format("yyyy-MM-dd HH:mm:ss")||"")+'</td>')
-						.append('<td>'+(new Date(list[i].weighttime||"").format("yyyy-MM-dd HH:mm:ss"))+'</td>')
+						.append('<td>'+(lightt)+'</td>')
+						.append('<td>'+(weightt)+'</td>')
 						.append('<td>'+(list[i].remark||"")+'</td>')
 						.appendTo('#RMg4');
 			}
