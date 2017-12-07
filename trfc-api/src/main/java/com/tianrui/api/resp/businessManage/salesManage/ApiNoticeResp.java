@@ -33,7 +33,6 @@ public class ApiNoticeResp extends BaseResp {
 	//7 其它出库
 	//8 其它出库退货
 	//9 工程车辆
-
 	private String servicetype="";
 	//
 	private String notionformcode="";
@@ -61,6 +60,14 @@ public class ApiNoticeResp extends BaseResp {
     private String remark="";
     //订单编码
     private String billNo="";
+    //是否有空车出厂审批（销售）0：无，1：有
+    private String isEmptyOut="0";
+    //空车出厂审批状态 0：未审批，1：已审批
+    private String emptyOutStatus="0";
+    //是否有无需补包审批（销售）0：无，1：有
+    private String isDontFill="0";
+    //无需补包审批状态 0：未审批，1：已审批
+    private String dontFillStatus="0";
 	
 	public String getVehicleno() {
 		return vehicleno;
@@ -182,5 +189,31 @@ public class ApiNoticeResp extends BaseResp {
 	public void setBillNo(String billNo) {
 		this.billNo = billNo;
 	}
-    
+	public String getIsEmptyOut() {
+		return isEmptyOut;
+	}
+	public void setIsEmptyOut(String isEmptyOut) {
+		this.isEmptyOut = isEmptyOut;
+	}
+	public String getEmptyOutStatus() {
+		return emptyOutStatus;
+	}
+	public void setEmptyOutStatus(String emptyOutStatus) {
+		this.emptyOutStatus = emptyOutStatus;
+	}
+	public String getIsDontFill() {
+		return isDontFill;
+	}
+	public void setIsDontFill(String isDontFill) {
+		this.isDontFill = isDontFill;
+	}
+	public String getDontFillStatus() {
+		return dontFillStatus;
+	}
+	public void setDontFillStatus(String dontFillStatus) {
+		this.dontFillStatus = dontFillStatus;
+	}
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
 }

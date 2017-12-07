@@ -14,6 +14,7 @@ import com.tianrui.smartfactory.common.api.ApiParam;
 import com.tianrui.smartfactory.common.api.ApiResult;
 import com.tianrui.smartfactory.common.constants.ErrorCode;
 import com.tianrui.smartfactory.common.vo.Result;
+import com.tianrui.web.smvc.ApiAuthValidation;
 import com.tianrui.web.smvc.ApiParamRawType;
 
 

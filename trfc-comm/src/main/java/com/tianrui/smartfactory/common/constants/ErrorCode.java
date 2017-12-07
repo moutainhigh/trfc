@@ -130,6 +130,7 @@ public enum ErrorCode {
 	VEHICLE_IS_WX("E10022","车辆已无效."),
 	VEHICLE_IS_BLACK("E10023","车辆被列入黑名单."),
 	VEHICLE_NOTICE_NOT_LOAD2("E10024","该车辆还未在平台确认收货."),
+	VEHICLE_DONT_BIND_RFID("E10025","该车辆已绑定过RFID."),
 	/**
 	 * 司机
 	 */

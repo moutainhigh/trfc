@@ -40,7 +40,7 @@ public class ApiExceptionAuditAction {
 	 */
 	@RequestMapping(value="/apply",method=RequestMethod.POST)
 	@ApiParamRawType(ExceptionAuditSaveReq.class)
-	@ApiAuthValidation(callType="2")
+	@ApiAuthValidation(callType="3")
 	@ResponseBody
 	public ApiResult apply(ApiParam<ExceptionAuditSaveReq> req){
 		ExceptionAuditSaveReq exceptionAuditSaveReq =req.getBody();
@@ -61,7 +61,7 @@ public class ApiExceptionAuditAction {
 	 */
 	@RequestMapping(value="/query",method=RequestMethod.POST)
 	@ApiParamRawType(ExceptionAuditReq.class)
-	@ApiAuthValidation(callType="2")
+	@ApiAuthValidation(callType="3")
 	@ResponseBody
 	public ApiResult query(ApiParam<ExceptionAuditReq> req){
 		ExceptionAuditReq exceptionAuditReq =req.getBody();

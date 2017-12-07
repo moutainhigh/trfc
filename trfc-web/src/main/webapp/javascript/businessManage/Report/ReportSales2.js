@@ -157,31 +157,25 @@ function bbgClick(){
     var clock1=document.getElementById("clock1").value;
     var clock2=document.getElementById("clock2").value;
     var bbg_cph=document.getElementById("bbg_cph").value;
-    var bbg_bz=document.getElementById("bbg_bz").value;
+    var billcode=document.getElementById("billcode").value;
     var bbg_tiaojian1=document.querySelector(".bbg_tiaojian1");
     var str="";
     if(bbg_gys!=""){
-        str+="供应商："+bbg_gys+" ";
+        str+="磅单号："+bbg_gys+" ";
     }
    if(bbg_kk!=""){
-        str+="矿口："+bbg_kk+" ";
+        str+="客户姓名："+bbg_kk+" ";
     }
    if(gys!=""){
         str+="物料："+gys+" ";
     }else if(bbg_sjn!=""){
         str+="司机姓名：："+bbg_sjn+" ";
     }
-   /* if(clock1!=""){
-        str+="开始时间："+clock1+" ";
-    }
-    if(clock2!=""){
-        str+="结束时间："+clock2+" ";
-    }*/
     if(bbg_cph!=""){
-        str+="车牌号："+bbg_cph+" ";
+        str+="车号："+bbg_cph+" ";
     }
-    if(bbg_bz!=""){
-        str+="备注："+bbg_bz+" ";
+    if(billcode!=""){
+        str+="订单号："+billcode+" ";
     }
     bbg_tiaojian1.innerHTML=str; 
 }

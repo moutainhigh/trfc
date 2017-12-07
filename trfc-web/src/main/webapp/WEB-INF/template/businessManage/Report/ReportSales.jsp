@@ -58,11 +58,11 @@
 						<div class="intel_sconditon">
 							 <div class="intel_sline">
             <div class="intel_solo">
-                <label class="colorB">供应商：</label>
+                <label class="colorB">磅单号：</label>
                 <input type="text" id="bbg_gys">
             </div>
             <div class="intel_solo">
-                <label class="colorB">矿口：</label>
+                <label class="colorB">客户姓名：</label>
                 <input type="text" id="bbg_kk">
             </div>
             <div class="intel_solo">
@@ -93,12 +93,12 @@
             <button class="btn" id="dayNow" style="color: #166aa8;margin: 0 5px 0 -10px">当日</button>
             </div>
             <div class="intel_solo">
-                <label class="colorB">车牌号：</label>
+                <label class="colorB">车号：</label>
                 <input type="text" id="bbg_cph">
             </div>
             <div class="intel_solo">
-                <label class="colorB">备注：</label>
-                <input type="text" id="bbg_bz">
+                <label class="colorB">订单号：</label>
+                <input type="text" id="billcode">
             </div>
             <div class="intel_solo">
                 <div class="intel_sbtn">
@@ -149,7 +149,7 @@
                                     <thead>
                                     <tr>
                                         <td colspan="10" align="center" style="color:#434e8d;font-size: 40px;line-height:normal">
-                                            	裕泰采购物料统计
+                                            	裕泰销售逐车明细
                                             <p class="biobiaop" style="margin-top: 10px">
                                                 <span class="clock6"></span>至<span class="clock7"></span>
                                             </p>
@@ -185,7 +185,7 @@
                                     <thead>
                                     <tr>
                                         <td colspan="10" align="center" style="color:#434e8d;font-size: 40px;line-height:normal">
-                                            	裕泰采购物料统计                 
+                                            	裕泰销售逐车明细                 
                                         </td>
                                     </tr>
                                     <tr>                      

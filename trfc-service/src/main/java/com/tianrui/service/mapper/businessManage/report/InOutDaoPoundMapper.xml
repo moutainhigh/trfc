@@ -840,7 +840,7 @@
     <include refid="Base_Column_List" />
     from tr_pound_db_note
    	<where>
-   		
+   		netweight > 0
    		<if test="beginTimeLong != null and beginTimeLong != 0L ">
 			and makebilltime <![CDATA[>]]> #{beginTimeLong,jdbcType=BIGINT}
 		</if>
@@ -889,7 +889,7 @@
     count(1)
     from tr_pound_db_note
    	<where>
-   		
+   		netweight > 0
    		<if test="beginTimeLong != null and beginTimeLong != 0L ">
 			and makebilltime <![CDATA[>]]> #{beginTimeLong,jdbcType=BIGINT}
 		</if>

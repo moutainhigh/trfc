@@ -29,7 +29,7 @@ public class ApiUploadFileAction {
 	
 	@RequestMapping(value="/image",method=RequestMethod.POST)
 	@ApiParamRawType(FileUploadReq.class)
-	@ApiAuthValidation(callType="2")
+	@ApiAuthValidation(callType="1,3")
 	@ResponseBody
 	public ApiResult uploadImg(ApiParam<FileUploadReq> apiParam){
 		log.info("进入上传图片接口...", apiParam);
