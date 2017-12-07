@@ -34,7 +34,6 @@ public class ApiSystemAuthAction {
 	
 	@RequestMapping(value="/login",method=RequestMethod.POST)
 	@ApiParamRawType(UserReq.class)
-	@ApiAuthValidation(callType="1,3,4,2")
 	@ResponseBody
 	public ApiResult login(ApiParam<UserReq> req){
 		UserReq userReq =req.getBody();
