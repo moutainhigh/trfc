@@ -27,7 +27,7 @@ public enum ErrorCode {
 	PARAM_CHECK_CODE_ERROR("E10004","校验码异常."),
 	PARAM_REPEAT_ERROR("E10005","数据重复."),
 	PARAM_NULL_USER_ERROR("E10006","参数异常,参数用户信息不能为空."),
-	
+	PARAM_NAME_ERROR("E10007","项目名称已存在,不能重复添加."),
 	/**
 	 * FRID
 	 */

@@ -168,7 +168,7 @@
 							</div>
 							<div class="alt_edit_div">
 								<label class="colorred">*质检项目名称：</label> <input type="text"
-									id="add_name">
+									id="add_name" >
 							</div>
 							<div class="alt_edit_div">
 								<label class="colorred">*符号表示：</label> <input type="text"
@@ -192,7 +192,7 @@
 								<label>公式：</label> <input type="text" id="add_formula">
 							</div>
 							<div class="alt_edit_div">
-								<label>有效性：</label> <input type="checkbox" id="add_invlid"><span>有效</span>
+								<label>有效性：</label> <input type="checkbox" checked="checked" id="add_invlid"><span>有效</span>
 							</div>
 							<div class="alt_edit_div">
 								<label class="colorred">*值分组：</label> <input type="text"
@@ -276,7 +276,7 @@
 								<label>公式：</label> <input type="text" id="edit_formula">
 							</div>
 							<div class="alt_edit_div">
-								<label>有效性：</label> <input type="checkbox" id="edit_invlid"><span>有效</span>
+								<label>有效性：</label> <input type="checkbox"  id="edit_invlid"><span>有效</span>
 							</div>
 							<div class="alt_edit_div">
 								<label class="colorred">*值分组：</label> <input type="text"

@@ -2,6 +2,7 @@ package com.tianrui.api.intf.quality.file;
 
 
 import com.tianrui.api.req.quality.file.MaterialSchemeReq;
+import com.tianrui.api.req.quality.file.QualityItemReq;
 import com.tianrui.smartfactory.common.vo.Result;
 
 public interface IMaterialSchemeService {
@@ -22,7 +23,17 @@ public interface IMaterialSchemeService {
 	 * 分页查询
 	 */
 	Result page(MaterialSchemeReq req) throws Exception;
-	
+	/**
+	 * 根据物料进行查询
+	 * @Title: page 
+	 * @Description: TODO
+	 * @param @param req
+	 * @param @return
+	 * @param @throws Exception   
+	 * @return Result    
+	 * @throws
+	 */
+	Result selectMaterial(MaterialSchemeReq req) throws Exception;
 	/**
 	 * 检测物料品种是否重复
 	 */

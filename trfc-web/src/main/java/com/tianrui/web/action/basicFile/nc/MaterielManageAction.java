@@ -90,10 +90,10 @@ public class MaterielManageAction {
 	
 	@RequestMapping("/autoCompleteSearch")
 	@ResponseBody
-	public List<MaterielManageResp> autoCompleteSearch(String term){
+	public List<MaterielManageResp> autoCompleteSearch(String term,String type){
 		List<MaterielManageResp> list = null;
 		try {
-			list = materielManageService.autoCompleteSearch(term.trim());
+			list = materielManageService.autoCompleteSearch(term.trim(),type.trim());
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 		}

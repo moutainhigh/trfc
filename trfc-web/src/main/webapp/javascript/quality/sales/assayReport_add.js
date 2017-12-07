@@ -1,26 +1,28 @@
+var URL = {
+		//列表
+		pageUrl:"/trfc/quality/sales/batchnum/page",
+		//主页
+		mainUrl:"/trfc/quality/sales/report/main",
+		//获取编码
+		getCodeUrl:"/trfc/quality/sales/report/getCode",
+		//获取物料方案数据
+		getMschemeData:"/trfc/quality/sales/file/MaterialScheme/findOne",
+		//刷新编码计数
+		updateCodeUrl:"/trfc/quality/sales/report/updateCode",
+		//保存数据
+		saveUrl:"/trfc/quality/sales/report/save",
+		//获取一条化验报告的数据
+		findOneUrl:"/trfc/quality/sales/report/selectOne",
+		//获取详情和检测值
+		getDetailAndVal:"/trfc/quality/sales/report/getDetailAndVal",
+		//下拉框
+		qschemeAutoCompleteSearch: "/trfc/quality/sales/file/qualityScheme/	",
+		materialAutoCompleteSearch: "/trfc/materiel/autoCompleteSearch",
+		mschemeAutoCompleteSearch: "/trfc/quality/sales/file/MaterialScheme/autoCompleteSearch",
+		//根据物料查询
+		selectMaterialUrl:"/trfc/quality/sales/file/MaterialScheme/selectMaterial"
+};
 $(function(){
-	var URL = {
-			//列表
-			pageUrl:"/trfc/quality/sales/batchnum/page",
-			//主页
-			mainUrl:"/trfc/quality/sales/report/main",
-			//获取编码
-			getCodeUrl:"/trfc/quality/sales/report/getCode",
-			//获取物料方案数据
-			getMschemeData:"/trfc/quality/sales/file/MaterialScheme/findOne",
-			//刷新编码计数
-			updateCodeUrl:"/trfc/quality/sales/report/updateCode",
-			//保存数据
-			saveUrl:"/trfc/quality/sales/report/save",
-			//获取一条化验报告的数据
-			findOneUrl:"/trfc/quality/sales/report/selectOne",
-			//获取详情和检测值
-			getDetailAndVal:"/trfc/quality/sales/report/getDetailAndVal",
-			//下拉框
-			qschemeAutoCompleteSearch: "/trfc/quality/sales/file/qualityScheme/autoCompleteSearch",
-			materialAutoCompleteSearch: "/trfc/materiel/autoCompleteSearch",
-			mschemeAutoCompleteSearch: "/trfc/quality/sales/file/MaterialScheme/autoCompleteSearch",
-	};
 
 	$('#goBack').click(function(){
 		window.location.href=URL.mainUrl;
@@ -43,9 +45,31 @@ $(function(){
 		$('#add_batchcode').val(obj.factorycode).attr('batchnumid',obj.id);
 		$('#add_producedtime').val(getNowFormatDate(false,obj.producedtime));
 		$('#add_testtime').val(getNowFormatDate(false,obj.testtime));
+		selectMaterial(obj.id);
 		$('#closeBth').click();
 	});
-
+	function selectMaterial(material){
+		$.ajax({
+			url : URL.selectMaterialUrl,
+			data : {"materialid":material},
+			async : false,
+			cache : false,
+			dataType : 'json',
+			type : 'post',
+			success : function(result) {
+				if (result.code = '000000') {
+					$("#add_materialtype").val(result.data.materialtype||"");
+					$("#add_strength").val(result.data.strength||"");
+					$("#add_admixture").val(result.data.admixture||"");
+					$("#add_admixtureadd").val(result.data.admixtureadd||"");
+					$("#add_gypsum").val(result.data.gypsum||"");
+					$("#add_gypsumadd").val(result.data.gypsumadd||"");
+					$("#add_aid").val(result.data.aid||"");
+					$("#add_aidadd").val(result.data.aidadd||"");
+				}
+			}
+		});
+	}
 	//在保存按钮上 绑定事件
 	$('#save').click(function(){
 		var data = getAddData();
@@ -429,6 +453,7 @@ $(function(){
 					response( qscheme[ term ] );
 					return;
 				}
+				request.type='1'
 				$.post( URL.qschemeAutoCompleteSearch, request, function( result ) {
 					qscheme[ term ] = result.data;
 					response( result.data );

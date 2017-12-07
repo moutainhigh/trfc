@@ -277,10 +277,10 @@ public class QualitySchemeAction {
 	 */
 	@RequestMapping("/autoCompleteSearch")
 	@ResponseBody
-	public Result autoCompleteSearch(String term){
+	public Result autoCompleteSearch(String term,String type){
 		Result rs = Result.getErrorResult();
 		try {
-			rs = qualitySchemeService.autoCompleteSearch(term.trim());
+			rs = qualitySchemeService.autoCompleteSearch(term.trim(), type.trim());
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 			rs.setErrorCode(ErrorCode.SYSTEM_ERROR);

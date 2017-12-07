@@ -79,7 +79,7 @@ $(function(){
 		$('#add_aidadd').val('');
 
 		$('#add_shows').val('0');
-		$('#add_invalid').removeAttr('checked')
+//		$('#add_invalid').removeAttr('checked')
 		$('#add_verdict').val('');
 	}
 	//初始化编辑数据
@@ -302,6 +302,7 @@ $(function(){
 					response( material[ term ] );
 					return;
 				}
+				request.type='1';
 				$.post( URL.materialAutoCompleteSearch, request, function( data, status, xhr ) {
 					material[ term ] = data;
 					response( data );

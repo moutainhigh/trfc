@@ -49,7 +49,7 @@
 						</div>
 					</div>
 					<div class="intel_opera">
-						<!-- <div class="intel_operasolo" id="fresh">
+						 <div class="intel_operasolo" id="fresh">
 							<i class="iconfont colorlv">&#xe61b;</i>
 							<h5>刷新</h5>
 						</div>
@@ -58,7 +58,7 @@
 								class="iconfont coloradd">&#xe627;</i>
 								<h5>新增</h5>
 							</a>
-						</div> -->
+						</div> 
 
 					</div>
 					<div class="intel_table">
@@ -199,9 +199,10 @@
 									<input id="add_material" type="text" class="materialSelect" placeholder="请选择物料">
 							</div>
 							<div class="alt_edit_div">
-								<label>类型：</label> <select class="form-control" id="add_type" onchange="selectaddType()" >
-									<option value="0">采购项目</option>
+								<label>类型：</label>
+								<select class="form-control" id="add_type" onchange="selectaddType()">
 									<option value="1">销售项目</option>
+									<option value="0">采购项目</option>
 								</select>
 							</div>
 							<div class="alt_edit_div">
@@ -262,8 +263,8 @@
 							<div class="alt_edit_div">
 								<label>类型：</label> <select class="form-control" id="edit_type">
 									<option></option>
-									<option value="0">采购项目</option>
 									<option value="1">销售项目</option>
+									<option value="0">采购项目</option>
 								</select>
 							</div>
 							<div class="alt_edit_div">
@@ -289,7 +290,7 @@
 		<!-- 引用公共footer部分 -->
 		<jsp:include page="../../common/base/footer_busi.jsp"></jsp:include>
 		<script type="text/javascript"
-			src="/javascript/quality/file/qualityScheme.js"></script>
+			src="/javascript/quality/file/qualityScheme.js?1206"></script>
 	</div>
 </body>
 </html>

@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.tianrui.api.intf.quality.file.IMaterialSchemeService;
 import com.tianrui.api.req.quality.file.MaterialSchemeReq;
+import com.tianrui.api.req.quality.file.QualityItemReq;
 import com.tianrui.api.resp.quality.file.MaterialSchemeResp;
 import com.tianrui.service.bean.basicFile.nc.MaterielManage;
 import com.tianrui.service.bean.quality.file.MaterialScheme;
@@ -202,6 +203,20 @@ public class MaterialSchemeServcie implements IMaterialSchemeService {
 			}
 			rs = Result.getSuccessResult();
 			rs.setData(resp);
+		}
+		return rs;
+	}
+	
+	/**
+	 * 根据物料进行查询
+	 */
+	@Override
+	public Result selectMaterial(MaterialSchemeReq req) throws Exception {
+		// TODO Auto-generated method stub
+		Result rs = Result.getSuccessResult();
+		MaterialScheme  materialScheme =materialSchemeMapper.selectMaterial(req.getMaterialid());
+		if(materialScheme!=null){
+			rs.setData(materialScheme);
 		}
 		return rs;
 	}

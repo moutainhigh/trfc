@@ -24,7 +24,6 @@
 						<div class="intel_sconditon">
 							<div class="intel_sline">
 								<h5 id="headline">质检方案项目 - 济源博盈商贸有限公司-干粉煤灰(GH15)</h5>
-
 							</div>
 						</div>
 					</div>
