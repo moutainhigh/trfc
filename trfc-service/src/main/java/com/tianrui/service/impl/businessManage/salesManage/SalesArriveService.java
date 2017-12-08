@@ -817,6 +817,14 @@ public class SalesArriveService implements ISalesArriveService {
 						}
 					}
 				}
+				PoundNote pn = new PoundNote();
+				pn.setNoticeid(bean.getId());
+				List<PoundNote> pnList = poundNoteMapper.selectSelective(pn);
+				if (CollectionUtils.isNotEmpty(pnList)) {
+					PoundNoteResp pnResp = new PoundNoteResp();
+					PropertyUtils.copyProperties(pnResp, pnList.get(0));
+					resp.setPoundNoteResp(pnResp);
+				}
 			}
 		}
 		return resp;

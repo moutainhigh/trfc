@@ -91,7 +91,7 @@ public class MaterielManageAction {
 	
 	@RequestMapping("/autoCompleteSearch")
 	@ResponseBody
-	public List<MaterielManageResp> autoCompleteSearch(String term,@RequestParam(value="type", required=false, defaultValue="")String type){
+	public List<MaterielManageResp> autoCompleteSearch(String term,@RequestParam(value="type",required=false,defaultValue="")String type){
 		List<MaterielManageResp> list = null;
 		try {
 			list = materielManageService.autoCompleteSearch(term.trim(),type.trim());
