@@ -493,7 +493,7 @@ public class HandSetStaticAction {
     public ApiResult materialAutoComplate(ApiParam<HandSetRequestParam> req) {
         Result rs = Result.getSuccessResult();
         try {
-            rs.setData(materielManageService.autoCompleteSearch(req.getBody().getTerm().trim()));
+            rs.setData(materielManageService.autoCompleteSearch(req.getBody().getTerm().trim(),null));
         } catch (Exception e) {
             log.error(e.getMessage(), e);
             rs.setErrorCode(ErrorCode.SYSTEM_ERROR);
