@@ -39,7 +39,7 @@
 									type="text" value="${code }" readonly="true">
 							</div>
 							<div class="daohuo_add_solo">
-								<label><em class="colorred">*</em>收货单位：：</label> <input
+								<label><em class="colorred">*</em>收货单位：</label> <input
 									type="text" value="${orgname }" readonly="true">
 							</div>
 							<div class="daohuo_add_solo">
