@@ -161,20 +161,6 @@ public class SalesApplicationService implements ISalesApplicationService {
 		}
 		return page;
 	}
-
-	private boolean validDriver(DriverManage driver, Result result) {
-		boolean flag = false;
-		if (driver != null && StringUtils.equals(driver.getState(), Constant.ONE_STRING)) {
-			if (StringUtils.equals(driver.getIsvalid(), Constant.ONE_STRING)) {
-				flag = true;
-			} else {
-				result.setErrorCode(ErrorCode.DRIVER_IS_WX);
-			}
-		} else {
-			result.setErrorCode(ErrorCode.DRIVER_NOT_EXIST);
-		}
-		return flag;
-	}
 	
 	//校验车辆是否可用
 	private boolean validVehicle(VehicleManage vehicle, Result result) {
@@ -222,6 +208,44 @@ public class SalesApplicationService implements ISalesApplicationService {
 			}
 		} else {
 			result.setErrorCode(ErrorCode.VEHICLE_NOT_EXIST);
+		}
+		return flag;
+	}
+
+	private boolean validDriver(DriverManage driver, Result result) {
+		boolean flag = false;
+		if (driver != null && StringUtils.equals(driver.getState(), Constant.ONE_STRING)) {
+			if (StringUtils.equals(driver.getIsvalid(), Constant.ONE_STRING)) {
+				flag = true;
+			} else {
+				result.setErrorCode(ErrorCode.DRIVER_IS_WX);
+			}
+		} else {
+			result.setErrorCode(ErrorCode.DRIVER_NOT_EXIST);
+		}
+		return flag;
+	}
+
+	private boolean validMaterial(MaterielManage material, Result result) {
+		boolean flag = false;
+		if (material != null && StringUtils.equals(material.getState(), Constant.ONE_STRING)) {
+			if (StringUtils.equals(material.getEffective(), Constant.ONE_STRING)) {
+				flag = true;
+			} else {
+				result.setErrorCode(ErrorCode.MATERIAL_IS_WX);
+			}
+		} else {
+			result.setErrorCode(ErrorCode.MATERIAL_NOT_EXIST);
+		}
+		return flag;
+	}
+
+	private boolean validWarehouse(WarehouseManage warehouse, Result result) {
+		boolean flag = false;
+		if (warehouse != null && StringUtils.equals(warehouse.getState(), Constant.ONE_STRING)) {
+			flag = true;
+		} else {
+			result.setErrorCode(ErrorCode.WAREHOUSE_NOT_EXIST);
 		}
 		return flag;
 	}

@@ -134,8 +134,17 @@ public enum ErrorCode {
 	/**
 	 * 司机
 	 */
-	DRIVER_NOT_EXIST("E11001","该司机不存在."),
-	DRIVER_IS_WX("E11002","该司机已无效."),
+	DRIVER_NOT_EXIST("E11001","司机不存在."),
+	DRIVER_IS_WX("E11002","司机已无效."),
+	/**
+	 * 物料
+	 */
+	MATERIAL_NOT_EXIST("E12000","物料不存在."),
+	MATERIAL_IS_WX("E12001","物料已无效."),
+	/**
+	 * 仓库
+	 */
+	WAREHOUSE_NOT_EXIST("E13000","仓库不存在."),
 	
 	/**
 	 * 用户相关

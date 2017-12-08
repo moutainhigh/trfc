@@ -96,6 +96,7 @@ import com.tianrui.smartfactory.common.common.HttpUtils;
 import com.tianrui.smartfactory.common.constants.BusinessConstants;
 import com.tianrui.smartfactory.common.constants.Constant;
 import com.tianrui.smartfactory.common.constants.ErrorCode;
+import com.tianrui.smartfactory.common.enums.ExceptionAuditEnum;
 import com.tianrui.smartfactory.common.utils.DateUtil;
 import com.tianrui.smartfactory.common.utils.NumberUtils;
 import com.tianrui.smartfactory.common.utils.UUIDUtil;
@@ -1948,7 +1949,6 @@ public class PoundNoteService implements IPoundNoteService {
 							result.setErrorCode(ErrorCode.VEHICLE_NOTICE_NOT_LOAD2);
 						}
 					}
-					
 				}
 			} else {
 		        //二次过磅校验变更为是否签收或退货  2017-09-06
@@ -1959,12 +1959,37 @@ public class PoundNoteService implements IPoundNoteService {
 				}
 			}
 		} else {
-			// 判断通知单是否唯一
-			if (StringUtils.equals(sales.getStatus(), Constant.SEVEN_STRING)) {
-				result = isOneWeight(sales.getId(), Constant.TWO_STRING);
+			result = SalesTwoValidation(sales);
+		}
+		return result;
+	}
+	
+	private Result SalesTwoValidation(SalesArrive sales) {
+		Result result = Result.getSuccessResult();
+		PoundNote poundNote = poundNoteMapper.getNewByNoticeId(sales.getId());
+		if (poundNote != null ) {
+			List<ExceptionAudit> list = exceptionAuditMapper.listByPnId(null, poundNote.getId());
+			if (CollectionUtils.isNotEmpty(list)) {
+				boolean flag = false;
+				Integer type = null;
+				for (ExceptionAudit ea : list) {
+					if (!ea.getAuditStatus()) {
+						flag = true;
+						type = ea.getType();
+						break;
+					}
+				}
+				if (flag) {
+					result.setCode("-1");
+					result.setError("异常单据：" + ExceptionAuditEnum.getName(type) + "，未审批。");
+				}
 			} else {
-				result.setErrorCode(ErrorCode.VEHICLE_NOTICE_NOT_LOAD);
+				if (!StringUtils.equals(sales.getStatus(), Constant.SEVEN_STRING)) {
+					result.setErrorCode(ErrorCode.VEHICLE_NOTICE_NOT_LOAD);
+				}
 			}
+		} else {
+			result.setErrorCode(ErrorCode.VEHICLE_NOTICE_NOT_ONE_WEIGHT);
 		}
 		return result;
 	}
@@ -1973,11 +1998,11 @@ public class PoundNoteService implements IPoundNoteService {
 	private Result isOneWeight(String noticeid, String type) {
 		Result result = Result.getSuccessResult();
 		PoundNote poundNote = poundNoteMapper.getNewByNoticeId(noticeid);
-			if (poundNote != null ) {
-                result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
-			} else {
-				result.setErrorCode(ErrorCode.VEHICLE_NOTICE_NOT_ONE_WEIGHT);
-			}
+		if (poundNote != null ) {
+            result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+		} else {
+			result.setErrorCode(ErrorCode.VEHICLE_NOTICE_NOT_ONE_WEIGHT);
+		}
 		return result;
 	}
 
