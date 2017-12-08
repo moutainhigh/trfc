@@ -58,7 +58,7 @@ public class TestWarehouse {
 		WarehouseManageQuery req =new WarehouseManageQuery();
 //		req.setAccount("GY0141044516");
 //		req.setPswd("f379eaf3c831b04de153469d1bec345e");
-//		
+		req.setName("中文乱码");
 		
 		
 		Head head =new Head();
