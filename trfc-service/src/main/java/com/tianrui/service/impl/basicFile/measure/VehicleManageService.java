@@ -325,6 +325,8 @@ public class VehicleManageService implements IVehicleManageService {
 				} else {
 					flag = true;
 				}
+			} else {
+				flag = true;
 			}
         }
         return flag;
