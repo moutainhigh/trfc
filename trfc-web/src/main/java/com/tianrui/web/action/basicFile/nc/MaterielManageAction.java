@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -90,27 +91,15 @@ public class MaterielManageAction {
 	
 	@RequestMapping("/autoCompleteSearch")
 	@ResponseBody
-	public List<MaterielManageResp> autoCompleteSearch(String term){
+	public List<MaterielManageResp> autoCompleteSearch(String term,@RequestParam(value="type",required=false,defaultValue="")String type){
 		List<MaterielManageResp> list = null;
 		try {
-			list = materielManageService.autoCompleteSearch(term.trim());
+			list = materielManageService.autoCompleteSearch(term.trim(),type.trim());
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 		}
 		return list;
 	}
-//	@RequestMapping("/autoCompleteSearch")
-//	@ResponseBody
-//	public List<MaterielManageResp> autoCompleteSearch(String term,String type){
-//		List<MaterielManageResp> list = null;
-//		try {
-//			list = materielManageService.autoCompleteSearch(term.trim(),type.trim());
-//		} catch (Exception e) {
-//			log.error(e.getMessage(), e);
-//		}
-//		return list;
-//	}
-	
 	
 	@RequestMapping("/updateFromDc")
 	@ResponseBody

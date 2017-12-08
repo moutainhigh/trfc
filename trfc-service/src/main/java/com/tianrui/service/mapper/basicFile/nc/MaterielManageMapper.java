@@ -42,8 +42,7 @@ public interface MaterielManageMapper {
     
     Long findMaxUtc();
     
-    List<MaterielManage> autoCompleteSearch(@Param("likeName")String likeName);
-//    List<MaterielManage> autoCompleteSearch(@Param("likeName")String likeName,@Param("type")String type);
+    List<MaterielManage> autoCompleteSearch(@Param("likeName")String likeName,@Param("type")String type);
     /**
      * @Description app物料列表
      * @author zhanggaohao
