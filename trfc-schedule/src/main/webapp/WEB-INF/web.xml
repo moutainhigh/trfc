@@ -14,15 +14,9 @@
 	 </context-param>  
 	 
 	 	 
-	 <!-- etc 
-	 <listener>
-		<listener-class>com.tianrui.quartz.listener.EtcFileSupportListener</listener-class>
-	 </listener>
-	  -->
 	 <listener>  
 	  	<listener-class>org.springframework.web.util.Log4jConfigListener</listener-class>  
 	 </listener> 
-
 
 	<context-param>
 		<param-name>contextConfigLocation</param-name>

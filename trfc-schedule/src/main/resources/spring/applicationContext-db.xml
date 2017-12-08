@@ -13,9 +13,7 @@
 		http://www.springframework.org/schema/context/spring-context.xsd 
 		http://www.springframework.org/schema/data/mongo 
 		http://www.springframework.org/schema/data/mongo/spring-mongo.xsd">
-	<!-- <context:property-placeholder location="classpath:applicationConfig_dev.properties" ignore-unresolvable="true"/> -->
-	
-	<!--  <context:component-scan base-package="com.lenovo.admin" />-->
+
 	
 	<bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close"> 
       <!-- 基本属性 url、user、password -->
