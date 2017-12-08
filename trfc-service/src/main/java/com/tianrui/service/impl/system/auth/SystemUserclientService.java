@@ -379,8 +379,7 @@ public class SystemUserclientService implements ISystemUserclientService {
 			}else if (type==2
 					&& StringUtils.isNotBlank(req.getId())
 					&& StringUtils.isNotBlank(req.getPassword())
-					&& StringUtils.isNotBlank(req.getIsvalid())
-					&& StringUtils.isNotBlank(req.getRemark())) {
+					&& StringUtils.isNotBlank(req.getIsvalid())) {
 				rs =true;
 			}
 		}
