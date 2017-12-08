@@ -36,7 +36,7 @@
     select 
     <include refid="Base_Column_List" />
     from tr_materiel_db_manage
-    where id = #{id,jdbcType=VARCHAR} and businesstype='1'
+    where id = #{id,jdbcType=VARCHAR}
   </select>
   <select id="findMaxUtc" resultType="Long"  >
     select 
