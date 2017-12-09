@@ -11,16 +11,32 @@ import com.tianrui.api.req.BaseReq;
 public class ReportPurchaseQuery extends BaseReq {
 
 	private static final long serialVersionUID = 1L;
+	 //  供应商id
+    private String supplierid;
 	// 供应商
 	private String suppliername;
+	//矿口id
+	private String minemouthid;
 	// 矿口
 	private String minemouthname;
+	//物料id
+	private String materielid;
 	// 物料
 	private String cargo;
 	// 司机姓名
 	private String drivername;
+	//  车辆id
+    private String vehicleid;
 	// 车牌号
 	private String vehicleno;
+	//  推单状态（0：未推单，1：推单中，2：已推单）
+    private String returnstatus;
+    //  堆场id
+    private String yardid;
+
+   
+	//  堆场名称
+    private String yardname;
 	// 开始时间
 	private String beginTime;
 	// 结束时间
@@ -29,6 +45,47 @@ public class ReportPurchaseQuery extends BaseReq {
 	private String remark;
 
 	private String currUid;
+	
+	public String getSupplierid() {
+		return supplierid;
+	}
+
+	public void setSupplierid(String supplierid) {
+		this.supplierid = supplierid;
+	}
+
+	public String getMinemouthid() {
+		return minemouthid;
+	}
+
+	public void setMinemouthid(String minemouthid) {
+		this.minemouthid = minemouthid;
+	}
+
+	public String getMaterielid() {
+		return materielid;
+	}
+
+	public void setMaterielid(String materielid) {
+		this.materielid = materielid;
+	}
+
+	public String getVehicleid() {
+		return vehicleid;
+	}
+
+	public void setVehicleid(String vehicleid) {
+		this.vehicleid = vehicleid;
+	}
+
+	public String getYardid() {
+		return yardid;
+	}
+
+	public void setYardid(String yardid) {
+		this.yardid = yardid;
+	}
+
 
 	public String getSuppliername() {
 		return suppliername;
@@ -100,6 +157,22 @@ public class ReportPurchaseQuery extends BaseReq {
 
 	public void setEndTime(String endTime) {
 		this.endTime = endTime;
+	}
+
+	public String getReturnstatus() {
+		return returnstatus;
+	}
+
+	public void setReturnstatus(String returnstatus) {
+		this.returnstatus = returnstatus;
+	}
+
+	public String getYardname() {
+		return yardname;
+	}
+
+	public void setYardname(String yardname) {
+		this.yardname = yardname;
 	}
 	
 	
