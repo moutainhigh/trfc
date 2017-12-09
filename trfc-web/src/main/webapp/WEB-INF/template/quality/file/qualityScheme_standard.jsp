@@ -154,7 +154,7 @@
 							</div>
 						</div>
 					<div class="zj_biaozhun_table"> 
-							 <div class="zj_biaozhun_table2"> 
+							 <div class="zj_biaozhun_table2" style="width: 1800px"> 
 								<table class="table table-hover">
 									<thead>
 										<tr>
