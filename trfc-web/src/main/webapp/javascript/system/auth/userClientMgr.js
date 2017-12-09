@@ -357,26 +357,30 @@ $(function() {
 		var mobilePhone =$('#mobilePhone').val();
 		var identityTypes = $('#identityTypes').val();
 		mobilePhone = $.trim(mobilePhone);
-		if(!(/^1[34578]\d{9}$/.test(mobilePhone))){ 
-	        alert("手机号码有误，请重填");  
-	        return false; 
-	    }else{
-	    	$.ajax({
-				url : URL.selectAccountUser,
-				data : {"mobilePhone":mobilePhone,"identityTypes":identityTypes},
-				async : false,
-				cache : false,
-				dataType : 'json',
-				type : 'post',
-				success : function(result) {
-					if (result.code != '000000') {
-						layer.msg(result.error);
-						$('#mobilePhone').val("");
-						return;
+		if(mobilePhone!=""&&mobilePhone!=null){
+			if(!(/^1[34578]\d{9}$/.test(mobilePhone))){ 
+		        alert("手机号码有误，请重填");  
+		        return false; 
+		    }else{
+		    	$.ajax({
+					url : URL.selectAccountUser,
+					data : {"mobilePhone":mobilePhone,"identityTypes":identityTypes},
+					async : false,
+					cache : false,
+					dataType : 'json',
+					type : 'post',
+					success : function(result) {
+						if (result.code != '000000') {
+							layer.msg(result.error);
+							$('#mobilePhone').val("");
+							return;
+						}
 					}
-				}
-	    	});
-	    }
+		    	});
+		    }
+		}else{
+			return;
+		}
 	})
 	function getUpdateParams() {
 		var id = $('#userId').val();
