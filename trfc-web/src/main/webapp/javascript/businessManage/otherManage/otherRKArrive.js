@@ -97,9 +97,11 @@ $(function() {
 		if(!obj) {layer.msg('需要选中一行才能操作哦！'); return;}
 		if(obj.status=='3'){
 			layer.msg('已作废,无法进行该操作!');
+		}else if(obj.auditstatus=='1'){
+			layer.msg('已审核,无法进行编辑!');
 		}else{
 			window.location.href = URL.updateVeiw + '?id=' + obj.id;
-		}
+		}		
 	});
 	//绑定列表审核 反审 作废按钮
 	$('#audit').off('click').on('click',function(e) {
