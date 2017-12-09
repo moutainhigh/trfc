@@ -1006,10 +1006,10 @@
 				and t1.ncStatus != 2 and t1.bill_source != 0 and t1.billtypeid = 0
 			</when>
 			<when test="type == 1">
-				and (t1.status = 1 or t1.ncStatus = 2) and t2.margin > 0
+				and (t1.ncStatus = 2 or (t1.status = 1 and t1.billtypeid = 1)) and t2.margin > 0
 			</when>
 			<when test="type == 2">
-				and (t1.status = 1 or t1.ncStatus = 2) and t2.margin <![CDATA[<=]]> 0
+				and (t1.ncStatus = 2 or (t1.status = 1 and t1.billtypeid = 1)) and t2.margin <![CDATA[<=]]> 0
 			</when>
 			<otherwise></otherwise>
 		</choose>
@@ -1046,10 +1046,10 @@
 				and t1.ncStatus != 2 and t1.bill_source != 0 and t1.billtypeid = 0
 			</when>
 			<when test="type == 1">
-				and (t1.status = 1 or t1.ncStatus = 2) and t2.margin > 0
+				and (t1.ncStatus = 2 or (t1.status = 1 and t1.billtypeid = 1)) and t2.margin > 0
 			</when>
 			<when test="type == 2">
-				and (t1.status = 1 or t1.ncStatus = 2) and t2.margin <![CDATA[<=]]> 0
+				and (t1.ncStatus = 2 or (t1.status = 1 and t1.billtypeid = 1)) and t2.margin <![CDATA[<=]]> 0
 			</when>
 			<otherwise></otherwise>
 		</choose>
@@ -1102,8 +1102,7 @@
 		tr_sales_db_application t1
 	LEFT JOIN tr_sales_db_application_detail t2 ON t1.id = t2.salesid
 	WHERE 
-		t1.state = 1 
-	AND t1.id = #{id, jdbcType=VARCHAR} 
+		t1.id = #{id, jdbcType=VARCHAR} 
 	AND t2.id = #{detailId, jdbcType=VARCHAR}
   </select>
   <select id="appMoreBillList" parameterType="com.tianrui.api.req.android.BillListParam" resultType="com.tianrui.api.resp.android.BillListVo">

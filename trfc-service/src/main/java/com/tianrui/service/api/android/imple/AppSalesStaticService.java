@@ -352,13 +352,17 @@ public class AppSalesStaticService implements IAppSalesStaticService {
 		sa.setSource(Constant.ONE_STRING);
 		sa.setBilltypeid(BillTypeEnum.BILL_TYPE_ONE_CAR.getCode());
 		sa.setBilltypename(BillTypeEnum.BILL_TYPE_ONE_CAR.getName());
-		sa.setCustomerid(user.getNcid());
-		sa.setCustomername(user.getName());
 		CustomerManage customer = customerManageMapper.selectByPrimaryKey(user.getNcid());
 		if (customer != null) {
+			sa.setCustomerid(customer.getId());
+			sa.setCustomername(customer.getName());
 			sa.setChannelcode(customer.getChannelcode());
 			sa.setSalesmanid(customer.getSalesmanid());
 			sa.setSalesmanname(customer.getSalesmanname());
+			sa.setTransportcompanyid(customer.getTransportcompanyid());
+			sa.setTransportcompanyname(customer.getTransportcompanyname());
+			sa.setDepartmentid(customer.getDepartmentid());
+			sa.setDepartmentname(customer.getDepartmentname());
 		}
 		sa.setBilltime(param.getBillTime());
 		sa.setOrgid(param.getSalesOrg());
@@ -366,8 +370,6 @@ public class AppSalesStaticService implements IAppSalesStaticService {
 		if (org != null) {
 			sa.setOrgname(org.getName());
 		}
-		sa.setTransportcompanyid(Constant.ORG_ID);
-		sa.setTransportcompanyname(Constant.ORG_NAME);
 		sa.setState(Constant.ONE_STRING);
 		sa.setMakerid(param.getUserId());
 		sa.setMakebillname(sa.getCustomername());

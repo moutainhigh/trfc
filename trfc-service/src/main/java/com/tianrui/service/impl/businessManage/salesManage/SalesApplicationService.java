@@ -997,6 +997,7 @@ public class SalesApplicationService implements ISalesApplicationService {
 			if (StringUtils.equals(req.getStatus(), Constant.ONE_STRING)) {
 				sa.setValidStatus(Constant.TWO_STRING);
 				sa.setNcStatus(Constant.FOUR_STRING);
+				sa.setState(Constant.ZERO_STRING);
 				SalesArrive bean = new SalesArrive();
 				bean.setBillid(req.getId());
 				bean.setBilldetailid(req.getDetailId());
@@ -1006,6 +1007,7 @@ public class SalesApplicationService implements ISalesApplicationService {
 					if (StringUtils.equals(bean.getStatus(), Constant.ZERO_STRING)) {
 						bean.setStatus(Constant.THREE_STRING);
 						bean.setValidStatus(Constant.TWO_STRING);
+						bean.setState(Constant.ZERO_STRING);
 						salesArriveMapper.updateByPrimaryKeySelective(bean);
 					}
 				}
