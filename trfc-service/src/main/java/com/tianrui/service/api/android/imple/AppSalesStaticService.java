@@ -386,6 +386,7 @@ public class AppSalesStaticService implements IAppSalesStaticService {
 		}
 		sa.setBillSource(Constant.TWO_NUMBER);
 		sa.setValidStatus(Constant.ZERO_STRING);
+		sa.setNcStatus(Constant.ZERO_STRING);
 		sa.setPushStatus(Constant.ZERO_STRING);
 		return sa;
 	}
@@ -449,8 +450,10 @@ public class AppSalesStaticService implements IAppSalesStaticService {
 							if (!StringUtils.equals(sa.getValidStatus(), Constant.TWO_STRING)) {	
 								if (StringUtils.equals(sa.getPushStatus(), Constant.ZERO_STRING)) {
 									//未推送的直接作废
+									sa.setState(Constant.ZERO_STRING);
 									sa.setValidStatus(Constant.TWO_STRING);
 									salesApplicationMapper.updateByPrimaryKeySelective(sa);
+									result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
 								} else {
 									//已经联机（推送到DC）的，发送作废请求
 									//记录推送日志
@@ -1085,7 +1088,8 @@ public class AppSalesStaticService implements IAppSalesStaticService {
 						SalesApplication bill = salesApplicationMapper.selectByPrimaryKey(sa.getBillid());
 						if (StringUtils.equals(bill.getBilltypeid(), Constant.ZERO_STRING)) {
 							//一单一车
-							result = oneBillOneCarCancel(user, sa);
+							//result = oneBillOneCarCancel(user, sa);
+							result.setErrorCode(ErrorCode.NOTICE_ONE_BILL_ONE_CAR_DONT_VALID);
 						} else {
 							//一单多车
 							result = oneBillMoreCarCancel(user, sa);

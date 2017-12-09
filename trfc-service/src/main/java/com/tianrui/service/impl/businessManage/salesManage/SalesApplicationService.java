@@ -320,6 +320,7 @@ public class SalesApplicationService implements ISalesApplicationService {
 		sa.setBillSource(Constant.ONE_NUMBER);
 		sa.setValidStatus(Constant.ZERO_STRING);
 		sa.setPushStatus(Constant.ZERO_STRING);
+		sa.setNcStatus(Constant.ZERO_STRING);
 		if (vehicle != null) {
 			sa.setVehicleId(vehicle.getId());
 			sa.setVehicleNo(vehicle.getVehicleno());
@@ -995,6 +996,7 @@ public class SalesApplicationService implements ISalesApplicationService {
 			SalesApplication sa = salesApplicationMapper.selectByPrimaryKey(req.getId());
 			if (StringUtils.equals(req.getStatus(), Constant.ONE_STRING)) {
 				sa.setValidStatus(Constant.TWO_STRING);
+				sa.setNcStatus(Constant.FOUR_STRING);
 				SalesArrive bean = new SalesArrive();
 				bean.setBillid(req.getId());
 				bean.setBilldetailid(req.getDetailId());

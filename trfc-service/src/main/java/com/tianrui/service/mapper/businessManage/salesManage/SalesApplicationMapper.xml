@@ -1003,7 +1003,7 @@
 		and t1.orgid = #{salesOrg, jdbcType=VARCHAR}
 		<choose>
 			<when test="type == 0">
-				and t1.ncStatus != 2 and t1.bill_source != 0
+				and t1.ncStatus != 2 and t1.bill_source != 0 and t1.billtypeid = 0
 			</when>
 			<when test="type == 1">
 				and (t1.status = 1 or t1.ncStatus = 2) and t2.margin > 0
@@ -1043,7 +1043,7 @@
 		and t1.orgid = #{salesOrg, jdbcType=VARCHAR}
 		<choose>
 			<when test="type == 0">
-				and t1.ncStatus != 2 and t1.bill_source != 0
+				and t1.ncStatus != 2 and t1.bill_source != 0 and t1.billtypeid = 0
 			</when>
 			<when test="type == 1">
 				and (t1.status = 1 or t1.ncStatus = 2) and t2.margin > 0
