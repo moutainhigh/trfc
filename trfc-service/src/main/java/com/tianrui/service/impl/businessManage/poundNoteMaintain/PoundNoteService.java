@@ -2299,16 +2299,21 @@ public class PoundNoteService implements IPoundNoteService {
                 if (newBill != null && newBillDetail != null) {
                     // TODO 判断订单的余量大于等于预提量
                     if (validateWeight(oldPn, newBillDetail, result)) {
-                        PurchaseArrive oldPa = purchaseArriveMapper.selectByPrimaryKey(oldPn.getNoticeid());
-                        if (StringUtils.equals(oldPa.getStatus(), Constant.FIVE_STRING)) {
-                            AccessRecord oldAr = accessRecordMapper.selectByNoticeId(oldPa.getId());
-                            PurchaseArrive newPa = copyNotice(oldPa, copy.getCurrId());
-                            copyAccessRecord(oldAr, newPa, copy.getCurrId());
-                            copyPoundNote(oldPn, newBill, newBillDetail, newPa, copy.getCurrId());
-                            result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
-                        } else {
-                            result.setErrorCode(ErrorCode.VEHICLE_NOTICE_NOT_OUT_FACTORY);
-                        }
+                    	if (StringUtils.equals(oldPn.getStatus(), Constant.ONE_STRING)) {
+                    		copyPoundNote(oldPn, newBill, newBillDetail, null, copy.getCurrId());
+                			result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+						} else {
+							PurchaseArrive oldPa = purchaseArriveMapper.selectByPrimaryKey(oldPn.getNoticeid());
+                    		if (StringUtils.equals(oldPa.getStatus(), Constant.FIVE_STRING)) {
+                    			AccessRecord oldAr = accessRecordMapper.selectByNoticeId(oldPa.getId());
+                    			PurchaseArrive newPa = copyNotice(oldPa, copy.getCurrId());
+                    			copyAccessRecord(oldAr, newPa, copy.getCurrId());
+                    			copyPoundNote(oldPn, newBill, newBillDetail, newPa, copy.getCurrId());
+                    			result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+                    		} else {
+                    			result.setErrorCode(ErrorCode.VEHICLE_NOTICE_NOT_OUT_FACTORY);
+                    		}
+						}
                     }
                 } else {
                     result.setErrorCode(ErrorCode.APPLICATION_NOT_EXIST);
@@ -2340,10 +2345,12 @@ public class PoundNoteService implements IPoundNoteService {
 	    newPn.setBillid(newBill.getId());
 	    newPn.setBillcode(newBill.getCode());
 	    newPn.setBilldetailid(newBillDetail.getId());
-	    newPn.setNoticeid(newPa.getId());
-	    newPn.setNoticecode(newPa.getCode());
-	    newPn.setMinemouthid(newBill.getMinemouthid());
-	    newPn.setMinemouthname(newBill.getMinemouthname());
+	    if (newPa != null) {
+	    	newPn.setNoticeid(newPa.getId());
+	    	newPn.setNoticecode(newPa.getCode());
+	    	newPn.setMinemouthid(newBill.getMinemouthid());
+	    	newPn.setMinemouthname(newBill.getMinemouthname());
+		}
 	    
 	    //TODO 入库单
         PurchaseStorageList storage = new PurchaseStorageList();

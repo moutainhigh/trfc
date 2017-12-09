@@ -48,7 +48,7 @@
 								<label>单据编号：</label> <input type="text" readonly="true" value="${poundNote.code }">
 							</div>
 							<div class="daohuo_add_solo">
-								<label>收货单位：：</label> <input id="receivedepartmentname" value="${poundNote.receivedepartmentname }"
+								<label>收货单位：</label> <input id="receivedepartmentname" value="${poundNote.receivedepartmentname }"
 									type="text" readonly="true">
 							</div>
 							<div class="daohuo_add_solo">
