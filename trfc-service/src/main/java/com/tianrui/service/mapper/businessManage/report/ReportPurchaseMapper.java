@@ -34,4 +34,17 @@ public interface ReportPurchaseMapper {
     List<ReportPurchase> selectByConditionForMaterSignPersonName(ReportPurchase reportPurchase);
     //采购收料收货人（根据条件查找条数）
     Long countByConditionForMaterSignPersonName(ReportPurchase reportPurchase);
+    /**
+     * 榜单补增（根据条件查找数据）
+     * @param reportPurchase
+     * @return
+     */
+    List<ReportPurchase> selectByConditionForBuZeng(ReportPurchase reportPurchase);
+    
+    /**
+     *  榜单补增（根据条件查找条数）
+     * @param Long
+     * @return
+     */
+    Long countByConditionForBuZeng(ReportPurchase reportPurchase);
 }

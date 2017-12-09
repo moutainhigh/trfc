@@ -15,12 +15,17 @@ public class ReportPurchase {
 
     //  供应商名称
     private String suppliername;
+    //矿口id
+  	private String minemouthid;
 
     //  矿口名称
     private String minemouthname;
-
+    //  堆场id
+    private String yardid;
     //  堆场名称
     private String yardname;
+    //物料id
+  	private String materielid;
 
     //  物料名称
     private String materialname;
@@ -102,8 +107,33 @@ public class ReportPurchase {
     //分页参数
     private Integer start;
     private Integer limit;
+    
+    
+    public String getMinemouthid() {
+		return minemouthid;
+	}
 
-    public String getId() {
+	public void setMinemouthid(String minemouthid) {
+		this.minemouthid = minemouthid;
+	}
+
+	public String getYardid() {
+		return yardid;
+	}
+
+	public void setYardid(String yardid) {
+		this.yardid = yardid;
+	}
+
+	public String getMaterielid() {
+		return materielid;
+	}
+
+	public void setMaterielid(String materielid) {
+		this.materielid = materielid;
+	}
+
+	public String getId() {
         return id;
     }
 

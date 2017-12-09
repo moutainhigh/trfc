@@ -106,6 +106,14 @@ public class PurchaseReportService implements IPurchaseReportService {
 			if( StringUtils.isNotBlank(query.getMinemouthname()) ){
 				bean.setMinemouthNameLike(query.getMinemouthname());
 			}
+			//推单状态
+			if( StringUtils.isNotBlank(query.getReturnstatus()) ){
+				bean.setReturnstatus(query.getReturnstatus());
+			}
+			//堆场
+			if( StringUtils.isNotBlank(query.getYardname()) ){
+				bean.setYardname(query.getYardname());
+			}
 			if (bb==true) {
 				//分页参数
 				bean.setStart((query.getPageNo()-1)*query.getPageSize());
@@ -264,6 +272,53 @@ public class PurchaseReportService implements IPurchaseReportService {
 			if( query !=null ){
 				//查询结果转换
 				rs=copyBeanList2RespList( reportPurchaseMapper.selectByConditionForMaterSignPersonName(query));
+			}
+		}
+		if( !CollectionUtils.isNotEmpty(rs) ){
+			rs =new ArrayList<ReportPurchaseResp>();
+		}
+		return rs;
+	}
+	/**
+	 * 榜单补增分页查询
+	 */
+	@Override
+	public PaginationVO<ReportPurchaseResp> page4(ReportPurchaseQuery reportPurchaseQuery) throws Exception {
+		PaginationVO<ReportPurchaseResp> page = null;
+		if(reportPurchaseQuery != null){
+			//参数转换
+			ReportPurchase query= queryParam(reportPurchaseQuery,true);
+			if( query !=null ){
+				page = new PaginationVO<ReportPurchaseResp>();
+				//查询总数
+				
+				long count = reportPurchaseMapper.countByConditionForBuZeng(query);
+				if(count > 0){
+					//查询结果转换
+					page.setList(copyBeanList2RespList( reportPurchaseMapper.selectByConditionForBuZeng(query)));
+				}
+				//返回结果参数补全
+				page.setPageNo(reportPurchaseQuery.getPageNo());
+				page.setPageSize(reportPurchaseQuery.getPageSize());
+				page.setTotal(count);
+			}
+		}
+		return page;
+	}
+	/**
+	 * 榜单补增查询全部
+	 */
+	@Override
+	public List<ReportPurchaseResp> list4(ReportPurchaseQuery reportPurchaseQuery) throws Exception {
+		// TODO Auto-generated method stub
+		List<ReportPurchaseResp> rs = null;
+		if(reportPurchaseQuery != null){
+			//参数转换
+			ReportPurchase query= queryParam(reportPurchaseQuery,false);
+			
+			if( query !=null ){
+				//查询结果转换
+				rs=copyBeanList2RespList( reportPurchaseMapper.selectByConditionForBuZeng(query));
 			}
 		}
 		if( !CollectionUtils.isNotEmpty(rs) ){

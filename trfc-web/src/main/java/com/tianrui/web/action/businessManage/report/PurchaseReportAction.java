@@ -223,5 +223,49 @@ public class PurchaseReportAction {
 		}
 		return result;
 	}
+	/**
+	 * 榜单补增
+	 * @param req
+	 * @return
+	 */
+	@RequestMapping("/buZengPage")
+	@ResponseBody
+	public Result buZengPage(ReportPurchaseQuery req,HttpServletRequest request){
+		Result result = Result.getSuccessResult();
+		try {
+			SystemUserResp user = SessionManager.getSessionUser(request);
+			if(req==null){
+				req =new ReportPurchaseQuery();
+			}
+			req.setCurrUid(user.getId());
+			PaginationVO<ReportPurchaseResp> page = purchaseReportService.page4(req);
+			result.setData(page);
+			result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
+		}
+		return result;
+	}
+	
+	@RequestMapping("/buZengList")
+	@ResponseBody
+	public Result buZengList(ReportPurchaseQuery req,HttpServletRequest request){
+		Result result = Result.getSuccessResult();
+		try {
+			SystemUserResp user = SessionManager.getSessionUser(request);
+			if(req==null){
+				req =new ReportPurchaseQuery();
+			}
+			req.setCurrUid(user.getId());
+			List<ReportPurchaseResp> list = purchaseReportService.list4(req);
+			result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+			result.setData(list);
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
+		}
+		return result;
+	}
 	
 }
