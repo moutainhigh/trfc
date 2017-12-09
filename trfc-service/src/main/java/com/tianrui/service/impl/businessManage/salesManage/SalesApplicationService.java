@@ -1019,7 +1019,7 @@ public class SalesApplicationService implements ISalesApplicationService {
 
 	//审核通过才会回写状态的接口
 	@Override
-	public Result billAuditCallBack(BillValidReq req) throws Exception {
+	public synchronized Result billAuditCallBack(BillValidReq req) throws Exception {
 		Result result = Result.getParamErrorResult();
 		if (req != null && StringUtils.isNotBlank(req.getId())
 				&& StringUtils.isNotBlank(req.getDetailId())
@@ -1031,31 +1031,35 @@ public class SalesApplicationService implements ISalesApplicationService {
 			SalesApplication sa = salesApplicationMapper.selectByPrimaryKey(req.getId());
 			SalesApplicationDetail sad = salesApplicationDetailMapper.selectByPrimaryKey(req.getDetailId());
 			if (StringUtils.equals(sa.getValidStatus(), Constant.ZERO_STRING)) {
-				sa.setStatus(Constant.ONE_STRING);
-				sa.setNcId(req.getNcId());
-				sa.setNcStatus(Constant.TWO_STRING);
-				sa.setAuditid(req.getAuditid());
-				sa.setAuditname(req.getAuditname());
-				sa.setAudittime(req.getAudittime());
-				salesApplicationMapper.updateByPrimaryKeySelective(sa);
-				sad.setNcId(req.getDetailNcId());
-				sad.setPretendingtake(sad.getSalessum());
-				salesApplicationDetailMapper.updateByPrimaryKeySelective(sad);
-				result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
-				//一单一车
-				if (StringUtils.equals(sa.getBilltypeid(), Constant.ZERO_STRING)) {
-					VehicleManage vehicle = vehicleManageMapper.selectByPrimaryKey(sa.getVehicleId());
-					//校验车辆是否运行创建通知单
-					if (validVehicle(vehicle)) {
-						if (StringUtils.isNotBlank(sa.getDriverId())) {
-							DriverManage driver = driverManageMapper.selectByPrimaryKey(sa.getDriverId());
-							if (validDriver(driver)) {
-								saveOneBillOneCarNotice(sa, sad, vehicle, driver);
+				if (!StringUtils.equals(sa.getNcStatus(), Constant.TWO_STRING)) {
+					sa.setStatus(Constant.ONE_STRING);
+					sa.setNcId(req.getNcId());
+					sa.setNcStatus(Constant.TWO_STRING);
+					sa.setAuditid(req.getAuditid());
+					sa.setAuditname(req.getAuditname());
+					sa.setAudittime(req.getAudittime());
+					salesApplicationMapper.updateByPrimaryKeySelective(sa);
+					sad.setNcId(req.getDetailNcId());
+					sad.setPretendingtake(sad.getSalessum());
+					salesApplicationDetailMapper.updateByPrimaryKeySelective(sad);
+					result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+					//一单一车
+					if (StringUtils.equals(sa.getBilltypeid(), Constant.ZERO_STRING)) {
+						VehicleManage vehicle = vehicleManageMapper.selectByPrimaryKey(sa.getVehicleId());
+						//校验车辆是否运行创建通知单
+						if (validVehicle(vehicle)) {
+							if (StringUtils.isNotBlank(sa.getDriverId())) {
+								DriverManage driver = driverManageMapper.selectByPrimaryKey(sa.getDriverId());
+								if (validDriver(driver)) {
+									saveOneBillOneCarNotice(sa, sad, vehicle, driver);
+								}
+							} else {
+								saveOneBillOneCarNotice(sa, sad, vehicle, null);
 							}
-						} else {
-							saveOneBillOneCarNotice(sa, sad, vehicle, null);
 						}
 					}
+				} else {
+					result.setErrorCode(ErrorCode.APPLICATION_IS_VALID_ERROR);
 				}
 			} else {
 				result.setErrorCode(ErrorCode.APPLICATION_IS_VALID_ERROR);
@@ -1170,7 +1174,7 @@ public class SalesApplicationService implements ISalesApplicationService {
 	 * @throws Exception 
 	 */
 	@Override
-	public Result pushSalesTofc(JSONArray array) throws Exception {
+	public synchronized Result pushSalesTofc(JSONArray array) throws Exception {
 		Result result = Result.getParamErrorResult();
 		if (array != null && array.size() == 2) {
 			JSONObject jsonItem = array.getJSONObject(0);

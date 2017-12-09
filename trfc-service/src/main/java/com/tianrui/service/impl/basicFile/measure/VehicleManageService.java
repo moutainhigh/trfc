@@ -311,6 +311,7 @@ public class VehicleManageService implements IVehicleManageService {
                 result.setErrorCode(ErrorCode.RFID_VEHICLE_EXIST2);
             }
         } else {
+        	bean.setRfid(null);
 			bean.setVehicleno(vehicleNo);
 			bean.setState(Constant.ONE_STRING);
 			List<VehicleManage> vehicleList = vehicleManageMapper.selectSelective(bean);
