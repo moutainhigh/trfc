@@ -1,7 +1,7 @@
 var URL = {
 			materialAutoCompleteSearch:"/trfc/materiel/autoCompleteSearch",   //物料
 			driverAutoCompleteSearch: "/trfc/driver/autoCompleteSearch" ,     //司机姓名
-			vehicleAutoCompleteSearch: "/trfc/vehicle/autoCompleteSearch",   //车号
+			vehicleAutoCompleteSearch: "/trfc/vehicle/autoCompleteSearch1",   //车号
 			customerAutoCompleteSearch: "/trfc/customer/autoCompleteSearch",//客户
 	};
 $( function() {
