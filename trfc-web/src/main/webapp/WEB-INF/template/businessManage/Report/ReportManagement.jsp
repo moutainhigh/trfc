@@ -75,10 +75,10 @@
             </div>
             <div class="intel_solo">
 			    <label>推单状态：</label> <select id="pushStatus" class="form-control">
-			     <option value="0">全部</option>
-			    <option value="1">未推单</option>
-			    <option value="2">推单中</option>
-			     <option value="3">已推单</option>
+			     <option value="">全部</option>
+			    <option value="0">未推单</option>
+			    <option value="1">推单中</option>
+			     <option value="2">已推单</option>
 			</select>
 			</div>
             <div class="intel_solo">
