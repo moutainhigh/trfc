@@ -201,7 +201,29 @@
 	            }
 	        });
 	}
+	console.log($('.tj_tab ul>li.select').attr('data-type'));
+	function searchData(pageNo) {
+		var type = $('.tj_tab ul>li.select').attr('data-type');
+		switch (type) {
+		case 0:
+			queryData(pageNo);
+			break;
+		case 1:
+			queryData2(pageNo);
+			break;
+		case 2:
+			queryData3(pageNo);
+			break;
+		case 3:
+			queryData4(pageNo);
+			break;
+		default:
+			alert();
+			break;
+		}
+	}
 	$('#searchBtn').off('click').on('click',function(){
+//		searchData(1);
 		if(queryData){
 			queryData(1);
 		}
@@ -228,6 +250,7 @@
 				$('input#jumpPageNo').val('');
 			}else{
 				$('input#jumpPageNo').val(pageNo);
+//				searchData(pageNo);
 				if(queryData){
 					queryData(pageNo);
 				}
@@ -244,6 +267,7 @@
 			}
 		});
 		$('#pageSize').change(function(){
+//			searchData(1);
 			if(queryData){
 				queryData(1);
 			}
@@ -275,16 +299,20 @@
 		var endTime = $('#clock2').val();endTime = $.trim(endTime);
 		var vehicleno = $('#bbg_cph').val();vehicleno = $.trim(vehicleno);
 		var remark = $('#bbg_bz').val();remark = $.trim(remark);
+		var yardname=$('#duichang').val();yardname = $.trim(yardname);
+		var pushStatus = $('#pushStatus').val();pushStatus = $.trim(pushStatus);
 		var pageSize = $('#pageSize').val() || 20;pageSize = $.trim(pageSize);
 		return {
 			suppliername:suppliername,
 			minemouthname:minemouthname,
 			cargo:cargo,
+			pushStatus:pushStatus,
 			drivername:drivername,
 			beginTime:str2Long(beginTime),
 			endTime:str2Long(endTime),
 			vehicleno:vehicleno,
 			remark:remark,
+			yardname:yardname,
 			pageSize:pageSize
 		};
 	}

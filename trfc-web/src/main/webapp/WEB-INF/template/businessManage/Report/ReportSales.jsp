@@ -59,19 +59,19 @@
 							 <div class="intel_sline">
             <div class="intel_solo">
                 <label class="colorB">磅单号：</label>
-                <input type="text" id="bbg_gys">
+                <input type="text" id="bbg_gys" placeholder="请选择磅单号">
             </div>
             <div class="intel_solo">
                 <label class="colorB">客户姓名：</label>
-                <input type="text" id="bbg_kk">
+                <input type="text" id="bbg_kk" placeholder="请选择客户">
             </div>
             <div class="intel_solo">
                 <label class="colorB">物料：</label>
-                <input type="text" id="gys">
+                <input type="text" id="gys" placeholder="请选择物料">
             </div>
             <div class="intel_solo">
                 <label class="colorB">司机姓名：</label>
-                <input type="text" id="bbg_sjn">
+                <input type="text" id="bbg_sjn" placeholder="请选择司机">
             </div>
             <div class="intel_solo">
                 <label class="colorB">开始时间：</label>
@@ -94,11 +94,11 @@
             </div>
             <div class="intel_solo">
                 <label class="colorB">车号：</label>
-                <input type="text" id="bbg_cph">
+                <input type="text" id="bbg_cph" placeholder="请选择车号">
             </div>
             <div class="intel_solo">
                 <label class="colorB">订单号：</label>
-                <input type="text" id="billcode">
+                <input type="text" id="billcode" placeholder="请选择订单号">
             </div>
             <div class="intel_solo">
                 <div class="intel_sbtn">

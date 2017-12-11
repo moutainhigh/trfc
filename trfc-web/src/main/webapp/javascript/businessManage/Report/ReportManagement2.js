@@ -1,3 +1,225 @@
+var URL = {
+			materialAutoCompleteSearch:"/trfc/materiel/autoCompleteSearch",   //物料
+			autoCompleteSearch: "/trfc/supplier/autoCompleteSearch",        //供应商
+			driverAutoCompleteSearch: "/trfc/driver/autoCompleteSearch" ,     //司机姓名
+			vehicleAutoCompleteSearch: "/trfc/vehicle/autoCompleteSearch",   //车号
+			yardAutoCompleteSearch: "/trfc/yard/autoCompleteSearch",      //堆场
+	};
+
+$( function() {
+	 //获取下拉框数据并填充
+	//物料	
+	yardAutoCompleteSearch();
+   function yardAutoCompleteSearch(){
+   var cache={};
+   $("#duichang").autocomplete({
+   //数据源
+   source: function( request, response ) {
+   var term = request.term;
+   var material = cache['material'] || {};
+   if ( term in material ) {
+   response( material[ term ] );
+   return;
+   }
+   $.post( URL.yardAutoCompleteSearch, request, function( data, status, xhr ) {
+	    material[ term ] = data;
+	    response( data );
+   });
+   },
+   //显示下拉框
+   response: function( event, ui ) {
+   if(ui.content && ui.content.length > 0){
+   //展示下拉框
+   ui.content.forEach(function(x,i,a){
+   x.label = x.name;
+   });
+   }
+   },
+   //选定,显示结果到输入框
+   select: function( event, ui ) {
+   $(this).val(ui.item.name);
+   return false;
+   }
+   }).off('click').on('click',function(){
+   $(this).autocomplete('search',' ');
+   }).change(function(){
+   $(this).val('');
+   });
+   };
+ 
+	
+	//物料	
+	materialSelect();
+   function materialSelect(){
+   var cache={};
+   $("#gys").autocomplete({
+   //数据源
+   source: function( request, response ) {
+   var term = request.term;
+   var material = cache['material'] || {};
+   if ( term in material ) {
+   response( material[ term ] );
+   return;
+   }
+   $.post( URL.materialAutoCompleteSearch, request, function( data, status, xhr ) {
+	    material[ term ] = data;
+	    response( data );
+   });
+   },
+   //显示下拉框
+   response: function( event, ui ) {
+   if(ui.content && ui.content.length > 0){
+   //展示下拉框
+   ui.content.forEach(function(x,i,a){
+   x.label = x.name;
+   });
+   }
+   },
+   //选定,显示结果到输入框
+   select: function( event, ui ) {
+   $(this).val(ui.item.name);
+   return false;
+   }
+   }).off('click').on('click',function(){
+   $(this).autocomplete('search',' ');
+   }).change(function(){
+   $(this).val('');
+   });
+   };
+ 
+ //供应商
+   autoCompleteSearch();
+   function autoCompleteSearch(){
+   var cache={};
+   $("#bbg_gys").autocomplete({
+   //数据源
+   source: function( request, response ) {
+   var term = request.term;
+   var material = cache['material'] || {};
+   if ( term in material ) {
+   response( material[ term ] );
+   return;
+   }
+   $.post( URL.autoCompleteSearch, request, function( data, status, xhr ) {
+	    material[ term ] = data;
+	    response( data );
+   });
+   },
+   //显示下拉框
+   response: function( event, ui ) {
+   if(ui.content && ui.content.length > 0){
+   //展示下拉框
+   ui.content.forEach(function(x,i,a){
+   x.label = x.name;
+   });
+   }
+   },
+   //选定,显示结果到输入框
+   select: function( event, ui ) {
+   $(this).val(ui.item.name);
+   return false;
+   }
+   }).off('click').on('click',function(){
+   $(this).autocomplete('search',' ');
+   }).change(function(){
+   $(this).val('');
+   });
+   };
+   
+ //司机姓名
+   driverAutoCompleteSearch();
+   function driverAutoCompleteSearch(){
+   var cache={};
+   $("#bbg_sjn").autocomplete({
+   //数据源
+   source: function( request, response ) {
+   var term = request.term;
+   var material = cache['material'] || {};
+   if ( term in material ) {
+   response( material[ term ] );
+   return;
+   }
+   $.post( URL.driverAutoCompleteSearch, request, function( data, status, xhr ) {
+	    material[ term ] = data;
+	    response( data );
+   });
+   },
+   //显示下拉框
+   response: function( event, ui ) {
+   if(ui.content && ui.content.length > 0){
+   //展示下拉框
+   ui.content.forEach(function(x,i,a){
+   x.label = x.name;
+   });
+   }
+   },
+   //选定,显示结果到输入框
+   select: function( event, ui ) {
+   $(this).val(ui.item.name);
+   return false;
+   }
+   }).off('click').on('click',function(){
+   $(this).autocomplete('search',' ');
+   }).change(function(){
+   $(this).val('');
+   });
+   };
+   
+ //车号
+   vehicleAutoCompleteSearch();
+   function vehicleAutoCompleteSearch(){
+   var cache={};
+   $("#bbg_cph").autocomplete({
+   //数据源
+   source: function( request, response ) {
+   var term = request.term;
+   var material = cache['material'] || {};
+   if ( term in material ) {
+   response( material[ term ] );
+   return;
+   }
+   $.post( URL.vehicleAutoCompleteSearch, request, function( data, status, xhr ) {
+	    material[ term ] = data;
+	    response( data );
+   });
+   },
+   //显示下拉框
+   response: function( event, ui ) {
+   if(ui.content && ui.content.length > 0){
+   //展示下拉框
+   ui.content.forEach(function(x,i,a){
+   x.label =  x.vehicleno;;
+   });
+   }
+   },
+   //选定,显示结果到输入框
+   select: function( event, ui ) {
+   $(this).val(ui.item.name);
+   return false;
+   }
+   }).off('click').on('click',function(){
+   $(this).autocomplete('search',' ');
+   }).change(function(){
+   $(this).val('');
+   });
+   };
+   
+   //layer.js调用，删除
+   $('.delete').on('click', function(){
+       layer.confirm('你确定要删除吗?', {
+           area: '600px', //弹出框宽度
+           btn: ['确定','取消'] //按钮文字
+       }, function(index){
+           // 确定按钮执行的操作，自定义、
+           //关闭对话框,插件必须的
+           layer.close(index);
+       }, function(){
+           // 取消按钮执行的操作，自定义
+       });
+   });
+
+} );
+
 //导出
 var idTmr;
 function  getExplorer() {
@@ -187,11 +409,27 @@ function bbgClick(){
     var clock2=document.getElementById("clock2").value;
     var bbg_cph=document.getElementById("bbg_cph").value;
     var bbg_bz=document.getElementById("bbg_bz").value;
+    var duichang=document.getElementById("duichang").value;
+    var pushStatus=document.getElementById("pushStatus").value;
     var bbg_tiaojian1=document.querySelector(".bbg_tiaojian1");
     var bbg_tiaojian2=document.querySelector(".bbg_tiaojian2");
     var bbg_tiaojian3=document.querySelector(".bbg_tiaojian3");
     var bbg_tiaojian4=document.querySelector(".bbg_tiaojian4");
     var str="";
+    if(duichang!=""){
+        str+="堆场："+duichang+" ";
+    }
+    if(pushStatus!=""){
+    	if(pushStatus==0){
+    		str+="推单状态：未推单";
+    	}
+    	if(pushStatus==1){
+    		str+="推单状态：推单中";
+    	}
+    	if(pushStatus==2){
+    		str+="推单状态：已推单";
+    	}
+    }
     if(bbg_gys!=""){
         str+="供应商："+bbg_gys+" ";
     }
@@ -203,12 +441,6 @@ function bbgClick(){
     }else if(bbg_sjn!=""){
         str+="司机姓名：："+bbg_sjn+" ";
     }
-   /* if(clock1!=""){
-        str+="开始时间："+clock1+" ";
-    }
-    if(clock2!=""){
-        str+="结束时间："+clock2+" ";
-    }*/
     if(bbg_cph!=""){
         str+="车牌号："+bbg_cph+" ";
     }
@@ -250,28 +482,3 @@ var clock13 = new Clock();
 clock13.display(document.querySelector(".clock13"));
 var clock14 = new Clock1();
 clock14.display(document.querySelector(".clock14"));
-
-$( function() {
-    var availableTags = [
-        "石灰石",
-        "粉煤灰",
-    ];
-    $( "#gys" ).autocomplete({
-        source: availableTags
-    });
-
-    //layer.js调用，删除
-    $('.delete').on('click', function(){
-        layer.confirm('你确定要删除吗?', {
-            area: '600px', //弹出框宽度
-            btn: ['确定','取消'] //按钮文字
-        }, function(index){
-            // 确定按钮执行的操作，自定义、
-            //关闭对话框,插件必须的
-            layer.close(index);
-        }, function(){
-            // 取消按钮执行的操作，自定义
-        });
-    });
-
-} );

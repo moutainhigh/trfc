@@ -59,19 +59,30 @@
 							 <div class="intel_sline">
             <div class="intel_solo">
                 <label class="colorB">供应商：</label>
-                <input type="text" id="bbg_gys">
+                <input type="text" id="bbg_gys" placeholder="请选择供应商">
             </div>
             <div class="intel_solo">
                 <label class="colorB">矿口：</label>
-                <input type="text" id="bbg_kk">
+                <input type="text" id="bbg_kk" placeholder="请选择矿口">
             </div>
             <div class="intel_solo">
                 <label class="colorB">物料：</label>
-                <input type="text" id="gys">
+                <input type="text" id="gys" placeholder="请选择物料">
+            </div>
+             <div class="intel_solo">
+                <label class="colorB">堆场：</label>
+                <input type="text" id="duichang" placeholder="请选择堆场">
             </div>
             <div class="intel_solo">
+			    <label>推单状态：</label> <select id="pushStatus" class="form-control">
+			    <option value="0">未推单</option>
+			    <option value="1">推单中</option>
+			     <option value="2">已推单</option>
+			</select>
+			</div>
+            <div class="intel_solo">
                 <label class="colorB">司机姓名：</label>
-                <input type="text" id="bbg_sjn">
+                <input type="text" id="bbg_sjn" placeholder="请选择司机">
             </div>
             <div class="intel_solo">
                 <label class="colorB">开始时间：</label>
@@ -94,11 +105,11 @@
             </div>
             <div class="intel_solo">
                 <label class="colorB">车牌号：</label>
-                <input type="text" id="bbg_cph">
+                <input type="text" id="bbg_cph" placeholder="请选择车号">
             </div>
             <div class="intel_solo">
                 <label class="colorB">备注：</label>
-                <input type="text" id="bbg_bz">
+                <input type="text" id="bbg_bz" placeholder="请选择备注">
             </div>
             <div class="intel_solo">
                 <div class="intel_sbtn">
@@ -116,12 +127,12 @@
 						<div class="intel_opera">
     <!--物料四个按钮切换-->
     <div class="wuliao_opera">
-        <div class="wuliao_tab">
+        <div class="wuliao_tab tj_tab">
             <ul>
-                <li id="buyCar">采购逐车</li>
-                <li id="unit">单位统计</li>
-                <li id="receive">收料统计</li>
-                <li id="thing" class="select">物料统计</li>
+                <li id="buyCar" data-type="0">采购逐车</li>
+                <li id="unit" data-type="1">单位统计</li>
+                <li id="receive" data-type="2">收料统计</li>
+                <li id="thing" class="select" data-type="3">物料统计</li>
             </ul>
         </div>
         <div class="wuliao_tabbox">
@@ -129,7 +140,7 @@
                 <div class="intel_table">
                     <div class="intel_table">
                         <div class="intel_table">
-                        <div style="position: absolute;left:210px;top:191px;">
+                        <div style="position: absolute;left:210px;top:235px;">
 						  <div class="intel_operasolo" onclick="method('.tableExcelA')" id="tableExcelA">
 						        <i class="iconfont" style="color: #0174c3;font-size: 25px;margin-left: 22px">&#xe63c;</i>
 						        <p>导出全部</p>
@@ -224,7 +235,7 @@
             </div>
             <div class="wuliao_tabcont hide_unit hide">
                 <div class="intel_table">
-                 <div style="position: absolute;left:210px;top:191px;">
+                 <div style="position: absolute;left:210px;top:235px;">
 						  <div class="intel_operasolo" onclick="method('.tableExcelB')">
 						        <i class="iconfont" style="color: #0174c3;font-size: 25px;margin-left: 22px">&#xe63c;</i>
 						        <p>导出全部</p>
@@ -303,7 +314,7 @@
             <div class="wuliao_tabcont hide_receive hide">
                 <div class="intel_table">
                     <div class="intel_table">
-                     <div style="position: absolute;left:210px;top:191px;">
+                     <div style="position: absolute;left:210px;top:235px;">
 						  <div class="intel_operasolo" onclick="method('.tableExcelC')">
 						        <i class="iconfont" style="color: #0174c3;font-size: 25px;margin-left: 22px">&#xe63c;</i>
 						        <p>导出全部</p>
@@ -395,7 +406,7 @@
             </div>
             <div class="wuliao_tabcont hide_thing hide">
                 <div class="intel_table">
-                 <div style="position: absolute;left:210px;top:191px;">
+                 <div style="position: absolute;left:210px;top:235px;">
 						  <div class="intel_operasolo" onclick="method('.tableExcelD')">
 						        <i class="iconfont" style="color: #0174c3;font-size: 25px;margin-left: 22px">&#xe63c;</i>
 						        <p>导出全部</p>
