@@ -75,9 +75,10 @@
             </div>
             <div class="intel_solo">
 			    <label>推单状态：</label> <select id="pushStatus" class="form-control">
-			    <option value="0">未推单</option>
-			    <option value="1">推单中</option>
-			     <option value="2">已推单</option>
+			     <option value="0">全部</option>
+			    <option value="1">未推单</option>
+			    <option value="2">推单中</option>
+			     <option value="3">已推单</option>
 			</select>
 			</div>
             <div class="intel_solo">
@@ -129,13 +130,109 @@
     <div class="wuliao_opera">
         <div class="wuliao_tab tj_tab">
             <ul>
-                <li id="buyCar" data-type="0">采购逐车</li>
-                <li id="unit" data-type="1">单位统计</li>
-                <li id="receive" data-type="2">收料统计</li>
-                <li id="thing" class="select" data-type="3">物料统计</li>
+            	<li id="buyAdd" data-type="0">采购补增</li>
+                <li id="buyCar" data-type="1">采购逐车</li>
+                <li id="unit" data-type="2">单位统计</li>
+                <li id="receive" data-type="3">收料统计</li>
+                <li id="thing" class="select" data-type="4">物料统计</li>
             </ul>
         </div>
         <div class="wuliao_tabbox">
+        <div class="wuliao_tabcont hide_buyAdd">
+                <div class="intel_table">
+                    <div class="intel_table">
+                        <div class="intel_table">
+                        <div style="position: absolute;left:210px;top:235px;">
+						  <div class="intel_operasolo" onclick="method('.tableExcelE')" id="tableExcelE">
+						        <i class="iconfont" style="color: #0174c3;font-size: 25px;margin-left: 22px">&#xe63c;</i>
+						        <p>导出全部</p>
+						    </div>					
+						    <div class="intel_operasolo" onclick="method('.tableExcel5')">
+						        <i class="iconfont" style="color: #0174c3;font-size: 25px;margin-left: 22px">&#xe63c;</i>
+						        <p>导出当前页</p>
+						    </div>
+						    <div class="intel_operasolo" onclick="preview4()">
+						        <a data-toggle="modal" data-target="#add">
+						            <i class="iconfont" style="color: #7fe29f;font-size: 25px;margin-left: 22px">&#xe726;</i>
+						            <p>打印当前页</p>
+						        </a>
+						    </div>
+                        </div>
+                            <!--startprint4-->
+                            <div class="intel_table" style="border:1px solid #dbe7f3;margin-top: 20px">
+                                <!--用户表格begin-->
+                                <table class="tableExcel5" width="100%" border="1" cellspacing="0" cellpadding="0">
+                                    <thead>
+                                    <tr>
+                                        <td colspan="13" align="center" style="color:#434e8d;font-size: 40px;line-height:normal">
+                                           	裕泰采购补增明细
+                                            <p class="biobiaop" style="margin-top: 10px">
+                                                <span class="clocka"></span>至<span class="clockb"></span>
+                                            </p>
+                                            <p class="biobiaop" style="margin-bottom: 10px">条件：<span class="bbg_tiaojian1"></span></p>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th style="font-size: 20px">磅单编号</th>
+                                        <th style="font-size: 20px">供应商</th>
+                                        <th style="font-size: 20px">矿口</th>
+                                        <th style="font-size: 20px">堆场</th>
+                                        <th style="font-size: 20px">物料</th>
+                                        <th style="font-size: 20px">车号</th>
+                                        <th style="font-size: 20px">原发净重</th>
+                                        <th style="font-size: 20px">毛重</th>
+                                        <th style="font-size: 20px">皮重</th>
+                                        <th style="font-size: 20px">净重</th>
+                                        <th style="font-size: 20px">轻车时间</th>
+                                        <th style="font-size: 20px">重车时间</th>
+                                        <th style="font-size: 20px">备注</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody id="RMg5">
+                                   
+                                    </tbody>
+                                </table>
+                                <div style="font-size: 20px;margin: 30px">制表时间：<span class="clockc"></span> 
+                                </div>
+                                <!--用户表格end-->
+                            </div>
+                            <!--endprint4-->
+                            <!-- 全部导出模块 -->
+                            <div style="display: none;text-indent:-9999px;height: 0px !important;" class="intel_table" style="border:1px solid #dbe7f3;margin-top: 20px">
+                                <!--用户表格begin-->
+                                <table class="tableExcelE" width="100%" border="1" cellspacing="0" cellpadding="0">
+                                    <thead>
+                                    <tr>
+                                        <td colspan="13" align="center" style="color:#434e8d;font-size: 40px;line-height:normal">
+                                          	裕泰采购补增明细        
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th style="font-size: 20px">磅单编号</th> 
+                                        <th style="font-size: 20px">供应商</th>
+                                        <th style="font-size: 20px">矿口</th>
+                                        <th style="font-size: 20px">堆场</th>
+                                        <th style="font-size: 20px">物料</th>
+                                        <th style="font-size: 20px">车号</th>
+                                        <th style="font-size: 20px">原发净重</th>
+                                        <th style="font-size: 20px">毛重</th>
+                                        <th style="font-size: 20px">皮重</th>
+                                        <th style="font-size: 20px">净重</th>
+                                        <th style="font-size: 20px">轻车时间</th>
+                                        <th style="font-size: 20px">重车时间</th>
+                                        <th style="font-size: 20px">备注</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody id="RMgE">
+                                   
+                                    </tbody>
+                                </table>
+                                <!--用户表格end-->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="wuliao_tabcont hide_buyCar">
                 <div class="intel_table">
                     <div class="intel_table">

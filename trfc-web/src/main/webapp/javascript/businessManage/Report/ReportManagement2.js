@@ -4,10 +4,51 @@ var URL = {
 			driverAutoCompleteSearch: "/trfc/driver/autoCompleteSearch" ,     //司机姓名
 			vehicleAutoCompleteSearch: "/trfc/vehicle/autoCompleteSearch",   //车号
 			yardAutoCompleteSearch: "/trfc/yard/autoCompleteSearch",      //堆场
+			autoCompleteSearch1:"/trfc/minemouth/autoCompleteSearch",      //矿口
 	};
 
 $( function() {
 	 //获取下拉框数据并填充
+	//矿口
+	autoCompleteSearch1();
+   function autoCompleteSearch1(){
+   var cache={};
+   $("#bbg_kk").autocomplete({
+   //数据源
+   source: function( request, response ) {
+   var term = request.term;
+   var material = cache['material'] || {};
+   if ( term in material ) {
+   response( material[ term ] );
+   return;
+   }
+   $.post( URL.autoCompleteSearch1, request, function( data, status, xhr ) {
+	    material[ term ] = data;
+	    response( data );
+   });
+   },
+   //显示下拉框
+   response: function( event, ui ) {
+   if(ui.content && ui.content.length > 0){
+   //展示下拉框
+   ui.content.forEach(function(x,i,a){
+   x.label = x.name;
+   });
+   }
+   },
+   //选定,显示结果到输入框
+   select: function( event, ui ) {
+   $(this).val(ui.item.name);
+   return false;
+   }
+   }).off('click').on('click',function(){
+   $(this).autocomplete('search',' ');
+   }).change(function(){
+   $(this).val('');
+   });
+   };
+ 
+	
 	//物料	
 	yardAutoCompleteSearch();
    function yardAutoCompleteSearch(){
@@ -188,13 +229,13 @@ $( function() {
    if(ui.content && ui.content.length > 0){
    //展示下拉框
    ui.content.forEach(function(x,i,a){
-   x.label =  x.vehicleno;;
+   x.label =  x.vehicleno;
    });
    }
    },
    //选定,显示结果到输入框
    select: function( event, ui ) {
-   $(this).val(ui.item.name);
+   $(this).val(ui.item.vehicleno);
    return false;
    }
    }).off('click').on('click',function(){
@@ -335,6 +376,16 @@ function preview3()
     window.document.body.innerHTML=prnhtml;
     window.print();
 }
+function preview4()
+{
+    bdhtml=window.document.body.innerHTML;
+    sprnstr="<!--startprint4-->";
+    eprnstr="<!--endprint4-->";
+    prnhtml=bdhtml.substr(bdhtml.indexOf(sprnstr)+17);
+    prnhtml=prnhtml.substring(0,prnhtml.indexOf(eprnstr));
+    window.document.body.innerHTML=prnhtml;
+    window.print();
+}
 $('#yearNow').off('click').on('click',function(){
 	  var date = new Date();
 	    this.year = date.getFullYear();
@@ -470,6 +521,12 @@ var clock7 = new Clock();
 clock7.display(document.querySelector(".clock7"));
 var clock8 = new Clock1();
 clock8.display(document.querySelector(".clock8"));
+var clocka = new Clock();
+clocka.display(document.querySelector(".clocka"));
+var clockb = new Clock();
+clockb.display(document.querySelector(".clockb"));
+var clockc = new Clock1();
+clockc.display(document.querySelector(".clockc"));
 var clock9 = new Clock();
 clock9.display(document.querySelector(".clock9"));
 var clock10 = new Clock();

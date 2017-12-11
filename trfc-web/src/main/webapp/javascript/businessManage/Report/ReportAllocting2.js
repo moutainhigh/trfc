@@ -148,13 +148,13 @@ $( function() {
    if(ui.content && ui.content.length > 0){
    //展示下拉框
    ui.content.forEach(function(x,i,a){
-   x.label =  x.vehicleno;;
+   x.label =  x.vehicleno;
    });
    }
    },
    //选定,显示结果到输入框
    select: function( event, ui ) {
-   $(this).val(ui.item.name);
+   $(this).val(ui.item.vehicleno);
    return false;
    }
    }).off('click').on('click',function(){
