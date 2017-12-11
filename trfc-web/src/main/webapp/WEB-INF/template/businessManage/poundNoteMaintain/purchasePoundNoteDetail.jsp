@@ -118,7 +118,7 @@
 							</div>
 							<div class="daohuo_add_solo">
 								<label>供应商备注：</label> <input type="text"
-									value="${poundNotesupplierremark.supplierremark }"
+									value="${poundNote.supplierremark }"
 									readonly="true">
 							</div>
 						</div>
