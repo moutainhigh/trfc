@@ -7,7 +7,7 @@ $(function() {
 			updateCodeUrl:"/trfc/quality/sales/report/updateCode",
 			addVehicle: '/trfc/vehicle/add',
 			addDriver: '/trfc/driver/add',
-			vehicleAutoCompleteDYSearch: "/trfc/vehicle/autoCompleteDYSearch",
+			vehicleAutoCompleteDYSearch: "/trfc/vehicle/autoCompleteSearch1",
 			yardAutoCompleteSearch: "/trfc/yard/autoCompleteSearch",
 			materielAutoCompleteSearch: "/trfc/materiel/autoCompleteSearch",
 			supplierAutoCompleteSearch: "/trfc/supplier/autoCompleteSearch",

@@ -169,13 +169,13 @@ public class VehicleManageAction {
 		}
 		return list;
 	}
-	//倒运车辆
+	//全部车辆
 	@RequestMapping("/autoCompleteSearch1")
 	@ResponseBody
 	public List<VehicleManageResp> autoCompleteSearch1(String term){
 		List<VehicleManageResp> list = null;
 		try {
-			list = vehicleManageService.autoCompleteSearch("1", term.trim(), null);
+			list = vehicleManageService.autoCompleteSearch(null, term.trim(), null);
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 		}
