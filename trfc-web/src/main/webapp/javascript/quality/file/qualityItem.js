@@ -1,6 +1,5 @@
-$(function(){
 	//整合url
-	var URL = {
+var URL = {
 			pageUrl:"/trfc/quality/sales/file/qualityItem/page",
 			getLineUrl:"/trfc/quality/sales/file/qualityItem/getColumns",
 			deleteUrl:"/trfc/quality/sales/file/qualityItem/delete",
@@ -8,8 +7,10 @@ $(function(){
 			saveUrl:"/trfc/quality/sales/file/qualityItem/add",
 			codeUrl:"/trfc/system/base/code/getCode",
 			updateCodeUrl:"/trfc/system/base/code/updateCode",
-			columnAutoCompleteSearch:"/trfc/quality/sales/file/qualityColumn/autoCompleteSearch"
+			columnAutoCompleteSearch:"/trfc/quality/sales/file/qualityColumn/autoCompleteSearch",
+			selectaddNameUrl:"/trfc/quality/sales/file/qualityItem/selectaddName"	
 	};
+$(function(){
 	//设置一个公共变量,当点击编辑按钮时,将原数据存入该变量中
 	var editOD = {};
 	//加载列表
@@ -74,7 +75,7 @@ $(function(){
 		$('#add_type').val('');
 		$('#add_line').val('');
 		$('#add_formula').val('');
-		$('#add_invlid').removeAttr('checked');
+//		$('#add_invlid').removeAttr('checked');
 		$('#add_vgroups').val('');
 		$('#add_vdays').val('');
 		$('#add_vtype').val('');
@@ -576,4 +577,23 @@ $(function(){
 	}
 
 
+});
+//校验质检项目名称
+$("input#add_name").blur(function(){
+	var addName =$('#add_name').val()
+	$.ajax({
+		url : URL.selectaddNameUrl,
+		data : {"name":addName},
+		async : false,
+		cache : false,
+		dataType : 'json',
+		type : 'post',
+		success : function(result) {
+			if (result.code != '000000') {
+				layer.msg(result.error, {icon:5});
+				$('#add_name').val('');
+				return;
+			}
+		}
+	});
 });

@@ -94,6 +94,13 @@ public class OtherArriveService implements IOtherArriveService {
 	@Override
 	public Result update(OtherArriveReq req) throws Exception {
 		Result rs = Result.getParamErrorResult();
+		
+		OtherArrive arrive = otherArriveMapper.selectByPrimaryKey(req.getId());
+		//校验通知单是否审核
+		if(arrive != null && !StringUtils.equals(arrive.getAuditstatus(), Constant.ZERO_STRING)){
+			rs.setErrorCode(ErrorCode.NOTICE_DONT_UPDATE_ERROR);
+			return rs;
+		}		
 		OtherArrive oa = new OtherArrive();
 		oa.setId(req.getId());
 		if(req!=null && StringUtils.isNotBlank(req.getId()) && validDriverAndVehicle(req,rs,oa)){

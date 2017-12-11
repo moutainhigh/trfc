@@ -27,4 +27,7 @@ public interface IPurchaseReportService {
 	//采购收料
 	PaginationVO<ReportPurchaseResp> page3(ReportPurchaseQuery req) throws Exception;
 	List<ReportPurchaseResp> list3(ReportPurchaseQuery query) throws Exception;
+	//榜单补增
+	PaginationVO<ReportPurchaseResp> page4(ReportPurchaseQuery req) throws Exception;
+	List<ReportPurchaseResp> list4(ReportPurchaseQuery query) throws Exception;
 }

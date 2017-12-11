@@ -1,4 +1,4 @@
-package com.tianrui.test.api.datacenter;
+package com.tianrui.test.api.system;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -6,11 +6,11 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 import com.alibaba.fastjson.JSON;
-import com.tianrui.api.req.android.LoginUserParam;
 import com.tianrui.api.req.basicFile.measure.VehicleCheckApi;
-import com.tianrui.api.req.basicFile.nc.WarehouseManageQuery;
+import com.tianrui.api.req.basicFile.measure.VehicleManageApi;
+import com.tianrui.api.req.basicFile.measure.VehicleManageQuery;
 import com.tianrui.api.req.businessManage.salesManage.ApiDoorQueueQuery;
-import com.tianrui.api.req.system.auth.AppUserReq;
+import com.tianrui.api.req.common.RFIDReq;
 import com.tianrui.smartfactory.common.api.ApiParam;
 import com.tianrui.smartfactory.common.api.Head;
 import com.tianrui.smartfactory.common.constants.Constant;
@@ -18,14 +18,14 @@ import com.tianrui.smartfactory.common.utils.DateUtil;
 import com.tianrui.smartfactory.common.utils.Md5Utils;
 
 @SuppressWarnings("unused")
-public class TestWarehouse {
+public class TestVehicleCard {
 
-	//private static String domin = "http://localhost/";
-	private static String domin = "http://172.16.2.99:28080/";
-	private static String uri_login = "api/dc/warehouse/getLastUTC";
+	private static String domin = "http://localhost/";
+	//private static String domin = "http://172.16.2.99:28080/";
+	private static String uri_rfidTypeQuery = "api/vehicle/vehicleCard";
 	
 	public static void main(String[] args) throws Exception {
-		URL url = new URL(domin + uri_login);
+		URL url = new URL(domin + uri_rfidTypeQuery);
 		// 打开url连接
 		HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 		// 设置url请求方式 ‘get’ 或者 ‘post’
@@ -52,20 +52,20 @@ public class TestWarehouse {
 	}
 	
 	
-	static ApiParam<WarehouseManageQuery> getParam0(){
-		ApiParam<WarehouseManageQuery> api =new ApiParam<WarehouseManageQuery>();
+	static ApiParam<VehicleManageApi> getParam0(){
+		ApiParam<VehicleManageApi> api =new ApiParam<VehicleManageApi>();
 		
-		WarehouseManageQuery req =new WarehouseManageQuery();
-//		req.setAccount("GY0141044516");
-//		req.setPswd("f379eaf3c831b04de153469d1bec345e");
-		req.setName("中文乱码");
+		VehicleManageApi req =new VehicleManageApi();
+		req.setVehicleNo("豫B88888");
+		
+		req.setRfid("E2000016130B013820903FFB");
 		
 		
 		Head head =new Head();
-		head.setCallSource("1");
-		head.setCallType("3");
+	//	head.setCallSource("");
+		head.setCallType("2");
 		head.setCallTime(DateUtil.getNowDateString("yyyy-MM-dd HH:mm:ss"));
-		//head.setUserId("043e657203f841fcbbeed0118b49a185");
+		head.setUserId("71166f2419fa437aa7c05bef7220853e");
 		
 		api.setBody(req);
 		api.setHead(head);

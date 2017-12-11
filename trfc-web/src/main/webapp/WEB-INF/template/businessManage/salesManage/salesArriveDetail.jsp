@@ -175,7 +175,32 @@
 									</tbody>
 								</table>
 							</div>
-							<div class="cg_tabcont hide"></div>
+							<div class="cg_tabcont hide">
+								<table class="table table-bordered">
+									<thead>
+										<tr>
+											<th>榜单号</th>
+											<th>车号</th>
+											<th>毛重</th>
+											<th>皮重</th>
+											<th>净重</th>
+											<th>轻车时间</th>
+											<th>重车时间</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td>${salesArrive.poundNoteResp.code }</td>
+											<td>${salesArrive.vehicleno }</td>
+											<td>${salesArrive.poundNoteResp.grossweight }</td>
+											<td>${salesArrive.poundNoteResp.tareweight }</td>
+											<td>${salesArrive.poundNoteResp.netweight }</td>
+											<td>${salesArrive.poundNoteResp.lighttimeStr }</td>
+											<td>${salesArrive.poundNoteResp.weighttimeStr }</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
 							<div class="cg_tabcont hide">
 								<div class="alt_edit_div">
 									<label>射频卡号：</label> <input type="text" id="detail_cardno"

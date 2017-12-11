@@ -49,4 +49,14 @@ public interface MaterialSchemeMapper {
      * 下拉框自动搜索
      */
     List<MaterialScheme> autoCompleteSearch(@Param("likeName")String likeName);
+    /**
+     * 根据物料查询物料方案
+     * @Title: selectOne 
+     * @Description: TODO
+     * @param @param id
+     * @param @return   
+     * @return MaterialScheme    
+     * @throws
+     */
+    MaterialScheme selectMaterial(String materialid);
 }

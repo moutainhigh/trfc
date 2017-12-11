@@ -27,7 +27,7 @@ public enum ErrorCode {
 	PARAM_CHECK_CODE_ERROR("E10004","校验码异常."),
 	PARAM_REPEAT_ERROR("E10005","数据重复."),
 	PARAM_NULL_USER_ERROR("E10006","参数异常,参数用户信息不能为空."),
-	
+	PARAM_NAME_ERROR("E10007","项目名称已存在,不能重复添加."),
 	/**
 	 * FRID
 	 */
@@ -130,11 +130,21 @@ public enum ErrorCode {
 	VEHICLE_IS_WX("E10022","车辆已无效."),
 	VEHICLE_IS_BLACK("E10023","车辆被列入黑名单."),
 	VEHICLE_NOTICE_NOT_LOAD2("E10024","该车辆还未在平台确认收货."),
+	VEHICLE_DONT_BIND_RFID("E10025","该车辆已绑定过RFID."),
 	/**
 	 * 司机
 	 */
-	DRIVER_NOT_EXIST("E11001","该司机不存在."),
-	DRIVER_IS_WX("E11002","该司机已无效."),
+	DRIVER_NOT_EXIST("E11001","司机不存在."),
+	DRIVER_IS_WX("E11002","司机已无效."),
+	/**
+	 * 物料
+	 */
+	MATERIAL_NOT_EXIST("E12000","物料不存在."),
+	MATERIAL_IS_WX("E12001","物料已无效."),
+	/**
+	 * 仓库
+	 */
+	WAREHOUSE_NOT_EXIST("E13000","仓库不存在."),
 	
 	/**
 	 * 用户相关

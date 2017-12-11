@@ -285,6 +285,9 @@
 		<if test="likeName != null and likeName !=''">
 			and name like CONCAT('%', #{likeName,jdbcType=VARCHAR}, '%')
 		</if>
+		<if test="type != null and type !=''">
+			and type= #{type,jdbcType=VARCHAR}
+		</if>
 		order by createtime desc
 		limit 0,20
 	</select>

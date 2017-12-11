@@ -47,7 +47,7 @@
 									value="${code }">
 							</div>
 							<div class="daohuo_add_solo">
-								<label>收货单位：：</label> <input id="receivedepartmentname"
+								<label>收货单位：</label> <input id="receivedepartmentname"
 									type="text" readonly="true">
 							</div>
 							<div class="daohuo_add_solo">

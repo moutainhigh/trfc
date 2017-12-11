@@ -352,13 +352,17 @@ public class AppSalesStaticService implements IAppSalesStaticService {
 		sa.setSource(Constant.ONE_STRING);
 		sa.setBilltypeid(BillTypeEnum.BILL_TYPE_ONE_CAR.getCode());
 		sa.setBilltypename(BillTypeEnum.BILL_TYPE_ONE_CAR.getName());
-		sa.setCustomerid(user.getNcid());
-		sa.setCustomername(user.getName());
 		CustomerManage customer = customerManageMapper.selectByPrimaryKey(user.getNcid());
 		if (customer != null) {
+			sa.setCustomerid(customer.getId());
+			sa.setCustomername(customer.getName());
 			sa.setChannelcode(customer.getChannelcode());
 			sa.setSalesmanid(customer.getSalesmanid());
 			sa.setSalesmanname(customer.getSalesmanname());
+			sa.setTransportcompanyid(customer.getTransportcompanyid());
+			sa.setTransportcompanyname(customer.getTransportcompanyname());
+			sa.setDepartmentid(customer.getDepartmentid());
+			sa.setDepartmentname(customer.getDepartmentname());
 		}
 		sa.setBilltime(param.getBillTime());
 		sa.setOrgid(param.getSalesOrg());
@@ -366,8 +370,6 @@ public class AppSalesStaticService implements IAppSalesStaticService {
 		if (org != null) {
 			sa.setOrgname(org.getName());
 		}
-		sa.setTransportcompanyid(Constant.ORG_ID);
-		sa.setTransportcompanyname(Constant.ORG_NAME);
 		sa.setState(Constant.ONE_STRING);
 		sa.setMakerid(param.getUserId());
 		sa.setMakebillname(sa.getCustomername());
@@ -386,6 +388,7 @@ public class AppSalesStaticService implements IAppSalesStaticService {
 		}
 		sa.setBillSource(Constant.TWO_NUMBER);
 		sa.setValidStatus(Constant.ZERO_STRING);
+		sa.setNcStatus(Constant.ZERO_STRING);
 		sa.setPushStatus(Constant.ZERO_STRING);
 		return sa;
 	}
@@ -449,8 +452,10 @@ public class AppSalesStaticService implements IAppSalesStaticService {
 							if (!StringUtils.equals(sa.getValidStatus(), Constant.TWO_STRING)) {	
 								if (StringUtils.equals(sa.getPushStatus(), Constant.ZERO_STRING)) {
 									//未推送的直接作废
+									sa.setState(Constant.ZERO_STRING);
 									sa.setValidStatus(Constant.TWO_STRING);
 									salesApplicationMapper.updateByPrimaryKeySelective(sa);
+									result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
 								} else {
 									//已经联机（推送到DC）的，发送作废请求
 									//记录推送日志
@@ -1085,7 +1090,8 @@ public class AppSalesStaticService implements IAppSalesStaticService {
 						SalesApplication bill = salesApplicationMapper.selectByPrimaryKey(sa.getBillid());
 						if (StringUtils.equals(bill.getBilltypeid(), Constant.ZERO_STRING)) {
 							//一单一车
-							result = oneBillOneCarCancel(user, sa);
+							//result = oneBillOneCarCancel(user, sa);
+							result.setErrorCode(ErrorCode.NOTICE_ONE_BILL_ONE_CAR_DONT_VALID);
 						} else {
 							//一单多车
 							result = oneBillMoreCarCancel(user, sa);

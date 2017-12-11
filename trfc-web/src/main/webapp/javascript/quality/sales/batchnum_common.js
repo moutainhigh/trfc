@@ -69,6 +69,7 @@ function materialSelect(){
 				response( material[ term ] );
 				return;
 			}
+			request.type='1';
 			$.post( URL.materialAutoCompleteSearch, request, function( data, status, xhr ) {
 				material[ term ] = data;
 				response( data );

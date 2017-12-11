@@ -1084,6 +1084,7 @@
 	LEFT JOIN tr_sales_db_application t2 ON t1.billid = t2.id
 	WHERE
 		t1.auditstatus = 1
+	AND t1.validStatus = 0
 	AND t2.customerid = #{ncId,jdbcType=VARCHAR}
 	AND t2.orgid = #{salesOrg,jdbcType=VARCHAR}
 	AND t2.state = 1
@@ -1325,9 +1326,7 @@
 	LEFT JOIN tr_pound_db_note t4 ON t1.id = t4.noticeid
 	LEFT JOIN tr_sales_application_arrive t5 ON t1.id = t5.notice_id
 	WHERE
-		t1.state = 1
-	AND t1.`status` != 3
-	AND t1.id = #{id, jdbcType=VARCHAR}
+		t1.id = #{id, jdbcType=VARCHAR}
 	GROUP BY t5.notice_id
   </select>
   <select id="appMyVehicleList" parameterType="com.tianrui.api.req.android.MyVehicleListParam" resultType="com.tianrui.api.resp.android.MyVehicleListVo">

@@ -28,7 +28,7 @@ public class Md5Utils {
 	 */
 	public final static String MD5(String s) {
 		try {
-			byte[] btInput = s.getBytes();
+			byte[] btInput = s.getBytes("utf-8");
 			MessageDigest mdInst = MessageDigest.getInstance("MD5");
 			mdInst.update(btInput);
 			byte[] md = mdInst.digest();

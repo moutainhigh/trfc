@@ -187,7 +187,7 @@
 								<label>助磨掺加量：</label> <input type="text" id="add_aidadd">
 							</div>
 							<div class="alt_edit_div">
-								<label>有效性：</label> <input type="checkbox" id="add_invalid"><span>有效</span>
+								<label>有效性：</label> <input type="checkbox" checked="checked" id="add_invalid"><span>有效</span>
 							</div>
 							<div class="alt_edit_div">
 								<label>是否显示：</label> <select class="form-control" id="add_shows">

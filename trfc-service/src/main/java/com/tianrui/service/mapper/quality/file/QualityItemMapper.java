@@ -46,6 +46,16 @@ public interface QualityItemMapper {
      */
     int count(QualityItemReq req);
     /**
+     * 校验项目名称是否重复
+     * @Title: selectName 
+     * @Description: TODO
+     * @param @param req
+     * @param @return   
+     * @return int    
+     * @throws
+     */
+    int selectName(QualityItemReq req);
+    /**
      * 下拉框
      */
     List<QualityItem> autoCompleteSearch(@Param("likeName")String likeName);

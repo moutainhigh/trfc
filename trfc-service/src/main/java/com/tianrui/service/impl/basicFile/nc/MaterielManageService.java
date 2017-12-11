@@ -99,8 +99,8 @@ public class MaterielManageService implements IMaterielManageService {
 	}
 
 	@Override
-	public List<MaterielManageResp> autoCompleteSearch(String likeName) throws Exception {
-		return copyBeanList2RespList(materielManageMapper.autoCompleteSearch(likeName));
+	public List<MaterielManageResp> autoCompleteSearch(String likeName,String type) throws Exception {
+		return copyBeanList2RespList(materielManageMapper.autoCompleteSearch(likeName,type));
 	}
 	
 	private List<MaterielManageResp> copyBeanList2RespList(List<MaterielManage> list) throws Exception {

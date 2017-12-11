@@ -192,4 +192,19 @@ public class QualityItemService implements IQualityItemService {
 		return rs;
 	}
 	
+	/**
+	 * 校验项目名称是否重复
+	 */
+	@Override
+	public Result selectaddName(QualityItemReq req) throws Exception {
+		Result rs = Result.getParamErrorResult();
+		int a = qualityItemMapper.selectName(req);
+		if(a>0){
+			rs.setErrorCode(ErrorCode.PARAM_NAME_ERROR);
+		}else{
+			rs = Result.getSuccessResult();
+		}
+		return rs;
+	}
+	
 }

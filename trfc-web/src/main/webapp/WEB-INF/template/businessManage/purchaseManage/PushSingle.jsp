@@ -38,7 +38,7 @@
 										<option value="">全部</option>
 										<option value="1">推单中</option>
 										<option value="2">推单成功</option>
-										<option value="3">推单失败</option>
+										<option value="3"selected="selected">推单失败</option>
 									</select>
 								</div>
 								<div class="intel_solo">
@@ -111,6 +111,6 @@
 			<!-- 引用公共footer部分 -->
 			<jsp:include page="../../common/base/footer_busi.jsp"></jsp:include>
 			<script type="text/javascript"
-				src="/javascript/businessManage/purchaseManage/PushSingle.js?1129"></script>
+				src="/javascript/businessManage/purchaseManage/PushSingle.js?1208"></script>
 </body>
 </html>

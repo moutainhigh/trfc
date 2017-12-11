@@ -18,12 +18,12 @@ public class JsonUtil {
 	public static boolean validateSign(String json, String signValue, String authSign) {
 		boolean result = false;
 		try {
-			System.out.println(json);
 			// 将签名字符串替换为签名KEY
 			String sourceStr = json.replaceAll(signValue, authSign);
-			// MD5加密
+//			// MD5加密
 			String md5Str = Md5Utils.MD5(sourceStr);
-			// 比较MD5字符串
+//			// 比较MD5字符串
+			logger.debug("计算结果:{},传入的参数:{}",new Object[]{md5Str,signValue});
 			result = (md5Str.equalsIgnoreCase(signValue));
 		} catch (Exception e) {
 			logger.warn(e.getMessage(),e);

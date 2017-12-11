@@ -161,20 +161,6 @@ public class SalesApplicationService implements ISalesApplicationService {
 		}
 		return page;
 	}
-
-	private boolean validDriver(DriverManage driver, Result result) {
-		boolean flag = false;
-		if (driver != null && StringUtils.equals(driver.getState(), Constant.ONE_STRING)) {
-			if (StringUtils.equals(driver.getIsvalid(), Constant.ONE_STRING)) {
-				flag = true;
-			} else {
-				result.setErrorCode(ErrorCode.DRIVER_IS_WX);
-			}
-		} else {
-			result.setErrorCode(ErrorCode.DRIVER_NOT_EXIST);
-		}
-		return flag;
-	}
 	
 	//校验车辆是否可用
 	private boolean validVehicle(VehicleManage vehicle, Result result) {
@@ -222,6 +208,44 @@ public class SalesApplicationService implements ISalesApplicationService {
 			}
 		} else {
 			result.setErrorCode(ErrorCode.VEHICLE_NOT_EXIST);
+		}
+		return flag;
+	}
+
+	private boolean validDriver(DriverManage driver, Result result) {
+		boolean flag = false;
+		if (driver != null && StringUtils.equals(driver.getState(), Constant.ONE_STRING)) {
+			if (StringUtils.equals(driver.getIsvalid(), Constant.ONE_STRING)) {
+				flag = true;
+			} else {
+				result.setErrorCode(ErrorCode.DRIVER_IS_WX);
+			}
+		} else {
+			result.setErrorCode(ErrorCode.DRIVER_NOT_EXIST);
+		}
+		return flag;
+	}
+
+	private boolean validMaterial(MaterielManage material, Result result) {
+		boolean flag = false;
+		if (material != null && StringUtils.equals(material.getState(), Constant.ONE_STRING)) {
+			if (StringUtils.equals(material.getEffective(), Constant.ONE_STRING)) {
+				flag = true;
+			} else {
+				result.setErrorCode(ErrorCode.MATERIAL_IS_WX);
+			}
+		} else {
+			result.setErrorCode(ErrorCode.MATERIAL_NOT_EXIST);
+		}
+		return flag;
+	}
+
+	private boolean validWarehouse(WarehouseManage warehouse, Result result) {
+		boolean flag = false;
+		if (warehouse != null && StringUtils.equals(warehouse.getState(), Constant.ONE_STRING)) {
+			flag = true;
+		} else {
+			result.setErrorCode(ErrorCode.WAREHOUSE_NOT_EXIST);
 		}
 		return flag;
 	}
@@ -296,6 +320,7 @@ public class SalesApplicationService implements ISalesApplicationService {
 		sa.setBillSource(Constant.ONE_NUMBER);
 		sa.setValidStatus(Constant.ZERO_STRING);
 		sa.setPushStatus(Constant.ZERO_STRING);
+		sa.setNcStatus(Constant.ZERO_STRING);
 		if (vehicle != null) {
 			sa.setVehicleId(vehicle.getId());
 			sa.setVehicleNo(vehicle.getVehicleno());
@@ -971,6 +996,8 @@ public class SalesApplicationService implements ISalesApplicationService {
 			SalesApplication sa = salesApplicationMapper.selectByPrimaryKey(req.getId());
 			if (StringUtils.equals(req.getStatus(), Constant.ONE_STRING)) {
 				sa.setValidStatus(Constant.TWO_STRING);
+				sa.setNcStatus(Constant.FOUR_STRING);
+				sa.setState(Constant.ZERO_STRING);
 				SalesArrive bean = new SalesArrive();
 				bean.setBillid(req.getId());
 				bean.setBilldetailid(req.getDetailId());
@@ -980,6 +1007,7 @@ public class SalesApplicationService implements ISalesApplicationService {
 					if (StringUtils.equals(bean.getStatus(), Constant.ZERO_STRING)) {
 						bean.setStatus(Constant.THREE_STRING);
 						bean.setValidStatus(Constant.TWO_STRING);
+						bean.setState(Constant.ZERO_STRING);
 						salesArriveMapper.updateByPrimaryKeySelective(bean);
 					}
 				}
@@ -995,7 +1023,7 @@ public class SalesApplicationService implements ISalesApplicationService {
 
 	//审核通过才会回写状态的接口
 	@Override
-	public Result billAuditCallBack(BillValidReq req) throws Exception {
+	public synchronized Result billAuditCallBack(BillValidReq req) throws Exception {
 		Result result = Result.getParamErrorResult();
 		if (req != null && StringUtils.isNotBlank(req.getId())
 				&& StringUtils.isNotBlank(req.getDetailId())
@@ -1007,31 +1035,35 @@ public class SalesApplicationService implements ISalesApplicationService {
 			SalesApplication sa = salesApplicationMapper.selectByPrimaryKey(req.getId());
 			SalesApplicationDetail sad = salesApplicationDetailMapper.selectByPrimaryKey(req.getDetailId());
 			if (StringUtils.equals(sa.getValidStatus(), Constant.ZERO_STRING)) {
-				sa.setStatus(Constant.ONE_STRING);
-				sa.setNcId(req.getNcId());
-				sa.setNcStatus(Constant.TWO_STRING);
-				sa.setAuditid(req.getAuditid());
-				sa.setAuditname(req.getAuditname());
-				sa.setAudittime(req.getAudittime());
-				salesApplicationMapper.updateByPrimaryKeySelective(sa);
-				sad.setNcId(req.getDetailNcId());
-				sad.setPretendingtake(sad.getSalessum());
-				salesApplicationDetailMapper.updateByPrimaryKeySelective(sad);
-				result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
-				//一单一车
-				if (StringUtils.equals(sa.getBilltypeid(), Constant.ZERO_STRING)) {
-					VehicleManage vehicle = vehicleManageMapper.selectByPrimaryKey(sa.getVehicleId());
-					//校验车辆是否运行创建通知单
-					if (validVehicle(vehicle)) {
-						if (StringUtils.isNotBlank(sa.getDriverId())) {
-							DriverManage driver = driverManageMapper.selectByPrimaryKey(sa.getDriverId());
-							if (validDriver(driver)) {
-								saveOneBillOneCarNotice(sa, sad, vehicle, driver);
+				if (!StringUtils.equals(sa.getNcStatus(), Constant.TWO_STRING)) {
+					sa.setStatus(Constant.ONE_STRING);
+					sa.setNcId(req.getNcId());
+					sa.setNcStatus(Constant.TWO_STRING);
+					sa.setAuditid(req.getAuditid());
+					sa.setAuditname(req.getAuditname());
+					sa.setAudittime(req.getAudittime());
+					salesApplicationMapper.updateByPrimaryKeySelective(sa);
+					sad.setNcId(req.getDetailNcId());
+					sad.setPretendingtake(sad.getSalessum());
+					salesApplicationDetailMapper.updateByPrimaryKeySelective(sad);
+					result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+					//一单一车
+					if (StringUtils.equals(sa.getBilltypeid(), Constant.ZERO_STRING)) {
+						VehicleManage vehicle = vehicleManageMapper.selectByPrimaryKey(sa.getVehicleId());
+						//校验车辆是否运行创建通知单
+						if (validVehicle(vehicle)) {
+							if (StringUtils.isNotBlank(sa.getDriverId())) {
+								DriverManage driver = driverManageMapper.selectByPrimaryKey(sa.getDriverId());
+								if (validDriver(driver)) {
+									saveOneBillOneCarNotice(sa, sad, vehicle, driver);
+								}
+							} else {
+								saveOneBillOneCarNotice(sa, sad, vehicle, null);
 							}
-						} else {
-							saveOneBillOneCarNotice(sa, sad, vehicle, null);
 						}
 					}
+				} else {
+					result.setErrorCode(ErrorCode.APPLICATION_IS_VALID_ERROR);
 				}
 			} else {
 				result.setErrorCode(ErrorCode.APPLICATION_IS_VALID_ERROR);
@@ -1146,7 +1178,7 @@ public class SalesApplicationService implements ISalesApplicationService {
 	 * @throws Exception 
 	 */
 	@Override
-	public Result pushSalesTofc(JSONArray array) throws Exception {
+	public synchronized Result pushSalesTofc(JSONArray array) throws Exception {
 		Result result = Result.getParamErrorResult();
 		if (array != null && array.size() == 2) {
 			JSONObject jsonItem = array.getJSONObject(0);

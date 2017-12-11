@@ -39,4 +39,6 @@ public interface IQualityItemService {
 	 * 获取项目名称与列 的集合
 	 */
 	Result getLineAndName(QualityItemReq req) throws Exception;
+	
+	Result selectaddName(QualityItemReq req) throws Exception;
 }

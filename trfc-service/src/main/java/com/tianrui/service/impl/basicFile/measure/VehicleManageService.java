@@ -311,7 +311,24 @@ public class VehicleManageService implements IVehicleManageService {
                 result.setErrorCode(ErrorCode.RFID_VEHICLE_EXIST2);
             }
         } else {
-            flag = true;
+        	bean.setRfid(null);
+			bean.setVehicleno(vehicleNo);
+			bean.setState(Constant.ONE_STRING);
+			List<VehicleManage> vehicleList = vehicleManageMapper.selectSelective(bean);
+			if (CollectionUtils.isNotEmpty(vehicleList)) {
+				bean = vehicleList.get(0);
+				if (StringUtils.equals(bean.getIsvalid(), Constant.ZERO_STRING)) {
+					result.setErrorCode(ErrorCode.VEHICLE_IS_WX);
+				} else if (StringUtils.equals(bean.getIsblacklist(), Constant.ONE_STRING)) {
+					result.setErrorCode(ErrorCode.VEHICLE_IS_BLACK);
+				} else if (StringUtils.isNotBlank(bean.getRfid())) {
+					result.setErrorCode(ErrorCode.VEHICLE_DONT_BIND_RFID);
+				} else {
+					flag = true;
+				}
+			} else {
+				flag = true;
+			}
         }
         return flag;
 	}

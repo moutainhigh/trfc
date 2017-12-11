@@ -139,4 +139,26 @@ public class QualityItemAction {
 		}
 		return rs;
 	}
+	
+	/**
+	 * 校验项目名称是否存在
+	 * @Title: selectaddName 
+	 * @Description: TODO
+	 * @param @param req
+	 * @param @return   
+	 * @return Result    
+	 * @throws
+	 */
+	@ResponseBody
+	@RequestMapping("/selectaddName")
+	public Result selectaddName(QualityItemReq req){
+		Result rs = Result.getErrorResult();
+		try {
+			rs = qualityItemService.selectaddName(req);
+		} catch (Exception e) {
+			log.error(e.getMessage(),e);
+			rs.setErrorCode(ErrorCode.PARAM_NAME_ERROR);
+		}
+		return rs;
+	}
 }

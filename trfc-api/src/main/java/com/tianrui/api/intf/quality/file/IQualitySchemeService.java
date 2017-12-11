@@ -42,7 +42,7 @@ public interface IQualitySchemeService {
 	 * @return
 	 * @throws Exception 
 	 */
-	Result autoCompleteSearch(String likeName) throws Exception;
+	Result autoCompleteSearch(String likeName,String type) throws Exception;
 
 	
 }

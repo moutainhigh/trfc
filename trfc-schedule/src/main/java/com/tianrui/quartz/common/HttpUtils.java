@@ -34,7 +34,7 @@ public class HttpUtils {
 			//拼接参数
 			StringBuffer params = new StringBuffer();
 			params.append("p").append("=").append(JSON.toJSONString(apiParam));
-			byte[] bytes = params.toString().getBytes();
+			byte[] bytes = params.toString().getBytes("utf-8");
 			connection.getOutputStream().write(bytes);
 			BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream(), "UTF-8"));
 			//发送请求
