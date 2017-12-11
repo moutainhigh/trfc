@@ -20,8 +20,8 @@ import com.tianrui.smartfactory.common.utils.Md5Utils;
 @SuppressWarnings("unused")
 public class TestVehicleCard {
 
-	private static String domin = "http://localhost/";
-	//private static String domin = "http://172.16.2.99:28080/";
+	//private static String domin = "http://localhost/";
+	private static String domin = "http://172.16.2.99:28080/";
 	private static String uri_rfidTypeQuery = "api/vehicle/vehicleCard";
 	
 	public static void main(String[] args) throws Exception {
@@ -56,7 +56,7 @@ public class TestVehicleCard {
 		ApiParam<VehicleManageApi> api =new ApiParam<VehicleManageApi>();
 		
 		VehicleManageApi req =new VehicleManageApi();
-		req.setVehicleNo("豫B88888");
+		req.setVehicleNo("豫CF5555");
 		
 		req.setRfid("E2000016130B013820903FFB");
 		
