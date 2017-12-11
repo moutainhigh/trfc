@@ -107,7 +107,7 @@
 						</div>
 						<div class="intel_opera">
     <!--物料四个按钮切换-->
-    <div class="wuliao_opera">
+    <div class="wuliao_opera" style="position:relative;">
         <div class="wuliao_tab">
             <ul>
                 <li id="buyCar" class="select">厂内倒运</li>
@@ -118,7 +118,7 @@
                 <div class="intel_table">
                     <div class="intel_table">
                         <div class="intel_table">
-                        <div style="position: absolute;left:210px;top:191px;">
+                        <div style="position: absolute;left:0px;top:0px;">
 						  <div class="intel_operasolo" onclick="method('.tableExcelA')">
 						        <i class="iconfont" style="color: #0174c3;font-size: 25px;margin-left: 22px">&#xe63c;</i>
 						        <p>导出全部</p>

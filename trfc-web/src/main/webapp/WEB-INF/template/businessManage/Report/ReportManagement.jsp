@@ -127,7 +127,7 @@
 						</div>
 						<div class="intel_opera">
     <!--物料四个按钮切换-->
-    <div class="wuliao_opera">
+    <div class="wuliao_opera" style="position:relative;">
         <div class="wuliao_tab tj_tab">
             <ul>
             	<li id="buyAdd" data-type="0">采购补增</li>
@@ -142,7 +142,7 @@
                 <div class="intel_table">
                     <div class="intel_table">
                         <div class="intel_table">
-                        <div style="position: absolute;left:210px;top:235px;">
+                        <div style="position: absolute;left:0px;top:0px;">
 						  <div class="intel_operasolo" onclick="method('.tableExcelE')" id="tableExcelE">
 						        <i class="iconfont" style="color: #0174c3;font-size: 25px;margin-left: 22px">&#xe63c;</i>
 						        <p>导出全部</p>
@@ -237,7 +237,7 @@
                 <div class="intel_table">
                     <div class="intel_table">
                         <div class="intel_table">
-                        <div style="position: absolute;left:210px;top:235px;">
+                        <div style="position: absolute;left:0px;top:0px;">
 						  <div class="intel_operasolo" onclick="method('.tableExcelA')" id="tableExcelA">
 						        <i class="iconfont" style="color: #0174c3;font-size: 25px;margin-left: 22px">&#xe63c;</i>
 						        <p>导出全部</p>
@@ -332,7 +332,7 @@
             </div>
             <div class="wuliao_tabcont hide_unit hide">
                 <div class="intel_table">
-                 <div style="position: absolute;left:210px;top:235px;">
+                 <div style="position: absolute;left:0px;top:0px;">
 						  <div class="intel_operasolo" onclick="method('.tableExcelB')">
 						        <i class="iconfont" style="color: #0174c3;font-size: 25px;margin-left: 22px">&#xe63c;</i>
 						        <p>导出全部</p>
@@ -411,7 +411,7 @@
             <div class="wuliao_tabcont hide_receive hide">
                 <div class="intel_table">
                     <div class="intel_table">
-                     <div style="position: absolute;left:210px;top:235px;">
+                     <div style="position: absolute;left:0px;top:0px;">
 						  <div class="intel_operasolo" onclick="method('.tableExcelC')">
 						        <i class="iconfont" style="color: #0174c3;font-size: 25px;margin-left: 22px">&#xe63c;</i>
 						        <p>导出全部</p>
@@ -503,7 +503,7 @@
             </div>
             <div class="wuliao_tabcont hide_thing hide">
                 <div class="intel_table">
-                 <div style="position: absolute;left:210px;top:235px;">
+                 <div style="position: absolute;left:0px;top:0px;">
 						  <div class="intel_operasolo" onclick="method('.tableExcelD')">
 						        <i class="iconfont" style="color: #0174c3;font-size: 25px;margin-left: 22px">&#xe63c;</i>
 						        <p>导出全部</p>

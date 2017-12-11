@@ -111,7 +111,7 @@
 						</div>
 						<div class="intel_opera">
     <!--物料四个按钮切换-->
-    <div class="wuliao_opera">
+    <div class="wuliao_opera" style="position:relative;">
         <div class="wuliao_tab">
             <ul>
                 <li style="width:150px;" id="receive">其他出库逐车明细</li>
@@ -122,7 +122,7 @@
             <div class="wuliao_tabcont hide_receive hide">
                 <div class="intel_table">
                     <div class="intel_table">
-                     <div style="position: absolute;left:210px;top:191px;">
+                     <div style="position: absolute;left:0px;top:0px;">
 						  <div class="intel_operasolo" onclick="method('.tableExcelA')">
 						        <i class="iconfont" style="color: #0174c3;font-size: 25px;margin-left: 22px">&#xe63c;</i>
 						        <p>导出全部</p>
@@ -213,7 +213,7 @@
             </div>
             <div class="wuliao_tabcont hide_thing">
                 <div class="intel_table">
-                 <div style="position: absolute;left:210px;top:191px;">
+                 <div style="position: absolute;left:0px;top:0px;">
 						  <div class="intel_operasolo" onclick="method('.tableExcelB')">
 						        <i class="iconfont" style="color: #0174c3;font-size: 25px;margin-left: 22px">&#xe63c;</i>
 						        <p>导出全部</p>
