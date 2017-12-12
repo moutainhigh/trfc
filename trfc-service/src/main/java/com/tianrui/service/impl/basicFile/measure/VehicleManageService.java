@@ -470,6 +470,7 @@ public class VehicleManageService implements IVehicleManageService {
 		if (vehicleManageApi != null && StringUtils.isNotBlank(vehicleManageApi.getVehicleNo()) ) {
 			VehicleManage vehicle = new VehicleManage();
 			vehicle.setVehicleno(vehicleManageApi.getVehicleNo());
+			vehicle.setState("1");
 			List<VehicleManage> list = vehicleManageMapper.selectSelective(vehicle);
 			if( CollectionUtils.isNotEmpty(list) ){
 				VehicleManage db=list.get(0);

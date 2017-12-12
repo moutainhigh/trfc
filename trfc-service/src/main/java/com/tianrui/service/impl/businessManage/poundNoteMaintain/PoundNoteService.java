@@ -1973,6 +1973,10 @@ public class PoundNoteService implements IPoundNoteService {
 				boolean flag = false;
 				Integer type = null;
 				for (ExceptionAudit ea : list) {
+					//跳过垃圾数据 状态为2,3的
+					if( ea.getType()==2 || ea.getType()==3 ){
+						continue;
+					}
 					if (!ea.getAuditStatus()) {
 						flag = true;
 						type = ea.getType();
