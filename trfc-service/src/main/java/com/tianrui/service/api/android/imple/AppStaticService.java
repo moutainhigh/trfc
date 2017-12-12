@@ -1398,6 +1398,16 @@ public class AppStaticService implements IAppStaticService {
 	public AppResult materialSearch(SearchKeyParam param) {
 		AppResult result = AppResult.getAppResult();
 		if (param != null) {
+			if(param.getBusinesstype()!=null){				
+				//(用户身份 1：客户，2：供应商)物料设置共有的业务类型（0：采购，1：销售，2：共有）'
+				if(StringUtils.equals(param.getBusinesstype(), Constant.ONE_STRING)){
+					param.setBusinesstype(Constant.ONE_STRING);
+				}else if(StringUtils.equals(param.getBusinesstype(), Constant.TWO_STRING)){
+					param.setBusinesstype(Constant.ZERO_STRING);
+				}else{
+					param.setBusinesstype(Constant.TWO_STRING);
+				}
+			}
 			result.setData(materielManageMapper.appAutoCompleteSearch(param));
 			result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
 		} else {
