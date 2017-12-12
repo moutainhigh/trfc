@@ -98,6 +98,6 @@
 	<jsp:include page="../../common/base/footer_busi.jsp"></jsp:include>
 	<script type="text/javascript" src="${staticBasePath}/js/cardReader.js"></script>
 	<script type="text/javascript"
-		src="/javascript/businessManage/otherManage/otherDYArrive_add.js"></script>
+		src="/javascript/businessManage/otherManage/otherDYArrive_add.js?1211"></script>
 </body>
 </html>
