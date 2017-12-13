@@ -124,6 +124,19 @@ public class OtherArriveService implements IOtherArriveService {
 	@Override
 	public Result updateOperation(OtherArriveReq req) throws Exception {
 		Result rs = Result.getParamErrorResult();
+		//校验作废时如果通知单过一次磅或者过二次磅通知单就不能作废
+		if(req!=null && req.getStatus().equals(Constant.THREE_STRING)){
+			OtherArrive otherArrive = otherArriveMapper.selectByPrimaryKey(req.getId());
+			if (otherArrive!= null ){
+				if(otherArrive.getStatus().equals(Constant.ONE_STRING)||otherArrive.getStatus().equals(Constant.TWO_STRING)){
+					rs.setErrorCode(ErrorCode.NOTICE_YES_POUNDNOTE);
+					return rs;
+				}
+			}else{
+				rs.setErrorCode(ErrorCode.NOTICE_NOT_EXIST);
+				return rs;				
+			}
+		}
 		OtherArrive oa = new OtherArrive();
 		oa.setId(req.getId());
 		if(req!=null && StringUtils.isNotBlank(req.getId())){
