@@ -9,7 +9,7 @@ $(function() {
 			addDriver: '/trfc/driver/add',
 			vehicleAutoCompleteSearch: "/trfc/vehicle/autoCompleteSearch",
 			driverAutoCompleteSearch: "/trfc/driver/autoCompleteSearch",
-			materielAutoCompleteSearch: "/trfc/materiel/autoCompleteSearch",
+			materielAutoCompleteSearch: "/trfc/materiel/autoCompleteSearch1",
 			supplierAutoCompleteSearch: "/trfc/supplier/autoCompleteSearch",
 			warehouseAutoCompleteSearch: "/trfc/warehouse/autoCompleteSearch",
 	};
