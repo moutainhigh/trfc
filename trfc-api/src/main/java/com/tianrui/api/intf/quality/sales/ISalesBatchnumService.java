@@ -44,5 +44,10 @@ public interface ISalesBatchnumService {
 	 * 获取化验人下拉框数据
 	 */
 	Result assayerData() throws Exception;
-
+	
+	/**
+	 * 根据传入物料id和过磅量计算余量
+	 * Long()
+	 */
+	Result selectIdMargin(String material,Long weighed)throws Exception;
 	}
