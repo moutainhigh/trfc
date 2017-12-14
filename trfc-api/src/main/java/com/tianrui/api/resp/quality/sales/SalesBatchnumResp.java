@@ -108,6 +108,15 @@ public class SalesBatchnumResp extends BaseResp {
      * 修改时间
      */
     private Long modifytime;
+    
+    /**
+     * 过磅量
+     */
+    private Long weighed;
+    /**
+     * 余量
+     */
+    private Long margin;
 	public String getId() {
 		return id;
 	}
@@ -251,6 +260,18 @@ public class SalesBatchnumResp extends BaseResp {
 	}
 	public void setMaterialname(String materialname) {
 		this.materialname = materialname;
+	}
+	public Long getWeighed() {
+		return weighed;
+	}
+	public void setWeighed(Long weighed) {
+		this.weighed = weighed;
+	}
+	public Long getMargin() {
+		return margin;
+	}
+	public void setMargin(Long margin) {
+		this.margin = margin;
 	}
 
     

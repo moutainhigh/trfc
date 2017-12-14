@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import com.tianrui.api.intf.businessManage.report.IAllotPoundService;
 import com.tianrui.api.req.businessManage.report.InOutDaoPoundQuery;
+import com.tianrui.api.resp.businessManage.report.InOutDaoPoundMaterResp;
 import com.tianrui.api.resp.businessManage.report.InOutDaoPoundResp;
 import com.tianrui.service.bean.businessManage.report.InOutDaoPound;
 import com.tianrui.service.mapper.businessManage.report.InOutDaoPoundMapper;
@@ -144,6 +145,128 @@ public class AllotPoundService implements IAllotPoundService{
 				}
 			}
 		}
+		return rs;
+	}
+
+	@Override
+	public PaginationVO<InOutDaoPoundMaterResp> materPage(InOutDaoPoundQuery inOutDaoPoundQuery) throws Exception {
+		// TODO Auto-generated method stub
+		PaginationVO<InOutDaoPoundMaterResp> page = null;
+		if (inOutDaoPoundQuery != null) {
+			InOutDaoPound query = queryParam(inOutDaoPoundQuery, true);
+			if (query !=null) {
+				page = new PaginationVO<InOutDaoPoundMaterResp>();
+			}
+			//4表示厂内倒运
+			query.setBilltype("4");
+			//查询总条数
+			Long count = inOutDaoPoundMapper.countByConditionForMater(query);
+			if (count>0) {
+				page.setList(inOutDaoPoundMapper.selectByConditionForMater(query));
+			}
+			//返回结果参数补全
+			page.setPageNo(inOutDaoPoundQuery.getPageNo());
+			page.setPageSize(inOutDaoPoundQuery.getPageSize());
+			page.setTotal(count);
+		}
+		
+		
+		return page;
+	}
+
+	@Override
+	public List<InOutDaoPoundMaterResp> materList(InOutDaoPoundQuery inOutDaoPoundQuery) throws Exception {
+		// TODO Auto-generated method stub
+		List<InOutDaoPoundMaterResp> rs = null;
+		if (inOutDaoPoundQuery != null) {
+			InOutDaoPound query = queryParam(inOutDaoPoundQuery, true);
+			//4表示厂内倒运
+			query.setBilltype("4");
+			if (query !=null) {
+				rs = inOutDaoPoundMapper.selectByConditionForMater(query);
+			}
+		}
+		
+		return rs;
+	}
+
+	@Override
+	public PaginationVO<InOutDaoPoundMaterResp> materDCPage(InOutDaoPoundQuery inOutDaoPoundQuery) throws Exception {
+		PaginationVO<InOutDaoPoundMaterResp> page = null;
+		if (inOutDaoPoundQuery != null) {
+			InOutDaoPound query = queryParam(inOutDaoPoundQuery, true);
+			if (query !=null) {
+				page = new PaginationVO<InOutDaoPoundMaterResp>();
+			}
+			//4表示厂内倒运
+			query.setBilltype("4");
+			//查询总条数
+			Long count = inOutDaoPoundMapper.countByConditionForMaterDC(query);
+			if (count>0) {
+				page.setList(inOutDaoPoundMapper.selectByConditionForMaterDC(query));
+			}
+			//返回结果参数补全
+			page.setPageNo(inOutDaoPoundQuery.getPageNo());
+			page.setPageSize(inOutDaoPoundQuery.getPageSize());
+			page.setTotal(count);
+		}
+		
+		
+		return page;
+	}
+
+	@Override
+	public List<InOutDaoPoundMaterResp> materDCList(InOutDaoPoundQuery inOutDaoPoundQuery) throws Exception {
+		List<InOutDaoPoundMaterResp> rs = null;
+		if (inOutDaoPoundQuery != null) {
+			InOutDaoPound query = queryParam(inOutDaoPoundQuery, true);
+			//4表示厂内倒运
+			query.setBilltype("4");
+			if (query !=null) {
+				rs = inOutDaoPoundMapper.selectByConditionForMaterDC(query);
+			}
+		}
+		
+		return rs;
+	}
+
+	@Override
+	public PaginationVO<InOutDaoPoundMaterResp> materVehiclenoPage(InOutDaoPoundQuery inOutDaoPoundQuery) throws Exception {
+		PaginationVO<InOutDaoPoundMaterResp> page = null;
+		if (inOutDaoPoundQuery != null) {
+			InOutDaoPound query = queryParam(inOutDaoPoundQuery, true);
+			if (query !=null) {
+				page = new PaginationVO<InOutDaoPoundMaterResp>();
+			}
+			//4表示厂内倒运
+			query.setBilltype("4");
+			//查询总条数
+			Long count = inOutDaoPoundMapper.countByConditionForMaterVehicleno(query);
+			if (count>0) {
+				page.setList(inOutDaoPoundMapper.selectByConditionForMaterVehicleno(query));
+			}
+			//返回结果参数补全
+			page.setPageNo(inOutDaoPoundQuery.getPageNo());
+			page.setPageSize(inOutDaoPoundQuery.getPageSize());
+			page.setTotal(count);
+		}
+		
+		
+		return page;
+	}
+
+	@Override
+	public List<InOutDaoPoundMaterResp> materVehiclenoList(InOutDaoPoundQuery inOutDaoPoundQuery) throws Exception {
+		List<InOutDaoPoundMaterResp> rs = null;
+		if (inOutDaoPoundQuery != null) {
+			InOutDaoPound query = queryParam(inOutDaoPoundQuery, true);
+			//4表示厂内倒运
+			query.setBilltype("4");
+			if (query !=null) {
+				rs = inOutDaoPoundMapper.selectByConditionForMaterVehicleno(query);
+			}
+		}
+		
 		return rs;
 	}
 

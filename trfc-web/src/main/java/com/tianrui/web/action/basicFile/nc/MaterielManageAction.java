@@ -100,7 +100,23 @@ public class MaterielManageAction {
 		}
 		return list;
 	}
-	
+	/**
+	 * 物料查询（名字显示名字+规格）
+	 * @param term
+	 * @param type
+	 * @return
+	 */
+	@RequestMapping("/autoCompleteSearch1")
+	@ResponseBody
+	public List<MaterielManageResp> autoCompleteSearch1(String term,@RequestParam(value="type",required=false,defaultValue="")String type){
+		List<MaterielManageResp> list = null;
+		try {
+			list = materielManageService.autoCompleteSearch1(term.trim(),type.trim());
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+		}
+		return list;
+	}
 	@RequestMapping("/updateFromDc")
 	@ResponseBody
 	public Result updateFromDc(){

@@ -103,6 +103,11 @@ public class MaterielManageService implements IMaterielManageService {
 		return copyBeanList2RespList(materielManageMapper.autoCompleteSearch(likeName,type));
 	}
 	
+	@Override
+	public List<MaterielManageResp> autoCompleteSearch1(String likeName, String type) throws Exception {
+		// TODO Auto-generated method stub
+		return copyBeanList2RespList1(materielManageMapper.autoCompleteSearch(likeName,type));
+	}
 	private List<MaterielManageResp> copyBeanList2RespList(List<MaterielManage> list) throws Exception {
 		List<MaterielManageResp> listResp = null;
 		if(list != null && list.size() > 0){
@@ -114,6 +119,19 @@ public class MaterielManageService implements IMaterielManageService {
 		return listResp;
 	}
 	
+	private List<MaterielManageResp> copyBeanList2RespList1(List<MaterielManage> list) throws Exception {
+		List<MaterielManageResp> listResp = null;
+		if(list != null && list.size() > 0){
+			listResp = new ArrayList<MaterielManageResp>();
+			for(MaterielManage mater : list){
+				mater.setName(mater.getName()+mater.getSpec());
+				listResp.add(copyBean2Resp(mater));
+				
+			}
+
+		}
+		return listResp;
+	}
 	private MaterielManageResp copyBean2Resp(MaterielManage bean) throws Exception {
 		MaterielManageResp resp = null;
 		if(bean != null){
@@ -229,4 +247,6 @@ public class MaterielManageService implements IMaterielManageService {
 		List<HandSetReturnResp> list = materielManageMapper.handSetQueryAll(req);
 		return list;
 	}
+
+	
 }

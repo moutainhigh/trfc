@@ -169,7 +169,18 @@ public class VehicleManageAction {
 		}
 		return list;
 	}
-
+	//全部车辆
+	@RequestMapping("/autoCompleteSearch1")
+	@ResponseBody
+	public List<VehicleManageResp> autoCompleteSearch1(String term){
+		List<VehicleManageResp> list = null;
+		try {
+			list = vehicleManageService.autoCompleteSearch(null, term.trim(), null);
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+		}
+		return list;
+	}
     @RequestMapping("/autoCompleteNotBlackSearch")
     @ResponseBody
     public List<VehicleManageResp> autoCompleteNotBlackSearch(String term){

@@ -292,6 +292,6 @@
 <jsp:include page="../../common/base/footer_busi.jsp"></jsp:include>
 <script type="text/javascript" src="${staticBasePath}/js/cardReader.js"></script>
 <script type="text/javascript"
-		src="/javascript/businessManage/otherManage/otherRKArrive_add.js"></script>
+		src="/javascript/businessManage/otherManage/otherRKArrive_add.js?20171213"></script>
 </body>
 </html>

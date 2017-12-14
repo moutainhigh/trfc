@@ -1,11 +1,14 @@
 package com.tianrui.web.action.quality.file;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -15,6 +18,7 @@ import com.tianrui.api.intf.quality.file.IQualitySchemeItemService;
 import com.tianrui.api.intf.quality.file.IQualitySchemeService;
 import com.tianrui.api.req.quality.file.QualitySchemeItemReq;
 import com.tianrui.api.req.quality.file.QualitySchemeReq;
+import com.tianrui.api.resp.basicFile.nc.MaterielManageResp;
 import com.tianrui.smartfactory.common.constants.ErrorCode;
 import com.tianrui.smartfactory.common.vo.Result;
 
@@ -277,7 +281,7 @@ public class QualitySchemeAction {
 	 */
 	@RequestMapping("/autoCompleteSearch")
 	@ResponseBody
-	public Result autoCompleteSearch(String term,String type){
+	public Result autoCompleteSearch(String term,@RequestParam(value="type",required=false,defaultValue="")String type){
 		Result rs = Result.getErrorResult();
 		try {
 			rs = qualitySchemeService.autoCompleteSearch(term.trim(), type.trim());
@@ -302,4 +306,5 @@ public class QualitySchemeAction {
 		}
 		return rs;
 	}
+	
 }
