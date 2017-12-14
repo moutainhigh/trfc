@@ -1100,7 +1100,7 @@ public class SalesArriveService implements ISalesArriveService {
 			}
 			api.setServicetype(listPurchase.get(0).getType());
 			api.setNotionformcode(listPurchase.get(0).getCode());
-			api.setMinemouth(application.getMinemouthname());
+			api.setMinemouth(application.getMinemouthname()== null ? "" :application.getMinemouthname());
 			api.setNumber(listPurchase.get(0).getArrivalamount() == null ? "" : listPurchase.get(0).getArrivalamount().toString());
 			api.setStatus(listPurchase.get(0).getStatus());
 			api.setSignStatus(listPurchase.get(0).getSignStatus()== null ? 0 : listPurchase.get(0).getSignStatus());
