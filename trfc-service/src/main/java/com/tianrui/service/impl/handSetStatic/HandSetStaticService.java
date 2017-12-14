@@ -151,6 +151,7 @@ public class HandSetStaticService implements IHandSetStaticService {
             PrimarySetting record = new PrimarySetting();
             record.setMaterialid(applicationDetail.getMaterielid());
             record.setSupplierid(application.getSupplierid());
+            record.setIsvalid(Constant.ONE_STRING);
             List<PrimarySetting> list = primarySettingMapper.selectSelective(record);
             if(CollectionUtils.isNotEmpty(list)) {
                 resp.setIsPrimary(Constant.ONE_STRING);

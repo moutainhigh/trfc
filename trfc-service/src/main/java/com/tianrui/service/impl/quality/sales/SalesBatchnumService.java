@@ -313,6 +313,34 @@ public class SalesBatchnumService implements ISalesBatchnumService {
 		Result rs = Result.getSuccessResult();
 		rs.setData(resps);
 		return rs;
+	}
+	/**
+	 * 根据物料id和过磅量计算余量
+	 */
+	@Override
+	public Result selectIdMargin(String material, Long weighed) throws Exception {
+		// TODO Auto-generated method stub
+		Result rs = Result.getSuccessResult();
+		SalesBatchnum s = new SalesBatchnum();
+		s.setMaterial(material);
+		s.setAuditstate("1");
+		s.setBillsstate("1");
+		s.setTeststate("1");
+		SalesBatchnum salesBatchnum  =salesBatchnumMapper.selectIdMargin(s);
+		if(salesBatchnum!=null){
+			salesBatchnum.setMargin(salesBatchnum.getCount()-weighed);
+			salesBatchnum.setWeighed(weighed);
+			int a =salesBatchnumMapper.updateByPrimaryKeySelective(salesBatchnum);
+			if(a!=1){
+				rs.setCode("222222");
+				rs.setError("修改失败！");
+			}
+			rs.setData(salesBatchnum.getFactorycode());
+		}else{
+			rs.setCode("111111");
+			rs.setError("未查到信息！请核对物料id、审核状态、单据状态！");
+		}
+		return rs;
 	}	
 
 }

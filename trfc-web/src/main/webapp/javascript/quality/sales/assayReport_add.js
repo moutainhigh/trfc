@@ -16,7 +16,7 @@ var URL = {
 		//获取详情和检测值
 		getDetailAndVal:"/trfc/quality/sales/report/getDetailAndVal",
 		//下拉框
-		qschemeAutoCompleteSearch: "/trfc/quality/sales/file/qualityScheme/	",
+		qschemeAutoCompleteSearch: "/trfc/quality/sales/file/qualityScheme/autoCompleteSearch",
 		materialAutoCompleteSearch: "/trfc/materiel/autoCompleteSearch",
 		mschemeAutoCompleteSearch: "/trfc/quality/sales/file/MaterialScheme/autoCompleteSearch",
 		//根据物料查询

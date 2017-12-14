@@ -21,6 +21,7 @@ import com.tianrui.api.req.android.NoticeListParam;
 import com.tianrui.api.req.android.NoticeSave;
 import com.tianrui.api.req.android.SearchKeyParam;
 import com.tianrui.smartfactory.common.api.ApiParam;
+import com.tianrui.smartfactory.common.api.Head;
 import com.tianrui.smartfactory.common.constants.ErrorCode;
 import com.tianrui.smartfactory.common.vo.AppResult;
 import com.tianrui.web.smvc.ApiParamRawType;
@@ -381,7 +382,22 @@ public class AppPurchaseStaticAction {
 	@ResponseBody
 	public AppResult materialSearch(ApiParam<SearchKeyParam> param){
 		AppResult result = AppResult.getAppResult();
-		try {
+		if(param != null && param.getHead() != null){
+			Head head = param.getHead();	
+			String idType = head.getIDType();
+			if(idType!=null){
+				if(param.getBody()!=null){
+					SearchKeyParam body = param.getBody();
+					body.setBusinesstype(idType);
+					result = appService.materialSearch(body);
+				}
+			}else{
+				result.setErrorCode(ErrorCode.PARAM_NULL_ERROR);
+			}
+		}else{
+			result.setErrorCode(ErrorCode.PARAM_NULL_ERROR);
+		}
+		try {			
 			result = appService.materialSearch(param.getBody());
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);

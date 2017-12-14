@@ -53,5 +53,7 @@ public interface SalesBatchnumMapper {
      * 下拉框自动搜索
      */
     List<SalesBatchnum> autoCompleteSearch(@Param("likeName")String likeName);
+    
+    SalesBatchnum selectIdMargin(SalesBatchnum s);
 
 }

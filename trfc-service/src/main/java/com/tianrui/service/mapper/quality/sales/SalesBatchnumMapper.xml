@@ -26,13 +26,22 @@
 		<result column="modifier" jdbcType="VARCHAR" property="modifier" />
 		<result column="modifytime" jdbcType="BIGINT" property="modifytime" />
 		<result column="utc" jdbcType="BIGINT" property="utc" />
+		<result column="weighed" jdbcType="BIGINT" property="weighed" />
+		<result column="margin" jdbcType="BIGINT" property="margin" />
 	</resultMap>
 	<sql id="Base_Column_List">
 		id, material, code, factorycode, count, producedtime, testtime, remark,
 		auditstate,
 		billsstate, teststate, audittime, auditer, assayer, assaytime, assayorg,
 		starttime,
-		endtime, creator, createtime, modifier, modifytime, utc
+		endtime, creator, createtime, modifier, modifytime, utc,weighed,margin
+	</sql>
+	<sql id="Base_Column_listIm">
+		id, material, code, factorycode, count, producedtime, testtime, remark,
+		auditstate,
+		billsstate, teststate, audittime, auditer, assayer, assaytime, assayorg,
+		starttime,
+		endtime, creator, MIN(createtime), modifier, modifytime, utc,weighed,margin
 	</sql>
 	<select id="selectByPrimaryKey" parameterType="java.lang.String"
 		resultMap="BaseResultMap">
@@ -54,7 +63,7 @@
 		auditer, assayer, assaytime,
 		assayorg, starttime, endtime,
 		creator, createtime, modifier,
-		modifytime, utc)
+		modifytime, utc,weighed,margin)
 		values (#{id,jdbcType=VARCHAR}, #{material,jdbcType=VARCHAR},
 		#{code,jdbcType=VARCHAR},
 		#{factorycode,jdbcType=VARCHAR}, #{count,jdbcType=BIGINT}, #{producedtime,jdbcType=BIGINT},
@@ -66,7 +75,7 @@
 		#{assayorg,jdbcType=VARCHAR}, #{starttime,jdbcType=BIGINT}, #{endtime,jdbcType=BIGINT},
 		#{creator,jdbcType=VARCHAR}, #{createtime,jdbcType=BIGINT},
 		#{modifier,jdbcType=VARCHAR},
-		#{modifytime,jdbcType=BIGINT}, #{utc,jdbcType=BIGINT})
+		#{modifytime,jdbcType=BIGINT}, #{utc,jdbcType=BIGINT},#{weighed,jdbcType=BIGINT},#{margin,jdbcType=BIGINT})
 	</insert>
 	<insert id="insertSelective"
 		parameterType="com.tianrui.service.bean.quality.sales.SalesBatchnum">
@@ -141,6 +150,12 @@
 			<if test="utc != null">
 				utc,
 			</if>
+			<if test="weighed != null">
+				weighed,
+			</if>
+			<if test="margin != null">
+				margin,
+			</if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="id != null">
@@ -211,6 +226,12 @@
 			</if>
 			<if test="utc != null">
 				#{utc,jdbcType=BIGINT},
+			</if>
+			<if test="weighed != null">
+				#{weighed,jdbcType=BIGINT},
+			</if>
+			<if test="margin != null">
+				#{margin,jdbcType=BIGINT},
 			</if>
 		</trim>
 	</insert>
@@ -284,6 +305,12 @@
 			<if test="utc != null">
 				utc = #{utc,jdbcType=BIGINT},
 			</if>
+			<if test="weighed != null">
+				weighed = #{weighed,jdbcType=BIGINT},
+			</if>
+			<if test="margin != null">
+				margin = #{margin,jdbcType=BIGINT},
+			</if>
 		</set>
 		where id = #{id,jdbcType=VARCHAR}
 	</update>
@@ -311,7 +338,9 @@
 		createtime = #{createtime,jdbcType=BIGINT},
 		modifier = #{modifier,jdbcType=VARCHAR},
 		modifytime = #{modifytime,jdbcType=BIGINT},
-		utc = #{utc,jdbcType=BIGINT}
+		utc = #{utc,jdbcType=BIGINT},
+		weighed = #{weighed,jdbcType=BIGINT},
+		margin = #{margin,jdbcType=BIGINT}
 		where id = #{id,jdbcType=VARCHAR}
 	</update>
 
@@ -324,7 +353,7 @@
 		assaytime, assayorg, starttime,
 		endtime,
 		creator, createtime,
-		modifier, modifytime, utc)
+		modifier, modifytime, utc,weighed,margin)
 		values
 		<foreach collection="list" index="index" item="item"
 			separator=",">
@@ -343,7 +372,9 @@
 			#{item.createtime,jdbcType=BIGINT},
 			#{item.modifier,jdbcType=VARCHAR},
 			#{item.modifytime,jdbcType=BIGINT},
-			#{item.utc,jdbcType=BIGINT}
+			#{item.utc,jdbcType=BIGINT},
+			#{item.weighed,jdbcType=BIGINT},
+			#{item.margin,jdbcType=BIGINT}
 			)
 		</foreach>
 	</insert>
@@ -423,5 +454,24 @@
 		<include refid="Base_Column_List" />
 		from tr_sales_db_batch_num
 		where factorycode = #{factorycode,jdbcType=VARCHAR}
+	</select>
+	<select id="selectIdMargin" parameterType="com.tianrui.service.bean.quality.sales.SalesBatchnum" resultMap="BaseResultMap">
+		select 
+		<include refid="Base_Column_listIm" />
+		from tr_sales_db_batch_num 
+		<where>1=1
+			<if test="material!=null and material!=''">
+				and	material=#{material,jdbcType=VARCHAR}
+			</if>
+			<if test="auditstate!=null and auditstate!=''">
+				and auditstate=#{auditstate,jdbcType=VARCHAR}
+			</if>
+			<if test="billsstate!=null and billsstate!=''">
+				and billsstate=#{billsstate,jdbcType=VARCHAR} 
+			</if>
+			<if test="teststate!=null and teststate!=''">
+				and teststate=#{teststate,jdbcType=VARCHAR}  
+			</if>
+		</where>
 	</select>
 </mapper>

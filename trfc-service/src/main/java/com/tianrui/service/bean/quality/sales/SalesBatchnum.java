@@ -98,7 +98,15 @@ public class SalesBatchnum {
      * 审核人
      */
     private String auditer;
-
+    
+    /**
+     * 过磅量
+     */
+    private Long weighed;
+    /**
+     * 余量
+     */
+    private Long margin;
     public String getId() {
         return id;
     }
@@ -283,6 +291,22 @@ public class SalesBatchnum {
         this.utc = utc;
     }
 
+	public Long getWeighed() {
+		return weighed;
+	}
+
+	public void setWeighed(Long weighed) {
+		this.weighed = weighed;
+	}
+
+	public Long getMargin() {
+		return margin;
+	}
+
+	public void setMargin(Long margin) {
+		this.margin = margin;
+	}
+
 	@Override
 	public String toString() {
 		return "SalesBatchnum [id=" + id + ", material=" + material + ", code=" + code + ", factorycode=" + factorycode
@@ -291,7 +315,18 @@ public class SalesBatchnum {
 				+ ", audittime=" + audittime + ", assayer=" + assayer + ", assaytime=" + assaytime + ", assayorg="
 				+ assayorg + ", starttime=" + starttime + ", endtime=" + endtime + ", creator=" + creator
 				+ ", createtime=" + createtime + ", modifier=" + modifier + ", modifytime=" + modifytime + ", utc="
-				+ utc + "]";
+				+ utc + ", auditer=" + auditer + ", weighed=" + weighed + ", margin=" + margin + "]";
 	}
+    
+//	@Override
+//	public String toString() {
+//		return "SalesBatchnum [id=" + id + ", material=" + material + ", code=" + code + ", factorycode=" + factorycode
+//				+ ", count=" + count + ", producedtime=" + producedtime + ", testtime=" + testtime + ", remark="
+//				+ remark + ", auditstate=" + auditstate + ", billsstate=" + billsstate + ", teststate=" + teststate
+//				+ ", audittime=" + audittime + ", assayer=" + assayer + ", assaytime=" + assaytime + ", assayorg="
+//				+ assayorg + ", starttime=" + starttime + ", endtime=" + endtime + ", creator=" + creator
+//				+ ", createtime=" + createtime + ", modifier=" + modifier + ", modifytime=" + modifytime + ", utc="
+//				+ utc + "]";
+//	}
     
 }

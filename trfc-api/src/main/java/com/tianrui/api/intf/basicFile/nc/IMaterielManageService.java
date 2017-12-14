@@ -67,6 +67,15 @@ public interface IMaterielManageService {
 	 */
 	List<MaterielManageResp> autoCompleteSearch(String likeName,String type) throws Exception;
 	/**
+	 * @Description 根据名称模糊查询(物料名字带规格)
+	 * @author zhanggaohao
+	 * @version 2017年2月25日 上午10:28:01
+	 * @param likeName
+	 * @return
+	 * @throws Exception
+	 */
+	List<MaterielManageResp> autoCompleteSearch1(String likeName,String type) throws Exception;
+	/**
 	 * @Description app物料列表
 	 * @author zhanggaohao
 	 * @version 2017年4月25日 上午9:39:33

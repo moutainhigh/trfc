@@ -525,6 +525,9 @@
 		<if test="key != null and key != ''">
 			and name like CONCAT('%', #{key,jdbcType=VARCHAR}, '%')
 		</if>
+		<if test="businesstype != null and businesstype != ''">
+  			and businesstype = #{businesstype,jdbcType=VARCHAR}
+  		</if>
 		ORDER BY createtime DESC
 		limit 0, #{pageSize,jdbcType=INTEGER}
 	</select>
