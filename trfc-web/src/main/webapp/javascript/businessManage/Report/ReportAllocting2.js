@@ -267,6 +267,38 @@ function preview()
     window.document.body.innerHTML=prnhtml;
     window.print();
 }
+function preview1()
+{
+    bdhtml=window.document.body.innerHTML;
+    sprnstr="<!--startprint1-->";
+    eprnstr="<!--endprint1-->";
+    prnhtml=bdhtml.substr(bdhtml.indexOf(sprnstr)+17);
+    prnhtml=prnhtml.substring(0,prnhtml.indexOf(eprnstr));
+    window.document.body.innerHTML=prnhtml;
+    window.print();
+}
+function preview2()
+{
+    bdhtml=window.document.body.innerHTML;
+    sprnstr="<!--startprint2-->";
+    eprnstr="<!--endprint2-->";
+    prnhtml=bdhtml.substr(bdhtml.indexOf(sprnstr)+17);
+    prnhtml=prnhtml.substring(0,prnhtml.indexOf(eprnstr));
+    window.document.body.innerHTML=prnhtml;
+    window.print();
+}
+function preview3()
+{
+    bdhtml=window.document.body.innerHTML;
+    sprnstr="<!--startprint3-->";
+    eprnstr="<!--endprint3-->";
+    prnhtml=bdhtml.substr(bdhtml.indexOf(sprnstr)+17);
+    prnhtml=prnhtml.substring(0,prnhtml.indexOf(eprnstr));
+    window.document.body.innerHTML=prnhtml;
+    window.print();
+}
+
+
 
 $('#yearNow').off('click').on('click',function(){
 	  var date = new Date();
@@ -333,6 +365,7 @@ function Clock1() {
     };
 }
 //条件搜索
+bbgClick();
 function bbgClick(){
     var bbg_gys=document.getElementById("bbg_gys").value;
     var gys=document.getElementById("gys").value;
@@ -341,6 +374,9 @@ function bbgClick(){
     var clock2=document.getElementById("clock2").value;
     var bbg_cph=document.getElementById("bbg_cph").value;
     var bbg_tiaojian1=document.querySelector(".bbg_tiaojian1");
+    var bbg_tiaojian2=document.querySelector(".bbg_tiaojian2");
+    var bbg_tiaojian3=document.querySelector(".bbg_tiaojian3");
+    var bbg_tiaojian4=document.querySelector(".bbg_tiaojian4");
     var str="";
     if(bbg_gys!=""){
         str+="客户姓名："+bbg_gys+" ";
@@ -350,17 +386,14 @@ function bbgClick(){
     }else if(bbg_sjn!=""){
         str+="司机姓名：："+bbg_sjn+" ";
     }
-   /* if(clock1!=""){
-        str+="开始时间："+clock1+" ";
-    }
-    if(clock2!=""){
-        str+="结束时间："+clock2+" ";
-    }*/
     if(bbg_cph!=""){
         str+="车号："+bbg_cph+" ";
     }
     
     bbg_tiaojian1.innerHTML=str; 
+    bbg_tiaojian2.innerHTML=str;
+    bbg_tiaojian3.innerHTML=str;
+    bbg_tiaojian4.innerHTML=str;
 }
 
 //页面时间
@@ -368,10 +401,28 @@ var clock1 = new Clock();
 clock1.display(document.getElementById("clock1"));
 var clock2 = new Clock();
 clock2.display(document.getElementById("clock2"));
+var clock3 = new Clock();
+clock3.display(document.querySelector(".clock3"));
+var clock4 = new Clock();
+clock4.display(document.querySelector(".clock4"));
+var clock5 = new Clock1();
+clock5.display(document.querySelector(".clock5"));
 var clock6 = new Clock();
 clock6.display(document.querySelector(".clock6"));
 var clock7 = new Clock();
 clock7.display(document.querySelector(".clock7"));
 var clock8 = new Clock1();
 clock8.display(document.querySelector(".clock8"));
+var clock9 = new Clock();
+clock9.display(document.querySelector(".clock9"));
+var clock10 = new Clock();
+clock10.display(document.querySelector(".clock10"));
+var clock11 = new Clock1();
+clock11.display(document.querySelector(".clock11"));
+var clock12 = new Clock();
+clock12.display(document.querySelector(".clock12"));
+var clock13 = new Clock();
+clock13.display(document.querySelector(".clock13"));
+var clock14 = new Clock1();
+clock14.display(document.querySelector(".clock14"));
 
