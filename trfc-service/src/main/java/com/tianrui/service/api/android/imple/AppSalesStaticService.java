@@ -19,6 +19,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.tianrui.api.intf.api.android.imple.IAppSalesStaticService;
 import com.tianrui.api.intf.basicFile.finance.IPrmTariffService;
 import com.tianrui.api.intf.businessManage.purchaseManage.IPushSingleService;
+import com.tianrui.api.intf.system.auth.ISmUserService;
 import com.tianrui.api.intf.system.auth.ISystemUserService;
 import com.tianrui.api.intf.system.base.ISystemCodeService;
 import com.tianrui.api.req.android.BillListParam;
@@ -42,6 +43,7 @@ import com.tianrui.api.resp.android.UserDriverVo;
 import com.tianrui.api.resp.android.UserVehicleVo;
 import com.tianrui.api.resp.businessManage.salesManage.SalesApplicationDetailResp;
 import com.tianrui.api.resp.businessManage.salesManage.SalesApplicationResp;
+import com.tianrui.api.resp.system.auth.SmUserResp;
 import com.tianrui.api.resp.system.auth.SystemUserResp;
 import com.tianrui.api.resp.system.merchants.AppCutoverGroup;
 import com.tianrui.service.bean.basicFile.finance.PrmTariff;
@@ -59,7 +61,6 @@ import com.tianrui.service.bean.businessManage.salesManage.SalesArrive;
 import com.tianrui.service.bean.common.UserDriver;
 import com.tianrui.service.bean.common.UserVehicle;
 import com.tianrui.service.bean.system.auth.Organization;
-import com.tianrui.service.bean.system.auth.SmUser;
 import com.tianrui.service.bean.system.auth.SystemUser;
 import com.tianrui.service.bean.system.merchants.CustomerGroup;
 import com.tianrui.service.mapper.basicFile.measure.DriverManageMapper;
@@ -77,7 +78,6 @@ import com.tianrui.service.mapper.businessManage.salesManage.SalesArriveMapper;
 import com.tianrui.service.mapper.common.UserDriverMapper;
 import com.tianrui.service.mapper.common.UserVehicleMapper;
 import com.tianrui.service.mapper.system.auth.OrganizationMapper;
-import com.tianrui.service.mapper.system.auth.SmUserMapper;
 import com.tianrui.service.mapper.system.auth.SystemUserclientMapper;
 import com.tianrui.service.mapper.system.merchants.CustomerGroupMapper;
 import com.tianrui.smartfactory.common.api.ApiResult;
@@ -133,11 +133,11 @@ public class AppSalesStaticService implements IAppSalesStaticService {
 	@Autowired
 	private ISystemUserService systemUserService;
 	@Autowired
-	private SmUserMapper smUserMapper;
-	@Autowired
 	private WarehouseManageMapper warehouseManageMapper;
 	@Autowired
 	private IPrmTariffService prmTariffService;
+	@Autowired
+	private ISmUserService smUserService;
 	
 	@Override
 	public AppResult home(HomePageParam param) {
@@ -283,31 +283,28 @@ public class AppSalesStaticService implements IAppSalesStaticService {
 		PropertyUtils.copyProperties(sar, sa);
 		SalesApplicationDetailResp sadr = new SalesApplicationDetailResp(); 
 		PropertyUtils.copyProperties(sadr, sad);
-		
-		List<SmUser> smUserList = null;
-		smUserList = getSmUser(sar.getAuditid());
-		if(CollectionUtils.isNotEmpty(smUserList)){
-			sar.setAuditid(smUserList.get(0).getId());
+		List<SmUserResp> list = smUserService.listByCache();
+		SmUserResp resp = getSmUser(sar.getAuditid(), list);
+		if (resp != null) {
+			sar.setAuditid(resp.getId());
 		}
-		smUserList = getSmUser(sar.getMakerid());
-		if(CollectionUtils.isNotEmpty(smUserList)){
-			sar.setMakerid(smUserList.get(0).getId());
+		resp = getSmUser(sar.getMakerid(), list);
+		if(resp != null){
+			sar.setMakerid(resp.getId());
 		}
-		smUserList = getSmUser(sar.getCreator());
-		if(CollectionUtils.isNotEmpty(smUserList)){
-			sar.setCreator(smUserList.get(0).getId());
+		resp = getSmUser(sar.getCreator(), list);
+		if(resp != null){
+			sar.setCreator(resp.getId());
 		}
-		smUserList = getSmUser(sar.getModifier());
-		if(CollectionUtils.isNotEmpty(smUserList)){
-			sar.setModifier(smUserList.get(0).getId());
+		resp = getSmUser(sar.getModifier(), list);
+		if(resp != null){
+			sar.setModifier(resp.getId());
 		}
-		
 		List<SalesApplicationResp> sarList = new ArrayList<SalesApplicationResp>();
 		List<SalesApplicationDetailResp> sadrList = new ArrayList<SalesApplicationDetailResp>();
 		sadrList.add(sadr);
 		sar.setList(sadrList);
 		sarList.add(sar);
-		
 		ApiResult apiResult = HttpUtils.post(ApiParamUtils.getApiParam(sarList), Constant.URL_DOMAIN + Constant.URL_RETURN_SALESAPPLICATION);
 		PushSingleReq ps = new PushSingleReq();
 		ps.setId(UUIDUtil.getId());
@@ -333,15 +330,18 @@ public class AppSalesStaticService implements IAppSalesStaticService {
 		pushSingleService.savePushSingle(ps);
 	}
 
-	private List<SmUser> getSmUser(String id) throws Exception {
-		List<SmUser> smUserList = null;
-		SystemUserResp user = systemUserService.getUser(id);
-		if(user != null){
-			SmUser smUser = new SmUser();
-			smUser.setCode(user.getCode());
-			smUserList = smUserMapper.selectSelective(smUser);
+	private SmUserResp getSmUser(String id, List<SmUserResp> list) throws Exception {
+		if (CollectionUtils.isNotEmpty(list)) {
+			SystemUserResp user = systemUserService.getUser(id);
+			if(user != null){
+				for (SmUserResp smUserResp : list) {
+					if (StringUtils.equals(user.getCode(), smUserResp.getCode())) {
+						return smUserResp;
+					}
+				}
+			}
 		}
-		return smUserList;
+		return null;
 	}
 
 	private SalesApplication setSalesApplication(BillSave param, SystemUser user, VehicleManage vehicle) throws Exception {

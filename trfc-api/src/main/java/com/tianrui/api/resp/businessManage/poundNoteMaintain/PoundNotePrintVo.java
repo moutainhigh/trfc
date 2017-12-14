@@ -23,8 +23,8 @@ public class PoundNotePrintVo extends BaseResp {
     private String vehicle;
     //产品名称
     private String material;
-    //业务类型
-    private String type;
+    //订单类型
+    private String billType;
     //皮重时间
     private String tareTime;
     //皮重
@@ -37,6 +37,9 @@ public class PoundNotePrintVo extends BaseResp {
     private String netWeight;
     //净重大写
     private String netWeightBig;
+    //业务类型
+    private String type;
+    
     public String getBillCode() {
         return billCode;
     }
@@ -91,11 +94,11 @@ public class PoundNotePrintVo extends BaseResp {
     public void setMaterial(String material) {
         this.material = material;
     }
-    public String getType() {
-        return type;
+    public String getBillType() {
+        return billType;
     }
-    public void setType(String type) {
-        this.type = type;
+    public void setBillType(String billType) {
+        this.billType = billType;
     }
     public String getTareTime() {
         return tareTime;
@@ -133,15 +136,22 @@ public class PoundNotePrintVo extends BaseResp {
     public void setNetWeightBig(String netWeightBig) {
         this.netWeightBig = netWeightBig;
     }
-    public static long getSerialversionuid() {
+    public String getType() {
+		return type;
+	}
+	public void setType(String type) {
+		this.type = type;
+	}
+	public static long getSerialversionuid() {
         return serialVersionUID;
     }
     @Override
-    public String toString() {
-        return "PoundNotePrintVo [billCode=" + billCode + ", noticeCode=" + noticeCode + ", poundNoteCode="
-                + poundNoteCode + ", unit=" + unit + ", customer=" + customer + ", carrierUnit=" + carrierUnit
-                + ", sendDept=" + sendDept + ", vehicle=" + vehicle + ", material=" + material + ", type=" + type
-                + ", tareTime=" + tareTime + ", tareWeight=" + tareWeight + ", grossTime=" + grossTime
-                + ", grossWeight=" + grossWeight + ", netWeight=" + netWeight + ", netWeightBig=" + netWeightBig + "]";
-    }
+	public String toString() {
+		return "PoundNotePrintVo [billCode=" + billCode + ", noticeCode=" + noticeCode + ", poundNoteCode="
+				+ poundNoteCode + ", unit=" + unit + ", customer=" + customer + ", carrierUnit=" + carrierUnit
+				+ ", sendDept=" + sendDept + ", vehicle=" + vehicle + ", material=" + material + ", billType="
+				+ billType + ", tareTime=" + tareTime + ", tareWeight=" + tareWeight + ", grossTime=" + grossTime
+				+ ", grossWeight=" + grossWeight + ", netWeight=" + netWeight + ", netWeightBig=" + netWeightBig
+				+ ", type=" + type + "]";
+	}
 }
