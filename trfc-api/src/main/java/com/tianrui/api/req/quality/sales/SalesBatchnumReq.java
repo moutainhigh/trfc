@@ -100,6 +100,15 @@ public class SalesBatchnumReq extends BaseReq {
 	 * 新增需保存的物料数据
 	 */
     private String arrStr;
+    
+    /**
+     * 过磅量
+     */
+    private Long weighed;
+    /**
+     * 余量
+     */
+    private Long margin;
 	public int getLimit() {
 		return limit;
 	}
@@ -233,6 +242,18 @@ public class SalesBatchnumReq extends BaseReq {
 	public void setArrStr(String arrStr) {
 		this.arrStr = arrStr;
 	}
+	public Long getWeighed() {
+		return weighed;
+	}
+	public void setWeighed(Long weighed) {
+		this.weighed = weighed;
+	}
+	public Long getMargin() {
+		return margin;
+	}
+	public void setMargin(Long margin) {
+		this.margin = margin;
+	}
 	@Override
 	public String toString() {
 		return "SalesBatchnumReq [id=" + id + ", material=" + material + ", code=" + code + ", factorycode="
@@ -240,8 +261,10 @@ public class SalesBatchnumReq extends BaseReq {
 				+ ", remark=" + remark + ", auditstate=" + auditstate + ", billsstate=" + billsstate + ", teststate="
 				+ teststate + ", audittime=" + audittime + ", assayer=" + assayer + ", assaytime=" + assaytime
 				+ ", assayorg=" + assayorg + ", starttime=" + starttime + ", endtime=" + endtime + ", user=" + user
-				+ ", createtime=" + createtime + ", limit=" + limit + ", start=" + start + ", arrStr=" + arrStr + "]";
+				+ ", createtime=" + createtime + ", limit=" + limit + ", start=" + start + ", arrStr=" + arrStr
+				+ ", weighed=" + weighed + ", margin=" + margin + "]";
 	}
+
 
 
 	
