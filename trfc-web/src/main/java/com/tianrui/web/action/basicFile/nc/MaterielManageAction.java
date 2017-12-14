@@ -100,7 +100,12 @@ public class MaterielManageAction {
 		}
 		return list;
 	}
-	
+	/**
+	 * 物料查询（名字显示名字+规格）
+	 * @param term
+	 * @param type
+	 * @return
+	 */
 	@RequestMapping("/autoCompleteSearch1")
 	@ResponseBody
 	public List<MaterielManageResp> autoCompleteSearch1(String term,@RequestParam(value="type",required=false,defaultValue="")String type){
