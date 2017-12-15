@@ -68,6 +68,8 @@ public class ApiNoticeResp extends BaseResp {
     private String isDontFill="0";
     //无需补包审批状态 0：未审批，1：已审批
     private String dontFillStatus="0";
+    //供应商备注
+    private String supRemark="";
 	
 	public String getVehicleno() {
 		return vehicleno;
@@ -212,6 +214,12 @@ public class ApiNoticeResp extends BaseResp {
 	}
 	public void setDontFillStatus(String dontFillStatus) {
 		this.dontFillStatus = dontFillStatus;
+	}
+	public String getSupRemark() {
+		return supRemark;
+	}
+	public void setSupRemark(String supRemark) {
+		this.supRemark = supRemark;
 	}
 	public static long getSerialversionuid() {
 		return serialVersionUID;
