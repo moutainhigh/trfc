@@ -109,6 +109,7 @@
 	FROM
 		v_report_purchase1
 	 <where>
+	 	netweight>0
    		<if test="beginTimeLong != null and beginTimeLong != 0L ">
 			and billtime <![CDATA[>]]> #{beginTimeLong,jdbcType=BIGINT}
 		</if>
@@ -166,6 +167,7 @@
 	FROM
 		v_report_purchase1
 	 <where>
+		 netweight>0
    		<if test="beginTimeLong != null and beginTimeLong != 0L ">
 			and billtime <![CDATA[>]]> #{beginTimeLong,jdbcType=BIGINT}
 		</if>
@@ -258,6 +260,7 @@
     from v_report_purchase1
    	<where>
    		status='1'
+   		and netweight>0
    		<if test="beginTimeLong != null and beginTimeLong != 0L ">
 			and billtime <![CDATA[>]]> #{beginTimeLong,jdbcType=BIGINT}
 		</if>
@@ -302,7 +305,7 @@
    		count(1)
     from v_report_purchase1
   	<where>
-  	    
+  	    netweight>0
    		<if test="beginTimeLong != null and beginTimeLong != 0L ">
 			and billtime <![CDATA[>]]> #{beginTimeLong,jdbcType=BIGINT}
 		</if>
@@ -347,6 +350,7 @@
 			remark
 	    from v_report_purchase1
 	  	<where>
+	  	netweight>0
 	   		<if test="beginTimeLong != null and beginTimeLong != 0L ">
 				and billtime <![CDATA[>]]> #{beginTimeLong,jdbcType=BIGINT}
 			</if>
@@ -400,6 +404,7 @@
 			materialname
 	    from v_report_purchase1
 	  	<where>
+	  	netweight>0
 	   		<if test="beginTimeLong != null and beginTimeLong != 0L ">
 				and billtime <![CDATA[>]]> #{beginTimeLong,jdbcType=BIGINT}
 			</if>
@@ -482,6 +487,7 @@
     from v_report_purchase1
   	<where>
   	    status='1'
+  	    and netweight>0
    		<if test="beginTimeLong != null and beginTimeLong != 0L ">
 			and billtime <![CDATA[>]]> #{beginTimeLong,jdbcType=BIGINT}
 		</if>
