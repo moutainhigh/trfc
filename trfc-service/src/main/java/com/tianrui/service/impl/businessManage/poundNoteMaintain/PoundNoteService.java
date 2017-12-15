@@ -2493,6 +2493,7 @@ public class PoundNoteService implements IPoundNoteService {
                 vo.setGrossWeight(pn.getGrossweight().toString());
                 vo.setNetWeight(pn.getNetweight().toString());
                 vo.setNetWeightBig(NumberUtils.numberUpper(vo.getNetWeight()));
+                vo.setType(pn.getBilltype());
                 //采购（到货/退货）
                 if (StringUtils.equals(pn.getBilltype(), Constant.ZERO_STRING) 
                         || StringUtils.equals(pn.getBilltype(), Constant.ONE_STRING)) {
@@ -2500,7 +2501,7 @@ public class PoundNoteService implements IPoundNoteService {
                         PurchaseApplication pa = purchaseApplicationMapper.selectByPrimaryKey(pn.getBillid());
                         vo.setCustomer(Constant.ORG_NAME);
                         vo.setSendDept(pa.getSuppliername());
-                        vo.setType(pa.getBilltypename());
+                        vo.setBillType(pa.getBilltypename());
                     }
                     if (StringUtils.isNotBlank(pn.getBilldetailid())) {
                         PurchaseApplicationDetail paDetail = purchaseApplicationDetailMapper.selectByPrimaryKey(pn.getBilldetailid());
@@ -2514,7 +2515,7 @@ public class PoundNoteService implements IPoundNoteService {
                         SalesApplication sa = salesApplicationMapper.selectByPrimaryKey(pn.getBillid());
                         vo.setCustomer(sa.getCustomername());
                         vo.setSendDept(Constant.ORG_NAME);
-                        vo.setType(sa.getBilltypename());
+                        vo.setBillType(sa.getBilltypename());
                     }
                     if (StringUtils.isNotBlank(pn.getBilldetailid())) {
                         SalesApplicationDetail saDetail = salesApplicationDetailMapper.selectByPrimaryKey(pn.getBilldetailid());

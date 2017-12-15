@@ -5,12 +5,12 @@
         <tbody>
             <tr>
                 <td colspan="8" align="center"
-                    style="font-size: 15px; font-weight: bold; border: none;">天瑞集团汝州水泥有限公司发货计量单</td>
+                    style="font-size: 15px; font-weight: bold; border: none;">天瑞集团汝州水泥有限公司    {{d.type || ''}}</td>
             </tr>
             <tr>
-                <td>发货单号</td>
+                <td>{{d.billName || ''}}</td>
                 <td>{{d.billCode || ''}}</td>
-                <td>提货单号</td>
+                <td>{{d.noticeName || ''}}</td>
                 <td>{{d.noticeCode || ''}}</td>
                 <td>计量单号</td>
                 <td>{{d.poundNoteCode || ''}}</td>
@@ -35,7 +35,7 @@
                 <td>产品名称</td>
                 <td colspan="3">{{d.material || ''}}</td>
                 <td>业务类型</td>
-                <td>{{d.type || ''}}</td>
+                <td>{{d.billType || ''}}</td>
                 <td>毛重时间</td>
                 <td>{{d.grossTime || ''}}</td>
             </tr>
@@ -73,7 +73,27 @@ $('#print').off('click').on('click', function(e){
     if(!obj) {layer.msg('需要选中一行才能操作哦！'); return;}
     $.post('/trfc/poundNote/print', {id: obj.id}, function (result){
         if (result.code = '000000') {
-            print(result.data);
+        	var data = result.data || {};
+        	switch (data.type) {
+			case '0':
+				data.type = '采购计量单';
+				data.billName = '采购订单';
+				data.noticeName = '收货单号';
+				break;
+			case '1':
+				data.type = '采购计量单';
+				data.billName = '采购订单';
+				data.noticeName = '收货单号';
+				break;
+			case '2':
+				data.type = '销售计量单';
+				data.billName = '销售订单';
+				data.noticeName = '发货单号';
+				break;
+			default:
+				break;
+			}
+            print(data);
         } else {
             layer.msg(result.error, {icon: 5});
         }
