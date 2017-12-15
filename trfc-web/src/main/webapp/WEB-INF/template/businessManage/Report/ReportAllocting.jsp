@@ -141,7 +141,7 @@
                         <table class="tableExcel1" width="100%" border="1" cellspacing="0" cellpadding="0">
                             <thead>
                             <tr>
-                                <td colspan="11" align="center" style="color:#434e8d;font-size: 40px;line-height:normal">
+                                <td colspan="4" align="center" style="color:#434e8d;font-size: 40px;line-height:normal">
                                   	 裕泰调拨物料车号统计
                                     <p class="biobiaop" style="margin-top: 10px">
                                         <span class="clock9"></span>至<span class="clock10"></span>
@@ -150,17 +150,11 @@
                                 </td>
                             </tr>
                             <tr>
-                               <th style="font-size: 20px">过磅单号</th>
-                                        <th style="font-size: 20px">通知单号</th>
-                                        <th style="font-size: 20px">调入堆场 </th>
-                                        <th style="font-size: 20px">调出堆场</th>
+                            
                                         <th style="font-size: 20px">物料</th>
                                         <th style="font-size: 20px">车号</th>
-                                        <th style="font-size: 20px">毛重</th>      
-                                        <th style="font-size: 20px">皮重</th>
+                                        <th style="font-size: 20px">车数</th> 
                                         <th style="font-size: 20px">净重</th>
-                                        <th style="font-size: 20px">轻车时间</th>
-                                        <th style="font-size: 20px">重车时间</th>
                             </tr>
                             </thead>
                             <tbody id="RMg2">
@@ -177,22 +171,16 @@
                         <table class="tableExcelB" width="100%" border="1" cellspacing="0" cellpadding="0">
                             <thead>
                             <tr>
-                                <td colspan="11" align="center" style="color:#434e8d;font-size: 40px;line-height:normal">
+                                <td colspan="4" align="center" style="color:#434e8d;font-size: 40px;line-height:normal">
                                    	 裕泰调拨物料车号统计
                                 </td>
                             </tr>
                             <tr>
                                 <th style="font-size: 20px">过磅单号</th>
-                                        <th style="font-size: 20px">通知单号</th>
-                                        <th style="font-size: 20px">调入堆场 </th>
-                                        <th style="font-size: 20px">调出堆场</th>
                                         <th style="font-size: 20px">物料</th>
-                                        <th style="font-size: 20px">车号</th>
-                                        <th style="font-size: 20px">毛重</th>      
-                                        <th style="font-size: 20px">皮重</th>
+                                        <th style="font-size: 20px">调出堆场</th>
+                                        <th style="font-size: 20px">车数</th> 
                                         <th style="font-size: 20px">净重</th>
-                                        <th style="font-size: 20px">轻车时间</th>
-                                        <th style="font-size: 20px">重车时间</th>
                             </tr>
                             </thead>
                             <tbody id="RMgB">
@@ -228,7 +216,7 @@
                             <table class="tableExcel2" width="100%" border="1" cellspacing="0" cellpadding="0">
                                 <thead>
                                 <tr>
-                                    <td colspan="11" align="center" style="color:#434e8d;font-size: 40px;line-height:normal">
+                                    <td colspan="4" align="center" style="color:#434e8d;font-size: 40px;line-height:normal">
                                        	裕泰调拨物料调出堆场统计
                                         <p class="biobiaop" style="margin-top: 10px">
                                             <span class="clock12"></span>至<span class="clock13"></span>
@@ -237,17 +225,10 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <th style="font-size: 20px">过磅单号</th>
-                                        <th style="font-size: 20px">通知单号</th>
-                                        <th style="font-size: 20px">调入堆场 </th>
-                                        <th style="font-size: 20px">调出堆场</th>
                                         <th style="font-size: 20px">物料</th>
-                                        <th style="font-size: 20px">车号</th>
-                                        <th style="font-size: 20px">毛重</th>      
-                                        <th style="font-size: 20px">皮重</th>
+                                        <th style="font-size: 20px">调出堆场</th>
+                                        <th style="font-size: 20px">车数</th> 
                                         <th style="font-size: 20px">净重</th>
-                                        <th style="font-size: 20px">轻车时间</th>
-                                        <th style="font-size: 20px">重车时间</th>
                                 </tr>
                                 </thead>
                                 <tbody id="RMg3">
@@ -266,22 +247,15 @@
                             <table class="tableExcelC" width="100%" border="1" cellspacing="0" cellpadding="0">
                                 <thead>
                                 <tr>
-                                    <td colspan="11" align="center" style="color:#434e8d;font-size: 40px;line-height:normal">
+                                    <td colspan="4" align="center" style="color:#434e8d;font-size: 40px;line-height:normal">
                                  	       裕泰调拨物料调出堆场统计
                                     </td>
                                 </tr>
                                 <tr>
-                                   <th style="font-size: 20px">过磅单号</th>
-                                        <th style="font-size: 20px">通知单号</th>
-                                        <th style="font-size: 20px">调入堆场 </th>
-                                        <th style="font-size: 20px">调出堆场</th>
-                                        <th style="font-size: 20px">物料</th>
-                                        <th style="font-size: 20px">车号</th>
-                                        <th style="font-size: 20px">毛重</th>      
-                                        <th style="font-size: 20px">皮重</th>
-                                        <th style="font-size: 20px">净重</th>
-                                        <th style="font-size: 20px">轻车时间</th>
-                                        <th style="font-size: 20px">重车时间</th>
+                                    <th style="font-size: 20px">物料</th>
+                                    <th style="font-size: 20px">调出堆场</th>
+                                    <th style="font-size: 20px">车数</th> 
+                                     <th style="font-size: 20px">净重</th>
                                 </tr>
                                 </thead>
                                 <tbody id="RMgC">
@@ -318,7 +292,7 @@
                         <table class="tableExcel3" width="100%" border="1" cellspacing="0" cellpadding="0">
                             <thead>
                             <tr>
-                                <td colspan="11" align="center" style="color:#434e8d;font-size: 40px;line-height:normal">
+                                <td colspan="4" align="center" style="color:#434e8d;font-size: 40px;line-height:normal">
                                	裕泰调拨物料调入堆场统计
                                     <p class="biobiaop" style="margin-top: 10px">
                                     <span class="clock3"></span>至<span class="clock4"></span>
@@ -327,17 +301,10 @@
                                 </td>
                             </tr>
                             <tr>
-                               <th style="font-size: 20px">过磅单号</th>
-                               <th style="font-size: 20px">通知单号</th>
-                               <th style="font-size: 20px">调入堆场 </th>
-                               <th style="font-size: 20px">调出堆场</th>
                                 <th style="font-size: 20px">物料</th>
-                                <th style="font-size: 20px">车号</th>
-                                <th style="font-size: 20px">毛重</th>      
-                                <th style="font-size: 20px">皮重</th>
+                                <th style="font-size: 20px">调入堆场</th>
+                                <th style="font-size: 20px">车数</th> 
                                 <th style="font-size: 20px">净重</th>
-                                <th style="font-size: 20px">轻车时间</th>
-                                <th style="font-size: 20px">重车时间</th>
                             </tr>
                             </thead>
                             <tbody id="RMg4">
@@ -355,22 +322,15 @@
                         <table class="tableExcelD" width="100%" border="1" cellspacing="0" cellpadding="0">
                             <thead>
                             <tr>
-                                <td colspan="11" align="center" style="color:#434e8d;font-size: 40px;line-height:normal">
+                                <td colspan="4" align="center" style="color:#434e8d;font-size: 40px;line-height:normal">
                            			       裕泰调拨物料调入堆场统计     
                                 </td>
                             </tr>
                             <tr>
-                                <th style="font-size: 20px">过磅单号</th>
-                                <th style="font-size: 20px">通知单号</th>
-                                <th style="font-size: 20px">调入堆场 </th>
-                                <th style="font-size: 20px">调出堆场</th>
-                                <th style="font-size: 20px">物料</th>
-                                <th style="font-size: 20px">车号</th>
-                                <th style="font-size: 20px">毛重</th>      
-                                <th style="font-size: 20px">皮重</th>
-                                <th style="font-size: 20px">净重</th>
-                                <th style="font-size: 20px">轻车时间</th>
-                                <th style="font-size: 20px">重车时间</th>
+                                 <th style="font-size: 20px">物料</th>
+                                        <th style="font-size: 20px">调入堆场</th>
+                                        <th style="font-size: 20px">车数</th> 
+                                        <th style="font-size: 20px">净重</th>
                             </tr>
                             </thead>
                             <tbody id="RMgD">
