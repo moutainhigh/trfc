@@ -11,10 +11,15 @@ import com.tianrui.api.intf.businessManage.otherManage.IOtherDYArriveService;
 import com.tianrui.api.intf.system.base.ISystemCodeService;
 import com.tianrui.api.req.businessManage.otherManage.OtherArriveReq;
 import com.tianrui.api.req.system.base.GetCodeReq;
+import com.tianrui.api.resp.businessManage.otherManage.OtherArriveResp;
+import com.tianrui.service.bean.basicFile.measure.YardManage;
+import com.tianrui.service.bean.basicFile.nc.MaterielManage;
 import com.tianrui.service.bean.businessManage.cardManage.Card;
 import com.tianrui.service.bean.businessManage.otherManage.OtherArrive;
 import com.tianrui.service.bean.businessManage.purchaseManage.PurchaseArrive;
 import com.tianrui.service.bean.businessManage.salesManage.SalesArrive;
+import com.tianrui.service.mapper.basicFile.measure.YardManageMapper;
+import com.tianrui.service.mapper.basicFile.nc.MaterielManageMapper;
 import com.tianrui.service.mapper.businessManage.cardManage.CardMapper;
 import com.tianrui.service.mapper.businessManage.otherManage.OtherArriveMapper;
 import com.tianrui.service.mapper.businessManage.purchaseManage.PurchaseArriveMapper;
@@ -36,6 +41,10 @@ public class OtherDYArriveService implements IOtherDYArriveService{
 	private PurchaseArriveMapper purchaseArriveMapper;
 	@Autowired
 	private CardMapper cardMapper;
+	@Autowired
+	private YardManageMapper yardManageMapper;
+	@Autowired
+	private MaterielManageMapper materielManageMapper;
 
 	
 	@Override
@@ -182,6 +191,34 @@ public class OtherDYArriveService implements IOtherDYArriveService{
 			}
 		}
 		return flag;
+	}
+	@Override
+	public OtherArriveResp getById(String id) throws Exception {
+		OtherArrive oa = otherArriveMapper.selectByPrimaryKey(id);
+		if (oa != null) {
+			OtherArriveResp oar = new OtherArriveResp();
+			PropertyUtils.copyProperties(oar, oa);
+			if (StringUtils.isNotBlank(oar.getEnteryard())) {
+				YardManage yard = yardManageMapper.selectByPrimaryKey(oar.getEnteryard());
+				if (yard != null) {
+					oar.setEnteryerdname(yard.getName());
+				}
+			}
+			if (StringUtils.isNotBlank(oar.getLeaveyard())) {
+				YardManage yard = yardManageMapper.selectByPrimaryKey(oar.getLeaveyard());
+				if (yard != null) {
+					oar.setLeaveyerdname(yard.getName());
+				}
+			}
+			if (StringUtils.isNotBlank(oar.getMaterielid())) {
+				MaterielManage material = materielManageMapper.selectByPrimaryKey(oar.getMaterielid());
+				if (material != null) {
+					oar.setMaterielname(material.getName());
+				}
+			}
+			return oar;
+		}
+		return null;
 	}
 
 }

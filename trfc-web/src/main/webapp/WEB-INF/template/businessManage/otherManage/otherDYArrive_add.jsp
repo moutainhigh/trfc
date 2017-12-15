@@ -46,11 +46,11 @@
 							</div>
 							<div class="daohuo_add_solo">
 								<label><em class="colorred">*</em>调出堆场：</label> <input
-									type="text" id="add_leaveyard" class="yardSelect" placeholder="请选择调出堆场">
+									type="text" id="add_leaveyard" class="yardSelect" placeholder="请选择调出堆场" yardid="${dy.leaveyard}" value="${dy.leaveyerdname }">
 							</div>
 							<div class="daohuo_add_solo">
 								<label><em class="colorred">*</em>调入堆场：</label> <input
-									type="text" id="add_enteryard" class="yardSelect" placeholder="请选择调入堆场">
+									type="text" id="add_enteryard" class="yardSelect" placeholder="请选择调入堆场" yardid="${dy.enteryard}" value="${dy.enteryerdname }">
 							</div>
 							<div class="daohuo_add_solo">
 								<label>倒运单位：</label> <input type="text" id="add_receivedepartment" readonly="true" value="${org }">
@@ -62,21 +62,21 @@
 								<label>RFID：</label> <input type="text" id="add_rfid" readonly="true">
 							</div>
 							<div class="daohuo_add_solo">
-								<label><em class="colorred">*</em>物料：</label> <input type="text" id="add_materiel"  placeholder="请选择物料">
+								<label><em class="colorred">*</em>物料：</label> <input type="text" id="add_materiel"  placeholder="请选择物料" materielid="${dy.materielid }" value="${dy.materielname }">
 							</div>
 							<div class="daohuo_add_solo">
 								<label><em class="colorred">*</em>开始时间：</label> <input
 									type="text"
 									onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:00:00',maxDate:'#F{$dp.$D(\'add_endtime\')}'})"
 									class="Wdate" style="width: 180px" id="add_starttime"
-									placeholder="请输入开始时间" readonly="readonly"/>
+									placeholder="请输入开始时间" readonly="readonly" value="${dy.starttimeStr }"/>
 							</div>
 							<div class="daohuo_add_solo">
 								<label><em class="colorred">*</em>截至时间：</label> <input
 									type="text"
 									onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:00:00',minDate:'#F{$dp.$D(\'add_starttime\')}'})"
 									class="Wdate" style="width: 180px" id="add_endtime"
-									placeholder="请输入截至时间" readonly="readonly"/>
+									placeholder="请输入截至时间" readonly="readonly" value="${dy.endtimeStr }"/>
 							</div>
 							<div class="daohuo_add_solo" style="width: 100%;">
 								<label>备注： </label> <input type="text" id="add_remark" style="width: 70%;">
