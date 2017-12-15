@@ -302,7 +302,7 @@ $(function(){
 				'4':'发卡',
 				'5':'出厂',
 				'6':'入厂',
-				'7':'装车'
+				'7':'卸车'
 		};
 		var TYPE = {'0':'到货','1':'退货'};
 		//加载时清空列表和跳转值
@@ -312,6 +312,11 @@ $(function(){
 			var obj = list[i];
 			if(!obj.poundNoteResp){
 				obj.poundNoteResp = "";
+			}
+			if (obj.type == '0') {
+				STATUS['7'] = '卸车';
+			} else {
+				STATUS['7'] = '装车';
 			}
 			var tr = '<tr>'
 				+'<td>'+((pageNo-1)*pageSize+i+1)+'</td>'
