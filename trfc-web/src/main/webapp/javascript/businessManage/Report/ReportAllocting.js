@@ -389,13 +389,9 @@
 			$('#RMg4').empty();
 			var list = data.list||[];
 			if(list && list.length>0){
-				var str=0,str1=0,str2=0;
+				var str1=0,str2=0;
 				for(var i=0;i<list.length;i++){
-					if(Number(list[i].enteryardname)!=NaN){
-						str+=list[i].enteryardname;
-					}else{
-						str+="";
-					}
+					
 					if(Number(list[i].countVehicleNo)!=NaN){
 						str1+=list[i].countVehicleNo;
 					}else{
@@ -407,16 +403,16 @@
 						str2+="";
 					}
 					
-					$('<tr>').append('<td>'+(list[i].materialname|"")+'</td>')
+					$('<tr>').append('<td>'+(list[i].materialname||"")+'</td>')
 					.append('<td>'+(list[i].enteryardname||"")+'</td>')
 					.append('<td>'+(list[i].countVehicleNo||"")+'</td>')
 					.append('<td>'+(list[i].sumNetweight||"")+'</td>')	
 							.appendTo('#RMg4');
 				}
 				$('<tr>').append('<td>总计</td>')
-				.append('<td>'+(str)+'</td>')
+				.append('<td>'+("----")+'</td>')
 				.append('<td>'+(str1)+'</td>')
-				.append('<td>'+(str2)+'</td>')	
+				.append('<td>'+(parseFloat(str2).toFixed(2))+'</td>')	
 				.appendTo('#RMg4');
 			}else if(list.length<=0){
 				layer.msg('暂无数据');
@@ -470,13 +466,9 @@
 			$('#RMg3').empty();
 			var list = data.list||[];
 			if(list && list.length>0){
-				var str=0,str1=0,str2=0;
+				var str1=0,str2=0;
 				for(var i=0;i<list.length;i++){
-					if(Number(list[i].leaveyardname)!=NaN){
-						str+=list[i].leaveyardname;
-					}else{
-						str+="";
-					}
+					
 					if(Number(list[i].countVehicleNo)!=NaN){
 						str1+=list[i].countVehicleNo;
 					}else{
@@ -494,9 +486,9 @@
 							.appendTo('#RMg3');
 				}
 				$('<tr>').append('<td>总计</td>')
-				.append('<td>'+(str)+'</td>')
+				.append('<td>'+("----")+'</td>')
 				.append('<td>'+(str1)+'</td>')
-				.append('<td>'+(str2)+'</td>')
+				.append('<td>'+(parseFloat(str2).toFixed(2))+'</td>')
 				.appendTo('#RMg3');
 			}else if(list.length<=0){
 				layer.msg('暂无数据');
@@ -569,10 +561,11 @@
 					.append('<td>'+(list[i].sumNetweight||"")+'</td>')		
 							.appendTo('#RMg2');
 				}
+				str2 = 
 				$('<tr>').append('<td>总计</td>')
-				.append('<td>'+("---")+'</td>')
+				.append('<td>'+("----")+'</td>')
 				.append('<td>'+(str1)+'</td>')
-				.append('<td>'+(str2)+'</td>')
+				.append('<td>'+(parseFloat(str2).toFixed(2))+'</td>')
 				.appendTo('#RMg2');
 				
 			}else if(list.length<=0){

@@ -525,7 +525,7 @@
                         <table class="tableExcel3" width="100%" border="1" cellspacing="0" cellpadding="0">
                             <thead>
                             <tr>
-                                <td colspan="8" align="center" style="color:#434e8d;font-size: 40px;line-height:normal">
+                                <td colspan="7" align="center" style="color:#434e8d;font-size: 40px;line-height:normal">
                                	裕泰采购物料统计
                                     <p class="biobiaop" style="margin-top: 10px">
                                     <span class="clock3"></span>至<span class="clock4"></span>
@@ -537,7 +537,7 @@
                                 <th style="font-size: 20px">供应商</th>
                                 <th style="font-size: 20px">物料</th>
                                 <th style="font-size: 20px">车数</th>
-                                <th style="font-size: 20px">原发净重</th>
+ <!--                               <th style="font-size: 20px">原发净重</th>-->
                                 <th style="font-size: 20px">毛重</th>
                                 <th style="font-size: 20px">皮重</th>
                                 <th style="font-size: 20px">净重</th>
@@ -559,7 +559,7 @@
                         <table class="tableExcelD" width="100%" border="1" cellspacing="0" cellpadding="0">
                             <thead>
                             <tr>
-                                <td colspan="8" align="center" style="color:#434e8d;font-size: 40px;line-height:normal">
+                                <td colspan="7" align="center" style="color:#434e8d;font-size: 40px;line-height:normal">
                            			       裕泰采购物料统计     
                                 </td>
                             </tr>
@@ -567,7 +567,7 @@
                                 <th style="font-size: 20px">供应商</th>
                                 <th style="font-size: 20px">物料</th>
                                 <th style="font-size: 20px">车数</th>
-                                <th style="font-size: 20px">原发净重</th>
+  <!--                              <th style="font-size: 20px">原发净重</th>  -->
                                 <th style="font-size: 20px">毛重</th>
                                 <th style="font-size: 20px">皮重</th>
                                 <th style="font-size: 20px">净重</th>
