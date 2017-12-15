@@ -7,14 +7,20 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.tianrui.api.intf.system.auth.ISmUserService;
 import com.tianrui.api.req.system.auth.SmUserReq;
+import com.tianrui.api.resp.system.auth.SmUserResp;
 import com.tianrui.service.bean.system.auth.SmUser;
+import com.tianrui.service.cache.CacheClient;
+import com.tianrui.service.cache.CacheModule;
 import com.tianrui.service.mapper.system.auth.SmUserMapper;
 import com.tianrui.smartfactory.common.constants.ErrorCode;
 import com.tianrui.smartfactory.common.vo.Result;
@@ -29,6 +35,8 @@ public class SmUserService implements ISmUserService{
 	
 	@Autowired
 	private SmUserMapper smUserMapper;
+	@Autowired
+	private CacheClient cacheClient;
 	
 	@Override
 	public Result findMaxUtc(SmUserReq query) throws Exception {
@@ -98,5 +106,33 @@ public class SmUserService implements ISmUserService{
 		item.setCreateTime(System.currentTimeMillis());
 		item.setStatus(Integer.valueOf(jsonItem.getString("status")));
 		return item;
+	}
+	
+	@Override
+	public List<SmUserResp> listAll() throws Exception {
+		List<SmUser> list = smUserMapper.selectSelective(null);
+		if (CollectionUtils.isNotEmpty(list)) {
+			List<SmUserResp> listResp = new ArrayList<SmUserResp>();
+			for (SmUser smUser : list) {
+				SmUserResp resp = new SmUserResp();
+				PropertyUtils.copyProperties(resp, smUser);
+				listResp.add(resp);
+			}
+			return listResp;
+		}
+		return null;
+	}
+
+	@Override
+	public List<SmUserResp> listByCache() throws Exception {
+		List<SmUserResp> list = null;
+		String jsonItem = cacheClient.getString(CacheModule.SM_USER.getCode());
+		if (StringUtils.isBlank(jsonItem)) {
+			list = listAll();
+			cacheClient.saveString(CacheModule.SM_USER.getCode(), JSON.toJSONString(list), -1);
+		} else {
+			list = JSON.parseArray(jsonItem, SmUserResp.class);
+		}
+		return list;
 	}
 }

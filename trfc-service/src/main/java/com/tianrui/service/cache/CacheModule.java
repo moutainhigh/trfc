@@ -15,6 +15,7 @@ public enum CacheModule {
 	
 	MEMBERVO("mvo-","用户实体"),
 	ORG("org-","组织档案"),
+	SM_USER("sm_user-", "NC用户实体"),
 	
 	
 	REGISTER("register-","PC注册"),

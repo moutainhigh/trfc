@@ -70,6 +70,9 @@
     <result column="leaveyardname" property="leaveyardname" jdbcType="VARCHAR" />
   </resultMap>
   
+  <resultMap id="BaseResultMap2" type="com.tianrui.api.resp.businessManage.report.InOutDaoPoundMaterResp" >
+   
+  </resultMap>
   <sql id="Base_Column_List" >
     id, code, returnstatus, redcollide, status, billtype, putinwarehouseid, putinwarehousecode, billid, billcode, billdetailid,
     noticeid, noticecode, arrivepoundnotecode, senddepartmentid, senddepartmentname, driverid, drivername, driveridentityno, vehicleid, vehicleno, 
@@ -884,6 +887,180 @@
 	</if>
   
   </select>
+  <select id="selectByConditionForMater" parameterType="com.tianrui.service.bean.businessManage.report.InOutDaoPound" resultMap="BaseResultMap2">
+   select 
+		materialname,
+		enteryardname,
+		count(vehicleno) as countVehicleno,
+		sum(grossweight) as sumGrossweight,
+		sum(tareweight) as sumTareweight,
+		sum(netweight) as sumNetweight
+	FROM
+		tr_pound_db_note
+   	<where>
+   		netweight > 0
+   		<if test="beginTimeLong != null and beginTimeLong != 0L ">
+			and makebilltime <![CDATA[>]]> #{beginTimeLong,jdbcType=BIGINT}
+		</if>
+   		<if test="endTimeLong != null and endTimeLong != 0L ">
+			and makebilltime <![CDATA[<]]> #{endTimeLong,jdbcType=BIGINT}
+		</if>
+		<if test="supplierNameLike != null and supplierNameLike != ''">
+			and suppliername like concat(#{supplierNameLike,jdbcType=VARCHAR},'%')
+		</if>
+		<if test="vehicleNoLike != null and vehicleNoLike != ''">
+			and vehicleno like concat(#{vehicleNoLike,jdbcType=VARCHAR},'%')
+		</if>
+		<if test="customerNameLike != null and customerNameLike != ''">
+			and customername like concat(#{customerNameLike,jdbcType=VARCHAR},'%')
+		</if>
+		<if test="driverNameLike != null and driverNameLike != ''">
+			and drivername like concat(#{driverNameLike,jdbcType=VARCHAR},'%')
+		</if>
+		<if test="cargoNameLike != null and cargoNameLike != ''">
+			and materialname like concat(#{cargoNameLike,jdbcType=VARCHAR},'%') 
+		</if>
+		<if test="remarkLike != null and remarkLike != ''">
+			and remark like concat(#{remarkLike,jdbcType=VARCHAR},'%')
+		</if>
+		<if test="codeLike != null and codeLike != ''">
+			and code like concat(#{codeLike,jdbcType=VARCHAR},'%')
+		</if>
+		<if test="billcodeLike != null and billcodeLike != ''">
+			and billcode like concat(#{billcodeLike,jdbcType=VARCHAR},'%')
+		</if>
+		<if test="billtype != null and billtype != ''">
+  			and billtype = #{billtype,jdbcType=VARCHAR}
+  		</if>
+		
+   	</where>
+   	GROUP BY
+		materialname,
+		enteryardname
+  	order by lighttime desc
+	<if test="start != null and start >= 0">
+		<if test="limit != null">
+			limit #{start,jdbcType=INTEGER},#{limit,jdbcType=INTEGER}
+		</if>
+	</if>
+  
+  </select>
+  <select id="selectByConditionForMaterDC" parameterType="com.tianrui.service.bean.businessManage.report.InOutDaoPound" resultMap="BaseResultMap2">
+   select 
+		materialname,
+		leaveyardname,
+		count(vehicleno) as countVehicleno,
+		sum(grossweight) as sumGrossweight,
+		sum(tareweight) as sumTareweight,
+		sum(netweight) as sumNetweight
+	FROM
+		tr_pound_db_note
+   	<where>
+   		netweight > 0
+   		<if test="beginTimeLong != null and beginTimeLong != 0L ">
+			and makebilltime <![CDATA[>]]> #{beginTimeLong,jdbcType=BIGINT}
+		</if>
+   		<if test="endTimeLong != null and endTimeLong != 0L ">
+			and makebilltime <![CDATA[<]]> #{endTimeLong,jdbcType=BIGINT}
+		</if>
+		<if test="supplierNameLike != null and supplierNameLike != ''">
+			and suppliername like concat(#{supplierNameLike,jdbcType=VARCHAR},'%')
+		</if>
+		<if test="vehicleNoLike != null and vehicleNoLike != ''">
+			and vehicleno like concat(#{vehicleNoLike,jdbcType=VARCHAR},'%')
+		</if>
+		<if test="customerNameLike != null and customerNameLike != ''">
+			and customername like concat(#{customerNameLike,jdbcType=VARCHAR},'%')
+		</if>
+		<if test="driverNameLike != null and driverNameLike != ''">
+			and drivername like concat(#{driverNameLike,jdbcType=VARCHAR},'%')
+		</if>
+		<if test="cargoNameLike != null and cargoNameLike != ''">
+			and materialname like concat(#{cargoNameLike,jdbcType=VARCHAR},'%') 
+		</if>
+		<if test="remarkLike != null and remarkLike != ''">
+			and remark like concat(#{remarkLike,jdbcType=VARCHAR},'%')
+		</if>
+		<if test="codeLike != null and codeLike != ''">
+			and code like concat(#{codeLike,jdbcType=VARCHAR},'%')
+		</if>
+		<if test="billcodeLike != null and billcodeLike != ''">
+			and billcode like concat(#{billcodeLike,jdbcType=VARCHAR},'%')
+		</if>
+		<if test="billtype != null and billtype != ''">
+  			and billtype = #{billtype,jdbcType=VARCHAR}
+  		</if>
+		
+   	</where>
+   	GROUP BY
+		materialname,
+		leaveyardname
+  	order by lighttime desc
+	<if test="start != null and start >= 0">
+		<if test="limit != null">
+			limit #{start,jdbcType=INTEGER},#{limit,jdbcType=INTEGER}
+		</if>
+	</if>
+  
+  </select>
+ <select id="selectByConditionForMaterVehicleno" parameterType="com.tianrui.service.bean.businessManage.report.InOutDaoPound" resultMap="BaseResultMap2">
+   select 
+		materialname,
+		vehicleno,
+		count(vehicleno) as countVehicleno,
+		sum(grossweight) as sumGrossweight,
+		sum(tareweight) as sumTareweight,
+		sum(netweight) as sumNetweight
+	FROM
+		tr_pound_db_note
+   	<where>
+   		netweight > 0
+   		<if test="beginTimeLong != null and beginTimeLong != 0L ">
+			and makebilltime <![CDATA[>]]> #{beginTimeLong,jdbcType=BIGINT}
+		</if>
+   		<if test="endTimeLong != null and endTimeLong != 0L ">
+			and makebilltime <![CDATA[<]]> #{endTimeLong,jdbcType=BIGINT}
+		</if>
+		<if test="supplierNameLike != null and supplierNameLike != ''">
+			and suppliername like concat(#{supplierNameLike,jdbcType=VARCHAR},'%')
+		</if>
+		<if test="vehicleNoLike != null and vehicleNoLike != ''">
+			and vehicleno like concat(#{vehicleNoLike,jdbcType=VARCHAR},'%')
+		</if>
+		<if test="customerNameLike != null and customerNameLike != ''">
+			and customername like concat(#{customerNameLike,jdbcType=VARCHAR},'%')
+		</if>
+		<if test="driverNameLike != null and driverNameLike != ''">
+			and drivername like concat(#{driverNameLike,jdbcType=VARCHAR},'%')
+		</if>
+		<if test="cargoNameLike != null and cargoNameLike != ''">
+			and materialname like concat(#{cargoNameLike,jdbcType=VARCHAR},'%') 
+		</if>
+		<if test="remarkLike != null and remarkLike != ''">
+			and remark like concat(#{remarkLike,jdbcType=VARCHAR},'%')
+		</if>
+		<if test="codeLike != null and codeLike != ''">
+			and code like concat(#{codeLike,jdbcType=VARCHAR},'%')
+		</if>
+		<if test="billcodeLike != null and billcodeLike != ''">
+			and billcode like concat(#{billcodeLike,jdbcType=VARCHAR},'%')
+		</if>
+		<if test="billtype != null and billtype != ''">
+  			and billtype = #{billtype,jdbcType=VARCHAR}
+  		</if>
+		
+   	</where>
+   	GROUP BY
+		materialname,
+		vehicleno
+  	order by lighttime desc
+	<if test="start != null and start >= 0">
+		<if test="limit != null">
+			limit #{start,jdbcType=INTEGER},#{limit,jdbcType=INTEGER}
+		</if>
+	</if>
+  
+  </select>
   <select id="countByCondition" parameterType="com.tianrui.service.bean.businessManage.report.InOutDaoPound" resultType="long">
    select 
     count(1)
@@ -926,5 +1103,152 @@
 		
    	</where>
   
+  </select>
+  <select id="countByConditionForMater" resultType="long" parameterType="com.tianrui.service.bean.businessManage.report.InOutDaoPound" >
+    select 
+   		count(1)
+   		from(
+	   		select 
+			materialname,
+			enteryardname
+	    from tr_pound_db_note
+	  	<where>
+	   		netweight > 0
+	   		<if test="beginTimeLong != null and beginTimeLong != 0L ">
+				and makebilltime <![CDATA[>]]> #{beginTimeLong,jdbcType=BIGINT}
+			</if>
+	   		<if test="endTimeLong != null and endTimeLong != 0L ">
+				and makebilltime <![CDATA[<]]> #{endTimeLong,jdbcType=BIGINT}
+			</if>
+			<if test="supplierNameLike != null and supplierNameLike != ''">
+				and suppliername like concat(#{supplierNameLike,jdbcType=VARCHAR},'%')
+			</if>
+			<if test="vehicleNoLike != null and vehicleNoLike != ''">
+				and vehicleno like concat(#{vehicleNoLike,jdbcType=VARCHAR},'%')
+			</if>
+			<if test="customerNameLike != null and customerNameLike != ''">
+				and customername like concat(#{customerNameLike,jdbcType=VARCHAR},'%')
+			</if>
+			<if test="driverNameLike != null and driverNameLike != ''">
+				and drivername like concat(#{driverNameLike,jdbcType=VARCHAR},'%')
+			</if>
+			<if test="cargoNameLike != null and cargoNameLike != ''">
+				and materialname like concat(#{cargoNameLike,jdbcType=VARCHAR},'%') 
+			</if>
+			<if test="codeLike != null and codeLike != ''">
+				and code like concat(#{codeLike,jdbcType=VARCHAR},'%')
+			</if>
+			<if test="billcodeLike != null and billcodeLike != ''">
+				and billcode like concat(#{billcodeLike,jdbcType=VARCHAR},'%')
+			</if>
+			<if test="remarkLike != null and remarkLike != ''">
+				and remark like concat(#{remarkLike,jdbcType=VARCHAR},'%')
+			</if>
+			<if test="billtype != null and billtype != ''">
+	  			and billtype = #{billtype,jdbcType=VARCHAR}
+	  		</if>
+	   	</where>
+	   		GROUP BY
+			materialname,
+			enteryardname
+			) t
+  </select>
+  <select id="countByConditionForMaterDC" resultType="long" parameterType="com.tianrui.service.bean.businessManage.report.InOutDaoPound" >
+    select 
+   		count(1)
+   		from(
+	   		select 
+			materialname,
+			leaveyardname
+	    from tr_pound_db_note
+	  	<where>
+	   		netweight > 0
+	   		<if test="beginTimeLong != null and beginTimeLong != 0L ">
+				and makebilltime <![CDATA[>]]> #{beginTimeLong,jdbcType=BIGINT}
+			</if>
+	   		<if test="endTimeLong != null and endTimeLong != 0L ">
+				and makebilltime <![CDATA[<]]> #{endTimeLong,jdbcType=BIGINT}
+			</if>
+			<if test="supplierNameLike != null and supplierNameLike != ''">
+				and suppliername like concat(#{supplierNameLike,jdbcType=VARCHAR},'%')
+			</if>
+			<if test="vehicleNoLike != null and vehicleNoLike != ''">
+				and vehicleno like concat(#{vehicleNoLike,jdbcType=VARCHAR},'%')
+			</if>
+			<if test="customerNameLike != null and customerNameLike != ''">
+				and customername like concat(#{customerNameLike,jdbcType=VARCHAR},'%')
+			</if>
+			<if test="driverNameLike != null and driverNameLike != ''">
+				and drivername like concat(#{driverNameLike,jdbcType=VARCHAR},'%')
+			</if>
+			<if test="cargoNameLike != null and cargoNameLike != ''">
+				and materialname like concat(#{cargoNameLike,jdbcType=VARCHAR},'%') 
+			</if>
+			<if test="codeLike != null and codeLike != ''">
+				and code like concat(#{codeLike,jdbcType=VARCHAR},'%')
+			</if>
+			<if test="billcodeLike != null and billcodeLike != ''">
+				and billcode like concat(#{billcodeLike,jdbcType=VARCHAR},'%')
+			</if>
+			<if test="remarkLike != null and remarkLike != ''">
+				and remark like concat(#{remarkLike,jdbcType=VARCHAR},'%')
+			</if>
+			<if test="billtype != null and billtype != ''">
+	  			and billtype = #{billtype,jdbcType=VARCHAR}
+	  		</if>
+	   	</where>
+	   		GROUP BY
+			materialname,
+			leaveyardname
+			) t
+  </select>
+  <select id="countByConditionForMaterVehicleno" resultType="long" parameterType="com.tianrui.service.bean.businessManage.report.InOutDaoPound" >
+    select 
+   		count(1)
+   		from(
+	   		select 
+			materialname,
+			vehicleno
+	    from tr_pound_db_note
+	  	<where>
+	   		netweight > 0
+	   		<if test="beginTimeLong != null and beginTimeLong != 0L ">
+				and makebilltime <![CDATA[>]]> #{beginTimeLong,jdbcType=BIGINT}
+			</if>
+	   		<if test="endTimeLong != null and endTimeLong != 0L ">
+				and makebilltime <![CDATA[<]]> #{endTimeLong,jdbcType=BIGINT}
+			</if>
+			<if test="supplierNameLike != null and supplierNameLike != ''">
+				and suppliername like concat(#{supplierNameLike,jdbcType=VARCHAR},'%')
+			</if>
+			<if test="vehicleNoLike != null and vehicleNoLike != ''">
+				and vehicleno like concat(#{vehicleNoLike,jdbcType=VARCHAR},'%')
+			</if>
+			<if test="customerNameLike != null and customerNameLike != ''">
+				and customername like concat(#{customerNameLike,jdbcType=VARCHAR},'%')
+			</if>
+			<if test="driverNameLike != null and driverNameLike != ''">
+				and drivername like concat(#{driverNameLike,jdbcType=VARCHAR},'%')
+			</if>
+			<if test="cargoNameLike != null and cargoNameLike != ''">
+				and materialname like concat(#{cargoNameLike,jdbcType=VARCHAR},'%') 
+			</if>
+			<if test="codeLike != null and codeLike != ''">
+				and code like concat(#{codeLike,jdbcType=VARCHAR},'%')
+			</if>
+			<if test="billcodeLike != null and billcodeLike != ''">
+				and billcode like concat(#{billcodeLike,jdbcType=VARCHAR},'%')
+			</if>
+			<if test="remarkLike != null and remarkLike != ''">
+				and remark like concat(#{remarkLike,jdbcType=VARCHAR},'%')
+			</if>
+			<if test="billtype != null and billtype != ''">
+	  			and billtype = #{billtype,jdbcType=VARCHAR}
+	  		</if>
+	   	</where>
+	   		GROUP BY
+			materialname,
+			vehicleno
+			) t
   </select>
 </mapper>

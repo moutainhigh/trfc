@@ -13,11 +13,13 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.tianrui.api.intf.businessManage.purchaseManage.IPushSingleService;
 import com.tianrui.api.intf.businessManage.salesManage.ISalesApplicationService;
+import com.tianrui.api.intf.system.auth.ISmUserService;
 import com.tianrui.api.intf.system.auth.ISystemUserService;
 import com.tianrui.api.intf.system.base.ISystemCodeService;
 import com.tianrui.api.req.businessManage.purchaseManage.PushSingleReq;
 import com.tianrui.api.req.system.base.GetCodeReq;
 import com.tianrui.api.resp.businessManage.salesManage.SalesApplicationResp;
+import com.tianrui.api.resp.system.auth.SmUserResp;
 import com.tianrui.api.resp.system.auth.SystemUserResp;
 import com.tianrui.quartz.common.ApiParamUtils;
 import com.tianrui.quartz.common.HttpUtils;
@@ -29,7 +31,6 @@ import com.tianrui.service.bean.businessManage.salesManage.SalesApplication;
 import com.tianrui.service.bean.businessManage.salesManage.SalesApplicationArrive;
 import com.tianrui.service.bean.businessManage.salesManage.SalesApplicationDetail;
 import com.tianrui.service.bean.businessManage.salesManage.SalesArrive;
-import com.tianrui.service.bean.system.auth.SmUser;
 import com.tianrui.service.mapper.basicFile.measure.DriverManageMapper;
 import com.tianrui.service.mapper.basicFile.measure.VehicleManageMapper;
 import com.tianrui.service.mapper.businessManage.otherManage.OtherArriveMapper;
@@ -38,7 +39,6 @@ import com.tianrui.service.mapper.businessManage.salesManage.SalesApplicationArr
 import com.tianrui.service.mapper.businessManage.salesManage.SalesApplicationDetailMapper;
 import com.tianrui.service.mapper.businessManage.salesManage.SalesApplicationMapper;
 import com.tianrui.service.mapper.businessManage.salesManage.SalesArriveMapper;
-import com.tianrui.service.mapper.system.auth.SmUserMapper;
 import com.tianrui.smartfactory.common.api.ApiResult;
 import com.tianrui.smartfactory.common.constants.Constant;
 import com.tianrui.smartfactory.common.constants.ErrorCode;
@@ -56,7 +56,7 @@ public class TaskJobService {
 	@Autowired
 	private ISystemUserService systemUserService;
 	@Autowired
-	private SmUserMapper smUserMapper;
+	private ISmUserService smUserService;
 	@Autowired
 	private IPushSingleService pushSingleService;
 	@Autowired
@@ -89,23 +89,23 @@ public class TaskJobService {
 			}
 			List<SalesApplicationResp> listSales = salesApplicationService.selectByIds(new ArrayList<String>(billIds), true);
 			if(CollectionUtils.isNotEmpty(listSales)){
-				List<SmUser> smUserList = null;
+				List<SmUserResp> list = smUserService.listByCache();
 				for(SalesApplicationResp resp : listSales){
-					smUserList = getSmUser(resp.getAuditid());
-					if(CollectionUtils.isNotEmpty(smUserList)){
-						resp.setAuditid(smUserList.get(0).getId());
+					SmUserResp smUserResp = getSmUser(resp.getAuditid(), list);
+					if (smUserResp != null) {
+						resp.setAuditid(smUserResp.getId());
 					}
-					smUserList = getSmUser(resp.getMakerid());
-					if(CollectionUtils.isNotEmpty(smUserList)){
-						resp.setMakerid(smUserList.get(0).getId());
+					smUserResp = getSmUser(resp.getMakerid(), list);
+					if(smUserResp != null){
+						resp.setMakerid(smUserResp.getId());
 					}
-					smUserList = getSmUser(resp.getCreator());
-					if(CollectionUtils.isNotEmpty(smUserList)){
-						resp.setCreator(smUserList.get(0).getId());
+					smUserResp = getSmUser(resp.getCreator(), list);
+					if(smUserResp != null){
+						resp.setCreator(smUserResp.getId());
 					}
-					smUserList = getSmUser(resp.getModifier());
-					if(CollectionUtils.isNotEmpty(smUserList)){
-						resp.setModifier(smUserList.get(0).getId());
+					smUserResp = getSmUser(resp.getModifier(), list);
+					if(smUserResp != null){
+						resp.setModifier(smUserResp.getId());
 					}
 				}
 			}
@@ -142,15 +142,18 @@ public class TaskJobService {
 		}
 	}
 
-	private List<SmUser> getSmUser(String id) throws Exception {
-		List<SmUser> smUserList = null;
-		SystemUserResp user = systemUserService.getUser(id);
-		if(user != null){
-			SmUser smUser = new SmUser();
-			smUser.setCode(user.getCode());
-			smUserList = smUserMapper.selectSelective(smUser);
+	private SmUserResp getSmUser(String id, List<SmUserResp> list) throws Exception {
+		if (CollectionUtils.isNotEmpty(list)) {
+			SystemUserResp user = systemUserService.getUser(id);
+			if(user != null){
+				for (SmUserResp smUserResp : list) {
+					if (StringUtils.equals(user.getCode(), smUserResp.getCode())) {
+						return smUserResp;
+					}
+				}
+			}
 		}
-		return smUserList;
+		return null;
 	}
 
 	public void oneBilOneCarSaveNotice() throws Exception {

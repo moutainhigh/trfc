@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.tianrui.api.intf.businessManage.report.IAllotPoundService;
-import com.tianrui.api.intf.businessManage.report.IInPoundService;
 import com.tianrui.api.req.businessManage.report.InOutDaoPoundQuery;
+import com.tianrui.api.resp.businessManage.report.InOutDaoPoundMaterResp;
 import com.tianrui.api.resp.businessManage.report.InOutDaoPoundResp;
 import com.tianrui.api.resp.system.auth.SystemUserResp;
 import com.tianrui.smartfactory.common.constants.ErrorCode;
@@ -80,6 +80,139 @@ public class AllotPoundAction {
 			}
 			req.setCurrUid(user.getId());
 			List<InOutDaoPoundResp> list = allotPoundService.list(req);
+			result.setData(list);
+			result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+		} catch (Exception e) {
+			// TODO: handle exception
+			log.error(e.getMessage(), e);
+			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
+		}
+		
+		return result;
+	}
+	
+	@RequestMapping("/allotMaterPage")
+	@ResponseBody
+	public Result allotMaterPage(InOutDaoPoundQuery req,HttpServletRequest request){
+		Result result = Result.getParamErrorResult();
+		try {
+			SystemUserResp user = SessionManager.getSessionUser(request);
+			if (req == null) {
+				req = new InOutDaoPoundQuery();
+			}
+			req.setCurrUid(user.getId());
+			PaginationVO<InOutDaoPoundMaterResp> page = allotPoundService.materPage(req);
+			result.setData(page);
+			result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
+		}
+		
+		return result;
+		
+	}
+	
+	@RequestMapping("/allotMaterList")
+	@ResponseBody
+	public Result allotMaterList(InOutDaoPoundQuery req,HttpServletRequest request){
+		Result result = Result.getParamErrorResult();
+		try {
+			SystemUserResp user = SessionManager.getSessionUser(request);
+			
+			if (req ==null) {
+				req = new InOutDaoPoundQuery(); 
+			}
+			req.setCurrUid(user.getId());
+			List<InOutDaoPoundMaterResp> list = allotPoundService.materList(req);
+			result.setData(list);
+			result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+		} catch (Exception e) {
+			// TODO: handle exception
+			log.error(e.getMessage(), e);
+			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
+		}
+		
+		return result;
+	}
+	@RequestMapping("/allotMaterDCPage")
+	@ResponseBody
+	public Result allotMaterDCPage(InOutDaoPoundQuery req,HttpServletRequest request){
+		Result result = Result.getParamErrorResult();
+		try {
+			SystemUserResp user = SessionManager.getSessionUser(request);
+			if (req == null) {
+				req = new InOutDaoPoundQuery();
+			}
+			req.setCurrUid(user.getId());
+			PaginationVO<InOutDaoPoundMaterResp> page = allotPoundService.materDCPage(req);
+			result.setData(page);
+			result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
+		}
+		
+		return result;
+		
+	}
+	
+	@RequestMapping("/allotMaterDCList")
+	@ResponseBody
+	public Result allotMaterDCList(InOutDaoPoundQuery req,HttpServletRequest request){
+		Result result = Result.getParamErrorResult();
+		try {
+			SystemUserResp user = SessionManager.getSessionUser(request);
+			
+			if (req ==null) {
+				req = new InOutDaoPoundQuery(); 
+			}
+			req.setCurrUid(user.getId());
+			List<InOutDaoPoundMaterResp> list = allotPoundService.materDCList(req);
+			result.setData(list);
+			result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+		} catch (Exception e) {
+			// TODO: handle exception
+			log.error(e.getMessage(), e);
+			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
+		}
+		
+		return result;
+	}
+	@RequestMapping("/allotMaterVePage")
+	@ResponseBody
+	public Result allotMaterVePage(InOutDaoPoundQuery req,HttpServletRequest request){
+		Result result = Result.getParamErrorResult();
+		try {
+			SystemUserResp user = SessionManager.getSessionUser(request);
+			if (req == null) {
+				req = new InOutDaoPoundQuery();
+			}
+			req.setCurrUid(user.getId());
+			PaginationVO<InOutDaoPoundMaterResp> page = allotPoundService.materVehiclenoPage(req);
+			result.setData(page);
+			result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
+		}
+		
+		return result;
+		
+	}
+	
+	@RequestMapping("/allotMaterVeList")
+	@ResponseBody
+	public Result allotMaterVeList(InOutDaoPoundQuery req,HttpServletRequest request){
+		Result result = Result.getParamErrorResult();
+		try {
+			SystemUserResp user = SessionManager.getSessionUser(request);
+			
+			if (req ==null) {
+				req = new InOutDaoPoundQuery(); 
+			}
+			req.setCurrUid(user.getId());
+			List<InOutDaoPoundMaterResp> list = allotPoundService.materVehiclenoList(req);
 			result.setData(list);
 			result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
 		} catch (Exception e) {

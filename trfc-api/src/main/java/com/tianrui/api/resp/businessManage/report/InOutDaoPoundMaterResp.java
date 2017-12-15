@@ -17,6 +17,31 @@ public class InOutDaoPoundMaterResp {
     private Double sumNetweight;
     //车数
     private Integer countVehicleNo;
+    //车牌号
+    private String vehicleno;
+    //调入堆场
+    private String enteryardname;
+    //  调出堆场
+    private String leaveyardname;
+    
+	public String getEnteryardname() {
+		return enteryardname;
+	}
+	public void setEnteryardname(String enteryardname) {
+		this.enteryardname = enteryardname;
+	}
+	public String getLeaveyardname() {
+		return leaveyardname;
+	}
+	public void setLeaveyardname(String leaveyardname) {
+		this.leaveyardname = leaveyardname;
+	}
+	public String getVehicleno() {
+		return vehicleno;
+	}
+	public void setVehicleno(String vehicleno) {
+		this.vehicleno = vehicleno;
+	}
 	public String getMaterialname() {
 		return materialname;
 	}
