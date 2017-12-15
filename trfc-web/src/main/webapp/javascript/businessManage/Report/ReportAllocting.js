@@ -110,28 +110,10 @@
                 	$('#RMgB').empty();
         	        var list = result.data||[];
         	            for(var i=0;i<list.length;i++){
-        	            	var lightt,weightt;
-        					if(list[i].lighttime){
-        						lightt=new Date(list[i].lighttime).format("yyyy-MM-dd HH:mm:ss");
-        					}else{
-        						lightt="";
-        					}
-        					if(list[i].weighttime){
-        						weightt=new Date(list[i].weighttime).format("yyyy-MM-dd HH:mm:ss");
-        					}else{
-        						weightt="";
-        					}
-        	            	$('<tr>').append('<td>'+(list[i].code||"")+'</td>')
-							.append('<td>'+(list[i].noticecode||"")+'</td>')
+        	            	$('<tr>').append('<td>'+(list[i].cargo|"")+'</td>')
 							.append('<td>'+(list[i].enteryardname||"")+'</td>')
-							.append('<td>'+(list[i].leaveyardname||"")+'</td>')						
-							.append('<td>'+(list[i].materialname||"")+'</td>')
-							.append('<td>'+(list[i].vehicleno||"")+'</td>')
-							.append('<td>'+(list[i].grossweight||"")+'</td>')
-							.append('<td>'+(list[i].tareweight||"")+'</td>')
-							.append('<td>'+(list[i].netweight||"")+'</td>')
-							.append('<td>'+(lightt)+'</td>')
-							.append('<td>'+(weightt)+'</td>')
+							.append('<td>'+(list[i].countVehicleNo||"")+'</td>')
+							.append('<td>'+(list[i].sumNetweight||"")+'</td>')												
         	                .appendTo('#RMgB');
         	            }       	
                 }
@@ -152,28 +134,11 @@
                 	$('#RMgC').empty();
         	        var list = result.data||[];
         	            for(var i=0;i<list.length;i++){
-        	            	var lightt,weightt;
-        					if(list[i].lighttime){
-        						lightt=new Date(list[i].lighttime).format("yyyy-MM-dd HH:mm:ss");
-        					}else{
-        						lightt="";
-        					}
-        					if(list[i].weighttime){
-        						weightt=new Date(list[i].weighttime).format("yyyy-MM-dd HH:mm:ss");
-        					}else{
-        						weightt="";
-        					}
-        	            	$('<tr>').append('<td>'+(list[i].code||"")+'</td>')
-							.append('<td>'+(list[i].noticecode||"")+'</td>')
-							.append('<td>'+(list[i].enteryardname||"")+'</td>')
-							.append('<td>'+(list[i].leaveyardname||"")+'</td>')						
-							.append('<td>'+(list[i].materialname||"")+'</td>')
-							.append('<td>'+(list[i].vehicleno||"")+'</td>')
-							.append('<td>'+(list[i].grossweight||"")+'</td>')
-							.append('<td>'+(list[i].tareweight||"")+'</td>')
-							.append('<td>'+(list[i].netweight||"")+'</td>')
-							.append('<td>'+(lightt)+'</td>')
-							.append('<td>'+(weightt)+'</td>')
+        	            	
+        	            	$('<tr>').append('<td>'+(list[i].cargo||"")+'</td>')
+							.append('<td>'+(list[i].leaveyardname||"")+'</td>')
+							.append('<td>'+(list[i].countVehicleNo||"")+'</td>')
+							.append('<td>'+(list[i].sumNetweight||"")+'</td>')							
         	                .appendTo('#RMgC');
         	            }       	
                 }
@@ -193,38 +158,17 @@
                 console.log(result.data)           	
                 	$('#RMg').empty();
         	        var list = result.data||[];
-        	            for(var i=0;i<list.length;i++){
-        	            	var lightt,weightt;
-        					if(list[i].lighttime){
-        						lightt=new Date(list[i].lighttime).format("yyyy-MM-dd HH:mm:ss");
-        					}else{
-        						lightt="";
-        					}
-        					if(list[i].weighttime){
-        						weightt=new Date(list[i].weighttime).format("yyyy-MM-dd HH:mm:ss");
-        					}else{
-        						weightt="";
-        					}
-        	            	$('<tr>').append('<td>'+(list[i].code||"")+'</td>')
-							.append('<td>'+(list[i].noticecode||"")+'</td>')
-							.append('<td>'+(list[i].enteryardname||"")+'</td>')
-							.append('<td>'+(list[i].leaveyardname||"")+'</td>')						
-							.append('<td>'+(list[i].materialname||"")+'</td>')
+        	            for(var i=0;i<list.length;i++){      	            	
+        	            	$('<tr>').append('<td>'+(list[i].cargo||"")+'</td>')
 							.append('<td>'+(list[i].vehicleno||"")+'</td>')
-							.append('<td>'+(list[i].grossweight||"")+'</td>')
-							.append('<td>'+(list[i].tareweight||"")+'</td>')
-							.append('<td>'+(list[i].netweight||"")+'</td>')
-							.append('<td>'+(lightt)+'</td>')
-							.append('<td>'+(weightt)+'</td>')
+							.append('<td>'+(list[i].countVehicleNo||"")+'</td>')
+							.append('<td>'+(list[i].sumNetweight||"")+'</td>')								
         	                .appendTo('#RMgD');
         	            }       	
                 }
             }
         });
 	}
-	
-	
-	
 	
 	
 	$('#searchBtn').off('click').on('click',function(){
@@ -447,44 +391,32 @@
 			if(list && list.length>0){
 				var str=0,str1=0,str2=0;
 				for(var i=0;i<list.length;i++){
-					str+=list[i].grossweight;
-					str1+=list[i].tareweight;
-					str2+=list[i].netweight;
-					var lightt,weightt;
-					if(list[i].lighttime){
-						lightt=new Date(list[i].lighttime).format("yyyy-MM-dd HH:mm:ss");
+					if(Number(list[i].enteryardname)!=NaN){
+						str+=list[i].enteryardname;
 					}else{
-						lightt="";
+						str+="";
 					}
-					if(list[i].weighttime){
-						weightt=new Date(list[i].weighttime).format("yyyy-MM-dd HH:mm:ss");
+					if(Number(list[i].countVehicleNo)!=NaN){
+						str1+=list[i].countVehicleNo;
 					}else{
-						weightt="";
+						str1+="";
 					}
-					$('<tr>').append('<td>'+(list[i].code||"")+'</td>')
-							.append('<td>'+(list[i].noticecode||"")+'</td>')
-							.append('<td>'+(list[i].enteryardname||"")+'</td>')
-							.append('<td>'+(list[i].leaveyardname||"")+'</td>')		
-							.append('<td>'+(list[i].materialname||"")+'</td>')
-							.append('<td>'+(list[i].vehicleno||"")+'</td>')
-							.append('<td>'+(list[i].grossweight||"")+'</td>')
-							.append('<td>'+(list[i].tareweight||"")+'</td>')
-							.append('<td>'+(list[i].netweight||"")+'</td>')
-							.append('<td>'+(lightt)+'</td>')
-							.append('<td>'+(weightt)+'</td>')
+					if(Number(list[i].sumNetweight)!=NaN){
+						str2+=list[i].sumNetweight;
+					}else{
+						str2+="";
+					}
+					
+					$('<tr>').append('<td>'+(list[i].cargo|"")+'</td>')
+					.append('<td>'+(list[i].enteryardname||"")+'</td>')
+					.append('<td>'+(list[i].countVehicleNo||"")+'</td>')
+					.append('<td>'+(list[i].sumNetweight||"")+'</td>')	
 							.appendTo('#RMg2');
 				}
 				$('<tr>').append('<td>总计</td>')
-				.append('<td>'+("")+'</td>')
-				.append('<td>'+("")+'</td>')
-				.append('<td>'+("")+'</td>')		
-				.append('<td>'+("")+'</td>')
-				.append('<td>'+("")+'</td>')
 				.append('<td>'+(str)+'</td>')
 				.append('<td>'+(str1)+'</td>')
-				.append('<td>'+(str2)+'</td>')
-				.append('<td>'+("")+'</td>')
-				.append('<td>'+("")+'</td>')
+				.append('<td>'+(str2)+'</td>')	
 				.appendTo('#RMg2');
 			}else if(list.length<=0){
 				layer.msg('暂无数据');
@@ -540,44 +472,31 @@
 			if(list && list.length>0){
 				var str=0,str1=0,str2=0;
 				for(var i=0;i<list.length;i++){
-					str+=list[i].grossweight;
-					str1+=list[i].tareweight;
-					str2+=list[i].netweight;
-					var lightt,weightt;
-					if(list[i].lighttime){
-						lightt=new Date(list[i].lighttime).format("yyyy-MM-dd HH:mm:ss");
+					if(Number(list[i].leaveyardname)!=NaN){
+						str+=list[i].leaveyardname;
 					}else{
-						lightt="";
+						str+="";
 					}
-					if(list[i].weighttime){
-						weightt=new Date(list[i].weighttime).format("yyyy-MM-dd HH:mm:ss");
+					if(Number(list[i].countVehicleNo)!=NaN){
+						str1+=list[i].countVehicleNo;
 					}else{
-						weightt="";
+						str1+="";
 					}
-					$('<tr>').append('<td>'+(list[i].code||"")+'</td>')
-							.append('<td>'+(list[i].noticecode||"")+'</td>')
-							.append('<td>'+(list[i].enteryardname||"")+'</td>')
-							.append('<td>'+(list[i].leaveyardname||"")+'</td>')		
-							.append('<td>'+(list[i].materialname||"")+'</td>')
-							.append('<td>'+(list[i].vehicleno||"")+'</td>')
-							.append('<td>'+(list[i].grossweight||"")+'</td>')
-							.append('<td>'+(list[i].tareweight||"")+'</td>')
-							.append('<td>'+(list[i].netweight||"")+'</td>')
-							.append('<td>'+(lightt)+'</td>')
-							.append('<td>'+(weightt)+'</td>')
+					if(Number(list[i].sumNetweight)!=NaN){
+						str2+=list[i].sumNetweight;
+					}else{
+						str2+="";
+					}
+					$('<tr>').append('<td>'+(list[i].cargo||"")+'</td>')
+					.append('<td>'+(list[i].leaveyardname||"")+'</td>')
+					.append('<td>'+(list[i].countVehicleNo||"")+'</td>')
+					.append('<td>'+(list[i].sumNetweight||"")+'</td>')	
 							.appendTo('#RMg3');
 				}
 				$('<tr>').append('<td>总计</td>')
-				.append('<td>'+("")+'</td>')
-				.append('<td>'+("")+'</td>')
-				.append('<td>'+("")+'</td>')		
-				.append('<td>'+("")+'</td>')
-				.append('<td>'+("")+'</td>')
 				.append('<td>'+(str)+'</td>')
 				.append('<td>'+(str1)+'</td>')
 				.append('<td>'+(str2)+'</td>')
-				.append('<td>'+("")+'</td>')
-				.append('<td>'+("")+'</td>')
 				.appendTo('#RMg3');
 			}else if(list.length<=0){
 				layer.msg('暂无数据');
@@ -633,44 +552,31 @@
 			if(list && list.length>0){
 				var str=0,str1=0,str2=0;
 				for(var i=0;i<list.length;i++){
-					str+=list[i].grossweight;
-					str1+=list[i].tareweight;
-					str2+=list[i].netweight;
-					var lightt,weightt;
-					if(list[i].lighttime){
-						lightt=new Date(list[i].lighttime).format("yyyy-MM-dd HH:mm:ss");
+					if(Number(list[i].vehicleno)!=NaN){
+						str+=list[i].vehicleno;
 					}else{
-						lightt="";
+						str+="";
 					}
-					if(list[i].weighttime){
-						weightt=new Date(list[i].weighttime).format("yyyy-MM-dd HH:mm:ss");
+					if(Number(list[i].countVehicleNo)!=NaN){
+						str1+=list[i].countVehicleNo;
 					}else{
-						weightt="";
+						str1+="";
 					}
-					$('<tr>').append('<td>'+(list[i].code||"")+'</td>')
-							.append('<td>'+(list[i].noticecode||"")+'</td>')
-							.append('<td>'+(list[i].enteryardname||"")+'</td>')
-							.append('<td>'+(list[i].leaveyardname||"")+'</td>')		
-							.append('<td>'+(list[i].materialname||"")+'</td>')
-							.append('<td>'+(list[i].vehicleno||"")+'</td>')
-							.append('<td>'+(list[i].grossweight||"")+'</td>')
-							.append('<td>'+(list[i].tareweight||"")+'</td>')
-							.append('<td>'+(list[i].netweight||"")+'</td>')
-							.append('<td>'+(lightt)+'</td>')
-							.append('<td>'+(weightt)+'</td>')
+					if(Number(list[i].sumNetweight)!=NaN){
+						str2+=list[i].sumNetweight;
+					}else{
+						str2+="";
+					}
+					$('<tr>').append('<td>'+(list[i].cargo||"")+'</td>')
+					.append('<td>'+(list[i].vehicleno||"")+'</td>')
+					.append('<td>'+(list[i].countVehicleNo||"")+'</td>')
+					.append('<td>'+(list[i].sumNetweight||"")+'</td>')		
 							.appendTo('#RMg4');
 				}
 				$('<tr>').append('<td>总计</td>')
-				.append('<td>'+("")+'</td>')
-				.append('<td>'+("")+'</td>')
-				.append('<td>'+("")+'</td>')		
-				.append('<td>'+("")+'</td>')
-				.append('<td>'+("")+'</td>')
 				.append('<td>'+(str)+'</td>')
 				.append('<td>'+(str1)+'</td>')
 				.append('<td>'+(str2)+'</td>')
-				.append('<td>'+("")+'</td>')
-				.append('<td>'+("")+'</td>')
 				.appendTo('#RMg4');
 				
 			}else if(list.length<=0){
