@@ -28,7 +28,7 @@
 		$('input#jumpPageNo').val('');
 		$(".wuliao_tabcont").hide();
 		$(".hide_thing").show();
-		queryData4(1);
+		queryData2(1);
 		commonList2();
 	});
 	$('#receive').off('click').on('click',function(){
@@ -42,7 +42,7 @@
 		$('input#jumpPageNo').val('');
 	    $(".wuliao_tabcont").hide();
 		$(".hide_unit").show();
-		queryData2(1);
+		queryData4(1);
 		commonList4();
 	});
 	
