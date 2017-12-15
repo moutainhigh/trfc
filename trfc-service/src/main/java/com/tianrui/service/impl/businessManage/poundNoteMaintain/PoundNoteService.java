@@ -565,7 +565,13 @@ public class PoundNoteService implements IPoundNoteService {
 		if (StringUtils.isNotBlank(id)) {
 			resp = poundNoteMapper.findOne(id);
 			if (resp != null && StringUtils.equals(resp.getBilltype(), "0")) {
-
+				if (StringUtils.isNotBlank(resp.getNoticeid())) {
+					PurchaseArrive pa = purchaseArriveMapper.selectByPrimaryKey(resp.getNoticeid());
+					if (pa != null) {
+						resp.setSignPersonName(pa.getSignPersonName());
+						resp.setSignTime(pa.getSignTime());
+					}
+				}
 			}
 			if (resp != null && StringUtils.equals(resp.getBilltype(), "2")) {
 				resp.setSalesApplicationList(getSalesApplicationListByPoundNoteId(resp.getId()));

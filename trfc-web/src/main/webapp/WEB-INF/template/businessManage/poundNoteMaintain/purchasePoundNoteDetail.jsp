@@ -90,11 +90,11 @@
 							</div>
 							<div class="daohuo_add_solo">
 								<label>收料员：</label> <input type="text"
-									value="${poundNote.receiverpersonname }" readonly="true">
+									value="${poundNote.signPersonName }" readonly="true">
 							</div>
 							<div class="daohuo_add_solo">
 								<label>收货时间：</label> <input type="text"
-									value="${poundNote.receivertimeStr }" readonly="true">
+									value="${poundNote.signTimeStr }" readonly="true">
 							</div>
 							<div class="daohuo_add_solo">
 								<label>原发数量：</label> <input type="text"
