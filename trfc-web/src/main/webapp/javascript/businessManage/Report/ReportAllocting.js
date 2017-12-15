@@ -110,11 +110,11 @@
                 	$('#RMgB').empty();
         	        var list = result.data||[];
         	            for(var i=0;i<list.length;i++){
-        	            	$('<tr>').append('<td>'+(list[i].cargo|"")+'</td>')
+        	            	$('<tr>').append('<td>'+(list[i].materialname|"")+'</td>')
 							.append('<td>'+(list[i].enteryardname||"")+'</td>')
 							.append('<td>'+(list[i].countVehicleNo||"")+'</td>')
 							.append('<td>'+(list[i].sumNetweight||"")+'</td>')												
-        	                .appendTo('#RMgB');
+        	                .appendTo('#RMgD');
         	            }       	
                 }
             }
@@ -135,7 +135,7 @@
         	        var list = result.data||[];
         	            for(var i=0;i<list.length;i++){
         	            	
-        	            	$('<tr>').append('<td>'+(list[i].cargo||"")+'</td>')
+        	            	$('<tr>').append('<td>'+(list[i].materialname||"")+'</td>')
 							.append('<td>'+(list[i].leaveyardname||"")+'</td>')
 							.append('<td>'+(list[i].countVehicleNo||"")+'</td>')
 							.append('<td>'+(list[i].sumNetweight||"")+'</td>')							
@@ -159,11 +159,11 @@
                 	$('#RMg').empty();
         	        var list = result.data||[];
         	            for(var i=0;i<list.length;i++){      	            	
-        	            	$('<tr>').append('<td>'+(list[i].cargo||"")+'</td>')
+        	            	$('<tr>').append('<td>'+(list[i].materialname||"")+'</td>')
 							.append('<td>'+(list[i].vehicleno||"")+'</td>')
 							.append('<td>'+(list[i].countVehicleNo||"")+'</td>')
 							.append('<td>'+(list[i].sumNetweight||"")+'</td>')								
-        	                .appendTo('#RMgD');
+        	                .appendTo('#RMgB');
         	            }       	
                 }
             }
@@ -386,7 +386,7 @@
 		}
 		//过磅单号   通知单号   发货单位   收货单位     仓库  物料    车号   毛重    皮重    净重      轻车时间   重车时间  
 		function renderHtml2(data){
-			$('#RMg2').empty();
+			$('#RMg4').empty();
 			var list = data.list||[];
 			if(list && list.length>0){
 				var str=0,str1=0,str2=0;
@@ -407,17 +407,17 @@
 						str2+="";
 					}
 					
-					$('<tr>').append('<td>'+(list[i].cargo|"")+'</td>')
+					$('<tr>').append('<td>'+(list[i].materialname|"")+'</td>')
 					.append('<td>'+(list[i].enteryardname||"")+'</td>')
 					.append('<td>'+(list[i].countVehicleNo||"")+'</td>')
 					.append('<td>'+(list[i].sumNetweight||"")+'</td>')	
-							.appendTo('#RMg2');
+							.appendTo('#RMg4');
 				}
 				$('<tr>').append('<td>总计</td>')
 				.append('<td>'+(str)+'</td>')
 				.append('<td>'+(str1)+'</td>')
 				.append('<td>'+(str2)+'</td>')	
-				.appendTo('#RMg2');
+				.appendTo('#RMg4');
 			}else if(list.length<=0){
 				layer.msg('暂无数据');
 //				$('#dataMore').hide();
@@ -487,7 +487,7 @@
 					}else{
 						str2+="";
 					}
-					$('<tr>').append('<td>'+(list[i].cargo||"")+'</td>')
+					$('<tr>').append('<td>'+(list[i].materialname||"")+'</td>')
 					.append('<td>'+(list[i].leaveyardname||"")+'</td>')
 					.append('<td>'+(list[i].countVehicleNo||"")+'</td>')
 					.append('<td>'+(list[i].sumNetweight||"")+'</td>')	
@@ -547,16 +547,12 @@
 		}
 		//过磅单号   通知单号   发货单位   收货单位     仓库  物料    车号   毛重    皮重    净重      轻车时间   重车时间  
 		function renderHtml4(data){
-			$('#RMg4').empty();
+			$('#RMg2').empty();
 			var list = data.list||[];
 			if(list && list.length>0){
-				var str=0,str1=0,str2=0;
+				var str1=0,str2=0;
 				for(var i=0;i<list.length;i++){
-					if(Number(list[i].vehicleno)!=NaN){
-						str+=list[i].vehicleno;
-					}else{
-						str+="";
-					}
+					
 					if(Number(list[i].countVehicleNo)!=NaN){
 						str1+=list[i].countVehicleNo;
 					}else{
@@ -567,17 +563,17 @@
 					}else{
 						str2+="";
 					}
-					$('<tr>').append('<td>'+(list[i].cargo||"")+'</td>')
+					$('<tr>').append('<td>'+(list[i].materialname||"")+'</td>')
 					.append('<td>'+(list[i].vehicleno||"")+'</td>')
 					.append('<td>'+(list[i].countVehicleNo||"")+'</td>')
 					.append('<td>'+(list[i].sumNetweight||"")+'</td>')		
-							.appendTo('#RMg4');
+							.appendTo('#RMg2');
 				}
 				$('<tr>').append('<td>总计</td>')
-				.append('<td>'+(str)+'</td>')
+				.append('<td>'+("---")+'</td>')
 				.append('<td>'+(str1)+'</td>')
 				.append('<td>'+(str2)+'</td>')
-				.appendTo('#RMg4');
+				.appendTo('#RMg2');
 				
 			}else if(list.length<=0){
 				layer.msg('暂无数据');

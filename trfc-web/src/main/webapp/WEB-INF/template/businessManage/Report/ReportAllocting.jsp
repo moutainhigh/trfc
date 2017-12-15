@@ -149,8 +149,7 @@
                                     <p class="biobiaop" style="margin-bottom: 10px">条件：<span class="bbg_tiaojian2"></span></p>
                                 </td>
                             </tr>
-                            <tr>
-                            
+                            <tr>                         
                                         <th style="font-size: 20px">物料</th>
                                         <th style="font-size: 20px">车号</th>
                                         <th style="font-size: 20px">车数</th> 
@@ -176,7 +175,6 @@
                                 </td>
                             </tr>
                             <tr>
-                                <th style="font-size: 20px">过磅单号</th>
                                         <th style="font-size: 20px">物料</th>
                                         <th style="font-size: 20px">调出堆场</th>
                                         <th style="font-size: 20px">车数</th> 
