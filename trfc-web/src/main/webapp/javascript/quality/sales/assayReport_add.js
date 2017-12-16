@@ -20,7 +20,9 @@ var URL = {
 		materialAutoCompleteSearch: "/trfc/materiel/autoCompleteSearch",
 		mschemeAutoCompleteSearch: "/trfc/quality/sales/file/MaterialScheme/autoCompleteSearch",
 		//根据物料查询
-		selectMaterialUrl:"/trfc/quality/sales/file/MaterialScheme/selectMaterial"
+		selectMaterialUrl:"/trfc/quality/sales/file/MaterialScheme/selectMaterial",
+		//根据批号id查询报告
+		selectBatchnumidUrl:"/trfc/quality/sales/report/selectBatchnumid"
 };
 $(function(){
 
@@ -42,12 +44,47 @@ $(function(){
 	$('#jumpButton').click(jumpPageAction);
 	$('#select_list').on('dblclick','tr',function(){
 		var obj = $(this).data('obj');
-		$('#add_batchcode').val(obj.factorycode).attr('batchnumid',obj.id);
+		selectBatchnumid(obj.id,obj.factorycode);
+		
 		$('#add_producedtime').val(getNowFormatDate(false,obj.producedtime));
 		$('#add_testtime').val(getNowFormatDate(false,obj.testtime));
 		selectMaterial(obj.id);
 		$('#closeBth').click();
 	});
+	//根据批号id查询是否可以添加化验报告
+	function selectBatchnumid(batchnumid,factorycode){
+		$.ajax({
+			url : URL.selectBatchnumidUrl,
+			data : {"batchnumid":batchnumid},
+			async : false,
+			cache : false,
+			dataType : 'json',
+			type : 'post',
+			success : function(result) {
+				if (result.code =='000000') {
+					var list =result.data;
+					if(list&&list.length>0){
+						for(var i=0;i<list.length;i++){
+							var obj = list[i];
+							if(obj.reporttype=='0'){
+								$('#add_batchcode').val(factorycode).attr('batchnumid',obj.id);
+								$("#reporttype").val('1').attr('selected',true);
+							}else{
+								$('#add_batchcode').val(factorycode).attr('batchnumid',obj.id);
+								$("#reporttype").val('0').attr('selected',true);
+							}
+						}
+					}else{
+						$('#add_batchcode').val(factorycode).attr('batchnumid',batchnumid);
+					}
+				}else{
+					layer.msg(result.error,{icon:5});
+//					window.location.reload(true);
+					return;
+				}
+			}
+		});
+	}
 	function selectMaterial(material){
 		$.ajax({
 			url : URL.selectMaterialUrl,
@@ -58,7 +95,8 @@ $(function(){
 			type : 'post',
 			success : function(result) {
 				if (result.code = '000000') {
-					$("#add_materialtype").val(result.data.materialtype||"");
+//					$("#add_materialtype").val(result.data.materialtype||"");
+					$('#add_materialtype').val(result.data.materialtype).attr('mschemeid',result.data.id);
 					$("#add_strength").val(result.data.strength||"");
 					$("#add_admixture").val(result.data.admixture||"");
 					$("#add_admixtureadd").val(result.data.admixtureadd||"");
@@ -168,6 +206,7 @@ $(function(){
 	}
 	//获取新增数据
 	function getAddData(){
+		var reporttype =$("#reporttype").val();
 		var code = $('#add_code').val();
 		var batchnumid = $('#add_batchcode').attr('batchnumid');
 		if(!batchnumid){
@@ -223,6 +262,7 @@ $(function(){
 				qschemeid:qscheme,
 				reportorg:reportorg,
 				reporter:reporter,
+				reporttype:reporttype,
 				addr:addr,
 				producedtime:producedtime,
 				testtime:testtime,

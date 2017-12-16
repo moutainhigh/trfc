@@ -52,6 +52,15 @@
 								</div>
 							</div>
 							<div class="daohuo_add_solo">
+								<div class="intel_solo">
+									<label>报告天数：</label> <select class="form-control"
+										id="reporttype">
+										<option value="0">三天报告</option>
+										<option value="1">28天报告</option>
+									</select>
+								</div>
+							</div>	
+							<div class="daohuo_add_solo">
 								<label>生产日期：</label> <input type="text" readonly="readonly"
 									onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:00:00'})"
 									class="Wdate" id="add_producedtime"  placeholder="请选择生产日期"/>

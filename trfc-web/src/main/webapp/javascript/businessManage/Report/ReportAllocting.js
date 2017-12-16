@@ -28,7 +28,7 @@
 		$('input#jumpPageNo').val('');
 		$(".wuliao_tabcont").hide();
 		$(".hide_thing").show();
-		queryData4(1);
+		queryData2(1);
 		commonList2();
 	});
 	$('#receive').off('click').on('click',function(){
@@ -42,7 +42,7 @@
 		$('input#jumpPageNo').val('');
 	    $(".wuliao_tabcont").hide();
 		$(".hide_unit").show();
-		queryData2(1);
+		queryData4(1);
 		commonList4();
 	});
 	
@@ -110,11 +110,11 @@
                 	$('#RMgB').empty();
         	        var list = result.data||[];
         	            for(var i=0;i<list.length;i++){
-        	            	$('<tr>').append('<td>'+(list[i].cargo|"")+'</td>')
+        	            	$('<tr>').append('<td>'+(list[i].materialname|"")+'</td>')
 							.append('<td>'+(list[i].enteryardname||"")+'</td>')
 							.append('<td>'+(list[i].countVehicleNo||"")+'</td>')
 							.append('<td>'+(list[i].sumNetweight||"")+'</td>')												
-        	                .appendTo('#RMgB');
+        	                .appendTo('#RMgD');
         	            }       	
                 }
             }
@@ -135,7 +135,7 @@
         	        var list = result.data||[];
         	            for(var i=0;i<list.length;i++){
         	            	
-        	            	$('<tr>').append('<td>'+(list[i].cargo||"")+'</td>')
+        	            	$('<tr>').append('<td>'+(list[i].materialname||"")+'</td>')
 							.append('<td>'+(list[i].leaveyardname||"")+'</td>')
 							.append('<td>'+(list[i].countVehicleNo||"")+'</td>')
 							.append('<td>'+(list[i].sumNetweight||"")+'</td>')							
@@ -159,11 +159,11 @@
                 	$('#RMg').empty();
         	        var list = result.data||[];
         	            for(var i=0;i<list.length;i++){      	            	
-        	            	$('<tr>').append('<td>'+(list[i].cargo||"")+'</td>')
+        	            	$('<tr>').append('<td>'+(list[i].materialname||"")+'</td>')
 							.append('<td>'+(list[i].vehicleno||"")+'</td>')
 							.append('<td>'+(list[i].countVehicleNo||"")+'</td>')
 							.append('<td>'+(list[i].sumNetweight||"")+'</td>')								
-        	                .appendTo('#RMgD');
+        	                .appendTo('#RMgB');
         	            }       	
                 }
             }
@@ -386,16 +386,12 @@
 		}
 		//过磅单号   通知单号   发货单位   收货单位     仓库  物料    车号   毛重    皮重    净重      轻车时间   重车时间  
 		function renderHtml2(data){
-			$('#RMg2').empty();
+			$('#RMg4').empty();
 			var list = data.list||[];
 			if(list && list.length>0){
-				var str=0,str1=0,str2=0;
+				var str1=0,str2=0;
 				for(var i=0;i<list.length;i++){
-					if(Number(list[i].enteryardname)!=NaN){
-						str+=list[i].enteryardname;
-					}else{
-						str+="";
-					}
+					
 					if(Number(list[i].countVehicleNo)!=NaN){
 						str1+=list[i].countVehicleNo;
 					}else{
@@ -407,17 +403,17 @@
 						str2+="";
 					}
 					
-					$('<tr>').append('<td>'+(list[i].cargo|"")+'</td>')
+					$('<tr>').append('<td>'+(list[i].materialname||"")+'</td>')
 					.append('<td>'+(list[i].enteryardname||"")+'</td>')
 					.append('<td>'+(list[i].countVehicleNo||"")+'</td>')
 					.append('<td>'+(list[i].sumNetweight||"")+'</td>')	
-							.appendTo('#RMg2');
+							.appendTo('#RMg4');
 				}
 				$('<tr>').append('<td>总计</td>')
-				.append('<td>'+(str)+'</td>')
+				.append('<td>'+("----")+'</td>')
 				.append('<td>'+(str1)+'</td>')
-				.append('<td>'+(str2)+'</td>')	
-				.appendTo('#RMg2');
+				.append('<td>'+(parseFloat(str2).toFixed(2))+'</td>')	
+				.appendTo('#RMg4');
 			}else if(list.length<=0){
 				layer.msg('暂无数据');
 //				$('#dataMore').hide();
@@ -470,13 +466,9 @@
 			$('#RMg3').empty();
 			var list = data.list||[];
 			if(list && list.length>0){
-				var str=0,str1=0,str2=0;
+				var str1=0,str2=0;
 				for(var i=0;i<list.length;i++){
-					if(Number(list[i].leaveyardname)!=NaN){
-						str+=list[i].leaveyardname;
-					}else{
-						str+="";
-					}
+					
 					if(Number(list[i].countVehicleNo)!=NaN){
 						str1+=list[i].countVehicleNo;
 					}else{
@@ -487,16 +479,16 @@
 					}else{
 						str2+="";
 					}
-					$('<tr>').append('<td>'+(list[i].cargo||"")+'</td>')
+					$('<tr>').append('<td>'+(list[i].materialname||"")+'</td>')
 					.append('<td>'+(list[i].leaveyardname||"")+'</td>')
 					.append('<td>'+(list[i].countVehicleNo||"")+'</td>')
 					.append('<td>'+(list[i].sumNetweight||"")+'</td>')	
 							.appendTo('#RMg3');
 				}
 				$('<tr>').append('<td>总计</td>')
-				.append('<td>'+(str)+'</td>')
+				.append('<td>'+("----")+'</td>')
 				.append('<td>'+(str1)+'</td>')
-				.append('<td>'+(str2)+'</td>')
+				.append('<td>'+(parseFloat(str2).toFixed(2))+'</td>')
 				.appendTo('#RMg3');
 			}else if(list.length<=0){
 				layer.msg('暂无数据');
@@ -547,16 +539,12 @@
 		}
 		//过磅单号   通知单号   发货单位   收货单位     仓库  物料    车号   毛重    皮重    净重      轻车时间   重车时间  
 		function renderHtml4(data){
-			$('#RMg4').empty();
+			$('#RMg2').empty();
 			var list = data.list||[];
 			if(list && list.length>0){
-				var str=0,str1=0,str2=0;
+				var str1=0,str2=0;
 				for(var i=0;i<list.length;i++){
-					if(Number(list[i].vehicleno)!=NaN){
-						str+=list[i].vehicleno;
-					}else{
-						str+="";
-					}
+					
 					if(Number(list[i].countVehicleNo)!=NaN){
 						str1+=list[i].countVehicleNo;
 					}else{
@@ -567,17 +555,18 @@
 					}else{
 						str2+="";
 					}
-					$('<tr>').append('<td>'+(list[i].cargo||"")+'</td>')
+					$('<tr>').append('<td>'+(list[i].materialname||"")+'</td>')
 					.append('<td>'+(list[i].vehicleno||"")+'</td>')
 					.append('<td>'+(list[i].countVehicleNo||"")+'</td>')
 					.append('<td>'+(list[i].sumNetweight||"")+'</td>')		
-							.appendTo('#RMg4');
+							.appendTo('#RMg2');
 				}
+				str2 = 
 				$('<tr>').append('<td>总计</td>')
-				.append('<td>'+(str)+'</td>')
+				.append('<td>'+("----")+'</td>')
 				.append('<td>'+(str1)+'</td>')
-				.append('<td>'+(str2)+'</td>')
-				.appendTo('#RMg4');
+				.append('<td>'+(parseFloat(str2).toFixed(2))+'</td>')
+				.appendTo('#RMg2');
 				
 			}else if(list.length<=0){
 				layer.msg('暂无数据');

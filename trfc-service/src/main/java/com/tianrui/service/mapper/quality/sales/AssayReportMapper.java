@@ -42,4 +42,8 @@ public interface AssayReportMapper {
      * 查询单条数据
      */
     AssayReport selectOne(String id);
+    /**
+     * 根据批号id查询报告
+     */
+    List<AssayReport> selectBatchnumid(AssayReportReq req);
 }

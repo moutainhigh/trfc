@@ -25,6 +25,8 @@ import com.tianrui.api.intf.businessManage.financeManage.ISalesChargeService;
 import com.tianrui.api.intf.businessManage.financeManage.ISalesDetailService;
 import com.tianrui.api.intf.businessManage.financeManage.ISalesLedgerService;
 import com.tianrui.api.intf.common.IFileService;
+import com.tianrui.api.intf.quality.sales.IAssayReportService;
+import com.tianrui.api.intf.quality.sales.ISalesBatchnumService;
 import com.tianrui.api.intf.system.auth.ISystemRolePermissionsService;
 import com.tianrui.api.req.basicFile.measure.YardManageQuery;
 import com.tianrui.api.req.businessManage.financeManage.SalesChargeQuery;
@@ -56,7 +58,42 @@ public class FileServiceTest {
 //	SystemMenuService systemMenuService;
 	@Autowired
 	ISystemRolePermissionsService iSystemRolePermissionsService;
-	
+	@Autowired
+	ISalesBatchnumService iSalesBatchnumService;
+	@Autowired
+	IAssayReportService iAssayReportService;
+	/**
+	 * 销售化验报告批号详情接口测试
+	 * @Title: findSelectDetail 
+	 * @Description: TODO
+	 * @param @throws Exception   
+	 * @return void    
+	 * @throws
+	 */
+	@Test
+	public void  findSelectDetail() throws Exception {
+		String factorycode="cs110119120";
+		Result rs=iAssayReportService.findSelectDetail(factorycode);
+	}
+	/**
+	 * 批号余量计算接口
+	 * @Title: selectIdMargin 
+	 * @Description: TODO
+	 * @param @throws Exception   
+	 * @return void    
+	 * @throws
+	 */
+	@Test
+	public void  selectIdMargin() throws Exception {
+		String material="1002PP10000000006UEY";
+		Long weighed =123L;
+		Result rs =iSalesBatchnumService.selectIdMargin(material, weighed);
+		if(!rs.getCode().equals("666666")){
+			System.out.println(rs.getError());
+		}else{
+			System.out.println(rs.getData().toString());
+		}
+	}
 	@Test
 	public void testIphone() throws Exception{
 		String id="67d0ff0e6a8d11e7b574ac162d75633c";
