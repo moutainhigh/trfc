@@ -15,18 +15,19 @@
 	init();
 	function init(){
 		bindEvent();
-		queryData();
 		materList();
 		$(".wuliao_tabcont").hide();
 		$(".hide_thing").show();
+		searchData(1);
 	}
 	$('#thing').off('click').on('click',function(){
 		$('input#jumpPageNo').val('');
 		$(".wuliao_tabcont").hide();
 		$(".hide_thing").show();
 		queryData4(1);
-		materList();
+		materList();	
 	});
+	
 	$('#receive').off('click').on('click',function(){
 		$('input#jumpPageNo').val('');
 		$(".wuliao_tabcont").hide();
@@ -72,8 +73,7 @@
 	            dataType:'json',
 	            type:'post',
 	            success:function(result){
-	                if(result.code == '000000'){
-	                console.log(result.data)           	
+	                if(result.code == '000000'){      	
 	                	$('#RMgA').empty();
 	        	        var list = result.data||[];
 	        	            for(var i=0;i<list.length;i++){
@@ -117,8 +117,7 @@
 	            dataType:'json',
 	            type:'post',
 	            success:function(result){
-	                if(result.code == '000000'){
-	                console.log(result.data)           	
+	                if(result.code == '000000'){   	
 	                	$('#RMgA').empty();
 	        	        var list = result.data||[];
 	        	            for(var i=0;i<list.length;i++){
@@ -162,9 +161,7 @@
 	            dataType:'json',
 	            type:'post',
 	            success:function(result){
-	                if(result.code == '000000'){
-	                	console.log(2)
-	                console.log(result.data)           	
+	                if(result.code == '000000'){          	
 	                	$('#RMgB').empty();
 	        	        var list = result.data||[];
 	        	            for(var i=0;i<list.length;i++){
@@ -190,9 +187,7 @@
 	            dataType:'json',
 	            type:'post',
 	            success:function(result){
-	                if(result.code == '000000'){
-	                	console.log(2)
-	                console.log(result.data)           	
+	                if(result.code == '000000'){     	
 	                	$('#RMgC').empty();
 	        	        var list = result.data||[];
 	        	            for(var i=0;i<list.length;i++){
@@ -234,16 +229,13 @@
 	            dataType:'json',
 	            type:'post',
 	            success:function(result){
-	                if(result.code == '000000'){
-	                	console.log(2)
-	                console.log(result.data)           	
+	                if(result.code == '000000'){       	
 	                	$('#RMgC').empty();
 	        	        var list = result.data||[];
 	        	            for(var i=0;i<list.length;i++){
 	        	            	$('<tr>').append('<td>'+(list[i].suppliername||"")+'</td>')
 	    						.append('<td>'+(list[i].materialname||"")+'</td>')
 	    						.append('<td>'+(list[i].countVehicleNo||"")+'</td>')
-//	    						.append('<td>'+(list[i].sumOriginalnetweight||"")+'</td>')
 	    						.append('<td>'+(list[i].sumGrossweight||"")+'</td>')
 	    						.append('<td>'+(list[i].sumTareweight||"")+'</td>')
 	    						.append('<td>'+(list[i].sumNetweight||"")+'</td>')
@@ -254,44 +246,33 @@
 	            }
 	        });
 	}
-	console.log($('.tj_tab ul>li.select').attr('data-type'));
-	function searchData(pageNo) {
-		var type = $('.tj_tab ul>li.select').attr('data-type');
-		switch (type) {
-		case 0:
-			queryData(pageNo);
-			break;
-		case 1:
-			queryData2(pageNo);
-			break;
-		case 2:
-			queryData3(pageNo);
-			break;
-		case 3:
-			queryData4(pageNo);
-			break;
-		default:
-			alert();
-			break;
+	
+	function searchData(page) {
+		var type=$('.tj_tab ul>li.select').attr('data-type');
+		console.log(type)
+		if(type==0){
+			queryData5(page);
+			console.log(queryData)
+		}
+		if(type==1){
+			queryData(page);
+			console.log(queryData2)
+		}
+		if(type==2){
+			queryData2(page);
+			console.log(queryData3)
+		}
+		if(type==3){
+			queryData3(page);
+			console.log(queryData4)
+		}
+		if(type==4){
+			queryData4(page);
+			console.log(queryData5)
 		}
 	}
 	$('#searchBtn').off('click').on('click',function(){
-//		searchData(1);
-		if(queryData){
-			queryData(1);
-		}
-		if(queryData2){
-			queryData2(1);	
-		}
-		if(queryData3){
-			queryData3(1);
-		}
-		if(queryData4){
-			queryData4(1);
-		}
-		if(queryData5){
-			queryData5(1);
-		}
+		searchData(1);
 	});
 	$('#clean').off('click').on('click',function(){
 		clean();
@@ -306,43 +287,13 @@
 				$('input#jumpPageNo').val('');
 			}else{
 				$('input#jumpPageNo').val(pageNo);
-//				searchData(pageNo);
-				if(queryData){
-					queryData(pageNo);
-				}
-				if(queryData2){
-					queryData2(pageNo);	
-				}
-				if(queryData3){
-					queryData3(pageNo);
-				}
-				if(queryData4){
-					queryData4(pageNo);
-				}
-				if(queryData5){
-					queryData5(pageNo);
-				}
-				
+				searchData(pageNo);
+			
 			}
 		});
 		$('#pageSize').change(function(){
-//			searchData(1);
-			if(queryData){
-				queryData(1);
-			}
-			if(queryData2){
-				queryData2(1);
-			}
-			if(queryData3){
-				queryData3(1);
-			}
-			if(queryData4){
-				queryData4(1);
-			}
-			if(queryData5){
-				queryData5(1);
-			}
-//			queryData(1);
+			searchData(1);
+	
 		});
 	}
 	function str2Long(dateStr){
@@ -390,10 +341,8 @@
 		 $('#bbg_bz').val("");
 		 $('#duichang').val("");
 		 $('#pushStatus').val("");
-//		 queryData(1);
 	}
 //		//初始化页面
-//		queryData(1);
 	function queryData5(pageNo){
 		var index = layer.load(2, {
 		  shade: [0.3,'#fff'] //0.1透明度的白色背景
@@ -556,7 +505,6 @@
 		}
 
 ////		单位统计
-//		queryData2(1);
 		function queryData2(pageNo){
 			var index = layer.load(2, {
 			  shade: [0.3,'#fff'] //0.1透明度的白色背景
@@ -620,7 +568,6 @@
 		}
 	
 ////	收料统计
-//	queryData3(1);
 	function queryData3(pageNo){
 		var index = layer.load(2, {
 		  shade: [0.3,'#fff'] //0.1透明度的白色背景
@@ -701,7 +648,6 @@
 
 	
 //	物料统计
-	queryData4(1);
 	function queryData4(pageNo){
 		var index = layer.load(2, {
 		  shade: [0.3,'#fff'] //0.1透明度的白色背景
@@ -751,8 +697,7 @@
 			for(var i=0;i<list.length;i++){
 				$('<tr>').append('<td>'+(list[i].suppliername||"")+'</td>')
 						.append('<td>'+(list[i].materialname||"")+'</td>')
-						.append('<td>'+(list[i].countVehicleNo||"")+'</td>')
-	//					.append('<td>'+(list[i].sumOriginalnetweight||"")+'</td>')
+						.append('<td>'+(list[i].countVehicleNo||"")+'</td>')	
 						.append('<td>'+(list[i].sumGrossweight||"")+'</td>')
 						.append('<td>'+(list[i].sumTareweight||"")+'</td>')
 						.append('<td>'+(list[i].sumNetweight||"")+'</td>')
