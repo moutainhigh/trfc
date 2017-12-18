@@ -107,9 +107,29 @@ public class ReportPurchase {
     //分页参数
     private Integer start;
     private Integer limit;
-    
-    
-    public String getMinemouthid() {
+
+  //通知单号
+      private String billcodeLike;
+  //磅单号
+      private String poundcodeLike;
+
+	public String getBillcodeLike() {
+		return billcodeLike;
+	}
+
+	public void setBillcodeLike(String billcodeLike) {
+		this.billcodeLike = billcodeLike;
+	}
+
+	public String getPoundcodeLike() {
+		return poundcodeLike;
+	}
+
+	public void setPoundcodeLike(String poundcodeLike) {
+		this.poundcodeLike = poundcodeLike;
+	}
+
+	public String getMinemouthid() {
 		return minemouthid;
 	}
 

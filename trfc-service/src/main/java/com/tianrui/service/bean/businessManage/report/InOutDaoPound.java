@@ -167,7 +167,40 @@ public class InOutDaoPound {
     //分页参数
     private Integer start;
     private Integer limit;
+  
+    //通知单号
+    private String noticecodeLike;
+    //调入堆场名称
+    private String enteryardnameLike;
+    //调离堆场名称
+    private String leaveyardnameLike;
     
+    
+    
+
+	public String getNoticecodeLike() {
+		return noticecodeLike;
+	}
+
+	public void setNoticecodeLike(String noticecodeLike) {
+		this.noticecodeLike = noticecodeLike;
+	}
+
+	public String getEnteryardnameLike() {
+		return enteryardnameLike;
+	}
+
+	public void setEnteryardnameLike(String enteryardnameLike) {
+		this.enteryardnameLike = enteryardnameLike;
+	}
+
+	public String getLeaveyardnameLike() {
+		return leaveyardnameLike;
+	}
+
+	public void setLeaveyardnameLike(String leaveyardnameLike) {
+		this.leaveyardnameLike = leaveyardnameLike;
+	}
 	public String getBillcodeLike() {
 		return billcodeLike;
 	}

@@ -23,6 +23,8 @@ public class ReportPurchaseQuery extends BaseReq {
 	private String materielid;
 	// 物料
 	private String cargo;
+	// 司机id
+	private String driverid;
 	// 司机姓名
 	private String drivername;
 	//  车辆id
@@ -46,6 +48,29 @@ public class ReportPurchaseQuery extends BaseReq {
 
 	private String currUid;
 	
+	
+	//到货通知单号
+	private String billcode;
+	//过磅单号
+	private String poundcode;
+	
+	
+	public String getBillcode() {
+		return billcode;
+	}
+
+	public void setBillcode(String billcode) {
+		this.billcode = billcode;
+	}
+
+	public String getPoundcode() {
+		return poundcode;
+	}
+
+	public void setPoundcode(String poundcode) {
+		this.poundcode = poundcode;
+	}
+
 	public String getSupplierid() {
 		return supplierid;
 	}
@@ -133,6 +158,14 @@ public class ReportPurchaseQuery extends BaseReq {
 
 	public void setCargo(String cargo) {
 		this.cargo = cargo;
+	}
+
+	public String getDriverid() {
+		return driverid;
+	}
+
+	public void setDriverid(String driverid) {
+		this.driverid = driverid;
 	}
 
 	public String getDrivername() {
