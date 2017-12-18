@@ -460,12 +460,7 @@
 				var orgname = obj.orgname || '';
 				var billtimeStr = obj.billtimeStr || '';
 				var departmentname = obj.departmentname || '';
-				var minemouthname = '';
-				switch (supplier.minemouthname) {
-				case '0': minemouthname = '否'; break;
-				case '1': minemouthname = '是'; break;
-				default: break;
-				}
+				var  minemouthname= obj.minemouthname || '';
 				var drivercheck = '';
 				switch (supplier.drivercheck) {
 				case '0': drivercheck = '否'; break;
@@ -488,7 +483,7 @@
 						.append('<td>'+billtimeStr+'</td>')
 						.append('<td>'+departmentname+'</td>')
 						.append('<td>'+minemouthname+'</td>')
-						.append('<td>'+drivercheck+'</td>')
+					/*	.append('<td>'+drivercheck+'</td>')*/
 						.append('<td>'+supplierremark+'</td>')
 						.data(obj)
 						.appendTo('#purchaseApplicationBody');
