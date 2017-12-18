@@ -75,12 +75,12 @@
             </div>
             <div class="intel_solo">
                 <label class="colorB">开始时间：</label>
-                <input id="clock1" type="text" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:00:00'})" class="Wdate"
+                <input id="clock1" type="text" readonly onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:00:00',maxDate:'#F{$dp.$D(\'clock2\')}'})" class="Wdate"
                        style="width:160px"/>
             </div>
             <div class="intel_solo">
                 <label class="colorB">结束时间：</label>
-                <input id="clock2" type="text" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:00:00'})" class="Wdate"
+                <input id="clock2" type="text" readonly onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:00:00',minDate:'#F{$dp.$D(\'clock1\')}'})" class="Wdate"
                        style="width:160px"/>
             </div>
             <div class="intel_solo">
@@ -108,12 +108,12 @@
 						<div class="intel_opera">
     <!--物料四个按钮切换-->
     <div class="wuliao_opera" style="position:relative;">
-        <div class="wuliao_tab">
+        <div class="wuliao_tab tj_tab">
             <ul>  
-            	<li id="unit">物料车号</li>
-            	<li id="receive">调出堆场</li>
-            	<li id="thing">调入堆场</li>
-                <li id="buyCar" class="select">厂内倒运</li>
+            	<li id="unit" data-type="0">物料车号</li>
+            	<li id="receive" data-type="1">调出堆场</li>
+            	<li id="thing" data-type="2">调入堆场</li>
+                <li id="buyCar" class="select" data-type="3">厂内倒运</li>
             </ul>
         </div>
         <div class="wuliao_tabbox">

@@ -125,13 +125,20 @@
 	            }
 	        });
 	}
+	
+	function search(pageNo){
+		var type=$(".tj_tab ul li.select").attr("data-type");
+		if(type==0){
+			queryData3(pageNo);
+		}
+		if(type==1){
+			queryData4(pageNo);
+		}
+	}
+	
+	
 	$('#searchBtn').off('click').on('click',function(){
-		if(queryData3){
-			queryData3(1);
-		}
-		if(queryData4){
-			queryData4(1);
-		}
+		search(1);
 	});
 	$('#clean').off('click').on('click',function(){
 		clean();
@@ -146,24 +153,12 @@
 			}else{
 				$('input#jumpPageNo').val(pageNo);
 			
-				if(queryData3){
-					queryData3(pageNo);
-				}
-				if(queryData4){
-					queryData4(pageNo);
-				}
+				search(pageNo);
 				
 			}
 		});
 		$('#pageSize').change(function(){
-		
-			if(queryData3){
-				queryData3(1);
-			}
-			if(queryData4){
-				queryData4(1);
-			}
-//			queryData(1);
+			search(1);
 		});
 	}
 	function str2Long(dateStr){

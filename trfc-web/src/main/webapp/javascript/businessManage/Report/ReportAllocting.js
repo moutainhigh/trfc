@@ -3,7 +3,7 @@
 	var URL = {
 			commonUrl:"/trfc/allotPound/allotPage",		//场内倒运
 			commonListUrl:"/trfc/allotPound/allotList",		
-			allotMaterUrl:"/trfc/allotPound/allotMaterPage",//调入堆场
+			allotMaterUrl:"/trfc/allotPound/allotMaterPage",//调入堆场 
 			allotMaterListUrl:"/trfc/allotPound/allotMaterList",
 			allotMaterDCUrl:"/trfc/allotPound/allotMaterDCPage",//调出堆场
 			allotMaterDCListUrl:"/trfc/allotPound/allotMaterDCList",
@@ -14,6 +14,7 @@
 	function init(){
 		bindEvent();
 		queryData();
+		commonList();
 		$(".wuliao_tabcont").hide();
 		$(".hide_buyCar").show();
 	}
@@ -28,7 +29,7 @@
 		$('input#jumpPageNo').val('');
 		$(".wuliao_tabcont").hide();
 		$(".hide_thing").show();
-		queryData4(1);
+		queryData2(1);
 		commonList2();
 	});
 	$('#receive').off('click').on('click',function(){
@@ -42,7 +43,7 @@
 		$('input#jumpPageNo').val('');
 	    $(".wuliao_tabcont").hide();
 		$(".hide_unit").show();
-		queryData2(1);
+		queryData4(1);
 		commonList4();
 	});
 	
@@ -170,20 +171,24 @@
         });
 	}
 	
+	function search(pageNo){
+		var type=$(".tj_tab ul li.select").attr("data-type");
+		if(type==0){
+			queryData4(pageNo);
+		}
+		if(type==1){
+			queryData3(pageNo);
+		}
+		if(type==2){
+			queryData2(pageNo);
+		}
+		if(type==3){
+			queryData(pageNo);
+		}
+	}
 	
 	$('#searchBtn').off('click').on('click',function(){
-		if(queryData){
-			queryData(1);
-		}
-		if(queryData2){
-			queryData2(1);	
-		}
-		if(queryData3){
-			queryData3(1);
-		}
-		if(queryData4){
-			queryData4(1);
-		}
+		search(1);
 	});
 	$('#clean').off('click').on('click',function(){
 		clean();
@@ -198,34 +203,12 @@
 				$('input#jumpPageNo').val('');
 			}else{
 				$('input#jumpPageNo').val(pageNo);
-				if(queryData){
-					queryData(pageNo);
-				}
-				if(queryData2){
-					queryData2(pageNo);	
-				}
-				if(queryData3){
-					queryData3(pageNo);
-				}
-				if(queryData4){
-					queryData4(pageNo);
-				}
+				search(pageNo);
 				
 			}
 		});
 		$('#pageSize').change(function(){
-			if(queryData){
-				queryData(1);
-			}
-			if(queryData2){
-				queryData2(1);	
-			}
-			if(queryData3){
-				queryData3(1);
-			}
-			if(queryData4){
-				queryData4(1);
-			}
+			search(1);
 		});
 	}
 	function str2Long(dateStr){
@@ -389,13 +372,8 @@
 			$('#RMg4').empty();
 			var list = data.list||[];
 			if(list && list.length>0){
-				var str=0,str1=0,str2=0;
+				var str1=0,str2=0;
 				for(var i=0;i<list.length;i++){
-					if(Number(list[i].enteryardname)!=NaN){
-						str+=list[i].enteryardname;
-					}else{
-						str+="";
-					}
 					if(Number(list[i].countVehicleNo)!=NaN){
 						str1+=list[i].countVehicleNo;
 					}else{
@@ -414,9 +392,9 @@
 							.appendTo('#RMg4');
 				}
 				$('<tr>').append('<td>总计</td>')
-				.append('<td>'+(str)+'</td>')
-				.append('<td>'+(str1)+'</td>')
-				.append('<td>'+(str2)+'</td>')	
+				.append('<td>'+("---")+'</td>')
+				.append('<td>'+(str1.toFixed(2))+'</td>')
+				.append('<td>'+(str2.toFixed(2))+'</td>')	
 				.appendTo('#RMg4');
 			}else if(list.length<=0){
 				layer.msg('暂无数据');
@@ -470,13 +448,9 @@
 			$('#RMg3').empty();
 			var list = data.list||[];
 			if(list && list.length>0){
-				var str=0,str1=0,str2=0;
+				var str1=0,str2=0;
 				for(var i=0;i<list.length;i++){
-					if(Number(list[i].leaveyardname)!=NaN){
-						str+=list[i].leaveyardname;
-					}else{
-						str+="";
-					}
+				
 					if(Number(list[i].countVehicleNo)!=NaN){
 						str1+=list[i].countVehicleNo;
 					}else{
@@ -494,9 +468,9 @@
 							.appendTo('#RMg3');
 				}
 				$('<tr>').append('<td>总计</td>')
-				.append('<td>'+(str)+'</td>')
-				.append('<td>'+(str1)+'</td>')
-				.append('<td>'+(str2)+'</td>')
+				.append('<td>'+("---")+'</td>')
+				.append('<td>'+(str1.toFixed(2))+'</td>')
+				.append('<td>'+(str2.toFixed(2))+'</td>')
 				.appendTo('#RMg3');
 			}else if(list.length<=0){
 				layer.msg('暂无数据');
@@ -571,8 +545,8 @@
 				}
 				$('<tr>').append('<td>总计</td>')
 				.append('<td>'+("---")+'</td>')
-				.append('<td>'+(str1)+'</td>')
-				.append('<td>'+(str2)+'</td>')
+				.append('<td>'+(str1.toFixed(2))+'</td>')
+				.append('<td>'+(str2.toFixed(2))+'</td>')
 				.appendTo('#RMg2');
 				
 			}else if(list.length<=0){
