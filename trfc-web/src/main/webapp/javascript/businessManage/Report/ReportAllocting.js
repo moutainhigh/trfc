@@ -3,7 +3,7 @@
 	var URL = {
 			commonUrl:"/trfc/allotPound/allotPage",		//场内倒运
 			commonListUrl:"/trfc/allotPound/allotList",		
-			allotMaterUrl:"/trfc/allotPound/allotMaterPage",//调入堆场
+			allotMaterUrl:"/trfc/allotPound/allotMaterPage",//调入堆场 
 			allotMaterListUrl:"/trfc/allotPound/allotMaterList",
 			allotMaterDCUrl:"/trfc/allotPound/allotMaterDCPage",//调出堆场
 			allotMaterDCListUrl:"/trfc/allotPound/allotMaterDCList",
@@ -14,6 +14,7 @@
 	function init(){
 		bindEvent();
 		queryData();
+		commonList();
 		$(".wuliao_tabcont").hide();
 		$(".hide_buyCar").show();
 	}
@@ -170,20 +171,24 @@
         });
 	}
 	
+	function search(pageNo){
+		var type=$(".tj_tab ul li.select").attr("data-type");
+		if(type==0){
+			queryData4(pageNo);
+		}
+		if(type==1){
+			queryData3(pageNo);
+		}
+		if(type==2){
+			queryData2(pageNo);
+		}
+		if(type==3){
+			queryData(pageNo);
+		}
+	}
 	
 	$('#searchBtn').off('click').on('click',function(){
-		if(queryData){
-			queryData(1);
-		}
-		if(queryData2){
-			queryData2(1);	
-		}
-		if(queryData3){
-			queryData3(1);
-		}
-		if(queryData4){
-			queryData4(1);
-		}
+		search(1);
 	});
 	$('#clean').off('click').on('click',function(){
 		clean();
@@ -198,34 +203,12 @@
 				$('input#jumpPageNo').val('');
 			}else{
 				$('input#jumpPageNo').val(pageNo);
-				if(queryData){
-					queryData(pageNo);
-				}
-				if(queryData2){
-					queryData2(pageNo);	
-				}
-				if(queryData3){
-					queryData3(pageNo);
-				}
-				if(queryData4){
-					queryData4(pageNo);
-				}
+				search(pageNo);
 				
 			}
 		});
 		$('#pageSize').change(function(){
-			if(queryData){
-				queryData(1);
-			}
-			if(queryData2){
-				queryData2(1);	
-			}
-			if(queryData3){
-				queryData3(1);
-			}
-			if(queryData4){
-				queryData4(1);
-			}
+			search(1);
 		});
 	}
 	function str2Long(dateStr){
@@ -391,7 +374,6 @@
 			if(list && list.length>0){
 				var str1=0,str2=0;
 				for(var i=0;i<list.length;i++){
-					
 					if(Number(list[i].countVehicleNo)!=NaN){
 						str1+=list[i].countVehicleNo;
 					}else{
@@ -403,16 +385,16 @@
 						str2+="";
 					}
 					
-					$('<tr>').append('<td>'+(list[i].materialname||"")+'</td>')
+					$('<tr>').append('<td>'+(list[i].materialname|"")+'</td>')
 					.append('<td>'+(list[i].enteryardname||"")+'</td>')
 					.append('<td>'+(list[i].countVehicleNo||"")+'</td>')
 					.append('<td>'+(list[i].sumNetweight||"")+'</td>')	
 							.appendTo('#RMg4');
 				}
 				$('<tr>').append('<td>总计</td>')
-				.append('<td>'+("----")+'</td>')
-				.append('<td>'+(str1)+'</td>')
-				.append('<td>'+(parseFloat(str2).toFixed(2))+'</td>')	
+				.append('<td>'+("---")+'</td>')
+				.append('<td>'+(str1.toFixed(2))+'</td>')
+				.append('<td>'+(str2.toFixed(2))+'</td>')	
 				.appendTo('#RMg4');
 			}else if(list.length<=0){
 				layer.msg('暂无数据');
@@ -468,7 +450,7 @@
 			if(list && list.length>0){
 				var str1=0,str2=0;
 				for(var i=0;i<list.length;i++){
-					
+				
 					if(Number(list[i].countVehicleNo)!=NaN){
 						str1+=list[i].countVehicleNo;
 					}else{
@@ -486,9 +468,9 @@
 							.appendTo('#RMg3');
 				}
 				$('<tr>').append('<td>总计</td>')
-				.append('<td>'+("----")+'</td>')
-				.append('<td>'+(str1)+'</td>')
-				.append('<td>'+(parseFloat(str2).toFixed(2))+'</td>')
+				.append('<td>'+("---")+'</td>')
+				.append('<td>'+(str1.toFixed(2))+'</td>')
+				.append('<td>'+(str2.toFixed(2))+'</td>')
 				.appendTo('#RMg3');
 			}else if(list.length<=0){
 				layer.msg('暂无数据');
@@ -561,11 +543,10 @@
 					.append('<td>'+(list[i].sumNetweight||"")+'</td>')		
 							.appendTo('#RMg2');
 				}
-				str2 = 
 				$('<tr>').append('<td>总计</td>')
-				.append('<td>'+("----")+'</td>')
-				.append('<td>'+(str1)+'</td>')
-				.append('<td>'+(parseFloat(str2).toFixed(2))+'</td>')
+				.append('<td>'+("---")+'</td>')
+				.append('<td>'+(str1.toFixed(2))+'</td>')
+				.append('<td>'+(str2.toFixed(2))+'</td>')
 				.appendTo('#RMg2');
 				
 			}else if(list.length<=0){

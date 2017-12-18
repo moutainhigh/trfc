@@ -1106,7 +1106,7 @@ public class SalesArriveService implements ISalesArriveService {
 			api.setSignStatus(listPurchase.get(0).getSignStatus()== null ? 0 : listPurchase.get(0).getSignStatus());
 			api.setBillNo(application.getCode());
 			api.setRemark(application.getRemark()==null?"":application.getRemark());
-			api.setSupRemark(application.getSupplierremark());
+			api.setSupRemark(application.getSupplierremark()==null?"":application.getSupplierremark());
 		}
 		return api;
 	}

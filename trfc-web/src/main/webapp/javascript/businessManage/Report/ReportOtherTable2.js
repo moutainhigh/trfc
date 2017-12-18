@@ -318,34 +318,38 @@ function preview3()
     window.print();
 }
 $('#yearNow').off('click').on('click',function(){
-	  var date = new Date();
-	    this.year = date.getFullYear();
-	    var clock1=document.getElementById("clock1");
-	    var clock2=document.getElementById("clock2");
-	    clock1.value="";
-	    clock2.value="";
-	    clock1.value=this.year+"年";
-	    clock2.value=this.year+"年";
+	var date = new Date();
+    this.year = date.getFullYear();
+    this.month = date.getMonth() + 1;
+    var clock1=document.getElementById("clock1");
+    var clock2=document.getElementById("clock2");
+    clock1.value="";
+    clock2.value="";
+    clock1.value=this.year+"-01-01 00:00:00";
+    clock2.value=this.year+"-12-"+new Date(this.year,this.month,0).getDate()+" 23:59:59";
 });
 $('#monthNow').off('click').on('click',function(){
 	 var date = new Date();
+	 this.year = date.getFullYear();
 	    this.month = date.getMonth() + 1;
 	    var clock1=document.getElementById("clock1");
 	    var clock2=document.getElementById("clock2");
 	    clock1.value="";
 	    clock2.value="";
-	    clock1.value=this.month+"月";
-	    clock2.value=this.month+"月";
+	    clock1.value=this.year+"-"+this.month+"-01 00:00:00";
+	    clock2.value=this.year+"-"+this.month+"-"+new Date(this.year,this.month,0).getDate()+" 23:59:59";
 });
 $('#dayNow').off('click').on('click',function(){
 	 var date = new Date();
+	 this.year = date.getFullYear();
+	    this.month = date.getMonth() + 1;
 	    this.date = date.getDate();
 	    var clock1=document.getElementById("clock1");
 	    var clock2=document.getElementById("clock2");
 	    clock1.value="";
 	    clock2.value="";
-	    clock1.value=this.date+"日";
-	    clock2.value=this.date+"日";
+	    clock1.value=this.year+"-"+this.month+"-"+this.date+" 00:00:00";
+	    clock2.value=this.year+"-"+this.month+"-"+this.date+" 23:59:59";
 });
 //获取系统时间 年月日
 function Clock() {
