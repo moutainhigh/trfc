@@ -33,4 +33,13 @@ public interface IAssayReportService {
 	 * 查询审核信息
 	 */
 	Result findReportMsg(AssayReportReq req) throws Exception;
+	
+	/**
+	 * 根据批号查询销售化验报告详情接口
+	 */
+	Result findSelectDetail(String factorycode)throws Exception;
+	/**
+	 * 根据批号校验报告天数
+	 */
+	Result selectBatchnumid(AssayReportReq req)throws Exception;
 }

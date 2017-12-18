@@ -1,7 +1,9 @@
 package com.tianrui.service.impl.quality.sales;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -11,8 +13,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.alibaba.fastjson.JSONArray;
+import com.tianrui.api.intf.quality.file.IQualitySchemeItemService;
 import com.tianrui.api.intf.quality.sales.IAssayReportService;
+import com.tianrui.api.req.quality.file.QualitySchemeItemReq;
 import com.tianrui.api.req.quality.sales.AssayReportReq;
+import com.tianrui.api.resp.quality.file.QualitySchemeItemResp;
 import com.tianrui.api.resp.quality.sales.AssayReportResp;
 import com.tianrui.service.bean.basicFile.nc.MaterielManage;
 import com.tianrui.service.bean.quality.file.MaterialScheme;
@@ -52,7 +57,8 @@ public class AssayReportService implements IAssayReportService {
 	private AssayReportItemMapper assayReportItemMapper;
 	@Resource
 	private AssayReportMsgMapper assayReportMsgMapper;
-
+	@Resource
+	private IQualitySchemeItemService qualitySchemeItemService;
 	@Override
 	public Result delete(AssayReportReq req) throws Exception {
 		Result rs = Result.getParamErrorResult();
@@ -89,8 +95,7 @@ public class AssayReportService implements IAssayReportService {
 			report.setUtc(System.currentTimeMillis());
 			//设置为 正常状态
 			report.setState("1");
-			//设置为 3天报告
-			report.setReporttype("0");
+			report.setReporttype(req.getReporttype());
 			//保存数据到数据库
 			int index = assayReportMapper.insertSelective(report);
 			//判断操作是否成功
@@ -353,5 +358,66 @@ public class AssayReportService implements IAssayReportService {
 		msg.setUtc(System.currentTimeMillis());
 		int index = assayReportMsgMapper.insertSelective(msg);
 		return index;
+	}
+	
+	/**
+	 * 根据批号查询批号详情
+	 */
+	@Override
+	public Result findSelectDetail(String factorycode) throws Exception {
+		// TODO Auto-generated method stub
+		Result rs =Result.getSuccessResult();
+		//创建一个销售化验报告集合
+		List<AssayReportResp> resp = new ArrayList<AssayReportResp>();
+		//根据批号查询销售批号对应的数据
+		SalesBatchnum  salesBatchnum  =salesBatchnumMapper.selectByFactoryCode(factorycode);
+		//创建销售化验报告req对象
+		AssayReportReq req =new AssayReportReq();
+		//将id放到req对象
+		req.setBatchnumid(salesBatchnum.getId());
+		//根据id查询数据
+		List<AssayReport>  list =assayReportMapper.selectBatchnumid(req);
+		//校验list
+		if(list!=null&&!list.isEmpty()){
+			for(AssayReport assay:list){//遍历list
+				AssayReportResp assayReportlist = new AssayReportResp();
+				AssayReportReq r = new AssayReportReq();
+				r.setId(assay.getId());
+				Result s=findOne(r);
+				assayReportlist=(AssayReportResp) s.getData();
+				QualitySchemeItemReq re = new QualitySchemeItemReq();
+				re.setId(assay.getId());
+				re.setAssayid(assay.getId());
+				re.setSchemeid(assay.getQschemeid());
+				Result sq =qualitySchemeItemService.findDetailandVal(re);
+				assayReportlist.setQualitySchemeItemlist((List<QualitySchemeItemResp>) sq.getData());
+				resp.add(assayReportlist);
+			}
+			rs.setData(resp);
+		}else{
+			rs.setCode("111111");
+			rs.setError("暂无数据！");
+		}
+		return rs;
+	}
+
+	/**
+	 * 根据批号id校验报告天数
+	 */
+	@Override
+	public Result selectBatchnumid(AssayReportReq req) throws Exception {
+		// TODO Auto-generated method stub
+		Result rs =Result.getSuccessResult();
+		int a =assayReportMapper.count(req);
+		if(a>=2){
+			rs.setCode("111111");
+			rs.setError("该批号已有其他报告，请选择其他批号！");
+		}else if(a<2&&a>=0){
+			List<AssayReport>  list =assayReportMapper.selectBatchnumid(req);
+//			if(list!=null&&!list.isEmpty()){
+				rs.setData(list);
+//			}
+		}
+		return rs;
 	}
 }

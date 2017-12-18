@@ -343,7 +343,8 @@
 		<include refid="Base_Column_List" />
 		from tr_sales_db_assay_report
 		where id = #{id,jdbcType=VARCHAR}
-		and state="1"
+		and
+		state="1"
 
 	</select>
 	<select id="page" parameterType="com.tianrui.api.req.quality.sales.AssayReportReq"
@@ -373,7 +374,7 @@
 		<if test="start!=null and limit!=null and limit!=0">
 			limit #{start,jdbcType=INTEGER},#{limit,jdbcType=INTEGER}
 		</if>
-		
+
 	</select>
 	<select id="count" parameterType="com.tianrui.api.req.quality.sales.AssayReportReq"
 		resultType="int">
@@ -396,6 +397,18 @@
 			</if>
 			<if test="reporttype!=null and reporttype!=''">
 				and reporttype=#{reporttype,jdbcType=VARCHAR}
+			</if>
+		</where>
+	</select>
+	<select id="selectBatchnumid" parameterType="com.tianrui.api.req.quality.sales.AssayReportReq"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from tr_sales_db_assay_report
+		<where>
+			state = "1"
+			<if test="batchnumid!=null and batchnumid!=''">
+				and batchnumid=#{batchnumid,jdbcType=VARCHAR}
 			</if>
 		</where>
 	</select>

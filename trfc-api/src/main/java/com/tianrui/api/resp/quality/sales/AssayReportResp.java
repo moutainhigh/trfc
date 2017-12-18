@@ -1,6 +1,9 @@
 package com.tianrui.api.resp.quality.sales;
 
+import java.util.List;
+
 import com.tianrui.api.resp.BaseResp;
+import com.tianrui.api.resp.quality.file.QualitySchemeItemResp;
 /**
  * 销售化验报告resp
  * @author Administrator
@@ -104,6 +107,15 @@ public class AssayReportResp extends BaseResp {
      * 审核日期
      */
     private Long audittime;
+    private List<QualitySchemeItemResp> qualitySchemeItemlist;
+    
+    
+	public List<QualitySchemeItemResp> getQualitySchemeItemlist() {
+		return qualitySchemeItemlist;
+	}
+	public void setQualitySchemeItemlist(List<QualitySchemeItemResp> qualitySchemeItemlist) {
+		this.qualitySchemeItemlist = qualitySchemeItemlist;
+	}
 	public String getId() {
 		return id;
 	}
