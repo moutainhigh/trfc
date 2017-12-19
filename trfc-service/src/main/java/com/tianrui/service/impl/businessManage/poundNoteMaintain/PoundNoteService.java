@@ -431,51 +431,44 @@ public class PoundNoteService implements IPoundNoteService {
 	public Result purchaseRedcollide(PoundNoteQuery query) throws Exception {
 		Result result = Result.getParamErrorResult();
 		if (query != null && StringUtils.isNotBlank(query.getId())) {
-			PoundNote poundNote = poundNoteMapper.selectByPrimaryKey(query.getId());
-			if(poundNote != null){
-				PoundNote bean = new PoundNote();
-				bean.setId(query.getId());
-				bean.setRedcollide(Constant.ONE_STRING);
-				bean.setModifier(query.getCurrId());
-				bean.setModifytime(System.currentTimeMillis());
-				//增加红冲入库单
-				PurchaseStorageList storage = new PurchaseStorageList();
-				storage.setId(UUIDUtil.getId());
-				storage.setCode(getCode("RKD", query.getCurrId(), true));
-				storage.setNcId(poundNote.getBillid());
-				storage.setPoundId(poundNote.getId());
-				storage.setType("3");
-				PurchaseApplication purchaseApplication = null;
-				PurchaseApplicationDetail purchaseApplicationDetail = null;
-				if (StringUtils.isNotBlank(poundNote.getBillid()) && StringUtils.isNotBlank(poundNote.getBilldetailid())) {
-					purchaseApplication = purchaseApplicationMapper.selectByPrimaryKey(poundNote.getBillid());
-					purchaseApplicationDetail = purchaseApplicationDetailMapper.selectByPrimaryKey(poundNote.getBilldetailid());
-				}
-				if (purchaseApplication != null) {
-					storage.setPkOrg(purchaseApplication.getOrgid());
-					storage.setCdptid(purchaseApplication.getDepartmentid());
-					storage.setCvendorid(purchaseApplication.getSupplierid());
-				}
-				if(StringUtils.isNotBlank(poundNote.getPutinwarehouseid())){
-					PurchaseStorageList storageOld = purchaseStorageListMapper.selectByPrimaryKey(poundNote.getPutinwarehouseid());
-					if(storageOld != null){
+			PoundNote pn = poundNoteMapper.selectByPrimaryKey(query.getId());
+			if(pn != null){
+				if (StringUtils.equals(pn.getReturnstatus(), Constant.TWO_STRING)) {
+					if (StringUtils.equals(pn.getRedcollide(), Constant.ZERO_STRING)) {
+						pn.setReturnstatus(Constant.ZERO_STRING);
+						pn.setRedcollide(Constant.ONE_STRING);
+						pn.setRedColStatus(Constant.ONE_STRING);
+						pn.setModifier(query.getCurrId());
+						pn.setModifytime(System.currentTimeMillis());
+						//增加红冲入库单
+						PurchaseApplication pa = purchaseApplicationMapper.selectByPrimaryKey(pn.getBillid());
+						PurchaseApplicationDetail pad = purchaseApplicationDetailMapper.selectByPrimaryKey(pn.getBilldetailid());
+						PurchaseStorageList storage = setPurchaseStorage(query.getCurrId(), pa, pn);
+						storage.setType(Constant.THREE_STRING);
+						String netWeight = String.valueOf(pn.getNetweight());
+						if (pn.getNetweight() != 0) {
+							netWeight = "-" + netWeight;
+						}
+						storage.setNtotalnum(netWeight);
+						PurchaseStorageList storageOld = purchaseStorageListMapper.selectByPrimaryKey(pn.getPutinwarehouseid());
 						storage.setReturnRkdNcId(storageOld.getRkdNcId());
+						PurchaseStorageListItem storageItem = setPurchaseStorageItem(pad, pn, storage);
+						pn.setPutinwarehouseid(storage.getId());
+						pn.setPutinwarehousecode(storage.getCode());
+						//推送红冲并记录日志
+						pushDcRedcollide(result, storage, storageItem, pn);
+						poundNoteMapper.updateByPrimaryKeySelective(pn);
+						purchaseStorageListMapper.insertSelective(storage);
+						purchaseStorageListItemMapper.insertSelective(storageItem);
+						updateCode("RKD", query.getCurrId());
+				        result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+					} else {
+						//已红冲过的单据不允许重复红冲
+						result.setErrorCode(ErrorCode.POUNDNOTE_ERROR3);
 					}
-				}
-				storage.setNtotalnum("-" + poundNote.getNetweight());
-				storage.setDbilldate(DateUtil.getNowDateString("yyyy-MM-dd HH:mm:ss"));
-				storage.setBillmaker(poundNote.getMakerid());
-				storage.setCreationtime(DateUtil.getNowDateString("yyyy-MM-dd HH:mm:ss"));
-				storage.setTs(storage.getCreationtime());
-				storage.setStatus("0");
-				PurchaseStorageListItem storageItem = setPurchaseStorageItem(purchaseApplicationDetail, poundNote, storage);
-				if (poundNoteMapper.updateByPrimaryKeySelective(bean) > 0
-						&& purchaseStorageListMapper.insertSelective(storage) > 0
-						&& purchaseStorageListItemMapper.insertSelective(storageItem) > 0 
-						&& updateCode("RKD", query.getCurrId())) {
-					pushDcRedcollide(result, storage, storageItem);
 				} else {
-					result.setErrorCode(ErrorCode.OPERATE_ERROR);
+					//已推单的单据才允许红冲
+					result.setErrorCode(ErrorCode.POUNDNOTE_ERROR2);
 				}
 			}else{
 				result.setErrorCode(ErrorCode.POUNDNOTE_NOT_EXIST);
@@ -484,31 +477,41 @@ public class PoundNoteService implements IPoundNoteService {
 		return result;
 	}
 	//红冲推单到dc
-    private void pushDcRedcollide(Result result, PurchaseStorageList storage, PurchaseStorageListItem storageItem) {
+    private void pushDcRedcollide(Result result, PurchaseStorageList storage, PurchaseStorageListItem storageItem, PoundNote pn) throws Exception {
         List<PurchaseStorageList> list = new ArrayList<PurchaseStorageList>();
         list.add(storage);
         List<PurchaseStorageListItem> itemList = new ArrayList<PurchaseStorageListItem>();
         itemList.add(storageItem);
         storage.setList(itemList);
-        ApiResult apiResult = HttpUtils.post(ApiParamUtils.getApiParam(list),
-                Constant.URL_DOMAIN + Constant.URL_RETURN_PURCHASESTORAGEATION);
+        //记录推单日志
+        PushSingleReq ps = new PushSingleReq();
+		ps.setId(UUIDUtil.getId());
+		ps.setRequisitionNum(pn.getCode());
+		ps.setRequisitionType(Constant.ONE_STRING);
+		ps.setLightCarTime(pn.getLighttime());
+		ps.setHeavyCarTime(pn.getWeighttime());
+		ps.setNetWeight(String.valueOf(pn.getNetweight()));
+		ps.setCreatetime(System.currentTimeMillis());
+		ps.setModifytime(System.currentTimeMillis());
         // 调用dc 接口成功 则推单状态为推单中 榜单展示为推单中
-        if (apiResult != null && StringUtils.equals(apiResult.getCode(), Constant.SUCCESS)) {
-        	PurchaseStorageList storageUpdate = new PurchaseStorageList();
-        	storageUpdate.setId(storage.getId());
-        	storageUpdate.setStatus(Constant.PUSH_STATUS_ING);
-        	PoundNote pn = new PoundNote();
-        	pn.setId(storage.getPoundId());
-        	pn.setReturnstatus(Constant.ONE_STRING);
-        	if (purchaseStorageListMapper.updateByPrimaryKeySelective(storageUpdate) > 0
-        	        && poundNoteMapper.updateByPrimaryKeySelective(pn) > 0) {
-        		result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
-        	}else{
-        		result.setErrorCode(ErrorCode.OPERATE_ERROR);
-        	}
-        }else{
-        	result.setErrorCode(ErrorCode.OPERATE_ERROR);
-        }
+		ApiResult apiResult = HttpUtils.post(ApiParamUtils.getApiParam(list), Constant.URL_DOMAIN + Constant.URL_RETURN_PURCHASESTORAGEATION);
+		if (apiResult != null) {
+			if (StringUtils.equals(apiResult.getCode(), Constant.SUCCESS)) {
+	        	storage.setId(storage.getId());
+	        	storage.setStatus(Constant.PUSH_STATUS_ING);
+	        	pn.setRedColStatus(Constant.ONE_STRING);;
+                ps.setPushStatus(Constant.ONE_STRING);
+	        }else{
+                ps.setPushStatus(Constant.THREE_STRING);
+	        }
+            ps.setReasonFailure(apiResult.getError());
+            ps.setDesc1(apiResult.getCode());
+		} else {
+			ps.setPushStatus(Constant.THREE_STRING);
+		    ps.setReasonFailure("FC-DC业务平台红冲磅单推单失败，连接超时。");
+		    ps.setDesc1("-1");
+		}
+		pushSingleService.savePushSingle(ps);
     }
 
     @Transactional
@@ -1538,22 +1541,22 @@ public class PoundNoteService implements IPoundNoteService {
 	}
 
 	// 初始化采购入库单
-	private PurchaseStorageList setPurchaseStorage(String currid, PurchaseApplication application, PoundNote bean)
+	private PurchaseStorageList setPurchaseStorage(String userId, PurchaseApplication pa, PoundNote pn)
 			throws Exception {
 		PurchaseStorageList storage = new PurchaseStorageList();
 		storage.setId(UUIDUtil.getId());
-		storage.setCode(getCode("RKD", currid, true));
-		storage.setNcId(application.getId());
-		storage.setPoundId(bean.getId());
-		storage.setType("1");
-		if (application != null) {
-			storage.setPkOrg(application.getOrgid());
-			storage.setCdptid(application.getDepartmentid());
-			storage.setCvendorid(application.getSupplierid());
+		storage.setCode(getCode("RKD", userId, true));
+		storage.setNcId(pa.getId());
+		storage.setPoundId(pn.getId());
+		storage.setType(Constant.ONE_STRING);
+		if (pa != null) {
+			storage.setPkOrg(pa.getOrgid());
+			storage.setCdptid(pa.getDepartmentid());
+			storage.setCvendorid(pa.getSupplierid());
 		}
-		storage.setNtotalnum("" + bean.getNetweight());
+		storage.setNtotalnum(String.valueOf(pn.getNetweight()));
 		storage.setDbilldate(DateUtil.getNowDateString("yyyy-MM-dd HH:mm:ss"));
-		storage.setBillmaker(bean.getMakerid());
+		storage.setBillmaker(pn.getMakerid());
 		storage.setCreationtime(DateUtil.getNowDateString("yyyy-MM-dd HH:mm:ss"));
 		storage.setTs(storage.getCreationtime());
 		storage.setStatus(Constant.PUSH_STATUS_NULL);
@@ -1761,8 +1764,6 @@ public class PoundNoteService implements IPoundNoteService {
 		order.setCode(getCode("A6XC", user.getId(), true));
 		order.setNcId(sa.getNcId());
 		order.setPoundId(pn.getId());
-		// TODO
-		//带确认 龙龙    ---  billDate是订单日期还是出库单生成日期
 		order.setBilldate(DateUtil.parse(sa.getBilltime(), DateUtil.Y_M_D_H_M_S));
 		order.setPkOrg(sa.getOrgid());
 		order.setCdptid(sa.getDepartmentid());
@@ -2298,131 +2299,60 @@ public class PoundNoteService implements IPoundNoteService {
     @Override
     public Result copy(PoundNoteCopyDTO copy) throws Exception {
         Result result = Result.getParamErrorResult();
-        if (copy != null 
-                && StringUtils.isNotBlank(copy.getPoundNoteId())
+        if (copy != null && StringUtils.isNotBlank(copy.getPoundNoteId())
                 && StringUtils.isNotBlank(copy.getBillId())
                 && StringUtils.isNotBlank(copy.getBillDetailId())) {
-            PoundNote oldPn = poundNoteMapper.selectByPrimaryKey(copy.getPoundNoteId());
-            if (oldPn != null) {
-                PurchaseApplication newBill = purchaseApplicationMapper.selectByPrimaryKey(copy.getBillId());
-                PurchaseApplicationDetail newBillDetail = purchaseApplicationDetailMapper.selectByPrimaryKey(copy.getBillDetailId());
-                if (newBill != null && newBillDetail != null) {
-                    // TODO 判断订单的余量大于等于预提量
-                    if (validateWeight(oldPn, newBillDetail, result)) {
-                    	if (StringUtils.equals(oldPn.getStatus(), Constant.ONE_STRING)) {
-                    		copyPoundNote(oldPn, newBill, newBillDetail, null, copy.getCurrId());
-                			result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
-						} else {
-							PurchaseArrive oldPa = purchaseArriveMapper.selectByPrimaryKey(oldPn.getNoticeid());
-                    		if (StringUtils.equals(oldPa.getStatus(), Constant.FIVE_STRING)) {
-                    			AccessRecord oldAr = accessRecordMapper.selectByNoticeId(oldPa.getId());
-                    			PurchaseArrive newPa = copyNotice(oldPa, copy.getCurrId());
-                    			copyAccessRecord(oldAr, newPa, copy.getCurrId());
-                    			copyPoundNote(oldPn, newBill, newBillDetail, newPa, copy.getCurrId());
-                    			result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
-                    		} else {
-                    			result.setErrorCode(ErrorCode.VEHICLE_NOTICE_NOT_OUT_FACTORY);
-                    		}
-						}
-                    }
-                } else {
-                    result.setErrorCode(ErrorCode.APPLICATION_NOT_EXIST);
-                }
+            PoundNote pn = poundNoteMapper.selectByPrimaryKey(copy.getPoundNoteId());
+            if (pn != null) {
+                if (StringUtils.equals(pn.getRedcollide(), Constant.ONE_STRING)
+                		&& StringUtils.equals(pn.getRedColStatus(), Constant.TWO_STRING)) {
+					PurchaseApplication newBill = purchaseApplicationMapper.selectByPrimaryKey(copy.getBillId());
+	                PurchaseApplicationDetail newBillDetail = purchaseApplicationDetailMapper.selectByPrimaryKey(copy.getBillDetailId());
+	                if (newBill != null && newBillDetail != null) {
+	                    // 判断订单的余量大于等于预提量
+	                    if (validateWeight(pn, newBillDetail, result)) {
+	                    	if (StringUtils.isNotBlank(pn.getNoticeid())) {
+	                    		PurchaseArrive notice = purchaseArriveMapper.selectByPrimaryKey(pn.getNoticeid());
+	                    		notice.setBillid(newBill.getId());
+	                    		notice.setBillcode(newBill.getCode());
+	                    		notice.setBilldetailid(newBillDetail.getId());
+	                    		purchaseArriveMapper.updateByPrimaryKeySelective(notice);
+							}
+	                    	pn.setRedColStatus(Constant.ZERO_STRING);
+	                    	pn.setBillid(newBill.getId());
+	                    	pn.setBillcode(newBill.getCode());
+	                    	pn.setBilldetailid(newBillDetail.getId());
+	                    	pn.setMinemouthid(newBill.getMinemouthid());
+	                    	pn.setMinemouthname(newBill.getMinemouthname());
+	                    	pn.setSupplierid(newBill.getSupplierid());
+	                    	pn.setSuppliername(newBill.getSuppliername());
+	                    	pn.setMaterialid(newBillDetail.getMaterielid());
+	                    	pn.setMaterialname(newBillDetail.getMaterielname());
+	                    	pn.setModifier(copy.getCurrId());
+	                    	pn.setModifytime(System.currentTimeMillis());
+	                    	PurchaseStorageList storage = setPurchaseStorage(copy.getCurrId(), newBill, pn);
+	                    	pn.setPutinwarehouseid(storage.getId());
+	                        pn.setPutinwarehousecode(storage.getCode());
+	                        PurchaseStorageListItem storageItem = setPurchaseStorageItem(newBillDetail, pn, storage);
+	                        purchaseStorageListMapper.insertSelective(storage);
+	                        purchaseStorageListItemMapper.insertSelective(storageItem);
+	                        updateCode("RKD", copy.getCurrId());
+	                    	poundNoteMapper.updateByPrimaryKeySelective(pn);
+	                    	newBillDetail.setMargin(newBillDetail.getMargin() - pn.getNetweight());
+	                    	newBillDetail.setStoragequantity(newBillDetail.getStoragequantity() + pn.getNetweight());
+	                    	purchaseApplicationDetailMapper.updateByPrimaryKeySelective(newBillDetail);
+	                    }
+	                } else {
+	                    result.setErrorCode(ErrorCode.APPLICATION_NOT_EXIST);
+	                }
+				} else {
+					result.setErrorCode(ErrorCode.POUNDNOTE_ERROR1);
+				}
             } else {
                 result.setErrorCode(ErrorCode.POUNDNOTE_NOT_EXIST);
             }
         }
         return result;
-    }
-	/**
-	 * @annotation 复制榜单并生成新的入库单
-	 * @param oldPn
-	 * @param newBill
-	 * @param newBillDetail
-	 * @param newPa
-	 * @param userId
-	 * @throws Exception
-	 */
-	private void copyPoundNote(PoundNote oldPn, PurchaseApplication newBill, PurchaseApplicationDetail newBillDetail,
-            PurchaseArrive newPa, String userId) throws Exception {
-	    PoundNote newPn = new PoundNote();
-	    PropertyUtils.copyProperties(newPn, oldPn);
-	    newPn.setId(UUIDUtil.getId());
-	    newPn.setCode(getCode("RK", userId, true));
-	    //TODO 推单状态
-	    newPn.setReturnstatus(Constant.ZERO_STRING);
-	    newPn.setRedcollide(Constant.ZERO_STRING);
-	    newPn.setBillid(newBill.getId());
-	    newPn.setBillcode(newBill.getCode());
-	    newPn.setBilldetailid(newBillDetail.getId());
-	    if (newPa != null) {
-	    	newPn.setNoticeid(newPa.getId());
-	    	newPn.setNoticecode(newPa.getCode());
-	    	newPn.setMinemouthid(newBill.getMinemouthid());
-	    	newPn.setMinemouthname(newBill.getMinemouthname());
-		}
-	    
-	    //TODO 入库单
-        PurchaseStorageList storage = new PurchaseStorageList();
-        storage.setId(UUIDUtil.getId());
-        storage.setCode(getCode("RKD", userId, true));
-        storage.setPoundId(newPn.getId());
-        storage.setType(Constant.ONE_STRING);
-        storage.setPkOrg(newBill.getOrgid());
-        storage.setNcId(newBill.getId());
-        storage.setCdptid(newBill.getDepartmentid());
-        storage.setCvendorid(newBill.getSupplierid());
-        storage.setNtotalnum("" + newPn.getNetweight());
-        storage.setDbilldate(DateUtil.getNowDateString(DateUtil.Y_M_D_H_M_S));
-        storage.setBillmaker(newPn.getMakerid());
-        storage.setCreationtime(DateUtil.getNowDateString(DateUtil.Y_M_D_H_M_S));
-        storage.setTs(storage.getCreationtime());
-        storage.setStatus(Constant.ZERO_STRING);
-        PurchaseStorageListItem storageItem = setPurchaseStorageItem(newBillDetail, newPn, storage);
-        newPn.setPutinwarehouseid(storage.getId());
-        newPn.setPutinwarehousecode(storage.getCode());
-        poundNoteMapper.insertSelective(newPn);
-        updateCode("RK", userId);
-        purchaseStorageListMapper.insertSelective(storage);
-        purchaseStorageListItemMapper.insertSelective(storageItem);
-        updateCode("RKD", userId);
-        PurchaseApplicationDetail billDetail = new PurchaseApplicationDetail();
-        billDetail.setId(newBillDetail.getId());
-        billDetail.setMargin(newBillDetail.getMargin() - newPn.getNetweight());
-        billDetail.setStoragequantity(newBillDetail.getStoragequantity() + newPn.getNetweight());
-        purchaseApplicationDetailMapper.updateByPrimaryKeySelective(billDetail);
-    }
-
-    /**
-	 * @annotation 复制门禁记录
-	 * @param oldAr
-	 * @param newPa
-	 * @param userId
-	 * @throws Exception
-	 */
-	private void copyAccessRecord(AccessRecord oldAr, PurchaseArrive newPa, String userId) throws Exception {
-	    AccessRecord newAr = new AccessRecord();
-	    PropertyUtils.copyProperties(newPa, oldAr);
-	    newAr.setId(UUIDUtil.getId());
-	    newAr.setCode(getCode("ZW", userId, true));
-	    accessRecordMapper.insertSelective(newAr);
-	    updateCode("ZW", userId);
-    }
-	/**
-	 * @annotation 复制通知单
-	 * @param oldPa
-	 * @param userId
-	 * @return
-	 * @throws Exception
-	 */
-    private PurchaseArrive copyNotice(PurchaseArrive oldPa, String userId) throws Exception {
-	    PurchaseArrive newPa = new PurchaseArrive();
-	    PropertyUtils.copyProperties(newPa, oldPa);
-	    newPa.setId(UUIDUtil.getId());
-	    newPa.setCode(getCode("DH", userId, true));
-        purchaseArriveMapper.insertSelective(newPa);
-        updateCode("DH", userId);
-	    return newPa;
     }
     /**
      * 
@@ -2554,5 +2484,40 @@ public class PoundNoteService implements IPoundNoteService {
         }
         return result;
     }
+    
+    private boolean validateYard(YardManage yard, Result result) {
+    	boolean flag = false;
+    	if (yard != null && StringUtils.equals(yard.getState(), Constant.ONE_STRING)) {
+			if (StringUtils.equals(yard.getIsvalid(), Constant.ONE_STRING)) {
+				flag = true;
+			} else {
+				result.setErrorCode(ErrorCode.YARD_NOT_VALID);
+			}
+		} else {
+			result.setErrorCode(ErrorCode.YARD_NOT_EXIST);
+		}
+    	return flag;
+    }
+
+	@Override
+	public Result purchaseUpdatePn(PoundNoteSave save) {
+		Result result = Result.getParamErrorResult();
+		if (save != null && StringUtils.isNotBlank(save.getId())
+				&& StringUtils.isNotBlank(save.getYardid())) {
+			PoundNote pn = poundNoteMapper.selectByPrimaryKey(save.getId());
+			if (pn != null) {
+				YardManage yard = yardManageMapper.selectByPrimaryKey(save.getYardid());
+				if (validateYard(yard, result)) {
+					pn.setYardid(yard.getId());
+					pn.setYardname(yard.getName());
+					poundNoteMapper.updateByPrimaryKeySelective(pn);
+					result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+				}
+			} else {
+				result.setErrorCode(ErrorCode.POUNDNOTE_NOT_EXIST);
+			}
+		}
+		return result;
+	}
 
 }

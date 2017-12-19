@@ -207,7 +207,7 @@ public class PoundNoteMaintainAction {
 		}
 		return result;
 	}
-
+	
 	@RequestMapping("/purchase/detail")
 	public ModelAndView purchasePoundNoteDetail(String id){
 		ModelAndView view = new ModelAndView("businessManage/poundNoteMaintain/purchasePoundNoteDetail");
@@ -231,6 +231,33 @@ public class PoundNoteMaintainAction {
 		}
 		return view;
 	}
+
+	@RequestMapping("/purchase/updatePnView")
+	public ModelAndView purchaseUpdatePnView(String id){
+		ModelAndView view = new ModelAndView("businessManage/poundNoteMaintain/purchasePoundNoteUpdate");
+		try {
+			PoundNoteResp poundNote = poundNoteService.findOne(id);
+			view.addObject("poundNote", poundNote);
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+		}
+		return view;
+	}
+	
+	@RequestMapping("/purchase/updatePn")
+    @ResponseBody
+    public Result purchaseUpdatePn(PoundNoteSave save, HttpServletRequest request) {
+	    Result result = Result.getErrorResult();
+	    try {
+            SystemUserResp user = SessionManager.getSessionUser(request);
+            save.setUserId(user.getId());
+	        result = poundNoteService.purchaseUpdatePn(save);
+        } catch (Exception e) {
+            logger.error(e.getMessage(), e);
+            result.setErrorCode(ErrorCode.SYSTEM_ERROR);
+        }
+        return result;
+    }
 	
 	@RequestMapping("/sales/main")
 	public ModelAndView salesMain(){

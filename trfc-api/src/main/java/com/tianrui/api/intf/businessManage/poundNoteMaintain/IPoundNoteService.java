@@ -227,4 +227,10 @@ public interface IPoundNoteService {
      * @return
      */
     Result print(PoundNoteQuery query);
+    /**
+     * @annotation 采购修改
+     * @param save
+     * @return
+     */
+	Result purchaseUpdatePn(PoundNoteSave save);
 }

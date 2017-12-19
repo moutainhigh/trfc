@@ -145,738 +145,432 @@ public class PoundNote {
     private String leaveyardid;
     //调离堆场名称
     private String leaveyardname;
-    
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id == null ? null : id.trim();
-    }
-
-    public String getCode() {
-        return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code == null ? null : code.trim();
-    }
-
-    public String getReturnstatus() {
-        return returnstatus;
-    }
-
-    public void setReturnstatus(String returnstatus) {
-        this.returnstatus = returnstatus == null ? null : returnstatus.trim();
-    }
-
-    public String getRedcollide() {
-        return redcollide;
-    }
-
-    public void setRedcollide(String redcollide) {
-        this.redcollide = redcollide == null ? null : redcollide.trim();
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status == null ? null : status.trim();
-    }
-
-    public String getBilltype() {
-        return billtype;
-    }
-
-    public void setBilltype(String billtype) {
-        this.billtype = billtype == null ? null : billtype.trim();
-    }
-
-    public String getPutinwarehouseid() {
-        return putinwarehouseid;
-    }
-
-    public void setPutinwarehouseid(String putinwarehouseid) {
-        this.putinwarehouseid = putinwarehouseid == null ? null : putinwarehouseid.trim();
-    }
-
-    public String getPutinwarehousecode() {
-        return putinwarehousecode;
-    }
-
-    public void setPutinwarehousecode(String putinwarehousecode) {
-        this.putinwarehousecode = putinwarehousecode == null ? null : putinwarehousecode.trim();
-    }
-
+    //红冲状态（0：未红冲，1：红冲中，2：已红冲）
+    private String redColStatus;
+	public String getId() {
+		return id;
+	}
+	public void setId(String id) {
+		this.id = id;
+	}
+	public String getCode() {
+		return code;
+	}
+	public void setCode(String code) {
+		this.code = code;
+	}
+	public String getReturnstatus() {
+		return returnstatus;
+	}
+	public void setReturnstatus(String returnstatus) {
+		this.returnstatus = returnstatus;
+	}
+	public String getRedcollide() {
+		return redcollide;
+	}
+	public void setRedcollide(String redcollide) {
+		this.redcollide = redcollide;
+	}
+	public String getStatus() {
+		return status;
+	}
+	public void setStatus(String status) {
+		this.status = status;
+	}
+	public String getBilltype() {
+		return billtype;
+	}
+	public void setBilltype(String billtype) {
+		this.billtype = billtype;
+	}
+	public String getPutinwarehouseid() {
+		return putinwarehouseid;
+	}
+	public void setPutinwarehouseid(String putinwarehouseid) {
+		this.putinwarehouseid = putinwarehouseid;
+	}
+	public String getPutinwarehousecode() {
+		return putinwarehousecode;
+	}
+	public void setPutinwarehousecode(String putinwarehousecode) {
+		this.putinwarehousecode = putinwarehousecode;
+	}
 	public String getBillid() {
 		return billid;
 	}
-
 	public void setBillid(String billid) {
-		this.billid = billid == null ? null : billid.trim();
+		this.billid = billid;
 	}
-
 	public String getBillcode() {
 		return billcode;
 	}
-
 	public void setBillcode(String billcode) {
-		this.billcode = billcode == null ? null : billcode.trim();
+		this.billcode = billcode;
 	}
-
-	/**
-	 * @return the billdetailid
-	 */
 	public String getBilldetailid() {
 		return billdetailid;
 	}
-
-	/**
-	 * @param billdetailid the billdetailid to set
-	 */
 	public void setBilldetailid(String billdetailid) {
 		this.billdetailid = billdetailid;
 	}
-
-	/**
-	 * @return the maindeduction
-	 */
 	public String getMaindeduction() {
 		return maindeduction;
 	}
-
-	/**
-	 * @param maindeduction the maindeduction to set
-	 */
 	public void setMaindeduction(String maindeduction) {
 		this.maindeduction = maindeduction;
 	}
-
 	public String getNoticeid() {
-        return noticeid;
-    }
-
-    public void setNoticeid(String noticeid) {
-        this.noticeid = noticeid == null ? null : noticeid.trim();
-    }
-
-    public String getNoticecode() {
-        return noticecode;
-    }
-
-    public void setNoticecode(String noticecode) {
-        this.noticecode = noticecode == null ? null : noticecode.trim();
-    }
-
-    /**
-	 * @return the arrivepoundnotecode
-	 */
+		return noticeid;
+	}
+	public void setNoticeid(String noticeid) {
+		this.noticeid = noticeid;
+	}
+	public String getNoticecode() {
+		return noticecode;
+	}
+	public void setNoticecode(String noticecode) {
+		this.noticecode = noticecode;
+	}
 	public String getArrivepoundnotecode() {
 		return arrivepoundnotecode;
 	}
-
-	/**
-	 * @param arrivepoundnotecode the arrivepoundnotecode to set
-	 */
 	public void setArrivepoundnotecode(String arrivepoundnotecode) {
 		this.arrivepoundnotecode = arrivepoundnotecode;
 	}
-
-	/**
-	 * @return the senddepartmentid
-	 */
 	public String getSenddepartmentid() {
 		return senddepartmentid;
 	}
-
-	/**
-	 * @param senddepartmentid the senddepartmentid to set
-	 */
 	public void setSenddepartmentid(String senddepartmentid) {
 		this.senddepartmentid = senddepartmentid;
 	}
-
-	/**
-	 * @return the senddepartmentname
-	 */
 	public String getSenddepartmentname() {
 		return senddepartmentname;
 	}
-
-	/**
-	 * @param senddepartmentname the senddepartmentname to set
-	 */
 	public void setSenddepartmentname(String senddepartmentname) {
 		this.senddepartmentname = senddepartmentname;
 	}
-
 	public String getDriverid() {
-        return driverid;
-    }
-
-    public void setDriverid(String driverid) {
-        this.driverid = driverid == null ? null : driverid.trim();
-    }
-
-    public String getDrivername() {
-        return drivername;
-    }
-
-    public void setDrivername(String drivername) {
-        this.drivername = drivername == null ? null : drivername.trim();
-    }
-
-    public String getDriveridentityno() {
-        return driveridentityno;
-    }
-
-    public void setDriveridentityno(String driveridentityno) {
-        this.driveridentityno = driveridentityno == null ? null : driveridentityno.trim();
-    }
-
-    public String getVehicleid() {
-        return vehicleid;
-    }
-
-    public void setVehicleid(String vehicleid) {
-        this.vehicleid = vehicleid == null ? null : vehicleid.trim();
-    }
-
-    public String getVehicleno() {
-        return vehicleno;
-    }
-
-    public void setVehicleno(String vehicleno) {
-        this.vehicleno = vehicleno == null ? null : vehicleno.trim();
-    }
-
-    /**
-	 * @return the vehiclerfid
-	 */
+		return driverid;
+	}
+	public void setDriverid(String driverid) {
+		this.driverid = driverid;
+	}
+	public String getDrivername() {
+		return drivername;
+	}
+	public void setDrivername(String drivername) {
+		this.drivername = drivername;
+	}
+	public String getDriveridentityno() {
+		return driveridentityno;
+	}
+	public void setDriveridentityno(String driveridentityno) {
+		this.driveridentityno = driveridentityno;
+	}
+	public String getVehicleid() {
+		return vehicleid;
+	}
+	public void setVehicleid(String vehicleid) {
+		this.vehicleid = vehicleid;
+	}
+	public String getVehicleno() {
+		return vehicleno;
+	}
+	public void setVehicleno(String vehicleno) {
+		this.vehicleno = vehicleno;
+	}
 	public String getVehiclerfid() {
 		return vehiclerfid;
 	}
-
-	/**
-	 * @param vehiclerfid the vehiclerfid to set
-	 */
 	public void setVehiclerfid(String vehiclerfid) {
 		this.vehiclerfid = vehiclerfid;
 	}
-
 	public String getReceivedepartmentid() {
-        return receivedepartmentid;
-    }
-
-    public void setReceivedepartmentid(String receivedepartmentid) {
-        this.receivedepartmentid = receivedepartmentid == null ? null : receivedepartmentid.trim();
-    }
-
-    public String getReceivedepartmentname() {
-        return receivedepartmentname;
-    }
-
-    public void setReceivedepartmentname(String receivedepartmentname) {
-        this.receivedepartmentname = receivedepartmentname == null ? null : receivedepartmentname.trim();
-    }
-
-    public String getMinemouthid() {
-        return minemouthid;
-    }
-
-    public void setMinemouthid(String minemouthid) {
-        this.minemouthid = minemouthid == null ? null : minemouthid.trim();
-    }
-
-    public String getMinemouthname() {
-        return minemouthname;
-    }
-
-    public void setMinemouthname(String minemouthname) {
-        this.minemouthname = minemouthname == null ? null : minemouthname.trim();
-    }
-
-    public String getWarehouseid() {
-        return warehouseid;
-    }
-
-    public void setWarehouseid(String warehouseid) {
-        this.warehouseid = warehouseid == null ? null : warehouseid.trim();
-    }
-
-    public String getWarehousename() {
-        return warehousename;
-    }
-
-    public void setWarehousename(String warehousename) {
-        this.warehousename = warehousename == null ? null : warehousename.trim();
-    }
-
-    public String getYardid() {
-        return yardid;
-    }
-
-    public void setYardid(String yardid) {
-        this.yardid = yardid == null ? null : yardid.trim();
-    }
-
-    public String getYardname() {
-        return yardname;
-    }
-
-    public void setYardname(String yardname) {
-        this.yardname = yardname == null ? null : yardname.trim();
-    }
-
-    public String getReceiverpersonid() {
-        return receiverpersonid;
-    }
-
-    public void setReceiverpersonid(String receiverpersonid) {
-        this.receiverpersonid = receiverpersonid == null ? null : receiverpersonid.trim();
-    }
-
-    public String getReceiverpersonname() {
-        return receiverpersonname;
-    }
-
-    public void setReceiverpersonname(String receiverpersonname) {
-        this.receiverpersonname = receiverpersonname == null ? null : receiverpersonname.trim();
-    }
-
-    /**
-	 * @return the weigherid
-	 */
+		return receivedepartmentid;
+	}
+	public void setReceivedepartmentid(String receivedepartmentid) {
+		this.receivedepartmentid = receivedepartmentid;
+	}
+	public String getReceivedepartmentname() {
+		return receivedepartmentname;
+	}
+	public void setReceivedepartmentname(String receivedepartmentname) {
+		this.receivedepartmentname = receivedepartmentname;
+	}
+	public String getMinemouthid() {
+		return minemouthid;
+	}
+	public void setMinemouthid(String minemouthid) {
+		this.minemouthid = minemouthid;
+	}
+	public String getMinemouthname() {
+		return minemouthname;
+	}
+	public void setMinemouthname(String minemouthname) {
+		this.minemouthname = minemouthname;
+	}
+	public String getWarehouseid() {
+		return warehouseid;
+	}
+	public void setWarehouseid(String warehouseid) {
+		this.warehouseid = warehouseid;
+	}
+	public String getWarehousename() {
+		return warehousename;
+	}
+	public void setWarehousename(String warehousename) {
+		this.warehousename = warehousename;
+	}
+	public String getYardid() {
+		return yardid;
+	}
+	public void setYardid(String yardid) {
+		this.yardid = yardid;
+	}
+	public String getYardname() {
+		return yardname;
+	}
+	public void setYardname(String yardname) {
+		this.yardname = yardname;
+	}
+	public String getReceiverpersonid() {
+		return receiverpersonid;
+	}
+	public void setReceiverpersonid(String receiverpersonid) {
+		this.receiverpersonid = receiverpersonid;
+	}
+	public String getReceiverpersonname() {
+		return receiverpersonname;
+	}
+	public void setReceiverpersonname(String receiverpersonname) {
+		this.receiverpersonname = receiverpersonname;
+	}
 	public String getWeigherid() {
 		return weigherid;
 	}
-
-	/**
-	 * @param weigherid the weigherid to set
-	 */
 	public void setWeigherid(String weigherid) {
 		this.weigherid = weigherid;
 	}
-
-	/**
-	 * @return the weighername
-	 */
 	public String getWeighername() {
 		return weighername;
 	}
-
-	/**
-	 * @param weighername the weighername to set
-	 */
 	public void setWeighername(String weighername) {
 		this.weighername = weighername;
 	}
-
-	/**
-	 * @return the receivertime
-	 */
 	public Long getReceivertime() {
 		return receivertime;
 	}
-
-	/**
-	 * @param receivertime the receivertime to set
-	 */
 	public void setReceivertime(Long receivertime) {
 		this.receivertime = receivertime;
 	}
-
 	public Double getPickupquantity() {
-        return pickupquantity;
-    }
-
-    public void setPickupquantity(Double pickupquantity) {
-        this.pickupquantity = pickupquantity;
-    }
-
-    public Double getGrossweight() {
-        return grossweight;
-    }
-
-    public void setGrossweight(Double grossweight) {
-        this.grossweight = grossweight;
-    }
-
-    public Double getTareweight() {
-        return tareweight;
-    }
-
-    public void setTareweight(Double tareweight) {
-        this.tareweight = tareweight;
-    }
-
-    public Double getNetweight() {
-        return netweight;
-    }
-
-    public void setNetweight(Double netweight) {
-        this.netweight = netweight;
-    }
-
-    public Double getOriginalnetweight() {
-        return originalnetweight;
-    }
-
-    public void setOriginalnetweight(Double originalnetweight) {
-        this.originalnetweight = originalnetweight;
-    }
-
-    public Double getDeductionweight() {
-        return deductionweight;
-    }
-
-    public void setDeductionweight(Double deductionweight) {
-        this.deductionweight = deductionweight;
-    }
-
-    public Double getDeductionother() {
-        return deductionother;
-    }
-
-    public void setDeductionother(Double deductionother) {
-        this.deductionother = deductionother;
-    }
-
-    /**
-	 * @return the batchnumberid
-	 */
+		return pickupquantity;
+	}
+	public void setPickupquantity(Double pickupquantity) {
+		this.pickupquantity = pickupquantity;
+	}
+	public Double getGrossweight() {
+		return grossweight;
+	}
+	public void setGrossweight(Double grossweight) {
+		this.grossweight = grossweight;
+	}
+	public Double getTareweight() {
+		return tareweight;
+	}
+	public void setTareweight(Double tareweight) {
+		this.tareweight = tareweight;
+	}
+	public Double getNetweight() {
+		return netweight;
+	}
+	public void setNetweight(Double netweight) {
+		this.netweight = netweight;
+	}
+	public Double getOriginalnetweight() {
+		return originalnetweight;
+	}
+	public void setOriginalnetweight(Double originalnetweight) {
+		this.originalnetweight = originalnetweight;
+	}
+	public Double getDeductionweight() {
+		return deductionweight;
+	}
+	public void setDeductionweight(Double deductionweight) {
+		this.deductionweight = deductionweight;
+	}
+	public Double getDeductionother() {
+		return deductionother;
+	}
+	public void setDeductionother(Double deductionother) {
+		this.deductionother = deductionother;
+	}
 	public String getBatchnumberid() {
 		return batchnumberid;
 	}
-
-	/**
-	 * @param batchnumberid the batchnumberid to set
-	 */
 	public void setBatchnumberid(String batchnumberid) {
 		this.batchnumberid = batchnumberid;
 	}
-
 	public String getSerialnumber() {
-        return serialnumber;
-    }
-
-    public void setSerialnumber(String serialnumber) {
-        this.serialnumber = serialnumber == null ? null : serialnumber.trim();
-    }
-
-    public Long getLighttime() {
-        return lighttime;
-    }
-
-    public void setLighttime(Long lighttime) {
-        this.lighttime = lighttime;
-    }
-
-    public Long getWeighttime() {
-        return weighttime;
-    }
-
-    public void setWeighttime(Long weighttime) {
-        this.weighttime = weighttime;
-    }
-
-    public String getMakerid() {
-        return makerid;
-    }
-
-    public void setMakerid(String makerid) {
-        this.makerid = makerid == null ? null : makerid.trim();
-    }
-
-    public String getMakebillname() {
-        return makebillname;
-    }
-
-    public void setMakebillname(String makebillname) {
-        this.makebillname = makebillname == null ? null : makebillname.trim();
-    }
-
-    public Long getMakebilltime() {
-        return makebilltime;
-    }
-
-    public void setMakebilltime(Long makebilltime) {
-        this.makebilltime = makebilltime;
-    }
-
-    public String getState() {
+		return serialnumber;
+	}
+	public void setSerialnumber(String serialnumber) {
+		this.serialnumber = serialnumber;
+	}
+	public Long getLighttime() {
+		return lighttime;
+	}
+	public void setLighttime(Long lighttime) {
+		this.lighttime = lighttime;
+	}
+	public Long getWeighttime() {
+		return weighttime;
+	}
+	public void setWeighttime(Long weighttime) {
+		this.weighttime = weighttime;
+	}
+	public String getMakerid() {
+		return makerid;
+	}
+	public void setMakerid(String makerid) {
+		this.makerid = makerid;
+	}
+	public String getMakebillname() {
+		return makebillname;
+	}
+	public void setMakebillname(String makebillname) {
+		this.makebillname = makebillname;
+	}
+	public Long getMakebilltime() {
+		return makebilltime;
+	}
+	public void setMakebilltime(Long makebilltime) {
+		this.makebilltime = makebilltime;
+	}
+	public String getState() {
 		return state;
 	}
-
 	public void setState(String state) {
-		this.state = state == null ? null : state.trim();
+		this.state = state;
 	}
-
 	public String getCreator() {
-        return creator;
-    }
-
-    public void setCreator(String creator) {
-        this.creator = creator == null ? null : creator.trim();
-    }
-
-    public Long getCreatetime() {
-        return createtime;
-    }
-
-    public void setCreatetime(Long createtime) {
-        this.createtime = createtime;
-    }
-
-    public String getModifier() {
-        return modifier;
-    }
-
-    public void setModifier(String modifier) {
-        this.modifier = modifier == null ? null : modifier.trim();
-    }
-
-    public Long getModifytime() {
-        return modifytime;
-    }
-
-    public void setModifytime(Long modifytime) {
-        this.modifytime = modifytime;
-    }
-
-    public String getRemark() {
-        return remark;
-    }
-
-    public void setRemark(String remark) {
-        this.remark = remark == null ? null : remark.trim();
-    }
-
-	/**
-	 * @return the customerid
-	 */
+		return creator;
+	}
+	public void setCreator(String creator) {
+		this.creator = creator;
+	}
+	public Long getCreatetime() {
+		return createtime;
+	}
+	public void setCreatetime(Long createtime) {
+		this.createtime = createtime;
+	}
+	public String getModifier() {
+		return modifier;
+	}
+	public void setModifier(String modifier) {
+		this.modifier = modifier;
+	}
+	public Long getModifytime() {
+		return modifytime;
+	}
+	public void setModifytime(Long modifytime) {
+		this.modifytime = modifytime;
+	}
+	public String getRemark() {
+		return remark;
+	}
+	public void setRemark(String remark) {
+		this.remark = remark;
+	}
 	public String getCustomerid() {
 		return customerid;
 	}
-
-	/**
-	 * @return the customername
-	 */
-	public String getCustomername() {
-		return customername;
-	}
-
-	/**
-	 * @return the supplierid
-	 */
-	public String getSupplierid() {
-		return supplierid;
-	}
-
-	/**
-	 * @return the suppliername
-	 */
-	public String getSuppliername() {
-		return suppliername;
-	}
-
-	/**
-	 * @return the department
-	 */
-	public String getDepartment() {
-		return department;
-	}
-
-	/**
-	 * @return the cutoverpartmentid
-	 */
-	public String getCutoverpartmentid() {
-		return cutoverpartmentid;
-	}
-
-	/**
-	 * @return the cutoverpartmentname
-	 */
-	public String getCutoverpartmentname() {
-		return cutoverpartmentname;
-	}
-
-	/**
-	 * @return the materialid
-	 */
-	public String getMaterialid() {
-		return materialid;
-	}
-
-	/**
-	 * @return the materialname
-	 */
-	public String getMaterialname() {
-		return materialname;
-	}
-
-	/**
-	 * @return the cargo
-	 */
-	public String getCargo() {
-		return cargo;
-	}
-
-	/**
-	 * @return the enteryardid
-	 */
-	public String getEnteryardid() {
-		return enteryardid;
-	}
-
-	/**
-	 * @return the enteryardname
-	 */
-	public String getEnteryardname() {
-		return enteryardname;
-	}
-
-	/**
-	 * @return the leaveyardid
-	 */
-	public String getLeaveyardid() {
-		return leaveyardid;
-	}
-
-	/**
-	 * @return the leaveyardname
-	 */
-	public String getLeaveyardname() {
-		return leaveyardname;
-	}
-
-	/**
-	 * @param customerid the customerid to set
-	 */
 	public void setCustomerid(String customerid) {
 		this.customerid = customerid;
 	}
-
-	/**
-	 * @param customername the customername to set
-	 */
+	public String getCustomername() {
+		return customername;
+	}
 	public void setCustomername(String customername) {
 		this.customername = customername;
 	}
-
-	/**
-	 * @param supplierid the supplierid to set
-	 */
+	public String getSupplierid() {
+		return supplierid;
+	}
 	public void setSupplierid(String supplierid) {
 		this.supplierid = supplierid;
 	}
-
-	/**
-	 * @param suppliername the suppliername to set
-	 */
+	public String getSuppliername() {
+		return suppliername;
+	}
 	public void setSuppliername(String suppliername) {
 		this.suppliername = suppliername;
 	}
-
-	/**
-	 * @param department the department to set
-	 */
+	public String getDepartment() {
+		return department;
+	}
 	public void setDepartment(String department) {
 		this.department = department;
 	}
-
-	/**
-	 * @param cutoverpartmentid the cutoverpartmentid to set
-	 */
+	public String getCutoverpartmentid() {
+		return cutoverpartmentid;
+	}
 	public void setCutoverpartmentid(String cutoverpartmentid) {
 		this.cutoverpartmentid = cutoverpartmentid;
 	}
-
-	/**
-	 * @param cutoverpartmentname the cutoverpartmentname to set
-	 */
+	public String getCutoverpartmentname() {
+		return cutoverpartmentname;
+	}
 	public void setCutoverpartmentname(String cutoverpartmentname) {
 		this.cutoverpartmentname = cutoverpartmentname;
 	}
-
-	/**
-	 * @param materialid the materialid to set
-	 */
+	public String getMaterialid() {
+		return materialid;
+	}
 	public void setMaterialid(String materialid) {
 		this.materialid = materialid;
 	}
-
-	/**
-	 * @param materialname the materialname to set
-	 */
+	public String getMaterialname() {
+		return materialname;
+	}
 	public void setMaterialname(String materialname) {
 		this.materialname = materialname;
 	}
-
-	/**
-	 * @param cargo the cargo to set
-	 */
+	public String getCargo() {
+		return cargo;
+	}
 	public void setCargo(String cargo) {
 		this.cargo = cargo;
 	}
-
-	/**
-	 * @param enteryardid the enteryardid to set
-	 */
+	public String getEnteryardid() {
+		return enteryardid;
+	}
 	public void setEnteryardid(String enteryardid) {
 		this.enteryardid = enteryardid;
 	}
-
-	/**
-	 * @param enteryardname the enteryardname to set
-	 */
+	public String getEnteryardname() {
+		return enteryardname;
+	}
 	public void setEnteryardname(String enteryardname) {
 		this.enteryardname = enteryardname;
 	}
-
-	/**
-	 * @param leaveyardid the leaveyardid to set
-	 */
+	public String getLeaveyardid() {
+		return leaveyardid;
+	}
 	public void setLeaveyardid(String leaveyardid) {
 		this.leaveyardid = leaveyardid;
 	}
-
-	/**
-	 * @param leaveyardname the leaveyardname to set
-	 */
+	public String getLeaveyardname() {
+		return leaveyardname;
+	}
 	public void setLeaveyardname(String leaveyardname) {
 		this.leaveyardname = leaveyardname;
 	}
-
-	@Override
-	public String toString() {
-		return "PoundNote [id=" + id + ", code=" + code + ", returnstatus=" + returnstatus + ", redcollide="
-				+ redcollide + ", status=" + status + ", billtype=" + billtype + ", putinwarehouseid="
-				+ putinwarehouseid + ", putinwarehousecode=" + putinwarehousecode + ", billid=" + billid + ", billcode="
-				+ billcode + ", billdetailid=" + billdetailid + ", maindeduction=" + maindeduction + ", noticeid="
-				+ noticeid + ", noticecode=" + noticecode + ", arrivepoundnotecode=" + arrivepoundnotecode
-				+ ", senddepartmentid=" + senddepartmentid + ", senddepartmentname=" + senddepartmentname
-				+ ", driverid=" + driverid + ", drivername=" + drivername + ", driveridentityno=" + driveridentityno
-				+ ", vehicleid=" + vehicleid + ", vehicleno=" + vehicleno + ", vehiclerfid=" + vehiclerfid
-				+ ", receivedepartmentid=" + receivedepartmentid + ", receivedepartmentname=" + receivedepartmentname
-				+ ", minemouthid=" + minemouthid + ", minemouthname=" + minemouthname + ", warehouseid=" + warehouseid
-				+ ", warehousename=" + warehousename + ", yardid=" + yardid + ", yardname=" + yardname
-				+ ", receiverpersonid=" + receiverpersonid + ", receiverpersonname=" + receiverpersonname
-				+ ", weigherid=" + weigherid + ", weighername=" + weighername + ", receivertime=" + receivertime
-				+ ", pickupquantity=" + pickupquantity + ", grossweight=" + grossweight + ", tareweight=" + tareweight
-				+ ", netweight=" + netweight + ", originalnetweight=" + originalnetweight + ", deductionweight="
-				+ deductionweight + ", deductionother=" + deductionother + ", batchnumberid=" + batchnumberid
-				+ ", serialnumber=" + serialnumber + ", lighttime=" + lighttime + ", weighttime=" + weighttime
-				+ ", makerid=" + makerid + ", makebillname=" + makebillname + ", makebilltime=" + makebilltime
-				+ ", state=" + state + ", creator=" + creator + ", createtime=" + createtime + ", modifier=" + modifier
-				+ ", modifytime=" + modifytime + ", remark=" + remark + ", customerid=" + customerid + ", customername="
-				+ customername + ", supplierid=" + supplierid + ", suppliername=" + suppliername + ", department="
-				+ department + ", cutoverpartmentid=" + cutoverpartmentid + ", cutoverpartmentname="
-				+ cutoverpartmentname + ", materialid=" + materialid + ", materialname=" + materialname + ", cargo="
-				+ cargo + ", enteryardid=" + enteryardid + ", enteryardname=" + enteryardname + ", leaveyardid="
-				+ leaveyardid + ", leaveyardname=" + leaveyardname + "]";
+	public String getRedColStatus() {
+		return redColStatus;
 	}
-
+	public void setRedColStatus(String redColStatus) {
+		this.redColStatus = redColStatus;
+	}
 }

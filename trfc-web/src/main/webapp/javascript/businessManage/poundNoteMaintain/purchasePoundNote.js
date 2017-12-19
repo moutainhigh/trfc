@@ -7,6 +7,7 @@
 			redcollide: '/trfc/poundNote/purchase/redcollide',
 			invalid: '/trfc/poundNote/purchase/invalid',
 			copyView: '/trfc/poundNote/purchase/copyView',
+			updatePnView: '/trfc/poundNote/purchase/updatePnView',
 			supplierAutoCompleteSearch: "/trfc/supplier/autoCompleteSearch",
 			vehicleAutoCompleteSearch: "/trfc/vehicle/autoCompleteSearch",
 			materielAutoCompleteSearch: "/trfc/materiel/autoCompleteSearch"
@@ -168,6 +169,13 @@
 			if(!obj) {layer.msg('需要选中一行才能操作哦！'); return;}
 			copy(obj);
 		});
+		//修改
+		$('#updatePn').off('click').on('click', function(e){
+			e.stopPropagation();
+			var obj = $('table.maintable tbody tr.active').data();
+			if(!obj) {layer.msg('需要选中一行才能操作哦！'); return;}
+			updatePn(obj);
+		});
 		$('#jumpPageNoBtn').off('click').on('click',function(){
 			var pageNo = $('input#jumpPageNo').val();pageNo = $.trim(pageNo);pageNo = parseInt(pageNo);
 			var pageMaxNo = $('input#jumpPageNo').attr('maxpageno');pageMaxNo = $.trim(pageMaxNo);pageMaxNo = parseInt(pageMaxNo);
@@ -291,6 +299,13 @@
 				case '1': redcollide = '是';break;
 				default: break;
 				}
+				var redColStatus = '';
+				switch (obj.redColStatus) {
+				case '0': redColStatus = '未红冲';break;
+				case '1': redColStatus = '红冲中';break;
+				case '2': redColStatus = '已红冲';break;
+				default: break;
+				}
 				var status = '';
 				switch (obj.status) {
 				case '0': status = '计量系统';break;
@@ -322,6 +337,7 @@
 						.append('<td>'+code+'</td>')
 						.append('<td'+(obj.returnstatus == '0' ? ' class="colorred"' : '')+'>'+returnstatus+'</td>')
 						.append('<td'+(obj.redcollide == '1' ? ' class="colorred"' : '')+'>'+redcollide+'</td>')
+						.append('<td>'+redColStatus+'</td>')
 						.append('<td'+(obj.status == '1' || obj.status == '3' ? ' class="colorred"' : '')+'>'+status+'</td>')
 						.append('<td>'+putinwarehousecode+'</td>')
 						.append('<td>'+noticecode+'</td>')
@@ -437,8 +453,12 @@
 		
 	}
 	function copy(obj) {
-		if(obj.returnstatus == 2 && obj.redcollide == 0) {
+		if(obj.returnstatus == 2) {
 			layer.msg('已推单的单据不能参照，请先红冲该单据！', {icon: 5}); 
+			return;
+		}
+		if(obj.redcollide == 0) {
+			layer.msg('未红冲的单据不能参照，请先红冲！', {icon: 5}); 
 			return;
 		}
 		if(obj.billtype == 1) {
@@ -446,6 +466,20 @@
 			return;
 		}
 		window.location.href = URL.copyView + '?id=' + obj.id;
+	}
+	function updatePn(obj) {
+		if (obj.billtype == '0') {
+			if (!obj.tareweight) {
+				layer.msg('只有过完二次磅才允许修改！', {icon: 5}); 
+				return;
+			}
+		} else {
+			if (!obj.grossweight) {
+				layer.msg('只有过完二次磅才允许修改！', {icon: 5}); 
+				return;
+			}
+		}
+		window.location.href = URL.updatePnView + '?id=' + obj.id;
 	}
 	
 })(jQuery, window);

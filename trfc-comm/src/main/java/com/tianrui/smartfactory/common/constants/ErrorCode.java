@@ -112,6 +112,9 @@ public enum ErrorCode {
 	POUNDNOTE_RETURN_ERROR2("E10102","该订单的余量小于预提量."),
 	POUNDNOTE_RETURN_ERROR3("E10103","过磅单据未推送到NC."),
 	POUNDNOTE_ERROR0("E10104","过磅单据已作废."),
+	POUNDNOTE_ERROR1("E10105","已红冲过的单据才允许参照."),
+	POUNDNOTE_ERROR2("E10106","已推单过的单据才允许红冲."),
+	POUNDNOTE_ERROR3("E10107","已红冲过的单据不允许重复红冲."),
 	/**
 	 * 车辆
 	 */
@@ -145,6 +148,11 @@ public enum ErrorCode {
 	 * 仓库
 	 */
 	WAREHOUSE_NOT_EXIST("E13000","仓库不存在."),
+	/**
+	 * 堆场
+	 */
+	YARD_NOT_EXIST("E14000","堆场不存在."),
+	YARD_NOT_VALID("E14000","堆场已无效."),
 	
 	/**
 	 * 用户相关

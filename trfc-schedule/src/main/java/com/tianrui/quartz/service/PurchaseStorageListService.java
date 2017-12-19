@@ -123,13 +123,14 @@ public class PurchaseStorageListService implements IPurchaseStorageListService {
 				ps.setNetWeight(pn.getNetweight().toString());
 				ps.setCreatetime(System.currentTimeMillis());
 				ps.setModifytime(System.currentTimeMillis());
-				if (apiResult != null && StringUtils.equals(apiResult.getCode(), Constant.SUCCESS)) {
-					order.setStatus(Constant.PUSH_STATUS_ING);
-					if (purchaseStorageListMapper.updateByPrimaryKeySelective(order) > 0) {
-						pn.setId(order.getPoundId());
-						pn.setReturnstatus(Constant.POUND_PUSH_STATUS_ING);
-						poundNoteMapper.updateByPrimaryKeySelective(pn);
-						Logger.info("操作成功!");
+				if (apiResult != null) {
+					if (StringUtils.equals(apiResult.getCode(), Constant.SUCCESS)) {
+						order.setStatus(Constant.PUSH_STATUS_ING);
+						purchaseStorageListMapper.updateByPrimaryKeySelective(order);
+						if (!StringUtils.equals(order.getType(), Constant.THREE_STRING)) {
+							pn.setReturnstatus(Constant.POUND_PUSH_STATUS_ING);
+							poundNoteMapper.updateByPrimaryKeySelective(pn);
+						}
 					} else {
 						Logger.info(ErrorCode.OPERATE_ERROR.getMsg());
 						ps.setPushStatus(Constant.THREE_STRING);
@@ -137,7 +138,6 @@ public class PurchaseStorageListService implements IPurchaseStorageListService {
 					ps.setReasonFailure(apiResult.getError());
 					ps.setDesc1(apiResult.getCode());
 				} else {
-					Logger.error(apiResult.getError());
 					ps.setPushStatus(Constant.THREE_STRING);
 					ps.setReasonFailure("FC-DC到货单推单失败，连接超时。");
 					ps.setDesc1("-1");
