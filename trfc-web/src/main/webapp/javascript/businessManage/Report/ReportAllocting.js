@@ -273,10 +273,6 @@
 		$('#diaoruduichang').val("");
 		$('#diaoliduichang').val("");
 		$('#danjuzhuangtai').val("");
-		$(".bbg_tiaojian1").val("");
-		$(".bbg_tiaojian2").val("");
-		$(".bbg_tiaojian3").val("");
-		$(".bbg_tiaojian4").val("");
 	}
 //		//初始化页面
 //		queryData(1);

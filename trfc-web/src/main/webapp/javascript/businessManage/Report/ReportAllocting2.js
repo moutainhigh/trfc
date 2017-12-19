@@ -367,9 +367,6 @@ function bbgClick(){
         str+="调离堆场："+diaoliduichang+" ";
     }
     if(danjuzhuangtai!=""){
-    	if(danjuzhuangtai==""){
-            str+="单据状态：计量系统";
-    	}
     	if(danjuzhuangtai==0){
             str+="单据状态：计量系统";
     	}
