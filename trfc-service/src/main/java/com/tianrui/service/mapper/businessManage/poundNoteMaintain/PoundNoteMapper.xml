@@ -68,6 +68,7 @@
     <result column="enteryardname" property="enteryardname" jdbcType="VARCHAR" />
     <result column="leaveyardid" property="leaveyardid" jdbcType="VARCHAR" />
     <result column="leaveyardname" property="leaveyardname" jdbcType="VARCHAR" />
+    <result column="redColStatus" property="redColStatus" jdbcType="VARCHAR" />
   </resultMap>
   <resultMap id="BaseRespResultMap" type="com.tianrui.api.resp.businessManage.poundNoteMaintain.PoundNoteResp" >
     <id column="id" property="id" jdbcType="VARCHAR" />
@@ -140,7 +141,7 @@
     grossweight, tareweight, netweight, originalnetweight, deductionweight, deductionother, batchnumberid,
     serialnumber, lighttime, weighttime, makerid, makebillname, makebilltime, state, creator, 
     createtime, modifier, modifytime, remark, customerid, customername, supplierid, suppliername, department, cutoverpartmentid, cutoverpartmentname, 
-    materialid, materialname, cargo, enteryardid, enteryardname, leaveyardid, leaveyardname
+    materialid, materialname, cargo, enteryardid, enteryardname, leaveyardid, leaveyardname, redColStatus
   </sql>
   <sql id="Base_Column_List_P" >
     p0.id, p0.code, p0.returnstatus, p0.redcollide, p0.status, p0.billtype, p0.putinwarehouseid, p0.putinwarehousecode, p0.billid, p0.billcode, p0.billdetailid, p0.
@@ -150,7 +151,7 @@
     grossweight, p0.tareweight, p0.netweight, p0.originalnetweight, p0.deductionweight, p0.deductionother, p0.batchnumberid, p0.
     serialnumber, p0.lighttime, p0.weighttime, p0.makerid, p0.makebillname, p0.makebilltime, p0.state, p0.creator, p0.
     createtime, p0.modifier, p0.modifytime, p0.remark, p0.customerid, p0.customername, p0.supplierid, p0.suppliername, p0.department, p0.cutoverpartmentid, p0.cutoverpartmentname, 
-    p0.materialid, p0.materialname, p0.cargo, p0.enteryardid, p0.enteryardname, p0.leaveyardid, p0.leaveyardname
+    p0.materialid, p0.materialname, p0.cargo, p0.enteryardid, p0.enteryardname, p0.leaveyardid, p0.leaveyardname, p0.redColStatus
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
@@ -178,7 +179,8 @@
       makerid, makebillname, makebilltime, state,
       creator, createtime, modifier, 
       modifytime, remark, customerid, customername, supplierid, suppliername, department, cutoverpartmentid, cutoverpartmentname, 
-      materialid, materialname, cargo, enteryardid, enteryardname, leaveyardid, leaveyardname)
+      materialid, materialname, cargo, enteryardid, enteryardname, leaveyardid, leaveyardname,
+      redColStatus)
     values (#{id,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR}, #{returnstatus,jdbcType=VARCHAR}, 
       #{redcollide,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, #{billtype,jdbcType=VARCHAR}, 
       #{putinwarehouseid,jdbcType=VARCHAR}, #{putinwarehousecode,jdbcType=VARCHAR}, #{billid,jdbcType=VARCHAR}, 
@@ -201,7 +203,7 @@
       #{department,jdbcType=VARCHAR}, #{cutoverpartmentid,jdbcType=VARCHAR}, #{cutoverpartmentname,jdbcType=VARCHAR}, 
       #{materialid,jdbcType=VARCHAR}, #{materialname,jdbcType=VARCHAR}, #{cargo,jdbcType=VARCHAR}, 
       #{enteryardid,jdbcType=VARCHAR}, #{enteryardname,jdbcType=VARCHAR}, #{leaveyardid,jdbcType=VARCHAR}, 
-      #{leaveyardname,jdbcType=VARCHAR})
+      #{leaveyardname,jdbcType=VARCHAR}, #{redColStatus,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.tianrui.service.bean.businessManage.poundNoteMaintain.PoundNote" >
     insert into tr_pound_db_note
@@ -413,6 +415,9 @@
       <if test="leaveyardname != null" >
         leaveyardname,
       </if>
+      <if test="redColStatus != null" >
+        redColStatus,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -621,6 +626,9 @@
       </if>
       <if test="leaveyardname != null" >
         #{leaveyardname,jdbcType=VARCHAR},
+      </if>
+      <if test="redColStatus != null" >
+        #{redColStatus,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -831,6 +839,9 @@
       <if test="leaveyardname != null" >
         leaveyardname = #{leaveyardname,jdbcType=VARCHAR},
       </if>
+      <if test="redColStatus != null" >
+        redColStatus = #{redColStatus,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
@@ -903,7 +914,8 @@
       enteryardid = #{enteryardid,jdbcType=VARCHAR},
       enteryardname = #{enteryardname,jdbcType=VARCHAR},
       leaveyardid = #{leaveyardid,jdbcType=VARCHAR},
-      leaveyardname = #{leaveyardname,jdbcType=VARCHAR}
+      leaveyardname = #{leaveyardname,jdbcType=VARCHAR},
+      redColStatus = #{redColStatus,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
   <select id="purchasePageCount" parameterType="com.tianrui.api.req.businessManage.poundNoteMaintain.PoundNoteQuery" resultType="java.lang.Long">
@@ -1459,6 +1471,9 @@
 	      </if>
 	      <if test="leaveyardname != null" >
 	        and leaveyardname = #{leaveyardname,jdbcType=VARCHAR}
+	      </if>
+	      <if test="redColStatus != null" >
+	        and redColStatus = #{redColStatus,jdbcType=VARCHAR}
 	      </if>
 	      order by makebilltime desc
     	</where>

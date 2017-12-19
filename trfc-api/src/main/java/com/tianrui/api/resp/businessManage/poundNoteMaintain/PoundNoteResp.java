@@ -188,8 +188,8 @@ public class PoundNoteResp extends BaseResp {
     private Long signTime; 
     
     private String signTimeStr;
-    
-    
+    //红冲状态（0：未红冲，1：红冲中，2：已红冲）
+    private String redColStatus;
     
 	public String getSignTimeStr() {
 		return signTimeStr;
@@ -1291,6 +1291,11 @@ public class PoundNoteResp extends BaseResp {
 		this.signTime = signTime;
 		this.signTimeStr = DateUtil.parse(signTime, "yyyy-MM-dd HH:mm:ss");
 	}
-	
+	public String getRedColStatus() {
+		return redColStatus;
+	}
+	public void setRedColStatus(String redColStatus) {
+		this.redColStatus = redColStatus;
+	}
 	
 }
