@@ -355,6 +355,8 @@
 		 $('#bbg_bz').val("");
 		 $('#duichang').val("");
 		 $('#pushStatus').val("");
+		 $("#tag_display_billcode").val("");
+		$("#tag_display_poundcode").val("");
 	}
 //		//初始化页面
 	function queryData5(pageNo){
