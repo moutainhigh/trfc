@@ -760,7 +760,12 @@
 		$('#RMg4').empty();
 		var list = data.list||[];
 		if(list && list.length>0){
+			var str1=0,str2=0,str3=0,str4=0;
 			for(var i=0;i<list.length;i++){
+				str1+=list[i].countVehicleNo;
+				str2+=list[i].sumGrossweight;
+				str3+=list[i].sumTareweight;
+				str4+=list[i].sumNetweight;
 				$('<tr>').append('<td>'+(list[i].suppliername||"")+'</td>')
 						.append('<td>'+(list[i].materialname||"")+'</td>')
 						.append('<td>'+(list[i].countVehicleNo||"")+'</td>')	
@@ -771,12 +776,12 @@
 						.appendTo('#RMg4');
 			}
 			$('<tr>').append('<td>'+("总计")+'</td>')
-			.append('<td>'+("")+'</td>')
-			.append('<td>'+("")+'</td>')	
-			.append('<td>'+("")+'</td>')
-			.append('<td>'+("")+'</td>')
-			.append('<td>'+("")+'</td>')
-			.append('<td>'+("")+'</td>')
+			.append('<td>'+("---")+'</td>')
+			.append('<td>'+(str1.toFixed(2))+'</td>')	
+			.append('<td>'+(str2.toFixed(2))+'</td>')
+			.append('<td>'+(str3.toFixed(2))+'</td>')
+			.append('<td>'+(str4.toFixed(2))+'</td>')
+			.append('<td>'+("---")+'</td>')
 			.appendTo('#RMg4');
 		}else{
 //			layer.msg('暂无数据');
