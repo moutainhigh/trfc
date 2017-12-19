@@ -211,6 +211,17 @@
 							.append('<td>'+(weightt)+'</td>')
 							.appendTo('#RMg1');
 				}
+				$('<tr>').append('<td>'+("总计")+'</td>')
+				.append('<td>'+("")+'</td>')
+				.append('<td>'+("")+'</td>')
+				.append('<td>'+("")+'</td>')
+				.append('<td>'+("")+'</td>')
+				.append('<td>'+("")+'</td>')
+				.append('<td>'+("")+'</td>')
+				.append('<td>'+("")+'</td>')
+				.append('<td>'+("")+'</td>')
+				.append('<td>'+("")+'</td>')
+				.appendTo('#RMg1');
 			}else{
 				layer.msg('暂无数据');
 //				$('#dataMore').hide();

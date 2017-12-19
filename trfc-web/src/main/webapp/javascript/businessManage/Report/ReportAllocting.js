@@ -24,7 +24,6 @@
 		$(".hide_buyCar").show();
 		$("#tag_display_leave").removeClass("displayNone");
 		$("#tag_display_enter").removeClass("displayNone");
-		clean();
 		queryData(1);
 		commonList();
 	});
@@ -34,7 +33,6 @@
 		$(".hide_thing").show();
 		$("#tag_display_leave").addClass("displayNone");
 		$("#tag_display_enter").removeClass("displayNone");
-		clean();
 		queryData2(1);
 		commonList2();
 	});
@@ -44,7 +42,6 @@
 		$(".hide_receive").show();
 		$("#tag_display_leave").removeClass("displayNone");
 		$("#tag_display_enter").addClass("displayNone");
-		clean();
 		queryData3(1);
 		commonList3();
 	});
@@ -54,7 +51,6 @@
 		$(".hide_unit").show();
 		$("#tag_display_leave").removeClass("displayNone");
 		$("#tag_display_enter").removeClass("displayNone");
-		clean();
 		queryData4(1);
 		commonList4();
 	});

@@ -355,8 +355,8 @@
 		 $('#bbg_bz').val("");
 		 $('#duichang').val("");
 		 $('#pushStatus').val("");
-		 $("#tag_display_billcode").val("");
-		$("#tag_display_poundcode").val("");
+		 $("#billcode").val("");
+		$("#poundcode").val("");
 	}
 //		//初始化页面
 	function queryData5(pageNo){
@@ -433,6 +433,20 @@
 						.append('<td>'+(list[i].remark||"")+'</td>')
 						.appendTo('#RMg5');
 			}
+			$('<tr>').append('<td>'+("总计")+'</td>')	
+			.append('<td>'+("")+'</td>')
+			.append('<td>'+("")+'</td>')
+			.append('<td>'+("")+'</td>')
+			.append('<td>'+("")+'</td>')
+			.append('<td>'+("")+'</td>')
+			.append('<td>'+("")+'</td>')
+			.append('<td>'+("")+'</td>')
+			.append('<td>'+("")+'</td>')
+			.append('<td>'+("")+'</td>')
+			.append('<td>'+("")+'</td>')
+			.append('<td>'+("")+'</td>')
+			.append('<td>'+("")+'</td>')
+			.appendTo('#RMg5');
 		}else{
 //			layer.msg('暂无数据');
 //			$('#dataMore').hide();
@@ -514,6 +528,21 @@
 							.append('<td>'+(list[i].remark||"")+'</td>')
 							.appendTo('#RMg1');
 				}
+				$('<tr>').append('<td>'+("总计")+'</td>')
+				.append('<td>'+("")+'</td>')
+				.append('<td>'+("")+'</td>')
+				.append('<td>'+("")+'</td>')
+				.append('<td>'+("")+'</td>')
+				.append('<td>'+("")+'</td>')
+				.append('<td>'+("")+'</td>')
+				.append('<td>'+("")+'</td>')
+				.append('<td>'+("")+'</td>')
+				.append('<td>'+("")+'</td>')
+				.append('<td>'+("")+'</td>')
+				.append('<td>'+("")+'</td>')
+				.append('<td>'+("")+'</td>')
+				.append('<td>'+("")+'</td>')
+				.appendTo('#RMg1');
 			}else{
 //				layer.msg('暂无数据');
 //				$('#dataMore').hide();
@@ -577,6 +606,14 @@
 							.append('<td>'+(list[i].sumNetweight||"")+'</td>')
 							.appendTo('#RMg2');
 				}
+				$('<tr>').append('<td>'+("总计")+'</td>')
+				.append('<td>'+("")+'</td>')
+				.append('<td>'+("")+'</td>')
+				.append('<td>'+("")+'</td>')
+				.append('<td>'+("")+'</td>')
+				.append('<td>'+("")+'</td>')
+				.append('<td>'+("")+'</td>')
+				.appendTo('#RMg2');
 			}else{
 //				layer.msg('暂无数据');
 //				$('#dataMore').hide();
@@ -656,6 +693,19 @@
 						.append('<td>'+(list[i].remark||"")+'</td>')
 						.appendTo('#RMg3');
 			}
+			$('<tr>').append('<td>'+("总计")+'</td>')
+			.append('<td>'+("")+'</td>')
+			.append('<td>'+("")+'</td>')
+			.append('<td>'+("")+'</td>')
+			.append('<td>'+("")+'</td>')
+			.append('<td>'+("")+'</td>')
+			.append('<td>'+("")+'</td>')
+			.append('<td>'+("")+'</td>')
+			.append('<td>'+("")+'</td>')
+			.append('<td>'+("")+'</td>')
+			.append('<td>'+("")+'</td>')
+			.append('<td>'+("")+'</td>')
+			.appendTo('#RMg3');
 		}else{
 //			layer.msg('暂无数据');
 //			$('#dataMore').hide();
@@ -720,6 +770,14 @@
 						.append('<td>'+(list[i].remark||"")+'</td>')
 						.appendTo('#RMg4');
 			}
+			$('<tr>').append('<td>'+("总计")+'</td>')
+			.append('<td>'+("")+'</td>')
+			.append('<td>'+("")+'</td>')	
+			.append('<td>'+("")+'</td>')
+			.append('<td>'+("")+'</td>')
+			.append('<td>'+("")+'</td>')
+			.append('<td>'+("")+'</td>')
+			.appendTo('#RMg4');
 		}else{
 //			layer.msg('暂无数据');
 //			$('#dataMore').hide();
