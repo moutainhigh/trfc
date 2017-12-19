@@ -909,6 +909,7 @@
 		</if>
    		<if test="endTimeLong != null and endTimeLong != 0L ">
 			and weighttime <![CDATA[<=]]> #{endTimeLong,jdbcType=BIGINT}
+		</if>
 		<if test="noticecodeLike != null and noticecodeLike != 0L ">
 			and noticecode like concat(#{noticecodeLike,jdbcType=VARCHAR},'%')
 		</if>
