@@ -63,7 +63,7 @@
 			and lighttime <![CDATA[<=]]> #{endTimeLong,jdbcType=BIGINT}
 		</if>
 		<if test="billcodeLike != null and billcodeLike != ''">
-			and billcode like concat(#{billcode,jdbcType=VARCHAR},'%')
+			and billcode like concat(#{billcodeLike,jdbcType=VARCHAR},'%')
 		</if>
 		<if test="poundcodeLike != null and poundcodeLike != ''">
 			and poundcode like concat(#{poundcodeLike,jdbcType=VARCHAR},'%')
@@ -317,7 +317,7 @@
 			and lighttime <![CDATA[<=]]> #{endTimeLong,jdbcType=BIGINT}
 		</if>
 		<if test="billcodeLike != null and billcodeLike != ''">
-			and billcode like concat(#{billcode,jdbcType=VARCHAR},'%')
+			and billcode like concat(#{billcodeLike,jdbcType=VARCHAR},'%')
 		</if>
 		<if test="poundcodeLike != null and poundcodeLike != ''">
 			and poundcode like concat(#{poundcodeLike,jdbcType=VARCHAR},'%')

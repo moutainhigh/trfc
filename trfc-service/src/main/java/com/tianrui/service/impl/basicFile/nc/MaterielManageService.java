@@ -124,7 +124,12 @@ public class MaterielManageService implements IMaterielManageService {
 		if(list != null && list.size() > 0){
 			listResp = new ArrayList<MaterielManageResp>();
 			for(MaterielManage mater : list){
-				mater.setName(mater.getName()+mater.getSpec());
+				if (StringUtils.isNotBlank(mater.getSpec())) {
+					mater.setName(mater.getName()+"<"+mater.getSpec()+">");
+				} else {
+					mater.setName(mater.getName()+mater.getSpec());
+				}
+				
 				listResp.add(copyBean2Resp(mater));
 				
 			}
