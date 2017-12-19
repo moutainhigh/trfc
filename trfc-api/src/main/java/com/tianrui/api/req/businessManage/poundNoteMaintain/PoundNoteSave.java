@@ -141,6 +141,8 @@ public class PoundNoteSave extends BaseReq {
     private String leaveyardid;
     //调离堆场名称
     private String leaveyardname;
+    //当前登录用户ID
+    private String userId;
 	/**
 	 * @return the id
 	 */
@@ -932,6 +934,15 @@ public class PoundNoteSave extends BaseReq {
 	 */
 	public void setSuppliername(String suppliername) {
 		this.suppliername = suppliername;
+	}
+	public String getUserId() {
+		return userId;
+	}
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
+	public static long getSerialversionuid() {
+		return serialVersionUID;
 	}
     
 }

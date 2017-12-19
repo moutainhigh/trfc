@@ -53,12 +53,14 @@ public class PurchaseStorageService implements IPurchaseStorageService {
 					update.setTs(req.getTs());
 					update.setStatus(Constant.PUSH_STATUS_END);
 					purchaseStorageMapper.updateByPrimaryKeySelective(update);
-					//榜单状态修改为 已推单
-					PoundNote updatePound = new PoundNote();
-					updatePound.setId(db.getPoundId());
-					updatePound.setReturnstatus(Constant.POUND_PUSH_STATUS_END);
-					updatePound.setModifytime(System.currentTimeMillis());
-					poundNoteMapper.updateByPrimaryKeySelective(updatePound);
+					//榜单状态修改为 已推单(红冲修改为已红冲)
+					if (StringUtils.equals(db.getType(), Constant.THREE_STRING)) {
+						pn.setRedColStatus(Constant.TWO_STRING);
+					} else {
+						pn.setReturnstatus(Constant.POUND_PUSH_STATUS_END);
+					}
+					pn.setModifytime(System.currentTimeMillis());
+					poundNoteMapper.updateByPrimaryKeySelective(pn);
 				}else{
 					//DC推动失败 处理原因
 					ps.setPushStatus(Constant.THREE_STRING);
