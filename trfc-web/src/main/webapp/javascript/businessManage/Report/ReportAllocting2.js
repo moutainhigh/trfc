@@ -6,46 +6,6 @@ var URL = {
 	};
 $( function() {
 	 //获取下拉框数据并填充
-	//客户	
-	customerAutoCompleteSearch();
-   function customerAutoCompleteSearch(){
-   var cache={};
-   $("#bbg_gys").autocomplete({
-   //数据源
-   source: function( request, response ) {
-   var term = request.term;
-   var material = cache['material'] || {};
-   if ( term in material ) {
-   response( material[ term ] );
-   return;
-   }
-   $.post( URL.customerAutoCompleteSearch, request, function( data, status, xhr ) {
-	    material[ term ] = data;
-	    response( data );
-   });
-   },
-   //显示下拉框
-   response: function( event, ui ) {
-   if(ui.content && ui.content.length > 0){
-   //展示下拉框
-   ui.content.forEach(function(x,i,a){
-   x.label = x.name;
-   });
-   }
-   },
-   //选定,显示结果到输入框
-   select: function( event, ui ) {
-   $(this).val(ui.item.name);
-   return false;
-   }
-   }).off('click').on('click',function(){
-   $(this).autocomplete('search',' ');
-   }).change(function(){
-   $(this).val('');
-   });
-   };
- 
-	
 	//物料	
 	materialSelect();
    function materialSelect(){
@@ -81,7 +41,9 @@ $( function() {
    }).off('click').on('click',function(){
    $(this).autocomplete('search',' ');
    }).change(function(){
-   $(this).val('');
+	   if(!$(this)){
+		   $(this).val('');
+	   }
    });
    };
  
@@ -121,7 +83,9 @@ $( function() {
    }).off('click').on('click',function(){
    $(this).autocomplete('search',' ');
    }).change(function(){
-   $(this).val('');
+	   if(!$(this)){
+		   $(this).val('');
+	   }
    });
    };
    
@@ -160,7 +124,9 @@ $( function() {
    }).off('click').on('click',function(){
    $(this).autocomplete('search',' ');
    }).change(function(){
-   $(this).val('');
+	   if(!$(this)){
+		   $(this).val('');
+	   }
    });
    };
    
@@ -371,23 +337,53 @@ function Clock1() {
 //条件搜索
 bbgClick();
 function bbgClick(){
-    var bbg_gys=document.getElementById("bbg_gys").value;
+	var guobangdanhao=document.getElementById("guobangdanhao").value;
+	var tongzhidanhao=document.getElementById("tongzhidanhao").value;
+	if(document.getElementById("diaoruduichang")){
+		var diaoruduichang=document.getElementById("diaoruduichang").value;
+	}
+	if(document.getElementById("diaoliduichang")){
+		var	diaoliduichang=document.getElementById("diaoliduichang").value;
+	}
+	var danjuzhuangtai=document.getElementById("danjuzhuangtai").value;
     var gys=document.getElementById("gys").value;
     var bbg_sjn=document.getElementById("bbg_sjn").value;
-    var clock1=document.getElementById("clock1").value;
-    var clock2=document.getElementById("clock2").value;
     var bbg_cph=document.getElementById("bbg_cph").value;
     var bbg_tiaojian1=document.querySelector(".bbg_tiaojian1");
     var bbg_tiaojian2=document.querySelector(".bbg_tiaojian2");
     var bbg_tiaojian3=document.querySelector(".bbg_tiaojian3");
     var bbg_tiaojian4=document.querySelector(".bbg_tiaojian4");
-    var str="";
-    if(bbg_gys!=""){
-        str+="客户姓名："+bbg_gys+" ";
+    var str=""; 
+    if(guobangdanhao!=""){
+        str+="过磅单号："+guobangdanhao+" ";
+    }
+    if(tongzhidanhao!=""){
+        str+="通知单号："+tongzhidanhao+" ";
+    }
+    if(diaoruduichang && diaoruduichang!=""){
+        str+="调入堆场："+diaoruduichang+" ";
+    }
+    if(diaoliduichang && diaoliduichang!=""){
+        str+="调离堆场："+diaoliduichang+" ";
+    }
+    if(danjuzhuangtai!=""){
+    	if(danjuzhuangtai==""){
+            str+="单据状态：计量系统";
+    	}
+    	if(danjuzhuangtai==0){
+            str+="单据状态：计量系统";
+    	}
+    	if(danjuzhuangtai==1){
+            str+="单据状态：补增";
+    	}
+    	if(danjuzhuangtai==3){
+            str+="单据状态：作废";
+    	}
     }
    if(gys!=""){
         str+="物料："+gys+" ";
-    }else if(bbg_sjn!=""){
+    }
+   if(bbg_sjn!=""){
         str+="司机姓名：："+bbg_sjn+" ";
     }
     if(bbg_cph!=""){

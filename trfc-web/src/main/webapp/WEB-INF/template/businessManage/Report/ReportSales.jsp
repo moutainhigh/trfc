@@ -107,7 +107,7 @@
             </div>
             <div class="intel_solo">
                 <div class="intel_sbtn">
-                    <button class="btn" id="clean" style="color: #166aa8;margin: 0 5px 0 -20px">取消</button>
+                    <button class="btn" id="clean" style="color: #166aa8;margin: 0 5px 0 -20px">重置</button>
                 </div>
             </div>
         </div>

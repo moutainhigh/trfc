@@ -36,6 +36,12 @@
         .intel_table{
             overflow: hidden;
         }
+        .displayNone{
+        	display:none;
+        	text-indent:-9999px;
+        	height: 0px !important;
+        	width:0px !important;
+        }
     </style>
 <!-- 引用公共header部分 -->
 <jsp:include page="../../common/base/header_busi.jsp"></jsp:include>
@@ -57,10 +63,23 @@
 						</div>
 						<div class="intel_sconditon">
 							 <div class="intel_sline">
-            <div class="intel_solo">
-                <label class="colorB">客户姓名：</label>
-                <input type="text" id="bbg_gys" placeholder="请选择客户">
+			<div class="intel_solo">
+                <label class="colorB">过磅单号：</label>
+                <input type="text" id="guobangdanhao" placeholder="请选择过磅单号">
             </div>
+            <div class="intel_solo">
+                <label class="colorB">通知单号：</label>
+                <input type="text" id="tongzhidanhao" placeholder="请选择通知单号">
+            </div>
+            <div class="intel_solo" id="tag_display_enter">
+                <label class="colorB">调入堆场：</label>
+                <input type="text" id="diaoruduichang" placeholder="请选择调入堆场">
+            </div>
+            <div class="intel_solo" id="tag_display_leave">
+                <label class="colorB">调离堆场：</label>
+                <input type="text" id="diaoliduichang" placeholder="请选择调离堆场">
+            </div>
+          
             <div class="intel_solo">
                 <label class="colorB">物料：</label>
                 <input type="text" id="gys" placeholder="请选择物料">
@@ -72,6 +91,14 @@
              <div class="intel_solo">
                 <label class="colorB">车号：</label>
                 <input type="text" id="bbg_cph" placeholder="请选择车号">
+            </div>
+            <div class="intel_solo">
+                <label>单据状态：</label> <select id="danjuzhuangtai" class="form-control">
+                <option value="">计量系统</option>
+			    <option value="0">计量系统</option>
+			    <option value="1">补增</option>
+			    <option value="3">作废 </option> 
+			    </select>
             </div>
             <div class="intel_solo">
                 <label class="colorB">开始时间：</label>
@@ -99,7 +126,7 @@
             </div>
             <div class="intel_solo">
                 <div class="intel_sbtn">
-                    <button class="btn" id="clean" style="color: #166aa8;margin: 0 5px 0 -20px">取消</button>
+                    <button class="btn" id="clean" style="color: #166aa8;margin: 0 5px 0 -20px">重置</button>
                 </div>
             </div>
         </div>

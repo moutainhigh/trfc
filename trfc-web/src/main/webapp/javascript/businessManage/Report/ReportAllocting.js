@@ -15,6 +15,9 @@
 		bindEvent();
 		queryData();
 		commonList();
+		$("#tag_display_leave").removeClass("displayNone");
+		$("#tag_display_enter").removeClass("displayNone");
+		clean();
 		$(".wuliao_tabcont").hide();
 		$(".hide_buyCar").show();
 	}
@@ -22,6 +25,9 @@
 		$('input#jumpPageNo').val('');
 		$(".wuliao_tabcont").hide();
 		$(".hide_buyCar").show();
+		$("#tag_display_leave").removeClass("displayNone");
+		$("#tag_display_enter").removeClass("displayNone");
+		clean();
 		queryData(1);
 		commonList();
 	});
@@ -29,6 +35,9 @@
 		$('input#jumpPageNo').val('');
 		$(".wuliao_tabcont").hide();
 		$(".hide_thing").show();
+		$("#tag_display_leave").addClass("displayNone");
+		$("#tag_display_enter").removeClass("displayNone");
+		clean();
 		queryData2(1);
 		commonList2();
 	});
@@ -36,6 +45,9 @@
 		$('input#jumpPageNo').val('');
 		$(".wuliao_tabcont").hide();
 		$(".hide_receive").show();
+		$("#tag_display_leave").removeClass("displayNone");
+		$("#tag_display_enter").addClass("displayNone");
+		clean();
 		queryData3(1);
 		commonList3();
 	});
@@ -43,6 +55,9 @@
 		$('input#jumpPageNo').val('');
 	    $(".wuliao_tabcont").hide();
 		$(".hide_unit").show();
+		$("#tag_display_leave").removeClass("displayNone");
+		$("#tag_display_enter").removeClass("displayNone");
+		clean();
 		queryData4(1);
 		commonList4();
 	});
@@ -219,22 +234,31 @@
 	}
 	function getParams(){
 		var params = {};
-		var customername = $('#bbg_gys').val();customername = $.trim(customername);
+		var code = $('#guobangdanhao').val();code = $.trim(code);
+		var noticecode = $('#tongzhidanhao').val();noticecode = $.trim(noticecode);
+		var enteryardname = $('#diaoruduichang').val();enteryardname = $.trim(enteryardname);
+		var leaveyardname= $('#diaoliduichang').val();leaveyardname = $.trim(leaveyardname);
+		var status= $('#danjuzhuangtai').val();status= $.trim(status);	
 		var cargo = $('#gys').val();cargo = $.trim(cargo);
 		var drivername = $('#bbg_sjn').val();drivername = $.trim(drivername);
 		var beginTime = $('#clock1').val();beginTime = $.trim(beginTime);
 		var endTime = $('#clock2').val();endTime = $.trim(endTime);
 		var vehicleno = $('#bbg_cph').val();vehicleno = $.trim(vehicleno);
 		var pageSize = $('#pageSize').val() || 20;pageSize = $.trim(pageSize);
-		return {
-			customername:customername,
-			cargo:cargo,
-			drivername:drivername,
-			beginTime:str2Long(beginTime),
-			endTime:str2Long(endTime),
-			vehicleno:vehicleno,
-			pageSize:pageSize
-		};
+			return {
+				 code: code,
+				 noticecode:noticecode,
+				 enteryardname:enteryardname,
+				 leaveyardname:leaveyardname,
+				 status: status,
+				cargo:cargo,
+				drivername:drivername,
+				beginTime:str2Long(beginTime),
+				endTime:str2Long(endTime),
+				vehicleno:vehicleno,
+				pageSize:pageSize
+			};
+		
 	}
 	
 	function clean(){
@@ -244,7 +268,15 @@
 		 $('#clock1').val("");
 		 $('#clock2').val("");
 		 $('#bbg_cph').val("");
-//		 queryData(1);
+		 $('#guobangdanhao').val("");
+		$('#tongzhidanhao').val("");
+		$('#diaoruduichang').val("");
+		$('#diaoliduichang').val("");
+		$('#danjuzhuangtai').val("");
+		$(".bbg_tiaojian1").val("");
+		$(".bbg_tiaojian2").val("");
+		$(".bbg_tiaojian3").val("");
+		$(".bbg_tiaojian4").val("");
 	}
 //		//初始化页面
 //		queryData(1);

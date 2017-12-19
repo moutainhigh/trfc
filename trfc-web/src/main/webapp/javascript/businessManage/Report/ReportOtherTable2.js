@@ -42,7 +42,9 @@ $( function() {
    }).off('click').on('click',function(){
    $(this).autocomplete('search',' ');
    }).change(function(){
-   $(this).val('');
+	   if(!$(this)){
+		   $(this).val('');
+	   }
    });
    };
  
@@ -82,7 +84,9 @@ $( function() {
    }).off('click').on('click',function(){
    $(this).autocomplete('search',' ');
    }).change(function(){
-   $(this).val('');
+	   if(!$(this)){
+		   $(this).val('');
+	   }
    });
    };
  
@@ -121,7 +125,9 @@ $( function() {
    }).off('click').on('click',function(){
    $(this).autocomplete('search',' ');
    }).change(function(){
-   $(this).val('');
+	   if(!$(this)){
+		   $(this).val('');
+	   }
    });
    };
    
@@ -160,7 +166,9 @@ $( function() {
    }).off('click').on('click',function(){
    $(this).autocomplete('search',' ');
    }).change(function(){
-   $(this).val('');
+	   if(!$(this)){
+		   $(this).val('');
+	   }
    });
    };
    
@@ -199,7 +207,9 @@ $( function() {
    }).off('click').on('click',function(){
    $(this).autocomplete('search',' ');
    }).change(function(){
-   $(this).val('');
+	   if(!$(this)){
+		   $(this).val('');
+	   }
    });
    };
    
