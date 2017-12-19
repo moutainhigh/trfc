@@ -208,8 +208,27 @@ public class PurchaseApplicationService implements IPurchaseApplicationService {
 		item.setCode(jsonItem.getString("code"));
 		//审核状态 
 		item.setAuditstatus("1");
-		//状态 
-		item.setState("1");
+		//状态   1正常  0作废  -1 到货关闭 -2 整单关闭 -3nc删除
+		String status ="0";
+		//正常
+		if( StringUtils.isNotBlank(jsonItem.getString("cloasestatus")) && StringUtils.equals(jsonItem.getString("cloasestatus"), "0") ){
+			//删除态
+			if( StringUtils.isNotBlank(jsonItem.getString("status")) && StringUtils.equals(jsonItem.getString("6"), "0") ){
+				status ="-3";
+			//正常	
+			}else{
+				status ="1";
+			}
+			
+		//到货关闭
+		}else if( StringUtils.isNotBlank(jsonItem.getString("cloasestatus")) && StringUtils.equals(jsonItem.getString("cloasestatus"), "1") ){
+			status ="-1";
+		//整单关闭	
+		}else if( StringUtils.isNotBlank(jsonItem.getString("cloasestatus")) && StringUtils.equals(jsonItem.getString("cloasestatus"), "2") ){
+			status ="-2";
+		}
+		//状态   1正常  0作废  -1 到货关闭 -2 整单关闭 -3nc删除
+		item.setState(status);
 		//来源
 		item.setSource(jsonItem.getString("sourceType"));
 		String billtypeid=jsonItem.getString("ctrantypeid");
