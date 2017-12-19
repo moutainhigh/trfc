@@ -15,9 +15,6 @@
 		bindEvent();
 		queryData();
 		commonList();
-		$("#tag_display_leave").removeClass("displayNone");
-		$("#tag_display_enter").removeClass("displayNone");
-		clean();
 		$(".wuliao_tabcont").hide();
 		$(".hide_buyCar").show();
 	}
@@ -61,6 +58,8 @@
 		queryData4(1);
 		commonList4();
 	});
+	
+	
 	
 //	// 物料的四个tab切换菜单
 	var wl_li = $('.wuliao_tab ul li');
@@ -204,6 +203,7 @@
 	
 	$('#searchBtn').off('click').on('click',function(){
 		search(1);
+		bbgClick();
 	});
 	$('#clean').off('click').on('click',function(){
 		clean();

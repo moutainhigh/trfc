@@ -3,9 +3,51 @@ var URL = {
 			driverAutoCompleteSearch: "/trfc/driver/autoCompleteSearch" ,     //司机姓名
 			vehicleAutoCompleteSearch: "/trfc/vehicle/autoCompleteSearch1",   //车号
 			customerAutoCompleteSearch: "/trfc/customer/autoCompleteSearch",//客户
+			yardAutoCompleteSearch: "/trfc/yard/autoCompleteSearch",      //堆场
 	};
 $( function() {
 	 //获取下拉框数据并填充
+	//堆场	
+	yardAutoCompleteSearch($("#diaoruduichang"));
+	yardAutoCompleteSearch($("#diaoliduichang"));
+   function yardAutoCompleteSearch($yuan){
+   var cache={};
+   $yuan.autocomplete({
+   //数据源
+   source: function( request, response ) {
+   var term = request.term;
+   var material = cache['material'] || {};
+   if ( term in material ) {
+   response( material[ term ] );
+   return;
+   }
+   $.post( URL.yardAutoCompleteSearch, request, function( data, status, xhr ) {
+	    material[ term ] = data;
+	    response( data );
+   });
+   },
+   //显示下拉框
+   response: function( event, ui ) {
+   if(ui.content && ui.content.length > 0){
+   //展示下拉框
+   ui.content.forEach(function(x,i,a){
+   x.label = x.name;
+   });
+   }
+   },
+   //选定,显示结果到输入框
+   select: function( event, ui ) {
+   $(this).val(ui.item.name);
+   return false;
+   }
+   }).off('click').on('click',function(){
+   $(this).autocomplete('search',' ');
+   }).change(function(){
+	   if(!$(this)){
+		   $(this).val('');
+	   }
+   });
+   };
 	//物料	
 	materialSelect();
    function materialSelect(){
@@ -335,7 +377,6 @@ function Clock1() {
     };
 }
 //条件搜索
-bbgClick();
 function bbgClick(){
 	var guobangdanhao=document.getElementById("guobangdanhao").value;
 	var tongzhidanhao=document.getElementById("tongzhidanhao").value;
@@ -386,7 +427,6 @@ function bbgClick(){
     if(bbg_cph!=""){
         str+="车号："+bbg_cph+" ";
     }
-    
     bbg_tiaojian1.innerHTML=str; 
     bbg_tiaojian2.innerHTML=str;
     bbg_tiaojian3.innerHTML=str;

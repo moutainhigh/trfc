@@ -51,7 +51,7 @@ $( function() {
    };
  
 	
-	//物料	
+	//堆场	
 	yardAutoCompleteSearch();
    function yardAutoCompleteSearch(){
    var cache={};
@@ -468,6 +468,8 @@ function Clock1() {
 }
 //条件搜索
 function bbgClick(){
+	var billcode=document.getElementById("billcode").value;
+	var poundcode=document.getElementById("poundcode").value;
     var bbg_gys=document.getElementById("bbg_gys").value;
     var bbg_kk=document.getElementById("bbg_kk").value;
     var gys=document.getElementById("gys").value;
@@ -483,6 +485,12 @@ function bbgClick(){
     var bbg_tiaojian3=document.querySelector(".bbg_tiaojian3");
     var bbg_tiaojian4=document.querySelector(".bbg_tiaojian4");
     var str="";
+    if(billcode!=""){
+        str+="通知单号："+billcode+" ";
+    }
+    if(poundcode!=""){
+        str+="过磅单号："+poundcode+" ";
+    }
     if(duichang!=""){
         str+="堆场："+duichang+" ";
     }

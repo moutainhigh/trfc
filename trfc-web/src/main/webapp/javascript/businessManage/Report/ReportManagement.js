@@ -24,6 +24,8 @@
 		$('input#jumpPageNo').val('');
 		$(".wuliao_tabcont").hide();
 		$(".hide_thing").show();
+		$("#tag_display_billcode").addClass("displayNone");
+		$("#tag_display_poundcode").addClass("displayNone");
 		queryData4(1);
 		materList();	
 	});
@@ -32,6 +34,8 @@
 		$('input#jumpPageNo').val('');
 		$(".wuliao_tabcont").hide();
 		$(".hide_receive").show();
+		$("#tag_display_billcode").addClass("displayNone");
+		$("#tag_display_poundcode").addClass("displayNone");
 		queryData3(1);
 		receiveList();
 	});
@@ -39,6 +43,8 @@
 		$('input#jumpPageNo').val('');
 	    $(".wuliao_tabcont").hide();
 		$(".hide_unit").show();
+		$("#tag_display_billcode").addClass("displayNone");
+		$("#tag_display_poundcode").addClass("displayNone");
 		queryData2(1);
 		customList();
 	});
@@ -46,6 +52,8 @@
 		$('input#jumpPageNo').val('');
 		$(".wuliao_tabcont").hide();
 		$(".hide_buyCar").show();
+		$("#tag_display_billcode").removeClass("displayNone");
+		$("#tag_display_poundcode").removeClass("displayNone");
 		queryData(1);
 		commonList();
 	});	
@@ -53,6 +61,8 @@
 		$('input#jumpPageNo').val('');
 		$(".wuliao_tabcont").hide();
 		$(".hide_buyAdd").show();
+		$("#tag_display_billcode").addClass("displayNone");
+		$("#tag_display_poundcode").addClass("displayNone");
 		queryData(1);
 		BuZengList();
 	});	
@@ -304,6 +314,8 @@
 	}
 	function getParams(){
 		var params = {};
+		var billcode = $('#billcode').val();billcode = $.trim(billcode);
+		var poundcode = $('#poundcode').val();poundcode = $.trim(poundcode);
 		var suppliername = $('#bbg_gys').val();suppliername = $.trim(suppliername);
 		var minemouthname = $('#bbg_kk').val();minemouthname = $.trim(minemouthname);
 		var cargo = $('#gys').val();cargo = $.trim(cargo);
@@ -316,6 +328,8 @@
 		var returnstatus = $('#pushStatus').val();returnstatus = $.trim(returnstatus);
 		var pageSize = $('#pageSize').val() || 20;pageSize = $.trim(pageSize);
 		return {
+			poundcode:poundcode,
+			billcode:billcode,
 			suppliername:suppliername,
 			minemouthname:minemouthname,
 			cargo:cargo,

@@ -36,6 +36,12 @@
         .intel_table{
             overflow: hidden;
         }
+          .displayNone{
+        	display:none;
+        	text-indent:-9999px;
+        	height: 0px !important;
+        	width:0px !important;
+        }
     </style>
 <!-- 引用公共header部分 -->
 <jsp:include page="../../common/base/header_busi.jsp"></jsp:include>
@@ -72,6 +78,14 @@
              <div class="intel_solo">
                 <label class="colorB">堆场：</label>
                 <input type="text" id="duichang" placeholder="请选择堆场">
+            </div>
+             <div class="intel_solo displayNone" id="tag_display_billcode">
+                <label class="colorB">通知单号：</label>
+                <input type="text" id="billcode" placeholder="请选择通知单号">
+            </div>
+             <div class="intel_solo displayNone" id="tag_display_poundcode">
+                <label class="colorB">过磅单号：</label>
+                <input type="text" id="poundcode" placeholder="请选择过磅单号">
             </div>
             <div class="intel_solo">
 			    <label>推单状态：</label> <select id="pushStatus" class="form-control">

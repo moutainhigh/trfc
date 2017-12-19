@@ -94,7 +94,7 @@
             </div>
             <div class="intel_solo">
                 <label>单据状态：</label> <select id="danjuzhuangtai" class="form-control">
-			    <option value="0" selected="selected" >计量系统</option>
+			    <option value="0" selected >计量系统</option>
 			    <option value="1">补增</option>
 			    <option value="3">作废 </option> 
 			    </select>
