@@ -409,7 +409,7 @@
 						str2+="";
 					}
 					
-					$('<tr>').append('<td>'+(list[i].materialname|"")+'</td>')
+					$('<tr>').append('<td>'+(list[i].materialname||"")+'</td>')
 					.append('<td>'+(list[i].enteryardname||"")+'</td>')
 					.append('<td>'+(list[i].countVehicleNo||"")+'</td>')
 					.append('<td>'+(list[i].sumNetweight||"")+'</td>')	
