@@ -80,11 +80,19 @@ public class PurchaseReportService implements IPurchaseReportService {
 			//开始时间
 			//StringUtils.isNotBlank(query.getBeginTime())空字符串检查
 			if( StringUtils.isNotBlank(query.getBeginTime()) ){
-				bean.setBeginTimeLong(DateUtil.parse(query.getBeginTime()+" 00:00:00", "yyyy-MM-dd HH:mm:ss"));
+				bean.setBeginTimeLong(Long.valueOf(query.getBeginTime()));
 			}
 			//结束时间
 			if( StringUtils.isNotBlank(query.getEndTime()) ){
-				bean.setEndTimeLong(DateUtil.parse(query.getEndTime()+" 23:59:59", "yyyy-MM-dd HH:mm:ss"));
+				bean.setEndTimeLong(Long.valueOf(query.getEndTime()));
+			}
+			//通知单号
+			if( StringUtils.isNotBlank(query.getBillcode()) ){
+				bean.setBillcodeLike(query.getBillcode());
+			}
+			//bangdanhao
+			if( StringUtils.isNotBlank(query.getPoundcode()) ){
+				bean.setPoundcodeLike(query.getPoundcode());
 			}
 			//供应商
 			if( StringUtils.isNotBlank(query.getSuppliername()) ){

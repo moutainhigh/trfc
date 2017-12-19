@@ -201,8 +201,8 @@
 										<th>订单日期</th>
 										<th>采购部门</th>
 										<th>矿口</th>
-										<th>司机身份验证</th>
-										<th>备注</th>
+										<!-- <th>司机身份验证</th> -->
+										<th>供应商备注</th>
 									</tr>
 								</thead>
 								<tbody id="purchaseApplicationBody">
@@ -238,6 +238,6 @@
 	<!-- 引用公共footer部分 -->
 	<jsp:include page="../../common/base/footer_busi.jsp"></jsp:include>
 	<script type="text/javascript"
-		src="/javascript/businessManage/poundNoteMaintain/purchasePoundNoteAdd.js?20171215"></script>
+		src="/javascript/businessManage/poundNoteMaintain/purchasePoundNoteAdd.js?20171216"></script>
 </body>
 </html>

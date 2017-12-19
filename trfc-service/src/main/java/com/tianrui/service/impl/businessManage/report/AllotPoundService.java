@@ -16,7 +16,6 @@ import com.tianrui.api.resp.businessManage.report.InOutDaoPoundMaterResp;
 import com.tianrui.api.resp.businessManage.report.InOutDaoPoundResp;
 import com.tianrui.service.bean.businessManage.report.InOutDaoPound;
 import com.tianrui.service.mapper.businessManage.report.InOutDaoPoundMapper;
-import com.tianrui.smartfactory.common.utils.DateUtil;
 import com.tianrui.smartfactory.common.vo.PaginationVO;
 
 /**
@@ -89,14 +88,34 @@ public class AllotPoundService implements IAllotPoundService{
 		if(query!=null){
 			bean =new InOutDaoPound();
 			//开始时间
-			//StringUtils.isNotBlank(query.getBeginTime())空字符串检查
 			if( StringUtils.isNotBlank(query.getBeginTime()) ){
-				bean.setBeginTimeLong(DateUtil.parse(query.getBeginTime()+" 00:00:00", "yyyy-MM-dd HH:mm:ss"));
+				bean.setBeginTimeLong(Long.valueOf(query.getBeginTime()));
 			}
 			//结束时间
 			if( StringUtils.isNotBlank(query.getEndTime()) ){
-				bean.setEndTimeLong(DateUtil.parse(query.getEndTime()+" 23:59:59", "yyyy-MM-dd HH:mm:ss"));
+				bean.setEndTimeLong(Long.valueOf(query.getEndTime()));
 			}
+			//通知单号
+			if( StringUtils.isNotBlank(query.getNoticecode()) ){
+				bean.setNoticecodeLike(query.getNoticecode());
+			}	
+			//过磅单号
+			if (StringUtils.isNotBlank(query.getCode())) {
+				bean.setCodeLike(query.getCode());
+			}
+			//调入堆场
+			if( StringUtils.isNotBlank(query.getEnteryardname()) ){
+				bean.setEnteryardnameLike(query.getEnteryardname());
+			}	
+			//调出堆场
+			if( StringUtils.isNotBlank(query.getLeaveyardname()) ){
+				bean.setLeaveyardnameLike(query.getLeaveyardname());
+			}	
+			//单据状态
+			if( StringUtils.isNotBlank(query.getStatus()) ){
+				bean.setStatus(query.getStatus());;
+			}
+
 			//供应商
 			if( StringUtils.isNotBlank(query.getSuppliername()) ){
 				bean.setSupplierNameLike(query.getSuppliername());

@@ -14,7 +14,7 @@ import com.tianrui.api.intf.businessManage.report.ISalesPoundService;
 import com.tianrui.api.req.businessManage.report.InOutDaoPoundQuery;
 import com.tianrui.api.resp.businessManage.report.InOutDaoPoundResp;
 import com.tianrui.service.bean.businessManage.report.InOutDaoPound;
-import com.tianrui.service.mapper.businessManage.report.InOutDaoPoundMapper;
+import com.tianrui.service.mapper.businessManage.report.OutSalesPoundMapper;
 import com.tianrui.smartfactory.common.utils.DateUtil;
 import com.tianrui.smartfactory.common.vo.PaginationVO;
 
@@ -28,7 +28,7 @@ import com.tianrui.smartfactory.common.vo.PaginationVO;
 @Service
 public class SalesPoundService implements ISalesPoundService{
 	@Resource
-	private InOutDaoPoundMapper inOutDaoPoundMapper;
+	private OutSalesPoundMapper outSalesPoundMapper;
 	
 	
 	@Override
@@ -43,9 +43,9 @@ public class SalesPoundService implements ISalesPoundService{
 			//2表示销售提货通知单
 			query.setBilltype("2");
 			//查询总条数
-			Long count = inOutDaoPoundMapper.countByCondition(query);
+			Long count = outSalesPoundMapper.countByCondition(query);
 			if (count > 0) {
-				page.setList(copyBeanList2RespList(inOutDaoPoundMapper.selectByCondition(query)));
+				page.setList(copyBeanList2RespList(outSalesPoundMapper.selectByCondition(query)));
 			}
 			//返回结果参数补全
 			page.setPageNo(inOutDaoPoundQuery.getPageNo());
@@ -65,7 +65,7 @@ public class SalesPoundService implements ISalesPoundService{
 			//2表示销售提货通知单
 			query.setBilltype("2");
 			if (query !=null) {
-				rs = copyBeanList2RespList(inOutDaoPoundMapper.selectByCondition(query));
+				rs = copyBeanList2RespList(outSalesPoundMapper.selectByCondition(query));
 			}
 
 		}
