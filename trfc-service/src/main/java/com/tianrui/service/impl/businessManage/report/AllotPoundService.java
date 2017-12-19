@@ -16,7 +16,6 @@ import com.tianrui.api.resp.businessManage.report.InOutDaoPoundMaterResp;
 import com.tianrui.api.resp.businessManage.report.InOutDaoPoundResp;
 import com.tianrui.service.bean.businessManage.report.InOutDaoPound;
 import com.tianrui.service.mapper.businessManage.report.InOutDaoPoundMapper;
-import com.tianrui.smartfactory.common.utils.DateUtil;
 import com.tianrui.smartfactory.common.vo.PaginationVO;
 
 /**
@@ -100,6 +99,10 @@ public class AllotPoundService implements IAllotPoundService{
 			if( StringUtils.isNotBlank(query.getNoticecode()) ){
 				bean.setNoticecodeLike(query.getNoticecode());
 			}	
+			//过磅单号
+			if (StringUtils.isNotBlank(query.getCode())) {
+				bean.setCodeLike(query.getCode());
+			}
 			//调入堆场
 			if( StringUtils.isNotBlank(query.getEnteryardname()) ){
 				bean.setEnteryardnameLike(query.getEnteryardname());

@@ -851,13 +851,13 @@
 			and lighttime <![CDATA[<=]]> #{endTimeLong,jdbcType=BIGINT}
 		</if>
 		<if test="noticecodeLike != null and noticecodeLike != 0L ">
-			and noticecode <![CDATA[<=]]> #{noticecodeLike,jdbcType=BIGINT}
+			and noticecode like concat(#{noticecodeLike,jdbcType=VARCHAR},'%')
 		</if>
 		<if test="enteryardnameLike != null and enteryardnameLike != 0L ">
-			and enteryardname <![CDATA[<=]]> #{enteryardnameLike,jdbcType=BIGINT}
+			and enteryardname like concat(#{enteryardnameLike,jdbcType=VARCHAR},'%')
 		</if>
 		<if test="leaveyardnameLike != null and leaveyardnameLike != 0L ">
-			and leaveyardname <![CDATA[<=]]> #{leaveyardnameLike,jdbcType=BIGINT}
+			and leaveyardname like concat(#{leaveyardnameLike,jdbcType=VARCHAR},'%')
 		</if>
 		
 		<if test="supplierNameLike != null and supplierNameLike != ''">
@@ -918,13 +918,13 @@
 			and lighttime <![CDATA[<=]]> #{endTimeLong,jdbcType=BIGINT}
 		</if>
 		<if test="noticecodeLike != null and noticecodeLike != 0L ">
-			and noticecode <![CDATA[<=]]> #{noticecodeLike,jdbcType=BIGINT}
+			and noticecode like concat(#{noticecodeLike,jdbcType=VARCHAR},'%')
 		</if>
 		<if test="enteryardnameLike != null and enteryardnameLike != 0L ">
-			and enteryardname <![CDATA[<=]]> #{enteryardnameLike,jdbcType=BIGINT}
+			and enteryardname like concat(#{enteryardnameLike,jdbcType=VARCHAR},'%')
 		</if>
 		<if test="leaveyardnameLike != null and leaveyardnameLike != 0L ">
-			and leaveyardname <![CDATA[<=]]> #{leaveyardnameLike,jdbcType=BIGINT}
+			and leaveyardname like concat(#{leaveyardnameLike,jdbcType=VARCHAR},'%')
 		</if>
 		<if test="supplierNameLike != null and supplierNameLike != ''">
 			and suppliername like concat(#{supplierNameLike,jdbcType=VARCHAR},'%')
@@ -987,13 +987,13 @@
 			and lighttime <![CDATA[<=]]> #{endTimeLong,jdbcType=BIGINT}
 		</if>
 		<if test="noticecodeLike != null and noticecodeLike != 0L ">
-			and noticecode <![CDATA[<=]]> #{noticecodeLike,jdbcType=BIGINT}
+			and noticecode like concat(#{noticecodeLike,jdbcType=VARCHAR},'%')
 		</if>
 		<if test="enteryardnameLike != null and enteryardnameLike != 0L ">
-			and enteryardname <![CDATA[<=]]> #{enteryardnameLike,jdbcType=BIGINT}
+			and enteryardname like concat(#{enteryardnameLike,jdbcType=VARCHAR},'%')
 		</if>
 		<if test="leaveyardnameLike != null and leaveyardnameLike != 0L ">
-			and leaveyardname <![CDATA[<=]]> #{leaveyardnameLike,jdbcType=BIGINT}
+			and leaveyardname like concat(#{leaveyardnameLike,jdbcType=VARCHAR},'%')
 		</if>
 		<if test="supplierNameLike != null and supplierNameLike != ''">
 			and suppliername like concat(#{supplierNameLike,jdbcType=VARCHAR},'%')
@@ -1056,13 +1056,13 @@
 			and lighttime <![CDATA[<=]]> #{endTimeLong,jdbcType=BIGINT}
 		</if>
 		<if test="noticecodeLike != null and noticecodeLike != 0L ">
-			and noticecode <![CDATA[<=]]> #{noticecodeLike,jdbcType=BIGINT}
+			and noticecode like concat(#{noticecodeLike,jdbcType=VARCHAR},'%')
 		</if>
 		<if test="enteryardnameLike != null and enteryardnameLike != 0L ">
-			and enteryardname <![CDATA[<=]]> #{enteryardnameLike,jdbcType=BIGINT}
+			and enteryardname like concat(#{enteryardnameLike,jdbcType=VARCHAR},'%')
 		</if>
 		<if test="leaveyardnameLike != null and leaveyardnameLike != 0L ">
-			and leaveyardname <![CDATA[<=]]> #{leaveyardnameLike,jdbcType=BIGINT}
+			and leaveyardname like concat(#{leaveyardnameLike,jdbcType=VARCHAR},'%')
 		</if>
 		<if test="supplierNameLike != null and supplierNameLike != ''">
 			and suppliername like concat(#{supplierNameLike,jdbcType=VARCHAR},'%')
@@ -1119,13 +1119,13 @@
 			and lighttime <![CDATA[<=]]> #{endTimeLong,jdbcType=BIGINT}
 		</if>
 		<if test="noticecodeLike != null and noticecodeLike != 0L ">
-			and noticecode <![CDATA[<=]]> #{noticecodeLike,jdbcType=BIGINT}
+			and noticecode like concat(#{noticecodeLike,jdbcType=VARCHAR},'%')
 		</if>
 		<if test="enteryardnameLike != null and enteryardnameLike != 0L ">
-			and enteryardname <![CDATA[<=]]> #{enteryardnameLike,jdbcType=BIGINT}
+			and enteryardname like concat(#{enteryardnameLike,jdbcType=VARCHAR},'%')
 		</if>
 		<if test="leaveyardnameLike != null and leaveyardnameLike != 0L ">
-			and leaveyardname <![CDATA[<=]]> #{leaveyardnameLike,jdbcType=BIGINT}
+			and leaveyardname like concat(#{leaveyardnameLike,jdbcType=VARCHAR},'%')
 		</if>
 		<if test="supplierNameLike != null and supplierNameLike != ''">
 			and suppliername like concat(#{supplierNameLike,jdbcType=VARCHAR},'%')
@@ -1177,13 +1177,13 @@
 				and lighttime <![CDATA[<=]]> #{endTimeLong,jdbcType=BIGINT}
 			</if>
 			<if test="noticecodeLike != null and noticecodeLike != 0L ">
-				and noticecode <![CDATA[<=]]> #{noticecodeLike,jdbcType=BIGINT}
+				and noticecode like concat(#{noticecodeLike,jdbcType=VARCHAR},'%')
 			</if>
 			<if test="enteryardnameLike != null and enteryardnameLike != 0L ">
-				and enteryardname <![CDATA[<=]]> #{enteryardnameLike,jdbcType=BIGINT}
+				and enteryardname like concat(#{enteryardnameLike,jdbcType=VARCHAR},'%')
 			</if>
 			<if test="leaveyardnameLike != null and leaveyardnameLike != 0L ">
-				and leaveyardname <![CDATA[<=]]> #{leaveyardnameLike,jdbcType=BIGINT}
+				and leaveyardname like concat(#{leaveyardnameLike,jdbcType=VARCHAR},'%')
 			</if>
 			<if test="supplierNameLike != null and supplierNameLike != ''">
 				and suppliername like concat(#{supplierNameLike,jdbcType=VARCHAR},'%')
@@ -1238,13 +1238,13 @@
 				and lighttime <![CDATA[<=]]> #{endTimeLong,jdbcType=BIGINT}
 			</if>
 			<if test="noticecodeLike != null and noticecodeLike != 0L ">
-				and noticecode <![CDATA[<=]]> #{noticecodeLike,jdbcType=BIGINT}
+				and noticecode like concat(#{noticecodeLike,jdbcType=VARCHAR},'%')
 			</if>
 			<if test="enteryardnameLike != null and enteryardnameLike != 0L ">
-				and enteryardname <![CDATA[<=]]> #{enteryardnameLike,jdbcType=BIGINT}
+				and enteryardname like concat(#{enteryardnameLike,jdbcType=VARCHAR},'%')
 			</if>
 			<if test="leaveyardnameLike != null and leaveyardnameLike != 0L ">
-				and leaveyardname <![CDATA[<=]]> #{leaveyardnameLike,jdbcType=BIGINT}
+				and leaveyardname like concat(#{leaveyardnameLike,jdbcType=VARCHAR},'%')
 			</if>
 			<if test="supplierNameLike != null and supplierNameLike != ''">
 				and suppliername like concat(#{supplierNameLike,jdbcType=VARCHAR},'%')
@@ -1299,13 +1299,13 @@
 				and lighttime <![CDATA[<=]]> #{endTimeLong,jdbcType=BIGINT}
 			</if>
 			<if test="noticecodeLike != null and noticecodeLike != 0L ">
-				and noticecode <![CDATA[<=]]> #{noticecodeLike,jdbcType=BIGINT}
+				and noticecode like concat(#{noticecodeLike,jdbcType=VARCHAR},'%')
 			</if>
 			<if test="enteryardnameLike != null and enteryardnameLike != 0L ">
-				and enteryardname <![CDATA[<=]]> #{enteryardnameLike,jdbcType=BIGINT}
+				and enteryardname like concat(#{enteryardnameLike,jdbcType=VARCHAR},'%')
 			</if>
 			<if test="leaveyardnameLike != null and leaveyardnameLike != 0L ">
-				and leaveyardname <![CDATA[<=]]> #{leaveyardnameLike,jdbcType=BIGINT}
+				and leaveyardname like concat(#{leaveyardnameLike,jdbcType=VARCHAR},'%')
 			</if>
 			<if test="supplierNameLike != null and supplierNameLike != ''">
 				and suppliername like concat(#{supplierNameLike,jdbcType=VARCHAR},'%')
