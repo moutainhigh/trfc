@@ -9,14 +9,11 @@
 	function init(){
 		bindEvent();
 		queryData();
-		commonList();
-	/*	$(".wuliao_tabcont").hide();
-		$(".hide_thing").show();*/
+
 	}
 	$('#buyCar').off('click').on('click',function(){
 		$('input#jumpPageNo').val('');
-	/*	$(".wuliao_tabcont").hide();
-		$(".hide_buyCar").show();*/
+
 		queryData(1);
 	});
 	
@@ -28,11 +25,14 @@
 //	    $('.wuliao_tabbox > .wuliao_tabcont').eq(index).show().siblings().hide();
 	});
 	
-	
+	$("#allExport").off('click').on('click',function(){
+		commonList();
+		method('.tableExcelA');
+	})
 	function commonList(){
 		$.ajax({
             url:URL.commonListUrl,
-            async:true,
+            async:false,
             cache:false,
             dataType:'json',
             type:'post',

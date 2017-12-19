@@ -14,7 +14,6 @@
 	function init(){
 		bindEvent();
 		queryData();
-		commonList();
 		$(".wuliao_tabcont").hide();
 		$(".hide_buyCar").show();
 	}
@@ -25,7 +24,7 @@
 		$("#tag_display_leave").removeClass("displayNone");
 		$("#tag_display_enter").removeClass("displayNone");
 		queryData(1);
-		commonList();
+		
 	});
 	$('#thing').off('click').on('click',function(){
 		$('input#jumpPageNo').val('');
@@ -34,7 +33,7 @@
 		$("#tag_display_leave").addClass("displayNone");
 		$("#tag_display_enter").removeClass("displayNone");
 		queryData2(1);
-		commonList2();
+
 	});
 	$('#receive').off('click').on('click',function(){
 		$('input#jumpPageNo').val('');
@@ -43,7 +42,7 @@
 		$("#tag_display_leave").removeClass("displayNone");
 		$("#tag_display_enter").addClass("displayNone");
 		queryData3(1);
-		commonList3();
+		
 	});
 	$('#unit').off('click').on('click',function(){
 		$('input#jumpPageNo').val('');
@@ -52,10 +51,25 @@
 		$("#tag_display_leave").removeClass("displayNone");
 		$("#tag_display_enter").removeClass("displayNone");
 		queryData4(1);
-		commonList4();
+		
 	});
 	
-	
+	$("#allExport1").off('click').on('click',function(){
+		commonList();
+		method('.tableExcelA');
+	})
+	$("#allExport2").off('click').on('click',function(){
+		commonList4();
+		method('.tableExcelB');
+	})
+	$("#allExport3").off('click').on('click',function(){
+		commonList3();
+		method('.tableExcelC');
+	})
+	$("#allExport4").off('click').on('click',function(){
+		commonList2();
+		method('.tableExcelD');
+	})
 	
 //	// 物料的四个tab切换菜单
 	var wl_li = $('.wuliao_tab ul li');
@@ -69,7 +83,7 @@
 	function commonList(){
 		$.ajax({
             url:URL.commonListUrl,
-            async:true,
+            async:false,
             cache:false,
             dataType:'json',
             type:'post',
@@ -111,7 +125,7 @@
 	function commonList2(){
 		$.ajax({
             url:URL.allotMaterListUrl,
-            async:true,
+            async:false,
             cache:false,
             dataType:'json',
             type:'post',
@@ -135,7 +149,7 @@
 	function commonList3(){
 		$.ajax({
             url:URL.allotMaterDCListUrl,
-            async:true,
+            async:false,
             cache:false,
             dataType:'json',
             type:'post',
@@ -160,7 +174,7 @@
 	function commonList4(){
 		$.ajax({
             url:URL.allotMaterVeListUrl,
-            async:true,
+            async:false,
             cache:false,
             dataType:'json',
             type:'post',

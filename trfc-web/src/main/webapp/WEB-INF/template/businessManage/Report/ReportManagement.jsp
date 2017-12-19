@@ -157,7 +157,7 @@
                     <div class="intel_table">
                         <div class="intel_table">
                         <div style="position: absolute;left:0px;top:0px;">
-						  <div class="intel_operasolo" onclick="method('.tableExcelE')" id="tableExcelE">
+						  <div class="intel_operasolo" id="allExport5">
 						        <i class="iconfont" style="color: #0174c3;font-size: 25px;margin-left: 22px">&#xe63c;</i>
 						        <p>导出全部</p>
 						    </div>					
@@ -252,7 +252,7 @@
                     <div class="intel_table">
                         <div class="intel_table">
                         <div style="position: absolute;left:0px;top:0px;">
-						  <div class="intel_operasolo" onclick="method('.tableExcelA')" id="tableExcelA">
+						  <div class="intel_operasolo" id="allExport1">
 						        <i class="iconfont" style="color: #0174c3;font-size: 25px;margin-left: 22px">&#xe63c;</i>
 						        <p>导出全部</p>
 						    </div>					
@@ -347,7 +347,7 @@
             <div class="wuliao_tabcont hide_unit hide">
                 <div class="intel_table">
                  <div style="position: absolute;left:0px;top:0px;">
-						  <div class="intel_operasolo" onclick="method('.tableExcelB')">
+						  <div class="intel_operasolo" id="allExport2">
 						        <i class="iconfont" style="color: #0174c3;font-size: 25px;margin-left: 22px">&#xe63c;</i>
 						        <p>导出全部</p>
 						    </div>					
@@ -426,7 +426,7 @@
                 <div class="intel_table">
                     <div class="intel_table">
                      <div style="position: absolute;left:0px;top:0px;">
-						  <div class="intel_operasolo" onclick="method('.tableExcelC')">
+						  <div class="intel_operasolo" id="allExport3">
 						        <i class="iconfont" style="color: #0174c3;font-size: 25px;margin-left: 22px">&#xe63c;</i>
 						        <p>导出全部</p>
 						    </div>					
@@ -518,7 +518,7 @@
             <div class="wuliao_tabcont hide_thing hide">
                 <div class="intel_table">
                  <div style="position: absolute;left:0px;top:0px;">
-						  <div class="intel_operasolo" onclick="method('.tableExcelD')">
+						  <div class="intel_operasolo" id="allExport4">
 						        <i class="iconfont" style="color: #0174c3;font-size: 25px;margin-left: 22px">&#xe63c;</i>
 						        <p>导出全部</p>
 						    </div>					

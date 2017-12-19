@@ -27,7 +27,7 @@
 		$("#tag_display_billcode").addClass("displayNone");
 		$("#tag_display_poundcode").addClass("displayNone");
 		queryData4(1);
-		materList();	
+			
 	});
 	
 	$('#receive').off('click').on('click',function(){
@@ -37,7 +37,7 @@
 		$("#tag_display_billcode").addClass("displayNone");
 		$("#tag_display_poundcode").addClass("displayNone");
 		queryData3(1);
-		receiveList();
+		
 	});
 	$('#unit').off('click').on('click',function(){
 		$('input#jumpPageNo').val('');
@@ -46,7 +46,7 @@
 		$("#tag_display_billcode").addClass("displayNone");
 		$("#tag_display_poundcode").addClass("displayNone");
 		queryData2(1);
-		customList();
+		
 	});
 	$('#buyCar').off('click').on('click',function(){
 		$('input#jumpPageNo').val('');
@@ -55,7 +55,7 @@
 		$("#tag_display_billcode").removeClass("displayNone");
 		$("#tag_display_poundcode").removeClass("displayNone");
 		queryData(1);
-		commonList();
+		
 	});	
 	$('#buyAdd').off('click').on('click',function(){
 		$('input#jumpPageNo').val('');
@@ -63,9 +63,29 @@
 		$(".hide_buyAdd").show();
 		$("#tag_display_billcode").addClass("displayNone");
 		$("#tag_display_poundcode").addClass("displayNone");
-		queryData(1);
-		BuZengList();
+		queryData5(1);
+		
 	});	
+	$("#allExport1").off('click').on('click',function(){
+		commonList();
+		method('.tableExcelA');
+	})
+	$("#allExport2").off('click').on('click',function(){
+		customList();
+		method('.tableExcelB');
+	})
+	$("#allExport3").off('click').on('click',function(){
+		receiveList();
+		method('.tableExcelC');
+	})
+	$("#allExport4").off('click').on('click',function(){
+		materList();
+		method('.tableExcelD');
+	})
+	$("#allExport5").off('click').on('click',function(){
+		BuZengList();
+		method('.tableExcelE');
+	})
 //	// 物料的四个tab切换菜单
 	var wl_li = $('.wuliao_tab ul li');
 	wl_li.click(function () {
@@ -78,7 +98,7 @@
 	function BuZengList(){
 		 $.ajax({
 	            url:URL.BuZengListUrl,
-	            async:true,
+	            async:false,
 	            cache:false,
 	            dataType:'json',
 	            type:'post',
@@ -122,7 +142,7 @@
 	function commonList(){
 		 $.ajax({
 	            url:URL.commonListUrl,
-	            async:true,
+	            async:false,
 	            cache:false,
 	            dataType:'json',
 	            type:'post',
@@ -166,7 +186,7 @@
 	function customList(){
 		 $.ajax({
 	            url:URL.customListUrl,
-	            async:true,
+	            async:false,
 	            cache:false,
 	            dataType:'json',
 	            type:'post',
@@ -192,7 +212,7 @@
 	function receiveList(){
 		 $.ajax({
 	            url:URL.receiveListUrl,
-	            async:true,
+	            async:false,
 	            cache:false,
 	            dataType:'json',
 	            type:'post',
@@ -234,7 +254,7 @@
 	function materList(){
 		 $.ajax({
 	            url:URL.materListUrl,
-	            async:true,
+	            async:false,
 	            cache:false,
 	            dataType:'json',
 	            type:'post',

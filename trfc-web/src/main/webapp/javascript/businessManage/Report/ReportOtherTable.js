@@ -10,24 +10,14 @@
 	init();
 	function init(){
 		bindEvent();
-		materList();
-//		queryData();
-		/*$(".wuliao_tabcont").hide();
-		$(".hide_thing").show();*/
 	}
 	$('#thing').off('click').on('click',function(){
 		$('input#jumpPageNo').val('');
-		/*$(".wuliao_tabcont").hide();
-		$(".hide_thing").show();*/
 		queryData4(1);
-		materList();
 	});
 	$('#receive').off('click').on('click',function(){
 		$('input#jumpPageNo').val('');
-	/*	$(".wuliao_tabcont").hide();
-		$(".hide_receive").show();*/
 		queryData3(1);
-		receiveList();
 	});
 	
 //	// 物料的四个tab切换菜单
@@ -38,11 +28,19 @@
 	    $('.wuliao_tabbox > .wuliao_tabcont').eq(index).show().siblings().hide();
 	});
 	
+	$("#allExport1").off('click').on('click',function(){
+		receiveList();
+		method('.tableExcelA');
+	})
+	$("#allExport2").off('click').on('click',function(){
+		materList();
+		method('.tableExcelB');
+	})
 	 //其他出库逐车明细
 	function receiveList(){
 		 $.ajax({
 	            url:URL.receiveListUrl,
-	            async:true,
+	            async:false,
 	            cache:false,
 	            dataType:'json',
 	            type:'post',
@@ -85,7 +83,7 @@
 	function materList(){
 		 $.ajax({
 	            url:URL.materListUrl,
-	            async:true,
+	            async:false,
 	            cache:false,
 	            dataType:'json',
 	            type:'post',
