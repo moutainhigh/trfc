@@ -127,6 +127,7 @@ public class SalesOutboundOrderService implements ISalesOutboundOrderService{
 				ps.setNetWeight(pn.getNetweight().toString());
 				ps.setCreatetime(System.currentTimeMillis());
 				ps.setModifytime(System.currentTimeMillis());
+				ps.setDesc2(Constant.ONE_STRING);
 				if(apiResult!=null && StringUtils.equals(apiResult.getCode(),Constant.SUCCESS )){
 					order.setStatus("1");
 					if(salesOutboundOrderMapper.updateByPrimaryKeySelective(order)>0){
