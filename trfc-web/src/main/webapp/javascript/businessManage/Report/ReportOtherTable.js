@@ -137,6 +137,12 @@
 	
 	$('#searchBtn').off('click').on('click',function(){
 		search(1);
+		var clock1=document.getElementById("clock1").value;
+		var clock2=document.getElementById("clock2").value;
+		document.querySelector(".clock12").innerHTML=clock1.slice(0,10);
+		document.querySelector(".clock13").innerHTML=clock2.slice(0,10);
+		document.querySelector(".clock3").innerHTML=clock1.slice(0,10);
+		document.querySelector(".clock4").innerHTML=clock2.slice(0,10);
 	});
 	$('#clean').off('click').on('click',function(){
 		clean();
@@ -247,7 +253,11 @@
 		$('#RMg3').empty();
 		var list = data.list||[];
 		if(list && list.length>0){
+			var str1=0,str2=0,str3=0;
 			for(var i=0;i<list.length;i++){   //其他出库逐车明细
+				str1+=list[i].grossweight;
+				str2+=list[i].tareweight;
+				str3+=list[i].netweight;
 				var lightt,weightt;
 				if(list[i].lighttime){
 					lightt=new Date(list[i].lighttime).format("yyyy-MM-dd HH:mm:ss");
@@ -274,17 +284,17 @@
 						.appendTo('#RMg3');
 			}
 			$('<tr>').append('<td>'+("总计")+'</td>')
-			.append('<td>'+("")+'</td>')
-			.append('<td>'+("")+'</td>')
-			.append('<td>'+("")+'</td>')
-			.append('<td>'+("")+'</td>')
-			.append('<td>'+("")+'</td>')
-			.append('<td>'+("")+'</td>')
-			.append('<td>'+("")+'</td>')
-			.append('<td>'+("")+'</td>')
-			.append('<td>'+("")+'</td>')
-			.append('<td>'+("")+'</td>')
-			.append('<td>'+("")+'</td>')
+			.append('<td>'+("---")+'</td>')
+			.append('<td>'+("---")+'</td>')
+			.append('<td>'+("---")+'</td>')
+			.append('<td>'+("---")+'</td>')
+			.append('<td>'+("---")+'</td>')
+			.append('<td>'+("---")+'</td>')
+			.append('<td>'+(str1.toFixed(2))+'</td>')
+			.append('<td>'+(str2.toFixed(2))+'</td>')
+			.append('<td>'+(str3.toFixed(2))+'</td>')
+			.append('<td>'+("---")+'</td>')
+			.append('<td>'+("---")+'</td>')
 			.appendTo('#RMg3');
 		}else if(list.length<=0){
 			layer.msg('暂无数据');
@@ -341,7 +351,11 @@
 		$('#RMg4').empty();
 		var list = data.list||[];
 		if(list && list.length>0){    //	其他入库逐车明细
+			var str1=0,str2=0,str3=0;
 			for(var i=0;i<list.length;i++){
+				str1+=list[i].grossweight;
+				str2+=list[i].tareweight;
+				str3+=list[i].netweight;
 				var lightt,weightt;
 				if(list[i].lighttime){
 					lightt=new Date(list[i].lighttime).format("yyyy-MM-dd HH:mm:ss");
@@ -369,18 +383,18 @@
 						.appendTo('#RMg4');
 			}
 			$('<tr>').append('<td>'+("总计")+'</td>')
-			.append('<td>'+("")+'</td>')
-			.append('<td>'+("")+'</td>')
-			.append('<td>'+("")+'</td>')
-			.append('<td>'+("")+'</td>')
-			.append('<td>'+("")+'</td>')
-			.append('<td>'+("")+'</td>')
-			.append('<td>'+("")+'</td>')
-			.append('<td>'+("")+'</td>')
-			.append('<td>'+("")+'</td>')
-			.append('<td>'+("")+'</td>')
-			.append('<td>'+("")+'</td>')
-			.append('<td>'+("")+'</td>')
+			.append('<td>'+("---")+'</td>')
+			.append('<td>'+("---")+'</td>')
+			.append('<td>'+("---")+'</td>')
+			.append('<td>'+("---")+'</td>')
+			.append('<td>'+("---")+'</td>')
+			.append('<td>'+("---")+'</td>')
+			.append('<td>'+(str1.toFixed(2))+'</td>')
+			.append('<td>'+(str2.toFixed(2))+'</td>')
+			.append('<td>'+(str3.toFixed(2))+'</td>')
+			.append('<td>'+("---")+'</td>')
+			.append('<td>'+("---")+'</td>')
+			.append('<td>'+("---")+'</td>')
 			.appendTo('#RMg4');
 		}else if(list.length<=0){
 			layer.msg('暂无数据');

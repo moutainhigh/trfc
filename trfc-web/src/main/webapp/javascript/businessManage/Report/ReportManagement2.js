@@ -474,8 +474,6 @@ function bbgClick(){
     var bbg_kk=document.getElementById("bbg_kk").value;
     var gys=document.getElementById("gys").value;
     var bbg_sjn=document.getElementById("bbg_sjn").value;
-    var clock1=document.getElementById("clock1").value;
-    var clock2=document.getElementById("clock2").value;
     var bbg_cph=document.getElementById("bbg_cph").value;
     var bbg_bz=document.getElementById("bbg_bz").value;
     var duichang=document.getElementById("duichang").value;
