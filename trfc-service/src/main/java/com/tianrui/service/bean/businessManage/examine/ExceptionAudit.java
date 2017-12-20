@@ -9,7 +9,7 @@ public class ExceptionAudit {
     private String id;
     //榜单ID
     private String pnId;
-    //业务类型：（1：空车出厂，2：补包，3：回包，4：无需补包 5:红外被挡）
+    //业务类型：（1：空车出厂，2：补包，3：回包，4：无需补包 5:红外被挡 6:皮重异常）
     private Integer type;
     //补回包数量
     private Integer number;

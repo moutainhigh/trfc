@@ -1,4 +1,4 @@
-package com.tianrui.test.api.web;
+package com.tianrui.test.api.system;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -6,22 +6,31 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 import com.alibaba.fastjson.JSON;
-import com.tianrui.api.req.quality.sales.AssayReportReq;
+import com.tianrui.api.req.basicFile.measure.VehicleCheckApi;
+import com.tianrui.api.req.businessManage.examine.ExceptionAuditReq;
+import com.tianrui.api.req.businessManage.examine.ExceptionAuditSaveReq;
+import com.tianrui.api.req.businessManage.salesManage.ApiDoorQueueQuery;
 import com.tianrui.smartfactory.common.api.ApiParam;
 import com.tianrui.smartfactory.common.api.Head;
 import com.tianrui.smartfactory.common.constants.Constant;
 import com.tianrui.smartfactory.common.utils.DateUtil;
 import com.tianrui.smartfactory.common.utils.Md5Utils;
-
-public class testAssayReportDetail {
-
+/**
+ * 红外被挡审批
+ * @author Administrator
+ *
+ */
+@SuppressWarnings("unused")
+public class TestApiTareWeightSystem {
 
 	private static String domin = "http://localhost:8080/";
-	//private static String domin = "http://172.19.4.97:28080/";
-	private static String uri_enterFactoryCheck = "api/quality/assayReportDetail";
+//	private static String domin = "http://172.19.4.97:28080/";
+	private static String uri_apply = "api/exceptionAudit/tareWeightApply";
+	private static String uri_query = "api/exceptionAudit/tareWeightQuery";
 	
 	public static void main(String[] args) throws Exception {
-		URL url = new URL(domin + uri_enterFactoryCheck);
+		URL url = new URL(domin + uri_query);
+		//URL url = new URL(domin + uri_query);
 		// 打开url连接
 		HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 		// 设置url请求方式 ‘get’ 或者 ‘post’
@@ -30,7 +39,7 @@ public class testAssayReportDetail {
 		
 	    // 表单参数与get形式一样
 		connection.setDoOutput(true);// 是否输入参数
-        params.append("p").append("=").append(JSON.toJSONString(getParam0()));
+        params.append("p").append("=").append(JSON.toJSONString(getParam1()));
         
         String aa =params.toString();
         System.out.println(aa);
@@ -48,17 +57,42 @@ public class testAssayReportDetail {
 	}
 	
 	
-	static ApiParam<AssayReportReq> getParam0(){
-		ApiParam<AssayReportReq> api =new ApiParam<AssayReportReq>();
+	static ApiParam<ExceptionAuditSaveReq> getParam0(){
+		ApiParam<ExceptionAuditSaveReq> api =new ApiParam<ExceptionAuditSaveReq>();
 		
-		AssayReportReq req =new AssayReportReq();
-		req.setBatchcode("111111");
+		ExceptionAuditSaveReq req =new ExceptionAuditSaveReq();
+		req.setNoticeNo("DH20171120043");
+		req.setSeqNo("拉拉拉拉：hello，word！");
+		req.setNoticeType("0");
+		
 		
 		Head head =new Head();
 		head.setCallSource("1");
-		head.setCallType("2");
+		head.setCallType("3");
 		head.setCallTime(DateUtil.getNowDateString("yyyy-MM-dd HH:mm:ss"));
-//		head.setUserId("043e657203f841fcbbeed0118b49a185");
+		head.setUserId("043e657203f841fcbbeed0118b49a185");
+		
+		api.setBody(req);
+		api.setHead(head);
+		
+		setkey(api);
+		setMd5(api);
+		return api;
+	}
+	
+	//c77e8caaa2db4052b5d6c9801e901468
+	static ApiParam<ExceptionAuditReq> getParam1(){
+		ApiParam<ExceptionAuditReq> api =new ApiParam<ExceptionAuditReq>();
+		
+		ExceptionAuditReq req =new ExceptionAuditReq();
+		
+		req.setId("c77e8caaa2db4052b5d6c9801e901468");		
+		
+		Head head =new Head();
+		head.setCallSource("1");
+		head.setCallType("3");
+		head.setCallTime(DateUtil.getNowDateString("yyyy-MM-dd HH:mm:ss"));
+		head.setUserId("043e657203f841fcbbeed0118b49a185");
 		
 		api.setBody(req);
 		api.setHead(head);

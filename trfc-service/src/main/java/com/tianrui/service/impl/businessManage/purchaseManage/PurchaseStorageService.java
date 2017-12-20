@@ -44,6 +44,12 @@ public class PurchaseStorageService implements IPurchaseStorageService {
 				ps.setModifytime(System.currentTimeMillis());
 				ps.setDesc1(req.getStatus());
 				ps.setReasonFailure(req.getMsg());
+				if (StringUtils.equals(pn.getBilltype(), Constant.ZERO_STRING)
+						|| StringUtils.equals(pn.getBilltype(), Constant.ONE_STRING)) {
+					ps.setDesc2(Constant.ZERO_STRING);
+				} else if (StringUtils.equals(pn.getBilltype(), Constant.TWO_STRING)) {
+					ps.setDesc2(Constant.ONE_STRING);
+				}
 				if(StringUtils.equals("1", req.getStatus())){
 					ps.setPushStatus(Constant.TWO_STRING);
 					//入库单状态修改为 已推单

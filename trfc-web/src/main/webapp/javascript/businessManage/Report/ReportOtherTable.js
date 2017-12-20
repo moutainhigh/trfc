@@ -10,24 +10,14 @@
 	init();
 	function init(){
 		bindEvent();
-		materList();
-//		queryData();
-		/*$(".wuliao_tabcont").hide();
-		$(".hide_thing").show();*/
 	}
 	$('#thing').off('click').on('click',function(){
 		$('input#jumpPageNo').val('');
-		/*$(".wuliao_tabcont").hide();
-		$(".hide_thing").show();*/
 		queryData4(1);
-		materList();
 	});
 	$('#receive').off('click').on('click',function(){
 		$('input#jumpPageNo').val('');
-	/*	$(".wuliao_tabcont").hide();
-		$(".hide_receive").show();*/
 		queryData3(1);
-		receiveList();
 	});
 	
 //	// 物料的四个tab切换菜单
@@ -38,11 +28,19 @@
 	    $('.wuliao_tabbox > .wuliao_tabcont').eq(index).show().siblings().hide();
 	});
 	
+	$("#allExport1").off('click').on('click',function(){
+		receiveList();
+		method('.tableExcelA');
+	})
+	$("#allExport2").off('click').on('click',function(){
+		materList();
+		method('.tableExcelB');
+	})
 	 //其他出库逐车明细
 	function receiveList(){
 		 $.ajax({
 	            url:URL.receiveListUrl,
-	            async:true,
+	            async:false,
 	            cache:false,
 	            dataType:'json',
 	            type:'post',
@@ -85,7 +83,7 @@
 	function materList(){
 		 $.ajax({
 	            url:URL.materListUrl,
-	            async:true,
+	            async:false,
 	            cache:false,
 	            dataType:'json',
 	            type:'post',
@@ -139,6 +137,12 @@
 	
 	$('#searchBtn').off('click').on('click',function(){
 		search(1);
+		var clock1=document.getElementById("clock1").value;
+		var clock2=document.getElementById("clock2").value;
+		document.querySelector(".clock12").innerHTML=clock1.slice(0,10);
+		document.querySelector(".clock13").innerHTML=clock2.slice(0,10);
+		document.querySelector(".clock3").innerHTML=clock1.slice(0,10);
+		document.querySelector(".clock4").innerHTML=clock2.slice(0,10);
 	});
 	$('#clean').off('click').on('click',function(){
 		clean();
@@ -249,7 +253,11 @@
 		$('#RMg3').empty();
 		var list = data.list||[];
 		if(list && list.length>0){
+			var str1=0,str2=0,str3=0;
 			for(var i=0;i<list.length;i++){   //其他出库逐车明细
+				str1+=list[i].grossweight;
+				str2+=list[i].tareweight;
+				str3+=list[i].netweight;
 				var lightt,weightt;
 				if(list[i].lighttime){
 					lightt=new Date(list[i].lighttime).format("yyyy-MM-dd HH:mm:ss");
@@ -276,17 +284,17 @@
 						.appendTo('#RMg3');
 			}
 			$('<tr>').append('<td>'+("总计")+'</td>')
-			.append('<td>'+("")+'</td>')
-			.append('<td>'+("")+'</td>')
-			.append('<td>'+("")+'</td>')
-			.append('<td>'+("")+'</td>')
-			.append('<td>'+("")+'</td>')
-			.append('<td>'+("")+'</td>')
-			.append('<td>'+("")+'</td>')
-			.append('<td>'+("")+'</td>')
-			.append('<td>'+("")+'</td>')
-			.append('<td>'+("")+'</td>')
-			.append('<td>'+("")+'</td>')
+			.append('<td>'+("---")+'</td>')
+			.append('<td>'+("---")+'</td>')
+			.append('<td>'+("---")+'</td>')
+			.append('<td>'+("---")+'</td>')
+			.append('<td>'+("---")+'</td>')
+			.append('<td>'+("---")+'</td>')
+			.append('<td>'+(str1.toFixed(2))+'</td>')
+			.append('<td>'+(str2.toFixed(2))+'</td>')
+			.append('<td>'+(str3.toFixed(2))+'</td>')
+			.append('<td>'+("---")+'</td>')
+			.append('<td>'+("---")+'</td>')
 			.appendTo('#RMg3');
 		}else if(list.length<=0){
 			layer.msg('暂无数据');
@@ -343,7 +351,11 @@
 		$('#RMg4').empty();
 		var list = data.list||[];
 		if(list && list.length>0){    //	其他入库逐车明细
+			var str1=0,str2=0,str3=0;
 			for(var i=0;i<list.length;i++){
+				str1+=list[i].grossweight;
+				str2+=list[i].tareweight;
+				str3+=list[i].netweight;
 				var lightt,weightt;
 				if(list[i].lighttime){
 					lightt=new Date(list[i].lighttime).format("yyyy-MM-dd HH:mm:ss");
@@ -371,18 +383,18 @@
 						.appendTo('#RMg4');
 			}
 			$('<tr>').append('<td>'+("总计")+'</td>')
-			.append('<td>'+("")+'</td>')
-			.append('<td>'+("")+'</td>')
-			.append('<td>'+("")+'</td>')
-			.append('<td>'+("")+'</td>')
-			.append('<td>'+("")+'</td>')
-			.append('<td>'+("")+'</td>')
-			.append('<td>'+("")+'</td>')
-			.append('<td>'+("")+'</td>')
-			.append('<td>'+("")+'</td>')
-			.append('<td>'+("")+'</td>')
-			.append('<td>'+("")+'</td>')
-			.append('<td>'+("")+'</td>')
+			.append('<td>'+("---")+'</td>')
+			.append('<td>'+("---")+'</td>')
+			.append('<td>'+("---")+'</td>')
+			.append('<td>'+("---")+'</td>')
+			.append('<td>'+("---")+'</td>')
+			.append('<td>'+("---")+'</td>')
+			.append('<td>'+(str1.toFixed(2))+'</td>')
+			.append('<td>'+(str2.toFixed(2))+'</td>')
+			.append('<td>'+(str3.toFixed(2))+'</td>')
+			.append('<td>'+("---")+'</td>')
+			.append('<td>'+("---")+'</td>')
+			.append('<td>'+("---")+'</td>')
 			.appendTo('#RMg4');
 		}else if(list.length<=0){
 			layer.msg('暂无数据');

@@ -127,7 +127,7 @@
                     <div class="intel_table">
                         <div class="intel_table">
                         <div style="position: absolute;left:0px;top:0px;">
-						  <div class="intel_operasolo" onclick="method('.tableExcelA')">
+						  <div class="intel_operasolo"  id="allExport">
 						        <i class="iconfont" style="color: #0174c3;font-size: 25px;margin-left: 22px">&#xe63c;</i>
 						        <p>导出全部</p>
 						    </div>					

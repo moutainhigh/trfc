@@ -9,14 +9,11 @@
 	function init(){
 		bindEvent();
 		queryData();
-		commonList();
-	/*	$(".wuliao_tabcont").hide();
-		$(".hide_thing").show();*/
+
 	}
 	$('#buyCar').off('click').on('click',function(){
 		$('input#jumpPageNo').val('');
-	/*	$(".wuliao_tabcont").hide();
-		$(".hide_buyCar").show();*/
+
 		queryData(1);
 	});
 	
@@ -28,11 +25,14 @@
 //	    $('.wuliao_tabbox > .wuliao_tabcont').eq(index).show().siblings().hide();
 	});
 	
-	
+	$("#allExport").off('click').on('click',function(){
+		commonList();
+		method('.tableExcelA');
+	})
 	function commonList(){
 		$.ajax({
             url:URL.commonListUrl,
-            async:true,
+            async:false,
             cache:false,
             dataType:'json',
             type:'post',
@@ -71,9 +71,11 @@
 	}
 	
 	$('#searchBtn').off('click').on('click',function(){
-		if(queryData){
 			queryData(1);
-		}  
+			var clock1=document.getElementById("clock1").value;
+			var clock2=document.getElementById("clock2").value;
+			document.querySelector(".clock6").innerHTML=clock1.slice(0,10);
+			document.querySelector(".clock7").innerHTML=clock2.slice(0,10);
 	});
 	$('#clean').off('click').on('click',function(){
 		clean();
@@ -187,7 +189,11 @@
 			$('#RMg1').empty();   
 			var list = data.list||[];
 			if(list && list.length>0){
+				var str1=0,str2=0,str3=0;
 				for(var i=0;i<list.length;i++){
+					str1+=list[i].grossweight;
+					str2+=list[i].tareweight;
+					str3+=list[i].netweight;
 					var lightt,weightt;
 					if(list[i].lighttime){
 						lightt=new Date(list[i].lighttime).format("yyyy-MM-dd HH:mm:ss");
@@ -212,15 +218,15 @@
 							.appendTo('#RMg1');
 				}
 				$('<tr>').append('<td>'+("总计")+'</td>')
-				.append('<td>'+("")+'</td>')
-				.append('<td>'+("")+'</td>')
-				.append('<td>'+("")+'</td>')
-				.append('<td>'+("")+'</td>')
-				.append('<td>'+("")+'</td>')
-				.append('<td>'+("")+'</td>')
-				.append('<td>'+("")+'</td>')
-				.append('<td>'+("")+'</td>')
-				.append('<td>'+("")+'</td>')
+				.append('<td>'+("---")+'</td>')
+				.append('<td>'+("---")+'</td>')
+				.append('<td>'+("---")+'</td>')
+				.append('<td>'+("---")+'</td>')
+				.append('<td>'+(str1.toFixed(2))+'</td>')
+				.append('<td>'+(str2.toFixed(2))+'</td>')
+				.append('<td>'+(str3.toFixed(2))+'</td>')
+				.append('<td>'+("---")+'</td>')
+				.append('<td>'+("---")+'</td>')
 				.appendTo('#RMg1');
 			}else{
 				layer.msg('暂无数据');

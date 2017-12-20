@@ -123,7 +123,7 @@
                 <div class="intel_table">
                     <div class="intel_table">
                      <div style="position: absolute;left:0px;top:0px;">
-						  <div class="intel_operasolo" onclick="method('.tableExcelA')">
+						  <div class="intel_operasolo" id="allExport1">
 						        <i class="iconfont" style="color: #0174c3;font-size: 25px;margin-left: 22px">&#xe63c;</i>
 						        <p>导出全部</p>
 						    </div>					
@@ -214,7 +214,7 @@
             <div class="wuliao_tabcont hide_thing">
                 <div class="intel_table">
                  <div style="position: absolute;left:0px;top:0px;">
-						  <div class="intel_operasolo" onclick="method('.tableExcelB')">
+						  <div class="intel_operasolo" id="allExport2">
 						        <i class="iconfont" style="color: #0174c3;font-size: 25px;margin-left: 22px">&#xe63c;</i>
 						        <p>导出全部</p>
 						    </div>					

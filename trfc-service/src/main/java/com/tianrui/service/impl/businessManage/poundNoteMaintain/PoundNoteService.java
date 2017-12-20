@@ -493,6 +493,7 @@ public class PoundNoteService implements IPoundNoteService {
 		ps.setNetWeight(String.valueOf(pn.getNetweight()));
 		ps.setCreatetime(System.currentTimeMillis());
 		ps.setModifytime(System.currentTimeMillis());
+		ps.setDesc2(Constant.ZERO_STRING);
         // 调用dc 接口成功 则推单状态为推单中 榜单展示为推单中
 		ApiResult apiResult = HttpUtils.post(ApiParamUtils.getApiParam(list), Constant.URL_DOMAIN + Constant.URL_RETURN_PURCHASESTORAGEATION);
 		if (apiResult != null) {
@@ -1485,6 +1486,7 @@ public class PoundNoteService implements IPoundNoteService {
 		ps.setCreator(pn.getModifier());
 		ps.setCreatetime(System.currentTimeMillis());
 		ps.setModifytime(System.currentTimeMillis());
+		ps.setDesc2(Constant.ZERO_STRING);
 		if (apiResult != null) {
             if (StringUtils.equals(apiResult.getCode(), Constant.SUCCESS)) {
                 PurchaseStorageList storageUpdate = new PurchaseStorageList();
@@ -1813,6 +1815,7 @@ public class PoundNoteService implements IPoundNoteService {
 		ps.setNetWeight(pn.getNetweight().toString());
 		ps.setCreatetime(System.currentTimeMillis());
 		ps.setModifytime(System.currentTimeMillis());
+		ps.setDesc2(Constant.ONE_STRING);
 		if (apiResult != null) {
 			if (StringUtils.equals(apiResult.getCode(), Constant.SUCCESS)) {
 				SalesOutboundOrder orderUpdate = new SalesOutboundOrder();
@@ -2337,10 +2340,11 @@ public class PoundNoteService implements IPoundNoteService {
 	                        purchaseStorageListMapper.insertSelective(storage);
 	                        purchaseStorageListItemMapper.insertSelective(storageItem);
 	                        updateCode("RKD", copy.getCurrId());
-	                    	poundNoteMapper.updateByPrimaryKeySelective(pn);
+	                    	poundNoteMapper.updateByPrimaryKey(pn);
 	                    	newBillDetail.setMargin(newBillDetail.getMargin() - pn.getNetweight());
 	                    	newBillDetail.setStoragequantity(newBillDetail.getStoragequantity() + pn.getNetweight());
 	                    	purchaseApplicationDetailMapper.updateByPrimaryKeySelective(newBillDetail);
+	                    	result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
 	                    }
 	                } else {
 	                    result.setErrorCode(ErrorCode.APPLICATION_NOT_EXIST);

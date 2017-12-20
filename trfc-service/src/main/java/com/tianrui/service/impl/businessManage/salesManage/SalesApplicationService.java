@@ -527,6 +527,7 @@ public class SalesApplicationService implements ISalesApplicationService {
 		ps.setRequisitionType(Constant.TWO_STRING);
 		ps.setCreatetime(System.currentTimeMillis());
 		ps.setModifytime(System.currentTimeMillis());
+		ps.setDesc2(Constant.ONE_STRING);
 		if(apiResult != null){
 			if (StringUtils.equals(apiResult.getCode(), ErrorCode.SYSTEM_SUCCESS.getCode())) {
 				sa.setSource(Constant.ZERO_STRING);
