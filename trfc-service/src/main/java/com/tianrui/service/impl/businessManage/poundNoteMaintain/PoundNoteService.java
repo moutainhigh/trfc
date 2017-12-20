@@ -2325,12 +2325,12 @@ public class PoundNoteService implements IPoundNoteService {
 	                    	pn.setBillid(newBill.getId());
 	                    	pn.setBillcode(newBill.getCode());
 	                    	pn.setBilldetailid(newBillDetail.getId());
-	                    	pn.setMinemouthid(newBill.getMinemouthid() == null ? newBill.getMinemouthid(): "");
-	                    	pn.setMinemouthname(newBill.getMinemouthname() == null ? newBill.getMinemouthname(): "");
-	                    	pn.setSupplierid(newBill.getSupplierid() == null ? newBill.getSupplierid(): "");
-	                    	pn.setSuppliername(newBill.getSuppliername() == null ? newBill.getSuppliername(): "");
-	                    	pn.setMaterialid(newBillDetail.getMaterielid() == null ? newBillDetail.getMaterielid(): "");
-	                    	pn.setMaterialname(newBillDetail.getMaterielname() == null ? newBillDetail.getMaterielname(): "");
+	                    	pn.setMinemouthid(newBill.getMinemouthid());
+	                    	pn.setMinemouthname(newBill.getMinemouthname());
+	                    	pn.setSupplierid(newBill.getSupplierid());
+	                    	pn.setSuppliername(newBill.getSuppliername());
+	                    	pn.setMaterialid(newBillDetail.getMaterielid());
+	                    	pn.setMaterialname(newBillDetail.getMaterielname());
 	                    	pn.setModifier(copy.getCurrId());
 	                    	pn.setModifytime(System.currentTimeMillis());
 	                    	PurchaseStorageList storage = setPurchaseStorage(copy.getCurrId(), newBill, pn);
