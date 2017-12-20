@@ -123,6 +123,7 @@ public class PurchaseStorageListService implements IPurchaseStorageListService {
 				ps.setNetWeight(pn.getNetweight().toString());
 				ps.setCreatetime(System.currentTimeMillis());
 				ps.setModifytime(System.currentTimeMillis());
+				ps.setDesc2(Constant.ZERO_STRING);
 				if (apiResult != null) {
 					if (StringUtils.equals(apiResult.getCode(), Constant.SUCCESS)) {
 						order.setStatus(Constant.PUSH_STATUS_ING);

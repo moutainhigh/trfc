@@ -312,6 +312,7 @@ public class AppSalesStaticService implements IAppSalesStaticService {
 		ps.setRequisitionType(Constant.TWO_STRING);
 		ps.setCreatetime(System.currentTimeMillis());
 		ps.setModifytime(System.currentTimeMillis());
+		ps.setDesc2(Constant.ONE_STRING);
 		if(apiResult != null){
 			if (StringUtils.equals(apiResult.getCode(), ErrorCode.SYSTEM_SUCCESS.getCode())) {
 				sa.setSource(Constant.ZERO_STRING);
@@ -496,6 +497,7 @@ public class AppSalesStaticService implements IAppSalesStaticService {
 		ps.setCreator(param.getUserId());
 		ps.setCreatetime(System.currentTimeMillis());
 		ps.setModifytime(System.currentTimeMillis());
+		ps.setDesc2(Constant.ONE_STRING);
 		ApiResult apiResult = HttpUtils.post(ApiParamUtils.getApiParam(map), Constant.URL_DOMAIN + Constant.URL_SALESAPPLICATION_DELETE);
 		if (apiResult != null) {
 			if (StringUtils.equals(apiResult.getCode(), Constant.SUCCESS)) {
@@ -1127,6 +1129,7 @@ public class AppSalesStaticService implements IAppSalesStaticService {
 		map.put("type", Constant.ONE_STRING);
 		//上传dc，申请作废，状态改为作废中
 		//由dc回写作废状态
+		ApiResult apiResult = HttpUtils.post(ApiParamUtils.getApiParam(map), Constant.URL_DOMAIN + Constant.URL_SALESAPPLICATION_DELETE);
 		//记录推送日志
 		PushSingleReq ps = new PushSingleReq();
 		ps.setId(UUIDUtil.getId());
@@ -1135,7 +1138,7 @@ public class AppSalesStaticService implements IAppSalesStaticService {
 		ps.setCreator(user.getId());
 		ps.setCreatetime(System.currentTimeMillis());
 		ps.setModifytime(System.currentTimeMillis());
-		ApiResult apiResult = HttpUtils.post(ApiParamUtils.getApiParam(map), Constant.URL_DOMAIN + Constant.URL_SALESAPPLICATION_DELETE);
+		ps.setDesc2(Constant.ONE_STRING);
 		if (apiResult != null) {
 			if (StringUtils.equals(apiResult.getCode(), Constant.SUCCESS)) {
 				//修改通知单为作废中

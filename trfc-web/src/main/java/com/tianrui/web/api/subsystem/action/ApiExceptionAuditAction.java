@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.tianrui.api.intf.businessManage.examine.ITareWeightService;
 import com.tianrui.api.req.businessManage.examine.ExceptionAuditReq;
 import com.tianrui.api.req.businessManage.examine.ExceptionAuditSaveReq;
 import com.tianrui.service.impl.businessManage.examine.ExceptionAuditService;
@@ -28,11 +29,10 @@ import com.tianrui.web.smvc.ApiParamRawType;
 public class ApiExceptionAuditAction {
 
 	private Logger log = LoggerFactory.getLogger(ApiExceptionAuditAction.class);
-	
 	@Autowired
 	ExceptionAuditService  exceptionAuditService;
-	
-
+	@Autowired
+	ITareWeightService tareWeightService;
 	/**
 	 * 红外被挡申请
 	 * @param req
@@ -76,6 +76,50 @@ public class ApiExceptionAuditAction {
 		return ApiResult.valueOf(rs);
 	}
 	
+	
+
+	/**
+	 * 皮重申请
+	 * @param req
+	 * @return
+	 */
+	@RequestMapping(value="/tareWeightApply",method=RequestMethod.POST)
+	@ApiParamRawType(ExceptionAuditSaveReq.class)
+	@ApiAuthValidation(callType="3")
+	@ResponseBody
+	public ApiResult tareWeightApply(ApiParam<ExceptionAuditSaveReq> req){
+		ExceptionAuditSaveReq exceptionAuditSaveReq =req.getBody();
+		exceptionAuditSaveReq.setCurrUid(req.getHead().getUserId());
+		Result rs=Result.getErrorResult();
+		try {
+			rs = tareWeightService.apply(exceptionAuditSaveReq);
+		} catch (Exception e) {
+			rs.setErrorCode(ErrorCode.SYSTEM_ERROR);
+			log.error(e.getMessage(),e);
+		}
+		return ApiResult.valueOf(rs);
+	}
+	/**
+	 * 皮重查询
+	 * @param req
+	 * @return
+	 */
+	@RequestMapping(value="/tareWeightQuery",method=RequestMethod.POST)
+	@ApiParamRawType(ExceptionAuditReq.class)
+	@ApiAuthValidation(callType="3")
+	@ResponseBody
+	public ApiResult tareWeightQuery(ApiParam<ExceptionAuditReq> req){
+		ExceptionAuditReq exceptionAuditReq =req.getBody();
+		exceptionAuditReq.setUserId(req.getHead().getUserId());
+		Result rs=Result.getErrorResult();
+		try {
+			rs = tareWeightService.query(exceptionAuditReq);
+		} catch (Exception e) {
+			rs.setErrorCode(ErrorCode.SYSTEM_ERROR);
+			log.error(e.getMessage(),e);
+		}
+		return ApiResult.valueOf(rs);
+	}
 	
 	
 }

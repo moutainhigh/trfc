@@ -113,6 +113,7 @@ public class TaskJobService {
 			ps.setRequisitionType(Constant.TWO_STRING);
 			ps.setCreatetime(System.currentTimeMillis());
 			ps.setModifytime(System.currentTimeMillis());
+			ps.setDesc2(Constant.ONE_STRING);
 			ApiResult apiResult = HttpUtils.post(ApiParamUtils.getApiParam(listSales), Constant.URL_DOMAIN + Constant.URL_RETURN_SALESAPPLICATION);
 			if(apiResult != null){
 				if (StringUtils.equals(apiResult.getCode(), ErrorCode.SYSTEM_SUCCESS.getCode())) {
