@@ -712,7 +712,7 @@
 		}
 		//过磅单号   通知单号   发货单位   收货单位     仓库  物料    车号   毛重    皮重    净重      轻车时间   重车时间  
 		function renderHtml5(data){
-			$('#RMg4').empty();
+			$('#RMg5').empty();
 			var list = data.list||[];
 			if(list && list.length>0){
 				var str1=0,str2=0;
