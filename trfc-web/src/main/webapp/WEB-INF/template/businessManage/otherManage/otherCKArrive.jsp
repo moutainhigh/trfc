@@ -115,8 +115,8 @@
 									<th>审核状态</th>
 									<th>提单状态</th>
 									<th>客户</th>
-									<th>单位</th>
-									<th>物料</th>
+<!-- 									<th>单位</th>
+									<th>物料</th> -->
 									<th>货物</th>
 									<th>仓库</th>
 									<th>发货单位</th>
@@ -235,7 +235,7 @@
 								</div>
 								<div class="cg_solo">
 									<label>物料：</label> <input type="text" readonly="true" id="detail_materiel">
-								</div>
+								</div> 
 								<div class="cg_solo">
 									<label>货物：</label> <input type="text" readonly="true" id="detail_cargo">
 								</div>
@@ -317,6 +317,6 @@
 <jsp:include page="../../common/base/footer_busi.jsp"></jsp:include>
 <script type="text/javascript" src="${staticBasePath}/js/cardReader.js"></script>
 <script type="text/javascript"
-		src="/javascript/businessManage/otherManage/otherCKArrive.js"></script>
+		src="/javascript/businessManage/otherManage/otherCKArrive.js?1221"></script>
 </body>
 </html>

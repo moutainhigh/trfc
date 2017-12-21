@@ -209,8 +209,8 @@ $(function() {
 					$('#detail_cardno').val(cardno);
 					$('#detail_card_vehiclecode').val(obj.vehicleobj.code);
 					$('#detail_card_vehicleno').val(obj.vehicleno);
-					$('#detail_card_customer').val(obj.customerobj.name);
-					$('#detail_card_materiel').val(obj.materielname);
+/*					$('#detail_card_customer').val(obj.customerobj.name);
+					$('#detail_card_materiel').val(obj.materielname);*/
 					$('#detail_card_bussnesstype').val(obj.status);
 					$('#detail_card_note').val(obj.notice);
 					$('#detail_card_status').val(obj.packagetype);
