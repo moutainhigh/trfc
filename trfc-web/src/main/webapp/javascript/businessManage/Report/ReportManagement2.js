@@ -398,6 +398,16 @@ function preview4()
     window.document.body.innerHTML=prnhtml;
     window.print();
 }
+function preview5()
+{
+    bdhtml=window.document.body.innerHTML;
+    sprnstr="<!--startprint5-->";
+    eprnstr="<!--endprint5-->";
+    prnhtml=bdhtml.substr(bdhtml.indexOf(sprnstr)+17);
+    prnhtml=prnhtml.substring(0,prnhtml.indexOf(eprnstr));
+    window.document.body.innerHTML=prnhtml;
+    window.print();
+}
 $('#yearNow').off('click').on('click',function(){
 	  	var date = new Date();
 	    this.year = date.getFullYear();
@@ -482,6 +492,7 @@ function bbgClick(){
     var bbg_tiaojian2=document.querySelector(".bbg_tiaojian2");
     var bbg_tiaojian3=document.querySelector(".bbg_tiaojian3");
     var bbg_tiaojian4=document.querySelector(".bbg_tiaojian4");
+    var bbg_tiaojian5=document.querySelector(".bbg_tiaojian5");
     var str="";
     if(billcode!=""){
         str+="通知单号："+billcode+" ";
@@ -524,6 +535,7 @@ function bbgClick(){
     bbg_tiaojian2.innerHTML=str;
     bbg_tiaojian3.innerHTML=str;
     bbg_tiaojian4.innerHTML=str;
+    bbg_tiaojian5.innerHTML=str;
 }
 
 //页面时间
@@ -561,3 +573,9 @@ var clock13 = new Clock();
 clock13.display(document.querySelector(".clock13"));
 var clock14 = new Clock1();
 clock14.display(document.querySelector(".clock14"));
+var clock15 = new Clock();
+clock15.display(document.querySelector(".clock15"));
+var clock16 = new Clock();
+clock16.display(document.querySelector(".clock16"));
+var clock17 = new Clock1();
+clock17.display(document.querySelector(".clock17"));
