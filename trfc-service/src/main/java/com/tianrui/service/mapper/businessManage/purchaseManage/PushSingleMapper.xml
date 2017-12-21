@@ -304,8 +304,7 @@
 	
 	<select id="findPushSinglePageCount" parameterType="com.tianrui.api.req.businessManage.purchaseManage.PushSingleReq" resultType="java.lang.Long">
   	
-  	select count(1) from
-  	(select noticeNum
+  	select count(1) 
   	from tr_push_single
   	<where>
   		<if test="requisitionNum != null and requisitionNum != ''">
@@ -360,8 +359,6 @@
 			and desc4 = #{desc4,jdbcType=VARCHAR}
 		</if>
   	</where>
-  		group by noticeNum
-  	) t
   </select>
    <select id="findPushSinglePage" parameterType="com.tianrui.api.req.businessManage.purchaseManage.PushSingleReq" resultMap="BaseResultMap">
   	select 
@@ -420,7 +417,7 @@
 			and desc4 = #{desc4,jdbcType=VARCHAR}
 		</if>
   	</where>
-  	group by noticeNum order by modifytime desc
+  		order by modifytime desc
   	<if test="start != null and start >= 0">
   		<if test="limit != null">
 			limit #{start,jdbcType=INTEGER},#{limit,jdbcType=INTEGER}
