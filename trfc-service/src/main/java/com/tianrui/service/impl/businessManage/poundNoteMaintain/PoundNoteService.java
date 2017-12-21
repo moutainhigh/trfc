@@ -433,42 +433,48 @@ public class PoundNoteService implements IPoundNoteService {
 		if (query != null && StringUtils.isNotBlank(query.getId())) {
 			PoundNote pn = poundNoteMapper.selectByPrimaryKey(query.getId());
 			if(pn != null){
-				if (StringUtils.equals(pn.getReturnstatus(), Constant.TWO_STRING)) {
-					if (StringUtils.equals(pn.getRedcollide(), Constant.ZERO_STRING)) {
-						pn.setReturnstatus(Constant.ZERO_STRING);
-						pn.setRedcollide(Constant.ONE_STRING);
-						pn.setRedColStatus(Constant.ONE_STRING);
-						pn.setModifier(query.getCurrId());
-						pn.setModifytime(System.currentTimeMillis());
-						//增加红冲入库单
-						PurchaseApplication pa = purchaseApplicationMapper.selectByPrimaryKey(pn.getBillid());
-						PurchaseApplicationDetail pad = purchaseApplicationDetailMapper.selectByPrimaryKey(pn.getBilldetailid());
-						PurchaseStorageList storage = setPurchaseStorage(query.getCurrId(), pa, pn);
-						storage.setType(Constant.THREE_STRING);
-						String netWeight = String.valueOf(pn.getNetweight());
-						if (pn.getNetweight() != 0) {
-							netWeight = "-" + netWeight;
+				if (StringUtils.equals(pn.getStatus(), Constant.ZERO_STRING) 
+						|| StringUtils.equals(pn.getStatus(), Constant.ONE_STRING)) {
+					if (StringUtils.equals(pn.getBilltype(), Constant.ZERO_STRING)) {
+						if (StringUtils.equals(pn.getReturnstatus(), Constant.TWO_STRING)) {
+							pn.setReturnstatus(Constant.ZERO_STRING);
+							pn.setRedcollide(Constant.ONE_STRING);
+							pn.setRedColStatus(Constant.ONE_STRING);
+							pn.setModifier(query.getCurrId());
+							pn.setModifytime(System.currentTimeMillis());
+							//增加红冲入库单
+							PurchaseApplication pa = purchaseApplicationMapper.selectByPrimaryKey(pn.getBillid());
+							PurchaseApplicationDetail pad = purchaseApplicationDetailMapper.selectByPrimaryKey(pn.getBilldetailid());
+							PurchaseStorageList storage = setPurchaseStorage(query.getCurrId(), pa, pn);
+							storage.setType(Constant.THREE_STRING);
+							String netWeight = String.valueOf(pn.getNetweight());
+							if (pn.getNetweight() != 0) {
+								netWeight = "-" + netWeight;
+							}
+							storage.setNtotalnum(netWeight);
+							PurchaseStorageList storageOld = purchaseStorageListMapper.selectByPrimaryKey(pn.getPutinwarehouseid());
+							storage.setReturnRkdNcId(storageOld.getRkdNcId());
+							PurchaseStorageListItem storageItem = setPurchaseStorageItem(pad, pn, storage);
+							pn.setPutinwarehouseid(storage.getId());
+							pn.setPutinwarehousecode(storage.getCode());
+							//推送红冲并记录日志
+							pushDcRedcollide(result, storage, storageItem, pn);
+							poundNoteMapper.updateByPrimaryKeySelective(pn);
+							purchaseStorageListMapper.insertSelective(storage);
+							purchaseStorageListItemMapper.insertSelective(storageItem);
+							updateCode("RKD", query.getCurrId());
+					        result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+						} else {
+							//已推单的单据才允许红冲
+							result.setErrorCode(ErrorCode.POUNDNOTE_ERROR2);
 						}
-						storage.setNtotalnum(netWeight);
-						PurchaseStorageList storageOld = purchaseStorageListMapper.selectByPrimaryKey(pn.getPutinwarehouseid());
-						storage.setReturnRkdNcId(storageOld.getRkdNcId());
-						PurchaseStorageListItem storageItem = setPurchaseStorageItem(pad, pn, storage);
-						pn.setPutinwarehouseid(storage.getId());
-						pn.setPutinwarehousecode(storage.getCode());
-						//推送红冲并记录日志
-						pushDcRedcollide(result, storage, storageItem, pn);
-						poundNoteMapper.updateByPrimaryKeySelective(pn);
-						purchaseStorageListMapper.insertSelective(storage);
-						purchaseStorageListItemMapper.insertSelective(storageItem);
-						updateCode("RKD", query.getCurrId());
-				        result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
 					} else {
-						//已红冲过的单据不允许重复红冲
-						result.setErrorCode(ErrorCode.POUNDNOTE_ERROR3);
+						//退货单据不允许红冲
+						result.setErrorCode(ErrorCode.POUNDNOTE_ERROR4);
 					}
 				} else {
-					//已推单的单据才允许红冲
-					result.setErrorCode(ErrorCode.POUNDNOTE_ERROR2);
+					//作废和退货单据不允许红冲
+					result.setErrorCode(ErrorCode.POUNDNOTE_ERROR5);
 				}
 			}else{
 				result.setErrorCode(ErrorCode.POUNDNOTE_NOT_EXIST);

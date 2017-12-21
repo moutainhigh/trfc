@@ -389,9 +389,6 @@
 		if(obj.status == '3'){
 			layer.msg('该单据已作废！', {icon: 5});
 			return;
-		}else if(obj.redcollide == '1'){
-			layer.msg('已红冲的单据不能红冲操作！', {icon: 5});
-			return;
 		}else if(obj.status == '2'){
 			layer.msg('退货数据，不能进行红冲操作！', {icon: 5});
 			return;
