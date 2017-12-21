@@ -18,10 +18,11 @@
     <result column="ts" property="ts" jdbcType="VARCHAR" />
     <result column="status" property="status" jdbcType="VARCHAR" />
     <result column="create_time" property="createTime" jdbcType="BIGINT" />
+    <result column="ckd_ncid" property="ckdNcid" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, code, nc_id, poundId, billdate, pk_org, cdptid, cbizid, ntotalnum, cdilivertypeid, billmaker, 
-    dmakedate, ctrantypeid, ts, status, create_time
+    dmakedate, ctrantypeid, ts, status, create_time, ckd_ncid
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
@@ -38,12 +39,12 @@
       pk_org, cdptid, cbizid, 
       ntotalnum, cdilivertypeid, billmaker, 
       dmakedate, ctrantypeid, ts, 
-      status, create_time)
+      status, create_time, ckd_ncid)
     values (#{id,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR}, #{ncId,jdbcType=VARCHAR}, #{poundId,jdbcType=VARCHAR}, #{billdate,jdbcType=VARCHAR}, 
       #{pkOrg,jdbcType=VARCHAR}, #{cdptid,jdbcType=VARCHAR}, #{cbizid,jdbcType=VARCHAR}, 
       #{ntotalnum,jdbcType=VARCHAR}, #{cdilivertypeid,jdbcType=VARCHAR}, #{billmaker,jdbcType=VARCHAR}, 
       #{dmakedate,jdbcType=VARCHAR}, #{ctrantypeid,jdbcType=VARCHAR}, #{ts,jdbcType=VARCHAR}, 
-      #{status,jdbcType=VARCHAR}, #{createTime,jdbcType=BIGINT})
+      #{status,jdbcType=VARCHAR}, #{createTime,jdbcType=BIGINT}, #{ckdNcid,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.tianrui.service.bean.businessManage.salesManage.SalesOutboundOrder" >
     insert into tr_sale_outbound_order
@@ -96,6 +97,9 @@
       <if test="createTime != null" >
         create_time,
       </if>
+      <if test="ckdNcid != null" >
+        ckd_ncid,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -145,6 +149,9 @@
       </if>
       <if test="createTime != null" >
         #{createTime,jdbcType=BIGINT},
+      </if>
+      <if test="ckdNcid != null" >
+        #{ckdNcid,jdbcType=BIGINT},
       </if>
     </trim>
   </insert>
@@ -196,6 +203,9 @@
       <if test="createTime != null" >
         create_time = #{createTime,jdbcType=BIGINT},
       </if>
+      <if test="ckdNcid != null" >
+        ckd_ncid = #{ckdNcid,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
@@ -215,7 +225,8 @@
       ctrantypeid = #{ctrantypeid,jdbcType=VARCHAR},
       ts = #{ts,jdbcType=VARCHAR},
       status = #{status,jdbcType=VARCHAR},
-      create_time = #{createTime,jdbcType=BIGINT}
+      create_time = #{createTime,jdbcType=BIGINT},
+      ckd_ncid = #{ckdNcid,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
   <select id="selectIncrementalData" resultMap="BaseResultMap" parameterType="com.tianrui.service.bean.businessManage.salesManage.SalesOutboundOrder" >
@@ -237,7 +248,7 @@
   </select>
   <insert id="insertBatch" parameterType="java.util.List">
 	insert into tr_sale_outbound_order (id, code, nc_id, poundId, billdate, pk_org, cdptid, cbizid, ntotalnum, cdilivertypeid, billmaker, 
-    dmakedate, ctrantypeid, ts, status, create_time)
+    dmakedate, ctrantypeid, ts, status, create_time, ckd_ncid)
 	values
 	<foreach collection="list" item="item" index="index" separator=",">
 		(#{item.id,jdbcType=VARCHAR}, 
@@ -255,7 +266,8 @@
 		#{item.ctrantypeid,jdbcType=VARCHAR},
 		#{item.ts,jdbcType=VARCHAR},
 		#{item.status,jdbcType=VARCHAR},
-		#{item.createTime,jdbcType=VARCHAR}
+		#{item.createTime,jdbcType=VARCHAR},
+		#{item.ckdNcid,jdbcType=VARCHAR}
 		)
 	</foreach>
   </insert>
