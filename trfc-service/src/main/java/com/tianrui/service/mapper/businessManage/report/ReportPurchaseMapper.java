@@ -47,4 +47,17 @@ public interface ReportPurchaseMapper {
      * @return
      */
     Long countByConditionForBuZeng(ReportPurchase reportPurchase);
+    /**
+     * 矿口汇总表（矿口不为空）（根据条件查找数据）
+     * @param reportPurchase
+     * @return
+     */
+    List<ReportPurchaseMaterResp> selectByConditionForMinemouthname(ReportPurchase reportPurchase);
+    
+    /**
+     *  矿口汇总表（矿口不为空）（根据条件查找条数）
+     * @param Long
+     * @return
+     */
+    Long countByConditionForMinemouthname(ReportPurchase reportPurchase);
 }

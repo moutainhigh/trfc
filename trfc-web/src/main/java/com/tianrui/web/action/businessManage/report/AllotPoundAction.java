@@ -223,5 +223,48 @@ public class AllotPoundAction {
 		
 		return result;
 	}
+	@RequestMapping("/allotMaterDrDcPage")
+	@ResponseBody
+	public Result allotMaterDrDcPage(InOutDaoPoundQuery req,HttpServletRequest request){
+		Result result = Result.getParamErrorResult();
+		try {
+			SystemUserResp user = SessionManager.getSessionUser(request);
+			if (req == null) {
+				req = new InOutDaoPoundQuery();
+			}
+			req.setCurrUid(user.getId());
+			PaginationVO<InOutDaoPoundMaterResp> page = allotPoundService.materDrDcPage(req);
+			result.setData(page);
+			result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
+		}
+		
+		return result;
+		
+	}
 	
+	@RequestMapping("/allotMaterDrDcList")
+	@ResponseBody
+	public Result allotMaterDrDcList(InOutDaoPoundQuery req,HttpServletRequest request){
+		Result result = Result.getParamErrorResult();
+		try {
+			SystemUserResp user = SessionManager.getSessionUser(request);
+			
+			if (req ==null) {
+				req = new InOutDaoPoundQuery(); 
+			}
+			req.setCurrUid(user.getId());
+			List<InOutDaoPoundMaterResp> list = allotPoundService.materDrDcList(req);
+			result.setData(list);
+			result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+		} catch (Exception e) {
+			// TODO: handle exception
+			log.error(e.getMessage(), e);
+			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
+		}
+		
+		return result;
+	}
 }
