@@ -54,16 +54,15 @@ public class TestApiLeaveDoorSystem {
 		ApiParam<ApiDoorSystemSave> api =new ApiParam<ApiDoorSystemSave>();
 		
 		ApiDoorSystemSave req =new ApiDoorSystemSave();
-		req.setServicetype("2");
-		req.setNotionformcode("TH201711220001");
-		req.setType("1");
-		req.setIcardno("2267999413");
+		req.setServicetype("9");
+		req.setNotionformcode("GCN201712210001");
+		req.setType("2");
 		req.setTime(DateUtil.getNowDateString("yyyy-MM-dd HH:mm:ss"));
 		req.setCurrUid("043e657203f841fcbbeed0118b49a185");
 		
 		Head head =new Head();
 		head.setCallSource("1");
-		head.setCallType("2");
+		head.setCallType("1");
 		head.setCallTime(DateUtil.getNowDateString("yyyy-MM-dd HH:mm:ss"));
 		head.setUserId("043e657203f841fcbbeed0118b49a185");
 		

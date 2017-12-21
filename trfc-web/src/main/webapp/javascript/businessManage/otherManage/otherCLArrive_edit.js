@@ -65,14 +65,9 @@ $(function() {
 
 	function validata(params) {
 		
-		if(!params.materielid){
-			layer.msg('物料不能为空!');return false;
-		}
+
 		if(!params.vehicleid){
 			layer.msg('车辆不能为空!');return false;
-		}
-		if(!params.driverid){
-			layer.msg('司机不能为空!');return false;
 		}
 		return true;
 	}

@@ -252,10 +252,14 @@ public class AccessRecordService implements IAccessRecordService {
 			        }else{
 			            result.setErrorCode(ErrorCode.CARD_NOT_EXIST);
 			        }
-			    } else {
+			    //工程车辆没有ic卡       
+			    } else if(StringUtils.equals("9", apiParam.getServicetype())){
+					result = forwardMethod(apiParam, null, result);
+				}	else {
 	                result.setErrorCode(ErrorCode.PARAM_NULL_ERROR);
 	            }
-			} else {
+			
+			} else{
 			    result = forwardMethod(apiParam, null, result);
 			}
 		}
@@ -282,8 +286,9 @@ public class AccessRecordService implements IAccessRecordService {
         case "7":
             result = setICardToOtherArrive(card, apiParam);
             break;
+        //工程车辆 
         case "9":
-            result = setICardToOtherArrive(card, apiParam);
+            result = setICardToOtherArrive2(card, apiParam);
             break;
         case "4":
             result = setICardToOtherArrive(card, apiParam);
@@ -519,6 +524,50 @@ public class AccessRecordService implements IAccessRecordService {
 						}
 					}else{
 						result.setErrorCode(ErrorCode.CARD_IN_USE);
+					}
+				//出厂
+				}else{
+					//修改通知单状态并绑定IC卡
+					OtherArrive oa = new OtherArrive();
+					oa.setId(other.getId());
+					oa.setStatus("5");
+					if(otherArriveMapper.updateByPrimaryKeySelective(oa) > 0){
+						AccessRecord access = accessRecordMapper.selectByNoticeId(other.getId());
+						if(access != null){
+							result.setErrorCode(addOutAccessRecordApi(apiParam, access.getId()));
+							result.setData(access.getCode());
+						}else{
+							result.setErrorCode(ErrorCode.VEHICLE_NOTICE_NOT_ENTER);
+						}
+					}else{
+						result.setErrorCode(ErrorCode.OPERATE_ERROR);
+					}
+				}
+			}else{
+				result.setErrorCode(ErrorCode.NOTICE_ON_INVALID);
+			}
+		}else{
+			result.setErrorCode(ErrorCode.NOTICE_NOT_AUDIT);
+		}
+		return result;
+	}
+	
+	//工程车辆验证
+	private Result setICardToOtherArrive2(Card card, ApiDoorSystemSave apiParam) throws Exception {
+		Result result = Result.getErrorResult();
+		OtherArrive other = otherArriveMapper.selectByCode(apiParam.getNotionformcode());
+		if(StringUtils.equals(other.getAuditstatus(), "1")){
+			if(!StringUtils.equals(other.getStatus(), "3")){
+				//入厂
+				if(StringUtils.equals(apiParam.getType(), "1")){
+					OtherArrive  oa = new OtherArrive();
+					//修改通知单状态并绑定IC卡
+					oa.setId(other.getId());
+					oa.setStatus("6");
+					if(otherArriveMapper.updateByPrimaryKeySelective(oa) > 0){
+						addInfoAccessRecordApi(result, apiParam, other.getId(), other.getCode(), apiParam.getServicetype());
+					}else{
+						result.setErrorCode(ErrorCode.OPERATE_ERROR);
 					}
 				//出厂
 				}else{
