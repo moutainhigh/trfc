@@ -55,4 +55,16 @@ public interface InOutDaoPoundMapper {
 	  * @return
 	  */
 	 Long countByConditionForMaterVehicleno(InOutDaoPound inOutDaoPound);
+	 /**
+		 * 调拨物料调入调出堆场统计（查找数据）
+		 * @param inOutDaoPound
+		 * @return
+		 */
+	 List<InOutDaoPoundMaterResp> selectByConditionForMaterDrDc(InOutDaoPound inOutDaoPound);
+	 /**
+	  * 调拨物料调入调出堆场统计（查找条数）
+	  * @param inOutDaoPound
+	  * @return
+	  */
+	 Long countByConditionForMaterDrDc(InOutDaoPound inOutDaoPound);
 }

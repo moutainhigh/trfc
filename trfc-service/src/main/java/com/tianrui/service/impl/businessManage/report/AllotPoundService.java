@@ -289,4 +289,44 @@ public class AllotPoundService implements IAllotPoundService{
 		return rs;
 	}
 
+	@Override
+	public PaginationVO<InOutDaoPoundMaterResp> materDrDcPage(InOutDaoPoundQuery inOutDaoPoundQuery) throws Exception {
+		PaginationVO<InOutDaoPoundMaterResp> page = null;
+		if (inOutDaoPoundQuery != null) {
+			InOutDaoPound query = queryParam(inOutDaoPoundQuery, true);
+			if (query !=null) {
+				page = new PaginationVO<InOutDaoPoundMaterResp>();
+			}
+			//4表示厂内倒运
+			query.setBilltype("4");
+			//查询总条数
+			Long count = inOutDaoPoundMapper.countByConditionForMaterDrDc(query);
+			if (count>0) {
+				page.setList(inOutDaoPoundMapper.selectByConditionForMaterDrDc(query));
+			}
+			//返回结果参数补全
+			page.setPageNo(inOutDaoPoundQuery.getPageNo());
+			page.setPageSize(inOutDaoPoundQuery.getPageSize());
+			page.setTotal(count);
+		}
+		
+		
+		return page;
+	}
+
+	@Override
+	public List<InOutDaoPoundMaterResp> materDrDcList(InOutDaoPoundQuery inOutDaoPoundQuery) throws Exception {
+		List<InOutDaoPoundMaterResp> rs = null;
+		if (inOutDaoPoundQuery != null) {
+			InOutDaoPound query = queryParam(inOutDaoPoundQuery, true);
+			//4表示厂内倒运
+			query.setBilltype("4");
+			if (query !=null) {
+				rs = inOutDaoPoundMapper.selectByConditionForMaterDrDc(query);
+			}
+		}
+		
+		return rs;	
+	}
+
 }

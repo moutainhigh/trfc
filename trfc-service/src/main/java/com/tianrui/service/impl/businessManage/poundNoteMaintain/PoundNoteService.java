@@ -2340,10 +2340,11 @@ public class PoundNoteService implements IPoundNoteService {
 	                        purchaseStorageListMapper.insertSelective(storage);
 	                        purchaseStorageListItemMapper.insertSelective(storageItem);
 	                        updateCode("RKD", copy.getCurrId());
-	                    	poundNoteMapper.updateByPrimaryKeySelective(pn);
+	                    	poundNoteMapper.updateByPrimaryKey(pn);
 	                    	newBillDetail.setMargin(newBillDetail.getMargin() - pn.getNetweight());
 	                    	newBillDetail.setStoragequantity(newBillDetail.getStoragequantity() + pn.getNetweight());
 	                    	purchaseApplicationDetailMapper.updateByPrimaryKeySelective(newBillDetail);
+	                    	result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
 	                    }
 	                } else {
 	                    result.setErrorCode(ErrorCode.APPLICATION_NOT_EXIST);

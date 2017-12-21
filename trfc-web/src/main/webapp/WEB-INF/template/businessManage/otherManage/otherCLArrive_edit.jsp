@@ -52,14 +52,14 @@
                         <label><em class="colorred">*</em>单据编号：</label>
                         <input type="text" readonly="true" id="add_code">
                     </div>
-                    <div class="daohuo_add_solo">
+                 <!--    <div class="daohuo_add_solo">
                         <label><em class="colorred">*</em>单位：</label>
                         <input type="text" id="add_receivedepartmentid" readonly="true">
                     </div>
                     <div class="daohuo_add_solo">
                         <label><em class="colorred">*</em>物料：</label>
                         <input type="text" id="add_materiel" placeholder="请选择物料">
-                    </div>
+                    </div> -->
                     <div class="daohuo_add_solo">
                         <label class="colorred">*车号：</label>
                         <input type="text" id="add_vehicle"  placeholder="请选择车号">
@@ -258,6 +258,6 @@
 <jsp:include page="../../common/base/footer_busi.jsp"></jsp:include>
 <script type="text/javascript" src="${staticBasePath}/js/cardReader.js"></script>
 <script type="text/javascript"
-		src="/javascript/businessManage/otherManage/otherCLArrive_edit.js"></script>
+		src="/javascript/businessManage/otherManage/otherCLArrive_edit.js?1221"></script>
 </body>
 </html>

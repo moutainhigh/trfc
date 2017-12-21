@@ -491,7 +491,7 @@ $(function() {
 				+'<td '+color1+'>'+(auditstatus || '')+'</td>'
 				+'<td '+color2+'>'+(obj.forceOutFactory == '1' ? '强制出厂' : STATUS[obj.status] || '')+'</td>'
 				+'<td>'+(obj.vehicleno || '')+'</td>'
-				+'<td>'+(obj.materielname || '')+'</td>'
+/*				+'<td>'+(obj.materielname || '')+'</td>'*/
 				+'<td>'+(obj.drivername || '')+'</td>'
 				+'<td>'+(obj.driveridentityno || '')+'</td>'
 				+'<td>'+(obj.creatorname || '')+'</td>'

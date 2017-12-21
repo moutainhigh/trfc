@@ -15,11 +15,11 @@ import com.tianrui.smartfactory.common.utils.DateUtil;
 import com.tianrui.smartfactory.common.utils.Md5Utils;
 
 @SuppressWarnings("unused")
-public class TestApiDoorSystem {
+public class TestApiDoorLeaveCheckSystem {
 
 	private static String domin = "http://localhost/";
 	//private static String domin = "http://172.19.4.97:28080/";
-	private static String uri_enterFactoryCheck = "api/doorSystem/enterFactoryCheck";
+	private static String uri_enterFactoryCheck = "api/doorSystem/leaveFactoryCheck";
 	
 	public static void main(String[] args) throws Exception {
 		URL url = new URL(domin + uri_enterFactoryCheck);

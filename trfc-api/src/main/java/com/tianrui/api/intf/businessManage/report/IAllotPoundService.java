@@ -69,4 +69,18 @@ public interface IAllotPoundService {
 	 * @throws Exception
 	 */
 	List<InOutDaoPoundMaterResp> materVehiclenoList(InOutDaoPoundQuery query) throws Exception;
+	/**
+	 * 调拨逐车物料调入调出堆场统计分页
+	 * @param query
+	 * @return
+	 * @throws Exception
+	 */
+	PaginationVO<InOutDaoPoundMaterResp> materDrDcPage(InOutDaoPoundQuery query) throws Exception;
+	/**
+	 * 调拨逐车物料调入调出堆场统计返回全部
+	 * @param query
+	 * @return
+	 * @throws Exception
+	 */
+	List<InOutDaoPoundMaterResp> materDrDcList(InOutDaoPoundQuery query) throws Exception;
 }

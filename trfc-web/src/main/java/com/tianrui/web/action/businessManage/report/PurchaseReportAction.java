@@ -267,5 +267,48 @@ public class PurchaseReportAction {
 		}
 		return result;
 	}
+	/**
+	 *  矿口汇总表（矿口不为空）
+	 * @param req
+	 * @return
+	 */
+	@RequestMapping("/minemouthnamePage")
+	@ResponseBody
+	public Result minemouthnamePage(ReportPurchaseQuery req,HttpServletRequest request){
+		Result result = Result.getSuccessResult();
+		try {
+			SystemUserResp user = SessionManager.getSessionUser(request);
+			if(req==null){
+				req =new ReportPurchaseQuery();
+			}
+			req.setCurrUid(user.getId());
+			PaginationVO<ReportPurchaseMaterResp> page = purchaseReportService.minemouthnamePage(req);
+			result.setData(page);
+			result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
+		}
+		return result;
+	}
 	
+	@RequestMapping("/minemouthnameList")
+	@ResponseBody
+	public Result minemouthnameList(ReportPurchaseQuery req,HttpServletRequest request){
+		Result result = Result.getSuccessResult();
+		try {
+			SystemUserResp user = SessionManager.getSessionUser(request);
+			if(req==null){
+				req =new ReportPurchaseQuery();
+			}
+			req.setCurrUid(user.getId());
+			List<ReportPurchaseMaterResp> list = purchaseReportService.minemouthnameList(req);
+			result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+			result.setData(list);
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
+		}
+		return result;
+	}
 }

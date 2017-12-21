@@ -202,4 +202,20 @@ public class AssayReportAction {
 		}
 		return rs;
 	}
+	/**
+	 * @throws Exception 
+	 * 根据批号id查询报告天数
+	 * @Title: selectBatchnumid 
+	 * @Description: TODO
+	 * @param @return   
+	 * @return Result    
+	 * @throws
+	 */
+	@ResponseBody
+	@RequestMapping("/selectBatchnumid")
+	public Result selectBatchnumid(AssayReportReq req ) throws Exception {
+		Result rs = Result.getSuccessResult();
+		rs =assayReportService.selectBatchnumid(req);
+		return rs;
+	}
 }

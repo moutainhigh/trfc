@@ -94,7 +94,7 @@ $(function(){
 			dataType : 'json',
 			type : 'post',
 			success : function(result) {
-				if (result.code = '000000') {
+				if (result.code == '000000') {
 //					$("#add_materialtype").val(result.data.materialtype||"");
 					$('#add_materialtype').val(result.data.materialtype).attr('mschemeid',result.data.id);
 					$("#add_strength").val(result.data.strength||"");
