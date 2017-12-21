@@ -144,7 +144,7 @@
     <div class="wuliao_opera" style="position:relative;">
         <div class="wuliao_tab tj_tab">
             <ul id="ulM">
-            	<li id="mineMouthSummary" data-type="4">矿口汇总</li>
+            	<li id="mineMouthSummary" data-type="5">矿口汇总</li>
             	<li id="buyAdd" data-type="0">采购补增</li>
                 <li id="buyCar" data-type="1">采购逐车</li>
                 <li id="unit" data-type="2">单位统计</li>
