@@ -218,7 +218,7 @@
 								.append('<td>'+(list[i].sumGrossweight||"")+'</td>')
 								.append('<td>'+(list[i].sumTareweight||"")+'</td>')
 								.append('<td>'+(list[i].sumNetweight||"")+'</td>')
-	        	                .appendTo('#RMgB');
+	        	                .appendTo('#RMgF');
 	        	            }       	
 	                }
 	            }
@@ -345,6 +345,7 @@
 		searchData(1);
 		var clock1=document.getElementById("clock1").value;
 		var clock2=document.getElementById("clock2").value;
+		if(clock1!==""&&clock2!==""){
 		document.querySelector(".clocka").innerHTML=clock1.slice(0,10);
 		document.querySelector(".clockb").innerHTML=clock2.slice(0,10);
 		document.querySelector(".clock6").innerHTML=clock1.slice(0,10);
@@ -355,6 +356,9 @@
 		document.querySelector(".clock13").innerHTML=clock2.slice(0,10);
 		document.querySelector(".clock3").innerHTML=clock1.slice(0,10);
 		document.querySelector(".clock4").innerHTML=clock2.slice(0,10);
+		document.querySelector(".clock15").innerHTML=clock1.slice(0,10);
+		document.querySelector(".clock16").innerHTML=clock2.slice(0,10);
+		}
 	});
 	$('#clean').off('click').on('click',function(){
 		clean();

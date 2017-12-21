@@ -8,7 +8,10 @@
 			allotMaterDCUrl:"/trfc/allotPound/allotMaterDCPage",//调出堆场
 			allotMaterDCListUrl:"/trfc/allotPound/allotMaterDCList",
 			allotMaterVeUrl:"/trfc/allotPound/allotMaterVePage",//物料车号
-			allotMaterVeListUrl:"/trfc/allotPound/allotMaterVeList"
+			allotMaterVeListUrl:"/trfc/allotPound/allotMaterVeList",
+			allotMaterDrDcUrl:"/trfc/allotPound/allotMaterDrDcPage",//调入调出
+			allotMaterDrDcListUrl:"/trfc/allotPound/allotMaterDrDcList",
+				
 	};
 	init();
 	function init(){
@@ -53,6 +56,14 @@
 		queryData4(1);
 		
 	});
+	$('#yard').off('click').on('click',function(){
+		$('input#jumpPageNo').val('');
+	    $(".wuliao_tabcont").hide();
+		$(".hide_yard").show();
+		$("#tag_display_leave").removeClass("displayNone");
+		$("#tag_display_enter").removeClass("displayNone");
+		queryData5(1);	
+	});
 	
 	$("#allExport1").off('click').on('click',function(){
 		commonList();
@@ -70,6 +81,10 @@
 		commonList2();
 		method('.tableExcelD');
 	})
+	$("#allExport5").off('click').on('click',function(){
+		commonList5();
+		method('.tableExcelE');
+	})
 	
 //	// 物料的四个tab切换菜单
 	var wl_li = $('.wuliao_tab ul li');
@@ -78,6 +93,32 @@
 	    var index = wl_li.index(this);
 //	    $('.wuliao_tabbox > .wuliao_tabcont').eq(index).show().siblings().hide();
 	});
+	
+	//调入调出堆场
+	function commonList5(){
+		$.ajax({
+            url:URL.allotMaterDrDcListUrl,
+            async:false,
+            cache:false,
+            dataType:'json',
+            type:'post',
+            success:function(result){
+                if(result.code == '000000'){
+                console.log(result.data)           	
+                	$('#RMgE').empty();
+        	        var list = result.data||[];
+        	            for(var i=0;i<list.length;i++){
+        	            	$('<tr>').append('<td>'+(list[i].materialname|"")+'</td>')
+							.append('<td>'+(list[i].enteryardname||"")+'</td>')
+							.append('<td>'+(list[i].leaveyardname||"")+'</td>')
+							.append('<td>'+(list[i].countVehicleNo||"")+'</td>')
+							.append('<td>'+(list[i].sumNetweight||"")+'</td>')												
+        	                .appendTo('#RMgE');
+        	            }       	
+                }
+            }
+        });
+	}
 	
 	//场内倒运
 	function commonList(){
@@ -132,7 +173,7 @@
             success:function(result){
                 if(result.code == '000000'){
                 console.log(result.data)           	
-                	$('#RMgB').empty();
+                	$('#RMgD').empty();
         	        var list = result.data||[];
         	            for(var i=0;i<list.length;i++){
         	            	$('<tr>').append('<td>'+(list[i].materialname|"")+'</td>')
@@ -209,6 +250,9 @@
 		if(type==3){
 			queryData(pageNo);
 		}
+		if(type==4){
+			queryData5(pageNo);
+		}
 	}
 	
 	$('#searchBtn').off('click').on('click',function(){
@@ -216,6 +260,7 @@
 		bbgClick();
 		var clock1=document.getElementById("clock1").value;
 		var clock2=document.getElementById("clock2").value;
+		if(clock1!==""&&clock2!==""){
 		document.querySelector(".clock9").innerHTML=clock1.slice(0,10);
 		document.querySelector(".clock10").innerHTML=clock2.slice(0,10);
 		document.querySelector(".clock12").innerHTML=clock1.slice(0,10);
@@ -226,6 +271,9 @@
 		document.querySelector(".clock7").innerHTML=clock2.slice(0,10);
 		document.querySelector(".clock9").innerHTML=clock1.slice(0,10);
 		document.querySelector(".clock10").innerHTML=clock2.slice(0,10);
+		document.querySelector(".clock15").innerHTML=clock1.slice(0,10);
+		document.querySelector(".clock16").innerHTML=clock2.slice(0,10);
+		}
 	});
 	$('#clean').off('click').on('click',function(){
 		clean();
@@ -615,6 +663,84 @@
 				.append('<td>'+(str2.toFixed(2))+'</td>')
 				.appendTo('#RMg2');
 				
+			}else if(list.length<=0){
+				layer.msg('暂无数据');
+//				$('#dataMore').hide();
+			}
+		}
+//		调入调出堆场
+		function queryData5(pageNo){
+			var index = layer.load(2, {
+			  shade: [0.3,'#fff'] //0.1透明度的白色背景
+			});
+			var params = getParams();
+			params.pageNo = pageNo;
+			$.ajax({
+				url:URL.allotMaterDrDcUrl,
+				data:params,
+				async:true,
+				cache:false,
+				dataType:'json',
+				type:'post',
+				success:function(result){
+					if(result.code == '000000'){
+						renderHtml5(result.data);
+						var total = result.data.total;
+						var pageNo = result.data.pageNo;
+						var pageSize = result.data.pageSize;
+						$('#total').html(total);
+						$('#jumpPageNo').attr('maxPageNo',parseInt((total+pageSize-1)/pageSize));
+						$("#pagination").pagination(total, {
+						    callback: function(pageNo){
+								queryData5(pageNo+1);
+							},
+						    prev_text: '上一页',
+						    next_text: '下一页',
+						    items_per_page:pageSize,
+						    num_display_entries:4,
+						    current_page:pageNo-1,
+						    num_edge_entries:1,
+						    maxentries:total,
+						    link_to:"javascript:void(0)"
+						});
+					}else{
+						layer.msg(result.error);
+					}
+					layer.close(index);
+				}
+			});
+		}
+		//过磅单号   通知单号   发货单位   收货单位     仓库  物料    车号   毛重    皮重    净重      轻车时间   重车时间  
+		function renderHtml5(data){
+			$('#RMg4').empty();
+			var list = data.list||[];
+			if(list && list.length>0){
+				var str1=0,str2=0;
+				for(var i=0;i<list.length;i++){
+					if(Number(list[i].countVehicleNo)!=NaN){
+						str1+=list[i].countVehicleNo;
+					}else{
+						str1+="";
+					}
+					if(Number(list[i].sumNetweight)!=NaN){
+						str2+=list[i].sumNetweight;
+					}else{
+						str2+="";
+					}
+					
+					$('<tr>').append('<td>'+(list[i].materialname||"")+'</td>')
+					.append('<td>'+(list[i].enteryardname||"")+'</td>')
+					.append('<td>'+(list[i].leaveyardname||"")+'</td>')
+					.append('<td>'+(list[i].countVehicleNo||"")+'</td>')
+					.append('<td>'+(list[i].sumNetweight||"")+'</td>')	
+							.appendTo('#RMg5');
+				}
+				$('<tr>').append('<td>总计</td>')
+				.append('<td>'+("---")+'</td>')
+				.append('<td>'+("---")+'</td>')
+				.append('<td>'+(str1.toFixed(2))+'</td>')
+				.append('<td>'+(str2.toFixed(2))+'</td>')	
+				.appendTo('#RMg5');
 			}else if(list.length<=0){
 				layer.msg('暂无数据');
 //				$('#dataMore').hide();

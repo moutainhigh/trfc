@@ -136,6 +136,7 @@
     <div class="wuliao_opera" style="position:relative;">
         <div class="wuliao_tab tj_tab">
             <ul>  
+            	<li id="yard" data-type="4">调出调入</li>
             	<li id="unit" data-type="0">物料车号</li>
             	<li id="receive" data-type="1">调出堆场</li>
             	<li id="thing" data-type="2">调入堆场</li>
@@ -143,6 +144,81 @@
             </ul>
         </div>
         <div class="wuliao_tabbox">
+        <div class="wuliao_tabcont hide_yard">
+                <div class="intel_table">
+                 <div style="position: absolute;left:0px;top:0px;">
+						  <div class="intel_operasolo" id="allExport5">
+						        <i class="iconfont" style="color: #0174c3;font-size: 25px;margin-left: 22px">&#xe63c;</i>
+						        <p>导出全部</p>
+						    </div>					
+						    <div class="intel_operasolo" onclick="method('.tableExcel5')">
+						        <i class="iconfont" style="color: #0174c3;font-size: 25px;margin-left: 22px">&#xe63c;</i>
+						        <p>导出当前页</p>
+						    </div>
+						    <div class="intel_operasolo" onclick="preview5()">
+						        <a data-toggle="modal" data-target="#add">
+						            <i class="iconfont" style="color: #7fe29f;font-size: 25px;margin-left: 22px">&#xe726;</i>
+						            <p>打印当前页</p>
+						        </a>
+						    </div>
+                        </div>
+                    <!--startprint5-->
+                    <div class="intel_table" style="border:1px solid #dbe7f3;margin-top: 20px">
+                        <!--用户表格begin-->
+                        <table class="tableExcel3" width="100%" border="1" cellspacing="0" cellpadding="0">
+                            <thead>
+                            <tr>
+                                <td colspan="5" align="center" style="color:#434e8d;font-size: 40px;line-height:normal">
+                               	裕泰调拨物料调入调出堆场统计
+                                    <p class="biobiaop" style="margin-top: 10px">
+                                    <span class="clock15"></span>至<span class="clock16"></span>
+                                    </p>
+                                    <p class="biobiaop" style="margin-bottom: 10px">条件：<span class="bbg_tiaojian5"></span></p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th style="font-size: 20px">物料</th>
+                                <th style="font-size: 20px">调入堆场</th>
+                                <th style="font-size: 20px">调出堆场</th>
+                                <th style="font-size: 20px">车数</th> 
+                                <th style="font-size: 20px">净重</th>
+                            </tr>
+                            </thead>
+                            <tbody id="RMg5">
+                            
+                            </tbody>
+                        </table>
+                        <div style="font-size: 20px;margin: 30px">制表时间：<span class="clock17"></span>
+                         
+                        </div>
+                        <!--用户表格end-->
+                    </div>
+                    <!--endprint5-->
+                    <!-- 全部导出begin -->
+                     <div style="display: none;text-indent:-9999px;height: 0px !important;" class="intel_table" style="border:1px solid #dbe7f3;margin-top: 20px">
+                        <table class="tableExcelE" width="100%" border="1" cellspacing="0" cellpadding="0">
+                            <thead>
+                            <tr>
+                                <td colspan="5" align="center" style="color:#434e8d;font-size: 40px;line-height:normal">
+                           			       裕泰调拨物料调入堆场统计     
+                                </td>
+                            </tr>
+                            <tr>
+                                 		<th style="font-size: 20px">物料</th>
+                                        <th style="font-size: 20px">调入堆场</th>
+                                        <th style="font-size: 20px">调出堆场</th>
+                                        <th style="font-size: 20px">车数</th> 
+                                        <th style="font-size: 20px">净重</th>
+                            </tr>
+                            </thead>
+                            <tbody id="RMgE">
+                            
+                            </tbody>
+                        </table>                  
+                    </div>
+                   <!--  全部导出end -->
+                </div>
+            </div>
          	<div class="wuliao_tabcont hide_unit hide">
                 <div class="intel_table">
                  <div style="position: absolute;left:0px;top:0px;">
