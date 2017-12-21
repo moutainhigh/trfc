@@ -5,7 +5,9 @@ import java.util.List;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.tianrui.api.req.businessManage.app.AppOrderReq;
+import com.tianrui.api.req.businessManage.salesManage.CkdStatusCallBackReq;
 import com.tianrui.api.req.businessManage.salesManage.SalesApplicationQuery;
+import com.tianrui.api.req.businessManage.salesManage.SalesApplicationReturnErrorReq;
 import com.tianrui.api.req.businessManage.salesManage.SalesApplicationSave;
 import com.tianrui.api.req.dc.BillValidReq;
 import com.tianrui.api.resp.businessManage.app.AppOrderResp;
@@ -79,5 +81,19 @@ public interface ISalesApplicationService {
 	 * @throws Exception 
 	 */
 	Result pushSalesTofc(JSONArray array) throws Exception;
+	/**
+	 * @annotation NC自制DC-NC推单状态回写
+	 * @param req
+	 * @return
+	 * @throws Exception 
+	 */
+	Result bill_dc2nc_callback(SalesApplicationReturnErrorReq req) throws Exception;
+	/**
+	 * @annotation 销售出库单DC推送NC回调
+	 * @param req
+	 * @return
+	 * @throws Exception 
+	 */
+	Result ckd_dc2nc_callback(CkdStatusCallBackReq req) throws Exception;
 
 }

@@ -44,6 +44,7 @@ $(function(){
 	$('#jumpButton').click(jumpPageAction);
 	$('#select_list').on('dblclick','tr',function(){
 		var obj = $(this).data('obj');
+		$('#add_batchcode').val(obj.factorycode).attr('batchnumid',obj.id);
 		selectBatchnumid(obj.id,obj.factorycode);
 		
 		$('#add_producedtime').val(getNowFormatDate(false,obj.producedtime));
@@ -67,15 +68,15 @@ $(function(){
 						for(var i=0;i<list.length;i++){
 							var obj = list[i];
 							if(obj.reporttype=='0'){
-								$('#add_batchcode').val(factorycode).attr('batchnumid',obj.id);
+//								$('#add_batchcode').val(factorycode).attr('batchnumid',obj.id);
 								$("#reporttype").val('1').attr('selected',true);
 							}else{
-								$('#add_batchcode').val(factorycode).attr('batchnumid',obj.id);
+//								$('#add_batchcode').val(factorycode).attr('batchnumid',obj.id);
 								$("#reporttype").val('0').attr('selected',true);
 							}
 						}
 					}else{
-						$('#add_batchcode').val(factorycode).attr('batchnumid',batchnumid);
+//						$('#add_batchcode').val(factorycode).attr('batchnumid',batchnumid);
 					}
 				}else{
 					layer.msg(result.error,{icon:5});

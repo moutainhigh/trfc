@@ -96,13 +96,23 @@ public class AssayReportService implements IAssayReportService {
 			//设置为 正常状态
 			report.setState("1");
 			report.setReporttype(req.getReporttype());
-			//保存数据到数据库
-			int index = assayReportMapper.insertSelective(report);
-			//判断操作是否成功
-			if(index>0 && saveTestval(req)>0){
-				rs = Result.getSuccessResult();
+			//校验批号报告唯一
+			AssayReportReq r =new AssayReportReq();
+			r.setBatchnumid(req.getBatchnumid());
+			r.setReporttype(req.getReporttype());
+			int a =assayReportMapper.count(r);
+			if(a>0){
+				rs.setCode("111111");
+				rs.setError("请确认批号或者报告是否已存在！");
 			}else{
-				rs.setErrorCode(ErrorCode.OPERATE_ERROR);
+				//保存数据到数据库
+				int index = assayReportMapper.insertSelective(report);
+				//判断操作是否成功
+				if(index>0 && saveTestval(req)>0){
+					rs = Result.getSuccessResult();
+				}else{
+					rs.setErrorCode(ErrorCode.OPERATE_ERROR);
+				}
 			}
 		}
 		return rs;

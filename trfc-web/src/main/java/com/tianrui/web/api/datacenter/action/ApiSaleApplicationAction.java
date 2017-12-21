@@ -13,7 +13,9 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.tianrui.api.intf.businessManage.salesManage.ISalesApplicationService;
+import com.tianrui.api.req.businessManage.salesManage.CkdStatusCallBackReq;
 import com.tianrui.api.req.businessManage.salesManage.SalesApplicationQuery;
+import com.tianrui.api.req.businessManage.salesManage.SalesApplicationReturnErrorReq;
 import com.tianrui.api.req.dc.BillValidReq;
 import com.tianrui.smartfactory.common.api.ApiParam;
 import com.tianrui.smartfactory.common.api.ApiResult;
@@ -167,6 +169,44 @@ public class ApiSaleApplicationAction {
 		JSONArray array = req.getBody();
 		try {
 			rs = salesApplicationService.pushSalesTofc(array);
+		} catch (Exception e) {
+			rs.setErrorCode(ErrorCode.SYSTEM_ERROR);
+			log.error(e.getMessage(),e);
+		}
+		return ApiResult.valueOf(rs);
+	}
+	
+	/**
+	 * NC自制DC-NC推单状态回写
+	 * @param req
+	 * @return
+	 */
+	@RequestMapping(value="/bill/dc2nc/callback",method=RequestMethod.POST)
+	@ApiParamRawType(SalesApplicationReturnErrorReq.class)
+	@ResponseBody
+	public ApiResult bill_dc2nc_callback(ApiParam<SalesApplicationReturnErrorReq> req){
+		Result rs = Result.getErrorResult();
+		try {
+			rs = salesApplicationService.bill_dc2nc_callback(req.getBody());
+		} catch (Exception e) {
+			rs.setErrorCode(ErrorCode.SYSTEM_ERROR);
+			log.error(e.getMessage(),e);
+		}
+		return ApiResult.valueOf(rs);
+	}
+	
+	/**
+	 * 销售出库单DC推送NC回调
+	 * @param req
+	 * @return
+	 */
+	@RequestMapping(value="/ckd/dc2nc/callback",method=RequestMethod.POST)
+	@ApiParamRawType(CkdStatusCallBackReq.class)
+	@ResponseBody
+	public ApiResult ckd_dc2nc_callback(ApiParam<CkdStatusCallBackReq> req){
+		Result rs = Result.getErrorResult();
+		try {
+			rs = salesApplicationService.ckd_dc2nc_callback(req.getBody());
 		} catch (Exception e) {
 			rs.setErrorCode(ErrorCode.SYSTEM_ERROR);
 			log.error(e.getMessage(),e);

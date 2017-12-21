@@ -754,7 +754,7 @@ public class PoundNoteService implements IPoundNoteService {
 						SalesOutboundOrder order = new SalesOutboundOrder();
 						order.setId(UUIDUtil.getId());
 						order.setCode(code);
-						order.setNcId(billid);
+						order.setNcId(application.getNcId());
 						order.setPoundId(bean.getId());
 						order.setBilldate(DateUtil.parse(application.getBilltime(), "yyyy-MM-dd HH:mm:ss"));
 						order.setPkOrg(application.getOrgid());
@@ -793,7 +793,7 @@ public class PoundNoteService implements IPoundNoteService {
 						netWeight -= unstoragequantity;
 						orderItem.setTs(order.getTs());
 						orderItem.setCreateTime(System.currentTimeMillis());
-						orderItem.setNcId(application.getId());
+						orderItem.setNcId(applicationDetail.getNcId());
 						orderItem.setPnCode(bean.getCode());
 						orderItem.setGrossWeight(bean.getGrossweight());
 						orderItem.setTareWeight(bean.getTareweight());

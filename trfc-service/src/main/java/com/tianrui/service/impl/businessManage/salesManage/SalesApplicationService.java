@@ -21,8 +21,10 @@ import com.tianrui.api.intf.businessManage.salesManage.ISalesApplicationService;
 import com.tianrui.api.intf.system.base.ISystemCodeService;
 import com.tianrui.api.req.businessManage.app.AppOrderReq;
 import com.tianrui.api.req.businessManage.purchaseManage.PushSingleReq;
+import com.tianrui.api.req.businessManage.salesManage.CkdStatusCallBackReq;
 import com.tianrui.api.req.businessManage.salesManage.SalesApplicationDetailQuery;
 import com.tianrui.api.req.businessManage.salesManage.SalesApplicationQuery;
+import com.tianrui.api.req.businessManage.salesManage.SalesApplicationReturnErrorReq;
 import com.tianrui.api.req.businessManage.salesManage.SalesApplicationSave;
 import com.tianrui.api.req.dc.BillValidReq;
 import com.tianrui.api.req.system.base.GetCodeReq;
@@ -38,11 +40,13 @@ import com.tianrui.service.bean.basicFile.nc.CustomerManage;
 import com.tianrui.service.bean.basicFile.nc.MaterielManage;
 import com.tianrui.service.bean.basicFile.nc.WarehouseManage;
 import com.tianrui.service.bean.businessManage.otherManage.OtherArrive;
+import com.tianrui.service.bean.businessManage.poundNoteMaintain.PoundNote;
 import com.tianrui.service.bean.businessManage.purchaseManage.PurchaseArrive;
 import com.tianrui.service.bean.businessManage.salesManage.SalesApplication;
 import com.tianrui.service.bean.businessManage.salesManage.SalesApplicationArrive;
 import com.tianrui.service.bean.businessManage.salesManage.SalesApplicationDetail;
 import com.tianrui.service.bean.businessManage.salesManage.SalesArrive;
+import com.tianrui.service.bean.businessManage.salesManage.SalesOutboundOrder;
 import com.tianrui.service.bean.system.auth.Organization;
 import com.tianrui.service.bean.system.auth.SmUser;
 import com.tianrui.service.bean.system.auth.SystemUser;
@@ -52,11 +56,13 @@ import com.tianrui.service.mapper.basicFile.nc.CustomerManageMapper;
 import com.tianrui.service.mapper.basicFile.nc.MaterielManageMapper;
 import com.tianrui.service.mapper.basicFile.nc.WarehouseManageMapper;
 import com.tianrui.service.mapper.businessManage.otherManage.OtherArriveMapper;
+import com.tianrui.service.mapper.businessManage.poundNoteMaintain.PoundNoteMapper;
 import com.tianrui.service.mapper.businessManage.purchaseManage.PurchaseArriveMapper;
 import com.tianrui.service.mapper.businessManage.salesManage.SalesApplicationArriveMapper;
 import com.tianrui.service.mapper.businessManage.salesManage.SalesApplicationDetailMapper;
 import com.tianrui.service.mapper.businessManage.salesManage.SalesApplicationMapper;
 import com.tianrui.service.mapper.businessManage.salesManage.SalesArriveMapper;
+import com.tianrui.service.mapper.businessManage.salesManage.SalesOutboundOrderMapper;
 import com.tianrui.service.mapper.system.auth.OrganizationMapper;
 import com.tianrui.service.mapper.system.auth.SmUserMapper;
 import com.tianrui.service.mapper.system.auth.SystemUserMapper;
@@ -110,6 +116,10 @@ public class SalesApplicationService implements ISalesApplicationService {
 	private SystemUserMapper systemUserMapper;
 	@Autowired
 	private IPushSingleService pushSingleService;
+	@Autowired
+	private SalesOutboundOrderMapper salesOutboundOrderMapper;
+	@Autowired
+	private PoundNoteMapper poundNoteMapper;
 	
 	@Override
 	public PaginationVO<SalesApplicationResp> page(SalesApplicationQuery query) throws Exception{
@@ -1277,5 +1287,83 @@ public class SalesApplicationService implements ISalesApplicationService {
 			}
 		}
 		return list;		
+	}
+
+	@Override
+	public Result bill_dc2nc_callback(SalesApplicationReturnErrorReq req) throws Exception {
+		Result result = Result.getParamErrorResult();
+		if (req != null && StringUtils.isNotBlank(req.getStatus())
+				&& StringUtils.isNotBlank(req.getMessage())
+				&& StringUtils.isNotBlank(req.getBillId())
+				&& StringUtils.isNotBlank(req.getBillDetailId())) {
+			SalesApplication sa = salesApplicationMapper.selectByPrimaryKey(req.getBillId());
+			if (sa !=null) {
+				PushSingleReq ps = new PushSingleReq();
+				ps.setId(UUIDUtil.getId());
+				ps.setRequisitionNum(sa.getCode());
+				ps.setPushStatus(Constant.THREE_STRING);
+				ps.setRequisitionType(Constant.TWO_STRING);
+				ps.setReasonFailure(req.getMessage());
+				ps.setCreator("DC");
+				ps.setCreatetime(System.currentTimeMillis());
+				ps.setModifier("DC");
+				ps.setModifytime(System.currentTimeMillis());
+				ps.setDesc1(req.getStatus());
+				ps.setDesc2(Constant.ONE_STRING);
+				pushSingleService.savePushSingle(ps);
+				result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+			} else {
+				result.setErrorCode(ErrorCode.APPLICATION_NOT_EXIST);
+			}
+		}
+		return result;
+	}
+
+	@Override
+	public Result ckd_dc2nc_callback(CkdStatusCallBackReq req) throws Exception {
+		Result result = Result.getParamErrorResult();
+		if (req != null && StringUtils.isNotBlank(req.getId())
+				&& StringUtils.isNotBlank(req.getNcId())
+				&& StringUtils.isNotBlank(req.getStatus())
+				&& StringUtils.isNotBlank(req.getMessage())
+				&& StringUtils.isNotBlank(req.getTs())) {
+			SalesOutboundOrder order = salesOutboundOrderMapper.selectByPrimaryKey(req.getId());
+			if (order != null) {
+				PoundNote pn = poundNoteMapper.selectByPrimaryKey(order.getPoundId());
+				PushSingleReq ps = new PushSingleReq();
+				ps.setId(UUIDUtil.getId());
+				ps.setRequisitionNum(pn.getBillcode());
+				ps.setNoticeNum(pn.getNoticecode());
+				ps.setRequisitionType(Constant.FIVE_STRING);
+				ps.setLightCarTime(pn.getLighttime());
+				ps.setHeavyCarTime(pn.getWeighttime());
+				ps.setNetWeight(pn.getNetweight().toString());
+				ps.setCreatetime(System.currentTimeMillis());
+				ps.setModifytime(System.currentTimeMillis());
+				ps.setDesc1(req.getStatus());
+				ps.setReasonFailure(req.getMessage());
+				ps.setDesc2(Constant.ONE_STRING);
+				if (StringUtils.equals(req.getStatus(), ErrorCode.SYSTEM_SUCCESS.getCode())) {
+					//成功
+					ps.setPushStatus(Constant.TWO_STRING);
+					//出库单状态修改为 已推单
+					order.setCkdNcid(req.getNcId());
+					order.setStatus(Constant.ONE_STRING);
+					order.setTs(req.getTs());
+					salesOutboundOrderMapper.updateByPrimaryKeySelective(order);
+					pn.setReturnstatus(Constant.TWO_STRING);
+					pn.setModifytime(System.currentTimeMillis());
+					poundNoteMapper.updateByPrimaryKeySelective(pn);
+				} else {
+					//失败
+					ps.setPushStatus(Constant.THREE_STRING);
+				}
+				pushSingleService.savePushSingle(ps);
+				result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+			} else {
+				result.setErrorCode(ErrorCode.SALES_OUT_BOUND_NOT_EXIST);
+			}
+		}
+		return result;
 	}
 }
