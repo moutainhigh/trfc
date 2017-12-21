@@ -79,10 +79,26 @@ public class PushSingleService implements IPushSingleService{
 	public Result savePushSingle(PushSingleReq pushSingle) throws Exception {
 		Result rs =Result.getSuccessResult();
 		// TODO Auto-generated method stub
-		int a =pushSingleMapper.insertSelective(pushSingle);
-		if(a!=1){
-			rs.setCode("111111");
-			rs.setError("推送管理日志保存失败！");
+		PushSingleReq pr = new PushSingleReq();
+		pr.setRequisitionNum(pushSingle.getRequisitionNum());
+		pr.setNoticeNum(pushSingle.getNoticeNum());
+		pr.setRequisitionType(pushSingle.getRequisitionType());
+		pr.setDesc2(pushSingle.getDesc2());
+		PushSingle push =pushSingleMapper.findReasonFailure(pr);//查询该日志
+		if(push==null){//判断该日志是否存在 
+			//该日志不存在，新增一条日志
+			int a =pushSingleMapper.insertSelective(pushSingle);
+			if(a!=1){
+				rs.setCode("111111");
+				rs.setError("推送管理日志保存失败！");
+			}
+		}else{
+			//该日志已存在  修改该条日志
+			int a =pushSingleMapper.updateByPrimaryKeySelective(pushSingle);
+			if(a!=1){
+				rs.setCode("111111");
+				rs.setError("推送管理日志修改失败！");
+			}
 		}
 		return rs;
 	}
