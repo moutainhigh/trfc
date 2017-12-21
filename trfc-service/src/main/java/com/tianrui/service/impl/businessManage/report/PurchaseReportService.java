@@ -15,7 +15,6 @@ import com.tianrui.api.resp.businessManage.report.ReportPurchaseMaterResp;
 import com.tianrui.api.resp.businessManage.report.ReportPurchaseResp;
 import com.tianrui.service.bean.businessManage.report.ReportPurchase;
 import com.tianrui.service.mapper.businessManage.report.ReportPurchaseMapper;
-import com.tianrui.smartfactory.common.utils.DateUtil;
 import com.tianrui.smartfactory.common.vo.PaginationVO;
 
 @Service
@@ -331,6 +330,43 @@ public class PurchaseReportService implements IPurchaseReportService {
 		}
 		if( !CollectionUtils.isNotEmpty(rs) ){
 			rs =new ArrayList<ReportPurchaseResp>();
+		}
+		return rs;
+	}
+
+	@Override
+	public PaginationVO<ReportPurchaseMaterResp> minemouthnamePage(ReportPurchaseQuery reportPurchaseQuery) throws Exception {
+		 PaginationVO<ReportPurchaseMaterResp> page = null;
+		 if (reportPurchaseQuery !=null ) {
+			ReportPurchase query = queryParam(reportPurchaseQuery,true);
+			if (query !=null) {
+				page = new PaginationVO<ReportPurchaseMaterResp>();
+				//查询总数
+				Long count = reportPurchaseMapper.countByConditionForMinemouthname(query);
+				if (count >0) {
+					page.setList(reportPurchaseMapper.selectByConditionForMinemouthname(query));
+				}
+				//返回结果参数补全
+				page.setPageNo(reportPurchaseQuery.getPageNo());
+				page.setPageSize(reportPurchaseQuery.getPageSize());
+				page.setTotal(count);
+			}
+		}
+		return page;
+	}
+
+	@Override
+	public List<ReportPurchaseMaterResp> minemouthnameList(ReportPurchaseQuery reportPurchaseQuery) throws Exception {
+		List<ReportPurchaseMaterResp> rs = null;
+		if (reportPurchaseQuery !=null) {
+			ReportPurchase query = queryParam(reportPurchaseQuery,false);
+			if (query !=null) {
+				rs = reportPurchaseMapper.selectByConditionForMinemouthname(query);
+			}
+			
+		}
+		if( !CollectionUtils.isNotEmpty(rs) ){
+			rs =new ArrayList<ReportPurchaseMaterResp>();
 		}
 		return rs;
 	}

@@ -30,4 +30,6 @@ public interface IPurchaseReportService {
 	//榜单补增
 	PaginationVO<ReportPurchaseResp> page4(ReportPurchaseQuery req) throws Exception;
 	List<ReportPurchaseResp> list4(ReportPurchaseQuery query) throws Exception;
+	PaginationVO<ReportPurchaseMaterResp> minemouthnamePage(ReportPurchaseQuery query) throws Exception;
+	List<ReportPurchaseMaterResp> minemouthnameList(ReportPurchaseQuery query) throws Exception;
 }

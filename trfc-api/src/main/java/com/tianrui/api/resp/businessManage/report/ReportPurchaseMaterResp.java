@@ -14,7 +14,8 @@ public class ReportPurchaseMaterResp {
     //  供应商名称
     private String suppliername;
 
-    
+    //  堆场名称
+    private String yardname;
     //  物料名称
     private String materialname;
     //  备注
@@ -114,6 +115,14 @@ public class ReportPurchaseMaterResp {
 
 	public void setCountVehicleNo(Integer countVehicleNo) {
 		this.countVehicleNo = countVehicleNo;
+	}
+
+	public String getYardname() {
+		return yardname;
+	}
+
+	public void setYardname(String yardname) {
+		this.yardname = yardname;
 	}
 
 
