@@ -119,7 +119,7 @@
 									<th>审核状态</th>
 									<th>单据状态</th>
 									<th>车号</th>
-									<th>物料</th>
+									<!-- <th>物料</th> -->
 									<th>司机</th>
 									<th>身份证</th>
 									<th>制单人</th>
@@ -225,6 +225,6 @@
 		<script type="text/javascript"
 			src="${staticBasePath}/js/cardReader.js"></script>
 		<script type="text/javascript"
-			src="/javascript/businessManage/otherManage/otherCLArrive.js"></script>
+			src="/javascript/businessManage/otherManage/otherCLArrive.js?1221"></script>
 </body>
 </html>
