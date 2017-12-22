@@ -41,7 +41,7 @@ import com.tianrui.smartfactory.common.utils.UUIDUtil;
 @Service
 public class PurchaseStorageListService implements IPurchaseStorageListService {
 
-	private Logger Logger = LoggerFactory.getLogger(PurchaseStorageListService.class);
+	private Logger log = LoggerFactory.getLogger(PurchaseStorageListService.class);
 
 	@Autowired
 	private PurchaseStorageListMapper purchaseStorageListMapper;
@@ -99,6 +99,7 @@ public class PurchaseStorageListService implements IPurchaseStorageListService {
 	public void returnPurchaseStorageList() throws Exception {
 		// 获取采购入库单数据 获取所有为推单的数据
 		List<PurchaseStorageList> list = getPurchaseStorageList();
+		log.info("采购入库单FC到DC待推送数据条数：" + (list !=null ? list.size() : 0) + "条");
 		List<SmUser> smUserList = null;
 		if (CollectionUtils.isNotEmpty(list)) {
 			List<PurchaseStorageList> subList = new ArrayList<PurchaseStorageList>();
@@ -133,7 +134,7 @@ public class PurchaseStorageListService implements IPurchaseStorageListService {
 							poundNoteMapper.updateByPrimaryKeySelective(pn);
 						}
 					} else {
-						Logger.info(ErrorCode.OPERATE_ERROR.getMsg());
+						log.info(ErrorCode.OPERATE_ERROR.getMsg());
 						ps.setPushStatus(Constant.THREE_STRING);
 					}
 					ps.setReasonFailure(apiResult.getError());
@@ -146,7 +147,7 @@ public class PurchaseStorageListService implements IPurchaseStorageListService {
 				pushSingleService.savePushSingle(ps);
 				subList.clear();
 			}
-			Logger.info("同步完成!");
+			log.info("同步完成!");
 		}
 	}
 
