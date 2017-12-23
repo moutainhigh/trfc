@@ -12,6 +12,7 @@ import com.tianrui.api.req.businessManage.purchaseManage.PushSingleReq;
 import com.tianrui.api.resp.businessManage.purchaseManage.PushSingleResp;
 import com.tianrui.service.bean.businessManage.purchaseManage.PushSingle;
 import com.tianrui.service.mapper.businessManage.purchaseManage.PushSingleMapper;
+import com.tianrui.smartfactory.common.constants.ErrorCode;
 import com.tianrui.smartfactory.common.vo.PaginationVO;
 import com.tianrui.smartfactory.common.vo.Result;
 
@@ -77,27 +78,45 @@ public class PushSingleService implements IPushSingleService{
 
 	@Override
 	public Result savePushSingle(PushSingleReq pushSingle) throws Exception {
-		Result rs =Result.getSuccessResult();
+		Result rs =Result.getParamErrorResult();
 		// TODO Auto-generated method stub
 		PushSingleReq pr = new PushSingleReq();
-		pr.setRequisitionNum(pushSingle.getRequisitionNum());
-		pr.setNoticeNum(pushSingle.getNoticeNum());
-		pr.setRequisitionType(pushSingle.getRequisitionType());
-		pr.setDesc2(pushSingle.getDesc2());
-		PushSingle push =pushSingleMapper.findReasonFailure(pr);//查询该日志
-		if(push==null){//判断该日志是否存在 
+		pr.setRequisitionNum(pushSingle.getRequisitionNum());//申请单号
+		pr.setNoticeNum(pushSingle.getNoticeNum());//通知单号
+		pr.setRequisitionType(pushSingle.getRequisitionType());//申请单类型
+		pr.setDesc2(pushSingle.getDesc2());//业务类型
+		List<PushSingle> pushList =pushSingleMapper.findReasonFailure(pr);//查询该日志
+		if(pushList!=null && !pushList.isEmpty()){//判断该日志是否存在 
+			//该日志已存在  修改该条日志
+			if(pushList.size()==1){
+				for(PushSingle push:pushList  ){
+					push.setRequisitionNum(pushSingle.getRequisitionNum());
+					push.setNoticeNum(pushSingle.getNoticeNum());
+					push.setPushStatus(pushSingle.getPushStatus());
+					push.setRequisitionType(pushSingle.getRequisitionType());
+					push.setReasonFailure(pushSingle.getReasonFailure());
+					push.setLightCarTime(pushSingle.getLightCarTime());
+					push.setHeavyCarTime(pushSingle.getHeavyCarTime());
+					push.setNetWeight(pushSingle.getNetWeight());
+					push.setCreatetime(pushSingle.getCreatetime());
+					push.setModifytime(pushSingle.getModifytime());
+					push.setDesc2(pushSingle.getDesc2());
+					push.setDesc1(pushSingle.getDesc1());
+					push.setCreator(pushSingle.getCreator());
+					push.setModifier(pushSingle.getModifier());
+					int a =pushSingleMapper.updateByPrimaryKeySelective(push);
+					if(a!=1){
+						rs.setErrorCode(ErrorCode.lOGE_UPDATE_ERROR);
+					}
+				}
+			}else{
+				rs.setErrorCode(ErrorCode.lOGE_UPDATE_ERROR);
+			}
+		}else{
 			//该日志不存在，新增一条日志
 			int a =pushSingleMapper.insertSelective(pushSingle);
 			if(a!=1){
-				rs.setCode("111111");
-				rs.setError("推送管理日志保存失败！");
-			}
-		}else{
-			//该日志已存在  修改该条日志
-			int a =pushSingleMapper.updateByPrimaryKeySelective(pushSingle);
-			if(a!=1){
-				rs.setCode("111111");
-				rs.setError("推送管理日志修改失败！");
+				rs.setErrorCode(ErrorCode.lOGE_SAVE_ERROR);
 			}
 		}
 		return rs;
@@ -111,17 +130,30 @@ public class PushSingleService implements IPushSingleService{
 		PushSingleReq p = new PushSingleReq();
 		p.setRequisitionNum(pushSingle.getRequisitionNum());
 		p.setNoticeNum(pushSingle.getNoticeNum());
-		PushSingle push =pushSingleMapper.findReasonFailure(p);
-		if(push!=null){
-			pushSingle.setId(push.getId());
-			int a =pushSingleMapper.updateByPrimaryKeySelective(pushSingle);
-			if(a!=1){
-				rs.setCode("111111");
-				rs.setError("推送管理日志修改失败！");
+		List<PushSingle> pushList =pushSingleMapper.findReasonFailure(p);
+		if(pushList!=null&&!pushList.isEmpty()){
+			for(PushSingle push:pushList ){
+				push.setRequisitionNum(pushSingle.getRequisitionNum());
+				push.setNoticeNum(pushSingle.getNoticeNum());
+				push.setPushStatus(pushSingle.getPushStatus());
+				push.setRequisitionType(pushSingle.getRequisitionType());
+				push.setReasonFailure(pushSingle.getReasonFailure());
+				push.setLightCarTime(pushSingle.getLightCarTime());
+				push.setHeavyCarTime(pushSingle.getHeavyCarTime());
+				push.setNetWeight(pushSingle.getNetWeight());
+				push.setCreatetime(pushSingle.getCreatetime());
+				push.setModifytime(pushSingle.getModifytime());
+				push.setDesc2(pushSingle.getDesc2());
+				push.setDesc1(pushSingle.getDesc1());
+				push.setCreator(pushSingle.getCreator());
+				push.setModifier(pushSingle.getModifier());
+				int a =pushSingleMapper.updateByPrimaryKeySelective(push);
+				if(a!=1){
+					rs.setErrorCode(ErrorCode.lOGE_UPDATE_ERROR);
+				}
 			}
 		}else{
-			rs.setCode("222222");
-			rs.setError("未查到要修改的数据！");
+			rs.setErrorCode(ErrorCode.lOGE_SELECT_ERROR);
 		}
 		return rs;
 	}
@@ -131,12 +163,11 @@ public class PushSingleService implements IPushSingleService{
 	@Override
 	public Result findPushSingle(PushSingleReq pushSingle) throws Exception {
 		Result rs =Result.getSuccessResult();
-		PushSingle push =pushSingleMapper.findReasonFailure(pushSingle);
-		if(push!=null){
+		List<PushSingle> push =pushSingleMapper.findReasonFailure(pushSingle);
+		if(push!=null&& !push.isEmpty()){
 			rs.setData(push);
 		}else{
-			rs.setCode("111111");
-			rs.setError("未查到异常信息！");
+			rs.setErrorCode(ErrorCode.lOGE_SELECT_ERROR);
 		}
 		return rs;
 	}

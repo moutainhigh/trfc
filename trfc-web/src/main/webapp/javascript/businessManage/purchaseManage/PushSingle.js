@@ -51,6 +51,7 @@
 		var pushStatus = $('#pushStatus').val();pushStatus = $.trim(pushStatus);
 		var starttime = $('#starttime').val();starttime = $.trim(starttime);
 		var endtime = $('#endtime').val();endtime = $.trim(endtime);
+		var desc2 =$("#desc2").val();desc2=$.trim(desc2);
 		var pageSize = $('#pageSize').val() || 10;pageSize = $.trim(pageSize);
 		return {
 			requisitionNum:requisitionNum,
@@ -58,6 +59,7 @@
 			pushStatus:pushStatus,
 			starttime:str2Long(starttime),
 			endtime:str2Long(endtime),
+			desc2:desc2,
 			pageSize:pageSize
 		};
 	}
@@ -68,6 +70,7 @@
 		 $('#pushStatus').val("");
 		 $('#starttime').val("");
 		 $('#endtime').val("");
+		 $('#desc2').val("");
 //		 queryData(1);
 	}
 	function queryData(pageNo){
@@ -163,12 +166,26 @@
 					requisitionType = '';
 					break;
 				}
+				
+				var desc2 = obj.desc2 || '';
+				switch (desc2) {
+				case '0':
+					desc2 = '采购类型';
+					break;
+				case '1':
+					desc2 = '销售类型';
+					break;
+				default:
+					desc2 = '';
+					break;
+				}
 				$('<tr>').append('<td>'+(i+1)+'</td>')
 						.append('<td>'+requisitionNum+'</td>')
 						.append('<td>'+noticeNum+'</td>')
 						.append('<td>'+pushStatus+'</td>')
 						.append('<td>'+desc1+'</td>')
 						.append('<td>'+requisitionType+'</td>')
+						.append('<td>'+desc2+'</td>')
 						.append('<td>'+reasonFailure+'</td>')
 						.append('<td>'+lightCarTime+'</td>')
 						.append('<td>'+heavyCarTime+'</td>')

@@ -41,7 +41,7 @@ import com.tianrui.smartfactory.common.utils.UUIDUtil;
 @Service
 public class SalesOutboundOrderService implements ISalesOutboundOrderService{
 	
-	private Logger log=LoggerFactory.getLogger(SalesOutboundOrderService.class);
+	private Logger log = LoggerFactory.getLogger(SalesOutboundOrderService.class);
 	
 	@Autowired
 	private SalesOutboundOrderMapper salesOutboundOrderMapper;
@@ -105,6 +105,7 @@ public class SalesOutboundOrderService implements ISalesOutboundOrderService{
 	public void returnSalesOutboundOrder() throws Exception{
 		String orgId=Constant.ORG_ID;
 		List<SalesOutboundOrder> list=getSalesOutboundOrderList(orgId,null);
+		log.info("销售出库单FC到DC待推送数据条数：" + (list !=null ? list.size() : 0) + "条");
 		List<SmUser> smUserList = null;
 		if(CollectionUtils.isNotEmpty(list)){
 			List<SalesOutboundOrder> subList=new ArrayList<SalesOutboundOrder>();

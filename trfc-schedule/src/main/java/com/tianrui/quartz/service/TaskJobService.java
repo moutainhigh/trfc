@@ -7,6 +7,8 @@ import java.util.Set;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -47,6 +49,8 @@ import com.tianrui.smartfactory.common.utils.UUIDUtil;
 @Service
 public class TaskJobService {
 	
+	private Logger log = LoggerFactory.getLogger(getClass());
+	
 	@Autowired
 	private ISalesApplicationService salesApplicationService;
 	@Autowired
@@ -82,6 +86,7 @@ public class TaskJobService {
 		sa.setState(Constant.ONE_STRING);
 		sa.setValidStatus(Constant.ZERO_STRING);
 		List<SalesApplication> list1 = salesApplicationMapper.selectSelective(sa);
+		log.info("销售自制订单待同步数据条数：" + (list1 !=null ? list1.size() : 0) + "条");
 		if(CollectionUtils.isNotEmpty(list1)){
 			Set<String> billIds = new HashSet<String>();
 			for(SalesApplication bean : list1){

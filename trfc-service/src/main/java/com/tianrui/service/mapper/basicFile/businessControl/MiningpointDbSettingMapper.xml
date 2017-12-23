@@ -13,9 +13,25 @@
     <result column="modifytime" property="modifytime" jdbcType="BIGINT" />
     <result column="remark" property="remark" jdbcType="VARCHAR" />
   </resultMap>
+    <resultMap id="BaseRespResultMap" type="com.tianrui.api.resp.basicFile.businessControl.MiningpointDbSettingResp" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="code" property="code" jdbcType="VARCHAR" />
+    <result column="miningpointname" property="miningpointname" jdbcType="VARCHAR" />
+    <result column="materialid" property="materialid" jdbcType="VARCHAR" />
+    <result column="isvalid" property="isvalid" jdbcType="VARCHAR" />
+    <result column="creator" property="creator" jdbcType="VARCHAR" />
+    <result column="createtime" property="createtime" jdbcType="BIGINT" />
+    <result column="modifier" property="modifier" jdbcType="VARCHAR" />
+    <result column="modifytime" property="modifytime" jdbcType="BIGINT" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+  </resultMap>
   <sql id="Base_Column_List" >
     id, code, miningpointname, materialid, isvalid, creator, createtime, modifier, modifytime, 
     remark
+  </sql>
+  <sql id="Base_Column_List_T1" >
+    t1.id, t1.code, t1.miningpointname, t1.materialid,  t1.isvalid, 
+    t1.creator, t1.createtime, t1.modifier, t1.modifytime, t1.remark
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
@@ -150,4 +166,100 @@
       remark = #{remark,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
+  <select id="selectSelective" parameterType="com.tianrui.service.bean.basicFile.businessControl.MiningpointDbSetting" resultMap="BaseResultMap">
+  	select <include refid="Base_Column_List"/>
+	from tr_miningpoint_db_setting
+	<where>
+	  <if test="id != null and id != ''" >
+        and id = #{id,jdbcType=VARCHAR}
+      </if>
+	  <if test="code != null and code != ''" >
+        and code = #{code,jdbcType=VARCHAR}
+      </if>
+      <if test="miningpointname != null and miningpointname != ''" >
+        and miningpointname = #{miningpointname,jdbcType=VARCHAR}
+      </if>
+      <if test="materialid != null and materialid != ''" >
+        and materialid = #{materialid,jdbcType=VARCHAR}
+      </if>
+      <if test="isvalid != null and isvalid != ''" >
+        and isvalid = #{isvalid,jdbcType=VARCHAR}
+      </if>
+      <if test="creator != null and creator != ''" >
+        and creator = #{creator,jdbcType=VARCHAR}
+      </if>
+      <if test="createtime != null and createtime != ''" >
+        and createtime = #{createtime,jdbcType=BIGINT}
+      </if>
+      <if test="modifier != null and modifier != ''" >
+        and modifier = #{modifier,jdbcType=VARCHAR}
+      </if>
+      <if test="modifytime != null and modifytime != ''" >
+        and modifytime = #{modifytime,jdbcType=BIGINT}
+      </if>
+      <if test="remark != null and remark != ''" >
+        and remark = #{remark,jdbcType=VARCHAR}
+      </if>
+	</where>
+  </select>
+  <select id="selectPrimaryPage" parameterType="com.tianrui.api.req.basicFile.businessControl.MiningpointDbSettingQuery" resultMap="BaseRespResultMap">
+  	SELECT 
+  	<include refid="Base_Column_List_T1"/>, t2.name as materialname
+  	from tr_miningpoint_db_setting t1
+  	left join tr_materiel_db_manage t2 on t1.materialid = t2.id
+  	<where>
+		<if test="code != null and code != ''">
+  			and t1.code = #{code,jdbcType=VARCHAR}
+		</if>
+		<if test="miningpointname != null and miningpointname != ''" >
+	        and t1.miningpointname = #{miningpointname,jdbcType=VARCHAR}
+	    </if>
+		<if test="materialid != null and materialid != ''">
+  			and t1.materialid = #{materialid,jdbcType=VARCHAR}
+		</if>
+		<if test="isvalid != null and isvalid != ''">
+  			and t1.isvalid = #{isvalid,jdbcType=VARCHAR}
+		</if>
+      	<if test="starttime != null and starttime != ''">
+			and t1.createtime <![CDATA[>=]]> #{starttime,jdbcType=BIGINT}
+	  	</if>
+	  	<if test="endtime != null and endtime != ''">
+			and t1.createtime <![CDATA[<]]> #{endtime,jdbcType=BIGINT}
+	 	</if>
+	</where>
+	order by t1.modifytime desc
+	<if test="start != null and start >= 0">
+		<if test="limit != null">
+			limit #{start,jdbcType=INTEGER},#{limit,jdbcType=INTEGER}
+		</if>
+	</if>
+  </select>
+   <select id="selectPrimaryPageCount" parameterType="com.tianrui.api.req.basicFile.businessControl.MiningpointDbSettingQuery" resultType="long">
+  	SELECT 
+  	count(0)
+  	from tr_miningpoint_db_setting t1
+  	left join tr_materiel_db_manage t2 on t1.materialid = t2.id
+  	<where>
+		<if test="code != null and code != ''">
+  			and t1.code = #{code,jdbcType=VARCHAR}
+		</if>
+		<if test="miningpointname != null and miningpointname != ''" >
+	        and t1.miningpointname = #{miningpointname,jdbcType=VARCHAR}
+	    </if>
+		<if test="materialid != null and materialid != ''">
+  			and t1.materialid = #{materialid,jdbcType=VARCHAR}
+		</if>
+		<if test="isvalid != null and isvalid != ''">
+  			and t1.isvalid = #{isvalid,jdbcType=VARCHAR}
+		</if>
+      	<if test="starttime != null and starttime != ''">
+			and t1.createtime <![CDATA[>=]]> #{starttime,jdbcType=BIGINT}
+	  	</if>
+	  	<if test="endtime != null and endtime != ''">
+			and t1.createtime <![CDATA[<]]> #{endtime,jdbcType=BIGINT}
+	 	</if>
+	</where>
+
+	
+  </select>
 </mapper>

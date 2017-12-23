@@ -252,6 +252,7 @@
 		$('#purchasesum').val(obj.purchasesum || '');
 		$('#materielname').val(obj.materielname || '');
 		$('#margin').val(obj.margin || '');
+		$('#minemouth').val(obj.minemouthname || '');
 		$('#supplierremark').val(obj.supplierremark || '');
 		$('#altbill').modal('hide');
 	}

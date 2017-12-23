@@ -231,6 +231,7 @@ public interface IPoundNoteService {
      * @annotation 采购修改
      * @param save
      * @return
+     * @throws Exception 
      */
-	Result purchaseUpdatePn(PoundNoteSave save);
+	Result purchaseUpdatePn(PoundNoteSave save) throws Exception;
 }

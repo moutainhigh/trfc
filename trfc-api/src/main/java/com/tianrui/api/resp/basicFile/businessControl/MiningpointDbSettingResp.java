@@ -1,41 +1,51 @@
-package com.tianrui.service.bean.basicFile.businessControl;
+package com.tianrui.api.resp.basicFile.businessControl;
+
+import com.tianrui.api.req.BaseReq;
+import com.tianrui.smartfactory.common.utils.DateUtil;
+
 /**
- * 采矿点原发设置
+ * 采矿点原发设置save
  * @author lenovo
  *
  */
-public class MiningpointDbSetting {
-    //  
+public class MiningpointDbSettingResp extends BaseReq{
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -365743861550064710L;
+	//  
     private String id;
-
     //  原发编号
     private String code;
-
     //  采矿点名称
     private String miningpointname;
-
     //  物料id
     private String materialid;
-
+    //物料名称
+    private String materialname;
     //  是否有效：（0：无效，1：有效）
     private String isvalid;
-
     //  创建人
     private String creator;
-
+    //创建人名称
+    private String createname;
     //  创建时间
     private Long createtime;
-
+    //创建时间Str
+    private String createtimeStr;
     //  修改人
     private String modifier;
-
     // 修改时间
     private Long modifytime;
-
     //  备注
     private String remark;
+    //开始时间
+    private Long starttime;
+	//终止时间
+    private Long endtime;
+  
 
-    public String getId() {
+	public String getId() {
         return id;
     }
 
@@ -89,6 +99,7 @@ public class MiningpointDbSetting {
 
     public void setCreatetime(Long createtime) {
         this.createtime = createtime;
+        this.createtimeStr = DateUtil.parse(createtime, "yyyy-MM-dd HH:mm:ss");
     }
 
     public String getModifier() {
@@ -114,4 +125,47 @@ public class MiningpointDbSetting {
     public void setRemark(String remark) {
         this.remark = remark == null ? null : remark.trim();
     }
+
+	public String getMaterialname() {
+		return materialname;
+	}
+
+	public void setMaterialname(String materialname) {
+		this.materialname = materialname;
+	}
+
+	public String getCreatename() {
+		return createname;
+	}
+
+	public void setCreatename(String createname) {
+		this.createname = createname;
+	}
+
+	public String getCreatetimeStr() {
+		return createtimeStr;
+	}
+
+	public void setCreatetimeStr(String createtimeStr) {
+		this.createtimeStr = createtimeStr;
+	}
+
+	public Long getStarttime() {
+		return starttime;
+	}
+
+	public void setStarttime(Long starttime) {
+		this.starttime = starttime;
+	}
+
+	public Long getEndtime() {
+		return endtime;
+	}
+
+	public void setEndtime(Long endtime) {
+		this.endtime = endtime;
+	}
+
+	
+    
 }

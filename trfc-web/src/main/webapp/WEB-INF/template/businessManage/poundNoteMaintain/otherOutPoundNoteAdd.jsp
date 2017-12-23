@@ -116,6 +116,6 @@
 	<!-- 引用公共footer部分 -->
 	<jsp:include page="../../common/base/footer_busi.jsp"></jsp:include>
 	<script type="text/javascript"
-		src="/javascript/businessManage/poundNoteMaintain/otherOutPoundNoteAdd.js"></script>
+		src="/javascript/businessManage/poundNoteMaintain/otherOutPoundNoteAdd.js?20171223"></script>
 </body>
 </html>
