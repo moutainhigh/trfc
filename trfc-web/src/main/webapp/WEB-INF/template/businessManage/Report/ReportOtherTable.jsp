@@ -147,7 +147,7 @@
                                     <td colspan="12" align="center" style="color:#434e8d;font-size: 40px;line-height:normal">
                                         	裕泰其他出库逐车明细
                                         <p class="biobiaop" style="margin-top: 10px">
-                                            <span class="clock12"></span>至<span class="clock13"></span>
+                                            <span class="clock12"></span><span class="clock13"></span>
                                         </p>
                                         <p class="biobiaop" style="margin-bottom: 10px">条件：<span class="bbg_tiaojian3"></span></p>
                                     </td>
@@ -238,7 +238,7 @@
                                 <td colspan="13" align="center" style="color:#434e8d;font-size: 40px;line-height:normal">
                            				  裕泰其他入库逐车明细
                                     <p class="biobiaop" style="margin-top: 10px">
-                                    <span class="clock3"></span>至<span class="clock4"></span>
+                                    <span class="clock3"></span><span class="clock4"></span>
                                     </p>
                                     <p class="biobiaop" style="margin-bottom: 10px">条件：<span class="bbg_tiaojian4"></span></p>
                                 </td>

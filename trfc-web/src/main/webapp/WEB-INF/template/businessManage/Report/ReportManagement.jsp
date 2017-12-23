@@ -180,7 +180,7 @@
                                 <td colspan="8" align="center" style="color:#434e8d;font-size: 40px;line-height:normal">
                                   	 裕泰采购矿口汇总表
                                     <p class="biobiaop" style="margin-top: 10px">
-                                        <span class="clock15"></span>至<span class="clock16"></span>
+                                        <span class="clock15"></span><span class="clock16"></span>
                                     </p>
                                     <p class="biobiaop" style="margin-bottom: 10px">条件：<span class="bbg_tiaojian5"></span></p>
                                 </td>
@@ -262,7 +262,7 @@
                                         <td colspan="13" align="center" style="color:#434e8d;font-size: 40px;line-height:normal">
                                            	裕泰采购补增明细
                                             <p class="biobiaop" style="margin-top: 10px">
-                                                <span class="clocka"></span>至<span class="clockb"></span>
+                                                <span class="clocka"></span><span class="clockb"></span>
                                             </p>
                                             <p class="biobiaop" style="margin-bottom: 10px">条件：<span class="bbg_tiaojian1"></span></p>
                                         </td>
@@ -357,7 +357,7 @@
                                         <td colspan="14" align="center" style="color:#434e8d;font-size: 40px;line-height:normal">
                                            	裕泰采购逐车明细
                                             <p class="biobiaop" style="margin-top: 10px">
-                                                <span class="clock6"></span>至<span class="clock7"></span>
+                                                <span class="clock6"></span><span class="clock7"></span>
                                             </p>
                                             <p class="biobiaop" style="margin-bottom: 10px">条件：<span class="bbg_tiaojian1"></span></p>
                                         </td>
@@ -452,7 +452,7 @@
                                 <td colspan="7" align="center" style="color:#434e8d;font-size: 40px;line-height:normal">
                                   	 裕泰采购单位统计
                                     <p class="biobiaop" style="margin-top: 10px">
-                                        <span class="clock9"></span>至<span class="clock10"></span>
+                                        <span class="clock9"></span><span class="clock10"></span>
                                     </p>
                                     <p class="biobiaop" style="margin-bottom: 10px">条件：<span class="bbg_tiaojian2"></span></p>
                                 </td>
@@ -531,7 +531,7 @@
                                     <td colspan="12" align="center" style="color:#434e8d;font-size: 40px;line-height:normal">
                                        	裕泰采购收料统计
                                         <p class="biobiaop" style="margin-top: 10px">
-                                            <span class="clock12"></span>至<span class="clock13"></span>
+                                            <span class="clock12"></span><span class="clock13"></span>
                                         </p>
                                         <p class="biobiaop" style="margin-bottom: 10px">条件：<span class="bbg_tiaojian3"></span></p>
                                     </td>
@@ -623,7 +623,7 @@
                                 <td colspan="7" align="center" style="color:#434e8d;font-size: 40px;line-height:normal">
                                	裕泰采购物料统计
                                     <p class="biobiaop" style="margin-top: 10px">
-                                    <span class="clock3"></span>至<span class="clock4"></span>
+                                    <span class="clock3"></span><span class="clock4"></span>
                                     </p>
                                     <p class="biobiaop" style="margin-bottom: 10px">条件：<span class="bbg_tiaojian4"></span></p>
                                 </td>
