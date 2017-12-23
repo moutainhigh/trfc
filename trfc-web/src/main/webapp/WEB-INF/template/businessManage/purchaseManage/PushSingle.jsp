@@ -50,6 +50,13 @@
 										class="Wdate" style="width: 160px" placeholder="请选择结束时间" />
 								</div>
 							</div>
+								<div class="intel_solo">
+									<label>业务类型：</label> <select id="desc2" class="form-control">
+										<option value="">全部</option>
+										<option value="0">采购</option>
+										<option value="1">销售</option>
+									</select>
+								</div>
 							<div class="intel_solo">
 								<div class="intel_sbtn">
 									<button id="searchBtn" class="btn btnblue">搜索</button>
@@ -75,6 +82,7 @@
 									<th>推送状态</th>
 									<th>错误编码</th>
 									<th>单据类型</th>
+									<th>业务类型</th>
 									<th>失败原因</th>
 									<th>轻车时间</th>
 									<th>重车时间</th>

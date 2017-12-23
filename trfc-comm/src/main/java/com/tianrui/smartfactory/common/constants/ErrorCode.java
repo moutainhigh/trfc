@@ -16,6 +16,12 @@ public enum ErrorCode {
 	RETURN_ERROR("000000","上传榜单成功，推单NC失败."),
 	DATE_NOT_UPDATE("E00003","未做修改无需保存."),
 	APP_BILL_RETURN_ERROR("000004","FC-DC推单失败，请稍候重试."),
+	//日志修改失败
+	lOGE_UPDATE_ERROR("E00004","推送管理日志修改失败！"),
+	//日志修改失败
+	lOGE_SAVE_ERROR("E00005","推送管理日志保存失败！"),
+	//日志修改失败
+	lOGE_SELECT_ERROR("E00006","未查到异常信息！"),
 	
 	/**
 	 * 参数相关
