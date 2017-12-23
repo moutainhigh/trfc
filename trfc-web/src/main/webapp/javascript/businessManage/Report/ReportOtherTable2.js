@@ -425,22 +425,4 @@ function bbgClick(){
     bbg_tiaojian4.innerHTML=str;
 }
 
-//页面时间
-var clock1 = new Clock();
-clock1.display(document.getElementById("clock1"));
-var clock2 = new Clock();
-clock2.display(document.getElementById("clock2"));
-var clock3 = new Clock();
-clock3.display(document.querySelector(".clock3"));
-var clock4 = new Clock();
-clock4.display(document.querySelector(".clock4"));
-var clock5 = new Clock1();
-clock5.display(document.querySelector(".clock5"));
-var clock12 = new Clock();
-clock12.display(document.querySelector(".clock12"));
-var clock13 = new Clock();
-clock13.display(document.querySelector(".clock13"));
-var clock14 = new Clock1();
-clock14.display(document.querySelector(".clock14"));
-
 

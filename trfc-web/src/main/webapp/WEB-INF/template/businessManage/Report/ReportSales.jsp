@@ -151,7 +151,7 @@
                                         <td colspan="10" align="center" style="color:#434e8d;font-size: 40px;line-height:normal">
                                             	裕泰销售逐车明细
                                             <p class="biobiaop" style="margin-top: 10px">
-                                                <span class="clock6"></span>至<span class="clock7"></span>
+                                                <span class="clock6"></span><span class="clock7"></span>
                                             </p>
                                             <p class="biobiaop" style="margin-bottom: 10px">条件：<span class="bbg_tiaojian1"></span></p>
                                         </td>

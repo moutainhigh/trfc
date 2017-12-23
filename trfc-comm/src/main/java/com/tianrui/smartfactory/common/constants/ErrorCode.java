@@ -205,7 +205,8 @@ public enum ErrorCode {
 	SUPPLIER_GROUP_ERROR1("E400000", "该供应商没有可切换的用户！"),
 	//采购原发设置
     PRIMARY_SETTING_ERROR("E500000", "供应商已存在该物料启用数据！"),
-    
+    //采矿点原发设置
+    MININGPOINT_SETTING_ERROR("E500001", "物料与之对应的采矿点已存在！"),
     //黑名单
     //重复添加
     BLACKLIST_REPEAT_ERROR("E600000", "该车辆已被添加到黑名单！"),

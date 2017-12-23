@@ -184,7 +184,8 @@
 				layer.closeAll('tips');
 				var tareweight = $('#tareweight').val();
 				if(tareweight && $.isNumeric(tareweight)){
-					$('#netweight').val(grossweight-tareweight);
+					var rs =grossweight-tareweight;
+					$('#netweight').val(rs.toFixed(2));
 				}
 			}
 		});
@@ -201,7 +202,8 @@
 				layer.closeAll('tips');
 				var grossweight = $('#grossweight').val();
 				if(grossweight && $.isNumeric(grossweight)){
-					$('#netweight').val(grossweight-tareweight);
+					var rs =grossweight-tareweight;
+					$('#netweight').val(rs.toFixed(2));
 				}
 			}
 		});

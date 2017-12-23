@@ -376,16 +376,5 @@ function bbgClick(){
     bbg_tiaojian1.innerHTML=str; 
 }
 
-//页面时间
-var clock1 = new Clock();
-clock1.display(document.getElementById("clock1"));
-var clock2 = new Clock();
-clock2.display(document.getElementById("clock2"));
-var clock6 = new Clock();
-clock6.display(document.querySelector(".clock6"));
-var clock7 = new Clock();
-clock7.display(document.querySelector(".clock7"));
-var clock8 = new Clock1();
-clock8.display(document.querySelector(".clock8"));
 
 

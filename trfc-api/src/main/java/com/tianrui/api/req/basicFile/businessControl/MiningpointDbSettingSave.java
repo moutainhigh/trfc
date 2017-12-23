@@ -1,11 +1,19 @@
-package com.tianrui.service.bean.basicFile.businessControl;
+package com.tianrui.api.req.basicFile.businessControl;
+
+import com.tianrui.api.req.BaseReq;
+
 /**
- * 采矿点原发设置
+ * 采矿点原发设置save
  * @author lenovo
  *
  */
-public class MiningpointDbSetting {
-    //  
+public class MiningpointDbSettingSave extends BaseReq{
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -365743861550064710L;
+
+	//  
     private String id;
 
     //  原发编号
@@ -34,7 +42,8 @@ public class MiningpointDbSetting {
 
     //  备注
     private String remark;
-
+    //当前登陆用户id
+    private String currId;
     public String getId() {
         return id;
     }
@@ -114,4 +123,13 @@ public class MiningpointDbSetting {
     public void setRemark(String remark) {
         this.remark = remark == null ? null : remark.trim();
     }
+
+	public String getCurrId() {
+		return currId;
+	}
+
+	public void setCurrId(String currId) {
+		this.currId = currId;
+	}
+    
 }
