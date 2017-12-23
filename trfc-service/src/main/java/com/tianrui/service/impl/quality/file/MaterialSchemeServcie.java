@@ -217,6 +217,9 @@ public class MaterialSchemeServcie implements IMaterialSchemeService {
 		MaterialScheme  materialScheme =materialSchemeMapper.selectMaterial(req.getMaterialid());
 		if(materialScheme!=null){
 			rs.setData(materialScheme);
+		}else{
+			rs.setCode("111111");
+			rs.setError("未查到该物料对应信息！");
 		}
 		return rs;
 	}

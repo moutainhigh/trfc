@@ -105,6 +105,8 @@ $(function(){
 					$("#add_gypsumadd").val(result.data.gypsumadd||"");
 					$("#add_aid").val(result.data.aid||"");
 					$("#add_aidadd").val(result.data.aidadd||"");
+				}else{
+					$('#closeBth').click();
 				}
 			}
 		});
@@ -409,6 +411,9 @@ $(function(){
 		var factorycode = $('#select_factorycode').val();
 		var material = $('#select_material').attr('materialid');
 		var billsstate = $('#select_billsstate').val();
+		if(billsstate==''){
+			billsstate='1'
+		}
 
 		var params = {
 				pageSize:pageSize,

@@ -21,11 +21,11 @@ public interface PushSingleMapper {
 
 	    int insertSelective(PushSingleReq req);
 
-	    int updateByPrimaryKeySelective(PushSingleReq req);
+	    int updateByPrimaryKeySelective(PushSingle req);
 
 	    int updateByPrimaryKey(PushSingleReq req);
 	    
-	    PushSingle findReasonFailure(PushSingleReq req );
+	    List<PushSingle> findReasonFailure(PushSingleReq req );
 	    
 	    long findPushSinglePageCount(PushSingleReq req);
 	    

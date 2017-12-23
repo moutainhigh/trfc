@@ -182,9 +182,11 @@ public class PoundNoteResp extends BaseResp {
     private List<PurchaseApplicationResp> purchaseApplicationList;
     //订单详情
     private List<SalesApplicationResp> salesApplicationList;
-    //收货时间
-    private String signPersonName;
+    //收货人ID
+    private String signPerson;
     //收货人
+    private String signPersonName;
+    //收货时间
     private Long signTime; 
     
     private String signTimeStr;
@@ -1297,5 +1299,13 @@ public class PoundNoteResp extends BaseResp {
 	public void setRedColStatus(String redColStatus) {
 		this.redColStatus = redColStatus;
 	}
-	
+	public String getSignPerson() {
+		return signPerson;
+	}
+	public void setSignPerson(String signPerson) {
+		this.signPerson = signPerson;
+	}
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
 }

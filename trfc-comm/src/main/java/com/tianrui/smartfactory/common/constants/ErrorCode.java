@@ -16,6 +16,12 @@ public enum ErrorCode {
 	RETURN_ERROR("000000","上传榜单成功，推单NC失败."),
 	DATE_NOT_UPDATE("E00003","未做修改无需保存."),
 	APP_BILL_RETURN_ERROR("000004","FC-DC推单失败，请稍候重试."),
+	//日志修改失败
+	lOGE_UPDATE_ERROR("E00004","推送管理日志修改失败！"),
+	//日志修改失败
+	lOGE_SAVE_ERROR("E00005","推送管理日志保存失败！"),
+	//日志修改失败
+	lOGE_SELECT_ERROR("E00006","未查到异常信息！"),
 	
 	/**
 	 * 参数相关
@@ -116,7 +122,8 @@ public enum ErrorCode {
 	POUNDNOTE_ERROR2("E10106","已推单过的单据才允许红冲."),
 	POUNDNOTE_ERROR3("E10107","已红冲过的单据不允许重复红冲."),
 	POUNDNOTE_ERROR4("E10108","退货单据不允许红冲."),
-	POUNDNOTE_ERROR5("E10108","作废和退货单据不允许红冲."),
+	POUNDNOTE_ERROR5("E10109","作废和退货单据不允许红冲."),
+	POUNDNOTE_ERROR6("E10110","该收料员不存在."),
 	/**
 	 * 车辆
 	 */
