@@ -500,6 +500,7 @@ public class PoundNoteService implements IPoundNoteService {
 		ps.setCreatetime(System.currentTimeMillis());
 		ps.setModifytime(System.currentTimeMillis());
 		ps.setDesc2(Constant.ZERO_STRING);
+		ps.setDesc3(storage.getCode());
         // 调用dc 接口成功 则推单状态为推单中 榜单展示为推单中
 		ApiResult apiResult = HttpUtils.post(ApiParamUtils.getApiParam(list), Constant.URL_DOMAIN + Constant.URL_RETURN_PURCHASESTORAGEATION);
 		if (apiResult != null) {
@@ -1498,6 +1499,7 @@ public class PoundNoteService implements IPoundNoteService {
 		ps.setCreatetime(System.currentTimeMillis());
 		ps.setModifytime(System.currentTimeMillis());
 		ps.setDesc2(Constant.ZERO_STRING);
+		ps.setDesc3(storage.getCode());
 		if (apiResult != null) {
             if (StringUtils.equals(apiResult.getCode(), Constant.SUCCESS)) {
                 PurchaseStorageList storageUpdate = new PurchaseStorageList();
@@ -1827,6 +1829,7 @@ public class PoundNoteService implements IPoundNoteService {
 		ps.setCreatetime(System.currentTimeMillis());
 		ps.setModifytime(System.currentTimeMillis());
 		ps.setDesc2(Constant.ONE_STRING);
+		ps.setDesc3(order.getCode());
 		if (apiResult != null) {
 			if (StringUtils.equals(apiResult.getCode(), Constant.SUCCESS)) {
 				SalesOutboundOrder orderUpdate = new SalesOutboundOrder();

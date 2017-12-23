@@ -1341,6 +1341,7 @@ public class SalesApplicationService implements ISalesApplicationService {
 				ps.setDesc1(req.getStatus());
 				ps.setReasonFailure(req.getMessage());
 				ps.setDesc2(Constant.ONE_STRING);
+				ps.setDesc3(order.getCode());
 				if (StringUtils.equals(req.getStatus(), ErrorCode.SYSTEM_SUCCESS.getCode())) {
 					if (StringUtils.isNotBlank(req.getNcId()) && StringUtils.isNotBlank(req.getTs())) {
 						//成功

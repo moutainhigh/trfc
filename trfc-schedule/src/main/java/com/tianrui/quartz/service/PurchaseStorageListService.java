@@ -125,6 +125,7 @@ public class PurchaseStorageListService implements IPurchaseStorageListService {
 				ps.setCreatetime(System.currentTimeMillis());
 				ps.setModifytime(System.currentTimeMillis());
 				ps.setDesc2(Constant.ZERO_STRING);
+				ps.setDesc3(order.getCode());
 				if (apiResult != null) {
 					if (StringUtils.equals(apiResult.getCode(), Constant.SUCCESS)) {
 						order.setStatus(Constant.PUSH_STATUS_ING);
