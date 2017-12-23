@@ -149,8 +149,7 @@ public class PushSingleService implements IPushSingleService{
 				push.setModifier(pushSingle.getModifier());
 				int a =pushSingleMapper.updateByPrimaryKeySelective(push);
 				if(a!=1){
-					rs.setErrorCode(ErrorCode.SYSTEM_ERROR);
-					rs.setError("推送管理日志修改失败！");
+					rs.setErrorCode(ErrorCode.lOGE_UPDATE_ERROR);
 				}
 			}
 		}else{
