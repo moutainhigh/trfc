@@ -269,7 +269,7 @@
 		id, requisitionNum, noticeNum, pushStatus, requisitionType,
 		reasonFailure, netWeight, heavyCarTime, lightCarTime,
 		creator,
-		createtime, modifier,MAX(modifytime), desc1, desc2, desc3, desc4
+		createtime, modifier,modifytime, desc1, desc2, desc3, desc4
 		from
 		tr_push_single
 		<where>
