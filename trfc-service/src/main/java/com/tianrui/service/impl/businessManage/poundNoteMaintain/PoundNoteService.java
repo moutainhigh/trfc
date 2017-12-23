@@ -578,9 +578,14 @@ public class PoundNoteService implements IPoundNoteService {
 				if (StringUtils.isNotBlank(resp.getNoticeid())) {
 					PurchaseArrive pa = purchaseArriveMapper.selectByPrimaryKey(resp.getNoticeid());
 					if (pa != null) {
+						resp.setSignPerson(pa.getSignPerson());
 						resp.setSignPersonName(pa.getSignPersonName());
 						resp.setSignTime(pa.getSignTime());
 					}
+				} else {
+					resp.setSignPerson(resp.getReceiverpersonid());
+					resp.setSignPersonName(resp.getReceiverpersonname());
+					resp.setSignTime(resp.getReceivertime());
 				}
 			}
 			if (resp != null && StringUtils.equals(resp.getBilltype(), "2")) {
@@ -2510,18 +2515,36 @@ public class PoundNoteService implements IPoundNoteService {
     }
 
 	@Override
-	public Result purchaseUpdatePn(PoundNoteSave save) {
+	public Result purchaseUpdatePn(PoundNoteSave save) throws Exception {
 		Result result = Result.getParamErrorResult();
 		if (save != null && StringUtils.isNotBlank(save.getId())
-				&& StringUtils.isNotBlank(save.getYardid())) {
+				&& StringUtils.isNotBlank(save.getYardid())
+				&& StringUtils.isNotBlank(save.getSignPerson())) {
 			PoundNote pn = poundNoteMapper.selectByPrimaryKey(save.getId());
 			if (pn != null) {
 				YardManage yard = yardManageMapper.selectByPrimaryKey(save.getYardid());
 				if (validateYard(yard, result)) {
-					pn.setYardid(yard.getId());
-					pn.setYardname(yard.getName());
-					poundNoteMapper.updateByPrimaryKeySelective(pn);
-					result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+					SystemUserResp user = systemUserService.get(save.getSignPerson());
+					if (user != null) {
+						pn.setYardid(yard.getId());
+						pn.setYardname(yard.getName());
+						pn.setReceiverpersonid(user.getId());
+						pn.setReceiverpersonname(user.getName());
+						pn.setModifier(save.getUserId());
+						pn.setModifytime(System.currentTimeMillis());
+						if (StringUtils.isNotBlank(pn.getNoticeid())) {
+							PurchaseArrive pa = purchaseArriveMapper.selectByPrimaryKey(pn.getNoticeid());
+							pa.setSignPerson(user.getId());
+							pa.setSignPersonName(user.getName());
+							pa.setModifier(save.getUserId());
+							pa.setModifytime(System.currentTimeMillis());
+							purchaseArriveMapper.updateByPrimaryKeySelective(pa);
+						}
+						poundNoteMapper.updateByPrimaryKeySelective(pn);
+						result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+					} else {
+						result.setErrorCode(ErrorCode.POUNDNOTE_ERROR6);
+					}
 				}
 			} else {
 				result.setErrorCode(ErrorCode.POUNDNOTE_NOT_EXIST);

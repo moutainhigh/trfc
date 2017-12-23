@@ -333,6 +333,9 @@
 				var makebilltimeStr = obj.makebilltimeStr || '';
 				var signTimeStr = obj.signTimeStr || '';
 				var signPersonName = obj.signPersonName || '';
+				if (obj.status == '1') {
+					signPersonName = obj.receiverpersonname || '';
+				}
 				$('<tr>').append('<td>'+(i+1)+'</td>')
 						.append('<td>'+code+'</td>')
 						.append('<td'+(obj.returnstatus == '0' ? ' class="colorred"' : '')+'>'+returnstatus+'</td>')

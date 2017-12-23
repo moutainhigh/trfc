@@ -143,6 +143,8 @@ public class PoundNoteSave extends BaseReq {
     private String leaveyardname;
     //当前登录用户ID
     private String userId;
+    //签收人ID
+    private String signPerson;
 	/**
 	 * @return the id
 	 */
@@ -940,6 +942,12 @@ public class PoundNoteSave extends BaseReq {
 	}
 	public void setUserId(String userId) {
 		this.userId = userId;
+	}
+	public String getSignPerson() {
+		return signPerson;
+	}
+	public void setSignPerson(String signPerson) {
+		this.signPerson = signPerson;
 	}
 	public static long getSerialversionuid() {
 		return serialVersionUID;

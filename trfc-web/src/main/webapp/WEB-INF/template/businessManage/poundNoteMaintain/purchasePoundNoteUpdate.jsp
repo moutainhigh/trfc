@@ -90,8 +90,8 @@
 									value="${poundNote.noticecode }" readonly="true">
 							</div>
 							<div class="daohuo_add_solo">
-								<label>收料员：</label> <input type="text"
-									value="${poundNote.signPersonName }" readonly="true">
+								<label>收料员：</label> <input id="signPerson" type="text"
+									value="${poundNote.signPersonName }" userId="${poundNote.signPerson }">
 							</div>
 							<div class="daohuo_add_solo">
 								<label>收货时间：</label> <input type="text"
