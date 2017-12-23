@@ -233,8 +233,10 @@
     select 
     <include refid="Base_Column_List" />
     from tr_sale_outbound_order
-    where      
-       pk_org=#{pkOrg}
+    <where>
+    	<if test="pkOrg != null" >
+	       and pk_org=#{pkOrg}
+       </if>
        <if test="ts != null" >
        		<![CDATA[
        		and ts > #{ts,jdbcType=TIMESTAMP}
@@ -244,6 +246,7 @@
        <if test="ts == null" >
        	  and status !=1
        </if>
+    </where>     
        order by create_time desc 
   </select>
   <insert id="insertBatch" parameterType="java.util.List">

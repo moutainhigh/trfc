@@ -63,7 +63,7 @@ public class SalesOutboundOrderService implements ISalesOutboundOrderService{
 	@Override
 	public List<SalesOutboundOrder> getSalesOutboundOrderList(String orgId,Date minDate) {
 		List<SalesOutboundOrder> list =null;
-		if( StringUtils.isNotBlank(orgId) ){
+//		if( StringUtils.isNotBlank(orgId) ){
 			SalesOutboundOrder query = new SalesOutboundOrder();
 			query.setPkOrg(orgId);
 			if(minDate!=null){
@@ -96,15 +96,15 @@ public class SalesOutboundOrderService implements ISalesOutboundOrderService{
 					}
 				}
 			}
-		}
+//		}
 		return list;
 	}
 	
 	@Transactional
 	@Override
 	public void returnSalesOutboundOrder() throws Exception{
-		String orgId=Constant.ORG_ID;
-		List<SalesOutboundOrder> list=getSalesOutboundOrderList(orgId,null);
+//		String orgId=Constant.ORG_ID;
+		List<SalesOutboundOrder> list=getSalesOutboundOrderList(null,null);
 		log.info("销售出库单FC到DC待推送数据条数：" + (list !=null ? list.size() : 0) + "条");
 		List<SmUser> smUserList = null;
 		if(CollectionUtils.isNotEmpty(list)){

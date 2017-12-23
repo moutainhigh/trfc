@@ -1323,10 +1323,8 @@ public class SalesApplicationService implements ISalesApplicationService {
 	public Result ckd_dc2nc_callback(CkdStatusCallBackReq req) throws Exception {
 		Result result = Result.getParamErrorResult();
 		if (req != null && StringUtils.isNotBlank(req.getId())
-				&& StringUtils.isNotBlank(req.getNcId())
 				&& StringUtils.isNotBlank(req.getStatus())
-				&& StringUtils.isNotBlank(req.getMessage())
-				&& StringUtils.isNotBlank(req.getTs())) {
+				&& StringUtils.isNotBlank(req.getMessage())) {
 			SalesOutboundOrder order = salesOutboundOrderMapper.selectByPrimaryKey(req.getId());
 			if (order != null) {
 				PoundNote pn = poundNoteMapper.selectByPrimaryKey(order.getPoundId());
@@ -1344,16 +1342,20 @@ public class SalesApplicationService implements ISalesApplicationService {
 				ps.setReasonFailure(req.getMessage());
 				ps.setDesc2(Constant.ONE_STRING);
 				if (StringUtils.equals(req.getStatus(), ErrorCode.SYSTEM_SUCCESS.getCode())) {
-					//成功
-					ps.setPushStatus(Constant.TWO_STRING);
-					//出库单状态修改为 已推单
-					order.setCkdNcid(req.getNcId());
-					order.setStatus(Constant.ONE_STRING);
-					order.setTs(req.getTs());
-					salesOutboundOrderMapper.updateByPrimaryKeySelective(order);
-					pn.setReturnstatus(Constant.TWO_STRING);
-					pn.setModifytime(System.currentTimeMillis());
-					poundNoteMapper.updateByPrimaryKeySelective(pn);
+					if (StringUtils.isNotBlank(req.getNcId()) && StringUtils.isNotBlank(req.getTs())) {
+						//成功
+						ps.setPushStatus(Constant.TWO_STRING);
+						//出库单状态修改为 已推单
+						order.setCkdNcid(req.getNcId());
+						order.setStatus(Constant.ONE_STRING);
+						order.setTs(req.getTs());
+						salesOutboundOrderMapper.updateByPrimaryKeySelective(order);
+						pn.setReturnstatus(Constant.TWO_STRING);
+						pn.setModifytime(System.currentTimeMillis());
+						poundNoteMapper.updateByPrimaryKeySelective(pn);
+					} else {
+						return result;
+					}
 				} else {
 					//失败
 					ps.setPushStatus(Constant.THREE_STRING);
