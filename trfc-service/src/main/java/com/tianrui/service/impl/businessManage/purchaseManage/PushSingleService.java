@@ -88,6 +88,7 @@ public class PushSingleService implements IPushSingleService {
 		pr.setNoticeNum(pushSingle.getNoticeNum());// 通知单号
 		pr.setRequisitionType(pushSingle.getRequisitionType());// 申请单类型
 		pr.setDesc2(pushSingle.getDesc2());// 业务类型
+		pr.setDesc3(pushSingle.getDesc3());//入库单号or出库单号(单据类型所对应的单据号码)
 		List<PushSingle> pushList = pushSingleMapper.findReasonFailure(pr);// 查询该日志
 		if (pushList != null && !pushList.isEmpty()) {// 判断该日志是否存在
 			// 该日志已存在 修改该条日志
@@ -104,6 +105,7 @@ public class PushSingleService implements IPushSingleService {
 				push.setModifytime(pushSingle.getModifytime());
 				push.setDesc2(pushSingle.getDesc2());
 				push.setDesc1(pushSingle.getDesc1());
+				push.setDesc3(pushSingle.getDesc3());
 				push.setCreator(pushSingle.getCreator());
 				push.setModifier(pushSingle.getModifier());
 				int a = pushSingleMapper.updateByPrimaryKeySelective(push);
@@ -141,6 +143,7 @@ public class PushSingleService implements IPushSingleService {
 				push.setNetWeight(pushSingle.getNetWeight());
 				push.setCreatetime(pushSingle.getCreatetime());
 				push.setModifytime(pushSingle.getModifytime());
+				push.setDesc3(pushSingle.getDesc3());
 				push.setDesc2(pushSingle.getDesc2());
 				push.setDesc1(pushSingle.getDesc1());
 				push.setCreator(pushSingle.getCreator());
