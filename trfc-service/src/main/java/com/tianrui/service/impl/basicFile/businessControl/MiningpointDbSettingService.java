@@ -160,6 +160,12 @@ public class MiningpointDbSettingService implements IMiningpointDbSettingService
 		}
 		return resp;
 	}
+
+	@Override
+	public List<MiningpointDbSettingResp> selectByMaterialid(String materialid) {
+		
+		return miningpointDbSettingMapper.selectByMaterialid(materialid);
+	}
 	
 	
 }

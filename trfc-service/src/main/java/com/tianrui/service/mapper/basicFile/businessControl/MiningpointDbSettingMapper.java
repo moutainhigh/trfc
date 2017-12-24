@@ -34,4 +34,5 @@ public interface MiningpointDbSettingMapper {
      * @return
      */
     long selectPrimaryPageCount(MiningpointDbSettingQuery query);
+    List<MiningpointDbSettingResp> selectByMaterialid(String materialid);
 }

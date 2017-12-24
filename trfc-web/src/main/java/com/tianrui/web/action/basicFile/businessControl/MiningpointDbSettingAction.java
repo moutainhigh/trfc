@@ -1,6 +1,7 @@
 package com.tianrui.web.action.basicFile.businessControl;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -140,5 +141,16 @@ public class MiningpointDbSettingAction {
 			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
 		}
 		return result;
+	}
+	@RequestMapping("selectByMaterialid")
+	@ResponseBody
+	public List<MiningpointDbSettingResp> selectByMaterialid(String materialid){
+		List<MiningpointDbSettingResp> list = null;
+		try {
+			list = miningpointDbSettingService.selectByMaterialid(materialid);
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+		}
+		return list;
 	}
 }

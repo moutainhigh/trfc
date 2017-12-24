@@ -262,4 +262,11 @@
 
 	
   </select>
+  <select id="selectByMaterialid" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from tr_miningpoint_db_setting
+    where materialid = #{materialid,jdbcType=VARCHAR}
+  </select>
+
 </mapper>

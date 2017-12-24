@@ -1,5 +1,7 @@
 package com.tianrui.api.intf.basicFile.businessControl;
 
+import java.util.List;
+
 import com.tianrui.api.req.basicFile.businessControl.MiningpointDbSettingQuery;
 import com.tianrui.api.req.basicFile.businessControl.MiningpointDbSettingSave;
 import com.tianrui.api.resp.basicFile.businessControl.MiningpointDbSettingResp;
@@ -27,4 +29,8 @@ public interface IMiningpointDbSettingService {
 	Result update(MiningpointDbSettingSave save) throws Exception;
 
 	Result delete(String id);
+
+	List<MiningpointDbSettingResp> selectByMaterialid(String materialid);
+
+
 }
