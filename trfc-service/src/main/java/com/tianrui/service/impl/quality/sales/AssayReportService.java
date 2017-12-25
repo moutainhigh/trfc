@@ -18,6 +18,7 @@ import com.tianrui.api.intf.quality.sales.IAssayReportService;
 import com.tianrui.api.req.quality.file.QualitySchemeItemReq;
 import com.tianrui.api.req.quality.sales.AssayReportReq;
 import com.tianrui.api.resp.quality.file.QualitySchemeItemResp;
+import com.tianrui.api.resp.quality.sales.AssayReportDetailResp;
 import com.tianrui.api.resp.quality.sales.AssayReportResp;
 import com.tianrui.service.bean.basicFile.nc.MaterielManage;
 import com.tianrui.service.bean.quality.file.MaterialScheme;
@@ -377,37 +378,57 @@ public class AssayReportService implements IAssayReportService {
 	public Result findSelectDetail(String factorycode) throws Exception {
 		// TODO Auto-generated method stub
 		Result rs =Result.getSuccessResult();
-		//创建一个销售化验报告集合
-		List<AssayReportResp> resp = new ArrayList<AssayReportResp>();
-		//根据批号查询销售批号对应的数据
-		SalesBatchnum  salesBatchnum  =salesBatchnumMapper.selectByFactoryCode(factorycode);
-		//创建销售化验报告req对象
-		AssayReportReq req =new AssayReportReq();
-		//将id放到req对象
-		req.setBatchnumid(salesBatchnum.getId());
-		//根据id查询数据
-		List<AssayReport>  list =assayReportMapper.selectBatchnumid(req);
-		//校验list
-		if(list!=null&&!list.isEmpty()){
-			for(AssayReport assay:list){//遍历list
-				AssayReportResp assayReportlist = new AssayReportResp();
-				AssayReportReq r = new AssayReportReq();
-				r.setId(assay.getId());
-				Result s=findOne(r);
-				assayReportlist=(AssayReportResp) s.getData();
-				QualitySchemeItemReq re = new QualitySchemeItemReq();
-				re.setId(assay.getId());
-				re.setAssayid(assay.getId());
-				re.setSchemeid(assay.getQschemeid());
-				Result sq =qualitySchemeItemService.findDetailandVal(re);
-				assayReportlist.setQualitySchemeItemlist((List<QualitySchemeItemResp>) sq.getData());
-				resp.add(assayReportlist);
-			}
-			rs.setData(resp);
-		}else{
-			rs.setCode("111111");
-			rs.setError("暂无数据！");
-		}
+		//创建一个详情返回对象
+		AssayReportDetailResp detailResp = new AssayReportDetailResp();
+		Map<Object, Object> map = new HashMap<Object, Object>();
+		map.put("80umsieve", 1);
+		map.put("area", 1);
+		map.put("water", 1);
+		map.put("startcongeal", 1);
+		map.put("endcongeal", 1);
+		map.put("safety", 1);
+		map.put("Insoluesubstance", 1);
+		map.put("loss", 1);
+		map.put("grinding", 1);
+		map.put("mgo", 1);
+		map.put("admixture", 1);
+		map.put("mixamount", 1);
+		map.put("sooo", 1);
+		map.put("cl", 1);
+		map.put("plaster", 1);
+		map.put("plasteramount", 1);
+		List liSist3 = new ArrayList<>();
+		liSist3.add("11");
+		liSist3.add("22");
+		liSist3.add("33");
+		List sist28 = new ArrayList<>();
+		sist28.add("44");
+		sist28.add("55");
+		sist28.add("66");
+		List flexural3 = new ArrayList<>();
+		flexural3.add("77");
+		flexural3.add("88");
+		flexural3.add("99");
+		List flexural28 = new ArrayList<>();
+		flexural28.add("12");
+		flexural28.add("13");
+		flexural28.add("14");
+		detailResp.setMaterName("石灰石");
+		detailResp.setCreateTime("2017-12-22");
+		detailResp.setFactoryCode("pk110120");
+		detailResp.setFactoryTime("2017-12-22");
+		detailResp.setVehicleNo("京A12345");
+		detailResp.setNumber("40");
+		detailResp.setQualityRs((HashMap<Object, Object>) map);//检测值集合
+		detailResp.setSist3(liSist3);
+		detailResp.setSist28(sist28);
+		detailResp.setFlexural3(flexural3);
+		detailResp.setFlexural28(flexural28);
+		detailResp.setAvgFlexural3("28");
+		detailResp.setAvgFlexural28("32");
+		detailResp.setAvgSist3("32");
+		detailResp.setAvgSist28("58");
+		rs.setData(detailResp);
 		return rs;
 	}
 
