@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.tianrui.api.intf.api.android.imple.IAppStaticService;
+import com.tianrui.api.req.android.AppMiningParam;
 import com.tianrui.api.req.android.AppVersionParam;
 import com.tianrui.api.req.android.BillListParam;
 import com.tianrui.api.req.android.BillSave;
@@ -200,6 +201,20 @@ public class AppPurchaseStaticAction {
 		return result;
 	}
 	
+	@RequestMapping(value="/getMiningList",method=RequestMethod.POST)
+	@ApiParamRawType(AppMiningParam.class)
+	@ResponseBody
+	public AppResult getMiningList(ApiParam<AppMiningParam> param){
+		AppResult result = AppResult.getAppResult();
+		try {
+			//TODO 获取采矿口
+			AppMiningParam appMiningParam =param.getBody();
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
+		}
+		return result;
+	}
 	@RequestMapping(value="/sendCar",method=RequestMethod.POST)
 	@ApiParamRawType(NoticeSave.class)
 	@ResponseBody
