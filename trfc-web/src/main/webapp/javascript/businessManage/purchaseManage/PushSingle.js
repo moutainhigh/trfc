@@ -181,16 +181,14 @@
 				}
 				$('<tr>').append('<td>'+(i+1)+'</td>')
 						.append('<td>'+requisitionNum+'</td>')
-						.append('<td>'+noticeNum+'</td>')
 						.append('<td>'+pushStatus+'</td>')
-						.append('<td>'+desc1+'</td>')
 						.append('<td>'+requisitionType+'</td>')
 						.append('<td>'+desc2+'</td>')
-						.append('<td>'+reasonFailure+'</td>')
+						.append('<td '+'title='+reasonFailure+'>'+reasonFailure+'</td>')
 						.append('<td>'+lightCarTime+'</td>')
 						.append('<td>'+heavyCarTime+'</td>')
 						.append('<td>'+netWeight+'</td>')
-						.append('<td>'+createtime+'</td>')
+						.append('<td color:"red">'+createtime+'</td>')
 						.data(obj)
 						.appendTo('#dataBody');
 			}
