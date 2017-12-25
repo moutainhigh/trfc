@@ -116,6 +116,8 @@ public class PurchaseArriveService implements IPurchaseArriveService {
 		if(save != null){
 			PurchaseArrive pa = new PurchaseArrive();
 			if(validDriverAndVehicle(save, result, pa)){
+				//TODO 采礦點
+				
 				PropertyUtils.copyProperties(pa, save);
 				pa.setId(UUIDUtil.getId());
 				setNoticeBody(save, pa);

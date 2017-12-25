@@ -43,20 +43,22 @@
     <result column="forceOutFactory" property="forceOutFactory" jdbcType="BIT" />
     <result column="forceOutFactoryPerson" property="forceOutFactoryPerson" jdbcType="VARCHAR" />
     <result column="forceOutFactoryTime" property="forceOutFactoryTime" jdbcType="BIGINT" />
+    <result column="miningpointid" property="miningpointid" jdbcType="VARCHAR" />
+    <result column="miningpointname" property="miningpointname" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, code, auditstatus, source, status, type, vehicleid, 
     vehicleno, vehiclerfid, driverid, drivername, driveridentityno, billid, billcode, 
     billdetailid, poundnoteid, poundnotecode, abnormalperson, abnormalpersonname, abnormaltime, arrivalamount, signamount, unit, makerid, 
     makebillname, makebilltime, icardid, state, creator, createtime, modifier, modifytime, remark, signStatus, signPerson, signPersonName, signTime, signID, 
-    forceOutFactory, forceOutFactoryPerson, forceOutFactoryTime
+    forceOutFactory, forceOutFactoryPerson, forceOutFactoryTime,miningpointid,miningpointname
   </sql>
   <sql id="P_Base_Column_List" >
     p1.id, p1.code, p1.auditstatus, p1.source, p1.status, p1.type, p1.vehicleid, 
     p1.vehicleno, p1.vehiclerfid, p1.driverid, p1.drivername, p1.driveridentityno, p1.billid, p1.billcode, 
     p1.billdetailid, p1.poundnoteid, p1.poundnotecode, p1.abnormalperson, p1.abnormalpersonname, p1.abnormaltime, p1.arrivalamount, p1.signamount, p1.unit, p1.makerid, 
     p1.makebillname, p1.makebilltime, p1.icardid, p1.state, p1.creator, p1.createtime, p1.modifier, p1.modifytime, p1.remark, p1.signStatus, p1.signPerson, p1.signPersonName, 
-    p1.signTime, p1.signID, p1.forceOutFactory, p1.forceOutFactoryPerson, p1.forceOutFactoryTime
+    p1.signTime, p1.signID, p1.forceOutFactory, p1.forceOutFactoryPerson, p1.forceOutFactoryTime,p1.miningpointid,p1.miningpointname
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
@@ -220,6 +222,12 @@
       <if test="forceOutFactoryTime != null" >
         forceOutFactoryTime,
       </if>
+      <if test="miningpointid != null" >
+        miningpointid,
+      </if>
+      <if test="miningpointname != null" >
+        miningpointname,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -344,6 +352,12 @@
       </if>
       <if test="forceOutFactoryTime != null" >
         #{forceOutFactoryTime,jdbcType=BIGINT},
+      </if>
+       <if test="miningpointid != null" >
+        #{miningpointid,jdbcType=VARCHAR},
+      </if>
+     	<if test="miningpointname != null" >
+        #{miningpointname,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -1252,6 +1266,8 @@
 		t3.unit,
 		t1.arrivalamount number,
 		t3.margin,
+		t1.miningpointid,
+		t1.miningpointname,
 		t2.supplierremark AS supRemark,
 		t2.minemouthname AS minemouth,
 		FROM_UNIXTIME(

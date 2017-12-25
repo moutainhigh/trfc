@@ -85,6 +85,27 @@ public class PurchaseArriveSave extends BaseReq {
     private String forceOutFactoryPerson;
     //强制出厂操作时间
     private Long forceOutFactoryTime;
+    //采矿点id
+    private String miningpointid;
+    //采矿点id
+    private String miningpointname;
+    
+    
+    public String getMiningpointid() {
+		return miningpointid;
+	}
+
+	public void setMiningpointid(String miningpointid) {
+		this.miningpointid = miningpointid;
+	}
+
+	public String getMiningpointname() {
+		return miningpointname;
+	}
+
+	public void setMiningpointname(String miningpointname) {
+		this.miningpointname = miningpointname;
+	}
 	public String getId() {
 		return id;
 	}

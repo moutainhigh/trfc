@@ -63,6 +63,10 @@
 									type="text" readonly>
 							</div>
 							<div class="daohuo_add_solo">
+								<label>采矿点名称：</label> <input value="${purchaseArrive.miningpointname}"
+									type="text" readonly>
+							</div>
+							<div class="daohuo_add_solo">
 								<label>矿口：</label> <input
 									value="${purchaseArrive.purchaseApplicationResp.minemouthname }"
 									type="text" readonly>

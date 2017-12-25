@@ -19,6 +19,7 @@
 			<!--tab切换的内容-->
 			<div class="intel_tabbox">
 				<!--到货通知单begin-->
+			
 				<div class="intel_tabcont ">
 					<div class="intel_search">
 						<div class="intel_bggray">
@@ -69,6 +70,7 @@
 								<label>物料：</label> <input id="materielname" type="text"
 									readonly="true">
 							</div>
+							<input type="hidden" id="materielid"/>
 							<div class="daohuo_add_solo">
 								<label>订单数量：</label> <input id="purchasesum" type="text"
 									readonly="true">
@@ -84,7 +86,7 @@
 								<label>部门：</label> <input id="departmentname" type="text"
 									readonly="true">
 							</div>
-							<div class="daohuo_add_solo">
+							<div class="daohuo_add_solo" id="applasttr">
 								<label>供应商备注：</label> <input id="supplierremark" type="text"
 									readonly="true">
 							</div>
@@ -398,6 +400,6 @@
 	<jsp:include page="../../common/base/footer_busi.jsp"></jsp:include>
 	<script type="text/javascript" src="${staticBasePath}/js/cardReader.js"></script>
 	<script type="text/javascript"
-		src="/javascript/businessManage/purchaseManage/purchaseArriveAdd.js"></script>
+		src="/javascript/businessManage/purchaseManage/purchaseArriveAdd.js?201711238"></script>
 </body>
 </html>

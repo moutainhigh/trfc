@@ -8,7 +8,8 @@
 			vehicleAutoCompleteSearch: "/trfc/vehicle/autoCompleteSearch",
 			driverAutoCompleteSearch: "/trfc/driver/autoCompleteSearch",
 			materielAutoCompleteSearch: "/trfc/materiel/autoCompleteSearch",
-			supplierAutoCompleteSearch: "/trfc/supplier/autoCompleteSearch"
+			supplierAutoCompleteSearch: "/trfc/supplier/autoCompleteSearch",
+			selectByMaterialid:"/trfc/miningpoint/selectByMaterialid"
 	};
 	init();
 	function init(){
@@ -381,6 +382,34 @@
 		$('#departmentname').val(obj.departmentname || '');
 		$('#supplierremark').val(obj.supplierremark || '');
 		$('#altbill').modal('hide');
+		if($("#miningpoinid").length!=0){
+			$("#miningpoinid").parent().remove();
+		}
+		var materialid = obj.materielid;
+		$("#materielid").val(materialid);
+		$.ajax({
+			url:URL.selectByMaterialid,
+			data:{materialid:materialid},
+			async:true,
+			cache:false,
+			dataType:'json',
+			type:'post',
+			success:function(result){
+				console.info(result);
+					var data = result || [];
+					if(data.length>0){
+						var html = "<div class='daohuo_add_solo'><label>采矿点：</label><select id='miningpointid'>";
+						for(var i=0;i<data.length;i++){
+							var htmls = "<option value='"+data[i].id+"'>"+data[i].miningpointname+"</option>";
+							html=html+htmls;
+						}
+						html = html+"</select></div>";
+						$("#applasttr").after(html);
+					}else{
+						//$("#applasttr").va
+					}
+			}
+		});
 	}
 	//新增车辆
 	function saveVehicle(){
@@ -578,6 +607,8 @@
 		var driverid = $('#driver').attr('driverid'); driverid = $.trim(driverid);
 		var arrivalamount = $('#arrivalamount').val(); arrivalamount = $.trim(arrivalamount);
 		var remark = $('#remark').val(); remark = $.trim(remark);
+		var miningpointid = $("#miningpointid").val();miningpointid = $.trim(miningpointid);
+		var miningpointname = $("#miningpointid").find("option:selected").text();miningpointname = $.trim(miningpointname);
 		return {
 			billid:billid,
 			billcode:billcode,
@@ -587,7 +618,9 @@
 			vehicleid:vehicleid,
 			driverid:driverid,
 			arrivalamount:arrivalamount,
-			remark:remark
+			remark:remark,
+			miningpointid:miningpointid,
+			miningpointname:miningpointname
 		};
 	}
 	//校验参数是否合法
@@ -603,6 +636,36 @@
 //		}
 		if(!params.arrivalamount || params.arrivalamount <= 0){
 			layer.msg('到货量不能为空且大于零！', {icon: 5});return false;
+		}
+		var materialid = $("#materielid").val();
+		
+		var matbolean = true;
+		
+		$.ajax({
+			url:URL.selectByMaterialid,
+			data:{materialid:materialid},
+			async:false,
+			cache:false,
+			dataType:'json',
+			type:'post',
+			success:function(result){
+				
+					var data = result;
+					if(data.length>0){
+						if($("#miningpointid").length==0){
+							layer.msg('采矿点不能为空！', {icon: 5});matbolean=false;
+						}else{
+							var materiel = $("#miningpointid").val();
+							if(materiel==""){
+								layer.msg('采矿点不能为空！', {icon: 5});matbolean=false;
+							}
+						}
+						
+					}
+			}
+		});
+		if(matbolean==false){
+			return false;
 		}
 		return params;
 	}
