@@ -1092,9 +1092,9 @@
 		t2.pretendingtake AS planNum,
 		t2.taxprice AS price,
 		CASE
-		WHEN t1.ncStatus != 2 THEN 0
-		WHEN (t1.status = 1 or t1.ncStatus = 2) and t2.margin > 0 THEN 1
-		WHEN (t1.status = 1 or t1.ncStatus = 2) and t2.margin <![CDATA[<=]]> 0 THEN 2
+		WHEN t1.ncStatus != 2 and t1.bill_source != 0 and t1.billtypeid = 0 THEN 0
+		WHEN (t1.ncStatus = 2 or (t1.status = 1 and t1.billtypeid = 1)) and t2.margin > 0 THEN 1
+		WHEN (t1.ncStatus = 2 or (t1.status = 1 and t1.billtypeid = 1)) and t2.margin <![CDATA[<=]]> 0 THEN 2
 		ELSE ''
 		END AS type,
 		t1.vehicle_no AS vehicle
