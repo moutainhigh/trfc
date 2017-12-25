@@ -63,7 +63,7 @@ table.table-bordered th, td {
 									<label>单据来源：</label> <select id="source" class="form-control">
 										<option value="">请选择</option>
 										<option value="0">业务平台</option>
-										<option value="1">客商平台</option>
+										<!-- <option value="1">客商平台</option> -->
 										<option value="2">客商APP</option>
 									</select>
 								</div>
@@ -99,45 +99,6 @@ table.table-bordered th, td {
 						</div>
 					</div>
 					<div class="intel_opera">
-						<!-- <div id="refreshBtn" class="intel_operasolo">
-							<a> <i class="iconfont colorlv">&#xe61b;</i>
-								<span>刷新</span>
-							</a>
-						</div>
-						<div class="intel_operasolo" id="addBtn">
-							<a> <i class="iconfont coloradd">&#xe627;</i>
-								<span>新增</span>
-							</a>
-						</div>
-						<div id="update" class="intel_operasolo">
-							<a> <i class="iconfont update">&#xe600;</i>
-								<span>编辑</span>
-							</a>
-						</div>
-						<div id="audit" class="intel_operasolo">
-							<a> <i class="iconfont audit">&#xe692;</i>
-								<span>审核</span>
-							</a>
-						</div>
-						<div id="unaudit" class="intel_operasolo">
-							<a> <i class="iconfont unaudit">&#xe651;</i>
-								<span>反审</span>
-							</a>
-						</div>
-						<div id="invalid" class="intel_operasolo">
-							<a> <i class="iconfont invalid">&#xe60c;</i>
-								<span>作废</span>
-							</a>
-						</div>
-						<div id="outfactory" class="intel_operasolo">
-							<a> <i class="iconfont outfactory">&#xe63c;</i>
-								<span>出厂</span>
-							</a>
-						</div>
-			                        <div id="readSearch" class="intel_operasolo">
-			                            <a> <i class="iconfont colorlv">&#xe601;</i> <span>读卡查找</span>
-			                            </a>
-			                        </div> -->
 					</div>
 					<div class="intel_table">
 						<!--用户表格begin-->
@@ -145,7 +106,7 @@ table.table-bordered th, td {
 							<thead>
 								<tr>
 									<th>序号</th>
-									<th>到货单号</th>
+									<th>提货单号</th>
 									<th>审核</th>
 									<th>来源</th>
 									<th>状态</th>
@@ -188,105 +149,6 @@ table.table-bordered th, td {
 						<div class="page_btn" id="pagination"></div>
 					</div>
 					<!--分页效果结束-->
-				</div>
-			</div>
-		</div>
-		<!--查看详情begin-->
-		<div class="modal fade" id="caigoubill" tabindex="-1" role="dialog"
-			aria-labelledby="myModalLabel">
-			<div class="modal-dialog" role="document" style="width: 900px;">
-				<div class="modal-content">
-					<div class="modal-header">
-						<button type="button" class="close" data-dismiss="modal"
-							aria-label="Close">
-							<span aria-hidden="true">&times;</span>
-						</button>
-						<div class="alt_head">
-							<h5>采购申请单详细信息</h5>
-							<img src="${basePath }/images/sh.png">
-						</div>
-					</div>
-					<div class="modal-body">
-						<div class="">
-							<div class="cg_div">
-								<div class="cg_solo">
-									<label>单据编号：</label> <input type="text">
-								</div>
-								<div class="cg_solo">
-									<label>单据来源：</label> <input type="text">
-								</div>
-								<div class="cg_solo">
-									<label>订单类型：</label> <input type="text">
-								</div>
-								<div class="cg_solo">
-									<label>订单日期：</label> <input type="text">
-								</div>
-								<div class="cg_solo">
-									<label>供应商：</label> <input type="text">
-								</div>
-								<div class="cg_solo">
-									<label>总数量：</label> <input type="text">
-								</div>
-								<div class="cg_solo">
-									<label>采购员：</label> <input type="text">
-								</div>
-								<div class="cg_solo">
-									<label>制单人： </label> <input type="text">
-								</div>
-								<div class="cg_solo">
-									<label> 制单日期：</label> <input type="text">
-								</div>
-								<div class="cg_bz">
-									<label>备注：</label> <input type="text">
-								</div>
-							</div>
-							<div class="cg_tabtit">
-								<ul>
-									<li class="select">订单明细</li>
-									<li>质检信息</li>
-									<li>质检信息</li>
-								</ul>
-							</div>
-							<div class="cg_tabbox">
-								<!--tab切换的内容-->
-								<div class="cg_tabcont">
-									<table class="table table-bordered">
-										<thead>
-											<tr>
-												<th>采购组织</th>
-												<th>物料</th>
-												<th>质检方案</th>
-												<th>数量</th>
-												<th>备注</th>
-											</tr>
-										</thead>
-										<tbody>
-											<tr>
-												<td>卫辉市天瑞水泥有限公司</td>
-												<td>粉煤炭</td>
-												<td>方案2</td>
-												<td>1000</td>
-												<td>豫GA1783</td>
-											</tr>
-											<tr>
-												<td>合计</td>
-												<td></td>
-												<td></td>
-												<td></td>
-												<td></td>
-											</tr>
-										</tbody>
-									</table>
-								</div>
-								<div class="cg_tabcont hide">1</div>
-								<!--tab切换的内容end-->
-							</div>
-						</div>
-					</div>
-					<div class="modal-footer">
-						<button type="button" class="btn btn-primary">确定</button>
-						<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-					</div>
 				</div>
 			</div>
 		</div>

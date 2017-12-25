@@ -23,7 +23,7 @@ public class VehicleManage {
     private String vehicletype;
 	//运输单位
     private String transportunit;
-	//最大载重
+    //运输单位
     private Double maxweight;
 	//皮重
     private Double tareweight;
@@ -53,6 +53,10 @@ public class VehicleManage {
     private String modifier;
 	//最后修改时间
     private Long modifytime;
+    //类别（0：临时，1固定）
+    private Integer type;
+    //IC卡ID
+    private String icardId;
 
     public String getId() {
         return id;
@@ -237,4 +241,21 @@ public class VehicleManage {
     public void setModifytime(Long modifytime) {
         this.modifytime = modifytime;
     }
+
+	public Integer getType() {
+		return type;
+	}
+
+	public void setType(Integer type) {
+		this.type = type;
+	}
+
+	public String getIcardId() {
+		return icardId;
+	}
+
+	public void setIcardId(String icardId) {
+		this.icardId = icardId == null ? null : icardId.trim();
+	}
+    
 }

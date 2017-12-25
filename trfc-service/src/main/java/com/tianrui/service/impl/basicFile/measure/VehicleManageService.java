@@ -22,14 +22,17 @@ import com.tianrui.api.req.system.base.GetCodeReq;
 import com.tianrui.api.req.basicFile.measure.VehicleManageApi;
 import com.tianrui.api.resp.basicFile.measure.VehicleManageResp;
 import com.tianrui.api.resp.businessManage.app.AppVehicleResp;
+import com.tianrui.api.resp.subSystem.VehicleAndCardResp;
 import com.tianrui.api.resp.system.auth.SystemUserResp;
 import com.tianrui.service.bean.basicFile.measure.TransportunitManage;
 import com.tianrui.service.bean.basicFile.measure.VehicleManage;
+import com.tianrui.service.bean.businessManage.cardManage.Card;
 import com.tianrui.service.bean.businessManage.purchaseManage.PurchaseArrive;
 import com.tianrui.service.bean.businessManage.salesManage.SalesArrive;
 import com.tianrui.service.bean.common.RFID;
 import com.tianrui.service.mapper.basicFile.measure.TransportunitManageMapper;
 import com.tianrui.service.mapper.basicFile.measure.VehicleManageMapper;
+import com.tianrui.service.mapper.businessManage.cardManage.CardMapper;
 import com.tianrui.service.mapper.businessManage.purchaseManage.PurchaseArriveMapper;
 import com.tianrui.service.mapper.businessManage.salesManage.SalesArriveMapper;
 import com.tianrui.service.mapper.common.RFIDMapper;
@@ -65,6 +68,8 @@ public class VehicleManageService implements IVehicleManageService {
 	private SalesArriveMapper salesArriveMapper;
 	@Autowired
 	private PurchaseArriveMapper purchaseArriveMapper;
+	@Autowired
+	private CardMapper cardMapper;
 
 	@Override
 	public PaginationVO<VehicleManageResp> page(VehicleManageQuery query) throws Exception {
@@ -489,7 +494,126 @@ public class VehicleManageService implements IVehicleManageService {
 		}	
 		return result;
 	}
-
 	
+	private boolean validateVehicle(VehicleManage vehicle, Result result) {
+		boolean flag = false;
+		if (vehicle != null) {
+			if (StringUtils.equals(vehicle.getState(), Constant.ONE_STRING)) {
+				if (StringUtils.equals(vehicle.getIsvalid(), Constant.ONE_STRING)) {
+					if (StringUtils.equals(vehicle.getIsblacklist(), Constant.ZERO_STRING)) {
+						flag = true;
+					} else {
+						result.setErrorCode(ErrorCode.VEHICLE_IS_BLACK);
+					}
+				} else {
+					result.setErrorCode(ErrorCode.VEHICLE_IS_WX);
+				}
+			} else {
+				result.setErrorCode(ErrorCode.VEHICLE_NOT_EXIST);
+			}
+		} else {
+			result.setErrorCode(ErrorCode.VEHICLE_NOT_EXIST);
+		}
+		return flag;
+	}
+	
+	private boolean validateICard(Card card, Result result) {
+		boolean flag = false;
+		if (card != null) {
+			if (StringUtils.equals(card.getState(), Constant.ONE_STRING)) {
+				if (StringUtils.equals(card.getCardstatus(), Constant.ONE_STRING)) {
+					flag = true;
+				} else {
+					result.setErrorCode(ErrorCode.CARD_IS_VALID);
+				}
+			} else {
+				result.setErrorCode(ErrorCode.CARD_NOT_EXIST);
+			}
+		} else {
+			result.setErrorCode(ErrorCode.CARD_NOT_EXIST);
+		}
+		return flag;
+	}
+
+	@Override
+	public Result vehicleBindICard(VehicleManageApi req) throws Exception {
+		Result result = Result.getParamErrorResult();
+		if (req != null && StringUtils.isNotBlank(req.getVehicleNo())
+				&& StringUtils.isNotBlank(req.getIcardNo())) {
+			Card card = new Card();
+			card.setCardno(req.getIcardNo());
+			List<Card> list = cardMapper.selectSelective(card);
+			if (CollectionUtils.isNotEmpty(list)) {
+				card = list.get(0);
+				if (validateICard(card, result)) {
+					VehicleManage vehicle = vehicleManageMapper.selectByVehicleno(req.getVehicleNo());
+					if (vehicle != null) {
+						if (validateVehicle(vehicle, result)) {
+							vehicle.setType(Constant.ZERO_NUMBER);
+							vehicle.setIcardId(card.getId());
+							vehicleManageMapper.updateByPrimaryKeySelective(vehicle);
+						}
+					} else {
+						vehicle = new VehicleManage();
+						vehicle.setId(UUIDUtil.getId());
+						vehicle.setCode(getCode("CL", req.getCurrUid(), true));
+						vehicle.setInternalcode(getCode("CL", req.getCurrUid(), false));
+						vehicle.setVehicleno(req.getVehicleNo());
+						vehicle.setTransporttype(Constant.ZERO_STRING);
+						vehicle.setOrgid(Constant.ORG_ID);
+						vehicle.setOrgname(Constant.ORG_NAME);
+						vehicle.setIsvalid(Constant.ONE_STRING);
+						vehicle.setIsblacklist(Constant.ZERO_STRING);
+						vehicle.setState(Constant.ONE_STRING);
+						vehicle.setType(Constant.ZERO_NUMBER);
+						vehicle.setIcardId(card.getId());
+						vehicleManageMapper.insertSelective(vehicle);
+						updateCode("CL", req.getCurrUid());
+					}
+					result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+				}
+			} else {
+				result.setErrorCode(ErrorCode.CARD_NOT_EXIST);	
+			}
+		}
+		return result;
+	}
+	
+	private String getCode(String code, String userId, boolean flag) throws Exception {
+		GetCodeReq codeReq = new GetCodeReq();
+		codeReq.setCode(code);
+		codeReq.setCodeType(flag);
+		codeReq.setUserid(userId);
+		return systemCodeService.getCode(codeReq).getData().toString();
+	}
+	
+	private void updateCode(String code, String userId) throws Exception {
+		GetCodeReq codeReq = new GetCodeReq();
+		codeReq.setCode(code);
+		codeReq.setCodeType(true);
+		codeReq.setUserid(userId);
+		systemCodeService.updateCodeItem(codeReq);
+	}
+
+	@Override
+	public Result getByVehicle(VehicleManageApi req) {
+		Result result = Result.getParamErrorResult();
+		if (req != null && StringUtils.isNotBlank(req.getVehicleNo())) {
+			VehicleManage vehicle = vehicleManageMapper.selectByVehicleno(req.getVehicleNo());
+			if (validateVehicle(vehicle, result)) {
+				Card card = cardMapper.selectByPrimaryKey(vehicle.getIcardId());
+				if (validateICard(card, result)) {
+					VehicleAndCardResp resp = new VehicleAndCardResp();
+					resp.setVehicle(vehicle.getVehicleno());
+					resp.setType(resp.getType());
+					resp.setCardno(card.getCardno());
+					resp.setCardcode(card.getCardcode());
+					result.setData(resp);
+					result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+				}
+			}
+		}
+		return result;
+	}
 
 }

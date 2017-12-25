@@ -69,7 +69,6 @@ public class ApiVehicleAction {
 		return ApiResult.valueOf(rs);
 	}
 	
-	
 	//车辆验证 
 	@RequestMapping("vehicleDetail")
 	@ApiParamRawType(VehicleManageApi.class)
@@ -81,6 +80,50 @@ public class ApiVehicleAction {
 		vehicleManageApi.setCurrUid(req.getHead().getUserId());
 		try {
 			rs=vehicleManageService.selectByVehicleNo(vehicleManageApi);
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			rs.setErrorCode(ErrorCode.SYSTEM_ERROR);
+		}
+		return ApiResult.valueOf(rs);
+	}
+	
+	/**
+	 * @annotation 车辆与IC卡绑定接口
+	 * @param apiParam
+	 * @return
+	 */
+	@RequestMapping("vehicleBindICard")
+	@ApiParamRawType(VehicleManageApi.class)
+	@ApiAuthValidation(callType="1")
+	@ResponseBody
+	public ApiResult vehicleBindICard(ApiParam<VehicleManageApi> apiParam){
+		Result rs=Result.getErrorResult();
+		VehicleManageApi req = apiParam.getBody();
+		req.setCurrUid(apiParam.getHead().getUserId());
+		try {
+			rs=vehicleManageService.vehicleBindICard(req);
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			rs.setErrorCode(ErrorCode.SYSTEM_ERROR);
+		}
+		return ApiResult.valueOf(rs);
+	}
+	
+	/**
+	 * @annotation 查询车辆类别和IC卡信息
+	 * @param apiParam
+	 * @return
+	 */
+	@RequestMapping("getByVehicle")
+	@ApiParamRawType(VehicleManageApi.class)
+	@ApiAuthValidation(callType="1")
+	@ResponseBody
+	public ApiResult getByVehicle(ApiParam<VehicleManageApi> apiParam){
+		Result rs=Result.getErrorResult();
+		VehicleManageApi req = apiParam.getBody();
+		req.setCurrUid(apiParam.getHead().getUserId());
+		try {
+			rs=vehicleManageService.getByVehicle(req);
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 			rs.setErrorCode(ErrorCode.SYSTEM_ERROR);

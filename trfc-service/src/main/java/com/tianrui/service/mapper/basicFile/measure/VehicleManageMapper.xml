@@ -25,13 +25,15 @@
 		<result column="createtime" property="createtime" jdbcType="BIGINT" />
 		<result column="modifier" property="modifier" jdbcType="VARCHAR" />
 		<result column="modifytime" property="modifytime" jdbcType="BIGINT" />
+		<result column="type" property="type" jdbcType="BIGINT" />
+		<result column="icard_id" property="icardId" jdbcType="BIGINT" />
 	</resultMap>
 	<sql id="Base_Column_List">
 		id, code, internalcode, RFID, vehicleno, transporttype, vehicletype,
 		transportunit,
 		maxweight, tareweight, ownername, telephone, address, orgid, orgname, isvalid,
 		isblacklist,
-		state, remarks, creator, createtime, modifier, modifytime
+		state, remarks, creator, createtime, modifier, modifytime, type, icard_id
 	</sql>
 	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
 		parameterType="java.lang.String">
@@ -122,14 +124,19 @@
 			<if test="modifytime != null and modifytime != ''">
 				and modifytime = #{modifytime,jdbcType=BIGINT}
 			</if>
+			<if test="type != null and type != ''">
+				and type = #{type,jdbcType=INT}
+			</if>
+			<if test="icardId != null and icardId != ''">
+				and icard_id = #{icardId,jdbcType=VARCHAR}
+			</if>
 		</where>
 	</select>
 	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
 		delete from tr_vehicle_db_manage
 		where id = #{id,jdbcType=VARCHAR}
 	</delete>
-	<insert id="insert"
-		parameterType="com.tianrui.service.bean.basicFile.measure.VehicleManage">
+	<insert id="insert" parameterType="com.tianrui.service.bean.basicFile.measure.VehicleManage">
 		insert into tr_vehicle_db_manage (id, code, internalcode,
 		RFID, vehicleno, transporttype,
 		vehicletype, transportunit, maxweight,
@@ -137,7 +144,7 @@
 		address, orgid, orgname,
 		isvalid, isblacklist, state,
 		remarks, creator, createtime,
-		modifier, modifytime)
+		modifier, modifytime, type, icard_id)
 		values (#{id,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR},
 		#{internalcode,jdbcType=VARCHAR},
 		#{rfid,jdbcType=VARCHAR}, #{vehicleno,jdbcType=VARCHAR}, #{transporttype,jdbcType=VARCHAR},
@@ -149,7 +156,9 @@
 		#{isvalid,jdbcType=VARCHAR}, #{isblacklist,jdbcType=VARCHAR}, #{state,jdbcType=VARCHAR},
 		#{remarks,jdbcType=VARCHAR}, #{creator,jdbcType=VARCHAR},
 		#{createtime,jdbcType=BIGINT},
-		#{modifier,jdbcType=VARCHAR}, #{modifytime,jdbcType=BIGINT})
+		#{modifier,jdbcType=VARCHAR}, #{modifytime,jdbcType=BIGINT},
+		#{type,jdbcType=INT}, #{icardId,jdbcType=VARCHAR}
+		)
 	</insert>
 	<insert id="insertSelective"
 		parameterType="com.tianrui.service.bean.basicFile.measure.VehicleManage">
@@ -224,6 +233,12 @@
 			<if test="modifytime != null">
 				modifytime,
 			</if>
+			<if test="type != null">
+				type,
+			</if>
+			<if test="icardId != null">
+				icard_id,
+			</if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="id != null">
@@ -294,6 +309,12 @@
 			</if>
 			<if test="modifytime != null">
 				#{modifytime,jdbcType=BIGINT},
+			</if>
+			<if test="type != null">
+				#{type,jdbcType=INT},
+			</if>
+			<if test="icardId != null">
+				#{icardId,jdbcType=VARCHAR},
 			</if>
 		</trim>
 	</insert>
@@ -367,6 +388,12 @@
 			<if test="modifytime != null">
 				modifytime = #{modifytime,jdbcType=BIGINT},
 			</if>
+			<if test="type != null">
+				type = #{type,jdbcType=INT},
+			</if>
+			<if test="icardId != null">
+				icard_id = #{icardId,jdbcType=VARCHAR},
+			</if>
 		</set>
 		where id = #{id,jdbcType=VARCHAR}
 	</update>
@@ -394,7 +421,9 @@
 		creator = #{creator,jdbcType=VARCHAR},
 		createtime = #{createtime,jdbcType=BIGINT},
 		modifier = #{modifier,jdbcType=VARCHAR},
-		modifytime = #{modifytime,jdbcType=BIGINT}
+		modifytime = #{modifytime,jdbcType=BIGINT},
+		type = #{type,jdbcType=INT},
+		icard_id = #{icardId,jdbcType=VARCHAR}
 		where id = #{id,jdbcType=VARCHAR}
 	</update>
 	<select id="findVehiclePageCount" resultType="java.lang.Long"
