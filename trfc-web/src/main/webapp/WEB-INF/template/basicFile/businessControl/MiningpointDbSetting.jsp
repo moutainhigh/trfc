@@ -215,6 +215,6 @@
 	<!--编辑end-->
 	<!-- 引用公共footer部分 -->
 	<jsp:include page="../../common/base/footer_busi.jsp"></jsp:include>
-	<script type="text/javascript" src="/javascript/basicFile/businessControl/MiningpointDbSetting.js?20171222"></script>
+	<script type="text/javascript" src="/javascript/basicFile/businessControl/miningpointDbSetting.js?20171223"></script>
 </body>
 </html>
