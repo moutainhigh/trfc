@@ -41,6 +41,31 @@ public class ApiDoorSystemAction {
 	
 	@Autowired
 	private IQueueNumberService queueNumberService;
+	
+	/**
+	 * @annotation 上传入厂门禁（新）
+	 * @param req
+	 * @return
+	 */
+	@RequestMapping(value="/uploadInfoAR",method=RequestMethod.POST)
+	@ApiParamRawType(ApiDoorSystemSave.class)
+	@ApiAuthValidation(callType="1")
+	@ResponseBody
+	public ApiResult uploadInfoAR(ApiParam<ApiDoorSystemSave> req){
+		ApiDoorSystemSave apiDoor = req.getBody();
+		apiDoor.setCurrUid(req.getHead().getUserId());
+		Result rs=Result.getErrorResult();
+		try {
+			LoggerFactory.getLogger("accessRecord").info("通知单号{},上传入厂门禁参数:{}", apiDoor.getNotionformcode(), JSON.toJSONString(apiDoor));
+			rs = accessRecordService.uploadInfoAccessRecord(apiDoor);
+			LoggerFactory.getLogger("accessRecord").info("通知单号{},上传入厂门禁返回结果:{}", apiDoor.getNotionformcode(), JSON.toJSONString(rs));
+		} catch (Exception e) {
+			rs.setErrorCode(ErrorCode.SYSTEM_ERROR);
+			log.error(e.getMessage(),e);
+		}
+		return ApiResult.valueOf(rs);
+	}
+	
 	/**
 	 * 门禁记录
 	 * @param req

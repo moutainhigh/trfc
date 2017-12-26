@@ -976,4 +976,508 @@ public class AccessRecordService implements IAccessRecordService {
         }
         return rs;
     }
+
+	@Transactional
+	@Override
+	public Result uploadInfoAccessRecord(ApiDoorSystemSave apiParam) throws Exception {
+		Result result = Result.getParamErrorResult();
+		if (apiParam!=null && StringUtils.isNotBlank(apiParam.getNotionformcode()) 
+				&& StringUtils.isNotBlank(apiParam.getServicetype())
+				&& StringUtils.isNotBlank(apiParam.getType()) 
+				&& StringUtils.isNotBlank(apiParam.getTime())
+				&& StringUtils.isNotBlank(apiParam.getCurrUid())) {
+			switch (apiParam.getServicetype()) {
+			case "0":
+				//采购到货
+				result = supNoticeDH(apiParam);
+				break;
+			case "1":
+				//采购退货
+				result = supNoticeEH(apiParam);
+				break;
+			case "2":
+				//销售提货
+				result = supNoticeTH(apiParam);
+				break;
+			case "5":
+				//其它入库
+				result = supNoticeQRN(apiParam);
+				break;
+			case "7":
+				//其它出库
+				result = supNoticeQCN(apiParam);
+				break;
+			case "9":
+				//工程车辆
+				result = supNoticeGCN(apiParam);
+				break;
+			default:
+				result.setErrorCode(ErrorCode.THE_BUSINESS_IS_NOT_SUPPORTED);
+				break;
+			}
+			
+		}
+		return result;
+	}
+
+	private Result supNoticeDH(ApiDoorSystemSave apiParam) throws Exception {
+		Result result = Result.getSuccessResult();
+		PurchaseArrive pa = purchaseArriveMapper.selectByCode(apiParam.getNotionformcode());
+		if (pa != null && StringUtils.equals(pa.getState(), Constant.ONE_STRING)) {
+			if (StringUtils.equals(pa.getAuditstatus(), Constant.ONE_STRING)) {
+				if (StringUtils.equals(pa.getStatus(), Constant.ZERO_STRING)) {
+					VehicleManage vehicle = vehicleManageMapper.selectByPrimaryKey(pa.getVehicleid());
+					if (validateVehicle(vehicle, result)) {
+						if (vehicle.getType() == Constant.ONE_NUMBER) {
+							//固定车  绑定过IC卡就去绑定的IC卡，没有绑定IC卡就取子系统传过来的IC卡并绑定到车辆上
+							if (StringUtils.isNotBlank(vehicle.getIcardId())) {
+								//有
+								Card card = cardMapper.selectByPrimaryKey(vehicle.getIcardId());
+								if (validateCard(card, result)) {
+									upDHInfoAccessRecord(apiParam, pa, card, result);
+								}
+							} else {
+								//无
+								Card card = getCardByNo(apiParam.getIcardno());
+								if (validateCard(card, result)) {
+									upDHInfoAccessRecord(apiParam, pa, card, result);
+									vehicle.setIcardId(card.getId());
+									vehicleManageMapper.updateByPrimaryKeySelective(vehicle);
+								}
+							}
+						} else {
+							//临时车  临时车都没IC卡
+							Card card = getCardByNo(apiParam.getIcardno());
+							if (validateCard(card, result)) {
+								upDHInfoAccessRecord(apiParam, pa, card, result);
+							}
+						}
+					}
+				} else {
+					result.setErrorCode(ErrorCode.NOTICE_NOT_ENTER);
+				}
+			} else {
+				result.setErrorCode(ErrorCode.NOTICE_NOT_AUDIT);
+			}
+		} else {
+			result.setErrorCode(ErrorCode.NOTICE_NOT_EXIST);
+		}
+		return result;
+	}
+	
+	private void upDHInfoAccessRecord(ApiDoorSystemSave apiParam, PurchaseArrive pa, Card card, Result result) throws Exception {
+		AccessRecord access = new AccessRecord();
+		access.setId(UUIDUtil.getId());
+		access.setCode(getCode("ZW", apiParam.getCurrUid(), true));
+		access.setBusinesstype(Constant.ONE_STRING);
+		access.setAccesstype(Constant.ONE_STRING);
+		access.setNoticeid(pa.getId());
+		access.setNoticecode(pa.getCode());
+		access.setEntersource("");
+		access.setEntertime(DateUtil.parse(apiParam.getTime(), DateUtil.Y_M_D_H_M_S));
+		access.setState(Constant.ONE_STRING);
+		access.setCreator(apiParam.getCurrUid());
+		access.setCreatetime(System.currentTimeMillis());
+		access.setModifier(apiParam.getCurrUid());
+		access.setModifytime(System.currentTimeMillis());
+		accessRecordMapper.insertSelective(access);
+		updateCode("ZW", apiParam.getCurrUid());
+		
+		//修改通知单状态并绑定IC卡
+		pa.setStatus(Constant.SIX_STRING);
+		pa.setIcardid(card.getId());
+		pa.setModifier(apiParam.getCurrUid());
+		pa.setModifytime(System.currentTimeMillis());
+		
+		//回写订单的未入库占用量和预提占用
+		PurchaseApplicationDetail pad = purchaseApplicationDetailMapper.selectByPrimaryKey(pa.getBilldetailid());
+		pad.setUnstoragequantity(pad.getUnstoragequantity() + pa.getArrivalamount());
+		pad.setPretendingtake(pad.getPretendingtake() - pa.getArrivalamount());
+		purchaseArriveMapper.updateByPrimaryKeySelective(pa);
+		purchaseApplicationDetailMapper.updateByPrimaryKeySelective(pad);
+				
+		result.setData(access.getCode());
+		result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+	}
+	
+	private Result supNoticeEH(ApiDoorSystemSave apiParam) throws Exception {
+		Result result = Result.getSuccessResult();
+		PurchaseArrive pa = purchaseArriveMapper.selectByCode(apiParam.getNotionformcode());
+		if (pa != null && StringUtils.equals(pa.getState(), Constant.ONE_STRING)) {
+			if (StringUtils.equals(pa.getAuditstatus(), Constant.ONE_STRING)) {
+				if (StringUtils.equals(pa.getStatus(), Constant.ZERO_STRING)) {
+					VehicleManage vehicle = vehicleManageMapper.selectByPrimaryKey(pa.getVehicleid());
+					if (validateVehicle(vehicle, result)) {
+						if (vehicle.getType() == Constant.ONE_NUMBER) {
+							//固定车  绑定过IC卡就去绑定的IC卡，没有绑定IC卡就取子系统传过来的IC卡并绑定到车辆上
+							if (StringUtils.isNotBlank(vehicle.getIcardId())) {
+								//有
+								Card card = cardMapper.selectByPrimaryKey(vehicle.getIcardId());
+								if (validateCard(card, result)) {
+									upDHInfoAccessRecord(apiParam, pa, card, result);
+								}
+							} else {
+								//无
+								Card card = getCardByNo(apiParam.getIcardno());
+								if (validateCard(card, result)) {
+									upDHInfoAccessRecord(apiParam, pa, card, result);
+									vehicle.setIcardId(card.getId());
+									vehicleManageMapper.updateByPrimaryKeySelective(vehicle);
+								}
+							}
+						} else {
+							//临时车  临时车都没IC卡
+							Card card = getCardByNo(apiParam.getIcardno());
+							if (validateCard(card, result)) {
+								upDHInfoAccessRecord(apiParam, pa, card, result);
+							}
+						}
+					}
+				} else {
+					result.setErrorCode(ErrorCode.NOTICE_NOT_ENTER);
+				}
+			} else {
+				result.setErrorCode(ErrorCode.NOTICE_NOT_AUDIT);
+			}
+		} else {
+			result.setErrorCode(ErrorCode.NOTICE_NOT_EXIST);
+		}
+		return result;
+	}
+
+	private Result supNoticeTH(ApiDoorSystemSave apiParam) throws Exception {
+		Result result = Result.getSuccessResult();
+		SalesArrive sa = salesArriveMapper.selectByCode(apiParam.getNotionformcode());
+		if (sa != null && StringUtils.equals(sa.getState(), Constant.ONE_STRING)) {
+			if (StringUtils.equals(sa.getAuditstatus(), Constant.ONE_STRING)) {
+				if (StringUtils.equals(sa.getStatus(), Constant.ZERO_STRING)) {
+					VehicleManage vehicle = vehicleManageMapper.selectByPrimaryKey(sa.getVehicleid());
+					if (validateVehicle(vehicle, result)) {
+						if (vehicle.getType() == Constant.ONE_NUMBER) {
+							//固定车  绑定过IC卡就去绑定的IC卡，没有绑定IC卡就取子系统传过来的IC卡并绑定到车辆上
+							if (StringUtils.isNotBlank(vehicle.getIcardId())) {
+								//有
+								Card card = cardMapper.selectByPrimaryKey(vehicle.getIcardId());
+								if (validateCard(card, result)) {
+									upTHInfoAccessRecord(apiParam, sa, card, result);
+								}
+							} else {
+								//无
+								Card card = getCardByNo(apiParam.getIcardno());
+								if (validateCard(card, result)) {
+									upTHInfoAccessRecord(apiParam, sa, card, result);
+									vehicle.setIcardId(card.getId());
+									vehicleManageMapper.updateByPrimaryKeySelective(vehicle);
+								}
+							}
+						} else {
+							//临时车  临时车都没IC卡
+							Card card = getCardByNo(apiParam.getIcardno());
+							if (validateCard(card, result)) {
+								upTHInfoAccessRecord(apiParam, sa, card, result);
+							}
+						}
+					}
+				} else {
+					result.setErrorCode(ErrorCode.NOTICE_NOT_ENTER);
+				}
+			} else {
+				result.setErrorCode(ErrorCode.NOTICE_NOT_AUDIT);
+			}
+		} else {
+			result.setErrorCode(ErrorCode.NOTICE_NOT_EXIST);
+		}
+		return result;
+	}
+
+	private void upTHInfoAccessRecord(ApiDoorSystemSave apiParam, SalesArrive sa, Card card, Result result) throws Exception {
+		AccessRecord access = new AccessRecord();
+		access.setId(UUIDUtil.getId());
+		access.setCode(getCode("ZW", apiParam.getCurrUid(), true));
+		access.setBusinesstype(Constant.TWO_STRING);
+		access.setAccesstype(Constant.ONE_STRING);
+		access.setNoticeid(sa.getId());
+		access.setNoticecode(sa.getCode());
+		access.setEntersource("");
+		access.setEntertime(DateUtil.parse(apiParam.getTime(), DateUtil.Y_M_D_H_M_S));
+		access.setState(Constant.ONE_STRING);
+		access.setCreator(apiParam.getCurrUid());
+		access.setCreatetime(System.currentTimeMillis());
+		access.setModifier(apiParam.getCurrUid());
+		access.setModifytime(System.currentTimeMillis());
+		accessRecordMapper.insertSelective(access);
+		updateCode("ZW", apiParam.getCurrUid());
+		
+		//修改通知单状态并绑定IC卡
+		sa.setStatus(Constant.SIX_STRING);
+		sa.setIcardid(card.getId());
+		sa.setIcardno(card.getCardno());
+		sa.setModifier(apiParam.getCurrUid());
+		sa.setModifytime(System.currentTimeMillis());
+		
+		//回写订单的未入库占用量和预提占用
+		SalesApplicationDetail sad = salesApplicationDetailMapper.selectByPrimaryKey(sa.getBilldetailid());
+		sad.setUnstoragequantity(sad.getUnstoragequantity() + sa.getTakeamount());
+		sad.setPretendingtake(sad.getPretendingtake() - sa.getTakeamount());
+		salesArriveMapper.updateByPrimaryKeySelective(sa);
+		salesApplicationDetailMapper.updateByPrimaryKeySelective(sad);
+				
+		result.setData(access.getCode());
+		result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+	}
+
+	private Result supNoticeQRN(ApiDoorSystemSave apiParam) throws Exception {
+		Result result = Result.getSuccessResult();
+		OtherArrive oa = otherArriveMapper.selectByCode(apiParam.getNotionformcode());
+		if (oa != null) {
+			if (StringUtils.equals(oa.getAuditstatus(), Constant.ONE_STRING)) {
+				if (StringUtils.equals(oa.getStatus(), Constant.ZERO_STRING)) {
+					VehicleManage vehicle = vehicleManageMapper.selectByPrimaryKey(oa.getVehicleid());
+					if (validateVehicle(vehicle, result)) {
+						if (vehicle.getType() == Constant.ONE_NUMBER) {
+							//固定车  绑定过IC卡就去绑定的IC卡，没有绑定IC卡就取子系统传过来的IC卡并绑定到车辆上
+							if (StringUtils.isNotBlank(vehicle.getIcardId())) {
+								//有
+								Card card = cardMapper.selectByPrimaryKey(vehicle.getIcardId());
+								if (validateCard(card, result)) {
+									upQRNInfoAccessRecord(apiParam, oa, card, result);
+								}
+							} else {
+								//无
+								Card card = getCardByNo(apiParam.getIcardno());
+								if (validateCard(card, result)) {
+									upQRNInfoAccessRecord(apiParam, oa, card, result);
+									vehicle.setIcardId(card.getId());
+									vehicleManageMapper.updateByPrimaryKeySelective(vehicle);
+								}
+							}
+						} else {
+							//临时车  临时车都没IC卡
+							Card card = getCardByNo(apiParam.getIcardno());
+							if (validateCard(card, result)) {
+								upQRNInfoAccessRecord(apiParam, oa, card, result);
+							}
+						}
+					}
+				} else {
+					result.setErrorCode(ErrorCode.NOTICE_NOT_ENTER);
+				}
+			} else {
+				result.setErrorCode(ErrorCode.NOTICE_NOT_AUDIT);
+			}
+		} else {
+			result.setErrorCode(ErrorCode.NOTICE_NOT_EXIST);
+		}
+		return result;
+	}
+
+	private void upQRNInfoAccessRecord(ApiDoorSystemSave apiParam, OtherArrive oa, Card card, Result result) throws Exception {
+		AccessRecord access = new AccessRecord();
+		access.setId(UUIDUtil.getId());
+		access.setCode(getCode("ZW", apiParam.getCurrUid(), true));
+		access.setBusinesstype(Constant.FIVE_STRING);
+		access.setAccesstype(Constant.ONE_STRING);
+		access.setNoticeid(oa.getId());
+		access.setNoticecode(oa.getCode());
+		access.setEntersource("");
+		access.setEntertime(DateUtil.parse(apiParam.getTime(), DateUtil.Y_M_D_H_M_S));
+		access.setState(Constant.ONE_STRING);
+		access.setCreator(apiParam.getCurrUid());
+		access.setCreatetime(System.currentTimeMillis());
+		access.setModifier(apiParam.getCurrUid());
+		access.setModifytime(System.currentTimeMillis());
+		accessRecordMapper.insertSelective(access);
+		updateCode("ZW", apiParam.getCurrUid());
+		
+		//修改通知单状态并绑定IC卡
+		oa.setStatus(Constant.SIX_STRING);
+		oa.setIcardid(card.getId());
+		oa.setModifier(apiParam.getCurrUid());
+		oa.setModifytime(System.currentTimeMillis());
+		
+		result.setData(access.getCode());
+		result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+	}
+
+	private Result supNoticeQCN(ApiDoorSystemSave apiParam) throws Exception {
+		Result result = Result.getSuccessResult();
+		OtherArrive oa = otherArriveMapper.selectByCode(apiParam.getNotionformcode());
+		if (oa != null) {
+			if (StringUtils.equals(oa.getAuditstatus(), Constant.ONE_STRING)) {
+				if (StringUtils.equals(oa.getStatus(), Constant.ZERO_STRING)) {
+					VehicleManage vehicle = vehicleManageMapper.selectByPrimaryKey(oa.getVehicleid());
+					if (validateVehicle(vehicle, result)) {
+						if (vehicle.getType() == Constant.ONE_NUMBER) {
+							//固定车  绑定过IC卡就去绑定的IC卡，没有绑定IC卡就取子系统传过来的IC卡并绑定到车辆上
+							if (StringUtils.isNotBlank(vehicle.getIcardId())) {
+								//有
+								Card card = cardMapper.selectByPrimaryKey(vehicle.getIcardId());
+								if (validateCard(card, result)) {
+									upQCNInfoAccessRecord(apiParam, oa, card, result);
+								}
+							} else {
+								//无
+								Card card = getCardByNo(apiParam.getIcardno());
+								if (validateCard(card, result)) {
+									upQCNInfoAccessRecord(apiParam, oa, card, result);
+									vehicle.setIcardId(card.getId());
+									vehicleManageMapper.updateByPrimaryKeySelective(vehicle);
+								}
+							}
+						} else {
+							//临时车  临时车都没IC卡
+							Card card = getCardByNo(apiParam.getIcardno());
+							if (validateCard(card, result)) {
+								upQCNInfoAccessRecord(apiParam, oa, card, result);
+							}
+						}
+					}
+				} else {
+					result.setErrorCode(ErrorCode.NOTICE_NOT_ENTER);
+				}
+			} else {
+				result.setErrorCode(ErrorCode.NOTICE_NOT_AUDIT);
+			}
+		} else {
+			result.setErrorCode(ErrorCode.NOTICE_NOT_EXIST);
+		}
+		return result;
+	}
+
+	private void upQCNInfoAccessRecord(ApiDoorSystemSave apiParam, OtherArrive oa, Card card, Result result) throws Exception {
+		AccessRecord access = new AccessRecord();
+		access.setId(UUIDUtil.getId());
+		access.setCode(getCode("ZW", apiParam.getCurrUid(), true));
+		access.setBusinesstype(Constant.SEVEN_STRING);
+		access.setAccesstype(Constant.ONE_STRING);
+		access.setNoticeid(oa.getId());
+		access.setNoticecode(oa.getCode());
+		access.setEntersource("");
+		access.setEntertime(DateUtil.parse(apiParam.getTime(), DateUtil.Y_M_D_H_M_S));
+		access.setState(Constant.ONE_STRING);
+		access.setCreator(apiParam.getCurrUid());
+		access.setCreatetime(System.currentTimeMillis());
+		access.setModifier(apiParam.getCurrUid());
+		access.setModifytime(System.currentTimeMillis());
+		accessRecordMapper.insertSelective(access);
+		updateCode("ZW", apiParam.getCurrUid());
+		
+		//修改通知单状态并绑定IC卡
+		oa.setStatus(Constant.SIX_STRING);
+		oa.setIcardid(card.getId());
+		oa.setModifier(apiParam.getCurrUid());
+		oa.setModifytime(System.currentTimeMillis());
+		
+		result.setData(access.getCode());
+		result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+	}
+
+	private Result supNoticeGCN(ApiDoorSystemSave apiParam) throws Exception {
+		Result result = Result.getSuccessResult();
+		OtherArrive oa = otherArriveMapper.selectByCode(apiParam.getNotionformcode());
+		if (oa != null) {
+			if (StringUtils.equals(oa.getAuditstatus(), Constant.ONE_STRING)) {
+				if (StringUtils.equals(oa.getStatus(), Constant.ZERO_STRING)) {
+					VehicleManage vehicle = vehicleManageMapper.selectByPrimaryKey(oa.getVehicleid());
+					if (validateVehicle(vehicle, result)) {
+						upGCNInfoAccessRecord(apiParam, oa, result);
+					}
+				} else {
+					result.setErrorCode(ErrorCode.NOTICE_NOT_ENTER);
+				}
+			} else {
+				result.setErrorCode(ErrorCode.NOTICE_NOT_AUDIT);
+			}
+		} else {
+			result.setErrorCode(ErrorCode.NOTICE_NOT_EXIST);
+		}
+		return result;
+	}
+	
+	private void upGCNInfoAccessRecord(ApiDoorSystemSave apiParam, OtherArrive oa, Result result) throws Exception {
+		AccessRecord access = new AccessRecord();
+		access.setId(UUIDUtil.getId());
+		access.setCode(getCode("ZW", apiParam.getCurrUid(), true));
+		access.setBusinesstype(Constant.NINE_STRING);
+		access.setAccesstype(Constant.ONE_STRING);
+		access.setNoticeid(oa.getId());
+		access.setNoticecode(oa.getCode());
+		access.setEntersource("");
+		access.setEntertime(DateUtil.parse(apiParam.getTime(), DateUtil.Y_M_D_H_M_S));
+		access.setState(Constant.ONE_STRING);
+		access.setCreator(apiParam.getCurrUid());
+		access.setCreatetime(System.currentTimeMillis());
+		access.setModifier(apiParam.getCurrUid());
+		access.setModifytime(System.currentTimeMillis());
+		accessRecordMapper.insertSelective(access);
+		updateCode("ZW", apiParam.getCurrUid());
+		
+		//修改通知单状态
+		oa.setStatus(Constant.SIX_STRING);
+		oa.setModifier(apiParam.getCurrUid());
+		oa.setModifytime(System.currentTimeMillis());
+		
+		result.setData(access.getCode());
+		result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+	}
+
+	private boolean validateCard(Card card, Result result) {
+		boolean flag = false;
+		if (card != null && StringUtils.equals(card.getState(), Constant.ONE_STRING)) {
+			if (StringUtils.equals(card.getCardstatus(), Constant.ONE_STRING)) {
+				flag = true;
+			} else {
+				result.setErrorCode(ErrorCode.CARD_IS_VALID);
+			}
+		} else {
+			result.setErrorCode(ErrorCode.CARD_NOT_EXIST);
+		}
+		return flag;
+	}
+	
+	private boolean validateVehicle(VehicleManage vehicle, Result result) {
+		boolean flag = false;
+		if (vehicle != null && StringUtils.equals(vehicle.getState(), Constant.ONE_STRING)) {
+			if (StringUtils.equals(vehicle.getIsvalid(), Constant.ONE_STRING)) {
+				if (StringUtils.equals(vehicle.getIsblacklist(), Constant.ZERO_STRING)) {
+					flag = true;
+				} else {
+					result.setErrorCode(ErrorCode.VEHICLE_IS_BLACK);
+				}
+			} else {
+				result.setErrorCode(ErrorCode.VEHICLE_IS_WX);
+			}
+		} else {
+			result.setErrorCode(ErrorCode.VEHICLE_NOT_EXIST);
+		}
+		return flag;
+	}
+	
+	private Card getCardByNo(String icardNo) {
+		if (StringUtils.isNotBlank(icardNo)) {
+			Card card = new Card();
+			card.setCardno(icardNo);
+			List<Card> list = cardMapper.selectSelective(card);
+			if (CollectionUtils.isNotEmpty(list)) {
+				return list.get(0);
+			}
+		}
+		return null;
+	}
+	
+	private String getCode(String code, String userId, boolean flag) throws Exception {
+		GetCodeReq codeReq = new GetCodeReq();
+		codeReq.setCode(code);
+		codeReq.setCodeType(flag);
+		codeReq.setUserid(userId);
+		return systemCodeService.getCode(codeReq).getData().toString();
+	}
+	
+	private void updateCode(String code, String userId) throws Exception {
+		GetCodeReq codeReq = new GetCodeReq();
+		codeReq.setCode(code);
+		codeReq.setCodeType(true);
+		codeReq.setUserid(userId);
+		systemCodeService.updateCodeItem(codeReq);
+	}
 }

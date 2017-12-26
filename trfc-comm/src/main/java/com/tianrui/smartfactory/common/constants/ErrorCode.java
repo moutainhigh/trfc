@@ -22,6 +22,8 @@ public enum ErrorCode {
 	lOGE_SAVE_ERROR("E00005","推送管理日志保存失败！"),
 	//日志修改失败
 	lOGE_SELECT_ERROR("E00006","未查到异常信息！"),
+	//暂不支持该业务
+	THE_BUSINESS_IS_NOT_SUPPORTED("E00007","暂不支持该业务！"),
 	
 	/**
 	 * 参数相关

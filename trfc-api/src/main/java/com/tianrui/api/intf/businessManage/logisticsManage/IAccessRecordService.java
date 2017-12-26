@@ -45,5 +45,11 @@ public interface IAccessRecordService {
 	 * @return
 	 */
     Result invalid(AccessRecordQuery query);
-
+    /**
+     * @annotation 子系统上传入厂门禁记录（新）
+     * @param apiParam
+     * @return
+     * @throws Exception
+     */
+	Result uploadInfoAccessRecord(ApiDoorSystemSave apiParam) throws Exception;
 }
