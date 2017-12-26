@@ -998,7 +998,7 @@ public class PoundNoteService implements IPoundNoteService {
 					bean.setPutinwarehousecode(storage.getCode());
 					PurchaseApplicationDetail detail = new PurchaseApplicationDetail();
 					detail.setId(applicationDetail.getId());
-					detail.setPretendingtake(applicationDetail.getPretendingtake() + bean.getNetweight());
+//					detail.setPretendingtake(applicationDetail.getPretendingtake() + bean.getNetweight());
 					detail.setStoragequantity(applicationDetail.getStoragequantity() - bean.getNetweight());
 					detail.setMargin(applicationDetail.getMargin() + bean.getNetweight());
 					if (poundNoteMapper.updateByPrimaryKeySelective(bean) > 0

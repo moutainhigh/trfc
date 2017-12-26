@@ -388,16 +388,13 @@ public class AccessRecordService implements IAccessRecordService {
 							pa.setModifier(apiParam.getCurrUid());
 							pa.setModifytime(System.currentTimeMillis());
 							//回写订单的未入库占用量和预提占用
-							PurchaseApplicationDetail applicationDetail = purchaseApplicationDetailMapper.selectByPrimaryKey(purchase.getBilldetailid());
-							PurchaseApplicationDetail save = new PurchaseApplicationDetail();
-							save.setId(applicationDetail.getId());
-							save.setPretendingtake(applicationDetail.getPretendingtake() - purchase.getArrivalamount());
-							if(purchaseArriveMapper.updateByPrimaryKeySelective(pa) > 0
-									&& purchaseApplicationDetailMapper.updateByPrimaryKeySelective(save) > 0){
-								addInfoAccessRecordApi(result, apiParam, purchase.getId(), purchase.getCode(), "1");
-							}else{
-								result.setErrorCode(ErrorCode.OPERATE_ERROR);
-							}
+//							PurchaseApplicationDetail applicationDetail = purchaseApplicationDetailMapper.selectByPrimaryKey(purchase.getBilldetailid());
+//							PurchaseApplicationDetail save = new PurchaseApplicationDetail();
+//							save.setId(applicationDetail.getId());
+//							save.setPretendingtake(applicationDetail.getPretendingtake() - purchase.getArrivalamount());
+							purchaseArriveMapper.updateByPrimaryKeySelective(pa);
+//							purchaseApplicationDetailMapper.updateByPrimaryKeySelective(save);
+							addInfoAccessRecordApi(result, apiParam, purchase.getId(), purchase.getCode(), "1");
 						}else{
 							result.setErrorCode(ErrorCode.CARD_IN_USE);
 						}
@@ -983,7 +980,6 @@ public class AccessRecordService implements IAccessRecordService {
 		Result result = Result.getParamErrorResult();
 		if (apiParam!=null && StringUtils.isNotBlank(apiParam.getNotionformcode()) 
 				&& StringUtils.isNotBlank(apiParam.getServicetype())
-				&& StringUtils.isNotBlank(apiParam.getType()) 
 				&& StringUtils.isNotBlank(apiParam.getTime())
 				&& StringUtils.isNotBlank(apiParam.getCurrUid())) {
 			switch (apiParam.getServicetype()) {
@@ -1088,12 +1084,12 @@ public class AccessRecordService implements IAccessRecordService {
 		pa.setIcardid(card.getId());
 		pa.setModifier(apiParam.getCurrUid());
 		pa.setModifytime(System.currentTimeMillis());
+		purchaseArriveMapper.updateByPrimaryKeySelective(pa);
 		
 		//回写订单的未入库占用量和预提占用
 		PurchaseApplicationDetail pad = purchaseApplicationDetailMapper.selectByPrimaryKey(pa.getBilldetailid());
 		pad.setUnstoragequantity(pad.getUnstoragequantity() + pa.getArrivalamount());
 		pad.setPretendingtake(pad.getPretendingtake() - pa.getArrivalamount());
-		purchaseArriveMapper.updateByPrimaryKeySelective(pa);
 		purchaseApplicationDetailMapper.updateByPrimaryKeySelective(pad);
 				
 		result.setData(access.getCode());
@@ -1114,13 +1110,13 @@ public class AccessRecordService implements IAccessRecordService {
 								//有
 								Card card = cardMapper.selectByPrimaryKey(vehicle.getIcardId());
 								if (validateCard(card, result)) {
-									upDHInfoAccessRecord(apiParam, pa, card, result);
+									upEHInfoAccessRecord(apiParam, pa, card, result);
 								}
 							} else {
 								//无
 								Card card = getCardByNo(apiParam.getIcardno());
 								if (validateCard(card, result)) {
-									upDHInfoAccessRecord(apiParam, pa, card, result);
+									upEHInfoAccessRecord(apiParam, pa, card, result);
 									vehicle.setIcardId(card.getId());
 									vehicleManageMapper.updateByPrimaryKeySelective(vehicle);
 								}
@@ -1129,7 +1125,7 @@ public class AccessRecordService implements IAccessRecordService {
 							//临时车  临时车都没IC卡
 							Card card = getCardByNo(apiParam.getIcardno());
 							if (validateCard(card, result)) {
-								upDHInfoAccessRecord(apiParam, pa, card, result);
+								upEHInfoAccessRecord(apiParam, pa, card, result);
 							}
 						}
 					}
@@ -1143,6 +1139,41 @@ public class AccessRecordService implements IAccessRecordService {
 			result.setErrorCode(ErrorCode.NOTICE_NOT_EXIST);
 		}
 		return result;
+	}
+	
+	private void upEHInfoAccessRecord(ApiDoorSystemSave apiParam, PurchaseArrive pa, Card card, Result result) throws Exception {
+		AccessRecord access = new AccessRecord();
+		access.setId(UUIDUtil.getId());
+		access.setCode(getCode("ZW", apiParam.getCurrUid(), true));
+		access.setBusinesstype(Constant.ONE_STRING);
+		access.setAccesstype(Constant.ONE_STRING);
+		access.setNoticeid(pa.getId());
+		access.setNoticecode(pa.getCode());
+		access.setEntersource("");
+		access.setEntertime(DateUtil.parse(apiParam.getTime(), DateUtil.Y_M_D_H_M_S));
+		access.setState(Constant.ONE_STRING);
+		access.setCreator(apiParam.getCurrUid());
+		access.setCreatetime(System.currentTimeMillis());
+		access.setModifier(apiParam.getCurrUid());
+		access.setModifytime(System.currentTimeMillis());
+		accessRecordMapper.insertSelective(access);
+		updateCode("ZW", apiParam.getCurrUid());
+		
+		//修改通知单状态并绑定IC卡
+		pa.setStatus(Constant.SIX_STRING);
+		pa.setIcardid(card.getId());
+		pa.setModifier(apiParam.getCurrUid());
+		pa.setModifytime(System.currentTimeMillis());
+		purchaseArriveMapper.updateByPrimaryKeySelective(pa);
+		
+		//回写订单的未入库占用量和预提占用
+//		PurchaseApplicationDetail pad = purchaseApplicationDetailMapper.selectByPrimaryKey(pa.getBilldetailid());
+//		pad.setUnstoragequantity(pad.getUnstoragequantity() + pa.getArrivalamount());
+//		pad.setPretendingtake(pad.getPretendingtake() - pa.getArrivalamount());
+//		purchaseApplicationDetailMapper.updateByPrimaryKeySelective(pad);
+				
+		result.setData(access.getCode());
+		result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
 	}
 
 	private Result supNoticeTH(ApiDoorSystemSave apiParam) throws Exception {
