@@ -136,6 +136,11 @@ public class HandSetStaticService implements IHandSetStaticService {
     private void pDo2Dto(HandSetReadICardResp resp, PurchaseArrive purchaseArrive) {
         resp.setNoticeCode(purchaseArrive.getCode());
         resp.setNoticeStatus(purchaseArrive.getStatus());
+        if (StringUtils.isNotBlank(purchaseArrive.getMiningpointname())) {
+        	resp.setMiningpointname(purchaseArrive.getMiningpointname());
+		}else{
+			resp.setMiningpointname("");
+		}
         PurchaseApplication application = purchaseApplicationMapper.selectByPrimaryKey(purchaseArrive.getBillid());
         if (application != null) {
             resp.setDeptId(application.getSupplierid());

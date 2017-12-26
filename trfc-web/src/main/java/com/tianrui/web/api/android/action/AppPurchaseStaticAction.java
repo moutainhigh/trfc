@@ -209,6 +209,7 @@ public class AppPurchaseStaticAction {
 		try {
 			//TODO 获取采矿口
 			AppMiningParam appMiningParam =param.getBody();
+			result = appService.getMiningList(appMiningParam);
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 			result.setErrorCode(ErrorCode.SYSTEM_ERROR);

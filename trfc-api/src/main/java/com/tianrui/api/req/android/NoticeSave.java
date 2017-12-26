@@ -15,6 +15,23 @@ public class NoticeSave extends AppBase {
 	private String detailId;
 	//多单一车订单集合
 	private String ids;
+	//采矿点id
+    private String miningpointid;
+    //采矿点id
+    private String miningpointname;
+    
+	public String getMiningpointid() {
+		return miningpointid;
+	}
+	public void setMiningpointid(String miningpointid) {
+		this.miningpointid = miningpointid;
+	}
+	public String getMiningpointname() {
+		return miningpointname;
+	}
+	public void setMiningpointname(String miningpointname) {
+		this.miningpointname = miningpointname;
+	}
 	public String getVehicle() {
 		return vehicle;
 	}

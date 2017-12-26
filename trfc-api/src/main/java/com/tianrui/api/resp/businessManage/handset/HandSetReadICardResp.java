@@ -22,7 +22,16 @@ public class HandSetReadICardResp extends BaseResp {
     private String noticeStatus;
     //是否原发设置(0：否，1：是)
     private String isPrimary;
-    public String getDeptId() {
+    //采矿点名称
+    private String miningpointname;
+    
+    public String getMiningpointname() {
+		return miningpointname;
+	}
+	public void setMiningpointname(String miningpointname) {
+		this.miningpointname = miningpointname;
+	}
+	public String getDeptId() {
         return deptId;
     }
     public void setDeptId(String deptId) {

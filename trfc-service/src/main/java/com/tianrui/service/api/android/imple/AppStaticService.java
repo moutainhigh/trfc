@@ -3,6 +3,8 @@ package com.tianrui.service.api.android.imple;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.Resource;
+
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
@@ -13,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.tianrui.api.intf.api.android.imple.IAppStaticService;
 import com.tianrui.api.intf.system.auth.ISystemUserService;
 import com.tianrui.api.intf.system.base.ISystemCodeService;
+import com.tianrui.api.req.android.AppMiningParam;
 import com.tianrui.api.req.android.AppVersionParam;
 import com.tianrui.api.req.android.BillListParam;
 import com.tianrui.api.req.android.BillSave;
@@ -37,6 +40,7 @@ import com.tianrui.api.resp.android.SearchListVo;
 import com.tianrui.api.resp.android.UserDriverVehicleVo;
 import com.tianrui.api.resp.android.UserDriverVo;
 import com.tianrui.api.resp.android.UserVehicleVo;
+import com.tianrui.api.resp.basicFile.businessControl.MiningpointDbSettingResp;
 import com.tianrui.api.resp.system.auth.SystemUserResp;
 import com.tianrui.api.resp.system.merchants.AppCutoverGroup;
 import com.tianrui.service.bean.basicFile.measure.DriverManage;
@@ -59,6 +63,7 @@ import com.tianrui.service.bean.system.merchants.SupplierGroup;
 import com.tianrui.service.cache.CacheClient;
 import com.tianrui.service.cache.CacheHelper;
 import com.tianrui.service.cache.CacheModule;
+import com.tianrui.service.mapper.basicFile.businessControl.MiningpointDbSettingMapper;
 import com.tianrui.service.mapper.basicFile.measure.DriverManageMapper;
 import com.tianrui.service.mapper.basicFile.measure.VehicleManageMapper;
 import com.tianrui.service.mapper.basicFile.nc.CustomerManageMapper;
@@ -131,7 +136,8 @@ public class AppStaticService implements IAppStaticService {
 	private AppVersionMapper appVersionMapper;
 	@Autowired
 	SystemUserclientMapper userclientMapper;
-	
+	@Resource
+	private MiningpointDbSettingMapper miningpointDbSettingMapper;
 	@Transactional
 	@Override
 	public AppResult appLogin(LoginUserParam param) throws Exception {
@@ -813,6 +819,8 @@ public class AppStaticService implements IAppStaticService {
 		bean.setState(Constant.ONE_STRING);
 		bean.setCreator(param.getUserId());
 		bean.setCreatetime(System.currentTimeMillis());
+		bean.setMiningpointid(param.getMiningpointid());
+		bean.setMiningpointname(param.getMiningpointname());
 		purchaseArriveMapper.insertSelective(bean);
 		pad.setMargin(pad.getMargin() - param.getNumber());
 		pad.setPretendingtake(pad.getPretendingtake() + param.getNumber());
@@ -1563,6 +1571,17 @@ public class AppStaticService implements IAppStaticService {
 			result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
 		} else {
 			result.setErrorCode(ErrorCode.PARAM_NULL_ERROR);
+		}
+		return result;
+	}
+
+	@Override
+	public AppResult getMiningList(AppMiningParam appMiningParam) {
+		// TODO Auto-generated method stub
+		AppResult result = AppResult.getAppResult();
+		if (appMiningParam != null && StringUtils.isNotBlank(appMiningParam.getMaterId())) {
+			List<MiningpointDbSettingResp> list = miningpointDbSettingMapper.selectByMaterialid(appMiningParam.getMaterId());
+			result.setData(list);
 		}
 		return result;
 	}

@@ -1,5 +1,8 @@
 package com.tianrui.api.intf.api.android.imple;
 
+import java.util.List;
+
+import com.tianrui.api.req.android.AppMiningParam;
 import com.tianrui.api.req.android.AppVersionParam;
 import com.tianrui.api.req.android.BillListParam;
 import com.tianrui.api.req.android.BillSave;
@@ -11,6 +14,7 @@ import com.tianrui.api.req.android.MyVehicleListParam;
 import com.tianrui.api.req.android.NoticeListParam;
 import com.tianrui.api.req.android.NoticeSave;
 import com.tianrui.api.req.android.SearchKeyParam;
+import com.tianrui.api.resp.basicFile.businessControl.MiningpointDbSettingResp;
 import com.tianrui.smartfactory.common.vo.AppResult;
 
 /**
@@ -194,4 +198,10 @@ public interface IAppStaticService {
 	 * @return
 	 */
 	AppResult vcAndDr(MyVehicleListParam param);
+	/**
+	 * 查询采矿口
+	 * @param appMiningParam
+	 * @return
+	 */
+	AppResult getMiningList(AppMiningParam appMiningParam);
 }

@@ -17,6 +17,8 @@ public class BillListVo extends BaseResp {
 	private String billTime = "";
 	//订单来源
 	private String billSource = "";
+	//物料id
+	private String materielid = "";
 	//物料
 	private String material = "";
 	//余量
@@ -41,6 +43,14 @@ public class BillListVo extends BaseResp {
 	private String minemouth = "";
 	//矿口
 	private String vehicle = "";
+	
+	
+	public String getMaterielid() {
+		return materielid;
+	}
+	public void setMaterielid(String materielid) {
+		this.materielid = materielid;
+	}
 	public String getId() {
 		return id;
 	}

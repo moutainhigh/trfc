@@ -784,6 +784,7 @@
 			"%Y-%m-%d"
 		) AS billTime,
 		'NC' AS billSource,
+		t2.materielid,
 		t2.materielname AS material,
 		t2.margin,
 		t2.unit,
@@ -887,7 +888,9 @@
 			''
 		END AS type,
 		t1.supplierremark as supRemark,
-		t1.minemouthname as minemouth
+		t1.minemouthname as minemouth,
+		p2.materielid,
+		p2.materielname as material
 	FROM
 		tr_purchase_db_application t1
 	LEFT JOIN tr_purchase_db_application_detail t2 ON t1.id = t2.purchaseid
