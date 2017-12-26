@@ -97,6 +97,11 @@ public class QualitySchemeItemResp extends BaseResp {
      */
     private String state;
     private String line;
+    
+    /**
+     * 英文表示
+     */
+    private String ename;
 	public String getId() {
 		return id;
 	}
@@ -234,6 +239,12 @@ public class QualitySchemeItemResp extends BaseResp {
 	}
 	public void setLine(String line) {
 		this.line = line;
+	}
+	public String getEname() {
+		return ename;
+	}
+	public void setEname(String ename) {
+		this.ename = ename;
 	}
 
 	

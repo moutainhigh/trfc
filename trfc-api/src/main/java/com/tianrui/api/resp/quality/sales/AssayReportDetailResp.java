@@ -21,6 +21,10 @@ public class AssayReportDetailResp extends BaseResp {
 	private static final long serialVersionUID = 4626192825694528730L;
 	//物料名称
 	private String materName;
+	//客户名称
+	private String customer;
+	//强度等级
+	private String gradeintensity;
 	//填表时间
 	private String createTime;
 	//出厂编码
@@ -139,7 +143,19 @@ public class AssayReportDetailResp extends BaseResp {
 	public void setFlexural28(List flexural28) {
 		this.flexural28 = flexural28;
 	}
-
-
+	public String getCustomer() {
+		return customer;
+	}
+	public void setCustomer(String customer) {
+		this.customer = customer;
+	}
+	public String getGradeintensity() {
+		return gradeintensity;
+	}
+	public void setGradeintensity(String gradeintensity) {
+		this.gradeintensity = gradeintensity;
+	}
+	
+	
 	
 }
