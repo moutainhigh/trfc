@@ -51,7 +51,18 @@ public interface IVehicleManageService {
 	 * @return
 	 */
 	PaginationVO<AppVehicleResp> appToPage(AppQueryReq req);
-
-
+	/**
+	 * @annotation 车辆与IC卡绑定接口
+	 * @param req
+	 * @return
+	 * @throws Exception 
+	 */
+	Result vehicleBindICard(VehicleManageApi req) throws Exception;
+	/**
+	 * @annotation 查询车辆类别和IC卡信息
+	 * @param req
+	 * @return
+	 */
+	Result getByVehicle(VehicleManageApi req);
 
 }
