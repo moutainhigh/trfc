@@ -6,23 +6,24 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 import com.alibaba.fastjson.JSON;
-import com.tianrui.api.req.android.NoticeSave;
+import com.tianrui.api.req.android.AppMiningParam;
+import com.tianrui.api.req.android.DriverSave;
 import com.tianrui.smartfactory.common.api.ApiParam;
 import com.tianrui.smartfactory.common.api.Head;
 import com.tianrui.smartfactory.common.constants.Constant;
 import com.tianrui.smartfactory.common.utils.DateUtil;
 import com.tianrui.smartfactory.common.utils.Md5Utils;
 /**
- * 测试派车
- * @author lenovo
+ * 测试添加司机
+ * @author
  *
  */
 @SuppressWarnings("unused")
-public class TestAndroidSendCar {
+public class TestAndroidGetMiningList {
 
 	private static String domin = "http://localhost/";
 	//private static String domin = "http://172.19.4.97:28080/";
-	private static String uri_login = "api/android/static_new/sendCar";
+	private static String uri_login = "api/android/static_new/getMiningList";
 	
 	public static void main(String[] args) throws Exception {
 		URL url = new URL(domin + uri_login);
@@ -51,17 +52,10 @@ public class TestAndroidSendCar {
 		
 	}
 	
-	static ApiParam<NoticeSave> getParam0(){
-		ApiParam<NoticeSave> api =new ApiParam<NoticeSave>();
-		
-		NoticeSave req =new NoticeSave();
-		req.setId("1002C210000000NHHISL");
-		req.setDetailId("1002C210000000NHHISM");
-		req.setVehicle("8355611b052c4e148b52d07f763f615c");
-		req.setDriver("9a64fba895464221bc7a861f69341008");
-		req.setNumber(65.0);
-		req.setMiningpointid("8af846b7598448c69744fb383c8f0008");
-		req.setMiningpointname("111111");
+	static ApiParam<AppMiningParam> getParam0(){
+		ApiParam<AppMiningParam> api =new ApiParam<AppMiningParam>();
+		AppMiningParam req = new AppMiningParam();
+		req.setMaterId("1002PP10000000006N1Q");
 		
 		Head head =new Head();
 		head.setCallSource("1");  
@@ -69,9 +63,7 @@ public class TestAndroidSendCar {
 		head.setCallTime(DateUtil.getNowDateString("yyyy-MM-dd HH:mm:ss"));
 		//head.setUserId("043e657203f841fcbbeed0118b49a185");
 		
-		head.setIDType("2");
-		head.setUserId("1002P1100000000I1CTM");
-		head.setNcId("1002P110000000KMJVZZ");
+		
 
 		
 		api.setBody(req);

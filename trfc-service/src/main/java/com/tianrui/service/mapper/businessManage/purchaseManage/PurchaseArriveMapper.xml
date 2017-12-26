@@ -484,6 +484,12 @@
       <if test="forceOutFactoryTime != null" >
         forceOutFactoryTime = #{forceOutFactoryTime,jdbcType=BIGINT},
       </if>
+       <if test="miningpointid != null" >
+        miningpointid = #{miningpointid,jdbcType=VARCHAR},
+      </if>
+       <if test="miningpointname != null" >
+        miningpointname = #{miningpointname,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>

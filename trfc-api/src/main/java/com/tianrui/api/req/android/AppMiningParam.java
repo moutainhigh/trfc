@@ -18,6 +18,10 @@ public class AppMiningParam extends AppBase {
 		super();
 		this.materId = materId;
 	}
+
+	public AppMiningParam() {
+		super();
+	}
 	
 	
 }
