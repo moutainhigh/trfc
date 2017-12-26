@@ -32,7 +32,7 @@
 							</ul>
 						</div>
 					</div>
-					<div class="daohuo_add">
+					<div class="daohuo_add" style="overflow: hidden;">
 						<h5>到货通知单详细信息</h5>
 						<div class="daohuo_add_div">
 							<div class="daohuo_add_solo">
