@@ -15,6 +15,7 @@ public class NoticeListVo extends BaseResp {
 	private String billTime = "";
 	//车辆
 	private String vehicle = "";
+	private String materielid = "";
 	//物料
 	private String material = "";
 	//司机
@@ -58,6 +59,13 @@ public class NoticeListVo extends BaseResp {
     //采矿点id
     private String miningpointname = "";
     
+    
+	public String getMaterielid() {
+		return materielid;
+	}
+	public void setMaterielid(String materielid) {
+		this.materielid = materielid;
+	}
 	public String getMiningpointid() {
 		return miningpointid;
 	}

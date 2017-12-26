@@ -20,6 +20,14 @@ public class NoticeSave extends AppBase {
     //采矿点id
     private String miningpointname;
     
+    private String materielid;
+    
+	public String getMaterielid() {
+		return materielid;
+	}
+	public void setMaterielid(String materielid) {
+		this.materielid = materielid;
+	}
 	public String getMiningpointid() {
 		return miningpointid;
 	}

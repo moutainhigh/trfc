@@ -43,6 +43,7 @@ import com.tianrui.api.resp.android.UserVehicleVo;
 import com.tianrui.api.resp.basicFile.businessControl.MiningpointDbSettingResp;
 import com.tianrui.api.resp.system.auth.SystemUserResp;
 import com.tianrui.api.resp.system.merchants.AppCutoverGroup;
+import com.tianrui.service.bean.basicFile.businessControl.MiningpointDbSetting;
 import com.tianrui.service.bean.basicFile.measure.DriverManage;
 import com.tianrui.service.bean.basicFile.measure.VehicleManage;
 import com.tianrui.service.bean.basicFile.nc.CustomerManage;
@@ -1087,6 +1088,13 @@ public class AppStaticService implements IAppStaticService {
 									flag = true;
 								}
 							}
+							//判断是否修改采矿口
+							if (StringUtils.isNotBlank(param.getMiningpointid()) && !StringUtils.equals(notice.getMiningpointid(), param.getMiningpointid())) {
+								MiningpointDbSetting miningpoint = miningpointDbSettingMapper.selectByPrimaryKey(param.getMiningpointid());
+								bean.setMiningpointid(miningpoint.getId());
+								bean.setMiningpointname(miningpoint.getMiningpointname());
+								flag = true;
+							}
 							if (flag) {
 								bean.setId(notice.getId());
 								bean.setModifier(param.getUserId());
@@ -1582,6 +1590,7 @@ public class AppStaticService implements IAppStaticService {
 		if (appMiningParam != null && StringUtils.isNotBlank(appMiningParam.getMaterId())) {
 			List<MiningpointDbSettingResp> list = miningpointDbSettingMapper.selectByMaterialid(appMiningParam.getMaterId());
 			result.setData(list);
+			result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
 		}
 		return result;
 	}

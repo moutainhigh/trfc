@@ -1079,6 +1079,9 @@
 			'%Y-%m-%d'
 		) as billTime,
 		t1.vehicleno as vehicle,
+		t1.miningpointid,
+		t1.miningpointname,
+		t3.materielid,
 		t3.materielname as material,
 		t1.drivername as driver,
 		t1.arrivalamount number,
