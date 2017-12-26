@@ -252,11 +252,7 @@ public class PurchaseArriveService implements IPurchaseArriveService {
 						pa.setBilldetailid(poundNote.getBilldetailid());
 						pa.setPoundnotecode(poundNote.getCode());
 						setNoticeBody(save, pa);
-						GetCodeReq codeReq = new GetCodeReq();
-						codeReq.setCode("EH");
-						codeReq.setCodeType(true);
-						codeReq.setUserid(save.getCurrId());
-						pa.setCode(systemCodeService.getCode(codeReq).getData().toString());
+						pa.setCode(getCode("EH", save.getCurrId(), true));
 						pa.setAuditstatus(Constant.ONE_STRING);
 						pa.setStatus(Constant.ZERO_STRING);
 						pa.setState(Constant.ONE_STRING);
@@ -266,13 +262,10 @@ public class PurchaseArriveService implements IPurchaseArriveService {
 						pa.setMakebilltime(System.currentTimeMillis());
 						pa.setCreator(save.getCurrId());
 						pa.setCreatetime(System.currentTimeMillis());
-						if(purchaseArriveMapper.insertSelective(pa) > 0 
-								&& StringUtils.equals(systemCodeService.updateCodeItem(codeReq).getCode(), ErrorCode.SYSTEM_SUCCESS.getCode())){
-							purchaseArriveMapper.emptyForceOutFactoryByVehicle(save.getVehicleid());
-							result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
-						}else{
-							result.setErrorCode(ErrorCode.OPERATE_ERROR);
-						}
+						purchaseArriveMapper.insertSelective(pa);
+						updateCode("EH", save.getCurrId());
+						purchaseArriveMapper.emptyForceOutFactoryByVehicle(save.getVehicleid());
+						result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
 					}else{
 						result.setErrorCode(ErrorCode.POUNDNOTE_NOT_EXIST);
 					}
@@ -721,5 +714,21 @@ public class PurchaseArriveService implements IPurchaseArriveService {
         }
         return result;
     }
+	
+	private String getCode(String code, String userId, boolean flag) throws Exception {
+		GetCodeReq codeReq = new GetCodeReq();
+		codeReq.setCode(code);
+		codeReq.setCodeType(flag);
+		codeReq.setUserid(userId);
+		return systemCodeService.getCode(codeReq).getData().toString();
+	}
+	
+	private void updateCode(String code, String userId) throws Exception {
+		GetCodeReq codeReq = new GetCodeReq();
+		codeReq.setCode(code);
+		codeReq.setCodeType(true);
+		codeReq.setUserid(userId);
+		systemCodeService.updateCodeItem(codeReq);
+	}
 
 }
