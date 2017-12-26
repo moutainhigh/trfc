@@ -382,8 +382,8 @@
 		$('#departmentname').val(obj.departmentname || '');
 		$('#supplierremark').val(obj.supplierremark || '');
 		$('#altbill').modal('hide');
-		if($("#miningpoinid").length!=0){
-			$("#miningpoinid").parent().remove();
+		if($("#miningpointid").length!=0){
+			$("#miningpointid").parent().remove();
 		}
 		var materialid = obj.materielid;
 		$("#materielid").val(materialid);
