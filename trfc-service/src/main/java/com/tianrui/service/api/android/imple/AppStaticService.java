@@ -1050,23 +1050,6 @@ public class AppStaticService implements IAppStaticService {
 							boolean flag = false;
 							//判断是否修改到货量
 							PurchaseArrive bean = new PurchaseArrive();
-							if (param.getNumber() != null) {
-								if (param.getNumber() > 0) {
-									if (param.getNumber() <= pad.getMargin() + number) {
-										bean.setArrivalamount(param.getNumber());
-										pad.setMargin(pad.getMargin() + number - param.getNumber());
-										pad.setPretendingtake(pad.getPretendingtake() - number + param.getNumber());
-										purchaseApplicationDetailMapper.updateByPrimaryKeySelective(pad);
-										flag = true;
-									} else {
-										result.setErrorCode(ErrorCode.NOTICE_NUMBER_ERROR);
-										return result;
-									}
-								} else {
-									result.setErrorCode(ErrorCode.NOTICE_NUMBER_ERROR);
-									return result;
-								}
-							}
 							//判断是否修改车辆
 							if (StringUtils.isNotBlank(param.getVehicle()) && !StringUtils.equals(notice.getVehicleid(), param.getVehicle())) {
 								VehicleManage vehicle = vehicleManageMapper.selectByPrimaryKey(param.getVehicle());
@@ -1102,6 +1085,23 @@ public class AppStaticService implements IAppStaticService {
 									bean.setMiningpointname(miningpoint.getMiningpointname());
 									flag = true;
 								} else {
+									return result;
+								}
+							}
+							if (param.getNumber() != null) {
+								if (param.getNumber() > 0) {
+									if (param.getNumber() <= pad.getMargin() + number) {
+										bean.setArrivalamount(param.getNumber());
+										pad.setMargin(pad.getMargin() + number - param.getNumber());
+										pad.setPretendingtake(pad.getPretendingtake() - number + param.getNumber());
+										purchaseApplicationDetailMapper.updateByPrimaryKeySelective(pad);
+										flag = true;
+									} else {
+										result.setErrorCode(ErrorCode.NOTICE_NUMBER_ERROR);
+										return result;
+									}
+								} else {
+									result.setErrorCode(ErrorCode.NOTICE_NUMBER_ERROR);
 									return result;
 								}
 							}
