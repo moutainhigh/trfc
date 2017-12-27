@@ -1016,6 +1016,12 @@
   	  <if test="noticeCode != null and noticeCode !=''" >
         and t1.code = #{noticeCode,jdbcType=VARCHAR}
       </if>
+       <if test="startTime != null and startTime != ''">
+		and t1.makebilltime <![CDATA[>=]]> #{startTime,jdbcType=BIGINT}
+	  </if>
+	  <if test="endTime != null and endTime != ''">
+		and t1.makebilltime <![CDATA[<]]> #{endTime,jdbcType=BIGINT}
+	  </if>
       order by t1.createtime desc
 	  <if test="start != null and start >= 0">
 		  <if test="limit != null">
@@ -1048,6 +1054,12 @@
   	  <if test="noticeCode != null and noticeCode !=''" >
         and t1.code = #{noticeCode,jdbcType=VARCHAR}
       </if>
+       <if test="startTime != null and startTime != ''">
+		and t1.makebilltime <![CDATA[>=]]> #{startTime,jdbcType=BIGINT}
+	  </if>
+	  <if test="endTime != null and endTime != ''">
+		and t1.makebilltime <![CDATA[<]]> #{endTime,jdbcType=BIGINT}
+	  </if>
   </select>
   <select id="getByVehicleId" parameterType="java.lang.String" resultMap="BaseResultMap">
     select <include refid="Base_Column_List"/>
