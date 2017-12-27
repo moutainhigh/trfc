@@ -81,14 +81,41 @@ public class VehicleManageService implements IVehicleManageService {
 			if (count > 0) {
 				query.setStart((query.getPageNo() - 1) * query.getPageSize());
 				query.setLimit(query.getPageSize());
-				List<VehicleManage> list = this.vehicleManageMapper.findVehiclePage(query);
-				page.setList(copyBeanList2RespList(list));
+				List<VehicleManage> list = vehicleManageMapper.findVehiclePage(query);
+				List<VehicleManageResp> listResp = copyBeanList2RespList(list);
+				setCardValue(listResp);
+				page.setList(listResp);
 			}
 			page.setTotal(count);
 			page.setPageNo(query.getPageNo());
 			page.setPageSize(query.getPageSize());
 		}
 		return page;
+	}
+
+	private void setCardValue(List<VehicleManageResp> list) {
+		if (CollectionUtils.isNotEmpty(list)) {
+			List<String> ids = new ArrayList<String>();
+			for (VehicleManageResp v : list) {
+				ids.add(v.getIcardId());
+			}
+			if (CollectionUtils.isNotEmpty(ids)) {
+				List<Card> cardList = cardMapper.listByIds(ids);
+				if (CollectionUtils.isNotEmpty(cardList)) {
+					for (VehicleManageResp v : list) {
+						if (StringUtils.isNotBlank(v.getIcardId())) {
+							for (Card c : cardList) {
+								if (StringUtils.equals(v.getIcardId(), c.getId())) {
+									v.setIcardCode(c.getCardcode());
+									v.setIcardNo(c.getCardno());
+									break;
+								}
+							}
+						}
+					}
+				}
+			}
+		}
 	}
 
 	@Transactional
@@ -628,7 +655,7 @@ public class VehicleManageService implements IVehicleManageService {
 				if (validateICard(card, result)) {
 					VehicleAndCardResp resp = new VehicleAndCardResp();
 					resp.setVehicle(vehicle.getVehicleno());
-					resp.setType(resp.getType());
+					resp.setType(String.valueOf(vehicle.getType()));
 					resp.setCardno(card.getCardno());
 					resp.setCardcode(card.getCardcode());
 					result.setData(resp);

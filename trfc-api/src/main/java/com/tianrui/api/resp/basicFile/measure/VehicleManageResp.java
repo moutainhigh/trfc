@@ -1,6 +1,7 @@
 package com.tianrui.api.resp.basicFile.measure;
 
 import com.tianrui.api.resp.BaseResp;
+import com.tianrui.smartfactory.common.utils.DateUtil;
 
 public class VehicleManageResp extends BaseResp {
 
@@ -49,6 +50,8 @@ public class VehicleManageResp extends BaseResp {
     private String creator;
     //创建时间
     private Long createtime;
+    //创建时间
+    private String createtimeStr;
     //最后修改人
     private String modifier;
     //最后修改时间
@@ -57,6 +60,10 @@ public class VehicleManageResp extends BaseResp {
     private Integer type;
     //IC卡ID
     private String icardId;
+    //IC卡面编号
+    private String icardCode;
+    //IC卡序号
+    private String icardNo;
 
     public String getId() {
         return id;
@@ -232,9 +239,18 @@ public class VehicleManageResp extends BaseResp {
 
     public void setCreatetime(Long createtime) {
         this.createtime = createtime;
+        this.createtimeStr = DateUtil.parse(createtime, DateUtil.Y_M_D_H_M_S);
     }
 
-    public String getModifier() {
+    public String getCreatetimeStr() {
+		return createtimeStr;
+	}
+
+	public void setCreatetimeStr(String createtimeStr) {
+		this.createtimeStr = createtimeStr;
+	}
+
+	public String getModifier() {
         return modifier;
     }
 
@@ -264,6 +280,22 @@ public class VehicleManageResp extends BaseResp {
 
 	public void setIcardId(String icardId) {
 		this.icardId = icardId == null ? null : icardId.trim();
+	}
+
+	public String getIcardCode() {
+		return icardCode;
+	}
+
+	public void setIcardCode(String icardCode) {
+		this.icardCode = icardCode;
+	}
+
+	public String getIcardNo() {
+		return icardNo;
+	}
+
+	public void setIcardNo(String icardNo) {
+		this.icardNo = icardNo;
 	}
 
 	public static long getSerialversionuid() {
