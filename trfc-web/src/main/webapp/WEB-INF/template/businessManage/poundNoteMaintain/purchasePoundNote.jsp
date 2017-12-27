@@ -159,6 +159,6 @@
 	<jsp:include page="../../common/base/footer_busi.jsp"></jsp:include>
 	<jsp:include page="../../common/module/printTemplate.jsp"></jsp:include>
 	<script type="text/javascript"
-		src="/javascript/businessManage/poundNoteMaintain/purchasePoundNote.js?17112101"></script>
+		src="/javascript/businessManage/poundNoteMaintain/purchasePoundNote.js?17112701"></script>
 </body>
 </html>
