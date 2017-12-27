@@ -474,4 +474,11 @@
 			</if>
 		</where>
 	</select>
+	<select id="selectFactoryCode" parameterType="java.lang.String"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from tr_sales_db_batch_num
+		where factorycode = #{factorycode,jdbcType=VARCHAR}
+	</select>
 </mapper>

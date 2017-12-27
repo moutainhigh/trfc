@@ -54,6 +54,11 @@ public interface SalesBatchnumMapper {
      */
     List<SalesBatchnum> autoCompleteSearch(@Param("likeName")String likeName);
     
+    /**
+     * 通过批号查询数据
+     */
+    List<SalesBatchnum>selectFactoryCode(String factorycode);
+    
     SalesBatchnum selectIdMargin(SalesBatchnum s);
 
 }

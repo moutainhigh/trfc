@@ -1,8 +1,7 @@
 package com.tianrui.api.resp.quality.sales;
 
-import java.util.HashMap;
 import java.util.List;
-
+import java.util.Map;
 import com.tianrui.api.resp.BaseResp;
 
 /**
@@ -44,15 +43,15 @@ public class AssayReportDetailResp extends BaseResp {
 	//28天抗折平均值
 	private String avgFlexural28;
 	//检验项目集合
-	private HashMap<Object, Object> qualityRs;
+	private Map<String, Object> qualityRs;
 	//3天抗压
-	private List sist3;
+	private List <String> sist3;
 	//28天抗压
-	private List sist28;
+	private List <String> sist28;
 	//3天抗折
-	private List flexural3;
+	private List <String> flexural3;
 	//28天抗折
-	private List flexural28;
+	private List <String> flexural28;
 	public String getMaterName() {
 		return materName;
 	}
@@ -113,34 +112,35 @@ public class AssayReportDetailResp extends BaseResp {
 	public void setAvgFlexural28(String avgFlexural28) {
 		this.avgFlexural28 = avgFlexural28;
 	}
-	public HashMap<Object, Object> getQualityRs() {
+	public Map<String, Object> getQualityRs() {
 		return qualityRs;
 	}
-	public void setQualityRs(HashMap<Object, Object> qualityRs) {
+	public void setQualityRs(Map<String, Object> qualityRs) {
 		this.qualityRs = qualityRs;
 	}
-	public List getSist3() {
+	
+	public List<String> getSist3() {
 		return sist3;
 	}
-	public void setSist3(List sist3) {
+	public void setSist3(List<String> sist3) {
 		this.sist3 = sist3;
 	}
-	public List getSist28() {
+	public List<String> getSist28() {
 		return sist28;
 	}
-	public void setSist28(List sist28) {
+	public void setSist28(List<String> sist28) {
 		this.sist28 = sist28;
 	}
-	public List getFlexural3() {
+	public List<String> getFlexural3() {
 		return flexural3;
 	}
-	public void setFlexural3(List flexural3) {
+	public void setFlexural3(List<String> flexural3) {
 		this.flexural3 = flexural3;
 	}
-	public List getFlexural28() {
+	public List<String> getFlexural28() {
 		return flexural28;
 	}
-	public void setFlexural28(List flexural28) {
+	public void setFlexural28(List<String> flexural28) {
 		this.flexural28 = flexural28;
 	}
 	public String getCustomer() {
