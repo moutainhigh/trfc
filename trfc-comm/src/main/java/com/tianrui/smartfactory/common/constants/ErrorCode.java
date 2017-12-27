@@ -112,7 +112,8 @@ public enum ErrorCode {
 	NOTICE_ONE_BILL_ONE_CAR_DONT_AUDIT("E10045", "一单一车的通知单不能审核."),
 	NOTICE_ONE_BILL_ONE_CAR_DONT_UNAUDIT("E10046", "一单一车的通知单不能反审."),
 	NOTICE_ONE_BILL_ONE_CAR_DONT_VALID("E10047", "一单一车的通知单不能作废."),
-	
+	NOTICE_ISVALID("E10048","该采矿点是无效的."), 
+	NOTICE_MININGPOINT("E10049","该采矿点是不存在."), 
 	/**
 	 * 磅单
 	 */
