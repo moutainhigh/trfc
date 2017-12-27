@@ -1235,6 +1235,7 @@
 			'%Y-%m-%d'
 		) AS billTime,
 		t1.vehicleno AS vehicle,
+		t3.materielid,
 		t3.materielname AS material,
 		t1.drivername AS driver,
 		CASE
