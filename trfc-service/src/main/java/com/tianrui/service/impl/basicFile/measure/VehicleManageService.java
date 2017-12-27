@@ -534,6 +534,22 @@ public class VehicleManageService implements IVehicleManageService {
 		}
 		return flag;
 	}
+	
+	private boolean validateCardBindCar(String cardId, Result result) {
+		boolean flag = false;
+		VehicleManage vehicle = new VehicleManage();
+		vehicle.setIcardId(cardId);
+		vehicle.setIsvalid(Constant.ONE_STRING);
+		vehicle.setIsblacklist(Constant.ZERO_STRING);
+		vehicle.setState(Constant.ONE_STRING);
+		List<VehicleManage> list = vehicleManageMapper.selectSelective(vehicle);
+		if (CollectionUtils.isEmpty(list)) {
+			flag = true;
+		} else {
+			result.setErrorCode(ErrorCode.CARD_ALREADY_BIND_CAR);
+		}
+		return flag;
+	}
 
 	@Override
 	public Result vehicleBindICard(VehicleManageApi req) throws Exception {
@@ -546,31 +562,38 @@ public class VehicleManageService implements IVehicleManageService {
 			if (CollectionUtils.isNotEmpty(list)) {
 				card = list.get(0);
 				if (validateICard(card, result)) {
-					VehicleManage vehicle = vehicleManageMapper.selectByVehicleno(req.getVehicleNo());
-					if (vehicle != null) {
-						if (validateVehicle(vehicle, result)) {
+					if (validateCardBindCar(card.getId(), result)) {
+						VehicleManage vehicle = vehicleManageMapper.selectByVehicleno(req.getVehicleNo());
+						if (vehicle != null) {
+							if (validateVehicle(vehicle, result)) {
+								if (StringUtils.isBlank(vehicle.getIcardId())) {
+									vehicle.setType(Constant.ZERO_NUMBER);
+									vehicle.setIcardId(card.getId());
+									vehicleManageMapper.updateByPrimaryKeySelective(vehicle);
+									result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+								} else {
+									result.setErrorCode(ErrorCode.VEHICLE_ALREADY_BIND_CARD);
+								}
+							}
+						} else {
+							vehicle = new VehicleManage();
+							vehicle.setId(UUIDUtil.getId());
+							vehicle.setCode(getCode("CL", req.getCurrUid(), true));
+							vehicle.setInternalcode(getCode("CL", req.getCurrUid(), false));
+							vehicle.setVehicleno(req.getVehicleNo());
+							vehicle.setTransporttype(Constant.ZERO_STRING);
+							vehicle.setOrgid(Constant.ORG_ID);
+							vehicle.setOrgname(Constant.ORG_NAME);
+							vehicle.setIsvalid(Constant.ONE_STRING);
+							vehicle.setIsblacklist(Constant.ZERO_STRING);
+							vehicle.setState(Constant.ONE_STRING);
 							vehicle.setType(Constant.ZERO_NUMBER);
 							vehicle.setIcardId(card.getId());
-							vehicleManageMapper.updateByPrimaryKeySelective(vehicle);
+							vehicleManageMapper.insertSelective(vehicle);
+							updateCode("CL", req.getCurrUid());
+							result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
 						}
-					} else {
-						vehicle = new VehicleManage();
-						vehicle.setId(UUIDUtil.getId());
-						vehicle.setCode(getCode("CL", req.getCurrUid(), true));
-						vehicle.setInternalcode(getCode("CL", req.getCurrUid(), false));
-						vehicle.setVehicleno(req.getVehicleNo());
-						vehicle.setTransporttype(Constant.ZERO_STRING);
-						vehicle.setOrgid(Constant.ORG_ID);
-						vehicle.setOrgname(Constant.ORG_NAME);
-						vehicle.setIsvalid(Constant.ONE_STRING);
-						vehicle.setIsblacklist(Constant.ZERO_STRING);
-						vehicle.setState(Constant.ONE_STRING);
-						vehicle.setType(Constant.ZERO_NUMBER);
-						vehicle.setIcardId(card.getId());
-						vehicleManageMapper.insertSelective(vehicle);
-						updateCode("CL", req.getCurrUid());
 					}
-					result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
 				}
 			} else {
 				result.setErrorCode(ErrorCode.CARD_NOT_EXIST);	
@@ -578,7 +601,7 @@ public class VehicleManageService implements IVehicleManageService {
 		}
 		return result;
 	}
-	
+
 	private String getCode(String code, String userId, boolean flag) throws Exception {
 		GetCodeReq codeReq = new GetCodeReq();
 		codeReq.setCode(code);

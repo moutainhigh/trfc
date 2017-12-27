@@ -56,6 +56,7 @@ public enum ErrorCode {
 	CARD_REPEAT_REGISTER("E10032","此IC卡重复注册，请更换IC卡."),
 	CARD_IN_USE("E10033","IC卡正在使用中，请更换IC卡."),
 	CARD_IS_VALID("E10034","IC卡已失效."),
+	CARD_ALREADY_BIND_CAR("E10035","IC卡已经绑定过车辆."),
 	
 	/**
 	 * 订单
@@ -146,6 +147,7 @@ public enum ErrorCode {
 	VEHICLE_IS_BLACK("E10023","车辆被列入黑名单."),
 	VEHICLE_NOTICE_NOT_LOAD2("E10024","该车辆还未在平台确认收货."),
 	VEHICLE_DONT_BIND_RFID("E10025","该车辆已绑定过RFID."),
+	VEHICLE_ALREADY_BIND_CARD("E10025","该车辆已绑定过IC卡."),
 	/**
 	 * 司机
 	 */
