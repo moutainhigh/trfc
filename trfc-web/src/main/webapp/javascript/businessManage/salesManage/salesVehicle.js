@@ -64,8 +64,8 @@ $(function(){
 		var vehicleid = $('#vehicle').attr('vehicleid') || ''; vehicleid = $.trim(vehicleid);
 		var materielid = $('#materiel').attr('materielid') || ''; materielid = $.trim(materielid);
 		var driverid = $('#driver').attr('driverid') || ''; driverid = $.trim(driverid);
-		var starttime = $('#starttime').val() || ''; starttime = $.trim(starttime);
-		var endtime = $('#endtime').val() || ''; endtime = $.trim(endtime);
+		var starttime = $('#seek_starttime').val() || ''; starttime = $.trim(starttime);
+		var endtime = $('#seek_endtime').val() || ''; endtime = $.trim(endtime);
 		var pageSize = $('#pageSize').val() || ''; pageSize = $.trim(pageSize);
 		return {
 			billcode:billcode,
