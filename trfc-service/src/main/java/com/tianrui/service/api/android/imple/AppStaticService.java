@@ -1091,7 +1091,7 @@ public class AppStaticService implements IAppStaticService {
 							//判断是否修改采矿口
 							if (StringUtils.isNotBlank(param.getMiningpointid()) && !StringUtils.equals(notice.getMiningpointid(), param.getMiningpointid())) {
 								MiningpointDbSetting miningpoint = miningpointDbSettingMapper.selectByPrimaryKey(param.getMiningpointid());
-								if (miningpoint.getIsvalid() == Constant.ONE_STRING) {
+								if (StringUtils.equals(miningpoint.getIsvalid(), Constant.ONE_STRING)) {
 									bean.setMiningpointid(miningpoint.getId());
 									bean.setMiningpointname(miningpoint.getMiningpointname());
 									flag = true;
