@@ -975,6 +975,33 @@ public class AppSalesStaticService implements IAppSalesStaticService {
 						boolean flag = false;
 						//判断是否修改到货量
 						SalesArrive bean = new SalesArrive();
+						//判断是否修改车辆
+						if (StringUtils.isNotBlank(param.getVehicle()) && !StringUtils.equals(notice.getVehicleid(), param.getVehicle())) {
+							VehicleManage vehicle = vehicleManageMapper.selectByPrimaryKey(param.getVehicle());
+							if (validVehicle(vehicle, result)) {
+								bean.setVehicleid(vehicle.getId());
+								bean.setVehicleno(vehicle.getVehicleno());
+								bean.setVehiclerfid(vehicle.getRfid());
+								saveUserVehicle(user.getId(), vehicle.getId());
+								salesArriveMapper.emptyForceOutFactoryByVehicle(param.getVehicle());
+								flag = true;
+							} else {
+								return result;
+							}
+						}
+						//判断是否修改司机
+						if (StringUtils.isNotBlank(param.getDriver()) && !StringUtils.equals(notice.getDriverid(), param.getDriver())) {
+							DriverManage driver = driverManageMapper.selectByPrimaryKey(param.getDriver());
+							if (validDriver(driver, result)) {
+								bean.setDriverid(driver.getId());
+								bean.setDrivername(driver.getName());
+								bean.setDriveridentityno(driver.getIdentityno());
+								saveUserVehicle(user.getId(), driver.getId());
+								flag = true;
+							} else {
+								return result;
+							}
+						}
 						if (param.getNumber() != null) {
 							if (param.getNumber() > 0) {
 								// TODO
@@ -1012,32 +1039,11 @@ public class AppSalesStaticService implements IAppSalesStaticService {
 									flag = true;
 								} else {
 									result.setErrorCode(ErrorCode.NOTICE_NUMBER_ERROR);
+									return result;
 								}
 							} else {
 								result.setErrorCode(ErrorCode.NOTICE_NUMBER_ERROR);
-							}
-						}
-						//判断是否修改车辆
-						if (StringUtils.isNotBlank(param.getVehicle()) && !StringUtils.equals(notice.getVehicleid(), param.getVehicle())) {
-							VehicleManage vehicle = vehicleManageMapper.selectByPrimaryKey(param.getVehicle());
-							if (validVehicle(vehicle, result)) {
-								bean.setVehicleid(vehicle.getId());
-								bean.setVehicleno(vehicle.getVehicleno());
-								bean.setVehiclerfid(vehicle.getRfid());
-								saveUserVehicle(user.getId(), vehicle.getId());
-								salesArriveMapper.emptyForceOutFactoryByVehicle(param.getVehicle());
-								flag = true;
-							}
-						}
-						//判断是否修改司机
-						if (StringUtils.isNotBlank(param.getDriver()) && !StringUtils.equals(notice.getDriverid(), param.getDriver())) {
-							DriverManage driver = driverManageMapper.selectByPrimaryKey(param.getDriver());
-							if (validDriver(driver, result)) {
-								bean.setDriverid(driver.getId());
-								bean.setDrivername(driver.getName());
-								bean.setDriveridentityno(driver.getIdentityno());
-								saveUserVehicle(user.getId(), driver.getId());
-								flag = true;
+								return result;
 							}
 						}
 						if (flag) {

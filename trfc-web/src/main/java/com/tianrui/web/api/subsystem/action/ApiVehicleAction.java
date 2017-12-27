@@ -94,7 +94,7 @@ public class ApiVehicleAction {
 	 */
 	@RequestMapping("vehicleBindICard")
 	@ApiParamRawType(VehicleManageApi.class)
-	@ApiAuthValidation(callType="1")
+	@ApiAuthValidation(callType="2")
 	@ResponseBody
 	public ApiResult vehicleBindICard(ApiParam<VehicleManageApi> apiParam){
 		Result rs=Result.getErrorResult();
