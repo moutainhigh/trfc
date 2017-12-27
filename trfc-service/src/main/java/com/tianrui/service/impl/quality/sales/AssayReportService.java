@@ -403,6 +403,7 @@ public class AssayReportService implements IAssayReportService {
 		MaterialScheme materialScheme =materialSchemeMapper.selectMaterial(salesBatchnum.getId());
 		if(materialScheme!=null){
 			detailResp.setGradeintensity(materialScheme.getStrength());
+			detailResp.setMaterName(materialScheme.getMaterialtype());
 		}
 		// 创建销售化验报告req对象
 		AssayReportReq req = new AssayReportReq();
@@ -442,7 +443,6 @@ public class AssayReportService implements IAssayReportService {
 					}
 			}
 		}
-		detailResp.setMaterName("石灰石");
 		SimpleDateFormat format =  new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");  
 	    Long time=new Long(System.currentTimeMillis());  
 	    String d = format.format(time); 
