@@ -1060,9 +1060,11 @@ public class AppStaticService implements IAppStaticService {
 										flag = true;
 									} else {
 										result.setErrorCode(ErrorCode.NOTICE_NUMBER_ERROR);
+										return result;
 									}
 								} else {
 									result.setErrorCode(ErrorCode.NOTICE_NUMBER_ERROR);
+									return result;
 								}
 							}
 							//判断是否修改车辆
@@ -1075,6 +1077,8 @@ public class AppStaticService implements IAppStaticService {
 									saveUserVehicle(user.getId(), vehicle.getId());
 									purchaseArriveMapper.emptyForceOutFactoryByVehicle(param.getVehicle());
 									flag = true;
+								} else {
+									return result;
 								}
 							}
 							//判断是否修改司机
@@ -1086,6 +1090,8 @@ public class AppStaticService implements IAppStaticService {
 									bean.setDriveridentityno(driver.getIdentityno());
 									saveUserVehicle(user.getId(), driver.getId());
 									flag = true;
+								} else {
+									return result;
 								}
 							}
 							//判断是否修改采矿口
@@ -1095,6 +1101,8 @@ public class AppStaticService implements IAppStaticService {
 									bean.setMiningpointid(miningpoint.getId());
 									bean.setMiningpointname(miningpoint.getMiningpointname());
 									flag = true;
+								} else {
+									return result;
 								}
 							}
 							if (flag) {
