@@ -447,10 +447,10 @@ public class AssayReportService implements IAssayReportService {
 	    Long time=new Long(System.currentTimeMillis());  
 	    String d = format.format(time); 
 		detailResp.setCreateTime(d);
-		detailResp.setCustomer("什么名字啊");
-		detailResp.setFactoryTime("2017-12-22");
-		detailResp.setVehicleNo("京A12345");
-		detailResp.setNumber("40");
+		detailResp.setCustomer("");
+		detailResp.setFactoryTime("");
+		detailResp.setVehicleNo("");
+		detailResp.setNumber("");
 		detailResp.setQualityRs((HashMap<Object, Object>) map);// 检测值集合
 		detailResp.setSist3(liSist3);
 		detailResp.setSist28(sist28);
