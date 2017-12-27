@@ -6,6 +6,10 @@
 	};
 	init();
 	function init(){
+		//初始化默认查询当nian的数据
+		var array = getTodayStr();
+		$('#starttime').val(array[0]);
+		$('#endtime').val(array[1]);
 		//初始化autocomplete
 		initAutoComplete();
 		//初始化页面按钮绑定事件
@@ -97,6 +101,25 @@
 			endtime:str2Long(endtime),
 			pageSize:pageSize
 		};
+	}
+	function getTodayStr(){
+		var myDate = new Date();
+		var year = myDate.getFullYear();    //获取完整的年份(4位,1970-????)
+		var month = myDate.getMonth()+1;       //获取当前月份(0-11,0代表1月)
+		var day = myDate.getDate();        //获取当前日(1-31)
+		var hours = myDate.getHours();       //获取当前小时数(0-23)
+		var minutes = myDate.getMinutes();     //获取当前分钟数(0-59)
+		var seconds = myDate.getSeconds();     //获取当前秒数(0-59)
+		if(month<10){
+			month = "0"+ month;
+		}
+		if(day<10){
+			day = "0"+day;
+		}
+		var array = new Array();
+		array[0]=year+"-"+"01"+"-"+"01"+" "+"00:00:00";
+		array[1]=year+"-"+"12"+"-"+"31"+" "+"23:59:59";
+		return array;
 	}
 	
 	function queryData(pageNo){

@@ -432,7 +432,7 @@
 		<script type="text/javascript"
 			src="${staticBasePath}/js/cardReader.js"></script>
 		<script type="text/javascript"
-			src="/javascript/quality/purchase/sampling.js"></script>
+			src="/javascript/quality/purchase/sampling.js?20171227"></script>
 	</div>
 </body>
 </html>

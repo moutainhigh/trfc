@@ -251,7 +251,7 @@
 	<!-- 引用公共footer部分 -->
 	<jsp:include page="../../common/base/footer_busi.jsp"></jsp:include>
 	<script type="text/javascript"
-		src="/javascript/businessManage/purchaseManage/purchaseApplication.js"></script>
+		src="/javascript/businessManage/purchaseManage/purchaseApplication.js?20171226"></script>
 	<script type="text/javascript">
 		// 弹出信息的tab切换菜单
 		var alt_li = $('#alt_tab .cg_tabtit ul li');

@@ -225,6 +225,6 @@
 		<script type="text/javascript"
 			src="${staticBasePath}/js/cardReader.js"></script>
 		<script type="text/javascript"
-			src="/javascript/businessManage/otherManage/otherCLArrive.js?1221"></script>
+			src="/javascript/businessManage/otherManage/otherCLArrive.js?1227"></script>
 </body>
 </html>

@@ -412,7 +412,7 @@
 </script>
 		<jsp:include page="../../common/base/footer_busi.jsp"></jsp:include>
 		<script type="text/javascript"
-			src="/javascript/quality/purchase/assay.js"></script>
+			src="/javascript/quality/purchase/assay.js?20171227"></script>
 	</div>
 </body>
 </html>

@@ -317,6 +317,6 @@
 <jsp:include page="../../common/base/footer_busi.jsp"></jsp:include>
 <script type="text/javascript" src="${staticBasePath}/js/cardReader.js"></script>
 <script type="text/javascript"
-		src="/javascript/businessManage/otherManage/otherCKArrive.js?1221"></script>
+		src="/javascript/businessManage/otherManage/otherCKArrive.js?1223"></script>
 </body>
 </html>

@@ -1091,9 +1091,11 @@ public class AppStaticService implements IAppStaticService {
 							//判断是否修改采矿口
 							if (StringUtils.isNotBlank(param.getMiningpointid()) && !StringUtils.equals(notice.getMiningpointid(), param.getMiningpointid())) {
 								MiningpointDbSetting miningpoint = miningpointDbSettingMapper.selectByPrimaryKey(param.getMiningpointid());
-								bean.setMiningpointid(miningpoint.getId());
-								bean.setMiningpointname(miningpoint.getMiningpointname());
-								flag = true;
+								if (miningpoint.getIsvalid() == Constant.ONE_STRING) {
+									bean.setMiningpointid(miningpoint.getId());
+									bean.setMiningpointname(miningpoint.getMiningpointname());
+									flag = true;
+								}
 							}
 							if (flag) {
 								bean.setId(notice.getId());
@@ -1591,6 +1593,8 @@ public class AppStaticService implements IAppStaticService {
 			List<MiningpointDbSettingResp> list = miningpointDbSettingMapper.selectByMaterialid(appMiningParam.getMaterId());
 			result.setData(list);
 			result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+		} else {
+			result.setErrorCode(ErrorCode.DATA_ERROR);
 		}
 		return result;
 	}

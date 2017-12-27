@@ -12,7 +12,15 @@ $(function(){
 			getLineAndNameUrl:"/trfc/quality/sales/file/qualityItem/getLineAndName",
 			qschemeAutoCompleteSearch: "/trfc/quality/sales/file/qualityScheme/autoCompleteSearch",
 	};
-	ShowAction(1);
+	init();
+	function init(){
+		//初始化默认查询当nian的数据
+		var array = getTodayStr();
+		$('#seek_starttime').val(array[0]);
+		$('#seek_endtime').val(array[1]);
+		ShowAction(1);
+		initSelect();
+	}
 	//绑定刷新按钮
 	//绑定刷新按钮
 	$('#fresh').click(function(){
@@ -30,7 +38,7 @@ $(function(){
 	var userid = $('.user').attr('userid');
 	$('#add_sure').click(saveAction);
 	$('#edit_sure').click(updateAction);
-	initSelect();
+	
 	//绑定删除按钮
 	$('#delete').off('click').on('click',function(e){
 		e.stopPropagation();
@@ -147,6 +155,27 @@ $(function(){
 			param[obj.line.toLowerCase()] = divs.eq(i).find('input').val();
 		}
 		return param;
+	}
+	
+
+	function getTodayStr(){
+		var myDate = new Date();
+		var year = myDate.getFullYear();    //获取完整的年份(4位,1970-????)
+		var month = myDate.getMonth()+1;       //获取当前月份(0-11,0代表1月)
+		var day = myDate.getDate();        //获取当前日(1-31)
+		var hours = myDate.getHours();       //获取当前小时数(0-23)
+		var minutes = myDate.getMinutes();     //获取当前分钟数(0-59)
+		var seconds = myDate.getSeconds();     //获取当前秒数(0-59)
+		if(month<10){
+			month = "0"+ month;
+		}
+		if(day<10){
+			day = "0"+day;
+		}
+		var array = new Array();
+		array[0]=year+"-"+month+"-"+day+" "+"00:00:00";
+		array[1]=year+"-"+month+"-"+day+" "+"23:59:59";
+		return array;
 	}
 	//获取新增数据
 	function getAddData(){
