@@ -19,10 +19,15 @@ import com.tianrui.api.intf.system.auth.ISmUserService;
 import com.tianrui.api.req.system.auth.SmUserReq;
 import com.tianrui.api.resp.system.auth.SmUserResp;
 import com.tianrui.service.bean.system.auth.SmUser;
+import com.tianrui.service.bean.system.auth.SystemUser;
 import com.tianrui.service.cache.CacheClient;
 import com.tianrui.service.cache.CacheModule;
 import com.tianrui.service.mapper.system.auth.SmUserMapper;
+import com.tianrui.service.mapper.system.auth.SystemUserMapper;
+import com.tianrui.smartfactory.common.constants.Constant;
 import com.tianrui.smartfactory.common.constants.ErrorCode;
+import com.tianrui.smartfactory.common.utils.Md5Utils;
+import com.tianrui.smartfactory.common.utils.UUIDUtil;
 import com.tianrui.smartfactory.common.vo.Result;
 /**
  * SmUserService
@@ -37,7 +42,8 @@ public class SmUserService implements ISmUserService{
 	private SmUserMapper smUserMapper;
 	@Autowired
 	private CacheClient cacheClient;
-	
+	@Autowired
+	private SystemUserMapper systemUserMapper;
 	@Override
 	public Result findMaxUtc(SmUserReq query) throws Exception {
 		Result rs =Result.getParamErrorResult();
@@ -68,6 +74,7 @@ public class SmUserService implements ISmUserService{
 			if(CollectionUtils.isNotEmpty(toSave)){
 				smUserMapper.insertBatch(toSave);
 			}
+			saveSystemUser(toSave);
 			//修改的就一个一个的调用修改
 			if( CollectionUtils.isNotEmpty(toUpdate) ){
 				for( SmUser item:toUpdate ){
@@ -134,5 +141,29 @@ public class SmUserService implements ISmUserService{
 			list = JSON.parseArray(jsonItem, SmUserResp.class);
 		}
 		return list;
+	}
+	/**
+	 * smuser用户保存到systemuser
+	 * @param toSave
+	 */
+	public void saveSystemUser(List<SmUser> toSave){
+		for (SmUser item : toSave) {
+			SystemUser systemUser = new SystemUser();
+			systemUser.setId(UUIDUtil.getId());
+			systemUser.setNcid(item.getId());
+			systemUser.setCode(item.getCode());
+			systemUser.setName(item.getName());
+			systemUser.setAccount(item.getCode());
+			systemUser.setPassword(Md5Utils.MD5("666666"));
+			systemUser.setIdentityTypes(Constant.THREE_STRING);
+			systemUser.setOrgid(item.getOrgId());
+			systemUser.setSource(Constant.ONE_STRING);
+			systemUser.setIslock(Constant.ZERO_BYTE);
+			systemUser.setIsvalid(Constant.ONE_BYTE);
+			systemUser.setCreator("admin");
+			systemUser.setUtc(item.getTs());
+			
+			systemUserMapper.insertSelective(systemUser);
+		}
 	}
 }

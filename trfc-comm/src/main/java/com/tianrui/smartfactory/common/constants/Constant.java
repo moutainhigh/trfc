@@ -117,6 +117,9 @@ public class Constant {
     public final static Integer SEVEN_NUMBER = 7;
     public final static Integer EIGHT_NUMBER = 8;
     public final static Integer NINE_NUMBER = 9;
+    
+    public final static byte ZERO_BYTE = 0;
+    public final static byte ONE_BYTE = 1;
     public static String getFILE_URL_PRE() {
         return FILE_URL_PRE;
     }
