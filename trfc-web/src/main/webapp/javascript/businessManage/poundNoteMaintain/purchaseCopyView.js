@@ -203,19 +203,21 @@
 				var orgname = obj.orgname || '';
 				var billtimeStr = obj.billtimeStr || '';
 				var departmentname = obj.departmentname || '';
-				var minemouth = '';
-				switch (supplier.minemouth) {
-				case '0': minemouth = '否'; break;
-				case '1': minemouth = '是'; break;
-				default: break;
-				}
+			//	var minemouth = '';
+				var  minemouthname= obj.minemouthname || '';
+			//	switch (supplier.minemouth) {
+			//	case '0': minemouth = '否'; break;
+			//	case '1': minemouth = '是'; break;
+			//	default: break;
+			//	}
 				var drivercheck = '';
 				switch (supplier.drivercheck) {
 				case '0': drivercheck = '否'; break;
 				case '1': drivercheck = '是'; break;
 				default: break;
 				}
-				var remark = obj.remark || '';
+			//	var remark = obj.remark || '';
+				var supplierremark = obj.supplierremark || '';
 				$('<tr title="双击选择">').append('<td>'+(i+1)+'</td>')
 						.append('<td>'+code+'</td>')
 						.append('<td>'+suppliername+'</td>')
@@ -230,9 +232,9 @@
 						.append('<td>'+orgname+'</td>')
 						.append('<td>'+billtimeStr+'</td>')
 						.append('<td>'+departmentname+'</td>')
-						.append('<td>'+minemouth+'</td>')
-						.append('<td>'+drivercheck+'</td>')
-						.append('<td>'+remark+'</td>')
+						.append('<td>'+minemouthname+'</td>')
+					//	.append('<td>'+drivercheck+'</td>')
+						.append('<td>'+supplierremark+'</td>')
 						.data(obj)
 						.appendTo('#purchaseApplicationBody');
 			}

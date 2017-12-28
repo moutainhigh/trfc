@@ -209,7 +209,7 @@
 										<th>订单日期</th>
 										<th>采购部门</th>
 										<th>矿口</th>
-										<th>司机身份验证</th>
+								<!-- 	<th>司机身份验证</th> -->
 										<th>备注</th>
 									</tr>
 								</thead>
@@ -400,6 +400,6 @@
 	<jsp:include page="../../common/base/footer_busi.jsp"></jsp:include>
 	<script type="text/javascript" src="${staticBasePath}/js/cardReader.js"></script>
 	<script type="text/javascript"
-		src="/javascript/businessManage/purchaseManage/purchaseArriveAdd.js?201711239"></script>
+		src="/javascript/businessManage/purchaseManage/purchaseArriveAdd.js?2017112301"></script>
 </body>
 </html>
