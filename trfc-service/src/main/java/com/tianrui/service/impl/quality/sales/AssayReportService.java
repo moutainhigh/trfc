@@ -1,8 +1,6 @@
 package com.tianrui.service.impl.quality.sales;
 
-import java.lang.reflect.InvocationTargetException;
 import java.math.BigDecimal;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -25,7 +23,6 @@ import com.tianrui.api.resp.quality.sales.AssayReportDetailResp;
 import com.tianrui.api.resp.quality.sales.AssayReportResp;
 import com.tianrui.service.bean.basicFile.nc.MaterielManage;
 import com.tianrui.service.bean.quality.file.MaterialScheme;
-import com.tianrui.service.bean.quality.file.QualityColumn;
 import com.tianrui.service.bean.quality.file.QualityItem;
 import com.tianrui.service.bean.quality.file.QualityScheme;
 import com.tianrui.service.bean.quality.file.QualitySchemeItem;
@@ -45,7 +42,9 @@ import com.tianrui.service.mapper.quality.sales.AssayReportMapper;
 import com.tianrui.service.mapper.quality.sales.AssayReportMsgMapper;
 import com.tianrui.service.mapper.quality.sales.SalesBatchnumMapper;
 import com.tianrui.service.mapper.system.auth.SystemUserMapper;
+import com.tianrui.smartfactory.common.constants.Constant;
 import com.tianrui.smartfactory.common.constants.ErrorCode;
+import com.tianrui.smartfactory.common.utils.DateUtil;
 import com.tianrui.smartfactory.common.utils.UUIDUtil;
 import com.tianrui.smartfactory.common.vo.PaginationVO;
 import com.tianrui.smartfactory.common.vo.Result;
@@ -76,6 +75,7 @@ public class AssayReportService implements IAssayReportService {
 	private QualityItemMapper qualityItemMapper;
 	@Resource
 	private MaterialSchemeMapper materialSchemeMapper;
+
 	@Override
 	public Result delete(AssayReportReq req) throws Exception {
 		Result rs = Result.getParamErrorResult();
@@ -397,76 +397,90 @@ public class AssayReportService implements IAssayReportService {
 		Result rs = Result.getSuccessResult();
 		// 创建一个详情返回对象
 		AssayReportDetailResp detailResp = new AssayReportDetailResp();
-		// 根据批号查询销售批号对应的数据
-		SalesBatchnum salesBatchnum = salesBatchnumMapper.selectByFactoryCode(factorycode);
-		detailResp.setFactoryCode(salesBatchnum.getFactorycode());// 出厂编码
-		MaterialScheme materialScheme =materialSchemeMapper.selectMaterial(salesBatchnum.getId());
-		if(materialScheme!=null){
-			detailResp.setGradeintensity(materialScheme.getStrength());
-			detailResp.setMaterName(materialScheme.getMaterialtype());
-		}
 		// 创建销售化验报告req对象
 		AssayReportReq req = new AssayReportReq();
-		// 将批号id放到req对象
-		req.setBatchnumid(salesBatchnum.getId());
+		// 根据批号查询销售批号对应的数据
+		List<SalesBatchnum> salesList = salesBatchnumMapper.selectFactoryCode(factorycode);
+		for (SalesBatchnum salesBatchnum : salesList) {
+			detailResp.setFactoryCode(salesBatchnum.getFactorycode());// 出厂编码
+			MaterialScheme materialScheme = materialSchemeMapper.selectMaterial(salesBatchnum.getId());// 根据物料id查询物料信息
+			if (materialScheme != null) {
+				detailResp.setGradeintensity(materialScheme.getStrength());
+				detailResp.setMaterName(materialScheme.getMaterialtype());
+			}
+			// 将批号id放到req对象
+			req.setBatchnumid(salesBatchnum.getId());
+		}
 		// 根据批号id查询数据
 		List<AssayReport> list = assayReportMapper.selectBatchnumid(req);
-		//质检项目的检测值
-		Map<Object, Object> map = new HashMap<Object, Object>();
-		List liSist3 = new ArrayList<>();//3天抗压集合
-		List sist28 = new ArrayList<>();//28天抗压集合
-		List flexural3 = new ArrayList<>();//3天抗折集合
-		List flexural28 = new ArrayList<>();//28天抗折集合
+		// 质检项目的检测值
+		Map<String, Object> map = new HashMap<String, Object>();
+		List<String> liSist3 = new ArrayList<String>();// 3天抗压集合
+		List<String> sist28 = new ArrayList<String>();// 28天抗压集合
+		List<String> flexural3 = new ArrayList<String>();// 3天抗折集合
+		List<String> flexural28 = new ArrayList<String>();// 28天抗折集合
 		if (list != null && !list.isEmpty()) {
 			for (AssayReport assay : list) {// 遍历list
-				
-				List<QualitySchemeItemResp>  qualityList= getAssayItem(assay.getQschemeid(),assay.getId());
-					for(QualitySchemeItemResp itemResp:qualityList){
-						if(assay.getReporttype().equals("0")){
-							map.put(itemResp.getEname(), itemResp.getTestval());
-							if(itemResp.getEname().equals("compress")||itemResp.getEname().equals("compress1")||itemResp.getEname().equals("compress2")
-									||itemResp.getEname().equals("compress3")||itemResp.getEname().equals("compress4")||itemResp.getEname().equals("compress5")){
-								liSist3.add(itemResp.getTestval());
-							}
-							if(itemResp.getEname().equals("bending")||itemResp.getEname().equals("bending1")||itemResp.getEname().equals("bending2")){
-								flexural3.add(itemResp.getTestval());
-							}
-						}else{
-							if(itemResp.getEname().equals("compress")||itemResp.getEname().equals("compress1")||itemResp.getEname().equals("compress2")
-									||itemResp.getEname().equals("compress3")||itemResp.getEname().equals("compress4")||itemResp.getEname().equals("compress5")){
-								sist28.add(itemResp.getTestval());
-							}
-							if(itemResp.getEname().equals("bending")||itemResp.getEname().equals("bending1")||itemResp.getEname().equals("bending2")){
-								flexural28.add(itemResp.getTestval());
-							}
+				List<QualitySchemeItemResp> qualityList = getAssayItem(assay.getQschemeid(), assay.getId());
+				for (QualitySchemeItemResp itemResp : qualityList) {
+					// 判断是否3天类型
+					if (StringUtils.equals(Constant.DATE_TYPE_THREE, assay.getReporttype())) {
+						map.put(itemResp.getEname(), itemResp.getTestval());
+						if (StringUtils.startsWith(itemResp.getEname(),"compress")) {
+							liSist3.add(itemResp.getTestval());
+						}
+						if (StringUtils.startsWith(itemResp.getEname(),"bending")) {
+							flexural3.add(itemResp.getTestval());
+						}
+						if (StringUtils.startsWith( itemResp.getEname(),"rcompress")) {
+							sist28.add(itemResp.getTestval());
+						}
+						if (StringUtils.startsWith(itemResp.getEname(),"rbending")) {
+							flexural28.add(itemResp.getTestval());
+						}
+					} else {
+						map.put(itemResp.getEname(), itemResp.getTestval());
+						if (StringUtils.startsWith("compress", itemResp.getEname())) {
+							sist28.add(itemResp.getTestval());
+						}
+						if (StringUtils.startsWith("bending", itemResp.getEname())) {
+							flexural28.add(itemResp.getTestval());
 						}
 					}
+				}
+				// 获取当前时间
+				String d = DateUtil.parse(assay.getCreatetime(), "yyyy-MM-dd HH:mm:ss");
+				detailResp.setCreateTime(d);
 			}
 		}
-		SimpleDateFormat format =  new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");  
-	    Long time=new Long(System.currentTimeMillis());  
-	    String d = format.format(time); 
-		detailResp.setCreateTime(d);
+
+		// detailResp.setCreateTime(d);
 		detailResp.setCustomer("");
 		detailResp.setFactoryTime("");
 		detailResp.setVehicleNo("");
 		detailResp.setNumber("");
-		detailResp.setQualityRs((HashMap<Object, Object>) map);// 检测值集合
+		detailResp.setQualityRs(map);// 检测值集合
 		detailResp.setSist3(liSist3);
 		detailResp.setSist28(sist28);
 		detailResp.setFlexural3(flexural3);
 		detailResp.setFlexural28(flexural28);
-		if(flexural3!=null&&!flexural3.isEmpty()){
-			detailResp.setAvgFlexural3(String.valueOf(getAvg(flexural3)));
+		// 平均值
+		if (flexural3 != null && !flexural3.isEmpty()) {
+			detailResp.setAvgFlexural3(
+					BigDecimal.valueOf(getAvg(flexural3)).setScale(2, BigDecimal.ROUND_HALF_UP).toString());
 		}
-		if(flexural28!=null&&!flexural28.isEmpty()){
-			detailResp.setAvgFlexural28(String.valueOf(getAvg(flexural28)));
+		if (flexural28 != null && !flexural28.isEmpty()) {
+			detailResp.setAvgFlexural28(
+					BigDecimal.valueOf(getAvg(flexural28)).setScale(2, BigDecimal.ROUND_HALF_UP).toString());
 		}
-		if(liSist3!=null&&!liSist3.isEmpty()){
-			detailResp.setAvgSist3(String.valueOf(getAvg(liSist3)));
+		if (liSist3 != null && !liSist3.isEmpty()) {
+			detailResp
+					.setAvgSist3(BigDecimal.valueOf(getAvg(liSist3)).setScale(2, BigDecimal.ROUND_HALF_UP).toString());
+
 		}
-		if(sist28!=null&&!sist28.isEmpty()){
-			detailResp.setAvgSist28(String.valueOf(getAvg(sist28)));
+		if (sist28 != null && !sist28.isEmpty()) {
+			detailResp
+					.setAvgSist28(BigDecimal.valueOf(getAvg(sist28)).setScale(2, BigDecimal.ROUND_HALF_UP).toString());
 		}
 		rs.setData(detailResp);
 		return rs;
@@ -491,43 +505,43 @@ public class AssayReportService implements IAssayReportService {
 		}
 		return rs;
 	}
-	
-	//传入物料id   查询检测值
-	private List<QualitySchemeItemResp> getAssayItem(String qschemeid,String id )  throws Exception {
-		QualitySchemeItemReq req =new QualitySchemeItemReq();
+
+	// 传入物料id 查询检测值
+	private List<QualitySchemeItemResp> getAssayItem(String qschemeid, String id) throws Exception {
+		QualitySchemeItemReq req = new QualitySchemeItemReq();
 		req.setState("1");
 		req.setSchemeid(qschemeid);
 		req.setAssayid(id);
 		List<QualitySchemeItem> list = qualitySchemeItemMapper.findBySchemeId(req);
-		//转换为resp集合
+		// 转换为resp集合
 		List<QualitySchemeItemResp> resps = new ArrayList<QualitySchemeItemResp>();
-		if(list!=null && !list.isEmpty()){
-			for(QualitySchemeItem q : list){
+		if (list != null && !list.isEmpty()) {
+			for (QualitySchemeItem q : list) {
 				QualitySchemeItemResp resp = new QualitySchemeItemResp();
-				PropertyUtils.copyProperties(resp,q);
-				//获取物料名称
+				PropertyUtils.copyProperties(resp, q);
+				// 获取物料名称
 				QualityScheme qs = qualitySchemeMapper.selectOne(q.getSchemeid());
-				//在该对象不会空的情况下,通过id获取物料的名称
-				if(qs!=null){
+				// 在该对象不会空的情况下,通过id获取物料的名称
+				if (qs != null) {
 					MaterielManage manage = materielManageMapper.selectByPrimaryKey(qs.getMaterialid());
-					if(manage!=null){
+					if (manage != null) {
 						resp.setMaterialname(manage.getName());
 					}
 				}
-				//获取item对象
+				// 获取item对象
 				QualityItem qi = qualityItemMapper.selectOne(resp.getItemid());
-				if(qi!=null){
+				if (qi != null) {
 					resp.setItemcode(qi.getCode());
 					resp.setItemname(qi.getName());
 					resp.setUnits(qi.getUnits());
 					resp.setLine(qi.getLine());
 					resp.setEname(qi.getEname());
-					if(StringUtils.isNotBlank(req.getAssayid())){
+					if (StringUtils.isNotBlank(req.getAssayid())) {
 						AssayReportItem itemReq = new AssayReportItem();
 						itemReq.setAssayid(req.getAssayid());
 						itemReq.setItemid(resp.getItemid());
 						AssayReportItem reportItem = assayReportItemMapper.findOne(itemReq);
-						if(reportItem!=null){
+						if (reportItem != null) {
 							resp.setTestval(reportItem.getTestval());
 						}
 					}
@@ -537,24 +551,21 @@ public class AssayReportService implements IAssayReportService {
 		}
 		return resps;
 	}
-	
+
 	/**
-	 * 求平均值方法
-	 * @Title: getAvg 
-	 * @Description: TODO
-	 * @param @return   
-	 * @return double    
-	 * @throws
+	 * 求平均值方法 @Title: getAvg @Description: TODO @param @return @return
+	 * double @throws
 	 */
-	private double getAvg (List list){
+	private double getAvg(List<String> list) {
 		int sum = 0;
 		double e = 0;
 		for (int i = 0; i < list.size(); i++) {
-		String a =(String) list.get(i);
-		 int val = Integer.valueOf(a).intValue();
-		 sum += val;
+			String a = (String) list.get(i);
+			int val = Integer.valueOf(a).intValue();
+			sum += val;
 		}
-		e=sum/list.size();
+		e = sum / list.size();
 		return e;
 	}
+	
 }

@@ -286,4 +286,13 @@
     from tr_card_db_manage
     where cardno = #{cardno,jdbcType=VARCHAR} and state = '1' and cardstatus = '1'
   </select>
+  <select id="listByIds" parameterType="java.util.List" resultMap="BaseResultMap">
+  	select 
+  	<include refid="Base_Column_List" />
+    from tr_card_db_manage
+    where id in 
+    <foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+    	#{item, jdbcType=VARCHAR}
+    </foreach>
+  </select>
 </mapper>

@@ -120,6 +120,11 @@ public class Constant {
     
     public final static byte ZERO_BYTE = 0;
     public final static byte ONE_BYTE = 1;
+    /**
+     * 报告天数类型（0:3天报告1:28天报告）
+     */
+    public final static String DATE_TYPE_THREE ="0";
+    public final static String DATE_TYPE ="1";
     public static String getFILE_URL_PRE() {
         return FILE_URL_PRE;
     }

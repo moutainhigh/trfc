@@ -195,33 +195,15 @@
 		if(list && list.length>0){
 			for(var i=0;i<list.length;i++){
 				var obj = list[i] || '';
-				var code = obj.code || '';
-				var rfid = obj.rfid || '';
-				var vehicleno = obj.vehicleno || '';
-				var orgname = obj.orgname || '';
-				var transportunitName = obj.transportunitName || '';
-				var isblacklist = obj.isblacklist || '';
-				switch (isblacklist) {
-				case '0':
-					isblacklist = '否';
-					break;
-				case '1':
-					isblacklist = '是';
-					break;
-				default:
-					isblacklist = '';
-					break;
-				}
-				var remarks = obj.remarks || '';
 				$('<tr>').append('<td>'+(i+1)+'</td>')
-						.append('<td>'+code+'</td>')
-						.append('<td>'+rfid+'</td>')
-						.append('<td>'+vehicleno+'</td>')
-						.append('<td>'+orgname+'</td>')
-						.append('<td>'+transportunitName+'</td>')
-						.append('<td '+(obj.isblacklist=='1'?'style="color:red;"':'')+'>'+isblacklist+'</td>')
-						.append('<td>'+obj.creator || ''+'</td>')
-						.append('<td>'+remarks+'</td>')
+						.append('<td>'+(obj.code || '')+'</td>')
+						.append('<td>'+(obj.rfid || '')+'</td>')
+						.append('<td>'+(obj.vehicleno || '')+'</td>')
+						.append('<td '+(obj.isblacklist == '1' ? 'style="color:red;"' : '')+'>'+(obj.isblacklist == '0' ? '否' : obj.isblacklist == '1' ? '是' :'')+'</td>')
+						.append('<td>'+(obj.icardCode || '')+'</td>')
+						.append('<td>'+(obj.icardNo || '')+'</td>')
+						.append('<td>'+(obj.creator || '')+'</td>')
+						.append('<td>'+(obj.createtimeStr || '')+'</td>')
 						.data(obj)
 						.appendTo('#vehicleBody');
 			}

@@ -30,4 +30,6 @@ public interface CardMapper {
 	List<Card> selectSelective(Card card);
 	
 	Card selectByCardno(String cardno);
+
+	List<Card> listByIds(List<String> list);
 }

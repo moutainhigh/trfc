@@ -6,13 +6,13 @@ public class VehicleAndCardResp extends BaseResp {
 	
 	private static final long serialVersionUID = 2192472046233179508L;
 	//车牌号
-	private String vehicle;
+	private String vehicle = "";
 	//类别（0：临时，1：固定）
-	private String type;
+	private String type = "";
 	//卡序号
-	private String cardno;
+	private String cardno = "";
 	//卡面编号
-	private String cardcode;
+	private String cardcode = "";
 	public String getVehicle() {
 		return vehicle;
 	}
