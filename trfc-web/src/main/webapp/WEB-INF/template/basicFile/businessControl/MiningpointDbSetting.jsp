@@ -32,6 +32,9 @@
 									<label style="width:100px;">采矿点名称：</label> <input id="supplier" type="text" placeholder="请输入采矿点名称">
 								</div>
 								<div class="intel_solo">
+									<label>供应商：</label> <input id="supplier1" type="text" placeholder="请选择供应商">
+								</div>
+								<div class="intel_solo">
 									<label>物料：</label> <input id="material" type="text" placeholder="请选择物料">
 								</div>
 								<div class="intel_solo">
@@ -81,6 +84,7 @@
 									<th>行数</th>
 									<th>编号</th>
 									<th>采矿点名称</th>
+									<th>供应商</th>
 									<th>物料</th>
 									<th>有效</th>
 									<th>描述</th>
@@ -138,6 +142,9 @@
 								<label class="colorred">采矿点名称*：</label> <input id="a_supplier" type="text" placeholder="请选择供应商">
 							</div>
 							<div class="alt_edit_div">
+								<label class="colorred">供应商*：</label> <input id="a_supplier1" type="text" placeholder="请选择供应商">
+							</div>
+							<div class="alt_edit_div">
 								<label class="colorred">物料*：</label> <input id="a_material" type="text" placeholder="请选择物料">
 							</div>
 							<div class="alt_edit_div">
@@ -187,6 +194,9 @@
 								<label class="colorred">采矿点名称*：</label> <input id="u_supplier" type="text" placeholder="请选择供应商">
 							</div>
 							<div class="alt_edit_div">
+								<label class="colorred">供应商*：</label> <input id="u_supplier1" type="text" placeholder="请选择供应商">
+							</div>
+							<div class="alt_edit_div">
 								<label class="colorred">物料*：</label> <input id="u_material" type="text" placeholder="请选择物料">
 							</div>
 							<div class="alt_edit_div">
@@ -215,6 +225,6 @@
 	<!--编辑end-->
 	<!-- 引用公共footer部分 -->
 	<jsp:include page="../../common/base/footer_busi.jsp"></jsp:include>
-	<script type="text/javascript" src="/javascript/basicFile/businessControl/miningpointDbSetting.js?20171223"></script>
+	<script type="text/javascript" src="/javascript/basicFile/businessControl/miningpointDbSetting.js?2017122301"></script>
 </body>
 </html>

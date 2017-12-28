@@ -389,9 +389,11 @@
 		}
 		var materialid = obj.materielid;
 		$("#materielid").val(materialid);
+		var supplierid = obj.supplierid;
+		$("#supplierid").val(supplierid);
 		$.ajax({
 			url:URL.selectByMaterialid,
-			data:{materialid:materialid},
+			data:{materialid:materialid,supplierid:supplierid},
 			async:true,
 			cache:false,
 			dataType:'json',

@@ -14,6 +14,9 @@ public class MiningpointDbSetting {
     //  采矿点名称
     private String miningpointname;
 
+    //供应商id
+    private String supplierid;
+    
     //  物料id
     private String materialid;
 
@@ -59,6 +62,14 @@ public class MiningpointDbSetting {
         this.miningpointname = miningpointname == null ? null : miningpointname.trim();
     }
 
+    public String getSupplierid() {
+        return supplierid;
+    }
+
+    public void setSupplierid(String supplierid) {
+        this.supplierid = supplierid == null ? null : supplierid.trim();
+    }
+    
     public String getMaterialid() {
         return materialid;
     }

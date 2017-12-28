@@ -66,6 +66,7 @@
 								<label>供应商：</label> <input id="suppliername" type="text"
 									readonly="true">
 							</div>
+							<input type="hidden" id="supplierid"/>
 							<div class="daohuo_add_solo">
 								<label>物料：</label> <input id="materielname" type="text"
 									readonly="true">

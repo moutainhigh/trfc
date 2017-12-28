@@ -30,7 +30,11 @@ public interface IMiningpointDbSettingService {
 
 	Result delete(String id);
 
-	List<MiningpointDbSettingResp> selectByMaterialid(String materialid);
+	
+
+	List<MiningpointDbSettingResp> selectByMaterialid(String materialid, String supplierid);
+
+	List<MiningpointDbSettingResp> autoCompleteSearch(String trim) throws Exception;
 
 
 }

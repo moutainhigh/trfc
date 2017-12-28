@@ -23,6 +23,10 @@ public class MiningpointDbSettingResp extends BaseReq{
     private String materialid;
     //物料名称
     private String materialname;
+  //供应商id
+    private String supplierid;
+	//供应商名称
+    private String suppliername;
     //  是否有效：（0：无效，1：有效）
     private String isvalid;
     //  创建人
@@ -166,6 +170,20 @@ public class MiningpointDbSettingResp extends BaseReq{
 		this.endtime = endtime;
 	}
 
-	
+	public String getSupplierid() {
+		return supplierid;
+	}
+
+	public String getSuppliername() {
+		return suppliername;
+	}
+	public void setSupplierid(String supplierid) {
+		this.supplierid = supplierid;
+	}
+
+	public void setSuppliername(String suppliername) {
+		this.suppliername = suppliername;
+	}
+
     
 }

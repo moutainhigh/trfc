@@ -6,6 +6,7 @@
 			updateView: '/trfc/miningpoint/updateView',
 			update: '/trfc/miningpoint/update',
 			deletePs: '/trfc/miningpoint/delete',
+			supplierAutoCompleteSearch: "/trfc/supplier/autoCompleteSearch",
 			materielAutoCompleteSearch: "/trfc/materiel/autoCompleteSearch"
 	};
 	//初始化
@@ -21,7 +22,40 @@
 	}
 	function initAutoComplete(){
 		var cache = {};
-	
+		 $("#supplier1, #a_supplier1, #u_supplier1").autocomplete({
+		    	source: function( request, response ) {
+		    		var term = request.term;
+		    		var supplier = cache['supplier'] || {};
+		    		if ( term in supplier ) {
+		    			response( supplier[ term ] );
+		    			return;
+		    		}
+		    		$.post( URL.supplierAutoCompleteSearch, request, function( data, status, xhr ) {
+		    			supplier[ term ] = data;
+		    			response( data );
+		    		});
+		    	},
+		    	response: function( event, ui ) {
+		    		if(ui.content && ui.content.length > 0){
+			    		ui.content.forEach(function(x,i,a){
+			    			x.label = x.name;
+			    			x.value = x.id;
+			    		});
+		    		}
+		    	},
+		    	select: function( event, ui ) {
+		    		$(this).val(ui.item.name).attr('supplierid', ui.item.id).attr('select',true);
+		    		return false;
+	    		}
+		    }).off('click').on('click',function(){
+		    	$(this).autocomplete('search',' ');
+		    }).on('input keydown',function(){
+		    	$(this).removeAttr('supplierid');
+		    }).change(function(){
+	    		if(!$(this).attr('supplierid')){
+	    			$(this).val('');
+	    		}
+		    });
 	    $("#material, #a_material, #u_material").autocomplete({
 	    	source: function( request, response ) {
 	    		var term = request.term;
@@ -68,6 +102,7 @@
 				if(result.code == '000000'){
 					$('#a_code').val(result.data.code);
 					$('#a_supplier').val('').removeClass('miningpointname');
+					$('#a_supplier1').val('').removeClass('supplierid');
 					$('#a_material').val('').removeClass('materialid');
 					$('#a_creator').val(result.data.creator);
 					$('#a_createtime').val(result.data.createtime);
@@ -110,6 +145,7 @@
 	function getSearchParams(){
 		var code = $('#code').val(); code = $.trim(code);
 		var miningpointname = $('#supplier').val(); miningpointname = $.trim(miningpointname);
+		var supplierid = $('#supplier1').attr('supplierid'); supplierid = $.trim(supplierid);
 		var materialid = $('#material').attr('materialid'); materialid = $.trim(materialid);
 		var starttime = $('#starttime').val(); starttime = $.trim(starttime);
 		var endtime = $('#endtime').val(); endtime = $.trim(endtime);
@@ -118,6 +154,7 @@
 		return {
 			code: code,
 			miningpointname:miningpointname,
+			supplierid: supplierid,
 			materialid: materialid,
 			starttime: starttime,
 			endtime: endtime,
@@ -179,6 +216,7 @@
 				$('<tr>').append('<td>'+(i + 1)+'</td>')
 						 .append('<td>'+(obj.code || '')+'</td>')
 						 .append('<td>'+(obj.miningpointname || '')+'</td>')
+						 .append('<td>'+(obj.suppliername || '')+'</td>')
 						 .append('<td>'+(obj.materialname || '')+'</td>')
 						 .append('<td><input type="checkbox" disabled="disabled" '+(obj.isvalid == '1' ? 'checked' : '')+'></td>')
 						 .append('<td>'+(obj.remark || '')+'</td>')
@@ -203,6 +241,7 @@
 	//GET新增原发设置参数
 	function getAddParams(){
 		var miningpointname = $('#a_supplier').val(); miningpointname = $.trim(miningpointname);
+		var supplierid = $('#a_supplier1').attr('supplierid'); supplierid = $.trim(supplierid);
 		var materialid = $('#a_material').attr('materialid'); materialid = $.trim(materialid);
 		var isvalid = 0;
 		if($('#a_isvalid').is(':checked')){
@@ -211,6 +250,7 @@
 		var remark = $('#a_remark').val(); remark = $.trim(remark);
 		return {
 			miningpointname: miningpointname,
+			supplierid: supplierid,
 			materialid: materialid,
 			isvalid: isvalid,
 			remark: remark
@@ -220,6 +260,9 @@
 	function validateAdd(params){
 		if(!params.miningpointname){
 			layer.msg('请先填写采矿点名称！', {icon: 5}); return false;
+		}
+		if(!params.supplierid){
+			layer.msg('请先选择供应商！', {icon: 5}); return false;
 		}
 		if(!params.materialid){
 			layer.msg('请先选择物料！', {icon: 5}); return false;
@@ -260,6 +303,7 @@
 				$('#primarySettingId').val(data.id || '');
 				$('#u_code').val(data.code || '');
 				$('#u_supplier').val(data.miningpointname || '').attr('miningpointname', data.miningpointname || '');
+				$('#u_supplier1').val(data.suppliername || '').attr('supplierid', data.supplierid || '');
 				$('#u_material').val(data.materialname || '').attr('materialid', data.materialid || '');
 				$('#u_creator').val(data.createname || '');
 				$('#u_createtime').val(data.createtimeStr || '');
@@ -275,6 +319,7 @@
 	function getUpdateParams(){
 		var id = $('#primarySettingId').val();
 		var miningpointname = $('#u_supplier').val(); miningpointname = $.trim(miningpointname);
+		var supplierid = $('#u_supplier1').attr('supplierid'); supplierid = $.trim(supplierid);
 		var materialid = $('#u_material').attr('materialid'); materialid = $.trim(materialid);
 		var isvalid = 0;
 		if($('#u_isvalid').is(':checked')){
@@ -284,6 +329,7 @@
 		return {
 			id: id,
 			miningpointname: miningpointname,
+			supplierid: supplierid,
 			materialid: materialid,
 			isvalid: isvalid,
 			remark: remark
@@ -296,6 +342,9 @@
 		}
 		if(!params.miningpointname){
 			layer.msg('请先填写采矿点名称！', {icon: 5}); return false;
+		}
+		if(!params.supplierid){
+			layer.msg('请先选择供应商！', {icon: 5}); return false;
 		}
 		if(!params.materialid){
 			layer.msg('请先选择物料！', {icon: 5}); return false;

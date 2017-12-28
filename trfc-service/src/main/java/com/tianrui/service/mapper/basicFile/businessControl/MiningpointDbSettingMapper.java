@@ -2,9 +2,12 @@ package com.tianrui.service.mapper.basicFile.businessControl;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.tianrui.api.req.basicFile.businessControl.MiningpointDbSettingQuery;
 import com.tianrui.api.resp.basicFile.businessControl.MiningpointDbSettingResp;
 import com.tianrui.service.bean.basicFile.businessControl.MiningpointDbSetting;
+import com.tianrui.service.bean.basicFile.nc.SupplierManage;
 
 public interface MiningpointDbSettingMapper {
     int deleteByPrimaryKey(String id);
@@ -34,5 +37,9 @@ public interface MiningpointDbSettingMapper {
      * @return
      */
     long selectPrimaryPageCount(MiningpointDbSettingQuery query);
-    List<MiningpointDbSettingResp> selectByMaterialid(String materialid);
+   
+
+	List<MiningpointDbSettingResp> selectByMaterialid(String materialid, String supplierid);
+	
+	 List<MiningpointDbSettingResp> autoCompleteSearch(@Param("likeName")String likeName);
 }

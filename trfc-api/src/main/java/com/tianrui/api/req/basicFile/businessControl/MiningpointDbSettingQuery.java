@@ -15,7 +15,8 @@ public class MiningpointDbSettingQuery extends BaseReq{
 
     //  原发编号
     private String code;
-
+  //供应商id
+    private String supplierid;
     //  采矿点名称
     private String miningpointname;
 
@@ -56,6 +57,13 @@ public class MiningpointDbSettingQuery extends BaseReq{
         this.miningpointname = miningpointname == null ? null : miningpointname.trim();
     }
 
+    public String getSupplierid() {
+        return supplierid;
+    }
+
+    public void setSupplierid(String supplierid) {
+        this.supplierid = supplierid == null ? null : supplierid.trim();
+    }
     public String getMaterialid() {
         return materialid;
     }

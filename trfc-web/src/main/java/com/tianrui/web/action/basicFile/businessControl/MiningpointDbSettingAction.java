@@ -20,6 +20,7 @@ import com.tianrui.api.req.basicFile.businessControl.MiningpointDbSettingQuery;
 import com.tianrui.api.req.basicFile.businessControl.MiningpointDbSettingSave;
 import com.tianrui.api.req.system.base.GetCodeReq;
 import com.tianrui.api.resp.basicFile.businessControl.MiningpointDbSettingResp;
+import com.tianrui.api.resp.basicFile.nc.SupplierManageResp;
 import com.tianrui.api.resp.system.auth.SystemUserResp;
 import com.tianrui.smartfactory.common.constants.ErrorCode;
 import com.tianrui.smartfactory.common.utils.DateUtil;
@@ -144,10 +145,22 @@ public class MiningpointDbSettingAction {
 	}
 	@RequestMapping("selectByMaterialid")
 	@ResponseBody
-	public List<MiningpointDbSettingResp> selectByMaterialid(String materialid){
+	public List<MiningpointDbSettingResp> selectByMaterialid(String materialid,String supplierid){
 		List<MiningpointDbSettingResp> list = null;
 		try {
-			list = miningpointDbSettingService.selectByMaterialid(materialid);
+			list = miningpointDbSettingService.selectByMaterialid(materialid,supplierid);
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+		}
+		return list;
+	}
+	
+	@RequestMapping("/autoCompleteSearch")
+	@ResponseBody
+	public List<MiningpointDbSettingResp> autoCompleteSearch(String term){
+		List<MiningpointDbSettingResp> list = null;
+		try {
+			list = miningpointDbSettingService.autoCompleteSearch(term.trim());
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
 		}

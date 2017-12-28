@@ -6,6 +6,7 @@ import javax.annotation.Resource;
 
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,9 +18,11 @@ import com.tianrui.api.req.system.base.GetCodeReq;
 import com.tianrui.api.resp.basicFile.businessControl.MiningpointDbSettingResp;
 import com.tianrui.service.bean.basicFile.businessControl.MiningpointDbSetting;
 import com.tianrui.service.bean.basicFile.nc.MaterielManage;
+import com.tianrui.service.bean.basicFile.nc.SupplierManage;
 import com.tianrui.service.bean.system.auth.SystemUser;
 import com.tianrui.service.mapper.basicFile.businessControl.MiningpointDbSettingMapper;
 import com.tianrui.service.mapper.basicFile.nc.MaterielManageMapper;
+import com.tianrui.service.mapper.basicFile.nc.SupplierManageMapper;
 import com.tianrui.service.mapper.system.auth.SystemUserMapper;
 import com.tianrui.smartfactory.common.constants.ErrorCode;
 import com.tianrui.smartfactory.common.utils.UUIDUtil;
@@ -32,6 +35,8 @@ public class MiningpointDbSettingService implements IMiningpointDbSettingService
 	private MiningpointDbSettingMapper miningpointDbSettingMapper;
 	@Resource
 	private ISystemCodeService systemCodeService;
+	@Resource
+	private SupplierManageMapper supplierManageMapper;
 	@Resource
 	private MaterielManageMapper materielManageMapper;
 	@Resource
@@ -61,10 +66,12 @@ public class MiningpointDbSettingService implements IMiningpointDbSettingService
 	public Result add(MiningpointDbSettingSave save) throws Exception {
 		Result result = Result.getParamErrorResult();
 		if (save!=null && StringUtils.isNotBlank(save.getMaterialid())
+				&& StringUtils.isNotBlank(save.getSupplierid())
 				&& StringUtils.isNotBlank(save.getMiningpointname())
 				&& StringUtils.isNotBlank(save.getIsvalid())) {
 			MiningpointDbSetting bean = new MiningpointDbSetting();
 			bean.setMiningpointname(save.getMiningpointname());
+			bean.setSupplierid(save.getSupplierid());
 			bean.setMaterialid(save.getMaterialid());
 			List<MiningpointDbSetting> list = miningpointDbSettingMapper.selectSelective(bean);
 			if (list == null || list.size() == 0) {
@@ -105,11 +112,13 @@ public class MiningpointDbSettingService implements IMiningpointDbSettingService
 	public Result update(MiningpointDbSettingSave save) throws Exception {
 		Result result = Result.getParamErrorResult();
 		if(save != null && StringUtils.isNotBlank(save.getId())
+				&& StringUtils.isNotBlank(save.getSupplierid())
 				&& StringUtils.isNotBlank(save.getMiningpointname())
 				&& StringUtils.isNotBlank(save.getMaterialid())
 				&& StringUtils.isNotBlank(save.getIsvalid())){
 			MiningpointDbSetting bean = new MiningpointDbSetting();
 			bean.setMiningpointname(save.getMiningpointname());
+			bean.setSupplierid(save.getSupplierid());
 			bean.setMaterialid(save.getMaterialid());
 			List<MiningpointDbSetting> list = miningpointDbSettingMapper.selectSelective(bean);
 			if(list == null || list.size() == 0 || StringUtils.equals(list.get(0).getId(), save.getId())){
@@ -148,6 +157,10 @@ public class MiningpointDbSettingService implements IMiningpointDbSettingService
 			resp = new MiningpointDbSettingResp();
 			PropertyUtils.copyProperties(resp, bean);
 			if(flag){
+				SupplierManage supplier = supplierManageMapper.selectByPrimaryKey(bean.getSupplierid());
+				if(supplier != null){
+					resp.setSuppliername(supplier.getName());
+				}
 				MaterielManage materiel = materielManageMapper.selectByPrimaryKey(bean.getMaterialid());
 				if(materiel != null){
 					resp.setMaterialname(materiel.getName());
@@ -162,10 +175,17 @@ public class MiningpointDbSettingService implements IMiningpointDbSettingService
 	}
 
 	@Override
-	public List<MiningpointDbSettingResp> selectByMaterialid(String materialid) {
+	public List<MiningpointDbSettingResp> selectByMaterialid(String materialid,String supplierid) {
 		
-		return miningpointDbSettingMapper.selectByMaterialid(materialid);
+		return miningpointDbSettingMapper.selectByMaterialid(materialid,supplierid);
 	}
+
+	@Override
+	public List<MiningpointDbSettingResp> autoCompleteSearch(String likeName) throws Exception {
+		// TODO Auto-generated method stub
+		return miningpointDbSettingMapper.autoCompleteSearch(likeName);
+	}
+
 	
 	
 }
