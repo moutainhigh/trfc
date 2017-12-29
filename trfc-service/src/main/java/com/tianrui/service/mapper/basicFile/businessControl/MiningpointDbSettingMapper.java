@@ -39,7 +39,7 @@ public interface MiningpointDbSettingMapper {
     long selectPrimaryPageCount(MiningpointDbSettingQuery query);
    
 
-	List<MiningpointDbSettingResp> selectByMaterialid(String materialid, String supplierid);
+	List<MiningpointDbSettingResp> selectByMaterialid(String materialid, String userId);
 	
 	 List<MiningpointDbSettingResp> autoCompleteSearch(@Param("likeName")String likeName,@Param("materid")String materid,@Param("suppid")String suppid);
 }

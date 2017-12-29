@@ -1011,6 +1011,12 @@
 		<if test="status != null and status != ''">
 			and p0.status = #{status,jdbcType=VARCHAR}
 		</if>
+		<if test="starttime != null and starttime != ''">
+			and p0.makebilltime <![CDATA[>=]]> #{starttime,jdbcType=BIGINT}
+		</if>
+		<if test="endtime != null and endtime != ''">
+			and p0.makebilltime <![CDATA[<]]> #{endtime,jdbcType=BIGINT}
+		</if>
 	</where>
   </select>
   <select id="purchasePage" parameterType="com.tianrui.api.req.businessManage.poundNoteMaintain.PoundNoteQuery" resultMap="BaseRespResultMap">
