@@ -143,7 +143,7 @@
     grossweight, tareweight, netweight, originalnetweight, deductionweight, deductionother, batchnumberid,
     serialnumber, lighttime, weighttime, makerid, makebillname, makebilltime, state, creator, 
     createtime, modifier, modifytime, remark, customerid, customername, supplierid, suppliername, department, cutoverpartmentid, cutoverpartmentname, 
-    materialid, materialname, cargo, enteryardid, enteryardname, leaveyardid, leaveyardname, redColStatus, toniStatu, miningpoint_id
+    materialid, materialname, cargo, enteryardid, enteryardname, leaveyardid, leaveyardname, redColStatus, toniStatus, miningpoint_id
   </sql>
   <sql id="Base_Column_List_P" >
     p0.id, p0.code, p0.returnstatus, p0.redcollide, p0.status, p0.billtype, p0.putinwarehouseid, p0.putinwarehousecode, p0.billid, p0.billcode, p0.billdetailid, p0.
@@ -858,6 +858,9 @@
       </if>
       <if test="toniStatus != null" >
         toniStatus = #{toniStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="miningpointId != null" >
+        miningpoint_id = #{miningpointId,jdbcType=VARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=VARCHAR}
