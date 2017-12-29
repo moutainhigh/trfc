@@ -93,7 +93,7 @@ $('#print').off('click').on('click', function(e){
     var obj = $('table.maintable tbody tr.active').data();
     if(!obj) {layer.msg('需要选中一行才能操作哦！'); return;}
     $.post('/trfc/poundNote/print', {id: obj.id}, function (result){
-        if (result.code = '000000') {
+        if (result.code == '000000') {
         	var data = result.data || {};
         	switch (data.type) {
 			case '0':
