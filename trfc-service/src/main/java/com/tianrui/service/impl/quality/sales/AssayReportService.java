@@ -561,8 +561,14 @@ public class AssayReportService implements IAssayReportService {
 		double e = 0;
 		for (int i = 0; i < list.size(); i++) {
 			String a = (String) list.get(i);
-			int val = Integer.valueOf(a).intValue();
-			sum += val;
+			if(a!=null){
+				int val = Integer.valueOf(a).intValue();
+				sum += val;
+			}else{
+				a="0";
+				int val = Integer.valueOf(a).intValue();
+				sum += val;
+			}
 		}
 		e = sum / list.size();
 		return e;
