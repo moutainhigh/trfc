@@ -192,6 +192,10 @@ public class PoundNoteResp extends BaseResp {
     private String signTimeStr;
     //红冲状态（0：未红冲，1：红冲中，2：已红冲）
     private String redColStatus;
+    //采矿点ID
+    private String miningpointId;
+    //采矿点名称
+    private String miningpointName;
     
 	public String getSignTimeStr() {
 		return signTimeStr;
@@ -1304,6 +1308,18 @@ public class PoundNoteResp extends BaseResp {
 	}
 	public void setSignPerson(String signPerson) {
 		this.signPerson = signPerson;
+	}
+	public String getMiningpointId() {
+		return miningpointId;
+	}
+	public void setMiningpointId(String miningpointId) {
+		this.miningpointId = miningpointId;
+	}
+	public String getMiningpointName() {
+		return miningpointName;
+	}
+	public void setMiningpointName(String miningpointName) {
+		this.miningpointName = miningpointName;
 	}
 	public static long getSerialversionuid() {
 		return serialVersionUID;

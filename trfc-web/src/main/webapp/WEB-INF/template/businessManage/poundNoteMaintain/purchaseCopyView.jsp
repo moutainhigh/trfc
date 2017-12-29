@@ -130,6 +130,10 @@
 								<label>制单人：</label> <input id="makebillname" type="text" value="${poundNote.makebillname }"
 									readonly="true"/>
 							</div>
+							<div class="daohuo_add_solo">
+								<label>采矿点：</label> <input id="miningpoint" type="text" value="${poundNote.miningpointName }" miningpointId="${poundNote.miningpointId }" 
+										materialId="${poundNote.materialid }" supplierId="${poundNote.supplierid }">
+							</div>
 						</div>
 					</div>
 				</div>

@@ -16,6 +16,8 @@ public class PoundNoteCopyDTO extends BaseReq {
     private String billId;
     //订单子表ID
     private String billDetailId;
+    //采矿点
+    private String miningpointId;
     //当前登陆用户ID
     private String currId;
     public String getPoundNoteId() {
@@ -42,13 +44,19 @@ public class PoundNoteCopyDTO extends BaseReq {
     public void setCurrId(String currId) {
         this.currId = currId;
     }
-    public static long getSerialversionuid() {
+    public String getMiningpointId() {
+		return miningpointId;
+	}
+	public void setMiningpointId(String miningpointId) {
+		this.miningpointId = miningpointId;
+	}
+	public static long getSerialversionuid() {
         return serialVersionUID;
     }
     @Override
-    public String toString() {
-        return "PoundNoteCopyDTO [poundNoteId=" + poundNoteId + ", billId=" + billId + ", billDetailId=" + billDetailId
-                + ", currId=" + currId + "]";
-    }
+	public String toString() {
+		return "PoundNoteCopyDTO [poundNoteId=" + poundNoteId + ", billId=" + billId + ", billDetailId=" + billDetailId
+				+ ", miningpointId=" + miningpointId + ", currId=" + currId + "]";
+	}
    
 }

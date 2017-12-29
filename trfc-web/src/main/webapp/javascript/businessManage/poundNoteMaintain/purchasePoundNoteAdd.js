@@ -10,7 +10,8 @@
 			warehouseAutoCompleteSearch: "/trfc/warehouse/autoCompleteSearch",
 			minemouthAutoCompleteSearch: "/trfc/minemouth/autoCompleteSearch",
 			yardAutoCompleteSearch: "/trfc/yard/autoCompleteSearch",
-			systemUserAutoCompleteSearch: "/trfc/system/auth/user/autoCompleteSearch"
+			systemUserAutoCompleteSearch: "/trfc/system/auth/user/autoCompleteSearch",
+			miningpointAutoCompleteSearch: "/trfc/miningpoint/autoCompleteSearch"
 	};
 	//日期字符串转为时间戳
 	function str2Long(dateStr){
@@ -302,6 +303,47 @@
 	    		$(this).val('');
 	    	}
 	    });
+	    $("#miningpoint").autocomplete({
+	    	source: function( request, response ) {
+	    		var term = request.term;
+	    		var miningpoint = cache['miningpoint'] || {};
+	    		if ( term in miningpoint ) {
+	    			response( miningpoint[ term ] );
+	    			return;
+	    		}
+	    		request.materialid = $("#miningpoint").attr('materialId') || '';
+	    		request.supplierid = $("#miningpoint").attr('supplierId') || '';
+	    		$.post( URL.miningpointAutoCompleteSearch, request, function( data, status, xhr ) {
+	    			miningpoint[ term ] = data;
+	    			response( data );
+	    		});
+	    	},
+	    	response: function( event, ui ) {
+	    		if(ui.content && ui.content.length > 0){
+	    			ui.content.forEach(function(x,i,a){
+	    				x.label = x.miningpointname;
+	    				x.value = x.id;
+	    			});
+	    		}
+	    	},
+	    	select: function( event, ui ) {
+	    		$(this).val(ui.item.miningpointname).attr('miningpointId', ui.item.id);
+	    		return false;
+	    	}
+	    }).off('click').on('click',function(){
+	    	var materialid = $(this).attr('materialId') || '';
+    		var supplierid = $(this).attr('supplierId') || '';
+    		if (!materialid || !supplierid) {
+				layer.msg('请先选择订单！', {icon: 5}); return;
+			}
+    		$(this).autocomplete('search',' ');
+	    }).on('input keydown',function(){
+	    	$(this).removeAttr('miningpointId');
+	    }).change(function(){
+	    	if(!$(this).attr('miningpointId')){
+	    		$(this).val('');
+	    	}
+	    });
 	}
 	//绑定按钮事件
 	function initBindEvent(){
@@ -508,6 +550,7 @@
 		$('#minemouth').val(obj.minemouthname || '').attr('minemouthid', obj.minemouthid);
 		$('#margin').val(obj.margin || '');
 		$('#supplierremark').val(obj.supplierremark || '');
+		$('#miningpoint').attr('materialId', obj.materielid).attr('supplierId', obj.supplierid).removeAttr('miningpointId').val('');
 		$('#altbill').modal('hide');
 	}
 	//获取采购计量参数
@@ -527,6 +570,7 @@
 		var weighttime = $('#weighttime').val();
 		var lighttime = $('#lighttime').val();
 		var makebilltime = $('#makebilltime').val();
+		var miningpointId = $('#miningpoint').attr('miningpointId');
 		return {
 			billid: billid,
 			billdetailid: billdetailid,

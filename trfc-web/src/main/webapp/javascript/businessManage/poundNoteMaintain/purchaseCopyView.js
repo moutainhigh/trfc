@@ -4,7 +4,8 @@
 			copy: '/trfc/poundNote/purchase/copy',
 			pageGroupMateriel: '/trfc/purchaseApplication/pageGroupMateriel',
 			materielAutoCompleteSearch: "/trfc/materiel/autoCompleteSearch",
-			supplierAutoCompleteSearch: "/trfc/supplier/autoCompleteSearch"
+			supplierAutoCompleteSearch: "/trfc/supplier/autoCompleteSearch",
+			miningpointAutoCompleteSearch: "/trfc/miningpoint/autoCompleteSearch"
 	};
 	
 	init();
@@ -84,6 +85,42 @@
     		if(!$(this).attr('supplierid')){
     			$(this).val('');
     		}
+	    });
+	    $("#miningpoint").autocomplete({
+	    	source: function( request, response ) {
+	    		var term = request.term;
+	    		var miningpoint = cache['miningpoint'] || {};
+	    		if ( term in miningpoint ) {
+	    			response( miningpoint[ term ] );
+	    			return;
+	    		}
+	    		request.materialid = $("#miningpoint").attr('materialId') || '';
+	    		request.supplierid = $("#miningpoint").attr('supplierId') || '';
+	    		$.post( URL.miningpointAutoCompleteSearch, request, function( data, status, xhr ) {
+	    			miningpoint[ term ] = data;
+	    			response( data );
+	    		});
+	    	},
+	    	response: function( event, ui ) {
+	    		if(ui.content && ui.content.length > 0){
+	    			ui.content.forEach(function(x,i,a){
+	    				x.label = x.miningpointname;
+	    				x.value = x.id;
+	    			});
+	    		}
+	    	},
+	    	select: function( event, ui ) {
+	    		$(this).val(ui.item.miningpointname).attr('miningpointId', ui.item.id);
+	    		return false;
+	    	}
+	    }).off('click').on('click',function(){
+	    	$(this).autocomplete('search',' ');
+	    }).on('input keydown',function(){
+	    	$(this).removeAttr('miningpointId');
+	    }).change(function(){
+	    	if(!$(this).attr('miningpointId')){
+	    		$(this).val('');
+	    	}
 	    });
 	}
 	//绑定按钮事件
@@ -256,6 +293,7 @@
 		$('#margin').val(obj.margin || '');
 		$('#minemouth').val(obj.minemouthname || '');
 		$('#supplierremark').val(obj.supplierremark || '');
+		$('#miningpoint').attr('materialId', obj.materielid).attr('supplierId', obj.supplierid).removeAttr('miningpointId').val('');
 		$('#altbill').modal('hide');
 	}
 	//GET参照榜单参数
@@ -263,10 +301,12 @@
 		var poundNoteId = $('#poundNoteId').val();
 		var billId = $('#billcode').attr('billid');
 		var billDetailId = $('#billcode').attr('billdetailid');
+		var miningpointId = $('#miningpoint').attr('miningpointId');
 		return {
 			poundNoteId: poundNoteId,
 			billId: billId,
-			billDetailId: billDetailId
+			billDetailId: billDetailId,
+			miningpointId: miningpointId
 		};
 	}
 	//校验参数是否合法
@@ -277,6 +317,10 @@
 		}
 		if(!params.billId || !params.billDetailId){
 			layer.msg('请先选择订单！', {icon: 5});
+			return false;
+		}
+		if(!params.miningpointId){
+			layer.msg('请选择采矿点！', {icon: 5});
 			return false;
 		}
 		return params;
@@ -301,12 +345,4 @@
 			_this.disabled = false;
 		}
 	}
-	
-	
-	
-	
-	
-	
-	
-	
 })(jQuery);

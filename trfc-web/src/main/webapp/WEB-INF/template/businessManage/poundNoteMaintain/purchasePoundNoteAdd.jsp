@@ -127,6 +127,9 @@
 								<label>制单人：</label> <input id="makebillname" type="text"
 									value="${makebillname }" readonly="true">
 							</div>
+							<div class="daohuo_add_solo">
+								<label>采矿点：</label> <input id="miningpoint" type="text" placeholder="请选择采矿点">
+							</div>
 						</div>
 					</div>
 				</div>
