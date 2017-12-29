@@ -1604,8 +1604,9 @@ public class AppStaticService implements IAppStaticService {
 	public AppResult getMiningList(AppMiningParam appMiningParam) {
 		// TODO Auto-generated method stub
 		AppResult result = AppResult.getAppResult();
-		if (appMiningParam != null && StringUtils.isNotBlank(appMiningParam.getMaterId())) {
-			List<MiningpointDbSettingResp> list = miningpointDbSettingMapper.selectByMaterialid(appMiningParam.getMaterId());
+		if (appMiningParam != null && StringUtils.isNotBlank(appMiningParam.getMaterId())
+				&&StringUtils.isNotBlank(appMiningParam.getSupplierid())) {
+			List<MiningpointDbSettingResp> list = miningpointDbSettingMapper.selectByMaterialid(appMiningParam.getMaterId(),appMiningParam.getSupplierid());
 			result.setData(list);
 			result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
 		} else {
