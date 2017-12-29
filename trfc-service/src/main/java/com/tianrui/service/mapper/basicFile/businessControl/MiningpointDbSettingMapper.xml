@@ -303,14 +303,14 @@
 		where 
 		isvalid = 1
 		<if test="likeName != null and likeName !=''">
-			and miningpointname like CONCAT('%', #{0},
+			and miningpointname like CONCAT('%', #{likeName,jdbcType=VARCHAR},
 			'%')
 		</if>
-		<if test="materialid != null and materialid != ''">
-  			and materialid = #{1}
+		<if test="materid != null and materid != ''">
+  			and materialid = #{materid,jdbcType=VARCHAR}
 		</if>
-		<if test="supplierid != null and supplierid != ''">
-  			and supplierid = #{2}
+		<if test="suppid != null and suppid != ''">
+  			and supplierid = #{suppid,jdbcType=VARCHAR}
 		</if>
 		order by createtime desc
 		limit 0,20
