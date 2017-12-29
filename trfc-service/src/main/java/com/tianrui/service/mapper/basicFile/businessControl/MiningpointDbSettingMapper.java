@@ -41,5 +41,5 @@ public interface MiningpointDbSettingMapper {
 
 	List<MiningpointDbSettingResp> selectByMaterialid(String materialid, String supplierid);
 	
-	 List<MiningpointDbSettingResp> autoCompleteSearch(@Param("likeName")String likeName);
+	 List<MiningpointDbSettingResp> autoCompleteSearch(@Param("likeName")String likeName,String materialid,String supplierid);
 }

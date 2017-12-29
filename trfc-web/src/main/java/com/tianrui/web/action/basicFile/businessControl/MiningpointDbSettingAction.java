@@ -157,10 +157,10 @@ public class MiningpointDbSettingAction {
 	
 	@RequestMapping("/autoCompleteSearch")
 	@ResponseBody
-	public List<MiningpointDbSettingResp> autoCompleteSearch(String term){
+	public List<MiningpointDbSettingResp> autoCompleteSearch(String term,String materialid,String supplierid){
 		List<MiningpointDbSettingResp> list = null;
 		try {
-			list = miningpointDbSettingService.autoCompleteSearch(term.trim());
+			list = miningpointDbSettingService.autoCompleteSearch(term.trim(),materialid,supplierid);
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
 		}

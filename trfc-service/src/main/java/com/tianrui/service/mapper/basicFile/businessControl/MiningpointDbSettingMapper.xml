@@ -301,9 +301,16 @@
 		<include refid="Base_Column_List" />
 		from tr_miningpoint_db_setting
 		where 
+		isvalid = 1
 		<if test="likeName != null and likeName !=''">
-			and miningpointname like CONCAT('%', #{likeName,jdbcType=VARCHAR},
+			and miningpointname like CONCAT('%', #{0},
 			'%')
+		</if>
+		<if test="materialid != null and materialid != ''">
+  			and materialid = #{1}
+		</if>
+		<if test="supplierid != null and supplierid != ''">
+  			and supplierid = #{2}
 		</if>
 		order by createtime desc
 		limit 0,20

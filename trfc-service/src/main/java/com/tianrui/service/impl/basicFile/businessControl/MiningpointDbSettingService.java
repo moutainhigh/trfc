@@ -181,9 +181,9 @@ public class MiningpointDbSettingService implements IMiningpointDbSettingService
 	}
 
 	@Override
-	public List<MiningpointDbSettingResp> autoCompleteSearch(String likeName) throws Exception {
+	public List<MiningpointDbSettingResp> autoCompleteSearch(String likeName,String materialid,String supplierid) throws Exception {
 		// TODO Auto-generated method stub
-		return miningpointDbSettingMapper.autoCompleteSearch(likeName);
+		return miningpointDbSettingMapper.autoCompleteSearch(likeName,materialid,supplierid);
 	}
 
 	
