@@ -141,6 +141,14 @@
 			getPrimarySettingData(1);
 		});
 	}
+	
+	//将日期字符串转变为时间戳
+	function str2Long(dateStr){
+		if(dateStr){
+			return Date.parseYMD_HMS(dateStr).getTime();
+		}
+		return '';
+	}
 	//GET采购原型设置搜索条件
 	function getSearchParams(){
 		var code = $('#code').val(); code = $.trim(code);
@@ -156,8 +164,8 @@
 			miningpointname:miningpointname,
 			supplierid: supplierid,
 			materialid: materialid,
-			starttime: starttime,
-			endtime: endtime,
+			starttime:str2Long(starttime),
+			endtime: str2Long(endtime),
 			isvalid: isvalid,
 			pageSize: pageSize
 			
