@@ -147,6 +147,8 @@ public class PoundNote {
     private String leaveyardname;
     //红冲状态（0：未红冲，1：红冲中，2：已红冲）
     private String redColStatus;
+    //补打状态（0：未补打 1：已补打）
+    private String toniStatus;
 	public String getId() {
 		return id;
 	}
@@ -573,4 +575,11 @@ public class PoundNote {
 	public void setRedColStatus(String redColStatus) {
 		this.redColStatus = redColStatus;
 	}
+	public String getToniStatus() {
+		return toniStatus;
+	}
+	public void setToniStatus(String toniStatus) {
+		this.toniStatus = toniStatus;
+	}
+	
 }

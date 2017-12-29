@@ -75,7 +75,10 @@ public class Constant {
     public final static String POUND_PUSH_STATUS_ING = "1";
     public final static String POUND_PUSH_STATUS_END = "2";
     public final static String POUND_PUSH_STATUS_NULL = "0";
-
+    
+    //榜单补打状态 0：未补打 1：已补打  toniStatus
+    public final static String   POUND_TONISTATUS_NO ="0";
+    public final static String   POUND_TONISTATUS_YES ="1";
     /**
      * 业务类型
      * 

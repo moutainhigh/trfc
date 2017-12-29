@@ -129,6 +129,7 @@ public enum ErrorCode {
 	POUNDNOTE_ERROR4("E10108","退货单据不允许红冲."),
 	POUNDNOTE_ERROR5("E10109","作废和退货单据不允许红冲."),
 	POUNDNOTE_ERROR6("E10110","该收料员不存在."),
+	POUNDNOTE_ERROR7("E10111","该榜单已经补打过，请勿重复补打."),
 	/**
 	 * 车辆
 	 */
