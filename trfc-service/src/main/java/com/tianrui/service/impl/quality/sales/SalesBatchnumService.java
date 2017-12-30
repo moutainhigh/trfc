@@ -328,14 +328,20 @@ public class SalesBatchnumService implements ISalesBatchnumService {
 		s.setTeststate("1");
 		SalesBatchnum salesBatchnum  =salesBatchnumMapper.selectIdMargin(s);
 		if(salesBatchnum!=null){
-			salesBatchnum.setMargin(salesBatchnum.getCount().doubleValue()-weighed);
-			salesBatchnum.setWeighed(weighed);
-			int a =salesBatchnumMapper.updateByPrimaryKeySelective(salesBatchnum);
-			if(a!=1){
-				rs.setCode("222222");
-				rs.setError("修改失败！");
+			if(salesBatchnum.getCount().doubleValue()>=weighed){
+				salesBatchnum.setMargin(salesBatchnum.getCount().doubleValue()-weighed);
+				salesBatchnum.setWeighed(weighed);
+				int a =salesBatchnumMapper.updateByPrimaryKeySelective(salesBatchnum);
+				if(a!=1){
+					rs.setCode("222222");
+					rs.setError("修改失败！");
+				}
+				rs.setData(salesBatchnum.getFactorycode());
+			}else{
+				rs.setCode("333333");
+				rs.setError("过磅量不能大于总数");
 			}
-			rs.setData(salesBatchnum.getFactorycode());
+		
 		}else{
 			rs.setCode("111111");
 			rs.setError("未查到信息！请核对物料id、审核状态、单据状态！");
