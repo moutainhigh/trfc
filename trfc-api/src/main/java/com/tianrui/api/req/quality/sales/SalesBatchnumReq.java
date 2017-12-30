@@ -104,11 +104,11 @@ public class SalesBatchnumReq extends BaseReq {
     /**
      * 过磅量
      */
-    private Long weighed;
+    private Double weighed;
     /**
      * 余量
      */
-    private Long margin;
+    private Double margin;
 	public int getLimit() {
 		return limit;
 	}
@@ -242,16 +242,17 @@ public class SalesBatchnumReq extends BaseReq {
 	public void setArrStr(String arrStr) {
 		this.arrStr = arrStr;
 	}
-	public Long getWeighed() {
+
+	public Double getWeighed() {
 		return weighed;
 	}
-	public void setWeighed(Long weighed) {
+	public void setWeighed(Double weighed) {
 		this.weighed = weighed;
 	}
-	public Long getMargin() {
+	public Double getMargin() {
 		return margin;
 	}
-	public void setMargin(Long margin) {
+	public void setMargin(Double margin) {
 		this.margin = margin;
 	}
 	@Override

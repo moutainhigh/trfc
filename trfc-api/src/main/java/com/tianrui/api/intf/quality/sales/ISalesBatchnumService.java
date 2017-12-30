@@ -49,5 +49,5 @@ public interface ISalesBatchnumService {
 	 * 根据传入物料id和过磅量计算余量
 	 * Long()
 	 */
-	Result selectIdMargin(String material,Long weighed)throws Exception;
+	Result selectIdMargin(String material, Double weighed) throws Exception;
 	}
