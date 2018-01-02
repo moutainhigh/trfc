@@ -213,7 +213,7 @@ public class PurchaseApplicationService implements IPurchaseApplicationService {
 		//正常
 		if( StringUtils.isNotBlank(jsonItem.getString("cloasestatus")) && StringUtils.equals(jsonItem.getString("cloasestatus"), "0") ){
 			//删除态
-			if( StringUtils.isNotBlank(jsonItem.getString("status")) && StringUtils.equals(jsonItem.getString("6"), "0") ){
+			if( StringUtils.isNotBlank(jsonItem.getString("status")) && StringUtils.equals(jsonItem.getString("status"), "6") ){
 				status ="-3";
 			//正常	
 			}else{
