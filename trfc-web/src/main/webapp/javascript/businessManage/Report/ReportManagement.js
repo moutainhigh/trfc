@@ -501,7 +501,7 @@
 	}
 	
 	function renderHtml5(data){
-		$('#RMg1').empty();
+		$('#RMg5').empty();
 		var list = data.list||[];
 		if(list && list.length>0){
 			var str1=0,str2=0,str3=0,str4=0;

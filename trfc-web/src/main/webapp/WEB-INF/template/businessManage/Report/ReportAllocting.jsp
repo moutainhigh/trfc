@@ -538,34 +538,32 @@
     </div>
 </div>
 	</div>
-					
-				
-					<!--分页效果开始-->
-					<div class="page">
-						<div class="page_date">
-							<label>数据共：</label><i id="total" class="colorred">100</i><label>条</label>
-						</div>
-						<div class="page_date">
-							<label>跳到第：</label> <input id="jumpPageNo" type="text"> <label>页</label>
-							<button id="jumpPageNoBtn" class="btn btn-default">确定</button>
-						</div>
-						<div class="page_date">
-							<label>每页记录：</label> <select id="pageSize" class="form-control">
-								<option value="20">20</option>
-								<option value="30">30</option>
-								<option value="40">40</option>
-							</select>
-						</div>
-						<div class="page_btn" id="pagination"></div>
-					</div>
-					<!--分页效果结束-->
-				</div>
+		<!--分页效果开始-->
+		<div class="page">
+			<div class="page_date">
+				<label>数据共：</label><i id="total" class="colorred">100</i><label>条</label>
 			</div>
+			<div class="page_date">
+				<label>跳到第：</label> <input id="jumpPageNo" type="text"> <label>页</label>
+				<button id="jumpPageNoBtn" class="btn btn-default">确定</button>
+			</div>
+			<div class="page_date">
+				<label>每页记录：</label> <select id="pageSize" class="form-control">
+					<option value="20">20</option>
+					<option value="30">30</option>
+					<option value="40">40</option>
+				</select>
+			</div>
+			<div class="page_btn" id="pagination"></div>
+		</div>
+		<!--分页效果结束-->
+	</div>
+</div>
 			<!-- 引用公共footer部分 -->
 			<jsp:include page="../../common/base/footer_busi.jsp"></jsp:include>
 			<script type="text/javascript"
-				src="/javascript/businessManage/Report/ReportAllocting.js?time=<%=new Date().getTime()%>"></script>
+				src="/javascript/businessManage/Report/ReportAllocting.js?time=180102"></script>
 			<script type="text/javascript"
-				src="/javascript/businessManage/Report/ReportAllocting2.js?time=<%=new Date().getTime()%>"></script>
+				src="/javascript/businessManage/Report/ReportAllocting2.js?time=180102"></script>
 </body>
 </html>
