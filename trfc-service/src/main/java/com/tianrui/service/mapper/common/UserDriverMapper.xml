@@ -91,6 +91,7 @@
 	LEFT JOIN tr_driver_db_manage t2 ON t1.driver_id = t2.id
 	WHERE
 		t1.user_id = #{userId,jdbcType=VARCHAR}
+	AND t2.id IS NOT NULL
 	ORDER BY
 		t1.number DESC
 	<if test="start != null and start >= 0">
@@ -107,6 +108,7 @@
 	LEFT JOIN tr_driver_db_manage t2 ON t1.driver_id = t2.id
 	WHERE
 		t1.user_id = #{userId,jdbcType=VARCHAR}
+	AND t2.id IS NOT NULL
   </select>
   <select id="getByUIdAndDId" parameterType="java.lang.String" resultMap="BaseResultMap">
 	SELECT
@@ -126,6 +128,7 @@
 	LEFT JOIN tr_driver_db_manage t2 ON t1.driver_id = t2.id
 	WHERE
 		t1.user_id = #{userId,jdbcType=VARCHAR}
+	AND t2.id IS NOT NULL
 	ORDER BY
 		t1.number DESC
     LIMIT 0,#{pageSize,jdbcType=INTEGER}
