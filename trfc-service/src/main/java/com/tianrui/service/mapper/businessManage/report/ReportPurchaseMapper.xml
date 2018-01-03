@@ -260,11 +260,36 @@
   </select>
   <select id="selectByConditionForBuZeng" resultMap="BaseResultMap" parameterType="com.tianrui.service.bean.businessManage.report.ReportPurchase" >
     select 
-    <include refid="Base_Column_List" />
-    from v_report_purchase1
+    	`id` AS `id`,
+		`code` AS `poundcode`,
+		`supplierid` AS `supplierid`,
+		`suppliername` AS `suppliername`,
+		`minemouthid` AS `minemouthid`,
+		`minemouthname` AS `minemouthname`,
+		`yardid` AS `yardid`,
+		`yardname` AS `yardname`,
+		`materialid` AS `materialid`,
+		`materialname` AS `materialname`,
+		`vehicleid` AS `vehicleid`,
+		`vehicleno` AS `vehicleno`,
+		`grossweight` AS `grossweight`,
+		`tareweight` AS `tareweight`,
+		`netweight` AS `netweight`,
+		`originalnetweight` AS `originalnetweight`,
+		`lighttime` AS `lighttime`,
+		`weighttime` AS `weighttime`,
+		`createtime` AS `createtime`,
+		`createtime` AS `billtime`,
+		`receiverpersonname` AS `signPersonName`,
+		`createtime` AS `signTime`,
+		`drivername` AS `drivername`,
+		`driverid` AS `driverid`,
+		`cargo` AS `cargo`,
+		`returnstatus` AS `returnstatus`,
+		`status` AS `status`
+    from tr_pound_db_note
    	<where>
-   		status='1'
-   		and netweight>0
+   		status=1 and billtype in ('0','1')  
    		<if test="beginTimeLong != null and beginTimeLong != 0L ">
 			and lighttime <![CDATA[>=]]> #{beginTimeLong,jdbcType=BIGINT}
 		</if>
@@ -549,10 +574,9 @@
   <select id="countByConditionForBuZeng" resultType="long" parameterType="com.tianrui.service.bean.businessManage.report.ReportPurchase" >
     select 
    		count(1)
-    from v_report_purchase1
-  	<where>
-  	    status='1'
-  	    and netweight>0
+     from tr_pound_db_note
+   	<where>
+   		status=1 and billtype in ('0','1')  
    		<if test="beginTimeLong != null and beginTimeLong != 0L ">
 			and lighttime <![CDATA[>=]]> #{beginTimeLong,jdbcType=BIGINT}
 		</if>
@@ -583,8 +607,6 @@
 		<if test="yardname != null and yardname != ''">
 			and yardname = #{yardname,jdbcType=VARCHAR}
 		</if>
-		
-		
    	</where>
   </select>
 <select id="countByConditionForMinemouthname" resultType="long" parameterType="com.tianrui.service.bean.businessManage.report.ReportPurchase" >

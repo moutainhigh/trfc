@@ -87,12 +87,12 @@ public class FileServiceTest {
 	public void  selectIdMargin() throws Exception {
 		String material="1002PP10000000006UEY";
 		Long weighed =123L;
-		Result rs =iSalesBatchnumService.selectIdMargin(material, weighed);
-		if(!rs.getCode().equals("666666")){
-			System.out.println(rs.getError());
-		}else{
-			System.out.println(rs.getData().toString());
-		}
+//		Result rs =iSalesBatchnumService.selectIdMargin(material, weighed);
+//		if(!rs.getCode().equals("666666")){
+//			System.out.println(rs.getError());
+//		}else{
+//			System.out.println(rs.getData().toString());
+//		}
 	}
 	@Test
 	public void testIphone() throws Exception{

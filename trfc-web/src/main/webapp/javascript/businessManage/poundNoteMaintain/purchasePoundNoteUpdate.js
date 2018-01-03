@@ -3,7 +3,8 @@
 			main: '/trfc/poundNote/purchase/main',
 			updatePn: '/trfc/poundNote/purchase/updatePn',
 			yardAutoCompleteSearch: "/trfc/yard/autoCompleteSearch",
-			userAutoCompleteSearch: "/trfc/system/auth/user/autoCompleteSearch"
+			userAutoCompleteSearch: "/trfc/system/auth/user/autoCompleteSearch",
+			miningpointAutoCompleteSearch: "/trfc/miningpoint/autoCompleteSearch"
 	};
 	init();
 	function init(){
@@ -56,7 +57,7 @@
 	    			response( yard[ term ] );
 	    			return;
 	    		}
-	    		$.post( URL.userAutoCompleteSearch, request, function( data, status, xhr ) {
+	    		$.post( URL.userAutoCompleteSearch, {nameLike: $.trim(term)}, function( data, status, xhr ) {
 	    			yard[ term ] = data.data;
 	    			response( data.data );
 	    		});
@@ -82,6 +83,42 @@
 	    		$(this).val('');
 	    	}
 	    });
+	    $("#miningpoint").autocomplete({
+	    	source: function( request, response ) {
+	    		var term = request.term;
+	    		var miningpoint = cache['miningpoint'] || {};
+	    		if ( term in miningpoint ) {
+	    			response( miningpoint[ term ] );
+	    			return;
+	    		}
+	    		request.materialid = $("#miningpoint").attr('materialId') || '';
+	    		request.supplierid = $("#miningpoint").attr('supplierId') || '';
+	    		$.post( URL.miningpointAutoCompleteSearch, request, function( data, status, xhr ) {
+	    			miningpoint[ term ] = data;
+	    			response( data );
+	    		});
+	    	},
+	    	response: function( event, ui ) {
+	    		if(ui.content && ui.content.length > 0){
+	    			ui.content.forEach(function(x,i,a){
+	    				x.label = x.miningpointname;
+	    				x.value = x.id;
+	    			});
+	    		}
+	    	},
+	    	select: function( event, ui ) {
+	    		$(this).val(ui.item.miningpointname).attr('miningpointId', ui.item.id);
+	    		return false;
+	    	}
+	    }).off('click').on('click',function(){
+	    	$(this).autocomplete('search',' ');
+	    }).on('input keydown',function(){
+	    	$(this).removeAttr('miningpointId');
+	    }).change(function(){
+	    	if(!$(this).attr('miningpointId')){
+	    		$(this).val('');
+	    	}
+	    });
 	}
 	//绑定按钮事件
 	function initBindEvent(){
@@ -96,9 +133,10 @@
 	}
 	
 	var save = id => {
-		var yardid = $('#yard').attr('yardid');
-		var signPerson = $('#signPerson').attr('userId');
-		$.post(URL.updatePn, {id: id, yardid: yardid, signPerson: signPerson}, function(result) {
+		var yardid = $('#yard').attr('yardid') || '';
+		var signPerson = $('#signPerson').attr('userId') || '';
+		var miningpointId = $('#miningpoint').attr('miningpointId') || '';
+		$.post(URL.updatePn, {id: id, yardid: yardid, signPerson: signPerson, miningpointId: miningpointId}, function(result) {
 			if (result != null) {
 				if (result.code == '000000') {
 					window.location.href= URL.main;

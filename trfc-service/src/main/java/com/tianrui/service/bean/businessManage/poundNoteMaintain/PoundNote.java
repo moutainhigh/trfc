@@ -149,6 +149,8 @@ public class PoundNote {
     private String redColStatus;
     //补打状态（0：未补打 1：已补打）
     private String toniStatus;
+    //采矿点ID
+    private String miningpointId;
 	public String getId() {
 		return id;
 	}
@@ -580,6 +582,12 @@ public class PoundNote {
 	}
 	public void setToniStatus(String toniStatus) {
 		this.toniStatus = toniStatus;
+	}
+	public String getMiningpointId() {
+		return miningpointId;
+	}
+	public void setMiningpointId(String miningpointId) {
+		this.miningpointId = miningpointId;
 	}
 	
 }

@@ -118,9 +118,11 @@
 									value="${poundNote.yardname }" yardid="${poundNote.yardid }">
 							</div>
 							<div class="daohuo_add_solo">
-								<label>供应商备注：</label> <input type="text"
-									value="${poundNote.supplierremark }"
-									readonly="true">
+								<label>供应商备注：</label> <input type="text" value="${poundNote.supplierremark }" readonly="true">
+							</div>
+							<div class="daohuo_add_solo">
+								<label>采矿点：</label> <input id="miningpoint" type="text" value="${poundNote.miningpointName }" miningpointId="${poundNote.miningpointId }" 
+										materialId="${poundNote.materialid }" supplierId="${poundNote.supplierid }">
 							</div>
 						</div>
 					</div>

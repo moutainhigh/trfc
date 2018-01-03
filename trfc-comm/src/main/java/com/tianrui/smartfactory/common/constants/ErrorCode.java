@@ -168,7 +168,13 @@ public enum ErrorCode {
 	 * 堆场
 	 */
 	YARD_NOT_EXIST("E14000","堆场不存在."),
-	YARD_NOT_VALID("E14000","堆场已无效."),
+	YARD_NOT_VALID("E14001","堆场已无效."),
+	/**
+	 * 采矿点
+	 */
+	MININGPOINT_NOT_EXIST("E15000","采矿点不存在."),
+	MININGPOINT_NOT_VALID("E15001","采矿点已无效."),
+	MININGPOINT_DONTS_SUPPLIER("E15002","采矿点与供应商不匹配."),
 	
 	/**
 	 * 用户相关
