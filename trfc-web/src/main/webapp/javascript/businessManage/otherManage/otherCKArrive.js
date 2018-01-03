@@ -471,6 +471,7 @@ $(function() {
 		var year = myDate.getFullYear();    //获取完整的年份(4位,1970-????)
 		var month = myDate.getMonth()+1;       //获取当前月份(0-11,0代表1月)
 		var day = myDate.getDate();        //获取当前日(1-31)
+		var day1 = myDate.getDate()+1;        //获取当前日(1-31)
 		var hours = myDate.getHours();       //获取当前小时数(0-23)
 		var minutes = myDate.getMinutes();     //获取当前分钟数(0-59)
 		var seconds = myDate.getSeconds();     //获取当前秒数(0-59)
@@ -480,9 +481,12 @@ $(function() {
 		if(day<10){
 			day = "0"+day;
 		}
+		if(day1<10){
+			day1 = "0"+day1;
+		}
 		var array = new Array();
 		array[0]=year+"-"+month+"-"+day+" "+"00:00:00";
-		array[1]=year+"-"+month+"-"+day+" "+"23:59:59";
+		array[1]=year+"-"+month+"-"+day1+" "+"00:00:00";
 		return array;
 	}
 //	展示数据列表

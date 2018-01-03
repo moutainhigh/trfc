@@ -60,7 +60,7 @@
 			and lighttime <![CDATA[>=]]> #{beginTimeLong,jdbcType=BIGINT}
 		</if>
    		<if test="endTimeLong != null and endTimeLong != 0L ">
-			and lighttime <![CDATA[<=]]> #{endTimeLong,jdbcType=BIGINT}
+			and lighttime <![CDATA[<]]> #{endTimeLong,jdbcType=BIGINT}
 		</if>
 		<if test="billcodeLike != null and billcodeLike != ''">
 			and billcode like concat(#{billcodeLike,jdbcType=VARCHAR},'%')
@@ -119,7 +119,7 @@
 			and lighttime <![CDATA[>=]]> #{beginTimeLong,jdbcType=BIGINT}
 		</if>
    		<if test="endTimeLong != null and endTimeLong != 0L ">
-			and lighttime <![CDATA[<=]]> #{endTimeLong,jdbcType=BIGINT}
+			and lighttime <![CDATA[<]]> #{endTimeLong,jdbcType=BIGINT}
 		</if>
 		<if test="supplierNameLike != null and supplierNameLike != ''">
 			and suppliername like concat(#{supplierNameLike,jdbcType=VARCHAR},'%')
@@ -176,7 +176,7 @@
 			and lighttime <![CDATA[>=]]> #{beginTimeLong,jdbcType=BIGINT}
 		</if>
    		<if test="endTimeLong != null and endTimeLong != 0L ">
-			and lighttime <![CDATA[<=]]> #{endTimeLong,jdbcType=BIGINT}
+			and lighttime <![CDATA[<]]> #{endTimeLong,jdbcType=BIGINT}
 		</if>
 		<if test="supplierNameLike != null and supplierNameLike != ''">
 			and suppliername like concat(#{supplierNameLike,jdbcType=VARCHAR},'%')
@@ -226,7 +226,7 @@
 			and lighttime <![CDATA[>=]]> #{beginTimeLong,jdbcType=BIGINT}
 		</if>
    		<if test="endTimeLong != null and endTimeLong != 0L ">
-			and lighttime <![CDATA[<=]]> #{endTimeLong,jdbcType=BIGINT}
+			and lighttime <![CDATA[<]]> #{endTimeLong,jdbcType=BIGINT}
 		</if>
 		<if test="supplierNameLike != null and supplierNameLike != ''">
 			and suppliername like concat(#{supplierNameLike,jdbcType=VARCHAR},'%')
@@ -269,7 +269,7 @@
 			and lighttime <![CDATA[>=]]> #{beginTimeLong,jdbcType=BIGINT}
 		</if>
    		<if test="endTimeLong != null and endTimeLong != 0L ">
-			and lighttime <![CDATA[<=]]> #{endTimeLong,jdbcType=BIGINT}
+			and lighttime <![CDATA[<]]> #{endTimeLong,jdbcType=BIGINT}
 		</if>
 		<if test="supplierNameLike != null and supplierNameLike != ''">
 			and suppliername like concat(#{supplierNameLike,jdbcType=VARCHAR},'%')
@@ -322,7 +322,7 @@
 			and lighttime <![CDATA[>=]]> #{beginTimeLong,jdbcType=BIGINT}
 		</if>
    		<if test="endTimeLong != null and endTimeLong != 0L ">
-			and lighttime <![CDATA[<=]]> #{endTimeLong,jdbcType=BIGINT}
+			and lighttime <![CDATA[<]]> #{endTimeLong,jdbcType=BIGINT}
 		</if>
 		<if test="supplierNameLike != null and supplierNameLike != ''">
 			and suppliername like concat(#{supplierNameLike,jdbcType=VARCHAR},'%')
@@ -373,7 +373,7 @@
 			and lighttime <![CDATA[>=]]> #{beginTimeLong,jdbcType=BIGINT}
 		</if>
    		<if test="endTimeLong != null and endTimeLong != 0L ">
-			and lighttime <![CDATA[<=]]> #{endTimeLong,jdbcType=BIGINT}
+			and lighttime <![CDATA[<]]> #{endTimeLong,jdbcType=BIGINT}
 		</if>
 		<if test="billcodeLike != null and billcodeLike != ''">
 			and billcode like concat(#{billcodeLike,jdbcType=VARCHAR},'%')
@@ -423,7 +423,7 @@
 				and lighttime <![CDATA[>=]]> #{beginTimeLong,jdbcType=BIGINT}
 			</if>
 	   		<if test="endTimeLong != null and endTimeLong != 0L ">
-				and lighttime <![CDATA[<=]]> #{endTimeLong,jdbcType=BIGINT}
+				and lighttime <![CDATA[<]]> #{endTimeLong,jdbcType=BIGINT}
 			</if>
 			<if test="supplierNameLike != null and supplierNameLike != ''">
 				and suppliername like concat(#{supplierNameLike,jdbcType=VARCHAR},'%')
@@ -474,7 +474,7 @@
 				and lighttime <![CDATA[>=]]> #{beginTimeLong,jdbcType=BIGINT}
 			</if>
 	   		<if test="endTimeLong != null and endTimeLong != 0L ">
-				and lighttime <![CDATA[<=]]> #{endTimeLong,jdbcType=BIGINT}
+				and lighttime <![CDATA[<]]> #{endTimeLong,jdbcType=BIGINT}
 			</if>
 			<if test="supplierNameLike != null and supplierNameLike != ''">
 				and suppliername like concat(#{supplierNameLike,jdbcType=VARCHAR},'%')
@@ -517,7 +517,7 @@
 			and lighttime <![CDATA[>=]]> #{beginTimeLong,jdbcType=BIGINT}
 		</if>
    		<if test="endTimeLong != null and endTimeLong != 0L ">
-			and lighttime <![CDATA[<=]]> #{endTimeLong,jdbcType=BIGINT}
+			and lighttime <![CDATA[<]]> #{endTimeLong,jdbcType=BIGINT}
 		</if>
 		<if test="supplierNameLike != null and supplierNameLike != ''">
 			and suppliername like concat(#{supplierNameLike,jdbcType=VARCHAR},'%')
@@ -557,7 +557,7 @@
 			and lighttime <![CDATA[>=]]> #{beginTimeLong,jdbcType=BIGINT}
 		</if>
    		<if test="endTimeLong != null and endTimeLong != 0L ">
-			and lighttime <![CDATA[<=]]> #{endTimeLong,jdbcType=BIGINT}
+			and lighttime <![CDATA[<]]> #{endTimeLong,jdbcType=BIGINT}
 		</if>
 		<if test="supplierNameLike != null and supplierNameLike != ''">
 			and suppliername like concat(#{supplierNameLike,jdbcType=VARCHAR},'%')
@@ -604,7 +604,7 @@
 				and lighttime <![CDATA[>=]]> #{beginTimeLong,jdbcType=BIGINT}
 			</if>
 	   		<if test="endTimeLong != null and endTimeLong != 0L ">
-				and lighttime <![CDATA[<=]]> #{endTimeLong,jdbcType=BIGINT}
+				and lighttime <![CDATA[<]]> #{endTimeLong,jdbcType=BIGINT}
 			</if>
 			<if test="supplierNameLike != null and supplierNameLike != ''">
 				and suppliername like concat(#{supplierNameLike,jdbcType=VARCHAR},'%')

@@ -97,6 +97,6 @@
     <!-- 引用公共footer部分 -->
     <jsp:include page="../../common/base/footer_busi.jsp"></jsp:include>
     <script type="text/javascript"
-        src="/javascript/businessManage/examine/infraredBlock.js?17122701"></script>
+        src="/javascript/businessManage/examine/infraredBlock.js?2018010301"></script>
 </body>
 </html>

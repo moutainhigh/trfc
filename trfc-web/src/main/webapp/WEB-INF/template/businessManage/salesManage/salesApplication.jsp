@@ -539,7 +539,7 @@ input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
 	<!-- 引用公共footer部分 -->
 	<jsp:include page="../../common/base/footer_busi.jsp"></jsp:include>
 	<script type="text/javascript"
-		src="/javascript/businessManage/salesManage/salesApplication.js?20171228"></script>
+		src="/javascript/businessManage/salesManage/salesApplication.js?2018010301"></script>
 	<script type="text/javascript">
 		// 录入、参照tab切换菜单
 		var cg_li = $('.add_detail .cg_dhadd ul li');
