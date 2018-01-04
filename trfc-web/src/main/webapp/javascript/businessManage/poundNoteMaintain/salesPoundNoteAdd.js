@@ -317,7 +317,8 @@
 				}
 			}
 		});
-		$('#tareweight').off('keyup').on('keyup',function(){
+		$("input#tareweight").blur(function(){
+//		$('#tareweight').off('keyup').on('keyup',function(){
 			var tareweight = $(this).val();
 			if(!tareweight || !$.isNumeric(tareweight)){
 				layer.tips('必须为数字，且不能为空！', this, {
@@ -525,7 +526,7 @@
 		$('#billcode').val(obj.code || '').attr('billid', obj.id || '').attr('billdetailid', obj.detailid || '').attr('bills', JSON.stringify(bills));
 		$('#customername').val(obj.customername || '');
 //		$('#orgname').val(obj.orgname || '');
-		$('#materielname').val(obj.materielname || '');
+		$('#materielname').val(obj.materielname || '').attr('materielid',obj.materielid);
 		$('#salessum').val(obj.salessum || '');
 		$('#margin').val(obj.margin || 0);
 		$('#salesApplication').modal('hide');
@@ -544,6 +545,9 @@
 	function getBatchNumberParams(){
 		var factorycode = $('#factorycode').val();factorycode = $.trim(factorycode);
 		var materielid = $('#materiel1').attr('materielid');materielid = $.trim(materielid);
+		if(materielid==""){
+			materielid=$('#materielname').attr('materielid');materielid = $.trim(materielid);
+		}
 		var starttime = $('#starttime').val();starttime = $.trim(starttime);
 		var endtime = $('#endtime').val();endtime = $.trim(endtime);
 		var pageSize = $('#pageSize').val() || 10;
