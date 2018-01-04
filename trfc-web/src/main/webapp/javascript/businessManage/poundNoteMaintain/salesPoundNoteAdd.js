@@ -345,6 +345,7 @@
 					var rs =grossweight-tareweight;
 					$('#netweight').val(rs.toFixed(2));
 				}
+				var margin = $("#margin").val()||0;
 				var netweight =$('#netweight').val() || 0;
 				if(+netweight > +margin){
 					layer.msg('净重不能大于余量！', {icon: 5}); 
