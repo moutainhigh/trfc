@@ -331,11 +331,7 @@ public class SalesBatchnumService implements ISalesBatchnumService {
 			if(salesBatchnum.getCount().doubleValue()>=weighed){
 				salesBatchnum.setMargin(salesBatchnum.getCount().doubleValue()-weighed);
 				salesBatchnum.setWeighed(weighed);
-				int a =salesBatchnumMapper.updateByPrimaryKeySelective(salesBatchnum);
-				if(a!=1){
-					rs.setCode("222222");
-					rs.setError("修改失败！");
-				}
+				salesBatchnumMapper.updateByPrimaryKeySelective(salesBatchnum);
 				rs.setData(salesBatchnum.getFactorycode());
 			}else{
 				rs.setCode("333333");
