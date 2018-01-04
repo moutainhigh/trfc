@@ -190,6 +190,6 @@
 	<jsp:include page="../../common/base/footer_busi.jsp"></jsp:include>
     <jsp:include page="../../common/module/printTemplate.jsp"></jsp:include>
 	<script type="text/javascript"
-		src="/javascript/businessManage/poundNoteMaintain/salesPoundNote.js?2018010301"></script>
+		src="/javascript/businessManage/poundNoteMaintain/salesPoundNote.js?201801030102"></script>
 </body>
 </html>
