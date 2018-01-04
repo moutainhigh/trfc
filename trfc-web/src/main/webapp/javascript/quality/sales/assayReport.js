@@ -167,6 +167,11 @@ $(function(){
 	function editAction(){
 		var obj = $('table.maintable tbody tr.active').data('obj');
 		if(!obj) {layer.msg('需要选中一行才能操作哦！'); return;}
+		//判断是否已审核
+		if(obj.auditstate == "2"){
+			layer.msg('该数据已审核,无法进行该操作!');
+			return;
+		}
 		//跳转到编辑页面
 		window.location.replace(URL.editUrl+"?id="+obj.id);
 	}

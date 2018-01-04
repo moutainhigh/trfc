@@ -271,7 +271,7 @@
 				var obj = list[i];
 				$('<tr>').append('<td>'+(i+1)+'</td>')
 				.append('<td>'+(obj.pnCode || '')+'</td>')
-				.append('<td>'+(obj.returnStatus == '0' ? '未推单' : obj.returnStatus == '1' ? '推单中' : obj.returnStatus == '2' ? '已推单' : '')+'</td>')
+				/*.append('<td>'+(obj.returnStatus == '0' ? '未推单' : obj.returnStatus == '1' ? '推单中' : obj.returnStatus == '2' ? '已推单' : '')+'</td>')*/
 				.append('<td>'+(obj.auditStatus == '0' ? '未审批' : obj.auditStatus == '1' ? '已审批' : '')+'</td>')
 				.append('<td>'+(obj.noticeCode || '')+'</td>')
 				.append('<td>'+(obj.customerName || '')+'</td>')
