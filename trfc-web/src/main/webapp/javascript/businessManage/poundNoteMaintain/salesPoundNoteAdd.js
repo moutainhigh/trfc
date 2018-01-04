@@ -300,7 +300,8 @@
 		/**
 		 * 自动计算净重
 		 */
-		$('#grossweight').off('keyup').on('keyup',function(){
+		$("input#grossweight").blur(function(){
+		/*$('#grossweight').off('keyup').on('keyup',function(){*/
 			var grossweight = $(this).val();
 			if(!grossweight || !$.isNumeric(grossweight)){
 				layer.tips('必须为数字，且不能为空！', this, {
@@ -315,6 +316,15 @@
 				if(tareweight && $.isNumeric(tareweight)){
 					var rs =grossweight-tareweight;
 					$('#netweight').val(rs.toFixed(2));
+				}
+				var margin = $("#margin").val()||0;
+				var netweight =$('#netweight').val() || 0;
+				if(+netweight > +margin){
+					layer.msg('净重不能大于余量！', {icon: 5}); 
+					$('#grossweight').val('');//清空毛重
+					$('#tareweight').val('');//清空皮重
+					$('#netweight').val('');//清空净重
+					return false;
 				}
 			}
 		});
@@ -335,9 +345,8 @@
 					var rs =grossweight-tareweight;
 					$('#netweight').val(rs.toFixed(2));
 				}
-				var margin =$("#margin").val();
-				var netweight =$('#netweight').val();
-				if(netweight>margin){
+				var netweight =$('#netweight').val() || 0;
+				if(+netweight > +margin){
 					layer.msg('净重不能大于余量！', {icon: 5}); 
 					$('#grossweight').val('');//清空毛重
 					$('#tareweight').val('');//清空皮重
