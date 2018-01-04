@@ -32,4 +32,8 @@ public interface IPurchaseReportService {
 	List<ReportPurchaseResp> list4(ReportPurchaseQuery query) throws Exception;
 	PaginationVO<ReportPurchaseMaterResp> minemouthnamePage(ReportPurchaseQuery query) throws Exception;
 	List<ReportPurchaseMaterResp> minemouthnameList(ReportPurchaseQuery query) throws Exception;
+	List<ReportPurchaseMaterResp> minList(ReportPurchaseQuery req) throws Exception;
+	PaginationVO<ReportPurchaseMaterResp> minPage(ReportPurchaseQuery req) throws Exception;
+	PaginationVO<ReportPurchaseMaterResp> datePage(ReportPurchaseQuery req);
+	List<ReportPurchaseMaterResp> dateList(ReportPurchaseQuery req);
 }

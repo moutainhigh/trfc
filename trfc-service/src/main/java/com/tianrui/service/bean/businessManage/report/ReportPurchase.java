@@ -20,6 +20,10 @@ public class ReportPurchase {
 
     //  矿口名称
     private String minemouthname;
+    //采矿点id
+    private String miningpointid;
+    //采矿点名称
+    private String miningpointname;
     //  堆场id
     private String yardid;
     //  堆场名称
@@ -112,6 +116,23 @@ public class ReportPurchase {
       private String billcodeLike;
   //磅单号
       private String poundcodeLike;
+
+      
+	public String getMiningpointid() {
+		return miningpointid;
+	}
+
+	public void setMiningpointid(String miningpointid) {
+		this.miningpointid = miningpointid;
+	}
+
+	public String getMiningpointname() {
+		return miningpointname;
+	}
+
+	public void setMiningpointname(String miningpointname) {
+		this.miningpointname = miningpointname;
+	}
 
 	public String getBillcodeLike() {
 		return billcodeLike;

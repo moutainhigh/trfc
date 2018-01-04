@@ -60,4 +60,30 @@ public interface ReportPurchaseMapper {
      * @return
      */
     Long countByConditionForMinemouthname(ReportPurchase reportPurchase);
+    /**
+     * 供应商物料时间汇总（根据条件查找数据）
+     * @param reportPurchase
+     * @return
+     */
+    List<ReportPurchaseMaterResp> selectByConditionForDateStr(ReportPurchase reportPurchase);
+    
+    /**
+     *  供应商物料时间汇总（根据条件查找条数）
+     * @param Long
+     * @return
+     */
+    Long countByConditionForDateStr(ReportPurchase reportPurchase);
+    /**
+     * 采矿点汇总（根据条件查找数据）
+     * @param reportPurchase
+     * @return
+     */
+    List<ReportPurchaseMaterResp> selectByConditionForMiningpointname(ReportPurchase reportPurchase);
+    
+    /**
+     * 采矿点汇总（根据条件查找条数）
+     * @param Long
+     * @return
+     */
+    Long countByConditionForMiningpointname(ReportPurchase reportPurchase);
 }

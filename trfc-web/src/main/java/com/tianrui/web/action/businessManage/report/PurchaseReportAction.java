@@ -311,4 +311,93 @@ public class PurchaseReportAction {
 		}
 		return result;
 	}
+	/**
+	 * 采矿点汇总表（采矿点不为空）
+	 * @param req
+	 * @return
+	 */
+	@RequestMapping("/minPage")
+	@ResponseBody
+	public Result minPage(ReportPurchaseQuery req,HttpServletRequest request){
+		Result result = Result.getSuccessResult();
+		try {
+			SystemUserResp user = SessionManager.getSessionUser(request);
+			if(req==null){
+				req =new ReportPurchaseQuery();
+			}
+			req.setCurrUid(user.getId());
+			PaginationVO<ReportPurchaseMaterResp> page = purchaseReportService.minPage(req);
+			result.setData(page);
+			result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
+		}
+		return result;
+	}
+	
+	@RequestMapping("/minList")
+	@ResponseBody
+	public Result minList(ReportPurchaseQuery req,HttpServletRequest request){
+		Result result = Result.getSuccessResult();
+		try {
+			SystemUserResp user = SessionManager.getSessionUser(request);
+			if(req==null){
+				req =new ReportPurchaseQuery();
+			}
+			req.setCurrUid(user.getId());
+			List<ReportPurchaseMaterResp> list = purchaseReportService.minList(req);
+			result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+			result.setData(list);
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
+		}
+		return result;
+	}
+	
+	/**
+	 * 采矿点汇总表（采矿点不为空）
+	 * @param req
+	 * @return
+	 */
+	@RequestMapping("/datePage")
+	@ResponseBody
+	public Result datePage(ReportPurchaseQuery req,HttpServletRequest request){
+		Result result = Result.getSuccessResult();
+		try {
+			SystemUserResp user = SessionManager.getSessionUser(request);
+			if(req==null){
+				req =new ReportPurchaseQuery();
+			}
+			req.setCurrUid(user.getId());
+			PaginationVO<ReportPurchaseMaterResp> page = purchaseReportService.datePage(req);
+			result.setData(page);
+			result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
+		}
+		return result;
+	}
+	
+	@RequestMapping("/dateList")
+	@ResponseBody
+	public Result dateList(ReportPurchaseQuery req,HttpServletRequest request){
+		Result result = Result.getSuccessResult();
+		try {
+			SystemUserResp user = SessionManager.getSessionUser(request);
+			if(req==null){
+				req =new ReportPurchaseQuery();
+			}
+			req.setCurrUid(user.getId());
+			List<ReportPurchaseMaterResp> list = purchaseReportService.dateList(req);
+			result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+			result.setData(list);
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			result.setErrorCode(ErrorCode.SYSTEM_ERROR);
+		}
+		return result;
+	}
 }
