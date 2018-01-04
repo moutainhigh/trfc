@@ -12,7 +12,11 @@
 			BuZengUrl:"/trfc/purchaseReport/buZengPage",     //补增
 			BuZengListUrl:"/trfc/purchaseReport/buZengList",     
 			minemouthnameUrl:"/trfc/purchaseReport/ minemouthnamePage",  //矿口汇总
-			minemouthnameListUrl:"/trfc/purchaseReport/ minemouthnameList"  //矿口汇总
+			minemouthnameListUrl:"/trfc/purchaseReport/ minemouthnameList",  //矿口汇总
+			supplytimeUrl:"/trfc/purchaseReport/datePage",  //采购物料供应商时间汇总全部分页数据
+			supplytimeListUrl:"/trfc/purchaseReport/dateList",  //采购物料供应商时间汇总 导出数据
+			miningcollectUrl:"/trfc/purchaseReport/minPage",  //采矿点汇总全部分页数据
+			miningcollectListUrl:"/trfc/purchaseReport/minList"  //采矿点汇总 导出数据
 	};
 	init();
 	function init(){
@@ -26,6 +30,7 @@
 		$(".hide_thing").show();
 		searchData(1);
 	}
+	//tab切换，初始表格展示结果
 	$('#thing').off('click').on('click',function(){
 		$('input#jumpPageNo').val('');
 		$(".wuliao_tabcont").hide();
@@ -80,7 +85,27 @@
 		$("#tag_display_poundcode").addClass("displayNone");
 		queryData6(1);
 		
+	});
+	//表格展示结果
+	$('#supplytime').off('click').on('click',function(){
+		$('input#jumpPageNo').val('');
+		$(".wuliao_tabcont").hide();
+		$(".hide_supplytime").show();
+		$("#tag_display_billcode").addClass("displayNone");
+		$("#tag_display_poundcode").addClass("displayNone");
+		queryData7(1);
+		
 	});	
+	$('#miningcollect').off('click').on('click',function(){
+		$('input#jumpPageNo').val('');
+		$(".wuliao_tabcont").hide();
+		$(".hide_miningcollect").show();
+		$("#tag_display_billcode").addClass("displayNone");
+		$("#tag_display_poundcode").addClass("displayNone");
+		queryData8(1);
+		
+	});	
+	// 导出数据
 	$("#allExport1").off('click').on('click',function(){
 		commonList();
 		method('.tableExcelA');
@@ -105,6 +130,14 @@
 		minemouthname();
 		method('.tableExcelF');
 	})
+	$("#allExport7").off('click').on('click',function(){
+		supplytimeList();
+		method('.tableExcelG');
+	})
+	$("#allExport8").off('click').on('click',function(){
+		miningcollectList();
+		method('.tableExcelH');
+	})
 //	// 物料的四个tab切换菜单
 	var wl_li = $('.wuliao_tab ul li');
 	wl_li.click(function () {
@@ -112,8 +145,85 @@
 	    var index = wl_li.index(this);
 //	    $('.wuliao_tabbox > .wuliao_tabcont').eq(index).show().siblings().hide();
 	});
-	
-//	采购补增
+
+//	采购物料供应商时间汇总--导出功能
+	function supplytimeList(){
+		 $.ajax({
+	            url:URL.supplytimeListUrl,
+	            async:false,
+	            cache:false,
+	            dataType:'json',
+	            type:'post',
+	            success:function(result){
+	                if(result.code == '000000'){      	
+	                	$('#RMgG').empty();
+	        	        var list = result.data||[];
+	        	            for(var i=0;i<list.length;i++){
+	        	            	var lightt;
+	        					if(list[i].dateStr){
+	        						lightt=new Date(list[i].lighttime).format("yyyy-MM-dd HH:mm:ss");
+	        					}else{
+	        						lightt="";
+	        					}
+	        	            	$('<tr>').append('<td>'+(list[i].poundcode||"")+'</td>')
+	        					.append('<td>'+(list[i].suppliername||"")+'</td>')
+	        					.append('<td>'+(list[i].materialname||"")+'</td>')
+	        					.append('<td>'+(list[i].dateStr||"")+'</td>')
+	        					.append('<td>'+(list[i].countVehicleNo||"")+'</td>')
+	        					.append('<td>'+(list[i].sumGrossweight||"")+'</td>')
+	        					.append('<td>'+(list[i].sumTareweight||"")+'</td>')
+	        					.append('<td>'+(list[i].sumNetweight||"")+'</td>')
+	        					.append('<td>'+(lightt)+'</td>')
+	        	                .appendTo('#RMgG');
+	        	            }       	
+	                }
+	            }
+	        });
+	}
+//	采购采矿点汇总表--导出功能
+	function miningcollectList(){
+		 $.ajax({
+	            url:URL.miningcollectListUrl,
+	            async:false,
+	            cache:false,
+	            dataType:'json',
+	            type:'post',
+	            success:function(result){
+	                if(result.code == '000000'){      	
+	                	$('#RMgH').empty();
+	        	        var list = result.data||[];
+	        	            for(var i=0;i<list.length;i++){
+	        	            	var lightt,weightt;
+	        					if(list[i].lighttime){
+	        						lightt=new Date(list[i].lighttime).format("yyyy-MM-dd HH:mm:ss");
+	        					}else{
+	        						lightt="";
+	        					}
+	        					if(list[i].weighttime){
+	        						weightt=new Date(list[i].weighttime).format("yyyy-MM-dd HH:mm:ss");
+	        					}else{
+	        						weightt="";
+	        					}
+	        	            	$('<tr>').append('<td>'+(list[i].poundcode||"")+'</td>')
+	        					.append('<td>'+(list[i].suppliername||"")+'</td>')
+	        					.append('<td>'+(list[i].minemouthname||"")+'</td>')
+	        					.append('<td>'+(list[i].yardname||"")+'</td>')
+	        					.append('<td>'+(list[i].materialname||"")+'</td>')
+	        					.append('<td>'+(list[i].vehicleno||"")+'</td>')
+	        					.append('<td>'+(list[i].originalnetweight||"")+'</td>')
+	        					.append('<td>'+(list[i].grossweight||"")+'</td>')
+	        					.append('<td>'+(list[i].tareweight||"")+'</td>')
+	        					.append('<td>'+(list[i].netweight||"")+'</td>')
+	        					.append('<td>'+(lightt)+'</td>')
+	        					.append('<td>'+(weightt)+'</td>')
+	        					.append('<td>'+(list[i].remark||"")+'</td>')
+	        	                .appendTo('#RMgH');
+	        	            }       	
+	                }
+	            }
+	        });
+	}
+//	采购补增--导出功能
 	function BuZengList(){
 		 $.ajax({
 	            url:URL.BuZengListUrl,
@@ -157,7 +267,7 @@
 	        });
 	}
 	
-//	采购逐车
+//	采购逐车--导出功能
 	function commonList(){
 		 $.ajax({
 	            url:URL.commonListUrl,
@@ -325,7 +435,6 @@
 	
 	function searchData(page) {
 		var type=$('.tj_tab ul>li.select').attr('data-type');
-		console.log(type)
 		if(type==0){
 			queryData5(page);
 		}
@@ -343,6 +452,12 @@
 		}
 		if(type==5){
 			queryData6(page);
+		}
+		if(type==6){
+			queryData7(page);
+		}
+		if(type==7){
+			queryData8(page);
 		}
 	}
 	$('#searchBtn').off('click').on('click',function(){
@@ -460,6 +575,162 @@
 		 $("#billcode").val("");
 		$("#poundcode").val("");
 	}
+//	供应商时间汇总
+	function queryData7(pageNo){
+		var index = layer.load(2, {
+		  shade: [0.3,'#fff'] //0.1透明度的白色背景
+		});
+		var params = getParams();
+		params.pageNo = pageNo;
+		$.ajax({
+			url:URL.supplytimeUrl,
+			data:params,
+			async:true,
+			cache:false,
+			dataType:'json',
+			type:'post',
+			success:function(result){
+				if(result.code == '000000'){
+					renderHtml7(result.data);
+					var total = result.data.total;
+					var pageNo = result.data.pageNo;
+					var pageSize = result.data.pageSize;
+					$('#total').html(total);
+					$('#jumpPageNo').attr('maxPageNo',parseInt((total+pageSize-1)/pageSize));
+					$("#pagination").pagination(total, {
+					    callback: function(pageNo){
+							queryData4(pageNo+1);
+						},
+					    prev_text: '上一页',
+					    next_text: '下一页',
+					    items_per_page:pageSize,
+					    num_display_entries:4,
+					    current_page:pageNo-1,
+					    num_edge_entries:1,
+					    maxentries:total,
+					    link_to:"javascript:void(0)"
+					});
+				}else{
+					layer.msg(result.error);
+				}
+				layer.close(index);
+			}
+		});
+	}
+	
+	function renderHtml7(data){
+		$('#RMg7').empty();
+		var list = data.list||[];
+		if(list && list.length>0){
+			var str1=0,str2=0,str3=0;
+			for(var i=0;i<list.length;i++){
+				str1+=list[i].sumGrossweight;
+				str2+=list[i].sumTareweight;
+				str3+=list[i].sumNetweight;
+				var signt;
+				if(list[i].dateStr){
+					signt=new Date(list[i].dateStr).format("yyyy-MM-dd HH:mm:ss");
+				}else{
+					signt="";
+				}
+				$('<tr>').append('<td>'+(list[i].suppliername||"")+'</td>')
+						.append('<td>'+(list[i].materialname||"")+'</td>')
+						.append('<td>'+(signt ||"")+'</td>')
+						.append('<td>'+(list[i].countVehicleNo||"")+'</td>')
+						.append('<td>'+(list[i].sumGrossweight||"")+'</td>')
+						.append('<td>'+(list[i].sumTareweight||"")+'</td>')
+						.append('<td>'+(list[i].sumNetweight||"")+'</td>')
+						.appendTo('#RMg7');
+			}
+			$('<tr>').append('<td>'+("总计")+'</td>')
+			.append('<td>'+("---")+'</td>')
+			.append('<td>'+("---")+'</td>')
+			.append('<td>'+("---")+'</td>')
+			.append('<td>'+(str1.toFixed(2))+'</td>')
+			.append('<td>'+(str2.toFixed(2))+'</td>')
+			.append('<td>'+(str3.toFixed(2))+'</td>')
+			.appendTo('#RMg7');
+		}else{
+//			layer.msg('暂无数据');
+//			$('#dataMore').hide();
+		}
+	}
+	
+//	采购采矿点汇总表--导出
+	function queryData7(pageNo){
+		var index = layer.load(2, {
+		  shade: [0.3,'#fff'] //0.1透明度的白色背景
+		});
+		var params = getParams();
+		params.pageNo = pageNo;
+		$.ajax({
+			url:URL.miningcollectUrl,
+			data:params,
+			async:true,
+			cache:false,
+			dataType:'json',
+			type:'post',
+			success:function(result){
+				if(result.code == '000000'){
+					renderHtml7(result.data);
+					var total = result.data.total;
+					var pageNo = result.data.pageNo;
+					var pageSize = result.data.pageSize;
+					$('#total').html(total);
+					$('#jumpPageNo').attr('maxPageNo',parseInt((total+pageSize-1)/pageSize));
+					$("#pagination").pagination(total, {
+					    callback: function(pageNo){
+							queryData4(pageNo+1);
+						},
+					    prev_text: '上一页',
+					    next_text: '下一页',
+					    items_per_page:pageSize,
+					    num_display_entries:4,
+					    current_page:pageNo-1,
+					    num_edge_entries:1,
+					    maxentries:total,
+					    link_to:"javascript:void(0)"
+					});
+				}else{
+					layer.msg(result.error);
+				}
+				layer.close(index);
+			}
+		});
+	}
+	
+	function renderHtml7(data){
+		$('#RMg8').empty();
+		var list = data.list||[];
+		if(list && list.length>0){
+			var str1=0,str2=0,str3=0;
+			for(var i=0;i<list.length;i++){
+				str1+=list[i].sumGrossweight;
+				str2+=list[i].sumTareweight;
+				str3+=list[i].sumNetweight;
+				$('<tr>').append('<td>'+(list[i].suppliername||"")+'</td>')
+						.append('<td>'+(list[i].materialname||"")+'</td>')
+						.append('<td>'+(list[i].miningpointname||"")+'</td>')
+						.append('<td>'+(list[i].countVehicleNo||"")+'</td>')
+						.append('<td>'+(list[i].sumGrossweight||"")+'</td>')
+						.append('<td>'+(list[i].sumTareweight||"")+'</td>')
+						.append('<td>'+(list[i].sumNetweight||"")+'</td>')
+						.appendTo('#RMg8');
+			}
+			$('<tr>').append('<td>'+("总计")+'</td>')
+			.append('<td>'+("---")+'</td>')
+			.append('<td>'+("---")+'</td>')
+			.append('<td>'+("---")+'</td>')
+			.append('<td>'+(str1.toFixed(2))+'</td>')
+			.append('<td>'+(str2.toFixed(2))+'</td>')
+			.append('<td>'+(str3.toFixed(2))+'</td>')
+			.appendTo('#RMg8');
+		}else{
+//			layer.msg('暂无数据');
+//			$('#dataMore').hide();
+		}
+	}	
+	
 //		//初始化页面
 	function queryData5(pageNo){
 		var index = layer.load(2, {
@@ -709,6 +980,7 @@
 							.append('<td>'+(list[i].billcode||"")+'</td>')
 							.append('<td>'+(list[i].suppliername||"")+'</td>')
 							.append('<td>'+(list[i].minemouthname||"")+'</td>')
+							.append('<td>'+(list[i].miningpointname||"")+'</td>')
 							.append('<td>'+(list[i].yardname||"")+'</td>')
 							.append('<td>'+(list[i].materialname||"")+'</td>')
 							.append('<td>'+(list[i].vehicleno||"")+'</td>')
