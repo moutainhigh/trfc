@@ -148,8 +148,8 @@ public class SalesApplicationAction {
 		return result;
 	}
 	
-	@RequestMapping("/unaudit")
-	@ResponseBody
+//	@RequestMapping("/unaudit")
+//	@ResponseBody
 	public Result unaudit(SalesApplicationQuery query, HttpServletRequest request){
 		Result result = Result.getSuccessResult();
 		try {

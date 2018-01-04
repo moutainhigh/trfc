@@ -69,6 +69,17 @@ input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
 										placeholder="请选择客户">
 								</div>
 								<div class="intel_solo">
+									<label>制单人：</label> <input id="s_makebillname" type="text"
+										placeholder="请输入制单人">
+								</div>
+								<div class="intel_solo">
+									<label>销售组织：</label> <select id="s_salesOrg" class="form-control salesOrg">
+										<option value="">------请选择------</option>
+										<option value="${orgId }">${orgName }</option>
+										<option value="0001P11000000049UNR1">河南圣业水泥销售有限公司</option>
+									</select>
+								</div>
+								<div class="intel_solo">
 									<label>开始时间：</label> <input id="s_starttime" type="text"
 										onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',maxDate:'#F{$dp.$D(\'s_endtime\')}'})"
 										class="Wdate" style="width: 160px;" readonly
@@ -127,7 +138,9 @@ input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
 									<th>序号</th>
 									<th>订单编号</th>
 									<th>状态</th>
+									<th>联机状态</th>
 									<th>来源</th>
+									<th>推单状态</th>
 									<th>类型</th>
 									<th>客户</th>
 									<th>订单日期</th>
@@ -539,7 +552,7 @@ input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
 	<!-- 引用公共footer部分 -->
 	<jsp:include page="../../common/base/footer_busi.jsp"></jsp:include>
 	<script type="text/javascript"
-		src="/javascript/businessManage/salesManage/salesApplication.js?2018010301"></script>
+		src="/javascript/businessManage/salesManage/salesApplication.js?20171228"></script>
 	<script type="text/javascript">
 		// 录入、参照tab切换菜单
 		var cg_li = $('.add_detail .cg_dhadd ul li');

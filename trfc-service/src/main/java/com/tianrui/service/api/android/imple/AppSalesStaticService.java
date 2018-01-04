@@ -261,13 +261,23 @@ public class AppSalesStaticService implements IAppSalesStaticService {
 			if (user != null) {
 				VehicleManage vehicle = vehicleManageMapper.selectByPrimaryKey(param.getVehicle());
 				if (validVehicle(vehicle, result)) {
-					SalesApplication sa = setSalesApplication(param, user, vehicle);
-					SalesApplicationDetail sad = setSalesApplicationDetail(param, sa.getId());
-					oneBillOneCarPush(sa, sad);
-					salesApplicationMapper.insertSelective(sa);
-					salesApplicationDetailMapper.insertSelective(sad);
-					updateCode("XXSO", param.getUserId());
-					result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+					//单价
+					Result ptRs = prmTariffService.getPrmTariffByMater(param.getMaterial());
+					PrmTariff pt = null;
+					if (ptRs != null && StringUtils.equals(ptRs.getCode(), ErrorCode.SYSTEM_SUCCESS.getCode())) {
+						pt = (PrmTariff) ptRs.getData();
+						if (validPrice(pt, result)) {
+							SalesApplication sa = setSalesApplication(param, user, vehicle);
+							SalesApplicationDetail sad = setSalesApplicationDetail(param, sa.getId(), pt);
+							oneBillOneCarPush(sa, sad);
+							salesApplicationMapper.insertSelective(sa);
+							salesApplicationDetailMapper.insertSelective(sad);
+							updateCode("XXSO", param.getUserId());
+							result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+						}
+					} else {
+						result.setErrorCode(ErrorCode.APPLICATION_MATER_NOT_PRICE);
+					}
 				}
 			} else {
 				result.setErrorCode(ErrorCode.SYSTEM_USER_ERROR1);
@@ -276,6 +286,16 @@ public class AppSalesStaticService implements IAppSalesStaticService {
 			result.setErrorCode(ErrorCode.PARAM_NULL_ERROR);
 		}
 		return result;
+	}
+
+	private boolean validPrice(PrmTariff pt, AppResult result) {
+		boolean flag = false;
+		if (pt != null && StringUtils.isNotBlank(pt.getNprice1())) {
+			flag = true;
+		} else {
+			result.setErrorCode(ErrorCode.APPLICATION_MATER_NOT_PRICE);
+		}
+		return flag;
 	}
 
 	private void oneBillOneCarPush(SalesApplication sa, SalesApplicationDetail sad) throws Exception {
@@ -315,7 +335,7 @@ public class AppSalesStaticService implements IAppSalesStaticService {
 		ps.setDesc2(Constant.ONE_STRING);
 		if(apiResult != null){
 			if (StringUtils.equals(apiResult.getCode(), ErrorCode.SYSTEM_SUCCESS.getCode())) {
-				sa.setSource(Constant.ZERO_STRING);
+//				sa.setSource(Constant.ZERO_STRING);
 				sa.setPushStatus(Constant.ONE_STRING);
                 ps.setPushStatus(Constant.ONE_STRING);
 			} else {
@@ -349,7 +369,7 @@ public class AppSalesStaticService implements IAppSalesStaticService {
 		SalesApplication sa = new SalesApplication();
 		sa.setId(UUIDUtil.getId());
 		sa.setCode(getCode("XXSO", param.getUserId(), true));
-		sa.setStatus(Constant.ONE_STRING);
+		sa.setStatus(Constant.ZERO_STRING);
 		sa.setSource(Constant.ONE_STRING);
 		sa.setBilltypeid(BillTypeEnum.BILL_TYPE_ONE_CAR.getCode());
 		sa.setBilltypename(BillTypeEnum.BILL_TYPE_ONE_CAR.getName());
@@ -394,7 +414,7 @@ public class AppSalesStaticService implements IAppSalesStaticService {
 		return sa;
 	}
 
-	private SalesApplicationDetail setSalesApplicationDetail(BillSave param, String salesId) {
+	private SalesApplicationDetail setSalesApplicationDetail(BillSave param, String salesId, PrmTariff pt) {
 		SalesApplicationDetail sad = new SalesApplicationDetail();
 		sad.setId(UUIDUtil.getId());
 		sad.setSalesid(salesId);
@@ -413,12 +433,7 @@ public class AppSalesStaticService implements IAppSalesStaticService {
 		sad.setStoragequantity(0D);
 		sad.setUnstoragequantity(0D);
 		sad.setPretendingtake(0D);
-		//单价
-		Result ptRs = prmTariffService.getPrmTariffByMater(sad.getMaterielid());
-		if (ptRs != null && ptRs.getData() != null) {
-			PrmTariff pt = (PrmTariff) ptRs.getData();
-			sad.setTaxprice(Double.valueOf(pt.getNprice1()));
-		}	
+		sad.setTaxprice(Double.valueOf(pt.getNprice1()));
 		return sad;
 	}
 	

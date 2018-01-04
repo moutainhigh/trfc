@@ -295,84 +295,86 @@ public class SalesApplicationService implements ISalesApplicationService {
 
 	private Result setSalesApplicationValue(SalesApplicationSave save, VehicleManage vehicle, DriverManage driver) throws Exception {
 		Result result = Result.getSuccessResult();
-		SalesApplication sa = new SalesApplication();
-		sa.setId(UUIDUtil.getId());
-		sa.setCode(getCode("XXSO", save.getUserId()));
-		sa.setStatus(Constant.ZERO_STRING);
-		sa.setSource(Constant.ONE_STRING);
-		sa.setBilltypeid(save.getBillType());
-		sa.setBilltypename(BillTypeEnum.getName(save.getBillType()));
-		CustomerManage customer = customerManageMapper.selectByPrimaryKey(save.getCustomer());
-		if(customer != null){
-			sa.setCustomerid(customer.getId());
-			sa.setCustomername(customer.getName());
-			sa.setChannelcode(customer.getChannelcode());
-			sa.setSalesmanid(customer.getSalesmanid());
-			sa.setSalesmanname(customer.getSalesmanname());
-			sa.setTransportcompanyid(customer.getTransportcompanyid());
-			sa.setTransportcompanyname(customer.getTransportcompanyname());
-			sa.setDepartmentid(customer.getDepartmentid());
-			sa.setDepartmentname(customer.getDepartmentname());
-		}
-		sa.setBilltime(save.getBillTime());
-		Organization org = organizationMapper.selectByPrimaryKey(save.getSalesOrg());
-		if (org != null) {
-			sa.setOrgid(org.getId());
-			sa.setOrgname(org.getName());
-		}
-		sa.setState(Constant.ONE_STRING);
-		sa.setMakerid(save.getUserId());
-		sa.setMakebillname(save.getUserName());
-		sa.setMakebilltime(System.currentTimeMillis());
-		sa.setCreator(save.getUserId());
-		sa.setCreatetime(System.currentTimeMillis());
-		sa.setRemarks(save.getRemark());
-		sa.setBillSource(Constant.ONE_NUMBER);
-		sa.setValidStatus(Constant.ZERO_STRING);
-		sa.setPushStatus(Constant.ZERO_STRING);
-		sa.setNcStatus(Constant.ZERO_STRING);
-		if (vehicle != null) {
-			sa.setVehicleId(vehicle.getId());
-			sa.setVehicleNo(vehicle.getVehicleno());
-			sa.setRfid(vehicle.getRfid());
-		}
-		if (driver != null) {
-			sa.setDriverId(driver.getId());
-			sa.setDriverName(driver.getName());
-		}
-		salesApplicationMapper.insertSelective(sa);
-		updateCode("XXSO", save.getUserId());
-		//子表
-		SalesApplicationDetail sad = new SalesApplicationDetail();
-		sad.setId(UUIDUtil.getId());
-		sad.setSalesid(sa.getId());
-		MaterielManage materiel = materielManageMapper.selectByPrimaryKey(save.getMateriel());
-		if (materiel != null) {
-			sad.setMaterielid(materiel.getId());
-			sad.setMaterielname(materiel.getName());
-		}
-		WarehouseManage warehouse = warehouseManageMapper.selectByPrimaryKey(save.getWarehouse());
-		if (warehouse != null) {
-			sad.setWarehouseid(warehouse.getId());
-			sad.setWarehousename(warehouse.getName());
-		}
-		sad.setUnit("吨");
-		sad.setSalessum(save.getNumber());
-		if (StringUtils.equals(save.getBillType(), Constant.ZERO_STRING)) {
-			sad.setMargin(0D);
-		} else {
-			sad.setMargin(save.getNumber());
-		}
-		sad.setStoragequantity(0D);
-		sad.setUnstoragequantity(0D);
-		sad.setPretendingtake(0D);
 		//单价
-		Result ptRs = prmTariffService.getPrmTariffByMater(sad.getMaterielid());
-		if (ptRs != null && ptRs.getData() != null) {
-			PrmTariff pt = (PrmTariff) ptRs.getData();
-			sad.setTaxprice(Double.valueOf(pt.getNprice1()));
+		Result ptRs = prmTariffService.getPrmTariffByMater(save.getMateriel());
+		if (ptRs != null && StringUtils.equals(ptRs.getCode(), ErrorCode.SYSTEM_SUCCESS.getCode()) 
+				&& ptRs.getData() != null && StringUtils.isNotBlank(((PrmTariff) ptRs.getData()).getNprice1())) {
+			SalesApplication sa = new SalesApplication();
+			sa.setId(UUIDUtil.getId());
+			sa.setCode(getCode("XXSO", save.getUserId()));
+			sa.setStatus(Constant.ZERO_STRING);
+			sa.setSource(Constant.ONE_STRING);
+			sa.setBilltypeid(save.getBillType());
+			sa.setBilltypename(BillTypeEnum.getName(save.getBillType()));
+			CustomerManage customer = customerManageMapper.selectByPrimaryKey(save.getCustomer());
+			if(customer != null){
+				sa.setCustomerid(customer.getId());
+				sa.setCustomername(customer.getName());
+				sa.setChannelcode(customer.getChannelcode());
+				sa.setSalesmanid(customer.getSalesmanid());
+				sa.setSalesmanname(customer.getSalesmanname());
+				sa.setTransportcompanyid(customer.getTransportcompanyid());
+				sa.setTransportcompanyname(customer.getTransportcompanyname());
+				sa.setDepartmentid(customer.getDepartmentid());
+				sa.setDepartmentname(customer.getDepartmentname());
+			}
+			sa.setBilltime(save.getBillTime());
+			Organization org = organizationMapper.selectByPrimaryKey(save.getSalesOrg());
+			if (org != null) {
+				sa.setOrgid(org.getId());
+				sa.setOrgname(org.getName());
+			}
+			sa.setState(Constant.ONE_STRING);
+			sa.setMakerid(save.getUserId());
+			sa.setMakebillname(save.getUserName());
+			sa.setMakebilltime(System.currentTimeMillis());
+			sa.setCreator(save.getUserId());
+			sa.setCreatetime(System.currentTimeMillis());
+			sa.setRemarks(save.getRemark());
+			sa.setBillSource(Constant.ONE_NUMBER);
+			sa.setValidStatus(Constant.ZERO_STRING);
+			sa.setPushStatus(Constant.ZERO_STRING);
+			sa.setNcStatus(Constant.ZERO_STRING);
+			if (vehicle != null) {
+				sa.setVehicleId(vehicle.getId());
+				sa.setVehicleNo(vehicle.getVehicleno());
+				sa.setRfid(vehicle.getRfid());
+			}
+			if (driver != null) {
+				sa.setDriverId(driver.getId());
+				sa.setDriverName(driver.getName());
+			}
+			salesApplicationMapper.insertSelective(sa);
+			updateCode("XXSO", save.getUserId());
+			//子表
+			SalesApplicationDetail sad = new SalesApplicationDetail();
+			sad.setId(UUIDUtil.getId());
+			sad.setSalesid(sa.getId());
+			MaterielManage materiel = materielManageMapper.selectByPrimaryKey(save.getMateriel());
+			if (materiel != null) {
+				sad.setMaterielid(materiel.getId());
+				sad.setMaterielname(materiel.getName());
+			}
+			WarehouseManage warehouse = warehouseManageMapper.selectByPrimaryKey(save.getWarehouse());
+			if (warehouse != null) {
+				sad.setWarehouseid(warehouse.getId());
+				sad.setWarehousename(warehouse.getName());
+			}
+			sad.setUnit("吨");
+			sad.setSalessum(save.getNumber());
+			if (StringUtils.equals(save.getBillType(), Constant.ZERO_STRING)) {
+				sad.setMargin(0D);
+			} else {
+				sad.setMargin(save.getNumber());
+			}
+			sad.setStoragequantity(0D);
+			sad.setUnstoragequantity(0D);
+			sad.setPretendingtake(0D);
+			sad.setTaxprice(Double.valueOf(((PrmTariff) ptRs.getData()).getNprice1()));
+			salesApplicationDetailMapper.insertSelective(sad);
+		} else {
+			result.setErrorCode(ErrorCode.APPLICATION_MATER_NOT_PRICE);
 		}
-		salesApplicationDetailMapper.insertSelective(sad);
 		return result;
 	}
 	
@@ -540,7 +542,7 @@ public class SalesApplicationService implements ISalesApplicationService {
 		ps.setDesc2(Constant.ONE_STRING);
 		if(apiResult != null){
 			if (StringUtils.equals(apiResult.getCode(), ErrorCode.SYSTEM_SUCCESS.getCode())) {
-				sa.setSource(Constant.ZERO_STRING);
+//				sa.setSource(Constant.ZERO_STRING);
 				sa.setPushStatus(Constant.ONE_STRING);
                 ps.setPushStatus(Constant.ONE_STRING);
 			} else {
@@ -631,12 +633,16 @@ public class SalesApplicationService implements ISalesApplicationService {
 			if (sa != null) {
 				if (StringUtils.equals(sa.getStatus(), Constant.ZERO_STRING)) {
 					if (StringUtils.equals(sa.getSource(), Constant.ONE_STRING)) {
-						sa.setState(Constant.ZERO_STRING);
-						sa.setValidStatus(Constant.TWO_STRING);
-						sa.setModifier(query.getCurrid());
-						sa.setModifytime(System.currentTimeMillis());
-						salesApplicationMapper.updateByPrimaryKeySelective(sa);
-						result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+						if (StringUtils.equals(sa.getPushStatus(), Constant.ZERO_STRING)) {
+							sa.setState(Constant.ZERO_STRING);
+							sa.setValidStatus(Constant.TWO_STRING);
+							sa.setModifier(query.getCurrid());
+							sa.setModifytime(System.currentTimeMillis());
+							salesApplicationMapper.updateByPrimaryKeySelective(sa);
+							result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+						} else {
+							result.setErrorCode(ErrorCode.APPLICATION_NOT_DELETE6);
+						}
 					} else {
 						result.setErrorCode(ErrorCode.APPLICATION_NOT_DELETE5);
 					}
@@ -1048,6 +1054,7 @@ public class SalesApplicationService implements ISalesApplicationService {
 			if (StringUtils.equals(sa.getValidStatus(), Constant.ZERO_STRING)) {
 				if (!StringUtils.equals(sa.getNcStatus(), Constant.TWO_STRING)) {
 					sa.setStatus(Constant.ONE_STRING);
+					sa.setSource(Constant.ZERO_STRING);
 					sa.setNcId(req.getNcId());
 					sa.setNcStatus(Constant.TWO_STRING);
 					sa.setAuditid(req.getAuditid());
