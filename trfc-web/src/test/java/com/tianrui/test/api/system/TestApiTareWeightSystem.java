@@ -16,7 +16,7 @@ import com.tianrui.smartfactory.common.constants.Constant;
 import com.tianrui.smartfactory.common.utils.DateUtil;
 import com.tianrui.smartfactory.common.utils.Md5Utils;
 /**
- * 红外被挡审批
+ * 审批
  * @author Administrator
  *
  */

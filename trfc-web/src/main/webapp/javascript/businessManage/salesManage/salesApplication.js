@@ -271,6 +271,7 @@
 					if(data){
 						$('#addView .billCode').val(data.code);
 						$('#addView .billTime').val(data.nowDate);
+						$('#addView .daohuo_add h4').html("一单一车订单新增");
 						$('#addView').modal();
 						$('#addView #billType').val(0);
 						$('#addView .add_detail ul li.oneBillOneCarVehicle').show();
@@ -290,6 +291,7 @@
 					if(data){
 						$('#addView .billCode').val(data.code);
 						$('#addView .billTime').val(data.nowDate);
+						$('#addView .daohuo_add h4').html("一单多车订单新增");
 						$('#addView').modal();
 						$('#billType').val(1);
 						$('#addView .add_detail ul li.oneBillOneCarVehicle').hide();

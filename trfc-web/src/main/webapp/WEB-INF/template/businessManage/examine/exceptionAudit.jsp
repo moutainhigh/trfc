@@ -54,6 +54,12 @@
                                         placeholder="请选择车辆" />
                                 </div>
                                 <div class="intel_solo">
+									<label>审批状态：</label> <select id="auditStatus" class="form-control">
+										<option value="0">未审批</option>
+										<option value="1">已审批</option>
+									</select>
+								</div>
+                                <div class="intel_solo">
                                     <div class="intel_sbtn">
                                         <button id="search" class="btn btnblue">搜索</button>
                                     </div>
