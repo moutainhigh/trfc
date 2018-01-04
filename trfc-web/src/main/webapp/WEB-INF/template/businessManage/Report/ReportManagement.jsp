@@ -216,7 +216,7 @@
 					                            <thead>
 					                            <tr>
 					                                <td colspan="8" align="center" style="color:#434e8d;font-size: 40px;line-height:normal">
-					                                   	 裕泰采购矿口汇总表
+					                                                                                                       采购采矿点汇总表
 					                                </td>
 					                            </tr>
 					                            <tr>
@@ -264,7 +264,7 @@
 					                            <thead>
 					                            <tr>
 					                                <td colspan="8" align="center" style="color:#434e8d;font-size: 40px;line-height:normal">
-					                                  	 裕泰采购矿口汇总表
+					                                  	 采购物料供应商时间汇总表
 					                                    <p class="biobiaop" style="margin-top: 10px">
 					                                        <span class="clock15"></span><span class="clock16"></span>
 					                                    </p>
@@ -296,7 +296,7 @@
 					                            <thead>
 					                            <tr>
 					                                <td colspan="8" align="center" style="color:#434e8d;font-size: 40px;line-height:normal">
-					                                   	 裕泰采购矿口汇总表
+					                                   	  采购物料供应商时间汇总表
 					                                </td>
 					                            </tr>
 					                            <tr>

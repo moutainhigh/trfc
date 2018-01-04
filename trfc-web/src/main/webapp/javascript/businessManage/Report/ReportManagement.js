@@ -657,7 +657,7 @@
 	}
 	
 //	采购采矿点汇总表--导出
-	function queryData7(pageNo){
+	function queryData8(pageNo){
 		var index = layer.load(2, {
 		  shade: [0.3,'#fff'] //0.1透明度的白色背景
 		});
@@ -699,7 +699,7 @@
 		});
 	}
 	
-	function renderHtml7(data){
+	function renderHtml8(data){
 		$('#RMg8').empty();
 		var list = data.list||[];
 		if(list && list.length>0){
