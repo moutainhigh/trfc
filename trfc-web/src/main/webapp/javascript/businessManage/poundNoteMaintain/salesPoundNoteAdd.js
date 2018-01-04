@@ -333,6 +333,15 @@
 					var rs =grossweight-tareweight;
 					$('#netweight').val(rs.toFixed(2));
 				}
+				var margin =$("#margin").val();
+				var netweight =$('#netweight').val();
+				if(netweight>margin){
+					layer.msg('净重不能大于余量！', {icon: 5}); 
+					$('#grossweight').val('');//清空毛重
+					$('#tareweight').val('');//清空皮重
+					$('#netweight').val('');//清空净重
+					return false;
+				}
 			}
 		});
 		$('#pickupquantity').off('input keydown').on('input keydown', function(){
@@ -515,7 +524,7 @@
 	function selectSalesApplication(obj, bills, trs){
 		$('#billcode').val(obj.code || '').attr('billid', obj.id || '').attr('billdetailid', obj.detailid || '').attr('bills', JSON.stringify(bills));
 		$('#customername').val(obj.customername || '');
-		$('#orgname').val(obj.orgname || '');
+//		$('#orgname').val(obj.orgname || '');
 		$('#materielname').val(obj.materielname || '');
 		$('#salessum').val(obj.salessum || '');
 		$('#margin').val(obj.margin || 0);
