@@ -56,9 +56,9 @@ select {
 									onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})" class="Wdate"
 									readonly="readonly" placeholder="请选择化验日期" />
 							</div>
-							<div class="daohuo_add_solo">
+						<!-- 	<div class="daohuo_add_solo">
 								<label>化验人：</label> <input type="text" id="user_select" placeholder="请选择化验人">
-							</div>
+							</div> -->
 							<div class="daohuo_add_solo">
 								<label><span class="colorred">*</span>化验单位：</label> <input
 									type="text" id="add_assayorg" readonly="readonly">
