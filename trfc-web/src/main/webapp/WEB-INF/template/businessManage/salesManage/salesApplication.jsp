@@ -130,6 +130,7 @@ input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
 									<th>联机状态</th>
 									<th>来源</th>
 									<th>推单状态</th>
+									<th>作废状态</th>
 									<th>类型</th>
 									<th>客户</th>
 									<th>订单日期</th>
