@@ -304,7 +304,7 @@
 						<div class="dhsearch_solo">
 							<label>批号：</label> <input id="factorycode" type="text" placeholder="请输入批号">
 						</div>
-						<div class="dhsearch_solo">
+						<div class="dhsearch_solo" style="display:none">
 							<label>物料名称：</label> <input id="materiel1" type="text" placeholder="请选择物料">
 						</div>
 						<div class="dhsearch_solo">
@@ -373,6 +373,6 @@
 	<!-- 引用公共footer部分 -->
 	<jsp:include page="../../common/base/footer_busi.jsp"></jsp:include>
 	<script type="text/javascript"
-		src="/javascript/businessManage/poundNoteMaintain/salesPoundNoteAdd.js?20171223"></script>
+		src="/javascript/businessManage/poundNoteMaintain/salesPoundNoteAdd.js?2017122303"></script>
 </body>
 </html>

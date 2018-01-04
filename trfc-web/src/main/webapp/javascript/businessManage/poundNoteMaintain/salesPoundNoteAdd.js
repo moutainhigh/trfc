@@ -210,6 +210,7 @@
 			$('#endtime').val('');
 		});
 		$('#returnApplication').off('click').on('click',function(){
+			$("#batchnumber").val('');//点击订单编号重置出厂编号
 			if($('#salesApplication').is(':visible')){
 				var trs = $('#salesApplication').find('tr.active');
 				if(trs.length == 0){
@@ -544,10 +545,8 @@
 	//获取出厂编号搜索条件
 	function getBatchNumberParams(){
 		var factorycode = $('#factorycode').val();factorycode = $.trim(factorycode);
-		var materielid = $('#materiel1').attr('materielid');materielid = $.trim(materielid);
-		if(materielid==""){
-			materielid=$('#materielname').attr('materielid');materielid = $.trim(materielid);
-		}
+		/*var materielid = $('#materiel1').attr('materielid');materielid = $.trim(materielid);*/
+		var materielid=$('#materielname').attr('materielid');materielid = $.trim(materielid);
 		var starttime = $('#starttime').val();starttime = $.trim(starttime);
 		var endtime = $('#endtime').val();endtime = $.trim(endtime);
 		var pageSize = $('#pageSize').val() || 10;
