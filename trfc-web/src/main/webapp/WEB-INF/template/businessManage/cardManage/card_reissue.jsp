@@ -174,6 +174,6 @@
 	<jsp:include page="../../common/base/footer_busi.jsp"></jsp:include>
 	<script type="text/javascript" src="${staticBasePath}/js/cardReader.js"></script>
 	<script type="text/javascript"
-		src="/javascript/businessManage/cardManage/card_reissue.js?17122701"></script>
+		src="/javascript/businessManage/cardManage/card_reissue.js?2018010301"></script>
 </body>
 </html>

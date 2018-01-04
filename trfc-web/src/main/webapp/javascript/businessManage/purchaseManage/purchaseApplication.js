@@ -105,6 +105,7 @@
 	function getTodayStr(){
 		var myDate = new Date();
 		var year = myDate.getFullYear();    //获取完整的年份(4位,1970-????)
+		var year1 = myDate.getFullYear()+1;    //获取完整的年份(4位,1970-????)
 		var month = myDate.getMonth()+1;       //获取当前月份(0-11,0代表1月)
 		var day = myDate.getDate();        //获取当前日(1-31)
 		var hours = myDate.getHours();       //获取当前小时数(0-23)
@@ -118,7 +119,7 @@
 		}
 		var array = new Array();
 		array[0]=year+"-"+"01"+"-"+"01"+" "+"00:00:00";
-		array[1]=year+"-"+"12"+"-"+"31"+" "+"23:59:59";
+		array[1]=year1+"-"+"01"+"-"+"01"+" "+"00:00:00";
 		return array;
 	}
 	

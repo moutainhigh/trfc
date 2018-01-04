@@ -705,8 +705,10 @@
 			<!-- 引用公共footer部分 -->
 			<jsp:include page="../../common/base/footer_busi.jsp"></jsp:include>
 			  <script type="text/javascript"
+				  
 				src="/javascript/businessManage/Report/ReportManagement.js?time=180102"></script>  
 			<script type="text/javascript"
+				
 				src="/javascript/businessManage/Report/ReportManagement2.js?time=180102"></script> 
 </body>
 </html>
