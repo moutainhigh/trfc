@@ -210,23 +210,21 @@ public class PurchaseApplicationService implements IPurchaseApplicationService {
 		item.setAuditstatus("1");
 		//状态   1正常  0作废  -1 到货关闭 -2 整单关闭 -3nc删除
 		String status ="0";
-		//正常
-		if( StringUtils.isNotBlank(jsonItem.getString("cloasestatus")) && StringUtils.equals(jsonItem.getString("cloasestatus"), "0") ){
-			//删除态
-			if( StringUtils.isNotBlank(jsonItem.getString("status")) && StringUtils.equals(jsonItem.getString("status"), "6") ){
-				status ="-3";
-			//正常	
-			}else{
-				status ="1";
-			}
-			
-		//到货关闭
-		}else if( StringUtils.isNotBlank(jsonItem.getString("cloasestatus")) && StringUtils.equals(jsonItem.getString("cloasestatus"), "1") ){
+		String closestatue=getItemStatus(jsonItem);
+		//删除
+		if( StringUtils.isNotBlank(jsonItem.getString("status")) && StringUtils.equals(jsonItem.getString("status"), "6")   ){
+			status="-3";
+		//正常	
+		}else if( StringUtils.isNotBlank(closestatue) && StringUtils.equals(closestatue, "0")){
+			status ="1";
+		//到货关闭	
+		}else if( StringUtils.isNotBlank(closestatue) && StringUtils.equals(closestatue, "1")){
 			status ="-1";
-		//整单关闭	
-		}else if( StringUtils.isNotBlank(jsonItem.getString("cloasestatus")) && StringUtils.equals(jsonItem.getString("cloasestatus"), "2") ){
+		// 整单关闭 	
+		}else if( StringUtils.isNotBlank(closestatue) && StringUtils.equals(closestatue, "2")){
 			status ="-2";
 		}
+		
 		//状态   1正常  0作废  -1 到货关闭 -2 整单关闭 -3nc删除
 		item.setState(status);
 		//来源
@@ -288,6 +286,19 @@ public class PurchaseApplicationService implements IPurchaseApplicationService {
 		//矿口名称
 		item.setMinemouthname(jsonItem.getString("kuangkName"));
 		return item;
+	}
+	
+	//获取子表信息
+	private String getItemStatus(JSONObject jsonItem){
+		String rs ="0";
+		if(jsonItem.getJSONArray("list")!=null){
+			JSONArray arr =jsonItem.getJSONArray("list");
+			if(arr !=null && arr.size()>0){
+				JSONObject itemJon=JSONObject.parseObject(arr.get(0).toString());
+				rs=itemJon.getString("closestatus");
+			}
+		}	
+		return rs;
 	}
 	private List<PurchaseApplicationDetail> converJson2ItemList(JSONObject jsonItem,String id){
 		List<PurchaseApplicationDetail> itemList = new ArrayList<PurchaseApplicationDetail>();
