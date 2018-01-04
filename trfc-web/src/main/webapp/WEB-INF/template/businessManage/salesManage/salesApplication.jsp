@@ -145,7 +145,7 @@ input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
 									<th>类型</th>
 									<th>客户</th>
 									<th>订单日期</th>
-									<th>业务员</th>
+									<th>物料</th>
 									<th>销售组织</th>
 									<th>运输公司</th>
 									<th>制单人</th>
@@ -153,6 +153,7 @@ input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
 									<th>审核人</th>
 									<th>审核日期</th>
 									<th>区域码</th>
+									<th>业务员</th>
 								</tr>
 							</thead>
 							<tbody id="dataBody">

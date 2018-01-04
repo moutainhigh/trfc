@@ -465,7 +465,7 @@
 						.append('<td>'+billtypename+'</td>')
 						.append('<td>'+customername+'</td>')
 						.append('<td>'+billtimeStr+'</td>')
-						.append('<td>'+salesmanname+'</td>')
+						.append('<td>'+(obj.list[0].materielname || '')+'</td>')
 						.append('<td>'+orgname+'</td>')
 						.append('<td>'+transportcompanyname+'</td>')
 						.append('<td>'+makebillname+'</td>')
@@ -473,6 +473,7 @@
 						.append('<td>'+auditname+'</td>')
 						.append('<td>'+audittimeStr+'</td>')
 						.append('<td>'+channelcode+'</td>')
+						.append('<td>'+salesmanname+'</td>')
 						.data(obj)
 						.appendTo('#dataBody');
 			}
