@@ -563,28 +563,51 @@ public class SalesApplicationService implements ISalesApplicationService {
 	public Result audit(SalesApplicationQuery query) throws Exception {
 		Result result = Result.getParamErrorResult();
 		if(query != null && StringUtils.isNotBlank(query.getId())){
-			SalesApplication sa = salesApplicationMapper.selectByPrimaryKey(query.getId());
-			List<SalesApplicationDetail> detailList = salesApplicationDetailMapper.selectBySalesId(query.getId());
-			if (sa != null && CollectionUtils.isNotEmpty(detailList)) {
-				if (StringUtils.equals(sa.getStatus(), Constant.ZERO_STRING)) {
-					if (StringUtils.equals(sa.getSource(), Constant.ONE_STRING)) {
-						sa.setStatus(Constant.ONE_STRING);
-						sa.setAuditid(query.getAuditid());
-						sa.setAuditname(query.getAuditname());
-						sa.setAudittime(System.currentTimeMillis());
-						sa.setModifier(query.getCurrid());
-						sa.setModifytime(System.currentTimeMillis());
-						billPush(sa, detailList.get(0));
-						salesApplicationMapper.updateByPrimaryKeySelective(sa);
-						result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+			ApiResult apiResult = HttpUtils.post(null, Constant.URL_DOMAIN + Constant.URL_DC_CONNECTION_TEST);
+			if (apiResult == null) {
+				SalesApplication sa = salesApplicationMapper.selectByPrimaryKey(query.getId());
+				List<SalesApplicationDetail> detailList = salesApplicationDetailMapper.selectBySalesId(query.getId());
+				if (sa != null && CollectionUtils.isNotEmpty(detailList)) {
+					if (StringUtils.equals(sa.getStatus(), Constant.ZERO_STRING)) {
+						if (StringUtils.equals(sa.getSource(), Constant.ONE_STRING)) {
+							if (StringUtils.equals(sa.getValidStatus(), Constant.ZERO_STRING)) {
+								sa.setStatus(Constant.TWO_STRING);
+								sa.setAuditid(query.getAuditid());
+								sa.setAuditname(query.getAuditname());
+								sa.setAudittime(System.currentTimeMillis());
+								sa.setModifier(query.getCurrid());
+								sa.setModifytime(System.currentTimeMillis());
+								//billPush(sa, detailList.get(0));
+								if (StringUtils.equals(sa.getBilltypeid(), BillTypeEnum.BILL_TYPE_ONE_CAR.getCode())) {
+									VehicleManage vehicle = vehicleManageMapper.selectByPrimaryKey(sa.getVehicleId());
+									//校验车辆是否运行创建通知单
+									if (validVehicle(vehicle)) {
+										if (StringUtils.isNotBlank(sa.getDriverId())) {
+											DriverManage driver = driverManageMapper.selectByPrimaryKey(sa.getDriverId());
+											if (validDriver(driver)) {
+												saveOneBillOneCarNotice(sa, detailList.get(0), vehicle, driver);
+											}
+										} else {
+											saveOneBillOneCarNotice(sa, detailList.get(0), vehicle, null);
+										}
+									}
+								}
+								salesApplicationMapper.updateByPrimaryKeySelective(sa);
+								result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+							} else {
+								result.setErrorCode(ErrorCode.APPLICATION_VALID_NOT_AUDIT);
+							}
+						} else {
+							result.setErrorCode(ErrorCode.APPLICATION_DONT_AUDIT);
+						}
 					} else {
-						result.setErrorCode(ErrorCode.APPLICATION_DONT_AUDIT);
+						result.setErrorCode(ErrorCode.APPLICATION_DONT_NEED_AUDIT);
 					}
 				} else {
-					result.setErrorCode(ErrorCode.APPLICATION_DONT_NEED_AUDIT);
+					result.setErrorCode(ErrorCode.APPLICATION_NOT_EXIST);
 				}
 			} else {
-				result.setErrorCode(ErrorCode.APPLICATION_NOT_EXIST);
+				result.setErrorCode(ErrorCode.FC_DONT_CONNECTION_DC);
 			}
 		}else{
 			result.setErrorCode(ErrorCode.PARAM_NULL_ERROR);

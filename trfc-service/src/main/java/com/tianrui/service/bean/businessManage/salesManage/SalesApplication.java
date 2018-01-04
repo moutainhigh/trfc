@@ -9,7 +9,7 @@ public class SalesApplication {
     private String id;
     //订单编号
     private String code;
-    //审核状态（0：未审核，1：已审核）
+    //审核状态（0：未审核，1：已审核，2：厂区审核）
     private String status;
     //来源（0：联机，1：脱机）
     private String source;

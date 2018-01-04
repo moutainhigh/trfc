@@ -82,6 +82,8 @@ public enum ErrorCode {
 	APPLICATION_DONT_AUDIT("E11019", "联机的订单不能审核."),
 	APPLICATION_DONT_HAVE_PERMISSIONS("E11020", "您没有对该订单操作的权限."),
 	APPLICATION_MATER_NOT_PRICE("E11021", "该物料没有单价，不能生成申请单."),
+	FC_DONT_CONNECTION_DC("E11022", "断网情况下才允许厂区审核."),
+	APPLICATION_VALID_NOT_AUDIT("E11023", "作废的单据不能进行此操作."),
 	
 	/**
 	 * 通知单

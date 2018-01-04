@@ -427,6 +427,9 @@
 				case '1':
 					status = '已审核';
 					break;
+				case '2':
+					status = '厂区审核';
+					break;
 				default:
 					status = '';
 					break;
@@ -558,12 +561,19 @@
 	
 	//审核
 	function audit(obj){
-		alert('待开发。');return;
-		if(obj.status == '1'){
-			layer.msg('已审核的单据，不能继续审核！', {icon: 5});
+		if(obj.status != '0'){
+			layer.msg('未审核的单据才允许厂区审核！', {icon: 5});
 			return;
 		}
-		confirmOperation('您确定要审核么？', URL.auditUrl, {
+		if(obj.source != '1'){
+			layer.msg('脱机的单据才允许厂区审核！', {icon: 5});
+			return;
+		}
+		if(obj.validStatus != '0'){
+			layer.msg('作废的单据不能进行此操作！', {icon: 5});
+			return;
+		}
+		confirmOperation('您确定要厂区审核么？', URL.auditUrl, {
 			id:obj.id
 		});
 	}
