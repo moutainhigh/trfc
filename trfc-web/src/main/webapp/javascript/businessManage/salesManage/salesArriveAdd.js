@@ -428,6 +428,7 @@
 		$('#channelcode').val(obj.channelcode || '');
 		$('#materielname').val(obj.materielname || '').attr('packagetype',obj.packagetype);
 		$('#departmentname').val(obj.departmentname || '');
+		$('#orgname').val(obj.orgname).attr('orgid',obj.orgid).attr('title',obj.orgname);
 		$('#unit').val(obj.unit || '');
 		$('#salessum').val(obj.salessum || '');
 		$('#margin').val(obj.margin || 0);

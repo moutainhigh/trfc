@@ -22,7 +22,10 @@ public class ReportPurchaseMaterResp {
     private String remark;
     //矿口名称
     private String minemouthname;
-
+    //采矿点名称
+    private String miningpointname;
+    //時間
+    private String dateStr;
     //  毛重
     private Double sumGrossweight;
 
@@ -36,6 +39,23 @@ public class ReportPurchaseMaterResp {
     private Double sumOriginalnetweight;
 
     private Integer countVehicleNo;
+
+    
+	public String getMiningpointname() {
+		return miningpointname;
+	}
+
+	public void setMiningpointname(String miningpointname) {
+		this.miningpointname = miningpointname;
+	}
+
+	public String getDateStr() {
+		return dateStr;
+	}
+
+	public void setDateStr(String dateStr) {
+		this.dateStr = dateStr;
+	}
 
 	public String getSupplierid() {
 		return supplierid;

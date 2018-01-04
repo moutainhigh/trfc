@@ -62,9 +62,13 @@
 								<label>区域码：</label> <input id="channelcode" type="text"
 									readonly="true">
 							</div>
-							<div class="daohuo_add_solo">
+							<%-- <div class="daohuo_add_solo">
 								<label>销售组织：</label> <input id="orgname" orgid="${orgid }"
 									value="${orgname }" type="text" readonly="true">
+							</div> --%>
+							<div class="daohuo_add_solo">
+								<label>销售组织：</label> <input id="orgname" 
+									type="text" readonly="true">
 							</div>
 							<div class="daohuo_add_solo">
 								<label>物料：</label> <input id="materielname" type="text"

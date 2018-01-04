@@ -69,6 +69,17 @@ input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
 										placeholder="请选择客户">
 								</div>
 								<div class="intel_solo">
+									<label>制单人：</label> <input id="s_makebillname" type="text"
+										placeholder="请输入制单人">
+								</div>
+								<div class="intel_solo">
+									<label>销售组织：</label> <select id="s_salesOrg" class="form-control salesOrg">
+										<option value="">------请选择------</option>
+										<option value="${orgId }">${orgName }</option>
+										<option value="0001P11000000049UNR1">河南圣业水泥销售有限公司</option>
+									</select>
+								</div>
+								<div class="intel_solo">
 									<label>开始时间：</label> <input id="s_starttime" type="text"
 										onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',maxDate:'#F{$dp.$D(\'s_endtime\')}'})"
 										class="Wdate" style="width: 160px;" readonly
@@ -127,11 +138,14 @@ input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
 									<th>序号</th>
 									<th>订单编号</th>
 									<th>状态</th>
+									<th>联机状态</th>
 									<th>来源</th>
+									<th>推单状态</th>
+									<th>作废状态</th>
 									<th>类型</th>
 									<th>客户</th>
 									<th>订单日期</th>
-									<th>业务员</th>
+									<th>物料</th>
 									<th>销售组织</th>
 									<th>运输公司</th>
 									<th>制单人</th>
@@ -139,6 +153,7 @@ input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
 									<th>审核人</th>
 									<th>审核日期</th>
 									<th>区域码</th>
+									<th>业务员</th>
 								</tr>
 							</thead>
 							<tbody id="dataBody">

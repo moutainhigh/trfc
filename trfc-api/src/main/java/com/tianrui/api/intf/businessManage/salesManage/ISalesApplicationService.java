@@ -95,5 +95,11 @@ public interface ISalesApplicationService {
 	 * @throws Exception 
 	 */
 	Result ckd_dc2nc_callback(CkdStatusCallBackReq req) throws Exception;
+	/**
+	 * @annotation 销售订单dc推送nc推单状态回写接口
+	 * @param req
+	 * @return
+	 */
+	Result pushWriteBack(SalesApplicationQuery req);
 
 }

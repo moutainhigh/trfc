@@ -50,6 +50,7 @@ public class Constant {
     public static String URL_RETURN_PURCHASESTORAGEATION = "/api/purchasestorage/orderReturn";
     public static String URL_PULL_FROM_DC = "/api/fileSync/pull";
     public static String URL_SALESAPPLICATION_DELETE = "/api/saleOrder/cancelSaleOrder";
+    public static String URL_DC_CONNECTION_TEST = "/api/test/connection";
 
     // 用户身份类型
     // 客户

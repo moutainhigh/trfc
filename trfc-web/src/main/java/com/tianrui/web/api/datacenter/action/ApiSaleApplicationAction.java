@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.tianrui.api.intf.businessManage.salesManage.ISalesApplicationService;
@@ -83,14 +82,13 @@ public class ApiSaleApplicationAction {
 	 * @param req
 	 * @return
 	 */
-	@RequestMapping(value="/writeBack",method=RequestMethod.POST)
+	@RequestMapping(value="/push/writeBack",method=RequestMethod.POST)
 	@ApiParamRawType(List.class)
 	@ResponseBody
-	public ApiResult writeBack(JSONArray req){
+	public ApiResult pushWriteBack(ApiParam<SalesApplicationQuery> req){
 		Result rs=Result.getErrorResult();
 		try {
-//			rs = salesApplicationService.updateDataWithNC(req.getBody());
-			System.out.println(JSON.toJSONString(req));
+			rs = salesApplicationService.pushWriteBack(req.getBody());
 		} catch (Exception e) {
 			rs.setErrorCode(ErrorCode.SYSTEM_ERROR);
 			log.error(e.getMessage(),e);

@@ -114,6 +114,7 @@ table.table-bordered th, td {
 									<th>订单编号</th>
 									<th>客户</th>
 									<th>物料</th>
+									<th>销售组织</th>
 									<th>订单日期</th>
 									<th>渠道</th>
 									<th>制单日期</th>

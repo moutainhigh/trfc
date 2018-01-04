@@ -183,7 +183,7 @@ $(function(){
 	}
 	function initPage(){
 		var username = $(".user label").html();
-		$('#add_reportorg').val('郑州天瑞水泥集团');
+		$('#add_reportorg').val('天瑞集团水泥有限公司（裕泰公司）');
 		$('#add_creattime').val(getNowFormatDate(true));
 		$('#add_reporter').val(username);
 		$('#add_creator').val(username);

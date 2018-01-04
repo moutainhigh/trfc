@@ -460,11 +460,12 @@
 						.append('<td '+color+'>'+status+'</td>')
 						.append('<td>'+source+'</td>')
 						.append('<td>'+(obj.billSource == '0' ? 'NC' : obj.billSource == '1' ? '业务平台' : obj.billSource == '2' ? '客商APP' : '')+'</td>')
-						.append('<td>'+(obj.pushStatus == '0' ? '未推送' : obj.billSource == '1' ? '推送中' : obj.billSource == '2' ? '已推送' : '')+'</td>')
+						.append('<td>'+(obj.pushStatus == '0' ? '未推送' : obj.pushStatus == '1' ? '推送中' : obj.pushStatus == '2' ? '已推送' : '')+'</td>')
+						.append('<td>'+(obj.validStatus == '0' ? '未作废' : obj.validStatus == '1' ? '作废中' : obj.validStatus == '2' ? '已作废' : '')+'</td>')
 						.append('<td>'+billtypename+'</td>')
 						.append('<td>'+customername+'</td>')
 						.append('<td>'+billtimeStr+'</td>')
-						.append('<td>'+salesmanname+'</td>')
+						.append('<td>'+(obj.list[0].materielname || '')+'</td>')
 						.append('<td>'+orgname+'</td>')
 						.append('<td>'+transportcompanyname+'</td>')
 						.append('<td>'+makebillname+'</td>')
@@ -472,6 +473,7 @@
 						.append('<td>'+auditname+'</td>')
 						.append('<td>'+audittimeStr+'</td>')
 						.append('<td>'+channelcode+'</td>')
+						.append('<td>'+salesmanname+'</td>')
 						.data(obj)
 						.appendTo('#dataBody');
 			}

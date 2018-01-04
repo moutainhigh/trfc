@@ -10,6 +10,7 @@
     <result column="minemouthname" property="minemouthname" jdbcType="VARCHAR" />
     <result column="yardname" property="yardname" jdbcType="VARCHAR" />
     <result column="materialname" property="materialname" jdbcType="VARCHAR" />
+    <result column="miningpointname" property="miningpointname" jdbcType="VARCHAR" />
     <result column="vehicleid" property="vehicleid" jdbcType="VARCHAR" />
     <result column="vehicleno" property="vehicleno" jdbcType="VARCHAR" />
     <result column="grossweight" property="grossweight" jdbcType="DOUBLE" />
@@ -37,7 +38,7 @@
   
   
   <sql id="Base_Column_List" >
-    id, billcode, poundcode, supplierid, suppliername, minemouthname, yardname, materialname, 
+    id, billcode, poundcode, supplierid, suppliername, minemouthname, miningpointname,yardname, materialname, 
     vehicleid, vehicleno, grossweight, tareweight, netweight, originalnetweight, lighttime, 
     weighttime, billtime, remark, signPersonName, signTime, type, drivername, driverid, 
     cargo, returnstatus, status
@@ -388,6 +389,120 @@
 		</if>
 	</if>
   </select>
+  <select id="selectByConditionForMiningpointname" resultMap="BaseResultMap2" parameterType="com.tianrui.service.bean.businessManage.report.ReportPurchase" >
+	SELECT
+		suppliername ,
+		miningpointname,
+		materialname,
+		count(vehicleno) as countVehicleno,
+		sum(grossweight) as sumGrossweight,
+		sum(tareweight) as sumTareweight,
+		sum(netweight) as sumNetweight
+	FROM
+		v_report_purchase1
+	 <where>
+		 netweight>0
+		 and miningpointname is not NULL
+   		<if test="beginTimeLong != null and beginTimeLong != 0L ">
+			and lighttime <![CDATA[>=]]> #{beginTimeLong,jdbcType=BIGINT}
+		</if>
+   		<if test="endTimeLong != null and endTimeLong != 0L ">
+			and lighttime <![CDATA[<]]> #{endTimeLong,jdbcType=BIGINT}
+		</if>
+		<if test="supplierNameLike != null and supplierNameLike != ''">
+			and suppliername like concat(#{supplierNameLike,jdbcType=VARCHAR},'%')
+		</if>
+		<if test="vehicleNoLike != null and vehicleNoLike != ''">
+			and vehicleno like concat(#{vehicleNoLike,jdbcType=VARCHAR},'%')
+		</if>
+		<if test="minemouthNameLike != null and minemouthNameLike != ''">
+			and minemouthname like concat(#{minemouthNameLike,jdbcType=VARCHAR},'%')
+		</if>
+		<if test="driverNameLike != null and driverNameLike != ''">
+			and drivername like concat(#{driverNameLike,jdbcType=VARCHAR},'%')
+		</if>
+		<if test="cargoNameLike != null and cargoNameLike != ''">
+			and materialname like concat(#{cargoNameLike,jdbcType=VARCHAR},'%') 
+		</if>
+		<if test="remarkLike != null and remarkLike != ''">
+			and remark like concat(#{remarkLike,jdbcType=VARCHAR},'%')
+		</if>
+		<if test="returnstatus != null and returnstatus != ''">
+			and returnstatus = #{returnstatus,jdbcType=VARCHAR}
+		</if>
+		<if test="yardname != null and yardname != ''">
+			and yardname = #{yardname,jdbcType=VARCHAR}
+		</if>
+   	</where>	
+	GROUP BY
+		supplierid,
+		miningpointname,
+		materialname
+	ORDER BY
+		supplierid 
+	<if test="start != null and start >= 0">
+		<if test="limit != null">
+			limit #{start,jdbcType=INTEGER},#{limit,jdbcType=INTEGER}
+		</if>
+	</if>
+  </select>
+  <select id="selectByConditionForDateStr" resultMap="BaseResultMap2" parameterType="com.tianrui.service.bean.businessManage.report.ReportPurchase" >
+	SELECT
+		suppliername,
+		materialname,
+		FROM_UNIXTIME(lighttime / 1000, '%Y-%m-%d') AS dateStr,
+		count(vehicleno) as countVehicleno,
+		sum(grossweight) as sumGrossweight,
+		sum(tareweight) as sumTareweight,
+		sum(netweight) as sumNetweight
+	FROM
+		v_report_purchase1
+	 <where>
+		 netweight>0
+		 and lighttime is not NULL
+   		<if test="beginTimeLong != null and beginTimeLong != 0L ">
+			and lighttime <![CDATA[>=]]> #{beginTimeLong,jdbcType=BIGINT}
+		</if>
+   		<if test="endTimeLong != null and endTimeLong != 0L ">
+			and lighttime <![CDATA[<]]> #{endTimeLong,jdbcType=BIGINT}
+		</if>
+		<if test="supplierNameLike != null and supplierNameLike != ''">
+			and suppliername like concat(#{supplierNameLike,jdbcType=VARCHAR},'%')
+		</if>
+		<if test="vehicleNoLike != null and vehicleNoLike != ''">
+			and vehicleno like concat(#{vehicleNoLike,jdbcType=VARCHAR},'%')
+		</if>
+		<if test="minemouthNameLike != null and minemouthNameLike != ''">
+			and minemouthname like concat(#{minemouthNameLike,jdbcType=VARCHAR},'%')
+		</if>
+		<if test="driverNameLike != null and driverNameLike != ''">
+			and drivername like concat(#{driverNameLike,jdbcType=VARCHAR},'%')
+		</if>
+		<if test="cargoNameLike != null and cargoNameLike != ''">
+			and materialname like concat(#{cargoNameLike,jdbcType=VARCHAR},'%') 
+		</if>
+		<if test="remarkLike != null and remarkLike != ''">
+			and remark like concat(#{remarkLike,jdbcType=VARCHAR},'%')
+		</if>
+		<if test="returnstatus != null and returnstatus != ''">
+			and returnstatus = #{returnstatus,jdbcType=VARCHAR}
+		</if>
+		<if test="yardname != null and yardname != ''">
+			and yardname = #{yardname,jdbcType=VARCHAR}
+		</if>
+   	</where>	
+	GROUP BY
+		supplierid,
+		materialname,
+		dateStr
+	ORDER BY
+		dateStr desc 
+	<if test="start != null and start >= 0">
+		<if test="limit != null">
+			limit #{start,jdbcType=INTEGER},#{limit,jdbcType=INTEGER}
+		</if>
+	</if>
+  </select>
   <select id="countByCondition" resultType="long" parameterType="com.tianrui.service.bean.businessManage.report.ReportPurchase" >
     select 
    		count(1)
@@ -609,7 +724,7 @@
 		</if>
    	</where>
   </select>
-<select id="countByConditionForMinemouthname" resultType="long" parameterType="com.tianrui.service.bean.businessManage.report.ReportPurchase" >
+ <select id="countByConditionForMinemouthname" resultType="long" parameterType="com.tianrui.service.bean.businessManage.report.ReportPurchase" >
     select 
    		count(1)
    		from(
@@ -658,6 +773,104 @@
 			minemouthname,
 			yardname,
 			materialname
+			) cg
+  </select>
+  <select id="countByConditionForMiningpointname" resultType="long" parameterType="com.tianrui.service.bean.businessManage.report.ReportPurchase" >
+    select 
+   		count(1)
+   		from(
+   			select
+	   		suppliername ,
+			miningpointname,
+			materialname
+	    from v_report_purchase1
+	  	<where>
+	  	netweight>0
+	  	and  miningpointname is not NULL
+	   		<if test="beginTimeLong != null and beginTimeLong != 0L ">
+				and lighttime <![CDATA[>=]]> #{beginTimeLong,jdbcType=BIGINT}
+			</if>
+	   		<if test="endTimeLong != null and endTimeLong != 0L ">
+				and lighttime <![CDATA[<]]> #{endTimeLong,jdbcType=BIGINT}
+			</if>
+			<if test="supplierNameLike != null and supplierNameLike != ''">
+				and suppliername like concat(#{supplierNameLike,jdbcType=VARCHAR},'%')
+			</if>
+			<if test="vehicleNoLike != null and vehicleNoLike != ''">
+				and vehicleno like concat(#{vehicleNoLike,jdbcType=VARCHAR},'%')
+			</if>
+			<if test="minemouthNameLike != null and minemouthNameLike != ''">
+				and minemouthname like concat(#{minemouthNameLike,jdbcType=VARCHAR},'%')
+			</if>
+			<if test="driverNameLike != null and driverNameLike != ''">
+				and drivername like concat(#{driverNameLike,jdbcType=VARCHAR},'%')
+			</if>
+			<if test="cargoNameLike != null and cargoNameLike != ''">
+				and materialname like concat(#{cargoNameLike,jdbcType=VARCHAR},'%') 
+			</if>
+			<if test="remarkLike != null and remarkLike != ''">
+				and remark  like concat(#{remarkLike,jdbcType=VARCHAR},'%')
+			</if>
+			<if test="returnstatus != null and returnstatus != ''">
+				and returnstatus = #{returnstatus,jdbcType=VARCHAR}
+			</if>
+			<if test="yardname != null and yardname != ''">
+				and yardname = #{yardname,jdbcType=VARCHAR}
+			</if>
+	   	</where>
+	   		GROUP BY
+				suppliername,
+				miningpointname,
+				materialname
+			) cg
+  </select>
+  <select id="countByConditionForDateStr" resultType="long" parameterType="com.tianrui.service.bean.businessManage.report.ReportPurchase" >
+    select 
+   		count(1)
+   		from(
+   			select
+	   		suppliername ,
+			FROM_UNIXTIME(lighttime / 1000, '%Y-%m-%d') AS dateStr,
+			materialname
+	    from v_report_purchase1
+	  	<where>
+	  	netweight>0
+	  	and  lighttime is not NULL
+	   		<if test="beginTimeLong != null and beginTimeLong != 0L ">
+				and lighttime <![CDATA[>=]]> #{beginTimeLong,jdbcType=BIGINT}
+			</if>
+	   		<if test="endTimeLong != null and endTimeLong != 0L ">
+				and lighttime <![CDATA[<]]> #{endTimeLong,jdbcType=BIGINT}
+			</if>
+			<if test="supplierNameLike != null and supplierNameLike != ''">
+				and suppliername like concat(#{supplierNameLike,jdbcType=VARCHAR},'%')
+			</if>
+			<if test="vehicleNoLike != null and vehicleNoLike != ''">
+				and vehicleno like concat(#{vehicleNoLike,jdbcType=VARCHAR},'%')
+			</if>
+			<if test="minemouthNameLike != null and minemouthNameLike != ''">
+				and minemouthname like concat(#{minemouthNameLike,jdbcType=VARCHAR},'%')
+			</if>
+			<if test="driverNameLike != null and driverNameLike != ''">
+				and drivername like concat(#{driverNameLike,jdbcType=VARCHAR},'%')
+			</if>
+			<if test="cargoNameLike != null and cargoNameLike != ''">
+				and materialname like concat(#{cargoNameLike,jdbcType=VARCHAR},'%') 
+			</if>
+			<if test="remarkLike != null and remarkLike != ''">
+				and remark  like concat(#{remarkLike,jdbcType=VARCHAR},'%')
+			</if>
+			<if test="returnstatus != null and returnstatus != ''">
+				and returnstatus = #{returnstatus,jdbcType=VARCHAR}
+			</if>
+			<if test="yardname != null and yardname != ''">
+				and yardname = #{yardname,jdbcType=VARCHAR}
+			</if>
+	   	</where>
+	   		GROUP BY
+				suppliername,
+				dateStr,
+				materialname
 			) cg
   </select>
 </mapper>

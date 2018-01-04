@@ -404,6 +404,7 @@
 				var billcode = obj.billcode || '';
 				var customername = salesApplication.customername || '';
 				var materielname = salesApplicationDetail.materielname || '';
+				var orgname = salesApplication.orgname||'';
 				var billtimeStr = salesApplication.billtimeStr || '';
 				var channelcode = salesApplication.channelcode || '';
 				var makebillname = obj.makebillname || '';
@@ -415,7 +416,7 @@
 						.append('<td '+color+'>'+auditstatus+'</td>').append('<td>'+source+'</td>')
 						.append('<td>'+status+'</td>').append('<td>'+vehicleno+'</td>')
 						.append('<td>'+billcode+'</td>').append('<td>'+customername+'</td>')
-						.append('<td>'+materielname+'</td>').append('<td>'+billtimeStr+'</td>')
+						.append('<td>'+materielname+'</td>').append('<td>'+orgname+'</td>').append('<td>'+billtimeStr+'</td>')
 						.append('<td>'+channelcode+'</td>').append('<td>'+makebilltimeStr+'</td>')
 						.append('<td>'+makebillname+'</td>').append('<td>'+abnormalpersonname+'</td>')
 						.append('<td>'+abnormaltimeStr+'</td>').append('<td>'+remarks+'</td>')
