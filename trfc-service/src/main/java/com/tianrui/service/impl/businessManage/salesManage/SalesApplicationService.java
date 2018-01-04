@@ -1057,6 +1057,7 @@ public class SalesApplicationService implements ISalesApplicationService {
 					sa.setSource(Constant.ZERO_STRING);
 					sa.setNcId(req.getNcId());
 					sa.setNcStatus(Constant.TWO_STRING);
+					sa.setPushStatus(Constant.TWO_STRING);
 					sa.setAuditid(req.getAuditid());
 					sa.setAuditname(req.getAuditname());
 					sa.setAudittime(req.getAudittime());

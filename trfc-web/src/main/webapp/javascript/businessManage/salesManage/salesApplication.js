@@ -490,6 +490,7 @@
 	}
 	//修改
 	function showUpdate(obj){
+		alert('待开发');return;
 		if(obj.status == '1'){
 			layer.msg('已审核的单据，不能修改！', {icon: 5});
 			return;
