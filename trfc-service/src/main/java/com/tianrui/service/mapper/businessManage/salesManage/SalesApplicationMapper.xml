@@ -707,6 +707,12 @@
   		<if test="code != null and code != ''">
   			and code = #{code,jdbcType=VARCHAR}
   		</if>
+  		<if test="makebillname != null and makebillname != ''">
+  			and makebillname like CONCAT('%', #{makebillname,jdbcType=VARCHAR}, '%')
+  		</if>
+  		<if test="salesOrg != null and salesOrg != ''">
+  			and orgid = #{salesOrg,jdbcType=VARCHAR}
+  		</if>
   		<if test="starttime != null and starttime != ''">
   			and createtime <![CDATA[>=]]> #{starttime,jdbcType=BIGINT}
   		</if>
@@ -752,7 +758,7 @@
   	left join tr_sales_db_application_detail s2 on s1.id = s2.salesid
   	left join tr_materiel_db_manage s3 on s2.materielid = s3.id
   	where s1.state = 1 and s1.billtypeid = 1 and s1.valid_status = 0
-  		and ((s1.ncStatus = 2 and s2.ncStatus = 2) or s1.status = 1) 
+  		and ((s1.ncStatus = 2 and s2.ncStatus = 2) or s1.status != 0) 
 	<if test="id != null and id != ''">
 		and s1.id = #{id,jdbcType=VARCHAR}
 	</if>
@@ -789,7 +795,7 @@
   	from tr_sales_db_application s1 left join tr_sales_db_application_detail s2 
   	on s1.id = s2.salesid
   	where s1.state = 1 and s1.billtypeid = 1 and s1.valid_status = 0
-  		and ((s1.ncStatus = 2 and s2.ncStatus = 2) or s1.status = 1) 
+  		and ((s1.ncStatus = 2 and s2.ncStatus = 2) or s1.status != 0) 
 	<if test="state != null and state != ''">
 		and s1.state = #{state,jdbcType=VARCHAR}
 	</if>
@@ -972,7 +978,7 @@
 		t1.customerid = #{ncId,jdbcType=VARCHAR}
 	AND t1.orgid = #{salesOrg,jdbcType=VARCHAR}
 	AND t1.state = 1
-	AND t1.`status` = 1
+	AND t1.`status` !=0
 	ORDER BY t1.billtime DESC
   </select>
   <select id="appBillList" parameterType="com.tianrui.api.req.android.BillListParam" resultType="com.tianrui.api.resp.android.BillListVo">
@@ -1006,10 +1012,10 @@
 				and t1.ncStatus != 2 and t1.bill_source != 0 and t1.billtypeid = 0
 			</when>
 			<when test="type == 1">
-				and (t1.ncStatus = 2 or (t1.status = 1 and t1.billtypeid = 1)) and t2.margin > 0
+				and (t1.ncStatus = 2 or (t1.status !=0 and t1.billtypeid = 1)) and t2.margin > 0
 			</when>
 			<when test="type == 2">
-				and (t1.ncStatus = 2 or (t1.status = 1 and t1.billtypeid = 1)) and t2.margin <![CDATA[<=]]> 0
+				and (t1.ncStatus = 2 or (t1.status !=0 and t1.billtypeid = 1)) and t2.margin <![CDATA[<=]]> 0
 			</when>
 			<otherwise></otherwise>
 		</choose>
@@ -1046,10 +1052,10 @@
 				and t1.ncStatus != 2 and t1.bill_source != 0 and t1.billtypeid = 0
 			</when>
 			<when test="type == 1">
-				and (t1.ncStatus = 2 or (t1.status = 1 and t1.billtypeid = 1)) and t2.margin > 0
+				and (t1.ncStatus = 2 or (t1.status !=0 and t1.billtypeid = 1)) and t2.margin > 0
 			</when>
 			<when test="type == 2">
-				and (t1.ncStatus = 2 or (t1.status = 1 and t1.billtypeid = 1)) and t2.margin <![CDATA[<=]]> 0
+				and (t1.ncStatus = 2 or (t1.status !=0 and t1.billtypeid = 1)) and t2.margin <![CDATA[<=]]> 0
 			</when>
 			<otherwise></otherwise>
 		</choose>
@@ -1093,8 +1099,8 @@
 		t2.taxprice AS price,
 		CASE
 		WHEN t1.ncStatus != 2 and t1.bill_source != 0 and t1.billtypeid = 0 THEN 0
-		WHEN (t1.ncStatus = 2 or (t1.status = 1 and t1.billtypeid = 1)) and t2.margin > 0 THEN 1
-		WHEN (t1.ncStatus = 2 or (t1.status = 1 and t1.billtypeid = 1)) and t2.margin <![CDATA[<=]]> 0 THEN 2
+		WHEN (t1.ncStatus = 2 or (t1.status !=0 and t1.billtypeid = 1)) and t2.margin > 0 THEN 1
+		WHEN (t1.ncStatus = 2 or (t1.status !=0 and t1.billtypeid = 1)) and t2.margin <![CDATA[<=]]> 0 THEN 2
 		ELSE ''
 		END AS type,
 		t1.vehicle_no AS vehicle
@@ -1135,7 +1141,7 @@
 		t1.state = 1
 	AND t1.billtypeid = 1
 	AND t1.valid_status = 0
-	AND ((t1.ncStatus = 2 and t2.ncStatus = 2) or t1.`status` = 1)
+	AND ((t1.ncStatus = 2 and t2.ncStatus = 2) or t1.`status` !=0)
 	AND t2.margin > 0
 	AND t1.orgid = #{salesOrg, jdbcType=VARCHAR} 
 	AND t1.customerid = #{ncId, jdbcType=VARCHAR} 
@@ -1147,7 +1153,7 @@
 	FROM
 		tr_sales_db_application
 	WHERE
-		`status` = 1
+		`status` !=0
 	AND billtypeid = 0
 	AND valid_status = 0
 	AND ncStatus = 2

@@ -41,6 +41,10 @@ public class SalesApplicationQuery extends BaseReq {
     private String auditname;
 
     private Long audittime;
+    
+    private String makebillname;
+    
+    private String salesOrg;
 
 	public String getId() {
 		return id;
@@ -190,6 +194,22 @@ public class SalesApplicationQuery extends BaseReq {
 
 	public void setAudittime(Long audittime) {
 		this.audittime = audittime;
+	}
+
+	public String getMakebillname() {
+		return makebillname;
+	}
+
+	public void setMakebillname(String makebillname) {
+		this.makebillname = makebillname;
+	}
+
+	public String getSalesOrg() {
+		return salesOrg;
+	}
+
+	public void setSalesOrg(String salesOrg) {
+		this.salesOrg = salesOrg;
 	}
 
 }
