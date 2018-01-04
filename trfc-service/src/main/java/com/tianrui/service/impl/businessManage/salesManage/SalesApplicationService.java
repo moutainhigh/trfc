@@ -1057,7 +1057,7 @@ public class SalesApplicationService implements ISalesApplicationService {
 					sa.setSource(Constant.ZERO_STRING);
 					sa.setNcId(req.getNcId());
 					sa.setNcStatus(Constant.TWO_STRING);
-					sa.setPushStatus(Constant.TWO_STRING);
+//					sa.setPushStatus(Constant.TWO_STRING);
 					sa.setAuditid(req.getAuditid());
 					sa.setAuditname(req.getAuditname());
 					sa.setAudittime(req.getAudittime());
@@ -1373,6 +1373,22 @@ public class SalesApplicationService implements ISalesApplicationService {
 				result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
 			} else {
 				result.setErrorCode(ErrorCode.SALES_OUT_BOUND_NOT_EXIST);
+			}
+		}
+		return result;
+	}
+
+	@Override
+	public Result pushWriteBack(SalesApplicationQuery req) {
+		Result result = Result.getParamErrorResult();
+		if (req != null && StringUtils.isNotBlank(req.getId())) {
+			SalesApplication sa = salesApplicationMapper.selectByPrimaryKey(req.getId());
+			if (sa != null) {
+				sa.setPushStatus(Constant.TWO_STRING);
+				salesApplicationMapper.updateByPrimaryKeySelective(sa);
+				result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
+			} else {
+				result.setErrorCode(ErrorCode.APPLICATION_NOT_EXIST);
 			}
 		}
 		return result;
