@@ -158,7 +158,7 @@ $(function(){
 		$('#add_starttime').val(nowDate);
 		//获取当月最后一天,并复制
 		$('#add_endtime').val(getLastMonthDay(nowDate));
-		$('#add_assayorg').val("卫辉市天瑞水泥有限公司");
+		$('#add_assayorg').val("天瑞集团水泥有限公司");
 		$('#material').empty();
 		addTR(1);
 
