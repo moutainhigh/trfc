@@ -271,6 +271,7 @@
 					if(data){
 						$('#addView .billCode').val(data.code);
 						$('#addView .billTime').val(data.nowDate);
+						$('#addView .daohuo_add h4').html("一单一车订单新增");
 						$('#addView').modal();
 						$('#addView #billType').val(0);
 						$('#addView .add_detail ul li.oneBillOneCarVehicle').show();
@@ -290,6 +291,7 @@
 					if(data){
 						$('#addView .billCode').val(data.code);
 						$('#addView .billTime').val(data.nowDate);
+						$('#addView .daohuo_add h4').html("一单多车订单新增");
 						$('#addView').modal();
 						$('#billType').val(1);
 						$('#addView .add_detail ul li.oneBillOneCarVehicle').hide();
@@ -320,6 +322,8 @@
 		var code = $('#s_code').val() || '';code = $.trim(code);
 		var source = $('#s_source').val() || '';source = $.trim(source);
 		var customerid = $('#s_customer').attr('customerid') || '';customerid = $.trim(customerid);
+		var makebillname = $('#s_makebillname').val() || '';makebillname = $.trim(makebillname);
+		var salesOrg = $('#s_salesOrg').val() || '';salesOrg = $.trim(salesOrg);
 		var starttime = $('#s_starttime').val() || '';starttime = $.trim(starttime);
 		var endtime = $('#s_endtime').val() || '';endtime = $.trim(endtime);
 		var pageSize = $('#pageSize').val() || '';pageSize = $.trim(pageSize);
@@ -327,6 +331,8 @@
 			code:code,
 			source:source,
 			customerid:customerid,
+			makebillname:makebillname,
+			salesOrg:salesOrg,
 			starttime:str2Long(starttime),
 			endtime:str2Long(endtime),
 			pageSize:pageSize
@@ -453,6 +459,8 @@
 						.append('<td>'+code+'</td>')
 						.append('<td '+color+'>'+status+'</td>')
 						.append('<td>'+source+'</td>')
+						.append('<td>'+(obj.billSource == '0' ? 'NC' : obj.billSource == '1' ? '业务平台' : obj.billSource == '2' ? '客商APP' : '')+'</td>')
+						.append('<td>'+(obj.pushStatus == '0' ? '未推送' : obj.billSource == '1' ? '推送中' : obj.billSource == '2' ? '已推送' : '')+'</td>')
 						.append('<td>'+billtypename+'</td>')
 						.append('<td>'+customername+'</td>')
 						.append('<td>'+billtimeStr+'</td>')
@@ -482,6 +490,7 @@
 	}
 	//修改
 	function showUpdate(obj){
+		alert('待开发');return;
 		if(obj.status == '1'){
 			layer.msg('已审核的单据，不能修改！', {icon: 5});
 			return;
@@ -547,6 +556,7 @@
 	
 	//审核
 	function audit(obj){
+		alert('待开发。');return;
 		if(obj.status == '1'){
 			layer.msg('已审核的单据，不能继续审核！', {icon: 5});
 			return;
@@ -557,6 +567,7 @@
 	}
 	//反审
 	function unaudit(obj){
+		alert('待开发。');return;
 		if(obj.source == '0'){
 			layer.msg('联机的单据，不能反审！', {icon: 5});
 			return;
@@ -571,12 +582,16 @@
 	}
 	//删除销售申请单
 	function deleteData(obj){
-		if(obj.status == '1'){
-			layer.msg('已审核的单据，不能刪除！', {icon: 5});
+		if(obj.status != '0'){
+			layer.msg('已审核和厂区审核的订单不能删除！', {icon: 5});
 			return;
 		}
 		if(obj.source == '0'){
 			layer.msg('联机的单据，不能刪除！', {icon: 5});
+			return;
+		}
+		if(obj.pushStatus != '0'){
+			layer.msg('推单中和已退单的订单不能删除！', {icon: 5});
 			return;
 		}
 		confirmOperation('删除操作不可恢复，您确定要继续么？', URL.deleteUrl, {

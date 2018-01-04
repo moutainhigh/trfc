@@ -58,7 +58,7 @@ input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
 										placeholder="请输入订单编号">
 								</div>
 								<div class="intel_solo">
-									<label>单价来源：</label> <select id="s_source" class="form-control">
+									<label>单据来源：</label> <select id="s_source" class="form-control">
 										<option value="">请选择</option>
 										<option value="0">联机</option>
 										<option value="1">脱机</option>
@@ -203,7 +203,7 @@ input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
 						<span aria-hidden="true">&times;</span>
 					</button>
 					<div class="daohuo_add">
-						<h4 style="text-align: center; color: #0573C6; font-weight: bold">一单一车订单新增</h4>
+						<h4 style="text-align: center; color: #0573C6; font-weight: bold">一单多车订单新增</h4>
 						<hr style="background-color: #0573C6; height: 1px;">
 						<div class="daohuo_add_div">
 							<input id="billType" type="hidden">
@@ -539,7 +539,7 @@ input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
 	<!-- 引用公共footer部分 -->
 	<jsp:include page="../../common/base/footer_busi.jsp"></jsp:include>
 	<script type="text/javascript"
-		src="/javascript/businessManage/salesManage/salesApplication.js?2018010301"></script>
+		src="/javascript/businessManage/salesManage/salesApplication.js?2018010402"></script>
 	<script type="text/javascript">
 		// 录入、参照tab切换菜单
 		var cg_li = $('.add_detail .cg_dhadd ul li');

@@ -54,7 +54,7 @@
 							</div>
 							<div class="daohuo_add_solo">
 								<label><em class="colorred">*</em>发货单位：</label> <input
-									id="orgname" type="text" readonly="true">
+									id="orgname" type="text" value="天瑞集团水泥有限公司（裕泰公司）" readonly="true">
 							</div>
 							<div class="daohuo_add_solo">
 								<label><em class="colorred">*</em>过磅单号：</label> <input

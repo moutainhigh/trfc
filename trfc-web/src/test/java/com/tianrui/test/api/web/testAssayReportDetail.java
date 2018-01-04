@@ -52,7 +52,7 @@ public class testAssayReportDetail {
 		ApiParam<AssayReportReq> api =new ApiParam<AssayReportReq>();
 		
 		AssayReportReq req =new AssayReportReq();
-		req.setBatchcode("111111");
+		req.setBatchcode("33334");
 		
 		Head head =new Head();
 		head.setCallSource("1");

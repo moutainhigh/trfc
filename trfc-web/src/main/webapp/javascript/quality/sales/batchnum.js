@@ -78,6 +78,11 @@ $(function(){
 			layer.msg('该数据已停用,无法进行该操作!');
 			return;
 		}
+		//判断是否已审核
+		if(obj.auditstate == "1"){
+			layer.msg('该数据已审核,无法进行该操作!');
+			return;
+		}
 		//跳转到编辑页面
 		window.location.replace(URL.editUrl+"?id="+obj.id);
 	}

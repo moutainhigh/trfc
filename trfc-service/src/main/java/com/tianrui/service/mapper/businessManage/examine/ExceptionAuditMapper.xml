@@ -222,6 +222,9 @@
     <if test="type != null and type != ''">
         and t1.type = #{type,jdbcType=VARCHAR}
     </if>
+     <if test="auditStatus != null and auditStatus != ''">
+        and t1.audit_status = #{auditStatus,jdbcType=VARCHAR}
+    </if>
     <if test="pnCode != null and pnCode != ''">
         and t2.`code` = #{pnCode,jdbcType=VARCHAR}
     </if>
@@ -305,6 +308,9 @@
         t1.state = 1
     <if test="type != null and type != ''">
         and t1.type = #{type,jdbcType=VARCHAR}
+    </if>
+     <if test="auditStatus != null and auditStatus != ''">
+        and t1.audit_status = #{auditStatus,jdbcType=VARCHAR}
     </if>
     <if test="pnCode != null and pnCode != ''">
         and t2.`code` = #{pnCode,jdbcType=VARCHAR}

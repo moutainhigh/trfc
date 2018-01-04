@@ -19,7 +19,8 @@ public class ExceptionAuditQuery extends BaseReq {
     private Long endTime;
     //业务类型：（1：空车出厂，2：补包，3：回包，4：无需补包）
     private Integer type;
-
+    
+    private String auditStatus;
     private int start;
     private int limit;
     public String getPnCode() {
@@ -79,10 +80,17 @@ public class ExceptionAuditQuery extends BaseReq {
     public static long getSerialversionuid() {
         return serialVersionUID;
     }
-    @Override
-    public String toString() {
-        return "ExceptionAuditReq [pnCode=" + pnCode + ", customerId=" + customerId + ", materialId=" + materialId
-                + ", vehicleId=" + vehicleId + ", startTime=" + startTime + ", endTime=" + endTime + ", type=" + type
-                + ", start=" + start + ", limit=" + limit + "]";
-    }
+	public String getAuditStatus() {
+		return auditStatus;
+	}
+	public void setAuditStatus(String auditStatus) {
+		this.auditStatus = auditStatus;
+	}
+	@Override
+	public String toString() {
+		return "ExceptionAuditQuery [pnCode=" + pnCode + ", customerId=" + customerId + ", materialId=" + materialId
+				+ ", vehicleId=" + vehicleId + ", startTime=" + startTime + ", endTime=" + endTime + ", type=" + type
+				+ ", auditStatus=" + auditStatus + ", start=" + start + ", limit=" + limit + "]";
+	}
+
 }

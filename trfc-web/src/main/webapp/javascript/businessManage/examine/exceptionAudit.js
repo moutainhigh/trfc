@@ -183,6 +183,7 @@
 		var vehicleId = $('#vehicle').attr('vehicleId');vehicleId = $.trim(vehicleId);
 		var pageSize = $('#pageSize').val();pageSize = $.trim(pageSize);
 		var type = $('#type').val();
+		var auditStatus = $('#auditStatus').val();auditStatus=$.trim(auditStatus);
 		return {
 			startTime: str2Long(startTime),
 			endTime: str2Long(endTime),
@@ -191,6 +192,7 @@
 			materialId: materialId,
 			vehicleId: vehicleId,
 			type: type,
+			auditStatus:auditStatus,
 			pageSize: pageSize
 		}
 	}

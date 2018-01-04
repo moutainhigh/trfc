@@ -81,10 +81,11 @@ public class TaskJobService {
 	@Transactional
 	public void returnSalesApplication() throws Exception {
 		SalesApplication sa = new SalesApplication();
-		sa.setStatus(Constant.ONE_STRING);
+		sa.setStatus(Constant.ZERO_STRING);
 		sa.setSource(Constant.ONE_STRING);
 		sa.setState(Constant.ONE_STRING);
 		sa.setValidStatus(Constant.ZERO_STRING);
+		sa.setPushStatus(Constant.ZERO_STRING);
 		List<SalesApplication> list1 = salesApplicationMapper.selectSelective(sa);
 		log.info("销售自制订单待同步数据条数：" + (list1 !=null ? list1.size() : 0) + "条");
 		if(CollectionUtils.isNotEmpty(list1)){
@@ -123,7 +124,7 @@ public class TaskJobService {
 			if(apiResult != null){
 				if (StringUtils.equals(apiResult.getCode(), ErrorCode.SYSTEM_SUCCESS.getCode())) {
 					SalesApplication bill = new SalesApplication();
-					bill.setSource(Constant.ZERO_STRING);
+//					bill.setSource(Constant.ZERO_STRING);
 					bill.setPushStatus(Constant.ONE_STRING);
 					for(String billId : billIds){
 						bill.setId(billId);

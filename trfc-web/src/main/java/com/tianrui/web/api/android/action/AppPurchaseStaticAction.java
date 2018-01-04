@@ -184,9 +184,9 @@ public class AppPurchaseStaticAction {
 		return result;
 	}
 	
-	@RequestMapping(value="/saveBill",method=RequestMethod.POST)
-	@ApiParamRawType(BillSave.class)
-	@ResponseBody
+//	@RequestMapping(value="/saveBill",method=RequestMethod.POST)
+//	@ApiParamRawType(BillSave.class)
+//	@ResponseBody
 	public AppResult saveBill(ApiParam<BillSave> param){
 		AppResult result = AppResult.getAppResult();
 		try {
