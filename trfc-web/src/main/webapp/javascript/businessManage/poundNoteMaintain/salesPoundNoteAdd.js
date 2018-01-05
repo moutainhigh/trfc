@@ -211,6 +211,9 @@
 		});
 		$('#returnApplication').off('click').on('click',function(){
 			$("#batchnumber").val('');//点击订单编号重置出厂编号
+			$('#grossweight').val('');//清空毛重
+			$('#tareweight').val('');//清空皮重
+			$('#netweight').val('');//清空净重
 			if($('#salesApplication').is(':visible')){
 				var trs = $('#salesApplication').find('tr.active');
 				if(trs.length == 0){
