@@ -872,9 +872,9 @@
 			<jsp:include page="../../common/base/footer_busi.jsp"></jsp:include>
 			  <script type="text/javascript"
 				  
-				src="/javascript/businessManage/Report/ReportManagement.js?time=180106"></script>  
+				src="/javascript/businessManage/Report/ReportManagement.js?time=180107"></script>  
 			<script type="text/javascript"
 				
-				src="/javascript/businessManage/Report/ReportManagement2.js?time=180106"></script> 
+				src="/javascript/businessManage/Report/ReportManagement2.js?time=180107"></script> 
 </body>
 </html>
