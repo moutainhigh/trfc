@@ -346,7 +346,7 @@
 						.append('<td>'+billcode+'</td>')
 						.append('<td>'+noticecode+'</td>')
 						.append('<td>'+customername+'</td>')
-						.append('<td>'+receivedepartmentname+'</td>')
+						/*.append('<td>'+receivedepartmentname+'</td>')*/
 						.append('<td>'+materielname+'</td>')
 						.append('<td>'+vehicleno+'</td>')
 						.append('<td>'+grossweight+'</td>')

@@ -150,6 +150,6 @@
 	<!-- 引用公共footer部分 -->
 	<jsp:include page="../../common/base/footer_busi.jsp"></jsp:include>
 	<script type="text/javascript"
-		src="/javascript/quality/sales/assayReport.js"></script>
+		src="/javascript/quality/sales/assayReport.js?20180105"></script>
 </body>
 </html>

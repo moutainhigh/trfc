@@ -512,7 +512,7 @@
 				default: break;
 				}
 				var supplierremark = obj.supplierremark || '';
-				$('<tr title="双击选择">').append('<td>'+(i+1)+'</td>')
+				$('<tr>').append('<td><input type="checkbox"/></td>')
 						.append('<td>'+code+'</td>')
 						.append('<td>'+suppliername+'</td>')
 						.append('<td>'+materielname+'</td>')
@@ -532,14 +532,39 @@
 						.data(obj)
 						.appendTo('#purchaseApplicationBody');
 			}
-			$('#purchaseApplicationBody tr').off('dblclick').on('dblclick',function(){
-				var obj = $(this).data();
-				pushPurchaseArrive(obj);
-			});
+//			$('#purchaseApplicationBody tr').off('dblclick').on('dblclick',function(){
+//				var obj = $(this).data();
+//				pushPurchaseArrive(obj);
+//			});
 		}else{
 			layer.msg('暂无数据');
 		}
+		$('#purchaseApplicationBody>tr').find('td:eq(0)>input[type="checkbox"]').off('click').on('click',function(e){
+			e.stopPropagation();
+			if(this.checked == true){
+				$(this).closest('tr').addClass('active');
+			}else{
+				$(this).closest('tr').removeClass('active');
+			}
+		});
+		$('#purchaseApplicationBody>tr').off('click').on('click',function(e){
+			e.stopPropagation();
+			$(this).find('td:eq(0)>input').trigger('click');
+		});
 	}
+	$('#returnApplication').off('click').on('click',function(){
+		if($('#altbill').is(':visible')){
+			var trs = $('#altbill').find('tr.active');
+			if(trs.length == 0){
+				layer.msg('至少选择一个订单！');return;
+			}else if(trs.length == 1){
+				var obj = trs.data();
+				pushPurchaseArrive(obj);
+			}else if(trs.length>1){
+				layer.msg('只能选择一个订单！');return;
+			}
+		}
+	});
 	//显示相关订单信息
 	function pushPurchaseArrive(obj){
 		$('#billcode').val(obj.code || '').attr('billid', obj.id || '').attr('billdetailid', obj.detailid);

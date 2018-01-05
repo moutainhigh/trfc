@@ -234,6 +234,11 @@
 					</div>
 					<!--分页效果结束-->
 				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary"
+						id="returnApplication">确定</button>
+					<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -241,6 +246,6 @@
 	<!-- 引用公共footer部分 -->
 	<jsp:include page="../../common/base/footer_busi.jsp"></jsp:include>
 	<script type="text/javascript"
-		src="/javascript/businessManage/poundNoteMaintain/purchasePoundNoteAdd.js?2017122301"></script>
+		src="/javascript/businessManage/poundNoteMaintain/purchasePoundNoteAdd.js?2017122315"></script>
 </body>
 </html>

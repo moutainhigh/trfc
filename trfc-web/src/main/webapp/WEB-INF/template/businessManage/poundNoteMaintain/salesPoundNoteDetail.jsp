@@ -40,8 +40,12 @@
 									value="${poundNote.code }" readonly="true">
 							</div>
 							<div class="daohuo_add_solo">
-								<label>发货单位：</label> <input type="text"
-									value="${poundNote.senddepartmentname }" readonly="true">
+								<label>发货单位：</label> <input type="text" title="天瑞集团水泥有限公司（裕泰公司）"
+									value="天瑞集团水泥有限公司（裕泰公司）" readonly="true">
+							</div>
+							<div class="daohuo_add_solo">
+								<label>销售组织：</label> <input type="text" title="${poundNote.receivedepartmentname }"
+									value="${poundNote.receivedepartmentname }" readonly="true">
 							</div>
 							<div class="daohuo_add_solo">
 								<label>客户：</label> <input type="text"

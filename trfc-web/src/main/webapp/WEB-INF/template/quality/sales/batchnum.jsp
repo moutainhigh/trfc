@@ -177,6 +177,6 @@
 	<script type="text/javascript"
 		src="/javascript/quality/sales/batchnum_common.js"></script>
 	<script type="text/javascript"
-		src="/javascript/quality/sales/batchnum.js"></script>
+		src="/javascript/quality/sales/batchnum.js?20180105"></script>
 </body>
 </html>

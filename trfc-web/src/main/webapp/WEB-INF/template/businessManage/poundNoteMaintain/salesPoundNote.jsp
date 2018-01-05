@@ -137,7 +137,7 @@
 									<th>订单号</th>
 									<th>提货单</th>
 									<th>客户</th>
-									<th>发货单位</th>
+									<!-- <th>发货单位</th> -->
 									<th>物料</th>
 									<th>车号</th>
 									<th>毛重</th>
@@ -190,6 +190,6 @@
 	<jsp:include page="../../common/base/footer_busi.jsp"></jsp:include>
     <jsp:include page="../../common/module/printTemplate.jsp"></jsp:include>
 	<script type="text/javascript"
-		src="/javascript/businessManage/poundNoteMaintain/salesPoundNote.js?201801030102"></script>
+		src="/javascript/businessManage/poundNoteMaintain/salesPoundNote.js?201801030103"></script>
 </body>
 </html>
