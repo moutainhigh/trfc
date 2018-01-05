@@ -584,7 +584,7 @@
 					$('#jumpPageNo').attr('maxPageNo',parseInt((total+pageSize-1)/pageSize));
 					$("#pagination").pagination(total, {
 					    callback: function(pageNo){
-							queryData4(pageNo+1);
+							queryData7(pageNo+1);
 						},
 					    prev_text: '上一页',
 					    next_text: '下一页',
@@ -666,7 +666,7 @@
 					$('#jumpPageNo').attr('maxPageNo',parseInt((total+pageSize-1)/pageSize));
 					$("#pagination").pagination(total, {
 					    callback: function(pageNo){
-							queryData4(pageNo+1);
+							queryData8(pageNo+1);
 						},
 					    prev_text: '上一页',
 					    next_text: '下一页',
