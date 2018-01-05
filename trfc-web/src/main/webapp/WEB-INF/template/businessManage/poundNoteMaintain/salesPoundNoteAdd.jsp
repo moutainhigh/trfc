@@ -287,7 +287,7 @@
 	<div class="modal fade" id="altchuchang" tabindex="-1" role="dialog"
 		aria-labelledby="myModalLabel">
 		<div class="modal-dialog" role="document"
-			style="width: 1500px; height: 800px;">
+			style="width: 1500px">
 			<div class="modal-content">
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal"
@@ -373,6 +373,6 @@
 	<!-- 引用公共footer部分 -->
 	<jsp:include page="../../common/base/footer_busi.jsp"></jsp:include>
 	<script type="text/javascript"
-		src="/javascript/businessManage/poundNoteMaintain/salesPoundNoteAdd.js?2017122307"></script>
+		src="/javascript/businessManage/poundNoteMaintain/salesPoundNoteAdd.js?2017122308"></script>
 </body>
 </html>
