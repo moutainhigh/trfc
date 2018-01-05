@@ -240,6 +240,10 @@
 					</div>
 					<!--分页效果结束-->
 				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary" id="returnpurchasedata" data-dismiss="modal">确定</button>
+					<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+				</div>
 			</div>
 		</div>
 	</div>

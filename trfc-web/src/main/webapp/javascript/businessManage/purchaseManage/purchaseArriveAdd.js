@@ -342,7 +342,7 @@
 				}
 			//	var remark = obj.remark || '';
 				var supplierremark = obj.supplierremark || '';
-				$('<tr title="双击选择">').append('<td>'+(i+1)+'</td>')
+				$('<tr>').append('<td>'+(i+1)+'</td>')
 				.append('<td>'+code+'</td>')
 				.append('<td>'+suppliername+'</td>')
 				.append('<td>'+materielname+'</td>')
@@ -362,10 +362,18 @@
 				.data(obj)
 				.appendTo('#purchaseApplicationBody');
 			}
-			$('#purchaseApplicationBody tr').off('dblclick').on('dblclick',function(){
-				var obj = $(this).data();
+			
+
+			//弹出框表格选中的行 ，颜色加深
+			$('#purchaseApplicationBody tr').off('click').on('click',function(){
+				$(this).addClass("active").siblings().removeClass("active");
+			});
+			//弹出框表格的确定按钮传值
+			$('#returnpurchasedata').off('click').on('click',function(){
+				var obj = $('#purchaseApplicationBody tr.active').data();
 				pushPurchaseArrive(obj);
 			});
+			
 		}else{
 			layer.msg('暂无数据');
 		}
@@ -399,7 +407,6 @@
 			dataType:'json',
 			type:'post',
 			success:function(result){
-				console.info(result);
 					var data = result || [];
 					if(data.length>0){
 						var html = "<div class='daohuo_add_solo'><label>采矿点：</label><select id='miningpointid'>";
