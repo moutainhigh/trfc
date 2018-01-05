@@ -69,6 +69,7 @@ import com.tianrui.service.mapper.system.auth.SystemUserMapper;
 import com.tianrui.smartfactory.common.api.ApiResult;
 import com.tianrui.smartfactory.common.common.ApiParamUtils;
 import com.tianrui.smartfactory.common.common.HttpUtils;
+import com.tianrui.smartfactory.common.common.TestFc2DcConnection;
 import com.tianrui.smartfactory.common.constants.Constant;
 import com.tianrui.smartfactory.common.constants.ErrorCode;
 import com.tianrui.smartfactory.common.enums.BillTypeEnum;
@@ -268,7 +269,7 @@ public class SalesApplicationService implements ISalesApplicationService {
 				&& StringUtils.isNotBlank(save.getCustomer())
 				&& StringUtils.isNotBlank(save.getSalesOrg())
 				&& StringUtils.isNotBlank(save.getMateriel())
-				&& StringUtils.isNotBlank(save.getWarehouse())
+				//&& StringUtils.isNotBlank(save.getWarehouse())
 				&& save.getBillTime() != null
 				&& save.getNumber() != null){
 			if (StringUtils.equals(save.getBillType(), Constant.ZERO_STRING)) {
@@ -355,10 +356,12 @@ public class SalesApplicationService implements ISalesApplicationService {
 				sad.setMaterielid(materiel.getId());
 				sad.setMaterielname(materiel.getName());
 			}
-			WarehouseManage warehouse = warehouseManageMapper.selectByPrimaryKey(save.getWarehouse());
-			if (warehouse != null) {
-				sad.setWarehouseid(warehouse.getId());
-				sad.setWarehousename(warehouse.getName());
+			if (StringUtils.isNotBlank(save.getWarehouse())) {
+				WarehouseManage warehouse = warehouseManageMapper.selectByPrimaryKey(save.getWarehouse());
+				if (warehouse != null) {
+					sad.setWarehouseid(warehouse.getId());
+					sad.setWarehousename(warehouse.getName());
+				}
 			}
 			sad.setUnit("吨");
 			sad.setSalessum(save.getNumber());
@@ -563,7 +566,7 @@ public class SalesApplicationService implements ISalesApplicationService {
 	public Result audit(SalesApplicationQuery query) throws Exception {
 		Result result = Result.getParamErrorResult();
 		if(query != null && StringUtils.isNotBlank(query.getId())){
-			ApiResult apiResult = HttpUtils.post(null, Constant.URL_DOMAIN + Constant.URL_DC_CONNECTION_TEST);
+			ApiResult apiResult = TestFc2DcConnection.post(ApiParamUtils.getApiParam(null), Constant.URL_DOMAIN + Constant.URL_DC_CONNECTION_TEST);
 			if (apiResult == null) {
 				SalesApplication sa = salesApplicationMapper.selectByPrimaryKey(query.getId());
 				List<SalesApplicationDetail> detailList = salesApplicationDetailMapper.selectBySalesId(query.getId());
@@ -581,19 +584,19 @@ public class SalesApplicationService implements ISalesApplicationService {
 								if (StringUtils.equals(sa.getBilltypeid(), BillTypeEnum.BILL_TYPE_ONE_CAR.getCode())) {
 									VehicleManage vehicle = vehicleManageMapper.selectByPrimaryKey(sa.getVehicleId());
 									//校验车辆是否运行创建通知单
-									if (validVehicle(vehicle)) {
+									if (validVehicle(vehicle, result)) {
+										DriverManage driver = null;
 										if (StringUtils.isNotBlank(sa.getDriverId())) {
-											DriverManage driver = driverManageMapper.selectByPrimaryKey(sa.getDriverId());
-											if (validDriver(driver)) {
-												saveOneBillOneCarNotice(sa, detailList.get(0), vehicle, driver);
-											}
-										} else {
-											saveOneBillOneCarNotice(sa, detailList.get(0), vehicle, null);
+											driver = driverManageMapper.selectByPrimaryKey(sa.getDriverId());
 										}
+										saveOneBillOneCarNotice(sa, detailList.get(0), vehicle, driver);
+										salesApplicationMapper.updateByPrimaryKeySelective(sa);
+										result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
 									}
+								} else {
+									salesApplicationMapper.updateByPrimaryKeySelective(sa);
+									result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
 								}
-								salesApplicationMapper.updateByPrimaryKeySelective(sa);
-								result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
 							} else {
 								result.setErrorCode(ErrorCode.APPLICATION_VALID_NOT_AUDIT);
 							}
@@ -1087,6 +1090,8 @@ public class SalesApplicationService implements ISalesApplicationService {
 					salesApplicationMapper.updateByPrimaryKeySelective(sa);
 					sad.setNcId(req.getDetailNcId());
 					sad.setPretendingtake(sad.getSalessum());
+					sad.setWarehouseid(req.getWarehouseId());
+					sad.setWarehousename(req.getWarehouseName());
 					salesApplicationDetailMapper.updateByPrimaryKeySelective(sad);
 					result.setErrorCode(ErrorCode.SYSTEM_SUCCESS);
 					//一单一车

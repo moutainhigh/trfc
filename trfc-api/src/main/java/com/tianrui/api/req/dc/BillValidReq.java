@@ -14,6 +14,8 @@ public class BillValidReq extends BaseReq {
 	private String auditid;
 	private String auditname;
 	private Long audittime;
+	private String warehouseId;
+	private String warehouseName;
 	public String getId() {
 		return id;
 	}
@@ -68,6 +70,18 @@ public class BillValidReq extends BaseReq {
 	public void setAudittime(Long audittime) {
 		this.audittime = audittime;
 	}
+	public String getWarehouseId() {
+		return warehouseId;
+	}
+	public void setWarehouseId(String warehouseId) {
+		this.warehouseId = warehouseId;
+	}
+	public String getWarehouseName() {
+		return warehouseName;
+	}
+	public void setWarehouseName(String warehouseName) {
+		this.warehouseName = warehouseName;
+	}
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
@@ -75,6 +89,7 @@ public class BillValidReq extends BaseReq {
 	public String toString() {
 		return "BillValidReq [id=" + id + ", detailId=" + detailId + ", status=" + status + ", msg=" + msg + ", ncId="
 				+ ncId + ", detailNcId=" + detailNcId + ", auditid=" + auditid + ", auditname=" + auditname
-				+ ", audittime=" + audittime + "]";
+				+ ", audittime=" + audittime + ", warehouseId=" + warehouseId + ", warehouseName=" + warehouseName
+				+ "]";
 	}
 }

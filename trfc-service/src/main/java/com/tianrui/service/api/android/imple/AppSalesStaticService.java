@@ -256,7 +256,7 @@ public class AppSalesStaticService implements IAppSalesStaticService {
 				&& param.getNumber() !=null
 				&& StringUtils.isNotBlank(param.getUnit())
 				&& param.getBillTime() !=null
-				&& StringUtils.isNotBlank(param.getWarehouseId())) {
+				/*&& StringUtils.isNotBlank(param.getWarehouseId())*/) {
 				SystemUser user = userclientMapper.selectByPrimaryKey(param.getUserId());
 			if (user != null) {
 				VehicleManage vehicle = vehicleManageMapper.selectByPrimaryKey(param.getVehicle());
@@ -421,10 +421,12 @@ public class AppSalesStaticService implements IAppSalesStaticService {
 		sad.setMaterielid(param.getMaterial());
 		MaterielManage material = materielManageMapper.selectByPrimaryKey(param.getMaterial());
 		//根据仓库id去查询仓库的名称
-		WarehouseManage wm = warehouseManageMapper.selectByPrimaryKey(param.getWarehouseId());
-		if(wm!=null){
-			sad.setWarehouseid(wm.getId());
-			sad.setWarehousename(wm.getName());
+		if (StringUtils.isNotBlank(param.getWarehouseId())) {
+			WarehouseManage wm = warehouseManageMapper.selectByPrimaryKey(param.getWarehouseId());
+			if(wm!=null){
+				sad.setWarehouseid(wm.getId());
+				sad.setWarehousename(wm.getName());
+			}
 		}
 		sad.setMaterielname(material.getName());
 		sad.setUnit(param.getUnit());

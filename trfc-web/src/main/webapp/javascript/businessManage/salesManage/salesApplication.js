@@ -43,6 +43,7 @@
 	    			response( materiel[ term ] );
 	    			return;
 	    		}
+	    		request.type = 1;
 	    		$.post( URL.materielAutoCompleteSearch, request, function( data, status, xhr ) {
 	    			materiel[ term ] = data;
 	    			response( data );
@@ -467,7 +468,7 @@
 						.append('<td>'+(obj.validStatus == '0' ? '未作废' : obj.validStatus == '1' ? '作废中' : obj.validStatus == '2' ? '已作废' : '')+'</td>')
 						.append('<td>'+billtypename+'</td>')
 						.append('<td>'+customername+'</td>')
-						.append('<td>'+billtimeStr+'</td>')
+						.append('<td>'+billtimeStr.slice(0,10)+'</td>')
 						.append('<td>'+(obj.list[0].materielname || '')+'</td>')
 						.append('<td>'+orgname+'</td>')
 						.append('<td>'+transportcompanyname+'</td>')
@@ -749,9 +750,9 @@
 		if(!params.materiel){
 			layer.msg('请选择物料', {icon: 5});return false;
 		}
-		if(!params.warehouse){
+		/*if(!params.warehouse){
 			layer.msg('请选择仓库', {icon: 5});return false;
-		}
+		}*/
 		if(!params.number){
 			layer.msg('请输入订单量', {icon: 5});return false;
 		}

@@ -279,7 +279,7 @@ input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
 										<thead>
 											<tr>
 												<th>物料</th>
-												<th>发货仓库</th>
+												<!-- <th>发货仓库</th> -->
 												<th>数量</th>
 											</tr>
 										</thead>
@@ -287,8 +287,8 @@ input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
 											<tr>
 												<td><input class="materiel" type="text"
 													placeholder="请选择物料"></td>
-												<td><input class="warehouse" type="text"
-													placeholder="请选择仓库"></td>
+												<!-- <td><input class="warehouse" type="text"
+													placeholder="请选择仓库"></td> -->
 												<td><input class="number" type="number"
 													placeholder="请输入数量" /></td>
 											</tr>
@@ -404,7 +404,7 @@ input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
 										<thead>
 											<tr>
 												<th>物料</th>
-												<th>发货仓库</th>
+												<!-- <th>发货仓库</th> -->
 												<th>数量</th>
 											</tr>
 										</thead>
@@ -412,8 +412,8 @@ input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
 											<tr>
 												<td><input class="materiel" type="text"
 													placeholder="请选择物料"></td>
-												<td><input class="warehouse" type="text"
-													placeholder="请选择仓库"></td>
+												<!-- <td><input class="warehouse" type="text"
+													placeholder="请选择仓库"></td> -->
 												<td><input class="number" type="number"
 													placeholder="请输入数量" /></td>
 											</tr>

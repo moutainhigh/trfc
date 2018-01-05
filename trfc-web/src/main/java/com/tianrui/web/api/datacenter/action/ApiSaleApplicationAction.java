@@ -83,7 +83,7 @@ public class ApiSaleApplicationAction {
 	 * @return
 	 */
 	@RequestMapping(value="/push/writeBack",method=RequestMethod.POST)
-	@ApiParamRawType(List.class)
+	@ApiParamRawType(SalesApplicationQuery.class)
 	@ResponseBody
 	public ApiResult pushWriteBack(ApiParam<SalesApplicationQuery> req){
 		Result rs=Result.getErrorResult();

@@ -31,7 +31,7 @@ public class TaskJob {
 	private TaskJobService taskJobService;
 
 	// @Scheduled(cron="0/10 * * * * ? ") //每10秒执行一次
-	@Scheduled(cron = "0 0/10 * * * ? ")
+	@Scheduled(cron = "0/10 * * * * ? ")
 	public void returnDataCenter() {
 		try {
 			long starTime = System.currentTimeMillis();

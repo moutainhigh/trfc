@@ -1827,7 +1827,7 @@ public class PoundNoteService implements IPoundNoteService {
 		ps.setId(UUIDUtil.getId());
 		ps.setRequisitionNum(pn.getBillcode());
 		ps.setNoticeNum(pn.getNoticecode());
-		ps.setRequisitionType(Constant.ONE_STRING);
+		ps.setRequisitionType(Constant.FIVE_STRING);
 		ps.setLightCarTime(pn.getLighttime());
 		ps.setHeavyCarTime(pn.getWeighttime());
 		ps.setNetWeight(pn.getNetweight().toString());
