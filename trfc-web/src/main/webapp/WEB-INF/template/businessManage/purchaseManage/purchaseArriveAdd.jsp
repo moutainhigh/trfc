@@ -405,6 +405,6 @@
 	<jsp:include page="../../common/base/footer_busi.jsp"></jsp:include>
 	<script type="text/javascript" src="${staticBasePath}/js/cardReader.js"></script>
 	<script type="text/javascript"
-		src="/javascript/businessManage/purchaseManage/purchaseArriveAdd.js?2017112301"></script>
+		src="/javascript/businessManage/purchaseManage/purchaseArriveAdd.js?2017010501"></script>
 </body>
 </html>
