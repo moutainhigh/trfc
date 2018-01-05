@@ -42,16 +42,16 @@ $(function(){
 	$('#pageSize').change(function(){batchnumShowAction(1);});
 	//跳转页面
 	$('#jumpButton').click(jumpPageAction);
-	$('#select_list').on('dblclick','tr',function(){
-		var obj = $(this).data('obj');
-		$('#add_batchcode').val(obj.factorycode).attr('batchnumid',obj.id);
-		selectBatchnumid(obj.id,obj.factorycode);
-		
-		$('#add_producedtime').val(getNowFormatDate(false,obj.producedtime));
-		$('#add_testtime').val(getNowFormatDate(false,obj.testtime));
-		selectMaterial(obj.id);
-		$('#closeBth').click();
-	});
+//	$('#select_list').on('dblclick','tr',function(){
+//		var obj = $(this).data('obj');
+//		$('#add_batchcode').val(obj.factorycode).attr('batchnumid',obj.id);
+//		selectBatchnumid(obj.id,obj.factorycode);
+//		
+//		$('#add_producedtime').val(getNowFormatDate(false,obj.producedtime));
+//		$('#add_testtime').val(getNowFormatDate(false,obj.testtime));
+//		selectMaterial(obj.id);
+//		$('#closeBth').click();
+//	});
 	//根据批号id查询是否可以添加化验报告
 	function selectBatchnumid(batchnumid,factorycode){
 		$.ajax({
@@ -471,22 +471,65 @@ $(function(){
 			if(obj.audittime){
 				audittime = getNowFormatDate(true,obj.audittime);
 			}
-			var tr = '<tr>'
-				+'<td>'+(obj.code || '')+'</td>'
-				+'<td>'+(obj.material || '')+'</td>'
-				+'<td>'+(obj.factorycode || '')+'</td>'
-				+'<td>'+(obj.count || '')+'</td>'
-				+'<td>'+(starttime || '')+'</td>'
-				+'<td>'+(assaytime || '')+'</td>'
-				+'</tr>';
-			//转换为jquery对象
-			tr=$(tr);
-			//追加
-			tbody.append(tr);
-			tr.data('obj',obj);
+			$('<tr>').append('<td><input type="checkbox"/></td>')
+			.append('<td>'+(obj.code || '')+'</td>')
+			.append('<td>'+(obj.material || '')+'</td>')
+			.append('<td>'+(obj.factorycode || '')+'</td>')
+			.append('<td>'+(obj.count || '')+'</td>')
+			.append('<td>'+(starttime || '')+'</td>')
+			.append('<td>'+(assaytime || '')+'</td>')
+			.data(obj)
+			.appendTo('#select_list');
+			
+			
+//			var tr = '<tr><td><input type="checkbox"/></td>'
+//				+'<td>'+(obj.code || '')+'</td>'
+//				+'<td>'+(obj.material || '')+'</td>'
+//				+'<td>'+(obj.factorycode || '')+'</td>'
+//				+'<td>'+(obj.count || '')+'</td>'
+//				+'<td>'+(starttime || '')+'</td>'
+//				+'<td>'+(assaytime || '')+'</td>'
+//				+'</tr>';
+//			//转换为jquery对象
+//			tr=$(tr);
+//			//追加
+//			tbody.append(tr);
+//			tr.data('obj',obj);
 		}
+		$('#select_list>tr').find('td:eq(0)>input[type="checkbox"]').off('click').on('click',function(e){
+			e.stopPropagation();
+			if(this.checked == true){
+				$(this).closest('tr').addClass('active');
+			}else{
+				$(this).closest('tr').removeClass('active');
+			}
+		});
+		$('#select_list>tr').off('click').on('click',function(e){
+			e.stopPropagation();
+			$(this).find('td:eq(0)>input').trigger('click');
+		});
 	}
-
+	$('#returnApplication').off('click').on('click',function(){
+		if($('#altbill').is(':visible')){
+			var trs = $('#altbill').find('tr.active');
+			if(trs.length == 0){
+				layer.msg('至少选择一个订单！');return;
+			}else if(trs.length == 1){
+				var obj = trs.data();
+				selectList(obj);
+			}else if(trs.length>1){
+				layer.msg('只能选择一个订单！');return;
+			}
+		}
+	});
+	function selectList(obj){
+		$('#add_batchcode').val(obj.factorycode).attr('batchnumid',obj.id);
+		selectBatchnumid(obj.id,obj.factorycode);
+		$('#add_producedtime').val(getNowFormatDate(false,obj.producedtime));
+		$('#add_testtime').val(getNowFormatDate(false,obj.testtime));
+		selectMaterial(obj.id);
+		$('#altbill').modal('hide');
+	}
 	//加载下拉框
 	function initSelect(){
 		var cache = {};

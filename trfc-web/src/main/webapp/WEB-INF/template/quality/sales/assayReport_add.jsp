@@ -220,6 +220,7 @@
 							<table class="table table-hover" id="hh">
 								<thead>
 									<tr>
+										<th>序号</th>
 										<th>单据编号</th>
 										<th>物料</th>
 										<th>批号</th>
@@ -261,6 +262,11 @@
 					</div>
 					<!--分页效果结束-->
 				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary"
+						id="returnApplication">确定</button>
+					<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -271,6 +277,6 @@
 	<!-- 引用公共footer部分 -->
 	<jsp:include page="../../common/base/footer_busi.jsp"></jsp:include>
 	<script type="text/javascript"
-		src="/javascript/quality/sales/assayReport_add.js"></script>
+		src="/javascript/quality/sales/assayReport_add.js?20180112"></script>
 </body>
 </html>
