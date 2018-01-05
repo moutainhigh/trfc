@@ -476,7 +476,7 @@ function Clock1() {
         ele.innerHTML = clock.toString();
     };
 }
-//条件搜索
+//条件搜索展示
 function bbgClick(){
 	var billcode=document.getElementById("billcode").value;
 	var poundcode=document.getElementById("poundcode").value;
@@ -493,6 +493,8 @@ function bbgClick(){
     var bbg_tiaojian3=document.querySelector(".bbg_tiaojian3");
     var bbg_tiaojian4=document.querySelector(".bbg_tiaojian4");
     var bbg_tiaojian5=document.querySelector(".bbg_tiaojian5");
+    var bbg_tiaojian7=document.querySelector(".bbg_tiaojian7");
+    var bbg_tiaojian8=document.querySelector(".bbg_tiaojian8");
     var str="";
     if(billcode!=""){
         str+="通知单号："+billcode+" ";
@@ -536,5 +538,7 @@ function bbgClick(){
     bbg_tiaojian3.innerHTML=str;
     bbg_tiaojian4.innerHTML=str;
     bbg_tiaojian5.innerHTML=str;
+    bbg_tiaojian7.innerHTML=str;
+    bbg_tiaojian8.innerHTML=str;
 }
 

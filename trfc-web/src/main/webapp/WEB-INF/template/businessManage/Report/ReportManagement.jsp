@@ -146,7 +146,7 @@
 					        <div class="wuliao_tab tj_tab">
 					            <ul id="ulM">
 						            <li id="miningcollect" data-type="7">采矿点汇总</li>
-						            <li id="supplytime" data-type="6">供应商时间</li>
+						            <li id="supplytime" data-type="6">采购日汇总</li>
 					            	<li id="mineMouthSummary" data-type="5">矿口汇总</li>
 					            	<li id="buyAdd" data-type="0">采购补增</li>
 					                <li id="buyCar" data-type="1">采购逐车</li>
@@ -184,11 +184,11 @@
 					                            <thead>
 					                            <tr>
 					                                <td colspan="8" align="center" style="color:#434e8d;font-size: 40px;line-height:normal">
-					                                  	采购采矿点汇总表
-					                                    <p class="biobiaop" style="margin-top: 10px">
-					                                        <span class="clock15"></span><span class="clock16"></span>
+					                                  	裕泰采购采矿点汇总表
+					                                    <p class="biobiaop biobiaophide" style="margin-top: 10px">
+					                                        <span class="clock20"></span><span class="clock21"></span>
 					                                    </p>
-					                                    <p class="biobiaop" style="margin-bottom: 10px">条件：<span class="bbg_tiaojian5"></span></p>
+					                                    <p class="biobiaop" style="margin-bottom: 10px">条件：<span class="bbg_tiaojian8"></span></p>
 					                                </td>
 					                            </tr>
 					                            <tr>
@@ -205,7 +205,7 @@
 					                            
 					                            </tbody>
 					                        </table>
-					                        <div style="font-size: 20px;margin: 30px">制表时间：<span class="clock17"></span> 
+					                        <div style="font-size: 20px;margin: 30px">制表时间：<span class="clock19"></span> 
 					                        </div>
 					                        <!--用户表格end-->
 					                    </div>
@@ -216,15 +216,14 @@
 					                            <thead>
 					                            <tr>
 					                                <td colspan="8" align="center" style="color:#434e8d;font-size: 40px;line-height:normal">
-					                                                                                                       采购采矿点汇总表
+					                                                                                                       裕泰采购采矿点汇总表
 					                                </td>
 					                            </tr>
 					                            <tr>
 					                                <th style="font-size: 20px">供应商</th>
-					                                <th style="font-size: 20px">矿口</th>
 					                                <th style="font-size: 20px">物料</th>
-					                                <th style="font-size: 20px">堆场</th>
-					                                <th style="font-size: 20px">车数</th>
+					                                <th style="font-size: 20px">采矿点</th>
+					                                <th style="font-size: 20px">车辆总数</th>
 					                                <th style="font-size: 20px">毛重</th>
 					                                <th style="font-size: 20px">皮重</th>
 					                                <th style="font-size: 20px">净重</th>
@@ -264,11 +263,12 @@
 					                            <thead>
 					                            <tr>
 					                                <td colspan="8" align="center" style="color:#434e8d;font-size: 40px;line-height:normal">
-					                                  	 采购物料供应商时间汇总表
-					                                    <p class="biobiaop" style="margin-top: 10px">
-					                                        <span class="clock15"></span><span class="clock16"></span>
+					                                  	 裕泰采购物料供应商日汇总表
+					                                    <p class="biobiaop biobiaophide" style="margin-top: 10px">
+					                                        <span class="clock17"></span>
+					                                        <span class="clock18"></span>
 					                                    </p>
-					                                    <p class="biobiaop" style="margin-bottom: 10px">条件：<span class="bbg_tiaojian5"></span></p>
+					                                    <p class="biobiaop" style="margin-bottom: 10px">条件：<span class="bbg_tiaojian7"></span></p>
 					                                </td>
 					                            </tr>
 					                            <tr>
@@ -296,15 +296,14 @@
 					                            <thead>
 					                            <tr>
 					                                <td colspan="8" align="center" style="color:#434e8d;font-size: 40px;line-height:normal">
-					                                   	  采购物料供应商时间汇总表
+					                                   	  裕泰采购物料供应商日期汇总表
 					                                </td>
 					                            </tr>
 					                            <tr>
-					                                <th style="font-size: 20px">供应商</th>
-					                                <th style="font-size: 20px">矿口</th>
+					                               <th style="font-size: 20px">供应商</th>
 					                                <th style="font-size: 20px">物料</th>
-					                                <th style="font-size: 20px">堆场</th>
-					                                <th style="font-size: 20px">车数</th>
+					                                <th style="font-size: 20px">时间</th>
+					                                <th style="font-size: 20px">车辆总数</th>
 					                                <th style="font-size: 20px">毛重</th>
 					                                <th style="font-size: 20px">皮重</th>
 					                                <th style="font-size: 20px">净重</th>
@@ -344,7 +343,7 @@
 					                            <tr>
 					                                <td colspan="8" align="center" style="color:#434e8d;font-size: 40px;line-height:normal">
 					                                  	 裕泰采购矿口汇总表
-					                                    <p class="biobiaop" style="margin-top: 10px">
+					                                    <p class="biobiaop biobiaophide" style="margin-top: 10px">
 					                                        <span class="clock15"></span><span class="clock16"></span>
 					                                    </p>
 					                                    <p class="biobiaop" style="margin-bottom: 10px">条件：<span class="bbg_tiaojian5"></span></p>
@@ -426,7 +425,7 @@
 				                                    <tr>
 				                                        <td colspan="13" align="center" style="color:#434e8d;font-size: 40px;line-height:normal">
 				                                           	裕泰采购补增明细
-				                                            <p class="biobiaop" style="margin-top: 10px">
+				                                            <p class="biobiaop biobiaophide" style="margin-top: 10px">
 				                                                <span class="clocka"></span><span class="clockb"></span>
 				                                            </p>
 				                                            <p class="biobiaop" style="margin-bottom: 10px">条件：<span class="bbg_tiaojian1"></span></p>
@@ -521,7 +520,7 @@
 				                                    <tr>
 				                                        <td colspan="14" align="center" style="color:#434e8d;font-size: 40px;line-height:normal">
 				                                           	裕泰采购逐车明细
-				                                            <p class="biobiaop" style="margin-top: 10px">
+				                                            <p class="biobiaop biobiaophide" style="margin-top: 10px">
 				                                                <span class="clock6"></span><span class="clock7"></span>
 				                                            </p>
 				                                            <p class="biobiaop" style="margin-bottom: 10px">条件：<span class="bbg_tiaojian1"></span></p>
@@ -618,7 +617,7 @@
 				                            <tr>
 				                                <td colspan="7" align="center" style="color:#434e8d;font-size: 40px;line-height:normal">
 				                                  	 裕泰采购单位统计
-				                                    <p class="biobiaop" style="margin-top: 10px">
+				                                    <p class="biobiaop biobiaophide" style="margin-top: 10px">
 				                                        <span class="clock9"></span><span class="clock10"></span>
 				                                    </p>
 				                                    <p class="biobiaop" style="margin-bottom: 10px">条件：<span class="bbg_tiaojian2"></span></p>
@@ -697,7 +696,7 @@
 				                                <tr>
 				                                    <td colspan="12" align="center" style="color:#434e8d;font-size: 40px;line-height:normal">
 				                                       	裕泰采购收料统计
-				                                        <p class="biobiaop" style="margin-top: 10px">
+				                                        <p class="biobiaop biobiaophide" style="margin-top: 10px">
 				                                            <span class="clock12"></span><span class="clock13"></span>
 				                                        </p>
 				                                        <p class="biobiaop" style="margin-bottom: 10px">条件：<span class="bbg_tiaojian3"></span></p>
@@ -789,7 +788,7 @@
 					                            <tr>
 					                                <td colspan="7" align="center" style="color:#434e8d;font-size: 40px;line-height:normal">
 					                               	裕泰采购物料统计
-					                                    <p class="biobiaop" style="margin-top: 10px">
+					                                    <p class="biobiaop biobiaophide" style="margin-top: 10px">
 					                                    <span class="clock3"></span><span class="clock4"></span>
 					                                    </p>
 					                                    <p class="biobiaop" style="margin-bottom: 10px">条件：<span class="bbg_tiaojian4"></span></p>
@@ -873,9 +872,9 @@
 			<jsp:include page="../../common/base/footer_busi.jsp"></jsp:include>
 			  <script type="text/javascript"
 				  
-				src="/javascript/businessManage/Report/ReportManagement.js?time=180104"></script>  
+				src="/javascript/businessManage/Report/ReportManagement.js?time=180106"></script>  
 			<script type="text/javascript"
 				
-				src="/javascript/businessManage/Report/ReportManagement2.js?time=180104"></script> 
+				src="/javascript/businessManage/Report/ReportManagement2.js?time=180106"></script> 
 </body>
 </html>

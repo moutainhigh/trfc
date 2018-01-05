@@ -159,21 +159,13 @@
 	                	$('#RMgG').empty();
 	        	        var list = result.data||[];
 	        	            for(var i=0;i<list.length;i++){
-	        	            	var lightt;
-	        					if(list[i].dateStr){
-	        						lightt=new Date(list[i].lighttime).format("yyyy-MM-dd HH:mm:ss");
-	        					}else{
-	        						lightt="";
-	        					}
-	        	            	$('<tr>').append('<td>'+(list[i].poundcode||"")+'</td>')
-	        					.append('<td>'+(list[i].suppliername||"")+'</td>')
+	        	            	$('<tr>').append('<td>'+(list[i].suppliername||"")+'</td>')
 	        					.append('<td>'+(list[i].materialname||"")+'</td>')
 	        					.append('<td>'+(list[i].dateStr||"")+'</td>')
 	        					.append('<td>'+(list[i].countVehicleNo||"")+'</td>')
 	        					.append('<td>'+(list[i].sumGrossweight||"")+'</td>')
 	        					.append('<td>'+(list[i].sumTareweight||"")+'</td>')
 	        					.append('<td>'+(list[i].sumNetweight||"")+'</td>')
-	        					.append('<td>'+(lightt)+'</td>')
 	        	                .appendTo('#RMgG');
 	        	            }       	
 	                }
@@ -193,30 +185,13 @@
 	                	$('#RMgH').empty();
 	        	        var list = result.data||[];
 	        	            for(var i=0;i<list.length;i++){
-	        	            	var lightt,weightt;
-	        					if(list[i].lighttime){
-	        						lightt=new Date(list[i].lighttime).format("yyyy-MM-dd HH:mm:ss");
-	        					}else{
-	        						lightt="";
-	        					}
-	        					if(list[i].weighttime){
-	        						weightt=new Date(list[i].weighttime).format("yyyy-MM-dd HH:mm:ss");
-	        					}else{
-	        						weightt="";
-	        					}
-	        	            	$('<tr>').append('<td>'+(list[i].poundcode||"")+'</td>')
-	        					.append('<td>'+(list[i].suppliername||"")+'</td>')
-	        					.append('<td>'+(list[i].minemouthname||"")+'</td>')
-	        					.append('<td>'+(list[i].yardname||"")+'</td>')
+	        	            	$('<tr>').append('<td>'+(list[i].suppliername||"")+'</td>')
 	        					.append('<td>'+(list[i].materialname||"")+'</td>')
-	        					.append('<td>'+(list[i].vehicleno||"")+'</td>')
-	        					.append('<td>'+(list[i].originalnetweight||"")+'</td>')
-	        					.append('<td>'+(list[i].grossweight||"")+'</td>')
-	        					.append('<td>'+(list[i].tareweight||"")+'</td>')
-	        					.append('<td>'+(list[i].netweight||"")+'</td>')
-	        					.append('<td>'+(lightt)+'</td>')
-	        					.append('<td>'+(weightt)+'</td>')
-	        					.append('<td>'+(list[i].remark||"")+'</td>')
+	        					.append('<td>'+(list[i].dateStr||"")+'</td>')
+	        					.append('<td>'+(list[i].countVehicleNo||"")+'</td>')
+	        					.append('<td>'+(list[i].sumGrossweight||"")+'</td>')
+	        					.append('<td>'+(list[i].sumTareweight||"")+'</td>')
+	        					.append('<td>'+(list[i].sumNetweight||"")+'</td>')
 	        	                .appendTo('#RMgH');
 	        	            }       	
 	                }
@@ -464,18 +439,28 @@
 		searchData(1);
 		var clock1=document.getElementById("clock1").value;
 		var clock2=document.getElementById("clock2").value;
-		document.querySelector(".clocka").innerHTML=clock1.slice(0,10);
-		document.querySelector(".clockb").innerHTML="至"+clock2.slice(0,10);
-		document.querySelector(".clock6").innerHTML=clock1.slice(0,10);
-		document.querySelector(".clock7").innerHTML="至"+clock2.slice(0,10);
-		document.querySelector(".clock9").innerHTML=clock1.slice(0,10);
-		document.querySelector(".clock10").innerHTML="至"+clock2.slice(0,10);
-		document.querySelector(".clock12").innerHTML=clock1.slice(0,10);
-		document.querySelector(".clock13").innerHTML="至"+clock2.slice(0,10);
-		document.querySelector(".clock3").innerHTML=clock1.slice(0,10);
-		document.querySelector(".clock4").innerHTML="至"+clock2.slice(0,10);
-		document.querySelector(".clock15").innerHTML=clock1.slice(0,10);
-		document.querySelector(".clock16").innerHTML="至"+clock2.slice(0,10);
+			document.querySelector(".clocka").innerHTML=clock1.slice(0,10);
+			document.querySelector(".clockb").innerHTML="至"+clock2.slice(0,10);
+			document.querySelector(".clock6").innerHTML=clock1.slice(0,10);
+			document.querySelector(".clock7").innerHTML="至"+clock2.slice(0,10);
+			document.querySelector(".clock9").innerHTML=clock1.slice(0,10);
+			document.querySelector(".clock10").innerHTML="至"+clock2.slice(0,10);
+			document.querySelector(".clock12").innerHTML=clock1.slice(0,10);
+			document.querySelector(".clock13").innerHTML="至"+clock2.slice(0,10);
+			document.querySelector(".clock3").innerHTML=clock1.slice(0,10);
+			document.querySelector(".clock4").innerHTML="至"+clock2.slice(0,10);
+			document.querySelector(".clock15").innerHTML=clock1.slice(0,10);
+			document.querySelector(".clock16").innerHTML="至"+clock2.slice(0,10);
+			document.querySelector(".clock17").innerHTML=clock1.slice(0,10);
+			document.querySelector(".clock18").innerHTML="至"+clock2.slice(0,10);
+			document.querySelector(".clock20").innerHTML=clock1.slice(0,10);
+			document.querySelector(".clock21").innerHTML="至"+clock2.slice(0,10);
+		if(clock1=="" && clock2==""){
+			$(".biobiaophide").css("display","none");
+		}else{
+			$(".biobiaophide").css("display","block");
+		}
+
 	});
 	$('#clean').off('click').on('click',function(){
 		clean();
@@ -622,20 +607,21 @@
 		$('#RMg7').empty();
 		var list = data.list||[];
 		if(list && list.length>0){
-			var str1=0,str2=0,str3=0;
+			var str1=0,str2=0,str3=0,str4=0;
 			for(var i=0;i<list.length;i++){
 				str1+=list[i].sumGrossweight;
 				str2+=list[i].sumTareweight;
 				str3+=list[i].sumNetweight;
+				str4+=list[i].countVehicleNo;
 				var signt;
-				if(list[i].dateStr){
+				/*if(list[i].dateStr){
 					signt=new Date(list[i].dateStr).format("yyyy-MM-dd HH:mm:ss");
 				}else{
 					signt="";
-				}
+				}*/
 				$('<tr>').append('<td>'+(list[i].suppliername||"")+'</td>')
 						.append('<td>'+(list[i].materialname||"")+'</td>')
-						.append('<td>'+(signt ||"")+'</td>')
+						.append('<td>'+(list[i].dateStr ||"")+'</td>')
 						.append('<td>'+(list[i].countVehicleNo||"")+'</td>')
 						.append('<td>'+(list[i].sumGrossweight||"")+'</td>')
 						.append('<td>'+(list[i].sumTareweight||"")+'</td>')
@@ -645,7 +631,7 @@
 			$('<tr>').append('<td>'+("总计")+'</td>')
 			.append('<td>'+("---")+'</td>')
 			.append('<td>'+("---")+'</td>')
-			.append('<td>'+("---")+'</td>')
+			.append('<td>'+(str4.toFixed(0))+'</td>')
 			.append('<td>'+(str1.toFixed(2))+'</td>')
 			.append('<td>'+(str2.toFixed(2))+'</td>')
 			.append('<td>'+(str3.toFixed(2))+'</td>')
@@ -656,7 +642,7 @@
 		}
 	}
 	
-//	采购采矿点汇总表--导出
+//	采购采矿点汇总表
 	function queryData8(pageNo){
 		var index = layer.load(2, {
 		  shade: [0.3,'#fff'] //0.1透明度的白色背景
@@ -703,11 +689,12 @@
 		$('#RMg8').empty();
 		var list = data.list||[];
 		if(list && list.length>0){
-			var str1=0,str2=0,str3=0;
+			var str1=0,str2=0,str3=0,str4=0;
 			for(var i=0;i<list.length;i++){
 				str1+=list[i].sumGrossweight;
 				str2+=list[i].sumTareweight;
 				str3+=list[i].sumNetweight;
+				str4+=list[i].countVehicleNo;
 				$('<tr>').append('<td>'+(list[i].suppliername||"")+'</td>')
 						.append('<td>'+(list[i].materialname||"")+'</td>')
 						.append('<td>'+(list[i].miningpointname||"")+'</td>')
@@ -720,7 +707,7 @@
 			$('<tr>').append('<td>'+("总计")+'</td>')
 			.append('<td>'+("---")+'</td>')
 			.append('<td>'+("---")+'</td>')
-			.append('<td>'+("---")+'</td>')
+			.append('<td>'+(str4.toFixed(0))+'</td>')
 			.append('<td>'+(str1.toFixed(2))+'</td>')
 			.append('<td>'+(str2.toFixed(2))+'</td>')
 			.append('<td>'+(str3.toFixed(2))+'</td>')
